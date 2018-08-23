@@ -31,6 +31,10 @@ class defineLeaveTypeAction extends baseLeaveAction {
                                     array('leaveType' => $leaveType)));
 
                     $this->redirect("leave/leaveTypeList");
+                } else {
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         } else {            

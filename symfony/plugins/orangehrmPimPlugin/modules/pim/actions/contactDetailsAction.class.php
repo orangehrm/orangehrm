@@ -70,9 +70,13 @@ class contactDetailsAction extends basePimAction {
                 $employee = $this->form->getEmployee();
                 $this->getEmployeeService()->saveEmployee($employee);
                 $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_CONTACT_DETAIL,PluginEmployeeEvent::EVENT_UPDATE,'Saving Employee Contact Details',$this->getEmployeeEventService()->getUserRole());
-                $this->getUser()->setFlash('contact details.success', __(TopLevelMessages::SAVE_SUCCESS));
+                $this->getUser()->setFlash('contactdetails.success', __(TopLevelMessages::SAVE_SUCCESS));
+                $this->redirect('pim/contactDetails?empNumber='. $empNumber);
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->getUser()->setFlash('contactdetails.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
-            $this->redirect('pim/contactDetails?empNumber='. $empNumber);
         }
         }
         

@@ -53,6 +53,10 @@ class deleteEmergencyContactsAction extends basePimAction {
                     $count = $service->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
                     $this->getUser()->setFlash('viewEmergencyContacts.success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
+        } else {
+            $response = $this->getResponse();
+            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
         $this->redirect('pim/viewEmergencyContacts?empNumber=' . $empNumber);
