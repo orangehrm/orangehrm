@@ -110,8 +110,6 @@ class saveSystemUserAction extends sfAction {
             $accessible = $userRoleManager->isEntityAccessible('SystemUser', $request->getParameter('userId'));
 
             if (!$accessible) {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         }
