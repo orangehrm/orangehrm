@@ -69,7 +69,9 @@ class deleteHolidayAction extends baseLeaveAction {
                     }
                     $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));                    
                 } else {
-                    $this->getUser()->setFlash('warning', __(TopLevelMessages::ACCESS_DENIED));
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             } else {
                 $this->getUser()->setFlash('warning', __(TopLevelMessages::SELECT_RECORDS));
