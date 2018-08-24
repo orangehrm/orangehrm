@@ -36,6 +36,9 @@ class undeleteLeaveTypeAction extends orangehrmAction {
                 // Since this form does not have any user data entry fields,
                 // this is a error.
                 $this->getLoggerInstance()->error($this->form);
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         }
         $this->redirect("leave/leaveTypeList");        

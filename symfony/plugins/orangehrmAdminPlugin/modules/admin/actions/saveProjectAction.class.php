@@ -103,6 +103,7 @@ class saveProjectAction extends baseAdminAction {
         }
 
         if ($request->isMethod('post')) {
+            $response = $this->getResponse();
             if ($this->projectPermissions->canCreate() || $this->projectPermissions->canUpdate()) {
                 $this->form->bind($request->getParameter($this->form->getName()));
                 if ($this->form->isValid()) {
@@ -115,11 +116,9 @@ class saveProjectAction extends baseAdminAction {
                     $this->redirect('admin/saveProject?projectId=' . $projectId);
                 } else {
                     $this->getUser()->setFlash('project.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
-                    $response = $this->getResponse();
                     $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                 }
             } else {
-                $response = $this->getResponse();
                 $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }

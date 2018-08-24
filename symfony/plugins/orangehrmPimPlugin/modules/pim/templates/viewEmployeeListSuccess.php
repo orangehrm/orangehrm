@@ -23,6 +23,8 @@
         <h1><?php echo __("Employee Information") ?></h1>
     </div>
     <div class="inner">
+        <?php include_partial('global/flash_messages', array('prefix' => 'search')); ?>
+
         <form id="search_form" name="frmEmployeeSearch" method="post" action="<?php echo url_for('@employee_list'); ?>">
 
             <fieldset>
