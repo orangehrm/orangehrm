@@ -45,6 +45,7 @@ class saveDeleteWorkExperienceAction extends basePimAction {
 
         //this is to save work experience
         if ($request->isMethod('post')) {
+            $response = $this->getResponse();
             if ($request->getParameter('option') == "save") {
                 if ($this->workExperiencePermissions->canCreate() || $this->workExperiencePermissions->canUpdate()) {
 
@@ -56,7 +57,9 @@ class saveDeleteWorkExperienceAction extends basePimAction {
                         $this->getEmployeeService()->saveEmployeeWorkExperience($workExperience);
                         $this->getUser()->setFlash('workexperience.success', __(TopLevelMessages::SAVE_SUCCESS));
                     } else {
-                        $this->getUser()->setFlash('workexperience.warning', __('Form Validation Failed.'));
+                        $this->getUser()->setFlash('warning', __('Form Validation Failed'), false);
+                        $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                     }
                 }
             }
@@ -71,6 +74,9 @@ class saveDeleteWorkExperienceAction extends basePimAction {
                         if ($form->isValid()) {
                             $this->getEmployeeService()->deleteEmployeeWorkExperienceRecords($empNumber, $request->getParameter('delWorkExp'));
                             $this->getUser()->setFlash('workexperience.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        } else {
+                            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                         }
                     }
                 }
