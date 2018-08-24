@@ -51,6 +51,10 @@ class saveJobTitleAction extends baseAdminAction {
                     $result = $this->form->save();
                     $this->getUser()->setFlash($result['messageType'], $result['message']);
                     $this->redirect('admin/viewJobTitleList');
+                } else {
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->getUser()->setFlash('jobtitle.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         } else {
