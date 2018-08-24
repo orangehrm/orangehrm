@@ -50,6 +50,11 @@ class updateAttachmentAction extends basePimAction {
 
                 // Handle the form submission
                 $this->form->bind($request->getPostParameters(), $request->getFiles());
+                if ($this->form->getCSRFToken() != $request->getParameter('_csrf_token')) {
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                }
 
                 if ($this->form->isValid()) {
 

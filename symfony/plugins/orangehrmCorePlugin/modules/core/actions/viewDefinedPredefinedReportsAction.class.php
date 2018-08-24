@@ -26,6 +26,7 @@ class viewDefinedPredefinedReportsAction extends basePimReportAction {
 
 
         if ($request->isMethod('post')) {
+            $response = $this->getResponse();
 
             if ($request->hasParameter("chkSelectRow")) {
                 if ($this->reportPermissions->canDelete()) {
@@ -39,12 +40,18 @@ class viewDefinedPredefinedReportsAction extends basePimReportAction {
                             $this->redirect('core/viewDefinedPredefinedReports');
                             return;
                         }
+                    } else {
+                        $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                        $this->getUser()->setFlash('search.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                     }
                 }
             } else {
                 $this->searchForm->bind($request->getParameter($this->searchForm->getName()));
                 if ($this->searchForm->isValid()) {
                     $searchString = $this->searchForm->getValue("search");
+                } else {
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->getUser()->setFlash('search.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         } else {
