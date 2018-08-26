@@ -29,7 +29,9 @@ class BasicConfigurations{
 private $interuptContinue;
 function __construct()
 {
+  require_once(ROOT_PATH . '/installer/environmentCheck/SystemValidator.php');
   $this->interuptContinue = false;
+  $this->systemValidator = new SystemValidator();
 }
 
 function getMessages(){
@@ -401,10 +403,8 @@ function dbConfigurationCheck()
 	 $dbInfo = $_SESSION['dbInfo'];
         $conn = $this->getConnection($dbInfo);
         if ($conn) {
-            $mysqlHost = mysqli_get_server_info($conn);
-
-                if (intval(substr($mysqlHost, 0, 1)) < 4 || substr($mysqlHost, 0, 3) === '4.0'){
-                    $_SESSION['dbError'] = 'WRONG DB SERVER'; $this->interuptContinue = true;
+                if (!($this->systemValidator->isMySqlCompatible($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))){
+                    $_SESSION['dbError'] = $this->systemValidator->getMysqlErrorMessage($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword']);
 		}
 
                 elseif ($_SESSION['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName'])){
