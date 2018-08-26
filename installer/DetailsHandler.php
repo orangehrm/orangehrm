@@ -22,6 +22,8 @@ require('Messages.php');
 class DetailsHandler
 {
     private $configIni;
+    private $organizationEmail = null;
+    private $contactNumber = null;
 
     /**
      * Load the config.ini file
@@ -123,31 +125,41 @@ class DetailsHandler
     }
 
     /**
-     * Get the organization email address
-     * @return mixed
+     * Get the Admin Employee organization Email
+     * @return mixed|null|string
      */
     public function getOrganizationEmailAddress()
     {
         $configurationDataSet = $this->getCongigIni();
 
-        if ($_SESSION['defUser']['organizationEmailAddress']) {
-            return $_SESSION['defUser']['organizationEmailAddress'];
+        $this->organizationEmail = $this->organizationEmail ? $this->organizationEmail : $configurationDataSet["organizationEmailAddress"];
+
+        if (!$this->isValidUserInput("Organization Email Address ", $this->organizationEmail)) {
+            $this->organizationEmail = $this->takeUserInput("Invalid Email Address. Please enter Email Address:");
+            $this->getOrganizationEmailAddress();
         }
-        return $configurationDataSet["organizationEmailAddress"];
+
+        return $this->organizationEmail;
     }
 
     /**
      * Get the Admin employee contact number
-     * @return mixed
+     * @return mixed|null|string
      */
     public function getContactNumber()
     {
         $configurationDataSet = $this->getCongigIni();
+        $this->contactNumber = $this->contactNumber ? $this->contactNumber : $configurationDataSet["contactNumber"];
 
-        if ($_SESSION['defUser']['contactNumber']) {
-            return $_SESSION['defUser']['contactNumber'];
+        if (!$this->isValidUserInput("contact number", $this->contactNumber)) {
+            $this->contactNumber = $this->takeUserInput("Invalid contact number. Please enter contact number:");
+
+            if (!$this->contactNumber) {
+                $this->contactNumber = 'Not captured';
+            }
+            $this->getContactNumber();
         }
-        return $configurationDataSet["contactNumber"];
+        return $this->contactNumber;
     }
 
     /**
@@ -313,10 +325,10 @@ class DetailsHandler
         } else {
             $_SESSION['ENCRYPTION'] = 'Failed';
         }
-        $_SESSION['defUser']['organizationName'] = $this->isFillInConfig($organizationName, "Organization Name ");
-        $_SESSION['defUser']['adminEmployeeFirstName'] = $this->isFillInConfig($adminEmployeeFirstName, "Admin Employee First Name ");
-        $_SESSION['defUser']['adminEmployeeLastName'] = $this->isFillInConfig($adminEmployeeLastName, "Admin Employee Last Name ");
-        $_SESSION['defUser']['organizationEmailAddress'] = $this->isFillInConfig($organizationEmailAddress, "Organization Email Address ");
+        $_SESSION['defUser']['organizationName'] = $this->isFillInConfigRegister($organizationName, "Organization Name ");
+        $_SESSION['defUser']['adminEmployeeFirstName'] = $this->isFillInConfigRegister($adminEmployeeFirstName, "Admin Employee First Name ");
+        $_SESSION['defUser']['adminEmployeeLastName'] = $this->isFillInConfigRegister($adminEmployeeLastName, "Admin Employee Last Name ");
+        $_SESSION['defUser']['organizationEmailAddress'] = $this->isFillInConfigRegister($organizationEmailAddress, "Organization Email Address ");
     }
 
 
@@ -333,6 +345,58 @@ class DetailsHandler
         }
 
         return trim($returnValue);
+    }
+
+    /**
+     * Check whether registration data are valid
+     * @param $SessionStatus
+     * @param $inputType
+     * @param bool $invalidInput
+     * @return string
+     */
+    private function isFillInConfigRegister($SessionStatus, $inputType, $invalidInput = false)
+    {
+        if ($inputType == 'Organization Email Address ') {
+            $invalidMessage = "Organization Email Address invalid.";
+        }
+        if (!isset($SessionStatus) || trim($SessionStatus) === '') {
+
+            if (!$invalidInput) {
+                $returnValue = $this->takeUserInput("Please enter $inputType : ");
+            } else {
+                $returnValue = $this->takeUserInput($invalidMessage . "Please enter $inputType : ");
+            }
+
+            return $returnValue ? ($this->isValidUserInput($inputType, $returnValue) ? $returnValue : $this->isFillInConfigRegister(null, $inputType, true)) : ($this->isFillInConfigRegister(null, $inputType));
+
+        } else {
+            $returnValue = $SessionStatus;
+        }
+
+        return $returnValue;
+    }
+
+    /**
+     * Validate input
+     * @param $inputType
+     * @param $inputValue
+     * @return bool|mixed
+     */
+    private function isValidUserInput($inputType, $inputValue) {
+        if ($inputType == 'Organization Email Address ') {
+            return filter_var($inputValue, FILTER_VALIDATE_EMAIL);
+        }
+
+        if ($inputType == 'contact number') {
+            if (!($inputValue == 'Not captured')) {
+                if(preg_match("/^\+?[0-9]+$/", $inputValue)) {
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        }
+        return true;
     }
 
     function getPasswordFromUser($SessionStatus, $passwordType)
