@@ -47,8 +47,17 @@ class viewMyTimesheetAction extends baseTimeAction {
         $this->format = $this->getTimesheetService()->getTimesheetTimeFormat();
         $this->timeService = $this->getTimesheetService();
 
+        $this->formToImplementCsrfToken = new TimesheetFormToImplementCsrfTokens();
         if ($request->isMethod('post')) {
-            $this->updateTimesheetState($request);
+            $this->formToImplementCsrfToken->bind($request->getParameter('time'));
+
+            if ($this->formToImplementCsrfToken->isValid()) {
+                $this->updateTimesheetState($request);
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->successMessage = array('warning', __(TopLevelMessages::VALIDATION_FAILED));
+            }
         }
 
         $this->currentDate = date('Y-m-d');

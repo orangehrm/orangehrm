@@ -136,7 +136,11 @@ class editTimesheetAction extends baseTimeAction {
                     
                     $startingDate = $timeSheet->getStartDate();
                     $this->redirect('time/' . $backAction . '?' . http_build_query(array('message' => $this->messageData, 'timesheetStartDate' => $startingDate, 'employeeId' => $this->employeeId)));
-                 }
+                } else {
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->messageData = array('warning', __(TopLevelMessages::VALIDATION_FAILED));
+                }
 
             }
 
