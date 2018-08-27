@@ -95,6 +95,10 @@ class viewProjectsAction extends baseAdminAction {
                     $searchedProjectList = $this->getProjectService()->searchProjects($searchClues, $allowedProjectList);
                     $projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $allowedProjectList);
                     $this->_setListComponent($searchedProjectList, $limit, $pageNumber, $projectListCount, $this->projectPermissions);
+                } else {
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->getUser()->setFlash('search.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         }

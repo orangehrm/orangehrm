@@ -126,6 +126,8 @@ class viewJobDetailsAction extends basePimAction {
 
 
                 $this->getUser()->setFlash('jobdetails.success', __(TopLevelMessages::UPDATE_SUCCESS));
+
+                $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
             } else {
                 $validationMsg = '';
                 foreach ($this->form->getWidgetSchema()->getPositions() as $widgetName) {
@@ -134,10 +136,10 @@ class viewJobDetailsAction extends basePimAction {
                     }
                 }
 
-                $this->getUser()->setFlash('jobdetails.warning', $validationMsg);
+                $this->getUser()->setFlash('jobdetails.warning', $validationMsg, false);
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             }
-
-            $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
         }
     }
 
