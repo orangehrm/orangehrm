@@ -32,7 +32,7 @@ class deleteJobCategoryAction extends sfAction {
 	public function execute($request) {
 	    $form = new DefaultListForm();
 	    $form->bind($request->getParameter($form->getName()));
-		$toBeDeletedJobCatIds = $request->getParameter('chkSelectRow');
+	    $toBeDeletedJobCatIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedJobCatIds)) {
 
@@ -45,7 +45,7 @@ class deleteJobCategoryAction extends sfAction {
 			        $response = $this->getResponse();
 			        $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
 			        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
-                }
+			    }
 			}			
 		}
 
