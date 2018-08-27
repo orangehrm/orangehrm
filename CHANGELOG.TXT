@@ -16,7 +16,7 @@ specified here
 New & Changed Features for OrangeHRM ver 4.1.2
     New Features
     ------------
-        Enhancement of system configuration wizard during installation. Setup instance with user entered data during installation.
+    Enhancement of system configuration wizard during installation. Setup instance with user entered data during installation.
         Supported language packs
         -English
         -French
@@ -34,13 +34,13 @@ New & Changed Features for OrangeHRM ver 4.1.2
     Incorrect version number in config file git issue #262
     Cannot install in mysql 5.7.23, supporting version is equal or lesser version than 5.7.22
     Web installer: "Help" link should be changed with a new guide
-    When change password by accessing change password link, system getting inaccessible
+    System becomes inaccessible after changing password by accessing the change password link
 
 New & Changed Features for OrangeHRM ver 4.1.1
     New Features
     ------------
     Verification of supported environment during the installation.
-        -supported php version range
+        -Supported php version range
             -Minimum version: 5.6
             -Maximum version: 7.25
         -Supported MySQL Version Range
@@ -70,7 +70,6 @@ New & Changed Features for OrangeHRM ver 4.1
     Enforcement of having a strong password for the user account.
     Compatibility with ldap add-on
     Environment compatibility with php 7.1 & mariadb 10.2
-
     Security Fixes
 
 New & Changed Features for OrangeHRM ver 4.0
