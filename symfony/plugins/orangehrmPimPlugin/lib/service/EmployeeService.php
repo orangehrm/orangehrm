@@ -133,7 +133,7 @@ class EmployeeService extends BaseService {
         if ($savedEmployee) {
             $this->checkEmployeeCountChange(self::EMPLOYEE_ACTIVE_COUNT);
         }
-        return $this->getEmployeeDao()->saveEmployee($employee);
+        return $savedEmployee;
     }
 
     /**
