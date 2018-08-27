@@ -13,6 +13,65 @@ specified here
 						added			/lib/models/report which contains report definiton/generation objects
 						added			/templates which contains all UI templates
 
+New & Changed Features for OrangeHRM ver 4.1.2
+    New Features
+    ------------
+    Enhancement of system configuration wizard during installation. Setup instance with user entered data during installation.
+        Supported language packs
+        -English
+        -French
+        -German
+        -Spanish (Costa Rica)
+        -Spanish
+        -Dutch
+        -Chinese (Traditional Han)
+        -Chinese (Simplified Han)
+    Support of cli installer
+
+    Bug Fixes
+    ------------
+    "Csrf token validation failed" message appears in login screen even after trying to login with valid credentials git issue #247
+    Incorrect version number in config file git issue #262
+    Cannot install in mysql 5.7.23, supporting version is equal or lesser version than 5.7.22
+    Web installer: "Help" link should be changed with a new guide
+    System becomes inaccessible after changing password by accessing the change password link
+
+New & Changed Features for OrangeHRM ver 4.1.1
+    New Features
+    ------------
+    Verification of supported environment during the installation.
+        -Supported php version range
+            -Minimum version: 5.6
+            -Maximum version: 7.25
+        -Supported MySQL Version Range
+            -Minimum version: 5.5
+            -Maximum version: 5.7.22
+        -Supported MariaDB Version Range
+            -Minimum version: 5.5
+            -Maximum version: 10.3.7
+    Usability improvement when adding user. Shows a message on adding a user when there are no employees added to the system.
+
+    Bug Fixes
+    ------------
+    Recruitment - vacancy page is crashed when a hiring manager is deleted in the system.
+    Blank page when refreshing the login page after entering the invalid credentials.
+    Leave is assigned as half day when specific time option is chosen for "End day - partial day" option
+    Leave - internal error is occurring when admin enters lengthy integer when adding an entitlement.
+    Pim-membership: does not add multiple records for a selected membership type to an employee
+    Recruitment - sorted by candidate list screen is leading to crash page when vacancy list is open in another tab.
+    Google openid provider not working in 4.1 #git issue 222
+    Can not install using web installer if the database is on mariadb 10.2
+    Unable to install the build for php 7.2 with any mysql version.
+
+New & Changed Features for OrangeHRM ver 4.1
+    New Features
+    ------------
+    Integration with toggl. Users can sync the time entries tracked in toggl to orangehrm time module.
+    Enforcement of having a strong password for the user account.
+    Compatibility with ldap add-on
+    Environment compatibility with php 7.1 & mariadb 10.2
+    Security Fixes
+
 New & Changed Features for OrangeHRM ver 4.0
     New Features
     ------------
