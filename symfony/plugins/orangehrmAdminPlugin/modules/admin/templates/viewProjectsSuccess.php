@@ -30,6 +30,8 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewProjectsSuccess')
             <h1 id="searchProjectHeading"><?php echo __("Projects"); ?></h1>
     </div>
     <div class="inner">
+        <?php include_partial('global/flash_messages', array('prefix' => 'search')); ?>
+
         <form name="frmSearchProject" id="frmSearchProject" method="post" action="<?php echo url_for('admin/viewProjects'); ?>" >
             
             <fieldset>

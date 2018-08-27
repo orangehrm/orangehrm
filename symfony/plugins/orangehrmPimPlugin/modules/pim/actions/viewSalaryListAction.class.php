@@ -62,6 +62,7 @@ class viewSalaryListAction extends basePimAction {
 
             // Handle the form submission    
             $this->form->bind($request->getParameter($this->form->getName()));
+            $response = $this->getResponse();
 
             if ($this->form->isValid()) {
 
@@ -87,7 +88,8 @@ class viewSalaryListAction extends basePimAction {
                                 }
                             }
 
-                            $this->getUser()->setFlash('warning', $validationMsg);
+                            $this->getUser()->setFlash('salary.warning', $validationMsg, false);
+                            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                             $directDebitOk = false;
                         }
                     } else {
@@ -100,7 +102,8 @@ class viewSalaryListAction extends basePimAction {
                         $this->setOperationName('UPDATE SALARY');
                         $service->saveEmployeeSalary($salary);                
 
-                        $this->getUser()->setFlash('salary.success', __(TopLevelMessages::SAVE_SUCCESS));  
+                        $this->getUser()->setFlash('salary.success', __(TopLevelMessages::SAVE_SUCCESS));
+                        $this->redirect('pim/viewSalaryList?empNumber=' . $empNumber);
                     }
                 }
             } else {
@@ -111,9 +114,10 @@ class viewSalaryListAction extends basePimAction {
                     }
                 }
 
-                $this->getUser()->setFlash('warning', $validationMsg);
+                $this->getUser()->setFlash('salary.warning', $validationMsg, false);
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             }
-            $this->redirect('pim/viewSalaryList?empNumber=' . $empNumber);  
+
         } else {
             if ($this->salaryPermissions->canRead()) {
                 $this->salaryList = $this->getEmployeeService()->getEmployeeSalaries($empNumber);
