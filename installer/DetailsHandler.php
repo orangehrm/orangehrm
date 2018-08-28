@@ -134,7 +134,7 @@ class DetailsHandler
         $this->organizationEmail = $this->organizationEmail ? $this->organizationEmail : $configurationDataSet["organizationEmailAddress"];
 
         if (!$this->isValidUserInput("Organization Email Address ", $this->organizationEmail)) {
-            $this->organizationEmail = $this->takeUserInput("Please enter valid Email Address (abc@xyz.com):");
+            $this->organizationEmail = $this->takeUserInput("Please enter valid Email Address (eg:abc@xyz.com):");
             $this->getOrganizationEmailAddress();
         }
 
@@ -151,7 +151,7 @@ class DetailsHandler
         $this->contactNumber = $this->contactNumber ? $this->contactNumber : $configurationDataSet["contactNumber"];
 
         if (!$this->isValidUserInput("contact number", $this->contactNumber)) {
-            $this->contactNumber = $this->takeUserInput("Please enter valid contact number (0777888666):");
+            $this->contactNumber = $this->takeUserInput("Please enter valid contact number (eg:0777888666):");
 
             if (!$this->contactNumber) {
                 $this->contactNumber = 'Not captured';
