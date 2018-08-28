@@ -134,7 +134,7 @@ class DetailsHandler
         $this->organizationEmail = $this->organizationEmail ? $this->organizationEmail : $configurationDataSet["organizationEmailAddress"];
 
         if (!$this->isValidUserInput("Organization Email Address ", $this->organizationEmail)) {
-            $this->organizationEmail = $this->takeUserInput("Please enter valid Email Address (eg:abc@xyz.com):");
+            $this->organizationEmail = $this->takeUserInput("Please enter valid Email Address (eg:test@test.com):");
             $this->getOrganizationEmailAddress();
         }
 
@@ -151,7 +151,7 @@ class DetailsHandler
         $this->contactNumber = $this->contactNumber ? $this->contactNumber : $configurationDataSet["contactNumber"];
 
         if (!$this->isValidUserInput("contact number", $this->contactNumber)) {
-            $this->contactNumber = $this->takeUserInput("Please enter valid contact number (eg:0777888666):");
+            $this->contactNumber = $this->takeUserInput("Please enter valid contact number :");
 
             if (!$this->contactNumber) {
                 $this->contactNumber = 'Not captured';
@@ -288,7 +288,7 @@ class DetailsHandler
         $sameUser = $this->IsSameOhrmUser($sameOhrmUser);
 
         //Admin and password
-        $_SESSION['defUser']['AdminUserName'] = $this->isFillInConfigRegister($adminUserName, "Admin user name ");
+        $_SESSION['defUser']['AdminUserName'] = $this->isFilledInConfigRegister($adminUserName, "Admin user name ");
         $_SESSION['defUser']['AdminPassword'] = $this->getPasswordFromUser($adminPassword, "Default admin ");
 
 
@@ -324,9 +324,9 @@ class DetailsHandler
         } else {
             $_SESSION['ENCRYPTION'] = 'Failed';
         }
-        $_SESSION['defUser']['organizationName'] = $this->isFillInConfigRegister($organizationName, "Organization Name ");
-        $_SESSION['defUser']['adminEmployeeFirstName'] = $this->isFillInConfigRegister($adminEmployeeFirstName, "Admin Employee First Name ");
-        $_SESSION['defUser']['adminEmployeeLastName'] = $this->isFillInConfigRegister($adminEmployeeLastName, "Admin Employee Last Name ");
+        $_SESSION['defUser']['organizationName'] = $this->isFilledInConfigRegister($organizationName, "Organization Name ");
+        $_SESSION['defUser']['adminEmployeeFirstName'] = $this->isFilledInConfigRegister($adminEmployeeFirstName, "Admin Employee First Name ");
+        $_SESSION['defUser']['adminEmployeeLastName'] = $this->isFilledInConfigRegister($adminEmployeeLastName, "Admin Employee Last Name ");
     }
 
 
@@ -352,12 +352,12 @@ class DetailsHandler
      * @param bool $invalidInput
      * @return string
      */
-    private function isFillInConfigRegister($SessionStatus, $inputType)
+    private function isFilledInConfigRegister($SessionStatus, $inputType)
     {
         if (!isset($SessionStatus) || trim($SessionStatus) === '') {
             $returnValue = $this->takeUserInput("Please enter valid $inputType : ");
 
-            return $returnValue ? ($this->isValidUserInput($inputType, $returnValue) ? $returnValue : $this->isFillInConfigRegister(null, $inputType)) : ($this->isFillInConfigRegister(null, $inputType));
+            return $returnValue ? ($this->isValidUserInput($inputType, $returnValue) ? $returnValue : $this->isFilledInConfigRegister(null, $inputType)) : ($this->isFilledInConfigRegister(null, $inputType));
 
         } else {
             $returnValue = $SessionStatus;
