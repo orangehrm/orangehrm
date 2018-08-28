@@ -77,9 +77,8 @@ class DetailsHandler
         $organizationName = $configurationDataSet["organizationName"];
         $adminEmployeeFirstName = $configurationDataSet["adminEmployeeFirstName"];
         $adminEmployeeLastName = $configurationDataSet["adminEmployeeLastName"];
-        $organizationEmailAddress = $configurationDataSet["organizationEmailAddress"];
 
-        $this->setConfigurationFromParameter($dbHostName, $dbHostPort, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $companyName, $wantSendData, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName, $organizationEmailAddress);
+        $this->setConfigurationFromParameter($dbHostName, $dbHostPort, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $companyName, $wantSendData, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName);
     }
 
     /**
@@ -135,7 +134,7 @@ class DetailsHandler
         $this->organizationEmail = $this->organizationEmail ? $this->organizationEmail : $configurationDataSet["organizationEmailAddress"];
 
         if (!$this->isValidUserInput("Organization Email Address ", $this->organizationEmail)) {
-            $this->organizationEmail = $this->takeUserInput("Invalid Email Address. Please enter Email Address:");
+            $this->organizationEmail = $this->takeUserInput("Please enter valid Email Address (abc@xyz.com):");
             $this->getOrganizationEmailAddress();
         }
 
@@ -152,7 +151,7 @@ class DetailsHandler
         $this->contactNumber = $this->contactNumber ? $this->contactNumber : $configurationDataSet["contactNumber"];
 
         if (!$this->isValidUserInput("contact number", $this->contactNumber)) {
-            $this->contactNumber = $this->takeUserInput("Invalid contact number. Please enter contact number:");
+            $this->contactNumber = $this->takeUserInput("Please enter valid contact number (0777888666):");
 
             if (!$this->contactNumber) {
                 $this->contactNumber = 'Not captured';
@@ -273,7 +272,7 @@ class DetailsHandler
      *details assign from with config.ini file or user inputs.
      *$_SESSION['dbInfo'] validation part will do in BasicConfiguration.php file , BasicConfiguration class->dbConfigurationCheck()
      */
-    public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $databaseName, $adminUserName, $adminPassword, $orangehrmDatabaseUser, $orangehrmDatabasePassword, $privilegedDatabaseUser, $privilegedDatabasePassword, $databaseRootPassword, $encryption, $DatabaseToUse, $sameOhrmUser, $companyName, $wantSendData, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName, $organizationEmailAddress)
+    public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $databaseName, $adminUserName, $adminPassword, $orangehrmDatabaseUser, $orangehrmDatabasePassword, $privilegedDatabaseUser, $privilegedDatabasePassword, $databaseRootPassword, $encryption, $DatabaseToUse, $sameOhrmUser, $companyName, $wantSendData, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName)
     {
         $_SESSION['dbInfo']['dbHostName'] = $this->isFillInConfig($hostName, "Host name ");
         $_SESSION['dbInfo']['dbHostPort'] = $this->isFillInConfig($hostPortOrSocket, "Port or Socket id ");
@@ -328,7 +327,6 @@ class DetailsHandler
         $_SESSION['defUser']['organizationName'] = $this->isFillInConfigRegister($organizationName, "Organization Name ");
         $_SESSION['defUser']['adminEmployeeFirstName'] = $this->isFillInConfigRegister($adminEmployeeFirstName, "Admin Employee First Name ");
         $_SESSION['defUser']['adminEmployeeLastName'] = $this->isFillInConfigRegister($adminEmployeeLastName, "Admin Employee Last Name ");
-        $_SESSION['defUser']['organizationEmailAddress'] = $this->isFillInConfigRegister($organizationEmailAddress, "Organization Email Address ");
     }
 
 
@@ -354,20 +352,12 @@ class DetailsHandler
      * @param bool $invalidInput
      * @return string
      */
-    private function isFillInConfigRegister($SessionStatus, $inputType, $invalidInput = false)
+    private function isFillInConfigRegister($SessionStatus, $inputType)
     {
-        if ($inputType == 'Organization Email Address ') {
-            $invalidMessage = "Organization Email Address invalid.";
-        }
         if (!isset($SessionStatus) || trim($SessionStatus) === '') {
+            $returnValue = $this->takeUserInput("Please enter valid $inputType : ");
 
-            if (!$invalidInput) {
-                $returnValue = $this->takeUserInput("Please enter $inputType : ");
-            } else {
-                $returnValue = $this->takeUserInput($invalidMessage . "Please enter $inputType : ");
-            }
-
-            return $returnValue ? ($this->isValidUserInput($inputType, $returnValue) ? $returnValue : $this->isFillInConfigRegister(null, $inputType, true)) : ($this->isFillInConfigRegister(null, $inputType));
+            return $returnValue ? ($this->isValidUserInput($inputType, $returnValue) ? $returnValue : $this->isFillInConfigRegister(null, $inputType)) : ($this->isFillInConfigRegister(null, $inputType));
 
         } else {
             $returnValue = $SessionStatus;
