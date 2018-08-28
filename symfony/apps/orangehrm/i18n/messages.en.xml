@@ -2,7 +2,7 @@
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
   <header/>
-  <file source-language="en" target-language="en" datatype="plaintext" original="messages" date="2018-08-16-10-56-46" product-name="messages">
+  <file source-language="en" target-language="en" datatype="plaintext" original="messages" date="2018-08-28-21-22-47" product-name="messages">
     <body>
       <trans-unit id="1">
         <source>1M Max, any larger attachments will be ignored</source>
@@ -7353,198 +7353,206 @@
         <target>Employee does not exist</target>
       </trans-unit>
       <trans-unit id="1838">
+        <source>Work Hours</source>
+        <target>Work Hours</target>
+      </trans-unit>
+      <trans-unit id="1839">
+        <source>Leave Entitlements</source>
+        <target>Leave Entitlements</target>
+      </trans-unit>
+      <trans-unit id="1840">
         <source>Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1839">
+      <trans-unit id="1841">
         <source>Accepts up to 1MB</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1840">
+      <trans-unit id="1842">
         <source>Invalid credentials</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1841">
+      <trans-unit id="1843">
         <source>No matching employees</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1842">
+      <trans-unit id="1844">
         <source>Csrf token validation failed</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1843">
+      <trans-unit id="1845">
         <source>Trackers</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1844">
+      <trans-unit id="1846">
         <source>Add Performance Tracker</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1845">
+      <trans-unit id="1847">
         <source>invalid name</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1846">
+      <trans-unit id="1848">
         <source> - Tracker Log </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1847">
+      <trans-unit id="1849">
         <source>Tracker</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1848">
+      <trans-unit id="1850">
         <source>Use browser language if set</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1849">
+      <trans-unit id="1851">
         <source>User Secure Connection</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1850">
+      <trans-unit id="1852">
         <source>Total : </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1851">
+      <trans-unit id="1853">
         <source>Show SSN field in Personal Details</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1852">
+      <trans-unit id="1854">
         <source>Work experience</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1853">
+      <trans-unit id="1855">
         <source>FR_Leave Taken (Days)</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1854">
+      <trans-unit id="1856">
         <source>KPIs</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1855">
+      <trans-unit id="1857">
         <source>Period </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1856">
+      <trans-unit id="1858">
         <source> Cancel</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1857">
+      <trans-unit id="1859">
         <source>Selected groups will  be deleted</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1858">
+      <trans-unit id="1860">
         <source>Rating should be less than or equal to %number%</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1859">
+      <trans-unit id="1861">
         <source>Overall Rating : </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1860">
+      <trans-unit id="1862">
         <source>The review will be made read-only after completion.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1861">
+      <trans-unit id="1863">
         <source>Rating should be less than or equal to </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1862">
+      <trans-unit id="1864">
         <source>Rating should be greater than or equal to </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1863">
+      <trans-unit id="1865">
         <source>Should be a positive value</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1864">
+      <trans-unit id="1866">
         <source>Supervisor Reviewer</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1865">
+      <trans-unit id="1867">
         <source>General Comment : </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1866">
+      <trans-unit id="1868">
         <source>Finalization</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1867">
+      <trans-unit id="1869">
         <source>Invalid Supervisor</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1868">
+      <trans-unit id="1870">
         <source>Punch out Time Should Be Higher Than Punch in Time</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1869">
+      <trans-unit id="1871">
         <source>Punch in/out note</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1870">
+      <trans-unit id="1872">
         <source>Supervisor can add/edit/delete attendance records of subordinates</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1871">
+      <trans-unit id="1873">
         <source>Should Be a Valid Date in %format% Format</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1872">
+      <trans-unit id="1874">
         <source>Social Media Authentication</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1873">
+      <trans-unit id="1875">
         <source>OpenId</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1874">
+      <trans-unit id="1876">
         <source>Google+</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1875">
+      <trans-unit id="1877">
         <source>Enable Directory module</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1876">
+      <trans-unit id="1878">
         <source>Please Add the Organization name</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1877">
+      <trans-unit id="1879">
         <source>Add Organization Name</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1878">
+      <trans-unit id="1880">
         <source>User Account Not found</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1879">
+      <trans-unit id="1881">
         <source>API Documentation</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1880">
+      <trans-unit id="1882">
         <source>PHP Sample App</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1881">
+      <trans-unit id="1883">
         <source>Register OAuth Client</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1882">
+      <trans-unit id="1884">
         <source>Given Client ID Is Already In The Database</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1883">
+      <trans-unit id="1885">
         <source>OAuth Client Saved Successfully</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1884">
+      <trans-unit id="1886">
         <source>OAuth Client List</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1885">
+      <trans-unit id="1887">
         <source>The password is too weak.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1886">
+      <trans-unit id="1888">
         <source>Should not be more than 10000</source>
         <target/>
       </trans-unit>

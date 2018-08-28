@@ -7552,6 +7552,10 @@
         <source>Work Hours</source>
         <target>FR_Work Hours</target>
       </trans-unit>
+      <trans-unit id="1888">
+        <source>Leave Entitlements</source>
+        <target>FR_Leave Entitlements</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
