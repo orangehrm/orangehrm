@@ -73,7 +73,7 @@ class sysConf {
     $this->timeInputHint = "HH:MM";
     $this->styleSheet = "orange";
     $this->version = "4.1.2";
-    $this->registrationUrl = "https://ospenguin.orangehrm.com/registerAcceptor.php";
+    $this->registrationUrl = "https://ospenguin.orangehrm.com";
   }
 
   function getEmployeeIdLength() {

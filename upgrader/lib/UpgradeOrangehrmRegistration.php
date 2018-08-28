@@ -26,7 +26,7 @@ class UpgradeOrangehrmRegistration
      */
     public function sendRegistrationData() {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://ospenguin.orangehrm.com/registerAcceptor.php");
+        curl_setopt($ch, CURLOPT_URL, "https://ospenguin.orangehrm.com");
         curl_setopt($ch, CURLOPT_POST, 1);
 
         $data = "username=" . $_SESSION['defUser']['AdminUserName']
