@@ -288,7 +288,7 @@ class DetailsHandler
         $sameUser = $this->IsSameOhrmUser($sameOhrmUser);
 
         //Admin and password
-        $_SESSION['defUser']['AdminUserName'] = $this->isFillInConfig($adminUserName, "Admin user name ");
+        $_SESSION['defUser']['AdminUserName'] = $this->isFillInConfigRegister($adminUserName, "Admin user name ");
         $_SESSION['defUser']['AdminPassword'] = $this->getPasswordFromUser($adminPassword, "Default admin ");
 
 
@@ -395,7 +395,13 @@ class DetailsHandler
         if (!isset($SessionStatus) || trim($SessionStatus) === '') {
             // Get the password
             fwrite(STDOUT, "Please enter $passwordType password: ");
-            return $this->getPassword(true);
+            $password =  $this->getPassword(true);
+
+            if ($password == '') {
+                $this->getPasswordFromUser($SessionStatus, $passwordType);
+            }
+
+            return $password;
         } else {
             return $SessionStatus;
         }

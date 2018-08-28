@@ -118,12 +118,6 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			for ($i=0; $i < $_SESSION['INSTALLING']-$controlval; $i++){
 		
 				ApplicationSetupUtility::install();
-				if($_SESSION['INSTALLING']==2) $messages->displayMessage("Fill Data Phase 1 - No Errors...");
-				if($_SESSION['INSTALLING']==3) $messages->displayMessage("Fill Data Phase 2 - No Errors...");
-				if($_SESSION['INSTALLING']==4) $messages->displayMessage("Create DB user - No Errors...");
-				if($_SESSION['INSTALLING']==5) $messages->displayMessage("Create OrangeHRM user - No Errors...");
-				if($_SESSION['INSTALLING']==6) $messages->displayMessage("Write Conf - No Errors...");
-				if($_SESSION['INSTALLING']==7) $messages->displayMessage("Install Plugins  - No Errors...");
 
 				$_SESSION['defUser']['organizationName'] = $detailsHandler->getOrganizationName();
 				$_SESSION['defUser']['adminEmployeeFirstName'] = $detailsHandler->getAdminEmployeeFirstName();
@@ -144,6 +138,13 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
                 $systemConfiguration->setAdminEmail($detailsHandler->getOrganizationEmailAddress());
                 $systemConfiguration->setAdminContactNumber($detailsHandler->getContactNumber());
                 $systemConfiguration->createAdminUser($detailsHandler->getAdminUserName(), $detailsHandler->getAdminPassword());
+
+                if($_SESSION['INSTALLING']==2) $messages->displayMessage("Fill Data Phase 1 - No Errors...");
+                if($_SESSION['INSTALLING']==3) $messages->displayMessage("Fill Data Phase 2 - No Errors...");
+                if($_SESSION['INSTALLING']==4) $messages->displayMessage("Create DB user - No Errors...");
+                if($_SESSION['INSTALLING']==5) $messages->displayMessage("Create OrangeHRM user - No Errors...");
+                if($_SESSION['INSTALLING']==6) $messages->displayMessage("Write Conf - No Errors...");
+                if($_SESSION['INSTALLING']==7) $messages->displayMessage("Install Plugins  - No Errors...");
 			}
 		}
 
