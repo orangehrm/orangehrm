@@ -30,7 +30,7 @@ class UpgradeOrangehrmRegistration
         curl_setopt($ch, CURLOPT_POST, 1);
 
         $data = "username=" . $_SESSION['defUser']['AdminUserName']
-            . "&userEmail=" . $_SESSION['defUser']['organizationEmailAddress']
+            . "&email=" . $_SESSION['defUser']['organizationEmailAddress']
             . "&telephone=" . $_SESSION['defUser']['contactNumber']
             . "&admin_first_name=" . $_SESSION['defUser']['adminEmployeeFirstName']
             . "&admin_last_name=" . $_SESSION['defUser']['adminEmployeeLastName']
@@ -38,6 +38,7 @@ class UpgradeOrangehrmRegistration
             . "&language=" . $_SESSION['defUser']['language']
             . "&country=" . $_SESSION['defUser']['country']
             . "&organization_name=" . $_SESSION['defUser']['organizationName']
+            . "&type=" . "0"
             . "&instance_identifier=" . $this->getInstanceIdentifier();
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
