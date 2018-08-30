@@ -35,7 +35,7 @@ https://github.com/orangehrm/orangehrm/wiki/Resources
 
 
 ## Demo
-Live demo is available at : http://opensource.demo.orangehrmlive.com
+Live demo is available at : https://www.orangehrm.com/solutions/open-source/demo/
 
 ## Releases
 Sourceforge : https://sourceforge.net/p/orangehrm

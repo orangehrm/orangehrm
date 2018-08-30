@@ -87,6 +87,10 @@ class UpgradeUtility {
         $dbName = $dbName;
         $dbOHRMUser = $username;
         $dbOHRMPassword = $password;
+        if (@include_once sfConfig::get('sf_root_dir')."/../lib/confs/sysConf.php") {
+            $conf = new sysConf();
+            $ohrmVersion = $conf->getVersion();
+        }
 
     $confContent = <<< CONFCONT
 <?php
@@ -110,7 +114,7 @@ class Conf {
         }
         \$this->dbuser    = '$dbOHRMUser';
         \$this->dbpass  = '$dbOHRMPassword';
-        \$this->version = '3.3.1';
+        \$this->version = '$ohrmVersion';
 
         \$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
         \$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
@@ -203,7 +207,7 @@ CONFCONT;
      */
     public function getEndIncrementNumber() {
         
-        return 66;
+        return 67;
         
     }
     
@@ -257,6 +261,7 @@ CONFCONT;
         $a['3.3.3']     = 64;// 3.3.2 to 4.0
         $a['4.0']       = 65;// 4.0 to 4.1
         $a['4.1']       = 66;// 4.1 to 4.1.1
+        $a['4.1.1']     = 67;// 4.1.1 to 4.1.2
         return $a;
         
     }
@@ -265,8 +270,12 @@ CONFCONT;
      * @todo Get the new version which need to upgrade the system
      */
     public function getNewVersion() {
-        
-        return '4.1.1';
+
+        if (@include_once sfConfig::get('sf_root_dir')."/../lib/confs/sysConf.php") {
+            $conf = new sysConf();
+            return $conf->getVersion();
+        }
+        return '';
         
     }
     

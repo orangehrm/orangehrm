@@ -22,3 +22,16 @@ require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
 require_once ROOT_PATH.'/installer/ApplicationSetupUtility.php';
 
 ApplicationSetupUtility::install();
+
+include_once ('SystemConfiguration.php');
+
+$sys = new SystemConfiguration();
+
+$sys->setOrganizationName($_SESSION['defUser']['organizationName']);
+$sys->setCountry($_SESSION['defUser']['country']);
+$sys->setLanguage($_SESSION['defUser']['language']);
+$sys->setAdminName($_SESSION['defUser']['adminEmployeeFirstName'], $_SESSION['defUser']['adminEmployeeLastName']);
+$sys->setAdminEmail($_SESSION['defUser']['organizationEmailAddress']);
+$sys->setAdminContactNumber($_SESSION['defUser']['contactNumber']);
+$sys->createAdminUser($_SESSION['defUser']['AdminUserName'], $_SESSION['defUser']['AdminPassword']);
+$sys->setInstanceIdentifier($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['randomNumber']);

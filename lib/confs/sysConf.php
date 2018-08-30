@@ -35,6 +35,9 @@ class sysConf {
   var $timeInputHint;
   public $javascriptInputHint = "YYYY-MM-DD";
   var $styleSheet;
+  var $version;
+
+  var $registrationUrl = null;
 
   /**
    * Following variable decides if admin users can edit the sendmail path through a web browser.
@@ -69,6 +72,8 @@ class sysConf {
     $this->timeFormat = "H:i";
     $this->timeInputHint = "HH:MM";
     $this->styleSheet = "orange";
+    $this->version = "4.1.2";
+    $this->registrationUrl = "https://ospenguin.orangehrm.com";
   }
 
   function getEmployeeIdLength() {
@@ -101,6 +106,18 @@ class sysConf {
 
   public function sendmailPathEditOnlyFromLocalHost() {
     return $this->sendmailPathEditOnlyFromLocalHost;
+  }
+
+  public function getVersion() {
+    return $this->version;
+  }
+
+  /**
+   * Return the registration URL
+   * @return null|string
+   */
+  public function getRegistrationUrl() {
+    return $this->registrationUrl;
   }
 }
 

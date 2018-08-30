@@ -7548,6 +7548,14 @@
         <source>Employee does not exist</source>
         <target>FR_Employee does not exist</target>
       </trans-unit>
+      <trans-unit id="1887">
+        <source>Work Hours</source>
+        <target>FR_Work Hours</target>
+      </trans-unit>
+      <trans-unit id="1888">
+        <source>Leave Entitlements</source>
+        <target>FR_Leave Entitlements</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

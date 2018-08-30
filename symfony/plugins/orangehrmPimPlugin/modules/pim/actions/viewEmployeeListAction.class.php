@@ -268,9 +268,14 @@ class viewEmployeeListAction extends basePimAction {
      */
     public function setLeftMenuService(PIMLeftMenuService $leftMenuService) {
         $this->leftMenuService = $leftMenuService;
-    }    
-    
+    }
+
+    /**
+     * return emp numbers of undeletable employees
+     * @return array
+     */
     public function getUndeletableEmpNumbers() {
-        return array();
+        $defaultAdminEmpNumber = 1;
+        return array($defaultAdminEmpNumber);
     }
 }

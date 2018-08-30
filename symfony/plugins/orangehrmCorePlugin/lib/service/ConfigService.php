@@ -49,6 +49,7 @@ class ConfigService extends BaseService {
     const KEY_AUTH_LOGINS = 'auth.logins';
     const KEY_OPENID_PROVIDER_ADDED = 'openId.provider.added';
     const KEY_OPEN_SOURCE_INTEGRATIONS = 'open_source_integrations';
+    const KEY_INSTANCE_IDENTIFIER = "instance.identifier";
     
     /**
      * Get ConfigDao
@@ -368,6 +369,22 @@ class ConfigService extends BaseService {
     public function setIntegrationsConfigValue($value ) {
         $this->_setConfigValue(self::KEY_OPEN_SOURCE_INTEGRATIONS, $value);
     }
-    
 
+    /**
+     * Set the instance identifier value
+     * @param $value
+     * @throws CoreServiceException
+     */
+    public function setInstanceIdentifier($value) {
+        $this->_setConfigValue(self::KEY_INSTANCE_IDENTIFIER, $value);
+    }
+
+    /**
+     * Get instance identifier value
+     * @return String
+     * @throws CoreServiceException
+     */
+    public function getInstanceIdentifier() {
+        return $this->_getConfigValue(self::KEY_INSTANCE_IDENTIFIER);
+    }
 }

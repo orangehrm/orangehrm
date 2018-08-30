@@ -2593,7 +2593,7 @@ INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `en
 (4, 2, 'leave/showLeavePeriodNotDefinedWarning', 'LeavePeriodDefinedHomePageEnabler', 90),
 (5, 1, 'time/viewEmployeeTimesheet', NULL, 20),
 (5, 2, 'time/viewMyTimesheet', NULL, 0),
-(5, 1, 'time/defineTimesheetPeriod', 'TimesheetPeriodDefinedHomePageEnabler', 100),
+(5, 1, 'time/defineTimesheetPeriod', 'TimesheetPeriodDefinedHomePageEnabler', 200),
 (5, 2, 'time/timesheetPeriodNotDefined', 'TimesheetPeriodDefinedHomePageEnabler', 100),
 (7, 1, 'recruitment/viewCandidates', NULL, 20),
 (7, 5, 'recruitment/viewCandidates', NULL, 10),
