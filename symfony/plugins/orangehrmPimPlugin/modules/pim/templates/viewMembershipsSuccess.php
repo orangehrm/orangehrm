@@ -53,8 +53,7 @@ $allowEdit = true;
             <div class="inner">
                 <form name="frmEmpMembership" id="frmEmpMembership" method="post" 
                       action="<?php echo url_for('pim/updateMembership?empNumber=' . $empNumber); ?>" class="longLabels">
-                    
-                    <?php echo $form['_csrf_token']; ?>
+
                     <?php echo $form["empNumber"]->render(); ?>
                     <?php echo $form->renderHiddenFields(); ?>
                     <fieldset>

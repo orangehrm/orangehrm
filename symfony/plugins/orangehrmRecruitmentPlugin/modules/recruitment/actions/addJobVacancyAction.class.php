@@ -86,7 +86,9 @@ class addJobVacancyAction extends baseRecruitmentAction {
                     $this->redirect('recruitment/addJobVacancy?Id=' . $this->vacancyId);
                 } else {
                     Logger::getLogger('recruitment.addJobVacancy')->error($this->form);
-                    $this->getUser()->setFlash('warning', __(TopLevelMessages::SAVE_FAILURE), false);
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                 }
             }
         }

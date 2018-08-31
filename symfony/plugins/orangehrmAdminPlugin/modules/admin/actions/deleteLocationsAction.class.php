@@ -28,18 +28,22 @@ class deleteLocationsAction extends sfAction {
 	}
 
 	public function execute($request) {
-                $form = new DefaultListForm();
-                $form->bind($request->getParameter($form->getName()));
-		$toBeDeletedLocationIds = $request->getParameter('chkSelectRow');
+	    $form = new DefaultListForm();
+	    $form->bind($request->getParameter($form->getName()));
+	    $toBeDeletedLocationIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedLocationIds)) {
 
 			foreach ($toBeDeletedLocationIds as $toBeDeletedLocationId) {
-                            if ($form->isValid()) {
-				$location = $this->getLocationService()->getLocationById($toBeDeletedLocationId);
-				$location->delete();
-                                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-                            }
+			    if ($form->isValid()) {
+			        $location = $this->getLocationService()->getLocationById($toBeDeletedLocationId);
+			        $location->delete();
+			        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+			    } else {
+			        $response = $this->getResponse();
+			        $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+			        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+			    }
 			}
 		}
 

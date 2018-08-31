@@ -42,6 +42,7 @@ class saveDeleteLanguageAction extends basePimAction {
         $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber, 'languagePermissions' => $this->languagePermissions), true));
 
         if ($request->isMethod('post')) {
+            $response = $this->getResponse();
             if ( $request->getParameter('option') == "save") {
 
                 $this->languageForm->bind($request->getParameter($this->languageForm->getName()));
@@ -53,7 +54,9 @@ class saveDeleteLanguageAction extends basePimAction {
                         $this->getUser()->setFlash('language.success', __(TopLevelMessages::SAVE_SUCCESS));
                     } 
                 } else {
-                    $this->getUser()->setFlash('language.warning', __('Form Validation Failed'));
+                    $this->getUser()->setFlash('warning', __('Form Validation Failed'), false);
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             }
 
@@ -74,6 +77,9 @@ class saveDeleteLanguageAction extends basePimAction {
                         if ($form->isValid()) {
                             $this->getEmployeeService()->deleteEmployeeLanguages($empNumber, $languagesToDelete);
                             $this->getUser()->setFlash('language.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        } else {
+                            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                         }
                     }
                 }

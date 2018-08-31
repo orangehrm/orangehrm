@@ -45,6 +45,8 @@ class validateCredentialsAction extends sfAction
             $csrfToken = $request->getParameter('_csrf_token');
             if ($csrfToken != $loginForm->getCSRFToken()) {
                 $this->getUser()->setFlash('message', __('Csrf token validation failed'), true);
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                 $this->forward('auth', 'retryLogin');
             }
             $username = $request->getParameter('txtUsername');

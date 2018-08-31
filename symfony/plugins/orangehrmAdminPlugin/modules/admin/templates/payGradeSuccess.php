@@ -57,7 +57,6 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
     <div class="inner">
         
         <form name="frmCurrency" id="frmCurrency" method="post" action="<?php echo url_for('admin/savePayGradeCurrency?payGradeId=' . $payGradeId); ?>">
-            <?php echo $currencyForm['_csrf_token']; ?>
             <?php echo $currencyForm->renderHiddenFields(); ?>
 
             <fieldset>

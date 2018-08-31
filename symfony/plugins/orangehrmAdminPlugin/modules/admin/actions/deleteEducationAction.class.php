@@ -47,14 +47,18 @@ class deleteEducationAction extends sfAction {
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
                 $result = $this->getEducationService()->deleteEducations($toDeleteIds);
-            }
                 if ($result) {
-                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
-                    
-                }            
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }
+
             $this->redirect('admin/viewEducation');
-        }       
-        
+        }
+
     }
     
     protected function _checkAuthentication() {

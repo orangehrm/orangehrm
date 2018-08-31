@@ -32,9 +32,14 @@ class activateEmployementAction extends basePimAction {
             if ($form->isValid()) {
                 $this->getEmployeeService()->activateTerminatedEmployment($empNumber);
                 $this->getUser()->setFlash('jobdetails.success', __(TopLevelMessages::UPDATE_SUCCESS));
-                
+
+                $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
-            $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
+
         }
     }
 

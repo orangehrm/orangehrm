@@ -49,8 +49,12 @@ class viewModulesAction extends sfAction {
                 $this->_resetModulesSavedInSession();
                 $result = $this->form->save();
                 $this->getUser()->setFlash($result['messageType'], $result['message']);
+                $this->redirect('admin/viewModules');
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
-            $this->redirect('admin/viewModules');
         }
     }
 

@@ -59,9 +59,12 @@ class configurePimAction extends basePimAction {
                 $this->getUser()->setAttribute('pim.leftMenu.isTaxMenuEnabled', $isTaxMenuEnabled);
 
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
-                
+                $this->redirect('pim/configurePim');
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
-            $this->redirect('pim/configurePim');
         }
     }
 

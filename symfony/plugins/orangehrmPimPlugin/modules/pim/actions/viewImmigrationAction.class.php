@@ -63,6 +63,10 @@ class viewImmigrationAction extends basePimAction {
                     $this->getEmployeeService()->saveEmployeeImmigrationRecord($empPassport);
                     $this->getUser()->setFlash('immigration.success', __(TopLevelMessages::SAVE_SUCCESS));
                     $this->redirect('pim/viewImmigration?empNumber=' . $empNumber);
+                } else {
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->getUser()->setFlash('immigration.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
             $this->listForm = new DefaultListForm();

@@ -48,7 +48,9 @@ class viewOrganizationGeneralInformationAction extends sfAction {
                 $companyStructureService->setOrganizationName($organizationName);
                 $this->getUser()->setFlash('generalinformation.success', __(TopLevelMessages::SAVE_SUCCESS));
             }else{
-                $this->redirect('admin/viewOrganizationGeneralInformation');
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->getUser()->setFlash('generalinformation.warning', __(TopLevelMessages::VALIDATION_FAILED));
             }
         }
     }

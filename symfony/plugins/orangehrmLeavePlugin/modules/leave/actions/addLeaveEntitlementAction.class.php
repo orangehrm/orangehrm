@@ -123,6 +123,10 @@ class addLeaveEntitlementAction extends sfAction {
                 }
                 
                 $this->redirect('leave/viewLeaveEntitlements?savedsearch=1');
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         } else {
             if ($request->hasParameter('id')) {                

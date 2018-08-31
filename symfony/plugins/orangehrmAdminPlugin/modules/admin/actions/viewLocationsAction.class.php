@@ -88,6 +88,9 @@ class viewLocationsAction extends sfAction {
 				$searchedLocationList = $this->getLocationService()->searchLocations($searchClues);
 				$locationListCount = $this->getLocationService()->getSearchLocationListCount($searchClues);
 				$this->_setListComponent($searchedLocationList, $limit, $pageNumber, $locationListCount);
+			} else {
+				$response = $this->getResponse();
+				$response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
 			}
 		}
 	}

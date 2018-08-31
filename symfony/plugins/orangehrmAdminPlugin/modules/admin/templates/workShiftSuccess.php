@@ -12,7 +12,6 @@
         
         <form name="frmWorkShift" id="frmWorkShift" method="post" action="<?php echo url_for('admin/workShift'); ?>" >
 
-            <?php echo $form['_csrf_token']; ?>
             <?php echo $form->renderHiddenFields(); ?>
             
             <fieldset>

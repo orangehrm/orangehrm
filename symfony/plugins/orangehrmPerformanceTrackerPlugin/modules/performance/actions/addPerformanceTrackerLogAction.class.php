@@ -41,6 +41,8 @@ class addPerformanceTrackerLogAction extends basePerformanceAction {
             $valid = $this->canLogsAccessed();
         }
         if ($valid == false) {
+            $response = $this->getResponse();
+            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
     }
@@ -108,6 +110,9 @@ class addPerformanceTrackerLogAction extends basePerformanceAction {
                 }
 
                 $this->redirect('performance/addPerformanceTrackerLog?trackId=' . $trackId);
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             }
         } else {
 

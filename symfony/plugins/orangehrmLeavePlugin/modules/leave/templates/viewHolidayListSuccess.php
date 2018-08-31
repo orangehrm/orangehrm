@@ -31,7 +31,8 @@ use_stylesheets_for_form($searchForm);
     </div>
     
     <div class="inner">
-         
+        <?php include_partial('global/flash_messages', array('prefix' => 'search')); ?>
+
         <form id="frmHolidaySearch" name="frmHolidaySearch" method="post" action="<?php echo url_for('leave/viewHolidayList') ?>" > 
             
 

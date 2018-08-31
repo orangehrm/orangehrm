@@ -12,8 +12,7 @@
         <?php include_partial('global/flash_messages'); ?>
 
         <form action="#" id="frmAddperformanceTrackerLog" name="frmAddperformanceTrackerLog" class="content_inner" method="post">
-            
-            <?php echo $form->renderHiddenFields(); ?>
+
             <fieldset>
                 <ol>
                     <?php echo $form->render(); ?>

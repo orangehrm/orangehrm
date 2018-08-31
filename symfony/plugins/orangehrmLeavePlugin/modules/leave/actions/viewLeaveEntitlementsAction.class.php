@@ -124,6 +124,9 @@ class viewLeaveEntitlementsAction extends sfAction {
                 $this->showResultTable = true;
                 $filters = $this->form->getValues();                
                 $this->saveFilters($filters);                       
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             }
         } else if ($request->hasParameter('savedsearch')) {
             $filters = $this->getFilters();            

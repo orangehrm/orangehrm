@@ -71,7 +71,9 @@ class changeWeakPasswordAction extends sfAction
                 }
 
             }else{
-                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED));
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             }
         }
     }
