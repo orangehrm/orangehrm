@@ -59,7 +59,7 @@ class EmailConfigurationForm extends BaseForm {
                             'login' => 'Yes')
                         )),
             'txtSmtpUser' => new sfWidgetFormInputText(),
-            'txtSmtpPass' => new sfWidgetFormInputPassword(),
+            'txtSmtpPass' => new sfWidgetFormInputPassword(array(), array('autocomplete' => 'off')),
             'optSecurity' => new sfWidgetFormChoice(
                     array(
                         'expanded' => true, 
