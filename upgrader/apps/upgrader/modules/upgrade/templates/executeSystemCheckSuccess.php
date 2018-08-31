@@ -87,7 +87,7 @@ function sysCheckPassed() {
             <td align="right" class="tdValues"><strong>
             <?php
                $dbInfo = $sf_user->getAttribute('dbInfo');
-               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['host'], $dbInfo['username'], $dbInfo['password'], "", $dbInfo['port']))) {
+               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['host'], $dbInfo['username'], $dbInfo['password'], $dbInfo['database'], $dbInfo['port']))) {
 
 	              $mysqlServer = mysqli_get_server_info($conn);
 
