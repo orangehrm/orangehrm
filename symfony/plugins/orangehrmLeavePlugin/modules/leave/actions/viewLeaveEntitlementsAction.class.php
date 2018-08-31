@@ -139,6 +139,11 @@ class viewLeaveEntitlementsAction extends sfAction {
             $filters = $this->getFiltersFromGetParameters($request);  
             $this->showResultTable = true;
             $this->setFormDefaults($filters);
+            $defaults = $this->form->getDefaults();
+            $this->form->bind($defaults);
+            if (!$this->form->isValid()) {
+                $this->getResponse()->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+            }
         } else {
             $this->saveFilters(array());
         }

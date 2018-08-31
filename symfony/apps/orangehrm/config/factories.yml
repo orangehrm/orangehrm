@@ -26,7 +26,7 @@ test:
 
 all:
   routing:
-    class: sfPatternRouting
+    class: ohrmPatternRouting
     param:
       generate_shortest_url:            true
       extra_parameters_as_query_string: true

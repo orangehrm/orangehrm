@@ -151,13 +151,16 @@ class viewDefinedPredefinedReportsAction extends basePimReportAction {
         $this->reportType = $request->getParameter('reportType');
         $this->reportGroup = $request->getParameter('reportGroup');
 
+        $response = $this->getResponse();
         if (empty($this->reportType)) {
             $this->reportType = $this->getUser()->getAttribute('PredefinedReportType');
+            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
         } else {
             $this->getUser()->setAttribute('PredefinedReportType', $this->reportType);
         }
         if (empty($this->reportGroup)) {
             $this->reportGroup = $this->getUser()->getAttribute('PredefinedReportGroup');
+            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
         } else {
             $this->getUser()->setAttribute('PredefinedReportGroup', $this->reportGroup);
         }
