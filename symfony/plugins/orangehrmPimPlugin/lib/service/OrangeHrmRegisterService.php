@@ -29,7 +29,7 @@ class OrangeHrmRegisterService
      */
     public function sendRegistrationData() {
         $mode = $this->getSysConf()->getMode();
-        if ($mode == 'prod') {
+        if ($mode == sysConf::PROD_MODE) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "https://ospenguin.orangehrm.com");
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -85,7 +85,7 @@ class OrangeHrmRegisterService
      * Get instance of sysConf
      * @return null|sysConf
      */
-    public function getSysConf() {
+    private function getSysConf() {
         require_once(sfConfig::get('sf_root_dir') . "/../lib/confs/sysConf.php");
 
         if (is_null($this->sysConf)) {
