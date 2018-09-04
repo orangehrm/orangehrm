@@ -320,7 +320,7 @@ function sysCheckPassed() {
                 if (extension_loaded('curl')) {
                     echo "<b><font color='green'>Enabled</font></b>";
                 } else {
-                    echo "<b><font color='red'>Disabled. This is required for OrangeHRM registration.</font></b>";
+                    echo "<b><font color='red'>Disabled. This is required to run OrangeHRM.</font></b>";
                     $error_found = true;
                 }
             ?>

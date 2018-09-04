@@ -96,7 +96,7 @@ const MySQLEventStatus_FAIL_MESSAGE = "MySQL Event Scheduler status - Cannot con
 const MySQLEventStatus_DISABLE_MESSAGE = "MySQL Event Scheduler status - Disabled. This is required for automatic leave status changes of Leave module";
 const MySQLEventStatus_OK_MESSAGE = "MySQL Event Scheduler status - Enabled";
 
-const CURLStatus_DISABLE_MESSAGE = "cURL status - Disabled. This is required for OrangeHRM registration";
+const CURLStatus_DISABLE_MESSAGE = "cURL status - Disabled. This is required to run OrangeHRM";
 const CURLStatus_OK_MESSAGE = "cURL status - Enabled";
 
 const INTERUPT_MESSAGE = "Above error found. Please correct it to continue";
