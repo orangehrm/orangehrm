@@ -371,6 +371,21 @@ function sysCheckPassed() {
             ?>
             </strong></td>
           </tr>
+
+          <tr>
+            <td class="tdComponent">cURL status</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+                if (extension_loaded('curl')) {
+                    echo "<b><font color='green'>Enabled</font></b>";
+                } else {
+                    echo "<b><font color='red'>Disabled. This is required for OrangeHRM registration.</font></b>";
+                    $error_found = true;
+                }
+            ?>
+            </strong></td>
+          </tr>
           
           <?php
           	$printMoreInfoLink = false;
