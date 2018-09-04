@@ -90,6 +90,10 @@ public function isFailBasicConfigurations(){
 
 	//20 - function
 //	$this->MySQLEventStatus(); // removed my sql status check because it is not needed for OS
+
+    //21 -function
+    $this->isCurlEnable();
+
 	$this->getMessages()->displayMessage(Messages::SEPERATOR);
 	$this->dbConfigurationCheck();
 	$this->getMessages()->displayMessage(Messages::SEPERATOR);
@@ -374,6 +378,16 @@ function MySQLEventStatus(){
                }
 
  }
+
+ //21 - function
+function isCurlEnable() {
+    if (extension_loaded('curl')) {
+        $this->getMessages()->displayMessage(Messages::CURLStatus_OK_MESSAGE);
+    } else {
+        $this->getMessages()->displayMessage(Messages::CURLStatus_DISABLE_MESSAGE);
+        $this->interuptContinue = true;
+    }
+}
 
     /**
      * Check script execute in apache server
