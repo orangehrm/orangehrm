@@ -8,7 +8,7 @@
 $systemValidator = new SystemValidator();
 
 ?>
-?>
+
 <script language="JavaScript">
 function sysCheckPassed() {
     document.frmInstall.actionResponse.value  = 'SYSCHECKOK';
