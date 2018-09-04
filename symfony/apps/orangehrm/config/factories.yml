@@ -33,7 +33,7 @@ all:
   storage:
     class: sfSessionStorage
     param:
-      session_name: PHPSESSID
+      session_name: Orangehrm
       session_cookie_secure: true
       session_cache_limiter: nocache
   user:

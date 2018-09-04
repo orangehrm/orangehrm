@@ -32,7 +32,7 @@ class loginAction extends sfAction {
 
         $this->form = $loginForm;
 
-        setcookie('PHPSESSID', '', time() - 3600, '/');
+        setcookie('Orangehrm', '', time() - 3600, '/');
     }
     
     public function isSecure() {
