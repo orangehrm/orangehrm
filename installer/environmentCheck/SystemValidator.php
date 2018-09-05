@@ -136,6 +136,15 @@ class SystemValidator
      */
     private function isWithinRange($value, $excludeRange, $min, $max)
     {
+        $points = max(substr_count($max, '.'), substr_count($min, '.'));
+        $pattern = '/^(\d+)';
+        for ($i = 0; $i < $points; $i++) {
+            $pattern = $pattern . '\.(\d+)';
+        }
+        $pattern = $pattern . '/';
+        preg_match($pattern, $value, $matches);
+        $value = $matches[0];
+
         if (!(version_compare($value, $min) >= 0 && version_compare($max, $value) >= 0)) {
             return false;
         }
