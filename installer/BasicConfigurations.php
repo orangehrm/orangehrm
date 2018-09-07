@@ -78,18 +78,22 @@ public function isFailBasicConfigurations(){
 
 	//12-function
 	$this->IsGgExtensionEnable();
-
-    if($this->isApacheServer()) {
-        //17- function
-        $this->IsApacheExpiresModule();
-        //18- function
-        $this->IsApacheHeadersModule();
-        //19 - function
-        $this->IsEnableRewriteMod();
-    }
+	
+	if($this->isApacheServer()) {
+	    //17- function
+	    $this->IsApacheExpiresModule();
+	    //18- function
+	    $this->IsApacheHeadersModule();
+	    //19 - function
+	    $this->IsEnableRewriteMod();
+	}
 
 	//20 - function
 //	$this->MySQLEventStatus(); // removed my sql status check because it is not needed for OS
+
+	//21 -function
+	$this->isCurlEnabled();
+
 	$this->getMessages()->displayMessage(Messages::SEPERATOR);
 	$this->dbConfigurationCheck();
 	$this->getMessages()->displayMessage(Messages::SEPERATOR);
@@ -374,6 +378,16 @@ function MySQLEventStatus(){
                }
 
  }
+
+ //21 - function
+function isCurlEnabled() {
+    if (extension_loaded('curl')) {
+        $this->getMessages()->displayMessage(Messages::CURLStatus_OK_MESSAGE);
+    } else {
+        $this->getMessages()->displayMessage(Messages::CURLStatus_DISABLE_MESSAGE);
+        $this->interuptContinue = true;
+    }
+}
 
     /**
      * Check script execute in apache server

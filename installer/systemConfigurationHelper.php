@@ -29,8 +29,11 @@ class systemConfigurationHelper
 
     public function __construct()
     {
-        $path = str_replace('/installer', '', dirname(__FILE__));
-        $this->languages = sfYaml::load(file_get_contents($path . '/symfony/plugins/orangehrmAdminPlugin/config/supported_languages.yml'));
+        $file = realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR.'..'.
+                DIRECTORY_SEPARATOR. 'symfony'.DIRECTORY_SEPARATOR.'plugins'.
+                DIRECTORY_SEPARATOR.'orangehrmAdminPlugin'.DIRECTORY_SEPARATOR.'config'.
+                DIRECTORY_SEPARATOR.'supported_languages.yml';
+        $this->languages = sfYaml::load(file_get_contents($file));
     }
 
 
