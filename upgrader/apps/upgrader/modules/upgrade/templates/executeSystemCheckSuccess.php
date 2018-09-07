@@ -8,7 +8,7 @@
 $systemValidator = new SystemValidator();
 
 ?>
-?>
+
 <script language="JavaScript">
 function sysCheckPassed() {
     document.frmInstall.actionResponse.value  = 'SYSCHECKOK';
@@ -308,6 +308,21 @@ function sysCheckPassed() {
                   echo "<b><font color='red'>Cannot connect to the database</font></b>";
                   $error_found = true;
                }
+            ?>
+            </strong></td>
+          </tr>
+
+          <tr>
+            <td class="tdComponent">cURL status</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+                if (extension_loaded('curl')) {
+                    echo "<b><font color='green'>Enabled</font></b>";
+                } else {
+                    echo "<b><font color='red'>Disabled. This is required to run OrangeHRM.</font></b>";
+                    $error_found = true;
+                }
             ?>
             </strong></td>
           </tr>
