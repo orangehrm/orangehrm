@@ -74,9 +74,8 @@ class listCustomFieldsAction extends sfAction {
 
             $sortBy = 'name';
             $sortOrder = 'ASC';
-
-            $orderFields = array("name", "screen", "type");
-            if (in_array($request->getParameter('sort'), $orderFields)) {
+            
+            if ($request->getParameter('sort')) {
                 $sortBy = $request->getParameter('sort');
                 $sortOrder = $request->getParameter('order');
                 $this->sortField = $sortBy;
