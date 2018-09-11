@@ -48,7 +48,7 @@ EOF;
             file_put_contents($sysConfPath, $contents);
             $this->logSection('orangehrm', "Mode changed to " . $mode);
         } else {
-            throw new sfCommandException('Mode must be valid.');
+            throw new sfCommandException('Mode must be valid. Available modes are \'dev\', \'prod\', \'test\' and \'uat\'.');
         }
     }
 
