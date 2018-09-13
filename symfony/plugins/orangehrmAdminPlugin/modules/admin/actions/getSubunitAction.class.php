@@ -42,10 +42,12 @@ class getSubunitAction extends sfAction{
 
         try {
             $subunit = $this->getCompanyStructureService()->getSubunitById($subunitId);
-            $object->id = $subunit->getId();
-            $object->name = $subunit->getName();
-            $object->description = $subunit->getDescription();
-            $object->unitId = $subunit->getUnitId();
+            if ($subunit instanceof Subunit) {
+                $object->id = $subunit->getId();
+                $object->name = $subunit->getName();
+                $object->description = $subunit->getDescription();
+                $object->unitId = $subunit->getUnitId();
+            }
 
         } catch (Exception $e) {
             $object->message = __('Failed to load subunit');
