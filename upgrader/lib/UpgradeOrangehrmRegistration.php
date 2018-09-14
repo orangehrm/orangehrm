@@ -20,38 +20,44 @@
 
 class UpgradeOrangehrmRegistration
 {
+    private $sysConf = null;
+
     /**
      * Send the registration data captured during the installation
      * @return bool
      */
     public function sendRegistrationData() {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://ospenguin.orangehrm.com");
-        curl_setopt($ch, CURLOPT_POST, 1);
+        $mode = $this->getSysConf()->getMode();
+        if ($mode == sysConf::PROD_MODE) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://ospenguin.orangehrm.com");
+            curl_setopt($ch, CURLOPT_POST, 1);
 
-        $data = "username=" . $_SESSION['defUser']['AdminUserName']
-            . "&email=" . $_SESSION['defUser']['organizationEmailAddress']
-            . "&telephone=" . $_SESSION['defUser']['contactNumber']
-            . "&admin_first_name=" . $_SESSION['defUser']['adminEmployeeFirstName']
-            . "&admin_last_name=" . $_SESSION['defUser']['adminEmployeeLastName']
-            . "&timezone=" . $_SESSION['defUser']['timezone']
-            . "&language=" . $_SESSION['defUser']['language']
-            . "&country=" . $_SESSION['defUser']['country']
-            . "&organization_name=" . $_SESSION['defUser']['organizationName']
-            . "&type=" . "0"
-            . "&instance_identifier=" . $this->getInstanceIdentifier();
+            $data = "username=" . $_SESSION['defUser']['AdminUserName']
+                . "&email=" . $_SESSION['defUser']['organizationEmailAddress']
+                . "&telephone=" . $_SESSION['defUser']['contactNumber']
+                . "&admin_first_name=" . $_SESSION['defUser']['adminEmployeeFirstName']
+                . "&admin_last_name=" . $_SESSION['defUser']['adminEmployeeLastName']
+                . "&timezone=" . $_SESSION['defUser']['timezone']
+                . "&language=" . $_SESSION['defUser']['language']
+                . "&country=" . $_SESSION['defUser']['country']
+                . "&organization_name=" . $_SESSION['defUser']['organizationName']
+                . "&type=" . "0"
+                . "&instance_identifier=" . $this->getInstanceIdentifier();
 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
-        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        if (!($http_status === 200)) {
-            return false;
-        } else {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_exec($ch);
+            $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            if (!($http_status === 200)) {
+                return false;
+            } else {
 
-            return true;
+                return true;
+            }
         }
+        return false;
     }
 
     /**
@@ -61,5 +67,18 @@ class UpgradeOrangehrmRegistration
     private function getInstanceIdentifier() {
         $unencodedIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
         return base64_encode($unencodedIdentifier);
+    }
+
+    /**
+     * Get instance of sysConf
+     * @return null|sysConf
+     */
+    private function getSysConf() {
+        require_once(sfConfig::get('sf_root_dir') . "/../lib/confs/sysConf.php");
+
+        if (is_null($this->sysConf)) {
+            $this->sysConf = new sysConf();
+        }
+        return $this->sysConf;
     }
 }

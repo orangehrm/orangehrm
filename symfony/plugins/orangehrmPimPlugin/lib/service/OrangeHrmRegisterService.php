@@ -28,34 +28,38 @@ class OrangeHrmRegisterService
      * @throws CoreServiceException
      */
     public function sendRegistrationData() {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://ospenguin.orangehrm.com");
-        curl_setopt($ch, CURLOPT_POST, 1);
+        $mode = $this->getSysConf()->getMode();
+        if ($mode == sysConf::PROD_MODE) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://ospenguin.orangehrm.com");
+            curl_setopt($ch, CURLOPT_POST, 1);
 
-        $data = "username=" . $_SESSION['defUser']['AdminUserName']
-            . "&userEmail=" . $_SESSION['defUser']['organizationEmailAddress']
-            . "&telephone=" . $_SESSION['defUser']['contactNumber']
-            . "&admin_first_name=" . $_SESSION['defUser']['adminEmployeeFirstName']
-            . "&admin_last_name=" . $_SESSION['defUser']['adminEmployeeLastName']
-            . "&timezone=" . $_SESSION['defUser']['timezone']
-            . "&language=" . $_SESSION['defUser']['language']
-            . "&country=" . $_SESSION['defUser']['country']
-            . "&organization_name=" . $_SESSION['defUser']['organizationName']
-            . "&instance_identifier=" . $this->getInstanceIdentifier()
-            . "&type=" . $_SESSION['defUser']['type']
-            . "&employee_count=" . $_SESSION['defUser']['employee_count'];
+            $data = "username=" . $_SESSION['defUser']['AdminUserName']
+                . "&userEmail=" . $_SESSION['defUser']['organizationEmailAddress']
+                . "&telephone=" . $_SESSION['defUser']['contactNumber']
+                . "&admin_first_name=" . $_SESSION['defUser']['adminEmployeeFirstName']
+                . "&admin_last_name=" . $_SESSION['defUser']['adminEmployeeLastName']
+                . "&timezone=" . $_SESSION['defUser']['timezone']
+                . "&language=" . $_SESSION['defUser']['language']
+                . "&country=" . $_SESSION['defUser']['country']
+                . "&organization_name=" . $_SESSION['defUser']['organizationName']
+                . "&instance_identifier=" . $this->getInstanceIdentifier()
+                . "&type=" . $_SESSION['defUser']['type']
+                . "&employee_count=" . $_SESSION['defUser']['employee_count'];
 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
-        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        if (!($http_status === 200)) {
-            return false;
-        } else {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_exec($ch);
+            $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            if (!($http_status === 200)) {
+                return false;
+            } else {
 
-            return true;
+                return true;
+            }
         }
+        return false;
     }
 
     /**
@@ -76,5 +80,18 @@ class OrangeHrmRegisterService
      */
     private function getInstanceIdentifier() {
         return $this->getConfigService()->getInstanceIdentifier();
+    }
+
+    /**
+     * Get instance of sysConf
+     * @return null|sysConf
+     */
+    private function getSysConf() {
+        require_once(sfConfig::get('sf_root_dir') . "/../lib/confs/sysConf.php");
+
+        if (is_null($this->sysConf)) {
+            $this->sysConf = new sysConf();
+        }
+        return $this->sysConf;
     }
 }

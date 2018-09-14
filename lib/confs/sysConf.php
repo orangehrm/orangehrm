@@ -38,6 +38,11 @@ class sysConf {
   var $version;
 
   var $registrationUrl = null;
+  var $mode;
+  const DEV_MODE = "dev";
+  const PROD_MODE = "prod";
+  const TEST_MODE = "test";
+  const UAT_MODE = "uat";
 
   /**
    * Following variable decides if admin users can edit the sendmail path through a web browser.
@@ -74,6 +79,7 @@ class sysConf {
     $this->styleSheet = "orange";
     $this->version = "4.1.2.1";
     $this->registrationUrl = "https://ospenguin.orangehrm.com";
+    $this->mode = "dev";
   }
 
   function getEmployeeIdLength() {
@@ -118,6 +124,14 @@ class sysConf {
    */
   public function getRegistrationUrl() {
     return $this->registrationUrl;
+  }
+
+  /**
+   * Return the mode application should run.
+   * @return string
+   */
+  public function getMode() {
+    return $this->mode;
   }
 }
 
