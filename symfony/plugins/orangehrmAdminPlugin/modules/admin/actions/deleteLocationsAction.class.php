@@ -40,9 +40,9 @@ class deleteLocationsAction extends sfAction {
                     if ($location instanceof Location) {
                         $location->delete();
                     }
-                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
             }
+            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
         }
 
         $this->redirect('admin/viewLocations');

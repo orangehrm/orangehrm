@@ -41,9 +41,9 @@ class deleteEmploymentStatusAction extends sfAction {
                     if ($status instanceof EmploymentStatus) {
                         $status->delete();
                     }
-                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
             }
+            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
         }
 
         $this->redirect('admin/employmentStatus');

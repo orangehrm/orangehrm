@@ -111,9 +111,9 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
             $candidateVacancy = $this->getCandidateService()->getCandidateVacancyById($candidateVacancyId);
             if ($candidateVacancy instanceof JobCandidateVacancy) {
                 $nextActionList = $this->getCandidateService()->getNextActionsForCandidateVacancy($candidateVacancy->getStatus(), $usrObj);
-            }
-            if ($nextActionList[$this->selectedAction] == "" || !in_array($candidateVacancy->getCandidateId(), $allowedCandidateList)) {
-                $this->redirect('recruitment/viewCandidates');
+                if ($nextActionList[$this->selectedAction] == "" || !in_array($candidateVacancy->getCandidateId(), $allowedCandidateList)) {
+                    $this->redirect('recruitment/viewCandidates');
+                }
             }
             
             // check if user can perform action on candidate
