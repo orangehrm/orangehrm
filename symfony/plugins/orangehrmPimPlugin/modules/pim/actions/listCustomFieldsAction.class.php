@@ -80,6 +80,8 @@ class listCustomFieldsAction extends sfAction {
                 $sortOrder = $request->getParameter('order');
                 $this->sortField = $sortBy;
                 $this->sortOrder = $sortOrder;
+            } else {
+                $this->getResponse()->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             }
             $this->sorter->setSort(array($sortBy, $sortOrder));
             $this->listCustomField = $customFieldsService->getCustomFieldList(null, $sortBy, $sortOrder);            
