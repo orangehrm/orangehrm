@@ -1,0 +1,182 @@
+Employee:
+  EmployeeAnonymize:
+    matching_criteria: one
+  ReplaceWithValue:
+    matching_criteria: one
+    match_by:
+      - {match: empNumber, to: empNumber}
+    parameters:
+      replace_values:
+        - {field: "middleName" ,value: ''}
+        - {field: "nickName" ,value: ''}
+        - {field: "smoker" ,value: '0'}
+        - {field: "emp_gender" ,value: null}
+        - {field: "emp_marital_status" ,value: null}
+        - {field: "nation_code" ,value: null}
+        - {field: "ssn" ,value: ''}
+        - {field: "sin" ,value: ''}
+        - {field: "otherId" ,value: ''}
+        - {field: "licenseNo" ,value: ''}
+        - {field: "emp_dri_lice_exp_date" ,value: null}
+        - {field: "militaryService" ,value: ''}
+        - {field: "emp_status" ,value: null}
+        - {field: "job_title_code" ,value: null}
+        - {field: "work_station" ,value: null}
+        - {field: "street1" ,value: ''}
+        - {field: "street2" ,value: ''}
+        - {field: "city" ,value: ''}
+        - {field: "country" ,value: ''}
+        - {field: "province" ,value: ''}
+        - {field: "emp_zipcode" ,value: null}
+        - {field: "emp_hm_telephone" ,value: null}
+        - {field: "emp_birthday" ,value: null}
+        - {field: "emp_mobile" ,value: null}
+        - {field: "emp_work_telephone" ,value: null}
+        - {field: "emp_work_email" ,value: null}
+        - {field: "emp_oth_email" ,value: null}
+        - {field: "custom1" ,value: null}
+        - {field: "custom2" ,value: null}
+        - {field: "custom3" ,value: null}
+        - {field: "custom4" ,value: null}
+        - {field: "custom5" ,value: null}
+        - {field: "custom6" ,value: null}
+        - {field: "custom7" ,value: null}
+        - {field: "custom8" ,value: null}
+        - {field: "custom9" ,value: null}
+        - {field: "custom10" ,value: null}
+#        - {field: "eeo_job_category" ,value: null}
+#        - {field: "eeo_paygrade" ,value: null}
+#        - {field: "eeo_race_ent" ,value: null}
+#        - {field: "flsa_exempt" ,value: null}
+EmpPicture:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+EmployeeAttachment:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+#  PIMAttachmentAttachedByEmployeeNumberAnonymize:
+#    matching_criteria: many
+EmpEmergencyContact:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+
+EmpDependent:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+
+EmployeeImmigrationRecord:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+
+EmpWorkExperience:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+
+EmployeeEducation:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+
+EmployeeSkill:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+
+EmployeeLanguage:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+EmployeeMembership:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+
+EmpUsTaxExemption:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+      - {match: emp_number, to: empNumber}
+##################################      Not a table in enterprise version but in OS
+EmployeeLicense:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+    - {match: emp_number, to: empNumber}
+EmployeeSalary:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+    - {match: emp_number, to: empNumber}
+EmpDirectdebit:
+  SeekAndDestroy:
+    matching_criteria: many
+    match_by:
+    - {match: emp_number, to: empNumber}
+#######################################################
+
+#LeaveRequestComment:
+#  SeekAndDestroyByEmployeeLeaveRequests:
+#    matching_criteria: many
+#  LeaveCommonCommentOwnerByEmployeeNumberAnonymize:
+#    matching_criteria: many
+#
+#LeaveComment:
+#  SeekAndDestroyByEmployeeLeaves:
+#    matching_criteria: many
+#  LeaveCommonCommentOwnerByEmployeeNumberAnonymize:
+#    matching_criteria: many
+#
+#LeaveRequest:
+#  ReplaceWithValueByEmployeeLeaves:
+#    matching_criteria: many
+#    parameters:
+#      replace_values:
+#        - {field: "comments", value: null}
+#
+#LeaveEntitlement:
+#  LeaveCommonCommentOwnerAnonymize:
+#    matching_criteria: many
+#
+#PerformanceTrack:
+#  SeekAndDestroy:
+#    matching_criteria: many
+#    match_by:
+#      - {match: emp_number, to: empNumber}
+#Comment:
+#  RecountAndDeleteBuzz:
+#    matching_criteria: many
+#    match_by:
+#      - {match: employee_number,to: empNumber}
+#    parameters:
+#      values:
+#        - {type: "comment", on: "share"}
+#
+#Post:
+#  SeekAndDestroy:
+#    matching_criteria: many
+#    match_by:
+#      - {match: employee_number,to: empNumber}
+
+#UserLogin:
+#  LoginSeekAndDestroy:
+#    matching_criteria: many
+#
+#SystemUser:
+#  UserAnonymize:
+#    matching_criteria: one
