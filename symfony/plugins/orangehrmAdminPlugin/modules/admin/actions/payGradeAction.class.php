@@ -59,7 +59,7 @@ class payGradeAction extends baseAdminAction {
         $values = array('payGradeId' => $this->payGradeId, 'payGradePermissions' => $this->payGradePermissions);
 
         $payGrade = $this->getPayGradeService()->getPayGradeById($this->payGradeId);
-        if (!($payGrade instanceof PayGrade)) {
+        if (!($payGrade instanceof PayGrade) && !is_null($this->payGradeId)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
         $this->setForm(new PayGradeForm(array(), $values));

@@ -45,7 +45,9 @@ class deletePayGradesAction extends baseAdminAction {
                     foreach ($toBeDeletedPayGradeIds as $toBeDeletedPayGradeId) {
 
                         $payGrade = $this->getPayGradeService()->getPayGradeById($toBeDeletedPayGradeId);
-                        $payGrade->delete();
+                        if ($payGrade instanceof PayGrade) {
+                            $payGrade->delete();
+                        }
                     }
                     $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                 }

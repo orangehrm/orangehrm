@@ -27,24 +27,26 @@ class deleteLocationsAction extends sfAction {
 		return $this->locationService;
 	}
 
-	public function execute($request) {
-                $form = new DefaultListForm();
-                $form->bind($request->getParameter($form->getName()));
-		$toBeDeletedLocationIds = $request->getParameter('chkSelectRow');
+    public function execute($request) {
+        $form = new DefaultListForm();
+        $form->bind($request->getParameter($form->getName()));
+        $toBeDeletedLocationIds = $request->getParameter('chkSelectRow');
 
-		if (!empty($toBeDeletedLocationIds)) {
+        if (!empty($toBeDeletedLocationIds)) {
 
-			foreach ($toBeDeletedLocationIds as $toBeDeletedLocationId) {
-                            if ($form->isValid()) {
-				$location = $this->getLocationService()->getLocationById($toBeDeletedLocationId);
-				$location->delete();
-                                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-                            }
-			}
-		}
+            foreach ($toBeDeletedLocationIds as $toBeDeletedLocationId) {
+                if ($form->isValid()) {
+                    $location = $this->getLocationService()->getLocationById($toBeDeletedLocationId);
+                    if ($location instanceof Location) {
+                        $location->delete();
+                    }
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
+            }
+        }
 
-		$this->redirect('admin/viewLocations');
-	}
+        $this->redirect('admin/viewLocations');
+    }
 
 }
 

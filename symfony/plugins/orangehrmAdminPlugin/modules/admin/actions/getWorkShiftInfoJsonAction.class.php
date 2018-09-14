@@ -42,7 +42,7 @@ class getWorkShiftInfoJsonAction extends sfAction {
 
 			return $this->renderText(json_encode($workShiftFields));
 		} else {
-			$this->getResponse()->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
 		}
 		return sfView::NONE;
 	}
