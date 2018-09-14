@@ -59,6 +59,7 @@ class OrangeHrmRegisterService
                 return true;
             }
         }
+        return false;
     }
 
     /**

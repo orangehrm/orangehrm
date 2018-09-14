@@ -57,6 +57,7 @@ class UpgradeOrangehrmRegistration
                 return true;
             }
         }
+        return false;
     }
 
     /**

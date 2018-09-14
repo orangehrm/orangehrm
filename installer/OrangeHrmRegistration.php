@@ -80,6 +80,7 @@ class OrangeHrmRegistration
                 return true;
             }
         }
+        return false;
     }
 
     /**
