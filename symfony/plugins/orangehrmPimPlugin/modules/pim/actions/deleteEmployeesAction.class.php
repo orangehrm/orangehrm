@@ -57,8 +57,13 @@ class deleteEmployeesAction extends basePimAction {
                 } else {
                     $this->getUser()->setFlash('failure', __('A Problem Occured When Deleting The Selected Employees'));
                 }
-            }
                 $this->redirect('pim/viewEmployeeList');
+
+            } else {
+                $this->handleBadRequest();
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }
+
         } else {
             $this->getUser()->setFlash('warning', __('Contact Admin for delete Credentials'));
             $this->redirect('pim/viewEmployeeList');

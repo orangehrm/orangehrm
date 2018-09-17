@@ -34,8 +34,11 @@ class deleteSalaryAction extends basePimAction {
 
             if (count($deleteIds) > 0) {
                 if ($form->isValid()) {
-                $this->getEmployeeService()->deleteEmployeeSalaryComponents($empNumber, $deleteIds);
-                $this->getUser()->setFlash('salary.success', __(TopLevelMessages::DELETE_SUCCESS));
+                    $this->getEmployeeService()->deleteEmployeeSalaryComponents($empNumber, $deleteIds);
+                    $this->getUser()->setFlash('salary.success', __(TopLevelMessages::DELETE_SUCCESS));
+                } else {
+                    $this->handleBadRequest();
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             }
 

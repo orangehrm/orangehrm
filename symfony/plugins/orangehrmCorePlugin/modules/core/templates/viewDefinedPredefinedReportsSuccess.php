@@ -6,8 +6,9 @@
         <h1><?php echo __("Employee Reports"); ?></h1>
     </div>
     <div class="inner" >
+        <?php include_partial('global/flash_messages', array('prefix' => 'search')); ?>
+
         <form action="<?php echo url_for("core/viewDefinedPredefinedReports"); ?>" id="searchForm" method="post">
-            <?php echo $searchForm['_csrf_token']->render(); ?>
             <fieldset>
                 
                 <ol>
@@ -19,7 +20,6 @@
                 <p>
                    <input type="submit" class="searchBtn" value="<?php echo __('Search') ?>" name="_search" />
                 <input type="button" class="reset" value="<?php echo __('Reset') ?>" name="_reset" />
-                <?php echo $searchForm->renderHiddenFields(); ?>
                 </p>
                 
             </fieldset>

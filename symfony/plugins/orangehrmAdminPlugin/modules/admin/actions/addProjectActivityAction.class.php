@@ -37,6 +37,9 @@ class addProjectActivityAction extends baseAdminAction {
                         $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                     }
                     $this->redirect('admin/saveProject?projectId=' . $projectId . '#ProjectActivities');
+                } else {
+                    $this->handleBadRequest();
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             }
         }

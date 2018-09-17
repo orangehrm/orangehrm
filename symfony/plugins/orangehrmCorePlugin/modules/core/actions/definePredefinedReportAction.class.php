@@ -93,6 +93,9 @@ class definePredefinedReportAction extends basePimReportAction {
                     $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                     $this->redirect('core/viewDefinedPredefinedReports');
                     return;
+                } else {
+                    $this->handleBadRequest();
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         } else {

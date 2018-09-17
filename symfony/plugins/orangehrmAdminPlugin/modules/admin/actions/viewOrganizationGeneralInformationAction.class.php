@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  *
  */
-class viewOrganizationGeneralInformationAction extends sfAction {
+class viewOrganizationGeneralInformationAction extends baseAdminAction {
 
     public function setForm(sfForm $form) {
         if (is_null($this->form)) {
@@ -48,7 +48,8 @@ class viewOrganizationGeneralInformationAction extends sfAction {
                 $companyStructureService->setOrganizationName($organizationName);
                 $this->getUser()->setFlash('generalinformation.success', __(TopLevelMessages::SAVE_SUCCESS));
             }else{
-                $this->redirect('admin/viewOrganizationGeneralInformation');
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('generalinformation.warning', __(TopLevelMessages::VALIDATION_FAILED));
             }
         }
     }

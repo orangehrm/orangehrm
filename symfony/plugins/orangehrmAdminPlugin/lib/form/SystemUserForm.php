@@ -84,11 +84,12 @@ class SystemUserForm extends BaseForm {
 
         $systemUser = $this->getSystemUserService()->getSystemUser($this->userId);
 
-        $this->setDefault('userId', $systemUser->getId());
-        $this->setDefault('userType', $systemUser->getUserRoleId());
-        $this->setDefault('employeeName', array('empName' => $systemUser->getEmployee()->getFullName(), 'empId' => $systemUser->getEmployee()->getEmpNumber()));
-        $this->setDefault('userName', $systemUser->getUserName());
-        $this->setDefault('status', $systemUser->getStatus());
+        if ($systemUser instanceof SystemUser) {
+            $this->setDefault('userId', $systemUser->getId());
+            $this->setDefault('userType', $systemUser->getUserRoleId());
+            $this->setDefault('employeeName', array('empName' => $systemUser->getEmployee()->getFullName(), 'empId' => $systemUser->getEmployee()->getEmpNumber()));
+            $this->setDefault('userName', $systemUser->getUserName());
+        }
     }
 
     /**

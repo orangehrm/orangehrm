@@ -72,6 +72,9 @@ class viewUsTaxExemptionsAction extends basePimAction {
                     $this->getEmployeeService()->saveEmployeeTaxExemptions($empUsTaxExemption, false);
                     $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                     $this->redirect('pim/viewUsTaxExemptions?empNumber='. $empUsTaxExemption->getEmpNumber());
+                } else {
+                    $this->handleBadRequest();
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         }

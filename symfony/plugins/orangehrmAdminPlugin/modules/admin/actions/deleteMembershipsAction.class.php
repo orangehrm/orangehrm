@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deleteMembershipsAction extends sfAction {
+class deleteMembershipsAction extends baseAdminAction {
 
     private $membershipService;
 
@@ -36,6 +36,9 @@ class deleteMembershipsAction extends sfAction {
         if ($form->isValid()) {
             $this->getMembershipService()->deleteMemberships($toBeDeletedIds);
             $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+        } else {
+            $this->handleBadRequest();
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
         $this->redirect('admin/membership');
     }

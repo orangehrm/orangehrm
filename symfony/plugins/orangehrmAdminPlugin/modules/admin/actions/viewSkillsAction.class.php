@@ -18,7 +18,7 @@
  *
  */
 
-class viewSkillsAction extends sfAction {
+class viewSkillsAction extends baseAdminAction {
     
     private $skillService;
     
@@ -58,6 +58,9 @@ class viewSkillsAction extends sfAction {
 				$this->getUser()->setFlash($templateMessage['messageType'], $templateMessage['message']);                
                 $this->redirect('admin/viewSkills');
                 
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
             
         }

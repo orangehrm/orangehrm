@@ -35,7 +35,6 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/jobCategorySuccess'))
 
         <form name="frmJobCategory" id="frmJobCategory" method="post" action="<?php echo url_for('admin/jobCategory'); ?>" >
 
-            <?php echo $form['_csrf_token']; ?>
             <?php echo $form->renderHiddenFields(); ?>
             
             <fieldset>

@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deleteJobCategoryAction extends sfAction {
+class deleteJobCategoryAction extends baseAdminAction {
 	
 	private $jobCatService;
 
@@ -30,18 +30,21 @@ class deleteJobCategoryAction extends sfAction {
 	}
 	
 	public function execute($request) {
-                $form = new DefaultListForm();
-                $form->bind($request->getParameter($form->getName()));
-		$toBeDeletedJobCatIds = $request->getParameter('chkSelectRow');
+	    $form = new DefaultListForm();
+	    $form->bind($request->getParameter($form->getName()));
+	    $toBeDeletedJobCatIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedJobCatIds)) {
 
 			foreach ($toBeDeletedJobCatIds as $toBeDeletedJobCatId) {
-                            if ($form->isValid()) {
-				$status = $this->getJobCategoryService()->getJobCategoryById($toBeDeletedJobCatId);
-				$status->delete();
-                                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-                            }
+			    if ($form->isValid()) {
+				    $status = $this->getJobCategoryService()->getJobCategoryById($toBeDeletedJobCatId);
+				    $status->delete();
+				    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+			    } else {
+			    	$this->handleBadRequest();
+			    	$this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+			    }
 			}			
 		}
 

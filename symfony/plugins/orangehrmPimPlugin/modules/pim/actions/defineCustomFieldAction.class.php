@@ -21,7 +21,7 @@
 /**
  * defineCustomFieldAction action
  */
-class defineCustomFieldAction extends sfAction {
+class defineCustomFieldAction extends basePimAction {
 
     protected $customFieldService;
 
@@ -83,6 +83,9 @@ class defineCustomFieldAction extends sfAction {
                 $customFieldsService->saveCustomField($customField);
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 
+            } else {
+                $this->handleBadRequest();
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         }
         $this->redirect('pim/listCustomFields');        

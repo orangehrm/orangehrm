@@ -141,6 +141,9 @@ class addEmployeeAction extends basePimAction {
                     } catch(Exception $e) {
                         print($e->getMessage());
                     }
+                } else {
+                    $this->handleBadRequest();
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         } 

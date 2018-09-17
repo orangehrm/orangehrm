@@ -24,7 +24,6 @@
                     }
                     ?>
                     <?php echo $form->render(); ?>
-                    <?php echo $form->renderHiddenFields(); ?>                
 
                     <li class="required">
                         <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>

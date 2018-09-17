@@ -10,7 +10,7 @@
  *
  * @author nadeera
  */
-abstract class basePeformanceAction extends sfAction {
+abstract class basePeformanceAction extends ohrmBaseAction {
 
     public $kpiService;
     public $performanceReviewService;

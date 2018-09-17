@@ -18,7 +18,7 @@
  *
  */
 
-class deleteReportingMethodsAction extends sfAction {
+class deleteReportingMethodsAction extends basePimAction {
     
     private $reportingMethodConfigurationService;
     
@@ -45,11 +45,14 @@ class deleteReportingMethodsAction extends sfAction {
             $form = new DefaultListForm();
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
-            $result = $this->getReportingMethodConfigurationService()->deleteReportingMethods($toDeleteIds);
+                $result = $this->getReportingMethodConfigurationService()->deleteReportingMethods($toDeleteIds);
+                if ($result) {
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
+            } else {
+                $this->handleBadRequest();
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
-            if ($result) {
-                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
-            }            
             $this->redirect('pim/viewReportingMethods');
         }       
         

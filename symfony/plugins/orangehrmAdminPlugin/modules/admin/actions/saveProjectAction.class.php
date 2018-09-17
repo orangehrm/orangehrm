@@ -113,7 +113,13 @@ class saveProjectAction extends baseAdminAction {
                         $this->getUser()->setFlash('project.success', __(TopLevelMessages::SAVE_SUCCESS));
                     }
                     $this->redirect('admin/saveProject?projectId=' . $projectId);
-                } 
+                } else {
+                    $this->getUser()->setFlash('project.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
+                    $this->handleBadRequest();
+                }
+            } else {
+                $this->handleBadRequest();
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         } else {
             $this->undeleteForm = $this->getUndeleteForm($this->projectId);

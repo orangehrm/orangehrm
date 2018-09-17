@@ -18,7 +18,7 @@
  *
  */
 
-class viewLicensesAction extends sfAction {
+class viewLicensesAction extends baseAdminAction {
     
     private $licenseService;
     
@@ -58,6 +58,9 @@ class viewLicensesAction extends sfAction {
 				$this->getUser()->setFlash($templateMessage['messageType'], $templateMessage['message']);                
                 $this->redirect('admin/viewLicenses');
                 
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
             
         }

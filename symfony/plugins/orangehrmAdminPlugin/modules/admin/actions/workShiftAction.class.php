@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class workShiftAction extends sfAction {
+class workShiftAction extends baseAdminAction {
 
     private $workShiftService;
 
@@ -62,6 +62,7 @@ class workShiftAction extends sfAction {
                 $this->redirect('admin/workShift');
             } else {
                 $hideForm = false;
+                $this->handleBadRequest();
             }
         }
 

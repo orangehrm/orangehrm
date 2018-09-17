@@ -53,7 +53,9 @@ class saveDeleteLanguageAction extends basePimAction {
                         $this->getUser()->setFlash('language.success', __(TopLevelMessages::SAVE_SUCCESS));
                     } 
                 } else {
-                    $this->getUser()->setFlash('language.warning', __('Form Validation Failed'));
+                    $this->getUser()->setFlash('warning', __('Form Validation Failed'), false);
+                    $this->handleBadRequest();
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             }
 
@@ -74,6 +76,9 @@ class saveDeleteLanguageAction extends basePimAction {
                         if ($form->isValid()) {
                             $this->getEmployeeService()->deleteEmployeeLanguages($empNumber, $languagesToDelete);
                             $this->getUser()->setFlash('language.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        } else {
+                            $this->handleBadRequest();
+                            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                         }
                     }
                 }

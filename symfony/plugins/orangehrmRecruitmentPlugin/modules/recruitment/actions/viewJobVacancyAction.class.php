@@ -111,6 +111,9 @@ class viewJobVacancyAction extends baseRecruitmentAction {
                     $this->getUser()->setAttribute('vacancySearchParameters', $srchParams);
                     $vacancyList = $this->getVacancyService()->searchVacancies($srchParams);
                     $this->_setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber, $this->vacancyPermissions);
+                } else {
+                    $this->handleBadRequest();
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         }

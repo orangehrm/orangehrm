@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewSystemUsersAction extends sfAction {
+class viewSystemUsersAction extends baseAdminAction {
 
     private $systemUserService;
 
@@ -90,7 +90,8 @@ class viewSystemUsersAction extends sfAction {
                     $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
                     $this->getUser()->setAttribute('searchClues', $searchClues);
                 }else{
-                    $this->redirect('admin/viewSystemUsers');
+                    $this->handleBadRequest();
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             }
             

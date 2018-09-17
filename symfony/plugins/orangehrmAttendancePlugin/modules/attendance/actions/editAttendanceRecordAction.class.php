@@ -115,6 +115,8 @@ class editAttendanceRecordAction extends baseAttendanceAction {
                             $this->redirect('attendance/viewAttendanceRecord' . '?' . http_build_query(array('message' => $messageData, 'actionRecorder' => $this->actionRecorder, 'employeeId' => $this->employeeId, 'date' => $this->date, 'trigger' => true)));
                         }
                     }
+                } else {
+                    $this->handleBadRequest();
                 }
             }
         }

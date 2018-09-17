@@ -54,7 +54,9 @@ class saveDeleteSkillAction extends basePimAction {
                         $this->getEmployeeService()->saveEmployeeSkill($skill);
                         $this->getUser()->setFlash('skill.success', __(TopLevelMessages::SAVE_SUCCESS));
                     } else {
-                        $this->getUser()->setFlash('skill.warning', __('Form Validation Failed'));
+                        $this->getUser()->setFlash('warning', __('Form Validation Failed'), false);
+                        $this->handleBadRequest();
+                        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                     }
                 }
             }
@@ -68,6 +70,9 @@ class saveDeleteSkillAction extends basePimAction {
                         if ($form->isValid()) {
                             $this->getEmployeeService()->deleteEmployeeSkills($empNumber, $request->getParameter('delSkill'));
                             $this->getUser()->setFlash('skill.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        } else {
+                            $this->handleBadRequest();
+                            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                         }
                     }
                 }

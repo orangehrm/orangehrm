@@ -18,7 +18,7 @@
  *
  */
 
-class viewReportingMethodsAction extends sfAction {
+class viewReportingMethodsAction extends basePimAction {
     
     private $reportingMethodConfigurationService;
     
@@ -54,6 +54,9 @@ class viewReportingMethodsAction extends sfAction {
 				$this->getUser()->setFlash($templateMessage['messageType'], $templateMessage['message']);                
                 $this->redirect('pim/viewReportingMethods');
                 
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
             
         }

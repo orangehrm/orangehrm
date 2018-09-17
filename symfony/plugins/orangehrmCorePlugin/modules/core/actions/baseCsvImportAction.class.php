@@ -10,7 +10,7 @@
  *
  * @author orangehrm
  */
-class baseCsvImportAction extends sfAction {
+class baseCsvImportAction extends ohrmBaseAction {
 
     public function execute($request) {
         

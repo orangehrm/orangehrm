@@ -19,7 +19,7 @@
  */
 
 
-class saveSystemUserAction extends sfAction {
+class saveSystemUserAction extends baseAdminAction {
 
     private $systemUserService;
     private $configService;
@@ -144,6 +144,9 @@ class saveSystemUserAction extends sfAction {
                     $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 }
                 $this->redirect('admin/viewSystemUsers');
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         }
     }

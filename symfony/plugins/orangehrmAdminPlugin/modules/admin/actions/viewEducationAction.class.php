@@ -18,7 +18,7 @@
  *
  */
 
-class viewEducationAction extends sfAction {
+class viewEducationAction extends baseAdminAction {
     
     private $educationService;
     
@@ -58,6 +58,9 @@ class viewEducationAction extends sfAction {
 				$this->getUser()->setFlash($templateMessage['messageType'], $templateMessage['message']);                
                 $this->redirect('admin/viewEducation');
                 
+            } else {
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
+                $this->handleBadRequest();
             }
             
         }

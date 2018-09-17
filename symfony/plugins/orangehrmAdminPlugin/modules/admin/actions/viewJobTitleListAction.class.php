@@ -60,6 +60,9 @@ class viewJobTitleListAction extends baseAdminAction {
             $this->getUser()->setAttribute('pageNumber', $pageNumber);
             $params = array();
             $this->parmetersForListCompoment = $params;
+        } else {
+            $this->handleBadRequest();
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
     }
 

@@ -64,6 +64,9 @@ class addCustomerAction extends baseAdminAction {
                     } else {
                         $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                     }
+                } else {
+                    $this->handleBadRequest();
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         } else {

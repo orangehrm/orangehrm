@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class copyActivityAction extends sfAction {
+class copyActivityAction extends baseAdminAction {
 
 	private $projectService;
 
@@ -79,6 +79,9 @@ class copyActivityAction extends sfAction {
 			}
 			
 			$this->redirect('admin/saveProject?projectId=' . $projectId . '#ProjectActivities');
+		} else {
+			$this->handleBadRequest();
+			$this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
 		}
 	}
 

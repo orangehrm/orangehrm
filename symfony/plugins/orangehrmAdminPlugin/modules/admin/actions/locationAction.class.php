@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-class locationAction extends sfAction {
+class locationAction extends baseAdminAction {
 
 	/**
 	 * @param sfForm $form
@@ -55,6 +55,9 @@ class locationAction extends sfAction {
 					$this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 				}
 				$this->redirect('admin/viewLocations');
+			} else {
+			    $this->handleBadRequest();
+			    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
 			}
 		}
 	}

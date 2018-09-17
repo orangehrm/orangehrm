@@ -10,7 +10,6 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/membershipSuccess'));
     <div class="inner">
         
         <form name="frmMembership" id="frmMembership" method="post" action="<?php echo url_for('admin/membership'); ?>" >
-            <?php echo $form['_csrf_token']; ?>
             <?php echo $form->renderHiddenFields(); ?>
            <fieldset>
                 <ol>

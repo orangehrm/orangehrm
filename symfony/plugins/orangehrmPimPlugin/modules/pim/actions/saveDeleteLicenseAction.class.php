@@ -53,7 +53,9 @@ class saveDeleteLicenseAction extends basePimAction {
                         $this->getUser()->setFlash('license.success', __(TopLevelMessages::SAVE_SUCCESS));
                     }
                 } else {
-                    $this->getUser()->setFlash('license.warning', __('Form Validation Failed'));
+                    $this->getUser()->setFlash('warning', __('Form Validation Failed') ,false);
+                    $this->handleBadRequest();
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             }
 
@@ -66,6 +68,9 @@ class saveDeleteLicenseAction extends basePimAction {
                         if ($form->isValid()) {
                             $this->getEmployeeService()->deleteEmployeeLicenses($empNumber, $request->getParameter('delLicense'));
                             $this->getUser()->setFlash('license.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        } else {
+                            $this->handleBadRequest();
+                            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                         }
                     }
                 }
