@@ -53,15 +53,18 @@ class deleteOAuthClientAction extends sfAction
         $form->bind($request->getParameter($form->getName()));
         $toBeDeletedIds = $request->getParameter('chkSelectRow');
 
-        if ($form->isValid()) {
+        if ($request->isMethod(sfWebRequest::POST)) {
+            if ($form->isValid()) {
 
-            $this->getOAuthService()->deleteOAuthClient($toBeDeletedIds);
-            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-            $this->redirect('admin/registerOAuthClient');
-        } else {
-            $this->getUser()->setFlash('warning', __(TopLevelMessages::FORM_VALIDATION_ERROR));
-            $this->redirect($request->getReferer());
+                $this->getOAuthService()->deleteOAuthClient($toBeDeletedIds);
+                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                $this->redirect('admin/registerOAuthClient');
+            } else {
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::FORM_VALIDATION_ERROR));
+                $this->redirect($request->getReferer());
+            }
         }
+        return sfView::NONE;
     }
 }
 

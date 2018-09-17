@@ -110,12 +110,15 @@ class AddCandidateForm extends BaseForm {
         }
         $vacancyList = $this->getActiveVacancyList();
         if ($this->candidateId != null) {
-            $candidateVacancyList = $this->getCandidateService()->getCandidateById($this->candidateId)->getJobCandidateVacancy();
-            $vacancy = $candidateVacancyList[0]->getJobVacancy();
-            if ($vacancy->getStatus() == JobVacancy::CLOSED) {
-                $vacancyList[$vacancy->getId()] = $vacancy->getVacancyName();
-            } elseif ($vacancy->getStatus() == JobVacancy::ACTIVE) {
-                $vacancyList[$vacancy->getId()] = $vacancy->getName();
+            $jobCandidate = $this->getCandidateService()->getCandidateById($this->candidateId);
+            if ($jobCandidate instanceof JobCandidate) {
+                $candidateVacancyList = $jobCandidate->getJobCandidateVacancy();
+                $vacancy = $candidateVacancyList[0]->getJobVacancy();
+                if ($vacancy->getStatus() == JobVacancy::CLOSED) {
+                    $vacancyList[$vacancy->getId()] = $vacancy->getVacancyName();
+                } elseif ($vacancy->getStatus() == JobVacancy::ACTIVE) {
+                    $vacancyList[$vacancy->getId()] = $vacancy->getName();
+                }
             }
         }
 
@@ -181,18 +184,20 @@ class AddCandidateForm extends BaseForm {
     private function setDefaultValues($candidateId) {
 
         $candidate = $this->getCandidateService()->getCandidateById($candidateId);
-        $this->setDefault('firstName', $candidate->getFirstName());
-        $this->setDefault('middleName', $candidate->getMiddleName());
-        $this->setDefault('lastName', $candidate->getLastName());
-        $this->setDefault('email', $candidate->getEmail());
-        $this->setDefault('contactNo', $candidate->getContactNumber());
-        $this->attachment = $candidate->getJobCandidateAttachment();
-        $this->setDefault('keyWords', $candidate->getKeywords());
-        $this->setDefault('comment', $candidate->getComment());
-        $this->setDefault('appliedDate', set_datepicker_date_format($candidate->getDateOfApplication()));
-        $candidateVacancyList = $candidate->getJobCandidateVacancy();
-        $defaultVacancy = ($candidateVacancyList[0]->getVacancyId() == "") ? "" : $candidateVacancyList[0]->getVacancyId();
-        $this->setDefault('vacancy', $defaultVacancy);
+        if ($candidate instanceof JobCandidate) {
+            $this->setDefault('firstName', $candidate->getFirstName());
+            $this->setDefault('middleName', $candidate->getMiddleName());
+            $this->setDefault('lastName', $candidate->getLastName());
+            $this->setDefault('email', $candidate->getEmail());
+            $this->setDefault('contactNo', $candidate->getContactNumber());
+            $this->attachment = $candidate->getJobCandidateAttachment();
+            $this->setDefault('keyWords', $candidate->getKeywords());
+            $this->setDefault('comment', $candidate->getComment());
+            $this->setDefault('appliedDate', set_datepicker_date_format($candidate->getDateOfApplication()));
+            $candidateVacancyList = $candidate->getJobCandidateVacancy();
+            $defaultVacancy = ($candidateVacancyList[0]->getVacancyId() == "") ? "" : $candidateVacancyList[0]->getVacancyId();
+            $this->setDefault('vacancy', $defaultVacancy);
+        }
     }
 
     private function getActiveVacancyList() {

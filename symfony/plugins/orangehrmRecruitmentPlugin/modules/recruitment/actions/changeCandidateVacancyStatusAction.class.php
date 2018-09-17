@@ -72,6 +72,9 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
         $this->id = $id;
         if (!empty($id)) {
             $history = $this->getCandidateService()->getCandidateHistoryById($id);
+            if (!($history instanceof CandidateHistory)) {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }
             $action = $history->getAction();
             
             // check if user can perform this history action
@@ -106,9 +109,11 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
         }
         if ($candidateVacancyId > 0 && $this->selectedAction != "") {
             $candidateVacancy = $this->getCandidateService()->getCandidateVacancyById($candidateVacancyId);
-            $nextActionList = $this->getCandidateService()->getNextActionsForCandidateVacancy($candidateVacancy->getStatus(), $usrObj);
-            if ($nextActionList[$this->selectedAction] == "" || !in_array($candidateVacancy->getCandidateId(), $allowedCandidateList)) {
-                $this->redirect('recruitment/viewCandidates');
+            if ($candidateVacancy instanceof JobCandidateVacancy) {
+                $nextActionList = $this->getCandidateService()->getNextActionsForCandidateVacancy($candidateVacancy->getStatus(), $usrObj);
+                if ($nextActionList[$this->selectedAction] == "" || !in_array($candidateVacancy->getCandidateId(), $allowedCandidateList)) {
+                    $this->redirect('recruitment/viewCandidates');
+                }
             }
             
             // check if user can perform action on candidate
@@ -124,6 +129,9 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
             
         }
 
+        if (empty($param)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
         $this->setForm(new CandidateVacancyStatusForm(array(), $param, true));
 //        if (!in_array($this->form->candidateId, $allowedCandidateList) && !in_array($this->form->vacancyId, $allowedVacancyList)) {
 //            $this->redirect('recruitment/viewCandidates');

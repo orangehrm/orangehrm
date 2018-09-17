@@ -19,33 +19,35 @@
  */
 
 class deleteEmploymentStatusAction extends sfAction {
-	
-	public function getEmploymentStatusService() {
-		if (is_null($this->empStatusService)) {
-			$this->empStatusService = new EmploymentStatusService();
-			$this->empStatusService->setEmploymentStatusDao(new EmploymentStatusDao());
-		}
-		return $this->empStatusService;
-	}
-	
-	public function execute($request) {
-                $form = new DefaultListForm();
-                $form->bind($request->getParameter($form->getName()));
-		$toBeDeletedStausIds = $request->getParameter('chkSelectRow');
 
-		if (!empty($toBeDeletedStausIds)) {
+    public function getEmploymentStatusService() {
+        if (is_null($this->empStatusService)) {
+            $this->empStatusService = new EmploymentStatusService();
+            $this->empStatusService->setEmploymentStatusDao(new EmploymentStatusDao());
+        }
+        return $this->empStatusService;
+    }
 
-			foreach ($toBeDeletedStausIds as $toBeDeletedStausId) {
-                            if ($form->isValid()) {
-				$status = $this->getEmploymentStatusService()->getEmploymentStatusById($toBeDeletedStausId);
-				$status->delete();
-                                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-                            }
-			}			
-		}
+    public function execute($request) {
+        $form = new DefaultListForm();
+        $form->bind($request->getParameter($form->getName()));
+        $toBeDeletedStausIds = $request->getParameter('chkSelectRow');
 
-		$this->redirect('admin/employmentStatus');
-	}
+        if (!empty($toBeDeletedStausIds)) {
+
+            foreach ($toBeDeletedStausIds as $toBeDeletedStausId) {
+                if ($form->isValid()) {
+                    $status = $this->getEmploymentStatusService()->getEmploymentStatusById($toBeDeletedStausId);
+                    if ($status instanceof EmploymentStatus) {
+                        $status->delete();
+                    }
+                }
+            }
+            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+        }
+
+        $this->redirect('admin/employmentStatus');
+    }
 }
 
 ?>

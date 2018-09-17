@@ -36,6 +36,10 @@ class viewImmigrationAction extends basePimAction {
         $immigration = $request->getParameter('immigration');
         $empNumber = (isset($immigration['emp_number'])) ? $immigration['emp_number'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
+        $employee = $this->getEmployeeService()->getEmployee($this->empNumber);
+        if (!($employee instanceof Employee)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
 
         $this->immigrationPermission = $this->getDataGroupPermissions('immigration', $empNumber);
 
