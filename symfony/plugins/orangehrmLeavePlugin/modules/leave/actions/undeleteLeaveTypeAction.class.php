@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-class undeleteLeaveTypeAction extends orangehrmAction {
+class undeleteLeaveTypeAction extends baseLeaveAction {
 
     protected $leaveTypeService;
     
@@ -36,8 +36,7 @@ class undeleteLeaveTypeAction extends orangehrmAction {
                 // Since this form does not have any user data entry fields,
                 // this is a error.
                 $this->getLoggerInstance()->error($this->form);
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         }

@@ -114,8 +114,7 @@ class viewLeaveListAction extends baseLeaveAction {
                 $this->_setFilters($mode, $values);
             } else {
                 $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
             }
         } else if ($request->hasParameter('reset')) {
             $values = $this->form->getDefaults();

@@ -121,8 +121,7 @@ class applyLeaveAction extends baseLeaveAction {
                     $this->workshiftLengthExceeded = true;
                 }
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         }
