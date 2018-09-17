@@ -111,8 +111,7 @@ class viewTimesheetAction extends baseTimeAction {
             $this->timesheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($startDate, $employeeId);
 
             if (is_null($this->timesheet)) {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
             $this->currentState = $this->timesheet->getState();
@@ -175,8 +174,7 @@ class viewTimesheetAction extends baseTimeAction {
                     if ($action) {
                         $this->successMessage = array('warning', __(TopLevelMessages::VALIDATION_FAILED));
                     }
-                    $response = $this->getResponse();
-                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->handleBadRequest();
                 }
             }
 
@@ -268,8 +266,7 @@ class viewTimesheetAction extends baseTimeAction {
         $userRoleManager = $this->getContext()->getUserRoleManager();
         
         if (!$userRoleManager->isEntityAccessible('Employee', $empNumber)) {
-            $response = $this->getResponse();
-            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+            $this->handleBadRequest();
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 

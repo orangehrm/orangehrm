@@ -10,7 +10,7 @@
  *
  * @author nirmal
  */
-abstract class baseTimeAction extends sfAction {
+abstract class baseTimeAction extends ohrmBaseAction {
 
     public function getDataGroupPermissions($dataGroups, $empNumber = null) {
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();

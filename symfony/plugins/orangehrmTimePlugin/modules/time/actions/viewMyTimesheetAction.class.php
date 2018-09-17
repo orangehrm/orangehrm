@@ -49,13 +49,12 @@ class viewMyTimesheetAction extends baseTimeAction {
 
         $this->formToImplementCsrfToken = new TimesheetFormToImplementCsrfTokens();
         if ($request->isMethod('post')) {
-            $this->formToImplementCsrfToken->bind($request->getParameter('time'));
+            $this->formToImplementCsrfToken->bind($request->getParameter($this->formToImplementCsrfToken->getName()));
 
             if ($this->formToImplementCsrfToken->isValid()) {
                 $this->updateTimesheetState($request);
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->successMessage = array('warning', __(TopLevelMessages::VALIDATION_FAILED));
             }
         }
