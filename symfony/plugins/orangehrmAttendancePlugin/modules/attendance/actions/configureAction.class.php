@@ -208,8 +208,7 @@ class configureAction extends baseAttendanceAction {
                     $this->redirect('attendance/configure');
                 } else {
                     $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
-                    $response = $this->getResponse();
-                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->handleBadRequest();
                 }
             }
         }

@@ -116,8 +116,7 @@ class editAttendanceRecordAction extends baseAttendanceAction {
                         }
                     }
                 } else {
-                    $response = $this->getResponse();
-                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->handleBadRequest();
                 }
             }
         }
