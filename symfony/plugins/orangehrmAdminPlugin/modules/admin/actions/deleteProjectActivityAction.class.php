@@ -55,7 +55,7 @@ class deleteProjectActivityAction extends baseAdminAction {
             $this->handleBadRequest();
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
-		$this->redirect('admin/saveProject?projectId=' . $projectId . '#ProjectActivities');
+        $this->redirect('admin/saveProject?projectId=' . $projectId . '#ProjectActivities');
 	}
 
 }
