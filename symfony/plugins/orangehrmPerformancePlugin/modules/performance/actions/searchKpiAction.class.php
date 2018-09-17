@@ -64,8 +64,7 @@ class searchKpiAction extends basePeformanceAction {
                     $this->templateMessage = array('WARNING', __($e->getMessage()));
                 }
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
             }
         }
 
