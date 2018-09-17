@@ -18,7 +18,7 @@
  *
  */
 
-class viewLicensesAction extends sfAction {
+class viewLicensesAction extends baseAdminAction {
     
     private $licenseService;
     
@@ -59,8 +59,7 @@ class viewLicensesAction extends sfAction {
                 $this->redirect('admin/viewLicenses');
                 
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
             

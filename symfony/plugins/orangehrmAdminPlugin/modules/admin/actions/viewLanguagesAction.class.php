@@ -18,7 +18,7 @@
  *
  */
 
-class viewLanguagesAction extends sfAction {
+class viewLanguagesAction extends baseAdminAction {
     
     private $languageService;
     
@@ -59,8 +59,7 @@ class viewLanguagesAction extends sfAction {
                 $this->redirect('admin/viewLanguages');
                 
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
             

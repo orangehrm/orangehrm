@@ -57,8 +57,7 @@ class pimCsvImportAction extends baseCsvImportAction {
 					$this->redirect('admin/pimCsvImport');
 				}
 			} else {
-			    $response = $this->getResponse();
-			    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+			    $this->handleBadRequest();
 			    $this->getUser()->setFlash('csvimport.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
 			}
 		}

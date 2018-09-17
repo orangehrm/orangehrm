@@ -38,8 +38,7 @@ class addProjectActivityAction extends baseAdminAction {
                     }
                     $this->redirect('admin/saveProject?projectId=' . $projectId . '#ProjectActivities');
                 } else {
-                    $response = $this->getResponse();
-                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->handleBadRequest();
                     $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             }

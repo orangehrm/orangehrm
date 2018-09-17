@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class nationalityAction extends sfAction {
+class nationalityAction extends baseAdminAction {
 
     private $nationalityService;
 
@@ -57,8 +57,7 @@ class nationalityAction extends sfAction {
                 $this->redirect('admin/nationality');
             } else {
                 $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
             }
         }
     }

@@ -61,8 +61,7 @@ class viewJobTitleListAction extends baseAdminAction {
             $params = array();
             $this->parmetersForListCompoment = $params;
         } else {
-            $response = $this->getResponse();
-            $response->setStatusCode(HttpResponseCode::HTTP_FORBIDDEN);
+            $this->handleBadRequest();
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
     }

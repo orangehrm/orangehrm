@@ -10,7 +10,7 @@
  *
  * @author nirmal
  */
-abstract class baseAdminAction extends sfAction {
+abstract class baseAdminAction extends ohrmBaseAction {
 
     public function getDataGroupPermissions($dataGroups) {
         return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), false, array());

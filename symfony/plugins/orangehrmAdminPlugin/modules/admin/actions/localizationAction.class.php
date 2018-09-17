@@ -22,7 +22,7 @@
 /**
  * this action is used to set languages and the different date formats for the OrangeHRM
  */
-class localizationAction extends sfAction {
+class localizationAction extends baseAdminAction {
 
     private $configService;
 
@@ -88,8 +88,7 @@ class localizationAction extends sfAction {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 $this->redirect("admin/localization");
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
 

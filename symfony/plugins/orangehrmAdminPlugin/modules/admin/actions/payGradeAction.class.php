@@ -72,8 +72,7 @@ class payGradeAction extends baseAdminAction {
                     $this->getUser()->setFlash('paygrade.success', __(TopLevelMessages::SAVE_SUCCESS));
                     $this->redirect('admin/payGrade?payGradeId=' . $payGradeId);
                 } else {
-                    $response = $this->getResponse();
-                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->handleBadRequest();
                     $this->getUser()->setFlash('paygrade.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }

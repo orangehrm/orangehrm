@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deleteJobCategoryAction extends sfAction {
+class deleteJobCategoryAction extends baseAdminAction {
 	
 	private $jobCatService;
 
@@ -42,8 +42,7 @@ class deleteJobCategoryAction extends sfAction {
 				    $status->delete();
 				    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
 			    } else {
-			        $response = $this->getResponse();
-			        $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->handleBadRequest();
 			        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
 			    }
 			}			

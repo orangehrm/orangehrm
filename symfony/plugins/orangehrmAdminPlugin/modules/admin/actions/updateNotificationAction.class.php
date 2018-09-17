@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class updateNotificationAction extends sfAction {
+class updateNotificationAction extends baseAdminAction {
 
     private $emailNotoficationService;
 
@@ -37,8 +37,7 @@ class updateNotificationAction extends sfAction {
             $this->getEmailNotificationService()->updateEmailNotification($toBeUpdatedIds);
             $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
         } else {
-            $response = $this->getResponse();
-            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+            $this->handleBadRequest();
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
         $this->redirect('admin/viewEmailNotification');

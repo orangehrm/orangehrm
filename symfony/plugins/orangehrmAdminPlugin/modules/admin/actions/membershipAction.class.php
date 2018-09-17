@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class membershipAction extends sfAction {
+class membershipAction extends baseAdminAction {
 
     private $membershipService;
 
@@ -56,8 +56,7 @@ class membershipAction extends sfAction {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 $this->redirect('admin/membership');
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         }

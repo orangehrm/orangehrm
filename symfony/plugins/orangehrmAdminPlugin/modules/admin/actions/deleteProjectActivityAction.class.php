@@ -10,7 +10,7 @@
  *
  * @author orangehrm
  */
-class deleteProjectActivityAction extends sfAction {
+class deleteProjectActivityAction extends baseAdminAction {
 
 	private $projectService;
 
@@ -52,8 +52,7 @@ class deleteProjectActivityAction extends sfAction {
                 }
             }
         } else {
-            $response = $this->getResponse();
-            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+            $this->handleBadRequest();
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 		$this->redirect('admin/saveProject?projectId=' . $projectId . '#ProjectActivities');
