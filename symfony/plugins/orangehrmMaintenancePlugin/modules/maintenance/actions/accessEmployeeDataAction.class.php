@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,14 +16,15 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA
  */
-class orangehrmMaintenancePluginConfiguration extends sfPluginConfiguration
+class accessEmployeeDataAction extends sfAction
 {
-
-    public function initialize()
+    /**
+     * @param sfRequest $request
+     * @return mixed|void
+     */
+    public function execute($request)
     {
-        $enabledModules = sfConfig::get('sf_enabled_modules');
-        if (is_array($enabledModules)) {
-            sfConfig::set('sf_enabled_modules', array_merge($enabledModules, array('maintenance')));
-        }
+        // TODO: Implement execute() method.
+        $this->form = new GetAllDataForm();
     }
 }

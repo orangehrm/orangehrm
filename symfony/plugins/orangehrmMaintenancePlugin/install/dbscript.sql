@@ -21,23 +21,24 @@ INSERT INTO ohrm_menu_item (menu_title, screen_id, parent_id, level, order_hint,
 set @parent_menu_id := (SELECT id FROM ohrm_menu_item WHERE menu_title = 'Maintenance');
 
 INSERT INTO ohrm_menu_item (menu_title, screen_id, parent_id, level, order_hint, url_extras, status) VALUES
-('Purge Employee Records', @purge_employee_screen_id, @parent_menu_id, 2, '100', null, 1),
-('Purge Candidate Records', @purge_candidate_screen_id, @parent_menu_id, 2, '200', null, 1),
-('Access Employee Records', @access_employee_records_screen_id, @parent_menu_id, 2, '300', null, 1);
+('Purge Records', NULL , @parent_menu_id, 2, '100', null, 1),
+('Access Records', @access_employee_records_screen_id, @parent_menu_id, 2, '200', null, 1);
+
+set @parent_menu_id_level_2:= (SELECT id FROM ohrm_menu_item WHERE menu_title = 'Purge Records');
+INSERT INTO ohrm_menu_item (menu_title, screen_id, parent_id, level, order_hint, url_extras, status) VALUES
+('Purge Employee Records', @purge_employee_screen_id, @parent_menu_id_level_2, 3, '100', null, 1),
+('Purge Candidate Records', @purge_candidate_screen_id, @parent_menu_id_level_2, 3, '200', null, 1);
 
 -- Task view permissions
-INSERT INTO ohrm_user_role_screen (user_role_id,screen_id, can_read) VALUES
-(@admin_role_id, @purge_employee_screen_id, 1),
-(@admin_role_id, @purge_candidate_screen_id, 1);
+  INSERT INTO ohrm_user_role_screen (user_role_id,screen_id, can_read) VALUES
+  (@admin_role_id, @purge_employee_screen_id, 1),
+  (@admin_role_id, @access_employee_records_screen_id, 1),
 
--- (@supervisor_role_id, @purge_employee_screen_id, 0),
--- (@ess_role_id, @purge_employee_screen_id, 0);
+  (@admin_role_id, @purge_candidate_screen_id, 1);
 
 -- Task adding permissions
 INSERT INTO ohrm_user_role_screen (user_role_id,screen_id, can_read, can_create, can_update, can_delete) VALUES
 (@admin_role_id, @access_employee_records_screen_id, 1,1,1,1);
--- (@supervisor_role_id, @access_employee_records_screen_id, 0,0,0,0),
--- (@ess_role_id, @access_employee_records_screen_id, 0,0,0,0);
 
 -- Add data group permissions
 INSERT INTO ohrm_data_group (name, description, can_read, can_create, can_update, can_delete) VALUES
@@ -52,7 +53,4 @@ INSERT INTO ohrm_data_group_screen (data_group_id, screen_id, permission) VALUES
 
 INSERT INTO ohrm_user_role_data_group (user_role_id, data_group_id, can_read, can_create, can_update, can_delete, self) VALUES
   (@admin_role_id, @data_group_id, 1, 1, 1, 1, 1);
---   (@supervisor_role_id, @data_group_id, 0, 0, 0, 0, 0),
---   (@ess_role_id, @data_group_id, 0, 0, 0, 0, 0);
-
 

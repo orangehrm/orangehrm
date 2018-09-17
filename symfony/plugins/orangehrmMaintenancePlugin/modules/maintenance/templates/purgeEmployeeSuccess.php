@@ -1,11 +1,23 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: administrator
- * Date: 27/8/18
- * Time: 5:30 PM
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA
  */
-//use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/passWordValidation'));
+use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/PassWordValidation'));
+
 ?>
 <div class="box">
     <?php include_partial('global/flash_messages'); ?>
@@ -15,7 +27,8 @@
     </div>
     <div class="inner">
 
-        <form id="frmPurgeEmployeeAuthenticate" method="post" action="<?php echo url_for('maintenance/purgeEmployee'); ?>">
+        <form id="frmPurgeEmployeeAuthenticate" method="post"
+              action="<?php echo url_for('maintenance/purgeEmployee'); ?>">
 
 
             <div class="row">
@@ -34,19 +47,4 @@
         </form>
     </div>
 </div>
-<script>
-    $('form[id="frmPurgeEmployeeAuthenticate"]').validate({
-        rules: {
-            confirm_password: {
-                required: true,
-                maxlength: 250,
-            }
-        },
-        messages: {
-            confirm_password: 'This field is required',
-        },
-        submitHandler: function(form) {
-            form.submit();
-        }
-    });
-</script>
+

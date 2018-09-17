@@ -309,9 +309,9 @@ create table `hs_hr_employee` (
   `custom8` varchar(250) default null,
   `custom9` varchar(250) default null,
   `custom10` varchar(250) default null,
+  `purged_at` varchar(250) default null,
   primary key  (`emp_number`)
 ) engine=innodb default charset=utf8;
-
 
 create table `ohrm_language` (
   `id` int not null auto_increment,
