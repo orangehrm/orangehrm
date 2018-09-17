@@ -10,7 +10,7 @@
  *
  * @author nirmal
  */
-abstract class baseAction extends sfAction {
+abstract class baseAction extends ohrmBaseAction {
 
     /**
      * Get data Group Permissions

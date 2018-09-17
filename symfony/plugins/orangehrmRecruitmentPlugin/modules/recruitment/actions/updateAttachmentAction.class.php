@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class updateAttachmentAction extends sfAction {
+class updateAttachmentAction extends baseRecruitmentAction {
 
     /**
      *
@@ -44,8 +44,7 @@ class updateAttachmentAction extends sfAction {
 //                $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 $this->getUser()->setFlash('jobAttachmentPane.success', __(TopLevelMessages::SAVE_SUCCESS));
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         }
