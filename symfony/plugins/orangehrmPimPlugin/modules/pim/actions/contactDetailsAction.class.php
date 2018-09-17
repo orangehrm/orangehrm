@@ -73,8 +73,7 @@ class contactDetailsAction extends basePimAction {
                 $this->getUser()->setFlash('contactdetails.success', __(TopLevelMessages::SAVE_SUCCESS));
                 $this->redirect('pim/contactDetails?empNumber='. $empNumber);
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->getUser()->setFlash('contactdetails.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         }

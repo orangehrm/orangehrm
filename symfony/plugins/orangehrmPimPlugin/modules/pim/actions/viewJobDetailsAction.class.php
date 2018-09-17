@@ -137,8 +137,7 @@ class viewJobDetailsAction extends basePimAction {
                 }
 
                 $this->getUser()->setFlash('jobdetails.warning', $validationMsg, false);
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
             }
         }
     }

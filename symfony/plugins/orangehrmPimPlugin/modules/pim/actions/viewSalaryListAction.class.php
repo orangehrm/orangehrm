@@ -62,7 +62,6 @@ class viewSalaryListAction extends basePimAction {
 
             // Handle the form submission    
             $this->form->bind($request->getParameter($this->form->getName()));
-            $response = $this->getResponse();
 
             if ($this->form->isValid()) {
 
@@ -89,7 +88,7 @@ class viewSalaryListAction extends basePimAction {
                             }
 
                             $this->getUser()->setFlash('salary.warning', $validationMsg, false);
-                            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                            $this->handleBadRequest();
                             $directDebitOk = false;
                         }
                     } else {
@@ -115,7 +114,7 @@ class viewSalaryListAction extends basePimAction {
                 }
 
                 $this->getUser()->setFlash('salary.warning', $validationMsg, false);
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
             }
 
         } else {

@@ -18,7 +18,7 @@
  *
  */
 
-class deleteTerminationReasonsAction extends sfAction {
+class deleteTerminationReasonsAction extends basePimAction {
     
     private $terminationReasonConfigurationService;
     
@@ -52,8 +52,7 @@ class deleteTerminationReasonsAction extends sfAction {
                     $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
 

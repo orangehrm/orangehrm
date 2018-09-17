@@ -64,8 +64,7 @@ class viewImmigrationAction extends basePimAction {
                     $this->getUser()->setFlash('immigration.success', __(TopLevelMessages::SAVE_SUCCESS));
                     $this->redirect('pim/viewImmigration?empNumber=' . $empNumber);
                 } else {
-                    $response = $this->getResponse();
-                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->handleBadRequest();
                     $this->getUser()->setFlash('immigration.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }

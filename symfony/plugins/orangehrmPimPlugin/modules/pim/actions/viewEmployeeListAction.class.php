@@ -70,8 +70,7 @@ class viewEmployeeListAction extends basePimAction {
                 
             } else {
                 $this->setFilters(array());
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->getUser()->setFlash('search.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
 

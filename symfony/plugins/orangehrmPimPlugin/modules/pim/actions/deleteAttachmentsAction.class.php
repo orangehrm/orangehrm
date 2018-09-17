@@ -51,8 +51,7 @@ class deleteAttachmentsAction extends basePimAction {
                 $this->getUser()->setFlash('listAttachmentPane.success', __(TopLevelMessages::DELETE_SUCCESS));
             }
         } else {
-            $response = $this->getResponse();
-            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+            $this->handleBadRequest();
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 

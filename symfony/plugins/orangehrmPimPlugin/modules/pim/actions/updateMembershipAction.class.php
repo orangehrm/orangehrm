@@ -56,8 +56,7 @@ class updateMembershipAction extends basePimAction {
                     $this->form->save();
                     $this->getUser()->setFlash('memberships.success', __(TopLevelMessages::SAVE_SUCCESS));
                 } else {
-                    $response = $this->getResponse();
-                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->handleBadRequest();
                     $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             }

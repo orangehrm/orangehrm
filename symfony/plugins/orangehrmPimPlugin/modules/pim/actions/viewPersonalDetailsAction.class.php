@@ -94,8 +94,7 @@ class viewPersonalDetailsAction extends basePimAction {
                     $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
 
                 } else {
-                    $response = $this->getResponse();
-                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->handleBadRequest();
                     $this->getUser()->setFlash('personaldetails.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }

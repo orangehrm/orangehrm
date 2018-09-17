@@ -44,7 +44,6 @@ class saveDeleteSkillAction extends basePimAction {
         $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber, 'skillPermissions' => $this->skillPermissions), true));
 
         if ($request->isMethod('post')) {
-            $response = $this->getResponse();
             if ($request->getParameter('option') == "save") {
                 if ($this->skillPermissions->canCreate() || $this->skillPermissions->canUpdate()) {
 
@@ -56,7 +55,7 @@ class saveDeleteSkillAction extends basePimAction {
                         $this->getUser()->setFlash('skill.success', __(TopLevelMessages::SAVE_SUCCESS));
                     } else {
                         $this->getUser()->setFlash('warning', __('Form Validation Failed'), false);
-                        $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                        $this->handleBadRequest();
                         $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                     }
                 }
@@ -72,7 +71,7 @@ class saveDeleteSkillAction extends basePimAction {
                             $this->getEmployeeService()->deleteEmployeeSkills($empNumber, $request->getParameter('delSkill'));
                             $this->getUser()->setFlash('skill.success', __(TopLevelMessages::DELETE_SUCCESS));
                         } else {
-                            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                            $this->handleBadRequest();
                             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                         }
                     }

@@ -21,7 +21,7 @@
 /**
  * defineCustomFieldAction action
  */
-class defineCustomFieldAction extends sfAction {
+class defineCustomFieldAction extends basePimAction {
 
     protected $customFieldService;
 
@@ -84,8 +84,7 @@ class defineCustomFieldAction extends sfAction {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 
             } else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->handleBadRequest();
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         }

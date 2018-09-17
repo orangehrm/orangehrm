@@ -42,7 +42,6 @@ class saveDeleteEducationAction extends basePimAction {
         $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber, 'educationPermissions' => $this->educationPermissions), true));
 
         if ($request->isMethod('post')) {
-            $response = $this->getResponse();
             if ( $request->getParameter('option') == "save") {
               
                 $this->educationForm->bind($request->getParameter($this->educationForm->getName()));
@@ -56,7 +55,7 @@ class saveDeleteEducationAction extends basePimAction {
                     }
                 } else {
                     $this->getUser()->setFlash('warning', __('Form Validation Failed') ,false);
-                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->handleBadRequest();
                     $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             }
@@ -71,7 +70,7 @@ class saveDeleteEducationAction extends basePimAction {
                             $this->getEmployeeService()->deleteEmployeeEducationRecords($empNumber, $request->getParameter('delEdu'));
                             $this->getUser()->setFlash('education.success', __(TopLevelMessages::DELETE_SUCCESS));
                         } else {
-                            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                            $this->handleBadRequest();
                             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                         }
                     }
