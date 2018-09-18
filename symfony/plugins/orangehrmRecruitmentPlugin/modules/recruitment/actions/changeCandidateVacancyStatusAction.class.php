@@ -73,7 +73,7 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
         if (!empty($id)) {
             $history = $this->getCandidateService()->getCandidateHistoryById($id);
             if (!($history instanceof CandidateHistory)) {
-                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                $this->forwardToSecureAction();
             }
             $action = $history->getAction();
             
@@ -130,7 +130,7 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
         }
 
         if (empty($param)) {
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            $this->forwardToSecureAction();
         }
         $this->setForm(new CandidateVacancyStatusForm(array(), $param, true));
 //        if (!in_array($this->form->candidateId, $allowedCandidateList) && !in_array($this->form->vacancyId, $allowedVacancyList)) {

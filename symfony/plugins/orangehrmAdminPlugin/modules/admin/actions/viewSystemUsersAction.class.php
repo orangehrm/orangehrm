@@ -91,7 +91,7 @@ class viewSystemUsersAction extends baseAdminAction {
                     $this->getUser()->setAttribute('searchClues', $searchClues);
                 }else{
                     $this->handleBadRequest();
-                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                    $this->forwardToSecureAction();
                 }
             }
             

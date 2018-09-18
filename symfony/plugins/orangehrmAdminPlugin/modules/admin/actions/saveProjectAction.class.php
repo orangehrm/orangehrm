@@ -119,7 +119,7 @@ class saveProjectAction extends baseAdminAction {
                 }
             } else {
                 $this->handleBadRequest();
-                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                $this->forwardToSecureAction();
             }
         } else {
             $this->undeleteForm = $this->getUndeleteForm($this->projectId);

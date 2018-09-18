@@ -45,7 +45,7 @@ class updateAttachmentAction extends baseRecruitmentAction {
                 $this->getUser()->setFlash('jobAttachmentPane.success', __(TopLevelMessages::SAVE_SUCCESS));
             } else {
                 $this->handleBadRequest();
-                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                $this->forwardToSecureAction();
             }
         }
         $this->redirect($this->getRequest()->getReferer() . '#attachments');

@@ -56,7 +56,7 @@ class saveDeleteEducationAction extends basePimAction {
                 } else {
                     $this->getUser()->setFlash('warning', __('Form Validation Failed') ,false);
                     $this->handleBadRequest();
-                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                    $this->forwardToSecureAction();
                 }
             }
 
@@ -71,7 +71,7 @@ class saveDeleteEducationAction extends basePimAction {
                             $this->getUser()->setFlash('education.success', __(TopLevelMessages::DELETE_SUCCESS));
                         } else {
                             $this->handleBadRequest();
-                            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                            $this->forwardToSecureAction();
                         }
                     }
                 }

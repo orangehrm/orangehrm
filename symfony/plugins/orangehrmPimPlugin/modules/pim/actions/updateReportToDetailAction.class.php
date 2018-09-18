@@ -52,7 +52,7 @@ class updateReportToDetailAction extends basePimAction {
         $this->empNumber = $empNumber;
         $employee = $this->getEmployeeService()->getEmployee($this->empNumber);
         if (!($employee instanceof Employee)) {
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            $this->forwardToSecureAction();
         }
 
         $this->reportToPermissions = $this->getDataGroupPermissions(array('supervisor', 'subordinates'), $empNumber);
@@ -87,7 +87,7 @@ class updateReportToDetailAction extends basePimAction {
                 }
             } else {
                 $this->handleBadRequest();
-                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                $this->forwardToSecureAction();
             }
         }
 

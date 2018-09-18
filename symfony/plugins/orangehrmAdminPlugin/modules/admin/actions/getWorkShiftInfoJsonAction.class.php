@@ -10,7 +10,7 @@
  *
  * @author orangehrm
  */
-class getWorkShiftInfoJsonAction extends sfAction {
+class getWorkShiftInfoJsonAction extends baseAdminAction {
 	
 	/**
 	 *
@@ -42,7 +42,7 @@ class getWorkShiftInfoJsonAction extends sfAction {
 
 			return $this->renderText(json_encode($workShiftFields));
 		} else {
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+			$this->forwardToSecureAction();
 		}
 		return sfView::NONE;
 	}

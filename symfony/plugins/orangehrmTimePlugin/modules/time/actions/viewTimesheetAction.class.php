@@ -112,7 +112,7 @@ class viewTimesheetAction extends baseTimeAction {
 
             if (is_null($this->timesheet)) {
                 $this->handleBadRequest();
-                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                $this->forwardToSecureAction();
             }
             $this->currentState = $this->timesheet->getState();
 
@@ -267,7 +267,7 @@ class viewTimesheetAction extends baseTimeAction {
         
         if (!$userRoleManager->isEntityAccessible('Employee', $empNumber)) {
             $this->handleBadRequest();
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            $this->forwardToSecureAction();
         }
 
     }

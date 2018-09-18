@@ -37,7 +37,7 @@ class undeleteLeaveTypeAction extends baseLeaveAction {
                 // this is a error.
                 $this->getLoggerInstance()->error($this->form);
                 $this->handleBadRequest();
-                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                $this->forwardToSecureAction();
             }
         }
         $this->redirect("leave/leaveTypeList");        
