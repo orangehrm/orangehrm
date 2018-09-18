@@ -114,34 +114,34 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			$_SESSION['INSTALLING'] = 1;
 			$messages->displayMessage("Db Creating ...");
 
-            $_SESSION['defUser']['organizationName'] = $detailsHandler->getOrganizationName();
-            $_SESSION['defUser']['adminEmployeeFirstName'] = $detailsHandler->getAdminEmployeeFirstName();
-            $_SESSION['defUser']['adminEmployeeLastName'] = $detailsHandler->getAdminEmployeeLastName();
-            $_SESSION['defUser']['organizationEmailAddress'] = $detailsHandler->getOrganizationEmailAddress();
-            $_SESSION['defUser']['contactNumber'] = $detailsHandler->getContactNumber();
-            $_SESSION['defUser']['AdminUserName'] = $detailsHandler->getAdminUserName();
-            $_SESSION['defUser']['AdminPassword'] = $detailsHandler->getAdminPassword();
-            $_SESSION['defUser']['randomNumber'] = rand(1,100);
+			$_SESSION['defUser']['organizationName'] = $detailsHandler->getOrganizationName();
+			$_SESSION['defUser']['adminEmployeeFirstName'] = $detailsHandler->getAdminEmployeeFirstName();
+			$_SESSION['defUser']['adminEmployeeLastName'] = $detailsHandler->getAdminEmployeeLastName();
+			$_SESSION['defUser']['organizationEmailAddress'] = $detailsHandler->getOrganizationEmailAddress();
+			$_SESSION['defUser']['contactNumber'] = $detailsHandler->getContactNumber();
+			$_SESSION['defUser']['AdminUserName'] = $detailsHandler->getAdminUserName();
+			$_SESSION['defUser']['AdminPassword'] = $detailsHandler->getAdminPassword();
+			$_SESSION['defUser']['randomNumber'] = rand(1,100);
 
-            $ohrmRegistration->sendRegistrationData();
+			$ohrmRegistration->sendRegistrationData();
 
-            $_SESSION['dbHostName'] = $detailsHandler->getHost();
-            $_SESSION['dbUserName'] = $detailsHandler->getOrangehrmDatabaseUser();
-            $_SESSION['dbPassword'] = $detailsHandler->getOrangehrmDatabasePassword();
-            $_SESSION['dbName'] = $detailsHandler->getDatabaseName();
-            $_SESSION['dbHostPort'] = $detailsHandler->getPort();
+			$_SESSION['dbHostName'] = $detailsHandler->getHost();
+			$_SESSION['dbUserName'] = $detailsHandler->getOrangehrmDatabaseUser();
+			$_SESSION['dbPassword'] = $detailsHandler->getOrangehrmDatabasePassword();
+			$_SESSION['dbName'] = $detailsHandler->getDatabaseName();
+			$_SESSION['dbHostPort'] = $detailsHandler->getPort();
 			
 			$controlval = 0;
 			for ($i=0; $i < $_SESSION['INSTALLING']-$controlval; $i++){
 		
 				ApplicationSetupUtility::install();
 
-                if($_SESSION['INSTALLING']==2) $messages->displayMessage("Fill Data Phase 1 - No Errors...");
-                if($_SESSION['INSTALLING']==3) $messages->displayMessage("Fill Data Phase 2 - No Errors...");
-                if($_SESSION['INSTALLING']==4) $messages->displayMessage("Create DB user - No Errors...");
-                if($_SESSION['INSTALLING']==5) $messages->displayMessage("Create OrangeHRM user - No Errors...");
-                if($_SESSION['INSTALLING']==6) $messages->displayMessage("Write Conf - No Errors...");
-                if($_SESSION['INSTALLING']==7) $messages->displayMessage("Install Plugins  - No Errors...");
+				if($_SESSION['INSTALLING']==2) $messages->displayMessage("Fill Data Phase 1 - No Errors...");
+				if($_SESSION['INSTALLING']==3) $messages->displayMessage("Fill Data Phase 2 - No Errors...");
+				if($_SESSION['INSTALLING']==4) $messages->displayMessage("Create DB user - No Errors...");
+				if($_SESSION['INSTALLING']==5) $messages->displayMessage("Create OrangeHRM user - No Errors...");
+				if($_SESSION['INSTALLING']==6) $messages->displayMessage("Write Conf - No Errors...");
+				if($_SESSION['INSTALLING']==7) $messages->displayMessage("Install Plugins  - No Errors...");
 			}
 		}
 
