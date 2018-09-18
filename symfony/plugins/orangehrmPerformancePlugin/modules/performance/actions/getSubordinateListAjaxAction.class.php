@@ -36,6 +36,6 @@ class getSubordinateListAjaxAction extends basePeformanceAction {
         $jsonString = json_encode($jsonArray);
 
         echo $jsonString;
-        exit;
+        return sfView::NONE;
     }
 }

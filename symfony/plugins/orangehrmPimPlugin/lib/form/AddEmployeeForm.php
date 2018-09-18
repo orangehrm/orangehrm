@@ -78,9 +78,9 @@ class AddEmployeeForm extends sfForm {
             'chkLogin' => new sfWidgetFormInputCheckbox(array('value_attribute_value' => 1), array()),
             'user_name' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 40)),
             'user_password' => new ohrmWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired",
-                "maxlength" => 64)),
+                "maxlength" => 64, "autocomplete" => "off")),
             're_password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired", 
-                "maxlength" => 64)),
+                "maxlength" => 64, "autocomplete" => "off")),
             'status' => new sfWidgetFormSelect(array('choices' => $status), array("class" => "formInputText")),            
             'empNumber' => new sfWidgetFormInputHidden(),
         );

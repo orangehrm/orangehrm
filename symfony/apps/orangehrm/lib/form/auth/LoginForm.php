@@ -15,6 +15,7 @@ class LoginForm extends sfForm {
             'Password' => new sfWidgetFormInputPassword(array(), array(
                 'name' => 'txtPassword',
                 'id' => 'txtPassword',
+                'autocomplete' => 'off',
             )),
 
             'Installation' => new sfWidgetFormInputHidden(array(), array(

@@ -37,13 +37,15 @@ class deleteLocationsAction extends baseAdminAction {
 			foreach ($toBeDeletedLocationIds as $toBeDeletedLocationId) {
 			    if ($form->isValid()) {
 			        $location = $this->getLocationService()->getLocationById($toBeDeletedLocationId);
-			        $location->delete();
-			        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+			        if ($location instanceof Location) {
+			            $location->delete();
+			        }
 			    } else {
 			        $this->handleBadRequest();
 			        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
 			    }
 			}
+			$this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
 		}
 
 		$this->redirect('admin/viewLocations');

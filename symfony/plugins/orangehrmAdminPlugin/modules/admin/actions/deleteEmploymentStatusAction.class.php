@@ -38,13 +38,15 @@ class deleteEmploymentStatusAction extends baseAdminAction {
 			foreach ($toBeDeletedStausIds as $toBeDeletedStausId) {
 			    if ($form->isValid()) {
 				    $status = $this->getEmploymentStatusService()->getEmploymentStatusById($toBeDeletedStausId);
-				    $status->delete();
-				    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+				    if ($status instanceof EmploymentStatus) {
+				        $status->delete();
+				    }
 			    } else {
-			    	$this->handleBadRequest();
-			    	$this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+			        $this->handleBadRequest();
+			        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
 			    }
 			}
+			$this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
 		}
 
 		$this->redirect('admin/employmentStatus');

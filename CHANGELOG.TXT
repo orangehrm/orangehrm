@@ -13,6 +13,13 @@ specified here
 						added			/lib/models/report which contains report definiton/generation objects
 						added			/templates which contains all UI templates
 
+New & Changed Features for OrangeHRM ver 4.1.2.1
+   Bug Fixes
+   ------------
+    Installation fails if cURL is not enabled
+    Resolved issue with relative paths running into an error in certain environments
+    Resolved issue with supported environment version verification during installation
+
 New & Changed Features for OrangeHRM ver 4.1.2
     New Features
     ------------
