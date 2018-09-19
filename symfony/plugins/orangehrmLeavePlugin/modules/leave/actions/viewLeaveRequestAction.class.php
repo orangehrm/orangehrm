@@ -130,6 +130,9 @@ class viewLeaveRequestAction extends baseLeaveAction {
 
 
         $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($this->leaveRequestId);
+        if (!($leaveRequest instanceof LeaveRequest)) {
+            $this->forwardToSecureAction();
+        }
         $employee = $leaveRequest->getEmployee();
 
         $empNumber = $employee->getEmpNumber();

@@ -54,6 +54,9 @@ class deleteMembershipsAction extends basePimAction {
                     $this->getUser()->setFlash('memberships.success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
 
+            } else {
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
             }
         }
         $this->redirect('pim/viewMemberships?empNumber=' . $empNumber);

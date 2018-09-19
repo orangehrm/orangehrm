@@ -81,6 +81,9 @@ class deleteReportToSubordinateAction extends basePimAction {
                     $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
             }
+        } else {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
 
         $this->getUser()->setFlash('reportTo', 'subordinates');

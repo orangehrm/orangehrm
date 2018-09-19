@@ -22,7 +22,7 @@
 /**
  * Description of viewLeaveBalanceReportAction
  */
-class viewLeaveBalanceReportAction extends sfAction {
+class viewLeaveBalanceReportAction extends baseLeaveAction {
 
     public function getForm() {
         return new LeaveBalanceReportForm();
@@ -70,6 +70,9 @@ class viewLeaveBalanceReportAction extends sfAction {
                                 
                     $runReport = true;
                 }   
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         } else if ($this->mode == 'my') {
             $reportType = LeaveBalanceReportForm::REPORT_TYPE_EMPLOYEE;

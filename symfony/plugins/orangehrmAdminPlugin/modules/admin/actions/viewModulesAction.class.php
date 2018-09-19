@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  *
  */
-class viewModulesAction extends sfAction {
+class viewModulesAction extends baseAdminAction {
 
     private $moduleService;
 
@@ -49,8 +49,11 @@ class viewModulesAction extends sfAction {
                 $this->_resetModulesSavedInSession();
                 $result = $this->form->save();
                 $this->getUser()->setFlash($result['messageType'], $result['message']);
+                $this->redirect('admin/viewModules');
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
-            $this->redirect('admin/viewModules');
         }
     }
 

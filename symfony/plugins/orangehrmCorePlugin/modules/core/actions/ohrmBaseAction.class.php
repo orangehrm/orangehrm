@@ -17,31 +17,29 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deleteMembershipsAction extends baseAdminAction {
 
-    private $membershipService;
+/**
+ * OrangeHRM base action class
+ */
+abstract class ohrmBaseAction extends sfAction
+{
 
-    public function getMembershipService() {
-        if (is_null($this->membershipService)) {
-            $this->membershipService = new MembershipService();
-            $this->membershipService->setMembershipDao(new MembershipDao());
-        }
-        return $this->membershipService;
+    /**
+     * Handle response code as a bad request
+     */
+    final protected function handleBadRequest()
+    {
+        $response = $this->getResponse();
+        $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
     }
 
-    public function execute($request) {
-        $form = new DefaultListForm();
-        $form->bind($request->getParameter($form->getName()));
-        $toBeDeletedIds = $request->getParameter('chkSelectRow');
-        if ($form->isValid()) {
-            $this->getMembershipService()->deleteMemberships($toBeDeletedIds);
-            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-        } else {
-            $this->handleBadRequest();
-            $this->forwardToSecureAction();
-        }
-        $this->redirect('admin/membership');
+    /**
+     * Forward to defined secure action in the secure module
+     * @throws sfStopException
+     */
+    final protected function forwardToSecureAction()
+    {
+        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
     }
 
 }
-

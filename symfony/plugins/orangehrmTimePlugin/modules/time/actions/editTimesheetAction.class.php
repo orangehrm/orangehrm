@@ -91,6 +91,9 @@ class editTimesheetAction extends baseTimeAction {
 
 
         $timesheet = $this->getTimesheetService()->getTimesheetById($this->timesheetId);
+        if (is_null($timesheet->getTimesheetId())) {
+            $this->forwardToSecureAction();
+        }
 
         $this->date = $timesheet->getStartDate();
         $this->endDate = $timesheet->getEndDate();
@@ -136,7 +139,10 @@ class editTimesheetAction extends baseTimeAction {
                     
                     $startingDate = $timeSheet->getStartDate();
                     $this->redirect('time/' . $backAction . '?' . http_build_query(array('message' => $this->messageData, 'timesheetStartDate' => $startingDate, 'employeeId' => $this->employeeId)));
-                 }
+                } else {
+                    $this->handleBadRequest();
+                    $this->messageData = array('warning', __(TopLevelMessages::VALIDATION_FAILED));
+                }
 
             }
 

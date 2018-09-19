@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-class jobCategoryAction extends sfAction {
+class jobCategoryAction extends baseAdminAction {
 	
 	private $jobCatService;
 
@@ -60,6 +60,9 @@ class jobCategoryAction extends sfAction {
 				$this->form->save();
 				$this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 				$this->redirect('admin/jobCategory');
+			} else {
+			    $this->handleBadRequest();
+			    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
 			}
 		}
 	}

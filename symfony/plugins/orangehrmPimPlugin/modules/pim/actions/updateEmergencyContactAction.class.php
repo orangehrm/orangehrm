@@ -58,6 +58,9 @@ class updateEmergencyContactAction extends basePimAction {
                 if ($this->form->isValid()) {
                     $this->form->save();
                     $this->getUser()->setFlash('viewEmergencyContacts.success', __(TopLevelMessages::SAVE_SUCCESS));
+                } else {
+                    $this->handleBadRequest();
+                    $this->forwardToSecureAction();
                 }
             }
         }

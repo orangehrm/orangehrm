@@ -45,10 +45,10 @@ class savePayGradeCurrencyAction extends baseAdminAction {
                     $payGradeId = $this->form->save();
                     $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                     $this->redirect('admin/payGrade?payGradeId=' . $payGradeId . '#Currencies');
-                }else{
-                    $this->redirect($request->getReferer());
                 }
             }
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
     }
 

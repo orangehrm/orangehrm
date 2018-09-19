@@ -120,6 +120,9 @@ class applyLeaveAction extends baseLeaveAction {
                     $this->overlapLeave = $this->getLeaveApplicationService()->getOverlapLeave();
                     $this->workshiftLengthExceeded = true;
                 }
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         }
     }

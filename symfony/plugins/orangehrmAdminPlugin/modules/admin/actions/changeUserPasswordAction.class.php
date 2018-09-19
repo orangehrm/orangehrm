@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class changeUserPasswordAction extends sfAction {
+class changeUserPasswordAction extends baseAdminAction {
 
     public function execute($request) {
 
@@ -49,6 +49,9 @@ class changeUserPasswordAction extends sfAction {
                     $this->getUser()->setFlash('success', __('Successfully Changed'));
                     $this->redirect('admin/changeUserPassword');
                 }
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         }
     }

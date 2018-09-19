@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deleteAttachmentsAction extends sfAction {
+class deleteAttachmentsAction extends baseRecruitmentAction {
 
     /**
      *
@@ -40,6 +40,9 @@ class deleteAttachmentsAction extends sfAction {
                 }
                 $this->getUser()->setFlash('jobAttachmentPane.success', __(TopLevelMessages::DELETE_SUCCESS));
             }
+        } else {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
 
         $this->redirect($this->getRequest()->getReferer() . '#attachments');

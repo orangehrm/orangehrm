@@ -41,7 +41,8 @@ class addPerformanceTrackerLogAction extends basePerformanceAction {
             $valid = $this->canLogsAccessed();
         }
         if ($valid == false) {
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
     }
 
@@ -108,6 +109,8 @@ class addPerformanceTrackerLogAction extends basePerformanceAction {
                 }
 
                 $this->redirect('performance/addPerformanceTrackerLog?trackId=' . $trackId);
+            } else {
+                $this->handleBadRequest();
             }
         } else {
 

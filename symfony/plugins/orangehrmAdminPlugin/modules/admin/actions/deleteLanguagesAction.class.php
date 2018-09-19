@@ -18,7 +18,7 @@
  *
  */
 
-class deleteLanguagesAction extends sfAction {
+class deleteLanguagesAction extends baseAdminAction {
     
     private $languageService;
     
@@ -46,10 +46,14 @@ class deleteLanguagesAction extends sfAction {
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
                 $result = $this->getLanguageService()->deleteLanguages($toDeleteIds);
+                if ($result) {
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
+            } else {
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
             }
-            if ($result) {
-                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
-            }            
+
             $this->redirect('admin/viewLanguages');
         }       
         

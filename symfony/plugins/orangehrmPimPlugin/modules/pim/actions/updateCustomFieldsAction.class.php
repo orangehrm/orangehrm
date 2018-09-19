@@ -45,6 +45,10 @@ class updateCustomFieldsAction extends basePimAction {
 
             // Handle the form submission
             $this->form->bind($request->getPostParameters());
+            if ($this->form->getCSRFToken() != $request->getParameter('_csrf_token')) {
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
+            }
 
             if ($this->form->isValid()) {
 

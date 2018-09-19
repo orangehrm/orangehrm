@@ -22,7 +22,7 @@
  * View leave entitlement list
  *
  */
-class viewLeaveEntitlementsAction extends sfAction {
+class viewLeaveEntitlementsAction extends baseLeaveAction {
     
     const FILTERS_ATTRIBUTE_NAME = 'entitlementlist.filters';
     
@@ -124,6 +124,8 @@ class viewLeaveEntitlementsAction extends sfAction {
                 $this->showResultTable = true;
                 $filters = $this->form->getValues();                
                 $this->saveFilters($filters);                       
+            } else {
+                $this->handleBadRequest();
             }
         } else if ($request->hasParameter('savedsearch')) {
             $filters = $this->getFilters();            

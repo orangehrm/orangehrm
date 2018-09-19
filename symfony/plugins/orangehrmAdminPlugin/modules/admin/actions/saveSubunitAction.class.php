@@ -59,6 +59,11 @@ class saveSubunitAction extends sfAction {
 
             @ob_clean();
             return $this->renderText(json_encode($object));
+        } else {
+            $object = new stdClass();
+            $object->messageType = 'warning';
+            $object->message = __(TopLevelMessages::VALIDATION_FAILED);
+            return $this->renderText(json_encode($object));
         }
         
         

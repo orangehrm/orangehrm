@@ -124,6 +124,9 @@ class viewPhotographAction extends basePimAction {
                         $this->redirect('pim/viewPhotograph?empNumber=' . $empNumber);
                         
                     }
+                } else {
+                    $this->handleBadRequest();
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         }

@@ -36,6 +36,10 @@ class viewImmigrationAction extends basePimAction {
         $immigration = $request->getParameter('immigration');
         $empNumber = (isset($immigration['emp_number'])) ? $immigration['emp_number'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
+        $employee = $this->getEmployeeService()->getEmployee($this->empNumber);
+        if (!($employee instanceof Employee)) {
+            $this->forwardToSecureAction();
+        }
 
         $this->immigrationPermission = $this->getDataGroupPermissions('immigration', $empNumber);
 
@@ -63,6 +67,9 @@ class viewImmigrationAction extends basePimAction {
                     $this->getEmployeeService()->saveEmployeeImmigrationRecord($empPassport);
                     $this->getUser()->setFlash('immigration.success', __(TopLevelMessages::SAVE_SUCCESS));
                     $this->redirect('pim/viewImmigration?empNumber=' . $empNumber);
+                } else {
+                    $this->handleBadRequest();
+                    $this->getUser()->setFlash('immigration.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
             $this->listForm = new DefaultListForm();

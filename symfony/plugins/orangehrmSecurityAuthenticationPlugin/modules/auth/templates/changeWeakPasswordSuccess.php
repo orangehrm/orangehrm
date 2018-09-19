@@ -8,7 +8,6 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
     <div class="inner">
         <?php include_partial('global/flash_messages'); ?>
         <form name="frmChangeWeakPassword" id="frmChangeWeakPassword" method="post" action="">
-            <?php echo $form['_csrf_token']; ?>
             <fieldset>
                 <ol>
                     <li>

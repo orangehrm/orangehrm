@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deleteLocationsAction extends sfAction {
+class deleteLocationsAction extends baseAdminAction {
 
 	public function getLocationService() {
 		if (is_null($this->locationService)) {
@@ -28,19 +28,24 @@ class deleteLocationsAction extends sfAction {
 	}
 
 	public function execute($request) {
-                $form = new DefaultListForm();
-                $form->bind($request->getParameter($form->getName()));
-		$toBeDeletedLocationIds = $request->getParameter('chkSelectRow');
+	    $form = new DefaultListForm();
+	    $form->bind($request->getParameter($form->getName()));
+	    $toBeDeletedLocationIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedLocationIds)) {
 
 			foreach ($toBeDeletedLocationIds as $toBeDeletedLocationId) {
-                            if ($form->isValid()) {
-				$location = $this->getLocationService()->getLocationById($toBeDeletedLocationId);
-				$location->delete();
-                                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-                            }
+			    if ($form->isValid()) {
+			        $location = $this->getLocationService()->getLocationById($toBeDeletedLocationId);
+			        if ($location instanceof Location) {
+			            $location->delete();
+			        }
+			    } else {
+			        $this->handleBadRequest();
+			        $this->forwardToSecureAction();
+			    }
 			}
+			$this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
 		}
 
 		$this->redirect('admin/viewLocations');

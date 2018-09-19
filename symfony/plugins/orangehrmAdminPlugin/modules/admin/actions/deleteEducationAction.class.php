@@ -18,7 +18,7 @@
  *
  */
 
-class deleteEducationAction extends sfAction {
+class deleteEducationAction extends baseAdminAction {
     
     private $educationService;
     
@@ -47,14 +47,17 @@ class deleteEducationAction extends sfAction {
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
                 $result = $this->getEducationService()->deleteEducations($toDeleteIds);
-            }
                 if ($result) {
-                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
-                    
-                }            
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
+            } else {
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
+            }
+
             $this->redirect('admin/viewEducation');
-        }       
-        
+        }
+
     }
     
     protected function _checkAuthentication() {

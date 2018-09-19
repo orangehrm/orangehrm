@@ -18,7 +18,7 @@
  *
  */
 
-class viewTerminationReasonsAction extends sfAction {
+class viewTerminationReasonsAction extends basePimAction {
     
     private $terminationReasonConfigurationService;
     
@@ -53,8 +53,11 @@ class viewTerminationReasonsAction extends sfAction {
 				$templateMessage = $this->form->save();
 				$this->getUser()->setFlash($templateMessage['messageType'], $templateMessage['message']);                
                 $this->redirect('pim/viewTerminationReasons');
-                
-            }
+
+			} else {
+			    $this->handleBadRequest();
+			    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
+			}
             
         }
         $this->listForm = new DefaultListForm();

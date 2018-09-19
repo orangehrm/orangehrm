@@ -87,7 +87,8 @@ class viewSalaryListAction extends basePimAction {
                                 }
                             }
 
-                            $this->getUser()->setFlash('warning', $validationMsg);
+                            $this->getUser()->setFlash('salary.warning', $validationMsg, false);
+                            $this->handleBadRequest();
                             $directDebitOk = false;
                         }
                     } else {
@@ -100,7 +101,8 @@ class viewSalaryListAction extends basePimAction {
                         $this->setOperationName('UPDATE SALARY');
                         $service->saveEmployeeSalary($salary);                
 
-                        $this->getUser()->setFlash('salary.success', __(TopLevelMessages::SAVE_SUCCESS));  
+                        $this->getUser()->setFlash('salary.success', __(TopLevelMessages::SAVE_SUCCESS));
+                        $this->redirect('pim/viewSalaryList?empNumber=' . $empNumber);
                     }
                 }
             } else {
@@ -111,9 +113,10 @@ class viewSalaryListAction extends basePimAction {
                     }
                 }
 
-                $this->getUser()->setFlash('warning', $validationMsg);
+                $this->getUser()->setFlash('salary.warning', $validationMsg, false);
+                $this->handleBadRequest();
             }
-            $this->redirect('pim/viewSalaryList?empNumber=' . $empNumber);  
+
         } else {
             if ($this->salaryPermissions->canRead()) {
                 $this->salaryList = $this->getEmployeeService()->getEmployeeSalaries($empNumber);

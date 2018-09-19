@@ -110,6 +110,10 @@ class viewTimesheetAction extends baseTimeAction {
 
             $this->timesheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($startDate, $employeeId);
 
+            if (is_null($this->timesheet)) {
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
+            }
             $this->currentState = $this->timesheet->getState();
 
             if (isset($startDate)) {
@@ -127,10 +131,9 @@ class viewTimesheetAction extends baseTimeAction {
             $this->formToImplementCsrfToken = new TimesheetFormToImplementCsrfTokens();
             if ($request->isMethod('post')) {
                 $this->formToImplementCsrfToken->bind($request->getParameter('time'));
+                $action = $request->getParameter('act');
 
                 if ($this->formToImplementCsrfToken->isValid()) {
-
-                    $action = $request->getParameter('act');
 
                     // check if action allowed and get next state
                     $excludeRoles = array();
@@ -167,6 +170,11 @@ class viewTimesheetAction extends baseTimeAction {
                             }
                         }
                     }                    
+                } else {
+                    if ($action) {
+                        $this->successMessage = array('warning', __(TopLevelMessages::VALIDATION_FAILED));
+                    }
+                    $this->handleBadRequest();
                 }
             }
 
@@ -258,7 +266,8 @@ class viewTimesheetAction extends baseTimeAction {
         $userRoleManager = $this->getContext()->getUserRoleManager();
         
         if (!$userRoleManager->isEntityAccessible('Employee', $empNumber)) {
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
 
     }

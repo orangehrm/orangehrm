@@ -18,7 +18,7 @@
  *
  */
 
-class deleteLicensesAction extends sfAction {
+class deleteLicensesAction extends baseAdminAction {
     
     private $licenseService;
     
@@ -46,10 +46,14 @@ class deleteLicensesAction extends sfAction {
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
                 $result = $this->getLicenseService()->deleteLicenses($toDeleteIds);
+                if ($result) {
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
+            } else {
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
             }
-            if ($result) {
-                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
-            }            
+
             $this->redirect('admin/viewLicenses');
         }       
         

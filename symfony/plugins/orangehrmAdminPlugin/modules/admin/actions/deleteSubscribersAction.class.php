@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deleteSubscribersAction extends sfAction {
+class deleteSubscribersAction extends baseAdminAction {
 
     private $emailNotoficationService;
 
@@ -37,7 +37,10 @@ class deleteSubscribersAction extends sfAction {
             $notificationId = $this->getUser()->getAttribute('notificationId');
             $this->getEmailNotificationService()->deleteSubscribers($toBeDeletedIds);
             $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-        }       
+        } else {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
+        }
         $this->redirect('admin/saveSubscriber?notificationId='.$notificationId);
     }
 

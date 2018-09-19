@@ -56,7 +56,9 @@ class saveDeleteWorkExperienceAction extends basePimAction {
                         $this->getEmployeeService()->saveEmployeeWorkExperience($workExperience);
                         $this->getUser()->setFlash('workexperience.success', __(TopLevelMessages::SAVE_SUCCESS));
                     } else {
-                        $this->getUser()->setFlash('workexperience.warning', __('Form Validation Failed.'));
+                        $this->getUser()->setFlash('warning', __('Form Validation Failed'), false);
+                        $this->handleBadRequest();
+                        $this->forwardToSecureAction();
                     }
                 }
             }
@@ -71,6 +73,9 @@ class saveDeleteWorkExperienceAction extends basePimAction {
                         if ($form->isValid()) {
                             $this->getEmployeeService()->deleteEmployeeWorkExperienceRecords($empNumber, $request->getParameter('delWorkExp'));
                             $this->getUser()->setFlash('workexperience.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        } else {
+                            $this->handleBadRequest();
+                            $this->forwardToSecureAction();
                         }
                     }
                 }

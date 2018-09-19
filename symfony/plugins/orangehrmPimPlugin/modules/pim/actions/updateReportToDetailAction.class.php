@@ -50,6 +50,10 @@ class updateReportToDetailAction extends basePimAction {
         $memberships = $request->getParameter('reportto');
         $empNumber = (isset($memberships['empNumber'])) ? $memberships['empNumber'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
+        $employee = $this->getEmployeeService()->getEmployee($this->empNumber);
+        if (!($employee instanceof Employee)) {
+            $this->forwardToSecureAction();
+        }
 
         $this->reportToPermissions = $this->getDataGroupPermissions(array('supervisor', 'subordinates'), $empNumber);
         $reportToSupervisorPermission = $this->getDataGroupPermissions('supervisor', $empNumber);
@@ -81,6 +85,9 @@ class updateReportToDetailAction extends basePimAction {
                         $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                     }
                 }
+            } else {
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
             }
         }
 

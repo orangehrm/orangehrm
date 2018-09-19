@@ -10,7 +10,7 @@
  *
  * @author orangehrm
  */
-class getWorkShiftInfoJsonAction extends sfAction {
+class getWorkShiftInfoJsonAction extends baseAdminAction {
 	
 	/**
 	 *
@@ -31,16 +31,20 @@ class getWorkShiftInfoJsonAction extends sfAction {
 
 		$service = new WorkShiftService();
 		$workShift = $service->getWorkShiftById($workShiftId);
-                
-                $workShiftFields = array(
-                    'id' => $workShift->getId(),
-                    'name' => $workShift->getName(),
-                    'hoursPerDay' => $workShift->getHoursPerDay(),
-                    'start_time' => date('H:i', strtotime($workShift->getStartTime())),
-                    'end_time' => date('H:i', strtotime($workShift->getEndTime()))
-                );
+		if ($workShift instanceof WorkShift) {
+			$workShiftFields = array(
+				'id' => $workShift->getId(),
+				'name' => $workShift->getName(),
+				'hoursPerDay' => $workShift->getHoursPerDay(),
+				'start_time' => date('H:i', strtotime($workShift->getStartTime())),
+				'end_time' => date('H:i', strtotime($workShift->getEndTime()))
+			);
 
-		return $this->renderText(json_encode($workShiftFields));
+			return $this->renderText(json_encode($workShiftFields));
+		} else {
+			$this->forwardToSecureAction();
+		}
+		return sfView::NONE;
 	}
 }
 

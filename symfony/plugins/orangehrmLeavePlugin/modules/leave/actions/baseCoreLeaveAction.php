@@ -1,6 +1,6 @@
 <?php
 
-abstract class baseCoreLeaveAction extends sfAction {
+abstract class baseCoreLeaveAction extends ohrmBaseAction {
 
     public $form;
     protected $workWeekService;

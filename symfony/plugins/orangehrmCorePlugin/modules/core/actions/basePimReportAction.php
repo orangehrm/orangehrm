@@ -10,7 +10,7 @@
  *
  * @author nirmal
  */
-abstract class basePimReportAction extends sfAction {
+abstract class basePimReportAction extends ohrmBaseAction {
 
     public function getDataGroupPermissions($dataGroups) {
         return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), false, array());

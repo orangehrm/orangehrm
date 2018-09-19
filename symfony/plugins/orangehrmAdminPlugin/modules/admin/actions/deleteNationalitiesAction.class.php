@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deleteNationalitiesAction extends sfAction {
+class deleteNationalitiesAction extends baseAdminAction {
 
     private $nationalityService;
 
@@ -36,6 +36,9 @@ class deleteNationalitiesAction extends sfAction {
         if ($form->isValid()) {
             $this->getNationalityService()->deleteNationalities($toBeDeletedIds);
             $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+        } else {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
         $this->redirect('admin/nationality');
     }

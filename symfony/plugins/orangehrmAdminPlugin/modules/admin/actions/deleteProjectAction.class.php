@@ -55,6 +55,9 @@ class deleteProjectAction extends baseAdminAction {
                         $this->getUser()->setFlash('error', __('Not Allowed to Delete Project(s) Which Have Time Logged Against Them'));
                     }
                 }
+            } else {
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
             }
 
             $this->redirect('admin/viewProjects');

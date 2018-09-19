@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewLocationsAction extends sfAction {
+class viewLocationsAction extends baseAdminAction {
 
 	public function getLocationService() {
 		if (is_null($this->locationService)) {
@@ -88,6 +88,8 @@ class viewLocationsAction extends sfAction {
 				$searchedLocationList = $this->getLocationService()->searchLocations($searchClues);
 				$locationListCount = $this->getLocationService()->getSearchLocationListCount($searchClues);
 				$this->_setListComponent($searchedLocationList, $limit, $pageNumber, $locationListCount);
+			} else {
+				$this->handleBadRequest();
 			}
 		}
 	}

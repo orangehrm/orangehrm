@@ -160,6 +160,9 @@ class defineHolidayAction extends baseLeaveAction {
                     
                         $this->redirect('leave/viewHolidayList');
                     }
+                } else {
+                    $this->handleBadRequest();
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             } else {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));

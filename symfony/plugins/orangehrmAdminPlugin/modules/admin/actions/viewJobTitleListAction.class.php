@@ -60,6 +60,9 @@ class viewJobTitleListAction extends baseAdminAction {
             $this->getUser()->setAttribute('pageNumber', $pageNumber);
             $params = array();
             $this->parmetersForListCompoment = $params;
+        } else {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
     }
 

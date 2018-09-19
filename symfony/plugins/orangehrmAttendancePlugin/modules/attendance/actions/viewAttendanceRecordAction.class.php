@@ -246,6 +246,9 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
                     }
                     
                     $this->_setListComponent($records, $noOfRecords, $pageNumber, $count, $this->showEdit, $this->allowedActions);
+                } else {
+                    $this->handleBadRequest();
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         }

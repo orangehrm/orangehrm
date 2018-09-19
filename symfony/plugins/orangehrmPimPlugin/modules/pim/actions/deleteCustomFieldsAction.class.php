@@ -66,6 +66,9 @@ class deleteCustomFieldsAction extends basePimAction {
                 } else {
                     $this->getUser()->setFlash('notice', __(TopLevelMessages::SELECT_RECORDS));
                 }
+            } else {
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
             }
             $this->redirect('pim/listCustomFields');
         }

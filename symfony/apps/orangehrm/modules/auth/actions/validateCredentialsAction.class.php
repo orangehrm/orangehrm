@@ -1,6 +1,6 @@
 <?php
 
-class validateCredentialsAction extends sfAction
+class validateCredentialsAction extends ohrmBaseAction
 {
 
     protected $authenticationService;
@@ -45,6 +45,7 @@ class validateCredentialsAction extends sfAction
             $csrfToken = $request->getParameter('_csrf_token');
             if ($csrfToken != $loginForm->getCSRFToken()) {
                 $this->getUser()->setFlash('message', __('Csrf token validation failed'), true);
+                $this->handleBadRequest();
                 $this->forward('auth', 'retryLogin');
             }
             $username = $request->getParameter('txtUsername');

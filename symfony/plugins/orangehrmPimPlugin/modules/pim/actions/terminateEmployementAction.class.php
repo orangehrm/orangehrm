@@ -55,9 +55,11 @@ class terminateEmployementAction extends basePimAction {
             if ($this->form->isValid()) {
                 $this->form->terminateEmployement($empNumber, $terminatedId);
                 $this->getUser()->setFlash('jobdetails.success', __(TopLevelMessages::UPDATE_SUCCESS));
+                $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
+            } else {
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
             }
-
-            $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
         }
     }
 

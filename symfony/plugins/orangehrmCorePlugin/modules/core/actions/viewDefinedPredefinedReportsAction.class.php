@@ -39,12 +39,18 @@ class viewDefinedPredefinedReportsAction extends basePimReportAction {
                             $this->redirect('core/viewDefinedPredefinedReports');
                             return;
                         }
+                    } else {
+                        $this->handleBadRequest();
+                        $this->getUser()->setFlash('search.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                     }
                 }
             } else {
                 $this->searchForm->bind($request->getParameter($this->searchForm->getName()));
                 if ($this->searchForm->isValid()) {
                     $searchString = $this->searchForm->getValue("search");
+                } else {
+                    $this->handleBadRequest();
+                    $this->getUser()->setFlash('search.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
         } else {

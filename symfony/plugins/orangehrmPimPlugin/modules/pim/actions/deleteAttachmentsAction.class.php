@@ -50,6 +50,9 @@ class deleteAttachmentsAction extends basePimAction {
                 $service->deleteEmployeeAttachments($empId, $attachmentsToDelete);
                 $this->getUser()->setFlash('listAttachmentPane.success', __(TopLevelMessages::DELETE_SUCCESS));
             }
+        } else {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
 
         $this->redirect($this->getRequest()->getReferer(). '#attachments');

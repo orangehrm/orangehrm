@@ -107,6 +107,9 @@ class viewHolidayListAction extends baseLeaveAction {
 
                 $startDate = $values['calFromDate'];
                 $endDate = $values['calToDate'];
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('search.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         }
 

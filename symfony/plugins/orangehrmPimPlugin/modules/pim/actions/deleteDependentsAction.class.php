@@ -83,6 +83,9 @@ class deleteDependentsAction extends basePimAction {
                     $this->getUser()->setFlash('viewDependents.success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
             }
+        } else {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
 
         $this->redirect('pim/viewDependents?empNumber=' . $empNumber);

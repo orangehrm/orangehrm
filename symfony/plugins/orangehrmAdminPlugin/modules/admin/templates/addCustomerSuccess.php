@@ -11,8 +11,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/addCustomerSuccess'))
             
         <?php include_partial('global/flash_messages'); ?>
         <form name="frmAddCustomer" id="frmAddCustomer" method="post" action="<?php echo url_for('admin/addCustomer'); ?>" >
-            
-            <?php echo $form['_csrf_token']; ?>
+
             <?php echo $form->renderHiddenFields(); ?>
             
             <fieldset>

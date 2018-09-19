@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-class deleteEmploymentStatusAction extends sfAction {
+class deleteEmploymentStatusAction extends baseAdminAction {
 	
 	public function getEmploymentStatusService() {
 		if (is_null($this->empStatusService)) {
@@ -36,12 +36,17 @@ class deleteEmploymentStatusAction extends sfAction {
 		if (!empty($toBeDeletedStausIds)) {
 
 			foreach ($toBeDeletedStausIds as $toBeDeletedStausId) {
-                            if ($form->isValid()) {
-				$status = $this->getEmploymentStatusService()->getEmploymentStatusById($toBeDeletedStausId);
-				$status->delete();
-                                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-                            }
-			}			
+			    if ($form->isValid()) {
+				    $status = $this->getEmploymentStatusService()->getEmploymentStatusById($toBeDeletedStausId);
+				    if ($status instanceof EmploymentStatus) {
+				        $status->delete();
+				    }
+			    } else {
+			        $this->handleBadRequest();
+			        $this->forwardToSecureAction();
+			    }
+			}
+			$this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
 		}
 
 		$this->redirect('admin/employmentStatus');

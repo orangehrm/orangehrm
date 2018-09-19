@@ -63,6 +63,8 @@ class searchKpiAction extends basePeformanceAction {
                 } catch (LeaveAllocationServiceException $e) {
                     $this->templateMessage = array('WARNING', __($e->getMessage()));
                 }
+            } else {
+                $this->handleBadRequest();
             }
         }
 

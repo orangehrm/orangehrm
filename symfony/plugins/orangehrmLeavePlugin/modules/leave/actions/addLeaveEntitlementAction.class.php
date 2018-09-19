@@ -22,7 +22,7 @@
 /**
  * Description of addLeaveEntitlementAction
  */
-class addLeaveEntitlementAction extends sfAction {
+class addLeaveEntitlementAction extends baseLeaveAction {
     
     protected $leaveEntitlementService;
     
@@ -123,6 +123,9 @@ class addLeaveEntitlementAction extends sfAction {
                 }
                 
                 $this->redirect('leave/viewLeaveEntitlements?savedsearch=1');
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         } else {
             if ($request->hasParameter('id')) {                

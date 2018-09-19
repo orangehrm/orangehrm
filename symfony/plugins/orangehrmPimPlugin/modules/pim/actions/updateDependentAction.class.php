@@ -58,6 +58,9 @@ class updateDependentAction extends basePimAction {
                 if ($this->form->isValid()) {
                     $this->form->save();
                     $this->getUser()->setFlash('viewDependents.success', __(TopLevelMessages::SAVE_SUCCESS));
+                } else {
+                    $this->handleBadRequest();
+                    $this->forwardToSecureAction();
                 }
             }
         }

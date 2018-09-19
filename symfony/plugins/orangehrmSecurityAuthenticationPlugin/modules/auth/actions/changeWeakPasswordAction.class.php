@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-class changeWeakPasswordAction extends sfAction
+class changeWeakPasswordAction extends ohrmBaseAction
 {
     protected $authenticationService;
     protected $systemUserService;
@@ -71,7 +71,8 @@ class changeWeakPasswordAction extends sfAction
                 }
 
             }else{
-                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED));
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
+                $this->handleBadRequest();
             }
         }
     }

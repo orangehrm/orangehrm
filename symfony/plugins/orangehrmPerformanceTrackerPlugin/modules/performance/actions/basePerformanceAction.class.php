@@ -10,7 +10,7 @@
  *
  * @author indiran
  */
-abstract class basePerformanceAction  extends sfAction{
+abstract class basePerformanceAction  extends ohrmBaseAction {
     
     public $employeeService;
     public $performanceTrackerService;
