@@ -27,7 +27,7 @@ abstract class ohrmBaseAction extends sfAction
     /**
      * Handle response code as a bad request
      */
-    protected function handleBadRequest()
+    final protected function handleBadRequest()
     {
         $response = $this->getResponse();
         $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
@@ -37,7 +37,7 @@ abstract class ohrmBaseAction extends sfAction
      * Forward to defined secure action in the secure module
      * @throws sfStopException
      */
-    protected function forwardToSecureAction()
+    final protected function forwardToSecureAction()
     {
         $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
     }
