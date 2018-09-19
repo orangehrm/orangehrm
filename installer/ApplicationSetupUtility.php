@@ -21,6 +21,7 @@
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
 require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/phpseclib/phpseclib/Crypt/Random.php';
 require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.php';
+require_once ROOT_PATH.'/installer/SystemConfiguration.php';
 
 class ApplicationSetupUtility {
 
@@ -397,6 +398,26 @@ public static function writeLog() {
 	fclose($handle);
 }
 
+    /**
+     * Set organization information,
+     * Create admin user and assign employee to the admin,
+     * Save instance ID to database
+     */
+    public static function insertSystemConfiguration() {
+        $sys = new SystemConfiguration();
+
+        $sys->setOrganizationName($_SESSION['defUser']['organizationName']);
+        $sys->setCountry($_SESSION['defUser']['country']);
+        if (!is_null($_SESSION['defUser']['language'])) {
+            $sys->setLanguage($_SESSION['defUser']['language']);
+        }
+        $sys->setAdminName($_SESSION['defUser']['adminEmployeeFirstName'], $_SESSION['defUser']['adminEmployeeLastName']);
+        $sys->setAdminEmail($_SESSION['defUser']['organizationEmailAddress']);
+        $sys->setAdminContactNumber($_SESSION['defUser']['contactNumber']);
+        $sys->createAdminUser($_SESSION['defUser']['AdminUserName'], $_SESSION['defUser']['AdminPassword']);
+        $sys->setInstanceIdentifier($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['randomNumber']);
+    }
+
 public static function install() { 
    if (isset($_SESSION['INSTALLING'])) {
 	switch ($_SESSION['INSTALLING']) {
@@ -429,8 +450,9 @@ public static function install() {
 
 		case 2	:	error_log (date("r")." Fill Data Phase 2 - Starting\n",3, self::getErrorLogPath());
 					self::fillData(2);
-                                        self::createMysqlEvents();
-                                        self::insertCsrfKey();
+					self::createMysqlEvents();
+					self::insertCsrfKey();
+					self::insertSystemConfiguration();
 					error_log (date("r")." Fill Data Phase 2 - Done\n",3, self::getErrorLogPath());
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$res = self::initUniqueIDs();
