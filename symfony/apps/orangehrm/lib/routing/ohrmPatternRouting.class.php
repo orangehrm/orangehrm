@@ -11,8 +11,10 @@ class ohrmPatternRouting extends sfPatternRouting {
             if (preg_match("/\.html(.)+/i", $url) || preg_match("/\.rss(.)+/i", $url)) {
                 return false;
             }
-        } else if (preg_match("/(.)*\.(.)*/", $url) || preg_match("/((.)*~)$/", $url)) {
-            return false;
+        } elseif (preg_match("/(.)*\.(.)*/", $url) || preg_match("/((.)*~)$/", $url)) {
+            if (!preg_match("/[0-9]+\.[0-9]+/", $url)) {
+                return false;
+            }
         }
 
         foreach ($this->routes as $name => $route) {
