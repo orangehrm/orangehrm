@@ -60,7 +60,7 @@ class sysConf {
    */
   protected $sendmailPathEditOnlyFromLocalHost = true; // Set to edit sendmail path from
 
-  function sysConf() {
+  function __construct() {
 
     $this->itemsPerPage=50;
 
