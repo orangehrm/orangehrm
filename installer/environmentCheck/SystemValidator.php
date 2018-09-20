@@ -232,4 +232,13 @@ class SystemValidator
         }
         return false;
     }
+
+    /**
+     * Return PHP version
+     * @return string
+     */
+    public function getPhpVersion()
+    {
+        return phpversion();
+    }
 }
