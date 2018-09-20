@@ -22,7 +22,8 @@
 /**
  * Class ohrmPatternRouting
  */
-class ohrmPatternRouting extends sfPatternRouting {
+class ohrmPatternRouting extends sfPatternRouting
+{
 
     /**
      * This is overridden method of sfPatternRouting class
@@ -30,7 +31,8 @@ class ohrmPatternRouting extends sfPatternRouting {
      * @return array|bool
      * @throws sfException
      */
-    protected function getRouteThatMatchesUrl($url) {
+    protected function getRouteThatMatchesUrl($url)
+    {
 
         /* Allow if only one match `.html` or `.rss` pattern in the URL. */
         if (
