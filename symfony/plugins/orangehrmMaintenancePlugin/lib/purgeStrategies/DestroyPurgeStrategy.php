@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,35 +16,19 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA
  */
-class employeeDataAction extends sfAction
+
+/**
+ * Class DestroyPurgeStrategy
+ */
+class DestroyPurgeStrategy extends AbstractPurgeStrategy
 {
     /**
-     * @param sfRequest $request
-     * @return mixed|void
+     * @param $employeeNumber
      * @throws DaoException
      */
-    public function execute($request)
+    public function purge($employeeNumber)
     {
-        // TODO: Implement execute() method.
-        $data = $request->getParameterHolder()->getAll();
-        $user = $this->getEmployeeService()->getEmployee($data['empployeeID'])->toArray();
-
-        $this->empNumber = $user['empNumber'];
-        $this->firstName = $user['firstName'];
-        $this->middleName = $user['middleName'];
-        $this->lastName = $user['lastName'];
-        $this->employeeId = $user['employeeId'];
-
-    }
-
-    /**
-     * @return EmployeeService|mixed
-     */
-    public function getEmployeeService()
-    {
-        if (!isset($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
+        $matchByValues = $this->getMatchByValues($employeeNumber);
+        $this->getMaintenanceService()->removeEntities($this->getEntityClassName(), $matchByValues);
     }
 }

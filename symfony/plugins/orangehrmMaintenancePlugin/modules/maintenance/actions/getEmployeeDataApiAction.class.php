@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,46 +17,38 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA
  */
-class GetAllDataForm extends BaseForm
+
+/**
+ * Class getEmployeeDataApiAction
+ */
+class getEmployeeDataApiAction extends sfAction
 {
     /**
-     * @configure function of form
+     * @param sfRequest $request
+     * @return mixed|void
+     * @throws DaoException
      */
-    public function configure()
+    public function execute($request)
     {
-        $this->setWidgets($this->getWidgetList());
-        $this->setValidators($this->getValidatorList());
-        $this->getWidgetSchema()->setLabels($this->getLabelList());
+
+        // TODO: Implement execute() method.
+        $data = $request->getParameterHolder()->getAll();
+        $purgeEmployee = $this->getEmployeeService()->getEmployee($data['empployeeID'])->toArray();
+        $this->empNumber = $purgeEmployee['empNumber'];
+        $this->firstName = $purgeEmployee['firstName'];
+        $this->middleName = $purgeEmployee['middleName'];
+        $this->lastName = $purgeEmployee['lastName'];
+        $this->employeeId = $purgeEmployee['employeeId'];
     }
 
     /**
-     * @return array
+     * @return EmployeeService|mixed
      */
-    public function getWidgetList()
+    public function getEmployeeService()
     {
-        $widgets = array();
-        $widgets['employee'] = new ohrmWidgetEmployeeNameAutoFill();
-        return $widgets;
-    }
-
-    /**
-     * @return array
-     */
-    public function getValidatorList()
-    {
-        $validators = array();
-        $validators['employee'] = new ohrmValidatorEmployeeNameAutoFill(array('required' => true));
-        return $validators;
-    }
-
-    /**
-     * @return array
-     */
-    public function getLabelList()
-    {
-        $requiredMarker = ' <em>*</em>';
-        $lableList = array();
-        $lableList['employee'] = __('Select Terminated Employee') . $requiredMarker;
-        return $lableList;
+        if (!isset($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+        }
+        return $this->employeeService;
     }
 }

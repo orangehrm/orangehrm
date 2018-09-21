@@ -17,7 +17,6 @@
  * Boston, MA 02110-1301, USA
  */
 use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/PassWordValidation'));
-
 ?>
 <div class="box">
     <?php include_partial('global/flash_messages'); ?>
@@ -26,16 +25,13 @@ use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/PassWordValidat
         <h1><?php echo __('Verify Password'); ?></h1>
     </div>
     <div class="inner">
-
         <form id="frmPurgeEmployeeAuthenticate" method="post"
               action="<?php echo url_for('maintenance/purgeEmployee'); ?>">
-
-
             <div class="row">
                 <fieldset>
                     <div class="input-field col s12 m12 l4">
                         <ol>
-                            <?php echo $form->render(); ?>
+                            <?php echo $purgeAuthenticateForm->render(); ?>
                         </ol>
                     </div>
                 </fieldset>

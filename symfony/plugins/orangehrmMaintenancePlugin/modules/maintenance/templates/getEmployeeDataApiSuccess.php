@@ -49,5 +49,8 @@
     </div>
 </div>
 <div class="input-field col s12 m12 l12 " id="purgeButton">
-    <input type="submit" value="Purge">
+    <input type="submit" id="btnDelete" name="btnDelete" value="Purge" data-toggle="modal"
+           data-target="#deleteConfModal">
 </div>
+
+

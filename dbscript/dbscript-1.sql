@@ -309,7 +309,8 @@ create table `hs_hr_employee` (
   `custom8` varchar(250) default null,
   `custom9` varchar(250) default null,
   `custom10` varchar(250) default null,
-  `purged_at` varchar(250) default null,
+  `purged_at` TIMESTAMP NULL DEFAULT NULL,
+
   primary key  (`emp_number`)
 ) engine=innodb default charset=utf8;
 

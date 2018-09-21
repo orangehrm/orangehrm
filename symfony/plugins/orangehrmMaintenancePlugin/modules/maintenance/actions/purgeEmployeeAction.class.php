@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,8 +16,17 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA
  */
+
+/**
+ * Class purgeEmployeeAction
+ */
 class purgeEmployeeAction extends sfAction
 {
+
+    private $maintenanceManager;
+    private $employeeService;
+    private $authVerifyService;
+
     /**
      * @param sfRequest $request
      * @return mixed|void
@@ -29,48 +37,46 @@ class purgeEmployeeAction extends sfAction
         // TODO: Implement execute() method.
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
-
-        $value = $request->hasParameter('check_authenticate');
+        $checkIfReqestToAuthenticate = $request->hasParameter('check_authenticate');
         $data = $request->getParameterHolder()->getAll();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $value) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $checkIfReqestToAuthenticate) {
             $userId = sfContext::getInstance()->getUser()->getAttribute('auth.userId');
-
-            if ($this->getAuthenticateVerifyService()->isCurrentPassword($userId, $data['confirm_password'])) {
+            if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
                 $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->form = new PurgeForm();
+                $this->purgeform = new PurgeForm();
             } else {
-                $this->form = new PurgeAuthenticateForm();
+                $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
                 $this->getUser()->setFlash('warning', __(CommonMessages::CREDENTIALS_REQUIRED));
             }
         } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $this->form = new PurgeAuthenticateForm();
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !$value) {
+            $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !$checkIfReqestToAuthenticate) {
             if (empty($data['employee']['empId']) or $data['employee']['empName'] == 'Type for hints...') {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SELECT_RECORDS));
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->form = new PurgeForm();
+                $this->purgeform = new PurgeForm();
             } else {
                 $this->purge($data);
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->form = new PurgeForm();
+                $this->purgeform = new PurgeForm();
             }
         }
     }
 
     /**
-     * @return AuthenticateVerifyService|mixed
+     * @return mixed|SystemUserService
      */
-    protected function getAuthenticateVerifyService()
+    protected function getSystemUserService()
     {
-        if (!isset($this->authVerifyService)) {
-            $this->authVerifyService = new AuthenticateVerifyService();
+        if (!isset($this->systemUserService)) {
+            $this->systemUserService = new SystemUserService();
         }
-        return $this->authVerifyService;
+        return $this->systemUserService;
     }
 
     /**
-     * @return EmployeeService|mixed
+     * @return EmployeeService
      */
     public function getEmployeeService()
     {
@@ -81,19 +87,18 @@ class purgeEmployeeAction extends sfAction
     }
 
     /**
-     * @return MaintenanceService|mixed
+     * @return MaintenanceManager
      */
-    public function getMaintenanceService()
+    public function getMaintenanceManager()
     {
-        if (!isset($this->maintenanceService)) {
-            $this->maintenanceService = new MaintenanceService();
+        if (!isset($this->maintenanceManager)) {
+            $this->maintenanceManager = new MaintenanceManager();
         }
-        return $this->maintenanceService;
+        return $this->maintenanceManager;
     }
 
     /**
      * @param $data
-     * this will purge employee data
      */
     protected function purge($data)
     {
@@ -104,19 +109,18 @@ class purgeEmployeeAction extends sfAction
             if (empty($employee) || empty($employee->getTerminationId())) {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SELECT_RECORDS));
                 $this->setTemplate('purgeAllRecords', 'pim');
-                $this->form = new PurgeForm();
+                $this->purgeform = new PurgeForm();
             } else {
-                $this->getMaintenanceService()->purgeEmployee($empNumber);
+                $this->getMaintenanceManager()->purgeEmployee($empNumber);
                 $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-                $this->setTemplate('purgeAllRecords', 'pim');
-                $this->form = new PurgeForm();
+//                $this->setTemplate('purgeAllRecords', 'pim');
+//                $this->purgeform = new PurgeForm();
             }
         } catch (Exception $e) {
             $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_FAILURE));
             $this->setTemplate('purgeAllRecords', 'pim');
-            $this->form = new PurgeForm();
+            $this->purgeform = new PurgeForm();
         }
-
     }
 }
 

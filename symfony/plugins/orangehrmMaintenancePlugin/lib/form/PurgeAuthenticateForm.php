@@ -16,6 +16,10 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA
  */
+
+/**
+ * Class PurgeAuthenticateForm
+ */
 class PurgeAuthenticateForm extends sfForm
 {
     /**
@@ -25,7 +29,7 @@ class PurgeAuthenticateForm extends sfForm
     {
         $this->setWidgets($this->getWidgetList());
         $this->getWidgetSchema()->setLabels($this->getLabelList());
-        $this->setDefault('check_authenticate', 'asadasdasd');
+        $this->setDefault('check_authenticate', 'Authenticate Required');
         $this->setValidators($this->getFormValidators());
     }
 

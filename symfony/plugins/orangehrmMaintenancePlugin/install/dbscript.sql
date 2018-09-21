@@ -53,4 +53,3 @@ INSERT INTO ohrm_data_group_screen (data_group_id, screen_id, permission) VALUES
 
 INSERT INTO ohrm_user_role_data_group (user_role_id, data_group_id, can_read, can_create, can_update, can_delete, self) VALUES
   (@admin_role_id, @data_group_id, 1, 1, 1, 1, 1);
-

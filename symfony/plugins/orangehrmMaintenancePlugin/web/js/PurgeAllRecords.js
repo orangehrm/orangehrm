@@ -5,6 +5,10 @@ $(document).ready(function () {
             var data = getEmployeeData(emp_id)
         }
     });
+    $(".btn").click(function () {
+        $("#frmPurgeEmployee").submit();
+    });
+
 });
 
 function getEmployeeData(id) {

@@ -16,6 +16,10 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA
  */
+
+/**
+ * Class accessEmployeeDataAction
+ */
 class accessEmployeeDataAction extends sfAction
 {
     /**
@@ -25,6 +29,17 @@ class accessEmployeeDataAction extends sfAction
     public function execute($request)
     {
         // TODO: Implement execute() method.
-        $this->form = new GetAllDataForm();
+        $this->getUser()->setFlash('warning', null);
+        $this->getUser()->setFlash('success', null);
+
+        $data = $request->getParameterHolder()->getAll();
+        var_dump($_SERVER['REQUEST_METHOD'],$data);
+        if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+            $this->accsessAllDataForm = new AccsessAllDataForm();
+        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' and empty($data['employee']['empId'])){
+            $this->accsessAllDataForm = new AccsessAllDataForm();
+        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' and !empty($data['employee']['empId'])){
+            $this->accsessAllDataForm = new AccsessAllDataForm();
+        }
     }
 }

@@ -17,9 +17,15 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA
  */
+
+/**
+ * Class orangehrmMaintenancePluginConfiguration
+ */
 class orangehrmMaintenancePluginConfiguration extends sfPluginConfiguration
 {
-
+    /**
+     * @return bool|null|void
+     */
     public function initialize()
     {
         $enabledModules = sfConfig::get('sf_enabled_modules');
