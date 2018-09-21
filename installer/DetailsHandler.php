@@ -70,15 +70,13 @@ class DetailsHandler
         $dbCreateMethod = $configurationDataSet["IsExistingDatabase"]; //existing/new
         $sameOhrmUser = $configurationDataSet["UseTheSameOhrmDatabaseUser"];
 
-        $companyName = $configurationDataSet["CompanyName"];
-        $wantSendData = $configurationDataSet["SendUsageDataToOrangeHRM"];
         $isPort = $configurationDataSet["IsPort"];
 
         $organizationName = $configurationDataSet["organizationName"];
         $adminEmployeeFirstName = $configurationDataSet["adminEmployeeFirstName"];
         $adminEmployeeLastName = $configurationDataSet["adminEmployeeLastName"];
 
-        $this->setConfigurationFromParameter($dbHostName, $dbHostPort, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $companyName, $wantSendData, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName);
+        $this->setConfigurationFromParameter($dbHostName, $dbHostPort, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName);
     }
 
     /**
@@ -272,7 +270,7 @@ class DetailsHandler
      *details assign from with config.ini file or user inputs.
      *$_SESSION['dbInfo'] validation part will do in BasicConfiguration.php file , BasicConfiguration class->dbConfigurationCheck()
      */
-    public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $databaseName, $adminUserName, $adminPassword, $orangehrmDatabaseUser, $orangehrmDatabasePassword, $privilegedDatabaseUser, $privilegedDatabasePassword, $databaseRootPassword, $encryption, $DatabaseToUse, $sameOhrmUser, $companyName, $wantSendData, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName)
+    public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $databaseName, $adminUserName, $adminPassword, $orangehrmDatabaseUser, $orangehrmDatabasePassword, $privilegedDatabaseUser, $privilegedDatabasePassword, $databaseRootPassword, $encryption, $DatabaseToUse, $sameOhrmUser, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName)
     {
         $_SESSION['dbInfo']['dbHostName'] = $this->isFillInConfig($hostName, "Host name ");
         $_SESSION['dbInfo']['dbHostPort'] = $this->isFillInConfig($hostPortOrSocket, "Port or Socket id ");
@@ -316,9 +314,6 @@ class DetailsHandler
             $_SESSION['dbInfo']['dbPassword'] = $this->getPasswordFromUser($privilegedDatabasePassword, "privileged Database ");
         }
 
-
-        $this->getMessages()->displayMessage(Messages::SEPERATOR);
-
         if ($_SESSION['ENCRYPTION']) {
             $keyResult = createKeyFile('key.ohrm');
         } else {
@@ -327,6 +322,8 @@ class DetailsHandler
         $_SESSION['defUser']['organizationName'] = $this->isFilledInConfigRegister($organizationName, "Organization Name ");
         $_SESSION['defUser']['adminEmployeeFirstName'] = $this->isFilledInConfigRegister($adminEmployeeFirstName, "Admin Employee First Name ");
         $_SESSION['defUser']['adminEmployeeLastName'] = $this->isFilledInConfigRegister($adminEmployeeLastName, "Admin Employee Last Name ");
+
+        $this->getMessages()->displayMessage(Messages::SEPERATOR . "\n");
     }
 
 
