@@ -21,17 +21,27 @@
 class UpgradeOrangehrmRegistration
 {
     private $sysConf = null;
+    private $systemValidator = null;
 
     /**
      * Send the registration data captured during the installation
      * @return bool
      */
-    public function sendRegistrationData() {
+    public function sendRegistrationData()
+    {
         $mode = $this->getSysConf()->getMode();
         if ($mode == sysConf::PROD_MODE) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "https://ospenguin.orangehrm.com");
             curl_setopt($ch, CURLOPT_POST, 1);
+
+            $platformData = array(
+                "os" => $this->getOsDetails(),
+                "php" => $this->getPhpDetails(),
+                "mysql" => $this->getMySqlDetails(),
+                "server" => $this->getServerDetails(),
+                "ohrm" => $this->getOhrmDetails(),
+            );
 
             $data = "username=" . $_SESSION['defUser']['AdminUserName']
                 . "&email=" . $_SESSION['defUser']['organizationEmailAddress']
@@ -43,7 +53,8 @@ class UpgradeOrangehrmRegistration
                 . "&country=" . $_SESSION['defUser']['country']
                 . "&organization_name=" . $_SESSION['defUser']['organizationName']
                 . "&type=" . "0"
-                . "&instance_identifier=" . $this->getInstanceIdentifier();
+                . "&instance_identifier=" . $this->getInstanceIdentifier()
+                . "&platform_data=" . json_encode($platformData);
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -80,5 +91,71 @@ class UpgradeOrangehrmRegistration
             $this->sysConf = new sysConf();
         }
         return $this->sysConf;
+    }
+
+    /**
+     * Return running operating system details
+     * @return array
+     */
+    private function getOsDetails() {
+        return array(
+            "os" => php_uname('s'),
+            "release_name" => php_uname('r'),
+            "version_info" => php_uname('v'),
+        );
+    }
+
+    /**
+     * Return PHP environment details
+     * @return array
+     */
+    private function getPhpDetails() {
+        return array(
+            "version" => $this->getSysValidator()->getPhpVersion()
+        );
+    }
+
+    /**
+     * Return MySQL details
+     * @return array
+     */
+    private function getMySqlDetails() {
+        return array(
+            "client_version" => $this->getSysValidator()->getMySqlClientVersion(),
+            "server_version" => $this->getSysValidator()->getMySqlServerVersion(),
+            "conn_type" => $this->getSysValidator()->getMySqlConnectionType()
+        );
+    }
+
+    /**
+     * Return web server details
+     * @return array
+     */
+    private function getServerDetails() {
+        return array(
+            "version" => $this->getSysValidator()->getServerDetails()
+        );
+    }
+
+    /**
+     * Return OrangeHRM details
+     * @return array
+     */
+    private function getOhrmDetails() {
+        return array(
+            "version" => $this->getSysConf()->getVersion()
+        );
+    }
+
+    /**
+     * Return object of SystemValidator
+     * @return null|SystemValidator
+     */
+    private function getSysValidator() {
+        require_once(sfConfig::get('sf_root_dir') . "/../installer/environmentCheck/SystemValidator.php");
+        if (is_null($this->systemValidator)) {
+            $this->systemValidator = new SystemValidator();
+        }
+        return $this->systemValidator;
     }
 }

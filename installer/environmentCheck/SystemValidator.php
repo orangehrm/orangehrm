@@ -27,6 +27,10 @@ class SystemValidator
      * @var array|null
      */
     private $systemRequirements = null;
+    /**
+     * @var PDO|null
+     */
+    private $dbConnection = null;
 
     public function __construct()
     {
@@ -231,5 +235,130 @@ class SystemValidator
             return true;
         }
         return false;
+    }
+
+    /**
+     * Return database connection
+     * @return null|PDO|void
+     */
+    public function getDbConn()
+    {
+        $host = $_SESSION['dbHostName'];
+        $username = $_SESSION['dbUserName'];
+        $password = $_SESSION['dbPassword'];
+        $port = $_SESSION['dbHostPort'];
+
+        if ($this->dbConnection instanceof PDO) {
+            return $this->dbConnection;
+        }
+
+        try {
+            $this->dbConnection = $this->createDbConnection($username, $password, $host, $port);
+            return $this->dbConnection;
+        } catch (PDOException $e) {
+            return;
+        }
+
+    }
+
+    /**
+     * @param $username
+     * @param $password
+     * @param null $host
+     * @param null $port
+     * @param null $dbname
+     * @param null $unix_socket
+     * @return null|PDO|void
+     */
+    public function createDbConnection(
+        $username,
+        $password,
+        $host = null,
+        $port = null,
+        $dbname = null,
+        $unix_socket = null
+    ) {
+        $dsn = "mysql:";
+
+        if (!is_null($host)) {
+            $dsn .= "host=" . $host . ";";
+        }
+        if (!is_null($port)) {
+            $dsn .= "port=" . $port . ";";
+        }
+        if (!is_null($unix_socket)) {
+            $dsn = "mysql:unix_socket=" . $unix_socket . ";";
+        }
+        if (!is_null($dbname)) {
+            $dsn .= "dbname=" . $dbname . ";";
+        }
+
+        $dsn .= "charset=utf8mb4";
+
+        try {
+            $dbConn = new PDO($dsn, $username, $password);
+            return $dbConn;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Return PHP version
+     * @return string
+     */
+    public function getPhpVersion()
+    {
+        return phpversion();
+    }
+
+    /**
+     * Return web server details
+     * @return mixed
+     */
+    public function getServerDetails()
+    {
+        return $_SERVER['SERVER_SOFTWARE'];
+    }
+
+    /**
+     * Return MySQL client version
+     * @return mixed
+     */
+    public function getMySqlClientVersion()
+    {
+        return $this->getPdoAttribute(PDO::ATTR_CLIENT_VERSION);
+    }
+
+    /**
+     * Return MySQL server version
+     * @return mixed
+     */
+    public function getMySqlServerVersion()
+    {
+        return $this->getPdoAttribute(PDO::ATTR_SERVER_VERSION);
+    }
+
+    /**
+     * Return MySQL connection type
+     * @return mixed
+     */
+    public function getMySqlConnectionType()
+    {
+        return $this->getPdoAttribute(PDO::ATTR_CONNECTION_STATUS);
+    }
+
+    /**
+     * Return PDO attribute if database connection successful
+     * @param $attribute
+     * @return mixed|void
+     */
+    public function getPdoAttribute($attribute)
+    {
+        $dbConn = $this->getDbConn();
+        if ($dbConn instanceof PDO) {
+            return $dbConn->getAttribute($attribute);
+        }
+        return;
     }
 }

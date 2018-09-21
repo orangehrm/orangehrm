@@ -123,13 +123,13 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			$_SESSION['defUser']['AdminPassword'] = $detailsHandler->getAdminPassword();
 			$_SESSION['defUser']['randomNumber'] = rand(1,100);
 
-			$ohrmRegistration->sendRegistrationData();
-
 			$_SESSION['dbHostName'] = $detailsHandler->getHost();
 			$_SESSION['dbUserName'] = $detailsHandler->getOrangehrmDatabaseUser();
 			$_SESSION['dbPassword'] = $detailsHandler->getOrangehrmDatabasePassword();
 			$_SESSION['dbName'] = $detailsHandler->getDatabaseName();
 			$_SESSION['dbHostPort'] = $detailsHandler->getPort();
+
+			$ohrmRegistration->sendRegistrationData();
 			
 			$controlval = 0;
 			for ($i=0; $i < $_SESSION['INSTALLING']-$controlval; $i++){

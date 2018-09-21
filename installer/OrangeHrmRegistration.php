@@ -21,6 +21,7 @@
 class OrangeHrmRegistration
 {
     private $sysConf = null;
+    private $systemValidator = null;
 
     /**
      * Get instance of sysConf
@@ -56,6 +57,14 @@ class OrangeHrmRegistration
             curl_setopt($ch, CURLOPT_URL, $this->getRegistrationUrl());
             curl_setopt($ch, CURLOPT_POST, 1);
 
+            $platformData = array(
+                "os" => $this->getOsDetails(),
+                "php" => $this->getPhpDetails(),
+                "mysql" => $this->getMySqlDetails(),
+                "server" => $this->getServerDetails(),
+                "ohrm" => $this->getOhrmDetails(),
+            );
+
             $data = "username=" . $_SESSION['defUser']['AdminUserName']
                 . "&email=" . $_SESSION['defUser']['organizationEmailAddress']
                 . "&telephone=" . ($_SESSION['defUser']['contactNumber'] ? $_SESSION['defUser']['contactNumber'] : "Not captured")
@@ -66,7 +75,8 @@ class OrangeHrmRegistration
                 . "&country=" . $_SESSION['defUser']['country']
                 . "&organization_name=" . $_SESSION['defUser']['organizationName']
                 . "&type=" . "0"
-                . "&instance_identifier=" . $this->getInstanceIdentifier();
+                . "&instance_identifier=" . $this->getInstanceIdentifier()
+                . "&platform_data=" . json_encode($platformData);
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -90,5 +100,71 @@ class OrangeHrmRegistration
     private function getInstanceIdentifier() {
         $unencodedIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
         return base64_encode($unencodedIdentifier);
+    }
+
+    /**
+     * Return running operating system details
+     * @return array
+     */
+    private function getOsDetails() {
+        return array(
+            "os" => php_uname('s'),
+            "release_name" => php_uname('r'),
+            "version_info" => php_uname('v'),
+        );
+    }
+
+    /**
+     * Return PHP environment details
+     * @return array
+     */
+    private function getPhpDetails() {
+        return array(
+            "version" => $this->getSysValidator()->getPhpVersion()
+        );
+    }
+
+    /**
+     * Return MySQL details
+     * @return array
+     */
+    private function getMySqlDetails() {
+        return array(
+            "client_version" => $this->getSysValidator()->getMySqlClientVersion(),
+            "server_version" => $this->getSysValidator()->getMySqlServerVersion(),
+            "conn_type" => $this->getSysValidator()->getMySqlConnectionType()
+        );
+    }
+
+    /**
+     * Return web server details
+     * @return array
+     */
+    private function getServerDetails() {
+        return array(
+          "version" => $this->getSysValidator()->getServerDetails()
+        );
+    }
+
+    /**
+     * Return OrangeHRM details
+     * @return array
+     */
+    private function getOhrmDetails() {
+        return array(
+            "version" => $this->getSysConf()->getVersion()
+        );
+    }
+
+    /**
+     * Return object of SystemValidator
+     * @return null|SystemValidator
+     */
+    private function getSysValidator() {
+        require_once(realpath(dirname(__FILE__)) . "/environmentCheck/SystemValidator.php");
+        if (is_null($this->systemValidator)) {
+            $this->systemValidator = new SystemValidator();
+        }
+        return $this->systemValidator;
     }
 }
