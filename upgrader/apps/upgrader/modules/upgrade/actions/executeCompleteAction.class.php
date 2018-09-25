@@ -11,5 +11,6 @@ class executeCompleteAction extends sfAction {
         $this->newVersion   = $upgradeUtility->getNewVersion();
         $currentUri         = $this->getRequest()->getUri();
         $this->mainAppUrl   = str_replace("/upgrader/web/index.php/upgrade/executeComplete", "", $currentUri);
+        $_SESSION['Installation'] = "You have successfully upgraded OrangeHRM";
     }
 }
