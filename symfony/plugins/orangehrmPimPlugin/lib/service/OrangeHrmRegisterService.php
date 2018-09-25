@@ -45,7 +45,8 @@ class OrangeHrmRegisterService
                 . "&organization_name=" . $_SESSION['defUser']['organizationName']
                 . "&instance_identifier=" . $this->getInstanceIdentifier()
                 . "&type=" . $_SESSION['defUser']['type']
-                . "&employee_count=" . $_SESSION['defUser']['employee_count'];
+                . "&employee_count=" . $_SESSION['defUser']['employee_count']
+                . "&installation_status=" . $_SESSION['defUser']['installationStatus'];
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

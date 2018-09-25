@@ -70,6 +70,7 @@ class OrangeHrmRegistration
                 . "&type=" . "0"
                 . "&instance_identifier=" . $this->getInstanceIdentifier()
                 . "&system_details=" . $this->getSystemDetails();
+                . "&installation_status=" . $_SESSION['defUser']['installationStatus'];
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

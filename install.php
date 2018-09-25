@@ -228,6 +228,7 @@ if (isset($_POST['actionResponse']))
 
         case 'CONFIRMED' : {
             $_SESSION['INSTALLING'] = 0;
+            $_SESSION['defUser']['installationStatus'] = "web-installer-started";
             $ohrmRegistration->sendRegistrationData();
         }
             break;
