@@ -122,6 +122,7 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			$_SESSION['defUser']['AdminUserName'] = $detailsHandler->getAdminUserName();
 			$_SESSION['defUser']['AdminPassword'] = $detailsHandler->getAdminPassword();
 			$_SESSION['defUser']['randomNumber'] = rand(1,100);
+            $_SESSION['defUser']['installationStatus'] = "cli-installer-started";
 
 			$_SESSION['dbHostName'] = $detailsHandler->getHost();
 			$_SESSION['dbUserName'] = $detailsHandler->getOrangehrmDatabaseUser();
