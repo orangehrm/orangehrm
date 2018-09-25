@@ -43,7 +43,8 @@ class UpgradeOrangehrmRegistration
                 . "&country=" . $_SESSION['defUser']['country']
                 . "&organization_name=" . $_SESSION['defUser']['organizationName']
                 . "&type=" . "0"
-                . "&instance_identifier=" . $this->getInstanceIdentifier();
+                . "&instance_identifier=" . $this->getInstanceIdentifier()
+                . "&system_details=" . $this->getSystemDetails();
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -80,5 +81,15 @@ class UpgradeOrangehrmRegistration
             $this->sysConf = new sysConf();
         }
         return $this->sysConf;
+    }
+
+    /**
+     * Return system details as a JSON string
+     * @return string
+     */
+    private function getSystemDetails() {
+        require_once(sfConfig::get('sf_root_dir') . "/../installer/SystemDetailHelper.php");
+        $sysDetailHelper = new SystemDetailHelper();
+        return $sysDetailHelper->getSystemDetailsAsJson();
     }
 }
