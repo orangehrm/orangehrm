@@ -18,6 +18,8 @@
  *
  */
 
+require_once(realpath(dirname(__FILE__)).'/SystemDetailHelper.php');
+
 class OrangeHrmRegistration
 {
     private $sysConf = null;
@@ -66,7 +68,8 @@ class OrangeHrmRegistration
                 . "&country=" . $_SESSION['defUser']['country']
                 . "&organization_name=" . $_SESSION['defUser']['organizationName']
                 . "&type=" . "0"
-                . "&instance_identifier=" . $this->getInstanceIdentifier();
+                . "&instance_identifier=" . $this->getInstanceIdentifier()
+                . "&system_details=" . $this->getSystemDetails();
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -90,5 +93,14 @@ class OrangeHrmRegistration
     private function getInstanceIdentifier() {
         $unencodedIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
         return base64_encode($unencodedIdentifier);
+    }
+
+    /**
+     * Return system details as a JSON string
+     * @return string
+     */
+    private function getSystemDetails() {
+        $sysDetailHelper = new SystemDetailHelper();
+        return $sysDetailHelper->getSystemDetailsAsJson();
     }
 }
