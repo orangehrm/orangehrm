@@ -16,14 +16,18 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA
  */
+use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/AccessEmployeeData'));
+use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSuccess'));
+
 ?>
 <div class="box">
     <?php include_partial('global/flash_messages'); ?>
     <div class="head">
         <h1><?php echo __('Get All Employee Records'); ?></h1>
     </div>
-    <div class="inner">
-        <form id="frmPurgeEmployee" method="post" action="<?php echo url_for('maintenance/accessEmployeeData'); ?>">
+
+    <form id="frmAccessEmployeeData" method="post" action="<?php echo url_for('maintenance/accessEmployeeData'); ?>">
+        <div class="inner">
             <fieldset>
                 <div class="input-field col s12 m12 l4">
                     <ol>
@@ -33,8 +37,30 @@
             </fieldset>
             <div class="input-field col s12 m12 l4">
                 <br>
-                <input type="submit" value="Download">
+                <input class="search_employee" type="button" value="Search">
             </div>
-        </form>
+
+        </div>
+</div>
+<!--here employee data will fill by a ajax call call is in PurgeAllData.js-->
+<div class="box" id="selected_employee">
+</div>
+</form>
+
+
+<div class="modal hide" id="deleteConfModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
+    </div>
+    <div class="modal-body">
+        <p>Download Employee Records?</p>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn" data-dismiss="modal" id="dialogDeleteBtn" value="<?php echo __('Ok'); ?>"/>
+        <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>
+<script>
+    var ajaxUrl = "<?php echo url_for('maintenance/getEmployeeDataApi'); ?>";
+</script>

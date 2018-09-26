@@ -30,7 +30,6 @@ class FormatWithPurgeString implements ValueFormatter
      */
     public function getFormattedValue($entityValue)
     {
-        // TODO: Implement getReplaceValue() method
         return 'Purge';
     }
 

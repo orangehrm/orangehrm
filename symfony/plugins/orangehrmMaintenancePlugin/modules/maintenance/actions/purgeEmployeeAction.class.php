@@ -25,7 +25,6 @@ class purgeEmployeeAction extends sfAction
 
     private $maintenanceManager;
     private $employeeService;
-    private $authVerifyService;
 
     /**
      * @param sfRequest $request
@@ -34,7 +33,6 @@ class purgeEmployeeAction extends sfAction
      */
     public function execute($request)
     {
-        // TODO: Implement execute() method.
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
         $checkIfReqestToAuthenticate = $request->hasParameter('check_authenticate');
@@ -107,20 +105,17 @@ class purgeEmployeeAction extends sfAction
             $employee = $this->getEmployeeService()->getEmployee($empNumber);
 
             if (empty($employee) || empty($employee->getTerminationId())) {
-                $this->getUser()->setFlash('success', __(TopLevelMessages::SELECT_RECORDS));
-                $this->setTemplate('purgeAllRecords', 'pim');
+                $this->getUser()->setFlash('warning', __(ValidationMessages::EMPLOYEE_DOES_NOT_EXIST));
+                $this->setTemplate('purgeAllRecords', 'maintenance');
                 $this->purgeform = new PurgeForm();
             } else {
                 $this->getMaintenanceManager()->purgeEmployee($empNumber);
                 $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-//                $this->setTemplate('purgeAllRecords', 'pim');
-//                $this->purgeform = new PurgeForm();
             }
         } catch (Exception $e) {
-            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_FAILURE));
-            $this->setTemplate('purgeAllRecords', 'pim');
+            $this->getUser()->setFlash('warning', __(TopLevelMessages::DELETE_FAILURE));
+            $this->setTemplate('purgeAllRecords', 'maintenance');
             $this->purgeform = new PurgeForm();
         }
     }
 }
-

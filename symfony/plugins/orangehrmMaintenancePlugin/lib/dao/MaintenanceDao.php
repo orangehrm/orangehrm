@@ -21,7 +21,7 @@
 /**
  * Class PurgeDao
  */
-class PurgeDao extends BaseDao
+class MaintenanceDao extends BaseDao
 {
     /**
      * @param $entityClassName

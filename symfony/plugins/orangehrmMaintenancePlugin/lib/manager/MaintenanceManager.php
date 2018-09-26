@@ -75,5 +75,27 @@ class MaintenanceManager
         return new $purgeStrategy($purgeableEntityClassName, $strategyInfoArray);
     }
 
+//    /////////////////////////////////////////////////////////////////////////////////////
+//access Employee data
+    public function accessEmployeeData($empNumber)
+    {
+        $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
+        try {
+            $connection->beginTransaction();
+            $entities = $this->getPurgeableEntities();
 
+            foreach ($entities as $accessEntityClassName => $accessStrategy) {
+                var_dump($accessEntityClassName);
+                $accessStrategy = $accessStrategy['AccessStrategy'];
+                var_dump($accessStrategy);
+            }
+            $connection->commit();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            $connection->rollback();
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
 }
+

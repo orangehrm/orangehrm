@@ -20,7 +20,7 @@
 /**
  * Class DestroyPurgeStrategy
  */
-class DestroyPurgeStrategy extends AbstractPurgeStrategy
+class DestroyPurgeStrategy extends PurgeStrategy
 {
     /**
      * @param $employeeNumber

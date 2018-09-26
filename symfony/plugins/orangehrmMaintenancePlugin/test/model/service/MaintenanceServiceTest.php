@@ -105,5 +105,4 @@ class MaintenanceServiceTest extends PHPUnit_Framework_TestCase
         $data = $this->maintenanceService->getPurgeEmployeeList();
         $this->assertEquals(gettype($data), 'object');
     }
-
 }

@@ -30,8 +30,6 @@ class getEmployeeDataApiAction extends sfAction
      */
     public function execute($request)
     {
-
-        // TODO: Implement execute() method.
         $data = $request->getParameterHolder()->getAll();
         $purgeEmployee = $this->getEmployeeService()->getEmployee($data['empployeeID'])->toArray();
         $this->empNumber = $purgeEmployee['empNumber'];

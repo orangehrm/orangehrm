@@ -21,7 +21,7 @@
 /**
  * Class ReplaceWithValuePurgeStrategy
  */
-class ReplaceWithValuePurgeStrategy extends AbstractPurgeStrategy
+class ReplaceWithValuePurgeStrategy extends PurgeStrategy
 {
 
     /**

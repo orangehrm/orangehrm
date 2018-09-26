@@ -28,18 +28,59 @@ class accessEmployeeDataAction extends sfAction
      */
     public function execute($request)
     {
-        // TODO: Implement execute() method.
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
 
         $data = $request->getParameterHolder()->getAll();
-        var_dump($_SERVER['REQUEST_METHOD'],$data);
-        if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $this->accsessAllDataForm = new AccsessAllDataForm();
-        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' and empty($data['employee']['empId'])){
+        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' and empty($data['employee']['empId'])) {
             $this->accsessAllDataForm = new AccsessAllDataForm();
-        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' and !empty($data['employee']['empId'])){
+        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' and !empty($data['employee']['empId'])) {
+            $this->getEmployeeData($data);
             $this->accsessAllDataForm = new AccsessAllDataForm();
+        }
+    }
+
+    /**
+     * @return MaintenanceManager|mixed
+     */
+    public function getMaintenanceManager()
+    {
+        if (!isset($this->maintenanceManager)) {
+            $this->maintenanceManager = new MaintenanceManager();
+        }
+        return $this->maintenanceManager;
+    }
+
+    /**
+     * @return EmployeeService
+     */
+    public function getEmployeeService()
+    {
+        if (!isset($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+        }
+        return $this->employeeService;
+    }
+
+    /**
+     * @param $data
+     */
+    protected function getEmployeeData($data)
+    {
+        try {
+            $empNumber = $data['employee']['empId'];
+            $employee = $this->getEmployeeService()->getEmployee($empNumber);
+
+            if (empty($employee)) {
+                $this->getUser()->setFlash('warning', __(ValidationMessages::EMPLOYEE_DOES_NOT_EXIST));
+            }
+            else {
+                $this->getMaintenanceManager()->accessEmployeeData($empNumber);
+            }
+        } catch (Exception $e) {
+            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_FAILURE));
         }
     }
 }

@@ -20,7 +20,7 @@
 /**
  * Class AbstractPurgeStrategy
  */
-abstract class AbstractPurgeStrategy
+abstract class PurgeStrategy
 {
 
     protected $parameters = array();

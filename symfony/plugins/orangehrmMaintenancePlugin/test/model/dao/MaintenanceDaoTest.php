@@ -18,21 +18,21 @@
  */
 
 /**
- * Class PurgeDaoTest
+ * Class MaintenanceDaoTest
  * @group maintenance
  */
-class PurgeDaoTest extends PHPUnit_Framework_TestCase
+class MaintenanceDaoTest extends PHPUnit_Framework_TestCase
 {
 
     protected $fixture;
-    private $purgeDao;
+    private $maintenanceDao;
 
     /**
      * Set up method
      */
     protected function setUp()
     {
-        $this->purgeDao = new PurgeDao();
+        $this->maintenanceDao = new MaintenanceDao();
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDaoWithDeletedEmployee.yml';
         TestDataService::populate($this->fixture);
     }
@@ -63,7 +63,7 @@ class PurgeDaoTest extends PHPUnit_Framework_TestCase
         $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
         $this->assertEquals("viki", $employee->getNickName());
         $this->assertEquals("111111", $employee->getEmpMobile());
-        $recordsCount = $this->purgeDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
+        $recordsCount = $this->maintenanceDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
         $this->assertEquals(1, $recordsCount);
         $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
         $this->assertEquals("Shali", $employee->getNickName());
@@ -85,7 +85,7 @@ class PurgeDaoTest extends PHPUnit_Framework_TestCase
         $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
         $this->assertEquals("viki", $employee->getNickName());
         $this->assertEquals("111111", $employee->getEmpMobile());
-        $recordsCount = $this->purgeDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
+        $recordsCount = $this->maintenanceDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
         $this->assertEquals(1, $recordsCount);
         $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
         $this->assertEquals("Shali", $employee->getNickName());
@@ -110,7 +110,7 @@ class PurgeDaoTest extends PHPUnit_Framework_TestCase
         $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
         $this->assertEquals("viki", $employee->getNickName());
         $this->assertEquals("111111", $employee->getEmpMobile());
-        $recordsCount = $this->purgeDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
+        $recordsCount = $this->maintenanceDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
         $this->assertEquals(1, $recordsCount);
         $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
         $this->assertEquals("viki", $employee->getNickName());
@@ -133,7 +133,7 @@ class PurgeDaoTest extends PHPUnit_Framework_TestCase
         $employee2 = $this->getEmployeeService()->getEmployee(4);
         $this->assertEquals("Ashley", $employee1->getFirstName());
         $this->assertEquals("Chaturanga", $employee2->getFirstName());
-        $recordsCount = $this->purgeDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
+        $recordsCount = $this->maintenanceDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
         $this->assertEquals(2, $recordsCount);
         $employee1 = $this->getEmployeeService()->getEmployee(2);
         $employee2 = $this->getEmployeeService()->getEmployee(4);
@@ -157,7 +157,7 @@ class PurgeDaoTest extends PHPUnit_Framework_TestCase
         $employee2 = $this->getEmployeeService()->getEmployee(4);
         $this->assertEquals("Ashley", $employee1->getFirstName());
         $this->assertEquals("Chaturanga", $employee2->getFirstName());
-        $recordsCount = $this->purgeDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
+        $recordsCount = $this->maintenanceDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
         $this->assertEquals(2, $recordsCount);
         $employee1 = $this->getEmployeeService()->getEmployee(2);
         $employee2 = $this->getEmployeeService()->getEmployee(4);
@@ -177,7 +177,7 @@ class PurgeDaoTest extends PHPUnit_Framework_TestCase
         $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
         $this->assertEquals("viki", $employee->getNickName());
         $this->assertEquals("111111", $employee->getEmpMobile());
-        $recordsCount = $this->purgeDao->removeEntities($entityClassName, $matchByValuesArray);
+        $recordsCount = $this->maintenanceDao->removeEntities($entityClassName, $matchByValuesArray);
         $this->assertEquals(1, $recordsCount);
         $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
         $this->assertFalse($employee);
@@ -196,7 +196,7 @@ class PurgeDaoTest extends PHPUnit_Framework_TestCase
         $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
         $this->assertEquals("viki", $employee->getNickName());
         $this->assertEquals("111111", $employee->getEmpMobile());
-        $recordsCount = $this->purgeDao->removeEntities($entityClassName, $matchByValuesArray);
+        $recordsCount = $this->maintenanceDao->removeEntities($entityClassName, $matchByValuesArray);
         $this->assertEquals(1, $recordsCount);
         $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
         $this->assertFalse($employee instanceof Employee);
@@ -215,7 +215,7 @@ class PurgeDaoTest extends PHPUnit_Framework_TestCase
         $employee2 = $this->getEmployeeService()->getEmployee(4);
         $this->assertEquals("Ashley", $employee1->getFirstName());
         $this->assertEquals("Chaturanga", $employee2->getFirstName());
-        $recordsCount = $this->purgeDao->removeEntities($entityClassName, $matchByValuesArray);
+        $recordsCount = $this->maintenanceDao->removeEntities($entityClassName, $matchByValuesArray);
         $this->assertEquals(2, $recordsCount);
         $employee1 = $this->getEmployeeService()->getEmployee(2);
         $employee2 = $this->getEmployeeService()->getEmployee(4);
@@ -228,7 +228,7 @@ class PurgeDaoTest extends PHPUnit_Framework_TestCase
      */
     public function testGetEmployeePurgingList()
     {
-        $data = $this->purgeDao->getEmployeePurgingList();
+        $data = $this->maintenanceDao->getEmployeePurgingList();
         $this->assertEquals(gettype($data), 'object');
     }
 }

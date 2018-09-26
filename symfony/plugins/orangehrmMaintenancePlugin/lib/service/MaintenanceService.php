@@ -23,17 +23,17 @@
  */
 class MaintenanceService
 {
-    private $purgeDao;
+    private $maintenanceDao;
 
     /**
-     * @return PurgeDao
+     * @return maintenanceDao
      */
-    public function getPurgeDao()
+    public function getMaintenanceDao()
     {
-        if (!isset($this->purgeDao)) {
-            $this->purgeDao = new PurgeDao();
+        if (!isset($this->maintenanceDao)) {
+            $this->maintenanceDao = new MaintenanceDao();
         }
-        return $this->purgeDao;
+        return $this->maintenanceDao;
     }
 
     /**
@@ -45,7 +45,7 @@ class MaintenanceService
      */
     public function replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray)
     {
-        return $this->getPurgeDao()->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
+        return $this->getMaintenanceDao()->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
     }
 
     /**
@@ -56,7 +56,7 @@ class MaintenanceService
      */
     public function removeEntities($entityClassName, $matchValuesArray)
     {
-        return $this->getPurgeDao()->removeEntities($entityClassName, $matchValuesArray);
+        return $this->getMaintenanceDao()->removeEntities($entityClassName, $matchValuesArray);
     }
 
     /**
@@ -65,6 +65,6 @@ class MaintenanceService
      */
     public function getPurgeEmployeeList()
     {
-        return $this->getPurgeDao()->getEmployeePurgingList();
+        return $this->getMaintenanceDao()->getEmployeePurgingList();
     }
 }
