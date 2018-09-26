@@ -13,6 +13,7 @@ class CommonMessages {
     const HIDE_OPTIONS = "Hide Options";
     const TOGGABLE_DEFAULT_MESSAGE = self::HIDE_OPTIONS;
     const LABEL_PROCESSING = "Processing";
+    const CREDENTIALS_VALID = "Credentials are valid";
 
 }
 
