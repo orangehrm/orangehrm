@@ -29,7 +29,7 @@ class DetailsHandler
      * Load the config.ini file
      * @return array|bool
      */
-    private function getCongigIni() {
+    private function getConfigIni() {
         if (is_null($this->configIni)) {
             $this->configIni = parse_ini_file("config.ini");
         }
@@ -48,7 +48,7 @@ class DetailsHandler
     public function checkDetailsValidation()
     {
 
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         $dbHostName = $configurationDataSet["HostName"];
         $dbHostPort = $configurationDataSet["HostPortOrSocket"];
@@ -70,15 +70,13 @@ class DetailsHandler
         $dbCreateMethod = $configurationDataSet["IsExistingDatabase"]; //existing/new
         $sameOhrmUser = $configurationDataSet["UseTheSameOhrmDatabaseUser"];
 
-        $companyName = $configurationDataSet["CompanyName"];
-        $wantSendData = $configurationDataSet["SendUsageDataToOrangeHRM"];
         $isPort = $configurationDataSet["IsPort"];
 
         $organizationName = $configurationDataSet["organizationName"];
         $adminEmployeeFirstName = $configurationDataSet["adminEmployeeFirstName"];
         $adminEmployeeLastName = $configurationDataSet["adminEmployeeLastName"];
 
-        $this->setConfigurationFromParameter($dbHostName, $dbHostPort, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $companyName, $wantSendData, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName);
+        $this->setConfigurationFromParameter($dbHostName, $dbHostPort, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName);
     }
 
     /**
@@ -91,7 +89,7 @@ class DetailsHandler
             return $_SESSION['defUser']['organizationName'];
         }
 
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
         return $configurationDataSet["organizationName"];
     }
 
@@ -101,7 +99,7 @@ class DetailsHandler
      */
     public function getAdminEmployeeFirstName()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         if ($_SESSION['defUser']['adminEmployeeFirstName']) {
             return $_SESSION['defUser']['adminEmployeeFirstName'];
@@ -115,7 +113,7 @@ class DetailsHandler
      */
     public function getAdminEmployeeLastName()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         if ($_SESSION['defUser']['adminEmployeeLastName']) {
             return $_SESSION['defUser']['adminEmployeeLastName'];
@@ -129,7 +127,7 @@ class DetailsHandler
      */
     public function getOrganizationEmailAddress()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         $this->organizationEmail = $this->organizationEmail ? $this->organizationEmail : $configurationDataSet["organizationEmailAddress"];
 
@@ -147,7 +145,7 @@ class DetailsHandler
      */
     public function getContactNumber()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
         $this->contactNumber = $this->contactNumber ? $this->contactNumber : $configurationDataSet["contactNumber"];
 
         if (!$this->isValidUserInput("contact number", $this->contactNumber)) {
@@ -167,7 +165,7 @@ class DetailsHandler
      */
     public function getHost()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         if ($_SESSION['dbInfo']['dbHostName']) {
             return $_SESSION['dbInfo']['dbHostName'];
@@ -181,7 +179,7 @@ class DetailsHandler
      */
     public function getPort()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         if ($_SESSION['dbInfo']['dbHostPort']) {
             return $_SESSION['dbInfo']['dbHostPort'];
@@ -195,7 +193,7 @@ class DetailsHandler
      */
     public function getOrangehrmDatabaseUser()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         if ($_SESSION['dbInfo']['dbUserName']) {
             return $_SESSION['dbInfo']['dbUserName'];
@@ -213,7 +211,7 @@ class DetailsHandler
      */
     public function getOrangehrmDatabasePassword()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         if ($_SESSION['dbInfo']['dbPassword']) {
             return $_SESSION['dbInfo']['dbPassword'];
@@ -231,7 +229,7 @@ class DetailsHandler
      */
     public function getDatabaseName()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         if ($_SESSION['dbInfo']['dbName']) {
             return $_SESSION['dbInfo']['dbName'];
@@ -245,7 +243,7 @@ class DetailsHandler
      */
     public function getAdminUserName()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         if ($_SESSION['defUser']['AdminUserName']) {
             return $_SESSION['defUser']['AdminUserName'];
@@ -259,7 +257,7 @@ class DetailsHandler
      */
     public function getAdminPassword()
     {
-        $configurationDataSet = $this->getCongigIni();
+        $configurationDataSet = $this->getConfigIni();
 
         if ($_SESSION['defUser']['AdminPassword']) {
             return $_SESSION['defUser']['AdminPassword'];
@@ -272,7 +270,7 @@ class DetailsHandler
      *details assign from with config.ini file or user inputs.
      *$_SESSION['dbInfo'] validation part will do in BasicConfiguration.php file , BasicConfiguration class->dbConfigurationCheck()
      */
-    public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $databaseName, $adminUserName, $adminPassword, $orangehrmDatabaseUser, $orangehrmDatabasePassword, $privilegedDatabaseUser, $privilegedDatabasePassword, $databaseRootPassword, $encryption, $DatabaseToUse, $sameOhrmUser, $companyName, $wantSendData, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName)
+    public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $databaseName, $adminUserName, $adminPassword, $orangehrmDatabaseUser, $orangehrmDatabasePassword, $privilegedDatabaseUser, $privilegedDatabasePassword, $databaseRootPassword, $encryption, $DatabaseToUse, $sameOhrmUser, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName)
     {
         $_SESSION['dbInfo']['dbHostName'] = $this->isFillInConfig($hostName, "Host name ");
         $_SESSION['dbInfo']['dbHostPort'] = $this->isFillInConfig($hostPortOrSocket, "Port or Socket id ");
@@ -316,9 +314,6 @@ class DetailsHandler
             $_SESSION['dbInfo']['dbPassword'] = $this->getPasswordFromUser($privilegedDatabasePassword, "privileged Database ");
         }
 
-
-        $this->getMessages()->displayMessage(Messages::SEPERATOR);
-
         if ($_SESSION['ENCRYPTION']) {
             $keyResult = createKeyFile('key.ohrm');
         } else {
@@ -327,6 +322,8 @@ class DetailsHandler
         $_SESSION['defUser']['organizationName'] = $this->isFilledInConfigRegister($organizationName, "Organization Name ");
         $_SESSION['defUser']['adminEmployeeFirstName'] = $this->isFilledInConfigRegister($adminEmployeeFirstName, "Admin Employee First Name ");
         $_SESSION['defUser']['adminEmployeeLastName'] = $this->isFilledInConfigRegister($adminEmployeeLastName, "Admin Employee Last Name ");
+
+        $this->getMessages()->displayMessage(Messages::SEPERATOR . "\n");
     }
 
 
