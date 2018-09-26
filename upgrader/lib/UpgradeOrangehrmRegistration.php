@@ -42,7 +42,7 @@ class UpgradeOrangehrmRegistration
                 . "&language=" . $_SESSION['defUser']['language']
                 . "&country=" . $_SESSION['defUser']['country']
                 . "&organization_name=" . $_SESSION['defUser']['organizationName']
-                . "&type=" . "0"
+                . "&type=" . $_SESSION['defUser']['type']
                 . "&instance_identifier=" . $this->getInstanceIdentifier()
                 . "&system_details=" . $this->getSystemDetails();
 
