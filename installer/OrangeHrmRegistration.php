@@ -67,10 +67,9 @@ class OrangeHrmRegistration
                 . "&language=" . ($_SESSION['defUser']['language'] ? $_SESSION['defUser']['language'] : "Not captured")
                 . "&country=" . $_SESSION['defUser']['country']
                 . "&organization_name=" . $_SESSION['defUser']['organizationName']
-                . "&type=" . "0"
+                . "&type=" . $_SESSION['defUser']['type']
                 . "&instance_identifier=" . $this->getInstanceIdentifier()
                 . "&system_details=" . $this->getSystemDetails();
-                . "&installation_status=" . $_SESSION['defUser']['installationStatus'];
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
