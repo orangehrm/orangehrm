@@ -73,6 +73,7 @@ class executeConfChangeAction extends sfAction {
                     $_SESSION['defUser']['language'] = $upgradeSystemConfiguration->getLanguage();
                     $_SESSION['defUser']['country'] = $upgradeSystemConfiguration->getCountry();
                     $_SESSION['defUser']['randomNumber'] = rand(1,100);
+                    $_SESSION['defUser']['type'] = 0;
                     $upgradeSystemConfiguration->setInstanceIdentifier();
 
                     $upgradeSystemRegistration = new UpgradeOrangehrmRegistration();
