@@ -45,7 +45,7 @@ public static function createDB() {
 		$dbUser = $_SESSION['dbInfo']['dbUserName'];
 		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
 
-         self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword,null,3306,$dbPort);
+         self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword,null, $dbPort);
         if (self::$conn) {
 
 			if (mysqli_select_db(self::$conn, $dbName)) {
@@ -95,7 +95,7 @@ public static function createDB() {
 
 public static function connectDB() {
 
-    if(!self::$conn = mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "",3306, $_SESSION['dbInfo']['dbHostPort'])) {
+    if(!self::$conn = mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort'])) {
         $_SESSION['error'] =  'Database Connection Error!';
 		return;
 	}

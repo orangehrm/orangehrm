@@ -148,15 +148,15 @@ function sysCheckPassed() {
 			   $dbInfo = $_SESSION['dbInfo'];
                if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']))) {
 
-	              $mysqlServer = mysqli_get_server_info($conn);
+                   $mysqlServer = mysqli_get_server_info($conn);
 
-                   if($systemValidator->isMySqlCompatible($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'])) {
-                  	 echo "<b><font color='green'>OK (ver " .$mysqlServer. ')</font></b>';
-                  } else {
+                   if ($systemValidator->isMySqlCompatible($dbInfo)) {
+                       echo "<b><font color='green'>OK (ver " . $mysqlServer . ')</font></b>';
+                   } else {
                        $error_found = true;
-                       $mysqlErrorMessage = $systemValidator->getMysqlErrorMessage($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword']);
-                  	echo "<b><font color='red'>$mysqlErrorMessage</font></b>";
-                  }
+                       $mysqlErrorMessage = $systemValidator->getMysqlErrorMessage($dbInfo);
+                       echo "<b><font color='red'>$mysqlErrorMessage</font></b>";
+                   }
                } else {
                   echo "<b><font color='red'>Not Available</font></b>";
                   $error_found = true;

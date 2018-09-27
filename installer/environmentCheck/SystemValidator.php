@@ -45,14 +45,17 @@ class SystemValidator
     }
 
     /**
-     * @param $host
-     * @param $userName
-     * @param $password
+     * @param $dbInfo
      * @return bool
      */
-    public function isMySqlCompatible($host, $userName, $password)
+    public function isMySqlCompatible($dbInfo)
     {
-        $currentVersion = $this->getMySqlVersion($host, $userName, $password);
+        $host = $dbInfo['dbHostName'];
+        $userName = $dbInfo['dbUserName'];
+        $password = $dbInfo['dbPassword'];
+        $port = $dbInfo['dbHostPort'];
+
+        $currentVersion = $this->getMySqlVersion($host, $port, $userName, $password);
 
         if ($this->isMariaDB($currentVersion)) {
             return $this->isWithinRange($this->getMariaDbVersion($currentVersion),
@@ -88,14 +91,17 @@ class SystemValidator
     }
 
     /**
-     * @param $host
-     * @param $userName
-     * @param $password
+     * @param $dbInfo
      * @return string
      */
-    public function getMysqlErrorMessage($host, $userName, $password)
+    public function getMysqlErrorMessage($dbInfo)
     {
-        $currentVersion = $this->getMySqlVersion($host, $userName, $password);
+        $host = $dbInfo['dbHostName'];
+        $userName = $dbInfo['dbUserName'];
+        $password = $dbInfo['dbPassword'];
+        $port = $dbInfo['dbHostPort'];
+
+        $currentVersion = $this->getMySqlVersion($host, $port, $userName, $password);
         if ($this->isMariaDB($currentVersion)) {
             return $this->getErrorMessage('MariaDB', $currentVersion,
                 $this->systemRequirements['mariadbversion']['excludeRange'],
@@ -168,13 +174,14 @@ class SystemValidator
 
     /**
      * @param $host
+     * @param $port
      * @param $userName
      * @param $password
      * @return string
      */
-    private function getMySqlVersion($host, $userName, $password)
+    private function getMySqlVersion($host, $port, $userName, $password)
     {
-        $mysqli = new mysqli($host, $userName, $password);
+        $mysqli = new mysqli($host, $userName, $password, null, $port);
 
         if (mysqli_connect_errno()) {
             printf("Connect failed: %s\n", mysqli_connect_error());
