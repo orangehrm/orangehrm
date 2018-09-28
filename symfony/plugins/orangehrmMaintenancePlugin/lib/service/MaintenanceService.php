@@ -37,34 +37,32 @@ class MaintenanceService
     }
 
     /**
-     * @param $entityClassName
-     * @param $fieldValueArray
-     * @param $matchByValuesArray
-     * @return Doctrine_Collection
-     * @throws DaoException
-     */
-    public function replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray)
-    {
-        return $this->getMaintenanceDao()->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
-    }
-
-    /**
-     * @param $entityClassName
-     * @param $matchValuesArray
-     * @return Doctrine_Collection
-     * @throws DaoException
-     */
-    public function removeEntities($entityClassName, $matchValuesArray)
-    {
-        return $this->getMaintenanceDao()->removeEntities($entityClassName, $matchValuesArray);
-    }
-
-    /**
      * @return Doctrine_Collection
      * @throws DaoException
      */
     public function getPurgeEmployeeList()
     {
         return $this->getMaintenanceDao()->getEmployeePurgingList();
+    }
+
+    /**
+     * @param $matchByValues
+     * @param $table
+     * @return mixed
+     * @throws DaoException
+     */
+    public function extractDataFromEmployeeNum($matchByValues, $table)
+    {
+        return $this->getMaintenanceDao()->extractDataFromEmployeeNum($matchByValues, $table);
+    }
+
+    /**
+     * @param $entity
+     * @return bool
+     * @throws DaoException
+     */
+    public function saveEntity($entity)
+    {
+        return $this->getMaintenanceDao()->saveEntity($entity);
     }
 }

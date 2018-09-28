@@ -48,57 +48,6 @@ class MaintenanceServiceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @throws DaoException
-     */
-    public function testReplaceEntityValues()
-    {
-        $employeeNum = 1;
-        $matchByValuesArray = array(
-            "empNumber" => 1
-        );
-        $entityClassName = 'Employee';
-        $fieldValueArray = array(
-            'firstName' => 'Purge',
-            'lastName' => 'Purge',
-            'middleName' => '',
-            'nickName' => '',
-        );
-        $employee1 = $this->getEmployeeService()->getEmployee($employeeNum);
-        $this->assertEquals($employee1->getFirstName(), 'Kayla');
-        $this->assertEquals($employee1->getLastName(), 'Abbey');
-        $this->assertEquals($employee1->getMiddleName(), 'T');
-        $this->assertEquals($employee1->getNickName(), 'viki');
-
-        $this->maintenanceService->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
-        $data = $this->getEmployeeService()->getEmployee($employeeNum);
-
-        $this->assertEquals($data->getFirstName(), 'Purge');
-        $this->assertEquals($data->getLastName(), 'Purge');
-        $this->assertEquals($data->getMiddleName(), '');
-        $this->assertEquals($data->getNickName(), '');
-    }
-
-    /**
-     * @throws DaoException
-     */
-    public function testRemoveEntities (){
-        $employeeNum = 1;
-        $matchByValuesArray = array(
-            "empNumber" => 1
-        );
-        $entityClassName = 'Employee';
-        $employee1 = $this->getEmployeeService()->getEmployee($employeeNum);
-        $this->assertEquals($employee1->getFirstName(), 'Kayla');
-        $this->assertEquals($employee1->getLastName(), 'Abbey');
-        $this->assertEquals($employee1->getMiddleName(), 'T');
-        $this->assertEquals($employee1->getNickName(), 'viki');
-
-        $this->maintenanceService->removeEntities($entityClassName, $matchByValuesArray);
-        $data = $this->getEmployeeService()->getEmployee($employeeNum);
-        $this->assertEquals($data, null);
-    }
-
-    /**
      *
      */
     public function testGetPurgeEmployeeList(){

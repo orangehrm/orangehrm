@@ -24,11 +24,15 @@ class DestroyPurgeStrategy extends PurgeStrategy
 {
     /**
      * @param $employeeNumber
+     * @return mixed|void
      * @throws DaoException
      */
     public function purge($employeeNumber)
     {
         $matchByValues = $this->getMatchByValues($employeeNumber);
-        $this->getMaintenanceService()->removeEntities($this->getEntityClassName(), $matchByValues);
+        $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
+        foreach ($purgeEntities as $purgeEntity) {
+            $purgeEntity->delete();
+        }
     }
 }

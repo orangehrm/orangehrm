@@ -18,7 +18,7 @@
  */
 
 /**
- * Class AbstractPurgeStrategy
+ * Class PurgeStrategy
  */
 abstract class PurgeStrategy
 {
@@ -30,7 +30,7 @@ abstract class PurgeStrategy
     protected $maintenanceService;
 
     /**
-     * AbstractPurgeStrategy constructor.
+     * PurgeStrategy constructor.
      * @param $entityClassName
      * @param $infoArray
      */
@@ -45,6 +45,12 @@ abstract class PurgeStrategy
             $this->setParameters($infoArray['parameters']);
         }
     }
+
+    /**
+     * @param $employeeNumber
+     * @return mixed
+     */
+    public abstract function purge($employeeNumber);
 
     /**
      * @return array
@@ -144,10 +150,22 @@ abstract class PurgeStrategy
     public function getMatchByValues($employeeNumber)
     {
         $matchValueArray = array();
-        foreach ($this->getMatchBy() as $matchBy) {
-            $matchValueArray[$matchBy['match']] = $employeeNumber;
+
+        $matchValueArray[$this->getMatchBy()[0]['match']] = $employeeNumber;
+        if ($this->getMatchBy()[0]['join']) {
+            $matchValueArray['join'] = $this->getMatchBy()[0]['join'];
         }
         return $matchValueArray;
     }
 
+    /**
+     * @param $matchByValues
+     * @param $table
+     * @return mixed
+     * @throws DaoException
+     */
+    public function getEntityRecords($matchByValues, $table)
+    {
+        return $this->getMaintenanceService()->extractDataFromEmployeeNum($matchByValues, $table);
+    }
 }

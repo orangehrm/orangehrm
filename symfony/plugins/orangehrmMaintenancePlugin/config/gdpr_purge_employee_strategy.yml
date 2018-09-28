@@ -6,7 +6,7 @@ Entities :
       ReplaceWithValue:
         matching_criteria: one
         match_by:
-          - {match: empNumber, to: empNumber}
+          - {match: empNumber}
         parameters:
           - {field: "firstName" ,class: 'FormatWithPurgeString'}
           - {field: "lastName" ,class: 'FormatWithPurgeString'}
@@ -57,7 +57,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmployeeAttachment:
@@ -65,7 +65,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmpEmergencyContact:
@@ -73,7 +73,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmpDependent:
@@ -81,7 +81,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmployeeImmigrationRecord:
@@ -89,7 +89,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmpWorkExperience:
@@ -97,7 +97,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmployeeEducation:
@@ -105,7 +105,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmployeeSkill:
@@ -113,7 +113,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmployeeLanguage:
@@ -121,7 +121,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmployeeMembership:
@@ -129,7 +129,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmpUsTaxExemption:
@@ -137,7 +137,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmployeeLicense:
@@ -145,7 +145,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-        - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmployeeSalary:
@@ -153,15 +153,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-        - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
-
-  EmpDirectdebit:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-        - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmpLocations:
@@ -169,7 +161,7 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-        - {match: emp_number, to: empNumber}
+          - {match: emp_number}
     AccessStrategy: ''
 
   EmpContract:
@@ -177,5 +169,43 @@ Entities :
       Destroy:
         matching_criteria: many
         match_by:
-        - {match: emp_number, to: empNumber}
+          - {match: emp_number}
+    AccessStrategy: ''
+
+  TimesheetItem:
+    PurgeStrategy:
+      ReplaceWithValue:
+        matching_criteria: many
+        match_by:
+          - {match: employee_id}
+        parameters:
+          - {field: "comment" ,class: 'FormatWithPurgeString'}
+    AccessStrategy: ''
+
+  SystemUser:
+    PurgeStrategy:
+      Destroy:
+        matching_criteria: one
+        match_by:
+          - {match: emp_number}
+    AccessStrategy: ''
+
+  PerformanceReview:
+    PurgeStrategy:
+      ReplaceWithValue:
+        matching_criteria: many
+        match_by:
+          - {match: employee_number}
+        parameters:
+          - {field: "finalComment" ,class: 'FormatWithPurgeString'}
+    AccessStrategy: ''
+
+  PerformanceTrackerLog:
+    PurgeStrategy:
+      ReplaceWithValue:
+        matching_criteria: many
+        match_by:
+          - {match: emp_number, join: PerformanceTrack}
+        parameters:
+          - {field: "comment" ,class: 'FormatWithPurgeString'}
     AccessStrategy: ''

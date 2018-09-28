@@ -23,67 +23,6 @@
  */
 class MaintenanceDao extends BaseDao
 {
-    /**
-     * @param $entityClassName
-     * @param $fieldValueArray
-     * @param $matchByValuesArray
-     * @return Doctrine_Collection
-     * @throws DaoException
-     */
-    public function replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray)
-    {
-        try {
-            $q = Doctrine_Query::create()
-                ->update($entityClassName);
-
-            foreach ($fieldValueArray as $field => $value) {
-                if (is_null($value)) {
-                    $q->set($field, new Doctrine_Expression('NULL'));
-                } else {
-                    $q->set($field, "?", $value);
-                }
-            }
-            foreach ($matchByValuesArray as $field => $value) {
-                if (is_array($value)) {
-                    $q->andWhereIn($field, $value);
-                } else {
-                    $q->andWhere($field . " = ?", $value);
-                }
-            }
-            return $q->execute();
-            // @codeCoverageIgnoreStart
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-        // @codeCoverageIgnoreEnd
-
-    }
-
-    /**
-     * @param $entityClassName
-     * @param $matchValuesArray
-     * @return Doctrine_Collection
-     * @throws DaoException
-     */
-    public function removeEntities($entityClassName, $matchValuesArray)
-    {
-        try {
-            $q = Doctrine_Query::create()
-                ->delete($entityClassName);
-            foreach ($matchValuesArray as $field => $value) {
-                if (is_array($value)) {
-                    $q->whereIn($field, $value);
-                } else {
-                    $q->where($field . " = ?", $value);
-                }
-            }
-            return $q->execute();
-            // @codeCoverageIgnoreStart
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-        // @codeCoverageIgnoreEnd
-    }
 
     /**
      * @return Doctrine_Collection
@@ -95,13 +34,56 @@ class MaintenanceDao extends BaseDao
             $q = Doctrine_Query::create()
                 ->select('empNumber', 'firstName', 'middleName', 'lastName')
                 ->from('Employee')
-                ->where('termination_id IS NOT NULL')
-                ->andwhere('purged_at IS NULL');
+                ->where('termination_id IS NOT NULL');
+//                ->andwhere('purged_at IS NULL');
             return $q->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
         // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @param $empNumber
+     * @param $table
+     * @return mixed
+     * @throws DaoException
+     */
+    public function extractDataFromEmployeeNum($matchByValues, $table)
+    {
+        $employeeId = reset($matchByValues);
+        $field = key($matchByValues);
+//        var_dump($employeeId, $field, $matchByValues);
+//        die;
+        try {
+            if ($matchByValues['join']) {
+                $q = Doctrine_Query::create()
+                    ->select('*')
+                    ->from($table)
+                    ->leftjoin($matchByValues['join'])
+                    ->where($field . " = ?", $employeeId);
+            } else {
+                $q = Doctrine_Query::create()
+                    ->select('*')
+                    ->from($table)
+                    ->where($field . " = ?", $employeeId);
+            }
+            return $q->execute();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    public function saveEntity($enitity)
+    {
+        try {
+            $enitity->save();
+            return true;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
     }
 }

@@ -26,34 +26,32 @@ class ReplaceWithValuePurgeStrategy extends PurgeStrategy
 
     /**
      * @param $employeeNumber
-     * @throws DaoException
+     * @return mixed|void
      */
     public function purge($employeeNumber)
     {
-        $fieldValues = $this->getFieldValues($employeeNumber);
         $matchByValues = $this->getMatchByValues($employeeNumber);
-        $this->getMaintenanceService()->replaceEntityValues($this->getEntityClassName(), $fieldValues, $matchByValues);
+        $entityClassName = $this->getEntityClassName();
+        $purgeEntities = $this->getEntityRecords($matchByValues, $entityClassName);
+        foreach ($purgeEntities as $purgeEntity) {
+            $this->purgeRecord($purgeEntity);
+        }
     }
 
     /**
-     * @param $employeeNumber
-     * @return array
-     * @throws DaoException
+     * @param $purgeEntity
      */
-    public function getFieldValues($employeeNumber)
+    public function purgeRecord($purgeEntity)
     {
-        $filedValueArray = array();
         $replaceFields = $this->getParameters();
-        $purgeEntity = $this->getEmployeeService()->getEmployee($employeeNumber);
-
         foreach ($replaceFields as $replaceColumnArrayData) {
             $currentField = $replaceColumnArrayData['field'];
-            $replaceStrategy = $this->getReplaceStrategy($replaceColumnArrayData['class']);
             $currentFieldValue = $purgeEntity->$currentField;
+            $replaceStrategy = $this->getReplaceStrategy($replaceColumnArrayData['class']);
             $replace = $replaceStrategy->getFormattedValue($currentFieldValue);
-            $filedValueArray[$replaceColumnArrayData['field']] = $replace;
+            $purgeEntity->$currentField = $replace;
+            $this->getMaintenanceService()->saveEntity($purgeEntity);
         }
-        return $filedValueArray;
     }
 
     /**
@@ -64,16 +62,4 @@ class ReplaceWithValuePurgeStrategy extends PurgeStrategy
     {
         return new $strategy;
     }
-
-    /**
-     * @return EmployeeService
-     */
-    public function getEmployeeService()
-    {
-        if (!isset($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
-    }
-
 }
