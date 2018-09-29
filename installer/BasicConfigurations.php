@@ -393,59 +393,55 @@ function isCurlEnabled() {
      * Check script execute in apache server
      * @return bool
      */
- private function isApacheServer() {
-    $isApache = false;
-    $sapiName = php_sapi_name();
-    switch ($sapiName) {
-        case 'apache':
-        case 'apache2filter':
-        case 'apache2handler':
-            $isApache = true;
-        break;
+    private function isApacheServer()
+    {
+        $isApache = false;
+        $sapiName = php_sapi_name();
+        switch ($sapiName) {
+            case 'apache':
+            case 'apache2filter':
+            case 'apache2handler':
+                $isApache = true;
+                break;
+        }
+        return $isApache;
     }
-    return $isApache;
- }
 
-/*
- *check Database connection and validation parts.
- *details compare with config.ini file or user inputs.
- *$_SESSION['dbInfo'] set this variable in DetailsHandler.php file , DetailsHandler class->setConfigurationFromParameter()
- */
-function dbConfigurationCheck()
-{	
+    /*
+     *check Database connection and validation parts.
+     *details compare with config.ini file or user inputs.
+     *$_SESSION['dbInfo'] set this variable in DetailsHandler.php file , DetailsHandler class->setConfigurationFromParameter()
+     */
+    function dbConfigurationCheck()
+    {
 
-	 $dbInfo = $_SESSION['dbInfo'];
+        $dbInfo = $_SESSION['dbInfo'];
         $conn = $this->getConnection($dbInfo);
         if ($conn) {
-                if (!($this->systemValidator->isMySqlCompatible($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))){
-                    $_SESSION['dbError'] = $this->systemValidator->getMysqlErrorMessage($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword']);
-		}
+            if (!($this->systemValidator->isMySqlCompatible($dbInfo))) {
+                $_SESSION['dbError'] = $this->systemValidator->getMysqlErrorMessage($dbInfo);
+            } elseif ($_SESSION['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName'])) {
+                $_SESSION['dbError'] = "Database (" . $_SESSION['dbInfo']['dbName'] . ") already exists";
+                $this->interuptContinue = true;
+            } elseif ($_SESSION['dbCreateMethod'] == 'new' && !isset($_SESSION['chkSameUser'])) {
+                mysqli_select_db($conn, 'mysql');
+                $rset = mysqli_query($conn, "SELECT USER FROM user WHERE USER = '" . $dbInfo['dbOHRMUserName'] . "'");
 
-                elseif ($_SESSION['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName'])){
-                    $_SESSION['dbError'] = "Database (" . $_SESSION['dbInfo']['dbName'] . ") already exists";
-		    $this->interuptContinue = true;
-                    }
-                elseif ($_SESSION['dbCreateMethod'] == 'new' && !isset($_SESSION['chkSameUser'])) {
-			mysqli_select_db($conn, 'mysql');
-	                $rset = mysqli_query($conn, "SELECT USER FROM user WHERE USER = '" . $dbInfo['dbOHRMUserName'] . "'");
+                if (mysqli_num_rows($rset) > 0) {
+                    $_SESSION['dbError'] = 'OrangehrmDatabase User name already exists';
+                    $this->interuptContinue = true;
+                }
+            }
+        } else
+            $_SESSION['dbError'] = Messages::DB_WRONG_INFO;
 
-                    if (mysqli_num_rows($rset) > 0){
-                        $_SESSION['dbError'] = 'OrangehrmDatabase User name already exists'; 
-			$this->interuptContinue = true; 
-		    }                 
-                } 
-            } else
-                $_SESSION['dbError'] = Messages::DB_WRONG_INFO;
-
-	 if(isset($_SESSION['dbError']))
-	 {
-		$this->getMessages()->displayMessage($_SESSION['dbError']);
-		$this->interuptContinue = true;
-	 }else
-	 {
-		 $this->getMessages()->displayMessage(Messages::DB_CONFIG_SUCCESS);
-	 }
-   }
+        if (isset($_SESSION['dbError'])) {
+            $this->getMessages()->displayMessage($_SESSION['dbError']);
+            $this->interuptContinue = true;
+        } else {
+            $this->getMessages()->displayMessage(Messages::DB_CONFIG_SUCCESS);
+        }
+    }
 
     /**
      * @param $dbInfo
@@ -460,13 +456,15 @@ function dbConfigurationCheck()
             if ($dbInfo['dbHostPortModifier'] === 'port') {
                 $socket = null;
                 $port = intval($dbInfo['dbHostPort']);
+                $host = $dbInfo['dbHostName'];
             } else {
                 $port = null;
                 $socket = $dbInfo['dbHostPort'];
+                $host = null;
             }
 
             $conn = mysqli_connect(
-                $dbInfo['dbHostName'],
+                $host,
                 $dbInfo['dbUserName'],
                 $dbInfo['dbPassword'],
                 null,
