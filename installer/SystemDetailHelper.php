@@ -75,15 +75,21 @@ class SystemDetailHelper
      */
     public function getDbConn()
     {
+        if ($this->dbConnection instanceof PDO) {
+            return $this->dbConnection;
+        }
+
         $host = $_SESSION['dbHostName'];
         $username = $_SESSION['dbUserName'];
         $password = $_SESSION['dbPassword'];
         $port = $_SESSION['dbHostPort'];
-        if ($this->dbConnection instanceof PDO) {
-            return $this->dbConnection;
-        }
+
         try {
-            $this->dbConnection = $this->createDbConnection($username, $password, $host, $port);
+            if ($_SESSION['dbInfo']['dbHostPortModifier'] == 'socket') {
+                $this->dbConnection = $this->createDbConnection($username, $password, null, null, null, $port);
+            } else {
+                $this->dbConnection = $this->createDbConnection($username, $password, $host, $port);
+            }
             return $this->dbConnection;
         } catch (PDOException $e) {
             return;
