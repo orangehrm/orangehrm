@@ -28,7 +28,7 @@ abstract class baseLeaveAction extends ohrmBaseAction {
      * @param type $dataGroups
      * @return type
      */
-    public function getDataGroupPermissions($dataGroups, $self = false) {
+    protected function getDataGroupPermissions($dataGroups, $self = false) {
         return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), $self, array());
     }
 }
