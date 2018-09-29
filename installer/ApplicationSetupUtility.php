@@ -40,12 +40,7 @@ public static function createDB() {
 	if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
 
 		$dbName = $_SESSION['dbInfo']['dbName'];
-		$dbHost = $_SESSION['dbInfo']['dbHostName'];
-		$dbPort = $_SESSION['dbInfo']['dbHostPort'];
-		$dbUser = $_SESSION['dbInfo']['dbUserName'];
-		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
-
-         self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword,null, $dbPort);
+		self::connectDB();
         if (self::$conn) {
 
 			if (mysqli_select_db(self::$conn, $dbName)) {
@@ -95,7 +90,14 @@ public static function createDB() {
 
 public static function connectDB() {
 
-    if(!self::$conn = mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort'])) {
+    $dbInfo = $_SESSION['dbInfo'];
+    if ($dbInfo['dbHostPortModifier'] == 'socket') {
+        self::$conn = mysqli_connect(null, $dbInfo['dbUserName'], $dbInfo['dbPassword'], null, null, $dbInfo['dbHostPort']);
+    } else {
+        self::$conn = mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], null, $dbInfo['dbHostPort']);
+    }
+
+    if(!self::$conn) {
         $_SESSION['error'] =  'Database Connection Error!';
 		return;
 	}

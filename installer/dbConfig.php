@@ -48,7 +48,7 @@ function changePortField() {
 	} else if (portModifier.value == "socket") {
 		port.maxLength = '256';
 		port.size = 40;
-		port.value = "socket:/var/lib/mysql/mysql.sock";
+		port.value = "/var/lib/mysql/mysql.sock";
 	}
 }
 

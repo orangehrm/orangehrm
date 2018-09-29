@@ -48,9 +48,9 @@ function createDbConnection($host, $username, $password, $dbname, $port) {
 
 function executeSql($query) {
     global $dbConnection;
-    
+
     $result = mysqli_query($dbConnection, $query);
-   
+
     return $result;
 }
 
@@ -149,7 +149,11 @@ if (isset($_POST['actionResponse']))
 
             $_SESSION['dbInfo'] = $dbInfo;
 
-            $conn = mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']);
+            if ($dbInfo['dbHostPortModifier'] == 'socket') {
+                $conn = mysqli_connect(null, $dbInfo['dbUserName'], $dbInfo['dbPassword'], null, null, $dbInfo['dbHostPort']);
+            } else {
+                $conn = mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], null, $dbInfo['dbHostPort']);
+            }
 
             if ($conn) {
                 $mysqlHost = mysqli_get_server_info($conn);

@@ -65,6 +65,14 @@ function checkMemory() {
 	return $msg;
 }
 
+function getDbConn($dbInfo) {
+    if ($dbInfo['dbHostPortModifier'] == 'socket') {
+        return mysqli_connect(null, $dbInfo['dbUserName'], $dbInfo['dbPassword'], null, null, $dbInfo['dbHostPort']);
+    } else {
+        return mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], null, $dbInfo['dbHostPort']);
+    }
+}
+
 ?>
 
 <script language="JavaScript">
@@ -146,7 +154,7 @@ function sysCheckPassed() {
             <td align="right" class="tdValues"><strong>
             <?php
 			   $dbInfo = $_SESSION['dbInfo'];
-               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']))) {
+               if(function_exists('mysqli_connect') && ($conn = getDbConn($dbInfo))) {
 
                    $mysqlServer = mysqli_get_server_info($conn);
 
@@ -184,7 +192,7 @@ function sysCheckPassed() {
 
             <td align="right" class="tdValues"><strong>
             <?php
-               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']))) {
+               if(function_exists('mysqli_connect') && ($conn = getDbConn($dbInfo))) {
 
 		            $mysqlServer = mysqli_query($conn, "show engines");
 
@@ -352,7 +360,7 @@ function sysCheckPassed() {
 
             <td align="right" class="tdValues"><strong>
             <?php
-               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']))) {
+               if(function_exists('mysqli_connect') && ($conn = getDbConn($dbInfo))) {
 
 		            $result = mysqli_query($conn, "SHOW VARIABLES LIKE 'EVENT_SCHEDULER'");
                     $row = mysqli_fetch_assoc($result);
