@@ -35,67 +35,70 @@ class ApplicationSetupUtility {
         return realpath(dirname(__FILE__)). DIRECTORY_SEPARATOR . 'log.txt';
     }
 
-public static function createDB() {
+    public static function createDB()
+    {
 
-	if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
+        if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
 
-		$dbName = $_SESSION['dbInfo']['dbName'];
-		$dbHost = $_SESSION['dbInfo']['dbHostName'];
-		$dbPort = $_SESSION['dbInfo']['dbHostPort'];
-		$dbUser = $_SESSION['dbInfo']['dbUserName'];
-		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
+            $dbName = $_SESSION['dbInfo']['dbName'];
+            self::connectDB();
+            if (self::$conn) {
 
-         self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword,null,3306,$dbPort);
-        if (self::$conn) {
+                if (mysqli_select_db(self::$conn, $dbName)) {
 
-			if (mysqli_select_db(self::$conn, $dbName)) {
+                    $result = mysqli_query(self::$conn, "SHOW TABLES");
 
-				$result = mysqli_query(self::$conn, "SHOW TABLES");
+                    if (mysqli_num_rows($result) > 0) {
+                        $_SESSION['error'] = 'Given database is not empty.';
+                    }
 
-				if (mysqli_num_rows($result) > 0) {
-					$_SESSION['error'] = 'Given database is not empty.';
-				}
+                } else {
+                    $_SESSION['error'] = 'Cannot connect to the database. ' . mysqli_error(self::$conn);
+                }
 
-			} else {
-			    $_SESSION['error'] = 'Cannot connect to the database. '.mysqli_error(self::$conn);
-			}
+            } else {
+                $_SESSION['error'] = 'Cannot make a database connection using given details. ' . mysqli_error(self::$conn);
+            }
 
-		} else {
-		    $_SESSION['error'] = 'Cannot make a database connection using given details. '.mysqli_error(self::$conn);
-		}
+        } elseif ($_SESSION['dbCreateMethod'] == 'new') { // If the user wants OrangeHRM to create the database for him
 
-	} elseif ($_SESSION['dbCreateMethod'] == 'new') { // If the user wants OrangeHRM to create the database for him
+            self::connectDB();
+            $dbName = '`' . $_SESSION['dbInfo']['dbName'] . '`';
+            mysqli_query(self::$conn, "CREATE DATABASE " . $dbName);
 
-		self::connectDB();
-		$dbName = '`'.$_SESSION['dbInfo']['dbName'].'`';
-		mysqli_query(self::$conn, "CREATE DATABASE " . $dbName);
+            if (!@mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
+                $mysqlErrNo = mysqli_errno(self::$conn);
 
-		if(!@mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
-			$mysqlErrNo = mysqli_errno(self::$conn);
+                $errorMsg = mysqli_error(self::$conn);
+                if (!isset($errorMsg) || $errorMsg == '') {
+                    $errorMsg = 'Unable to create Database.';
+                }
 
-			$errorMsg = mysqli_error(self::$conn);
-			if(!isset($errorMsg) || $errorMsg == '') {
-				$errorMsg = 'Unable to create Database.';
-			}
+                if (isset($mysqlErrNo)) {
+                    if ($mysqlErrNo == '1102') {
+                        $errorMsg .= '. Please use valid name for database.';
+                    }
+                }
 
-			if (isset($mysqlErrNo)) {
-				if ($mysqlErrNo == '1102') {
-					$errorMsg .= '. Please use valid name for database.';
-				}
-			}
+                $_SESSION['error'] = $errorMsg . ' ' . mysqli_error(self::$conn);
 
-			$_SESSION['error'] = $errorMsg.' '.mysqli_error(self::$conn);
+                return;
+            }
 
-			return;
-		}
+        }
 
-	}
-
-}
+    }
 
 public static function connectDB() {
 
-    if(!self::$conn = mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "",3306, $_SESSION['dbInfo']['dbHostPort'])) {
+    $dbInfo = $_SESSION['dbInfo'];
+    if ($dbInfo['dbHostPortModifier'] == 'socket') {
+        self::$conn = mysqli_connect(null, $dbInfo['dbUserName'], $dbInfo['dbPassword'], null, null, $dbInfo['dbHostPort']);
+    } else {
+        self::$conn = mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], null, $dbInfo['dbHostPort']);
+    }
+
+    if(!self::$conn) {
         $_SESSION['error'] =  'Database Connection Error!';
 		return;
 	}
@@ -337,13 +340,18 @@ public static function writeSymfonyDbConfigFile() {
 		$dbOHRMUser = $_SESSION['dbInfo']['dbUserName'];
 		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
 	}
-    
-    $dsn = "mysql:host=$dbHost;dbname=$dbName";
-    $testDsn = "mysql:host=$dbHost;dbname=test_$dbName";
-    
-    if (is_numeric($dbHostPort)) {
-        $dsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=$dbName";
-        $testDsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=test_$dbName";
+
+	if ($_SESSION['dbInfo']['dbHostPortModifier'] == 'socket') {
+        $dsn = "mysql:unix_socket=$dbHostPort;dbname=$dbName";
+        $testDsn = "mysql:unix_socket=$dbHostPort;dbname=test_$dbName";
+    } else {
+        $dsn = "mysql:host=$dbHost;dbname=$dbName";
+        $testDsn = "mysql:host=$dbHost;dbname=test_$dbName";
+
+        if (is_numeric($dbHostPort)) {
+            $dsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=$dbName";
+            $testDsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=test_$dbName";
+        }
     }
 	
     $confContent = <<< CONFCONT

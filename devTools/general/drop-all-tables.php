@@ -26,7 +26,11 @@ require_once $confPath;
 $c = new Conf();
 
 try {
-    $dsn = "mysql:dbname={$c->dbname};host={$c->dbhost}";
+    if (is_numeric($c->dbport)) {
+        $dsn = "mysql:dbname={$c->dbname};host={$c->dbhost};port={$c->dbport}";
+    } else {
+        $dsn = "mysql:dbname={$c->dbname};unix_socket={$c->dbport}";
+    }
     $pdo = new PDO($dsn, $c->dbuser, $c->dbpass);
     
     $result = $pdo->query('SHOW TABLES');

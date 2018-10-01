@@ -45,14 +45,12 @@ class SystemValidator
     }
 
     /**
-     * @param $host
-     * @param $userName
-     * @param $password
+     * @param $dbInfo
      * @return bool
      */
-    public function isMySqlCompatible($host, $userName, $password)
+    public function isMySqlCompatible($dbInfo)
     {
-        $currentVersion = $this->getMySqlVersion($host, $userName, $password);
+        $currentVersion = $this->getMySqlVersionFromDbInfo($dbInfo);
 
         if ($this->isMariaDB($currentVersion)) {
             return $this->isWithinRange($this->getMariaDbVersion($currentVersion),
@@ -88,14 +86,13 @@ class SystemValidator
     }
 
     /**
-     * @param $host
-     * @param $userName
-     * @param $password
+     * @param $dbInfo
      * @return string
      */
-    public function getMysqlErrorMessage($host, $userName, $password)
+    public function getMysqlErrorMessage($dbInfo)
     {
-        $currentVersion = $this->getMySqlVersion($host, $userName, $password);
+        $currentVersion = $this->getMySqlVersionFromDbInfo($dbInfo);
+
         if ($this->isMariaDB($currentVersion)) {
             return $this->getErrorMessage('MariaDB', $currentVersion,
                 $this->systemRequirements['mariadbversion']['excludeRange'],
@@ -168,13 +165,18 @@ class SystemValidator
 
     /**
      * @param $host
+     * @param $port
      * @param $userName
      * @param $password
      * @return string
      */
-    private function getMySqlVersion($host, $userName, $password)
+    private function getMySqlVersion($host, $port, $userName, $password, $socket = null)
     {
-        $mysqli = new mysqli($host, $userName, $password);
+        if (!is_null($socket)) {
+            $mysqli = new mysqli(null, $userName, $password, null, null, $socket);
+        } else {
+            $mysqli = new mysqli($host, $userName, $password, null, $port);
+        }
 
         if (mysqli_connect_errno()) {
             printf("Connect failed: %s\n", mysqli_connect_error());
@@ -231,5 +233,23 @@ class SystemValidator
             return true;
         }
         return false;
+    }
+
+    /**
+     * @param $dbInfo
+     * @return string
+     */
+    private function getMySqlVersionFromDbInfo($dbInfo)
+    {
+        $host = is_null($dbInfo['dbHostName']) ? $dbInfo['host'] : $dbInfo['dbHostName'];
+        $userName = is_null($dbInfo['dbUserName']) ? $dbInfo['username'] : $dbInfo['dbUserName'];
+        $password = is_null($dbInfo['dbPassword']) ? $dbInfo['password'] : $dbInfo['dbPassword'];
+        $port = is_null($dbInfo['dbHostPort']) ? $dbInfo['port'] : $dbInfo['dbHostPort'];
+
+        if ($dbInfo['dbHostPortModifier'] == 'socket') {
+            return $this->getMySqlVersion(null, null, $userName, $password, $port);
+        } else {
+            return $this->getMySqlVersion($host, $port, $userName, $password);
+        }
     }
 }

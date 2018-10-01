@@ -28,6 +28,7 @@ $c = new Conf();
 $testDb = 'test_' . $c->dbname;
 $dbUser = $c->dbuser;
 $dbHost = $c->dbhost;
+$dbPort = $c->dbport;
 
 $tempFile = tempnam(sys_get_temp_dir(), 'ohrmtestdb');
  
@@ -45,7 +46,11 @@ $createdbStatement = "DROP DATABASE IF EXISTS `{$testDb}`; CREATE DATABASE `{$te
 
 file_put_contents($tempFile, $createdbStatement);
 
-$cmd = "mysqldump -h {$dbHost} -u root -p{$mysqlRootPwd} --add-drop-table --routines --skip-triggers {$c->dbname} >> {$tempFile}";
+if (is_numeric($dbPort)) {
+    $cmd = "mysqldump -h {$dbHost} -u root --port={$dbPort} -p{$mysqlRootPwd} --add-drop-table --routines --skip-triggers {$c->dbname} >> {$tempFile}";
+} else {
+    $cmd = "mysqldump -u root --socket={$dbPort} -p{$mysqlRootPwd} --add-drop-table --routines --skip-triggers {$c->dbname} >> {$tempFile}";
+}
 
 $output = '';
 $returnStatus = '';
@@ -57,8 +62,11 @@ if ($returnStatus !== 0) {
     exit(1);
 }
 
-
-$cmd = "mysql -h {$dbHost} -u root -p{$mysqlRootPwd}  < {$tempFile}";
+if (is_numeric($dbPort)) {
+    $cmd = "mysql -h {$dbHost} -u root --port={$dbPort} -p{$mysqlRootPwd}  < {$tempFile}";
+} else {
+    $cmd = "mysql -u root --socket={$dbPort} -p{$mysqlRootPwd}  < {$tempFile}";
+}
 
 exec($cmd, $output, $returnStatus);
 

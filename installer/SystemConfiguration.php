@@ -33,8 +33,8 @@ class SystemConfiguration
         $dbname = $_SESSION['dbName'];
         $port = $_SESSION['dbHostPort'];
 
-        if (!$port) {
-            $dbConnection = new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8mb4', $username, $password);
+        if ($_SESSION['dbInfo']['dbHostPortModifier'] == 'socket') {
+            $dbConnection = new PDO('mysql:unix_socket=' . $port . ';dbname=' . $dbname . ';charset=utf8mb4', $username, $password);
         } else {
             $dbConnection = new PDO('mysql:host=' . $host . ';port=' . $port . ';dbname=' . $dbname . ';charset=utf8mb4', $username, $password);
         }
