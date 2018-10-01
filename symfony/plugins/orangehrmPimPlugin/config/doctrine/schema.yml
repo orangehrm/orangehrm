@@ -101,7 +101,7 @@ Employee:
     custom8: string(250)
     custom9: string(250)
     custom10: string(250)
-    purged_at: varchar(250)
+    purged_at: timestamp
   relations:
     subDivision:
       class: Subunit
