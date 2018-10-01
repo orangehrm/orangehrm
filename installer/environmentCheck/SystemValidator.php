@@ -241,10 +241,10 @@ class SystemValidator
      */
     private function getMySqlVersionFromDbInfo($dbInfo)
     {
-        $host = $dbInfo['dbHostName'];
-        $userName = $dbInfo['dbUserName'];
-        $password = $dbInfo['dbPassword'];
-        $port = $dbInfo['dbHostPort'];
+        $host = is_null($dbInfo['dbHostName']) ? $dbInfo['host'] : $dbInfo['dbHostName'];
+        $userName = is_null($dbInfo['dbUserName']) ? $dbInfo['username'] : $dbInfo['dbUserName'];
+        $password = is_null($dbInfo['dbPassword']) ? $dbInfo['password'] : $dbInfo['dbPassword'];
+        $port = is_null($dbInfo['dbHostPort']) ? $dbInfo['port'] : $dbInfo['dbHostPort'];
 
         if ($dbInfo['dbHostPortModifier'] == 'socket') {
             return $this->getMySqlVersion(null, null, $userName, $password, $port);
