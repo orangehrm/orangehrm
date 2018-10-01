@@ -46,7 +46,7 @@ public static function createDB() {
 		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
 
 		self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword,null, $dbPort);
-        if (self::$conn) {
+		if (self::$conn) {
 
 			if (mysqli_select_db(self::$conn, $dbName)) {
 
