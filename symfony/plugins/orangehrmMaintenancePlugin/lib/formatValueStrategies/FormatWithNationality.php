@@ -19,10 +19,11 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatNationality
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithNationality implements ValueFormatter
 {
+    private $nationalityService = null;
 
     /**
      * @param $entityValue
@@ -30,6 +31,17 @@ class FormatWithNull implements ValueFormatter
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        return $this->getNationalityService()->getNationalityById($entityValue)->name;
+    }
+
+    /**
+     * @return NationalityService
+     */
+    public function getNationalityService()
+    {
+        if (is_null($this->nationalityService)) {
+            $this->nationalityService = new NationalityService();
+        }
+        return $this->nationalityService;
     }
 }

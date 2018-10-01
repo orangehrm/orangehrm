@@ -19,17 +19,22 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithSmoker
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithSmoker implements ValueFormatter
 {
 
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        if ($entityValue == 1) {
+            return 'Smoker';
+        } else {
+            return 'None Smoker';
+        }
+
     }
 }

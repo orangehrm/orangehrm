@@ -19,29 +19,30 @@
  */
 
 /**
- * Class FormatNationality
+ * Class FormatWithEducation
  */
-class FormatNationality implements ValueFormatter
+class FormatWithEducation implements ValueFormatter
 {
-    private $nationalityService;
+    private $educationService;
 
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return $this->getNationalityService()->getNationalityById($entityValue)->name;
+        return $this->getEducationService()->getEducationById($entityValue)->getName();
     }
 
     /**
-     * @return NationalityService
+     * @return EducationService
      */
-    public function getNationalityService()
+    public function getEducationService()
     {
-        if (is_null($this->nationalityService)) {
-            $this->nationalityService = new NationalityService();
+
+        if (!($this->educationService instanceof EducationService)) {
+            $this->educationService = new EducationService();
         }
-        return $this->nationalityService;
+        return $this->educationService;
     }
 }

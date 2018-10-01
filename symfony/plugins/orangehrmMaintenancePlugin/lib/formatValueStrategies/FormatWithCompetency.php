@@ -19,17 +19,25 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithCompetency
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithCompetency implements ValueFormatter
 {
 
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        if ($entityValue == 1) {
+            return 'Poor';
+        } elseif ($entityValue == 2) {
+            return 'Basic';
+        } elseif ($entityValue == 3) {
+            return 'Good';
+        } else {
+            return 'Mother Tongue';
+        }
     }
 }

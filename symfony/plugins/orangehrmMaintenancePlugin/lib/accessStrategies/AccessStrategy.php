@@ -24,11 +24,11 @@ abstract class AccessStrategy
 {
 
     protected $parameters = array();
-    protected $entityClassName;
+    protected $entityClassName = null;
     protected $matchByArray = array();
-    protected $matchingCriteria;
-    protected $maintenanceService;
-    protected $getRealValueClass;
+    protected $matchingCriteria = array();
+    protected $maintenanceService = null;
+    protected $getRealValueClass = null;
 
     /**
      * AccessStrategy constructor.
@@ -151,7 +151,7 @@ abstract class AccessStrategy
      * @param $currentValue
      * @return mixed
      */
-    public function getColumnValue($aceessClassName, $currentValue)
+    public function getFormattedValue($aceessClassName, $currentValue)
     {
         $this->getRealValueClass = new $aceessClassName();
         return $this->getRealValueClass->getFormattedValue($currentValue);

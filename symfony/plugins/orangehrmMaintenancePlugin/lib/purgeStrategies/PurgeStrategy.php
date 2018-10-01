@@ -24,10 +24,10 @@ abstract class PurgeStrategy
 {
 
     protected $parameters = array();
-    protected $entityClassName;
+    protected $entityClassName = '';
     protected $matchByArray = array();
-    protected $matchingCriteria;
-    protected $maintenanceService;
+    protected $matchingCriteria = array();
+    protected $maintenanceService = null;
 
     /**
      * PurgeStrategy constructor.

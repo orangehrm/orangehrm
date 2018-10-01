@@ -19,17 +19,20 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithPassportType
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithPassportType implements ValueFormatter
 {
-
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        if ($entityValue == 2) {
+            return 'Visa';
+        } else {
+            return 'Passport';
+        }
     }
 }

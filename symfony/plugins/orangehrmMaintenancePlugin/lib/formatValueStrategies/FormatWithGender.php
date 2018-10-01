@@ -21,9 +21,8 @@
 /**
  * Class FormatGender
  */
-class FormatGender implements ValueFormatter
+class FormatWithGender implements ValueFormatter
 {
-
     /**
      * @param $entityValue
      * @return mixed|string

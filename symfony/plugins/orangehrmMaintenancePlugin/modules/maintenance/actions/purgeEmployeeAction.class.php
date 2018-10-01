@@ -35,9 +35,12 @@ class purgeEmployeeAction extends sfAction
     {
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
+
         $checkIfReqestToAuthenticate = $request->hasParameter('check_authenticate');
+        $requestmethod = $request->getMethod();
         $data = $request->getParameterHolder()->getAll();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $checkIfReqestToAuthenticate) {
+
+        if ($requestmethod === 'POST' && $checkIfReqestToAuthenticate) {
             $userId = sfContext::getInstance()->getUser()->getAttribute('auth.userId');
             if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
                 $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
@@ -47,9 +50,9 @@ class purgeEmployeeAction extends sfAction
                 $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
                 $this->getUser()->setFlash('warning', __(CommonMessages::CREDENTIALS_REQUIRED));
             }
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        } elseif ($requestmethod === 'GET') {
             $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !$checkIfReqestToAuthenticate) {
+        } elseif ($requestmethod === 'POST' && !$checkIfReqestToAuthenticate) {
             if (empty($data['employee']['empId']) or $data['employee']['empName'] == 'Type for hints...') {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SELECT_RECORDS));
                 $this->setTemplate('purgeAllRecords', 'maintenance');

@@ -34,11 +34,12 @@ class accessEmployeeDataAction extends sfAction
 
         $data = $request->getParameterHolder()->getAll();
         $checkIfReqestToAuthenticate = $request->hasParameter('check_authenticate');
+        $requestmethod = $request->getMethod();
 
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        if ($requestmethod == 'GET') {
             $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
             $this->setTemplate('purgeEmployee', 'maintenance');
-        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' and $checkIfReqestToAuthenticate) {
+        } elseif ($requestmethod == 'POST' and $checkIfReqestToAuthenticate) {
             $userId = sfContext::getInstance()->getUser()->getAttribute('auth.userId');
             if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
                 $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
@@ -48,9 +49,14 @@ class accessEmployeeDataAction extends sfAction
                 $this->setTemplate('purgeEmployee', 'maintenance');
                 $this->getUser()->setFlash('warning', __(CommonMessages::CREDENTIALS_REQUIRED));
             }
-        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' and !$checkIfReqestToAuthenticate) {
-            $this->getEmployeeData($data);
-            $this->accsessAllDataForm = new AccsessAllDataForm();
+        } elseif ($requestmethod == 'POST' and !$checkIfReqestToAuthenticate) {
+            $employeeDataArray = $this->getEmployeeData($data);
+            ob_clean();
+            header("Content-Type: text/csv; charset=UTF-8");
+            header("Pragma:''");
+            header("Content-Disposition: attachment; filename=" . 'employeeData.json');
+            echo json_encode($employeeDataArray);
+            return sfView::NONE;
         }
     }
 
@@ -98,10 +104,11 @@ class accessEmployeeDataAction extends sfAction
             if (empty($employee)) {
                 $this->getUser()->setFlash('warning', __(ValidationMessages::EMPLOYEE_DOES_NOT_EXIST));
             } else {
-                $this->getMaintenanceManager()->accessEmployeeData($empNumber);
+                $employeeDataArray = $this->getMaintenanceManager()->accessEmployeeData($empNumber);
+                return $employeeDataArray;
             }
         } catch (Exception $e) {
-            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_FAILURE));
+            $this->getUser()->setFlash('warning', __(TopLevelMessages::EXTRACTION_FAILED));
         }
     }
 }

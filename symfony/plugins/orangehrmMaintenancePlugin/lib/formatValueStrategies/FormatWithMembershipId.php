@@ -19,10 +19,12 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithMembershipId
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithMembershipId implements ValueFormatter
 {
+
+    private $membershipService = null;
 
     /**
      * @param $entityValue
@@ -30,6 +32,19 @@ class FormatWithNull implements ValueFormatter
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        $a = $this->getMembershipService()->getMembershipById($entityValue);
+        return $a->getName();
+    }
+
+    /**
+     * @return MembershipService
+     */
+    public function getMembershipService()
+    {
+        if (is_null($this->membershipService)) {
+            $this->membershipService = new MembershipService();
+            $this->membershipService->setMembershipDao(new MembershipDao());
+        }
+        return $this->membershipService;
     }
 }

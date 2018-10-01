@@ -23,7 +23,6 @@
  */
 class MaintenanceManager
 {
-
     /**
      * @param $empNumber
      * @throws Doctrine_Connection_Exception
@@ -75,27 +74,30 @@ class MaintenanceManager
         return new $purgeStrategy($purgeableEntityClassName, $strategyInfoArray);
     }
 
+    /**
+     * @param $empNumber
+     * @return array
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Transaction_Exception
+     */
     public function accessEmployeeData($empNumber)
     {
         $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
         try {
             $connection->beginTransaction();
             $accessableEntities = $this->getPurgeableEntities();
-//            var_dump($accessableEntities);
-//            var_dump($accessableEntities['AccessStrategy']);
-
+            $entitiyAccessData = array();
             foreach ($accessableEntities as $accessableEntityClassName => $accessStrategies) {
-//                var_dump($accessableEntityClassName, $accessStrategies);
-                foreach ($accessStrategies['AccessStrategy'] as $strategy => $strategyInfoArray) {
-
-//                    var_dump($strategy,$strategyInfoArray);
-                    $strategy = $this->getAccessStrategy($accessableEntityClassName, $strategy, $strategyInfoArray);
-                    $strategy->access($empNumber);
+                if (array_key_exists("AccessStrategy", $accessStrategies)) {
+                    foreach ($accessStrategies['AccessStrategy'] as $strategy => $strategyInfoArray) {
+                        $strategy = $this->getAccessStrategy($accessableEntityClassName, $strategy, $strategyInfoArray);
+                        $data = $strategy->access($empNumber);
+                        array_push($entitiyAccessData, $data);
+                    }
                 }
             }
-
-
             $connection->commit();
+            return $entitiyAccessData;
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             $connection->rollback();
@@ -105,6 +107,12 @@ class MaintenanceManager
         // @codeCoverageIgnoreEnd
     }
 
+    /**
+     * @param $accessableEntityClassName
+     * @param $strategy
+     * @param $strategyInfoArray
+     * @return mixed
+     */
     public function getAccessStrategy($accessableEntityClassName, $strategy, $strategyInfoArray)
     {
         $accessStrategy = $strategy . "AccessStrategy";
@@ -112,4 +120,3 @@ class MaintenanceManager
     }
 
 }
-

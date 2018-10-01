@@ -19,17 +19,29 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithCountryCode
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithCountryCode implements ValueFormatter
 {
+    protected $countryService;
 
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        return $this->getCountryService()->getCountryByCountryCode($entityValue)->toArray()[0]['name'];
+    }
+
+    /**
+     * @return CountryService
+     */
+    public function getCountryService()
+    {
+        if (is_null($this->countryService)) {
+            $this->countryService = new CountryService();
+        }
+        return $this->countryService;
     }
 }

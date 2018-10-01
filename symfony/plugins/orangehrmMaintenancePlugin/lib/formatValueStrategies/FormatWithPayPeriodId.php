@@ -19,17 +19,23 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithPayGradeId
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithPayPeriodId implements ValueFormatter
 {
 
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        $payPeriods = Doctrine::getTable('Payperiod')->findAll();
+        if ($payPeriods[$entityValue - 1]->getName()) {
+            return $payPeriods[$entityValue - 1]->getName();
+        } else {
+            return 'No Pay Graade Details';
+        }
+
     }
 }

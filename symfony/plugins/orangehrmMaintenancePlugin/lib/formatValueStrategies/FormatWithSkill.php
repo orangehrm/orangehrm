@@ -19,10 +19,11 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithSkill
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithSkill implements ValueFormatter
 {
+    private $skillService;
 
     /**
      * @param $entityValue
@@ -30,6 +31,17 @@ class FormatWithNull implements ValueFormatter
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        return $this->getSkillService()->getSkillById($entityValue)->getName();
+    }
+
+    /**
+     * @return SkillService
+     */
+    public function getSkillService()
+    {
+        if (!($this->skillService instanceof SkillService)) {
+            $this->skillService = new SkillService();
+        }
+        return $this->skillService;
     }
 }

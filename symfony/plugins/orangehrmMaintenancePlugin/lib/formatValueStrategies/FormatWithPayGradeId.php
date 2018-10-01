@@ -19,17 +19,31 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithPayGradeId
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithPayGradeId implements ValueFormatter
 {
+
+    private $payGradeService;
 
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        return $this->getPayGradeService()->getPayGradeById($entityValue)->getName();
+    }
+
+    /**
+     * @return PayGradeService
+     */
+    public function getPayGradeService()
+    {
+        if (is_null($this->payGradeService)) {
+            $this->payGradeService = new PayGradeService();
+            $this->payGradeService->setPayGradeDao(new PayGradeDao());
+        }
+        return $this->payGradeService;
     }
 }

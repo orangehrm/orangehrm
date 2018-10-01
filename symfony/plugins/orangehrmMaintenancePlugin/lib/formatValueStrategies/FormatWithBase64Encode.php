@@ -19,17 +19,16 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithBase64Encode
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithBase64Encode implements ValueFormatter
 {
-
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        return base64_encode($entityValue);
     }
 }

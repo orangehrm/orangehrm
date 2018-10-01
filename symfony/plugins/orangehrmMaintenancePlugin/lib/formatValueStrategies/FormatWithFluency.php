@@ -19,17 +19,22 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatGender
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithFluency implements ValueFormatter
 {
-
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        if ($entityValue == 1) {
+            return 'Writing';
+        } elseif ($entityValue == 2) {
+            return 'Speaking';
+        } else {
+            return 'Reading';
+        }
     }
 }

@@ -19,10 +19,12 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithLocationId
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithLocationId implements ValueFormatter
 {
+
+    private $locationService = null;
 
     /**
      * @param $entityValue
@@ -30,6 +32,17 @@ class FormatWithNull implements ValueFormatter
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        return $this->getLocationService()->getLocationById($entityValue)->getName();
+    }
+
+    /**
+     * @return LocationService
+     */
+    public function getLocationService()
+    {
+        if (is_null($this->locationService)) {
+            $this->locationService = new LocationService();
+        }
+        return $this->locationService;
     }
 }

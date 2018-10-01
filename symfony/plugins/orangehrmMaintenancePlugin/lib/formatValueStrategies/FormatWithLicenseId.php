@@ -19,17 +19,31 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithLicenseId
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithLicenseId implements ValueFormatter
 {
+    private $licenseService = null;
 
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        return $this->getLicenseService()->getLicenseById($entityValue)->getName();
+    }
+
+    /**
+     * @return LicenseService
+     */
+    public function getLicenseService()
+    {
+
+        if (!($this->licenseService instanceof LicenseService)) {
+            $this->licenseService = new LicenseService();
+        }
+
+        return $this->licenseService;
     }
 }

@@ -19,17 +19,29 @@
  */
 
 /**
- * Class FormatWithNull
+ * Class FormatWithLanguage
  */
-class FormatWithNull implements ValueFormatter
+class FormatWithLanguage implements ValueFormatter
 {
+    private $languageService = null;
 
     /**
      * @param $entityValue
-     * @return mixed
+     * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        return null;
+        return $this->getLanguageService()->getLanguageById($entityValue)->getName();
+    }
+
+    /**
+     * @return LanguageService
+     */
+    public function getLanguageService()
+    {
+        if (!($this->languageService instanceof LanguageService)) {
+            $this->languageService = new LanguageService();
+        }
+        return $this->languageService;
     }
 }

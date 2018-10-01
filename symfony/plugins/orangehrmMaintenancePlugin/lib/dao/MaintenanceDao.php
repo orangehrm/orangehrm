@@ -34,8 +34,8 @@ class MaintenanceDao extends BaseDao
             $q = Doctrine_Query::create()
                 ->select('empNumber', 'firstName', 'middleName', 'lastName')
                 ->from('Employee')
-                ->where('termination_id IS NOT NULL');
-//                ->andwhere('purged_at IS NULL');
+                ->where('termination_id IS NOT NULL')
+                ->andwhere('purged_at IS NULL');
             return $q->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
@@ -75,6 +75,11 @@ class MaintenanceDao extends BaseDao
         // @codeCoverageIgnoreEnd
     }
 
+    /**
+     * @param $enitity
+     * @return bool
+     * @throws DaoException
+     */
     public function saveEntity($enitity)
     {
         try {
