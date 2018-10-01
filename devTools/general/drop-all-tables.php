@@ -26,7 +26,7 @@ require_once $confPath;
 $c = new Conf();
 
 try {
-    $dsn = "mysql:dbname={$c->dbname};host={$c->dbhost}";
+    $dsn = "mysql:dbname={$c->dbname};host={$c->dbhost};port={$c->dbport}";
     $pdo = new PDO($dsn, $c->dbuser, $c->dbpass);
     
     $result = $pdo->query('SHOW TABLES');
