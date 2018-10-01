@@ -25,7 +25,12 @@ require_once $confPath;
 
 $c = new Conf();
 
-$conn = mysqli_connect($c->dbhost, $c->dbuser, $c->dbpass, "", $c->dbport);
+if (is_numeric($c->dbport)) {
+    $conn = mysqli_connect($c->dbhost, $c->dbuser, $c->dbpass, null, $c->dbport);
+} else {
+    $conn = mysqli_connect(null, $c->dbuser, $c->dbpass, null, null, $c->dbport);
+}
+
 if (mysqli_query($conn, "DROP DATABASE `{$c->dbname}`")) {
     
     echo "Existing '{$c->dbname}' database was deleted.<br>\n";
