@@ -91,10 +91,10 @@ function sysCheckPassed() {
 
 	              $mysqlServer = mysqli_get_server_info($conn);
 
-                        if ($systemValidator->isMySqlCompatible($dbInfo['host'], $dbInfo['username'], $dbInfo['password'])) {
+                        if ($systemValidator->isMySqlCompatible($dbInfo['host'], $dbInfo['username'], $dbInfo['password'], $dbInfo['port'])) {
                             echo "<b><font color='green'>OK (ver " . $mysqlServer . ')</font></b>';
                         } else {
-                            $mysqlErrorMessage = $systemValidator->getMysqlErrorMessage($dbInfo['host'], $dbInfo['username'], $dbInfo['password']);
+                            $mysqlErrorMessage = $systemValidator->getMysqlErrorMessage($dbInfo['host'], $dbInfo['username'], $dbInfo['password'], $dbInfo['port']);
                             echo "<b><font color='#9E6D6D'>$mysqlErrorMessage</font></b>";
                         }
                     } else {
