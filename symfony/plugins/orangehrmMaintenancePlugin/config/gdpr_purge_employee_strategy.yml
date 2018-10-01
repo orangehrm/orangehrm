@@ -50,162 +50,208 @@ Entities :
           - {field: "purged_at" ,class: 'FormatWithPurgeTime'}
           - {field: "eeo_cat_code" ,class: 'FormatWithNull'}
           - {field: "joined_date" ,class: 'FormatWithNull'}
-    AccessStrategy: 'BasicAccessStragegy'
-
-  EmpPicture:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
+    AccessStrategy:
+      Basic:
         match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmployeeAttachment:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmpEmergencyContact:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmpDependent:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmployeeImmigrationRecord:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmpWorkExperience:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmployeeEducation:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmployeeSkill:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmployeeLanguage:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmployeeMembership:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmpUsTaxExemption:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmployeeLicense:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmployeeSalary:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmpLocations:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  EmpContract:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  TimesheetItem:
-    PurgeStrategy:
-      ReplaceWithValue:
-        matching_criteria: many
-        match_by:
-          - {match: employee_id}
+          - {match: empNumber}
         parameters:
-          - {field: "comment" ,class: 'FormatWithPurgeString'}
-    AccessStrategy: ''
+          - {field: "firstName" ,class: ''}
+          - {field: "lastName" ,class: ''}
+          - {field: "middleName" ,class: ''}
+          - {field: "nickName" ,class: ''}
+          - {field: "smoker" ,class: ''}
+          - {field: "emp_gender" ,class: 'FormatGender'}
+          - {field: "emp_marital_status" ,class: ''}
+          - {field: "nation_code" ,class: 'FormatNationality'}
+          - {field: "ssn" ,class: ''}
+          - {field: "sin" ,class: ''}
+          - {field: "otherId" ,class: ''}
+          - {field: "licenseNo" ,class: ''}
+          - {field: "emp_dri_lice_exp_date" ,class: ''}
+          - {field: "militaryService" ,class: ''}
+          - {field: "emp_status" ,class: ''}
+          - {field: "job_title_code" ,class: ''}
+          - {field: "work_station" ,class: ''}
+          - {field: "street1" ,class: ''}
+          - {field: "street2" ,class: ''}
+          - {field: "city" ,class: ''}
+          - {field: "country" ,class: ''}
+          - {field: "province" ,class: ''}
+          - {field: "emp_zipcode" ,class: ''}
+          - {field: "emp_hm_telephone" ,class: ''}
+          - {field: "emp_birthday" ,class: ''}
+          - {field: "emp_mobile" ,class: ''}
+          - {field: "emp_work_telephone" ,class: ''}
+          - {field: "emp_work_email" ,class: ''}
+          - {field: "emp_oth_email" ,class: ''}
+          - {field: "custom1" ,class: ''}
+          - {field: "custom2" ,class: ''}
+          - {field: "custom3" ,class: ''}
+          - {field: "custom4" ,class: ''}
+          - {field: "custom5" ,class: ''}
+          - {field: "custom6" ,class: ''}
+          - {field: "custom7" ,class: ''}
+          - {field: "custom8" ,class: ''}
+          - {field: "custom9" ,class: ''}
+          - {field: "custom10" ,class: ''}
+          - {field: "purged_at" ,class: ''}
+          - {field: "eeo_cat_code" ,class: ''}
+          - {field: "joined_date" ,class: ''}
 
-  SystemUser:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: one
-        match_by:
-          - {match: emp_number}
-    AccessStrategy: ''
-
-  PerformanceReview:
-    PurgeStrategy:
-      ReplaceWithValue:
-        matching_criteria: many
-        match_by:
-          - {match: employee_number}
-        parameters:
-          - {field: "finalComment" ,class: 'FormatWithPurgeString'}
-    AccessStrategy: ''
-
-  PerformanceTrackerLog:
-    PurgeStrategy:
-      ReplaceWithValue:
-        matching_criteria: many
-        match_by:
-          - {match: emp_number, join: PerformanceTrack}
-        parameters:
-          - {field: "comment" ,class: 'FormatWithPurgeString'}
-    AccessStrategy: ''
+#  EmpPicture:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmployeeAttachment:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmpEmergencyContact:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmpDependent:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmployeeImmigrationRecord:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmpWorkExperience:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmployeeEducation:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmployeeSkill:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmployeeLanguage:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmployeeMembership:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmpUsTaxExemption:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmployeeLicense:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmployeeSalary:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmpLocations:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  EmpContract:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  TimesheetItem:
+#    PurgeStrategy:
+#      ReplaceWithValue:
+#        matching_criteria: many
+#        match_by:
+#          - {match: employee_id}
+#        parameters:
+#          - {field: "comment" ,class: 'FormatWithPurgeString'}
+#    AccessStrategy: ''
+#
+#  SystemUser:
+#    PurgeStrategy:
+#      Destroy:
+#        matching_criteria: one
+#        match_by:
+#          - {match: emp_number}
+#    AccessStrategy: ''
+#
+#  PerformanceReview:
+#    PurgeStrategy:
+#      ReplaceWithValue:
+#        matching_criteria: many
+#        match_by:
+#          - {match: employee_number}
+#        parameters:
+#          - {field: "finalComment" ,class: 'FormatWithPurgeString'}
+#    AccessStrategy: ''
+#
+#  PerformanceTrackerLog:
+#    PurgeStrategy:
+#      ReplaceWithValue:
+#        matching_criteria: many
+#        match_by:
+#          - {match: emp_number, join: PerformanceTrack}
+#        parameters:
+#          - {field: "comment" ,class: 'FormatWithPurgeString'}
+#    AccessStrategy: ''

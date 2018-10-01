@@ -59,7 +59,7 @@ class AccsessAllDataForm extends BaseForm
     {
         $requiredMarker = ' <em>*</em>';
         $lableList = array();
-        $lableList['employee'] = __('Select Terminated Employee') . $requiredMarker;
+        $lableList['employee'] = __('Select Employee') . $requiredMarker;
         return $lableList;
     }
 }

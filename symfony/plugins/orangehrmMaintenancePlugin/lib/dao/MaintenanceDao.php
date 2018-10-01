@@ -54,8 +54,6 @@ class MaintenanceDao extends BaseDao
     {
         $employeeId = reset($matchByValues);
         $field = key($matchByValues);
-//        var_dump($employeeId, $field, $matchByValues);
-//        die;
         try {
             if ($matchByValues['join']) {
                 $q = Doctrine_Query::create()

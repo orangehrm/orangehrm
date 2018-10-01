@@ -75,5 +75,41 @@ class MaintenanceManager
         return new $purgeStrategy($purgeableEntityClassName, $strategyInfoArray);
     }
 
+    public function accessEmployeeData($empNumber)
+    {
+        $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
+        try {
+            $connection->beginTransaction();
+            $accessableEntities = $this->getPurgeableEntities();
+//            var_dump($accessableEntities);
+//            var_dump($accessableEntities['AccessStrategy']);
+
+            foreach ($accessableEntities as $accessableEntityClassName => $accessStrategies) {
+//                var_dump($accessableEntityClassName, $accessStrategies);
+                foreach ($accessStrategies['AccessStrategy'] as $strategy => $strategyInfoArray) {
+
+//                    var_dump($strategy,$strategyInfoArray);
+                    $strategy = $this->getAccessStrategy($accessableEntityClassName, $strategy, $strategyInfoArray);
+                    $strategy->access($empNumber);
+                }
+            }
+
+
+            $connection->commit();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            $connection->rollback();
+            Logger::getLogger('maintenance')->error($e->getCode() . ' - ' . $e->getMessage(), $e);
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    public function getAccessStrategy($accessableEntityClassName, $strategy, $strategyInfoArray)
+    {
+        $accessStrategy = $strategy . "AccessStrategy";
+        return new $accessStrategy($accessableEntityClassName, $strategyInfoArray);
+    }
+
 }
 
