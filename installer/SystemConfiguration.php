@@ -24,23 +24,30 @@ class SystemConfiguration
 {
     /**
      * Returns a database connection
+     * @param bool $dbSelect
      * @return PDO|void
      */
-    private function createDbConnection() {
+    public function createDbConnection($dbSelect = true) {
         $host = $_SESSION['dbHostName'];
         $username = $_SESSION['dbUserName'];
         $password = $_SESSION['dbPassword'];
         $dbname = $_SESSION['dbName'];
         $port = $_SESSION['dbHostPort'];
 
-        if (!$port) {
-            $dbConnection = new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8mb4', $username, $password);
-        } else {
-            $dbConnection = new PDO('mysql:host=' . $host . ';port=' . $port . ';dbname=' . $dbname . ';charset=utf8mb4', $username, $password);
+        $dsn = 'mysql:host=' . $host . ';charset=utf8mb4;';
+
+        if ($dbSelect) {
+            $dsn .= 'dbname=' . $dbname . ';';
         }
 
-        if (!$dbConnection) {
-            return;
+        if (!is_null($port)) {
+            $dsn .= 'port=' . $port . ';';
+        }
+
+        try {
+            $dbConnection = new PDO($dsn, $username, $password);
+        } catch (PDOException $e) {
+            $dbConnection = null;
         }
 
         return $dbConnection;
