@@ -23,18 +23,27 @@
  */
 class FormatWithFluency implements ValueFormatter
 {
+    const FLUENCY_WRITING = 1;
+    const FLUENCY_WRITING_DISPLAY_STRING = 'Writing';
+
+    const FLUENCY_SPEAKING = 2;
+    const FLUENCY_SPEAKING_DISPLAY_STRING = 'Speaking';
+
+    const FLUENCY_READING_DISPLAY_STRING = 'Reading';
+
     /**
      * @param $entityValue
      * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        if ($entityValue == 1) {
-            return 'Writing';
-        } elseif ($entityValue == 2) {
-            return 'Speaking';
-        } else {
-            return 'Reading';
+        switch ($entityValue) {
+            case self::FLUENCY_WRITING:
+                return self::FLUENCY_WRITING_DISPLAY_STRING;
+            case self::FLUENCY_SPEAKING:
+                return self::FLUENCY_SPEAKING_DISPLAY_STRING;
+            default:
+                return self::FLUENCY_READING_DISPLAY_STRING;
         }
     }
 }

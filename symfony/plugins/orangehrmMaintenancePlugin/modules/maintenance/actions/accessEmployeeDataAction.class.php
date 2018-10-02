@@ -24,7 +24,7 @@ class accessEmployeeDataAction extends sfAction
 {
     /**
      * @param sfRequest $request
-     * @return mixed|void
+     * @return mixed|string
      * @throws sfException
      */
     public function execute($request)
@@ -51,11 +51,12 @@ class accessEmployeeDataAction extends sfAction
             }
         } elseif ($requestmethod == 'POST' and !$checkIfReqestToAuthenticate) {
             $employeeDataArray = $this->getEmployeeData($data);
+            $downloadableForamat = $this->getDownloadFormatObject();
             ob_clean();
             header("Content-Type: text/csv; charset=UTF-8");
             header("Pragma:''");
-            header("Content-Disposition: attachment; filename=" . 'employeeData.json');
-            echo json_encode($employeeDataArray);
+            header("Content-Disposition: attachment; filename=" . $downloadableForamat->getDownloadFileName());
+            echo $downloadableForamat->getFormattedString($employeeDataArray);
             return sfView::NONE;
         }
     }
@@ -110,5 +111,16 @@ class accessEmployeeDataAction extends sfAction
         } catch (Exception $e) {
             $this->getUser()->setFlash('warning', __(TopLevelMessages::EXTRACTION_FAILED));
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDownloadFormatObject()
+    {
+        if (!isset($this->purgeableEntities)) {
+            $this->purgeableEntities = sfYaml::load(realpath(dirname(__FILE__) . '/../../../config/gdpr_purge_employee_strategy.yml'));
+        }
+        return new $this->purgeableEntities['DownloadFormat'];
     }
 }

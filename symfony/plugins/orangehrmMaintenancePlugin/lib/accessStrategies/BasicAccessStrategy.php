@@ -22,6 +22,11 @@
  */
 class BasicAccessStrategy extends AccessStrategy
 {
+    /**
+     * @param $employeeNumber
+     * @return array|mixed
+     * @throws DaoException
+     */
     public function access($employeeNumber)
     {
         $entitiyAccessData = array();
@@ -34,6 +39,10 @@ class BasicAccessStrategy extends AccessStrategy
         return $entitiyAccessData;
     }
 
+    /**
+     * @param $accessEntity
+     * @return array
+     */
     public function addRecordsToArray($accessEntity)
     {
 

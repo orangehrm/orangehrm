@@ -24,13 +24,15 @@
  */
 class FormatWithPurgeString implements ValueFormatter
 {
+    const PURGE = 'Purge';
+
     /**
      * @param $entityValue
      * @return mixed
      */
     public function getFormattedValue($entityValue)
     {
-        return 'Purge';
+        return self::PURGE;
     }
 
 }

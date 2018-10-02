@@ -23,6 +23,16 @@
  */
 class FormatWithCompetency implements ValueFormatter
 {
+    const COMPETENCY_POOR = 1;
+    const COMPETENCY_POOR_DISPLAY_STRING = 'Poor';
+
+    const COMPETENCY_BASIC = 2;
+    const COMPETENCY_BASIC_DISPLAY_STRING = 'Basic';
+
+    const COMPETENCY_GOOD = 3;
+    const COMPETENCY_GOOD_DISPLAY_STRING = 'Good';
+
+    const COMPETENCY_MOTHER_TONGUE_DISPLAY_STRING = 'Mother Tongue';
 
     /**
      * @param $entityValue
@@ -30,14 +40,15 @@ class FormatWithCompetency implements ValueFormatter
      */
     public function getFormattedValue($entityValue)
     {
-        if ($entityValue == 1) {
-            return 'Poor';
-        } elseif ($entityValue == 2) {
-            return 'Basic';
-        } elseif ($entityValue == 3) {
-            return 'Good';
-        } else {
-            return 'Mother Tongue';
+        switch ($entityValue) {
+            case self::COMPETENCY_POOR:
+                return self::COMPETENCY_POOR_DISPLAY_STRING;
+            case self::COMPETENCY_BASIC:
+                return self::COMPETENCY_BASIC_DISPLAY_STRING;
+            case self::COMPETENCY_GOOD:
+                return self::COMPETENCY_GOOD_DISPLAY_STRING;
+            default:
+                return self::COMPETENCY_MOTHER_TONGUE_DISPLAY_STRING;
         }
     }
 }

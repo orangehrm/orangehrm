@@ -23,16 +23,22 @@
  */
 class FormatWithPassportType implements ValueFormatter
 {
+    const PASSPORT = 1;
+    const PASSPORT_DISPLAY_STRING = 'Passport';
+
+    const VISA_DISPLAY_STRING = 'Visa';
+
     /**
      * @param $entityValue
      * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        if ($entityValue == 2) {
-            return 'Visa';
-        } else {
-            return 'Passport';
+        switch ($entityValue) {
+            case self::PASSPORT:
+                return self::PASSPORT_DISPLAY_STRING;
+            default:
+                return self::VISA_DISPLAY_STRING;
         }
     }
 }

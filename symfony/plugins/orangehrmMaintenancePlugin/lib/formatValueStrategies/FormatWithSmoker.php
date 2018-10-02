@@ -23,6 +23,8 @@
  */
 class FormatWithSmoker implements ValueFormatter
 {
+    const SMOKER = 1;
+    const SMOKER_DISPLAY_STRING = 'Smoker';
 
     /**
      * @param $entityValue
@@ -30,11 +32,9 @@ class FormatWithSmoker implements ValueFormatter
      */
     public function getFormattedValue($entityValue)
     {
-        if ($entityValue == 1) {
-            return 'Smoker';
-        } else {
-            return 'None Smoker';
+        switch ($entityValue) {
+            case self::SMOKER:
+                return self::SMOKER_DISPLAY_STRING;
         }
-
     }
 }

@@ -24,6 +24,8 @@
 class FormatWithPayPeriodId implements ValueFormatter
 {
 
+    const NO_PAY_GRADE = 'No Pay Grade Details';
+
     /**
      * @param $entityValue
      * @return mixed|string
@@ -34,7 +36,7 @@ class FormatWithPayPeriodId implements ValueFormatter
         if ($payPeriods[$entityValue - 1]->getName()) {
             return $payPeriods[$entityValue - 1]->getName();
         } else {
-            return 'No Pay Graade Details';
+            return self::NO_PAY_GRADE;
         }
 
     }

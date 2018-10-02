@@ -23,16 +23,23 @@
  */
 class FormatWithGender implements ValueFormatter
 {
+    const GENDER_MALE = 1;
+    const GENDER_MALE_DISPLAY_STRING = 'Male';
+
+    const GENDER_FEMALE = 2;
+    const GENDER_FEMALE_DISPLAY_STRING = 'Female';
+
     /**
      * @param $entityValue
      * @return mixed|string
      */
     public function getFormattedValue($entityValue)
     {
-        if ($entityValue == 1) {
-            return 'Male';
-        } else {
-            return 'Female';
+        switch ($entityValue) {
+            case self::GENDER_MALE:
+                return self::GENDER_MALE_DISPLAY_STRING;
+            case self::GENDER_FEMALE:
+                return self::GENDER_FEMALE_DISPLAY_STRING;
         }
 
     }
