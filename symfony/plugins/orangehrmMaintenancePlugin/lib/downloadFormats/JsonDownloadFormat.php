@@ -20,10 +20,8 @@
 /**
  * Class JsonDownloadFormat
  */
-class JsonDownloadFormat implements DownloadFormat
+class JsonDownloadFormat extends DownloadFormat
 {
-    const DOWNLOAD_FILE_NAME = 'employeeData.json';
-
     /**
      * @param $values
      * @return mixed|string
@@ -33,11 +31,4 @@ class JsonDownloadFormat implements DownloadFormat
         return json_encode($values);
     }
 
-    /**
-     * @return mixed|string
-     */
-    public function getDownloadFileName()
-    {
-        return self::DOWNLOAD_FILE_NAME;
-    }
 }

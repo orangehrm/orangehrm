@@ -20,15 +20,32 @@
 /**
  * Interface DownloadFormat
  */
-interface DownloadFormat{
+abstract class DownloadFormat
+{
     /**
      * @param $values
      * @return mixed
      */
-    public function getFormattedString($values);
+    public abstract function getFormattedString($values);
 
     /**
      * @return mixed
      */
-    public function getDownloadFileName();
+    public function getDownloadFileName($empNumber)
+    {
+        $employee = $this->getEmployeeService()->getEmployee($empNumber);
+        $fileName = $employee->getFirstName() . ' ' . $employee->getLastName() . '.json';
+        return $fileName;
+    }
+
+    /**
+     * @return EmployeeService
+     */
+    public function getEmployeeService()
+    {
+        if (!isset($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+        }
+        return $this->employeeService;
+    }
 }

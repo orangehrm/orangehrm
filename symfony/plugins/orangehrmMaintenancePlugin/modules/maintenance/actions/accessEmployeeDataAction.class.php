@@ -51,11 +51,11 @@ class accessEmployeeDataAction extends sfAction
             }
         } elseif ($requestmethod == 'POST' and !$checkIfReqestToAuthenticate) {
             $employeeDataArray = $this->getEmployeeData($data);
-            $downloadableForamat = $this->getDownloadFormatObject();
+            $downloadableForamat = $this->getDownloadFormatStrategy();
             ob_clean();
             header("Content-Type: text/csv; charset=UTF-8");
             header("Pragma:''");
-            header("Content-Disposition: attachment; filename=" . $downloadableForamat->getDownloadFileName());
+            header("Content-Disposition: attachment; filename=" . $downloadableForamat->getDownloadFileName($data['employee']['empId']));
             echo $downloadableForamat->getFormattedString($employeeDataArray);
             return sfView::NONE;
         }
@@ -116,7 +116,7 @@ class accessEmployeeDataAction extends sfAction
     /**
      * @return mixed
      */
-    public function getDownloadFormatObject()
+    public function getDownloadFormatStrategy()
     {
         if (!isset($this->purgeableEntities)) {
             $this->purgeableEntities = sfYaml::load(realpath(dirname(__FILE__) . '/../../../config/gdpr_purge_employee_strategy.yml'));
