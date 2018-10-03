@@ -92,7 +92,7 @@ class MaintenanceManager
                     foreach ($accessStrategies['AccessStrategy'] as $strategy => $strategyInfoArray) {
                         $strategy = $this->getAccessStrategy($accessableEntityClassName, $strategy, $strategyInfoArray);
                         $data = $strategy->access($empNumber);
-                        array_push($entitiyAccessData, $data);
+                        $entitiyAccessData[$accessableEntityClassName] = $data;
                     }
                 }
             }

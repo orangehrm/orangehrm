@@ -51,9 +51,9 @@ class MaintenanceService
      * @return mixed
      * @throws DaoException
      */
-    public function extractDataFromEmployeeNum($matchByValues, $table)
+    public function extractDataFromEmpNumber($matchByValues, $table)
     {
-        return $this->getMaintenanceDao()->extractDataFromEmployeeNum($matchByValues, $table);
+        return $this->getMaintenanceDao()->extractDataFromEmpNumber($matchByValues, $table);
     }
 
     /**

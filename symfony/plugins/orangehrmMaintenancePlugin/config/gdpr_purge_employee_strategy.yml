@@ -1,6 +1,7 @@
 DownloadFormat : 'JsonDownloadFormat'
 Entities :
 
+# PIM module
   Employee:
     PurgeStrategy:
       ReplaceWithValue:
@@ -70,7 +71,7 @@ Entities :
           - {field: "emp_dri_lice_exp_date" ,class: ''}
           - {field: "militaryService" ,class: ''}
           - {field: "emp_status" ,class: ''}
-          - {field: "job_title_code" ,class: ''}
+          - {field: "job_title_code" ,class: 'FormatWithJobTitle'}
           - {field: "work_station" ,class: ''}
           - {field: "street1" ,class: ''}
           - {field: "street2" ,class: ''}
@@ -322,7 +323,6 @@ Entities :
           - {field: "salaryName" ,class: ''}
           - {field: "notes" ,class: ''}
 
-
   EmpLocations:
     PurgeStrategy:
       Destroy:
@@ -350,22 +350,25 @@ Entities :
           - {field: "start_date" ,class: ''}
           - {field: "end_date" ,class: ''}
 
-  TimesheetItem:
-    PurgeStrategy:
-      ReplaceWithValue:
-        matching_criteria: many
-        match_by:
-          - {match: employee_id}
-        parameters:
-          - {field: "comment" ,class: 'FormatWithPurgeString'}
-
+#do we need to return user role and password
   SystemUser:
     PurgeStrategy:
       Destroy:
         matching_criteria: one
         match_by:
           - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "user_role_id" ,class: 'FormatWithUserRole'}
+          - {field: "user_name" ,class: ''}
+          - {field: "user_password" ,class: ''}
+          - {field: "date_entered" ,class: ''}
+          - {field: "date_modified" ,class: ''}
 
+#performance module
   PerformanceReview:
     PurgeStrategy:
       ReplaceWithValue:
@@ -374,12 +377,113 @@ Entities :
           - {match: employee_number}
         parameters:
           - {field: "finalComment" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee_number}
+        parameters:
+          - {field: "jobTitleCode" ,class: 'FormatWithJobTitle'}
+          - {field: "workPeriodStart" ,class: ''}
+          - {field: "workPeriodEnd" ,class: ''}
+          - {field: "departmentId" ,class: ''}
+          - {field: "dueDate" ,class: ''}
+          - {field: "completedDate" ,class: ''}
+          - {field: "activatedDate" ,class: ''}
+          - {field: "finalComment" ,class: ''}
+          - {field: "finalRate" ,class: ''}
 
   PerformanceTrackerLog:
     PurgeStrategy:
       ReplaceWithValue:
         matching_criteria: many
         match_by:
-          - {match: emp_number, join: PerformanceTrack}
+          - {match: emp_number,  join: PerformanceTrack}
         parameters:
           - {field: "comment" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number, join: PerformanceTrack}
+        parameters:
+          - {field: "log" ,class: ''}
+          - {field: "comment" ,class: ''}
+          - {field: "achievement" ,class: 'FormatWithAchievement'}
+          - {field: "added_date" ,class: ''}
+          - {field: "modified_date" ,class: ''}
+
+# Leave module
+  LeaveRequestComment:
+    PurgeStrategy:
+      ReplaceWithValue:
+        matching_criteria: many
+        match_by:
+          - {match: emp_number, join: LeaveRequest}
+        parameters:
+          - {field: "comments" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number, join: LeaveRequest}
+        parameters:
+          - {field: "created" ,class: ''}
+          - {field: "created_by_name" ,class: ''}
+          - {field: "comments" ,class: ''}
+
+  LeaveRequest:
+    PurgeStrategy:
+      ReplaceWithValue:
+        matching_criteria: many
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "comments" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "leave_type_id" ,class: ''}
+          - {field: "date_applied" ,class: ''}
+          - {field: "comments" ,class: ''}
+
+#attendace records are deleting need confirm
+#  Time module
+  AttendanceRecord:
+    PurgeStrategy:
+      Destroy:
+        matching_criteria: one
+        match_by:
+          - {match: employee_id}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee_id}
+        parameters:
+          - {field: "punchInUtcTime" ,class: ''}
+          - {field: "punchInNote" ,class: ''}
+          - {field: "punchInTimeOffset" ,class: ''}
+          - {field: "punchInUserTime" ,class: ''}
+          - {field: "punchOutUtcTime" ,class: ''}
+          - {field: "punchOutNote" ,class: ''}
+          - {field: "punchOutTimeOffset" ,class: ''}
+          - {field: "punchOutUserTime" ,class: ''}
+          - {field: "state" ,class: ''}
+
+  TimesheetItem:
+    PurgeStrategy:
+      ReplaceWithValue:
+        matching_criteria: many
+        match_by:
+          - {match: employee_id}
+        parameters:
+          - {field: "comment" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee_id}
+        parameters:
+          - {field: "projectId" ,class: 'FormatWithProject'}
+          - {field: "activityId" ,class: 'FormatWithActivity'}
+          - {field: "date" ,class: ''}
+          - {field: "duration" ,class: ''}
+          - {field: "comment" ,class: ''}

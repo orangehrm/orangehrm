@@ -143,7 +143,7 @@ abstract class AccessStrategy
      */
     public function getEntityRecords($matchByValues, $table)
     {
-        return $this->getMaintenanceService()->extractDataFromEmployeeNum($matchByValues, $table);
+        return $this->getMaintenanceService()->extractDataFromEmpNumber($matchByValues, $table);
     }
 
     /**

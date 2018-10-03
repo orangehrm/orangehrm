@@ -50,16 +50,17 @@ class MaintenanceDao extends BaseDao
      * @return mixed
      * @throws DaoException
      */
-    public function extractDataFromEmployeeNum($matchByValues, $table)
+    public function extractDataFromEmpNumber($matchByValues, $table)
     {
         $employeeId = reset($matchByValues);
         $field = key($matchByValues);
         try {
+            $table2 = $matchByValues['join'];
             if ($matchByValues['join']) {
                 $q = Doctrine_Query::create()
                     ->select('*')
-                    ->from($table)
-                    ->leftjoin($matchByValues['join'])
+                    ->from($table . ' l')
+                    ->innerJoin('l.' . $table2 . ' t')
                     ->where($field . " = ?", $employeeId);
             } else {
                 $q = Doctrine_Query::create()
