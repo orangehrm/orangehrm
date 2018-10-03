@@ -34,20 +34,20 @@ class SystemConfiguration
         $dbname = $_SESSION['dbName'];
         $port = $_SESSION['dbHostPort'];
 
-        $dsn = 'mysql:host=' . $host . ';charset=utf8mb4;';
+        $dsn = sprintf("mysql:host=%s;charset=utf8mb4;", $host);
 
         if ($dbSelect) {
-            $dsn .= 'dbname=' . $dbname . ';';
+            $dsn .= sprintf("dbname=%s;", $dbname);
         }
 
         if (!is_null($port)) {
-            $dsn .= 'port=' . $port . ';';
+            $dsn .= sprintf("port=%s;", $port);
         }
 
         try {
             $dbConnection = new PDO($dsn, $username, $password);
         } catch (PDOException $e) {
-            $dbConnection = null;
+            throw $e;
         }
 
         return $dbConnection;
