@@ -27,6 +27,7 @@ class ReplaceWithValuePurgeStrategy extends PurgeStrategy
     /**
      * @param $employeeNumber
      * @return mixed|void
+     * @throws DaoException
      */
     public function purge($employeeNumber)
     {
@@ -40,6 +41,7 @@ class ReplaceWithValuePurgeStrategy extends PurgeStrategy
 
     /**
      * @param $purgeEntity
+     * @throws DaoException
      */
     public function purgeRecord($purgeEntity)
     {

@@ -26,7 +26,6 @@ abstract class PurgeStrategy
     protected $parameters = array();
     protected $entityClassName = '';
     protected $matchByArray = array();
-    protected $matchingCriteria = array();
     protected $maintenanceService = null;
 
     /**
@@ -37,7 +36,6 @@ abstract class PurgeStrategy
     public function __construct($entityClassName, $infoArray)
     {
         $this->setEntityClassName($entityClassName);
-        $this->setMatchingCriteria($infoArray['matching_criteria']);
         if (isset($infoArray['match_by'])) {
             $this->setMatchBy($infoArray['match_by']);
         }
@@ -85,22 +83,6 @@ abstract class PurgeStrategy
     }
 
     /**
-     * @return mixed
-     */
-    public function getMatchingCriteria()
-    {
-        return $this->matchingCriteria;
-    }
-
-    /**
-     * @param $matchingCriteria
-     */
-    public function setMatchingCriteria($matchingCriteria)
-    {
-        $this->matchingCriteria = $matchingCriteria;
-    }
-
-    /**
      * @return array
      */
     public function getMatchBy()
@@ -114,14 +96,6 @@ abstract class PurgeStrategy
     public function setMatchBy($matchByArray)
     {
         $this->matchByArray = $matchByArray;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSingle()
-    {
-        return $this->getMatchingCriteria() == PurgeStrategy::MATCHING_CRITERIA_ONE;
     }
 
     /**
