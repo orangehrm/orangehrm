@@ -18,7 +18,7 @@
  */
 
 /**
- * Interface DownloadFormat
+ * Class DownloadFormat
  */
 abstract class DownloadFormat
 {
@@ -29,12 +29,14 @@ abstract class DownloadFormat
     public abstract function getFormattedString($values);
 
     /**
-     * @return mixed
+     * @param $empNumber
+     * @return string
+     * @throws DaoException
      */
     public function getDownloadFileName($empNumber)
     {
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
-        $fileName = $employee->getFirstName() . ' ' . $employee->getLastName() . '.json';
+        $fileName = $employee->getFullName() . '.json';
         return $fileName;
     }
 

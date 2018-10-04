@@ -25,7 +25,7 @@ abstract class PurgeStrategy
 
     protected $parameters = array();
     protected $entityClassName = '';
-    protected $matchByArray = array();
+    protected $entityFieldMap = array();
     protected $maintenanceService = null;
 
     /**
@@ -37,7 +37,7 @@ abstract class PurgeStrategy
     {
         $this->setEntityClassName($entityClassName);
         if (isset($infoArray['match_by'])) {
-            $this->setMatchBy($infoArray['match_by']);
+            $this->setEntityFieldMap($infoArray['match_by']);
         }
         if (isset($infoArray['parameters'])) {
             $this->setParameters($infoArray['parameters']);
@@ -85,17 +85,20 @@ abstract class PurgeStrategy
     /**
      * @return array
      */
-    public function getMatchBy()
+    public function getEntityFieldMap()
     {
-        return $this->matchByArray;
+        return $this->entityFieldMap;
     }
 
     /**
-     * @param $matchByArray
+     * @param $entityFieldMap
      */
-    public function setMatchBy($matchByArray)
+    public function setEntityFieldMap($entityFieldMap)
     {
-        $this->matchByArray = $matchByArray;
+
+        if (sizeof($entityFieldMap)) {
+            $this->entityFieldMap = $entityFieldMap[0];
+        }
     }
 
     /**
@@ -125,9 +128,9 @@ abstract class PurgeStrategy
     {
         $matchValueArray = array();
 
-        $matchValueArray[$this->getMatchBy()[0]['match']] = $employeeNumber;
-        if ($this->getMatchBy()[0]['join']) {
-            $matchValueArray['join'] = $this->getMatchBy()[0]['join'];
+        $matchValueArray[$this->getEntityFieldMap()['match']] = $employeeNumber;
+        if ($this->getEntityFieldMap()['join']) {
+            $matchValueArray['join'] = $this->getEntityFieldMap()['join'];
         }
         return $matchValueArray;
     }
