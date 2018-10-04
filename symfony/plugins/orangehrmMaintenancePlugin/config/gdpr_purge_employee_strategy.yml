@@ -1,7 +1,6 @@
 DownloadFormat : 'JsonDownloadFormat'
 Entities :
 
-# PIM module
   Employee:
     PurgeStrategy:
       ReplaceWithValue:
@@ -259,7 +258,6 @@ Entities :
           - {field: "subscriptionCommenceDate" ,class: ''}
           - {field: "subscriptionRenewalDate" ,class: ''}
 
-#there is a problem need to confirm
   EmpUsTaxExemption:
     PurgeStrategy:
       Destroy:
@@ -344,12 +342,10 @@ Entities :
         match_by:
           - {match: emp_number}
         parameters:
-          - {field: "user_role_id" ,class: 'FormatWithUserRole'}
           - {field: "user_name" ,class: ''}
           - {field: "date_entered" ,class: ''}
           - {field: "date_modified" ,class: ''}
 
-#performance module
   PerformanceReview:
     PurgeStrategy:
       ReplaceWithValue:
@@ -390,7 +386,6 @@ Entities :
           - {field: "added_date" ,class: ''}
           - {field: "modified_date" ,class: ''}
 
-# Leave module
   LeaveRequestComment:
     PurgeStrategy:
       ReplaceWithValue:
