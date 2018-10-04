@@ -141,8 +141,13 @@ class addLeaveEntitlementAction extends baseLeaveAction {
     }
     
     protected function getFiltersFromEntitlement($id) {
-        $entitlement = $this->getLeaveEntitlementService()->getLeaveEntitlement($id);    
-        
+        $entitlement = $this->getLeaveEntitlementService()->getLeaveEntitlement($id);
+
+        if (!($entitlement instanceof LeaveEntitlement)) {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
+        }
+
         $employee = $entitlement->getEmployee();        
         
         $filters = array(

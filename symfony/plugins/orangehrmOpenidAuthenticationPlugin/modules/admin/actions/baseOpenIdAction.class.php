@@ -24,7 +24,7 @@
  *
  * @author orangehrm
  */
-abstract class baseOpenIdAction extends sfAction{
+abstract class baseOpenIdAction extends ohrmBaseAction {
     
     protected $openIdProviderService;
     protected $configService;

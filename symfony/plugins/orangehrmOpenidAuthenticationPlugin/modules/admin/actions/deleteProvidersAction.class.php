@@ -27,6 +27,12 @@
 class deleteProvidersAction extends baseOpenIdAction {
 
     public function execute($request) {
+
+        if (!$request->isMethod(sfWebRequest::POST)) {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
+        }
+
         $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         $toBeDeletedIds = $request->getParameter('chkSelectRow');
@@ -35,7 +41,7 @@ class deleteProvidersAction extends baseOpenIdAction {
             $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
             $this->redirect('admin/openIdProvider');
         } else {
-            $this->getUser()->setFlash('warning', __(TopLevelMessages::FORM_VALIDATION_ERROR));
+            $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED));
             $this->redirect($request->getReferer());
         }
     }
