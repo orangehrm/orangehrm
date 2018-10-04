@@ -10,7 +10,7 @@
  *
  * @author orangehrm
  */
-class registerOAuthClientAction extends sfAction {
+class registerOAuthClientAction extends ohrmBaseAction {
 
     protected $oAuthService;
 
@@ -92,6 +92,9 @@ class registerOAuthClientAction extends sfAction {
                     }
                 }
                 
+            } else {
+                $this->handleBadRequest();
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         }
         $oauthClients = $this->getOAuthService()->listOAuthClients();

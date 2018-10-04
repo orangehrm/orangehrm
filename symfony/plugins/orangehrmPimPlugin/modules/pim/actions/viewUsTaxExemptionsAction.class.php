@@ -52,7 +52,8 @@ class viewUsTaxExemptionsAction extends basePimAction {
         $this->essUserMode = !$this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber);
 
         if (!$this->IsActionAccessible($empNumber)) {
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
 
         $param = array('empNumber' => $empNumber, 'taxExemptionPermission' => $this->taxExemptionPermission);

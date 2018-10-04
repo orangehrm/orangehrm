@@ -36,7 +36,8 @@ class saveDeleteSkillAction extends basePimAction {
         $empNumber = (isset($skill['emp_number'])) ? $skill['emp_number'] : $request->getParameter('empNumber');
 
         if (!$this->IsActionAccessible($empNumber)) {
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
 
         $this->skillPermissions = $this->getDataGroupPermissions('qualification_skills', $empNumber);

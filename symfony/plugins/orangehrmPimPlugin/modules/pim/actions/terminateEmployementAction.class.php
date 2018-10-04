@@ -29,6 +29,13 @@ class terminateEmployementAction extends basePimAction {
         $empNumber = $request->getParameter('empNumber');
         $terminatedId = $request->getParameter('terminatedId');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
+
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+
+        if (!$this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber)) {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
+        }
         
         $allowedActions = $this->getContext()->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_EMPLOYEE, $employee->getState());
         
@@ -42,12 +49,6 @@ class terminateEmployementAction extends basePimAction {
         
 
         $this->form = new EmployeeTerminateForm(array(), $paramForTerminationForm, true);
-
-        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
-        
-        if (!$this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber)) {
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
-        }
         
         if ($this->getRequest()->isMethod('post')) {
 
