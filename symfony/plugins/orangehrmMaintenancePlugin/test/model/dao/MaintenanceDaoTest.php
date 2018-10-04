@@ -55,5 +55,69 @@ class MaintenanceDaoTest extends PHPUnit_Framework_TestCase
     {
         $data = $this->maintenanceDao->getEmployeePurgingList();
         $this->assertEquals(gettype($data), 'object');
+        $this->assertEquals(sizeof($data), 1);
+
+        $data = $this->maintenanceDao->getEmployeePurgingList()->toArray();
+        $this->assertEquals(sizeof($data), 1);
+
+        $employeeId = $data[0]['empNumber'];
+        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+
+        $this->assertEquals($employee->getFirstName(), 'Kayla');
+        $this->assertEquals($employee->getLastName(), 'Abbey');
+        $this->assertEquals($employee->getMiddleName(), 'T');
+        $this->assertEquals($employee->getNickName(), 'viki');
+        $this->assertEquals($employee->getJobTitleName(), 'Software Engineer');
+        $this->assertEquals($employee->getEmpMobile(), '111111');
+        $this->assertEquals($employee->getEmpOthEmail(), 'kayla2@xample.com');
+        $this->assertEquals($employee->getEmpWorkEmail(), 'kayla@xample.com');
+    }
+
+    /**
+     * @throws DaoException
+     */
+    public function testExtractDataFromEmpNumber()
+    {
+        $table = 'Employee';
+        $employeeId = 1;
+        $matchByValues = ['empNumber' => '1'];
+
+        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+        $this->assertEquals($employee->getFirstName(), 'Kayla');
+        $this->assertEquals($employee->getLastName(), 'Abbey');
+        $this->assertEquals($employee->getMiddleName(), 'T');
+        $this->assertEquals($employee->getNickName(), 'viki');
+
+        $data = $this->maintenanceDao->extractDataFromEmpNumber($matchByValues, $table);
+        $this->assertTrue(sizeof($data) > 0);
+        $this->assertEquals($data[0]->getFirstName(), 'Kayla');
+        $this->assertEquals($data[0]->getLastName(), 'Abbey');
+        $this->assertEquals($data[0]->getMiddleName(), 'T');
+        $this->assertEquals($data[0]->getNickName(), 'viki');
+    }
+
+    /**
+     * @throws DaoException
+     */
+    public function testSaveEntity()
+    {
+        $employeeId = 1;
+        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+        $this->assertEquals($employee->getFirstName(), 'Kayla');
+        $this->assertEquals($employee->getLastName(), 'Abbey');
+        $this->assertEquals($employee->getMiddleName(), 'T');
+        $this->assertEquals($employee->getNickName(), 'viki');
+
+        $employee->firstName = 'ashan1';
+        $employee->lastName = 'ashan2';
+        $employee->middleName = 'ashan3';
+        $employee->nickName = 'ashan4';
+
+        $this->maintenanceDao->saveEntity($employee);
+        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+        $this->assertEquals($employee->getFirstName(), 'ashan1');
+        $this->assertEquals($employee->getLastName(), 'ashan2');
+        $this->assertEquals($employee->getMiddleName(), 'ashan3');
+        $this->assertEquals($employee->getNickName(), 'ashan4');
     }
 }
