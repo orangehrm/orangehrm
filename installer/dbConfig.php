@@ -18,6 +18,7 @@
  *
  */
 
+require_once(realpath(dirname(__FILE__)) . '/Messages.php');
 ?>
 <script language="JavaScript">
 
@@ -100,36 +101,51 @@ document.frmInstall.submit();
 <div id="content">
 	<h2>Step 2: Database Configuration</h2>
 
-<?php if(isset($error)) { ?>
-	<font color="Red">
-	    <?php if($error == 'WRONGDBINFO') {
-	    		$msg = '';
-	    		if(isset($_SESSION['mysqlErrNo']) && $_SESSION['mysqlErrNo'] == '1045') {
+<?php if (isset($error)) { ?>
+    <font color="Red">
+        <?php
+        $dbName = $_SESSION['dbInfo']['dbName'];
+        $dbHostName = $_SESSION['dbInfo']['dbHostName'];
+        $dbUserName = $_SESSION['dbInfo']['dbUserName'];
+        $dbHostPort = $_SESSION['dbInfo']['dbHostPort'];
+        $dbOHRMUserName = $_SESSION['dbInfo']['dbOHRMUserName'];
 
-					if (isset($_SESSION['errorMsg'])) {
-						$msg = $_SESSION['errorMsg'] . '. ';
-					}
+        if ($error == 'WRONGDBINFO') {
+            $msg = '';
+            $mysqlError = sprintf(Messages::MYSQL_ERR_MESSAGE, $_SESSION['mysqlErrNo'], $_SESSION['errorMsg']);
 
-					$msg .= 'Please Check Privileged Database Username and Password Correct.';
+            switch ($_SESSION['mysqlErrNo']) {
+                case 1044:
+                    $msg = sprintf(Messages::MYSQL_ERR_DB_ACCESS_DENIED, $dbUserName, $dbName);
+                    break;
+                case 1045:
+                    $msg = Messages::MYSQL_ERR_ACCESS_DENIED;
+                    break;
+                case 1049:
+                    $msg = sprintf(Messages::MYSQL_ERR_DB_NOT_EXIST, $dbName);
+                    break;
+                case 2002:
+                    $msg = sprintf(Messages::MYSQL_ERR_CONN_ERROR, $dbHostName, $dbHostPort);
+                    break;
+                case 2003:
+                    $msg = sprintf(Messages::MYSQL_ERR_CONN_HOST_ERROR, $dbHostName);
+                    break;
+                case 2047:
+                    $msg = Messages::MYSQL_ERR_UNKNOWN_PROTOCOL;
+                    break;
+                default:
+                    $msg = Messages::MYSQL_ERR_DEFAULT_MESSAGE;
+            }
 
-	    		}else if(isset($_SESSION['mysqlErrNo']) && $_SESSION['mysqlErrNo'] == '2003'){
-	    			if (isset($_SESSION['errorMsg'])) {
-						$msg = $_SESSION['errorMsg'] . '. ';
-					}
+            echo $msg . $mysqlError;
 
-					$msg .= 'Please Make Sure MySQL Server Is Up And Running.';
-	    		} else {
-	    			$msg = "Unable to Connect to MySQL server. Please check MySQL server is running and DB Information given are correct";
-	    		}
-	    		echo $msg;
-
-	       } elseif ($error == 'WRONGDBVER') {
-	       	 	echo "You need at least MySQL 4.1.x, Detected MySQL ver " . $mysqlHost;
-	       } elseif ($error == 'DBEXISTS') {
-	       	 	echo "Database (" . $_SESSION['dbInfo']['dbName'] . ") already exists";
-	       } elseif ($error == 'DBUSEREXISTS') {
-	       	 	echo "Database User (" . $_SESSION['dbInfo']['dbOHRMUserName'] . ") already exists";
-	       } ?>
+        } elseif ($error == 'DBNOTEMPTY') {
+            echo sprintf(Messages::MYSQL_ERR_DB_NOT_EMPTY, $dbName);
+        } elseif ($error == 'DBEXISTS') {
+            echo sprintf(Messages::MYSQL_ERR_DATABASE_EXIST, $dbName);
+        } elseif ($error == 'DBUSEREXISTS') {
+            echo sprintf(Messages::MYSQL_ERR_DB_USER_EXIST, $dbOHRMUserName);
+        } ?>
     </font>
 <?php } ?>
 
