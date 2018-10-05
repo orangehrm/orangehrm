@@ -116,6 +116,7 @@ const MYSQL_ERR_MESSAGE = "<br><br>MySQL Error Code: %s<br>Message: %s";
 const MYSQL_ERR_CONN_ERROR = "The MySQL server isn't running on `%s:%s`. It seems like you are using an incorrect TCP/IP port number or incorrect Unix socket file name. Please check whether MySQL server configuration as well as firewall and port blocking services are enabled.";
 const MYSQL_ERR_CONN_HOST_ERROR = "Can't connect to MySQL server on `%s`. It seems like the network connection has been refused. Please check whether your MySQL server is running and has an active network connection. Also, check your specified port configured on the server.";
 const MYSQL_ERR_UNKNOWN_PROTOCOL = "Database connection is trying to go through a wrong protocol. Please use TCP/IP protocol.";
+const MYSQL_ERR_CLEANUP_CONN_FAILED = "Cleanup installation is failing due to database connection error.";
 }
 
 ?>

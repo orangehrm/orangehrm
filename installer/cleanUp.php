@@ -18,13 +18,18 @@
  *
  */
 
+require_once(realpath(dirname(__FILE__)) . '/Messages.php');
 
 // Cleaning up
 function connectDB() {
 
 	$conn = @mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort']);
 	if(!$conn) {
-		$_SESSION['error'] =  'Database Connection Error!';
+        $error = mysqli_connect_error();
+        $mysqlErrNo = mysqli_connect_errno();
+        $errorMsg = Messages::MYSQL_ERR_CLEANUP_CONN_FAILED;
+        $errorMsg .= Messages::MYSQL_ERR_MESSAGE;
+		$_SESSION['error'] =  sprintf($errorMsg, $mysqlErrNo, $error);
 		return false;
 	}
 return $conn;
