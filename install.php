@@ -86,8 +86,6 @@ function back($currScreen) {
     return true;
 }
 
-//define('ROOT_PATH', dirname(__FILE__));
-
 if (!isset($_SESSION['SID'])) {
     session_start(getSessionCookieParams());
 }
