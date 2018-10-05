@@ -69,7 +69,7 @@ function getBasicConfigurations(){
     }
     return $basicConfigurations;
 }
-
+error_reporting(0);
 $detailsHandler = getDetailsHandler();
 $messages = getMessages();
 $basicConfigurations = getBasicConfigurations();
@@ -108,11 +108,15 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 //		shell_exec("exit");
 		include "ApplicationSetupUtility.php";	
 	
-		ApplicationSetupUtility::createDB();
+		$logFilePath = ApplicationSetupUtility::getErrorLogPath();
+        writeLogs("OrangeHRM Installation Log\n", $logFilePath);
+        writeLogs("DB Creation - Starting", $logFilePath);
+        ApplicationSetupUtility::createDB();
 		if (!isset($_SESSION['dbError']) && !isset($_SESSION['error'])) {
 			$messages->displayMessage("Please wait...");
 			$_SESSION['INSTALLING'] = 1;
 			$messages->displayMessage("Db Creating ...");
+            writeLogs("DB Creation - Done", $logFilePath);
 
 			$_SESSION['defUser']['organizationName'] = $detailsHandler->getOrganizationName();
 			$_SESSION['defUser']['adminEmployeeFirstName'] = $detailsHandler->getAdminEmployeeFirstName();
@@ -146,15 +150,16 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			}
 		}
 
-		$error = false;
-	        if(isset($_SESSION['dbError'])){
-			$messages->displayMessage($_SESSION['dbError']);
-			$error = true; 
-		}		
-		else if (isset($_SESSION['error'])){
-			$messages->displayMessage($_SESSION['error']);
-			$error = true;
-		}
+        $error = false;
+        if (isset($_SESSION['dbError'])) {
+            $messages->displayMessage($_SESSION['dbError']);
+            writeLogs($_SESSION['dbError'], $logFilePath);
+            $error = true;
+        } elseif (isset($_SESSION['error'])) {
+            $messages->displayMessage($_SESSION['error']);
+            writeLogs($_SESSION['error'], $logFilePath);
+            $error = true;
+        }
                 
 
 	    $logfileName = "logInsatall.log";
@@ -229,6 +234,16 @@ function sendInstallationStatusAsSuccess() {
     $_SESSION['defUser']['type'] = 3;
     $ohrmRegistration = new OrangeHrmRegistration();
     $ohrmRegistration->sendRegistrationData();
+}
+
+/**
+ * Write logs when running cli-installer
+ * @param $message
+ * @param $filePath
+ */
+function writeLogs($message, $filePath) {
+    $log = date("r") . " {$message}\n";
+    error_log($log, 3, $filePath);
 }
 
 ?>

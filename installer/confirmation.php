@@ -36,7 +36,14 @@ function confirm() {
 		 Click <b>[Install]</b> to continue.
 		 </p>
 
-         <p><font color="Red"><?php echo isset($error) ? $error : ''?></font></p>
+         <p>
+             <font color="Red">
+                 <?php
+                 $error = str_replace("\n", "<br>", $error);
+                 echo isset($error) ? $error : ''
+                 ?>
+             </font>
+         </p>
 
         <table cellpadding="0" cellspacing="0" border="0" class="table">
 		<tr>

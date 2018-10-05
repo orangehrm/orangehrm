@@ -179,6 +179,8 @@ if (isset($_POST['actionResponse']))
                     } else {
                         $error = 'WRONGDBINFO';
                     }
+                } else {
+                    $_SESSION['DBCONFIG'] = 'OK';
                 }
 
                 $errorMsg = mysqli_error($conn);

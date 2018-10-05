@@ -113,6 +113,7 @@ document.frmInstall.submit();
         if ($error == 'WRONGDBINFO') {
             $msg = '';
             $mysqlError = sprintf(Messages::MYSQL_ERR_MESSAGE, $_SESSION['mysqlErrNo'], $_SESSION['errorMsg']);
+            $mysqlError = str_replace("\n", "<br>", $mysqlError);
 
             switch ($_SESSION['mysqlErrNo']) {
                 case 1044:
