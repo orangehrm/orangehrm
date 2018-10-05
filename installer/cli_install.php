@@ -109,14 +109,14 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 		include "ApplicationSetupUtility.php";	
 	
 		$logFilePath = ApplicationSetupUtility::getErrorLogPath();
-        writeLogs("OrangeHRM Installation Log\n", $logFilePath);
-        writeLogs("DB Creation - Starting", $logFilePath);
-        ApplicationSetupUtility::createDB();
+		writeLogs("OrangeHRM Installation Log\n", $logFilePath);
+		writeLogs("DB Creation - Starting", $logFilePath);
+		ApplicationSetupUtility::createDB();
 		if (!isset($_SESSION['dbError']) && !isset($_SESSION['error'])) {
 			$messages->displayMessage("Please wait...");
 			$_SESSION['INSTALLING'] = 1;
 			$messages->displayMessage("Db Creating ...");
-            writeLogs("DB Creation - Done", $logFilePath);
+			writeLogs("DB Creation - Done", $logFilePath);
 
 			$_SESSION['defUser']['organizationName'] = $detailsHandler->getOrganizationName();
 			$_SESSION['defUser']['adminEmployeeFirstName'] = $detailsHandler->getAdminEmployeeFirstName();
@@ -150,21 +150,21 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			}
 		}
 
-        $error = false;
-        if (isset($_SESSION['dbError'])) {
-            $messages->displayMessage($_SESSION['dbError']);
-            writeLogs($_SESSION['dbError'], $logFilePath);
-            $error = true;
-        } elseif (isset($_SESSION['error'])) {
-            $messages->displayMessage($_SESSION['error']);
-            writeLogs($_SESSION['error'], $logFilePath);
-            $error = true;
-        }
-                
+		$error = false;
+		if (isset($_SESSION['dbError'])) {
+			$messages->displayMessage($_SESSION['dbError']);
+			writeLogs($_SESSION['dbError'], $logFilePath);
+			$error = true;
+		} elseif (isset($_SESSION['error'])) {
+			$messages->displayMessage($_SESSION['error']);
+			writeLogs($_SESSION['error'], $logFilePath);
+			$error = true;
+		}
 
-	    $logfileName = "logInsatall.log";
+
+		$logfileName = "logInsatall.log";
 		clearLogFile($logfileName);
-	    setValueToLogFile($logfileName,date("Y-m-d H:i:s "));
+		setValueToLogFile($logfileName,date("Y-m-d H:i:s "));
 
 		$result = shell_exec(__DIR__  . "/cli_common_commands.sh 2>> ". $logfileName); // Composer install and symfony commands
 

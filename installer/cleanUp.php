@@ -25,10 +25,10 @@ function connectDB() {
 
 	$conn = @mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort']);
 	if(!$conn) {
-        $error = mysqli_connect_error();
-        $mysqlErrNo = mysqli_connect_errno();
-        $errorMsg = Messages::MYSQL_ERR_CLEANUP_CONN_FAILED;
-        $errorMsg .= Messages::MYSQL_ERR_MESSAGE;
+		$error = mysqli_connect_error();
+		$mysqlErrNo = mysqli_connect_errno();
+		$errorMsg = Messages::MYSQL_ERR_CLEANUP_CONN_FAILED;
+		$errorMsg .= Messages::MYSQL_ERR_MESSAGE;
 		$_SESSION['error'] =  sprintf($errorMsg, $mysqlErrNo, $error);
 		return false;
 	}

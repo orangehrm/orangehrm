@@ -69,19 +69,19 @@ public static function createDB() {
 
 		self::connectDB();
 		if (self::$conn) {
-            $dbName = mysqli_real_escape_string(self::$conn, $_SESSION['dbInfo']['dbName']);
-            $query = "CREATE DATABASE `$dbName`";
-            mysqli_query(self::$conn, $query);
+		    $dbName = mysqli_real_escape_string(self::$conn, $_SESSION['dbInfo']['dbName']);
+		    $query = "CREATE DATABASE `$dbName`";
+		    mysqli_query(self::$conn, $query);
 
-            $mysqlErrNo = mysqli_errno(self::$conn);
-            $error = mysqli_error(self::$conn);
+		    $mysqlErrNo = mysqli_errno(self::$conn);
+		    $error = mysqli_error(self::$conn);
 
-            if (!($mysqlErrNo == 0 && $error == '')) {
-                $errorMsg = Messages::MYSQL_ERR_CANT_CREATE_DB;
-                $errorMsg .= Messages::MYSQL_ERR_MESSAGE;
-                $_SESSION['error'] =  sprintf($errorMsg, $mysqlErrNo, $error);
-            }
-        }
+		    if (!($mysqlErrNo == 0 && $error == '')) {
+		        $errorMsg = Messages::MYSQL_ERR_CANT_CREATE_DB;
+		        $errorMsg .= Messages::MYSQL_ERR_MESSAGE;
+		        $_SESSION['error'] =  sprintf($errorMsg, $mysqlErrNo, $error);
+		    }
+		}
 	}
 
 }
@@ -94,8 +94,8 @@ public static function connectDB() {
         $errorMsg = Messages::MYSQL_ERR_DEFAULT_MESSAGE;
         $errorMsg .= Messages::MYSQL_ERR_MESSAGE;
         $_SESSION['error'] =  sprintf($errorMsg, $mysqlErrNo, $error);
-		return;
-	}
+        return;
+    }
 
 }
 
