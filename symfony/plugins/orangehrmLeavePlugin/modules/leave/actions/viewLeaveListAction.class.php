@@ -160,8 +160,14 @@ class viewLeaveListAction extends baseLeaveAction {
                             $values['calFromDate'] = $fromDateParam;
                             $values['calToDate'] = $toDateParam;
                         }
-                        $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
-                        $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
+                        $fromDate = strtotime($values['calFromDate']);
+                        $toDate = strtotime($values['calToDate']);
+                        if (($fromDate && $toDate) && ($fromDate < $toDate)) {
+                            $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
+                            $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
+                        } else {
+                            $this->handleBadRequest();
+                        }
                     }
 
                     if (!empty($leaveTypeId)) {
@@ -173,6 +179,8 @@ class viewLeaveListAction extends baseLeaveAction {
                     }
 
                     $this->_setFilters($mode, $values);
+                } else {
+                    $this->handleBadRequest();
                 }
             } else {
 

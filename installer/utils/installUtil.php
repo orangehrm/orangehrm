@@ -204,4 +204,15 @@ function createKeyFile($fileName) {
     return $result;
 }
 
+/**
+ * Return array of session cookie parameters for secure cookie
+ * @return array
+ */
+function getSessionCookieParams() {
+    return array(
+        'cookie_secure' => true,
+        'cookie_httponly' => true
+    );
+}
+
 ?>

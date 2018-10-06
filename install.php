@@ -86,10 +86,9 @@ function back($currScreen) {
     return true;
 }
 
-//define('ROOT_PATH', dirname(__FILE__));
-
-if (!isset($_SESSION['SID']))
-    session_start();
+if (!isset($_SESSION['SID'])) {
+    session_start(getSessionCookieParams());
+}
 
 clearstatcache();
 
@@ -248,7 +247,7 @@ if (isset($_POST['actionResponse']))
             session_destroy();
 
             header("Location: ./");
-            session_start();
+            session_start(getSessionCookieParams());
             $_SESSION['AdminUserName'] = $userName;
             $_SESSION['AdminPassword'] = $password;
             $_SESSION['Installation'] = "You have successfully installed OrangeHRM";

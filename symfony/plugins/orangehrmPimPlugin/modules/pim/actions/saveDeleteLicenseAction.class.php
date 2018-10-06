@@ -35,7 +35,8 @@ class saveDeleteLicenseAction extends basePimAction {
         $empNumber = (isset($license['emp_number']))?$license['emp_number']:$request->getParameter('empNumber');
 
         if (!$this->IsActionAccessible($empNumber)) {
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
         }
         
         $this->licensePermissions = $this->getDataGroupPermissions('qualification_license', $empNumber);

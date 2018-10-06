@@ -26,6 +26,7 @@
     </div>
     
     <div class="inner">
+        <?php include_partial('global/flash_messages', array('prefix' => 'viewJobVacancy')); ?>
 
         <form name="frmSrchJobVacancy" id="frmSrchJobVacancy" method="post" action="<?php echo url_for('recruitment/viewJobVacancy'); ?>">
             <fieldset>

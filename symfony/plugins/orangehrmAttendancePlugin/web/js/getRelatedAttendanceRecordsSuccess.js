@@ -77,7 +77,7 @@ function deleteAttendanceRecords(id){
 }
 
 function getRelatedAttendanceRecords(employeeId,date,actionRecorder){
-    $.post(
+    $.get(
         linkForGetRecords,
         {
             employeeId: employeeId,

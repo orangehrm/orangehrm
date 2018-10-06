@@ -22,9 +22,15 @@ class activateEmployementAction extends basePimAction {
     public function execute($request) {
         $empNumber = $request->getParameter('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
+
+        if (!($employee instanceof Employee)) {
+            $this->handleBadRequest();
+            $this->forwardToSecureAction();
+        }
+
         $allowedActions = $this->getContext()->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_EMPLOYEE, $employee->getState());
 
-        $allowActivate = isset($allowedActions[WorkflowStateMachine::EMPLOYEE_ACTION_REACTIVE]);;
+        $allowActivate = isset($allowedActions[WorkflowStateMachine::EMPLOYEE_ACTION_REACTIVE]);
 
         if ($allowActivate) {
             $form = new ActiveEmploymentForm(array(), array(), true) ;
@@ -34,12 +40,11 @@ class activateEmployementAction extends basePimAction {
                 $this->getUser()->setFlash('jobdetails.success', __(TopLevelMessages::UPDATE_SUCCESS));
 
                 $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
-            } else {
-                $this->handleBadRequest();
-                $this->forwardToSecureAction();
             }
 
         }
+        $this->handleBadRequest();
+        $this->forwardToSecureAction();
     }
 
 }

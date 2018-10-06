@@ -48,7 +48,8 @@ class viewMyTimesheetAction extends baseTimeAction {
         $this->timeService = $this->getTimesheetService();
 
         $this->formToImplementCsrfToken = new TimesheetFormToImplementCsrfTokens();
-        if ($request->isMethod('post')) {
+        $action = $request->getParameter('act');
+        if ($request->isMethod('post') && !is_null($action)) {
             $this->formToImplementCsrfToken->bind($request->getParameter($this->formToImplementCsrfToken->getName()));
 
             if ($this->formToImplementCsrfToken->isValid()) {

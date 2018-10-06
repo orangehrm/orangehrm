@@ -21,8 +21,9 @@
 
 /* For logging PHP errors */
 include_once('../lib/confs/log_settings.php');
+include_once(realpath(dirname(__FILE__)) . '/utils/installUtil.php');
 
-session_start();
+session_start(getSessionCookieParams());
 
 $cupath = realpath(dirname(__FILE__).'/../');
 
