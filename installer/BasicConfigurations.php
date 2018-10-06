@@ -417,8 +417,8 @@ function dbConfigurationCheck()
 	 $dbInfo = $_SESSION['dbInfo'];
         $conn = $this->getConnection($dbInfo);
         if ($conn) {
-                if (!($this->systemValidator->isMySqlCompatible($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))){
-                    $_SESSION['dbError'] = $this->systemValidator->getMysqlErrorMessage($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword']);
+                if (!($this->systemValidator->isMySqlCompatible($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], $dbInfo['dbHostPort']))){
+                    $_SESSION['dbError'] = $this->systemValidator->getMysqlErrorMessage($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], $dbInfo['dbHostPort']);
 		}
 
                 elseif ($_SESSION['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName'])){

@@ -150,11 +150,11 @@ function sysCheckPassed() {
 
 	              $mysqlServer = mysqli_get_server_info($conn);
 
-                   if($systemValidator->isMySqlCompatible($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'])) {
+                   if($systemValidator->isMySqlCompatible($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], $dbInfo['dbHostPort'])) {
                   	 echo "<b><font color='green'>OK (ver " .$mysqlServer. ')</font></b>';
                   } else {
                        $error_found = true;
-                       $mysqlErrorMessage = $systemValidator->getMysqlErrorMessage($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword']);
+                       $mysqlErrorMessage = $systemValidator->getMysqlErrorMessage($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], $dbInfo['dbHostPort']);
                   	echo "<b><font color='red'>$mysqlErrorMessage</font></b>";
                   }
                } else {

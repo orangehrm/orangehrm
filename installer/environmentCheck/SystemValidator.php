@@ -48,11 +48,12 @@ class SystemValidator
      * @param $host
      * @param $userName
      * @param $password
+     * @param $port
      * @return bool
      */
-    public function isMySqlCompatible($host, $userName, $password)
+    public function isMySqlCompatible($host, $userName, $password, $port)
     {
-        $currentVersion = $this->getMySqlVersion($host, $userName, $password);
+        $currentVersion = $this->getMySqlVersion($host, $userName, $password, $port);
 
         if ($this->isMariaDB($currentVersion)) {
             return $this->isWithinRange($this->getMariaDbVersion($currentVersion),
@@ -91,11 +92,12 @@ class SystemValidator
      * @param $host
      * @param $userName
      * @param $password
+     * @param $port
      * @return string
      */
-    public function getMysqlErrorMessage($host, $userName, $password)
+    public function getMysqlErrorMessage($host, $userName, $password, $port)
     {
-        $currentVersion = $this->getMySqlVersion($host, $userName, $password);
+        $currentVersion = $this->getMySqlVersion($host, $userName, $password, $port);
         if ($this->isMariaDB($currentVersion)) {
             return $this->getErrorMessage('MariaDB', $currentVersion,
                 $this->systemRequirements['mariadbversion']['excludeRange'],
@@ -168,13 +170,14 @@ class SystemValidator
 
     /**
      * @param $host
+     * @param $port
      * @param $userName
      * @param $password
      * @return string
      */
-    private function getMySqlVersion($host, $userName, $password)
+    private function getMySqlVersion($host, $userName, $password, $port)
     {
-        $mysqli = new mysqli($host, $userName, $password);
+        $mysqli = new mysqli($host, $userName, $password, null, $port);
 
         if (mysqli_connect_errno()) {
             printf("Connect failed: %s\n", mysqli_connect_error());
