@@ -160,13 +160,13 @@ class MaintenanceDaoTest extends PHPUnit_Framework_TestCase
     public function testGetDeniedCandidatesToKeepDataByVacnacyId()
     {
         $candidates = $this->getMaintenanceDao()->getDeniedCandidatesToKeepDataByVacnacyId(1)->toArray();
-        $this->assertEquals($candidates[0]['firstName'], 'Renukshaqn');
-        $this->assertEquals($candidates[0]['middleName'], 'qwwwsw');
-        $this->assertEquals($candidates[0]['lastName'], 'Sap4uthanthri');
-        $this->assertEquals($candidates[0]['email'], 'sssqwdqwasdd@xamp<le.com');
-        $this->assertEquals($candidates[0]['contactNumber'], '11231231');
+        $this->assertEquals($candidates[0]['firstName'], 'Ashley');
+        $this->assertEquals($candidates[0]['middleName'], 'sT');
+        $this->assertEquals($candidates[0]['lastName'], 'Abel');
+        $this->assertEquals($candidates[0]['email'], 'ssssla@xample.com');
+        $this->assertEquals($candidates[0]['contactNumber'], '112221111');
         $this->assertEquals($candidates[0]['status'], '1');
-        $this->assertEquals($candidates[0]['comment'], 'comment3');
+        $this->assertEquals($candidates[0]['comment'], 'comment2');
         $this->assertEquals($candidates[0]['modeOfApplication'], '2');
     }
 }
