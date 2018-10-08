@@ -18,15 +18,20 @@
  */
 
 /**
- * Class accessEmployeeDataAction
+ * Class purgeCandidateDataAction
  */
-class accessEmployeeDataAction extends sfAction
+class purgeCandidateDataAction extends sfAction
 {
+    private $systemUserService = null;
+    private $vacancyService = null;
+    private $maintenanceManager = null;
+
     /**
      * @param sfRequest $request
-     * @return mixed|string
+     * @return mixed|void
      * @throws sfException
      */
+
     public function execute($request)
     {
         $this->getUser()->setFlash('warning', null);
@@ -43,48 +48,20 @@ class accessEmployeeDataAction extends sfAction
             $userId = sfContext::getInstance()->getUser()->getAttribute('auth.userId');
             if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
                 $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
-                $this->accsessAllDataForm = new AccsessEmployeeDataForm();
+                $this->purgeCandidateForm = new PurgeCandidateForm();
             } else {
                 $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
                 $this->setTemplate('purgeEmployee', 'maintenance');
                 $this->getUser()->setFlash('warning', __(CommonMessages::CREDENTIALS_REQUIRED));
             }
         } elseif ($requestmethod == 'POST' and !$checkIfReqestToAuthenticate) {
-            $employeeDataArray = $this->getEmployeeData($data);
-            $downloadableForamat = $this->getDownloadFormatStrategy();
-            ob_clean();
-            header("Content-Type: text/csv; charset=UTF-8");
-            header("Pragma:''");
-            header("Content-Disposition: attachment; filename=" . $downloadableForamat->getDownloadFileName($data['employee']['empId']));
-            echo $downloadableForamat->getFormattedString($employeeDataArray);
-            return sfView::NONE;
+            $this->purgeCandidate($data);
+            $this->purgeCandidateForm = new PurgeCandidateForm();
         }
     }
 
     /**
-     * @return MaintenanceManager|mixed
-     */
-    public function getMaintenanceManager()
-    {
-        if (!isset($this->maintenanceManager)) {
-            $this->maintenanceManager = new MaintenanceManager();
-        }
-        return $this->maintenanceManager;
-    }
-
-    /**
-     * @return EmployeeService
-     */
-    public function getEmployeeService()
-    {
-        if (!isset($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * @return mixed|SystemUserService
+     * @return null|SystemUserService
      */
     protected function getSystemUserService()
     {
@@ -95,32 +72,46 @@ class accessEmployeeDataAction extends sfAction
     }
 
     /**
-     * @param $data
+     * @return mixed|VacancyService
      */
-    protected function getEmployeeData($data)
+    public function getVacancyService()
     {
-        try {
-            $empNumber = $data['employee']['empId'];
-            $employee = $this->getEmployeeService()->getEmployee($empNumber);
-            if (empty($employee)) {
-                $this->getUser()->setFlash('warning', __(ValidationMessages::EMPLOYEE_DOES_NOT_EXIST));
-            } else {
-                $employeeDataArray = $this->getMaintenanceManager()->accessEmployeeData($empNumber);
-                return $employeeDataArray;
-            }
-        } catch (Exception $e) {
-            $this->getUser()->setFlash('warning', __(TopLevelMessages::ACCESS_EMPLOYEE_DATA_FAILED));
+        if (is_null($this->vacancyService)) {
+            $this->vacancyService = new VacancyService();
         }
+        return $this->vacancyService;
     }
 
     /**
-     * @return mixed
+     * @return MaintenanceManager|null
      */
-    public function getDownloadFormatStrategy()
+    public function getMaintenanceManager()
     {
-        if (!isset($this->purgeableEntities)) {
-            $this->purgeableEntities = sfYaml::load(realpath(dirname(__FILE__) . '/../../../config/gdpr_purge_employee_strategy.yml'));
+        if (!isset($this->maintenanceManager)) {
+            $this->maintenanceManager = new MaintenanceManager();
         }
-        return new $this->purgeableEntities['DownloadFormat'];
+        return $this->maintenanceManager;
+    }
+
+    /**
+     * @param $Candidatadata
+     */
+    protected function purgeCandidate($vacancyData)
+    {
+        try {
+            $vacancyNumber = $vacancyData['candidate']['empId'];
+            $vacancy = $this->getVacancyService()->getVacancyById($vacancyNumber);
+            if (empty($vacancy)) {
+                $this->getUser()->setFlash('warning', __(ValidationMessages::VACANCY_DOES_NOT_EXIST));
+            } else {
+                $this->getMaintenanceManager()->purgeCandidateData($vacancyNumber);
+                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+//             @codeCoverageIgnoreStart
+            }
+        } catch (Exception $e) {
+            $this->getUser()->setFlash('warning', __(TopLevelMessages::PURGE_CANDIDATE_FAILED));
+            $this->purgeCandidateForm = new PurgeCandidateForm();
+        }
+//            @codeCoverageIgnoreEnd
     }
 }

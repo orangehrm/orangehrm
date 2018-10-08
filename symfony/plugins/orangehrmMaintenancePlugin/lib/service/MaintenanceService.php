@@ -65,4 +65,23 @@ class MaintenanceService
     {
         return $this->getMaintenanceDao()->saveEntity($entity);
     }
+
+    /**
+     * @return Doctrine_Collection
+     * @throws DaoException
+     */
+    public function getVacancyListToPurge()
+    {
+        return $this->getMaintenanceDao()->getVacancyListToPurge();
+    }
+
+    /**
+     * @param $vacancyId
+     * @return Doctrine_Collection
+     * @throws DaoException
+     */
+    public function getDeniedCandidatesToKeepDataByVacnacyId($vacancyId)
+    {
+        return $this->getMaintenanceDao()->getDeniedCandidatesToKeepDataByVacnacyId($vacancyId);
+    }
 }

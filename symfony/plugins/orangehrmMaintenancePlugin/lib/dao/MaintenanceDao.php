@@ -18,7 +18,7 @@
  */
 
 /**
- * Class PurgeDao
+ * Class MaintenanceDao
  */
 class MaintenanceDao extends BaseDao
 {
@@ -85,8 +85,49 @@ class MaintenanceDao extends BaseDao
         try {
             $enitity->save();
             return true;
+            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @return Doctrine_Collection
+     * @throws DaoException
+     */
+    public function getVacancyListToPurge()
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->select('id', 'name')
+                ->from('JobVacancy');
+            return $q->execute();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @throws DaoException
+     */
+    public function getDeniedCandidatesToKeepDataByVacnacyId($vacancyId)
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->select('*')
+                ->from('JobCandidate l')
+                ->innerJoin('l.CandidateHistory t')
+                ->where("l.consentToKeepData = ?",false)
+                ->andWhere("t.vacancyId = ?", $vacancyId);
+            return $q->execute();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+
     }
 }

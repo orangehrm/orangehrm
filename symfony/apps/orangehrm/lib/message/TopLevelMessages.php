@@ -15,6 +15,8 @@ class TopLevelMessages {
     const FILE_SIZE_SAVE_FAILURE = "Failed to Save: File Size Exceeded";
     const ACCESS_DENIED = "Access Denied";
     const VALIDATION_FAILED = "Validation Failed";
-    const EXTRACTION_FAILED = "Access Employee Data Failed";
+    const ACCESS_EMPLOYEE_DATA_FAILED  = "Access Employee Data Failed";
+    const PURGE_CANDIDATE_FAILED = "Purge Candidate Data Failed";
+
 }
 

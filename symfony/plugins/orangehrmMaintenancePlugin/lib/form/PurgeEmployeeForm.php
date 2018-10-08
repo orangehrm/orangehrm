@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,12 +19,12 @@
  */
 
 /**
- * Class AccsessAllDataForm
+ * Class PurgeEmployeeForm
  */
-class AccsessAllDataForm extends BaseForm
+class PurgeEmployeeForm extends sfForm
 {
     /**
-     * @configure function of form
+     *
      */
     public function configure()
     {
@@ -34,11 +35,13 @@ class AccsessAllDataForm extends BaseForm
 
     /**
      * @return array
+     * @throws DaoException
+     * @throws sfException
      */
     public function getWidgetList()
     {
         $widgets = array();
-        $widgets['employee'] = new ohrmWidgetEmployeeNameAutoFill();
+        $widgets['employee'] = new ohrmWidgetEmployeeNameAutoFill(array('jsonList' => $this->getEmployeeListAsJson()));
         return $widgets;
     }
 
@@ -59,7 +62,36 @@ class AccsessAllDataForm extends BaseForm
     {
         $requiredMarker = ' <em>*</em>';
         $lableList = array();
-        $lableList['employee'] = __('Select Employee') . $requiredMarker;
+        $lableList['employee'] = __('Select Terminated Employee') . $requiredMarker;
         return $lableList;
+    }
+
+    /**
+     * @return string
+     * @throws DaoException
+     * @throws sfException
+     */
+    protected function getEmployeeListAsJson()
+    {
+        $purgeEmployeeList = $this->getMaintenanceService()->getPurgeEmployeeList();
+        $jsonArray = array();
+        foreach ($purgeEmployeeList as $employee) {
+            $empNumber = $employee['empNumber'];
+            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'], ' ') . ' ' . $employee['lastName'] . '(Past Employee)');
+            $jsonArray[] = array('name' => $name, 'id' => $empNumber);
+        }
+        $jsonString = json_encode($jsonArray);
+        return $jsonString;
+    }
+
+    /**
+     * @return MaintenanceService
+     */
+    public function getMaintenanceService()
+    {
+        if (!isset($this->maintenanceService)) {
+            $this->maintenanceService = new MaintenanceService();
+        }
+        return $this->maintenanceService;
     }
 }

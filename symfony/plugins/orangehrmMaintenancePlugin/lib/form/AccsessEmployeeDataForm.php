@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -19,12 +18,12 @@
  */
 
 /**
- * Class PurgeForm
+ * Class AccsessEmployeeDataForm
  */
-class PurgeForm extends sfForm
+class AccsessEmployeeDataForm extends BaseForm
 {
     /**
-     *
+     * @configure function of form
      */
     public function configure()
     {
@@ -39,7 +38,7 @@ class PurgeForm extends sfForm
     public function getWidgetList()
     {
         $widgets = array();
-        $widgets['employee'] = new ohrmWidgetEmployeeNameAutoFill(array('jsonList' => $this->getEmployeeListAsJson()));
+        $widgets['employee'] = new ohrmWidgetEmployeeNameAutoFill();
         return $widgets;
     }
 
@@ -60,36 +59,7 @@ class PurgeForm extends sfForm
     {
         $requiredMarker = ' <em>*</em>';
         $lableList = array();
-        $lableList['employee'] = __('Select Terminated Employee') . $requiredMarker;
+        $lableList['employee'] = __('Select Employee') . $requiredMarker;
         return $lableList;
-    }
-
-    /**
-     * @return string
-     * @throws DaoException
-     * @throws sfException
-     */
-    protected function getEmployeeListAsJson()
-    {
-        $purgeEmployeeList = $this->getMaintenanceService()->getPurgeEmployeeList();
-        $jsonArray = array();
-        foreach ($purgeEmployeeList as $employee) {
-            $empNumber = $employee['empNumber'];
-            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'], ' ') . ' ' . $employee['lastName'] . '(Past Employee)');
-            $jsonArray[] = array('name' => $name, 'id' => $empNumber);
-        }
-        $jsonString = json_encode($jsonArray);
-        return $jsonString;
-    }
-
-    /**
-     * @return MaintenanceService
-     */
-    public function getMaintenanceService()
-    {
-        if (!isset($this->maintenanceService)) {
-            $this->maintenanceService = new MaintenanceService();
-        }
-        return $this->maintenanceService;
     }
 }

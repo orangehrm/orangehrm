@@ -112,6 +112,14 @@
                 <?php echo $form['comment']->renderLabel(__('Notes'), array("class " => "comment")); ?>
                 <?php echo $form['comment']->render(array("class" => "formInputText","id" => "notes", "cols" => 43, "rows" => 4)); ?>
             </li>
+
+
+            <li>
+                <?php echo $form['comment']->renderLabel(__('Consent to keep data')); ?>
+                <?php echo $form['consentToKeepData']->render(array("class" => "checkbox")); ?>
+            </li>
+
+
             
             <?php include_component('core', 'ohrmPluginPannel', array('location' => 'add_layout_after_main_heading_3')) ?>
             

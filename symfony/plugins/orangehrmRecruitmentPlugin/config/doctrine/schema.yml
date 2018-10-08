@@ -84,6 +84,9 @@ JobCandidate:
     added_person:
       name: added_person as addedPerson
       type: integer(13)
+    consent_to_keep_data:
+      name: consent_to_keep_data as consentToKeepData
+      type: boolean
   relations:
     JobCandidateVacancy:
       local: id

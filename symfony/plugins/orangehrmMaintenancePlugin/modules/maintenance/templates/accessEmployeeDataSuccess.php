@@ -26,7 +26,7 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
         <h1><?php echo __('Get All Employee Records'); ?></h1>
     </div>
 
-    <form id="frmAccessEmployeeData" method="post" action="<?php echo url_for('maintenance/accessEmployeeData'); ?>">
+    <form id="frmAccessEmployeeData" method="post" action="">
         <div class="inner">
             <fieldset>
                 <div class="input-field col s12 m12 l4">
@@ -57,7 +57,7 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
         <p>Download Employee Records?</p>
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn" data-dismiss="modal" id="dialogDeleteBtn" value="<?php echo __('Ok'); ?>"/>
+        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm" value="<?php echo __('Ok'); ?>"/>
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>

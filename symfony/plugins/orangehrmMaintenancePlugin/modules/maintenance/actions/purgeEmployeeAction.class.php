@@ -45,7 +45,7 @@ class purgeEmployeeAction extends sfAction
             if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
                 $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->purgeform = new PurgeForm();
+                $this->purgeform = new PurgeEmployeeForm();
             } else {
                 $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
                 $this->getUser()->setFlash('warning', __(CommonMessages::CREDENTIALS_REQUIRED));
@@ -56,11 +56,11 @@ class purgeEmployeeAction extends sfAction
             if (empty($data['employee']['empId']) or $data['employee']['empName'] == 'Type for hints...') {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SELECT_RECORDS));
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->purgeform = new PurgeForm();
+                $this->purgeform = new PurgeEmployeeForm();
             } else {
                 $this->purge($data);
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->purgeform = new PurgeForm();
+                $this->purgeform = new PurgeEmployeeForm();
             }
         }
     }
@@ -110,15 +110,15 @@ class purgeEmployeeAction extends sfAction
             if (empty($employee) || empty($employee->getTerminationId())) {
                 $this->getUser()->setFlash('warning', __(ValidationMessages::EMPLOYEE_DOES_NOT_EXIST));
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->purgeform = new PurgeForm();
+                $this->purgeform = new PurgeEmployeeForm();
             } else {
-                $this->getMaintenanceManager()->purgeEmployee($empNumber);
+                $this->getMaintenanceManager()->purgeEmployeeData($empNumber);
                 $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
             }
         } catch (Exception $e) {
             $this->getUser()->setFlash('warning', __(TopLevelMessages::DELETE_FAILURE));
             $this->setTemplate('purgeAllRecords', 'maintenance');
-            $this->purgeform = new PurgeForm();
+            $this->purgeform = new PurgeEmployeeForm();
         }
     }
 }

@@ -1,22 +1,22 @@
 $(document).ready(function () {
     $(".search_employee").click(function () {
-        var emp_id = $("#employee_empId").val()
-        if (emp_id > 0) {
-            var data = getEmployeeData(emp_id)
+        var candidateId = $("#candidate_empId").val()
+        if (candidateId > 0) {
+            var data = getCandidateData(candidateId)
         }
     });
     $("#modal_confirm").click(function () {
-        $("#frmPurgeEmployee").submit();
+        $("#frmPurgeCandidateRecords").submit();
     });
-
 });
 
-function getEmployeeData(id) {
+function getCandidateData(id) {
     $.ajax({
         method: "POST",
-        data: {empployeeID: id},
+        data: {vacancyID: id},
         url: ajaxUrl, success: function (result) {
             $("#selected_employee").html(result);
+            $("#btnDelete").attr("value", "Purge Candidate")
         }
     });
 }
