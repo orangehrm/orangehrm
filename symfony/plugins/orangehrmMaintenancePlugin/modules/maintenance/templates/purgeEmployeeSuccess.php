@@ -26,7 +26,7 @@ use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/PassWordValidat
     </div>
     <div class="inner">
         <form id="frmPurgeEmployeeAuthenticate" method="post"
-              action="<?php echo url_for('maintenance/purgeEmployee'); ?>">
+              action="">
             <div class="row">
                 <fieldset>
                     <div class="input-field col s12 m12 l4">

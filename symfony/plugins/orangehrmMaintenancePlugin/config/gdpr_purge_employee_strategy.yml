@@ -1,12 +1,11 @@
-DownloadFormat : 'DownloadClassName'
+DownloadFormat : 'JsonDownloadFormat'
 Entities :
 
   Employee:
     PurgeStrategy:
       ReplaceWithValue:
-        matching_criteria: one
         match_by:
-          - {match: empNumber, to: empNumber}
+          - {match: empNumber}
         parameters:
           - {field: "firstName" ,class: 'FormatWithPurgeString'}
           - {field: "lastName" ,class: 'FormatWithPurgeString'}
@@ -50,132 +49,412 @@ Entities :
           - {field: "purged_at" ,class: 'FormatWithPurgeTime'}
           - {field: "eeo_cat_code" ,class: 'FormatWithNull'}
           - {field: "joined_date" ,class: 'FormatWithNull'}
-    AccessStrategy: 'BasicAccessStragegy'
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: empNumber}
+        parameters:
+          - {field: "firstName" ,class: ''}
+          - {field: "lastName" ,class: ''}
+          - {field: "middleName" ,class: ''}
+          - {field: "nickName" ,class: ''}
+          - {field: "smoker" ,class: 'FormatWithSmoker'}
+          - {field: "emp_gender" ,class: 'FormatWithGender'}
+          - {field: "emp_marital_status" ,class: ''}
+          - {field: "nation_code" ,class: 'FormatWithNationality'}
+          - {field: "ssn" ,class: ''}
+          - {field: "sin" ,class: ''}
+          - {field: "otherId" ,class: ''}
+          - {field: "licenseNo" ,class: ''}
+          - {field: "emp_dri_lice_exp_date" ,class: ''}
+          - {field: "militaryService" ,class: ''}
+          - {field: "emp_status" ,class: ''}
+          - {field: "job_title_code" ,class: 'FormatWithJobTitle'}
+          - {field: "work_station" ,class: ''}
+          - {field: "street1" ,class: ''}
+          - {field: "street2" ,class: ''}
+          - {field: "city" ,class: ''}
+          - {field: "country" ,class: ''}
+          - {field: "province" ,class: ''}
+          - {field: "emp_zipcode" ,class: ''}
+          - {field: "emp_hm_telephone" ,class: ''}
+          - {field: "emp_birthday" ,class: ''}
+          - {field: "emp_mobile" ,class: ''}
+          - {field: "emp_work_telephone" ,class: ''}
+          - {field: "emp_work_email" ,class: ''}
+          - {field: "emp_oth_email" ,class: ''}
+          - {field: "custom1" ,class: ''}
+          - {field: "custom2" ,class: ''}
+          - {field: "custom3" ,class: ''}
+          - {field: "custom4" ,class: ''}
+          - {field: "custom5" ,class: ''}
+          - {field: "custom6" ,class: ''}
+          - {field: "custom7" ,class: ''}
+          - {field: "custom8" ,class: ''}
+          - {field: "custom9" ,class: ''}
+          - {field: "custom10" ,class: ''}
+          - {field: "purged_at" ,class: ''}
+          - {field: "eeo_cat_code" ,class: ''}
+          - {field: "joined_date" ,class: ''}
 
   EmpPicture:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "picture" ,class: 'FormatWithBase64Encode'}
+          - {field: "filename" ,class: ''}
+          - {field: "file_type" ,class: ''}
 
   EmployeeAttachment:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "filename" ,class: ''}
+          - {field: "size" ,class: ''}
+          - {field: "attachment" ,class: 'FormatWithBase64Encode'}
+          - {field: "file_type" ,class: ''}
+          - {field: "attached_time" ,class: ''}
 
   EmpEmergencyContact:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "name" ,class: ''}
+          - {field: "relationship" ,class: ''}
+          - {field: "home_phone" ,class: ''}
+          - {field: "mobile_phone" ,class: ''}
+          - {field: "office_phone" ,class: ''}
 
   EmpDependent:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "name" ,class: ''}
+          - {field: "relationship_type" ,class: ''}
+          - {field: "relationship" ,class: ''}
+          - {field: "date_of_birth" ,class: ''}
 
   EmployeeImmigrationRecord:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "number" ,class: ''}
+          - {field: "issuedDate" ,class: ''}
+          - {field: "expiryDate" ,class: ''}
+          - {field: "notes" ,class: ''}
+          - {field: "type" ,class: 'FormatWithPassportType'}
+          - {field: "status" ,class: ''}
+          - {field: "reviewDate" ,class: ''}
+          - {field: "countryCode" ,class: 'FormatWithCountryCode'}
 
   EmpWorkExperience:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "employer" ,class: ''}
+          - {field: "jobtitle" ,class: ''}
+          - {field: "from_date" ,class: ''}
+          - {field: "to_date" ,class: ''}
+          - {field: "comments" ,class: ''}
+          - {field: "internal" ,class: ''}
 
   EmployeeEducation:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "educationId" ,class: 'FormatWithEducation'}
+          - {field: "institute" ,class: ''}
+          - {field: "major" ,class: ''}
+          - {field: "year" ,class: ''}
+          - {field: "score" ,class: ''}
+          - {field: "startDate" ,class: ''}
+          - {field: "endDate" ,class: ''}
 
   EmployeeSkill:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "skillId" ,class: 'FormatWithSkill'}
+          - {field: "years_of_exp" ,class: ''}
+          - {field: "comments" ,class: ''}
 
   EmployeeLanguage:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "langId" ,class: 'FormatWithLanguage'}
+          - {field: "fluency" ,class: 'FormatWithFluency'}
+          - {field: "competency" ,class: 'FormatWithCompetency'}
+          - {field: "comments" ,class: ''}
 
   EmployeeMembership:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "membershipId" ,class: 'FormatWithMembershipId'}
+          - {field: "subscriptionFee" ,class: ''}
+          - {field: "subscriptionPaidBy" ,class: ''}
+          - {field: "subscriptionCurrency" ,class: ''}
+          - {field: "subscriptionCommenceDate" ,class: ''}
+          - {field: "subscriptionRenewalDate" ,class: ''}
 
   EmpUsTaxExemption:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-          - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "federalStatus" ,class: ''}
+          - {field: "federalExemptions" ,class: ''}
+          - {field: "state" ,class: ''}
+          - {field: "stateStatus" ,class: ''}
+          - {field: "stateExemptions" ,class: ''}
+          - {field: "unemploymentState" ,class: ''}
 
   EmployeeLicense:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-        - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "licenseId" ,class: 'FormatWithLicenseId'}
+          - {field: "licenseNo" ,class: ''}
+          - {field: "licenseIssuedDate" ,class: ''}
+          - {field: "licenseExpiryDate" ,class: ''}
 
   EmployeeSalary:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-        - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
-
-  EmpDirectdebit:
-    PurgeStrategy:
-      Destroy:
-        matching_criteria: many
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
         match_by:
-        - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+        parameters:
+          - {field: "payGradeId" ,class: 'FormatWithPayGradeId'}
+          - {field: "currencyCode" ,class: ''}
+          - {field: "amount" ,class: ''}
+          - {field: "payPeriodId" ,class: 'FormatWithPayPeriodId'}
+          - {field: "salaryName" ,class: ''}
+          - {field: "notes" ,class: ''}
 
   EmpLocations:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-        - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "locationId" ,class: 'FormatWithLocationId'}
 
   EmpContract:
     PurgeStrategy:
       Destroy:
-        matching_criteria: many
         match_by:
-        - {match: emp_number, to: empNumber}
-    AccessStrategy: ''
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "start_date" ,class: ''}
+          - {field: "end_date" ,class: ''}
+
+  SystemUser:
+    PurgeStrategy:
+      Destroy:
+        match_by:
+          - {match: emp_number}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "user_name" ,class: ''}
+          - {field: "date_entered" ,class: ''}
+          - {field: "date_modified" ,class: ''}
+
+  PerformanceReview:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: employee_number}
+        parameters:
+          - {field: "finalComment" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee_number}
+        parameters:
+          - {field: "jobTitleCode" ,class: 'FormatWithJobTitle'}
+          - {field: "workPeriodStart" ,class: ''}
+          - {field: "workPeriodEnd" ,class: ''}
+          - {field: "departmentId" ,class: ''}
+          - {field: "dueDate" ,class: ''}
+          - {field: "completedDate" ,class: ''}
+          - {field: "activatedDate" ,class: ''}
+          - {field: "finalComment" ,class: ''}
+          - {field: "finalRate" ,class: ''}
+
+  PerformanceTrackerLog:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: emp_number,  join: PerformanceTrack}
+        parameters:
+          - {field: "comment" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number, join: PerformanceTrack}
+        parameters:
+          - {field: "log" ,class: ''}
+          - {field: "comment" ,class: ''}
+          - {field: "achievement" ,class: 'FormatWithAchievement'}
+          - {field: "added_date" ,class: ''}
+          - {field: "modified_date" ,class: ''}
+
+  LeaveRequestComment:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: emp_number, join: LeaveRequest}
+        parameters:
+          - {field: "comments" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number, join: LeaveRequest}
+        parameters:
+          - {field: "created" ,class: ''}
+          - {field: "created_by_name" ,class: ''}
+          - {field: "comments" ,class: ''}
+
+  LeaveRequest:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "comments" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "leave_type_id" ,class: ''}
+          - {field: "date_applied" ,class: ''}
+          - {field: "comments" ,class: ''}
+#Time modul
+  AttendanceRecord:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: employee_id}
+        parameters:
+          - {field: "punchInNote" ,class: 'FormatWithPurgeString'}
+          - {field: "punchOutNote" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee_id}
+        parameters:
+          - {field: "punchInUtcTime" ,class: ''}
+          - {field: "punchInNote" ,class: ''}
+          - {field: "punchInTimeOffset" ,class: ''}
+          - {field: "punchInUserTime" ,class: ''}
+          - {field: "punchOutUtcTime" ,class: ''}
+          - {field: "punchOutNote" ,class: ''}
+          - {field: "punchOutTimeOffset" ,class: ''}
+          - {field: "punchOutUserTime" ,class: ''}
+          - {field: "state" ,class: ''}
+
+  TimesheetItem:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: employee_id}
+        parameters:
+          - {field: "comment" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee_id}
+        parameters:
+          - {field: "projectId" ,class: 'FormatWithProject'}
+          - {field: "activityId" ,class: 'FormatWithActivity'}
+          - {field: "date" ,class: ''}
+          - {field: "duration" ,class: ''}
+          - {field: "comment" ,class: ''}

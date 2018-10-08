@@ -781,6 +781,7 @@ create table `ohrm_job_candidate`(
     `cv_text_version` text default null,
     `keywords` varchar(255) default null,
     `added_person` int(13) default null,
+    `consent_to_keep_data` boolean not null default false,
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 

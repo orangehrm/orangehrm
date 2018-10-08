@@ -1,0 +1,6 @@
+Entities :
+  JobCandidate:
+    PurgeStrategy:
+      DestroyCandidate:
+        match_by:
+          - {match: vacancy_id,  join: CandidateHistory}

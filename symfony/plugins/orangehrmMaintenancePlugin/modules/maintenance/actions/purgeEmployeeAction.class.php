@@ -35,29 +35,32 @@ class purgeEmployeeAction extends sfAction
     {
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
+
         $checkIfReqestToAuthenticate = $request->hasParameter('check_authenticate');
+        $requestmethod = $request->getMethod();
         $data = $request->getParameterHolder()->getAll();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $checkIfReqestToAuthenticate) {
+
+        if ($requestmethod === 'POST' && $checkIfReqestToAuthenticate) {
             $userId = sfContext::getInstance()->getUser()->getAttribute('auth.userId');
             if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
                 $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->purgeform = new PurgeForm();
+                $this->purgeform = new PurgeEmployeeForm();
             } else {
                 $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
                 $this->getUser()->setFlash('warning', __(CommonMessages::CREDENTIALS_REQUIRED));
             }
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        } elseif ($requestmethod === 'GET') {
             $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && !$checkIfReqestToAuthenticate) {
+        } elseif ($requestmethod === 'POST' && !$checkIfReqestToAuthenticate) {
             if (empty($data['employee']['empId']) or $data['employee']['empName'] == 'Type for hints...') {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SELECT_RECORDS));
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->purgeform = new PurgeForm();
+                $this->purgeform = new PurgeEmployeeForm();
             } else {
                 $this->purge($data);
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->purgeform = new PurgeForm();
+                $this->purgeform = new PurgeEmployeeForm();
             }
         }
     }
@@ -107,15 +110,15 @@ class purgeEmployeeAction extends sfAction
             if (empty($employee) || empty($employee->getTerminationId())) {
                 $this->getUser()->setFlash('warning', __(ValidationMessages::EMPLOYEE_DOES_NOT_EXIST));
                 $this->setTemplate('purgeAllRecords', 'maintenance');
-                $this->purgeform = new PurgeForm();
+                $this->purgeform = new PurgeEmployeeForm();
             } else {
-                $this->getMaintenanceManager()->purgeEmployee($empNumber);
+                $this->getMaintenanceManager()->purgeEmployeeData($empNumber);
                 $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
             }
         } catch (Exception $e) {
             $this->getUser()->setFlash('warning', __(TopLevelMessages::DELETE_FAILURE));
             $this->setTemplate('purgeAllRecords', 'maintenance');
-            $this->purgeform = new PurgeForm();
+            $this->purgeform = new PurgeEmployeeForm();
         }
     }
 }

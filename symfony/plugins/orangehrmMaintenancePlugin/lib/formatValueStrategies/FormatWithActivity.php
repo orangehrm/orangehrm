@@ -18,48 +18,32 @@
  */
 
 /**
- * Class AccsessAllDataForm
+ * Class FormatWithActivity
  */
-class AccsessAllDataForm extends BaseForm
+class FormatWithActivity implements ValueFormatter
 {
+    protected $timesheetService = null;
+
     /**
-     * @configure function of form
+     * @param $entityValue
+     * @return mixed|string
      */
-    public function configure()
+    public function getFormattedValue($entityValue)
     {
-        $this->setWidgets($this->getWidgetList());
-        $this->setValidators($this->getValidatorList());
-        $this->getWidgetSchema()->setLabels($this->getLabelList());
+        return $this->getTimesheetService()->getActivityByActivityId($entityValue)->getName();
     }
 
     /**
-     * @return array
+     * @return TimesheetService
      */
-    public function getWidgetList()
+    public function getTimesheetService()
     {
-        $widgets = array();
-        $widgets['employee'] = new ohrmWidgetEmployeeNameAutoFill();
-        return $widgets;
-    }
 
-    /**
-     * @return array
-     */
-    public function getValidatorList()
-    {
-        $validators = array();
-        $validators['employee'] = new ohrmValidatorEmployeeNameAutoFill(array('required' => true));
-        return $validators;
-    }
+        if (is_null($this->timesheetService)) {
 
-    /**
-     * @return array
-     */
-    public function getLabelList()
-    {
-        $requiredMarker = ' <em>*</em>';
-        $lableList = array();
-        $lableList['employee'] = __('Select Terminated Employee') . $requiredMarker;
-        return $lableList;
+            $this->timesheetService = new TimesheetService();
+        }
+
+        return $this->timesheetService;
     }
 }

@@ -18,33 +18,37 @@
  */
 
 /**
- * Class AbstractPurgeStrategy
+ * Class PurgeStrategy
  */
 abstract class PurgeStrategy
 {
 
     protected $parameters = array();
-    protected $entityClassName;
-    protected $matchByArray = array();
-    protected $matchingCriteria;
-    protected $maintenanceService;
+    protected $entityClassName = '';
+    protected $entityFieldMap = array();
+    protected $maintenanceService = null;
 
     /**
-     * AbstractPurgeStrategy constructor.
+     * PurgeStrategy constructor.
      * @param $entityClassName
      * @param $infoArray
      */
     public function __construct($entityClassName, $infoArray)
     {
         $this->setEntityClassName($entityClassName);
-        $this->setMatchingCriteria($infoArray['matching_criteria']);
         if (isset($infoArray['match_by'])) {
-            $this->setMatchBy($infoArray['match_by']);
+            $this->setEntityFieldMap($infoArray['match_by']);
         }
         if (isset($infoArray['parameters'])) {
             $this->setParameters($infoArray['parameters']);
         }
     }
+
+    /**
+     * @param $employeeNumber
+     * @return mixed
+     */
+    public abstract function purge($employeeNumber);
 
     /**
      * @return array
@@ -79,43 +83,22 @@ abstract class PurgeStrategy
     }
 
     /**
-     * @return mixed
-     */
-    public function getMatchingCriteria()
-    {
-        return $this->matchingCriteria;
-    }
-
-    /**
-     * @param $matchingCriteria
-     */
-    public function setMatchingCriteria($matchingCriteria)
-    {
-        $this->matchingCriteria = $matchingCriteria;
-    }
-
-    /**
      * @return array
      */
-    public function getMatchBy()
+    public function getEntityFieldMap()
     {
-        return $this->matchByArray;
+        return $this->entityFieldMap;
     }
 
     /**
-     * @param $matchByArray
+     * @param $entityFieldMap
      */
-    public function setMatchBy($matchByArray)
+    public function setEntityFieldMap($entityFieldMap)
     {
-        $this->matchByArray = $matchByArray;
-    }
 
-    /**
-     * @return bool
-     */
-    public function isSingle()
-    {
-        return $this->getMatchingCriteria() == PurgeStrategy::MATCHING_CRITERIA_ONE;
+        if (sizeof($entityFieldMap)) {
+            $this->entityFieldMap = $entityFieldMap[0];
+        }
     }
 
     /**
@@ -143,11 +126,23 @@ abstract class PurgeStrategy
      */
     public function getMatchByValues($employeeNumber)
     {
-        $matchValueArray = array();
-        foreach ($this->getMatchBy() as $matchBy) {
-            $matchValueArray[$matchBy['match']] = $employeeNumber;
+        $entityFieldMap = array();
+
+        $entityFieldMap[$this->getEntityFieldMap()['match']] = $employeeNumber;
+        if ($this->getEntityFieldMap()['join']) {
+            $entityFieldMap['join'] = $this->getEntityFieldMap()['join'];
         }
-        return $matchValueArray;
+        return $entityFieldMap;
     }
 
+    /**
+     * @param $matchByValues
+     * @param $table
+     * @return mixed
+     * @throws DaoException
+     */
+    public function getEntityRecords($matchByValues, $table)
+    {
+        return $this->getMaintenanceService()->extractDataFromEmpNumber($matchByValues, $table);
+    }
 }

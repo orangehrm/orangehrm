@@ -24,15 +24,15 @@
 class MaintenanceDaoTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $fixture;
-    private $maintenanceDao;
+    protected $fixture = null;
+    private $maintenanceDao = null;
+    private $candidateService = null;
 
     /**
      * Set up method
      */
     protected function setUp()
     {
-        $this->maintenanceDao = new MaintenanceDao();
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmMaintenancePlugin/test/fixtures/EmployeeDaoWithDeletedEmployee.yml';
         TestDataService::populate($this->fixture);
     }
@@ -49,186 +49,124 @@ class MaintenanceDaoTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @throws DaoException
+     * @return MaintenanceDao
      */
-    public function testReplaceEntityValuesWithValuesAndSingleMatcher()
+    public function getMaintenanceDao()
     {
-        $employeeNumber = 1;
-        $entityClassName = "Employee";
-        $fieldValueArray = array(
-            "nickName" => "Shali",
-            "emp_mobile" => "0714582524"
-        );
-        $matchByValuesArray = array("empNumber" => $employeeNumber);
-        $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
-        $this->assertEquals("viki", $employee->getNickName());
-        $this->assertEquals("111111", $employee->getEmpMobile());
-        $recordsCount = $this->maintenanceDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
-        $this->assertEquals(1, $recordsCount);
-        $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
-        $this->assertEquals("Shali", $employee->getNickName());
-        $this->assertEquals("0714582524", $employee->getEmpMobile());
+        if (!isset($this->maintenanceDao)) {
+            $this->maintenanceDao = new MaintenanceDao();
+        }
+        return $this->maintenanceDao;
     }
 
     /**
-     * @throws DaoException
+     * @return CandidateService
      */
-    public function testReplaceEntityValuesWithValuesAndNullValuesSingleMatcher()
+    public function getCandidateService()
     {
-        $employeeNumber = 1;
-        $entityClassName = "Employee";
-        $fieldValueArray = array(
-            "nickName" => "Shali",
-            "emp_mobile" => null
-        );
-        $matchByValuesArray = array("empNumber" => $employeeNumber);
-        $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
-        $this->assertEquals("viki", $employee->getNickName());
-        $this->assertEquals("111111", $employee->getEmpMobile());
-        $recordsCount = $this->maintenanceDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
-        $this->assertEquals(1, $recordsCount);
-        $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
-        $this->assertEquals("Shali", $employee->getNickName());
-        $this->assertNull($employee->getEmpMobile());
+        if (is_null($this->candidateService)) {
+            $this->candidateService = new CandidateService();
+            $this->candidateService->setCandidateDao(new CandidateDao());
+        }
+        return $this->candidateService;
     }
 
-    /**
-     * @throws DaoException
-     */
-    public function testReplaceEntityValuesWithValuesAndNullValuesMultipleMatcher()
-    {
-        $employeeNumber = 1;
-        $entityClassName = "Employee";
-        $fieldValueArray = array(
-            "nickName" => "Shali",
-            "emp_mobile" => null
-        );
-        $matchByValuesArray = array(
-            "firstName" => "Shalitha",
-            "lastName" => "Vikum"
-        );
-        $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
-        $this->assertEquals("viki", $employee->getNickName());
-        $this->assertEquals("111111", $employee->getEmpMobile());
-        $recordsCount = $this->maintenanceDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
-        $this->assertEquals(1, $recordsCount);
-        $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
-        $this->assertEquals("viki", $employee->getNickName());
-    }
-
-    /**
-     * @throws DaoException
-     */
-    public function testReplaceEntityValuesWithValuesMatcherMatchingMultipleEntities()
-    {
-        $entityClassName = "Employee";
-        $fieldValueArray = array(
-            "firstName" => "John",
-        );
-        $matchByValuesArray = array(
-            "middleName" => "ST",
-        );
-
-        $employee1 = $this->getEmployeeService()->getEmployee(2);
-        $employee2 = $this->getEmployeeService()->getEmployee(4);
-        $this->assertEquals("Ashley", $employee1->getFirstName());
-        $this->assertEquals("Chaturanga", $employee2->getFirstName());
-        $recordsCount = $this->maintenanceDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
-        $this->assertEquals(2, $recordsCount);
-        $employee1 = $this->getEmployeeService()->getEmployee(2);
-        $employee2 = $this->getEmployeeService()->getEmployee(4);
-        $this->assertEquals("John", $employee1->getFirstName());
-        $this->assertEquals("John", $employee2->getFirstName());
-    }
-
-    /**
-     * @throws DaoException
-     */
-    public function testReplaceEntityValuesWithValuesAndMatcherMatchingMultipleEntitiesUsingArray()
-    {
-        $entityClassName = "Employee";
-        $fieldValueArray = array(
-            "firstName" => "John",
-        );
-        $matchByValuesArray = array(
-            "empNumber" => array(2, 4),
-        );
-        $employee1 = $this->getEmployeeService()->getEmployee(2);
-        $employee2 = $this->getEmployeeService()->getEmployee(4);
-        $this->assertEquals("Ashley", $employee1->getFirstName());
-        $this->assertEquals("Chaturanga", $employee2->getFirstName());
-        $recordsCount = $this->maintenanceDao->replaceEntityValues($entityClassName, $fieldValueArray, $matchByValuesArray);
-        $this->assertEquals(2, $recordsCount);
-        $employee1 = $this->getEmployeeService()->getEmployee(2);
-        $employee2 = $this->getEmployeeService()->getEmployee(4);
-        $this->assertEquals("John", $employee1->getFirstName());
-        $this->assertEquals("John", $employee2->getFirstName());
-    }
-
-    /**
-     * @throws DaoException
-     */
-    public function testRemoveEntitiesSingleMatcher()
-    {
-
-        $employeeNumber = 1;
-        $entityClassName = "Employee";
-        $matchByValuesArray = array("empNumber" => $employeeNumber);
-        $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
-        $this->assertEquals("viki", $employee->getNickName());
-        $this->assertEquals("111111", $employee->getEmpMobile());
-        $recordsCount = $this->maintenanceDao->removeEntities($entityClassName, $matchByValuesArray);
-        $this->assertEquals(1, $recordsCount);
-        $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
-        $this->assertFalse($employee);
-    }
-
-    /**
-     * @throws DaoException
-     */
-    public function testRemoveEntitiesMultipleMatcher()
-    {
-        $employeeNumber = 1;
-        $entityClassName = "Employee";
-        $matchByValuesArray = array(
-            "empNumber" => "1"
-        );
-        $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
-        $this->assertEquals("viki", $employee->getNickName());
-        $this->assertEquals("111111", $employee->getEmpMobile());
-        $recordsCount = $this->maintenanceDao->removeEntities($entityClassName, $matchByValuesArray);
-        $this->assertEquals(1, $recordsCount);
-        $employee = $this->getEmployeeService()->getEmployee($employeeNumber);
-        $this->assertFalse($employee instanceof Employee);
-    }
-
-    /**
-     * @throws DaoException
-     */
-    public function testRemoveEntitiesSingleMatcherUsingArray()
-    {
-        $entityClassName = "Employee";
-        $matchByValuesArray = array(
-            "empNumber" => array(2, 4),
-        );
-        $employee1 = $this->getEmployeeService()->getEmployee(2);
-        $employee2 = $this->getEmployeeService()->getEmployee(4);
-        $this->assertEquals("Ashley", $employee1->getFirstName());
-        $this->assertEquals("Chaturanga", $employee2->getFirstName());
-        $recordsCount = $this->maintenanceDao->removeEntities($entityClassName, $matchByValuesArray);
-        $this->assertEquals(2, $recordsCount);
-        $employee1 = $this->getEmployeeService()->getEmployee(2);
-        $employee2 = $this->getEmployeeService()->getEmployee(4);
-        $this->assertFalse($employee1);
-        $this->assertFalse($employee2);
-    }
 
     /**
      *
      */
     public function testGetEmployeePurgingList()
     {
-        $data = $this->maintenanceDao->getEmployeePurgingList();
+        $data = $this->getMaintenanceDao()->getEmployeePurgingList();
         $this->assertEquals(gettype($data), 'object');
+        $this->assertEquals(sizeof($data), 1);
+
+        $data = $this->getMaintenanceDao()->getEmployeePurgingList()->toArray();
+        $this->assertEquals(sizeof($data), 1);
+
+        $employeeId = $data[0]['empNumber'];
+        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+
+        $this->assertEquals($employee->getFirstName(), 'Kayla');
+        $this->assertEquals($employee->getLastName(), 'Abbey');
+        $this->assertEquals($employee->getMiddleName(), 'T');
+        $this->assertEquals($employee->getNickName(), 'viki');
+        $this->assertEquals($employee->getJobTitleName(), 'Software Engineer');
+        $this->assertEquals($employee->getEmpMobile(), '111111');
+        $this->assertEquals($employee->getEmpOthEmail(), 'kayla2@xample.com');
+        $this->assertEquals($employee->getEmpWorkEmail(), 'kayla@xample.com');
+    }
+
+    /**
+     * @throws DaoException
+     */
+    public function testExtractDataFromEmpNumber()
+    {
+        $table = 'Employee';
+        $employeeId = 1;
+        $matchByValues = ['empNumber' => '1'];
+
+        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+        $this->assertEquals($employee->getFirstName(), 'Kayla');
+        $this->assertEquals($employee->getLastName(), 'Abbey');
+        $this->assertEquals($employee->getMiddleName(), 'T');
+        $this->assertEquals($employee->getNickName(), 'viki');
+
+        $data = $this->getMaintenanceDao()->extractDataFromEmpNumber($matchByValues, $table);
+        $this->assertTrue(sizeof($data) > 0);
+        $this->assertEquals($data[0]->getFirstName(), 'Kayla');
+        $this->assertEquals($data[0]->getLastName(), 'Abbey');
+        $this->assertEquals($data[0]->getMiddleName(), 'T');
+        $this->assertEquals($data[0]->getNickName(), 'viki');
+    }
+
+    /**
+     * @throws DaoException
+     */
+    public function testSaveEntity()
+    {
+        $employeeId = 1;
+        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+        $this->assertEquals($employee->getFirstName(), 'Kayla');
+        $this->assertEquals($employee->getLastName(), 'Abbey');
+        $this->assertEquals($employee->getMiddleName(), 'T');
+        $this->assertEquals($employee->getNickName(), 'viki');
+
+        $employee->firstName = 'ashan1';
+        $employee->lastName = 'ashan2';
+        $employee->middleName = 'ashan3';
+        $employee->nickName = 'ashan4';
+
+        $this->getMaintenanceDao()->saveEntity($employee);
+        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+        $this->assertEquals($employee->getFirstName(), 'ashan1');
+        $this->assertEquals($employee->getLastName(), 'ashan2');
+        $this->assertEquals($employee->getMiddleName(), 'ashan3');
+        $this->assertEquals($employee->getNickName(), 'ashan4');
+    }
+
+    /**
+     * @throws DaoException
+     */
+    public function testGetVacancyListToPurge()
+    {
+        $vacancyList = $this->getMaintenanceDao()->getVacancyListToPurge();
+        $this->assertEquals(gettype($vacancyList), 'object');
+    }
+
+    /**
+     * @throws DaoException
+     */
+    public function testGetDeniedCandidatesToKeepDataByVacnacyId()
+    {
+        $candidates = $this->getMaintenanceDao()->getDeniedCandidatesToKeepDataByVacnacyId(1)->toArray();
+        $this->assertEquals($candidates[0]['firstName'], 'Renukshaqn');
+        $this->assertEquals($candidates[0]['middleName'], 'qwwwsw');
+        $this->assertEquals($candidates[0]['lastName'], 'Sap4uthanthri');
+        $this->assertEquals($candidates[0]['email'], 'sssqwdqwasdd@xamp<le.com');
+        $this->assertEquals($candidates[0]['contactNumber'], '11231231');
+        $this->assertEquals($candidates[0]['status'], '1');
+        $this->assertEquals($candidates[0]['comment'], 'comment3');
+        $this->assertEquals($candidates[0]['modeOfApplication'], '2');
     }
 }

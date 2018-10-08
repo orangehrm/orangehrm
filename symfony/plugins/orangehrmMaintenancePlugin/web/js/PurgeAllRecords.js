@@ -5,7 +5,7 @@ $(document).ready(function () {
             var data = getEmployeeData(emp_id)
         }
     });
-    $(".btn").click(function () {
+    $("#modal_confirm").click(function () {
         $("#frmPurgeEmployee").submit();
     });
 
