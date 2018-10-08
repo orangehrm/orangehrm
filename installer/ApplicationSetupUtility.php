@@ -36,64 +36,63 @@ class ApplicationSetupUtility {
         return realpath(dirname(__FILE__)). DIRECTORY_SEPARATOR . 'log.txt';
     }
 
-public static function createDB() {
+    public static function createDB() {
+        self::connectDB();
 
-    self::connectDB();
+        if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
 
-	if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
+            if (self::$conn) {
 
-		if (self::$conn) {
+                $dbName = mysqli_real_escape_string(self::$conn, $_SESSION['dbInfo']['dbName']);
+
+                if (mysqli_select_db(self::$conn, $dbName)) {
+
+                    $result = mysqli_query(self::$conn, "SHOW TABLES");
+
+                    if (mysqli_num_rows($result) > 0) {
+                        $_SESSION['error'] = sprintf(Messages::MYSQL_ERR_DB_NOT_EMPTY, $dbName);
+                    }
+
+                } else {
+                    $mysqlErrNo = mysqli_errno(self::$conn);
+                    $error = mysqli_error(self::$conn);
+                    $errorMsg = sprintf(Messages::MYSQL_ERR_CANT_CONNECT_TO_DB, $dbName);
+                    $errorMsg .= sprintf(Messages::MYSQL_ERR_MESSAGE, $mysqlErrNo, $error);
+                    $_SESSION['error'] = $errorMsg;
+                }
+
+            }
+
+        } elseif (self::$conn && $_SESSION['dbCreateMethod'] == 'new') { // If the user wants OrangeHRM to create the database for him
 
             $dbName = mysqli_real_escape_string(self::$conn, $_SESSION['dbInfo']['dbName']);
+            $query = "CREATE DATABASE `$dbName`";
+            mysqli_query(self::$conn, $query);
 
-			if (mysqli_select_db(self::$conn, $dbName)) {
+            $mysqlErrNo = mysqli_errno(self::$conn);
+            $error = mysqli_error(self::$conn);
 
-				$result = mysqli_query(self::$conn, "SHOW TABLES");
-
-				if (mysqli_num_rows($result) > 0) {
-                    $_SESSION['error'] = sprintf(Messages::MYSQL_ERR_DB_NOT_EMPTY, $dbName);
-				}
-
-			} else {
-                $mysqlErrNo = mysqli_errno(self::$conn);
-                $error = mysqli_error(self::$conn);
-                $errorMsg = sprintf(Messages::MYSQL_ERR_CANT_CONNECT_TO_DB, $dbName);
+            if (!($mysqlErrNo == 0 && $error == '')) {
+                $errorMsg = Messages::MYSQL_ERR_CANT_CREATE_DB;
                 $errorMsg .= sprintf(Messages::MYSQL_ERR_MESSAGE, $mysqlErrNo, $error);
-                $_SESSION['error'] =  $errorMsg;
-			}
-
-		}
-
-	} elseif (self::$conn && $_SESSION['dbCreateMethod'] == 'new') { // If the user wants OrangeHRM to create the database for him
-
-        $dbName = mysqli_real_escape_string(self::$conn, $_SESSION['dbInfo']['dbName']);
-        $query = "CREATE DATABASE `$dbName`";
-        mysqli_query(self::$conn, $query);
-
-        $mysqlErrNo = mysqli_errno(self::$conn);
-        $error = mysqli_error(self::$conn);
-
-        if (!($mysqlErrNo == 0 && $error == '')) {
-            $errorMsg = Messages::MYSQL_ERR_CANT_CREATE_DB;
-            $errorMsg .= sprintf(Messages::MYSQL_ERR_MESSAGE, $mysqlErrNo, $error);
-            $_SESSION['error'] =  $errorMsg;
+                $_SESSION['error'] = $errorMsg;
+            }
         }
-	}
 
-}
-
-public static function connectDB() {
-
-    if(!self::$conn = mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort'])) {
-        $error = mysqli_connect_error();
-        $mysqlErrNo = mysqli_connect_errno();
-        $errorMsg = Messages::MYSQL_ERR_DEFAULT_MESSAGE;
-        $errorMsg .= Messages::MYSQL_ERR_MESSAGE;
-        $_SESSION['error'] =  sprintf($errorMsg, $mysqlErrNo, $error);
-        return;
     }
 
-}
+    public static function connectDB() {
+
+        if (!self::$conn = mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort'])) {
+            $error = mysqli_connect_error();
+            $mysqlErrNo = mysqli_connect_errno();
+            $errorMsg = Messages::MYSQL_ERR_DEFAULT_MESSAGE;
+            $errorMsg .= Messages::MYSQL_ERR_MESSAGE;
+            $_SESSION['error'] = sprintf($errorMsg, $mysqlErrNo, $error);
+            return;
+        }
+
+    }
 
 /**
  * Initialize unique ID's
