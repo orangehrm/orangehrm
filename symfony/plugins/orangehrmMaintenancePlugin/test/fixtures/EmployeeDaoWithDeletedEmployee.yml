@@ -47,3 +47,12 @@ JobVacancy:
   0: {id: '1', jobTitleCode: '1', hiringManagerId: '2', name: 'Vacancy',noOfPositions: '2', status: 1}
   1: {id: '2', jobTitleCode: '2', hiringManagerId: '3', name: 'Vacancy For Test',noOfPositions: '3', status: 1}
 
+CandidateHistory:
+  0: {id: 1, candidateId: '1', vacancyId: '1', candidateVacancyName: 'Vacancy', action: 15, performedDate: '2018-10-08 00:00'}
+  1: {id: 2, candidateId: '2', vacancyId: '1', candidateVacancyName: 'Vacancy', action: 15, performedDate: '2018-10-08 00:00'}
+  2: {id: 3, candidateId: '3', vacancyId: '1', candidateVacancyName: 'Vacancy', action: 15, performedDate: '2018-10-08 00:00'}
+  3: {id: 4, candidateId: '4', vacancyId: '2', candidateVacancyName: 'Vacancy For Test', action: 15, performedDate: '2018-10-08 00:00'}
+  4: {id: 5, candidateId: '5', vacancyId: '2', candidateVacancyName: 'Vacancy For Test', action: 15, performedDate: '2018-10-08 00:00'}
+  5: {id: 6, candidateId: '6', vacancyId: '2', candidateVacancyName: 'Vacancy For Test', action: 15, performedDate: '2018-10-08 00:00'}
+
+
