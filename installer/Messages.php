@@ -118,6 +118,7 @@ const MYSQL_ERR_CONN_HOST_ERROR = "Can't connect to MySQL server on `%s`. It see
 const MYSQL_ERR_UNKNOWN_PROTOCOL = "Database connection is trying to go through a wrong protocol. Please use TCP/IP protocol.";
 const MYSQL_ERR_CLEANUP_CONN_FAILED = "Cleanup installation is failing due to database connection error.";
 const MYSQL_ERR_CANT_CREATE_DB = "Unable to create database.";
+const MYSQL_ERR_CANT_CONNECT_TO_DB = "Can't connect to `%s` database.";
 }
 
 ?>

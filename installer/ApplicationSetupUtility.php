@@ -38,50 +38,46 @@ class ApplicationSetupUtility {
 
 public static function createDB() {
 
+    self::connectDB();
+
 	if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
 
-		$dbName = $_SESSION['dbInfo']['dbName'];
-		$dbHost = $_SESSION['dbInfo']['dbHostName'];
-		$dbPort = $_SESSION['dbInfo']['dbHostPort'];
-		$dbUser = $_SESSION['dbInfo']['dbUserName'];
-		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
-
-		self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword,null, $dbPort);
 		if (self::$conn) {
+
+            $dbName = mysqli_real_escape_string(self::$conn, $_SESSION['dbInfo']['dbName']);
 
 			if (mysqli_select_db(self::$conn, $dbName)) {
 
 				$result = mysqli_query(self::$conn, "SHOW TABLES");
 
 				if (mysqli_num_rows($result) > 0) {
-					$_SESSION['error'] = 'Given database is not empty.';
+                    $_SESSION['error'] = sprintf(Messages::MYSQL_ERR_DB_NOT_EMPTY, $dbName);
 				}
 
 			} else {
-			    $_SESSION['error'] = 'Cannot connect to the database. '.mysqli_error(self::$conn);
+                $mysqlErrNo = mysqli_errno(self::$conn);
+                $error = mysqli_error(self::$conn);
+                $errorMsg = sprintf(Messages::MYSQL_ERR_CANT_CONNECT_TO_DB, $dbName);
+                $errorMsg .= sprintf(Messages::MYSQL_ERR_MESSAGE, $mysqlErrNo, $error);
+                $_SESSION['error'] =  $errorMsg;
 			}
 
-		} else {
-		    $_SESSION['error'] = 'Cannot make a database connection using given details. '.mysqli_error(self::$conn);
 		}
 
-	} elseif ($_SESSION['dbCreateMethod'] == 'new') { // If the user wants OrangeHRM to create the database for him
+	} elseif (self::$conn && $_SESSION['dbCreateMethod'] == 'new') { // If the user wants OrangeHRM to create the database for him
 
-		self::connectDB();
-		if (self::$conn) {
-		    $dbName = mysqli_real_escape_string(self::$conn, $_SESSION['dbInfo']['dbName']);
-		    $query = "CREATE DATABASE `$dbName`";
-		    mysqli_query(self::$conn, $query);
+        $dbName = mysqli_real_escape_string(self::$conn, $_SESSION['dbInfo']['dbName']);
+        $query = "CREATE DATABASE `$dbName`";
+        mysqli_query(self::$conn, $query);
 
-		    $mysqlErrNo = mysqli_errno(self::$conn);
-		    $error = mysqli_error(self::$conn);
+        $mysqlErrNo = mysqli_errno(self::$conn);
+        $error = mysqli_error(self::$conn);
 
-		    if (!($mysqlErrNo == 0 && $error == '')) {
-		        $errorMsg = Messages::MYSQL_ERR_CANT_CREATE_DB;
-		        $errorMsg .= Messages::MYSQL_ERR_MESSAGE;
-		        $_SESSION['error'] =  sprintf($errorMsg, $mysqlErrNo, $error);
-		    }
-		}
+        if (!($mysqlErrNo == 0 && $error == '')) {
+            $errorMsg = Messages::MYSQL_ERR_CANT_CREATE_DB;
+            $errorMsg .= sprintf(Messages::MYSQL_ERR_MESSAGE, $mysqlErrNo, $error);
+            $_SESSION['error'] =  $errorMsg;
+        }
 	}
 
 }
