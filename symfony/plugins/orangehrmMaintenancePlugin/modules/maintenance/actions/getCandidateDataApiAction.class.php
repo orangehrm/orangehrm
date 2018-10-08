@@ -40,6 +40,9 @@ class getCandidateDataApiAction extends sfAction
         $this->_setListComponent($candidate, 1, 1);
     }
 
+    /**
+     * @return MaintenanceService|null
+     */
     public function getmaintenanceService()
     {
         if (!isset($this->maintenanceService)) {
@@ -48,7 +51,11 @@ class getCandidateDataApiAction extends sfAction
         return $this->maintenanceService;
     }
 
-
+    /**
+     * @param $candidates
+     * @param $noOfRecords
+     * @param $pageNumber
+     */
     public function _setListComponent($candidates, $noOfRecords, $pageNumber)
     {
 

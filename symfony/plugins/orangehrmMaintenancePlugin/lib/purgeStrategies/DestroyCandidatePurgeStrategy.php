@@ -27,9 +27,9 @@ class DestroyCandidatePurgeStrategy extends PurgeStrategy
      * @return mixed|void
      * @throws DaoException
      */
-    public function purge($vacnacyNumber)
+    public function purge($vacancyNumber)
     {
-        $matchByValues = $this->getMatchByValues($vacnacyNumber);
+        $matchByValues = $this->getMatchByValues($vacancyNumber);
         $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
         foreach ($purgeEntities as $purgeEntity) {
             if (!$purgeEntity->getConsentToKeepData()) {

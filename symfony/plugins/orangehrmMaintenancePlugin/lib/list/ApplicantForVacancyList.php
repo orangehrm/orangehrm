@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * Class ApplicantForVacancyList
+ */
 class ApplicantForVacancyList extends ohrmListConfigurationFactory
 {
-
+    /**
+     *
+     */
     protected function init()
     {
 
@@ -33,6 +38,9 @@ class ApplicantForVacancyList extends ohrmListConfigurationFactory
         $this->headers = array($header1, $header2, $header3);
     }
 
+    /**
+     * @return string
+     */
     public function getClassName()
     {
         return 'JobVacancy';
