@@ -66,7 +66,12 @@ $Phases = array('Database Creation', 'Create Database Tables', 'Fill default dat
   if (isset($error)) {
   	$controlval = 1;
 ?>
-	<p class="error"><?php echo $error?></p>
+	<p class="error">
+        <?php
+        $error = str_replace("\n", "<br>", $error);
+        echo $error;
+        ?>
+    </p>
 <?php } ?>
 <table border="0" cellpadding="5" cellspacing="0">
  <?php for ($i=0; $i < $_SESSION['INSTALLING']-$controlval; $i++) { ?>

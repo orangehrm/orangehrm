@@ -158,19 +158,33 @@ if (isset($_POST['actionResponse']))
                 } elseif ($_POST['dbCreateMethod'] == 'new' && !isset($_POST['chkSameUser'])) {
 
                     mysqli_select_db($conn, 'mysql');
-                    $rset = mysqli_query($conn, "SELECT USER FROM user WHERE USER = '" . $dbInfo['dbOHRMUserName'] . "'");
+                    $dbOHRMUserName = mysqli_real_escape_string($conn, $dbInfo['dbOHRMUserName']);
+                    $query = "SELECT USER FROM user WHERE USER = '$dbOHRMUserName'";
+                    $result = mysqli_query($conn, $query);
 
-                    if (mysqli_num_rows($rset) > 0) {
+                    if (mysqli_num_rows($result) > 0) {
                         $error = 'DBUSEREXISTS';
                     } else {
                         $_SESSION['DBCONFIG'] = 'OK';
+                    }
+                } elseif ($_POST['dbCreateMethod'] == 'existing') {
+                    if (mysqli_select_db($conn, $dbInfo['dbName'])) {
+                        $result = mysqli_query($conn, "SHOW TABLES");
+
+                        if (mysqli_num_rows($result) > 0) {
+                            $error = 'DBNOTEMPTY';
+                        } else {
+                            $_SESSION['DBCONFIG'] = 'OK';
+                        }
+                    } else {
+                        $error = 'WRONGDBINFO';
                     }
                 } else {
                     $_SESSION['DBCONFIG'] = 'OK';
                 }
 
                 $errorMsg = mysqli_error($conn);
-                $mysqlErrNo = mysqli_error($conn);
+                $mysqlErrNo = mysqli_errno($conn);
 
             } else {
                 $error = 'WRONGDBINFO';

@@ -22,6 +22,7 @@ require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
 require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/phpseclib/phpseclib/Crypt/Random.php';
 require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.php';
 require_once ROOT_PATH.'/installer/SystemConfiguration.php';
+require_once ROOT_PATH.'/installer/Messages.php';
 
 class ApplicationSetupUtility {
 
@@ -31,76 +32,67 @@ class ApplicationSetupUtility {
      * Get the log file
      * @return string
      */
-    private static function getErrorLogPath() {
+    public static function getErrorLogPath() {
         return realpath(dirname(__FILE__)). DIRECTORY_SEPARATOR . 'log.txt';
     }
 
-public static function createDB() {
+    public static function createDB() {
+        self::connectDB();
 
-	if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
+        if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
 
-		$dbName = $_SESSION['dbInfo']['dbName'];
-		$dbHost = $_SESSION['dbInfo']['dbHostName'];
-		$dbPort = $_SESSION['dbInfo']['dbHostPort'];
-		$dbUser = $_SESSION['dbInfo']['dbUserName'];
-		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
+            if (self::$conn) {
 
-		self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword,null, $dbPort);
-		if (self::$conn) {
+                $dbName = mysqli_real_escape_string(self::$conn, $_SESSION['dbInfo']['dbName']);
 
-			if (mysqli_select_db(self::$conn, $dbName)) {
+                if (mysqli_select_db(self::$conn, $dbName)) {
 
-				$result = mysqli_query(self::$conn, "SHOW TABLES");
+                    $result = mysqli_query(self::$conn, "SHOW TABLES");
 
-				if (mysqli_num_rows($result) > 0) {
-					$_SESSION['error'] = 'Given database is not empty.';
-				}
+                    if (mysqli_num_rows($result) > 0) {
+                        $_SESSION['error'] = sprintf(Messages::MYSQL_ERR_DB_NOT_EMPTY, $dbName);
+                    }
 
-			} else {
-			    $_SESSION['error'] = 'Cannot connect to the database. '.mysqli_error(self::$conn);
-			}
+                } else {
+                    $mysqlErrNo = mysqli_errno(self::$conn);
+                    $error = mysqli_error(self::$conn);
+                    $errorMsg = sprintf(Messages::MYSQL_ERR_CANT_CONNECT_TO_DB, $dbName);
+                    $errorMsg .= sprintf(Messages::MYSQL_ERR_MESSAGE, $mysqlErrNo, $error);
+                    $_SESSION['error'] = $errorMsg;
+                }
 
-		} else {
-		    $_SESSION['error'] = 'Cannot make a database connection using given details. '.mysqli_error(self::$conn);
-		}
+            }
 
-	} elseif ($_SESSION['dbCreateMethod'] == 'new') { // If the user wants OrangeHRM to create the database for him
+        } elseif (self::$conn && $_SESSION['dbCreateMethod'] == 'new') { // If the user wants OrangeHRM to create the database for him
 
-		self::connectDB();
-		$dbName = '`'.$_SESSION['dbInfo']['dbName'].'`';
-		mysqli_query(self::$conn, "CREATE DATABASE " . $dbName);
+            $dbName = mysqli_real_escape_string(self::$conn, $_SESSION['dbInfo']['dbName']);
+            $query = "CREATE DATABASE `$dbName`";
+            mysqli_query(self::$conn, $query);
 
-		if(!@mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
-			$mysqlErrNo = mysqli_errno(self::$conn);
+            $mysqlErrNo = mysqli_errno(self::$conn);
+            $error = mysqli_error(self::$conn);
 
-			$errorMsg = mysqli_error(self::$conn);
-			if(!isset($errorMsg) || $errorMsg == '') {
-				$errorMsg = 'Unable to create Database.';
-			}
+            if (!($mysqlErrNo == 0 && $error == '')) {
+                $errorMsg = Messages::MYSQL_ERR_CANT_CREATE_DB;
+                $errorMsg .= sprintf(Messages::MYSQL_ERR_MESSAGE, $mysqlErrNo, $error);
+                $_SESSION['error'] = $errorMsg;
+            }
+        }
 
-			if (isset($mysqlErrNo)) {
-				if ($mysqlErrNo == '1102') {
-					$errorMsg .= '. Please use valid name for database.';
-				}
-			}
+    }
 
-			$_SESSION['error'] = $errorMsg.' '.mysqli_error(self::$conn);
+    public static function connectDB() {
 
-			return;
-		}
+        if (!self::$conn = mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort'])) {
+            $error = mysqli_connect_error();
+            $mysqlErrNo = mysqli_connect_errno();
+            $errorMsg = Messages::MYSQL_ERR_DEFAULT_MESSAGE;
+            $errorMsg .= Messages::MYSQL_ERR_MESSAGE;
+            $_SESSION['error'] = sprintf($errorMsg, $mysqlErrNo, $error);
+            return;
+        }
 
-	}
-
-}
-
-public static function connectDB() {
-
-    if(!self::$conn = mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort'])) {
-        $_SESSION['error'] =  'Database Connection Error!';
-		return;
-	}
-
-}
+    }
 
 /**
  * Initialize unique ID's
@@ -425,12 +417,12 @@ public static function install() {
 					error_log (date("r")." DB Creation - Starting\n",3, self::getErrorLogPath());
 					self::createDB();
 					error_log (date("r")." DB Creation - Done\n",3, self::getErrorLogPath());
-					if (!isset($error) || !isset($_SESSION['error'])) {
+					if (!isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 1;
 						error_log (date("r")." DB Creation - No Errors\n",3, self::getErrorLogPath());
 					} else {
 						error_log (date("r")." DB Creation - Errors\n",3, self::getErrorLogPath());
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".($_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 
 					break;
@@ -439,12 +431,12 @@ public static function install() {
 					self::fillData();                                        
                                         self::createMysqlProcedures();
 					error_log (date("r")." Fill Data Phase 1 - Done\n",3, self::getErrorLogPath());
-					if (!isset($error) || !isset($_SESSION['error'])) {
+					if (!isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 2;
 						error_log (date("r")." Fill Data Phase 1 - No Errors\n",3, self::getErrorLogPath());
 					} else {
 						error_log (date("r")." Fill Data Phase 1 - Errors\n",3, self::getErrorLogPath());
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".($_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
 
@@ -454,7 +446,7 @@ public static function install() {
 					self::insertCsrfKey();
 					self::insertSystemConfiguration();
 					error_log (date("r")." Fill Data Phase 2 - Done\n",3, self::getErrorLogPath());
-					if (!isset($error) || !isset($_SESSION['error'])) {
+					if (!isset($_SESSION['error'])) {
 						$res = self::initUniqueIDs();
 						if ($res) {
 							$_SESSION['INSTALLING'] = 3;
@@ -462,30 +454,30 @@ public static function install() {
 						}
 					} else {
 						error_log (date("r")." Fill Data Phase 2 - Errors\n",3, self::getErrorLogPath());
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".($_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
 
 		case 3	:	error_log (date("r")." Create DB user - Starting\n",3, self::getErrorLogPath());
 					self::createDBUser();
 					error_log (date("r")." Create DB user - Done\n",3, self::getErrorLogPath());
-					if (!isset($error) || !isset($_SESSION['error'])) {
+					if (!isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 4;
 						error_log (date("r")." Create DB user - No Errors\n",3, self::getErrorLogPath());
 					} else {
 						error_log (date("r")." Create DB user - Errors\n",3, self::getErrorLogPath());
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".($_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
 
 		case 4	:	error_log (date("r")." Create OrangeHRM user - Starting\n",3, self::getErrorLogPath());
 					error_log (date("r")." Create OrangeHRM user - Done\n",3, self::getErrorLogPath());
-					if (!isset($error) || !isset($_SESSION['error'])) {
+					if (!isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 5;
 						error_log (date("r")." Create OrangeHRM user - No Errors\n",3, self::getErrorLogPath());
 					} else {
 						error_log (date("r")." Create OrangeHRM user - Errors\n",3, self::getErrorLogPath());
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".($_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
 
@@ -493,12 +485,12 @@ public static function install() {
 					self::writeConfFile();
 					self::writeSymfonyDbConfigFile();
 					error_log (date("r")." Write Conf - Done\n",3, self::getErrorLogPath());
-					if (!isset($error) || !isset($_SESSION['error'])) {
+					if (!isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 6;
 						error_log (date("r")." Write Conf - No Errors\n",3, self::getErrorLogPath());
 					} else {
 						error_log (date("r")." Write Conf - Errors\n",3, self::getErrorLogPath());
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".($_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
 

@@ -104,6 +104,21 @@ const DB_WRONG_INFO = "Please check Database name, port , Privileged user name a
 
 const PHP_MIN_VERSION = '5.3.0';
 const MYSQL_MIN_VERSION = '4.1.0';
+
+const MYSQL_ERR_DEFAULT_MESSAGE = "Unable to connect to MySQL server. Please check MySQL server is running and given database information are correct.";
+const MYSQL_ERR_DB_NOT_EMPTY = "Database `%s` is not empty. Please use another empty database or cleanup the given database.";
+const MYSQL_ERR_DATABASE_EXIST = "Database `%s` already exists. Please use another database name.";
+const MYSQL_ERR_DB_NOT_EXIST = "Database `%s` not exists. Please check database name and try again.";
+const MYSQL_ERR_DB_USER_EXIST = "Database User `%s` already exists. Please use another username for 'OrangeHRM Database User'.";
+const MYSQL_ERR_DB_ACCESS_DENIED = "Access denied for user `%s` to database `%s`. Please give all privileges to the user for the particular database.";
+const MYSQL_ERR_ACCESS_DENIED = "Access denied for 'Privileged Database User'. Please check 'Privileged Database Username' and 'Privileged Database User Password' Correct.";
+const MYSQL_ERR_MESSAGE = "\n\nMySQL Error Code: %s\nMessage: %s";
+const MYSQL_ERR_CONN_ERROR = "The MySQL server isn't running on `%s:%s`. It seems like you are using an incorrect TCP/IP port number or incorrect Unix socket file name. Please check whether MySQL server configuration as well as firewall and port blocking services are enabled.";
+const MYSQL_ERR_CONN_HOST_ERROR = "Can't connect to MySQL server on `%s`. It seems like the network connection has been refused. Please check whether your MySQL server is running and has an active network connection. Also, check your specified port configured on the server.";
+const MYSQL_ERR_UNKNOWN_PROTOCOL = "Database connection is trying to go through a wrong protocol. Please use TCP/IP protocol.";
+const MYSQL_ERR_CLEANUP_CONN_FAILED = "Cleanup installation is failing due to database connection error.";
+const MYSQL_ERR_CANT_CREATE_DB = "Unable to create database.";
+const MYSQL_ERR_CANT_CONNECT_TO_DB = "Can't connect to `%s` database.";
 }
 
 ?>
