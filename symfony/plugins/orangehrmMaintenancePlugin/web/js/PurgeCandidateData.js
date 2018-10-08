@@ -16,7 +16,6 @@ function getCandidateData(id) {
         data: {vacancyID: id},
         url: ajaxUrl, success: function (result) {
             $("#selected_employee").html(result);
-            $("#btnDelete").attr("value", "Purge Candidate")
         }
     });
 }

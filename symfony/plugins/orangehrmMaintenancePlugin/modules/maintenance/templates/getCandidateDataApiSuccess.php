@@ -18,14 +18,11 @@
  */
 ?>
 <div class="head">
-    <h1><?php echo __('Selected Candidates'); ?></h1>
+    <h1><?php echo __('Selected Candidate'); ?></h1>
 </div>
 <div class="inner">
     <div class="container">
         <?php include_component('core', 'ohrmList'); ?>
     </div>
 </div>
-<div class="input-field col s12 m12 l12 " id="purgeButton">
-    <input type="submit" id="btnDelete" name="btnDelete" value="Purge" data-toggle="modal"
-           data-target="#deleteConfModal">
-</div>
+

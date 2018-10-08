@@ -126,13 +126,13 @@ abstract class PurgeStrategy
      */
     public function getMatchByValues($employeeNumber)
     {
-        $matchValueArray = array();
+        $entityFieldMap = array();
 
-        $matchValueArray[$this->getEntityFieldMap()['match']] = $employeeNumber;
+        $entityFieldMap[$this->getEntityFieldMap()['match']] = $employeeNumber;
         if ($this->getEntityFieldMap()['join']) {
-            $matchValueArray['join'] = $this->getEntityFieldMap()['join'];
+            $entityFieldMap['join'] = $this->getEntityFieldMap()['join'];
         }
-        return $matchValueArray;
+        return $entityFieldMap;
     }
 
     /**

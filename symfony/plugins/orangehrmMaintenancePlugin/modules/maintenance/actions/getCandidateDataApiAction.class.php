@@ -58,10 +58,18 @@ class getCandidateDataApiAction extends sfAction
      */
     public function _setListComponent($candidates, $noOfRecords, $pageNumber)
     {
-
+        $buttons = array();
+        if (count($candidates)) {
+            $buttons['Delete'] = array('label' => 'Purge',
+                'id' => 'btnPurge',
+                'data-toggle' => 'modal',
+                'data-target' => '#deleteConfModal',
+                'class' => 'delete');
+        }
         $configurationFactory = new ApplicantForVacancyList();
         $configurationFactory->setRuntimeDefinitions(array(
             'hasSelectableRows' => false,
+            'buttons' => $buttons
         ));
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($candidates);

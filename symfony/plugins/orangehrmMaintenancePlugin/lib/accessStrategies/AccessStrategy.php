@@ -126,13 +126,13 @@ abstract class AccessStrategy
      */
     public function getMatchByValues($employeeNumber)
     {
-        $matchValueArray = array();
+        $entityFieldMap = array();
 
-        $matchValueArray[$this->getMatchBy()[0]['match']] = $employeeNumber;
+        $entityFieldMap[$this->getMatchBy()[0]['match']] = $employeeNumber;
         if ($this->getMatchBy()[0]['join']) {
-            $matchValueArray['join'] = $this->getMatchBy()[0]['join'];
+            $entityFieldMap['join'] = $this->getMatchBy()[0]['join'];
         }
-        return $matchValueArray;
+        return $entityFieldMap;
     }
 
     /**
