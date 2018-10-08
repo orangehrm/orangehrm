@@ -121,4 +121,29 @@ class MaintenanceServiceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($data[0]->getNickName(), 'viki');
 
     }
+
+    /**
+     *
+     */
+    public function testGetVacancyListToPurge()
+    {
+        $vacancyList = $this->maintenanceService->getVacancyListToPurge();
+        $this->assertEquals(gettype($vacancyList), 'object');
+    }
+
+    /**
+     *
+     */
+    public function testGetDeniedCandidatesToKeepDataByVacnacyId()
+    {
+        $candidates = $this->maintenanceService->getDeniedCandidatesToKeepDataByVacnacyId(1)->toArray();
+        $this->assertEquals($candidates[0]['firstName'], 'Renukshaqn');
+        $this->assertEquals($candidates[0]['middleName'], 'qwwwsw');
+        $this->assertEquals($candidates[0]['lastName'], 'Sap4uthanthri');
+        $this->assertEquals($candidates[0]['email'], 'sssqwdqwasdd@xamp<le.com');
+        $this->assertEquals($candidates[0]['contactNumber'], '11231231');
+        $this->assertEquals($candidates[0]['status'], '1');
+        $this->assertEquals($candidates[0]['comment'], 'comment3');
+        $this->assertEquals($candidates[0]['modeOfApplication'], '2');
+    }
 }

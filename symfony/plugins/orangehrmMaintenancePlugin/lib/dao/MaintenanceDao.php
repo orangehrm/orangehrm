@@ -80,11 +80,11 @@ class MaintenanceDao extends BaseDao
      * @return bool
      * @throws DaoException
      */
-    public function saveEntity($enitity)
+    public function saveEntity($entity)
     {
         try {
-            $enitity->save();
-            return true;
+            $entity->save();
+            return $entity;
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

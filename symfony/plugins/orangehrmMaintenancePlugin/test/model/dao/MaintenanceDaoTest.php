@@ -106,19 +106,18 @@ class MaintenanceDaoTest extends PHPUnit_Framework_TestCase
         $employeeId = 1;
         $matchByValues = ['empNumber' => '1'];
 
-//        $employee = $this->getEmployeeService()->getEmployee($employeeId);
-//        var_dump($employee->getFirstName());
-//        $this->assertEquals($employee->getFirstName(), 'Kayla');
-//        $this->assertEquals($employee->getLastName(), 'Abbey');
-//        $this->assertEquals($employee->getMiddleName(), 'T');
-//        $this->assertEquals($employee->getNickName(), 'viki');
-//
-//        $data = $this->getMaintenanceDao()->extractDataFromEmpNumber($matchByValues, $table);
-//        $this->assertTrue(sizeof($data) > 0);
-//        $this->assertEquals($data[0]->getFirstName(), 'Kayla');
-//        $this->assertEquals($data[0]->getLastName(), 'Abbey');
-//        $this->assertEquals($data[0]->getMiddleName(), 'T');
-//        $this->assertEquals($data[0]->getNickName(), 'viki');
+        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+        $this->assertEquals($employee->getFirstName(), 'Kayla');
+        $this->assertEquals($employee->getLastName(), 'Abbey');
+        $this->assertEquals($employee->getMiddleName(), 'T');
+        $this->assertEquals($employee->getNickName(), 'viki');
+
+        $data = $this->getMaintenanceDao()->extractDataFromEmpNumber($matchByValues, $table);
+        $this->assertTrue(sizeof($data) > 0);
+        $this->assertEquals($data[0]->getFirstName(), 'Kayla');
+        $this->assertEquals($data[0]->getLastName(), 'Abbey');
+        $this->assertEquals($data[0]->getMiddleName(), 'T');
+        $this->assertEquals($data[0]->getNickName(), 'viki');
     }
 
     /**
@@ -151,17 +150,23 @@ class MaintenanceDaoTest extends PHPUnit_Framework_TestCase
      */
     public function testGetVacancyListToPurge()
     {
-        $candidate = $this->getCandidateService()->getCandidateById(1);
-//        $this->assertEquals($candidate->firstName, 'Kayla');
-//        $this->assertEquals($candidate->lastName, 'Abbey');
-//        $this->assertEquals($candidate->middleName, 'T');
-//        $this->assertEquals($candidate->email, 'kayla@xample.com');
+        $vacancyList = $this->getMaintenanceDao()->getVacancyListToPurge();
+        $this->assertEquals(gettype($vacancyList), 'object');
+    }
 
-        $candidateList = $this->getMaintenanceDao()->getVacancyListToPurge();
-//        $this->assertEquals($candidateList[0]->firstName, 'Kayla');
-//        $this->assertEquals($candidateList[0]->lastName, 'Abbey');
-//        $this->assertEquals($candidateList[0]->middleName, 'T');
-//        $this->assertEquals($candidateList[0]->email, 'kayla@xample.com');
-
+    /**
+     * @throws DaoException
+     */
+    public function testGetDeniedCandidatesToKeepDataByVacnacyId()
+    {
+        $candidates = $this->getMaintenanceDao()->getDeniedCandidatesToKeepDataByVacnacyId(1)->toArray();
+        $this->assertEquals($candidates[0]['firstName'], 'Renukshaqn');
+        $this->assertEquals($candidates[0]['middleName'], 'qwwwsw');
+        $this->assertEquals($candidates[0]['lastName'], 'Sap4uthanthri');
+        $this->assertEquals($candidates[0]['email'], 'sssqwdqwasdd@xamp<le.com');
+        $this->assertEquals($candidates[0]['contactNumber'], '11231231');
+        $this->assertEquals($candidates[0]['status'], '1');
+        $this->assertEquals($candidates[0]['comment'], 'comment3');
+        $this->assertEquals($candidates[0]['modeOfApplication'], '2');
     }
 }
