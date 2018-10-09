@@ -457,21 +457,12 @@ function dbConfigurationCheck()
 
         if (function_exists('mysqli_connect')) {
 
-            if ($dbInfo['dbHostPortModifier'] === 'port') {
-                $socket = null;
-                $port = intval($dbInfo['dbHostPort']);
-            } else {
-                $port = null;
-                $socket = $dbInfo['dbHostPort'];
-            }
-
             $conn = mysqli_connect(
                 $dbInfo['dbHostName'],
                 $dbInfo['dbUserName'],
                 $dbInfo['dbPassword'],
                 null,
-                $port,
-                $socket
+                $dbInfo['dbHostPort']
             );
 
             if (mysqli_connect_error()) {
