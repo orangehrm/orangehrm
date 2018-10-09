@@ -54,10 +54,10 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
         <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
     </div>
     <div class="modal-body">
-        <p>Purge Candidate Records?</p>
+        <p><?php echo __('You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone'); ?></p>
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm" value="<?php echo __('Ok'); ?>"/>
+        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm" value="<?php echo __('Purge'); ?>"/>
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>
