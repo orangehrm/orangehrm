@@ -57,7 +57,7 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
         <p>Download Employee Records?</p>
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm" value="<?php echo __('Ok'); ?>"/>
+        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm" value="<?php echo __('Download'); ?>"/>
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>

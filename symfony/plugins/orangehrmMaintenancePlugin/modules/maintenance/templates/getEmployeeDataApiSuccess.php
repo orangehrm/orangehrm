@@ -22,33 +22,34 @@
 </div>
 <div class="inner">
     <div class="container">
-        <div class="col s12 m3 l3 empImage">
+        <div class="inner empImage">
+            <label id="image_label"><span id="full_name"><?php echo $firstName . ' ' . $lastName; ?></span></label>
             <img class="circle" style="width:128px; height:128px;"
                  src="<?php echo url_for("pim/viewPhoto?empNumber=" . $empNumber); ?>"/>
         </div>
 
-        <div class="input-field col s12 m12 l6 empImage">
+        <div class="empImage">
+            <label><span>First Name</span></label>
             <input id="first_name" type="text" disabled="disabled" value="<?php echo $firstName; ?>">
-            <lable><span>First name</span></lable>
         </div>
 
-        <div class="input-field col s12 m12 l6 empImage">
+        <div class="empImage">
+            <label><span>Middle Name</span></label>
             <input id="first_name" type="text" disabled="disabled" value="<?php echo $middleName; ?>">
-            <lable><span>Middle name</span></lable>
         </div>
 
-        <div class="input-field col s12 m12 l6 empImage">
+        <div class="empImage">
+            <label><span>Last Name</span></label>
             <input id="first_name" type="text" disabled="disabled" value="<?php echo $lastName; ?>">
-            <lable><span>Last name</span></lable>
         </div>
 
-        <div class="input-field col s12 m12 l6 empImage">
+        <div class="empImage">
+            <label><span>Employee Id</span></label>
             <input id="first_name" type="text" disabled="disabled" value="<?php echo $employeeId; ?>">
-            <lable><span>Employee Id</span></lable>
         </div>
     </div>
 </div>
-<div class="input-field col s12 m12 l12 " id="purgeButton">
+<div class="" id="purgeButton">
     <input type="submit" id="btnDelete" name="btnDelete" value="Purge" data-toggle="modal"
            data-target="#deleteConfModal">
 </div>

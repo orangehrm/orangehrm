@@ -29,6 +29,8 @@ class accessEmployeeDataAction extends sfAction
      */
     public function execute($request)
     {
+        $this->header = 'Purge Candidate Records';
+
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
 
@@ -47,7 +49,7 @@ class accessEmployeeDataAction extends sfAction
             } else {
                 $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
                 $this->setTemplate('purgeEmployee', 'maintenance');
-                $this->getUser()->setFlash('warning', __(CommonMessages::CREDENTIALS_REQUIRED));
+                $this->getUser()->setFlash('warning', __(CommonMessages::INCORRECT_PASSWORD));
             }
         } elseif ($requestmethod == 'POST' and !$checkIfReqestToAuthenticate) {
             $employeeDataArray = $this->getEmployeeData($data);

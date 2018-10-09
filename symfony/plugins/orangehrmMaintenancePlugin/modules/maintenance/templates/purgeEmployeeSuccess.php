@@ -22,7 +22,7 @@ use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/PassWordValidat
     <?php include_partial('global/flash_messages'); ?>
 
     <div class="head">
-        <h1><?php echo __('Verify Password'); ?></h1>
+        <h1><?php echo __($header); ?></h1>
     </div>
     <div class="inner">
         <form id="frmPurgeEmployeeAuthenticate" method="post"

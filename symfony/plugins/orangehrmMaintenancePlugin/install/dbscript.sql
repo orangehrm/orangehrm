@@ -16,7 +16,7 @@ set @access_employee_records_screen_id := (SELECT id FROM ohrm_screen WHERE acti
 
 -- Add menu items to `ohrm_menu_items` which are showing in UI left menu
 INSERT INTO ohrm_menu_item (menu_title, screen_id, parent_id, level, order_hint, url_extras, status) VALUES
-('Maintenance', NULL , NULL, '1', '1200', NULL, '1');
+('Maintenance', @purge_employee_screen_id , NULL, '1', '1200', NULL, '1');
 
 set @parent_menu_id := (SELECT id FROM ohrm_menu_item WHERE menu_title = 'Maintenance');
 
