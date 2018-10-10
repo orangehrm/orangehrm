@@ -17,7 +17,7 @@ function getEmployeeData(id) {
         data: {empployeeID: id},
         url: ajaxUrl, success: function (result) {
             $("#selected_employee").html(result);
-            $("#btnDelete").attr("value", "Access Data")
+            $("#btnDelete").attr("value", accessData)
         }
     });
 }

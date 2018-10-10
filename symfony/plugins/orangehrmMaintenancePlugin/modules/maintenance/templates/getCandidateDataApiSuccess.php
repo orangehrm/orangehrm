@@ -18,7 +18,7 @@
  */
 ?>
 <div class="head">
-    <h1><?php echo __('Selected Candidate'); ?></h1>
+    <h1><?php echo __('Selected Candidates'); ?></h1>
 </div>
 <div class="inner">
     <div class="container">

@@ -7556,6 +7556,102 @@
         <source>Leave Entitlements</source>
         <target>FR_Leave Entitlements</target>
       </trans-unit>
+      <trans-unit id="1889">
+        <source>Maintenance</source>
+        <target>FR_Maintenance</target>
+      </trans-unit>
+      <trans-unit id="1890">
+        <source>Purge Employee Records</source>
+        <target>FR_Purge Employee Records</target>
+      </trans-unit>
+      <trans-unit id="1891">
+        <source>Purge Records</source>
+        <target>FR_Purge Records</target>
+      </trans-unit>
+      <trans-unit id="1892">
+        <source>Access Records</source>
+        <target>FR_Access Records</target>
+      </trans-unit>
+      <trans-unit id="1893">
+        <source>Verify Password</source>
+        <target>FR_Verify Password</target>
+      </trans-unit>
+      <trans-unit id="1894">
+        <source>Verify</source>
+        <target>FR_Verify</target>
+      </trans-unit>
+      <trans-unit id="1895">
+        <source>Select Terminated Employee</source>
+        <target>FR_Select Terminated Employee</target>
+      </trans-unit>
+      <trans-unit id="1896">
+        <source>Purge Candidate Records</source>
+        <target>FR_Select Candidate Employee</target>
+      </trans-unit>
+      <trans-unit id="1897">
+        <source>Select Vacancy</source>
+        <target>FR_Select Vacancy</target>
+      </trans-unit>
+      <trans-unit id="1898">
+        <source>Download Personal Data</source>
+        <target>FR_Download Personal Data</target>
+      </trans-unit>
+      <trans-unit id="1899">
+        <source>Selected Employee</source>
+        <target>FR_Selected Employee</target>
+      </trans-unit>
+      <trans-unit id="1900">
+        <source>First Name</source>
+        <target>FR_First Name</target>
+      </trans-unit>
+      <trans-unit id="1901">
+        <source>Middle Name</source>
+        <target>FR_Middle Name</target>
+      </trans-unit>
+      <trans-unit id="1902">
+        <source>Last Name</source>
+        <target>FR_Last Name</target>
+      </trans-unit>
+      <trans-unit id="1903">
+        <source>Employee Id</source>
+        <target>FR_Employee Id</target>
+      </trans-unit>
+      <trans-unit id="1904">
+        <source>Access Data</source>
+        <target>FR_Access Data</target>
+      </trans-unit>
+      <trans-unit id="1905">
+        <source>Purge</source>
+        <target>FR_Purge</target>
+      </trans-unit>
+      <trans-unit id="1906">
+        <source>Purge Employee</source>
+        <target>FR_Purge Employee</target>
+      </trans-unit>
+      <trans-unit id="1907">
+        <source>You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone.</source>
+        <target>FR_You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone.</target>
+      </trans-unit>
+      <trans-unit id="1908">
+        <source>Download Employee Records?</source>
+        <target>FR_Download Employee Records?</target>
+      </trans-unit>
+      <trans-unit id="1909">
+        <source>Selected Candidates</source>
+        <target>FR_Selected Candidates</target>
+      </trans-unit>
+      <trans-unit id="1910">
+        <source>Date Of Applicant</source>
+        <target>FR_Date Of Applicant</target>
+      </trans-unit>
+      <trans-unit id="1911">
+        <source>You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone.</source>
+        <target>FR_You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone.</target>
+      </trans-unit>
+      <trans-unit id="1912">
+        <source>Access Data</source>
+        <target>FR_Access Data</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
