@@ -31,7 +31,7 @@ class OrangeHrmRegisterService
         $mode = $this->getSysConf()->getMode();
         if ($mode == sysConf::PROD_MODE) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "https://ospenguin.orangehrm.com");
+            curl_setopt($ch, CURLOPT_URL, $this->getSysConf()->getRegistrationUrl());
             curl_setopt($ch, CURLOPT_POST, 1);
 
             $data = "username=" . $_SESSION['defUser']['AdminUserName']

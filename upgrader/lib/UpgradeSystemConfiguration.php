@@ -21,6 +21,8 @@
 class UpgradeSystemConfiguration
 {
 
+    const KEY_INSTANCE_IDENTIFIER = "instance.identifier";
+
     /**
      * create and returns a database connection
      * @return mysqli|void
@@ -211,6 +213,31 @@ class UpgradeSystemConfiguration
         $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
-        $statement->execute(array("instance.identifier", base64_encode($instanceIdentifier)));
+        $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER, base64_encode($instanceIdentifier)));
+    }
+
+    /**
+     * Get instance identifier
+     * @return mixed
+     */
+    public function getInstanceIdentifier() {
+        $query = "SELECT `value` FROM `hs_hr_config` WHERE `key`='" . self::KEY_INSTANCE_IDENTIFIER . "'";
+        $dbConnection = $this->createDbConnection();
+        $statement = $dbConnection->query($query);
+        $configValue = $statement->fetch();
+        return $configValue['value'];
+    }
+
+    /**
+     * Check whether the instance identifier exists
+     * @return bool
+     */
+    public function isSetInstanceIdentifier() {
+        $instanceIdentifier = $this->getInstanceIdentifier();
+
+        if (!is_null($instanceIdentifier)) {
+            return true;
+        }
+        return false;
     }
 }

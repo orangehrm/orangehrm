@@ -30,7 +30,7 @@ class UpgradeOrangehrmRegistration
         $mode = $this->getSysConf()->getMode();
         if ($mode == sysConf::PROD_MODE) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "https://ospenguin.orangehrm.com");
+            curl_setopt($ch, CURLOPT_URL, $this->getSysConf()->getRegistrationUrl());
             curl_setopt($ch, CURLOPT_POST, 1);
 
             $data = "username=" . $_SESSION['defUser']['AdminUserName']
@@ -66,6 +66,9 @@ class UpgradeOrangehrmRegistration
      * @return string
      */
     private function getInstanceIdentifier() {
+        if (isset($_SESSION['defUser']['instanceIdentifier'])) {
+            return $_SESSION['defUser']['instanceIdentifier'];
+        }
         $unencodedIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
         return base64_encode($unencodedIdentifier);
     }
