@@ -29,28 +29,28 @@
         </div>
 
         <div class="empImage">
-            <label><span>First Name</span></label>
+            <label><span><?php echo __('First Name'); ?></span></label>
             <input id="first_name" type="text" disabled="disabled" value="<?php echo $firstName; ?>">
         </div>
 
         <div class="empImage">
-            <label><span>Middle Name</span></label>
+            <label><span><?php echo __('Middle Name'); ?></span></label>
             <input id="first_name" type="text" disabled="disabled" value="<?php echo $middleName; ?>">
         </div>
 
         <div class="empImage">
-            <label><span>Last Name</span></label>
+            <label><span><?php echo __('Last Name'); ?></span></label>
             <input id="first_name" type="text" disabled="disabled" value="<?php echo $lastName; ?>">
         </div>
 
         <div class="empImage">
-            <label><span>Employee Id</span></label>
+            <label><span><?php echo __('Employee Id'); ?></span></label>
             <input id="first_name" type="text" disabled="disabled" value="<?php echo $employeeId; ?>">
         </div>
     </div>
 </div>
 <div class="" id="purgeButton">
-    <input type="submit" id="btnDelete" name="btnDelete" value="Purge" data-toggle="modal"
+    <input type="submit" id="btnDelete" name="btnDelete" value="<?php echo __('Purge'); ?>" data-toggle="modal"
            data-target="#deleteConfModal">
 </div>
 

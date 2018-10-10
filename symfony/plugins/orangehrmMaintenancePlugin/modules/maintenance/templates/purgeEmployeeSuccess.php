@@ -37,7 +37,7 @@ use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/PassWordValidat
                 </fieldset>
                 <div class="input-field col s12 m12 l4">
                     <br>
-                    <input type="submit" value="Verify">
+                    <input type="submit" value=<?php echo __('Verify'); ?>>
                 </div>
             </div>
         </form>

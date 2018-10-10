@@ -29,7 +29,7 @@ class accessEmployeeDataAction extends sfAction
      */
     public function execute($request)
     {
-        $this->header = 'Purge Candidate Records';
+        $this->header = 'Download Personal Data';
 
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
@@ -55,7 +55,7 @@ class accessEmployeeDataAction extends sfAction
             $employeeDataArray = $this->getEmployeeData($data);
             $downloadableForamat = $this->getDownloadFormatStrategy();
             ob_clean();
-            header("Content-Type: text/csv; charset=UTF-8");
+            header("Content-type: application/json; charset=UTF-8");
             header("Pragma:''");
             header("Content-Disposition: attachment; filename=" . $downloadableForamat->getDownloadFileName($data['employee']['empId']));
             echo $downloadableForamat->getFormattedString($employeeDataArray);

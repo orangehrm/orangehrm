@@ -37,7 +37,7 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
             </fieldset>
             <div class="input-field col s12 m12 l4">
                 <br>
-                <input class="search_employee" type="button" value="Search">
+                <input class="search_employee" type="button" value=<?php echo __('Search'); ?>>
             </div>
 
         </div>
@@ -54,7 +54,7 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
         <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
     </div>
     <div class="modal-body">
-        <p><?php echo __('You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone'); ?></p>
+        <p><?php echo __('You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone.'); ?></p>
     </div>
     <div class="modal-footer">
         <input type="button" class="btn" data-dismiss="modal" id="modal_confirm" value="<?php echo __('Purge'); ?>"/>
