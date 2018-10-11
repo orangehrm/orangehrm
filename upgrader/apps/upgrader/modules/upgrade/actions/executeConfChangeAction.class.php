@@ -5,6 +5,8 @@ class executeConfChangeAction extends sfAction {
     private $selfConfigPath;
     private $remortConfigPath;
     private $upgradeSystemConfiguration = null;
+    private $instanceIdentifier = null;
+
     public function preExecute() {
         $this->getUser()->setAttribute('currentScreen','confInfo');
         $this->applicationRootPath = sfConfig::get('sf_root_dir')."/..";
@@ -89,11 +91,11 @@ class executeConfChangeAction extends sfAction {
      */
     public function setInstanceIdentifier() {
         $upgradeSystemConfiguration = $this->getUpgradeSystemConfiguration();
-        if (!$upgradeSystemConfiguration->isSetInstanceIdentifier()) {
+        if (!$upgradeSystemConfiguration->hasSetInstanceIdentifier()) {
             $upgradeSystemConfiguration->setInstanceIdentifier();
-        } else {
-            $_SESSION['defUser']['instanceIdentifier'] = $upgradeSystemConfiguration->getInstanceIdentifier();
         }
+        $this->instanceIdentifier = $upgradeSystemConfiguration->getInstanceIdentifier();
+        $_SESSION['defUser']['instanceIdentifier'] = $this->instanceIdentifier;
     }
 
     /**

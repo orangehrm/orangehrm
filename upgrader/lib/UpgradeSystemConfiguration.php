@@ -232,7 +232,7 @@ class UpgradeSystemConfiguration
      * Check whether the instance identifier exists
      * @return bool
      */
-    public function isSetInstanceIdentifier() {
+    public function hasSetInstanceIdentifier() {
         $instanceIdentifier = $this->getInstanceIdentifier();
 
         if (!is_null($instanceIdentifier)) {

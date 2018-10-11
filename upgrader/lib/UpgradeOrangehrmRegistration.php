@@ -66,11 +66,7 @@ class UpgradeOrangehrmRegistration
      * @return string
      */
     private function getInstanceIdentifier() {
-        if (isset($_SESSION['defUser']['instanceIdentifier'])) {
-            return $_SESSION['defUser']['instanceIdentifier'];
-        }
-        $unencodedIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
-        return base64_encode($unencodedIdentifier);
+        return $_SESSION['defUser']['instanceIdentifier'];
     }
 
     /**
