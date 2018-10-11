@@ -1,0 +1,18 @@
+## Apache 2.2
+
+<FilesMatch "(\.(php))$">
+    Deny from all
+</FilesMatch>
+<Files installerUI.php>
+    Allow from all
+</Files>
+
+
+## Apache 2.4
+
+#<FilesMatch "(\.(php))$">
+#    Require all denied
+#</FilesMatch>
+#<Files installerUI.php>
+#    Require all granted
+#</Files>
