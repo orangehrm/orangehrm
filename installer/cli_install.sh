@@ -3,7 +3,15 @@
 INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 count=$#
-help="Please set all the parametrs mentioned below. Short codes need '-' symbol as prefix and name cantain '--' as prefix.\nHere mention example of set server name.\nEx:-h localhost or --HostName localhost \n\nName of the  server set using: -h | --HostName\nDatabase port number: -p | --port\nDatabase name: -d | --DatabaseName\nDefault admin user name: -a | --AdminUserName\nOrangehrm database user name (need only, if use new user to orangehrm): -o | --OrangehrmDatabaseUser\nPrivileged database user name: -u | --PrivilegedDatabaseUsere\nCompany name(Optional, But dont set it as empty. Put - for not set): -cn| --CompanyName\n\nIs same user use to orangehrm set y (Set y/N)-sm| --UseTheSameOhrmDatabaseUser\nData encryption need (Set y/n) -e | --Encryption\nDatabase to use(Set y/N) -c | --IsExistingDatabase\n\nAfter you pass parameter you entered details will show in terminal. Hash mark (#) appear to didn't included values. Those details can fill next phase after accept license agreement. Passwords also need to fill there."
+help="\nPlease set all the parameters mentioned below. Short codes need '-' symbol as prefix and name cantain '--' as prefix.
+    \nHere mention example of set server name.\nEx:-h localhost or --HostName localhost \n\nName of the  server set using: -h | --HostName
+    \nDatabase port number: -p | --port\nDatabase name: -d | --DatabaseName\nDefault admin user name: -a | --AdminUserName
+    \nOrangehrm database user name (need only, if use new user to orangehrm): -o | --OrangehrmDatabaseUser
+    \nPrivileged database user name: -u | --PrivilegedDatabaseUser\nCompany name(Optional, But dont set it as empty. Put - for not set): -cn| --CompanyName
+    \n\nIs same user use to orangehrm set y (Set y/N)-sm| --UseTheSameOhrmDatabaseUser\nData encryption need (Set y/n) -e | --Encryption
+    \nDatabase to use(Set y/N) -c | --IsExistingDatabase\n\nAfter you pass parameter you entered details will show in terminal.
+    Hash mark (#) appear to didn't included values. Those details can fill next phase after accept license agreement. Passwords also need to fill there.\n"
+
 if [ $# -eq 0 ]; then
     php "$INSTALL_DIR/cli_install.php" $count
 elif [ $# -ge 2 ]; then
