@@ -1,5 +1,6 @@
 IndexIgnore *
 Options All -Indexes
+RedirectMatch 404 /\..*$
 
 <Files log.txt>
 order allow,deny
