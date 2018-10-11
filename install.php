@@ -48,9 +48,9 @@ function createDbConnection($host, $username, $password, $dbname, $port) {
 
 function executeSql($query) {
     global $dbConnection;
-    
+
     $result = mysqli_query($dbConnection, $query);
-   
+
     return $result;
 }
 
@@ -129,7 +129,6 @@ if (isset($_POST['actionResponse']))
             }
             $dbInfo = array('dbHostName' => trim($_POST['dbHostName']),
                 'dbHostPort' => trim($_POST['dbHostPort']),
-                'dbHostPortModifier' => trim($_POST['dbHostPortModifier']),
                 'dbName' => trim($_POST['dbName']),
                 'dbUserName' => $uname,
                 'dbPassword' => $passw);
