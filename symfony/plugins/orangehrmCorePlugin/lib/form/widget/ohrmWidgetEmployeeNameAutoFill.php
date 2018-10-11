@@ -25,38 +25,39 @@
  * @todo Array or ajax switch
  * @todo Validating inside the widget
  */
+class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput
+{
 
-class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
-    
-    
-    
-    public function configure($options = array(), $attributes = array()) {
+
+    public function configure($options = array(), $attributes = array())
+    {
 
         $this->addOption('employeeList', '');
         $this->addOption('jsonList', '');
-        $this->addOption('loadingMethod','');
+        $this->addOption('loadingMethod', '');
         $this->addOption('requiredPermissions', array());
         $this->addOption('typeHint', __('Type for hints') . '...');
-    }    
+    }
 
-    public function render($name, $value = null, $attributes = array(), $errors = array()) {
+    public function render($name, $value = null, $attributes = array(), $errors = array())
+    {
 
-        $empNameValue       = isset($value['empName'])?$value['empName']:'';
-        $empIdValue         = isset($value['empId'])?$value['empId']:'';
+        $empNameValue = isset($value['empName']) ? $value['empName'] : '';
+        $empIdValue = isset($value['empId']) ? $value['empId'] : '';
         $attributes['type'] = 'text';
-        
-        $html           = parent::render($name . '[empName]', $empNameValue, $attributes, $errors);
-        $typeHint       = $this->getOption('typeHint');
-        $hiddenFieldId  = $this->getHiddenFieldId($name);
-        
+
+        $html = parent::render($name . '[empName]', $empNameValue, $attributes, $errors);
+        $typeHint = $this->getOption('typeHint');
+        $hiddenFieldId = $this->getHiddenFieldId($name);
+
         $requiredPermissions = $this->getOption('requiredPermissions');
         if (!empty($requiredPermissions)) {
             $ajaxRequiredPermissions = 'required_permissions=' . json_encode($requiredPermissions);
         } else {
             $ajaxRequiredPermissions = '';
         }
-        
-        $javaScript     = sprintf(<<<EOF
+
+        $javaScript = sprintf(<<<EOF
         <script type="text/javascript">
 
             var employees_%s = %s;
@@ -149,85 +150,95 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                  
         </script>
 EOF
-                        ,
-                        $this->generateId($name),
-                        $this->getEmployeeListAsJson($this->getEmployeeList()),
-                        $this->getHtmlId($name),
-                        $hiddenFieldId,
-                        $typeHint,
-                        $this->getOption('loadingMethod'),
-                        __('Loading'),                
-                        $this->generateId($name),
-                        url_for('pim/getEmployeeListAjax'),
-                        $ajaxRequiredPermissions);
-                        
-        
+            ,
+            $this->generateId($name),
+            $this->getEmployeeListAsJson($this->getEmployeeList()),
+            $this->getHtmlId($name),
+            $hiddenFieldId,
+            $typeHint,
+            $this->getOption('loadingMethod'),
+            __('Loading'),
+            $this->generateId($name),
+            url_for('pim/getEmployeeListAjax'),
+            $ajaxRequiredPermissions);
+
 
         return "\n\n" . $html . "\n\n" . $this->getHiddenFieldHtml($name, $empIdValue) . "\n\n" . $javaScript . "\n\n";
-        
-    }
-    
-    protected function getHiddenFieldHtml($name, $value) {
-        
-        //$hiddenName = substr($name, 0, strlen($name) - 1) . '_id]';
-        $hiddenName = $name . '[empId]';
-        $hiddenId   = $this->getHiddenFieldId($name);
-        
-        return "<input type='hidden' name='$hiddenName' id='$hiddenId' value='" . self::escapeOnce($value) . "' />";
-        
-    }
-    
-    protected function getHiddenFieldId($name) {
-        
-        return $this->generateId($name) . '_empId';
-        
+
     }
 
-    protected function getHtmlId($name) {
-        
+    protected function getHiddenFieldHtml($name, $value)
+    {
+
+        //$hiddenName = substr($name, 0, strlen($name) - 1) . '_id]';
+        $hiddenName = $name . '[empId]';
+        $hiddenId = $this->getHiddenFieldId($name);
+
+        return "<input type='hidden' name='$hiddenName' id='$hiddenId' value='" . self::escapeOnce($value) . "' />";
+
+    }
+
+    protected function getHiddenFieldId($name)
+    {
+
+        return $this->generateId($name) . '_empId';
+
+    }
+
+    protected function getHtmlId($name)
+    {
+
         if (isset($this->attributes['id'])) {
             return $this->attributes['id'];
         }
-        
+
         return $this->generateId($name) . '_empName';
-        
+
     }
-    
-    protected function getEmployeeList() {
-        
+
+    protected function getEmployeeList()
+    {
+
         $employeeList = $this->getOption('employeeList');
         $loadingMethod = $this->getOption('loadingMethod');
         $requiredPermissions = $this->getOption('requiredPermissions');
-        
+
         if (is_array($employeeList) || $employeeList instanceof Doctrine_Collection) {
             return $employeeList;
         }
 
-        if( $loadingMethod != 'ajax'){
-            $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-            $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee', 
-                    $properties, null, null, array(), array(), $requiredPermissions);
-        
+        if ($loadingMethod != 'ajax') {
+            $properties = array("empNumber", "firstName", "middleName", "lastName", "termination_id", "purged_at");
+            $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee',
+                $properties, null, null, array(), array(), $requiredPermissions);
+            $tempEmployeeList = array();
+            foreach ($employeeList as $employee) {
+                if (!$employee['purged_at']) {
+                    array_push($tempEmployeeList, $employee);
+                }
+            }
+            $employeeList = $tempEmployeeList;
             return $employeeList;
-        }else{
+        } else {
             return array();
         }
     }
 
-    protected function getEmployeeListAsJson($employeeList) {
-        
+    protected function getEmployeeListAsJson($employeeList)
+    {
+
         $jsonList = $this->getOption('jsonList');
-        
+
         if (!empty($jsonList)) {
             return $jsonList;
         }
 
-        $jsonArray = array();        
-        
+        $jsonArray = array();
+
         foreach ($employeeList as $employee) {
-            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
+            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'], ' ') . ' ' . $employee['lastName']);
             if ($employee['termination_id']) {
-                $name = $name. ' ('.__('Past Employee') .')';
+                $name = $name . ' (' . __('Past Employee') . ')';
             }
             $jsonArray[$employee['empNumber']] = array('name' => $name, 'id' => $employee['empNumber']);
         }
@@ -235,8 +246,9 @@ EOF
         return json_encode($jsonArray);
 
     }
-    
-    protected function compareByName($employee1, $employee2) {
+
+    protected function compareByName($employee1, $employee2)
+    {
         return strcmp($employee1['name'], $employee2['name']);
     }
 
