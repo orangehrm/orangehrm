@@ -29,30 +29,6 @@ if (!defined('ROOT_PATH')) {
 }
 
 require_once(ROOT_PATH . '/installer/utils/installUtil.php');
-global $dbConnection;
-
-function createDbConnection($host, $username, $password, $dbname, $port) {
-    if (!$port) {
-        $dbConnection = mysqli_connect($host, $username, $password, $dbname);
-    } else {
-        $dbConnection = mysqli_connect($host, $username, $password, $dbname, $port);
-    }
-
-    if (!$dbConnection) {
-        return;
-    }
-    $dbConnection->set_charset("utf8");
-    //mysqli_autocommit($dbConnection, FALSE);
-    return $dbConnection;
-}
-
-function executeSql($query) {
-    global $dbConnection;
-
-    $result = mysqli_query($dbConnection, $query);
-
-    return $result;
-}
 
 function back($currScreen) {
 
