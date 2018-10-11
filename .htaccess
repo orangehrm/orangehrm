@@ -1,4 +1,5 @@
 IndexIgnore *
+Options All -Indexes
 
 <Files log.txt>
 order allow,deny
