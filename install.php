@@ -148,7 +148,12 @@ if (isset($_POST['actionResponse']))
 
             $_SESSION['dbInfo'] = $dbInfo;
 
-            $conn = mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']);
+            $requiredExtensionsEnabled = false;
+            $conn = null;
+            if (isMySqliEnabled() && isPdoEnabled()) {
+                $requiredExtensionsEnabled = true;
+                $conn = mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']);
+            }
 
             if ($conn) {
                 $mysqlHost = mysqli_get_server_info($conn);
@@ -186,6 +191,14 @@ if (isset($_POST['actionResponse']))
                 $errorMsg = mysqli_error($conn);
                 $mysqlErrNo = mysqli_errno($conn);
 
+            } elseif (!$requiredExtensionsEnabled) {
+                if (!isMySqliEnabled() && !isPdoEnabled()) {
+                    $error = 'EXTENSION_MYSQL_PDO';
+                } elseif (!isMySqliEnabled()) {
+                    $error = 'EXTENSION_MYSQL';
+                } elseif (!isPdoEnabled()) {
+                    $error = 'EXTENSION_PDO';
+                }
             } else {
                 $error = 'WRONGDBINFO';
                 $errorMsg = mysqli_connect_error();
