@@ -119,6 +119,7 @@ const MYSQL_ERR_UNKNOWN_PROTOCOL = "Database connection is trying to go through 
 const MYSQL_ERR_CLEANUP_CONN_FAILED = "Cleanup installation is failing due to database connection error.";
 const MYSQL_ERR_CANT_CREATE_DB = "Unable to create database.";
 const MYSQL_ERR_CANT_CONNECT_TO_DB = "Can't connect to `%s` database.";
+const MYSQL_ERR_EXTENSION_NOT_ENABLED = "Please enable %s in PHP modules to continue with the installation.";
 }
 
 ?>

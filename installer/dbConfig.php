@@ -146,7 +146,14 @@ document.frmInstall.submit();
             echo sprintf(Messages::MYSQL_ERR_DATABASE_EXIST, $dbName);
         } elseif ($error == 'DBUSEREXISTS') {
             echo sprintf(Messages::MYSQL_ERR_DB_USER_EXIST, $dbOHRMUserName);
-        } ?>
+        } elseif ($error == 'EXTENSION_MYSQL_PDO') {
+            echo sprintf(Messages::MYSQL_ERR_EXTENSION_NOT_ENABLED, "`mysqli` and `pdo_mysql`");
+        } elseif ($error == 'EXTENSION_PDO') {
+            echo sprintf(Messages::MYSQL_ERR_EXTENSION_NOT_ENABLED, "`pdo_mysql`");
+        } elseif ($error == 'EXTENSION_MYSQL') {
+            echo sprintf(Messages::MYSQL_ERR_EXTENSION_NOT_ENABLED, "`mysqli`");
+        }
+        ?>
     </font>
 <?php } ?>
 
