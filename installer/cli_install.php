@@ -222,12 +222,11 @@ function setConfiguration($argv,$detailsHandler){
 		$sameOhrmUser  = isUserFillFromBash($argv[10]);
 
 		$companyName  = isUserFillFromBash($argv[11]);
-		$SocketOrPort = isUserFillFromBash($argv[12]);
 
 		$adminEmployeeFirstName = "";
 		$adminEmployeeLastName = "";
 
-		$detailsHandler->setConfigurationFromParameter($dbHostName, $dbHostPortID, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $SocketOrPort, $companyName, $adminEmployeeFirstName, $adminEmployeeLastName);
+		$detailsHandler->setConfigurationFromParameter($dbHostName, $dbHostPortID, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $companyName, $adminEmployeeFirstName, $adminEmployeeLastName);
 }
 
 function sendInstallationStatusAsSuccess() {

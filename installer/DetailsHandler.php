@@ -51,7 +51,7 @@ class DetailsHandler
         $configurationDataSet = $this->getConfigIni();
 
         $dbHostName = $configurationDataSet["HostName"];
-        $dbHostPort = $configurationDataSet["HostPortOrSocket"];
+        $dbHostPort = $configurationDataSet["HostPort"];
         $dbName = $configurationDataSet["DatabaseName"];
 
         $adminUserName = $configurationDataSet["AdminUserName"];
@@ -70,13 +70,11 @@ class DetailsHandler
         $dbCreateMethod = $configurationDataSet["IsExistingDatabase"]; //existing/new
         $sameOhrmUser = $configurationDataSet["UseTheSameOhrmDatabaseUser"];
 
-        $isPort = $configurationDataSet["IsPort"];
-
         $organizationName = $configurationDataSet["organizationName"];
         $adminEmployeeFirstName = $configurationDataSet["adminEmployeeFirstName"];
         $adminEmployeeLastName = $configurationDataSet["adminEmployeeLastName"];
 
-        $this->setConfigurationFromParameter($dbHostName, $dbHostPort, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName);
+        $this->setConfigurationFromParameter($dbHostName, $dbHostPort, $dbName, $adminUserName, $adminPassword, $dbOHRMUserName, $dbOHRMPassword, $dbUserName, $dbPassword, $databaseRootPassword, $encryption, $dbCreateMethod, $sameOhrmUser, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName);
     }
 
     /**
@@ -184,7 +182,7 @@ class DetailsHandler
         if ($_SESSION['dbInfo']['dbHostPort']) {
             return $_SESSION['dbInfo']['dbHostPort'];
         }
-        return $configurationDataSet["HostPortOrSocket"];
+        return $configurationDataSet["HostPort"];
     }
 
     /**
@@ -270,12 +268,10 @@ class DetailsHandler
      *details assign from with config.ini file or user inputs.
      *$_SESSION['dbInfo'] validation part will do in BasicConfiguration.php file , BasicConfiguration class->dbConfigurationCheck()
      */
-    public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $databaseName, $adminUserName, $adminPassword, $orangehrmDatabaseUser, $orangehrmDatabasePassword, $privilegedDatabaseUser, $privilegedDatabasePassword, $databaseRootPassword, $encryption, $DatabaseToUse, $sameOhrmUser, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName)
+    public function setConfigurationFromParameter($hostName, $hostPort, $databaseName, $adminUserName, $adminPassword, $orangehrmDatabaseUser, $orangehrmDatabasePassword, $privilegedDatabaseUser, $privilegedDatabasePassword, $databaseRootPassword, $encryption, $DatabaseToUse, $sameOhrmUser, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName)
     {
         $_SESSION['dbInfo']['dbHostName'] = $this->isFillInConfig($hostName, "Host name ");
-        $_SESSION['dbInfo']['dbHostPort'] = $this->isFillInConfig($hostPortOrSocket, "Port or Socket id ");
-        //port or socket - related to boolean configuration
-        $_SESSION['dbInfo']['dbHostPortModifier'] = $this->IsSocketOrPort($isPort);
+        $_SESSION['dbInfo']['dbHostPort'] = $this->isFillInConfig($hostPort, "Port number ");
         $_SESSION['dbInfo']['dbName'] = $this->isFillInConfig($databaseName, "Database name ");
 
 
@@ -492,18 +488,6 @@ class DetailsHandler
         $handle = fopen("php://stdin", "r");
         $line = fgets($handle);
         return trim($line);
-    }
-
-    function IsSocketOrPort($socketOrPort, $message = ": ")
-    {
-        $socketOrPort = trim($socketOrPort);
-        if (!isset($socketOrPort) || $socketOrPort === '') {
-            $socketOrPort = $this->takeUserInput("Are you using port? Type y/N" . $message);
-            $socketOrPort = strtolower(trim($socketOrPort));
-            return ($socketOrPort == 'y') ? "port" : ($socketOrPort == 'n' ? 'socket' : $this->IsSocketOrPort(null, " (previous insert invalid): "));
-        }
-        $socketOrPort = strtolower($socketOrPort);
-        return ($socketOrPort == 'y') ? 'port' : ($socketOrPort == 'n' ? 'socket' : $this->IsSocketOrPort(null));
     }
 
 }

@@ -3,7 +3,15 @@
 INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 count=$#
-help="Please set all the parametrs mentioned below. Short codes need '-' symbol as prefix and name cantain '--' as prefix.\nHere mention example of set server name.\nEx:-h localhost or --HostName localhost \n\nName of the  server set using: -h | --HostName\nIf use port id: -p | --port\nIf socket set it: -s | --socket\nDatabase name: -d | --DatabaseName\nDefault admin user name: -a | --AdminUserName\nOrangehrm database user name (need only, if use new user to orangehrm): -o | --OrangehrmDatabaseUser\nPrivileged database user name: -u | --PrivilegedDatabaseUsere\nCompany name(Optional, But dont set it as empty. Put - for not set): -cn| --CompanyName\n\nIs same user use to orangehrm set y (Set y/N)-sm| --UseTheSameOhrmDatabaseUser\nData encryption need (Set y/n) -e | --Encryption\nDatabase to use(Set y/N) -c | --IsExistingDatabase\nSet database host, planning to use(port is p or socket set s): -sp| --SocketOrPort\n\nAfter you pass parameter you entered details will show in terminal. Hash mark (#) appear to didn't included values. Those details can fill next phase after accept license agreement. Passwords also need to fill there."
+help="\nPlease set all the parameters mentioned below. Short codes need '-' symbol as prefix and name cantain '--' as prefix.
+    \nHere mention example of set server name.\nEx:-h localhost or --HostName localhost \n\nName of the  server set using: -h | --HostName
+    \nDatabase port number: -p | --port\nDatabase name: -d | --DatabaseName\nDefault admin user name: -a | --AdminUserName
+    \nOrangehrm database user name (need only, if use new user to orangehrm): -o | --OrangehrmDatabaseUser
+    \nPrivileged database user name: -u | --PrivilegedDatabaseUser\nCompany name(Optional, But dont set it as empty. Put - for not set): -cn| --CompanyName
+    \n\nIs same user use to orangehrm set y (Set y/N)-sm| --UseTheSameOhrmDatabaseUser\nData encryption need (Set y/n) -e | --Encryption
+    \nDatabase to use(Set y/N) -c | --IsExistingDatabase\n\nAfter you pass parameter you entered details will show in terminal.
+    Hash mark (#) appear to didn't included values. Those details can fill next phase after accept license agreement. Passwords also need to fill there.\n"
+
 if [ $# -eq 0 ]; then
     php "$INSTALL_DIR/cli_install.php" $count
 elif [ $# -ge 2 ]; then
@@ -18,11 +26,7 @@ case $key in
     shift # past argument
     ;;
     -p|--port)
-    dbSocketPort="$2"
-    shift # past argument
-    ;;
-    -s|--socket)
-    dbSocketPort="$2"
+    dbPort="$2"
     shift # past argument
     ;;
     -d|--DatabaseName)
@@ -57,10 +61,6 @@ case $key in
     CompanyName="$2"
     shift # past argument
     ;;
-    -sp|--SocketOrPort)
-    SocketOrPort="$2"
-    shift # past argument
-    ;;
     *)
             # unknown option
     ;;
@@ -73,8 +73,8 @@ if [[ -z "$dbHostName" ]];then
 dbHostName="#"
 fi
 
-if [[ -z "$dbSocketPort" ]];then
-dbSocketPort="#"
+if [[ -z "$dbPort" ]];then
+dbPort="#"
 fi
 
 if [[ -z "$DatabaseName" ]];then
@@ -105,11 +105,6 @@ if [[ -z "$IsExistingDatabase" ]];then
  IsExistingDatabase="#"
 fi
 
-
-if [[ -z "$SocketOrPort" ]];then
- SocketOrPort="#"
-fi
-
 if [[ -z "$CompanyName" ]];then
  CompanyName="#"
 fi
@@ -117,7 +112,7 @@ fi
 echo "---------------------"
 
 echo Host Name  = "${dbHostName}"
-echo Socket or Port     = "${dbSocketPort}"
+echo Database Port     = "${dbPort}"
 echo Database Name   = "${DatabaseName}"
 
 echo Admin User Name  = "${adminUserName}"
@@ -129,11 +124,10 @@ echo Is Existing Database  = "${IsExistingDatabase}"
 echo Use The Same Ohrm Database User     = "${UseTheSameOhrmDatabaseUser}"
 
 echo Company Name = "${CompanyName}"
-echo IS use port = "${SocketOrPort}"
 
 
 
-php "$INSTALL_DIR/cli_install.php" $count $dbHostName $dbSocketPort $DatabaseName $adminUserName $dbOhrmDbUserName $PrivilegedDatabaseUser $Encryption $IsExistingDatabase $UseTheSameOhrmDatabaseUser $CompanyName $SocketOrPort
+php "$INSTALL_DIR/cli_install.php" $count $dbHostName $dbPort $DatabaseName $adminUserName $dbOhrmDbUserName $PrivilegedDatabaseUser $Encryption $IsExistingDatabase $UseTheSameOhrmDatabaseUser $CompanyName
 
 else
 echo -e $help
