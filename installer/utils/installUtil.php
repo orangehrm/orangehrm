@@ -215,4 +215,32 @@ function getSessionCookieParams() {
     );
 }
 
+/**
+ * Check whether PHP extension are enabled
+ * @param $extension
+ * @return bool
+ */
+function isExtensionEnabled($extension) {
+    return extension_loaded($extension);
+}
+
+/**
+ * Return `mysqli` extension availability in PHP environment
+ * @return bool
+ */
+function isMySqliEnabled() {
+	return isExtensionEnabled('mysqli');
+}
+
+/**
+ * Return `PDO` and `pdo_mysql` extensions availability in PHP environment
+ * @return bool
+ */
+function isPdoEnabled() {
+	if (isExtensionEnabled('PDO') && isExtensionEnabled('pdo_mysql')) {
+		return true;
+	}
+	return false;
+}
+
 ?>
