@@ -39,7 +39,7 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
             </fieldset>
             <div class="input-field col s12 m12 l4">
                 <br>
-                <input class="search_employee" type="button" value="Search">
+                <input class="search_employee" type="button" value=<?php echo __('Search'); ?>>
             </div>
         </div>
     </div>
@@ -51,13 +51,13 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
 <div class="modal hide" id="deleteConfModal">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
+        <h3><?php echo __('Purge Employee'); ?></h3>
     </div>
     <div class="modal-body">
-        <p><?php echo __(CommonMessages::DELETE_CONFIRMATION); ?></p>
+        <p><?php echo __('You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone.'); ?></p>
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm" value="<?php echo __('Ok'); ?>"/>
+        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm" value="<?php echo __('Purge'); ?>"/>
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>

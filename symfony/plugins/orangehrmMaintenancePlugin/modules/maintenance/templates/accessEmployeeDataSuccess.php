@@ -23,7 +23,7 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
 <div class="box">
     <?php include_partial('global/flash_messages'); ?>
     <div class="head">
-        <h1><?php echo __('Get All Employee Records'); ?></h1>
+        <h1><?php echo __('Download Personal Data'); ?></h1>
     </div>
 
     <form id="frmAccessEmployeeData" method="post" action="">
@@ -37,7 +37,7 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
             </fieldset>
             <div class="input-field col s12 m12 l4">
                 <br>
-                <input class="search_employee" type="button" value="Search">
+                <input class="search_employee" type="button" value=<?php echo __('Search'); ?>>
             </div>
 
         </div>
@@ -54,13 +54,14 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
         <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
     </div>
     <div class="modal-body">
-        <p>Download Employee Records?</p>
+        <p><?php echo __('Download Employee Records?'); ?></p>
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm" value="<?php echo __('Ok'); ?>"/>
+        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm" value="<?php echo __('Download'); ?>"/>
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>
 <script>
     var ajaxUrl = "<?php echo url_for('maintenance/getEmployeeDataApi'); ?>";
+    var accessData = "<?php echo __('Access Data'); ?>";
 </script>

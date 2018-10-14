@@ -2049,6 +2049,8 @@ class EmployeeDao extends BaseDao {
                 $query .= ' AND ' . $condition;
             }
         }
+        /* deselect purge employees*/
+        $query .=  'AND e.purged_at = null';
 
         /* Group by */
         $query .= ' GROUP BY e.emp_number ';
