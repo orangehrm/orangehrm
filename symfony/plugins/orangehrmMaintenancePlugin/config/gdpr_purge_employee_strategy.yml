@@ -417,6 +417,22 @@ Entities :
           - {field: "leave_type_id" ,class: ''}
           - {field: "date_applied" ,class: ''}
           - {field: "comments" ,class: ''}
+
+  LeaveComment:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: emp_number, join: Leave}
+        parameters:
+          - {field: "comments" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number, join: Leave}
+        parameters:
+          - {field: "created_by_name" ,class: ''}
+          - {field: "created" ,class: ''}
+          - {field: "comments" ,class: ''}
 #Time modul
   AttendanceRecord:
     PurgeStrategy:
