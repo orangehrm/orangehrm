@@ -393,6 +393,8 @@ Entities :
           - {match: emp_number, join: LeaveRequest}
         parameters:
           - {field: "comments" ,class: 'FormatWithPurgeString'}
+          - {field: "created_by_name" ,class: 'FormatWithEmptyString'}
+
     AccessStrategy:
       Basic:
         match_by:
@@ -425,6 +427,7 @@ Entities :
           - {match: emp_number, join: Leave}
         parameters:
           - {field: "comments" ,class: 'FormatWithPurgeString'}
+          - {field: "created_by_name" ,class: 'FormatWithEmptyString'}
     AccessStrategy:
       Basic:
         match_by:
@@ -433,6 +436,25 @@ Entities :
           - {field: "created_by_name" ,class: ''}
           - {field: "created" ,class: ''}
           - {field: "comments" ,class: ''}
+  Leave:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "comments" ,class: 'FormatWithPurgeString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: emp_number}
+        parameters:
+          - {field: "date" ,class: ''}
+          - {field: "length_hours" ,class: ''}
+          - {field: "length_days" ,class: ''}
+          - {field: "comments" ,class: ''}
+          - {field: "start_time" ,class: ''}
+          - {field: "end_time" ,class: ''}
+
 #Time modul
   AttendanceRecord:
     PurgeStrategy:
