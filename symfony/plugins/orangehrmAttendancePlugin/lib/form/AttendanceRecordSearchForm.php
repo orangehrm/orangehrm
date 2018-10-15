@@ -74,7 +74,7 @@ class AttendanceRecordSearchForm extends sfForm {
         $jsonArray[] = array('name' => __('All'), 'id' => '');
         foreach ($employeeList as $employee) {
 
-            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
+            if (!isset($employeeUnique[$employee->getEmpNumber()]) and !$employee->purged_at) {
 
                 $name = $employee->getFullName();
                 $employeeUnique[$employee->getEmpNumber()] = $name;
