@@ -18,24 +18,31 @@
  */
 
 /**
- * Class BasicAccessStrategy
+ * Class DestroyReportToPurgeStrategy
  */
-class BasicAccessStrategy extends AccessStrategy
+class DestroyReportToPurgeStrategy extends PurgeStrategy
 {
     /**
      * @param $employeeNumber
-     * @return array|mixed
+     * @return mixed|void
      * @throws DaoException
      */
-    public function access($employeeNumber)
+    public function purge($employeeNumber)
     {
-        $entitiyAccessData = array();
-        $matchByValues = $this->getMatchByValues($employeeNumber);
-        $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
-        foreach ($accessEntities as $accessEntity) {
-            $data = $this->addRecordsToArray($accessEntity);
-            array_push($entitiyAccessData, $data);
+        $matchByValues = array(
+            'subordinateId' => $employeeNumber
+        );
+        $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
+        foreach ($purgeEntities as $purgeEntity) {
+            $purgeEntity->delete();
         }
-        return $entitiyAccessData;
+
+        $matchByValues = array(
+            'supervisorId' => $employeeNumber
+        );
+        $purgeEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
+        foreach ($purgeEntities as $purgeEntity) {
+            $purgeEntity->delete();
+        }
     }
 }
