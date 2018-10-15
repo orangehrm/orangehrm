@@ -26,8 +26,8 @@ INSERT INTO ohrm_menu_item (menu_title, screen_id, parent_id, level, order_hint,
 
 set @parent_menu_id_level_2:= (SELECT id FROM ohrm_menu_item WHERE menu_title = 'Purge Records');
 INSERT INTO ohrm_menu_item (menu_title, screen_id, parent_id, level, order_hint, url_extras, status) VALUES
-('Purge Employee Records', @purge_employee_screen_id, @parent_menu_id_level_2, 3, '100', null, 1),
-('Purge Candidate Records', @purge_candidate_screen_id, @parent_menu_id_level_2, 3, '200', null, 1);
+('Employee Records', @purge_employee_screen_id, @parent_menu_id_level_2, 3, '100', null, 1),
+('Candidate Records', @purge_candidate_screen_id, @parent_menu_id_level_2, 3, '200', null, 1);
 
 
 -- Task view permissions
