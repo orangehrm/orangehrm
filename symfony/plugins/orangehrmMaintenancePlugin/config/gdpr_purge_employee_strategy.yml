@@ -352,7 +352,7 @@ Entities :
         match_by:
           - {match: employee_number}
         parameters:
-          - {field: "finalComment" ,class: 'FormatWithPurgeString'}
+          - {field: "finalComment" ,class: 'FormatWithEmptyString'}
     AccessStrategy:
       Basic:
         match_by:
@@ -374,7 +374,7 @@ Entities :
         match_by:
           - {match: emp_number,  join: PerformanceTrack}
         parameters:
-          - {field: "comment" ,class: 'FormatWithPurgeString'}
+          - {field: "comment" ,class: 'FormatWithEmptyString'}
     AccessStrategy:
       Basic:
         match_by:
