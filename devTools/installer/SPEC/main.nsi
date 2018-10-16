@@ -73,7 +73,6 @@
   !include "Include\WriteToFile.nsh"
 
   ; InstallOptions
-    !include "Registration.nsdinc"
   ReserveFile "AdminUserDetails.ini"
   ReserveFile "ContactDetails.ini"
   #ReserveFile "CheckApacheAlreadyInstalled.ini"
@@ -143,7 +142,6 @@
   
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
-  Page custom fnc_Registration_Show Func_save_data
   !define MUI_FINISHPAGE_NOAUTOCLOSE
   !define MUI_FINISHPAGE_RUN
   !define MUI_FINISHPAGE_RUN_NOTCHECKED
