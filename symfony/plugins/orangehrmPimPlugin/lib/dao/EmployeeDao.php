@@ -944,6 +944,8 @@ class EmployeeDao extends BaseDao {
                 if ($excludeTerminatedEmployees) {
                     $q->andwhere("e.termination_id IS NULL");
                 }
+            /** not include purge employees**/
+            $q->andWhere("e.purged_at IS NULL");
                 
                 if ($orderField && $orderBy) {
                     $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
