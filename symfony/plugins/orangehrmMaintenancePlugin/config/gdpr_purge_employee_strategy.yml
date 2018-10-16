@@ -368,6 +368,22 @@ Entities :
           - {field: "finalComment" ,class: ''}
           - {field: "finalRate" ,class: ''}
 
+  ReviewerRating:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: employee_number,  join: performanceReview}
+        parameters:
+          - {field: "comment" ,class: 'FormatWithEmptyString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: employee_number, join: performanceReview}
+        parameters:
+          - {field: "kpiId" ,class: 'FormatWithKPIId'}
+          - {field: "rating" ,class: ''}
+          - {field: "comment" ,class: ''}
+
   PerformanceTrackerLog:
     PurgeStrategy:
       ReplaceWithValue:
