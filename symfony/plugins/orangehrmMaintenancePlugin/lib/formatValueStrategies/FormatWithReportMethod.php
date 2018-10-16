@@ -18,24 +18,31 @@
  */
 
 /**
- * Class BasicAccessStrategy
+ * Class FormatWithReportMethod
  */
-class BasicAccessStrategy extends AccessStrategy
+class FormatWithReportMethod implements ValueFormatter
 {
+    private $reportingMethodConfigurationService = null;
+
     /**
-     * @param $employeeNumber
-     * @return array|mixed
-     * @throws DaoException
+     * @param $entityValue
+     * @return mixed|string
      */
-    public function access($employeeNumber)
+    public function getFormattedValue($entityValue)
     {
-        $entitiyAccessData = array();
-        $matchByValues = $this->getMatchByValues($employeeNumber);
-        $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
-        foreach ($accessEntities as $accessEntity) {
-            $data = $this->addRecordsToArray($accessEntity);
-            array_push($entitiyAccessData, $data);
+        return $this->getReportingMethodConfigurationService()->getReportingMethod($entityValue)->getName();
+    }
+
+    /**
+     * @return null|ReportingMethodConfigurationService
+     */
+    public function getReportingMethodConfigurationService()
+    {
+
+        if (!($this->reportingMethodConfigurationService instanceof ReportingMethodConfigurationService)) {
+            $this->reportingMethodConfigurationService = new ReportingMethodConfigurationService();
         }
-        return $entitiyAccessData;
+
+        return $this->reportingMethodConfigurationService;
     }
 }

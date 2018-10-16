@@ -29,6 +29,8 @@ class accessEmployeeDataAction extends sfAction
      */
     public function execute($request)
     {
+        $this->header = 'Download Personal Data';
+
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
 
@@ -42,18 +44,17 @@ class accessEmployeeDataAction extends sfAction
         } elseif ($requestmethod == 'POST' and $checkIfReqestToAuthenticate) {
             $userId = sfContext::getInstance()->getUser()->getAttribute('auth.userId');
             if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
-                $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
                 $this->accsessAllDataForm = new AccsessEmployeeDataForm();
             } else {
                 $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
                 $this->setTemplate('purgeEmployee', 'maintenance');
-                $this->getUser()->setFlash('warning', __(CommonMessages::CREDENTIALS_REQUIRED));
+                $this->getUser()->setFlash('warning', __(CommonMessages::INCORRECT_PASSWORD));
             }
         } elseif ($requestmethod == 'POST' and !$checkIfReqestToAuthenticate) {
             $employeeDataArray = $this->getEmployeeData($data);
             $downloadableForamat = $this->getDownloadFormatStrategy();
             ob_clean();
-            header("Content-Type: text/csv; charset=UTF-8");
+            header("Content-type: application/json; charset=UTF-8");
             header("Pragma:''");
             header("Content-Disposition: attachment; filename=" . $downloadableForamat->getDownloadFileName($data['employee']['empId']));
             echo $downloadableForamat->getFormattedString($employeeDataArray);

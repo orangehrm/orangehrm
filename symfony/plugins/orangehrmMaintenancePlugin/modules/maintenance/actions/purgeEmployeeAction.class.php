@@ -33,6 +33,7 @@ class purgeEmployeeAction extends sfAction
      */
     public function execute($request)
     {
+        $this->header = 'Purge Employee Records';
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
 
@@ -43,12 +44,11 @@ class purgeEmployeeAction extends sfAction
         if ($requestmethod === 'POST' && $checkIfReqestToAuthenticate) {
             $userId = sfContext::getInstance()->getUser()->getAttribute('auth.userId');
             if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
-                $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
                 $this->setTemplate('purgeAllRecords', 'maintenance');
                 $this->purgeform = new PurgeEmployeeForm();
             } else {
                 $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
-                $this->getUser()->setFlash('warning', __(CommonMessages::CREDENTIALS_REQUIRED));
+                $this->getUser()->setFlash('warning', __(CommonMessages::INCORRECT_PASSWORD));
             }
         } elseif ($requestmethod === 'GET') {
             $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
@@ -113,7 +113,7 @@ class purgeEmployeeAction extends sfAction
                 $this->purgeform = new PurgeEmployeeForm();
             } else {
                 $this->getMaintenanceManager()->purgeEmployeeData($empNumber);
-                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                $this->getUser()->setFlash('success', __(TopLevelMessages::PURGE_SUCCESS));
             }
         } catch (Exception $e) {
             $this->getUser()->setFlash('warning', __(TopLevelMessages::DELETE_FAILURE));

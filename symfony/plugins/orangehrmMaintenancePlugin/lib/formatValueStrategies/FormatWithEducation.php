@@ -22,7 +22,7 @@
  */
 class FormatWithEducation implements ValueFormatter
 {
-    private $educationService;
+    private $educationService = null;
 
     /**
      * @param $entityValue

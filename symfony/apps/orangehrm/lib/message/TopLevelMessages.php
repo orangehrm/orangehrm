@@ -17,6 +17,7 @@ class TopLevelMessages {
     const VALIDATION_FAILED = "Validation Failed";
     const ACCESS_EMPLOYEE_DATA_FAILED  = "Access Employee Data Failed";
     const PURGE_CANDIDATE_FAILED = "Purge Candidate Data Failed";
+    const PURGE_SUCCESS = "Successfully Purged";
 
 }
 

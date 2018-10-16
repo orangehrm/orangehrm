@@ -52,7 +52,7 @@ class PurgeAuthenticateForm extends sfForm
     {
         $requiredMarker = ' <em>*</em>';
         $lableList = array();
-        $lableList['confirm_password'] = __('Password') . $requiredMarker;
+        $lableList['confirm_password'] = __('Verify Password') . $requiredMarker;
         return $lableList;
     }
 
