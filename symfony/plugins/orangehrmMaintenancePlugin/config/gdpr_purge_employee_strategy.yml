@@ -384,6 +384,22 @@ Entities :
           - {field: "rating" ,class: ''}
           - {field: "comment" ,class: ''}
 
+  Reviewer:
+    PurgeStrategy:
+      ReplaceWithValue:
+        match_by:
+          - {match: t.employee_number, join: review}
+        parameters:
+          - {field: "comment" ,class: 'FormatWithEmptyString'}
+    AccessStrategy:
+      Basic:
+        match_by:
+          - {match: t.employee_number, join: review}
+        parameters:
+          - {field: "employeeNumber" ,class: ''}
+          - {field: "completedDate" ,class: ''}
+          - {field: "comment" ,class: ''}
+
   PerformanceTrackerLog:
     PurgeStrategy:
       ReplaceWithValue:
