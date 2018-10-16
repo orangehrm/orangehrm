@@ -7,7 +7,9 @@ $files = array(
     'devTools/installer/SPEC/main.nsi',
     'lib/confs/Conf.php-distribution',
     'lib/confs/sysConf.php',
-    'installer/guide/index.js'
+    'installer/guide/index.js',
+    'devTools/installer/SOURCE/content/orangehrm2/lib/confs/Conf.php',
+    'devTools/installer/SOURCE/content/start.vbs'
 );
 
 if ($argc != 3) {
