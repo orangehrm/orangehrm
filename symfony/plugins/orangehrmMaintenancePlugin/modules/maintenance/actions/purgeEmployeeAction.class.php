@@ -43,7 +43,6 @@ class purgeEmployeeAction extends sfAction
         if ($requestmethod === 'POST' && $checkIfReqestToAuthenticate) {
             $userId = sfContext::getInstance()->getUser()->getAttribute('auth.userId');
             if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
-                $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
                 $this->setTemplate('purgeAllRecords', 'maintenance');
                 $this->purgeform = new PurgeEmployeeForm();
             } else {
