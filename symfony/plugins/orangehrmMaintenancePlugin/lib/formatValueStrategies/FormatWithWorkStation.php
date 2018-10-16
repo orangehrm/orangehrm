@@ -18,24 +18,31 @@
  */
 
 /**
- * Class BasicAccessStrategy
+ * Class FormatWithWorkStation
  */
-class BasicAccessStrategy extends AccessStrategy
+class FormatWithWorkStation implements ValueFormatter
 {
+    private $companyStructureService = null;
+
     /**
-     * @param $employeeNumber
-     * @return array|mixed
-     * @throws DaoException
+     * @param $entityValue
+     * @return mixed|string
      */
-    public function access($employeeNumber)
+    public function getFormattedValue($entityValue)
     {
-        $entitiyAccessData = array();
-        $matchByValues = $this->getMatchByValues($employeeNumber);
-        $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
-        foreach ($accessEntities as $accessEntity) {
-            $data = $this->addRecordsToArray($accessEntity);
-            array_push($entitiyAccessData, $data);
+        $value = $this->getCompanyStructureService()->getSubunitById($entityValue)->getName();
+        return $value;
+    }
+
+    /**
+     * @return CompanyStructureService|null
+     */
+    public function getCompanyStructureService()
+    {
+        if (is_null($this->companyStructureService)) {
+            $this->companyStructureService = new CompanyStructureService();
+            $this->companyStructureService->setCompanyStructureDao(new CompanyStructureDao());
         }
-        return $entitiyAccessData;
+        return $this->companyStructureService;
     }
 }

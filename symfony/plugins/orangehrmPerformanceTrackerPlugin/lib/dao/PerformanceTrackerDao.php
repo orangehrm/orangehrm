@@ -135,6 +135,7 @@ class PerformanceTrackerDao extends BaseDao {
                     ->from('PerformanceTrack pt')
                     ->leftJoin('pt.Employee e')
                     ->where('pt.status=?', PerformanceTrack::STATUS_ACTIVE)
+                    ->andWhere('e.purged_at IS NULL')
                     ->orderBy('e.firstName ASC');
             $q->offset($offset);
 

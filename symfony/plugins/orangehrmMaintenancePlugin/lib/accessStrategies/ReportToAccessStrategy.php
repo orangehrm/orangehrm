@@ -18,9 +18,9 @@
  */
 
 /**
- * Class BasicAccessStrategy
+ * Class ReportToAccessStrategy
  */
-class BasicAccessStrategy extends AccessStrategy
+class ReportToAccessStrategy extends AccessStrategy
 {
     /**
      * @param $employeeNumber
@@ -30,7 +30,18 @@ class BasicAccessStrategy extends AccessStrategy
     public function access($employeeNumber)
     {
         $entitiyAccessData = array();
-        $matchByValues = $this->getMatchByValues($employeeNumber);
+        $matchByValues = $matchByValues = array(
+            'subordinateId' => $employeeNumber
+        );
+        $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
+        foreach ($accessEntities as $accessEntity) {
+            $data = $this->addRecordsToArray($accessEntity);
+            array_push($entitiyAccessData, $data);
+        }
+
+        $matchByValues = array(
+            'supervisorId' => $employeeNumber
+        );
         $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
         foreach ($accessEntities as $accessEntity) {
             $data = $this->addRecordsToArray($accessEntity);
