@@ -115,7 +115,7 @@
 
 
             <li>
-                <?php echo $form['comment']->renderLabel(__('Consent to keep data')); ?>
+                <?php echo $form['consentToKeepData']->renderLabel(__('Consent to keep data')); ?>
                 <?php echo $form['consentToKeepData']->render(array("class" => "checkbox")); ?>
             </li>
 

@@ -164,6 +164,10 @@ foreach ($jobVacancyList as $vacancy) {
                         <?php echo $form['appliedDate']->renderLabel(__('Date of Application'), array("class " => "appDate")); ?>
                         <?php echo $form['appliedDate']->render(array("class" => "formDateInput")); ?>
                     </li>
+                    <li>
+                        <?php echo $form['consentToKeepData']->renderLabel(__('Consent to keep data')); ?>
+                        <?php echo $form['consentToKeepData']->render(array("class" => "checkbox")); ?>
+                    </li>
                     <li class="required new">
                         <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
                     </li>

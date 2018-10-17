@@ -233,6 +233,7 @@ class CandidateDao extends BaseDao {
                     ->set('middleName', '?', $candidate->middleName)
                     ->set('dateOfApplication', '?', $candidate->dateOfApplication)
                     ->set('comment', '?', $candidate->comment)
+                    ->set('consentToKeepData', '?', $candidate->consentToKeepData)
                     ->where('id = ?', $candidate->id);
 
             return $q->execute();
