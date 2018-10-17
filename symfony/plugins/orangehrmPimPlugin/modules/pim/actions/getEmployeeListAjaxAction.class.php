@@ -23,31 +23,35 @@
  *
  * @author samantha
  */
-class getEmployeeListAjaxAction  extends sfAction{
-    
-    	/**
-	 * get Red hat location by country
-	 * 
-	 */
-	public function execute($request){
+class getEmployeeListAjaxAction extends sfAction
+{
+
+    /**
+     * @param sfRequest $request
+     * @return mixed|string
+     */
+    public function execute($request)
+    {
 
         $jsonArray = array();
-        
+
         $requiredPermissions = $request->getParameter('required_permissions', array());
         if (!empty($requiredPermissions)) {
             $requiredPermissions = json_decode($requiredPermissions);
         }
 
-        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-        $employeeNameList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee', 
-                $properties, null, null, array(), array(), $requiredPermissions);
-        
+        $properties = array("empNumber", "firstName", "middleName", "lastName", "termination_id", "purged_at");
+        $employeeNameList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee',
+            $properties, null, null, array(), array(), $requiredPermissions);
+
         foreach ($employeeNameList as $id => $attributes) {
-            $name = trim(trim($attributes['firstName'] . ' ' . $attributes['middleName'],' ') . ' ' . $attributes['lastName']);
+            $name = trim(trim($attributes['firstName'] . ' ' . $attributes['middleName'], ' ') . ' ' . $attributes['lastName']);
             if ($attributes['termination_id']) {
-                $name = $name. ' ('.__('Past Employee') .')';
+                $name = $name . ' (' . __('Past Employee') . ')';
             }
-            $jsonArray[$attributes['empNumber']] = array('name' => $name, 'id' => $attributes['empNumber']);
+            if (!$attributes['purged_at']) {
+                $jsonArray[$attributes['empNumber']] = array('name' => $name, 'id' => $attributes['empNumber']);
+            }
         }
         usort($jsonArray, array($this, 'compareByName'));
         $jsonString = json_encode($jsonArray);
@@ -55,9 +59,10 @@ class getEmployeeListAjaxAction  extends sfAction{
         echo $jsonString;
         return sfView::NONE;
 
-	}
-    
-    protected function compareByName($employee1, $employee2) {
+    }
+
+    protected function compareByName($employee1, $employee2)
+    {
         return strcmp($employee1['name'], $employee2['name']);
     }
 }
