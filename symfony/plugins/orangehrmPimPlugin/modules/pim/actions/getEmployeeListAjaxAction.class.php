@@ -24,11 +24,11 @@
  * @author samantha
  */
 class getEmployeeListAjaxAction  extends sfAction{
-    
-    	/**
-	 * get Red hat location by country
-	 * 
-	 */
+
+    /**
+     * @param sfRequest $request
+     * @return mixed|string
+     */
 	public function execute($request){
 
         $jsonArray = array();
