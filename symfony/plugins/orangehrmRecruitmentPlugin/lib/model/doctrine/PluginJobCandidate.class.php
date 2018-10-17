@@ -12,5 +12,15 @@
  */
 abstract class PluginJobCandidate extends BaseJobCandidate
 {
+    const NO_STATUS = "NO STATUS DETECTED";
 
+    public function getCurrentStatus()
+    {
+        $jobCandidateVacancy = $this->getJobCandidateVacancy()->getFirst();
+        if ($jobCandidateVacancy instanceof JobCandidateVacancy) {
+            return $jobCandidateVacancy->getStatus();
+        } else {
+            return self::NO_STATUS;
+        }
+    }
 }

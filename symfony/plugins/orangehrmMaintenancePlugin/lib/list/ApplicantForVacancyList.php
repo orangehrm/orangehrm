@@ -33,7 +33,7 @@ class ApplicantForVacancyList extends ohrmListConfigurationFactory
             'name' => 'Status',
             'width' => '33%',
             'elementType' => 'label',
-            'elementProperty' => array('getter' => 'getStatus'),
+            'elementProperty' => array('getter' => 'getCurrentStatus'),
         ));
         $this->headers = array($header1, $header2, $header3);
     }
