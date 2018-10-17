@@ -156,4 +156,26 @@ abstract class AccessStrategy
         $this->getRealValueClass = new $aceessClassName();
         return $this->getRealValueClass->getFormattedValue($currentValue);
     }
+
+    /**
+     * @param $accessEntity
+     * @return array
+     */
+    public function addRecordsToArray($accessEntity)
+    {
+
+        $parameters = $this->getParameters();
+        $data = array();
+        foreach ($parameters as $field) {
+            $columnName = $field['field'];
+            if ($accessEntity->$columnName) {
+                $value = $accessEntity->$columnName;
+                if ($field['class']) {
+                    $value = $this->getFormattedValue($field['class'], $value);
+                }
+                $data[$columnName] = $value;
+            }
+        }
+        return $data;
+    }
 }

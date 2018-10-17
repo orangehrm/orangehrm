@@ -18,24 +18,31 @@
  */
 
 /**
- * Class BasicAccessStrategy
+ * Class FormatWithJobCategory
  */
-class BasicAccessStrategy extends AccessStrategy
+class FormatWithJobCategory implements ValueFormatter
 {
+    private $jobCatService = null;
+
     /**
-     * @param $employeeNumber
-     * @return array|mixed
-     * @throws DaoException
+     * @param $entityValue
+     * @return mixed
      */
-    public function access($employeeNumber)
+    public function getFormattedValue($entityValue)
     {
-        $entitiyAccessData = array();
-        $matchByValues = $this->getMatchByValues($employeeNumber);
-        $accessEntities = $this->getEntityRecords($matchByValues, $this->getEntityClassName());
-        foreach ($accessEntities as $accessEntity) {
-            $data = $this->addRecordsToArray($accessEntity);
-            array_push($entitiyAccessData, $data);
+        $value = $this->getJobCategoryService()->getJobCategoryById($entityValue)->getName();
+        return $value;
+    }
+
+    /**
+     * @return JobCategoryService|null
+     */
+    public function getJobCategoryService()
+    {
+        if (is_null($this->jobCatService)) {
+            $this->jobCatService = new JobCategoryService();
+            $this->jobCatService->setJobCategoryDao(new JobCategoryDao());
         }
-        return $entitiyAccessData;
+        return $this->jobCatService;
     }
 }

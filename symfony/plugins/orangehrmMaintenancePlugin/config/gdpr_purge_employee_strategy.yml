@@ -57,6 +57,7 @@ Entities :
           - {field: "firstName" ,class: ''}
           - {field: "lastName" ,class: ''}
           - {field: "middleName" ,class: ''}
+          - {field: "employeeId" ,class: ''}
           - {field: "nickName" ,class: ''}
           - {field: "smoker" ,class: 'FormatWithSmoker'}
           - {field: "emp_gender" ,class: 'FormatWithGender'}
@@ -70,7 +71,7 @@ Entities :
           - {field: "militaryService" ,class: ''}
           - {field: "emp_status" ,class: ''}
           - {field: "job_title_code" ,class: 'FormatWithJobTitle'}
-          - {field: "work_station" ,class: ''}
+          - {field: "work_station" ,class: 'FormatWithWorkStation'}
           - {field: "street1" ,class: ''}
           - {field: "street2" ,class: ''}
           - {field: "city" ,class: ''}
@@ -94,7 +95,7 @@ Entities :
           - {field: "custom9" ,class: ''}
           - {field: "custom10" ,class: ''}
           - {field: "purged_at" ,class: ''}
-          - {field: "eeo_cat_code" ,class: ''}
+          - {field: "eeo_cat_code" ,class: 'FormatWithJobCategory'}
           - {field: "joined_date" ,class: ''}
 
   EmpPicture:
@@ -345,6 +346,20 @@ Entities :
           - {field: "user_name" ,class: ''}
           - {field: "date_entered" ,class: ''}
           - {field: "date_modified" ,class: ''}
+
+  ReportTo:
+    PurgeStrategy:
+      DestroyReportTo:
+        match_by:
+          - {match: THIS IS A EXCEPTION}
+    AccessStrategy:
+      ReportTo:
+        match_by:
+          - {match: THIS IS A EXCEPTION}
+        parameters:
+          - {field: "supervisorId" ,class: 'FormatWithEmployeeName'}
+          - {field: "subordinateId" ,class: 'FormatWithEmployeeName'}
+          - {field: "reportingMethodId" ,class: 'FormatWithReportMethod'}
 
   PerformanceReview:
     PurgeStrategy:
