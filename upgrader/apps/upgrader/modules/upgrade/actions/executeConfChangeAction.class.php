@@ -4,6 +4,9 @@ class executeConfChangeAction extends sfAction {
     
     private $selfConfigPath;
     private $remortConfigPath;
+    private $upgradeSystemConfiguration = null;
+    private $instanceIdentifier = null;
+
     public function preExecute() {
         $this->getUser()->setAttribute('currentScreen','confInfo');
         $this->applicationRootPath = sfConfig::get('sf_root_dir')."/..";
@@ -61,7 +64,7 @@ class executeConfChangeAction extends sfAction {
                     $date = gmdate("Y-m-d H:i:s", time());
                     $result = $upgraderUtility->insertUpgradeHistory($startVersion, $endVersion, $startIncrement, $endIncrement, $date);
 
-                    $upgradeSystemConfiguration = new UpgradeSystemConfiguration();
+                    $upgradeSystemConfiguration = $this->getUpgradeSystemConfiguration();
 
                     $_SESSION['defUser']['organizationName'] = $upgradeSystemConfiguration->getOrganizationName();
                     $_SESSION['defUser']['organizationEmailAddress'] = $upgradeSystemConfiguration->getAdminEmail();
@@ -73,13 +76,36 @@ class executeConfChangeAction extends sfAction {
                     $_SESSION['defUser']['language'] = $upgradeSystemConfiguration->getLanguage();
                     $_SESSION['defUser']['country'] = $upgradeSystemConfiguration->getCountry();
                     $_SESSION['defUser']['randomNumber'] = rand(1,100);
-                    $_SESSION['defUser']['type'] = 0;
-                    $upgradeSystemConfiguration->setInstanceIdentifier();
+                    $_SESSION['defUser']['type'] = 4;
+                    $this->setInstanceIdentifier();
 
                     $upgradeSystemRegistration = new UpgradeOrangehrmRegistration();
                     $upgradeSystemRegistration->sendRegistrationData();
                 }
             }
         }
+    }
+
+    /**
+     * Set instance identifier to the database if not exist instance identifier
+     */
+    public function setInstanceIdentifier() {
+        $upgradeSystemConfiguration = $this->getUpgradeSystemConfiguration();
+        if (!$upgradeSystemConfiguration->hasSetInstanceIdentifier()) {
+            $upgradeSystemConfiguration->setInstanceIdentifier();
+        }
+        $this->instanceIdentifier = $upgradeSystemConfiguration->getInstanceIdentifier();
+        $_SESSION['defUser']['instanceIdentifier'] = $this->instanceIdentifier;
+    }
+
+    /**
+     * Return instanceof UpgradeSystemConfiguration class
+     * @return null|UpgradeSystemConfiguration
+     */
+    public function getUpgradeSystemConfiguration() {
+        if (!($this->upgradeSystemConfiguration instanceof UpgradeSystemConfiguration)) {
+            $this->upgradeSystemConfiguration = new UpgradeSystemConfiguration();
+        }
+        return $this->upgradeSystemConfiguration;
     }
 }
