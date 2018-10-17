@@ -44,7 +44,6 @@ class accessEmployeeDataAction extends sfAction
         } elseif ($requestmethod == 'POST' and $checkIfReqestToAuthenticate) {
             $userId = sfContext::getInstance()->getUser()->getAttribute('auth.userId');
             if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
-                $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
                 $this->accsessAllDataForm = new AccsessEmployeeDataForm();
             } else {
                 $this->purgeAuthenticateForm = new PurgeAuthenticateForm();

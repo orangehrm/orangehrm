@@ -49,7 +49,6 @@ class purgeCandidateDataAction extends sfAction
         } elseif ($requestmethod == 'POST' and $checkIfReqestToAuthenticate) {
             $userId = sfContext::getInstance()->getUser()->getAttribute('auth.userId');
             if ($this->getSystemUserService()->isCurrentPassword($userId, $data['confirm_password'])) {
-                $this->getUser()->setFlash('success', __(CommonMessages::CREDENTIALS_VALID));
                 $this->purgeCandidateForm = new PurgeCandidateForm();
             } else {
                 $this->purgeAuthenticateForm = new PurgeAuthenticateForm();
