@@ -77,7 +77,10 @@
                         <?php echo $form['directory']->renderLabel(__('Enable Directory module')); ?>
                         <?php echo $form['directory']->render(); ?>
                     </li>
-                    
+                    <li class="checkbox">
+                        <?php echo $form['maintenance']->renderLabel(__('Enable Maintenance module')); ?>
+                        <?php echo $form['maintenance']->render(); ?>
+                    </li>
                     <li class="required">
                         <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
                     </li>
