@@ -2835,7 +2835,6 @@ INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
 ('authentication.enforce_password_strength', 'on'),
 ('authentication.default_required_password_strength', 'medium');
 
-
 -- Maintenance module Sql querise.
 INSERT INTO ohrm_module (name, status) VALUES
 ('maintenance', '1');
