@@ -93,7 +93,6 @@ document.frmInstall.submit();
         $dbHostName = $_SESSION['dbInfo']['dbHostName'];
         $dbUserName = $_SESSION['dbInfo']['dbUserName'];
         $dbHostPort = $_SESSION['dbInfo']['dbHostPort'];
-        $dbOHRMUserName = $_SESSION['dbInfo']['dbOHRMUserName'];
 
         if ($error == 'WRONGDBINFO') {
             $msg = '';
@@ -130,6 +129,7 @@ document.frmInstall.submit();
         } elseif ($error == 'DBEXISTS') {
             echo sprintf(Messages::MYSQL_ERR_DATABASE_EXIST, $dbName);
         } elseif ($error == 'DBUSEREXISTS') {
+            $dbOHRMUserName = $_SESSION['dbInfo']['dbOHRMUserName'];
             echo sprintf(Messages::MYSQL_ERR_DB_USER_EXIST, $dbOHRMUserName);
         } elseif ($error == 'EXTENSION_MYSQL_PDO') {
             echo sprintf(Messages::MYSQL_ERR_EXTENSION_NOT_ENABLED, "`mysqli` and `pdo_mysql`");

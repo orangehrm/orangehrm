@@ -39,8 +39,10 @@ function confirm() {
          <p>
              <font color="Red">
                  <?php
-                 $error = str_replace("\n", "<br>", $error);
-                 echo isset($error) ? $error : ''
+                 if (isset($error)) {
+                     $error = str_replace("\n", "<br>", $error);
+                     echo isset($error) ? $error : '';
+                 }
                  ?>
              </font>
          </p>
