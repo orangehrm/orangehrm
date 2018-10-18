@@ -944,6 +944,8 @@ class EmployeeDao extends BaseDao {
                 if ($excludeTerminatedEmployees) {
                     $q->andwhere("e.termination_id IS NULL");
                 }
+            /** not include purge employees**/
+            $q->andWhere("e.purged_at IS NULL");
                 
                 if ($orderField && $orderBy) {
                     $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
@@ -2037,6 +2039,9 @@ class EmployeeDao extends BaseDao {
         if ($searchByTerminated == EmployeeSearchForm::ONLY_TERMINATED) {
             $conditions[] = "( e.termination_id IS NOT NULL )";
         }
+        /* deselect purge employees*/
+        $conditions[] = "( e.purged_at IS NULL )";
+
 
         /* Build the query */
         $numConditions = 0;
