@@ -873,7 +873,7 @@ class EmployeeDao extends BaseDao {
      * @returns Collection
      * @throws DaoException
      */
-    public function getEmployeeList($orderField = 'lastName', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
+    public function getEmployeeList($orderField = 'lastName', $orderBy = 'ASC', $includeTerminatedEmployees = false, $includePurgeEmployee = false) {
         try {
             $q = Doctrine_Query :: create()->from('Employee');
             $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
@@ -881,6 +881,9 @@ class EmployeeDao extends BaseDao {
 
             if (!$includeTerminatedEmployees) {
                 $q->andwhere("termination_id IS NULL");
+            }
+            if(!$includePurgeEmployee){
+                $q->andwhere("purged_at IS NULL");
             }
 
             return $q->execute();
