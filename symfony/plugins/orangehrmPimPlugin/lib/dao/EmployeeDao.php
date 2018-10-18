@@ -873,7 +873,7 @@ class EmployeeDao extends BaseDao {
      * @returns Collection
      * @throws DaoException
      */
-    public function getEmployeeList($orderField = 'lastName', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
+    public function getEmployeeList($orderField = 'lastName', $orderBy = 'ASC', $includeTerminatedEmployees = false, $includePurgeEmployee = false) {
         try {
             $q = Doctrine_Query :: create()->from('Employee');
             $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
@@ -881,6 +881,9 @@ class EmployeeDao extends BaseDao {
 
             if (!$includeTerminatedEmployees) {
                 $q->andwhere("termination_id IS NULL");
+            }
+            if(!$includePurgeEmployee){
+                $q->andwhere("purged_at IS NULL");
             }
 
             return $q->execute();
@@ -944,6 +947,8 @@ class EmployeeDao extends BaseDao {
                 if ($excludeTerminatedEmployees) {
                     $q->andwhere("e.termination_id IS NULL");
                 }
+            /** not include purge employees**/
+            $q->andWhere("e.purged_at IS NULL");
                 
                 if ($orderField && $orderBy) {
                     $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
@@ -2037,6 +2042,9 @@ class EmployeeDao extends BaseDao {
         if ($searchByTerminated == EmployeeSearchForm::ONLY_TERMINATED) {
             $conditions[] = "( e.termination_id IS NOT NULL )";
         }
+        /* deselect purge employees*/
+        $conditions[] = "( e.purged_at IS NULL )";
+
 
         /* Build the query */
         $numConditions = 0;
