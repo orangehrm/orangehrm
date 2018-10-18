@@ -142,6 +142,7 @@ class AddCandidateForm extends BaseForm {
             'appliedDate' => new ohrmWidgetDatePicker(array(), array('id' => 'addCandidate_appliedDate')),
             'vacancy' => new sfWidgetFormSelect(array('choices' => $vacancyList)),
             'resumeUpdate' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $resumeUpdateChoices)),
+            'consentToKeepData' => new sfWidgetFormInputCheckbox(),
         );
 
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
@@ -160,6 +161,7 @@ class AddCandidateForm extends BaseForm {
                     array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'vacancy' => new sfValidatorString(array('required' => false)),
             'resumeUpdate' => new sfValidatorString(array('required' => false)),
+            'consentToKeepData' => new sfValidatorString(array('required' => false)),
         );
         
             
@@ -197,6 +199,7 @@ class AddCandidateForm extends BaseForm {
             $candidateVacancyList = $candidate->getJobCandidateVacancy();
             $defaultVacancy = ($candidateVacancyList[0]->getVacancyId() == "") ? "" : $candidateVacancyList[0]->getVacancyId();
             $this->setDefault('vacancy', $defaultVacancy);
+            $this->setDefault('consentToKeepData', $candidate->getConsentToKeepData());
         }
     }
 
@@ -365,7 +368,11 @@ class AddCandidateForm extends BaseForm {
         $candidate->contactNumber = $this->getValue('contactNo');
         $candidate->keywords = $this->getValue('keyWords');
         $candidate->addedPerson = $this->addedBy;
-
+        if ($this->getValue('consentToKeepData')) {
+            $candidate->consentToKeepData = true;
+        }else{
+            $candidate->consentToKeepData = false;
+        }
         if ($this->getValue('appliedDate') == "") {
             $candidate->dateOfApplication = date('Y-m-d');
         } else {
