@@ -873,7 +873,7 @@ class EmployeeDao extends BaseDao {
      * @returns Collection
      * @throws DaoException
      */
-    public function getEmployeeList($orderField = 'lastName', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
+    public function getEmployeeList($orderField = 'lastName', $orderBy = 'ASC', $includeTerminatedEmployees = false, $includePurgeEmployee = false) {
         try {
             $q = Doctrine_Query :: create()->from('Employee');
             $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
@@ -881,6 +881,9 @@ class EmployeeDao extends BaseDao {
 
             if (!$includeTerminatedEmployees) {
                 $q->andwhere("termination_id IS NULL");
+            }
+            if (!$includePurgeEmployee) {
+                $q->andwhere("purged_at IS NULL");
             }
 
             return $q->execute();
@@ -932,7 +935,7 @@ class EmployeeDao extends BaseDao {
      * @returns Array List of Employee Properties 
      * @throws DaoException
      */
-    public function getEmployeePropertyList($properties, $orderField, $orderBy, $excludeTerminatedEmployees = false) {
+    public function getEmployeePropertyList($properties, $orderField, $orderBy, $excludeTerminatedEmployees = false, $excludePurgedEmployees = false) {
 
         try {
                 $q = Doctrine_Query :: create();
@@ -949,6 +952,9 @@ class EmployeeDao extends BaseDao {
                     $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
                     $q->orderBy($orderField . ' ' . $orderBy);
                 }
+            if (!$excludePurgedEmployees) {
+                $q->andWhere("e.purged_at IS NULL");
+            }
 
                 $employeeProperties = $q->fetchArray();
 
@@ -1922,7 +1928,7 @@ class EmployeeDao extends BaseDao {
      * @return none
      */
     private function _getEmployeeListQuery(&$select, &$query, array &$bindParams, &$orderBy,
-            $sortField = null, $sortOrder = null, array $filters = null) {
+            $sortField = null, $sortOrder = null, array $filters = null, $includePurgeEmployee = false) {
 
         $searchByTerminated = EmployeeSearchForm::WITHOUT_TERMINATED;
 
@@ -2037,7 +2043,9 @@ class EmployeeDao extends BaseDao {
         if ($searchByTerminated == EmployeeSearchForm::ONLY_TERMINATED) {
             $conditions[] = "( e.termination_id IS NOT NULL )";
         }
-
+        if ($includePurgeEmployee) {
+            $conditions[] = "( e.purged_at IS NULL )";
+        }
         /* Build the query */
         $numConditions = 0;
         foreach ($conditions as $condition) {
