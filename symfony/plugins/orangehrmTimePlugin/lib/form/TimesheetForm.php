@@ -167,11 +167,11 @@ class TimesheetForm extends sfForm {
 
         $startDate = $date;
 
-        $timesheet = $this->getTimesheetDao()->getTimesheetByStartDateAndEmployeeId($startDate, $employeeId);
-        $endDate = $timesheet->getEndDate();
-        $dates = $this->getDatesOfTheTimesheetPeriod($startDate, $endDate);
-
         if (!empty($timesheetItems)) {
+
+            $timesheet = $this->getTimesheetDao()->getTimesheetByStartDateAndEmployeeId($startDate, $employeeId);
+            $endDate = $timesheet->getEndDate();
+            $dates = $this->getDatesOfTheTimesheetPeriod($startDate, $endDate);
 
             $temp = current($timesheetItems);
             $projectId = $temp["projectId"];
