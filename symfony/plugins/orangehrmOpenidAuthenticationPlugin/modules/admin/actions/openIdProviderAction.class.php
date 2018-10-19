@@ -52,8 +52,9 @@ class openIdProviderAction extends baseOpenIdAction {
                 }
                 $this->redirect('admin/openIdProvider');
             } else {
-                $this->getUser()->setFlash('warning', __(TopLevelMessages::FORM_VALIDATION_ERROR));
-                $this->redirect($request->getReferer());
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
+                $this->handleBadRequest();
+                $this->forwardToSecureAction();
             }
         }
         

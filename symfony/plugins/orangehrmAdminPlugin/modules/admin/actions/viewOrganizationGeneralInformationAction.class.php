@@ -33,7 +33,7 @@ class viewOrganizationGeneralInformationAction extends baseAdminAction {
             $this->redirect('pim/viewPersonalDetails');
         }
 
-        $this->setForm(new OrganizationGeneralInformationForm());
+        $this->setForm(new OrganizationGeneralInformationForm(array(), array(), true));
         $employeeService = new EmployeeService();
         $this->employeeCount = $employeeService->getEmployeeCount();
 

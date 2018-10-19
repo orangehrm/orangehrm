@@ -60,6 +60,7 @@ class payGradeAction extends baseAdminAction {
 
         $payGrade = $this->getPayGradeService()->getPayGradeById($this->payGradeId);
         if (!($payGrade instanceof PayGrade) && !is_null($this->payGradeId)) {
+            $this->handleBadRequest();
             $this->forwardToSecureAction();
         }
         $this->setForm(new PayGradeForm(array(), $values));

@@ -21,7 +21,7 @@
 /**
  * listCustomFields action
  */
-class listCustomFieldsAction extends sfAction {
+class listCustomFieldsAction extends basePimAction {
 
     protected $customFieldService;
 
@@ -79,7 +79,11 @@ class listCustomFieldsAction extends sfAction {
                 $sortBy = $request->getParameter('sort');
                 $sortOrder = $request->getParameter('order');
                 $this->sortField = $sortBy;
-                $this->sortOrder = $sortOrder;
+                if (in_array($sortOrder, array(ListSorter::ASCENDING, ListSorter::DESCENDING))) {
+                    $this->sortOrder = $sortOrder;
+                } else {
+                    $this->handleBadRequest();
+                }
             } else {
                 $this->getResponse()->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             }
