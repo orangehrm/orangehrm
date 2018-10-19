@@ -19,7 +19,7 @@
  *
  */
 
-error_reporting(0);
+error_reporting(E_ERROR | E_PARSE);
 
 /* For logging PHP errors */
 include_once('lib/confs/log_settings.php');
