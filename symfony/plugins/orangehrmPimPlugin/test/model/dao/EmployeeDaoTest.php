@@ -831,6 +831,13 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empList = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
         $list = $this->employeeDao->getEmployeeList();
         $this->assertEquals(count($empList), count($list));
+        $employee = $list[0];
+        $employee->purged_at = date('Y-m-d H:i:s');
+        $employee->save();
+        $list = $this->employeeDao->getEmployeeList();
+        $this->assertEquals(count($empList), count($list) + 1);
+        $list = $this->employeeDao->getEmployeeList($orderField = 'lastName', $orderBy = 'ASC', $includeTerminatedEmployees = false, $includePurgeEmployee = true);
+        $this->assertEquals(count($empList), count($list));
     }
 
     public function testGetSupervisorList() {
