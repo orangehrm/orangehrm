@@ -619,6 +619,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $candidate->dateOfApplication = "2011-03-05";
         $candidate->middleName = "editedMiddleName";
         $candidate->comment = "updated Comment";
+        $candidate->consentToKeepData = true;
         $result = $this->candidateDao->updateCandidate($candidate);
         $this->assertEquals($result, 1);
     }
