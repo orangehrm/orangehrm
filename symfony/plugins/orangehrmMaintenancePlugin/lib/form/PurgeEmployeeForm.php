@@ -62,7 +62,7 @@ class PurgeEmployeeForm extends sfForm
     {
         $requiredMarker = ' <em>*</em>';
         $lableList = array();
-        $lableList['employee'] = __('Select Terminated Employee') . $requiredMarker;
+        $lableList['employee'] = __('Past Employee') . $requiredMarker;
         return $lableList;
     }
 

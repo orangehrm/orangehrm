@@ -2043,7 +2043,7 @@ class EmployeeDao extends BaseDao {
         if ($searchByTerminated == EmployeeSearchForm::ONLY_TERMINATED) {
             $conditions[] = "( e.termination_id IS NOT NULL )";
         }
-        if ($includePurgeEmployee) {
+        if (!$includePurgeEmployee) {
             $conditions[] = "( e.purged_at IS NULL )";
         }
         /* Build the query */
