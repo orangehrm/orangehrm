@@ -63,5 +63,5 @@ use_stylesheet(plugin_web_path('orangehrmMaintenancePlugin', 'css/employeeDataSu
 </div>
 <script>
     var ajaxUrl = "<?php echo url_for('maintenance/getEmployeeDataApi'); ?>";
-    var accessData = "<?php echo __('Access Data'); ?>";
+    var accessData = "<?php echo __('Download'); ?>";
 </script>
