@@ -18,6 +18,9 @@
  * Boston, MA  02110-1301, USA
  *
  */
+
+error_reporting(E_ERROR | E_PARSE);
+
 /* For logging PHP errors */
 include_once('lib/confs/log_settings.php');
 include_once('installer/OrangeHrmRegistration.php');
