@@ -29,12 +29,14 @@ class purgeCandidateDataAction extends sfAction
     /**
      * @param sfRequest $request
      * @return mixed|void
+     * @throws CoreServiceException
      * @throws sfException
      */
 
     public function execute($request)
     {
         $this->header = 'Purge Candidate Records';
+        $this->instanceId = $this->getConfigService()->getInstanceIdentifier();
 
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
@@ -59,6 +61,18 @@ class purgeCandidateDataAction extends sfAction
             $this->purgeCandidate($data);
             $this->purgeCandidateForm = new PurgeCandidateForm();
         }
+    }
+
+    /**
+     * @return ConfigService|mixed
+     */
+    public function getConfigService()
+    {
+        if (is_null($this->configService)) {
+            $this->configService = new ConfigService();
+            $this->configService->setConfigDao(new ConfigDao());
+        }
+        return $this->configService;
     }
 
     /**

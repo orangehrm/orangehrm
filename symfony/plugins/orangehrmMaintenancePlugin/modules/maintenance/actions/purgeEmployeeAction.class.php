@@ -29,11 +29,13 @@ class purgeEmployeeAction extends sfAction
     /**
      * @param sfRequest $request
      * @return mixed|void
+     * @throws CoreServiceException
      * @throws sfException
      */
     public function execute($request)
     {
         $this->header = 'Purge Employee Records';
+        $this->instanceId = $this->getConfigService()->getInstanceIdentifier();
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
 
@@ -120,5 +122,17 @@ class purgeEmployeeAction extends sfAction
             $this->setTemplate('purgeAllRecords', 'maintenance');
             $this->purgeform = new PurgeEmployeeForm();
         }
+    }
+
+    /**
+     * @return ConfigService|mixed
+     */
+    public function getConfigService()
+    {
+        if (is_null($this->configService)) {
+            $this->configService = new ConfigService();
+            $this->configService->setConfigDao(new ConfigDao());
+        }
+        return $this->configService;
     }
 }
