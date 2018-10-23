@@ -17,9 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
+/**
+ * Class SchemaIncrementTask68
+ */
 class SchemaIncrementTask68 extends SchemaIncrementTask
 {
-
+    /**
+     *
+     */
     public function loadSql()
     {
         $sql = array();
@@ -81,18 +86,30 @@ class SchemaIncrementTask68 extends SchemaIncrementTask
         $this->sql = $sql;
     }
 
+    /**
+     *
+     */
     public function getUserInputWidgets()
     {
     }
 
+    /**
+     *
+     */
     public function setUserInputs()
     {
     }
 
+    /**
+     *
+     */
     public function getNotes()
     {
     }
 
+    /**
+     *
+     */
     public function execute()
     {
         $this->incrementNumber = 68;
