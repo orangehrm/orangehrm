@@ -25,11 +25,13 @@ class accessEmployeeDataAction extends sfAction
     /**
      * @param sfRequest $request
      * @return mixed|string
+     * @throws CoreServiceException
      * @throws sfException
      */
     public function execute($request)
     {
         $this->header = 'Download Personal Data';
+        $this->instanceId = $this->getConfigService()->getInstanceIdentifier();
 
         $this->getUser()->setFlash('warning', null);
         $this->getUser()->setFlash('success', null);
@@ -97,6 +99,7 @@ class accessEmployeeDataAction extends sfAction
 
     /**
      * @param $data
+     * @return array
      */
     protected function getEmployeeData($data)
     {
@@ -123,5 +126,16 @@ class accessEmployeeDataAction extends sfAction
             $this->purgeableEntities = sfYaml::load(realpath(dirname(__FILE__) . '/../../../config/gdpr_purge_employee_strategy.yml'));
         }
         return new $this->purgeableEntities['DownloadFormat'];
+    }
+
+    /**
+     * @return ConfigService|mixed
+     */
+    public function getConfigService() {
+        if (is_null($this->configService)) {
+            $this->configService = new ConfigService();
+            $this->configService->setConfigDao(new ConfigDao());
+        }
+        return $this->configService;
     }
 }

@@ -17,6 +17,9 @@
  * Boston, MA 02110-1301, USA
  */
 use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/PassWordValidation'));
+const MESSEGE = 'Users who seek access to their data, or who seek to correct,
+ amend, or delete the given information should direct their requests to Data@orangehrm.com
+  with the subject "Purge Records (Instance Identifier : ';
 ?>
 <div class="box">
     <?php include_partial('global/flash_messages'); ?>
@@ -41,6 +44,10 @@ use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/PassWordValidat
                 </div>
             </div>
         </form>
+        <div id="Instance_Messege" style="padding-top: 0.75rem !important">
+            <?php echo __(MESSEGE . $instanceId . ')".'); ?>
+        </div>
     </div>
+
 </div>
 
