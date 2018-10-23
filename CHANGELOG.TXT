@@ -16,7 +16,7 @@ specified here
 New & Changed Features for OrangeHRM ver 4.2
     New Features
     ------------
-    Introduce maintenance module to archive GDPR Compliance
+    Introduce maintenance module to achieve GDPR Compliance
         - Purge Employee Records
         - Purge Candidate Records
         - Access Employee Records
