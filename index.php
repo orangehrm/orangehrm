@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+/* Last Checked by Pasan Yasara  */
+
 /* For logging PHP errors */
 include_once('lib/confs/log_settings.php');
 
