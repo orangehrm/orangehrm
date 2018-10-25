@@ -45,7 +45,9 @@ const MESSEGE = 'Users who seek access to their data, or who seek to correct,
             </div>
         </form>
         <div id="Instance_Messege" style="padding-top: 0.75rem !important">
-            <?php echo __(MESSEGE . $instanceId . ')".'); ?>
+            <?php if (gettype($instanceId) == 'string') {
+                echo __(MESSEGE . $instanceId . ')".');
+            } ?>
         </div>
     </div>
 
