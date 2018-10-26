@@ -566,7 +566,7 @@ class LeaveRequestDao extends BaseDao {
      *               If $isCSVPDFExport is true, returns just an array of results.
      */
     public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false, $isMyLeaveList = false,
-            $prefetchLeave = false, $prefetchComments = false) {
+            $prefetchLeave = false, $prefetchComments = false, $includePurgeEmployee= false) {
         $this->_markApprovedLeaveAsTaken();
 
         $limit = !is_null($searchParameters->getParameter('noOfRecordsPerPage')) ? $searchParameters->getParameter('noOfRecordsPerPage') : sfConfig::get('app_items_per_page');
@@ -691,6 +691,9 @@ class LeaveRequestDao extends BaseDao {
 
         if (empty($includeTerminatedEmployees)) {
             $q->andWhere("em.termination_id IS NULL");
+        }
+        if (!$includePurgeEmployee) {
+            $q->andWhere("em.purged_at IS NULL");
         }
 
         if (!empty($locations)) {

@@ -260,7 +260,7 @@ class viewLeaveListAction extends baseLeaveAction {
     }
 
     protected function searchLeaveRequests($searchParams, $page) {
-        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page, false, false, true, true);
+        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page, false, false, true, true, false);
         return $result;
     }
 
