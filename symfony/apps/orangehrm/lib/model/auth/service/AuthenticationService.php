@@ -58,6 +58,9 @@ class AuthenticationService extends BaseService {
         if (is_null($user) || !$user) {
             return false;
         } else {
+            if (sfContext::getInstance()->getUser()) {
+                sfContext::getInstance()->getUser()->getAttributeHolder()->clear();
+            }
             sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
 
             if ($user->getIsAdmin() == 'No' && $user->getEmpNumber() == '') {
