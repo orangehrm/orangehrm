@@ -58,9 +58,6 @@ class AuthenticationService extends BaseService {
         if (is_null($user) || !$user) {
             return false;
         } else {
-            if (sfContext::getInstance()->getUser()) {
-                sfContext::getInstance()->getUser()->getAttributeHolder()->clear();
-            }
             sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
 
             if ($user->getIsAdmin() == 'No' && $user->getEmpNumber() == '') {
@@ -71,6 +68,8 @@ class AuthenticationService extends BaseService {
                 throw new AuthenticationServiceException('Account disabled');
             }
 
+            $sfuser = sfContext::getInstance()->getUser();
+            $sfuser->getAttributeHolder()->remove(mainMenuComponent::MAIN_MENU_USER_ATTRIBUTE);
             session_regenerate_id(TRUE);
             
             $this->setBasicUserAttributes($user);
