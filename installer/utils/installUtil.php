@@ -210,7 +210,7 @@ function createKeyFile($fileName) {
  */
 function getSessionCookieParams() {
     return array(
-        'cookie_secure' => true,
+        'cookie_secure' => false,
         'cookie_httponly' => true
     );
 }

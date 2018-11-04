@@ -34,7 +34,7 @@ all:
     class: sfSessionStorage
     param:
       session_name: PHPSESSID
-      session_cookie_secure: true
+      session_cookie_secure: false
       session_cache_limiter: nocache
   user:
      class: myUser
