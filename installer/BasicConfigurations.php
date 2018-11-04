@@ -94,6 +94,9 @@ public function isFailBasicConfigurations(){
 	//21 -function
 	$this->isCurlEnabled();
 
+	//22 -function
+	$this->isSimpleXMLEnabled();
+
 	$this->getMessages()->displayMessage(Messages::SEPERATOR);
 	$this->dbConfigurationCheck();
 	$this->getMessages()->displayMessage(Messages::SEPERATOR);
@@ -388,6 +391,16 @@ function isCurlEnabled() {
         $this->interuptContinue = true;
     }
 }
+
+    //22 - function
+    function isSimpleXMLEnabled() {
+        if (extension_loaded('SimpleXML') && extension_loaded('libxml') && extension_loaded('xml')) {
+            $this->getMessages()->displayMessage(Messages::SimpleXMLStatus_OK_MESSAGE);
+        } else {
+            $this->getMessages()->displayMessage(Messages::SimpleXMLStatus_DISABLE_MESSAGE);
+            $this->interuptContinue = true;
+        }
+    }
 
     /**
      * Check script execute in apache server

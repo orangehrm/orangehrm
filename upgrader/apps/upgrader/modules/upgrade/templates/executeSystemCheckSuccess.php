@@ -327,6 +327,21 @@ function sysCheckPassed() {
             </strong></td>
           </tr>
 
+          <tr>
+            <td class="tdComponent">SimpleXML status</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+            if ($systemValidator->isSimpleXMLEnabled()) {
+                echo "<b><font color='green'>Enabled</font></b>";
+            } else {
+                echo "<b><font color='red'>Disabled. SimpleXML, libxml and xml PHP libraries are required.</font></b>";
+                $error_found = true;
+            }
+            ?>
+            </strong></td>
+          </tr>
+
           <?php
             $printMoreInfoLink = false;
 

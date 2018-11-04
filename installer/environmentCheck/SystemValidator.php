@@ -235,4 +235,33 @@ class SystemValidator
         }
         return false;
     }
+
+    /**
+     * Return availability of the extension
+     *
+     * @param $extensionName
+     * @return bool
+     */
+    public function hasExtensionEnabled($extensionName)
+    {
+        return extension_loaded($extensionName);
+    }
+
+    /**
+     * Return status of SimpleXML extensions and it's requirements
+     *
+     * @return bool
+     */
+    public function isSimpleXMLEnabled()
+    {
+        if (
+            $this->hasExtensionEnabled('SimpleXML') &&
+            $this->hasExtensionEnabled('libxml') &&
+            $this->hasExtensionEnabled('xml')
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
