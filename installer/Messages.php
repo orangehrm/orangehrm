@@ -99,6 +99,9 @@ const MySQLEventStatus_OK_MESSAGE = "MySQL Event Scheduler status - Enabled";
 const CURLStatus_DISABLE_MESSAGE = "cURL status - Disabled. This is required to run OrangeHRM";
 const CURLStatus_OK_MESSAGE = "cURL status - Enabled";
 
+const SimpleXMLStatus_DISABLE_MESSAGE = "SimpleXML status - Disabled. SimpleXML, libxml and xml PHP libraries are required";
+const SimpleXMLStatus_OK_MESSAGE = "SimpleXML status - Enabled";
+
 const INTERUPT_MESSAGE = "Above error found. Please correct it to continue";
 const DB_WRONG_INFO = "Please check Database name, port , Privileged user name and password";
 
