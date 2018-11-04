@@ -13,6 +13,13 @@ specified here
 						added			/lib/models/report which contains report definiton/generation objects
 						added			/templates which contains all UI templates
 
+New & Changed Features for OrangeHRM ver 4.2.0.1
+    Bug Fixes
+    ---------
+    Remove HTTPS restriction introduced in OrangeHRM 4.2 release
+        - Revert secure cookie attribute of session cookie
+    Add SimpleXML modules to pre-requisites check
+
 New & Changed Features for OrangeHRM ver 4.2
     New Features
     ------------
