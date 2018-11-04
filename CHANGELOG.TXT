@@ -16,9 +16,9 @@ specified here
 New & Changed Features for OrangeHRM ver 4.2.0.1
     Bug Fixes
     ---------
-    Remove HTTPS restriction introduced in OrangeHRM 4.2 release #418
+    Remove HTTPS restriction introduced in OrangeHRM 4.2 release
         - Revert secure cookie attribute of session cookie
-    Add SimpleXML modules to pre-requisites check #417
+    Add SimpleXML modules to pre-requisites check
 
 New & Changed Features for OrangeHRM ver 4.2
     New Features
