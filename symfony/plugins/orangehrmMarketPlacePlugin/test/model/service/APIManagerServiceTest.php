@@ -22,22 +22,4 @@
  */
 class APIManagerServiceTest extends PHPUnit_Framework_TestCase
 {
-    private $apiManagerService = null;
-
-    protected function setUp()
-    {
-    }
-
-    /**
-     * @return APIManagerService|null
-     */
-    public function getAPIManagerService()
-    {
-        if (!isset($this->apiManagerService)) {
-            $this->apiManagerService = new APIManagerService();
-    }
-        return $this->apiManagerService;
-    }
-    public function testGetAddons(){
-    }
 }

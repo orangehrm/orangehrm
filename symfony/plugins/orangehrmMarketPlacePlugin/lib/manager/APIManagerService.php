@@ -22,4 +22,28 @@
  */
 class APIManagerService
 {
+    private $client = null;
+
+    public function getAddons()
+    {
+        $addonList = array();
+//        $res = $this->getClient()->request('GET', 'https://jsonplaceholder.typicode.com/todos/1');
+//        echo $res->getBody();
+
+//        $request = $this->getClient('GET', 'https://jsonplaceholder.typicode.com/todos');
+//        $response = $this->getClient()->request('GET', '1');
+//        echo $response->getBody();
+        return $addonList;
+    }
+
+
+    private function getClient()
+    {
+        if (!isset($this->client)) {
+            // Create a client with a base URI
+
+            $this->client = new GuzzleHttp\Client(['base_uri' => 'https://jsonplaceholder.typicode.com/todos/']);
+        }
+        return $this->client;
+    }
 }

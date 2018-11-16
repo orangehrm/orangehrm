@@ -29,8 +29,7 @@ class orangehrmMarketPlacePluginConfiguration extends sfPluginConfiguration
     {
         $enabledModules = sfConfig::get('sf_enabled_modules');
         if (is_array($enabledModules)) {
-            sfConfig::set('sf_enabled_modules', array_merge($enabledModules, array('maintenance')));
-//            untill verify keep MP under maintenance module
+            sfConfig::set('sf_enabled_modules', array_merge($enabledModules, array('marketPlace')));
         }
     }
 }
