@@ -65,12 +65,11 @@ class APIManagerServiceTest extends PHPUnit_Framework_TestCase
             ]
         );
         $apiManagerService = $this->getMockBuilder('APIManagerService')
-            ->setMethods(array('makeApiRequest'))
+            ->setMethods(array('getAddonsFromMP'))
             ->getMock();
         $apiManagerService->expects($this->once())
-            ->method('makeApiRequest')
+            ->method('getAddonsFromMP')
             ->will($this->returnValue($output));
-
         $result = $apiManagerService->getAddons();
         $this->assertEquals(gettype($result), 'array');
         $this->assertEquals(sizeof($result[0]), 7);
@@ -85,5 +84,32 @@ class APIManagerServiceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($result[1]['name'], 'addon2');
         $this->assertEquals($result[2]['summary'], 'summery for addon 3');
         $this->assertEquals($result[2]['description'], 'dec for addon 3');
+    }
+
+    /**
+     * 
+     */
+    public function testGetDescription()
+    {
+        $output = array(
+            "id" => 1,
+            "name" => "addon1",
+            "description" => "long des for addon1"
+        );
+        $apiManagerService = $this->getMockBuilder('APIManagerService')
+            ->setMethods(array('getDescriptionFromMP'))
+            ->getMock();
+        $apiManagerService->expects($this->once())
+            ->method('getDescriptionFromMP')
+            ->will($this->returnValue($output));
+        $result = $apiManagerService->getDescription(1);
+        $this->assertEquals(gettype($result), 'array');
+        $this->assertEquals(sizeof($result), 3);
+        $this->assertArrayHasKey('id', $result);
+        $this->assertArrayHasKey('name', $result);
+        $this->assertArrayHasKey('description', $result);
+        $this->assertEquals($result['id'], 1);
+        $this->assertEquals($result['name'], 'addon1');
+        $this->assertEquals($result['description'], 'long des for addon1');
     }
 }

@@ -27,14 +27,33 @@ class APIManagerService
      */
     public function getAddons()
     {
-        $addons = $this->makeApiRequest();
+        $addons = $this->getAddonsFromMP();
         return $addons;
     }
 
     /**
      * @return array
      */
-    public function makeApiRequest()
+    protected function getAddonsFromMP()
+    {
+        $addons = array();
+        return $addons;
+    }
+
+    /**
+     * @param $addonId
+     * @return array
+     */
+    public function getDescription($addonId)
+    {
+        return $this->getDescriptionFromMP($addonId);
+    }
+
+    /**
+     * @param $addonId
+     * @return array
+     */
+    protected function getDescriptionFromMP($addonId)
     {
         $addons = array();
         return $addons;
