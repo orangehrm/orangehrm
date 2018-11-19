@@ -22,4 +22,68 @@
  */
 class APIManagerServiceTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     *
+     */
+    public function setUp()
+    {
+
+    }
+
+    /**
+     *
+     */
+    public function testGetAddons()
+    {
+        $output = array(
+            [
+                "id" => 1,
+                "name" => "addon1",
+                "summary" => "summery for addon 1",
+                "description" => "dec for addon 1",
+                "icon" => null,
+                "status" => "enabled",
+                "date" => "2018-12-01T00:00:00+13:00"
+            ],
+            [
+                "id" => 2,
+                "name" => "addon2",
+                "summary" => "summery for addon 2",
+                "description" => "dec for addon 2",
+                "icon" => null,
+                "status" => "enabled",
+                "date" => "2018-11-01T00:00:00+13:00"
+            ],
+            [
+                "id" => 3,
+                "name" => "addon3",
+                "summary" => "summery for addon 3",
+                "description" => "dec for addon 3",
+                "icon" => null,
+                "status" => "enabled",
+                "date" => "2018-10-01T00:00:00+13:00"
+            ]
+        );
+        $apiManagerService = $this->getMockBuilder('APIManagerService')
+            ->setMethods(array('makeApiRequest'))
+            ->getMock();
+        $apiManagerService->expects($this->once())
+            ->method('makeApiRequest')
+            ->will($this->returnValue($output));
+
+        $result = $apiManagerService->getAddons();
+        $this->assertEquals(gettype($result), 'array');
+        $this->assertEquals(sizeof($result[0]), 7);
+        $this->assertArrayHasKey('id', $result[0]);
+        $this->assertArrayHasKey('name', $result[0]);
+        $this->assertArrayHasKey('summary', $result[0]);
+        $this->assertArrayHasKey('description', $result[0]);
+        $this->assertArrayHasKey('icon', $result[0]);
+        $this->assertArrayHasKey('status', $result[0]);
+        $this->assertArrayHasKey('date', $result[0]);
+        $this->assertEquals($result[0]['id'], 1);
+        $this->assertEquals($result[1]['name'], 'addon2');
+        $this->assertEquals($result[2]['summary'], 'summery for addon 3');
+        $this->assertEquals($result[2]['description'], 'dec for addon 3');
+    }
 }

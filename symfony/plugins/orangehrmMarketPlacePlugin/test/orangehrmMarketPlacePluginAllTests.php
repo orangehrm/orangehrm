@@ -31,5 +31,4 @@ class orangehrmMarketPlacePluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/model/service/APIManagerServiceTest.php');
         return $suite;
     }
-
 }

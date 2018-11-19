@@ -22,4 +22,21 @@
  */
 class APIManagerService
 {
+    /**
+     * @return array
+     */
+    public function getAddons()
+    {
+        $addons = $this->makeApiRequest();
+        return $addons;
+    }
+
+    /**
+     * @return array
+     */
+    public function makeApiRequest()
+    {
+        $addons = array();
+        return $addons;
+    }
 }
