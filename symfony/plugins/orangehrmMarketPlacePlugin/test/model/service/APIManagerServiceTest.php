@@ -35,33 +35,64 @@ class APIManagerServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAddons()
     {
+        $linc = array(
+            "desc" => "/public/index.php/api/v1/addon/1/detail",
+            "file" => "/public/index.php/api/v1/addon/1/file"
+        );
         $output = array(
             [
                 "id" => 1,
                 "name" => "addon1",
+                "title" => "Addon title 1",
                 "summary" => "summery for addon 1",
-                "description" => "dec for addon 1",
-                "icon" => null,
-                "status" => "enabled",
-                "date" => "2018-12-01T00:00:00+13:00"
+                "icon" => "icon_url",
+                "date" => "2018-12-01T00:00:00+13:00",
+                "links" => $linc
             ],
             [
                 "id" => 2,
                 "name" => "addon2",
+                "title" => "Addon title 2",
                 "summary" => "summery for addon 2",
-                "description" => "dec for addon 2",
-                "icon" => null,
-                "status" => "enabled",
-                "date" => "2018-11-01T00:00:00+13:00"
+                "icon" => "icon_url",
+                "date" => "2018-12-01T00:00:00+13:00",
+                "links" => $linc
             ],
             [
                 "id" => 3,
-                "name" => "addon3",
+                "name" => "addon1",
+                "title" => "Addon title 3",
                 "summary" => "summery for addon 3",
-                "description" => "dec for addon 3",
-                "icon" => null,
-                "status" => "enabled",
-                "date" => "2018-10-01T00:00:00+13:00"
+                "icon" => "icon_url",
+                "date" => "2018-12-01T00:00:00+13:00",
+                "links" => $linc
+            ],
+            [
+                "id" => 4,
+                "name" => "addon1",
+                "title" => "Addon title 4",
+                "summary" => "summery for addon 4",
+                "icon" => "icon_url",
+                "date" => "2018-12-01T00:00:00+13:00",
+                "links" => $linc
+            ],
+            [
+                "id" => 5,
+                "name" => "addon1",
+                "title" => "Addon title 5",
+                "summary" => "summery for addon 5",
+                "icon" => "icon_url",
+                "date" => "2018-12-01T00:00:00+13:00",
+                "links" => $linc
+            ],
+            [
+                "id" => 6,
+                "name" => "addon1",
+                "title" => "Addon title 6",
+                "summary" => "summery for addon 6",
+                "icon" => "icon_url",
+                "date" => "2018-12-01T00:00:00+13:00",
+                "links" => $linc
             ]
         );
         $apiManagerService = $this->getMockBuilder('APIManagerService')
@@ -76,18 +107,17 @@ class APIManagerServiceTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('id', $result[0]);
         $this->assertArrayHasKey('name', $result[0]);
         $this->assertArrayHasKey('summary', $result[0]);
-        $this->assertArrayHasKey('description', $result[0]);
+        $this->assertArrayHasKey('title', $result[0]);
         $this->assertArrayHasKey('icon', $result[0]);
-        $this->assertArrayHasKey('status', $result[0]);
         $this->assertArrayHasKey('date', $result[0]);
+        $this->assertArrayHasKey('links', $result[0]);
         $this->assertEquals($result[0]['id'], 1);
         $this->assertEquals($result[1]['name'], 'addon2');
         $this->assertEquals($result[2]['summary'], 'summery for addon 3');
-        $this->assertEquals($result[2]['description'], 'dec for addon 3');
     }
 
     /**
-     * 
+     *
      */
     public function testGetDescription()
     {
