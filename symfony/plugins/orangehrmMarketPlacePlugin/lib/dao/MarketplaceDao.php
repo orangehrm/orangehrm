@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,29 +19,16 @@
  */
 
 /**
- * Class baseAddonAction
+ * Class MarketplaceDao
  */
-abstract class baseAddonAction extends sfAction
+class MarketplaceDao
 {
-    private $marcketplaceService = null;
-
-    /**
-     * @return MarketplaceService|null
-     */
-    public function getMarcketplaceService()
-    {
-        if (!isset($this->marcketplaceService)) {
-            $this->marcketplaceService = new MarketplaceService();
-        }
-        return $this->marcketplaceService;
-    }
-
     /**
      * @return array
      */
-    public function getInstalledAddons()
+    public function getInstalledAddonIds()
     {
-        $installedAddons = $this->getMarcketplaceService()->getInstalledAddonIds();
-        return $installedAddons;
+        $output = array(1, 2);
+        return $output;
     }
 }

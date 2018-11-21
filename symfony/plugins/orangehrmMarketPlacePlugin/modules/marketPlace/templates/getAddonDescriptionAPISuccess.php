@@ -16,31 +16,4 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA
  */
-
-/**
- * Class baseAddonAction
- */
-abstract class baseAddonAction extends sfAction
-{
-    private $marcketplaceService = null;
-
-    /**
-     * @return MarketplaceService|null
-     */
-    public function getMarcketplaceService()
-    {
-        if (!isset($this->marcketplaceService)) {
-            $this->marcketplaceService = new MarketplaceService();
-        }
-        return $this->marcketplaceService;
-    }
-
-    /**
-     * @return array
-     */
-    public function getInstalledAddons()
-    {
-        $installedAddons = $this->getMarcketplaceService()->getInstalledAddonIds();
-        return $installedAddons;
-    }
-}
+ ?>

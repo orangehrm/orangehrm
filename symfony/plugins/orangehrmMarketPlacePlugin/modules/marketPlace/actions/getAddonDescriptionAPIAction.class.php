@@ -18,29 +18,14 @@
  */
 
 /**
- * Class baseAddonAction
+ * Class getAddonDescriptionAPIAction
  */
-abstract class baseAddonAction extends sfAction
+class getAddonDescriptionAPIAction extends baseAddonAction
 {
-    private $marcketplaceService = null;
-
     /**
-     * @return MarketplaceService|null
+     * @param $request
      */
-    public function getMarcketplaceService()
+    public function execute($request)
     {
-        if (!isset($this->marcketplaceService)) {
-            $this->marcketplaceService = new MarketplaceService();
-        }
-        return $this->marcketplaceService;
-    }
-
-    /**
-     * @return array
-     */
-    public function getInstalledAddons()
-    {
-        $installedAddons = $this->getMarcketplaceService()->getInstalledAddonIds();
-        return $installedAddons;
     }
 }

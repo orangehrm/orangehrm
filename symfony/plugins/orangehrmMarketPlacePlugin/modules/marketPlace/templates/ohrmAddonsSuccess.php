@@ -16,4 +16,52 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301, USA
  */
+use_stylesheet(plugin_web_path('orangehrmMarketPlacePlugin', 'css/ohrmAddonSuccess.css'));
+use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSuccess.js'));
 ?>
+<div class="box">
+    <div class="head">
+        <h1 id="menu">OrangeHRM Addons</h1>
+    </div>
+    <div class="inner">
+        <?php foreach ($addonList as $addon) { ?>
+            <div class="row">
+                <div class="inner container" id="addonHolder">
+                    <button class="accordion" addOnId="<?php echo $addon['id']; ?>">
+                        <div id="column" class="image">
+                            <img class="circle" src="
+                        <?php echo plugin_web_path("orangehrmMarketPlacePlugin", "images/45GlBEsi_400x400.jpeg"); ?>"/>
+                        </div>
+                        <div id="column" class="details">
+                            <div class="row">
+                                <label id="title"><?php echo __($addon['title']); ?></label>
+                            </div>
+                            <div class="row">
+                                <p><?php echo __($addon['summary']); ?></p>
+                            </div>
+                        </div>
+                        <div id="column" class="button">
+                            <input type="button" name="Submit" class="<?php
+                            $installedAddons = $sf_data->getRaw("installedAddons");
+                            if (in_array($addon['id'], $installedAddons)) {
+                                echo "delete";
+                            } ?>" id="btn1" value="<?php
+                            if (in_array($addon['id'], $installedAddons)) {
+                                echo __("Uninstall");
+                            } else {
+                                echo __("Install");
+                            } ?>"/>
+                        </div>
+                    </button>
+                    <div class="panel">
+                        <p>Lorem ipsum...</p>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>
+<script>
+    var ajaxUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
+</script>
+
