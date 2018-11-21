@@ -41,7 +41,7 @@ class APIManagerService
     }
 
     /**
-     * @param $addonId
+     * @param int $addonId
      * @return array
      */
     public function getDescription($addonId)
@@ -50,7 +50,7 @@ class APIManagerService
     }
 
     /**
-     * @param $addonId
+     * @param int $addonId
      * @return array
      */
     protected function getDescriptionFromMP($addonId)

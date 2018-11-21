@@ -22,17 +22,12 @@
  */
 class APIManagerServiceTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     *
-     */
+
     public function setUp()
     {
 
     }
 
-    /**
-     *
-     */
     public function testGetAddons()
     {
         $linc = array(
@@ -116,9 +111,6 @@ class APIManagerServiceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($result[2]['summary'], 'summery for addon 3');
     }
 
-    /**
-     *
-     */
     public function testGetDescription()
     {
         $output = array(

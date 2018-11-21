@@ -23,7 +23,7 @@
 class orangehrmMarketPlacePluginConfiguration extends sfPluginConfiguration
 {
     /**
-     * @return bool|null|void
+     * @return null|void
      */
     public function initialize()
     {
