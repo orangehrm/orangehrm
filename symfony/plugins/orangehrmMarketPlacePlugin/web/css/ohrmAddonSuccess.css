@@ -55,8 +55,8 @@
 }
 
 .panel {
-    padding: 0 18px;
-    background-color: white;
+    padding-left: 18px;
+    padding-top: 12px;
     display: none;
     overflow: hidden;
 }

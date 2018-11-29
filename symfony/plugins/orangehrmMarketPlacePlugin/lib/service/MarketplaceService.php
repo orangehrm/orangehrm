@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -21,9 +20,13 @@
 /**
  * Class MarketplaceService
  */
-class MarketplaceService
+class MarketplaceService extends ConfigService
 {
     private $marketplaceDao = null;
+
+    const CLIENT_ID = "client_id";
+    const CLIENT_SECRET = "client_secret";
+    const BASE_URL = 'base_url';
 
     /**
      * @return array
@@ -43,5 +46,32 @@ class MarketplaceService
             $this->marketplaceDao = new MarketplaceDao();
         }
         return $this->marketplaceDao;
+    }
+
+    /**
+     * @return String
+     * @throws CoreServiceException
+     */
+    public function getClientId()
+    {
+        return $this->_getConfigValue(self::CLIENT_ID);
+    }
+
+    /**
+     * @return String
+     * @throws CoreServiceException
+     */
+    public function getClientSecret()
+    {
+        return $this->_getConfigValue(self::CLIENT_SECRET);
+    }
+
+    /**
+     * @return String
+     * @throws CoreServiceException
+     */
+    public function getBaseURL()
+    {
+        return $this->_getConfigValue(self::BASE_URL);
     }
 }

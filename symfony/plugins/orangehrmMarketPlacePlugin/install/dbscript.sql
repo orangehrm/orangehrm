@@ -38,3 +38,8 @@ INSERT INTO ohrm_data_group_screen (data_group_id, screen_id, permission) VALUES
 
 INSERT INTO ohrm_user_role_data_group (user_role_id, data_group_id, can_read, can_create, can_update, can_delete, self) VALUES
   (@admin_role_id, @data_group_id, 1, 1, 1, 1, 1);
+
+INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
+  ('client_id', '1_5dk5bp84p0wskowswcs8kw48osw8c8cwwso0wo0w4ck0w8kkw0'),
+  ('client_secret', '2tnry9y53v40c8so4cggk0ogsgogg8wogoosk4wo4kww8gs8g8'),
+  ('base_url', 'https://demo-marketplace.orangehrm.com');

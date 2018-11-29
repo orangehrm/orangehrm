@@ -24,6 +24,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <h1 id="menu">OrangeHRM Addons</h1>
     </div>
     <div class="inner">
+        <?php if ($isNetwork) { ?>
         <?php foreach ($addonList as $addon) { ?>
             <div class="row">
                 <div class="inner container" id="addonHolder">
@@ -54,12 +55,14 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                         </div>
                     </button>
                     <div class="panel">
-                        <p>Lorem ipsum...</p>
                     </div>
                 </div>
             </div>
         <?php } ?>
     </div>
+    <?php } else {
+        echo "<p>Please connect to the internet to view the available add-ons</p>";
+    } ?>
 </div>
 <script>
     var ajaxUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
