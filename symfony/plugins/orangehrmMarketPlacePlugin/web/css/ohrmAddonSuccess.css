@@ -28,7 +28,7 @@
     float: left;
 }
 
-.button {
+.install_button {
     width: 20%;
     float: left;
 }
@@ -59,4 +59,9 @@
     padding-top: 12px;
     display: none;
     overflow: hidden;
+}
+
+#MP_link {
+    background-color: #f28c38 !important;
+    color: white !important;
 }
