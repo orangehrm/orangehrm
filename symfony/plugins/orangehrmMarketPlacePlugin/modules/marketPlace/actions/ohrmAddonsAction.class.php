@@ -22,7 +22,12 @@
  */
 class ohrmAddonsAction extends baseAddonAction
 {
+    /**
+     * No Network Error Message
+     */
+    const NO_NETWORK_ERR_MESSAGE = 'Please connect to the internet to view the available add-ons';
     private $apiManagerService = null;
+    private $dataGroupPermission = null;
 
     /**
      * @param sfRequest $request
@@ -31,6 +36,10 @@ class ohrmAddonsAction extends baseAddonAction
      */
     public function execute($request)
     {
+        $this->dataGroupPermission = $this->getPermissions();
+        $this->canRead = $this->dataGroupPermission->canRead();
+        $this->canCreate = $this->dataGroupPermission->canCreate();
+        $this->canDelete = $this->dataGroupPermission->canDelete();
         $this->isNetwork = true;
         $addonList = $this->getAddons();
         if (gettype($addonList) == 'array') {
@@ -38,6 +47,7 @@ class ohrmAddonsAction extends baseAddonAction
             $this->installedAddons = $this->getInstalledAddons();
         } else {
             $this->isNetwork = false;
+            $this->errorMessage = self::NO_NETWORK_ERR_MESSAGE;
         }
     }
 
@@ -60,5 +70,23 @@ class ohrmAddonsAction extends baseAddonAction
             $this->apiManagerService = new APIManagerService();
         }
         return $this->apiManagerService;
+    }
+
+    /**
+     * @param $dataGroups
+     * @param bool $self
+     * @return mixed
+     */
+    protected function getDataGroupPermissions($dataGroups, $self = false)
+    {
+        return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), $self, array());
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getPermissions()
+    {
+        return $this->getDataGroupPermissions('Marketplace', false);
     }
 }

@@ -22,7 +22,19 @@
  */
 class APIManagerService
 {
+    /**
+     * Grant type to get token
+     */
     const GRANT_TYPE = 'client_credentials';
+    /**
+     * url for get addons from marketplace
+     */
+    const ADDON_LIST = '/api/v1/addon';
+    /**
+     * url for get access token from marketplace
+     */
+    const API_TOKEN = '/oauth/v2/token';
+
     private $apiClient = null;
     private $marketplaceService = null;
     public $clientId = null;
@@ -55,7 +67,7 @@ class APIManagerService
         );
 
         try {
-            $response = $this->getApiClient()->get('/api/v1/addon',
+            $response = $this->getApiClient()->get(self::ADDON_LIST,
                 array(
                     'headers' => $headers
                 )
@@ -65,13 +77,11 @@ class APIManagerService
                 return $body;
             }
         } catch (GuzzleHttp\Exception\ConnectException $w) {
-            Logger::getRootLogger()->error('Network Error in marketplace' . $w);
             return "Network Error";
         } catch (Exception $e) {
             Logger::getRootLogger()->error('Exception in Marketplace token authentification' . $e);
             throw new CoreServiceException($e->getMessage(), $e->getCode(), $e);
         }
-
     }
 
     /**
@@ -114,7 +124,7 @@ class APIManagerService
             'client_secret' => $this->getClientSecret(),
         );
         try {
-            $response = $this->getApiClient()->post('/oauth/v2/token',
+            $response = $this->getApiClient()->post(self::API_TOKEN,
                 array(
                     'form_params' => $body,
                     'headers' => $headers
@@ -125,11 +135,7 @@ class APIManagerService
                 return $body['access_token'];
             }
         } catch (GuzzleHttp\Exception\ConnectException $w) {
-            Logger::getRootLogger()->error('Network Error in marketplace' . $w);
             return "Network Error";
-        } catch (Exception $e) {
-            Logger::getRootLogger()->error('Exception in Marketplace token authentification' . $e);
-            throw new CoreServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -180,3 +186,4 @@ class APIManagerService
         return $this->baseURL;
     }
 }
+

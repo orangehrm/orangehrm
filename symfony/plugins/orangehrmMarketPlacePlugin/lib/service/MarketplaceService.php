@@ -23,9 +23,17 @@
 class MarketplaceService extends ConfigService
 {
     private $marketplaceDao = null;
-
+    /**
+     * key name for ID in hs_hr_config table
+     */
     const CLIENT_ID = "client_id";
+    /**
+     * key name for Scret in hs_hr_config table
+     */
     const CLIENT_SECRET = "client_secret";
+    /**
+     * key name for marketpalce URL in hs_hr_config table
+     */
     const BASE_URL = 'base_url';
 
     /**

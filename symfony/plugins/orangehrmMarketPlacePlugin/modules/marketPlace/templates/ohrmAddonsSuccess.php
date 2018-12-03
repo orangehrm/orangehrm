@@ -25,13 +25,14 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     </div>
     <div class="inner">
         <?php if ($isNetwork) { ?>
+        <?php if ($canRead) { ?>
         <?php foreach ($addonList as $addon) { ?>
             <div class="row">
                 <div class="inner container" id="addonHolder">
                     <button class="accordion" addOnId="<?php echo $addon['id']; ?>">
                         <div id="column" class="image">
                             <img class="circle" src="
-                        <?php echo plugin_web_path("orangehrmMarketPlacePlugin", "images/45GlBEsi_400x400.jpeg"); ?>"/>
+                        <?php echo $addon['icon']; ?>"/>
                         </div>
                         <div id="column" class="details">
                             <div class="row">
@@ -41,17 +42,13 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                 <p><?php echo __($addon['summary']); ?></p>
                             </div>
                         </div>
-                        <div id="column" class="button">
-                            <input type="button" name="Submit" class="<?php
-                            $installedAddons = $sf_data->getRaw("installedAddons");
-                            if (in_array($addon['id'], $installedAddons)) {
-                                echo "delete";
-                            } ?>" id="btn1" value="<?php
-                            if (in_array($addon['id'], $installedAddons)) {
-                                echo __("Uninstall");
-                            } else {
-                                echo __("Install");
-                            } ?>"/>
+                        <div id="column" class="install_button">
+                            <?php $installedAddons = $sf_data->getRaw("installedAddons");
+                            if (in_array($addon['id'], $installedAddons) and $canDelete) { ?>
+                                <input type="button" name="Submit" class="delete" id="btn1"
+                                       value="Uninstall"/> <?php } ?>
+                            <?php if (!in_array($addon['id'], $installedAddons) and $canCreate) { ?>
+                                <input type="button" name="Submit" class="" id="btn1" value="Install"/> <?php } ?>
                         </div>
                     </button>
                     <div class="panel">
@@ -60,8 +57,9 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
             </div>
         <?php } ?>
     </div>
-    <?php } else {
-        echo "<p>Please connect to the internet to view the available add-ons</p>";
+    <?php }
+    } else {
+        echo "<p>$errorMessage</p>";
     } ?>
 </div>
 <script>
