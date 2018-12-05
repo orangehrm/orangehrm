@@ -29,7 +29,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <?php foreach ($addonList as $addon) { ?>
             <div class="row">
                 <div class="inner container" id="addonHolder">
-                    <button class="accordion" addOnId="<?php echo $addon['id']; ?>">
+                    <button class="accordion" addonid="<?php echo $addon['id']; ?>">
                         <div id="column" class="image">
                             <img class="circle" src="
                         <?php echo $addon['icon']; ?>"/>
@@ -45,10 +45,15 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                         <div id="column" class="install_button">
                             <?php $installedAddons = $sf_data->getRaw("installedAddons");
                             if (in_array($addon['id'], $installedAddons) and $canDelete) { ?>
-                                <input type="button" name="Submit" class="delete" id="btn1"
-                                       value="Uninstall"/> <?php } ?>
+                                <input type="button" name="Submit" class="buttons delete uninstallBtn"
+                                       id="<?php echo 'uninstallButton' . $addon['id']; ?>"
+                                       value="Uninstall" data-toggle="modal" data-target="#deleteConfModal"
+                                       addid=<?php echo $addon['id'] ?>> <?php } ?>
                             <?php if (!in_array($addon['id'], $installedAddons) and $canCreate) { ?>
-                                <input type="button" name="Submit" class="" id="btn1" value="Install"/> <?php } ?>
+                                <input type="button" name="Submit" class="buttons installBtn" value="Install"
+                                       data-toggle="modal"
+                                       id="<?php echo 'installButton' . $addon['id']; ?>"
+                                       data-target="#installConfModal" addid=<?php echo $addon['id'] ?>> <?php } ?>
                         </div>
                     </button>
                     <div class="panel">
@@ -62,7 +67,41 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         echo "<p>$errorMessage</p>";
     } ?>
 </div>
+<div id="disable-screen"></div>
+<div id="loading"></div>
+<!--delete confirmation modal-->
+<div class="modal hide" id="deleteConfModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
+    </div>
+    <div class="modal-body">
+        <p><?php echo __("Are you sure you want to remove this app and all it's components?"); ?></p>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm_uninstall"
+               value="<?php echo __('Confirm'); ?>"/>
+        <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
+    </div>
+</div>
+<!--install add_on confirmation modal-->
+<div class="modal hide" id="installConfModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
+    </div>
+    <div class="modal-body">
+        <p><?php echo __("Are you sure you want to install this application and it's dependencies?"); ?></p>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm_install"
+               value="<?php echo __('Confirm'); ?>"/>
+        <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
+    </div>
+</div>
 <script>
-    var ajaxUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
+    var descriptionUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
+    var installUrl = "<?php echo url_for('marketPlace/installAddonAPI'); ?>";
+    var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
 </script>
 

@@ -1,6 +1,6 @@
 #column {
     padding-right: 15px;
-    height: 100px;
+    height: 70px;
 }
 
 .circle {
@@ -33,7 +33,7 @@
     float: left;
 }
 
-#btn1 {
+.buttons {
     width: 50%;
     float: right;
 }
@@ -64,4 +64,48 @@
 #MP_link {
     background-color: #f28c38 !important;
     color: white !important;
+}
+
+.overlay {
+    background-color: #EFEFEF;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+    opacity: .5; /* in FireFox */
+    filter: alpha(opacity=50); /* in IE */
+}
+
+.loading-class {
+    position: fixed;
+    top: 45%;
+    left: 43%;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 150px;
+    height: 150px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

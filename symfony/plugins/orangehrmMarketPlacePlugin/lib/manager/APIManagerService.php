@@ -65,7 +65,6 @@ class APIManagerService
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
         );
-
         try {
             $response = $this->getApiClient()->get(self::ADDON_LIST,
                 array(
@@ -103,6 +102,10 @@ class APIManagerService
         return $addons;
     }
 
+    /**
+     * @return \GuzzleHttp\Client|null
+     * @throws CoreServiceException
+     */
     private function getApiClient()
     {
         if (!isset($this->apiClient)) {
@@ -184,6 +187,50 @@ class APIManagerService
             $this->baseURL = $this->getMarketplaceService()->getBaseURL();
         }
         return $this->baseURL;
+    }
+
+    /**
+     * @param $addonURL
+     * @param $version
+     * @return string
+     * @throws CoreServiceException
+     */
+    private function getAddonFileFromMP($addonURL)
+    {
+        $token = $this->getApiToken();
+        if ($token == 'Network Error') {
+            return $token;
+        }
+        $headers = array(
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token
+        );
+        try {
+            $response = $this->getApiClient()->get($addonURL,
+                array(
+                    'headers' => $headers,
+                    'stream' => true
+                )
+            );
+            if ($response->getStatusCode() == 200) {
+                $contents = $response->getBody()->getContents();
+                return base64_encode($contents);
+            }
+        } catch (GuzzleHttp\Exception\ConnectException $w) {
+            return "Network Error";
+        }
+    }
+
+    /**
+     * @param $addonURL
+     * @param $version
+     * @return string
+     * @throws CoreServiceException
+     */
+    public function getAddonFile($addonURL)
+    {
+        $addon = $this->getAddonFileFromMP($addonURL);
+        return $addon;
     }
 }
 

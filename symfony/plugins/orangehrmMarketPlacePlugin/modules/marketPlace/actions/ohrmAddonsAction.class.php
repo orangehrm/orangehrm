@@ -26,7 +26,7 @@ class ohrmAddonsAction extends baseAddonAction
      * No Network Error Message
      */
     const NO_NETWORK_ERR_MESSAGE = 'Please connect to the internet to view the available add-ons';
-    private $apiManagerService = null;
+
     private $dataGroupPermission = null;
 
     /**
@@ -49,27 +49,6 @@ class ohrmAddonsAction extends baseAddonAction
             $this->isNetwork = false;
             $this->errorMessage = self::NO_NETWORK_ERR_MESSAGE;
         }
-    }
-
-    /**
-     * @return array
-     * @throws CoreServiceException
-     */
-    public function getAddons()
-    {
-        $output = $this->getApiManagerService()->getAddons();
-        return $output;
-    }
-
-    /**
-     * @return APIManagerService
-     */
-    protected function getApiManagerService()
-    {
-        if (!isset($this->apiManagerService)) {
-            $this->apiManagerService = new APIManagerService();
-        }
-        return $this->apiManagerService;
     }
 
     /**
