@@ -50,9 +50,9 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                        value="Uninstall" data-toggle="modal" data-target="#deleteConfModal"
                                        addid=<?php echo $addon['id'] ?>> <?php } ?>
                             <?php if (!in_array($addon['id'], $installedAddons) and $canCreate) { ?>
-                                <input type="button" name="Submit" class="buttons installBtn" value="Install"
+                                <input type="button" name="Submit" class="buttons installBtn"
+                                       id="<?php echo 'installButton' . $addon['id']; ?>" value="Install"
                                        data-toggle="modal"
-                                       id="<?php echo 'installButton' . $addon['id']; ?>"
                                        data-target="#installConfModal" addid=<?php echo $addon['id'] ?>> <?php } ?>
                         </div>
                     </button>
@@ -99,9 +99,24 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>
+<!--Install success modal-->
+<div class="modal hide" id="successModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+    </div>
+    <div class="modal-body">
+        <p id="message_body"><?php echo __('Msasasa'); ?></p>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn" data-dismiss="modal" id="success_install"
+               value="<?php echo __('Ok'); ?>"/>
+    </div>
+</div>
 <script>
     var descriptionUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
     var installUrl = "<?php echo url_for('marketPlace/installAddonAPI'); ?>";
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
+    var meassageInModal = "<?php echo __('Successfully Installed'); ?>";
+    var meassageUnstallModal = "<?php echo __('Successfully Uinstalled'); ?>";
 </script>
 

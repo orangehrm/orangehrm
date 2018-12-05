@@ -5,8 +5,8 @@
 
 .circle {
     border-radius: 10px;
-    width: 100%;
-    height: 100px;
+    width: auto;
+    height: 100%;
 }
 
 #title {
