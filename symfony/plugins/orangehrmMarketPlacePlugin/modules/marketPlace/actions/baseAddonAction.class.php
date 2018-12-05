@@ -20,13 +20,52 @@
 /**
  * Class baseAddonAction
  */
-class baseAddonAction extends sfAction
+abstract class baseAddonAction extends sfAction
 {
+    private $marcketplaceService = null;
+    private $apiManagerService = null;
+    private $addonList = null;
+
     /**
-     * @param sfRequest $request
-     * @return mixed|void
+     * @return APIManagerService
      */
-    public function execute($request)
+    protected function getApiManagerService()
     {
+        if (!isset($this->apiManagerService)) {
+            $this->apiManagerService = new APIManagerService();
+        }
+        return $this->apiManagerService;
+    }
+
+    /**
+     * @return MarketplaceService|null
+     */
+    protected function getMarcketplaceService()
+    {
+        if (!isset($this->marcketplaceService)) {
+            $this->marcketplaceService = new MarketplaceService();
+        }
+        return $this->marcketplaceService;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getInstalledAddons()
+    {
+        $installedAddons = $this->getMarcketplaceService()->getInstalledAddonIds();
+        return $installedAddons;
+    }
+
+    /**
+     * @return array
+     * @throws CoreServiceException
+     */
+    protected function getAddons()
+    {
+        if (!isset($this->addonList)) {
+            $this->addonList = $this->getApiManagerService()->getAddons();
+        }
+        return $this->addonList;
     }
 }

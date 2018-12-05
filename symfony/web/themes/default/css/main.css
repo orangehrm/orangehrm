@@ -1700,3 +1700,21 @@ div.personalDetails {
     margin-top: 23px;
 }
 /* ================ Personal Details styles: End ================ */
+#MP_btn {
+	float: right;
+	padding-right: 171px;
+	padding-top: 58px;
+}
+
+#MP_link {
+	font: inherit;
+	font-size: 100%;
+	color: #5d5d5d;
+	background-color: white;
+	height: 35px;
+}
+
+#MP_link.hover {
+	background-color: #808080;
+	color: white;
+}
