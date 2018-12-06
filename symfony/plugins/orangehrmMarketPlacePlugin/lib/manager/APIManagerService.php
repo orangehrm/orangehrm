@@ -55,7 +55,7 @@ class APIManagerService
      * @return mixed|string
      * @throws CoreServiceException
      */
-    private function getAddonsFromMP()
+    public function getAddonsFromMP()
     {
         $token = $this->getApiToken();
         if ($token == 'Network Error') {
@@ -95,7 +95,7 @@ class APIManagerService
      * @return mixed|string
      * @throws CoreServiceException
      */
-    private function getDescriptionFromMP($addonURL)
+    public function getDescriptionFromMP($addonURL)
     {
         $token = $this->getApiToken();
         if ($token == 'Network Error') {
