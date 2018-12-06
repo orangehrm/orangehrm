@@ -24,8 +24,14 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <h1 id="menu">OrangeHRM Addons</h1>
     </div>
     <div class="inner">
-        <?php if ($isNetwork) { ?>
-        <?php if ($canRead) { ?>
+        <div class="message success" id="messege_div">
+            <ol>
+                <li id="message_body"></li>
+            </ol>
+            <a href="#" class="messageCloseButton"><?php echo __('Close'); ?></a>
+        </div>
+        <?php if ($isNetwork) {
+        if ($canRead) { ?>
         <?php foreach ($addonList as $addon) { ?>
             <div class="row">
                 <div class="inner container" id="addonHolder">
@@ -56,7 +62,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                        data-target="#installConfModal" addid=<?php echo $addon['id'] ?>> <?php } ?>
                         </div>
                     </button>
-                    <div class="panel">
+                    <div id="<?php echo 'des' . $addon['id'] ?>" class="panel">
                     </div>
                 </div>
             </div>
@@ -99,24 +105,13 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>
-<!--Install success modal-->
-<div class="modal hide" id="successModal">
-    <div class="modal-header">
-        <a class="close" data-dismiss="modal">×</a>
-    </div>
-    <div class="modal-body">
-        <p id="message_body"><?php echo __('Msasasa'); ?></p>
-    </div>
-    <div class="modal-footer">
-        <input type="button" class="btn" data-dismiss="modal" id="success_install"
-               value="<?php echo __('Ok'); ?>"/>
-    </div>
-</div>
 <script>
     var descriptionUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
     var installUrl = "<?php echo url_for('marketPlace/installAddonAPI'); ?>";
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
-    var meassageInModal = "<?php echo __('Successfully Installed'); ?>";
-    var meassageUnstallModal = "<?php echo __('Successfully Uinstalled'); ?>";
+    var meassageInSuccess = "<?php echo __('Successfully Installed'); ?>";
+    var messaegeInFail = "<?php echo __('Installation Failed'); ?>";
+    var meassageUninSuccess = "<?php echo __('Successfully Uninstalled'); ?>";
+    var meassageUninFail = "<?php echo __(' Uninstallation Failed'); ?>";
 </script>
 

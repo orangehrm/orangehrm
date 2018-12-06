@@ -46,9 +46,9 @@ class installAddonAPIAction extends baseAddonAction
 
     /**
      * @param $addonURL
-     * @param $version
-     * @return bool|string
+     * @return string
      * @throws CoreServiceException
+     * @throws sfStopException
      */
     private function getAddonFile($addonURL)
     {
@@ -62,12 +62,17 @@ class installAddonAPIAction extends baseAddonAction
 
     /**
      * @param $addon
-     * @return bool
+     * @return string
+     * @throws sfStopException
      */
     protected function installAddon($addon)
     {
+        if ($addon === 'Network Error') {
+            $this->redirect('marketPlace/ohrmAddons');
+        } else {
 //    implement instalation part here and return weather Instalation "success" or "fail"
 // you will receive addon base 64 encoded in parameters.
-        return 'Success';
+            return 'Success';
+        }
     }
 }

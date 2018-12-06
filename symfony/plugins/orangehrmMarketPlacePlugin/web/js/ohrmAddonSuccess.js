@@ -16,14 +16,18 @@ $(document).ready(function () {
     }
     $('.accordion').click(function () {
         var addId = $(this).attr('addonid');
-        getDescription(addId);
+        $.ajax({
+            method: "POST",
+            data: {addonID: addId},
+            url: descriptionUrl, success: function (result) {
+                $("#des" + addId).html(result);
+            }
+        });
     });
     $('.installBtn').live('click', function () {
-        console.log('ins');
         installId = $(this).attr('addid');
     });
     $('.uninstallBtn').live('click', function () {
-        console.log('unins');
         uninstallId = $(this).attr('addid');
     });
     $('#modal_confirm_install').click(function () {
@@ -36,8 +40,9 @@ $(document).ready(function () {
             url: installUrl, success: function (result) {
                 if (result === '"Success"') {
                     $('#loading').attr('class', '')
-                    $('#message_body').text(meassageInModal)
-                    $('#successModal').show();
+                    $('#disable-screen').attr('class', '');
+                    $('#message_body').text(meassageInSuccess);
+                    $('#messege_div').show(0).delay(2000).fadeOut(1000);
                     $('#installButton' + installId).attr({
                         'class': 'buttons delete uninstallBtn',
                         'value': 'Uninstall',
@@ -45,19 +50,17 @@ $(document).ready(function () {
                         'data-target': '#deleteConfModal'
                     });
                 } else {
+                    $('#message_body').text(messaegeInFail);
+                    $('#installButton' + installId).attr('value', 'Install');
+                    $('#messege_div').attr('class', 'message error').show(0).delay(2000).fadeOut(1000);
                     $('#disable-screen').attr('class', '');
                     $('#loading').attr('class', '');
                 }
             }
         });
     });
-    $('#success_install').click(function () {
-        $('#disable-screen').attr('class', '');
-        $('#successModal').hide()
-    });
     $('#modal_confirm_uninstall').click(function () {
-        console.log(uninstallId);
-        $('#uninstallButton' + uninstallId).attr('value', 'Uinstalling');
+        $('#uninstallButton' + uninstallId).attr('value', 'Uninstalling');
         $('#disable-screen').attr('class', 'overlay');
         $('#loading').attr('class', 'loading-class');
         $.ajax({
@@ -66,8 +69,9 @@ $(document).ready(function () {
             url: uninstallUrl, success: function (result) {
                 if (result === '"Success"') {
                     $('#loading').attr('class', '');
-                    $('#message_body').text(meassageUnstallModal)
-                    $('#successModal').show();
+                    $('#disable-screen').attr('class', '');
+                    $('#message_body').text(meassageUninSuccess);
+                    $('#messege_div').show(0).delay(2000).fadeOut(1000);
                     $('#uninstallButton' + uninstallId).attr({
                         'class': 'buttons installBtn',
                         'value': 'Install',
@@ -75,6 +79,9 @@ $(document).ready(function () {
                         'data-target': '#installConfModal'
                     });
                 } else {
+                    $('#message_body').text(meassageUninFail);
+                    $('#uninstallButton' + uninstallId).attr('value', 'Uninstall');
+                    $('#messege_div').attr('class', 'message error').show(0).delay(2000).fadeOut(1000);
                     $('#disable-screen').attr('class', '');
                     $('#loading').attr('class', '');
                 }
@@ -83,13 +90,3 @@ $(document).ready(function () {
         });
     });
 });
-
-function getDescription(id) {
-    $.ajax({
-        method: "POST",
-        data: {addonID: id},
-        url: descriptionUrl, success: function (result) {
-            $(".panel").html(result);
-        }
-    });
-}
