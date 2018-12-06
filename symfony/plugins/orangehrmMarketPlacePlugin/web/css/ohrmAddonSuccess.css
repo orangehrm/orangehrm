@@ -5,8 +5,8 @@
 
 .circle {
     border-radius: 10px;
-    width: 100%;
-    height: 100px;
+    width: auto;
+    height: 100%;
 }
 
 #title {
@@ -84,7 +84,7 @@
     left: 43%;
     border: 16px solid #f3f3f3;
     border-radius: 50%;
-    border-top: 16px solid #3498db;
+    border-top: 16px solid #f28c38;
     width: 150px;
     height: 150px;
     -webkit-animation: spin 2s linear infinite; /* Safari */
@@ -108,4 +108,9 @@
     100% {
         transform: rotate(360deg);
     }
+}
+
+#messege_div {
+    display: none;
+    max-height: 15px;
 }

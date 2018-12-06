@@ -77,33 +77,51 @@ class APIManagerService
             }
         } catch (GuzzleHttp\Exception\ConnectException $w) {
             return "Network Error";
-        } catch (Exception $e) {
-            Logger::getRootLogger()->error('Exception in Marketplace token authentification' . $e);
-            throw new CoreServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
     /**
-     * @param int $addonId
-     * @return array
+     * @param string $addonURL
+     * @return mixed|string
+     * @throws CoreServiceException
      */
-    public function getDescription($addonId)
+    public function getDescription($addonURL)
     {
-        return $this->getDescriptionFromMP($addonId);
+        return $this->getDescriptionFromMP($addonURL);
     }
 
     /**
-     * @param int $addonId
-     * @return array
+     * @param  string $addonURL
+     * @return mixed|string
+     * @throws CoreServiceException
      */
-    private function getDescriptionFromMP($addonId)
+    private function getDescriptionFromMP($addonURL)
     {
-        $addons = array();
-        return $addons;
+        $token = $this->getApiToken();
+        if ($token == 'Network Error') {
+            return $token;
+        }
+        $headers = array(
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token
+        );
+        try {
+            $response = $this->getApiClient()->get($addonURL,
+                array(
+                    'headers' => $headers
+                )
+            );
+            if ($response->getStatusCode() == 200) {
+                $body = json_decode($response->getBody(), true);
+                return $body;
+            }
+        } catch (GuzzleHttp\Exception\ConnectException $w) {
+            return "Network Error";
+        }
     }
 
     /**
-     * @return \GuzzleHttp\Client|null
+     * @return \GuzzleHttp\Client
      * @throws CoreServiceException
      */
     private function getApiClient()

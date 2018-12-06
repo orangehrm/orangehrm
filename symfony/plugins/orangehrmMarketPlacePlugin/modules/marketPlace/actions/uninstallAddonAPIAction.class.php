@@ -24,9 +24,13 @@ class uninstallAddonAPIAction extends baseAddonAction
 {
     /**
      * @param sfRequest $request
-     * @return mixed|void
+     * @return mixed|string
      */
     public function execute($request)
     {
+        $data = $request->getParameterHolder()->getAll();
+        $result = 'Success';
+        echo json_encode($result);
+        return sfView::NONE;
     }
 }
