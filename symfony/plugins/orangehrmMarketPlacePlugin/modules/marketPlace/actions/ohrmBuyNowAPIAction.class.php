@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,72 +19,51 @@
  */
 
 /**
- * Class installAddonAPI
+ * Class ohrmBuyNowAPIAction
  */
-class installAddonAPIAction extends baseAddonAction
+class ohrmBuyNowAPIAction extends baseAddonAction
 {
     /**
      * @param sfRequest $request
      * @return mixed|string
      * @throws CoreServiceException
-     * @throws sfStopException
+     * @throws DaoException
      */
     public function execute($request)
     {
-        $addonList = $this->getAddons();
         $data = $request->getParameterHolder()->getAll();
-        $addonId = $data['installAddonID'];
-        $addonURL = null;
-        $addonDetail = null;
+        $addonId = $data['buyAddonID'];
+        $addonList = $this->getAddons();
         foreach ($addonList as $addon) {
             if ($addon['id'] == $addonId) {
                 $addonDetail = $addon;
-                $addonURL = $addon['links']['file'];
             }
         }
-        $result = $this->getAddonFile($addonURL, $addonDetail);
+        $result = $this->buyNow($data, $addonDetail);
         echo json_encode($result);
         return sfView::NONE;
     }
 
     /**
-     * @param $addonURL
+     * @param array $data
+     * @param string $addonDetail
      * @return string
      * @throws CoreServiceException
-     * @throws sfStopException
+     * @throws DaoException
      */
-    private function getAddonFile($addonURL, $addonDetail)
+    public function buyNow($data, $addonDetail)
     {
-        $addonfile = $this->getApiManagerService()->getAddonFile($addonURL);
-        if ($addonfile == 'Network Error') {
-            return $addonfile;
+        $result = $this->getApiManagerService()->buyNowAddon($data);
+        if ($result == 'Success') {
+            $addonData = array(
+                'id' => $addonDetail['id'],
+                'addonName' => $addonDetail['title'],
+                'status' => 'Requested'
+            );
+            $this->getMarcketplaceService()->installOrRequestAddon($addonData);
+            return $result;
         } else {
-            return $this->installAddon($addonfile, $addonDetail);
-        }
-    }
-
-    /**
-     * @param $addon
-     * @return string
-     * @throws sfStopException
-     */
-    protected function installAddon($addon, $addonDetail)
-    {
-        if ($addon === 'Network Error') {
-            $this->redirect('marketPlace/ohrmAddons');
-        } else {
-            try {
-                $data = array(
-                    'id' => $addonDetail['id'],
-                    'addonName' => $addonDetail['title'],
-                    'status' => 'Installed'
-                );
-                $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
-//                Todo implementation on instalation
-                return 'Success';
-            } catch (Exception $e) {
-                return 'Fail';
-            }
+            return 'Fail';
         }
     }
 }

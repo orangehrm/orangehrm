@@ -24,10 +24,75 @@ class MarketplaceDao
 {
     /**
      * @return array
+     * @throws DaoException
      */
     public function getInstalledAddonIds()
     {
-        $output = array(1, 2);
-        return $output;
+        try {
+            $q = Doctrine_Query::create()
+                ->select('id')
+                ->from('Addon c')
+                ->where('c.status = ?', 'Installed');
+            $value = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+            return $value;
+        } catch (Exception $e) {
+            $this->getLogger()->error("Exception in getValue:" . $e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @return array
+     * @throws DaoException
+     */
+    public function getInstalationPendingAddonIds()
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->select('id')
+                ->from('Addon c')
+                ->where('c.status = ?', 'Requested');
+            $value = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+            return $value;
+        } catch (Exception $e) {
+            $this->getLogger()->error("Exception in getValue:" . $e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param $data
+     * @return bool
+     * @throws DaoException
+     */
+    public function installOrRequestAddon($data)
+    {
+        try {
+            $addon = new Addon();
+            $addon->setId($data['id']);
+            $addon->setAddonName($data['addonName']);
+            $addon->setInstalledDate(date('Y-m-d H:i:s'));
+            $addon->setAddonStatus($data['status']);
+            $addon->save();
+            return true;
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    public function uninstallAddon($addonId)
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->delete('Addon l')
+                ->where("l.id = ?", $addonId);
+            return $q->execute();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
     }
 }

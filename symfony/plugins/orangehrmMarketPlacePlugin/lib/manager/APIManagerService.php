@@ -34,12 +34,18 @@ class APIManagerService
      * url for get access token from marketplace
      */
     const API_TOKEN = '/oauth/v2/token';
+    /**
+     * Buy now request URL
+     * this has only one part
+     */
+    const BUY_NOW_REQUEST = '/api/v1/addon/';
 
     private $apiClient = null;
     private $marketplaceService = null;
     public $clientId = null;
     public $clientSecret = null;
     public $baseURL = null;
+    private $configService = null;
 
     /**
      * @return array
@@ -249,6 +255,56 @@ class APIManagerService
     {
         $addon = $this->getAddonFileFromMP($addonURL);
         return $addon;
+    }
+
+    /**
+     * @param $data
+     * @return string
+     * @throws CoreServiceException
+     */
+    public function buyNowAddon($data)
+    {
+        $token = $this->getApiToken();
+        if ($token == 'Network Error') {
+            return $token;
+        }
+        $headers = array(
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token
+        );
+        $instanceID = $this->getConfigService()->getInstanceIdentifier();
+        $requestData = array(
+            'instanceId' => $instanceID,
+            'companyName' => $data['companyName'],
+            'contactEmail' => $data['contactEmail'],
+            'contactNumber' => $data['contactNumber'],
+        );
+        try {
+            $response = $this->getApiClient()->post(self::BUY_NOW_REQUEST . $data['buyAddonID'] . '/request',
+                array(
+                    'headers' => $headers,
+                    'stream' => true,
+                    'form_params' => $requestData
+                )
+            );
+            if ($response->getStatusCode() == 200) {
+                return 'Success';
+            }
+        } catch (GuzzleHttp\Exception\ConnectException $w) {
+            return "Network Error";
+        }
+    }
+
+    /**
+     * @return ConfigService|mixed
+     */
+    public function getConfigService()
+    {
+        if (is_null($this->configService)) {
+            $this->configService = new ConfigService();
+            $this->configService->setConfigDao(new ConfigDao());
+        }
+        return $this->configService;
     }
 }
 

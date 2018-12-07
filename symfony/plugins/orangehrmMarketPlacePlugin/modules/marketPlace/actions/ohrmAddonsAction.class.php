@@ -33,9 +33,13 @@ class ohrmAddonsAction extends baseAddonAction
      * @param sfRequest $request
      * @return mixed|void
      * @throws CoreServiceException
+     * @throws DaoException
      */
     public function execute($request)
     {
+        $data = $this->getMarcketplaceService()->getInstalationPendingAddonIds();
+        $this->buyNowPendingAddon = $data[0];
+        $this->buyNowForm = new BuyNowForm();
         $this->dataGroupPermission = $this->getPermissions();
         $this->canRead = $this->dataGroupPermission->canRead();
         $this->canCreate = $this->dataGroupPermission->canCreate();
@@ -44,7 +48,8 @@ class ohrmAddonsAction extends baseAddonAction
         $addonList = $this->getAddons();
         if (gettype($addonList) == 'array') {
             $this->addonList = $addonList;
-            $this->installedAddons = $this->getInstalledAddons();
+            $installAddons = $this->getInstalledAddons();
+            $this->installedAddons = $installAddons[0];
         } else {
             $this->isNetwork = false;
             $this->errorMessage = self::NO_NETWORK_ERR_MESSAGE;

@@ -2033,3 +2033,12 @@ CREATE TABLE `ohrm_employee_event` (
 
 ALTER TABLE `hs_hr_config`
 CHANGE COLUMN `value` `value` TEXT NOT NULL ;
+
+CREATE TABLE `ohrm_marketplace_addon` (
+  `addon_id` INT(11),
+  `title` VARCHAR(100),
+  `date` TIMESTAMP,
+  `status` VARCHAR(30),
+  `version` VARCHAR(30),
+  PRIMARY KEY(`addon_id`)
+) engine=innodb default charset=utf8;

@@ -82,4 +82,33 @@ class MarketplaceService extends ConfigService
     {
         return $this->_getConfigValue(self::BASE_URL);
     }
+
+    /**
+     * @return array
+     * @throws DaoException
+     */
+    public function getInstalationPendingAddonIds()
+    {
+        return $this->getMarketplaceDao()->getInstalationPendingAddonIds();
+    }
+
+    /**
+     * @param $data
+     * @return bool
+     * @throws DaoException
+     */
+    public function installOrRequestAddon($data)
+    {
+        return $this->getMarketplaceDao()->installOrRequestAddon($data);
+    }
+
+    /**
+     * @param $addonId
+     * @return Doctrine_Collection
+     * @throws DaoException
+     */
+    public function uninstallAddon($addonId)
+    {
+        return $this->getMarketplaceDao()->uninstallAddon($addonId);
+    }
 }
