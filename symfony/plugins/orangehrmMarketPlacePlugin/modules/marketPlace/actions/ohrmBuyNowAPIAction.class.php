@@ -24,15 +24,46 @@
 class ohrmBuyNowAPIAction extends baseAddonAction
 {
     /**
-     * @param $request
-     * @return string
+     * @param sfRequest $request
+     * @return mixed|string
      * @throws CoreServiceException
+     * @throws DaoException
      */
     public function execute($request)
     {
         $data = $request->getParameterHolder()->getAll();
-        $result = $this->getApiManagerService()->buyNowAddon($data);
+        $addonId = $data['buyAddonID'];
+        $addonList = $this->getAddons();
+        foreach ($addonList as $addon) {
+            if ($addon['id'] == $addonId) {
+                $addonDetail = $addon;
+            }
+        }
+        $result = $this->buyNow($data, $addonDetail);
         echo json_encode($result);
         return sfView::NONE;
+    }
+
+    /**
+     * @param array $data
+     * @param string $addonDetail
+     * @return string
+     * @throws CoreServiceException
+     * @throws DaoException
+     */
+    public function buyNow($data, $addonDetail)
+    {
+        $result = $this->getApiManagerService()->buyNowAddon($data);
+        if ($result == 'Success') {
+            $addonData = array(
+                'id' => $addonDetail['id'],
+                'addonName' => $addonDetail['title'],
+                'status' => 'Requested'
+            );
+            $this->getMarcketplaceService()->installOrRequestAddon($addonData);
+            return $result;
+        } else {
+            return 'Fail';
+        }
     }
 }

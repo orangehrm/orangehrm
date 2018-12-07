@@ -1,0 +1,17 @@
+Addon:
+  tableName: ohrm_marketplace_addon
+  columns:
+    addonid:
+      name: addon_id as id
+      type: integer(4)
+      primary: true
+    title:
+      name: title as addonName
+      type: string(100)
+    date:
+      name: date as installedDate
+      type: TIMESTAMP
+    status:
+      type: string(30)
+      name: status as addonStatus
+    version: string(30)

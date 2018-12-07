@@ -34,12 +34,14 @@ class installAddonAPIAction extends baseAddonAction
         $data = $request->getParameterHolder()->getAll();
         $addonId = $data['installAddonID'];
         $addonURL = null;
+        $addonDetail = null;
         foreach ($addonList as $addon) {
             if ($addon['id'] == $addonId) {
+                $addonDetail = $addon;
                 $addonURL = $addon['links']['file'];
             }
         }
-        $result = $this->getAddonFile($addonURL);
+        $result = $this->getAddonFile($addonURL, $addonDetail);
         echo json_encode($result);
         return sfView::NONE;
     }
@@ -50,13 +52,13 @@ class installAddonAPIAction extends baseAddonAction
      * @throws CoreServiceException
      * @throws sfStopException
      */
-    private function getAddonFile($addonURL)
+    private function getAddonFile($addonURL, $addonDetail)
     {
-        $addon = $this->getApiManagerService()->getAddonFile($addonURL);
-        if ($addon == 'Network Error') {
-            return $addon;
+        $addonfile = $this->getApiManagerService()->getAddonFile($addonURL);
+        if ($addonfile == 'Network Error') {
+            return $addonfile;
         } else {
-            return $this->installAddon($addon);
+            return $this->installAddon($addonfile, $addonDetail);
         }
     }
 
@@ -65,14 +67,23 @@ class installAddonAPIAction extends baseAddonAction
      * @return string
      * @throws sfStopException
      */
-    protected function installAddon($addon)
+    protected function installAddon($addon, $addonDetail)
     {
         if ($addon === 'Network Error') {
             $this->redirect('marketPlace/ohrmAddons');
         } else {
-//    implement instalation part here and return weather Instalation "success" or "fail"
-// you will receive addon base 64 encoded in parameters.
-            return 'Success';
+            try {
+                $data = array(
+                    'id' => $addonDetail['id'],
+                    'addonName' => $addonDetail['title'],
+                    'status' => 'Installed'
+                );
+                $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
+//                Todo implementation on instalation
+                return 'Success';
+            } catch (Exception $e) {
+                return 'Fail';
+            }
         }
     }
 }
