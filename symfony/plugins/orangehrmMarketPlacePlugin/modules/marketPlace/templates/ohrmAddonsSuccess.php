@@ -18,10 +18,11 @@
  */
 use_stylesheet(plugin_web_path('orangehrmMarketPlacePlugin', 'css/ohrmAddonSuccess.css'));
 use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSuccess.js'));
+use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSuccessValidator.js'));
 ?>
 <div class="box">
     <div class="head">
-        <h1 id="menu">OrangeHRM Addons</h1>
+        <h1 id="menu"><?php echo __('OrangeHRM Addons'); ?></h1>
     </div>
     <div class="inner">
         <div class="message success" id="messege_div">
@@ -55,11 +56,27 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                        id="<?php echo 'uninstallButton' . $addon['id']; ?>"
                                        value="Uninstall" data-toggle="modal" data-target="#deleteConfModal"
                                        addid=<?php echo $addon['id'] ?>> <?php } ?>
-                            <?php if (!in_array($addon['id'], $installedAddons) and $canCreate) { ?>
+                            <?php if (!in_array($addon['id'], $installedAddons) and $canCreate and $addon['type'] == 'free') { ?>
                                 <input type="button" name="Submit" class="buttons installBtn"
                                        id="<?php echo 'installButton' . $addon['id']; ?>" value="Install"
                                        data-toggle="modal"
                                        data-target="#installConfModal" addid=<?php echo $addon['id'] ?>> <?php } ?>
+                            <?php if (!in_array($addon['id'], $installedAddons) and $canCreate and $addon['type'] == 'paid') { ?>
+                                <input type="button" name="Submit" class="buttons buyBtn"
+                                       id="<?php echo 'buyBtn' . $addon['id']; ?>"
+                                       value="<?php $buyNowPendingAddon = $sf_data->getRaw("buyNowPendingAddon");
+                                       if (in_array($addon['id'], $buyNowPendingAddon)) {
+                                           echo __('Requested');
+                                       } else {
+                                           echo __('Request');
+                                       } ?>" <?php if (in_array($addon['id'], $buyNowPendingAddon)) {
+                                    echo 'disabled';
+                                } ?>
+                                       data-toggle="modal"
+                                       data-target="#buyNowModal"
+                                       style="<?php if (in_array($addon['id'], $buyNowPendingAddon)) {
+                                           echo 'background-color: #808080;';
+                                       } ?>" addid=<?php echo $addon['id'] ?>> <?php } ?>
                         </div>
                     </button>
                     <div id="<?php echo 'des' . $addon['id'] ?>" class="panel">
@@ -82,7 +99,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
     </div>
     <div class="modal-body">
-        <p><?php echo __("Are you sure you want to remove this app and all it's components?"); ?></p>
+        <p><?php echo __("Are you sure you want to remove this app and all it's dependencies?"); ?></p>
     </div>
     <div class="modal-footer">
         <input type="button" class="btn" data-dismiss="modal" id="modal_confirm_uninstall"
@@ -105,13 +122,47 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>
+<!--Buy now modal-->
+<div class="modal hide" id="buyNowModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3><?php echo __('Request an add-on'); ?></h3>
+    </div>
+    <div class="modal-body">
+        <p><?php echo __("You are requesting to buy this add-on."); ?></p><br>
+        <p><?php echo __("Please confirm your contact details. Your details will be forwarded to sales@orangehrm.com."); ?></p>
+        <div class="box">
+            <form id="frmBuyNow" method="post">
+                <ol>
+                    <?php echo $buyNowForm->render() ?>
+                </ol>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn" id="modal_confirm_buy"
+               value="<?php echo __('Ok'); ?>"/>
+        <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
+    </div>
+
+</div>
 <script>
     var descriptionUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
     var installUrl = "<?php echo url_for('marketPlace/installAddonAPI'); ?>";
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
-    var meassageInSuccess = "<?php echo __('Successfully Installed'); ?>";
-    var messaegeInFail = "<?php echo __('Installation Failed'); ?>";
-    var meassageUninSuccess = "<?php echo __('Successfully Uninstalled'); ?>";
-    var meassageUninFail = "<?php echo __(' Uninstallation Failed'); ?>";
-</script>
+    var buyNowUrl = "<?php echo url_for('marketPlace/ohrmBuyNowAPI'); ?>";
 
+    var meassageInSuccess = "<?php echo __('Successfully Installed'); ?>";
+    var messaegeInFail = "<?php echo __('Failed to Install'); ?>";
+    var meassageUninSuccess = "<?php echo __('Successfully Uninstalled'); ?>";
+    var meassageUninFail = "<?php echo __('Failed to Uninstall'); ?>";
+    var buyNowReqSuccess = "<?php echo __('Your request has been forwarded'); ?>";
+    var buyNowReqFail = "<?php echo __('Failed to proceed with the request, try again.'); ?>";
+
+    var emailRequired = "<?php echo __('Required'); ?>";
+    var emailValidation = "<?php echo __('Enter a valid email'); ?>";
+    var contactRequired = "<?php echo __('Required'); ?>";
+    var contactValidation = "<?php echo __('Enter a valid contact number'); ?>";
+    var organizationRequired = "<?php echo __('Required'); ?>";
+    var organizationValidation = "<?php echo __('Organization max length exceded'); ?>";
+</script>

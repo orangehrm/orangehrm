@@ -36,6 +36,8 @@ class ohrmAddonsAction extends baseAddonAction
      */
     public function execute($request)
     {
+        $this->buyNowPendingAddon = $this->getMarcketplaceService()->getInstalationPendingAddonIds();
+        $this->buyNowForm = new BuyNowForm();
         $this->dataGroupPermission = $this->getPermissions();
         $this->canRead = $this->dataGroupPermission->canRead();
         $this->canCreate = $this->dataGroupPermission->canCreate();

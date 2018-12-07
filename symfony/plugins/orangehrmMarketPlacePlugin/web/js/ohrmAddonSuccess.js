@@ -1,5 +1,6 @@
 var installId;
 var uninstallId;
+var buyNowId;
 $(document).ready(function () {
     var acc = document.getElementsByClassName("accordion");
     var i;
@@ -85,8 +86,40 @@ $(document).ready(function () {
                     $('#disable-screen').attr('class', '');
                     $('#loading').attr('class', '');
                 }
-
             }
         });
     });
+    $('.buyBtn').click(function () {
+        buyNowId = $(this).attr('addid');
+    });
+    $('#modal_confirm_buy').click(function () {
+        if ($("#frmBuyNow").valid()) {
+            var cusEmail = $('#email').val();
+            var contactNum = $('#contactNumber').val();
+            var comName = $('#organization').val();
+            $('#buyNowModal').modal('toggle');
+            $('#disable-screen').attr('class', 'overlay');
+            $('#buyBtn' + buyNowId).attr('value', 'Reqesting');
+            $('#loading').attr('class', 'loading-class');
+            $.ajax({
+                method: "POST",
+                data: {buyAddonID: buyNowId, companyName: comName, contactEmail: cusEmail, contactNumber: contactNum},
+                url: buyNowUrl, success: function (result) {
+                    if (result === '"Success"') {
+                        $('#message_body').text(buyNowReqSuccess);
+                        $('#loading').attr('class', '');
+                        $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
+                        $('#disable-screen').attr('class', '');
+                        $('#messege_div').show(0).delay(2000).fadeOut(1000);
+                    } else {
+                        $('#message_body').text(buyNowReqFail);
+                        $('#loading').attr('class', '');
+                        $('#buyBtn' + buyNowId).attr('value', 'Request');
+                        $('#disable-screen').attr('class', '');
+                        $('#messege_div').attr('class', 'message error').show(0).delay(2000).fadeOut(1000);
+                    }
+                }
+            });
+        }
+    })
 });

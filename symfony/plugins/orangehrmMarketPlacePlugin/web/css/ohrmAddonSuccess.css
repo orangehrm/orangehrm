@@ -114,3 +114,7 @@
     display: none;
     max-height: 15px;
 }
+
+#buyNowModal {
+    width: 500px;
+}

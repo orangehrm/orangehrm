@@ -18,7 +18,7 @@ include_slot('header', get_partial('global/header'));
                     <input id="MP_link" type="button" class="button" value="<?php echo __('Marketplace'); ?>"/>
                 </div>
                 <script>
-                    url = "<?php echo url_for('marketPlace/ohrmAddons'); ?>";
+                    marketplaceURL = "<?php echo url_for('marketPlace/ohrmAddons'); ?>";
                 </script>
                 <div id="welcome-menu" class="panelContainer">
                     <ul>

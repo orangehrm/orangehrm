@@ -82,4 +82,12 @@ class MarketplaceService extends ConfigService
     {
         return $this->_getConfigValue(self::BASE_URL);
     }
+
+    /**
+     * @return array
+     */
+    public function getInstalationPendingAddonIds()
+    {
+        return $this->getMarketplaceDao()->getInstalationPendingAddonIds();
+    }
 }
