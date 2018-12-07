@@ -42,6 +42,7 @@ class uninstallAddonAPIAction extends baseAddonAction
      */
     public function uninstallAddon($addonid)
     {
+//    Todo implementation
         $result = $this->getMarcketplaceService()->uninstallAddon($addonid);
         return 'Success';
     }
