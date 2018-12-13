@@ -36,7 +36,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <?php foreach ($addonList as $addon) { ?>
             <div class="row">
                 <div class="inner container" id="addonHolder">
-                    <button class="accordion" addonid="<?php echo $addon['id']; ?>">
+                    <div class="accordion" addonid="<?php echo $addon['id']; ?>">
                         <div id="column" class="image">
                             <img class="circle" src="
                         <?php echo $addon['icon']; ?>"/>
@@ -78,7 +78,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                            echo 'background-color: #808080;';
                                        } ?>" addid=<?php echo $addon['id'] ?>> <?php } ?>
                         </div>
-                    </button>
+                    </div>
                     <div id="<?php echo 'des' . $addon['id'] ?>" class="panel">
                     </div>
                 </div>

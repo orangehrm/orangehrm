@@ -48,6 +48,7 @@
     border: none;
     outline: none;
     transition: 0.4s;
+    display: inline-block;
 }
 
 .active, .accordion:hover {
