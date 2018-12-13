@@ -1708,10 +1708,12 @@ div.personalDetails {
 
 #MP_link {
 	font: inherit;
-	font-size: 100%;
+	font-size: 105%;
 	color: #5d5d5d;
 	background-color: white;
 	height: 35px;
+	padding-bottom: 5px;
+
 }
 
 #MP_link.hover {
