@@ -25,7 +25,7 @@ class ohrmAddonsAction extends baseAddonAction
     /**
      * No Network Error Message
      */
-    const NO_NETWORK_ERR_MESSAGE = 'Please connect to the internet to view the available add-ons';
+    const NO_NETWORK_ERR_MESSAGE = "please connect to view ALL AVAILABLE ADDONS";
 
     private $dataGroupPermission = null;
 
