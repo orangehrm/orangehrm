@@ -99,7 +99,7 @@ $(document).ready(function () {
             var comName = $('#organization').val();
             $('#buyNowModal').modal('toggle');
             $('#disable-screen').attr('class', 'overlay');
-            $('#buyBtn' + buyNowId).attr('value', 'Reqesting');
+            $('#buyBtn' + buyNowId).attr('value', 'Requesting');
             $('#loading').attr('class', 'loading-class');
             $.ajax({
                 method: "POST",
