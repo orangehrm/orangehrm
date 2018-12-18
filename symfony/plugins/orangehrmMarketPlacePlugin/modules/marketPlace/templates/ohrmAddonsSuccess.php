@@ -31,7 +31,8 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
             </ol>
             <a href="#" class="messageCloseButton"><?php echo __('Close'); ?></a>
         </div>
-        <?php if ($isNetwork) {
+        <?php $buyNowPendingAddon = $sf_data->getRaw("buyNowPendingAddon");
+        if ($isNetwork) {
         if ($canRead) { ?>
         <?php foreach ($addonList as $addon) { ?>
             <div class="row">
@@ -62,9 +63,12 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                        data-toggle="modal"
                                        data-target="#installConfModal" addid=<?php echo $addon['id'] ?>> <?php } ?>
                             <?php if (!in_array($addon['id'], $installedAddons) and $canCreate and $addon['type'] == 'paid') { ?>
-                                <input type="button" name="Submit" class="buttons buyBtn"
+                                <input type="button" name="Submit"
+                                       class="buttons buyBtn <?php if (in_array($addon['id'], $buyNowPendingAddon)) {
+                                           echo 'requested';
+                                       } ?>"
                                        id="<?php echo 'buyBtn' . $addon['id']; ?>"
-                                       value="<?php $buyNowPendingAddon = $sf_data->getRaw("buyNowPendingAddon");
+                                       value="<?php
                                        if (in_array($addon['id'], $buyNowPendingAddon)) {
                                            echo __('Requested');
                                        } else {
@@ -74,9 +78,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                 } ?>
                                        data-toggle="modal"
                                        data-target="#buyNowModal"
-                                       style="<?php if (in_array($addon['id'], $buyNowPendingAddon)) {
-                                           echo 'background-color: #808080;';
-                                       } ?>" addid=<?php echo $addon['id'] ?>> <?php } ?>
+                                       addid=<?php echo $addon['id'] ?>> <?php } ?>
                         </div>
                     </div>
                     <div id="<?php echo 'des' . $addon['id'] ?>" class="panel">

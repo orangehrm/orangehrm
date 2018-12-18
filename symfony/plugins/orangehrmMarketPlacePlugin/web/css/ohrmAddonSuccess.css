@@ -119,3 +119,7 @@
 #buyNowModal {
     width: 500px;
 }
+
+.requested {
+    background-color: #808080 !important;
+}
