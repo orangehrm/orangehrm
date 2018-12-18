@@ -21,7 +21,11 @@ $(document).ready(function () {
             method: "POST",
             data: {addonID: addId},
             url: descriptionUrl, success: function (result) {
-                $("#des" + addId).html(result);
+                if (result === '"Network Error"') {
+                    window.location.replace(marketplaceURL);
+                } else {
+                    $("#des" + addId).html(result);
+                }
             }
         });
     });
@@ -40,7 +44,7 @@ $(document).ready(function () {
             data: {installAddonID: installId},
             url: installUrl, success: function (result) {
                 if (result === '"Success"') {
-                    $('#loading').attr('class', '')
+                    $('#loading').attr('class', '');
                     $('#disable-screen').attr('class', '');
                     $('#message_body').text(meassageInSuccess);
                     $('#messege_div').show(0).delay(2000).fadeOut(1000);
@@ -111,7 +115,10 @@ $(document).ready(function () {
                         $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
                         $('#disable-screen').attr('class', '');
                         $('#messege_div').show(0).delay(2000).fadeOut(1000);
-                    } else {
+                    } else if (result === '"Network Error"') {
+                        window.location.replace(marketplaceURL);
+                    }
+                    else {
                         $('#message_body').text(buyNowReqFail);
                         $('#loading').attr('class', '');
                         $('#buyBtn' + buyNowId).attr('value', 'Request');

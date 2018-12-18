@@ -69,21 +69,17 @@ class installAddonAPIAction extends baseAddonAction
      */
     protected function installAddon($addon, $addonDetail)
     {
-        if ($addon === 'Network Error') {
-            $this->redirect('marketPlace/ohrmAddons');
-        } else {
-            try {
-                $data = array(
-                    'id' => $addonDetail['id'],
-                    'addonName' => $addonDetail['title'],
-                    'status' => 'Installed'
-                );
-                $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
+        try {
+            $data = array(
+                'id' => $addonDetail['id'],
+                'addonName' => $addonDetail['title'],
+                'status' => 'Installed'
+            );
+            $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
 //                Todo implementation on instalation
-                return 'Success';
-            } catch (Exception $e) {
-                return 'Fail';
-            }
+            return 'Success';
+        } catch (Exception $e) {
+            return 'Fail';
         }
     }
 }

@@ -62,6 +62,8 @@ class ohrmBuyNowAPIAction extends baseAddonAction
             );
             $this->getMarcketplaceService()->installOrRequestAddon($addonData);
             return $result;
+        } elseif ($result == 'Network Error') {
+            return $result;
         } else {
             return 'Fail';
         }

@@ -24,9 +24,10 @@ class getAddonDescriptionAPIAction extends baseAddonAction
 {
     /**
      * @param sfRequest $request
-     * @return mixed
+     * @return mixed|string
      * @throws CoreServiceException
      * @throws sfStopException
+     * return string is base 64 encoded html which is coming from MP backend
      */
     public function execute($request)
     {
@@ -39,20 +40,24 @@ class getAddonDescriptionAPIAction extends baseAddonAction
             }
         }
         $addonDescription = $this->getDescription($addonDesCriptionURL);
+        if ($addonDescription == 'Network Error'){
+            echo json_encode($addonDescription);
+            return sfView::NONE;
+        }
         $this->addonDescription = base64_decode($addonDescription);
     }
 
     /**
      * @param $addonDesCriptionURL
-     * @return mixed
+     * @return string
      * @throws CoreServiceException
      * @throws sfStopException
      */
     protected function getDescription($addonDesCriptionURL)
     {
         $description = $this->getApiManagerService()->getDescription($addonDesCriptionURL);
-        if ($description === 'Network Error') {
-            $this->redirect('marketPlace/ohrmAddons');
+        if ($description == 'Network Error') {
+            return $description;
         } else {
             return $description['description'];
         }

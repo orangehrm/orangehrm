@@ -297,7 +297,7 @@ class APIManagerService
                 return 'Success';
             }
         } catch (GuzzleHttp\Exception\ConnectException $w) {
-            return "Network Error";
+            return 'Network Error';
         }
     }
 
@@ -357,4 +357,3 @@ class APIManagerService
         return false;
     }
 }
-

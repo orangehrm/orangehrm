@@ -149,6 +149,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
 
 </div>
 <script>
+    var marketplaceURL = "<?php echo url_for('marketPlace/ohrmAddons'); ?>";
     var descriptionUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
     var installUrl = "<?php echo url_for('marketPlace/installAddonAPI'); ?>";
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
