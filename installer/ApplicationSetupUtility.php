@@ -408,6 +408,7 @@ public static function writeLog() {
         $sys->setAdminContactNumber($_SESSION['defUser']['contactNumber']);
         $sys->createAdminUser($_SESSION['defUser']['AdminUserName'], $_SESSION['defUser']['AdminPassword']);
         $sys->setInstanceIdentifier($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['randomNumber']);
+        $sys->setInstanceIdentifierChecksum($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['randomNumber']);
     }
 
 public static function install() { 
