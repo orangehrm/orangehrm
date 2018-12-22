@@ -6,6 +6,7 @@ class executeConfChangeAction extends sfAction {
     private $remortConfigPath;
     private $upgradeSystemConfiguration = null;
     private $instanceIdentifier = null;
+    private $sysConfig = null;
 
     public function preExecute() {
         $this->getUser()->setAttribute('currentScreen','confInfo');
@@ -78,6 +79,7 @@ class executeConfChangeAction extends sfAction {
                     $_SESSION['defUser']['randomNumber'] = rand(1,100);
                     $_SESSION['defUser']['type'] = 4;
                     $this->setInstanceIdentifier();
+                    $this->setInstanceIdentifierChecksum();
 
                     $upgradeSystemRegistration = new UpgradeOrangehrmRegistration();
                     $upgradeSystemRegistration->sendRegistrationData();
@@ -107,5 +109,52 @@ class executeConfChangeAction extends sfAction {
             $this->upgradeSystemConfiguration = new UpgradeSystemConfiguration();
         }
         return $this->upgradeSystemConfiguration;
+    }
+
+    /**
+     * Set instance identifier checksum value to the database if not exist instance identifier checksum value
+     */
+    public function setInstanceIdentifierChecksum() {
+        $upgradeSystemConfiguration = $this->getUpgradeSystemConfiguration();
+        if (!$upgradeSystemConfiguration->hasSetInstanceIdentifierChecksum()) {
+            $instanceIdentifierChecksum=$this->createInstanceIdentifierChecksum($this->instanceIdentifier);
+            $upgradeSystemConfiguration->setInstanceIdentifierChecksum($instanceIdentifierChecksum);
+        }
+    }
+
+    /**
+     * Return instance identifier checksum value using existing instance identifier
+     * @param $instanceIdentifier
+     * @return null|string
+     */
+    private function createInstanceIdentifierChecksum($instanceIdentifier)
+    {
+        try {
+            $params = explode('_', base64_decode($instanceIdentifier));
+            $organizationName = $params[0];
+            $organizationEmailAddress = $params[1];
+            $dateAndRandomNumber = $params[2];
+
+            // Since date format YYYY-MM-DD
+            $splitPosition = 10;
+            $date = substr($dateAndRandomNumber, 0, $splitPosition);
+            $randomNumber = substr($dateAndRandomNumber, $splitPosition, strlen($dateAndRandomNumber));
+            return $this->getSysConfig()->createInstanceIdentifierChecksum($organizationName, $organizationEmailAddress,
+                $date, $randomNumber);
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Return instance of SystemConfiguration class
+     * @return null|SystemConfiguration
+     */
+    private function getSysConfig() {
+        require_once(sfConfig::get('sf_root_dir') . "/../installer/SystemConfiguration");
+        if (is_null($this->sysConfig)) {
+            $this->sysConfig = new SystemConfiguration();
+        }
+        return $this->sysConfig;
     }
 }

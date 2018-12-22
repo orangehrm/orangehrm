@@ -22,6 +22,7 @@ class UpgradeSystemConfiguration
 {
 
     const KEY_INSTANCE_IDENTIFIER = "instance.identifier";
+    const KEY_INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
 
     /**
      * create and returns a database connection
@@ -236,6 +237,42 @@ class UpgradeSystemConfiguration
         $instanceIdentifier = $this->getInstanceIdentifier();
 
         if (!is_null($instanceIdentifier)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Set the instance identifier checksum
+     * @param $instanceIdentifierChecksum
+     */
+    public function setInstanceIdentifierChecksum($instanceIdentifierChecksum) {
+        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
+        $dbConnection = $this->createDbConnection();
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum));
+    }
+
+    /**
+     * Get instance identifier checksum value
+     * @return mixed
+     */
+    public function getInstanceIdentifierChecksum() {
+        $query = "SELECT `value` FROM `hs_hr_config` WHERE `key`='" . self::KEY_INSTANCE_IDENTIFIER_CHECKSUM . "'";
+        $dbConnection = $this->createDbConnection();
+        $statement = $dbConnection->query($query);
+        $configValue = $statement->fetch();
+        return $configValue['value'];
+    }
+
+    /**
+     * Check whether the instance identifier checksum exists
+     * @return bool
+     */
+    public function hasSetInstanceIdentifierChecksum() {
+        $instanceIdentifierChecksum = $this->getInstanceIdentifierChecksum();
+
+        if (!is_null($instanceIdentifierChecksum)) {
             return true;
         }
         return false;
