@@ -41,7 +41,7 @@
 
     <?php echo htmlspecialchars_decode($page['js']); ?>
     
-    function togglSyc() {
+    function ajaxSyc() {
         $("#loader-1").show();
 
         $.ajax({
@@ -205,7 +205,7 @@
             <?php if(!empty(htmlspecialchars_decode($page['id']))) {  ?>
                 <input id="" onclick="startSyc()" class="" data-dismiss="modal" value="Ok" type="button">
             <?php } else { ?>
-                <input id="" onclick="togglSyc()" class="" data-dismiss="modal" value="Ok" type="button">
+                <input id="" onclick="ajaxSyc()" class="" data-dismiss="modal" value="Ok" type="button">
             <?php } ?>
             <input id="addCancel" class="reset" data-dismiss="modal" value="Cancel" type="button">
         </div>
