@@ -127,8 +127,7 @@ class executeConfChangeAction extends sfAction {
      * @param $instanceIdentifier
      * @return null|string
      */
-    private function createInstanceIdentifierChecksum($instanceIdentifier)
-    {
+    private function createInstanceIdentifierChecksum($instanceIdentifier) {
         try {
             $params = explode('_', base64_decode($instanceIdentifier));
             $organizationName = $params[0];
