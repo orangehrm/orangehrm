@@ -40,6 +40,8 @@ class APIManagerService
      */
     const BUY_NOW_REQUEST = '/api/v1/addon/';
 
+    const HANDSHAKE_ENDPOINT = '/api/v1/handshake';
+
     private $apiClient = null;
     private $marketplaceService = null;
     public $clientId = null;
@@ -144,6 +146,10 @@ class APIManagerService
      */
     private function getApiToken()
     {
+        if (!$this->hasHandShook()){
+            $this->handShakeWithMarketPlace();
+        }
+
         $headers = array('Accept' => 'application/json');
         $body = array(
             'grant_type' => self::GRANT_TYPE,
@@ -305,6 +311,50 @@ class APIManagerService
             $this->configService->setConfigDao(new ConfigDao());
         }
         return $this->configService;
+    }
+
+    /**
+     * Return hand shake status
+     * @return bool
+     * @throws CoreServiceException
+     */
+    public function hasHandShook()
+    {
+        if (is_string($this->getClientId())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Hand shake with Market Place and store OAuth2 client details
+     * @return bool
+     * @throws CoreServiceException
+     */
+    public function handShakeWithMarketPlace()
+    {
+        $instanceIdentifier = $this->getConfigService()->getInstanceIdentifier();
+        $instanceIdentifierChecksum = $this->getConfigService()->getInstanceIdentifierChecksum();
+        $headers = array('Accept' => 'application/json');
+        $body = array(
+            'instanceId' => $instanceIdentifier,
+            'checksum' => $instanceIdentifierChecksum
+        );
+
+        $response = $this->getApiClient()->post(self::HANDSHAKE_ENDPOINT,
+            array(
+                'form_params' => $body,
+                'headers' => $headers
+            )
+        );
+        if ($response->getStatusCode() == HttpResponseCode::HTTP_OK) {
+            $body = json_decode($response->getBody(), true);
+            $this->getMarketplaceService()->setClientId($body['clientId']);
+            $this->getMarketplaceService()->setClientSecret($body['clientSecret']);
+
+            return true;
+        }
+        return false;
     }
 }
 

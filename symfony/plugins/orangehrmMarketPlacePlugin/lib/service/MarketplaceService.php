@@ -66,12 +66,30 @@ class MarketplaceService extends ConfigService
     }
 
     /**
+     * @param $clientId
+     * @throws CoreServiceException
+     */
+    public function setClientId($clientId)
+    {
+        $this->_setConfigValue(self::CLIENT_ID, $clientId);
+    }
+
+    /**
      * @return String
      * @throws CoreServiceException
      */
     public function getClientSecret()
     {
         return $this->_getConfigValue(self::CLIENT_SECRET);
+    }
+
+    /**
+     * @param $clientSecret
+     * @throws CoreServiceException
+     */
+    public function setClientSecret($clientSecret)
+    {
+        $this->_setConfigValue(self::CLIENT_SECRET, $clientSecret);
     }
 
     /**
