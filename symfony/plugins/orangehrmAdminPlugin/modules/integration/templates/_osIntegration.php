@@ -28,6 +28,7 @@
         clientSecret  = "<?php echo  htmlspecialchars_decode($page['secret']); ?>";
         clientUrl     = "<?php echo  htmlspecialchars_decode($page['url']); ?>";
         successUrl  = "<?php echo  htmlspecialchars_decode($page['successUrl']); ?>";
+        ajaxURL = "<?php echo url_for(htmlspecialchars_decode($page['ajaxUrl'])); ?>";
         var timeSheetStatus = $('#timesheet_status').find('h2').text();
         if(timeSheetStatus == 'Status: Approved'){
 
@@ -39,10 +40,52 @@
     });
 
     <?php echo htmlspecialchars_decode($page['js']); ?>
+    
+    function ajaxSyc() {
+        $("#loader-1").show();
 
+        $.ajax({
+                type: "POST",
+                url: ajaxURL,
+                data: {
+                    'employee_Id':employeeId,
+                    'startTime': startDate_timesheet,
+                    'endTime': endDate_timesheet,
+                    'timeFormat': inputDatePattern,
+                    'timeZone': 'GMT'+formatTimeZone()
+                },
+                contentType: "application/x-www-form-urlencoded",
+
+                success: function (msg, status, jqXHR) {
+
+                    $("#loader-1").hide();
+                    msg = JSON.parse(msg);
+                    msgCode = msg.statusCode;
+                    if (msgCode != null) {
+                        if (msgCode == 101) {
+                            displayMessages('error',msg.description );
+                        } else if (msgCode == 102) {
+
+                            displayMessages('success', msg.description);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+
+                        }
+                    } else {
+                        showErrorMsg();
+                    }
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $("#loader-1").hide();
+                    console.log(errorThrown);
+                    showErrorMsg();
+                }
+            });
+    }
+    
     function startSyc() {
-
-
         $("#loader-1").show();
 
     $.ajax({
@@ -159,7 +202,11 @@
             <p>Any existing timesheet entry will be overwritten if record for same date is matched. Click ok to continue.</p>
         </div>
         <div class="modal-footer">
-            <input id="" onclick="startSyc()" class="" data-dismiss="modal" value="Ok" type="button">
+            <?php if(!empty(htmlspecialchars_decode($page['id']))) {  ?>
+                <input id="" onclick="startSyc()" class="" data-dismiss="modal" value="Ok" type="button">
+            <?php } else { ?>
+                <input id="" onclick="ajaxSyc()" class="" data-dismiss="modal" value="Ok" type="button">
+            <?php } ?>
             <input id="addCancel" class="reset" data-dismiss="modal" value="Cancel" type="button">
         </div>
     </div>
