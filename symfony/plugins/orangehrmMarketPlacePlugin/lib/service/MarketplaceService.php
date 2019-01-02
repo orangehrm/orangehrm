@@ -123,7 +123,7 @@ class MarketplaceService extends ConfigService
     /**
      * @param $addonId
      * @return Doctrine_Collection
-     * @throws DaoException
+     * @throws Exception
      */
     public function uninstallAddon($addonId)
     {

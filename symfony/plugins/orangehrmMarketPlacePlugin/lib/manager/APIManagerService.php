@@ -50,7 +50,7 @@ class APIManagerService
     private $configService = null;
 
     /**
-     * @return array
+     * @return mixed
      * @throws CoreServiceException
      */
     public function getAddons()
@@ -60,31 +60,24 @@ class APIManagerService
     }
 
     /**
-     * @return mixed|string
+     * @return mixed
      * @throws CoreServiceException
      */
     public function getAddonsFromMP()
     {
         $token = $this->getApiToken();
-        if ($token == 'Network Error') {
-            return $token;
-        }
         $headers = array(
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
         );
-        try {
-            $response = $this->getApiClient()->get(self::ADDON_LIST,
-                array(
-                    'headers' => $headers
-                )
-            );
-            if ($response->getStatusCode() == 200) {
-                $body = json_decode($response->getBody(), true);
-                return $body;
-            }
-        } catch (GuzzleHttp\Exception\ConnectException $w) {
-            return "Network Error";
+        $response = $this->getApiClient()->get(self::ADDON_LIST,
+            array(
+                'headers' => $headers
+            )
+        );
+        if ($response->getStatusCode() == 200) {
+            $body = json_decode($response->getBody(), true);
+            return $body;
         }
     }
 
@@ -106,25 +99,18 @@ class APIManagerService
     public function getDescriptionFromMP($addonURL)
     {
         $token = $this->getApiToken();
-        if ($token == 'Network Error') {
-            return $token;
-        }
         $headers = array(
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
         );
-        try {
-            $response = $this->getApiClient()->get($addonURL,
-                array(
-                    'headers' => $headers
-                )
-            );
-            if ($response->getStatusCode() == 200) {
-                $body = json_decode($response->getBody(), true);
-                return $body;
-            }
-        } catch (GuzzleHttp\Exception\ConnectException $w) {
-            return "Network Error";
+        $response = $this->getApiClient()->get($addonURL,
+            array(
+                'headers' => $headers
+            )
+        );
+        if ($response->getStatusCode() == 200) {
+            $body = json_decode($response->getBody(), true);
+            return $body;
         }
     }
 
@@ -144,7 +130,7 @@ class APIManagerService
      * @return string
      * @throws CoreServiceException
      */
-    private function getApiToken()
+    public function getApiToken()
     {
         if (!$this->hasHandShook()){
             $this->handShakeWithMarketPlace();
@@ -156,19 +142,15 @@ class APIManagerService
             'client_id' => $this->getClientId(),
             'client_secret' => $this->getClientSecret(),
         );
-        try {
-            $response = $this->getApiClient()->post(self::API_TOKEN,
-                array(
-                    'form_params' => $body,
-                    'headers' => $headers
-                )
-            );
-            if ($response->getStatusCode() == 200) {
-                $body = json_decode($response->getBody(), true);
-                return $body['access_token'];
-            }
-        } catch (GuzzleHttp\Exception\ConnectException $w) {
-            return "Network Error";
+        $response = $this->getApiClient()->post(self::API_TOKEN,
+            array(
+                'form_params' => $body,
+                'headers' => $headers
+            )
+        );
+        if ($response->getStatusCode() == 200) {
+            $body = json_decode($response->getBody(), true);
+            return $body['access_token'];
         }
     }
 
@@ -221,33 +203,25 @@ class APIManagerService
 
     /**
      * @param $addonURL
-     * @param $version
      * @return string
      * @throws CoreServiceException
      */
     private function getAddonFileFromMP($addonURL)
     {
         $token = $this->getApiToken();
-        if ($token == 'Network Error') {
-            return $token;
-        }
         $headers = array(
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
         );
-        try {
-            $response = $this->getApiClient()->get($addonURL,
-                array(
-                    'headers' => $headers,
-                    'stream' => true
-                )
-            );
-            if ($response->getStatusCode() == 200) {
-                $contents = $response->getBody()->getContents();
-                return base64_encode($contents);
-            }
-        } catch (GuzzleHttp\Exception\ConnectException $w) {
-            return "Network Error";
+        $response = $this->getApiClient()->get($addonURL,
+            array(
+                'headers' => $headers,
+                'stream' => true
+            )
+        );
+        if ($response->getStatusCode() == 200) {
+            $contents = $response->getBody()->getContents();
+            return base64_encode($contents);
         }
     }
 
@@ -271,9 +245,6 @@ class APIManagerService
     public function buyNowAddon($data)
     {
         $token = $this->getApiToken();
-        if ($token == 'Network Error') {
-            return $token;
-        }
         $headers = array(
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
@@ -285,20 +256,19 @@ class APIManagerService
             'contactEmail' => $data['contactEmail'],
             'contactNumber' => $data['contactNumber'],
         );
-        try {
-            $response = $this->getApiClient()->post(self::BUY_NOW_REQUEST . $data['buyAddonID'] . '/request',
-                array(
-                    'headers' => $headers,
-                    'stream' => true,
-                    'form_params' => $requestData
-                )
-            );
-            if ($response->getStatusCode() == 200) {
-                return 'Success';
-            }
-        } catch (GuzzleHttp\Exception\ConnectException $w) {
-            return 'Network Error';
+        $response = $this->getApiClient()->post(self::BUY_NOW_REQUEST . $data['buyAddonID'] . '/request',
+            array(
+                'headers' => $headers,
+                'stream' => true,
+                'form_params' => $requestData
+            )
+        );
+        if ($response->getStatusCode() == 200) {
+            return 'Fail';
+        } else {
+            return 'Fail';
         }
+
     }
 
     /**

@@ -91,7 +91,7 @@ class MarketplaceDao
             return $q->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+            throw $e;
         }
         // @codeCoverageIgnoreEnd
     }

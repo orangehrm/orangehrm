@@ -22,6 +22,15 @@
  */
 abstract class baseAddonAction extends sfAction
 {
+    /**
+     * No Network Error Message
+     */
+    const NO_NETWORK_ERR_MESSAGE = "please connect to view ALL AVAILABLE ADDONS";
+    /**
+     * Marketplace middlewere Error Message
+     */
+    const MP_MIDDLEWERE_ERR_MESSAGE = "Error Occur Please try again later";
+
     private $marcketplaceService = null;
     private $apiManagerService = null;
     private $addonList = null;

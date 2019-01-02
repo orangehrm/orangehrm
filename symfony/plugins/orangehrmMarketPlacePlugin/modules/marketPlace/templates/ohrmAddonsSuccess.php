@@ -24,7 +24,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     <div class="head">
         <h1 id="menu"><?php echo __('OrangeHRM Addons'); ?></h1>
     </div>
-    <div class="inner">
+    <div class="inner" id="addon_div">
         <div class="message success" id="messege_div">
             <ol>
                 <li id="message_body"></li>
@@ -32,7 +32,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
             <a href="#" class="messageCloseButton"><?php echo __('Close'); ?></a>
         </div>
         <?php $buyNowPendingAddon = $sf_data->getRaw("buyNowPendingAddon");
-        if ($isNetwork) {
+        if (!$exception) {
         if ($canRead) { ?>
         <?php foreach ($addonList as $addon) { ?>
             <div class="row">
@@ -89,7 +89,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     </div>
     <?php }
     } else {
-        echo "<p>$errorMessage</p>";
+        echo "<p id='errMessage'>$errorMessage</p>";
     } ?>
 </div>
 <div id="disable-screen"></div>
@@ -161,6 +161,9 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var meassageUninFail = "<?php echo __('Failed to Uninstall'); ?>";
     var buyNowReqSuccess = "<?php echo __('Your request has been forwarded'); ?>";
     var buyNowReqFail = "<?php echo __('Failed to proceed with the request, try again.'); ?>";
+
+    var networkErrMessage = "<?php echo __('please connect to view ALL AVAILABLE ADDONS'); ?>";
+    var marketpalceErrMessage = "<?php echo __('Error Occur Please try again later'); ?>";
 
     var emailRequired = "<?php echo __('Required'); ?>";
     var emailValidation = "<?php echo __('Enter a valid email'); ?>";

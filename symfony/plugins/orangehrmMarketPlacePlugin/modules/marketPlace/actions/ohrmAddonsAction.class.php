@@ -22,11 +22,6 @@
  */
 class ohrmAddonsAction extends baseAddonAction
 {
-    /**
-     * No Network Error Message
-     */
-    const NO_NETWORK_ERR_MESSAGE = "please connect to view ALL AVAILABLE ADDONS";
-
     private $dataGroupPermission = null;
 
     /**
@@ -44,15 +39,18 @@ class ohrmAddonsAction extends baseAddonAction
         $this->canRead = $this->dataGroupPermission->canRead();
         $this->canCreate = $this->dataGroupPermission->canCreate();
         $this->canDelete = $this->dataGroupPermission->canDelete();
-        $this->isNetwork = true;
-        $addonList = $this->getAddons();
-        if (gettype($addonList) == 'array') {
+        $this->exception = false;
+        try {
+            $addonList = $this->getAddons();
             $this->addonList = $addonList;
             $installAddons = $this->getInstalledAddons();
             $this->installedAddons = $installAddons[0];
-        } else {
-            $this->isNetwork = false;
+        } catch (GuzzleHttp\Exception\ConnectException $e) {
+            $this->exception = true;
             $this->errorMessage = self::NO_NETWORK_ERR_MESSAGE;
+        } catch (Exception $e) {
+            $this->exception = true;
+            $this->errorMessage = self::MP_MIDDLEWERE_ERR_MESSAGE;
         }
     }
 

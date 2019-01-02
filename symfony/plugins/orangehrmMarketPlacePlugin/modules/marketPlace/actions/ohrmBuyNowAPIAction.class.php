@@ -26,27 +26,33 @@ class ohrmBuyNowAPIAction extends baseAddonAction
     /**
      * @param sfRequest $request
      * @return mixed|string
-     * @throws CoreServiceException
-     * @throws DaoException
      */
     public function execute($request)
     {
-        $data = $request->getParameterHolder()->getAll();
-        $addonId = $data['buyAddonID'];
-        $addonList = $this->getAddons();
-        foreach ($addonList as $addon) {
-            if ($addon['id'] == $addonId) {
-                $addonDetail = $addon;
+        try {
+            $data = $request->getParameterHolder()->getAll();
+            $addonId = $data['buyAddonID'];
+            $addonList = $this->getAddons();
+            foreach ($addonList as $addon) {
+                if ($addon['id'] == $addonId) {
+                    $addonDetail = $addon;
+                }
             }
+            $result = $this->buyNow($data, $addonDetail);
+            echo json_encode($result);
+            return sfView::NONE;
+        } catch (GuzzleHttp\Exception\ConnectException $e) {
+            echo json_encode('0');
+            return sfView::NONE;
+        } catch (Exception $e) {
+            echo json_encode('1');
+            return sfView::NONE;
         }
-        $result = $this->buyNow($data, $addonDetail);
-        echo json_encode($result);
-        return sfView::NONE;
     }
 
     /**
-     * @param array $data
-     * @param string $addonDetail
+     * @param $data
+     * @param $addonDetail
      * @return string
      * @throws CoreServiceException
      * @throws DaoException
@@ -54,18 +60,12 @@ class ohrmBuyNowAPIAction extends baseAddonAction
     public function buyNow($data, $addonDetail)
     {
         $result = $this->getApiManagerService()->buyNowAddon($data);
-        if ($result == 'Success') {
-            $addonData = array(
-                'id' => $addonDetail['id'],
-                'addonName' => $addonDetail['title'],
-                'status' => 'Requested'
-            );
-            $this->getMarcketplaceService()->installOrRequestAddon($addonData);
-            return $result;
-        } elseif ($result == 'Network Error') {
-            return $result;
-        } else {
-            return 'Fail';
-        }
+        $addonData = array(
+            'id' => $addonDetail['id'],
+            'addonName' => $addonDetail['title'],
+            'status' => 'Requested'
+        );
+        $this->getMarcketplaceService()->installOrRequestAddon($addonData);
+        return $result;
     }
 }
