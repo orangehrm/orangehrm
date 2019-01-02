@@ -22,6 +22,9 @@ include_once(realpath(dirname(__FILE__)).'/../symfony/plugins/orangehrmCorePlugi
 
 class SystemConfiguration
 {
+    const KEY_INSTANCE_IDENTIFIER = "instance.identifier";
+    const KEY_INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
+
     /**
      * Returns a database connection
      * @param bool $dbSelect
@@ -151,6 +154,40 @@ class SystemConfiguration
         $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
-        $statement->execute(array("instance.identifier", base64_encode($instanceIdentifier)));
+        $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER, base64_encode($instanceIdentifier)));
+    }
+
+    /**
+     * Create instance identifier checksum value
+     * @param $organizationName
+     * @param $organizationEmail
+     * @param $createdDate
+     * @param $randomNumber
+     * @return string
+     */
+    public function createInstanceIdentifierChecksum($organizationName, $organizationEmail, $createdDate, $randomNumber) {
+        $params = array(
+            'organizationName' => $organizationName,
+            'organizationEmail' => $organizationEmail,
+            'createdDate' => $createdDate,
+            'randomNumber' => $randomNumber
+        );
+
+        return base64_encode(serialize($params));
+    }
+
+    /**
+     * Set the instance identifier checksum value
+     * @param $organizationName
+     * @param $organizationEmail
+     * @param $randomNumber
+     */
+    public function setInstanceIdentifierChecksum($organizationName, $organizationEmail, $randomNumber) {
+        $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum($organizationName, $organizationEmail,
+            date('Y-m-d'), $randomNumber);
+        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
+        $dbConnection = $this->createDbConnection();
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum));
     }
 }

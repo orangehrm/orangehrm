@@ -50,6 +50,7 @@ class ConfigService extends BaseService {
     const KEY_OPENID_PROVIDER_ADDED = 'openId.provider.added';
     const KEY_OPEN_SOURCE_INTEGRATIONS = 'open_source_integrations';
     const KEY_INSTANCE_IDENTIFIER = "instance.identifier";
+    const KEY_INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
     
     /**
      * Get ConfigDao
@@ -386,5 +387,23 @@ class ConfigService extends BaseService {
      */
     public function getInstanceIdentifier() {
         return $this->_getConfigValue(self::KEY_INSTANCE_IDENTIFIER);
+    }
+
+    /**
+     * Set the instance identifier checksum value
+     * @param $value
+     * @throws CoreServiceException
+     */
+    public function setInstanceIdentifierChecksum($value) {
+        $this->_setConfigValue(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $value);
+    }
+
+    /**
+     * Get instance identifier checksum value
+     * @return String
+     * @throws CoreServiceException
+     */
+    public function getInstanceIdentifierChecksum() {
+        return $this->_getConfigValue(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM);
     }
 }

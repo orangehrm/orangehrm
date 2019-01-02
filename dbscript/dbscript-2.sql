@@ -2905,8 +2905,6 @@ INSERT INTO ohrm_user_role_screen (user_role_id,screen_id, can_read, can_create,
 (@Supervisor_role_id, @MP_home_screen_id, 1,0,0,0);
 
 INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
-('client_id', '1_5dk5bp84p0wskowswcs8kw48osw8c8cwwso0wo0w4ck0w8kkw0'),
-('client_secret', '2tnry9y53v40c8so4cggk0ogsgogg8wogoosk4wo4kww8gs8g8'),
 ('base_url', 'https://demo-marketplace.orangehrm.com');
 
 -- Add data group permissions
