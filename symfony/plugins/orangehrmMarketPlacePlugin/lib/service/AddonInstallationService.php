@@ -19,12 +19,25 @@
  */
 
 /**
- *
+ * This interface must be implemented by all OS Add-ons that are published
+ * to the market place.
  * @author rimaz
  */
 interface AddonInstallationService {
 
+    /**
+     * This method will run all necessary scripts and commands to install the
+     * add-on and return an array with the relevant status and message.
+     * @return array Array will consist of two keys : the status & message.
+     * @example array("status" => true, "message" => "Successfully Installed.");
+     */
     public function install();
 
+    /**
+     * This method will run all necessary scripts and commands to uninstall the
+     * add-on and return an array with the relevant status and message.
+     * @return array Array will consist of two keys : the status & message.
+     * @example array("status" => true, "message" => "Successfully Uninstalled.");
+     */
     public function uninstall();
 }
