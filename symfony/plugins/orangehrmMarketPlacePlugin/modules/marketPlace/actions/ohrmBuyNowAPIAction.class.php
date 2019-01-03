@@ -42,10 +42,10 @@ class ohrmBuyNowAPIAction extends baseAddonAction
             echo json_encode($result);
             return sfView::NONE;
         } catch (GuzzleHttp\Exception\ConnectException $e) {
-            echo json_encode('0');
+            echo json_encode(self::ERROR_CODE_NO_CONNECTION);
             return sfView::NONE;
         } catch (Exception $e) {
-            echo json_encode('1');
+            echo json_encode(self::ERROR_CODE_EXCEPTION);
             return sfView::NONE;
         }
     }

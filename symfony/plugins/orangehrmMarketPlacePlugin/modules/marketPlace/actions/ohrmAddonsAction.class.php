@@ -22,6 +22,11 @@
  */
 class ohrmAddonsAction extends baseAddonAction
 {
+    /**
+     * marketpalce string to get permissions
+     */
+    const MARKETPLACE = 'Marketplace';
+
     private $dataGroupPermission = null;
 
     /**
@@ -69,6 +74,6 @@ class ohrmAddonsAction extends baseAddonAction
      */
     protected function getPermissions()
     {
-        return $this->getDataGroupPermissions('Marketplace', false);
+        return $this->getDataGroupPermissions(self::MARKETPLACE, false);
     }
 }

@@ -162,7 +162,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var buyNowReqSuccess = "<?php echo __('Your request has been forwarded'); ?>";
     var buyNowReqFail = "<?php echo __('Failed to proceed with the request, try again.'); ?>";
 
-    var networkErrMessage = "<?php echo __('please connect to view ALL AVAILABLE ADDONS'); ?>";
+    var networkErrMessage = "<?php echo __('Please connect to the internet to view the available add-ons.'); ?>";
     var marketpalceErrMessage = "<?php echo __('Error Occur Please try again later'); ?>";
 
     var emailRequired = "<?php echo __('Required'); ?>";

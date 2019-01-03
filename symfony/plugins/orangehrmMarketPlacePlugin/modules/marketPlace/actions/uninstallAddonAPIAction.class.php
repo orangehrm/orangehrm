@@ -23,9 +23,8 @@
 class uninstallAddonAPIAction extends baseAddonAction
 {
     /**
-     * @param sfRequest $request
+     * @param $request
      * @return string
-     * @throws DaoException
      */
     public function execute($request)
     {
@@ -35,7 +34,7 @@ class uninstallAddonAPIAction extends baseAddonAction
             echo json_encode($result);
             return sfView::NONE;
         } catch (Exception $e) {
-            echo json_encode('1');
+            echo json_encode(self::ERROR_CODE_EXCEPTION);
             return sfView::NONE;
         }
     }
