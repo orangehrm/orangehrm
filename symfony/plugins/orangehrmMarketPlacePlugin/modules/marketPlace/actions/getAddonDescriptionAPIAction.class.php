@@ -24,37 +24,43 @@ class getAddonDescriptionAPIAction extends baseAddonAction
 {
     /**
      * @param sfRequest $request
-     * @return mixed
+     * @return mixed|string
      * @throws CoreServiceException
-     * @throws sfStopException
+     * return string is base 64 encoded html which is coming from MP backend
+     * 0 indicate Marketplace network error
+     * 1 indicate Marketplace middlewere down.
      */
     public function execute($request)
     {
         $data = $request->getParameterHolder()->getAll();
         $addonId = $data['addonID'];
-        $addonList = $this->getAddons();
-        foreach ($addonList as $addon) {
-            if ($addon['id'] == $addonId) {
-                $addonDesCriptionURL = $addon['links']['desc'];
+        try {
+            $addonList = $this->getAddons();
+            foreach ($addonList as $addon) {
+                if ($addon['id'] == $addonId) {
+                    $addonDesCriptionURL = $addon['links']['desc'];
+                }
             }
+            $addonDescription = $this->getDescription($addonDesCriptionURL);
+            $this->addonDescription = base64_decode($addonDescription);
+        } catch (GuzzleHttp\Exception\ConnectException $e) {
+            echo json_encode(self::ERROR_CODE_NO_CONNECTION);
+            return sfView::NONE;
+        } catch (Exception $e) {
+            echo json_encode(self::ERROR_CODE_EXCEPTION);
+            return sfView::NONE;
         }
-        $addonDescription = $this->getDescription($addonDesCriptionURL);
-        $this->addonDescription = base64_decode($addonDescription);
     }
 
     /**
      * @param $addonDesCriptionURL
-     * @return mixed
+     * @return string
      * @throws CoreServiceException
      * @throws sfStopException
      */
     protected function getDescription($addonDesCriptionURL)
     {
         $description = $this->getApiManagerService()->getDescription($addonDesCriptionURL);
-        if ($description === 'Network Error') {
-            $this->redirect('marketPlace/ohrmAddons');
-        } else {
-            return $description['description'];
-        }
+        return $description['description'];
     }
 }

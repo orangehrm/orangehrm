@@ -30,60 +30,55 @@ class installAddonAPIAction extends baseAddonAction
      */
     public function execute($request)
     {
-        $addonList = $this->getAddons();
-        $data = $request->getParameterHolder()->getAll();
-        $addonId = $data['installAddonID'];
-        $addonURL = null;
-        $addonDetail = null;
-        foreach ($addonList as $addon) {
-            if ($addon['id'] == $addonId) {
-                $addonDetail = $addon;
-                $addonURL = $addon['links']['file'];
+        try {
+            $addonList = $this->getAddons();
+            $data = $request->getParameterHolder()->getAll();
+            $addonId = $data['installAddonID'];
+            $addonURL = null;
+            $addonDetail = null;
+            foreach ($addonList as $addon) {
+                if ($addon['id'] == $addonId) {
+                    $addonDetail = $addon;
+                    $addonURL = $addon['links']['file'];
+                }
             }
+            $result = $this->getAddonFile($addonURL, $addonDetail);
+            echo json_encode($result);
+            return sfView::NONE;
+        } catch (GuzzleHttp\Exception\ConnectException $e) {
+            echo json_encode(self::ERROR_CODE_NO_CONNECTION);
+            return sfView::NONE;
+        } catch (Exception $e) {
+            echo json_encode(self::ERROR_CODE_EXCEPTION);
+            return sfView::NONE;
         }
-        $result = $this->getAddonFile($addonURL, $addonDetail);
-        echo json_encode($result);
-        return sfView::NONE;
     }
 
     /**
      * @param $addonURL
-     * @return string
+     * @param $addonDetail
      * @throws CoreServiceException
-     * @throws sfStopException
+     * @throws DaoException
      */
     private function getAddonFile($addonURL, $addonDetail)
     {
         $addonfile = $this->getApiManagerService()->getAddonFile($addonURL);
-        if ($addonfile == 'Network Error') {
-            return $addonfile;
-        } else {
-            return $this->installAddon($addonfile, $addonDetail);
-        }
+        return $this->installAddon($addonfile, $addonDetail);
     }
 
     /**
      * @param $addon
-     * @return string
-     * @throws sfStopException
+     * @param $addonDetail
+     * @throws DaoException
      */
     protected function installAddon($addon, $addonDetail)
     {
-        if ($addon === 'Network Error') {
-            $this->redirect('marketPlace/ohrmAddons');
-        } else {
-            try {
-                $data = array(
-                    'id' => $addonDetail['id'],
-                    'addonName' => $addonDetail['title'],
-                    'status' => 'Installed'
-                );
-                $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
+        $data = array(
+            'id' => $addonDetail['id'],
+            'addonName' => $addonDetail['title'],
+            'status' => 'Installed'
+        );
+        $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
 //                Todo implementation on instalation
-                return 'Success';
-            } catch (Exception $e) {
-                return 'Fail';
-            }
-        }
     }
 }

@@ -23,9 +23,9 @@
 class ohrmAddonsAction extends baseAddonAction
 {
     /**
-     * No Network Error Message
+     * marketpalce string to get permissions
      */
-    const NO_NETWORK_ERR_MESSAGE = 'Please connect to the internet to view the available add-ons';
+    const MARKETPLACE = 'Marketplace';
 
     private $dataGroupPermission = null;
 
@@ -38,21 +38,24 @@ class ohrmAddonsAction extends baseAddonAction
     public function execute($request)
     {
         $data = $this->getMarcketplaceService()->getInstalationPendingAddonIds();
-        $this->buyNowPendingAddon = $data[0];
+        $this->buyNowPendingAddon = $data;
         $this->buyNowForm = new BuyNowForm();
         $this->dataGroupPermission = $this->getPermissions();
         $this->canRead = $this->dataGroupPermission->canRead();
         $this->canCreate = $this->dataGroupPermission->canCreate();
         $this->canDelete = $this->dataGroupPermission->canDelete();
-        $this->isNetwork = true;
-        $addonList = $this->getAddons();
-        if (gettype($addonList) == 'array') {
+        $this->exception = false;
+        try {
+            $addonList = $this->getAddons();
             $this->addonList = $addonList;
             $installAddons = $this->getInstalledAddons();
             $this->installedAddons = $installAddons[0];
-        } else {
-            $this->isNetwork = false;
+        } catch (GuzzleHttp\Exception\ConnectException $e) {
+            $this->exception = true;
             $this->errorMessage = self::NO_NETWORK_ERR_MESSAGE;
+        } catch (Exception $e) {
+            $this->exception = true;
+            $this->errorMessage = self::MP_MIDDLEWERE_ERR_MESSAGE;
         }
     }
 
@@ -71,6 +74,6 @@ class ohrmAddonsAction extends baseAddonAction
      */
     protected function getPermissions()
     {
-        return $this->getDataGroupPermissions('Marketplace', false);
+        return $this->getDataGroupPermissions(self::MARKETPLACE, false);
     }
 }

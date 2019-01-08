@@ -48,6 +48,7 @@
     border: none;
     outline: none;
     transition: 0.4s;
+    display: inline-block;
 }
 
 .active, .accordion:hover {
@@ -117,4 +118,8 @@
 
 #buyNowModal {
     width: 500px;
+}
+
+.requested {
+    background-color: #808080 !important;
 }

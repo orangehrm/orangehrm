@@ -24,19 +24,20 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     <div class="head">
         <h1 id="menu"><?php echo __('OrangeHRM Addons'); ?></h1>
     </div>
-    <div class="inner">
+    <div class="inner" id="addon_div">
         <div class="message success" id="messege_div">
             <ol>
                 <li id="message_body"></li>
             </ol>
             <a href="#" class="messageCloseButton"><?php echo __('Close'); ?></a>
         </div>
-        <?php if ($isNetwork) {
+        <?php $buyNowPendingAddon = $sf_data->getRaw("buyNowPendingAddon");
+        if (!$exception) {
         if ($canRead) { ?>
         <?php foreach ($addonList as $addon) { ?>
             <div class="row">
                 <div class="inner container" id="addonHolder">
-                    <button class="accordion" addonid="<?php echo $addon['id']; ?>">
+                    <div class="accordion" addonid="<?php echo $addon['id']; ?>">
                         <div id="column" class="image">
                             <img class="circle" src="
                         <?php echo $addon['icon']; ?>"/>
@@ -62,9 +63,12 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                        data-toggle="modal"
                                        data-target="#installConfModal" addid=<?php echo $addon['id'] ?>> <?php } ?>
                             <?php if (!in_array($addon['id'], $installedAddons) and $canCreate and $addon['type'] == 'paid') { ?>
-                                <input type="button" name="Submit" class="buttons buyBtn"
+                                <input type="button" name="Submit"
+                                       class="buttons buyBtn <?php if (in_array($addon['id'], $buyNowPendingAddon)) {
+                                           echo 'requested';
+                                       } ?>"
                                        id="<?php echo 'buyBtn' . $addon['id']; ?>"
-                                       value="<?php $buyNowPendingAddon = $sf_data->getRaw("buyNowPendingAddon");
+                                       value="<?php
                                        if (in_array($addon['id'], $buyNowPendingAddon)) {
                                            echo __('Requested');
                                        } else {
@@ -74,11 +78,9 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                 } ?>
                                        data-toggle="modal"
                                        data-target="#buyNowModal"
-                                       style="<?php if (in_array($addon['id'], $buyNowPendingAddon)) {
-                                           echo 'background-color: #808080;';
-                                       } ?>" addid=<?php echo $addon['id'] ?>> <?php } ?>
+                                       addid=<?php echo $addon['id'] ?>> <?php } ?>
                         </div>
-                    </button>
+                    </div>
                     <div id="<?php echo 'des' . $addon['id'] ?>" class="panel">
                     </div>
                 </div>
@@ -87,7 +89,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     </div>
     <?php }
     } else {
-        echo "<p>$errorMessage</p>";
+        echo "<p id='errMessage'>$errorMessage</p>";
     } ?>
 </div>
 <div id="disable-screen"></div>
@@ -147,6 +149,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
 
 </div>
 <script>
+    var marketplaceURL = "<?php echo url_for('marketPlace/ohrmAddons'); ?>";
     var descriptionUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
     var installUrl = "<?php echo url_for('marketPlace/installAddonAPI'); ?>";
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
@@ -158,6 +161,9 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var meassageUninFail = "<?php echo __('Failed to Uninstall'); ?>";
     var buyNowReqSuccess = "<?php echo __('Your request has been forwarded'); ?>";
     var buyNowReqFail = "<?php echo __('Failed to proceed with the request, try again.'); ?>";
+
+    var networkErrMessage = "<?php echo __('Please connect to the internet to view the available add-ons.'); ?>";
+    var marketpalceErrMessage = "<?php echo __('Error Occur Please try again later'); ?>";
 
     var emailRequired = "<?php echo __('Required'); ?>";
     var emailValidation = "<?php echo __('Enter a valid email'); ?>";

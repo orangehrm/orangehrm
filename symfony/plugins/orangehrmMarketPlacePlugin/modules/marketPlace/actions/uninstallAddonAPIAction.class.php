@@ -23,26 +23,30 @@
 class uninstallAddonAPIAction extends baseAddonAction
 {
     /**
-     * @param sfRequest $request
+     * @param $request
      * @return string
-     * @throws DaoException
      */
     public function execute($request)
     {
-        $data = $request->getParameterHolder()->getAll();
-        $result = $this->uninstallAddon($data['uninstallAddonID']);
-        echo json_encode($result);
-        return sfView::NONE;
+        try {
+            $data = $request->getParameterHolder()->getAll();
+            $result = $this->uninstallAddon($data['uninstallAddonID']);
+            echo json_encode($result);
+            return sfView::NONE;
+        } catch (Exception $e) {
+            echo json_encode(self::ERROR_CODE_EXCEPTION);
+            return sfView::NONE;
+        }
     }
 
     /**
-     * @param string $addonid
-     * @return string
-     * @throws DaoException
+     * @param $addonid
+     * @return Doctrine_Collection
+     * @throws Exception
      */
     public function uninstallAddon($addonid)
     {
         $result = $this->getMarcketplaceService()->uninstallAddon($addonid);
-        return 'Success';
+        return $result;
     }
 }

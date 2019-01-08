@@ -21,17 +21,23 @@ $(document).ready(function () {
             method: "POST",
             data: {addonID: addId},
             url: descriptionUrl, success: function (result) {
-                $("#des" + addId).html(result);
+                if (result === '0') {
+                    $("#addon_div").text(networkErrMessage);
+                } else if (result === '1') {
+                    $("#addon_div").text(marketpalceErrMessage);
+                } else {
+                    $("#des" + addId).html(result);
+                }
             }
         });
     });
-    $('.installBtn').live('click', function () {
+    $('.installBtn').live('click', function (event) {
         installId = $(this).attr('addid');
     });
     $('.uninstallBtn').live('click', function () {
         uninstallId = $(this).attr('addid');
     });
-    $('#modal_confirm_install').click(function () {
+    $('#modal_confirm_install').click(function (event) {
         $('#installButton' + installId).attr('value', 'Installing');
         $('#disable-screen').attr('class', 'overlay');
         $('#loading').attr('class', 'loading-class');
@@ -39,9 +45,19 @@ $(document).ready(function () {
             method: "POST",
             data: {installAddonID: installId},
             url: installUrl, success: function (result) {
-                if (result === '"Success"') {
-                    $('#loading').attr('class', '')
-                    $('#disable-screen').attr('class', '');
+                if (result === '0') {
+                    $("#addon_div").text(networkErrMessage);
+                    $('#disable-screen').removeClass();
+                    $('#loading').removeClass();
+                }
+                else if (result === '1') {
+                    $('#installButton' + installId).attr('value', 'Install');
+                    $('#disable-screen').removeClass();
+                    $('#loading').removeClass();
+                    $("#addon_div").text(messaegeInFail);
+                } else {
+                    $('#loading').removeClass();
+                    $('#disable-screen').removeClass();
                     $('#message_body').text(meassageInSuccess);
                     $('#messege_div').show(0).delay(2000).fadeOut(1000);
                     $('#installButton' + installId).attr({
@@ -50,12 +66,6 @@ $(document).ready(function () {
                         'id': 'uninstallButton' + installId,
                         'data-target': '#deleteConfModal'
                     });
-                } else {
-                    $('#message_body').text(messaegeInFail);
-                    $('#installButton' + installId).attr('value', 'Install');
-                    $('#messege_div').attr('class', 'message error').show(0).delay(2000).fadeOut(1000);
-                    $('#disable-screen').attr('class', '');
-                    $('#loading').attr('class', '');
                 }
             }
         });
@@ -68,9 +78,13 @@ $(document).ready(function () {
             method: "POST",
             data: {uninstallAddonID: uninstallId},
             url: uninstallUrl, success: function (result) {
-                if (result === '"Success"') {
-                    $('#loading').attr('class', '');
-                    $('#disable-screen').attr('class', '');
+                if (result === '1') {
+                    $('#disable-screen').removeClass();
+                    $('#loading').removeClass();
+                    $("#addon_div").text(meassageUninFail);
+                } else {
+                    $('#loading').removeClass();
+                    $('#disable-screen').removeClass();
                     $('#message_body').text(meassageUninSuccess);
                     $('#messege_div').show(0).delay(2000).fadeOut(1000);
                     $('#uninstallButton' + uninstallId).attr({
@@ -79,12 +93,7 @@ $(document).ready(function () {
                         'id': 'installButton' + uninstallId,
                         'data-target': '#installConfModal'
                     });
-                } else {
-                    $('#message_body').text(meassageUninFail);
-                    $('#uninstallButton' + uninstallId).attr('value', 'Uninstall');
-                    $('#messege_div').attr('class', 'message error').show(0).delay(2000).fadeOut(1000);
-                    $('#disable-screen').attr('class', '');
-                    $('#loading').attr('class', '');
+
                 }
             }
         });
@@ -99,7 +108,7 @@ $(document).ready(function () {
             var comName = $('#organization').val();
             $('#buyNowModal').modal('toggle');
             $('#disable-screen').attr('class', 'overlay');
-            $('#buyBtn' + buyNowId).attr('value', 'Reqesting');
+            $('#buyBtn' + buyNowId).attr('value', 'Requesting');
             $('#loading').attr('class', 'loading-class');
             $.ajax({
                 method: "POST",
@@ -107,16 +116,20 @@ $(document).ready(function () {
                 url: buyNowUrl, success: function (result) {
                     if (result === '"Success"') {
                         $('#message_body').text(buyNowReqSuccess);
-                        $('#loading').attr('class', '');
+                        $('#loading').removeClass();
                         $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
-                        $('#disable-screen').attr('class', '');
+                        $('#disable-screen').removeClass();
                         $('#messege_div').show(0).delay(2000).fadeOut(1000);
-                    } else {
-                        $('#message_body').text(buyNowReqFail);
-                        $('#loading').attr('class', '');
-                        $('#buyBtn' + buyNowId).attr('value', 'Request');
-                        $('#disable-screen').attr('class', '');
-                        $('#messege_div').attr('class', 'message error').show(0).delay(2000).fadeOut(1000);
+                    }
+                    else if (result === '0') {
+                        $('#disable-screen').removeClass();
+                        $('#loading').removeClass();
+                        $("#addon_div").text(networkErrMessage);
+                    }
+                    else if (result === '1') {
+                        $('#loading').removeClass();
+                        $('#disable-screen').removeClass();
+                        $("#addon_div").text(buyNowReqFail);
                     }
                 }
             });
