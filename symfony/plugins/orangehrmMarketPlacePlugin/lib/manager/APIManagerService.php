@@ -137,7 +137,7 @@ class APIManagerService
      */
     public function getApiToken()
     {
-        if (!$this->hasHandShook()){
+        if (!$this->hasHandShook()) {
             $this->handShakeWithMarketPlace();
         }
 
@@ -328,15 +328,14 @@ class APIManagerService
         return false;
     }
 
-     /**
+    /**
      * @return string
      */
     public function getVersion()
     {
-        if (@include_once sfConfig::get('sf_root_dir') . "/../lib/confs/sysConf.php") {
-            $version = new sysConf();
-            $version = $version->getVersion();
-        }
+        include_once sfConfig::get('sf_root_dir') . "/../lib/confs/sysConf.php";
+        $version = new sysConf();
+        $version = $version->getVersion();
         return $version;
     }
 }
