@@ -323,6 +323,9 @@ class APIManagerService
             $this->getMarketplaceService()->setClientId($body['clientId']);
             $this->getMarketplaceService()->setClientSecret($body['clientSecret']);
 
+            $this->clientId = $this->getMarketplaceService()->getClientId();
+            $this->clientSecret = $this->getMarketplaceService()->getClientSecret();
+
             return true;
         }
         return false;
