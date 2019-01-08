@@ -21,9 +21,9 @@ $(document).ready(function () {
             method: "POST",
             data: {addonID: addId},
             url: descriptionUrl, success: function (result) {
-                if (result === '"0"') {
+                if (result === '0') {
                     $("#addon_div").text(networkErrMessage);
-                } else if (result === '"1"') {
+                } else if (result === '1') {
                     $("#addon_div").text(marketpalceErrMessage);
                 } else {
                     $("#des" + addId).html(result);
@@ -45,12 +45,12 @@ $(document).ready(function () {
             method: "POST",
             data: {installAddonID: installId},
             url: installUrl, success: function (result) {
-                if (result === '"0"') {
+                if (result === '0') {
                     $("#addon_div").text(networkErrMessage);
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();
                 }
-                else if (result === '"1"') {
+                else if (result === '1') {
                     $('#installButton' + installId).attr('value', 'Install');
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();
@@ -78,7 +78,7 @@ $(document).ready(function () {
             method: "POST",
             data: {uninstallAddonID: uninstallId},
             url: uninstallUrl, success: function (result) {
-                if (result === '"1"') {
+                if (result === '1') {
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();
                     $("#addon_div").text(meassageUninFail);
@@ -121,15 +121,15 @@ $(document).ready(function () {
                         $('#disable-screen').removeClass();
                         $('#messege_div').show(0).delay(2000).fadeOut(1000);
                     }
-                    if (result === '"0"') {
+                    else if (result === '0') {
+                        $('#disable-screen').removeClass();
+                        $('#loading').removeClass();
                         $("#addon_div").text(networkErrMessage);
-                        $('#disable-screen').removeClass();
-                        $('#loading').removeClass();
                     }
-                    else {
-                        $("#addon_div").text(buyNowReqFail);
+                    else if (result === '1') {
                         $('#loading').removeClass();
                         $('#disable-screen').removeClass();
+                        $("#addon_div").text(buyNowReqFail);
                     }
                 }
             });

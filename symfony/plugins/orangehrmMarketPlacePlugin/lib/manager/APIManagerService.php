@@ -39,6 +39,10 @@ class APIManagerService
      * this has only one part
      */
     const BUY_NOW_REQUEST = '/api/v1/addon/';
+    /**
+     * prodduct send to Marketplace back-end
+     */
+    const PRODUCT = 'opensource';
 
     const HANDSHAKE_ENDPOINT = '/api/v1/handshake';
 
@@ -70,7 +74,8 @@ class APIManagerService
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
         );
-        $response = $this->getApiClient()->get(self::ADDON_LIST,
+        $response = $this->getApiClient()->get(self::ADDON_LIST . '?version=' . $this->getVersion() .
+            '&product=' . self::PRODUCT,
             array(
                 'headers' => $headers
             )
@@ -259,16 +264,12 @@ class APIManagerService
         $response = $this->getApiClient()->post(self::BUY_NOW_REQUEST . $data['buyAddonID'] . '/request',
             array(
                 'headers' => $headers,
-                'stream' => true,
                 'form_params' => $requestData
             )
         );
         if ($response->getStatusCode() == 200) {
-            return 'Fail';
-        } else {
-            return 'Fail';
+            return 'Success';
         }
-
     }
 
     /**
@@ -325,5 +326,17 @@ class APIManagerService
             return true;
         }
         return false;
+    }
+
+     /**
+     * @return string
+     */
+    public function getVersion()
+    {
+        if (@include_once sfConfig::get('sf_root_dir') . "/../lib/confs/sysConf.php") {
+            $version = new sysConf();
+            $version = $version->getVersion();
+        }
+        return $version;
     }
 }

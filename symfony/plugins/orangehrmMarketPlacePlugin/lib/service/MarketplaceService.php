@@ -107,7 +107,12 @@ class MarketplaceService extends ConfigService
      */
     public function getInstalationPendingAddonIds()
     {
-        return $this->getMarketplaceDao()->getInstalationPendingAddonIds();
+        $pendingAddons = $this->getMarketplaceDao()->getInstalationPendingAddonIds();
+        $addonlist = [];
+        foreach ($pendingAddons as $addon) {
+            $addonlist[] = $addon['id'];
+        }
+        return $addonlist;
     }
 
     /**
