@@ -62,16 +62,16 @@ class installAddonAPIAction extends baseAddonAction
      */
     private function getAddonFile($addonURL, $addonDetail)
     {
-        $addonfile = $this->getApiManagerService()->getAddonFile($addonURL);
-        return $this->installAddon($addonfile, $addonDetail);
+        $addonFilePath = $this->getApiManagerService()->getAddonFile($addonURL);
+        return $this->installAddon($addonFilePath, $addonDetail);
     }
 
     /**
-     * @param $addon
+     * @param $addonFilePath
      * @param $addonDetail
      * @throws DaoException
      */
-    protected function installAddon($addon, $addonDetail)
+    protected function installAddon($addonFilePath, $addonDetail)
     {
         $data = array(
             'id' => $addonDetail['id'],

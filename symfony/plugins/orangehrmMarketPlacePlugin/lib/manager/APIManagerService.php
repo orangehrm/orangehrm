@@ -218,15 +218,19 @@ class APIManagerService
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
         );
+
+        $tempAddonFile = $this->getTempAddonFile();
         $response = $this->getApiClient()->get($addonURL,
             array(
                 'headers' => $headers,
-                'stream' => true
+                'sink' => $tempAddonFile
             )
         );
         if ($response->getStatusCode() == 200) {
-            $contents = $response->getBody()->getContents();
-            return base64_encode($contents);
+            $contentDispositionHeader = $response->getHeader('Content-Disposition')[0];
+            $addonFileName = explode("filename=", $contentDispositionHeader)[1];
+
+            return $this->moveTempAddonFileToApplication($tempAddonFile,$addonFileName);
         }
     }
 
@@ -238,8 +242,8 @@ class APIManagerService
      */
     public function getAddonFile($addonURL)
     {
-        $addon = $this->getAddonFileFromMP($addonURL);
-        return $addon;
+        $addonFilePath = $this->getAddonFileFromMP($addonURL);
+        return $addonFilePath;
     }
 
     /**
@@ -340,5 +344,25 @@ class APIManagerService
         $version = new sysConf();
         $version = $version->getVersion();
         return $version;
+    }
+
+    /**
+     * @return bool|string
+     */
+    protected function getTempAddonFile()
+    {
+        return tempnam(sys_get_temp_dir(), 'mp_addon_');
+    }
+
+    /**
+     * @param $tempFilePath
+     * @param $fileName
+     * @return null|string
+     */
+    protected function moveTempAddonFileToApplication($tempFilePath, $fileName)
+    {
+        $addonFilePath = sfConfig::get('sf_cache_dir') . "/" . $fileName;
+        $status = rename($tempFilePath, $addonFilePath);
+        return $status ? $addonFilePath : null;
     }
 }
