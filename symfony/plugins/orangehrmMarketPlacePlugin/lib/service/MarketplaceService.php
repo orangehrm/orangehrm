@@ -134,4 +134,27 @@ class MarketplaceService extends ConfigService
     {
         return $this->getMarketplaceDao()->uninstallAddon($addonId);
     }
+
+    /**
+     * Extract an add-on zip file to the plugins directory
+     *
+     * @param $addonFilePath
+     * @return null|string
+     */
+    public function extractAddonFile($addonFilePath)
+    {
+        if (class_exists(ZipArchive::class)) {
+            $zip = new ZipArchive();
+            if ($zip->open($addonFilePath) === true) {
+                $pluginName = $zip->getNameIndex(0);
+                if (is_writable(sfConfig::get('sf_plugins_dir'))) {
+                    $zip->extractTo(sfConfig::get('sf_plugins_dir'));
+                    $zip->close();
+                    return $pluginName;
+                }
+            }
+        }
+
+        return null;
+    }
 }
