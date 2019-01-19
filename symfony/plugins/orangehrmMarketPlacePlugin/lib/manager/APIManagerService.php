@@ -230,7 +230,7 @@ class APIManagerService
             $contentDispositionHeader = $response->getHeader('Content-Disposition')[0];
             $addonFileName = explode("filename=", $contentDispositionHeader)[1];
 
-            return $this->moveTempAddonFileToApplication($tempAddonFile,$addonFileName);
+            return $this->renameTempAddonFile($tempAddonFile,$addonFileName);
         }
     }
 
@@ -351,7 +351,7 @@ class APIManagerService
      */
     protected function getTempAddonFile()
     {
-        return tempnam(sys_get_temp_dir(), 'mp_addon_');
+        return tempnam(sfConfig::get('sf_cache_dir'), 'mp_addon_');
     }
 
     /**
@@ -359,7 +359,7 @@ class APIManagerService
      * @param $fileName
      * @return null|string
      */
-    protected function moveTempAddonFileToApplication($tempFilePath, $fileName)
+    protected function renameTempAddonFile($tempFilePath, $fileName)
     {
         $addonFilePath = sfConfig::get('sf_cache_dir') . "/" . $fileName;
         $status = rename($tempFilePath, $addonFilePath);

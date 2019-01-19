@@ -264,4 +264,14 @@ class SystemValidator
             return false;
         }
     }
+
+    /**
+     * Return zip extension status
+     *
+     * @return bool
+     */
+    public function isZipEnabled()
+    {
+        return $this->hasExtensionEnabled('zip');
+    }
 }
