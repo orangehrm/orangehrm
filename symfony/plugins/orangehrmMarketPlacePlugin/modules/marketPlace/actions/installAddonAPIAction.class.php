@@ -57,6 +57,7 @@ class installAddonAPIAction extends baseAddonAction
     /**
      * @param $addonURL
      * @param $addonDetail
+     * @return int
      * @throws CoreServiceException
      * @throws DaoException
      */
@@ -69,16 +70,23 @@ class installAddonAPIAction extends baseAddonAction
     /**
      * @param $addonFilePath
      * @param $addonDetail
+     * @return int
      * @throws DaoException
      */
     protected function installAddon($addonFilePath, $addonDetail)
     {
+        $pluginname = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
+        $currentDirectory = dirname(__FILE__);
+        chdir($currentDirectory . "/../../../../../");
+        exec("php symfony cc", $symfonyCcResponse, $status);
+        if ($status !== 0) {
+        /////////////////////
+        }
         $data = array(
             'id' => $addonDetail['id'],
             'addonName' => $addonDetail['title'],
             'status' => 'Installed'
         );
         $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
-//                Todo implementation on instalation
     }
 }

@@ -154,7 +154,6 @@ class MarketplaceService extends ConfigService
                 }
             }
         }
-
         return null;
     }
 }
