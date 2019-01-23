@@ -236,14 +236,16 @@ class APIManagerService
 
     /**
      * @param $addonURL
-     * @param $version
-     * @return string
+     * @param $addonDetail
+     * @return null|string
      * @throws CoreServiceException
      */
-    public function getAddonFile($addonURL)
+    public function getAddonFile($addonURL, $addonDetail)
     {
         $addonFilePath = $this->getAddonFileFromMP($addonURL);
-        return $addonFilePath;
+        $addonVersion = $addonDetail['version'];
+        $isSuccess = $this->evaluateChecksum($addonFilePath, $addonVersion['checksumAlgo'], $addonVersion['checksum']);
+        return $isSuccess ? $addonFilePath : null;
     }
 
     /**
@@ -364,5 +366,22 @@ class APIManagerService
         $addonFilePath = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . $fileName;
         $status = rename($tempFilePath, $addonFilePath);
         return $status ? $addonFilePath : null;
+    }
+
+    /**
+     * Evaluate the checksum value of the downloaded add-on file
+     *
+     * @param $filePath
+     * @param $checksumAlgo
+     * @param $checksum
+     * @return bool
+     */
+    protected function evaluateChecksum($filePath, $checksumAlgo, $checksum)
+    {
+        $generatedHash = hash_file($checksumAlgo, $filePath);
+        if (strcasecmp($generatedHash, $checksum) == 0) {
+            return true;
+        }
+        return false;
     }
 }
