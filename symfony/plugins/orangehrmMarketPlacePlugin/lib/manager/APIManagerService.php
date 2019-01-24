@@ -229,15 +229,14 @@ class APIManagerService
         if ($response->getStatusCode() == 200) {
             $contentDispositionHeader = $response->getHeader('Content-Disposition')[0];
             $addonFileName = explode("filename=", $contentDispositionHeader)[1];
-
-            return $this->renameTempAddonFile($tempAddonFile,$addonFileName);
+            return $this->renameTempAddonFile($tempAddonFile, $addonFileName);
         }
     }
 
     /**
      * @param $addonURL
      * @param $addonDetail
-     * @return null|string
+     * @return string
      * @throws CoreServiceException
      */
     public function getAddonFile($addonURL, $addonDetail)
@@ -245,7 +244,10 @@ class APIManagerService
         $addonFilePath = $this->getAddonFileFromMP($addonURL);
         $addonVersion = $addonDetail['version'];
         $isSuccess = $this->evaluateChecksum($addonFilePath, $addonVersion['checksumAlgo'], $addonVersion['checksum']);
-        return $isSuccess ? $addonFilePath : null;
+        if (!$isSuccess) {
+            throw new Exception('Downloaded file currepted.', 1007);
+        }
+        return $addonFilePath;
     }
 
     /**

@@ -58,9 +58,8 @@ class installAddonAPIAction extends baseAddonAction
     /**
      * @param $addonURL
      * @param $addonDetail
-     * @return int
+     * @return string
      * @throws CoreServiceException
-     * @throws DaoException
      */
     private function getAddonFile($addonURL, $addonDetail)
     {
@@ -73,7 +72,6 @@ class installAddonAPIAction extends baseAddonAction
      * @param $addonDetail
      * @return bool
      * @throws DaoException
-     * @throws Doctrine_Connection_Exception
      * @throws Doctrine_Transaction_Exception
      */
     protected function installAddon($addonFilePath, $addonDetail)
@@ -87,19 +85,27 @@ class installAddonAPIAction extends baseAddonAction
         if ($symfonyCcStatus != 0) {
             throw new Exception('Can not clean cache.', 1001);
         }
-        $install = require_once($pluginInstallFilePath);
+        try {
+            $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
+            $connection->beginTransaction();
+            $install = require_once($pluginInstallFilePath);
+            $connection->commit();
+        } catch (Exception $e) {
+            $connection->rollback();
+            throw new Exception('installation query fails', 1002);
+        }
         if (!$install) {
-            throw new Exception('install fails.', 1002);
+            throw new Exception('install file excecution fails.', 1003);
         }
         chdir($symfonyPath);
         exec("php symfony o:publish-asset", $publishAssetResponse, $publishAssetStatus);
         if ($publishAssetStatus != 0) {
-            throw new Exception('Can not run publish-asset', 1003);
+            throw new Exception('Can not run publish-asset', 1004);
         }
         chdir($symfonyPath);
         exec("php symfony d:build-model", $buildModelResponse, $buildModelStatus);
         if ($buildModelStatus != 0) {
-            throw new Exception('Can not run Build-model', 1004);
+            throw new Exception('Can not run Build-model', 1005);
         }
         $data = array(
             'id' => $addonDetail['id'],
@@ -110,7 +116,7 @@ class installAddonAPIAction extends baseAddonAction
         $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
         if ($result != true) {
             throw new Exception('Can not add to OrangeHRM tables. But Successfully installed. Uninstallation will
-            cause errors. But it user can used', 1005);
+            cause errors. But it user can used', 1006);
         }
         return $result;
     }
