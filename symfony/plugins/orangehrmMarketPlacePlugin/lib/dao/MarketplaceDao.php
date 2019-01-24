@@ -74,7 +74,7 @@ class MarketplaceDao
             $addon->setInstalledDate(date('Y-m-d H:i:s'));
             $addon->setAddonStatus($data['status']);
             if ($data['pluginName']) {
-                $addon->setPluginname($data['pluginName']);
+                $addon->setPluginName($data['pluginName']);
             }
             $addon->save();
             return true;

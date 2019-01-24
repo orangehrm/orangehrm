@@ -42,7 +42,8 @@ class installAddonAPIAction extends baseAddonAction
                     $addonURL = $addon['links']['file'];
                 }
             }
-            $result = $this->getAddonFile($addonURL, $addonDetail);
+            $addonFilePath = $this->getAddonFile($addonURL, $addonDetail);
+            $result = $this->installAddon($addonFilePath, $addonDetail);
             echo json_encode($result);
             return sfView::NONE;
         } catch (GuzzleHttp\Exception\ConnectException $e) {
@@ -64,14 +65,16 @@ class installAddonAPIAction extends baseAddonAction
     private function getAddonFile($addonURL, $addonDetail)
     {
         $addonFilePath = $this->getApiManagerService()->getAddonFile($addonURL, $addonDetail);
-        return $this->installAddon($addonFilePath, $addonDetail);
+        return $addonFilePath;
     }
 
     /**
      * @param $addonFilePath
      * @param $addonDetail
-     * @return int
+     * @return bool
      * @throws DaoException
+     * @throws Doctrine_Connection_Exception
+     * @throws Doctrine_Transaction_Exception
      */
     protected function installAddon($addonFilePath, $addonDetail)
     {
@@ -83,16 +86,10 @@ class installAddonAPIAction extends baseAddonAction
         exec("php symfony cc", $symfonyCcResponse, $symfonyCcStatus);
         if ($symfonyCcStatus != 0) {
             throw new Exception('Can not clean cache.', 1001);
-
         }
-        if (file_exists($pluginInstallFilePath)) {
-//            $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
-//            $connection->beginTransaction();
-//            try {
-            require_once($pluginInstallFilePath);
-//            } catch ()
-        } else {
-            throw new Exception('Can not install addon.', 1002);
+        $install = require_once($pluginInstallFilePath);
+        if (!$install) {
+            throw new Exception('install fails.', 1002);
         }
         chdir($symfonyPath);
         exec("php symfony o:publish-asset", $publishAssetResponse, $publishAssetStatus);
@@ -115,5 +112,6 @@ class installAddonAPIAction extends baseAddonAction
             throw new Exception('Can not add to OrangeHRM tables. But Successfully installed. Uninstallation will
             cause errors. But it user can used', 1005);
         }
+        return $result;
     }
 }
