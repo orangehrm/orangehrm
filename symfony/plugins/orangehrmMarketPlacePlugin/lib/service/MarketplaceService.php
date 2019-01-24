@@ -154,6 +154,7 @@ class MarketplaceService extends ConfigService
                 }
             }
         }
-        return null;
+        throw new Exception('Plugin folder does not have write permissions.', 1000);
+
     }
 }

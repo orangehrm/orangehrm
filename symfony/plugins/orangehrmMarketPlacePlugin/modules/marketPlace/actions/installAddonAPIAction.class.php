@@ -77,16 +77,43 @@ class installAddonAPIAction extends baseAddonAction
     {
         $pluginname = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
         $currentDirectory = dirname(__FILE__);
-        chdir($currentDirectory . "/../../../../../");
-        exec("php symfony cc", $symfonyCcResponse, $status);
-        if ($status !== 0) {
-        /////////////////////
+        $symfonyPath = $currentDirectory . "/../../../../../";
+        $pluginInstallFilePath = $currentDirectory . "/../../../../" . $pluginname . 'install/plugin_install.php';
+        chdir($symfonyPath);
+        exec("php symfony cc", $symfonyCcResponse, $symfonyCcStatus);
+        if ($symfonyCcStatus != 0) {
+            throw new Exception('Can not clean cache.', 1001);
+
+        }
+        if (file_exists($pluginInstallFilePath)) {
+//            $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
+//            $connection->beginTransaction();
+//            try {
+            require_once($pluginInstallFilePath);
+//            } catch ()
+        } else {
+            throw new Exception('Can not install addon.', 1002);
+        }
+        chdir($symfonyPath);
+        exec("php symfony o:publish-asset", $publishAssetResponse, $publishAssetStatus);
+        if ($publishAssetStatus != 0) {
+            throw new Exception('Can not run publish-asset', 1003);
+        }
+        chdir($symfonyPath);
+        exec("php symfony d:build-model", $buildModelResponse, $buildModelStatus);
+        if ($buildModelStatus != 0) {
+            throw new Exception('Can not run Build-model', 1004);
         }
         $data = array(
             'id' => $addonDetail['id'],
             'addonName' => $addonDetail['title'],
-            'status' => 'Installed'
+            'status' => 'Installed',
+            'pluginName' => $pluginname
         );
         $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
+        if ($result != true) {
+            throw new Exception('Can not add to OrangeHRM tables. But Successfully installed. Uninstallation will
+            cause errors. But it user can used', 1005);
+        }
     }
 }

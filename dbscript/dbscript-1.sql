@@ -2040,5 +2040,6 @@ CREATE TABLE `ohrm_marketplace_addon` (
   `date` TIMESTAMP,
   `status` VARCHAR(30),
   `version` VARCHAR(30),
+  `plugin_name` VARCHAR(50),
   PRIMARY KEY(`addon_id`)
 ) engine=innodb default charset=utf8;
