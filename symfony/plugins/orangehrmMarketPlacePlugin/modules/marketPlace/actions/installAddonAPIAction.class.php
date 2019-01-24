@@ -63,7 +63,7 @@ class installAddonAPIAction extends baseAddonAction
      */
     private function getAddonFile($addonURL, $addonDetail)
     {
-        $addonFilePath = $this->getApiManagerService()->getAddonFile($addonURL);
+        $addonFilePath = $this->getApiManagerService()->getAddonFile($addonURL, $addonDetail);
         return $this->installAddon($addonFilePath, $addonDetail);
     }
 

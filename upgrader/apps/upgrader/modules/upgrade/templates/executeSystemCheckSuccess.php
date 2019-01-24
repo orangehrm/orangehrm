@@ -344,7 +344,6 @@ function sysCheckPassed() {
 
           <tr>
             <td class="tdComponent">Zip extension status</td>
-
             <td align="right" class="tdValues"><strong>
             <?php
             if ($systemValidator->isZipEnabled()) {
