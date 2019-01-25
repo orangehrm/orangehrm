@@ -50,7 +50,7 @@ class installAddonAPIAction extends baseAddonAction
             echo json_encode(self::ERROR_CODE_NO_CONNECTION);
             return sfView::NONE;
         } catch (Exception $e) {
-            echo json_encode(self::ERROR_CODE_EXCEPTION);
+            echo json_encode($e->getCode());
             return sfView::NONE;
         }
     }
@@ -77,9 +77,8 @@ class installAddonAPIAction extends baseAddonAction
     protected function installAddon($addonFilePath, $addonDetail)
     {
         $pluginname = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
-        $currentDirectory = dirname(__FILE__);
-        $symfonyPath = $currentDirectory . "/../../../../../";
-        $pluginInstallFilePath = $currentDirectory . "/../../../../" . $pluginname . 'install/plugin_install.php';
+        $symfonyPath = sfConfig::get('sf_root_dir');
+        $pluginInstallFilePath = $symfonyPath . '/plugins/' . $pluginname . 'install/plugin_install.php';
         chdir($symfonyPath);
         exec("php symfony cc", $symfonyCcResponse, $symfonyCcStatus);
         if ($symfonyCcStatus != 0) {

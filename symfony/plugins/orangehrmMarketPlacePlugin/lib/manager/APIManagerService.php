@@ -245,7 +245,7 @@ class APIManagerService
         $addonVersion = $addonDetail['version'];
         $isSuccess = $this->evaluateChecksum($addonFilePath, $addonVersion['checksumAlgo'], $addonVersion['checksum']);
         if (!$isSuccess) {
-            throw new Exception('Downloaded file currepted.', 1007);
+            throw new Exception('Downloaded file corrupted.', 1007);
         }
         return $addonFilePath;
     }

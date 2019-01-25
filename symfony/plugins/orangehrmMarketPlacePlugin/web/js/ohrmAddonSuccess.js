@@ -45,17 +45,7 @@ $(document).ready(function () {
             method: "POST",
             data: {installAddonID: installId},
             url: installUrl, success: function (result) {
-                if (result === '0') {
-                    $("#addon_div").text(networkErrMessage);
-                    $('#disable-screen').removeClass();
-                    $('#loading').removeClass();
-                }
-                else if (result === '1') {
-                    $('#installButton' + installId).attr('value', 'Install');
-                    $('#disable-screen').removeClass();
-                    $('#loading').removeClass();
-                    $("#addon_div").text(messaegeInFail);
-                } else {
+                if (result === "true") {
                     $('#loading').removeClass();
                     $('#disable-screen').removeClass();
                     $('#message_body').text(meassageInSuccess);
@@ -66,6 +56,18 @@ $(document).ready(function () {
                         'id': 'uninstallButton' + installId,
                         'data-target': '#deleteConfModal'
                     });
+                }
+                else {
+                    $('#disable-screen').removeClass();
+                    $('#loading').removeClass();
+                    $('#installButton' + installId).attr('value', 'Install');
+                    var errorcode = 'e' + result;
+                    if (errorcode in installErrorMessage) {
+                        $("#addon_div").text(installErrorMessage[errorcode])
+                    }
+                    else {
+                        $("#addon_div").text(messaegeInFail);
+                    }
                 }
             }
         });
