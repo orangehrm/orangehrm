@@ -159,4 +159,14 @@ class MarketplaceService extends ConfigService
             throw new Exception('Plugin folder does not have write permissions.', 1000);
         }
     }
+
+    /**
+     * @param $addonId
+     * @return Doctrine_Collection
+     * @throws DaoException
+     */
+    public function getInstalledAddonById($addonId)
+    {
+        return $this->getMarketplaceDao()->getInstalledAddonById($addonId);
+    }
 }

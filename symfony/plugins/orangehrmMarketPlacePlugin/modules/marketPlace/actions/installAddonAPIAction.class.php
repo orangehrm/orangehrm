@@ -25,8 +25,6 @@ class installAddonAPIAction extends baseAddonAction
     /**
      * @param sfRequest $request
      * @return mixed|string
-     * @throws CoreServiceException
-     * @throws sfStopException
      */
     public function execute($request)
     {
@@ -76,17 +74,18 @@ class installAddonAPIAction extends baseAddonAction
      */
     protected function installAddon($addonFilePath, $addonDetail)
     {
-        $pluginname = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
-        $symfonyPath = sfConfig::get('sf_root_dir');
-        $pluginInstallFilePath = $symfonyPath . '/plugins/' . $pluginname . 'install/plugin_install.php';
-        chdir($symfonyPath);
-        exec("php symfony cc", $symfonyCcResponse, $symfonyCcStatus);
-        if ($symfonyCcStatus != 0) {
-            throw new Exception('Can not clean cache.', 1001);
-        }
         try {
             $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
             $connection->beginTransaction();
+            $pluginname = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
+            $symfonyPath = sfConfig::get('sf_root_dir');
+            $pluginInstallFilePath = $symfonyPath . '/plugins/' . $pluginname . 'install/plugin_install.php';
+            chdir($symfonyPath);
+            exec("php symfony cc", $symfonyCcResponse, $symfonyCcStatus);
+            if ($symfonyCcStatus != 0) {
+                throw new Exception('Running php symfony cc fails.', 1001);
+            }
+
             $install = require_once($pluginInstallFilePath);
             $connection->commit();
         } catch (Exception $e) {
@@ -99,12 +98,12 @@ class installAddonAPIAction extends baseAddonAction
         chdir($symfonyPath);
         exec("php symfony o:publish-asset", $publishAssetResponse, $publishAssetStatus);
         if ($publishAssetStatus != 0) {
-            throw new Exception('Can not run publish-asset', 1004);
+            throw new Exception('Running php symfony o:publish-asset fails.', 1004);
         }
         chdir($symfonyPath);
         exec("php symfony d:build-model", $buildModelResponse, $buildModelStatus);
         if ($buildModelStatus != 0) {
-            throw new Exception('Can not run Build-model', 1005);
+            throw new Exception('Running php symfony d:build-model fails.', 1005);
         }
         $data = array(
             'id' => $addonDetail['id'],
@@ -114,8 +113,7 @@ class installAddonAPIAction extends baseAddonAction
         );
         $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
         if ($result != true) {
-            throw new Exception('Can not add to OrangeHRM tables. But Successfully installed. Uninstallation will
-            cause errors. But it user can used', 1006);
+            throw new Exception('Can not add to OrangeHRM daabase. Uninstallation will cause errors. But plugin can used.', 1006);
         }
         return $result;
     }

@@ -14,7 +14,7 @@ Addon:
     status:
       type: string(30)
       name: status as addonStatus
-    version: string(30)
+    version: string(100)
     plugin_name:
-      type: string(50)
+      type: string(255)
       name: plugin_name as PluginName

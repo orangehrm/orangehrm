@@ -164,6 +164,21 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
 
     var networkErrMessage = "<?php echo __('Please connect to the internet to view the available add-ons.'); ?>";
     var marketpalceErrMessage = "<?php echo __('Error Occur Please try again later'); ?>";
+    var installErrorMessage = {
+        "e3000": "<?php echo __('3000 : Please connect to the internet to view the available add-ons. '); ?>",
+        "e1001": "<?php echo __('1001: Running php symfony cc fails. '); ?>",
+        "e1004": "<?php echo __('1004: Running php symfony o:publish-asset fails. '); ?>",
+        "e1005": "<?php echo __('1005: Running php symfony d:build-model fails. '); ?>",
+        "e1006": "<?php echo __('1006: Can not add to OrangeHRM daabase. Uninstallation will cause errors. But plugin can used. '); ?>"
+    };
+    var uninstallErrorMessage = {
+        "e2000": "<?php echo __('2000: Selected plugin to uninstall is not tracked in database. '); ?>",
+        "e2001": "<?php echo __('2001: Uninstall file excecution fails. '); ?>",
+        "e2002": "<?php echo __('2002: Removing plugin folder fails. '); ?>",
+        "e2003": "<?php echo __('2003: Running php symfony cc fails. '); ?>",
+        "e2004": "<?php echo __('2004: Running php symfony o:publish-asset fails. '); ?>",
+        "e2005": "<?php echo __('2005: Running php symfony d:build-model fails. '); ?>"
+    };
 
     var emailRequired = "<?php echo __('Required'); ?>";
     var emailValidation = "<?php echo __('Enter a valid email'); ?>";
