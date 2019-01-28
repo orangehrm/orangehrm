@@ -33,7 +33,7 @@ abstract class baseAddonAction extends sfAction
     /**
      * network error code
      */
-    const ERROR_CODE_NO_CONNECTION = 0;
+    const ERROR_CODE_NO_CONNECTION = 3000;
     /**
      * Marketplace error message code
      */

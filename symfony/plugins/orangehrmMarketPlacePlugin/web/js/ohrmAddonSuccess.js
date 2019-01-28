@@ -21,7 +21,7 @@ $(document).ready(function () {
             method: "POST",
             data: {addonID: addId},
             url: descriptionUrl, success: function (result) {
-                if (result === '0') {
+                if (result === '3000') {
                     $("#addon_div").text(networkErrMessage);
                 } else if (result === '1') {
                     $("#addon_div").text(marketpalceErrMessage);
@@ -63,7 +63,7 @@ $(document).ready(function () {
                     $('#installButton' + installId).attr('value', 'Install');
                     var errorcode = 'e' + result;
                     if (errorcode in installErrorMessage) {
-                        $("#addon_div").text(installErrorMessage[errorcode])
+                        $("#addon_div").text(installErrorMessage[errorcode] + messaegeInFail)
                     }
                     else {
                         $("#addon_div").text(messaegeInFail);
@@ -80,11 +80,7 @@ $(document).ready(function () {
             method: "POST",
             data: {uninstallAddonID: uninstallId},
             url: uninstallUrl, success: function (result) {
-                if (result === '1') {
-                    $('#disable-screen').removeClass();
-                    $('#loading').removeClass();
-                    $("#addon_div").text(meassageUninFail);
-                } else {
+                if (result === "true") {
                     $('#loading').removeClass();
                     $('#disable-screen').removeClass();
                     $('#message_body').text(meassageUninSuccess);
@@ -95,7 +91,16 @@ $(document).ready(function () {
                         'id': 'installButton' + uninstallId,
                         'data-target': '#installConfModal'
                     });
-
+                } else {
+                    $('#disable-screen').removeClass();
+                    $('#loading').removeClass();
+                    var errorcode = 'e' + result;
+                    if (errorcode in installErrorMessage) {
+                        $("#addon_div").text(uninstallErrorMessage[errorcode]+ meassageUninFail)
+                    }
+                    else {
+                        $("#addon_div").text(meassageUninFail);
+                    }
                 }
             }
         });
@@ -123,7 +128,7 @@ $(document).ready(function () {
                         $('#disable-screen').removeClass();
                         $('#messege_div').show(0).delay(2000).fadeOut(1000);
                     }
-                    else if (result === '0') {
+                    else if (result === '3000') {
                         $('#disable-screen').removeClass();
                         $('#loading').removeClass();
                         $("#addon_div").text(networkErrMessage);

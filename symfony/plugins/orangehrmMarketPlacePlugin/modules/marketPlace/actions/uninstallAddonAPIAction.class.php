@@ -34,7 +34,7 @@ class uninstallAddonAPIAction extends baseAddonAction
             echo json_encode($result);
             return sfView::NONE;
         } catch (Exception $e) {
-            echo json_encode(self::ERROR_CODE_EXCEPTION);
+            echo json_encode($e->getCode());
             return sfView::NONE;
         }
     }
@@ -42,11 +42,72 @@ class uninstallAddonAPIAction extends baseAddonAction
     /**
      * @param $addonid
      * @return Doctrine_Collection
-     * @throws Exception
+     * @throws DaoException
+     * @throws Doctrine_Transaction_Exception
      */
     public function uninstallAddon($addonid)
     {
-        $result = $this->getMarcketplaceService()->uninstallAddon($addonid);
-        return $result;
+        $addonDetail = $this->getMarcketplaceService()->getInstalledAddonById($addonid);
+        if (sizeof($addonDetail) == 1) {
+            $pluginName = $addonDetail[0]->getPluginName();
+        } else {
+            throw new Exception('Selected plugin to uninstall is not tracked in database.', 2000);
+        }
+        $symfonyPath = sfConfig::get('sf_root_dir');
+        $pluginInstallFilePath = $symfonyPath . '/plugins/' . $pluginName . 'install/plugin_uninstall.php';
+        try {
+            $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
+            $connection->beginTransaction();
+            $uninstall = require_once($pluginInstallFilePath);
+            if (!$uninstall) {
+                throw new Exception('Uninstall file excecution fails.', 2001);
+            }
+            $deletingPlugin = $this->recursiveDeletePlugin($symfonyPath . '/plugins/' . $pluginName);
+            if (!$deletingPlugin) {
+                throw new Exception('Removing plugin folder fails.', 2002);
+            }
+            chdir($symfonyPath);
+            exec("php symfony cc", $symfonyCcResponse, $symfonyCcStatus);
+            if ($symfonyCcStatus != 0) {
+                throw new Exception('Running php symfony cc fails.', 2003);
+            }
+            chdir($symfonyPath);
+            exec("php symfony o:publish-asset", $publishAssetResponse, $publishAssetStatus);
+            if ($publishAssetStatus != 0) {
+                throw new Exception('Running php symfony o:publish-asset fails.', 2004);
+            }
+            chdir($symfonyPath);
+            exec("php symfony d:build-model", $buildModelResponse, $buildModelStatus);
+            if ($buildModelStatus != 0) {
+                throw new Exception('Running php symfony d:build-model fails.', 2005);
+            }
+            $result = $this->getMarcketplaceService()->uninstallAddon($addonid);
+            $connection->commit();
+            return $result;
+        } catch (Exception $e) {
+            $connection->rollback();
+            throw $e;
+        }
+    }
+
+    /**
+     * @param $directory
+     * @return bool
+     */
+    public function recursiveDeletePlugin($directory)
+    {
+        $dir = opendir($directory);
+        while (false !== ($file = readdir($dir))) {
+            if (($file != '.') && ($file != '..')) {
+                $full = $directory . '/' . $file;
+                if (is_dir($full)) {
+                    $this->recursiveDeletePlugin($full);
+                } else {
+                    unlink($full);
+                }
+            }
+        }
+        closedir($dir);
+        return rmdir($directory);
     }
 }

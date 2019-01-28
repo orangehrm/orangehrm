@@ -85,17 +85,45 @@ class MarketplaceDao
         // @codeCoverageIgnoreEnd
     }
 
+    /**
+     * @param $addonId
+     * @return bool
+     * @throws DaoException
+     */
     public function uninstallAddon($addonId)
     {
         try {
             $q = Doctrine_Query::create()
                 ->delete('Addon l')
                 ->where("l.id = ?", $addonId);
-            return $q->execute();
+            $numDeleted = $q->execute();
+            if ($numDeleted > 0) {
+                return true;
+            }
+            return false;
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
         // @codeCoverageIgnoreEnd
     }
+
+    /**
+     * @param $addonId
+     * @return Doctrine_Collection
+     * @throws DaoException
+     */
+    public function getInstalledAddonById($addonId)
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->select('*')
+                ->from('Addon c')
+                ->where('c.id = ?', $addonId);
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
 }
