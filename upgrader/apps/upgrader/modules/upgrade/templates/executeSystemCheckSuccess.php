@@ -342,6 +342,20 @@ function sysCheckPassed() {
             </strong></td>
           </tr>
 
+          <tr>
+            <td class="tdComponent">Zip extension status</td>
+            <td align="right" class="tdValues"><strong>
+            <?php
+            if ($systemValidator->isZipEnabled()) {
+                echo "<b><font color='green'>Enabled</font></b>";
+            } else {
+                echo "<b><font color='red'>Disabled. zip PHP extensions is required.</font></b>";
+                $error_found = true;
+            }
+            ?>
+            </strong></td>
+          </tr>
+
           <?php
             $printMoreInfoLink = false;
 

@@ -134,4 +134,29 @@ class MarketplaceService extends ConfigService
     {
         return $this->getMarketplaceDao()->uninstallAddon($addonId);
     }
+
+    /**
+     * Extract an add-on zip file to the plugins directory
+     * @param $addonFilePath
+     * @return string
+     * @throws Exception
+     */
+    public function extractAddonFile($addonFilePath)
+    {
+        try {
+            if (class_exists(ZipArchive::class)) {
+                $zip = new ZipArchive();
+                if ($zip->open($addonFilePath) === true) {
+                    $pluginName = $zip->getNameIndex(0);
+                    if (is_writable(sfConfig::get('sf_plugins_dir'))) {
+                        $zip->extractTo(sfConfig::get('sf_plugins_dir'));
+                        $zip->close();
+                        return $pluginName;
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            throw new Exception('Plugin folder does not have write permissions.', 1000);
+        }
+    }
 }

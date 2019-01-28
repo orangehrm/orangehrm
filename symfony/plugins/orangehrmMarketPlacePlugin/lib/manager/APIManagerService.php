@@ -218,28 +218,36 @@ class APIManagerService
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
         );
+
+        $tempAddonFile = $this->getTempAddonFile();
         $response = $this->getApiClient()->get($addonURL,
             array(
                 'headers' => $headers,
-                'stream' => true
+                'sink' => $tempAddonFile
             )
         );
         if ($response->getStatusCode() == 200) {
-            $contents = $response->getBody()->getContents();
-            return base64_encode($contents);
+            $contentDispositionHeader = $response->getHeader('Content-Disposition')[0];
+            $addonFileName = explode("filename=", $contentDispositionHeader)[1];
+            return $this->renameTempAddonFile($tempAddonFile, $addonFileName);
         }
     }
 
     /**
      * @param $addonURL
-     * @param $version
+     * @param $addonDetail
      * @return string
      * @throws CoreServiceException
      */
-    public function getAddonFile($addonURL)
+    public function getAddonFile($addonURL, $addonDetail)
     {
-        $addon = $this->getAddonFileFromMP($addonURL);
-        return $addon;
+        $addonFilePath = $this->getAddonFileFromMP($addonURL);
+        $addonVersion = $addonDetail['version'];
+        $isSuccess = $this->evaluateChecksum($addonFilePath, $addonVersion['checksumAlgo'], $addonVersion['checksum']);
+        if (!$isSuccess) {
+            throw new Exception('Downloaded file corrupted.', 1007);
+        }
+        return $addonFilePath;
     }
 
     /**
@@ -340,5 +348,42 @@ class APIManagerService
         $version = new sysConf();
         $version = $version->getVersion();
         return $version;
+    }
+
+    /**
+     * @return bool|string
+     */
+    protected function getTempAddonFile()
+    {
+        return tempnam(sfConfig::get('sf_cache_dir'), 'mp_addon_');
+    }
+
+    /**
+     * @param $tempFilePath
+     * @param $fileName
+     * @return null|string
+     */
+    protected function renameTempAddonFile($tempFilePath, $fileName)
+    {
+        $addonFilePath = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . $fileName;
+        $status = rename($tempFilePath, $addonFilePath);
+        return $status ? $addonFilePath : null;
+    }
+
+    /**
+     * Evaluate the checksum value of the downloaded add-on file
+     *
+     * @param $filePath
+     * @param $checksumAlgo
+     * @param $checksum
+     * @return bool
+     */
+    protected function evaluateChecksum($filePath, $checksumAlgo, $checksum)
+    {
+        $generatedHash = hash_file($checksumAlgo, $filePath);
+        if (strcasecmp($generatedHash, $checksum) == 0) {
+            return true;
+        }
+        return false;
     }
 }

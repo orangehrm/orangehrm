@@ -42,14 +42,15 @@ class installAddonAPIAction extends baseAddonAction
                     $addonURL = $addon['links']['file'];
                 }
             }
-            $result = $this->getAddonFile($addonURL, $addonDetail);
+            $addonFilePath = $this->getAddonFile($addonURL, $addonDetail);
+            $result = $this->installAddon($addonFilePath, $addonDetail);
             echo json_encode($result);
             return sfView::NONE;
         } catch (GuzzleHttp\Exception\ConnectException $e) {
             echo json_encode(self::ERROR_CODE_NO_CONNECTION);
             return sfView::NONE;
         } catch (Exception $e) {
-            echo json_encode(self::ERROR_CODE_EXCEPTION);
+            echo json_encode($e->getCode());
             return sfView::NONE;
         }
     }
@@ -57,28 +58,65 @@ class installAddonAPIAction extends baseAddonAction
     /**
      * @param $addonURL
      * @param $addonDetail
+     * @return string
      * @throws CoreServiceException
-     * @throws DaoException
      */
     private function getAddonFile($addonURL, $addonDetail)
     {
-        $addonfile = $this->getApiManagerService()->getAddonFile($addonURL);
-        return $this->installAddon($addonfile, $addonDetail);
+        $addonFilePath = $this->getApiManagerService()->getAddonFile($addonURL, $addonDetail);
+        return $addonFilePath;
     }
 
     /**
-     * @param $addon
+     * @param $addonFilePath
      * @param $addonDetail
+     * @return bool
      * @throws DaoException
+     * @throws Doctrine_Transaction_Exception
      */
-    protected function installAddon($addon, $addonDetail)
+    protected function installAddon($addonFilePath, $addonDetail)
     {
+        $pluginname = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
+        $symfonyPath = sfConfig::get('sf_root_dir');
+        $pluginInstallFilePath = $symfonyPath . '/plugins/' . $pluginname . 'install/plugin_install.php';
+        chdir($symfonyPath);
+        exec("php symfony cc", $symfonyCcResponse, $symfonyCcStatus);
+        if ($symfonyCcStatus != 0) {
+            throw new Exception('Can not clean cache.', 1001);
+        }
+        try {
+            $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
+            $connection->beginTransaction();
+            $install = require_once($pluginInstallFilePath);
+            $connection->commit();
+        } catch (Exception $e) {
+            $connection->rollback();
+            throw new Exception('installation query fails', 1002);
+        }
+        if (!$install) {
+            throw new Exception('install file excecution fails.', 1003);
+        }
+        chdir($symfonyPath);
+        exec("php symfony o:publish-asset", $publishAssetResponse, $publishAssetStatus);
+        if ($publishAssetStatus != 0) {
+            throw new Exception('Can not run publish-asset', 1004);
+        }
+        chdir($symfonyPath);
+        exec("php symfony d:build-model", $buildModelResponse, $buildModelStatus);
+        if ($buildModelStatus != 0) {
+            throw new Exception('Can not run Build-model', 1005);
+        }
         $data = array(
             'id' => $addonDetail['id'],
             'addonName' => $addonDetail['title'],
-            'status' => 'Installed'
+            'status' => 'Installed',
+            'pluginName' => $pluginname
         );
         $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
-//                Todo implementation on instalation
+        if ($result != true) {
+            throw new Exception('Can not add to OrangeHRM tables. But Successfully installed. Uninstallation will
+            cause errors. But it user can used', 1006);
+        }
+        return $result;
     }
 }
