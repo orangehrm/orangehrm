@@ -39,8 +39,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                 <div class="inner container" id="addonHolder">
                     <div class="accordion" addonid="<?php echo $addon['id']; ?>">
                         <div id="column" class="image">
-                            <img class="circle" src="
-                        <?php echo $addon['icon']; ?>"/>
+                            <img class="circle" src="<?php echo $addon['icon']; ?>"/>
                         </div>
                         <div id="column" class="details">
                             <div class="row">
