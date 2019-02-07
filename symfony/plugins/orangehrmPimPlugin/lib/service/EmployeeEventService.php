@@ -80,7 +80,7 @@ class EmployeeEventService extends BaseService {
         $employeeEvent->setEvent($event);
         $employeeEvent->setNote($note);
         $employeeEvent->setCreatedBy($createdBy);
-        $employeeEvent->setCreatedDate(date("Y-m-d h:i:sa"));
+        $employeeEvent->setCreatedDate(date("Y-m-d H:i:s"));
         $this->saveEmployeeEvent($employeeEvent);
     }
 
