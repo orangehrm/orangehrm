@@ -151,7 +151,7 @@ class MarketplaceService extends ConfigService
                     if (is_writable(sfConfig::get('sf_plugins_dir'))) {
                         $zip->extractTo(sfConfig::get('sf_plugins_dir'));
                         $zip->close();
-                        return $pluginName;
+                        return str_replace('/', '', $pluginName);
                     }
                 }
             }

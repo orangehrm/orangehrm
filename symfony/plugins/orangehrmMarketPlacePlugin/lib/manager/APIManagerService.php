@@ -366,7 +366,7 @@ class APIManagerService
     protected function renameTempAddonFile($tempFilePath, $fileName)
     {
         $addonFilePath = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . $fileName;
-        $status = rename($tempFilePath, $addonFilePath);
+        $status = copy($tempFilePath, $addonFilePath);
         return $status ? $addonFilePath : null;
     }
 
