@@ -54,7 +54,7 @@ class uninstallAddonAPIAction extends baseAddonAction
             throw new Exception('Selected plugin to uninstall is not tracked in database.', 2000);
         }
         $symfonyPath = sfConfig::get('sf_root_dir');
-        $pluginInstallFilePath = $symfonyPath . '/plugins/' . $pluginName . 'install/plugin_uninstall.php';
+        $pluginInstallFilePath = $symfonyPath . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'plugin_uninstall.php';
         try {
             $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
             $connection->beginTransaction();
@@ -62,7 +62,7 @@ class uninstallAddonAPIAction extends baseAddonAction
             if (!$uninstall) {
                 throw new Exception('Uninstall file excecution fails.', 2001);
             }
-            $deletingPlugin = $this->recursiveDeletePlugin($symfonyPath . '/plugins/' . $pluginName);
+            $deletingPlugin = $this->recursiveDeletePlugin($symfonyPath . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginName);
             if (!$deletingPlugin) {
                 throw new Exception('Removing plugin folder fails.', 2002);
             }
@@ -99,7 +99,7 @@ class uninstallAddonAPIAction extends baseAddonAction
         $dir = opendir($directory);
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
-                $full = $directory . '/' . $file;
+                $full = $directory . DIRECTORY_SEPARATOR . $file;
                 if (is_dir($full)) {
                     $this->recursiveDeletePlugin($full);
                 } else {
