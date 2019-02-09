@@ -44,7 +44,7 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
 	
     var user_UserNameRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_EmployeeNameRequired   = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var user_ValidEmployee          = '<?php echo __(ValidationMessages::EMPLOYEE_DOES_NOT_EXIST); ?>';
+    var user_ValidEmployee          = '<?php echo esc_js_no_entities(__(ValidationMessages::EMPLOYEE_DOES_NOT_EXIST)); ?>';
     var user_UserPaswordRequired    = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_UserConfirmPassword    = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_samePassword           = "<?php echo __("Passwords do not match"); ?>";
