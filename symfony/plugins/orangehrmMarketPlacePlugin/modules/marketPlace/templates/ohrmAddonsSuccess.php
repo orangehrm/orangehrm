@@ -131,7 +131,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     </div>
     <div class="modal-body">
         <p><?php echo __("You are requesting to buy this add-on."); ?></p><br>
-        <p><?php echo __("Please confirm your contact details. Your details will be forwarded to sales@orangehrm.com."); ?></p>
+        <p><?php echo __("Please confirm your contact details. Your details will be forwarded to OrangeHRM sales representative."); ?></p>
         <div class="box">
             <form id="frmBuyNow" method="post">
                 <ol>
