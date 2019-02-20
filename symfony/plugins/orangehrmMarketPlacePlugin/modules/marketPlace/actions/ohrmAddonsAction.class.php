@@ -54,11 +54,15 @@ class ohrmAddonsAction extends baseAddonAction
             $installAddons = $this->getInstalledAddons();
             $this->installedAddons = $installAddons[0];
         } catch (GuzzleHttp\Exception\ConnectException $e) {
+            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
+            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
             $this->exception = true;
             $this->errorMessage = self::NO_NETWORK_ERR_MESSAGE;
         } catch (Exception $e) {
             $this->exception = true;
             $this->errorMessage = self::MP_MIDDLEWERE_ERR_MESSAGE;
+            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
+            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
         }
     }
 
