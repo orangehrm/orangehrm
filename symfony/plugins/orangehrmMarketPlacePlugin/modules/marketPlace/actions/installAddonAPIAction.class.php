@@ -29,6 +29,9 @@ class installAddonAPIAction extends baseAddonAction
     public function execute($request)
     {
         try {
+            if (ini_get('max_execution_time') < 600) {
+                ini_set('max_execution_time', 600);
+            }
             $addonList = $this->getAddons();
             $data = $request->getParameterHolder()->getAll();
             $addonId = $data['installAddonID'];

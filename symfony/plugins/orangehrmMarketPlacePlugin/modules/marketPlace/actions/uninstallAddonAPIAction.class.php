@@ -29,6 +29,9 @@ class uninstallAddonAPIAction extends baseAddonAction
     public function execute($request)
     {
         try {
+            if (ini_get('max_execution_time') < 600) {
+                ini_set('max_execution_time', 600);
+            }
             $data = $request->getParameterHolder()->getAll();
             $result = $this->uninstallAddon($data['uninstallAddonID']);
             echo json_encode($result);
