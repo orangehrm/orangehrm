@@ -150,7 +150,7 @@ class executeConfChangeAction extends sfAction {
      * @return null|SystemConfiguration
      */
     private function getSysConfig() {
-        require_once(sfConfig::get('sf_root_dir') . "/../installer/SystemConfiguration");
+        require_once(sfConfig::get('sf_root_dir') . "/../installer/SystemConfiguration.php");
         if (is_null($this->sysConfig)) {
             $this->sysConfig = new SystemConfiguration();
         }

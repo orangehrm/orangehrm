@@ -329,7 +329,7 @@ CONFCONT;
     }
     
     public function dropUpgradeStatusTable() {
-        $sql = "DROP TABLE `ohrm_upgrade_status`";
+        $sql = "DROP TABLE IF EXISTS `ohrm_upgrade_status`";
         $result = $this->executeSql($sql);
     }
     
