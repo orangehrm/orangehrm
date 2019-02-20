@@ -59,6 +59,8 @@ class ohrmAddonsAction extends baseAddonAction
         } catch (Exception $e) {
             $this->exception = true;
             $this->errorMessage = self::MP_MIDDLEWERE_ERR_MESSAGE;
+            Logger::getLogger("orangehrm")->error($e->getMessage());
+            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
         }
     }
 
