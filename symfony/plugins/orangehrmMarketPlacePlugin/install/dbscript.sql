@@ -19,7 +19,7 @@ INSERT INTO ohrm_user_role_screen (user_role_id,screen_id, can_read, can_create,
 (@Supervisor_role_id, @MP_home_screen_id, 1,0,0,0);
 
 INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
-('base_url', 'https://demo-marketplace.orangehrm.com');
+('base_url', 'https://marketplace.orangehrm.com');
 
 -- Add data group permissions
 INSERT INTO ohrm_data_group (name, description, can_read, can_create, can_update, can_delete) VALUES
