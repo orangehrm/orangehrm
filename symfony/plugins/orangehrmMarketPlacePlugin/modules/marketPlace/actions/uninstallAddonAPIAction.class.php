@@ -37,7 +37,7 @@ class uninstallAddonAPIAction extends baseAddonAction
             echo json_encode($result);
             return sfView::NONE;
         } catch (Exception $e) {
-            Logger::getLogger("orangehrm")->error($e->getMessage());
+            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());
             echo json_encode($e->getCode());
             return sfView::NONE;

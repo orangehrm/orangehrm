@@ -48,12 +48,12 @@ class installAddonAPIAction extends baseAddonAction
             echo json_encode($result);
             return sfView::NONE;
         } catch (GuzzleHttp\Exception\ConnectException $e) {
-            Logger::getLogger("orangehrm")->error($e->getMessage());
+            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());
             echo json_encode(self::ERROR_CODE_NO_CONNECTION);
             return sfView::NONE;
         } catch (Exception $e) {
-            Logger::getLogger("orangehrm")->error($e->getMessage());
+            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());
             echo json_encode($e->getCode());
             return sfView::NONE;

@@ -44,12 +44,12 @@ class getAddonDescriptionAPIAction extends baseAddonAction
             $addonDescription = $this->getDescription($addonDesCriptionURL);
             $this->addonDescription = base64_decode($addonDescription);
         } catch (GuzzleHttp\Exception\ConnectException $e) {
-            Logger::getLogger("orangehrm")->error($e->getMessage());
+            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());
             echo json_encode(self::ERROR_CODE_NO_CONNECTION);
             return sfView::NONE;
         } catch (Exception $e) {
-            Logger::getLogger("orangehrm")->error($e->getMessage());
+            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());
             echo json_encode(self::ERROR_CODE_EXCEPTION);
             return sfView::NONE;
