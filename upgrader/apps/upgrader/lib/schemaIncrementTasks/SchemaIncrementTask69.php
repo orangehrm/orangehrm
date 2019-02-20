@@ -47,7 +47,7 @@ class SchemaIncrementTask69 extends SchemaIncrementTask
                   (@ESS_role_id, @MP_home_screen_id, 1,0,0,0),
                   (@Supervisor_role_id, @MP_home_screen_id, 1,0,0,0);';
         $sql[] = 'INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
-                  (\'base_url\', \'https://demo-marketplace.orangehrm.com\');';
+                  (\'base_url\', \'https://marketplace.orangehrm.com\');';
         $sql[] = 'INSERT INTO ohrm_data_group (
                   name,
                   description,
