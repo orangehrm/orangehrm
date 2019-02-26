@@ -126,4 +126,54 @@ class MarketplaceDao
         }
     }
 
+    /**
+     * @return mixed
+     * @throws DaoException
+     */
+    public function getOrganizationGeneralInformation()
+    {
+        try {
+            return Doctrine::getTable('Organization')->find(1);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param $userRole
+     * @return mixed
+     * @throws DaoException
+     */
+    public function getUserRoleId($userRole)
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->select('u.id')
+                ->from('UserRole u')
+                ->where('u.name = ?', $userRole);
+            return $q->execute(array(), Doctrine::HYDRATE_ARRAY)[0]['id'];
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @return mixed
+     * @throws DaoException
+     */
+    public function getAdmin()
+    {
+        try {
+            $adminRoleId = $this->getUserRoleId('Admin');
+            $q = Doctrine_Query::create()
+                ->select('u.emp_number')
+                ->from('SystemUser u')
+                ->where('u.user_role_id = ?', $adminRoleId);
+            $empNumber = $q->execute(array(), Doctrine::HYDRATE_ARRAY)[0]['emp_number'];
+
+            return Doctrine::getTable('Employee')->find($empNumber);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }

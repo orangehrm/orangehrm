@@ -23,6 +23,7 @@
 class MarketplaceService extends ConfigService
 {
     private $marketplaceDao = null;
+    private $sysConfig = null;
     /**
      * key name for ID in hs_hr_config table
      */
@@ -168,5 +169,49 @@ class MarketplaceService extends ConfigService
     public function getInstalledAddonById($addonId)
     {
         return $this->getMarketplaceDao()->getInstalledAddonById($addonId);
+    }
+
+    /**
+     * Return instance of SystemConfiguration class
+     * @return null|SystemConfiguration
+     */
+    public function getSysConfig()
+    {
+        require_once(sfConfig::get('sf_root_dir') . "/../installer/SystemConfiguration.php");
+        if (is_null($this->sysConfig)) {
+            $this->sysConfig = new SystemConfiguration();
+        }
+        return $this->sysConfig;
+    }
+
+    /**
+     * Create instance identifier and checksum value for the instance identifier
+     * @return array
+     * @throws CoreServiceException
+     * @throws DaoException
+     */
+    public function createInstanceIdentifierAndChecksum()
+    {
+        $organizationInfo = $this->getMarketplaceDao()->getOrganizationGeneralInformation();
+        $organizationName = "OrganizationName";
+        if ($organizationInfo instanceof Organization) {
+            $organizationName = $organizationInfo->getName();
+        }
+        $adminEmployee = $this->getMarketplaceDao()->getAdmin();
+        $organizationEmail = "OrganizationEmail";
+        if ($adminEmployee instanceof Employee) {
+            $organizationEmail = $adminEmployee->getEmpWorkEmail();
+        }
+        $createdDate = date('Y-m-d');
+        $randomNumber = rand(1, 100);
+        $instanceId = $this->getSysConfig()->createInstanceIdentifier($organizationName, $organizationEmail, $createdDate, $randomNumber);
+        $instanceIdChecksum = $this->getSysConfig()->createInstanceIdentifierChecksum($organizationName, $organizationEmail, $createdDate, $randomNumber);
+        $this->_setConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER, $instanceId);
+        $this->_setConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdChecksum);
+
+        return array(
+            'instanceId' => $this->_getConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER),
+            'instanceIdChecksum' => $this->_getConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER_CHECKSUM)
+        );
     }
 }
