@@ -156,7 +156,8 @@ Function ContactDetailsEnterValidate
 		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE `hs_hr_config` SET `value` = $\'$LanguageCode$\' WHERE `key` = $\'admin.localization.default_language$\';"'
 		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`,`emp_firstname`,`emp_lastname`,`emp_work_email`,`emp_work_telephone`) VALUES ( $\'1 $\',  $\'0001 $\', $\'$UserfirstName$\', $\'$UserLastName$\', $\'$UserEmail$\', $\'$UserContactNumber$\');"'
 		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE `ohrm_user` SET `emp_number` = 1 WHERE `id` = 1 LIMIT 1;"'			
-		
+		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE hs_hr_unique_id SET last_id = LAST_INSERT_ID(last_id + 1) WHERE table_name = $\'hs_hr_employee$\' AND field_name = $\'emp_number$\'"'
+
 FunctionEnd
 
 
