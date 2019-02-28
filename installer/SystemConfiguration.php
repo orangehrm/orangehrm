@@ -158,6 +158,18 @@ class SystemConfiguration
     }
 
     /**
+     * Create instance identifier value
+     * @param $organizationName
+     * @param $organizationEmail
+     * @param $createdDate
+     * @param $randomNumber
+     * @return string
+     */
+    public function createInstanceIdentifier($organizationName, $organizationEmail, $createdDate, $randomNumber) {
+        return base64_encode($organizationName . '_' . $organizationEmail . '_' . $createdDate . $randomNumber);
+    }
+
+    /**
      * Create instance identifier checksum value
      * @param $organizationName
      * @param $organizationEmail

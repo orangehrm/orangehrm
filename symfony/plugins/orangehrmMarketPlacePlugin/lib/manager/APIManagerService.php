@@ -314,6 +314,11 @@ class APIManagerService
     {
         $instanceIdentifier = $this->getConfigService()->getInstanceIdentifier();
         $instanceIdentifierChecksum = $this->getConfigService()->getInstanceIdentifierChecksum();
+        if (empty($instanceIdentifier)){
+            $instanceIdentifierAndChecksum = $this->getMarketplaceService()->createInstanceIdentifierAndChecksum();
+            $instanceIdentifier = $instanceIdentifierAndChecksum['instanceId'];
+            $instanceIdentifierChecksum = $instanceIdentifierAndChecksum['instanceIdChecksum'];
+        }
         $headers = array('Accept' => 'application/json');
         $body = array(
             'instanceId' => $instanceIdentifier,
