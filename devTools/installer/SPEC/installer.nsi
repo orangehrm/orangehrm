@@ -20,6 +20,9 @@
 ; Installer Functions
 
 ; Admin user details
+
+    !include LogicLib.nsh
+	
 Function AdminUserDetailsEnter
 
     !insertmacro MUI_HEADER_TEXT "Admin User Creation" "After OrangeHRM is configured you will need an Administrator Account to Login into OrangeHRM."
@@ -56,43 +59,104 @@ Function VerifyRegister
 FunctionEnd
 ; Registration functions
 
+Function ContactDetailsEnter
+
+	!insertmacro MUI_HEADER_TEXT "System Configuration" "Please fill in your Organization details and Employee Details"
+    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "ContactDetails.ini"
+
+FunctionEnd
+
 Function ContactDetailsEnterValidate
 
 
   !insertmacro MUI_INSTALLOPTIONS_READ $0 "ContactDetails.ini" "Field 2" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $1 "ContactDetails.ini" "Field 3" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $1 "ContactDetails.ini" "Field 13" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $2 "ContactDetails.ini" "Field 15" "State" 
+  !insertmacro MUI_INSTALLOPTIONS_READ $3 "ContactDetails.ini" "Field 4" "State" 
+  !insertmacro MUI_INSTALLOPTIONS_READ $4 "ContactDetails.ini" "Field 10" "State" 
+  !insertmacro MUI_INSTALLOPTIONS_READ $5 "ContactDetails.ini" "Field 11" "State"  
+  !insertmacro MUI_INSTALLOPTIONS_READ $6 "ContactDetails.ini" "Field 6" "State"  
+
   
+  ${CheckContactNumber} "$2" "$R2"
   ${CheckUserEmailAddress} "$1" "$R1"
 
-  StrCmpS $R1 "1" error done
+  StrCmpS $R2 "1" errorNumber doneNumber
+  
 
-  error:
-  		MessageBox MB_OK|MB_ICONEXCLAMATION "Please Prvide a valid email address. eg: myid@.com"
+  errorNumber:
+  		MessageBox MB_OK|MB_ICONEXCLAMATION "Allows numbers and only + - / ( ) "
   		Abort
 
-  done:
-  		;StrCpy $CompanyName "$0"
-  		;StrCpy $Consent "$1"
+  doneNumber:
+		StrCmpS $R1 "1" errorEmail doneEmail
+  		
+  
+  errorEmail:
+  		MessageBox MB_OK|MB_ICONEXCLAMATION "Expected format: admin@example.com"
+  		Abort
+
+  doneEmail:
+		
+		Var /GLOBAL UserEmail 
+		Var /GLOBAL UserContactNumber 
+		Var /GLOBAL Country 
+		Var /GLOBAL UserFirstName 
+		Var /GLOBAL UserLastName 
+
+		
+  		StrCpy $CompanyName "$0"
+  		StrCpy $UserEmail "$1"
+  		StrCpy $UserContactNumber "$2"
+  		StrCpy $Country "$3"
+  		StrCpy $UserFirstName "$4"
+  		StrCpy $UserLastName "$5"
+  		StrCpy $Language "$6"
   		
 		
-
-  		inetc::post "$PostStr" "http://www.orangehrm.com/registration/registerAcceptor.php" "$INSTDIR\output.txt" /END
-
-                nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `ohrm_organization_gen_info`(`name`) VALUES ('$CompanyName')"'
-                nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `ohrm_organization_gen_info`(`name`) VALUES ('$CompanyName')"'
-  		;nsExec::ExecToLog '"$INSTDIR\php\php" "$INSTDIR\install\register.php" "$PostStr"'
-  		Pop $0
-  		StrCmpS $0 "OK" success failedToSubmit
+		;inetc::post "$PostStr" "http://www.orangehrm.com/registration/registerAcceptor.php" "$INSTDIR\output.txt" /END
+		
+		Var /GLOBAL LanguageCode  
+		StrCpy $LanguageCode "en_US"
+		
+		${If} $Language == "Chinese (Simplified Han) - 中文（简体中文）" 
+		      StrCpy $LanguageCode  "zh-cn"
+		${EndIf}
+	
+		${If} $Language == "Chinese (Traditional Han) - 中文 (繁體中文)"
+		      StrCpy $LanguageCode  "zh-tw"
+		${EndIf}
+		
+		${If} $Language == "Dutch - Nederlands"
+		      StrCpy $LanguageCode  "nl"
+		${EndIf}
+		
+		${If} $Language == "English"
+		      StrCpy $LanguageCode  "en_US"
+		${EndIf}
+		
+		${If} $Language == "French - Français"
+		      StrCpy $LanguageCode  "fr"
+		${EndIf}
+		
+		${If} $Language == "German - Deutsch"
+		      StrCpy $LanguageCode  "de"
+		${EndIf}
+		
+		${If} $Language == "Spanish - Español"
+		      StrCpy $LanguageCode  "es"
+		${EndIf}
+		
+		${If} $Language == "Spanish - Costa Rica"
+		      StrCpy $LanguageCode  "es_CR"
+		${EndIf}
 		
 
-  failedToSubmit:
-  		MessageBox MB_OK|MB_ICONEXCLAMATION "There was an error submitting the registration information"
-  		Return
-
-  success:
-  		MessageBox MB_OK|MB_ICONINFORMATION "Your information was successfully received by OrangeHRM"
-
-
+        nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `ohrm_organization_gen_info`(`name`, `country`) SELECT  $\'$CompanyName$\', `cou_code` FROM `hs_hr_country` WHERE `cou_name` = $\'$Country$\' LIMIT 1;"'
+		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE `hs_hr_config` SET `value` = $\'$LanguageCode$\' WHERE `key` = $\'admin.localization.default_language$\';"'
+		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`,`emp_firstname`,`emp_lastname`,`emp_work_email`,`emp_work_telephone`) VALUES ( $\'1 $\',  $\'0001 $\', $\'$UserfirstName$\', $\'$UserLastName$\', $\'$UserEmail$\', $\'$UserContactNumber$\');"'
+		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE `ohrm_user` SET `emp_number` = 1 WHERE `id` = 1 LIMIT 1;"'			
+		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE hs_hr_unique_id SET last_id = LAST_INSERT_ID(last_id + 1) WHERE table_name = $\'hs_hr_employee$\' AND field_name = $\'emp_number$\'"'
 
 FunctionEnd
 
@@ -312,9 +376,7 @@ Section "-Complete"
 	  DetailPrint "Installing Functions"
 	  nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-functions.sql"'
 	  
-      DetailPrint "Registering Product"
-      inetc::post "register" "http://127.0.0.1/orangehrm-3.3/installer/registrationMessage.php" "$INSTDIR\output.txt" 
-
+    
 SectionEnd
 
 ;SectionGroup /e "XAMPP Components" SecGrpXamppComponents
