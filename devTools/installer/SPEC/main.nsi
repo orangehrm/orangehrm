@@ -68,11 +68,13 @@
   !include "Include\StrRep.nsh"
   !include "Include\ReplaceInFile.nsh"
   !include "Include\CheckUserEmailAddress.nsh"
+  !include "Include\CheckContactNumber.nsh"  
   !include "Include\Ports.nsh"
   !include "Include\servicelib.nsh"
   !include "Include\WriteToFile.nsh"
 
   ; InstallOptions
+    !include "Registration.nsdinc"
   ReserveFile "AdminUserDetails.ini"
   ReserveFile "ContactDetails.ini"
   #ReserveFile "CheckApacheAlreadyInstalled.ini"
@@ -132,8 +134,6 @@
 ;--------------------------------
 ; Pages
 
-
-  
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE "${SourceLocation}\content\license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
@@ -142,6 +142,9 @@
   
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
+  
+  Page custom ContactDetailsEnter ContactDetailsEnterValidate	
+  
   !define MUI_FINISHPAGE_NOAUTOCLOSE
   !define MUI_FINISHPAGE_RUN
   !define MUI_FINISHPAGE_RUN_NOTCHECKED
@@ -227,4 +230,3 @@ FunctionEnd
 ; Uninstaller Sections
 
 !include "uninstaller.nsi"
-
