@@ -37,7 +37,7 @@ abstract class basePimAction extends ohrmBaseAction {
         if (empty($initialActionName)) {
             $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
             $empNumber = $request->getParameter('empNumber');
-            
+            $this->isPurgeEmployee($empNumber);
             if (!empty($loggedInEmpNum) && $loggedInEmpNum == $empNumber) {
                 $request->setParameter('initialActionName', 'viewMyDetails');
             } else {
@@ -135,4 +135,16 @@ abstract class basePimAction extends ohrmBaseAction {
         $sessionVariableManager->registerVariables();
     }
 
+    /**
+     * @param $empNum
+     * @throws DaoException
+     * @throws sfStopException
+     */
+    public function isPurgeEmployee($empNum)
+    {
+        $employee = $this->getEmployeeService()->getEmployee($empNum);
+        if ($employee->getPurgedAt()) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
+    }
 }
