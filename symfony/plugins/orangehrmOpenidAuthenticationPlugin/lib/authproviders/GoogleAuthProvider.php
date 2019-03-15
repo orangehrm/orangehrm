@@ -77,4 +77,5 @@ class GoogleAuthProvider extends AbstractAuthProvider
         }
         return $this->loginService;
     }
+    
 }
