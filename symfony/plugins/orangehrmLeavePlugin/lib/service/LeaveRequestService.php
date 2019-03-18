@@ -435,7 +435,7 @@ class LeaveRequestService extends BaseService {
      * @return array
      */
     public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false, $isMyLeaveList = false, 
-            $prefetchLeave = false, $prefetchComments = false, $includePurgeEmployee) {
+            $prefetchLeave = false, $prefetchComments = false, $includePurgeEmployee = false) {
         $result = $this->getLeaveRequestDao()->searchLeaveRequests($searchParameters, $page, $isCSVPDFExport, 
                 $isMyLeaveList, $prefetchLeave, $prefetchComments, $includePurgeEmployee);
         return $result;
