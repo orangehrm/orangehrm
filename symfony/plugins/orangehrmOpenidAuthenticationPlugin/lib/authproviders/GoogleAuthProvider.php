@@ -22,8 +22,7 @@
 /**
  * Description of GoogleAuthProvider
  */
-class GoogleAuthProvider extends AbstractAuthProvider
-{
+class GoogleAuthProvider extends AbstractAuthProvider {
     const PROFILE_SCOPE = 'profile';
     const EMAIL_SCOPE = 'email';
     protected $loginService;
