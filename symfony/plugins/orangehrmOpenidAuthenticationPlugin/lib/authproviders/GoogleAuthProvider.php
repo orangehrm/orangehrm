@@ -25,7 +25,7 @@
 class GoogleAuthProvider extends AbstractAuthProvider {
     const PROFILE_SCOPE = 'profile';
     const EMAIL_SCOPE = 'email';
-    protected $loginService;
+    protected $loginService = null;
 
     /**
      * @param OpenidProvider $provider
@@ -41,9 +41,10 @@ class GoogleAuthProvider extends AbstractAuthProvider {
         $gClient->setRedirectUri($provider->getProviderUrl());
         $gClient->setDeveloperKey($authProvider->getDeveloperKey());
         $gClient->addScope(array(self::EMAIL_SCOPE, self::PROFILE_SCOPE));
+        $requestCode=$_GET['code'];
 
-        if (isset($_GET['code'])) {
-            $gClient->fetchAccessTokenWithAuthCode($_GET['code']);
+        if (isset($requestCode)) {
+            $gClient->fetchAccessTokenWithAuthCode($requestCode);
         }
         if ($gClient->getAccessToken()) {
             $tokenData = $gClient->verifyIdToken();
@@ -53,10 +54,16 @@ class GoogleAuthProvider extends AbstractAuthProvider {
             $success = $this->getOpenIdService()->setOpenIdCredentials($username, $dataArray);
             if ($success) {
                 $this->getLoginService()->addLogin();
-                $flag = array('type' => 'true', 'message' => 'User has authentication!');
+                $flag = array(
+                    'type' => 'true',
+                    'message' => 'User has authentication!'
+                );
                 return $flag;
             } else {
-                $flag = array('type' => 'false', 'message' => 'Invalid Credentials : you Have No OpenID account in Orangehrm try loging with OrangeHRM credentials');
+                $flag = array(
+                    'type' => 'false',
+                    'message' => 'Invalid Credentials : you Have No OpenID account in Orangehrm try loging with OrangeHRM credentials'
+                );
                 return $flag;
             }
         } else {
