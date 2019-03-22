@@ -28,7 +28,7 @@
 <script type="text/javascript">
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
-    var errorForInvalidFormat='<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, 
+    var errorForInvalidFormat='<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID,
             array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var errorMsge;
     var linkForGetRecords='<?php echo url_for('attendance/getRelatedAttendanceRecords'); ?>';

@@ -69,25 +69,25 @@
     
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
-    var errorForInvalidFormat='<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var errorForInvalidFormat='<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var errorMsge;
     var linkForGetRecords='<?php echo url_for('attendance/getRelatedAttendanceRecords'); ?>'
     var linkForProxyPunchInOut='<?php echo url_for('attendance/proxyPunchInPunchOut'); ?>'
     var trigger='<?php echo $trigger; ?>';
-    var employeeAll='<?php echo __('All'); ?>';
+    var employeeAll='<?php echo __js('All'); ?>';
     var employeeId='<?php echo $employeeId; ?>';
     var dateSelected='<?php echo $date; ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>';
-    var employeeSelect = '<?php echo __('Select an Employee') ?>';
-    var invalidEmpName = '<?php echo __('Invalid Employee Name') ?>';
-    var noEmployees = '<?php echo __('No Employees Available') ?>';
-    var typeForHints = '<?php echo __("Type for hints") . '...'; ?>';
+    var employeeSelect = '<?php echo __js('Select an Employee') ?>';
+    var invalidEmpName = '<?php echo __js('Invalid Employee Name') ?>';
+    var noEmployees = '<?php echo __js('No Employees Available') ?>';
+    var typeForHints = '<?php echo __js("Type for hints") . '...'; ?>';
     var date='<?php echo $date; ?>';
     var linkToEdit='<?php echo url_for('attendance/editAttendanceRecord'); ?>'
     var linkToDeleteRecords='<?php echo url_for('attendance/deleteAttendanceRecords'); ?>'
-    var lang_noRowsSelected='<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';
-    var closeText = '<?php echo __('Close');?>';
-    var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_noRowsSelected='<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>';
+    var closeText = '<?php echo __js('Close');?>';
+    var lang_NameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
 
     function submitPage(pageNo) {
         document.frmAttendanceReport.pageNo.value = pageNo;
