@@ -483,8 +483,8 @@ use_javascript('orangehrm.datepicker.js');
                 'display_fields[]': {required: true, minlength: 1}
             },
             messages: {
-                'report[report_name]': '<?php echo __(ValidationMessages::REQUIRED);?>',
-                'display_fields[]': '<?php echo __(ValidationMessages::REQUIRED);?>'
+                'report[report_name]': '<?php echo __js(ValidationMessages::REQUIRED);?>',
+                'display_fields[]': '<?php echo __js(ValidationMessages::REQUIRED);?>'
             },
             errorElement : 'span',
             errorPlacement: function(error, element) {
