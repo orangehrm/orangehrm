@@ -145,4 +145,4 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewEducationSuccess'
     var lang_nameExists = '<?php echo __js( ValidationMessages::ALREADY_EXISTS); ?>';
     
 //]]>	
-</script> 
+</script>
