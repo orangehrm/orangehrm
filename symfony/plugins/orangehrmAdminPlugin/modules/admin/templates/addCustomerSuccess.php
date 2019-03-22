@@ -63,7 +63,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/addCustomerSuccess'))
             <?php echo __('No'); ?> -
             <?php
             echo $form->isUpdateMode() ? __('This customer will be renamed to the same name as the deleted customer') :
-                __('A new customer will be created with same name');
+                    __('A new customer will be created with same name');
             ?>
         </p>
         <p><?php echo __('Cancel'); ?> - <?php echo __('Will take no action'); ?></p>
