@@ -39,19 +39,19 @@
 <script type="text/javascript">
 	var locations = <?php echo str_replace('&#039;', "'", $form->getLocationListAsJson()) ?> ;
     var locationList = eval(locations);
-	var lang_LocNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_CountryRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_ValidCountry = '<?php echo __(ValidationMessages::INVALID); ?>';
-	var lang_validPhoneNo = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
-	var lang_validFaxNo = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
-	var lang_Max100Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
-	var lang_Max50Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
-	var lang_Max30Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 30)); ?>';
-	var lang_Max255Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
-	var lang_editLocation = "<?php echo __("Edit Location"); ?>";
+	var lang_LocNameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+	var lang_CountryRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+	var lang_ValidCountry = '<?php echo __js(ValidationMessages::INVALID); ?>';
+	var lang_validPhoneNo = '<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>';
+	var lang_validFaxNo = '<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>';
+	var lang_Max100Chars = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
+	var lang_Max50Chars = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
+	var lang_Max30Chars = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 30)); ?>';
+	var lang_Max255Chars = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
+	var lang_editLocation = "<?php echo __js("Edit Location"); ?>";
 	var locationId = "<?php echo $locationId ?>";
 	var viewLocationUrl = "<?php echo url_for("admin/viewLocations"); ?>";
-	var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
-	var lang_save = "<?php echo __("Save"); ?>";
-	var lang_edit = "<?php echo __("Edit"); ?>";
+	var lang_uniqueName = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
+	var lang_save = "<?php echo __js("Save"); ?>";
+	var lang_edit = "<?php echo __js("Edit"); ?>";
 </script>

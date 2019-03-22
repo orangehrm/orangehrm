@@ -98,10 +98,10 @@
 	var workShiftInfoUrl = "<?php echo url_for("admin/getWorkShiftInfoJson?id="); ?>";
 	var workShiftEmpInfoUrl = "<?php echo url_for("admin/getWorkShiftEmpInfoJson?id="); ?>";
 
-	var lang_Required = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
-	var lang_addWorkShift = "<?php echo __("Add Work Shift"); ?>";
-	var lang_editWorkShift = "<?php echo __("Edit Work Shift"); ?>";
-	var lang_nameAlreadyExist = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
-        var lang_FromTimeLessThanToTime = "<?php echo __('From time should be less than To time'); ?>";
+	var lang_Required = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+	var lang_exceed50Charactors = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
+	var lang_addWorkShift = "<?php echo __js("Add Work Shift"); ?>";
+	var lang_editWorkShift = "<?php echo __js("Edit Work Shift"); ?>";
+	var lang_nameAlreadyExist = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
+        var lang_FromTimeLessThanToTime = "<?php echo __js('From time should be less than To time'); ?>";
 </script>

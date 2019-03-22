@@ -84,24 +84,24 @@
 </div> <!-- dltDialog -->
 
 <script type="text/javascript">
-    var lang_edit = "<?php echo __("Edit"); ?>";
-    var lang_done = "<?php echo __("Done"); ?>";
-    var lang_addUnit = "<?php echo "OrangeHRM - " . __("Add Unit"); ?>";
-    var lang_editUnit = "<?php echo "OrangeHRM - " . __("Edit Unit"); ?>";
-    var lang_delete_warning = "<?php echo __("Units under selected unit will also be deleted"); ?>";
-    var lang_delete_confirmation = "<?php echo __("Delete?"); ?>";
-    var lang_addNote = "<?php echo __("This unit will be added under"); ?>";
-    var lang_nameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_max_100 = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
-    var lang_max_400 = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 400)); ?>';
-    var lang_noDescriptionSpecified = "<?php echo __("Description is not specified"); ?>";
+    var lang_edit = "<?php echo __js("Edit"); ?>";
+    var lang_done = "<?php echo __js("Done"); ?>";
+    var lang_addUnit = "<?php echo "OrangeHRM - " . __js("Add Unit"); ?>";
+    var lang_editUnit = "<?php echo "OrangeHRM - " . __js("Edit Unit"); ?>";
+    var lang_delete_warning = "<?php echo __js("Units under selected unit will also be deleted"); ?>";
+    var lang_delete_confirmation = "<?php echo __js("Delete?"); ?>";
+    var lang_addNote = "<?php echo __js("This unit will be added under"); ?>";
+    var lang_nameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_max_100 = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
+    var lang_max_400 = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 400)); ?>';
+    var lang_noDescriptionSpecified = "<?php echo __js("Description is not specified"); ?>";
     var deleteSubunitUrl = '<?php echo public_path('index.php/admin/deleteSubunit'); ?>';
     var getSubunitUrl = '<?php echo public_path('index.php/admin/getSubunit'); ?>';
     var saveSubunitUrl = '<?php echo public_path('index.php/admin/saveSubunit'); ?>';
     var viewCompanyStructureHtmlUrl = '<?php echo public_path('index.php/admin/viewCompanyStructureHtml'); ?>/seed/';
-    var closeText = '<?php echo __('Close'); ?>';
+    var closeText = '<?php echo __js('Close'); ?>';
     var isOrganizationNameSet = '<?php echo $isOrganizationNameSet ?>';
-    var organizationNameNotSetValidationMessage = '<?php echo __('Please Add the Organization name') ?>';
+    var organizationNameNotSetValidationMessage = '<?php echo __js('Please Add the Organization name') ?>';
     var organizationGeneralInformationURL = '<?php echo url_for('admin/viewOrganizationGeneralInformation');?>'
 </script>
 

@@ -129,7 +129,7 @@
 			 	
 		 	 },
 		 	 messages: {
-		 		activityName: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+		 		activityName: '<?php echo __js(ValidationMessages::REQUIRED); ?>'
 		 		
 		 	 }
 		 });

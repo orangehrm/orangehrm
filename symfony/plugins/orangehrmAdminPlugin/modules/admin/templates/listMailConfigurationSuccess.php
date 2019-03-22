@@ -87,8 +87,8 @@
 <script type="text/javascript">
 //<![CDATA[    
 
-    var requiredMsg = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var validEmailMsg = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
+    var requiredMsg = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var validEmailMsg = '<?php echo __js(ValidationMessages::EMAIL_INVALID); ?>';
     
     $(document).ready(function() {
         
@@ -119,7 +119,7 @@
             
             if( mode == 'edit')
             {
-                $('#editBtn').attr('value', "<?php echo __('Save'); ?>");
+                $('#editBtn').attr('value', "<?php echo __js('Save'); ?>");
                 $('#frmSave :input').removeAttr('disabled');
                 toggleSMTPAuthenticationFields();        
                 checkSendTestMail();                
@@ -190,8 +190,8 @@
                     email: true,
                     onkeyup: 'if_invalid',
                     messages: {
-                        required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-                        email: '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>'
+                        required: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
+                        email: '<?php echo __js(ValidationMessages::EMAIL_INVALID); ?>'
                     }
                 });
                 
@@ -219,8 +219,8 @@
                 maxlength: 10,
                 messages: {
                     required: requiredMsg,
-                    number: '<?php echo __('Should be a number'); ?>',
-                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 10)); ?>'
+                    number: '<?php echo __js('Should be a number'); ?>',
+                    maxlength: '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 10)); ?>'
                 }
             });
         } else {

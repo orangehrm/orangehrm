@@ -138,12 +138,12 @@
 <script type="text/javascript">
 
     //<![CDATA[
-    var edit = "<?php echo __("Edit"); ?>";
-    var save = "<?php echo __("Save"); ?>";
-    var nameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var invalidPhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
-    var invalidFaxNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
-    var incorrectEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
-    var lang_exceed255Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
+    var edit = "<?php echo __js("Edit"); ?>";
+    var save = "<?php echo __js("Save"); ?>";
+    var nameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var invalidPhoneNumber = '<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>';
+    var invalidFaxNumber = '<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>';
+    var incorrectEmail = '<?php echo __js(ValidationMessages::EMAIL_INVALID); ?>';
+    var lang_exceed255Chars = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
     //]]>
 </script>

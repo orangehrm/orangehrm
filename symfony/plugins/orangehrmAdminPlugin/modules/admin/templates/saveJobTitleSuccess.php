@@ -122,14 +122,14 @@
 <script type="text/javascript">
     //<![CDATA[
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
-    var lang_edit = "<?php echo __("Edit"); ?>";
-    var lang_save = "<?php echo __("Save"); ?>";
-    var lang_jobTitleRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_edit = "<?php echo __js("Edit"); ?>";
+    var lang_save = "<?php echo __js("Save"); ?>";
+    var lang_jobTitleRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
     var viewJobTitleListUrl = '<?php echo url_for('admin/viewJobTitleList?jobTitleId='.$form->jobTitleId); ?>';
     var jobTitleId = '<?php echo $form->jobTitleId; ?>';
-    var lang_exceed400Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 400)); ?>';
+    var lang_exceed400Chars = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 400)); ?>';
     var jobTitles = <?php echo str_replace('&#039;', "'", $form->getJobTitleListAsJson()) ?> ;
     var jobTitleList = eval(jobTitles);
-    var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
+    var lang_uniqueName = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
     //]]>
 </script>

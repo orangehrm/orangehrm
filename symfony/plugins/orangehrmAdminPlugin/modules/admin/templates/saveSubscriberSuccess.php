@@ -71,13 +71,13 @@
 <script type="text/javascript">
 	var subscribers = <?php echo str_replace('&#039;', "'", $form->getSubscriberListForNotificationAsJson()) ?> ;
     var subscriberList = eval(subscribers);
-	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_EmailRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
+	var lang_NameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+	var lang_EmailRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+	var lang_exceed50Charactors = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
 	var subscriberInfoUrl = "<?php echo url_for("admin/getSubscriberJson?id="); ?>";
 	var backBtnUrl = "<?php echo url_for("admin/viewEmailNotification"); ?>";
-	var lang_editSubscriber = "<?php echo __("Edit Subscriber"); ?>";
-	var lang_addSubscriber = "<?php echo __("Add Subscriber"); ?>";
-	var lang_uniqueEmail = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
-    var lang_validEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
+	var lang_editSubscriber = "<?php echo __js("Edit Subscriber"); ?>";
+	var lang_addSubscriber = "<?php echo __js("Add Subscriber"); ?>";
+	var lang_uniqueEmail = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
+    var lang_validEmail = '<?php echo __js(ValidationMessages::EMAIL_INVALID); ?>';
 </script>

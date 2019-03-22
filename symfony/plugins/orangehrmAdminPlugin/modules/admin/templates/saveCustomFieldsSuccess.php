@@ -57,7 +57,7 @@
 				 	
 			 	 },
 			 	 messages: {
-			 		txtMembershipInfoDesc: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+			 		txtMembershipInfoDesc: '<?php echo __js(ValidationMessages::REQUIRED); ?>'
 			 		
 			 	 }
 			 });

@@ -72,6 +72,6 @@
 
 <script type="text/javascript">
 	var linkForDownloadCsv = '<?php url_for('admin/sampleCsvDownload');?>';
-	var lang_csvRequired = '<?php echo __(ValidationMessages::REQUIRED);?>';
-    var lang_processing = '<?php echo __(CommonMessages::LABEL_PROCESSING);?>';
+	var lang_csvRequired = '<?php echo __js(ValidationMessages::REQUIRED);?>';
+    var lang_processing = '<?php echo __js(CommonMessages::LABEL_PROCESSING);?>';
 </script>

@@ -34,9 +34,9 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/emailNotificationSucc
 
 <ul id="helper_message" class="helpList">
     <li>
-        * <?php echo __('Click on a notification type to add subscribers') ?>
+        * <?php echo __js('Click on a notification type to add subscribers') ?>
     </li>
     <li>
-        * <?php echo __('To enable notifications click on Edit button and select the relevant check-box') ?>
+        * <?php echo __js('To enable notifications click on Edit button and select the relevant check-box') ?>
     </li>
 </ul>

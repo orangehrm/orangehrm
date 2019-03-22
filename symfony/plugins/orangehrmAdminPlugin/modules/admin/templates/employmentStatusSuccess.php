@@ -67,10 +67,10 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/employmentStatusSucce
 <script type="text/javascript">
 	var empStatuses = <?php echo str_replace('&#039;', "'", $form->getEmploymentStatusListAsJson()) ?> ;
     var empStatusList = eval(empStatuses);
-	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
+	var lang_NameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+	var lang_exceed50Charactors = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
 	var empStatusInfoUrl = "<?php echo url_for("admin/getEmploymentStatusJson?id="); ?>";
-	var lang_editEmpStatus = "<?php echo __("Edit Employment Status"); ?>";
-	var lang_addEmpStatus = "<?php echo __("Add Employment Status"); ?>";
-	var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
+	var lang_editEmpStatus = "<?php echo __js("Edit Employment Status"); ?>";
+	var lang_addEmpStatus = "<?php echo __js("Add Employment Status"); ?>";
+	var lang_uniqueName = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
 </script>

@@ -76,10 +76,10 @@
 				 	txtZipCode: { required: true }
 			 	 },
 			 	 messages: {
-			 		txtName: '<?php echo __(ValidationMessages::REQUIRED); ?>', 
-			 		cmbCountry: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-			 		txtAddress: '<?php echo __(ValidationMessages::REQUIRED); ?>', 
-			 		txtZipCode: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+			 		txtName: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
+			 		cmbCountry: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
+			 		txtAddress: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
+			 		txtZipCode: '<?php echo __js(ValidationMessages::REQUIRED); ?>'
 			 	 }
 			 });
 

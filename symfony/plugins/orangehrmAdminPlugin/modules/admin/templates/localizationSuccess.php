@@ -76,7 +76,7 @@
 
 <script type="text/javascript">
     //<![CDATA[    
-    var lang_edit = "<?php echo __("Edit"); ?>";
-    var lang_save = "<?php echo __("Save"); ?>";
+    var lang_edit = "<?php echo __js("Edit"); ?>";
+    var lang_save = "<?php echo __js("Save"); ?>";
     //]]>
 </script>
