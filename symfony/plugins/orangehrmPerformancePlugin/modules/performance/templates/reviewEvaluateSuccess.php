@@ -232,8 +232,8 @@ if ($form->isFinalRatingVisible()) {
             }
         });
     });
-    var minMsg = "<?php echo __('Rating should be less than or equal to ') ?>";
-    var maxMsg = "<?php echo __('Rating should be greater than or equal to ') ?>";
+    var minMsg = "<?php echo __js('Rating should be less than or equal to ') ?>";
+    var maxMsg = "<?php echo __js('Rating should be greater than or equal to ') ?>";
     jQuery.extend(jQuery.validator.messages, {
         max: jQuery.validator.format(minMsg + "{0}."),
         min: jQuery.validator.format(maxMsg + "{0}.")
