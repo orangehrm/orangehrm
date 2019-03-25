@@ -282,7 +282,7 @@ function getSortClass($column, $sortField, $sortOrder) {
             var checked = $('#customFieldList tbody input.checkbox:checked').length;
 
             if ( checked == 0) {
-                $('#messagebar').text('<?php echo __(TopLevelMessages::SELECT_RECORDS) ?>').attr('class', 'messageBalloon_notice');
+                $('#messagebar').text('<?php echo __js(TopLevelMessages::SELECT_RECORDS) ?>').attr('class', 'messageBalloon_notice');
             } else {
                 $('#messagebar').text('').attr('class', ''); 
                 
@@ -329,10 +329,10 @@ function getSortClass($column, $sortField, $sortOrder) {
                 'customField[extra_data]': {validateExtra: true}
             },
             messages: {
-                'customField[name]': {required: '<?php echo __(ValidationMessages::REQUIRED); ?>'},
-                'customField[type]': {required: '<?php echo __(ValidationMessages::REQUIRED); ?>'},
-                'customField[screen]': {required: '<?php echo __(ValidationMessages::REQUIRED); ?>'},
-                'customField[extra_data]' : {validateExtra: '<?php echo __(ValidationMessages::REQUIRED); ?>'}
+                'customField[name]': {required: '<?php echo __js(ValidationMessages::REQUIRED); ?>'},
+                'customField[type]': {required: '<?php echo __js(ValidationMessages::REQUIRED); ?>'},
+                'customField[screen]': {required: '<?php echo __js(ValidationMessages::REQUIRED); ?>'},
+                'customField[extra_data]' : {validateExtra: '<?php echo __js(ValidationMessages::REQUIRED); ?>'}
             }
         });
     
@@ -378,7 +378,7 @@ function getSortClass($column, $sortField, $sortOrder) {
 
         // Add a emergency contact
         $('#buttonAdd').click(function() {
-            $("#heading").text("<?php echo __("Add Custom Field"); ?>");
+            $("#heading").text("<?php echo __js("Add Custom Field"); ?>");
             clearAddForm();
 
             // Hide list action buttons and checkbox
@@ -397,7 +397,7 @@ function getSortClass($column, $sortField, $sortOrder) {
         });        
     
         $('#customFieldList tbody a').live('click', function() {
-            $("#heading").text("<?php echo __("Edit Custom Field"); ?>");
+            $("#heading").text("<?php echo __js("Edit Custom Field"); ?>");
         
             var row = $(this).closest("tr");
             var fieldNo = row.find('input.checkbox:first').val();

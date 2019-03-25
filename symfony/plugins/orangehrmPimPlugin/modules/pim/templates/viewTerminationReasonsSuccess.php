@@ -136,11 +136,11 @@
     
     var urlForExistingNameCheck = '<?php echo url_for('pim/checkTerminationReasonNameExistence'); ?>';
     
-    var lang_addFormHeading = "<?php echo __('Add Termination Reason'); ?>";
-    var lang_editFormHeading = "<?php echo __('Edit Termination Reason'); ?>";
+    var lang_addFormHeading = "<?php echo __js('Add Termination Reason'); ?>";
+    var lang_editFormHeading = "<?php echo __js('Edit Termination Reason'); ?>";
     
-    var lang_nameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_nameExists = "<?php echo __('Name exists'); ?>";
+    var lang_nameIsRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_nameExists = "<?php echo __js('Name exists'); ?>";
     
 //]]>	
 </script> 
