@@ -94,8 +94,8 @@ use_stylesheets_for_form($form);
 <script type="text/javascript">
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-    var lang_dateError = '<?php echo __("To date should be after from date") ?>';
+    var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var lang_dateError = '<?php echo __js("To date should be after from date") ?>';
         
     $(document).ready(function() {        
         
@@ -175,8 +175,8 @@ use_stylesheets_for_form($form);
                 },
                 messages: {
                     'entitlements[employee][empName]':{
-                        required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                        no_default_value:'<?php echo __(ValidationMessages::REQUIRED); ?>'
+                        required:'<?php echo __js(ValidationMessages::REQUIRED); ?>',
+                        no_default_value:'<?php echo __js(ValidationMessages::REQUIRED); ?>'
                     },
                     'entitlements[date_from]':{
                         required:lang_invalidDate,

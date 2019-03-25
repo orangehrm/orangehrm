@@ -114,13 +114,13 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
         var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
         var leaveBalanceUrl = '<?php echo url_for('leave/getLeaveBalanceAjax');?>';
-        var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-        var lang_dateError = '<?php echo __("To date should be after from date") ?>';
-        var lang_details = '<?php echo __("view details") ?>';
-        var lang_BalanceNotSufficient = "<?php echo __("Balance not sufficient");?>";
-        var lang_Duration = "<?php echo __('Duration');?>";
-        var lang_StartDay = "<?php echo __('Start Day');?>";
-        var lang_EndDay = "<?php echo __('End Day');?>";
+        var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+        var lang_dateError = '<?php echo __js("To date should be after from date") ?>';
+        var lang_details = '<?php echo __js("view details") ?>';
+        var lang_BalanceNotSufficient = "<?php echo __js("Balance not sufficient");?>";
+        var lang_Duration = "<?php echo __js('Duration');?>";
+        var lang_StartDay = "<?php echo __js('Start Day');?>";
+        var lang_EndDay = "<?php echo __js('End Day');?>";
 
         $(document).ready(function() {            
 
@@ -299,7 +299,7 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
             },
             messages: {
                 'applyleave[txtLeaveType]':{
-                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
+                    required:'<?php echo __js(ValidationMessages::REQUIRED); ?>'
                 },
                 'applyleave[txtFromDate]':{
                     required:lang_invalidDate,
@@ -311,31 +311,31 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
                     date_range: lang_dateError
                 },
                 'applyleave[txtComment]':{
-                    maxlength:"<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>"
+                    maxlength:"<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>"
                 },
                 'applyleave[duration][time][from]':{
-                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>",
-                    validWorkShift : "<?php echo __('Duration should be less than work shift length'); ?>",
-                    validToTime:"<?php echo __('From time should be less than To time'); ?>"
+                    validTotalTime : "<?php echo __js(ValidationMessages::REQUIRED); ?>",
+                    validWorkShift : "<?php echo __js('Duration should be less than work shift length'); ?>",
+                    validToTime:"<?php echo __js('From time should be less than To time'); ?>"
                 },
                 'applyleave[duration][time][to]':{
-                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>"
+                    validTotalTime : "<?php echo __js(ValidationMessages::REQUIRED); ?>"
                 },
                 'applyleave[firstDuration][time][from]':{
-                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>",
-                    validWorkShift : "<?php echo __('Duration should be less than work shift length'); ?>",
-                    validToTime:"<?php echo __('From time should be less than To time'); ?>"
+                    validTotalTime : "<?php echo __js(ValidationMessages::REQUIRED); ?>",
+                    validWorkShift : "<?php echo __js('Duration should be less than work shift length'); ?>",
+                    validToTime:"<?php echo __js('From time should be less than To time'); ?>"
                 },
                 'applyleave[firstDuration][time][to]':{
-                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>"
+                    validTotalTime : "<?php echo __js(ValidationMessages::REQUIRED); ?>"
                 },
                 'applyleave[secondDuration][time][from]':{
-                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>",
-                    validWorkShift : "<?php echo __('Duration should be less than work shift length'); ?>",
-                    validToTime:"<?php echo __('From time should be less than To time'); ?>"
+                    validTotalTime : "<?php echo __js(ValidationMessages::REQUIRED); ?>",
+                    validWorkShift : "<?php echo __js('Duration should be less than work shift length'); ?>",
+                    validToTime:"<?php echo __js('From time should be less than To time'); ?>"
                 },
                 'applyleave[secondDuration][time][to]':{
-                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>"
+                    validTotalTime : "<?php echo __js(ValidationMessages::REQUIRED); ?>"
                 }                         
             }
         });

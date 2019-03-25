@@ -45,10 +45,10 @@
             canDelete: <?php echo $workWeekPermissions->canDelete() ? 'true' : 'false';?>
         };
         
-        var lang_Save = "<?php echo __('Save') ?>";
-        var lang_Edit = "<?php echo __('Edit') ?>";
-        var lang_AtLeastOneWorkDay = "<?php echo __('At Least One Day Should Be a Working Day') ?>";
-        var lang_Required = "<?php echo __(ValidationMessages::REQUIRED);?>";
+        var lang_Save = "<?php echo __js('Save') ?>";
+        var lang_Edit = "<?php echo __js('Edit') ?>";
+        var lang_AtLeastOneWorkDay = "<?php echo __js('At Least One Day Should Be a Working Day') ?>";
+        var lang_Required = "<?php echo __js(ValidationMessages::REQUIRED);?>";
         //]]>
     </script>
 

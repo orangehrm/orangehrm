@@ -68,15 +68,15 @@
     var start_month_value = "<?php echo ($isLeavePeriodDefined) ? $startMonthValue : 0 ?>";
     var start_date_value = "<?php echo ($isLeavePeriodDefined) ? $startDateValue : 0 ?>";
 
-    var lang_StartMonthIsRequired = "<?php echo __(""); ?>";
-    var lang_StartMonthForNonLeapYearIsRequired = "<?php echo __(""); ?>";
+    var lang_StartMonthIsRequired = "<?php echo __js(""); ?>";
+    var lang_StartMonthForNonLeapYearIsRequired = "<?php echo __js(""); ?>";
     var url_date_of_months = "<?php echo url_for('leave/loadDatesforMonth'); ?>";
     var url_leave_period_end_date = "<?php echo url_for('leave/loadLeavePeriodEndDate'); ?>";
     var url_current_start_date = "<?php echo url_for('leave/getCurrentStartDate'); ?>";
-    var lang_save = "<?php echo __("Save"); ?>";
-    var lang_error_date_grater_than = "<?php echo __("Selected date is greater than the leave period end date. Maximum allowed start date is selected") ?>";
-    var lang_following_year = "<?php echo __('Following Year') ?>";
-    var lang_required = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_save = "<?php echo __js("Save"); ?>";
+    var lang_error_date_grater_than = "<?php echo __js("Selected date is greater than the leave period end date. Maximum allowed start date is selected") ?>";
+    var lang_following_year = "<?php echo __js('Following Year') ?>";
+    var lang_required = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
     
 </script>
 

@@ -99,9 +99,9 @@
     var activeLeaveTypes = [];
     var deletedLeaveTypes = [];
 
-    var lang_LeaveTypeNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_LeaveTypeExists = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
-    var lang_LeaveTypeNameTooLong = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>'; 
+    var lang_LeaveTypeNameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_LeaveTypeExists = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
+    var lang_LeaveTypeNameTooLong = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
     
     var backButtonUrl = '<?php echo url_for('leave/leaveTypeList'); ?>';
 

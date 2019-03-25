@@ -161,8 +161,8 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/viewLeaveBalanceRepo
     
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-    var lang_dateError = '<?php echo __("To date should be after from date") ?>';    
+    var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var lang_dateError = '<?php echo __js("To date should be after from date") ?>';
     
     function submitPage(pageNo) {
         var actionUrl = $('#frmLeaveBalanceReport').attr('action') + '?pageNo=' + pageNo;
@@ -313,11 +313,11 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/viewLeaveBalanceRepo
                 },
                 messages: {
                     'leave_balance[employee][empId]':{
-                        required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                        checkEmployeeNameNotChanged:'<?php echo __(ValidationMessages::INVALID); ?>'
+                        required:'<?php echo __js(ValidationMessages::REQUIRED); ?>',
+                        checkEmployeeNameNotChanged:'<?php echo __js(ValidationMessages::INVALID); ?>'
                     },
                     'leave_balance[leave_type]':{
-                        required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
+                        required:'<?php echo __js(ValidationMessages::REQUIRED); ?>'
                     },
                     'leave_balance[date][from]':{
                         required:lang_invalidDate,
