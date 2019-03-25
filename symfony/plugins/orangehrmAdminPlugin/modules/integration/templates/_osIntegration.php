@@ -15,7 +15,7 @@
 
 <script language="javascript">
     var inputDatePattern = '<?php  echo($inputDatePattern) ?>' ;
-    var separatorString = '<?php echo __('to') ?>';
+    var separatorString = '<?php echo __js('to') ?>';
     $( document ).ready(function() {
 
         $("#loader-1").hide();
