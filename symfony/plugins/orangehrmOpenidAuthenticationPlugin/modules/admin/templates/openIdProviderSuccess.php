@@ -96,14 +96,14 @@ use_javascript(plugin_web_path('orangehrmOpenidAuthenticationPlugin', 'js/openId
 <script type="text/javascript">
     var providers = <?php echo str_replace('&#039;', "'", $form->getOpenIdProviderListAsJson()) ?>;
     var providerList = eval(providers);
-    var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_exceed40Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 40)); ?>';
+    var lang_NameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_exceed40Charactors = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 40)); ?>';
     var providerInfoUrl = "<?php echo url_for("admin/getProviderJson?id="); ?>";
-    var lang_editProvider = "<?php echo __("Edit Provider"); ?>";
-    var lang_addProvider = "<?php echo __("Add Provider"); ?>";
-    var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
-    var lang_url = '<?php echo __('Mal Formatted URL'); ?>';
-    var lang_redirectUrlLabel = '<?php echo __('Redirect Url') . ' <em>*</em>'; ?>';
-    var lang_urlLabel = '<?php echo __('Url') . ' <em>*</em>'; ?>';
+    var lang_editProvider = "<?php echo __js("Edit Provider"); ?>";
+    var lang_addProvider = "<?php echo __js("Add Provider"); ?>";
+    var lang_uniqueName = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
+    var lang_url = '<?php echo __js('Mal Formatted URL'); ?>';
+    var lang_redirectUrlLabel = '<?php echo __js('Redirect Url') . ' <em>*</em>'; ?>';
+    var lang_urlLabel = '<?php echo __js('Url') . ' <em>*</em>'; ?>';
 
 </script>
