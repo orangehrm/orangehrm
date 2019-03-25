@@ -154,35 +154,35 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
     var buyNowUrl = "<?php echo url_for('marketPlace/ohrmBuyNowAPI'); ?>";
 
-    var meassageInSuccess = "<?php echo __('Successfully Installed'); ?>";
-    var messaegeInFail = "<?php echo __('Failed to Install'); ?>";
-    var meassageUninSuccess = "<?php echo __('Successfully Uninstalled'); ?>";
-    var meassageUninFail = "<?php echo __('Failed to Uninstall'); ?>";
-    var buyNowReqSuccess = "<?php echo __('Your request has been forwarded'); ?>";
-    var buyNowReqFail = "<?php echo __('Failed to proceed with the request, try again.'); ?>";
+    var meassageInSuccess = "<?php echo __js('Successfully Installed'); ?>";
+    var messaegeInFail = "<?php echo __js('Failed to Install'); ?>";
+    var meassageUninSuccess = "<?php echo __js('Successfully Uninstalled'); ?>";
+    var meassageUninFail = "<?php echo __js('Failed to Uninstall'); ?>";
+    var buyNowReqSuccess = "<?php echo __js('Your request has been forwarded'); ?>";
+    var buyNowReqFail = "<?php echo __js('Failed to proceed with the request, try again.'); ?>";
 
-    var networkErrMessage = "<?php echo __('Please connect to the internet to view the available add-ons.'); ?>";
-    var marketpalceErrMessage = "<?php echo __('Error Occur Please try again later'); ?>";
+    var networkErrMessage = "<?php echo __js('Please connect to the internet to view the available add-ons.'); ?>";
+    var marketpalceErrMessage = "<?php echo __js('Error Occur Please try again later'); ?>";
     var installErrorMessage = {
-        "e3000": "<?php echo __('3000 : Please connect to the internet to view the available add-ons. '); ?>",
-        "e1001": "<?php echo __('1001: Running php symfony cc fails. '); ?>",
-        "e1004": "<?php echo __('1004: Running php symfony o:publish-asset fails. '); ?>",
-        "e1005": "<?php echo __('1005: Running php symfony d:build-model fails. '); ?>",
-        "e1006": "<?php echo __('1006: Can not add to OrangeHRM daabase. Uninstallation will cause errors. But plugin can used. '); ?>"
+        "e3000": "<?php echo __js('3000 : Please connect to the internet to view the available add-ons. '); ?>",
+        "e1001": "<?php echo __js('1001: Running php symfony cc fails. '); ?>",
+        "e1004": "<?php echo __js('1004: Running php symfony o:publish-asset fails. '); ?>",
+        "e1005": "<?php echo __js('1005: Running php symfony d:build-model fails. '); ?>",
+        "e1006": "<?php echo __js('1006: Can not add to OrangeHRM daabase. Uninstallation will cause errors. But plugin can used. '); ?>"
     };
     var uninstallErrorMessage = {
-        "e2000": "<?php echo __('2000: Selected plugin to uninstall is not tracked in database. '); ?>",
-        "e2001": "<?php echo __('2001: Uninstall file excecution fails. '); ?>",
-        "e2002": "<?php echo __('2002: Removing plugin folder fails. '); ?>",
-        "e2003": "<?php echo __('2003: Running php symfony cc fails. '); ?>",
-        "e2004": "<?php echo __('2004: Running php symfony o:publish-asset fails. '); ?>",
-        "e2005": "<?php echo __('2005: Running php symfony d:build-model fails. '); ?>"
+        "e2000": "<?php echo __js('2000: Selected plugin to uninstall is not tracked in database. '); ?>",
+        "e2001": "<?php echo __js('2001: Uninstall file excecution fails. '); ?>",
+        "e2002": "<?php echo __js('2002: Removing plugin folder fails. '); ?>",
+        "e2003": "<?php echo __js('2003: Running php symfony cc fails. '); ?>",
+        "e2004": "<?php echo __js('2004: Running php symfony o:publish-asset fails. '); ?>",
+        "e2005": "<?php echo __js('2005: Running php symfony d:build-model fails. '); ?>"
     };
 
-    var emailRequired = "<?php echo __('Required'); ?>";
-    var emailValidation = "<?php echo __('Enter a valid email'); ?>";
-    var contactRequired = "<?php echo __('Required'); ?>";
-    var contactValidation = "<?php echo __('Enter a valid contact number'); ?>";
-    var organizationRequired = "<?php echo __('Required'); ?>";
-    var organizationValidation = "<?php echo __('Organization max length exceded'); ?>";
+    var emailRequired = "<?php echo __js('Required'); ?>";
+    var emailValidation = "<?php echo __js('Enter a valid email'); ?>";
+    var contactRequired = "<?php echo __js('Required'); ?>";
+    var contactValidation = "<?php echo __js('Enter a valid contact number'); ?>";
+    var organizationRequired = "<?php echo __js('Required'); ?>";
+    var organizationValidation = "<?php echo __js('Organization max length exceded'); ?>";
 </script>
