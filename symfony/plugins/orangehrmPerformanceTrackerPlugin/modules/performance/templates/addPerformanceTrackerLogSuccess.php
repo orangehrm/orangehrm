@@ -66,13 +66,13 @@
 //<![CDATA[
     var trackId = '<?php echo $trackId;?>';
     var commentUpdateUrl = '<?php echo public_path('index.php/performance/updateComment'); ?>';
-    var lang_edit = '<?php echo __('Edit'); ?>';
-    var lang_save = '<?php echo __('Save'); ?>';
-    var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';    
-    var lang_exceed150Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 150)); ?>';  
-    var lang_exceed3000Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 3000)); ?>';  
-    var lang_comment_successfully_saved = '<?php echo __(TopLevelMessages::SAVE_SUCCESS); ?>';
-    var lang_Close = '<?php echo __('Close');?>';
+    var lang_edit = '<?php echo __js('Edit'); ?>';
+    var lang_save = '<?php echo __js('Save'); ?>';
+    var lang_NameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_exceed150Charactors = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 150)); ?>';
+    var lang_exceed3000Charactors = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 3000)); ?>';
+    var lang_comment_successfully_saved = '<?php echo __js(TopLevelMessages::SAVE_SUCCESS); ?>';
+    var lang_Close = '<?php echo __js('Close');?>';
     var currentUser = <?php echo 'userId';?>;
     //]]>
 </script>

@@ -43,6 +43,6 @@
 <script type="text/javascript">
     //<![CDATA[
     var defineLeaveTypeUrl = '<?php echo url_for('performance/addPerformanceTracker'); ?>';    
-    var lang_SelectLeaveTypeToDelete = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';  
+    var lang_SelectLeaveTypeToDelete = '<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>';
     //]]>
 </script>
