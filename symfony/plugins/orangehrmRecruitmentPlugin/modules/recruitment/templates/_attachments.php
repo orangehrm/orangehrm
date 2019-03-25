@@ -147,16 +147,16 @@ $hasAttachments = count($attachmentList) > 0;
     //<![CDATA[
     
     var hideAttachmentListOnAdd = <?php echo $hasAttachments ? 'false' : 'true'; ?>;
-    var lang_SelectAtLeastOneAttachment = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
+    var lang_SelectAtLeastOneAttachment = "<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>";
     var id = '<?php echo $id; ?>';
     var clearAttachmentMessages = true;
-    var lang_SelectFile = "<?php echo __("Select File"); ?>";
-    var lang_ReplaceWith = "<?php echo __("Replace With"); ?>";
-    var lang_EditAttachmentHeading = "<?php echo __("Edit Attachment"); ?>";
-    var lang_AddAttachmentHeading = "<?php echo __("Add Attachment"); ?>";
-    var lang_PleaseSelectAFile = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_CommentsMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
-    var lang_SelectAtLeastOneAttachment = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
+    var lang_SelectFile = "<?php echo __js("Select File"); ?>";
+    var lang_ReplaceWith = "<?php echo __js("Replace With"); ?>";
+    var lang_EditAttachmentHeading = "<?php echo __js("Edit Attachment"); ?>";
+    var lang_AddAttachmentHeading = "<?php echo __js("Add Attachment"); ?>";
+    var lang_PleaseSelectAFile = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_CommentsMaxLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
+    var lang_SelectAtLeastOneAttachment = "<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>";
 
     // Scroll to bottom if neccessary. Works around issue in IE8 where
     // using the <a name="attachments" is not sufficient

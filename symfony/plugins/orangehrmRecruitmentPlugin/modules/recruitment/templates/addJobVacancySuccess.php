@@ -107,21 +107,21 @@ use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/addJobVacancySu
     //<![CDATA[
     var hiringManagers = <?php echo str_replace('&#039;', "'", $form->getHiringManagerListAsJson()) ?> ;
     var hiringManagersArray = eval(hiringManagers);
-    var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
-    var lang_negativeAmount = "<?php echo __("Should be a positive number"); ?>";
-    var lang_tooLargeAmount = "<?php echo __("Should be less than %amount%", array("%amount%" => '99')); ?>";
-    var lang_jobTitleRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_vacancyNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_enterAValidEmployeeName = "<?php echo __(ValidationMessages::INVALID); ?>";
-    var lang_nameExistmsg = "<?php echo __("Already exists"); ?>";
+    var lang_typeForHints = '<?php echo __js("Type for hints") . "..."; ?>';
+    var lang_negativeAmount = "<?php echo __js("Should be a positive number"); ?>";
+    var lang_tooLargeAmount = "<?php echo __js("Should be less than %amount%", array("%amount%" => '99')); ?>";
+    var lang_jobTitleRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_vacancyNameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_enterAValidEmployeeName = "<?php echo __js(ValidationMessages::INVALID); ?>";
+    var lang_nameExistmsg = "<?php echo __js("Already exists"); ?>";
     var vacancyNames = <?php echo $form->getVacancyList(); ?>;
     var vacancyNameList = eval(vacancyNames);
-    var lang_edit = "<?php echo __("Edit"); ?>";
-    var lang_save = "<?php echo __("Save"); ?>";
-    var lang_cancel = "<?php echo __("Cancel"); ?>";
-    var lang_back = "<?php echo __("Back"); ?>";
+    var lang_edit = "<?php echo __js("Edit"); ?>";
+    var lang_save = "<?php echo __js("Save"); ?>";
+    var lang_cancel = "<?php echo __js("Cancel"); ?>";
+    var lang_back = "<?php echo __js("Back"); ?>";
     var linkForAddJobVacancy = "<?php echo url_for('recruitment/addJobVacancy'); ?>";
-    var lang_descriptionLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 40000)) ?>";
+    var lang_descriptionLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 40000)) ?>";
     var backBtnUrl = '<?php echo url_for('recruitment/viewJobVacancy?'); ?>';
     var backCancelUrl = '<?php echo url_for('recruitment/addJobVacancy?'); ?>';
 <?php if (isset($vacancyId)) { ?>

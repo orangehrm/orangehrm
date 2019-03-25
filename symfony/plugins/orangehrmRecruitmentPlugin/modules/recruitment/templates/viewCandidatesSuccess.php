@@ -88,19 +88,19 @@
     }
     //<![CDATA[
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var lang_validDateMsg = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var candidates = <?php echo str_replace('&#039;', "'", $form->getCandidateListAsJson()) ?> ;
     var vacancyListUrl = '<?php echo url_for('recruitment/getVacancyListForJobTitleJson?mode=' . getVacancyListForJobTitleJsonAction::MODE_CANDIDATES . '&jobTitle='); ?>';
     var hiringManagerListUrlForJobTitle = '<?php echo url_for('recruitment/getHiringManagerListJson?mode=' . getVacancyListForJobTitleJsonAction::MODE_CANDIDATES . '&jobTitle='); ?>';
     var hiringManagerListUrlForVacancyId = '<?php echo url_for('recruitment/getHiringManagerListJson?mode=' . getVacancyListForJobTitleJsonAction::MODE_CANDIDATES . '&vacancyId='); ?>';
     var addCandidateUrl = '<?php echo url_for('recruitment/addCandidate'); ?>';
-    var lang_all = '<?php echo __("All") ?>';
-    var lang_dateError = '<?php echo __("To date should be after from date") ?>';
-    var lang_helpText = '<?php echo __("Click on a candidate to perform actions") ?>';
+    var lang_all = '<?php echo __js("All") ?>';
+    var lang_dateError = '<?php echo __js("To date should be after from date") ?>';
+    var lang_helpText = '<?php echo __js("Click on a candidate to perform actions") ?>';
     var candidatesArray = eval(candidates);
-    var lang_enterValidName = '<?php echo __(ValidationMessages::INVALID) ?>';
-    var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
-    var lang_enterCommaSeparatedWords = '<?php echo __("Enter comma separated words") . "..."; ?>';
+    var lang_enterValidName = '<?php echo __js(ValidationMessages::INVALID) ?>';
+    var lang_typeForHints = '<?php echo __js("Type for hints") . "..."; ?>';
+    var lang_enterCommaSeparatedWords = '<?php echo __js("Enter comma separated words") . "..."; ?>';
     var allowedCandidateListToDelete = <?php echo json_encode($form->allowedCandidateListToDelete); ?>;
 
     //]]>
