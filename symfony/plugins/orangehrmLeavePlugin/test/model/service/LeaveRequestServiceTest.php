@@ -25,6 +25,9 @@
  */
 class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
+    /**
+     * @var LeaveRequestService
+     */
     protected $leaveRequestService;
     protected $fixture;
 
@@ -40,7 +43,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
     /* Tests for saveLeaveRequest() */
 
-    public function xtestSaveLeaveRequest() { 
+    public function testSaveLeaveRequest() {
 
         $leaveRequestList = TestDataService::loadObjectList('LeaveRequest', $this->fixture, 'set1');
         $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set2');
@@ -62,7 +65,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
     /* Tests for getNumOfLeave() */
 
-    public function xtestGetNumOfLeave() {
+    public function testGetNumOfLeave() {
 
         $leaveRequestDao = $this->getMockBuilder('LeaveRequestDao')
 			->setMethods( array('getNumOfLeave'))
@@ -80,7 +83,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
     /* Tests for getNumOfAvaliableLeave() */
 
-    public function xtestGetNumOfAvaliableLeave() {
+    public function testGetNumOfAvaliableLeave() {
 
         $leaveRequestDao = $this->getMockBuilder('LeaveRequestDao')
 			->setMethods( array('getNumOfAvaliableLeave'))
@@ -98,7 +101,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
     /* Tests for fetchLeaveRequest() */
 
-    public function xtestFetchLeaveRequest() {
+    public function testFetchLeaveRequest() {
 
         $leaveRequestList = TestDataService::loadObjectList('LeaveRequest', $this->fixture, 'set1');
 
@@ -115,16 +118,15 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $returnedLeaveRequest = $this->leaveRequestService->fetchLeaveRequest(1);
 
         $this->assertTrue($returnedLeaveRequest instanceof LeaveRequest);
-        $this->assertEquals('LTY001', $leaveRequestList[0]->getLeaveTypeId());
-        $this->assertEquals('Casual', $leaveRequestList[0]->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $leaveRequestList[0]->getDateApplied());
-        $this->assertEquals(1, $leaveRequestList[0]->getEmpNumber());
+        $this->assertEquals(1, $returnedLeaveRequest->getLeaveTypeId());
+        $this->assertEquals('2010-08-30', $returnedLeaveRequest->getDateApplied());
+        $this->assertEquals(1, $returnedLeaveRequest->getEmpNumber());
 
     }
 
     /* Tests for searchLeave() */
 
-    public function xtestSearchLeave() {
+    public function testSearchLeave() {
 
         $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set2');
 
@@ -146,25 +148,25 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(2, count($returnedLeaveList));
 
-        $this->assertEquals(1, $returnedLeaveList[0]->getLeaveId());
+        $this->assertEquals(1, $returnedLeaveList[0]->getId());
         $this->assertEquals('LTY001', $returnedLeaveList[0]->getLeaveTypeId());
         $this->assertEquals(1, $returnedLeaveList[0]->getEmpNumber());
         $this->assertEquals(1, $returnedLeaveList[0]->getLeaveRequestId());
-        $this->assertEquals('2010-09-01', $returnedLeaveList[0]->getLeaveDate());
-        $this->assertEquals(1, $returnedLeaveList[0]->getLeaveStatus());
+        $this->assertEquals('2010-09-01', $returnedLeaveList[0]->getDate());
+        $this->assertEquals(1, $returnedLeaveList[0]->getStatus());
 
-        $this->assertEquals(2, $returnedLeaveList[1]->getLeaveId());
+        $this->assertEquals(2, $returnedLeaveList[1]->getId());
         $this->assertEquals('LTY001', $returnedLeaveList[1]->getLeaveTypeId());
         $this->assertEquals(1, $returnedLeaveList[1]->getEmpNumber());
         $this->assertEquals(1, $returnedLeaveList[1]->getLeaveRequestId());
-        $this->assertEquals('2010-09-02', $returnedLeaveList[1]->getLeaveDate());
-        $this->assertEquals(1, $returnedLeaveList[1]->getLeaveStatus());
+        $this->assertEquals('2010-09-02', $returnedLeaveList[1]->getDate());
+        $this->assertEquals(1, $returnedLeaveList[1]->getStatus());
 
     }
 
     /* Tests for getScheduledLeavesSum() */
 
-    public function xtestGetScheduledLeavesSum() {
+    public function testGetScheduledLeavesSum() {
 
         $leaveRequestDao = $this->getMockBuilder('LeaveRequestDao')
 			->setMethods( array('getScheduledLeavesSum'))
@@ -182,7 +184,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
     /* Tests for getTakenLeaveSum() */
 
-    public function xtestGetTakenLeaveSum() {
+    public function testGetTakenLeaveSum() {
 
         $leaveRequestDao = $this->getMockBuilder('LeaveRequestDao')
 			->setMethods( array('getTakenLeaveSum'))
@@ -200,7 +202,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
     /* Tests for modifyOverlapLeaveRequest() */
 
-    public function xtestModifyOverlapLeaveRequest() {
+    public function testModifyOverlapLeaveRequest() {
 
         $leaveRequestList = TestDataService::loadObjectList('LeaveRequest', $this->fixture, 'set3');
         $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
@@ -219,7 +221,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
     /* Tests for searchLeaveRequests() */
 
-    public function xtestSearchLeaveRequests() {
+    public function testSearchLeaveRequests() {
 
         $searchParameters = new ParameterStubService();
         $dateRange = new DateRangeStubService();
@@ -233,17 +235,16 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $leaveRequestDao->expects($this->once())
                 ->method('searchLeaveRequests')
                 ->with($searchParameters, 1)
-                ->will($this->returnValue($leaveRequestList[0]));
+                ->will($this->returnValue($leaveRequestList));
 
         $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
 
-        $returnedLeaveRequest = $this->leaveRequestService->searchLeaveRequests($searchParameters, 1);
+        $returnedLeaveRequests = $this->leaveRequestService->searchLeaveRequests($searchParameters, 1);
 
-        $this->assertTrue($returnedLeaveRequest instanceof LeaveRequest);
-        $this->assertEquals('LTY001', $leaveRequestList[0]->getLeaveTypeId());
-        $this->assertEquals('Casual', $leaveRequestList[0]->getLeaveTypeName());
-        $this->assertEquals('2010-08-30', $leaveRequestList[0]->getDateApplied());
-        $this->assertEquals(1, $leaveRequestList[0]->getEmpNumber());
+        $this->assertTrue($returnedLeaveRequests[0] instanceof LeaveRequest);
+        $this->assertEquals(1, $returnedLeaveRequests[0]->getLeaveTypeId());
+        $this->assertEquals('2010-08-30', $returnedLeaveRequests[0]->getDateApplied());
+        $this->assertEquals(1, $returnedLeaveRequests[0]->getEmpNumber());
 
     }
 
@@ -260,7 +261,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $this->leaveRequestService->setLeaveTypeService($leaveTypeService);
 
         //mocking LeaveEntitlementService
-        $leaveEntitlementService = $this->getMockBuilder('OldLeaveEntitlementService')
+        $leaveEntitlementService = $this->getMockBuilder('LeaveEntitlementService')
 			->setMethods( array('getLeaveBalance'))
 			->getMock();
         $leaveEntitlementService->expects($this->any())
@@ -309,7 +310,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function xtestGetOverlappingLeave() {
+    public function testGetOverlappingLeave() {
 
         $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
 
@@ -327,7 +328,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
     }
     
 
-    public function xtestSaveLeave() {
+    public function testSaveLeave() {
 
         $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
         $leave = $leaveList[0];
@@ -344,7 +345,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($this->leaveRequestService->saveLeave($leave));
     }
 
-    public function xtestReadLeave() {
+    public function testReadLeave() {
 
         $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
         $leave = $leaveList[0];
@@ -354,11 +355,11 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 			->getMock();
         $leaveRequestDao->expects($this->once())
                 ->method('readLeave')
-                ->with($leave->leave_id)
+                ->with($leave->getId())
                 ->will($this->returnValue($leave));
 
         $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
-        $leaveReturned = $this->leaveRequestService->readLeave($leave->leave_id);
+        $leaveReturned = $this->leaveRequestService->readLeave($leave->getId());
 
         $this->assertEquals($leaveReturned->toArray(), $leave->toArray());
 
@@ -369,27 +370,27 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue(is_a($service, LeaveNotificationService) );
     }
 
-    public function xtestGetLeaveEntitlementService() {
+    public function testGetLeaveEntitlementService() {
         $service = $this->leaveRequestService->getLeaveEntitlementService();
-        $this->assertTrue(is_a($service, OldLeaveEntitlementService) );
+        $this->assertTrue(is_a($service, LeaveEntitlementService) );
     }
 
-    public function xtestGetLeaveTypeService() {
+    public function testGetLeaveTypeService() {
         $service = $this->leaveRequestService->getLeaveTypeService();
         $this->assertTrue(is_a($service, LeaveTypeService) );
     }
 
-    public function xtestGetLeavePeriodService() {
+    public function testGetLeavePeriodService() {
         $service = $this->leaveRequestService->getLeavePeriodService();
         $this->assertTrue(is_a($service, LeavePeriodService) );
     }
 
-    public function xtestGetHolidayService() {
+    public function testGetHolidayService() {
         $service = $this->leaveRequestService->getHolidayService();
         $this->assertTrue(is_a($service, HolidayService) );
     }
 
-    public function xtestGetLeaveRequestStatus() {
+    public function testGetLeaveRequestStatus() {
 
         $leaveDate = '2010-03-29';
         $holidayService = $this->getMockBuilder('HolidayService')
@@ -446,8 +447,9 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $leavePeriod->setStartDate("2008-01-31");
         $leavePeriod->setEndDate("2009-01-31");
 
-        $leaveRequestDao = $this->getMock('LeaveRequestDao',
-                array('getLeavePeriodOverlapLeaves', 'fetchLeave', 'modifyOverlapLeaveRequest'));
+        $leaveRequestDao = $this->getMockBuilder('LeaveRequestDao')
+                        ->setMethods( array('getLeavePeriodOverlapLeaves','fetchLeave','modifyOverlapLeaveRequest'))
+                        ->getMock();
         
         $leave        = $leaveList[0];
         $leaveRequest = new LeaveRequest();
@@ -500,11 +502,9 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $nextLeavePeriod->setStartDate('2011-01-01');
         $nextLeavePeriod->setEndDate('2011-12-31');
 
-        $leaveEntitlementService = $this->getMock('OldLeaveEntitlementService',
-                array('getEmployeeLeaveEntitlementDays',
-                      'readEmployeeLeaveEntitlement',
-                      'getLeaveBalance',
-                    ));
+        $leaveEntitlementService = $this->getMockBuilder('OldLeaveEntitlementService')
+                                 ->setMethods( array('getEmployeeLeaveEntitlementDays','readEmployeeLeaveEntitlement','getLeaveBalance'))
+                                 ->getMock();
 
         $leaveEntitlementService->expects($this->once())
                 ->method('getEmployeeLeaveEntitlementDays')
@@ -535,11 +535,9 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         
         $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
 
-        $leavePeriodService = $this->getMock('LeavePeriodService',
-                array('getLeavePeriod',
-                      'createNextLeavePeriod',
-                      'getCurrentLeavePeriod',
-                    ));
+        $leavePeriodService = $this->getMockBuilder('LeavePeriodService')
+                            ->setMethods( array('getLeavePeriod','createNextLeavePeriod','getCurrentLeavePeriod'))
+                            ->getMock();
 
         $leavePeriodService->expects($this->once())
                 ->method('getLeavePeriod')
@@ -588,11 +586,9 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $nextLeavePeriod->setStartDate('2011-01-01');
         $nextLeavePeriod->setEndDate('2011-12-31');
 
-        $leaveEntitlementService = $this->getMock('OldLeaveEntitlementService',
-                array('getEmployeeLeaveEntitlementDays',
-                      'readEmployeeLeaveEntitlement',
-                      'getLeaveBalance',
-                    ));
+        $leaveEntitlementService = $this->getMockBuilder('OldLeaveEntitlementService')
+                                ->setMethods( array('getEmployeeLeaveEntitlementDays','readEmployeeLeaveEntitlement','getLeaveBalance'))
+                                ->getMock();
 
         $leaveEntitlementService->expects($this->any())
                 ->method('getEmployeeLeaveEntitlementDays')
@@ -657,7 +653,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
     }
         
         
-       public function xtestGetTotalLeaveDuration() {
+       public function testGetTotalLeaveDuration() {
 
         $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
 
@@ -743,7 +739,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $this->leaveRequestService->changeLeaveStatus($changes, $changeType);
     }
 
-    public function xtestChangeLeaveStatusErrors() {
+    public function testChangeLeaveStatusErrors() {
 
         // 1. Call with empty changes list
         try {
@@ -758,7 +754,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
      /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
-    public function xtestGetLeaveRequestSearchResultAsArray() {
+    public function testGetLeaveRequestSearchResultAsArray() {
 
         $mockDao = $this->getMockBuilder('LeaveRequestDao')
 			->setMethods( array('getLeaveRequestSearchResultAsArray'))
@@ -778,7 +774,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
      /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
-    public function xgetDetailedLeaveRequestSearchResultAsArray() {
+    public function testGetDetailedLeaveRequestSearchResultAsArray() {
 
         $mockDao = $this->getMockBuilder('LeaveRequestDao')
 			->setMethods( array('getDetailedLeaveRequestSearchResultAsArray'))
