@@ -84,5 +84,5 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewProjectsSuccess')
     var projectsArray = eval(projects);
     var projectAdmins = <?php echo str_replace('&#039;', "'", $form->getProjectAdminListAsJson()) ?> ;
     var projectAdminsArray = eval(projectAdmins);
-    var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
+    var lang_typeForHints = '<?php echo __js("Type for hints") . "..."; ?>';
 </script>

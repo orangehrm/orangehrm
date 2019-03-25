@@ -232,26 +232,26 @@ foreach ($jobVacancyList as $vacancy) {
 <script type="text/javascript">
     //<![CDATA[
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var lang_firstNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_lastNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_emailRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-    var lang_validEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
+    var lang_firstNameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_lastNameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_emailRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_validDateMsg = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var lang_validEmail = '<?php echo __js(ValidationMessages::EMAIL_INVALID); ?>';
     var list = <?php echo json_encode($allVacancylist); ?>;
     var allowedVacancylistWithClosedVacancies = <?php echo json_encode($allowedVacancylistWithClosedVacancies); ?>;
     var allowedVacancylist = <?php echo json_encode($allowedVacancylist); ?>;
     var allowedVacancyIdArray = <?php echo json_encode($allowedVacancyIdArray); ?>;
     var closedVacancyIdArray = <?php echo json_encode($closedVacancyIdArray); ?>;
-    var lang_identical_rows = "<?php echo __('Cannot assign same vacancy twice'); ?>";
-    var lang_tooLargeInput = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 30)); ?>";
+    var lang_identical_rows = "<?php echo __js('Cannot assign same vacancy twice'); ?>";
+    var lang_tooLargeInput = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 30)); ?>";
     var lang_commaSeparated = "<?php echo __('Enter comma separated words') . '...'; ?>";
     var currentDate = '<?php echo set_datepicker_date_format(date("Y-m-d")); ?>';
-    var lang_dateValidation = "<?php echo __("Should be less than current date"); ?>";
-    var lang_validPhoneNo = "<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>";
-    var lang_noMoreThan250 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
-    var lang_edit = "<?php echo __("Edit"); ?>";
-    var lang_save = "<?php echo __("Save"); ?>";
-    var lang_cancel = "<?php echo __("Cancel"); ?>";
+    var lang_dateValidation = "<?php echo __js("Should be less than current date"); ?>";
+    var lang_validPhoneNo = "<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>";
+    var lang_noMoreThan250 = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
+    var lang_edit = "<?php echo __js("Edit"); ?>";
+    var lang_save = "<?php echo __js("Save"); ?>";
+    var lang_cancel = "<?php echo __js("Cancel"); ?>";
     var candidateId = "<?php echo $candidateId; ?>";
     var attachment = "<?php echo $form->attachment; ?>"
     var changeStatusUrl = '<?php echo url_for('recruitment/changeCandidateVacancyStatus?'); ?>';
@@ -261,8 +261,8 @@ foreach ($jobVacancyList as $vacancy) {
     var interviewAction = '<?php echo WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW; ?>';
     var interviewAction2 = '<?php echo WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW; ?>';
     var removeAction = '<?php echo JobCandidateVacancy::REMOVE; ?>';
-    var lang_remove =  '<?php echo __("Remove"); ?>';
-    var lang_editCandidateTitle = "<?php echo __('Edit Candidate'); ?>";
+    var lang_remove =  '<?php echo __js("Remove"); ?>';
+    var lang_editCandidateTitle = "<?php echo __js('Edit Candidate'); ?>";
     var editRights = "<?php echo $edit; ?>";
     var activeStatus = "<?php echo JobCandidate::ACTIVE; ?>";
     var candidateStatus = "<?php echo $candidateStatus; ?>";

@@ -4,17 +4,17 @@
 <script type="text/javascript">
     //<![CDATA[
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
-    var edit = "<?php echo __("Edit"); ?>";
-    var save = "<?php echo __("Save"); ?>";
-    var invalidHomePhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
-    var invalidMobilePhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
-    var invalidWorkPhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
-    var incorrectWorkEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
-    var incorrectOtherEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
+    var edit = "<?php echo __js("Edit"); ?>";
+    var save = "<?php echo __js("Save"); ?>";
+    var invalidHomePhoneNumber = '<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>';
+    var invalidMobilePhoneNumber = '<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>';
+    var invalidWorkPhoneNumber = '<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>';
+    var incorrectWorkEmail = '<?php echo __js(ValidationMessages::EMAIL_INVALID); ?>';
+    var incorrectOtherEmail = '<?php echo __js(ValidationMessages::EMAIL_INVALID); ?>';
     var fileModified = 0;
     var emails = <?php echo json_encode($form->getEmailList()); ?>;
     var emailList =eval(emails);
-    var lang_emailExistmsg = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
+    var lang_emailExistmsg = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
     <?php if (isset($empNumber)) { ?>
     var empNumber = '<?php echo $empNumber; ?>';
     <?php } else { ?>

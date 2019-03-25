@@ -299,3 +299,15 @@ function plugin_web_path($plugin, $path) {
     
     return $path;    
 }
+
+/**
+ * @param $text
+ * @param array $args
+ * @param string $catalogue
+ * @return string
+ */
+function __js($text, $args = array(), $catalogue = 'messages') {
+    $validationMassages=__($text,$args, $catalogue);
+
+    return esc_js_no_entities($validationMassages);
+}

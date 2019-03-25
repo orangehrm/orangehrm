@@ -150,13 +150,13 @@ use_stylesheet(plugin_web_path('orangehrmPimPlugin', 'css/viewPersonalDetailsSuc
 <script type="text/javascript">
     //<![CDATA[
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
-    var edit = "<?php echo __("Edit"); ?>";
-    var save = "<?php echo __("Save"); ?>";
-    var lang_firstNameRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_lastNameRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_selectGender = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_processing = '<?php echo __(CommonMessages::LABEL_PROCESSING);?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var edit = "<?php echo __js("Edit"); ?>";
+    var save = "<?php echo __js("Save"); ?>";
+    var lang_firstNameRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_lastNameRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_selectGender = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_processing = '<?php echo __js(CommonMessages::LABEL_PROCESSING);?>';
+    var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
 
     var fileModified = 0;

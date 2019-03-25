@@ -92,8 +92,8 @@ $(document).ready(function() {
     $("#configPim_chkShowTax").attr('disabled', 'disabled');
     
     $("#btnSave").click(function() {
-        if($("#btnSave").attr('value') == "<?php echo __("Edit"); ?>") {
-            $("#btnSave").attr('value', "<?php echo __("Save"); ?>");
+        if($("#btnSave").attr('value') == "<?php echo __js("Edit"); ?>") {
+            $("#btnSave").attr('value', "<?php echo __js("Save"); ?>");
             $("#configPim_chkDeprecateFields").removeAttr('disabled');
             $("#configPim_chkShowSSN").removeAttr('disabled');
             $("#configPim_chkShowSIN").removeAttr('disabled');

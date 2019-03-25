@@ -99,16 +99,16 @@ use_stylesheets_for_form($form);
         var addPerformanceTrackerUrl = "<?php echo url_for("performance/addPerformanceTracker"); ?>";
 	var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson());?>;
 	var employeeList = eval(employees);
-	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
-	var lang_hoursRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_notNumeric = '<?php echo __("Should be a positive number"); ?>';
-	var lang_possitiveNumber = "<?php echo __("Should be a positive number"); ?>";
-	var lang_lessThan24 = '<?php echo __("Should be less than %amount%", array("%amount%" => '24')); ?>';
-	var lang_nameAlreadyExist = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
+	var lang_NameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+	var lang_exceed50Charactors = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
+	var lang_hoursRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+	var lang_notNumeric = '<?php echo __js("Should be a positive number"); ?>';
+	var lang_possitiveNumber = "<?php echo __js("Should be a positive number"); ?>";
+	var lang_lessThan24 = '<?php echo __js("Should be less than %amount%", array("%amount%" => '24')); ?>';
+	var lang_nameAlreadyExist = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
 	var workShiftInfoUrl = "<?php echo url_for("admin/getWorkShiftInfoJson?id="); ?>";
 	var workShiftEmpInfoUrl = "<?php echo url_for("admin/getWorkShiftEmpInfoJson?id="); ?>";
-        var lang_invalid_name = "<?php echo __("invalid name")?>";
-        var lang_invalid_assign = "<?php echo __("Employee cannot be assigned as his own reviewer")?>";
+        var lang_invalid_name = "<?php echo __js("invalid name")?>";
+        var lang_invalid_assign = "<?php echo __js("Employee cannot be assigned as his own reviewer")?>";
         
 </script>

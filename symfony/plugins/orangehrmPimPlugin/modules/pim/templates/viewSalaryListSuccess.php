@@ -262,28 +262,28 @@
 
     var canUpdate = '<?php echo $salaryPermissions->canUpdate(); ?>';
     var fileModified = 0;
-    var lang_addSalary = "<?php echo __('Add Salary Component'); ?>";
-    var lang_editSalary = "<?php echo __('Edit Salary Component'); ?>";
-    var lang_payPeriodRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_currencyRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_componentRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_amountRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_invalidAmount = "<?php echo __("Should be within Min/Max values"); ?>";
-    var lang_negativeAmount = "<?php echo __("Should be a positive number"); ?>";
-    var lang_tooLargeAmount = "<?php echo __("Should be less than %amount%", array("%amount%" => '1000,000,000')); ?>";
-    var lang_amountShouldBeNumber = "<?php echo __("Should be a number"); ?>";
-    var lang_commentsLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)) ?>";
-    var lang_componentLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
-    var lang_selectSalaryToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
-    var lang_accountRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_accountMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
-    var lang_accountTypeRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_routingNumRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_routingNumInteger = "<?php echo __('Should be a number'); ?>";
-    var lang_depositAmountRequired=  "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_depositAmountShouldBeNumber = "<?php echo __('Should be a number'); ?>";
-    var lang_otherRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_otherMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 20)); ?>";
+    var lang_addSalary = "<?php echo __js('Add Salary Component'); ?>";
+    var lang_editSalary = "<?php echo __js('Edit Salary Component'); ?>";
+    var lang_payPeriodRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_currencyRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_componentRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_amountRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_invalidAmount = "<?php echo __js("Should be within Min/Max values"); ?>";
+    var lang_negativeAmount = "<?php echo __js("Should be a positive number"); ?>";
+    var lang_tooLargeAmount = "<?php echo __js("Should be less than %amount%", array("%amount%" => '1000,000,000')); ?>";
+    var lang_amountShouldBeNumber = "<?php echo __js("Should be a number"); ?>";
+    var lang_commentsLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)) ?>";
+    var lang_componentLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
+    var lang_selectSalaryToDelete = "<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>";
+    var lang_accountRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_accountMaxLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
+    var lang_accountTypeRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_routingNumRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_routingNumInteger = "<?php echo __js('Should be a number'); ?>";
+    var lang_depositAmountRequired=  "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_depositAmountShouldBeNumber = "<?php echo __js('Should be a number'); ?>";
+    var lang_otherRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_otherMaxLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 20)); ?>";
     var essMode = '<?php echo $essUserMode; ?>';
 //]]>
 </script>
@@ -304,7 +304,7 @@
     }
 
     function getMinMax(salaryGrade, currency) {
-        var notApplicable = '<?php echo __("N/A"); ?>';
+        var notApplicable = '<?php echo __js("N/A"); ?>';
 
         if (salaryGrade == '') {
             $("#minSalary").val('');
@@ -326,13 +326,13 @@
                     if (data.min) {
                         minSalary = data.min;
                         minVal = minSalary;
-                        minMaxLbl = '<?php echo __("Min"); ?>' + " : " + minSalary + " ";
+                        minMaxLbl = '<?php echo __js("Min"); ?>' + " : " + minSalary + " ";
                     }
 
                     if (data.max) {
                         maxSalary = data.max;
                         maxVal = maxSalary;
-                        minMaxLbl = minMaxLbl + '<?php echo __("Max"); ?>' + " : " + maxSalary;
+                        minMaxLbl = minMaxLbl + '<?php echo __js("Max"); ?>' + " : " + maxSalary;
                     }
                 }
 
@@ -351,7 +351,7 @@
         $.getJSON(url, function(data) {
 
             var numOptions = data.length;
-            var optionHtml = '<option value="">-- <?php echo __("Select") ?> --</option>';
+            var optionHtml = '<option value="">-- <?php echo __js("Select") ?> --</option>';
 
             for (var i = 0; i < numOptions; i++) {
                 optionHtml += '<option value="' + data[i].currency_id + '">' + data[i].currency_name + '</option>';

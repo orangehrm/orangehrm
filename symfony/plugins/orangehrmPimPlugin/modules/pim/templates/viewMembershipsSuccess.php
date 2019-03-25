@@ -205,15 +205,15 @@ $allowEdit = true;
     var canUpdate = '<?php echo $membershipPermissions->canUpdate(); ?>';
     var fileModified = 0;
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var deleteError = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';
-    var addMembershipDetail = '<?php echo __("Add Membership"); ?>';
-    var editMembershipDetail = '<?php echo __("Edit Membership"); ?>';
+    var deleteError = '<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>';
+    var addMembershipDetail = '<?php echo __js("Add Membership"); ?>';
+    var editMembershipDetail = '<?php echo __js("Edit Membership"); ?>';
     var getMembershipsUrl = "<?php echo url_for('pim/getMemberships') ?>";
-    var selectAMembership = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-    var validNumberMsg = '<?php echo __("Should be a number"); ?>';
-    var dateError = '<?php echo __("Renewal date should be after commence date"); ?>';
-    var lang_negativeAmount = "<?php echo __("Should be a positive number"); ?>";
-    var lang_tooLargeAmount = "<?php echo __("Should be less than %amount%", array("%amount%" => '1000,000,000.00')); ?>";
+    var selectAMembership = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var validDateMsg = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var validNumberMsg = '<?php echo __js("Should be a number"); ?>';
+    var dateError = '<?php echo __js("Renewal date should be after commence date"); ?>';
+    var lang_negativeAmount = "<?php echo __js("Should be a positive number"); ?>";
+    var lang_tooLargeAmount = "<?php echo __js("Should be less than %amount%", array("%amount%" => '1000,000,000.00')); ?>";
     //]]>
 </script>

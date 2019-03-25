@@ -54,8 +54,8 @@
     var createTimesheet="<?php echo url_for('time/createTimesheet'); ?>";
     var returnEndDate="<?php echo url_for('time/returnEndDate'); ?>";
     var currentDate= "<?php echo $currentDate; ?>";
-    var lang_noFutureTimesheets= "<?php echo __("Failed to Create: Future Timesheets Not Allowed"); ?>";
-    var lang_overlappingTimesheets= "<?php echo __("Timesheet Overlaps with Existing Timesheets"); ?>";
-    var lang_timesheetExists= "<?php echo __("Timesheet Already Exists"); ?>";
-    var lang_invalidDate= '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var lang_noFutureTimesheets= "<?php echo __js("Failed to Create: Future Timesheets Not Allowed"); ?>";
+    var lang_overlappingTimesheets= "<?php echo __js("Timesheet Overlaps with Existing Timesheets"); ?>";
+    var lang_timesheetExists= "<?php echo __js("Timesheet Already Exists"); ?>";
+    var lang_invalidDate= '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
 </script>

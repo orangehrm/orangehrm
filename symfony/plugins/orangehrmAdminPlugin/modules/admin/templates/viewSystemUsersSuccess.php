@@ -88,7 +88,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewSystemUserSuccess
                 
     var addUserUrl          =   '<?php echo url_for('admin/saveSystemUser'); ?>';
     var viewUserUrl          =   '<?php echo url_for('admin/viewSystemUsers'); ?>';
-    var lang_typeforhint    =   '<?php echo __("Type for hints") . "..."; ?>';
-    var user_ValidEmployee  =   '<?php echo __(ValidationMessages::INVALID); ?>';
+    var lang_typeforhint    =   '<?php echo __js("Type for hints") . "..."; ?>';
+    var user_ValidEmployee  =   '<?php echo __js(ValidationMessages::INVALID); ?>';
 
 </script>

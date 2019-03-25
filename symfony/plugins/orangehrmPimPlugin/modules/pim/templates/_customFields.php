@@ -108,7 +108,7 @@ if (!empty($customFieldList) && (count($customFieldList) > 0)) {
                         required: false,
                         maxlength: 250,
                         messages: {
-                              maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>'
+                              maxlength: '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>'
                           }
                     });
                 });        

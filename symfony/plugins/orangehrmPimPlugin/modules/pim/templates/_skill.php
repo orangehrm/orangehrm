@@ -141,13 +141,13 @@ $haveSkills = count($form->empSkillList)>0;
 <script type="text/javascript">
     //<![CDATA[
     var fileModified = 0;
-    var lang_addSkill = "<?php echo __('Add Skill'); ?>";
-    var lang_editSkill = "<?php echo __('Edit Skill'); ?>";
-    var lang_skillRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_selectSkillToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
-    var lang_commentsMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
-    var lang_yearsOfExpShouldBeNumber = "<?php echo __('Should be a number'); ?>";
-    var lang_yearsOfExpMax = "<?php echo __("Should be less than %amount%", array("%amount%" => '100')); ?>";
+    var lang_addSkill = "<?php echo __js('Add Skill'); ?>";
+    var lang_editSkill = "<?php echo __js('Edit Skill'); ?>";
+    var lang_skillRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_selectSkillToDelete = "<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>";
+    var lang_commentsMaxLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
+    var lang_yearsOfExpShouldBeNumber = "<?php echo __js('Should be a number'); ?>";
+    var lang_yearsOfExpMax = "<?php echo __js("Should be less than %amount%", array("%amount%" => '100')); ?>";
     var canUpdate = '<?php echo $skillPermissions->canUpdate(); ?>';
     //]]>
 </script>

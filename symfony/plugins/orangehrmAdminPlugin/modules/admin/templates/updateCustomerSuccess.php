@@ -45,7 +45,7 @@
 					 txtName: { required: true }
 			 	 },
 			 	 messages: {
-			 		txtName: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+			 		txtName: '<?php echo __js(ValidationMessages::REQUIRED); ?>'
 			 	 }
 			 });
 

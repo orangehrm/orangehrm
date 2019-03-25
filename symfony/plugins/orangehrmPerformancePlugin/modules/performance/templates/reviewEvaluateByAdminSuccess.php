@@ -264,7 +264,7 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
         });
 
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-        var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+        var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
 
         $.datepicker.setDefaults({showOn: 'click'});
 
@@ -302,16 +302,16 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
             },
             messages: {
                 'reviewEvaluation[hrAdminComments]': {
-                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 255)); ?>'
+                    required: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
+                    maxlength: '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 255)); ?>'
                 },
                 'reviewEvaluation[finalRating]': {
-                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    number: '<?php echo __(ValidationMessages::VALID_NUMBER); ?>'
+                    required: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
+                    number: '<?php echo __js(ValidationMessages::VALID_NUMBER); ?>'
 
                 },
                 'reviewEvaluation[completedDate]': {
-                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                    required: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
                     valid_date: lang_invalidDate
                 }
             }
@@ -324,12 +324,12 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
                     } else {
                         return true;
                     }
-                }, '<?php echo __(PerformanceValidationMessages::ONLY_INTEGER_ALLOWED); ?>');
+                }, '<?php echo __js(PerformanceValidationMessages::ONLY_INTEGER_ALLOWED); ?>');
 
 
     });
-    var minMsg = "<?php echo __('Rating should be less than or equal to ') ?>";
-    var maxMsg = "<?php echo __('Rating should be greater than or equal to ') ?>";
+    var minMsg = "<?php echo __js('Rating should be less than or equal to ') ?>";
+    var maxMsg = "<?php echo __js('Rating should be greater than or equal to ') ?>";
     jQuery.extend(jQuery.validator.messages, {
         max: jQuery.validator.format(minMsg + "{0}."),
         min: jQuery.validator.format(maxMsg + "{0}.")

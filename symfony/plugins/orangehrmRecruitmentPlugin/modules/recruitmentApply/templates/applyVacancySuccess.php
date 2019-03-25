@@ -148,17 +148,17 @@
     var description	= '<?php $description; ?>';
     var vacancyId	= '<?php echo $vacancyId; ?>';
     var candidateId	= '<?php echo ($candidateId !="") ? $candidateId : 0;?>';
-    var lang_firstNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_lastNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_emailRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_validEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
-    var lang_tooLargeInput = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 30)); ?>";
-    var lang_commaSeparated = "<?php echo __("Enter comma separated words") . '...'; ?>";
-    var lang_validPhoneNo = "<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>";
-    var lang_noMoreThan250 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
-    var lang_resumeRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_firstNameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_lastNameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_emailRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_validEmail = '<?php echo __js(ValidationMessages::EMAIL_INVALID); ?>';
+    var lang_tooLargeInput = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 30)); ?>";
+    var lang_commaSeparated = "<?php echo __js("Enter comma separated words") . '...'; ?>";
+    var lang_validPhoneNo = "<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>";
+    var lang_noMoreThan250 = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
+    var lang_resumeRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
     var linkForApplyVacancy = "<?php echo url_for('recruitmentApply/applyVacancy'); ?>";
     var linkForViewJobs = "<?php echo url_for('recruitmentApply/viewJobs'); ?>";
-    var lang_back = "<?php echo __("Go to Job Page")?>";
+    var lang_back = "<?php echo __js("Go to Job Page")?>";
 	
 </script>

@@ -88,10 +88,10 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/jobCategorySuccess'))
 <script type="text/javascript">
 	var jobCatrgories = <?php echo str_replace('&#039;', "'", $form->getJobCategoryListAsJson()) ?> ;
         var jobCatList = eval(jobCatrgories);
-	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
+	var lang_NameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+	var lang_exceed50Charactors = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
 	var jobCatInfoUrl = "<?php echo url_for("admin/getJobCategoryJson?id="); ?>";
-	var lang_editJobCat = "<?php echo __("Edit Job Category"); ?>";
-	var lang_addJobCat = "<?php echo __("Add Job Category"); ?>";
-	var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
+	var lang_editJobCat = "<?php echo __js("Edit Job Category"); ?>";
+	var lang_addJobCat = "<?php echo __js("Add Job Category"); ?>";
+	var lang_uniqueName = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
 </script>

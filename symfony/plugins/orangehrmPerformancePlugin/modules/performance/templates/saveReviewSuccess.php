@@ -135,8 +135,8 @@
 
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
         var leaveBalanceUrl = '<?php echo url_for('leave/getLeaveBalanceAjax'); ?>';
-        var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-        var lang_dateError = '<?php echo __("To date should be after from date") ?>';
+        var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+        var lang_dateError = '<?php echo __js("To date should be after from date") ?>';
         var reviewId = '<?php echo $form['reviewId']->getValue(); ?>';
 
         $.datepicker.setDefaults({showOn: 'click'});
@@ -363,30 +363,30 @@
             },
             messages: {
                 'saveReview360Form[dueDate]': {
-                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                    required: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
                     valid_date: lang_invalidDate,
-                    date_range: '<?php echo __("End date should be after Start date") ?>'
+                    date_range: '<?php echo __js("End date should be after Start date") ?>'
                 },
                 'saveReview360Form[employeeId]': {
-                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+                    required: '<?php echo __js(ValidationMessages::REQUIRED); ?>'
                 },
                 'saveReview360Form[employee]': {
-                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+                    required: '<?php echo __js(ValidationMessages::REQUIRED); ?>'
                 },
                 'saveReview360Form[supervisorReviewer]': {
-                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+                    required: '<?php echo __js(ValidationMessages::REQUIRED); ?>'
                 },
                 'saveReview360Form[supervisorReviewerId]': {
-                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+                    required: '<?php echo __js(ValidationMessages::REQUIRED); ?>'
                 },
                 'saveReview360Form[workPeriodStartDate]': {
-                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                    required: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
                     valid_date: lang_invalidDate
                 },
                 'saveReview360Form[workPeriodEndDate]': {
-                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                    required: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
                     valid_date: lang_invalidDate,
-                    date_range: '<?php echo __("End date should be after Start date") ?>'
+                    date_range: '<?php echo __js("End date should be after Start date") ?>'
                 }
             }
         });
@@ -403,7 +403,7 @@
                         }
                         return false;
                     }
-                }, '<?php echo __(PerformanceValidationMessages::INVALID_SUPERVIOSR); ?>');
+                }, '<?php echo __js(PerformanceValidationMessages::INVALID_SUPERVIOSR); ?>');
 
         /**
          * @param employeeData Json Array

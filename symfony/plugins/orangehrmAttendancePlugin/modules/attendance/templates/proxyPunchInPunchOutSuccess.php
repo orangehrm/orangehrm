@@ -90,18 +90,18 @@ if($attendancePermissions->canRead()){
     var linkForProxyPunchAction='<?php echo url_for('attendance/proxyPunchInPunchOut') ?>';
     var linkForOverLappingValidation='<?php echo url_for('attendance/validatePunchOutOverLapping') ?>';
     var linkForPunchInOverlappingValidation='<?php echo url_for('attendance/validatePunchInOverLapping') ?>';
-    var errorForInvalidTime='<?php echo __('Punch out Time Should Be Higher Than Punch in Time'); ?>';
-    var errorForInvalidFormat="<?php echo __('Should Be a Valid Time in %format% Format', array('%format%' => 'HH:MM')) ?>";
-    var errorForInvalidTimeFormat="<?php echo __('Should Be a Valid Time in %format% Format', array('%format%' => 'HH:MM')) ?>";
+    var errorForInvalidTime='<?php echo __js('Punch out Time Should Be Higher Than Punch in Time'); ?>';
+    var errorForInvalidFormat="<?php echo __js('Should Be a Valid Time in %format% Format', array('%format%' => 'HH:MM')) ?>";
+    var errorForInvalidTimeFormat="<?php echo __js('Should Be a Valid Time in %format% Format', array('%format%' => 'HH:MM')) ?>";
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
-    var errorForInvalidDateFormat='<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-    var errorForOverLappingTime="<?php echo __('Overlapping Records Found'); ?>";
-    var errorForInvalidNote='<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)) ?>';
+    var errorForInvalidDateFormat='<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var errorForOverLappingTime="<?php echo __js('Overlapping Records Found'); ?>";
+    var errorForInvalidNote='<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)) ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>';
     var punchOut =false;
     punchOut='<?php echo $action['PunchOut'] ?>'
     var punchInTime='<?php echo $punchInTime; ?>';
     var punchInNote='<?php echo json_encode($punchInNote); ?>';
     var punchInUtcTime='<?php echo $punchInUtcTime; ?>';       
-    var closeText = '<?php echo __('Close');?>';
+    var closeText = '<?php echo __js('Close');?>';
 </script>

@@ -136,11 +136,11 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewLanguagesSuccess'
     
     var urlForExistingNameCheck = '<?php echo url_for('admin/checkLanguageNameExistence'); ?>';
     
-    var lang_addFormHeading = "<?php echo __('Add Language'); ?>";
-    var lang_editFormHeading = "<?php echo __('Edit Language'); ?>";
+    var lang_addFormHeading = "<?php echo __js('Add Language'); ?>";
+    var lang_editFormHeading = "<?php echo __js('Edit Language'); ?>";
     
-    var lang_nameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_nameExists = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
+    var lang_nameIsRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_nameExists = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
     
 //]]>	
-</script> 
+</script>

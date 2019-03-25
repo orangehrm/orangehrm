@@ -117,29 +117,29 @@ use_javascripts_for_form($form);
 
 <script type="text/javascript">
     //<![CDATA[
-    var lang_typeHint = "<?php echo __("Type for hints"); ?>" + "...";
+    var lang_typeHint = "<?php echo __js("Type for hints"); ?>" + "...";
     var resetUrl = '<?php echo url_for($baseUrl . '?reset=1'); ?>';
     var commentUpdateUrl = '<?php echo public_path('index.php/leave/updateComment'); ?>';
     var getCommentsUrl = '<?php echo url_for('leave/getLeaveCommentsAjax'); ?>';
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var lang_dateError = '<?php echo __("To date should be after from date") ?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-    var lang_comment_successfully_saved = '<?php echo __(TopLevelMessages::SAVE_SUCCESS); ?>';
-    var lang_comment_save_failed = '<?php echo __(TopLevelMessages::SAVE_FAILURE); ?>';
-    var lang_edit = '<?php echo __('Edit'); ?>';
-    var lang_save = '<?php echo __('Save'); ?>';
-    var lang_length_exceeded_error = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 255)); ?>';    
-    var lang_selectAction = '<?php echo __("Select Action");?>';
-    var lang_Close = '<?php echo __('Close');?>';
+    var lang_dateError = '<?php echo __js("To date should be after from date") ?>';
+    var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var lang_comment_successfully_saved = '<?php echo __js(TopLevelMessages::SAVE_SUCCESS); ?>';
+    var lang_comment_save_failed = '<?php echo __js(TopLevelMessages::SAVE_FAILURE); ?>';
+    var lang_edit = '<?php echo __js('Edit'); ?>';
+    var lang_save = '<?php echo __js('Save'); ?>';
+    var lang_length_exceeded_error = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 255)); ?>';
+    var lang_selectAction = '<?php echo __js("Select Action");?>';
+    var lang_Close = '<?php echo __js('Close');?>';
     var leave_status_pending = '<?php echo PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;?>';
     var ess_mode = '<?php echo ($essMode) ? '1' : '0'; ?>';
-    var lang_Required = '<?php echo __(ValidationMessages::REQUIRED);?>';
-    var lang_Date = '<?php echo __('Date');?>';
-    var lang_Time = '<?php echo __('Time');?>';
-    var lang_Author = '<?php echo __('Author');?>';
-    var lang_Comment = '<?php echo __('Comment');?>';
-    var lang_Loading = '<?php echo __('Loading');?>...';
-    var lang_View = '<?php echo __('View');?>';
+    var lang_Required = '<?php echo __js(ValidationMessages::REQUIRED);?>';
+    var lang_Date = '<?php echo __js('Date');?>';
+    var lang_Time = '<?php echo __js('Time');?>';
+    var lang_Author = '<?php echo __js('Author');?>';
+    var lang_Comment = '<?php echo __js('Comment');?>';
+    var lang_Loading = '<?php echo __js('Loading');?>...';
+    var lang_View = '<?php echo __js('View');?>';
     var balanceData = false;
     
     $.ajax({

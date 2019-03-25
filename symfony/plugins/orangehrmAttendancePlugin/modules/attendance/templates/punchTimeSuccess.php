@@ -151,13 +151,13 @@ if (((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
     var linkForPunchOut ='<?php echo url_for('attendance/punchOut') ?>';
     var linkForOverLappingValidation='<?php echo url_for('attendance/validatePunchOutOverLapping') ?>';
     var linkForPunchInOverlappingValidation='<?php echo url_for('attendance/validatePunchInOverLapping') ?>';
-    var errorForInvalidTime='<?php echo __('Punch out Time Should Be Higher Than Punch in Time'); ?>';
-    var errorForInvalidFormat="<?php echo __('Should Be a Valid Time in %format% Format', array('%format%' => 'HH:MM')) ?>";
-    var errorForInvalidTimeFormat="<?php echo __('Should Be a Valid Time in %format% Format', array('%format%' => 'HH:MM')) ?>";
+    var errorForInvalidTime='<?php echo __js('Punch out Time Should Be Higher Than Punch in Time'); ?>';
+    var errorForInvalidFormat="<?php echo __js('Should Be a Valid Time in %format% Format', array('%format%' => 'HH:MM')) ?>";
+    var errorForInvalidTimeFormat="<?php echo __js('Should Be a Valid Time in %format% Format', array('%format%' => 'HH:MM')) ?>";
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
-    var errorForInvalidDateFormat='<?php echo __('Should Be a Valid Date in %format% Format', array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-    var errorForOverLappingTime="<?php echo __('Overlapping Records Found'); ?>";
-    var errorForInvalidNote='<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)) ?>';
+    var errorForInvalidDateFormat='<?php echo __js('Should Be a Valid Date in %format% Format', array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var errorForOverLappingTime="<?php echo __js('Overlapping Records Found'); ?>";
+    var errorForInvalidNote='<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)) ?>';
 
     var actionPunchIn='<?php echo $actionPunchIn; ?>';
 

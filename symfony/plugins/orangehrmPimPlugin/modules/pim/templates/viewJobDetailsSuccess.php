@@ -3,18 +3,18 @@
 <script type="text/javascript">
     //<![CDATA[
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
-    var edit = "<?php echo __("Edit"); ?>";
-    var save = "<?php echo __("Save"); ?>";
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>'
-    var lang_startDateAfterEndDate = "<?php echo __('End date should be after start date'); ?>";
-    var lang_View_Details =  "<?php echo __('View Details'); ?>";
-    var lang_Hide_Details =  "<?php echo __('Hide Details'); ?>";
-    var lang_max_char_terminated_reason =  "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
-    var  lang_max_char_terminated_note =  "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
-    var lang_terminatedReasonRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_activateEmployement = "<?php echo __("Activate Employment"); ?>";
-    var lang_terminateEmployement = "<?php echo __("Terminate Employment"); ?>";
-    var lang_editTerminateEmployement = "<?php echo __("Edit Employment Termination"); ?>";
+    var edit = "<?php echo __js("Edit"); ?>";
+    var save = "<?php echo __js("Save"); ?>";
+    var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>'
+    var lang_startDateAfterEndDate = "<?php echo __js('End date should be after start date'); ?>";
+    var lang_View_Details =  "<?php echo __js('View Details'); ?>";
+    var lang_Hide_Details =  "<?php echo __js('Hide Details'); ?>";
+    var lang_max_char_terminated_reason =  "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
+    var  lang_max_char_terminated_note =  "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
+    var lang_terminatedReasonRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_activateEmployement = "<?php echo __js("Activate Employment"); ?>";
+    var lang_terminateEmployement = "<?php echo __js("Terminate Employment"); ?>";
+    var lang_editTerminateEmployement = "<?php echo __js("Edit Employment Termination"); ?>";
     var activateEmployementUrl = '<?php echo url_for('pim/activateEmployement?empNumber=' . $empNumber); ?>';
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';

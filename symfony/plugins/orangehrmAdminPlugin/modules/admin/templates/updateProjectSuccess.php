@@ -95,8 +95,8 @@
 				 	
 			 	 },
 			 	 messages: {
-			 		cmbCustomerId: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-				 		txtName: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+			 		cmbCustomerId: '<?php echo __js(ValidationMessages::REQUIRED); ?>',
+				 		txtName: '<?php echo __js(ValidationMessages::REQUIRED); ?>'
 			 		
 			 	 }
 			 });
@@ -109,7 +109,7 @@
 				 	
 			 	 },
 			 	 messages: {
-			 		txtEmpId: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+			 		txtEmpId: '<?php echo __js(ValidationMessages::REQUIRED); ?>'
 			 		
 			 	 }
 			 });

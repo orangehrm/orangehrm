@@ -262,7 +262,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#emgcontacts_workPhone').val(workPhone);
 
             $(".paddingLeftRequired").show();
-            $("#emergencyContactHeading").text("<?php echo __("Edit Emergency Contact");?>");
+            $("#emergencyContactHeading").text("<?php echo __js("Edit Emergency Contact");?>");
             $('div#messagebar').hide();
             // hide validation error messages
 
@@ -287,7 +287,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
         // Add a emergency contact
         $('#btnAddContact').click(function() {
-            $("#emergencyContactHeading").text("<?php echo __("Add Emergency Contact");?>");
+            $("#emergencyContactHeading").text("<?php echo __js("Add Emergency Contact");?>");
             $(".paddingLeftRequired").show();
             clearAddForm();
 
@@ -323,26 +323,26 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             },
             messages: {
                 'emgcontacts[name]': {
-                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
+                    required:'<?php echo __js(ValidationMessages::REQUIRED); ?>',
+                    maxlength: '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
                 },
                 'emgcontacts[relationship]': {
-                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
+                    required:'<?php echo __js(ValidationMessages::REQUIRED); ?>',
+                    maxlength: '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
                 },
                 'emgcontacts[homePhone]' : {
-                    phone:'<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>',
-                    validContactPhone:'<?php echo __('At least one phone number is required'); ?>',
-                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
+                    phone:'<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>',
+                    validContactPhone:'<?php echo __js('At least one phone number is required'); ?>',
+                    maxlength: '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
                 },
                 'emgcontacts[mobilePhone]' : {
-                	phone:'<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>',
-                	maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
+                	phone:'<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>',
+                	maxlength: '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
 
                 },
                 'emgcontacts[workPhone]' : {
-                	phone:'<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>',
-                	maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
+                	phone:'<?php echo __js(ValidationMessages::TP_NUMBER_INVALID); ?>',
+                	maxlength: '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
                 }
             }
         });
@@ -353,7 +353,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
             if (checked == 0) {
                 $("#messagebar").attr("class", "messageBalloon_notice");
-                $("#messagebar").text("<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>");
+                $("#messagebar").text("<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>");
             } else {
                 $('#frmEmpDelEmgContacts').submit();
             }

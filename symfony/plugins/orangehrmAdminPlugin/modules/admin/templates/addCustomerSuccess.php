@@ -60,7 +60,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/addCustomerSuccess'))
         <p></p>
         <p><?php echo __('Yes'); ?> - <?php echo __('Customer will be undeleted'); ?></p>
         <p>
-            <?php echo __('No'); ?> - 
+            <?php echo __('No'); ?> -
             <?php
             echo $form->isUpdateMode() ? __('This customer will be renamed to the same name as the deleted customer') :
                     __('A new customer will be created with same name');
@@ -79,13 +79,13 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/addCustomerSuccess'))
 <script type="text/javascript">
 	var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;
     var customerList = eval(customers);
-	var lang_customerNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
-	var lang_exceed255Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
-	var lang_editCustomer = "<?php echo __("Edit Customer"); ?>";
-	var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
-	var lang_edit = "<?php echo __("Edit"); ?>";
-	var lang_save = "<?php echo __("Save"); ?>";
+	var lang_customerNameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+	var lang_exceed50Charactors = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
+	var lang_exceed255Charactors = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
+	var lang_editCustomer = "<?php echo __js("Edit Customer"); ?>";
+	var lang_uniqueName = '<?php echo __js(ValidationMessages::ALREADY_EXISTS); ?>';
+	var lang_edit = "<?php echo __js("Edit"); ?>";
+	var lang_save = "<?php echo __js("Save"); ?>";
 	var customerId = '<?php echo $customerId;?>';
 	var cancelBtnUrl = '<?php echo url_for('admin/viewCustomers'); ?>';
     var deletedCustomers = <?php echo str_replace('&#039;', "'", $form->getDeletedCustomerListAsJson()) ?> ;

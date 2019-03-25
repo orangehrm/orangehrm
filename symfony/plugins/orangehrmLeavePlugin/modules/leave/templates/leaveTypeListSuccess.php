@@ -51,6 +51,6 @@ use_javascript(plugin_web_path('orangehrmLeavePlugin', 'js/leaveTypeListSuccess'
 <script type="text/javascript">
     //<![CDATA[
     var defineLeaveTypeUrl = '<?php echo url_for('leave/defineLeaveType'); ?>';    
-    var lang_SelectLeaveTypeToDelete = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';  
+    var lang_SelectLeaveTypeToDelete = '<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>';
     //]]>
 </script>

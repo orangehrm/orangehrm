@@ -53,26 +53,26 @@
             },
             messages: {
                 'defineKpi360[jobTitleCode]':{
-                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
+                    required:'<?php echo __js(ValidationMessages::REQUIRED); ?>'
                 },
                 'defineKpi360[keyPerformanceIndicators]':{
-                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>'
+                    required:'<?php echo __js(ValidationMessages::REQUIRED); ?>',
+                    maxlength: '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>'
                 },
                 'defineKpi360[minRating]':{
-                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    number:'<?php echo __(ValidationMessages::VALID_NUMBER); ?>',
-                    min:'<?php echo __(ValidationMessages::GREATER_THAN, array('%number%' => 0)); ?>',
-                    max:'<?php echo __(ValidationMessages::LESS_THAN, array('%number%' => 100)); ?>',
-                    maxMinValidation:'<?php echo __(PerformanceValidationMessages::MAX_SHOULD_BE_GREATER_THAN_MIN); ?>'
+                    required:'<?php echo __js(ValidationMessages::REQUIRED); ?>',
+                    number:'<?php echo __js(ValidationMessages::VALID_NUMBER); ?>',
+                    min:'<?php echo __js(ValidationMessages::GREATER_THAN, array('%number%' => 0)); ?>',
+                    max:'<?php echo __js(ValidationMessages::LESS_THAN, array('%number%' => 100)); ?>',
+                    maxMinValidation:'<?php echo __js(PerformanceValidationMessages::MAX_SHOULD_BE_GREATER_THAN_MIN); ?>'
                     
                 },
                 'defineKpi360[maxRating]':{
-                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    number:'<?php echo __(ValidationMessages::VALID_NUMBER); ?>',
-                    min:'<?php echo __(ValidationMessages::GREATER_THAN, array('%number%' => 0)); ?>',
-                    max:'<?php echo __(ValidationMessages::LESS_THAN, array('%number%' => 100)); ?>',
-                    maxMinValidation:'<?php echo __(PerformanceValidationMessages::MAX_SHOULD_BE_GREATER_THAN_MIN); ?>'
+                    required:'<?php echo __js(ValidationMessages::REQUIRED); ?>',
+                    number:'<?php echo __js(ValidationMessages::VALID_NUMBER); ?>',
+                    min:'<?php echo __js(ValidationMessages::GREATER_THAN, array('%number%' => 0)); ?>',
+                    max:'<?php echo __js(ValidationMessages::LESS_THAN, array('%number%' => 100)); ?>',
+                    maxMinValidation:'<?php echo __js(PerformanceValidationMessages::MAX_SHOULD_BE_GREATER_THAN_MIN); ?>'
                     
                 }
             }
@@ -85,7 +85,7 @@
             } else {
                 return false;
             } 
-        }, '<?php echo __(PerformanceValidationMessages::ONLY_INTEGER_ALLOWED); ?>');
+        }, '<?php echo __js(PerformanceValidationMessages::ONLY_INTEGER_ALLOWED); ?>');
         
         $.validator.addMethod('jobOrDepartmentValidation',
         function (value) { 

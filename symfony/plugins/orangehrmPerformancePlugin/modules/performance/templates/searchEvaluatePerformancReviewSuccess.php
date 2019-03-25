@@ -37,7 +37,7 @@
         var employees = <?php echo str_replace('&#039;', "'", $form->getReviwerAccessibleEmployeeListAsJson()) ?> ;        
 
         if ($("#evaluatePerformanceReview360SearchForm_employeeName").val() == '') {
-            $("#evaluatePerformanceReview360SearchForm_employeeName").val('<?php echo __("Type for hints") . "..."; ?>').addClass("inputFormatHint");            
+            $("#evaluatePerformanceReview360SearchForm_employeeName").val('<?php echo __js("Type for hints") . "..."; ?>').addClass("inputFormatHint");
         }
         
         $("#evaluatePerformanceReview360SearchForm_employeeName").autocomplete(employees, {
