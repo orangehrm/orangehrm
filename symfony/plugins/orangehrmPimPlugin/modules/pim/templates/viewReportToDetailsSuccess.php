@@ -275,15 +275,15 @@ $allowEdit = true;
 <script type="text/javascript">
     //<![CDATA[
     var fileModified = 0;
-    var typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
-    var addSupervisor = '<?php echo __("Add Supervisor"); ?>';
-    var addSubordinate = '<?php echo __("Add Subordinate"); ?>';
-    var deleteWarning = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';
-    var editSupervisor = '<?php echo __("Edit Supervisor"); ?>';
-    var editSubordinate = '<?php echo __("Edit Subordinate"); ?>';
-    var nameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var reportingMethodIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var reportingMethodTypeIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var typeForHints = '<?php echo __js("Type for hints") . "..."; ?>';
+    var addSupervisor = '<?php echo __js("Add Supervisor"); ?>';
+    var addSubordinate = '<?php echo __js("Add Subordinate"); ?>';
+    var deleteWarning = '<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>';
+    var editSupervisor = '<?php echo __js("Edit Supervisor"); ?>';
+    var editSubordinate = '<?php echo __js("Edit Subordinate"); ?>';
+    var nameIsRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var reportingMethodIsRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var reportingMethodTypeIsRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
     var essMode = '<?php echo $essUserMode; ?>';
     
     var haveSupervisors = <?php echo $hasSupDetails ? 'true' : 'false'; ?>;

@@ -134,13 +134,13 @@ $haveLanguage = count($form->empLanguageList) > 0;
     //<![CDATA[
 
     var fileModified = 0;
-    var lang_addLanguage = "<?php echo __('Add Language');?>";
-    var lang_editLanguage = "<?php echo __('Edit Language');?>";
-    var lang_languageRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_languageTypeRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_competencyRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_selectLanguageToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
-    var lang_commentsMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100));?>";
+    var lang_addLanguage = "<?php echo __js('Add Language');?>";
+    var lang_editLanguage = "<?php echo __js('Edit Language');?>";
+    var lang_languageRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_languageTypeRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_competencyRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_selectLanguageToDelete = "<?php echo __js(TopLevelMessages::SELECT_RECORDS);?>";
+    var lang_commentsMaxLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100));?>";
     //]]>
 </script>
 

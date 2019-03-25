@@ -188,13 +188,13 @@ $hasAttachments = count($attachmentList) > 0;
     //<![CDATA[
     
     var hideAttachmentListOnAdd = <?php echo $hasAttachments ? 'false' : 'true';?>;
-    var lang_EditAttachmentHeading = "<?php echo __("Edit Attachment"); ?>";
-    var lang_AddAttachmentHeading = "<?php echo __("Add Attachment"); ?>";
-    var lang_SelectFile = "<?php echo __("Select File");?>";
-    var lang_ReplaceWith = "<?php echo __("Replace With");?>";
-    var lang_PleaseSelectAFile = "<?php echo __(ValidationMessages::REQUIRED);?>";
-    var lang_CommentsMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 200));?>";
-    var lang_SelectAtLeastOneAttachment = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
+    var lang_EditAttachmentHeading = "<?php echo __js("Edit Attachment"); ?>";
+    var lang_AddAttachmentHeading = "<?php echo __js("Add Attachment"); ?>";
+    var lang_SelectFile = "<?php echo __js("Select File");?>";
+    var lang_ReplaceWith = "<?php echo __js("Replace With");?>";
+    var lang_PleaseSelectAFile = "<?php echo __js(ValidationMessages::REQUIRED);?>";
+    var lang_CommentsMaxLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 200));?>";
+    var lang_SelectAtLeastOneAttachment = "<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>";
     var hasError = <?php echo ($sf_user->hasFlash('saveAttachmentPane.warning'))?'true':'false'; ?>;
 
     var clearAttachmentMessages = true;

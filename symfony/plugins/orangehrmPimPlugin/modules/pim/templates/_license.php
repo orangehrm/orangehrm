@@ -135,13 +135,13 @@ $haveLicense = count($form->empLicenseList) > 0;
     //<![CDATA[
 
     var fileModified = 0;
-    var lang_addLicense = "<?php echo __('Add License');?>";
-    var lang_editLicense = "<?php echo __('Edit License');?>";
-    var lang_licenseRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-    var lang_startDateAfterEndDate = "<?php echo __('Expiry date should be after issued date');?>";
-    var lang_selectLicenseToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
-    var lang_licenseNoMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50));?>";
+    var lang_addLicense = "<?php echo __js('Add License');?>";
+    var lang_editLicense = "<?php echo __js('Edit License');?>";
+    var lang_licenseRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var lang_startDateAfterEndDate = "<?php echo __js('Expiry date should be after issued date');?>";
+    var lang_selectLicenseToDelete = "<?php echo __js(TopLevelMessages::SELECT_RECORDS);?>";
+    var lang_licenseNoMaxLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50));?>";
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     //]]>

@@ -65,9 +65,9 @@
 <script type="text/javascript">
     //<![CDATA[
 
-    var edit = "<?php echo __("Edit"); ?>";
-    var save = "<?php echo __("Save"); ?>";
-    var lang_photoRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var edit = "<?php echo __js("Edit"); ?>";
+    var save = "<?php echo __js("Save"); ?>";
+    var lang_photoRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
     var deleteUrl = "<?php echo url_for('pim/viewPhotograph?option=delete&empNumber=' . $empNumber); ?>";
     var showDeteleButton = "<?php echo $showDeleteButton; ?>";
 

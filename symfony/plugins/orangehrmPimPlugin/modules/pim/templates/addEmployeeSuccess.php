@@ -43,24 +43,24 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
 <script type="text/javascript">
     //<![CDATA[
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
-    var edit = "<?php echo __("Edit"); ?>";
-    var save = "<?php echo __("Save"); ?>";
-    var lang_firstNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_lastNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_userNameRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 5)); ?>";
-    var lang_passwordRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 8)); ?>";
-    var lang_unMatchingPassword = "<?php echo __("Passwords do not match"); ?>";
-    var lang_statusRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_locationRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var edit = "<?php echo __js("Edit"); ?>";
+    var save = "<?php echo __js("Save"); ?>";
+    var lang_firstNameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_lastNameRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_userNameRequired = "<?php echo __js("Should have at least %number% characters", array('%number%' => 5)); ?>";
+    var lang_passwordRequired = "<?php echo __js("Should have at least %number% characters", array('%number%' => 8)); ?>";
+    var lang_unMatchingPassword = "<?php echo __js("Passwords do not match"); ?>";
+    var lang_statusRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_locationRequired = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
     var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr"); ?>";
     var createUserAccount = "<?php echo $createUserAccount; ?>";
     var ldapInstalled = '<?php echo ($sf_user->getAttribute('ldap.available')) ? 'true' : 'false'; ?>';
-    var fieldHelpBottom = <?php echo '"' . __(CommonMessages::FILE_LABEL_IMAGE) . '. ' . __('Recommended dimensions: 200px X 200px') . '"'; ?>;
+    var fieldHelpBottom = <?php echo '"' . __js(CommonMessages::FILE_LABEL_IMAGE) . '. ' . __js('Recommended dimensions: 200px X 200px') . '"'; ?>;
     var openIdEnabled = "<?php echo $openIdEnabled; ?>";
-    var user_Max64Chars             = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 64)); ?>';
-    var lang_maxLengthExceeds = '<?php echo __("Password length should be less than %max% characters. Try a different password.", array('%max%' => 64)); ?>';
-    var lang_passwordStrengthInvalid = '<?php echo __("Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.");?>';
+    var user_Max64Chars             = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 64)); ?>';
+    var lang_maxLengthExceeds = '<?php echo __js("Password length should be less than %max% characters. Try a different password.", array('%max%' => 64)); ?>';
+    var lang_passwordStrengthInvalid = '<?php echo __js("Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.");?>';
     var requiredStrengthCheckUrl = '<?php echo url_for('securityAuthentication/checkMinimumRequiredPasswordStrengthAjax') ?>';
-    var user_UserPasswordLength     = '<?php echo __("Should have at least %number% characters", array('%number%' => 8)); ?>';
+    var user_UserPasswordLength     = '<?php echo __js("Should have at least %number% characters", array('%number%' => 8)); ?>';
     //]]>
 </script>

@@ -7,13 +7,13 @@ $havePassports = $numContacts>0;
 ?>
 <script type="text/javascript">
     //<![CDATA[
-    var lang_numberRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
-    var lang_issuedGreaterExpiry = "<?php echo __('Expiry date should be after issued date'); ?>";
-    var lang_editImmigrationHeading = "<?php echo __('Edit Immigration');?>";
-    var lang_addImmigrationHeading = "<?php echo __('Add Immigration');?>";
-    var lang_commentLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250));?>";
-    var lang_deleteErrorMsg = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>'
+    var lang_numberRequired = "<?php echo __js(ValidationMessages::REQUIRED);?>";
+    var lang_issuedGreaterExpiry = "<?php echo __js('Expiry date should be after issued date'); ?>";
+    var lang_editImmigrationHeading = "<?php echo __js('Edit Immigration');?>";
+    var lang_addImmigrationHeading = "<?php echo __js('Add Immigration');?>";
+    var lang_commentLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250));?>";
+    var lang_deleteErrorMsg = "<?php echo __js(TopLevelMessages::SELECT_RECORDS);?>";
+    var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>'
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var fileModified = 0;
     var havePassports = '<?php echo $havePassports;?>';

@@ -188,7 +188,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
     //<![CDATA[
     // Move to separate js after completing initial work
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))); ?>'
+    var lang_validDateMsg = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))); ?>'
 
     $('#delDependentBtn').attr('disabled', 'disabled');
 
@@ -259,7 +259,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         
         // Edit a emergency contact in the list
         $('#frmEmpDelDependents a').live('click', function() {
-            $("#heading").text("<?php echo __("Edit Dependent");?>");
+            $("#heading").text("<?php echo __js("Edit Dependent");?>");
             var row = $(this).closest("tr");
             var seqNo = row.find('input.checkbox:first').val();
             var name = $(this).text();
@@ -310,7 +310,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
         // Add a emergency contact
         $('#btnAddDependent').click(function() {
-            $("#heading").text("<?php echo __("Add Dependent");?>");
+            $("#heading").text("<?php echo __js("Add Dependent");?>");
             clearAddForm();
 
             // Hide list action buttons and checkbox
@@ -353,15 +353,15 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             },
             messages: {
                 'dependent[name]': {
-                    required:'<?php echo __(ValidationMessages::REQUIRED) ?>',
-                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)) ?>'
+                    required:'<?php echo __js(ValidationMessages::REQUIRED) ?>',
+                    maxlength: '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)) ?>'
                 },
                 'dependent[relationshipType]': {
-                    required:'<?php echo __(ValidationMessages::REQUIRED) ?>'
+                    required:'<?php echo __js(ValidationMessages::REQUIRED) ?>'
                 },
                 'dependent[relationship]': {
-                    required:'<?php echo __(ValidationMessages::REQUIRED) ?>',
-                    maxlength:'<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100));?>'
+                    required:'<?php echo __js(ValidationMessages::REQUIRED) ?>',
+                    maxlength:'<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100));?>'
                 },
                 'dependent[dateOfBirth]' : {
                     valid_date: lang_validDateMsg
@@ -376,7 +376,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             if (checked == 0) {
                 $('div#messagebar').show();
                 $("#messagebar").attr('class', "messageBalloon_notice");
-                $("#messagebar").text('<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>');
+                $("#messagebar").text('<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>');
             } else {
                 $('#frmEmpDelDependents').submit();
             }

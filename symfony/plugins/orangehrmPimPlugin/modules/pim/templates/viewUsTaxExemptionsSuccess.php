@@ -77,11 +77,11 @@
 <script type="text/javascript">
     //<![CDATA[
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
-    var lang_edit = "<?php echo __("Edit"); ?>";
-    var lang_save = "<?php echo __("Save"); ?>";
-    var lang_negativeAmount = "<?php echo __("Should be a positive number"); ?>";
-    var lang_tooLargeAmount = "<?php echo __("Should be less than %amount%", array("%amount%" => 99)); ?>";
-    var enterANumber = "<?php echo __("Enter a number"); ?>";
+    var lang_edit = "<?php echo __js("Edit"); ?>";
+    var lang_save = "<?php echo __js("Save"); ?>";
+    var lang_negativeAmount = "<?php echo __js("Should be a positive number"); ?>";
+    var lang_tooLargeAmount = "<?php echo __js("Should be less than %amount%", array("%amount%" => 99)); ?>";
+    var enterANumber = "<?php echo __js("Enter a number"); ?>";
     var fileModified = 0;
     //]]>
 </script>

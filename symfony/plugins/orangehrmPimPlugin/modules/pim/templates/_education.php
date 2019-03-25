@@ -170,16 +170,16 @@ $haveEducation = count($form->empEducationList) > 0;
 <script type="text/javascript">
     //<![CDATA[
     var fileModified = 0;
-    var lang_addEducation = "<?php echo __('Add Education'); ?>";
-    var lang_editEducation = "<?php echo __('Edit Education'); ?>";
-    var lang_educationRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-    var lang_EndDateBeforeSatrtDate = "<?php echo __('End date should be after start date'); ?>";
-    var lang_selectEducationToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
-    var lang_instituteMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
-    var lang_majorMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
-    var lang_gpaMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 25)); ?>";
-    var lang_yearShouldBeNumber = "<?php echo __('Should be a number'); ?>";
+    var lang_addEducation = "<?php echo __js('Add Education'); ?>";
+    var lang_editEducation = "<?php echo __js('Edit Education'); ?>";
+    var lang_educationRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var lang_EndDateBeforeSatrtDate = "<?php echo __js('End date should be after start date'); ?>";
+    var lang_selectEducationToDelete = "<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>";
+    var lang_instituteMaxLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
+    var lang_majorMaxLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
+    var lang_gpaMaxLength = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 25)); ?>";
+    var lang_yearShouldBeNumber = "<?php echo __js('Should be a number'); ?>";
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     //]]>
 </script>

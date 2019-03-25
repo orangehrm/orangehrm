@@ -86,12 +86,12 @@
 
         // Handle hints
         if ($("#empsearch_id").val() == '') {
-            $("#empsearch_id").val('<?php echo __("Type Employee Id") . "..."; ?>')
+            $("#empsearch_id").val('<?php echo __js("Type Employee Id") . "..."; ?>')
                     .addClass("inputFormatHint");
         }
 
         if ($("#empsearch_supervisor_name").val() == '') {
-            $("#empsearch_supervisor_name").val('<?php echo __("Type for hints") . "..."; ?>')
+            $("#empsearch_supervisor_name").val('<?php echo __js("Type for hints") . "..."; ?>')
                     .addClass("inputFormatHint");
         }
 
