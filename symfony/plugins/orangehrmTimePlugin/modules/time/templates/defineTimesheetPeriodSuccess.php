@@ -52,5 +52,5 @@
 </div>
     
 <script type="text/javascript">
-    var lang_required = '<?php echo __(ValidationMessages::REQUIRED);?>';
+    var lang_required = '<?php echo __js(ValidationMessages::REQUIRED);?>';
 </script>

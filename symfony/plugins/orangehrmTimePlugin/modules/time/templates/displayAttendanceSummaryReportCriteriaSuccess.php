@@ -63,11 +63,11 @@
 <script type="text/javascript">
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var lang_dateError = '<?php echo __("To date should be after from date") ?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-    var lang_emptyEmployee = '<?php echo __('Select an Employee')?>';
-    var lang_required = '<?php echo __(ValidationMessages::REQUIRED);?>';
-    var lang_invalid = '<?php echo __(ValidationMessages::INVALID);?>';
+    var lang_dateError = '<?php echo __js("To date should be after from date") ?>';
+    var lang_invalidDate = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var lang_emptyEmployee = '<?php echo __js('Select an Employee')?>';
+    var lang_required = '<?php echo __js(ValidationMessages::REQUIRED);?>';
+    var lang_invalid = '<?php echo __js(ValidationMessages::INVALID);?>';
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray = eval(employees);
     var errorMsge;
@@ -76,11 +76,11 @@
     $(document).ready(function() {
 
         if(<?php echo $lastEmpNumber; ?> == '-1'){
-            $("#employee_name").val('<?php echo __('All')?>');
+            $("#employee_name").val('<?php echo __js('All')?>');
             $('#attendanceTotalSummary_employeeId').val('-1');
         }else{
             if ($("#employee_name").val() == '') {
-                $("#employee_name").val('<?php echo __("Type for hints") . "..."; ?>').addClass("inputFormatHint");
+                $("#employee_name").val('<?php echo __js("Type for hints") . "..."; ?>').addClass("inputFormatHint");
             }
 
             $('#viewbutton').click(function() {
@@ -176,7 +176,7 @@
  
 
         if ($("#employee_name").val() == '') {
-            $("#employee_name").val('<?php echo __("Type for hints") . "..."; ?>')
+            $("#employee_name").val('<?php echo __js("Type for hints") . "..."; ?>')
             .addClass("inputFormatHint");
         }
 
@@ -203,7 +203,7 @@
         errorMsge = null;
         if(empDateCount==0){
 
-            errorMsge = '<?php echo __("No Employees Available");?>';
+            errorMsge = '<?php echo __js("No Employees Available");?>';
             return false;
         }
         for (i=0; i < empDateCount; i++) {
@@ -240,4 +240,3 @@
         return isValid;
     }); 
 </script>
-

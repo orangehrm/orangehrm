@@ -35,12 +35,12 @@ if($employeeReportsPermissions->canRead()){
 <?php }?>
      <script type="text/javascript">
             var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-            var lang_dateError = '<?php echo __("To date should be after from date") ?>';
-            var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-            var lang_required = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-            var lang_empNamerequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-            var lang_activityRequired = '<?php echo __(ValidationMessages::REQUIRED)?>';
-            var lang_validEmployee = '<?php echo __(ValidationMessages::INVALID); ?>';
+            var lang_dateError = '<?php echo __js("To date should be after from date") ?>';
+            var lang_validDateMsg = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+            var lang_required = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+            var lang_empNamerequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+            var lang_activityRequired = '<?php echo __js(ValidationMessages::REQUIRED)?>';
+            var lang_validEmployee = '<?php echo __js(ValidationMessages::INVALID); ?>';
         $(document).ready(function() {
 
 

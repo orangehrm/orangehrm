@@ -30,19 +30,11 @@
 <?php }?>
     <script type="text/javascript">
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-        var lang_dateError = '<?php echo __("To date should be after from date") ?>';
-        var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-        var lang_required = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+        var lang_dateError = '<?php echo __js("To date should be after from date") ?>';
+        var lang_validDateMsg = '<?php echo __js(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+        var lang_required = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
     $(document).ready(function() {
         $('#viewbutton').click(function() {
-//            if($('#project_date_range_from_date').val() == datepickerDateFormat){
-//                var parsedDate = $.datepicker.parseDate("yy-mm-dd", "1970-01-01");
-//                $('#project_date_range_from_date').val($.datepicker.formatDate(datepickerDateFormat, parsedDate))
-//            }
-//            if($('#project_date_range_to_date').val() == datepickerDateFormat){
-//               var parsedDate = $.datepicker.parseDate("yy-mm-dd", Date_toYMD());
-//                $('#project_date_range_to_date').val($.datepicker.formatDate(datepickerDateFormat, parsedDate))
-//            }
             $('#reportForm').submit();
         });
 

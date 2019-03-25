@@ -87,9 +87,9 @@
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray = eval(employees);
     var errorMsge;
-    var lang_typeForHints = '<?php echo __("Type for hints") . '...'; ?>';
-    var time_EmployeeNameRequired   = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var time_ValidEmployee          = '<?php echo __(ValidationMessages::INVALID); ?>';
+    var lang_typeForHints = '<?php echo __js("Type for hints") . '...'; ?>';
+    var time_EmployeeNameRequired   = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var time_ValidEmployee          = '<?php echo __js(ValidationMessages::INVALID); ?>';
     
     $(document).ready(function() {
         $("#employee").autocomplete(employees, {
@@ -156,4 +156,3 @@
     }
     
 </script>
-

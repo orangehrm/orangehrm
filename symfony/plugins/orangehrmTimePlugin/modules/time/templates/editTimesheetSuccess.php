@@ -225,11 +225,11 @@ form ol li.largeTextBox textarea {
     var projectsArray = eval(projects);
     var getActivitiesLink = "<?php echo url_for('time/getRelatedActiviesForAutoCompleteAjax') ?>";
     var timesheetId="<?php echo $timesheetId; ?>"
-    var lang_not_numeric = '<?php echo __('Should Be Less Than 24 and in HH:MM or Decimal Format'); ?>';
-    var rows_are_duplicate = "<?php echo __('Duplicate Records Found'); ?>";
-    var project_name_is_wrong = '<?php echo __('Select a Project and an Activity'); ?>';
-    var please_select_an_activity = '<?php echo __('Select a Project and an Activity'); ?>';
-    var select_a_row = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';
+    var lang_not_numeric = '<?php echo __js('Should Be Less Than 24 and in HH:MM or Decimal Format'); ?>';
+    var rows_are_duplicate = "<?php echo __js('Duplicate Records Found'); ?>";
+    var project_name_is_wrong = '<?php echo __js('Select a Project and an Activity'); ?>';
+    var please_select_an_activity = '<?php echo __js('Select a Project and an Activity'); ?>';
+    var select_a_row = '<?php echo __js(TopLevelMessages::SELECT_RECORDS); ?>';
     var employeeId = '<?php echo $employeeId; ?>';
     var linkToGetComment = "<?php echo url_for('time/getTimesheetItemComment') ?>";
     var linkToDeleteRow = "<?php echo url_for('time/deleteRows') ?>";
@@ -238,16 +238,16 @@ form ol li.largeTextBox textarea {
     var startDate='<?php echo $startDate ?>';
     var backAction='<?php echo $backAction ?>';
     var endDate='<?php echo $endDate ?>';
-    var erorrMessageForInvalidComment="<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 2000)); ?>";
+    var erorrMessageForInvalidComment="<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 2000)); ?>";
     var numberOfRows='<?php echo $i ?>';
-    var incorrect_total="<?php echo __('Total Should Be Less Than 24 Hours'); ?>";
-    var typeForHints='<?php echo __('Type for hints').'...'; ?>';
-    var lang_selectProjectAndActivity='<?php echo __('Select a Project and an Activity'); ?>';
-    var lang_enterExistingProject='<?php echo __("Select a Project and an Activity"); ?>';
-    var lang_noRecords='<?php echo __('Select Records to Remove'); ?>';
-    var lang_removeSuccess = '<?php echo __('Successfully Removed')?>';
-    var lang_noChagesToDelete = '<?php echo __('No Changes to Delete');?>';
-    var closeText = '<?php echo __('Close');?>';
+    var incorrect_total="<?php echo __js('Total Should Be Less Than 24 Hours'); ?>";
+    var typeForHints='<?php echo __js('Type for hints').'...'; ?>';
+    var lang_selectProjectAndActivity='<?php echo __js('Select a Project and an Activity'); ?>';
+    var lang_enterExistingProject='<?php echo __js("Select a Project and an Activity"); ?>';
+    var lang_noRecords='<?php echo __js('Select Records to Remove'); ?>';
+    var lang_removeSuccess = '<?php echo __js('Successfully Removed')?>';
+    var lang_noChagesToDelete = '<?php echo __js('No Changes to Delete');?>';
+    var closeText = '<?php echo __js('Close');?>';
     <?php
     for ($i = 0; $i < count($currentWeekDates); $i++) {
         echo "currentWeekDates[$i]='" . $currentWeekDates[$i] . "';\n";
