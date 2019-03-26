@@ -46,7 +46,6 @@ class GoogleAuthProvider extends AbstractAuthProvider {
 
         if (isset($requestCode)) {
             $gClient->fetchAccessTokenWithAuthCode($requestCode);
-            var_dump($requestCode);die;
         }
         if ($gClient->getAccessToken()) {
             $tokenData = $gClient->verifyIdToken();
