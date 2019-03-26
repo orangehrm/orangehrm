@@ -42,7 +42,8 @@ class GoogleAuthProvider extends AbstractAuthProvider {
         $gClient->setRedirectUri($provider->getProviderUrl());
         $gClient->setDeveloperKey($authProvider->getDeveloperKey());
         $gClient->addScope(array(self::EMAIL_SCOPE, self::PROFILE_SCOPE));
-        $requestCode=$this->getOption();
+        $requestParameters=$this->getOption();
+        $requestCode=$requestParameters['code'];
 
         if (isset($requestCode)) {
             $gClient->fetchAccessTokenWithAuthCode($requestCode);
@@ -86,7 +87,7 @@ class GoogleAuthProvider extends AbstractAuthProvider {
     }
 
     /**
-     * @return AccessToken $option
+     * @return array
      */
     public function getOption()
     {
@@ -94,7 +95,7 @@ class GoogleAuthProvider extends AbstractAuthProvider {
     }
 
     /**
-     * @param AccessToken $option
+     * @param GET $option
      */
     public function setOption($option)
     {

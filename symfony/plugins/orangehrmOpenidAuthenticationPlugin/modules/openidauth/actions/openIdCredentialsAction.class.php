@@ -47,7 +47,6 @@ class openIdCredentialsAction extends baseOpenIdAction {
             if ($request->isMethod(sfWebRequest::POST)) {
                 $form->bind($request->getPostParameters());
                 if ($form->isValid()) {
-//                $form->bind($request->getParameter($form->getName()));
                 $providerId = $request->getParameter('openIdProvider');
                 $sfUser->setAttribute('auth.providerId', $providerId);
                 $provider = $this->getOpenIdProviderService()->getOpenIdProvider($providerId);
@@ -149,8 +148,7 @@ class openIdCredentialsAction extends baseOpenIdAction {
                 break;
             case AuthProviderExtraDetails::GOOGLE_PLUS:
                 $googleAuthProvider = new GoogleAuthProvider();
-                $requestCode=$_GET['code'];
-                $googleAuthProvider->setOption($requestCode);
+                $googleAuthProvider->setOption($_GET);
                 $flag = $googleAuthProvider->validateUser($provider, $authProviderDetails);
                 break;
             default :
