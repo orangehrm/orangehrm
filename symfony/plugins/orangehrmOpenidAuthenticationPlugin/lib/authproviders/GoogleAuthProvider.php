@@ -22,10 +22,13 @@
 /**
  * Description of GoogleAuthProvider
  */
+use Orangehrm\Rest\Http\Request;
+
 class GoogleAuthProvider extends AbstractAuthProvider {
     const PROFILE_SCOPE = 'profile';
     const EMAIL_SCOPE = 'email';
     protected $loginService = null;
+    protected $option= null;
 
     /**
      * @param OpenidProvider $provider
@@ -41,10 +44,11 @@ class GoogleAuthProvider extends AbstractAuthProvider {
         $gClient->setRedirectUri($provider->getProviderUrl());
         $gClient->setDeveloperKey($authProvider->getDeveloperKey());
         $gClient->addScope(array(self::EMAIL_SCOPE, self::PROFILE_SCOPE));
-        $requestCode=$_GET['code'];
+        $requestCode=$this->getOption();
 
         if (isset($requestCode)) {
             $gClient->fetchAccessTokenWithAuthCode($requestCode);
+            var_dump($requestCode);die;
         }
         if ($gClient->getAccessToken()) {
             $tokenData = $gClient->verifyIdToken();
@@ -83,5 +87,21 @@ class GoogleAuthProvider extends AbstractAuthProvider {
         }
         return $this->loginService;
     }
-    
+
+    /**
+     * @return AccessToken $option
+     */
+    public function getOption()
+    {
+        return $this->option;
+    }
+
+    /**
+     * @param AccessToken $option
+     */
+    public function setOption($option)
+    {
+        $this->option = $option;
+    }
+
 }

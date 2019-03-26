@@ -149,6 +149,8 @@ class openIdCredentialsAction extends baseOpenIdAction {
                 break;
             case AuthProviderExtraDetails::GOOGLE_PLUS:
                 $googleAuthProvider = new GoogleAuthProvider();
+                $requestCode=$_GET['code'];
+                $googleAuthProvider->setOption($requestCode);
                 $flag = $googleAuthProvider->validateUser($provider, $authProviderDetails);
                 break;
             default :
