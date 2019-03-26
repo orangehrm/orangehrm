@@ -22,11 +22,12 @@
 /**
  * Description of GoogleAuthProvider
  */
-class GoogleAuthProvider extends AbstractAuthProvider {
+class GoogleAuthProvider extends AbstractAuthProvider
+{
     const PROFILE_SCOPE = 'profile';
     const EMAIL_SCOPE = 'email';
     protected $loginService = null;
-    protected $option= null;
+    protected $option = null;
 
     /**
      * @param OpenidProvider $provider
@@ -42,8 +43,8 @@ class GoogleAuthProvider extends AbstractAuthProvider {
         $gClient->setRedirectUri($provider->getProviderUrl());
         $gClient->setDeveloperKey($authProvider->getDeveloperKey());
         $gClient->addScope(array(self::EMAIL_SCOPE, self::PROFILE_SCOPE));
-        $requestParameters=$this->getOption();
-        $requestCode=$requestParameters['code'];
+        $requestParameters = $this->getOption();
+        $requestCode = $requestParameters['code'];
 
         if (isset($requestCode)) {
             $gClient->fetchAccessTokenWithAuthCode($requestCode);
