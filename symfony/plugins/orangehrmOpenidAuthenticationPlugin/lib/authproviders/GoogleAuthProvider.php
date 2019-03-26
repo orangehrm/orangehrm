@@ -22,8 +22,6 @@
 /**
  * Description of GoogleAuthProvider
  */
-use Orangehrm\Rest\Http\Request;
-
 class GoogleAuthProvider extends AbstractAuthProvider {
     const PROFILE_SCOPE = 'profile';
     const EMAIL_SCOPE = 'email';
