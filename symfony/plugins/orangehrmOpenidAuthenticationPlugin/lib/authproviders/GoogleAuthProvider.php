@@ -22,12 +22,11 @@
 /**
  * Description of GoogleAuthProvider
  */
-class GoogleAuthProvider extends AbstractAuthProvider
-{
+class GoogleAuthProvider extends AbstractAuthProvider {
     const PROFILE_SCOPE = 'profile';
     const EMAIL_SCOPE = 'email';
     protected $loginService = null;
-    protected $option = null;
+    protected $option = array();
 
     /**
      * @param OpenidProvider $provider
