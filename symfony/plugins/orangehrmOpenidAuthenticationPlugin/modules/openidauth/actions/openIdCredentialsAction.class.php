@@ -24,9 +24,7 @@
  *
  * @author orangehrm
  */
-class openIdCredentialsAction extends baseOpenIdAction
-{
-
+class openIdCredentialsAction extends baseOpenIdAction {
     protected $configDao;
     protected $openIdService;
     protected $providerid;
@@ -34,16 +32,14 @@ class openIdCredentialsAction extends baseOpenIdAction
     protected $systemUserService;
     private $authProviderExtraDetailsService;
 
-    public function getAuthProviderExtraDetailsService()
-    {
+    public function getAuthProviderExtraDetailsService() {
         if (is_null($this->authProviderExtraDetailsService)) {
             $this->authProviderExtraDetailsService = new AuthProviderExtraDetailsService();
         }
         return $this->authProviderExtraDetailsService;
     }
 
-    public function execute($request)
-    {
+    public function execute($request) {
         try {
             $sfUser = sfContext::getInstance()->getUser();
             $form = new OpenIdSelectForm();
@@ -53,7 +49,8 @@ class openIdCredentialsAction extends baseOpenIdAction
                     $providerId = $request->getParameter('openIdProvider');
                     $sfUser->setAttribute('auth.providerId', $providerId);
                     $provider = $this->getOpenIdProviderService()->getOpenIdProvider($providerId);
-                    $authProviderDetails = $this->getAuthProviderExtraDetailsService()->getAuthProviderDetailsByProviderId($providerId);
+                    $authProviderDetails = $this->getAuthProviderExtraDetailsService()
+                        ->getAuthProviderDetailsByProviderId($providerId);
                     if (($authProviderDetails instanceof AuthProviderExtraDetails)) {
                         $providerType = $authProviderDetails->getProviderType();
                         $sfUser->setAttribute('auth.providerType', $providerType);
@@ -72,7 +69,8 @@ class openIdCredentialsAction extends baseOpenIdAction
                 $providerType = $sfUser->getAttribute('auth.providerType');
                 $providerId = $sfUser->getAttribute('auth.providerId');
                 $provider = $this->getOpenIdProviderService()->getOpenIdProvider($providerId);
-                $authProviderDetails = $this->getAuthProviderExtraDetailsService()->getAuthProviderDetailsByProviderId($providerId);
+                $authProviderDetails = $this->getAuthProviderExtraDetailsService()
+                    ->getAuthProviderDetailsByProviderId($providerId);
                 $flag = $this->getAuthProviderObj($providerType, $provider, $authProviderDetails);
             }
             $this->showFlashMessage($flag);
@@ -82,8 +80,7 @@ class openIdCredentialsAction extends baseOpenIdAction
         return sfView::NONE;
     }
 
-    public function getConfigDao()
-    {
+    public function getConfigDao() {
         if ($this->configDao == null) {
             $this->configDao = new ConfigDao();
         }
@@ -95,8 +92,7 @@ class openIdCredentialsAction extends baseOpenIdAction
         $this->configDao = $dao;
     }
 
-    public function getOpenIdService()
-    {
+    public function getOpenIdService() {
         if ($this->openIdService == null) {
             $service = new OpenIdAuthenticationService();
             $service->setOpenIdAuthenticationDao(new OpenIdAuthenticationDao());
@@ -105,13 +101,11 @@ class openIdCredentialsAction extends baseOpenIdAction
         return $this->openIdService;
     }
 
-    public function setOpenIdService($service)
-    {
+    public function setOpenIdService($service) {
         $this->openIdService = $service;
     }
 
-    public function getHomePageService()
-    {
+    public function getHomePageService() {
 
         if (!$this->homePageService instanceof OpenIdHomePageService) {
             $this->homePageService = new OpenIdHomePageService();
@@ -120,26 +114,22 @@ class openIdCredentialsAction extends baseOpenIdAction
         return $this->homePageService;
     }
 
-    public function setHomePageService($homePageService)
-    {
+    public function setHomePageService($homePageService) {
         $this->homePageService = $homePageService;
     }
 
-    public function getSystemUserService()
-    {
+    public function getSystemUserService() {
         if (is_null($this->systemUserService)) {
             $this->systemUserService = new SystemUserService();
         }
         return $this->systemUserService;
     }
 
-    public function setSystemUserService($systemUserService)
-    {
+    public function setSystemUserService($systemUserService) {
         $this->systemUserService = $systemUserService;
     }
 
-    public function showFlashMessage($flag)
-    {
+    public function showFlashMessage($flag) {
         if ($flag['type'] == 'true') {
             $logger = Logger::getLogger('login');
             $loggedInUserId = $this->getOpenIdService()->getLoggedInUserId();
@@ -152,8 +142,7 @@ class openIdCredentialsAction extends baseOpenIdAction
         }
     }
 
-    public function getAuthProviderObj($providerType, $provider, $authProviderDetails)
-    {
+    public function getAuthProviderObj($providerType, $provider, $authProviderDetails) {
         switch ($providerType) {
             case AuthProviderExtraDetails::OPEN_ID:
                 $openIdAuthProvider = new OpenIdAuthProvider();
@@ -161,7 +150,11 @@ class openIdCredentialsAction extends baseOpenIdAction
                 break;
             case AuthProviderExtraDetails::GOOGLE_PLUS:
                 $googleAuthProvider = new GoogleAuthProvider();
-                $googleAuthProvider->setOption($_GET);
+                $code =  $this->getRequest()->getParameter('code');
+                $options = array(
+                    'code' => $code
+                );
+                $googleAuthProvider->setOption($options);
                 $flag = $googleAuthProvider->validateUser($provider, $authProviderDetails);
                 break;
             default :

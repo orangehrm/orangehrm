@@ -27,7 +27,7 @@ class GoogleAuthProvider extends AbstractAuthProvider {
     const EMAIL_SCOPE = 'email';
     protected $loginService = null;
     protected $option = array();
-
+    protected $authenticationMassage = '';
     /**
      * @param OpenidProvider $provider
      * @param AuthProviderExtraDetails $authProvider
@@ -56,15 +56,17 @@ class GoogleAuthProvider extends AbstractAuthProvider {
             $success = $this->getOpenIdService()->setOpenIdCredentials($username, $dataArray);
             if ($success) {
                 $this->getLoginService()->addLogin();
+                $this->authenticationMassage=__('User has authentication!');
                 $flag = array(
                     'type' => 'true',
-                    'message' => 'User has authentication!'
+                    'message' =>  $this->authMassage
                 );
                 return $flag;
             } else {
+                $this->authenticationMassage=__('Invalid Credentials : you Have No OpenID account in Orangehrm try loging with OrangeHRM credentials');
                 $flag = array(
                     'type' => 'false',
-                    'message' => 'Invalid Credentials : you Have No OpenID account in Orangehrm try loging with OrangeHRM credentials'
+                    'message' =>  $this->authenticationMassage
                 );
                 return $flag;
             }
