@@ -43,10 +43,9 @@ class GoogleAuthProvider extends AbstractAuthProvider {
         $gClient->setDeveloperKey($authProvider->getDeveloperKey());
         $gClient->addScope(array(self::EMAIL_SCOPE, self::PROFILE_SCOPE));
         $requestParameters = $this->getOption();
-        $requestCode = $requestParameters['code'];
 
-        if (isset($requestCode)) {
-            $gClient->fetchAccessTokenWithAuthCode($requestCode);
+        if (isset($requestParameters['code'])) {
+            $gClient->fetchAccessTokenWithAuthCode($requestParameters['code']);
         }
         if ($gClient->getAccessToken()) {
             $tokenData = $gClient->verifyIdToken();
