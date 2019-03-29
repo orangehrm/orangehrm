@@ -23,43 +23,50 @@
  * Description of GoogleAuthProvider
  */
 class GoogleAuthProvider extends AbstractAuthProvider {
-
     const PROFILE_SCOPE = 'profile';
     const EMAIL_SCOPE = 'email';
-
-    public function validateUser($provider, $authProvider = null) {
-
+    protected $loginService = null;
+    protected $option = array();
+    protected $authenticationMassage = '';
+    /**
+     * @param OpenidProvider $provider
+     * @param AuthProviderExtraDetails $authProvider
+     * @return array
+     */
+    public function validateUser($provider, $authProvider = null)
+    {
         $gClient = new Google_Client();
         $gClient->setApplicationName('Login to Google +');
         $gClient->setClientId($authProvider->getClientId());
         $gClient->setClientSecret($authProvider->getClientSecret());
         $gClient->setRedirectUri($provider->getProviderUrl());
         $gClient->setDeveloperKey($authProvider->getDeveloperKey());
-        $gClient->addScope(array(self::EMAIL_SCOPE,self::PROFILE_SCOPE));
+        $gClient->addScope(array(self::EMAIL_SCOPE, self::PROFILE_SCOPE));
+        $requestParameters = $this->getOption();
 
-        $gService = new Google_Service_Plus($gClient);
-
-        if (isset($_GET['code'])) {
-            $gClient->authenticate($_GET['code']);
+        if (isset($requestParameters['code'])) {
+            $gClient->fetchAccessTokenWithAuthCode($requestParameters['code']);
         }
-
         if ($gClient->getAccessToken()) {
-            $user = $gService->people->get("me");
-            $emails = $user->getEmails();
-            foreach ($emails as $email) {
-                if ($email->getType() == 'account') {
-                    $primaryEmail = $email->getValue();
-                }
-            }
-            $username = $primaryEmail;
+            $tokenData = $gClient->verifyIdToken();
+            $username = $tokenData[self::EMAIL_SCOPE];
             $dataArray['providerid'] = $provider->getProviderId();
-            $dataArray['useridentity'] = $gClient->getAccessToken();
+            $dataArray['useridentity'] = json_encode($gClient->getAccessToken());
             $success = $this->getOpenIdService()->setOpenIdCredentials($username, $dataArray);
             if ($success) {
-                $flag = array('type' => 'true', 'message' => 'User has authentication!');
+                $this->getLoginService()->addLogin();
+                $this->authenticationMassage=__('User has authentication!');
+                $flag = array(
+                    'type' => 'true',
+                    'message' =>  $this->authMassage
+                );
                 return $flag;
             } else {
-                $flag = array('type' => 'false', 'message' => 'User Account Not found');
+                $this->authenticationMassage=__('Invalid Credentials : you Have No OpenID account in Orangehrm try loging with OrangeHRM credentials');
+                $flag = array(
+                    'type' => 'false',
+                    'message' =>  $this->authenticationMassage
+                );
                 return $flag;
             }
         } else {
@@ -67,6 +74,33 @@ class GoogleAuthProvider extends AbstractAuthProvider {
             header('Location: ' . $authUrl);
             exit();
         }
+    }
+
+    /**
+     * @return LoginService
+     */
+    public function getLoginService()
+    {
+        if (is_null($this->loginService)) {
+            $this->loginService = new LoginService();
+        }
+        return $this->loginService;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOption()
+    {
+        return $this->option;
+    }
+
+    /**
+     * @param GET $option
+     */
+    public function setOption($option)
+    {
+        $this->option = $option;
     }
 
 }

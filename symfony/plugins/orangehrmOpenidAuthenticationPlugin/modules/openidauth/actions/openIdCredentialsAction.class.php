@@ -25,7 +25,6 @@
  * @author orangehrm
  */
 class openIdCredentialsAction extends baseOpenIdAction {
-
     protected $configDao;
     protected $openIdService;
     protected $providerid;
@@ -47,30 +46,31 @@ class openIdCredentialsAction extends baseOpenIdAction {
             if ($request->isMethod(sfWebRequest::POST)) {
                 $form->bind($request->getPostParameters());
                 if ($form->isValid()) {
-//                $form->bind($request->getParameter($form->getName()));
-                $providerId = $request->getParameter('openIdProvider');
-                $sfUser->setAttribute('auth.providerId', $providerId);
-                $provider = $this->getOpenIdProviderService()->getOpenIdProvider($providerId);
-                $authProviderDetails = $this->getAuthProviderExtraDetailsService()->getAuthProviderDetailsByProviderId($providerId);
-                if (($authProviderDetails instanceof AuthProviderExtraDetails)) {
-                    $providerType = $authProviderDetails->getProviderType();
-                    $sfUser->setAttribute('auth.providerType', $providerType);
-                    $flag = $this->getAuthProviderObj($providerType, $provider, $authProviderDetails);
+                    $providerId = $request->getParameter('openIdProvider');
+                    $sfUser->setAttribute('auth.providerId', $providerId);
+                    $provider = $this->getOpenIdProviderService()->getOpenIdProvider($providerId);
+                    $authProviderDetails = $this->getAuthProviderExtraDetailsService()
+                        ->getAuthProviderDetailsByProviderId($providerId);
+                    if (($authProviderDetails instanceof AuthProviderExtraDetails)) {
+                        $providerType = $authProviderDetails->getProviderType();
+                        $sfUser->setAttribute('auth.providerType', $providerType);
+                        $flag = $this->getAuthProviderObj($providerType, $provider, $authProviderDetails);
+                    } else {
+                        $providerType = AuthProviderExtraDetails::OPEN_ID;
+                        $sfUser->setAttribute('auth.providerType', $providerType);
+                        $openIdAuthProvider = new OpenIdAuthProvider();
+                        $flag = $openIdAuthProvider->validateUser($provider);
+                    }
                 } else {
-                    $providerType = AuthProviderExtraDetails::OPEN_ID;
-                    $sfUser->setAttribute('auth.providerType', $providerType);
-                    $openIdAuthProvider = new OpenIdAuthProvider();
-                    $flag = $openIdAuthProvider->validateUser($provider);
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::FORM_VALIDATION_ERROR));
+                    $this->redirect($request->getReferer());
                 }
-            } else {
-                $this->getUser()->setFlash('warning', __(TopLevelMessages::FORM_VALIDATION_ERROR));
-                $this->redirect($request->getReferer());
-            }
             } else {
                 $providerType = $sfUser->getAttribute('auth.providerType');
                 $providerId = $sfUser->getAttribute('auth.providerId');
                 $provider = $this->getOpenIdProviderService()->getOpenIdProvider($providerId);
-                $authProviderDetails = $this->getAuthProviderExtraDetailsService()->getAuthProviderDetailsByProviderId($providerId);
+                $authProviderDetails = $this->getAuthProviderExtraDetailsService()
+                    ->getAuthProviderDetailsByProviderId($providerId);
                 $flag = $this->getAuthProviderObj($providerType, $provider, $authProviderDetails);
             }
             $this->showFlashMessage($flag);
@@ -87,7 +87,8 @@ class openIdCredentialsAction extends baseOpenIdAction {
         return $this->configDao;
     }
 
-    public function setConfigDao($dao) {
+    public function setConfigDao($dao)
+    {
         $this->configDao = $dao;
     }
 
@@ -149,6 +150,11 @@ class openIdCredentialsAction extends baseOpenIdAction {
                 break;
             case AuthProviderExtraDetails::GOOGLE_PLUS:
                 $googleAuthProvider = new GoogleAuthProvider();
+                $code =  $this->getRequest()->getParameter('code');
+                $options = array(
+                    'code' => $code
+                );
+                $googleAuthProvider->setOption($options);
                 $flag = $googleAuthProvider->validateUser($provider, $authProviderDetails);
                 break;
             default :
