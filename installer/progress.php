@@ -19,7 +19,7 @@
  */
 
 
-$installFinishValue = 7;
+$installFinishValue = 6;
 
 ?>
 <div id="content">
@@ -37,9 +37,7 @@ switch ($_SESSION['INSTALLING']) {
 			break;
 	case 5: $nextPhase = 'CREATEUSER';
 			break;
-    case 6: $nextPhase = 'SENDREGISTRATIONDATA';
-            break;
-	case 7: $nextPhase = 'REGISTER';
+	case 6: $nextPhase = 'REGISTER';
 			break;
 	default: $nextPhase = 'LOGIN';
 			break;
@@ -61,7 +59,7 @@ Installation aborted due to an error. Click <b>[Clean Up Install]</b> to correct
 </p>
 <?php }
 
-$Phases = array('Database Creation', 'Create Database Tables', 'Fill default data into the database', 'Create Database User', 'Create Default User', 'Write Configuration File', 'Send Registration Data');
+$Phases = array('Database Creation', 'Create Database Tables', 'Fill default data into the database', 'Create Database User', 'Create Default User', 'Write Configuration File');
 
   $controlval = 0;
 
