@@ -23,10 +23,12 @@ require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/phpseclib/phpseclib/Crypt/
 require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.php';
 require_once ROOT_PATH.'/installer/SystemConfiguration.php';
 require_once ROOT_PATH.'/installer/Messages.php';
+include_once('installer/OrangeHrmRegistration.php');
 
 class ApplicationSetupUtility {
 
     private static $conn;
+    private static $ohrmRegistration;
 
     /**
      * Get the log file
@@ -494,6 +496,18 @@ public static function install() {
 						error_log (date("r")." ".($_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
+
+
+        case 6 :    $ohrmRegistration = new OrangeHrmRegistration();
+                    $ohrmRegistration->sendRegistrationData();
+                    if (!isset($_SESSION['error'])) {
+                        $_SESSION['INSTALLING'] = 7;
+                        error_log (date("r")."  Send Registration Data - No Errors\n",3, self::getErrorLogPath());
+                    } else {
+                        error_log (date("r")." Send Registration Data - Errors\n",3, self::getErrorLogPath());
+                        error_log (date("r")." ".($_SESSION['error'])."\n",3, self::getErrorLogPath());
+                    }
+                    break;
 
 	}
   }
