@@ -144,45 +144,74 @@ class SystemConfiguration
     }
 
     /**
-     * Set the instance identifier value
+     * Set the instance identifier value to db
      * @param $organizationName
      * @param $email
-     * @param $randomNumber
+     * @param $adminFirstName
+     * @param $adminLastName
+     * @param $host
+     * @param $country
+     * @param $ohrmVersion
      */
-    public function setInstanceIdentifier($organizationName, $email, $randomNumber) {
-        $instanceIdentifier = $organizationName . '_' . $email . '_' . date('Y-m-d') . $randomNumber;
+    public function setInstanceIdentifier($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion) {
+        $instanceIdentifier = $this->createInstanceIdentifier($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion);
         $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
-        $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER, base64_encode($instanceIdentifier)));
+        $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER, $instanceIdentifier));
     }
 
     /**
      * Create instance identifier value
      * @param $organizationName
-     * @param $organizationEmail
-     * @param $createdDate
-     * @param $randomNumber
+     * @param $email
+     * @param $adminFirstName
+     * @param $adminLastName
+     * @param $host
+     * @param $country
+     * @param $ohrmVersion
      * @return string
      */
-    public function createInstanceIdentifier($organizationName, $organizationEmail, $createdDate, $randomNumber) {
-        return base64_encode($organizationName . '_' . $organizationEmail . '_' . $createdDate . $randomNumber);
+    public function createInstanceIdentifier($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion) {
+        if(is_null($host))
+        {
+            $host = '';
+        }
+        if(is_null($country))
+        {
+            $country = '';
+        }
+        return base64_encode($organizationName . '_' . $email . '_' . $adminFirstName . '_' . $adminLastName . '_' . $host . '_' . $country . '_' . $ohrmVersion);
     }
 
     /**
      * Create instance identifier checksum value
      * @param $organizationName
-     * @param $organizationEmail
-     * @param $createdDate
-     * @param $randomNumber
+     * @param $email
+     * @param $adminFirstName
+     * @param $adminLastName
+     * @param $host
+     * @param $country
+     * @param $ohrmVersion
      * @return string
      */
-    public function createInstanceIdentifierChecksum($organizationName, $organizationEmail, $createdDate, $randomNumber) {
+    public function createInstanceIdentifierChecksum($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion) {
+        if(is_null($host))
+        {
+            $host = '';
+        }
+        if(is_null($country))
+        {
+            $country = '';
+        }
         $params = array(
             'organizationName' => $organizationName,
-            'organizationEmail' => $organizationEmail,
-            'createdDate' => $createdDate,
-            'randomNumber' => $randomNumber
+            'organizationEmail' => $email,
+            'adminFirstName' => $adminFirstName,
+            'adminLastName' => $adminLastName,
+            'host' => $host,
+            'country' => $country,
+            'ohrmVersion' => $ohrmVersion
         );
 
         return base64_encode(serialize($params));
@@ -191,15 +220,28 @@ class SystemConfiguration
     /**
      * Set the instance identifier checksum value
      * @param $organizationName
-     * @param $organizationEmail
-     * @param $randomNumber
+     * @param $email
+     * @param $adminFirstName
+     * @param $adminLastName
+     * @param $host
+     * @param $country
+     * @param $ohrmVersion
      */
-    public function setInstanceIdentifierChecksum($organizationName, $organizationEmail, $randomNumber) {
-        $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum($organizationName, $organizationEmail,
-            date('Y-m-d'), $randomNumber);
+    public function setInstanceIdentifierChecksum($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion) {
+        $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion);
         $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
         $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum));
+    }
+
+    /**
+     * get ohrmVersion
+     * @return string ohrmVersion
+     */
+    public function getOhrmVersion()
+    {
+        $sysConf = new sysConf();
+        return $sysConf->getVersion();
     }
 }

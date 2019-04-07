@@ -23,6 +23,7 @@ class UpgradeSystemConfiguration
 
     const KEY_INSTANCE_IDENTIFIER = "instance.identifier";
     const KEY_INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
+    private $sysConf = null;
 
     /**
      * create and returns a database connection
@@ -210,11 +211,8 @@ class UpgradeSystemConfiguration
      * Set the instance identifier of upgraded instance
      */
     public function setInstanceIdentifier() {
-        $instanceIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
-        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
-        $dbConnection = $this->createDbConnection();
-        $statement = $dbConnection->prepare($query);
-        $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER, base64_encode($instanceIdentifier)));
+        $this->sysConf = $this->getSystemConfiguration();
+        $this->sysConf->setInstanceIdentifier($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['adminEmployeeFirstName'], $_SESSION['defUser']['adminEmployeeLastName'], $_SERVER['HTTP_HOST'], $_SESSION['defUser']['country'] , $this->sysConf->getOhrmVersion());
     }
 
     /**
@@ -243,14 +241,11 @@ class UpgradeSystemConfiguration
     }
 
     /**
-     * Set the instance identifier checksum
-     * @param $instanceIdentifierChecksum
+     * Set the instance identifier checksum     *
      */
-    public function setInstanceIdentifierChecksum($instanceIdentifierChecksum) {
-        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
-        $dbConnection = $this->createDbConnection();
-        $statement = $dbConnection->prepare($query);
-        $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum));
+    public function setInstanceIdentifierChecksum() {
+        $this->sysConf = $this->getSystemConfiguration();
+        $this->sysConf->setInstanceIdentifierChecksum($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['adminEmployeeFirstName'], $_SESSION['defUser']['adminEmployeeLastName'], $_SERVER['HTTP_HOST'], $_SESSION['defUser']['country'] , $this->sysConf->getOhrmVersion());
     }
 
     /**
@@ -276,5 +271,17 @@ class UpgradeSystemConfiguration
             return true;
         }
         return false;
+    }
+
+    /**
+     * gets an instance of SystemConfiguration
+     * @return SystemConfiguration
+     */
+    private function getSystemConfiguration() {
+        if(is_null($this->sysConf)) {
+            $this -> sysConf = new SystemConfiguration();
+
+        }
+        return $this->sysConf;
     }
 }

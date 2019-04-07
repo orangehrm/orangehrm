@@ -23,6 +23,7 @@ require_once(realpath(dirname(__FILE__)).'/SystemDetailHelper.php');
 class OrangeHrmRegistration
 {
     private $sysConf = null;
+    private $systemConfiguration = null;
 
     /**
      * Get instance of sysConf
@@ -39,7 +40,16 @@ class OrangeHrmRegistration
         }
         return $this->sysConf;
     }
-
+    /**
+     * Get instance of SystemConfiguration
+     * @return SystemConfiguration systemConfiguration
+     */
+    private function getSystemConfigurationInstance() {
+        if (is_null($this->systemConfiguration)) {
+            $this->systemConfiguration = new SystemConfiguration();
+        }
+        return $this->systemConfiguration;
+    }
     /**
      * Get the registration URL
      * @return null|string
@@ -68,7 +78,7 @@ class OrangeHrmRegistration
                 . "&country=" . $_SESSION['defUser']['country']
                 . "&organization_name=" . $_SESSION['defUser']['organizationName']
                 . "&type=" . $_SESSION['defUser']['type']
-                . "&instance_identifier=" . $this->getInstanceIdentifier()
+                . "&instance_identifier=" . $this->getSystemConfigurationInstance()->createInstanceIdentifier($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['adminEmployeeFirstName'], $_SESSION['defUser']['adminEmployeeLastName'], $_SERVER['HTTP_HOST'], $_SESSION['country'], $this->getSysConf()->getVersion())
                 . "&system_details=" . $this->getSystemDetails();
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -84,15 +94,6 @@ class OrangeHrmRegistration
             }
         }
         return false;
-    }
-
-    /**
-     * Create a unique instance identifier and return
-     * @return string
-     */
-    private function getInstanceIdentifier() {
-        $unencodedIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
-        return base64_encode($unencodedIdentifier);
     }
 
     /**
