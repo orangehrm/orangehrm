@@ -1,2 +1,17 @@
 changeWeakPasswordSuccess:
   layout: noHeader
+
+requestPasswordResetCodeSuccess:
+  layout: noHeader
+
+confirmPasswordResetSuccess:
+  layout: noHeader
+
+passwordResetSuccess:
+  layout: noHeader
+
+resetPasswordSuccess:
+  layout: noHeader
+
+sendPasswordResetSuccess:
+  layout: noHeader

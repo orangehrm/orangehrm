@@ -1,0 +1,68 @@
+#content {
+    /**text-align: center;*/
+    width: 900px;
+    /**height: 400px;*/
+    margin: auto;
+}
+
+
+#divFooter {
+    display: block;
+    left: 0px;
+    position: absolute;
+    right: auto;
+    text-align: center;
+    width: 100%;
+}
+
+
+#divLogo {
+    text-align: center;
+    width: 900px !important;
+    display: block;
+    float: none;
+}
+
+#divLogo img {
+    margin-bottom: 20px;
+}
+/**
+#infoText{
+    margin: 2px 2px 10px 15px;
+    text-align: left;
+}
+
+.error_list {
+    width: auto;
+    text-align: left;
+}
+
+.error_list li {
+    margin-left: 202px !important;
+}
+
+label, span.formLabel, span.wideFormLabel {
+    padding-left: 20px;
+    text-align: left;
+    width: 170px;
+}*/
+
+#securityAuthentication_disabledTime {
+    border: 1px solid #888888;
+}
+
+hr {
+border: 0px;
+border-bottom: 1px solid #DEDEDE;
+width: 45%;
+display: block;
+float: left;
+margin-left: 0% !important;
+margin-right: 0% !important;
+}
+
+.middleLabel {
+    float: left;
+    text-align: center;
+    width: 10% !important;
+}
