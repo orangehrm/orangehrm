@@ -117,43 +117,8 @@ class executeConfChangeAction extends sfAction {
     public function setInstanceIdentifierChecksum() {
         $upgradeSystemConfiguration = $this->getUpgradeSystemConfiguration();
         if (!$upgradeSystemConfiguration->hasSetInstanceIdentifierChecksum()) {
-            $instanceIdentifierChecksum=$this->createInstanceIdentifierChecksum($this->instanceIdentifier);
-            $upgradeSystemConfiguration->setInstanceIdentifierChecksum($instanceIdentifierChecksum);
+            $upgradeSystemConfiguration->setInstanceIdentifierChecksum();
         }
     }
 
-    /**
-     * Return instance identifier checksum value using existing instance identifier
-     * @param $instanceIdentifier
-     * @return null|string
-     */
-    private function createInstanceIdentifierChecksum($instanceIdentifier) {
-        try {
-            $params = explode('_', base64_decode($instanceIdentifier));
-            $organizationName = $params[0];
-            $organizationEmailAddress = $params[1];
-            $dateAndRandomNumber = $params[2];
-
-            // Since date format YYYY-MM-DD
-            $splitPosition = 10;
-            $date = substr($dateAndRandomNumber, 0, $splitPosition);
-            $randomNumber = substr($dateAndRandomNumber, $splitPosition, strlen($dateAndRandomNumber));
-            return $this->getSysConfig()->createInstanceIdentifierChecksum($organizationName, $organizationEmailAddress,
-                $date, $randomNumber);
-        } catch (Exception $e) {
-            return null;
-        }
-    }
-
-    /**
-     * Return instance of SystemConfiguration class
-     * @return null|SystemConfiguration
-     */
-    private function getSysConfig() {
-        require_once(sfConfig::get('sf_root_dir') . "/../installer/SystemConfiguration.php");
-        if (is_null($this->sysConfig)) {
-            $this->sysConfig = new SystemConfiguration();
-        }
-        return $this->sysConfig;
-    }
 }

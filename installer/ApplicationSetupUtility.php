@@ -407,8 +407,22 @@ public static function writeLog() {
         $sys->setAdminEmail($_SESSION['defUser']['organizationEmailAddress']);
         $sys->setAdminContactNumber($_SESSION['defUser']['contactNumber']);
         $sys->createAdminUser($_SESSION['defUser']['AdminUserName'], $_SESSION['defUser']['AdminPassword']);
-        $sys->setInstanceIdentifier($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['randomNumber']);
-        $sys->setInstanceIdentifierChecksum($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['randomNumber']);
+        $sys->setInstanceIdentifier(
+            $_SESSION['defUser']['organizationName'],
+            $_SESSION['defUser']['organizationEmailAddress'],
+            $_SESSION['defUser']['adminEmployeeFirstName'],
+            $_SESSION['defUser']['adminEmployeeLastName'],
+            $_SERVER['HTTP_HOST'], $_SESSION['country'],
+            $sys->getOhrmVersion()
+        );
+        $sys->setInstanceIdentifierChecksum(
+            $_SESSION['defUser']['organizationName'],
+            $_SESSION['defUser']['organizationEmailAddress'],
+            $_SESSION['defUser']['adminEmployeeFirstName'],
+            $_SESSION['defUser']['adminEmployeeLastName'],
+            $_SERVER['HTTP_HOST'], $_SESSION['country'],
+            $sys->getOhrmVersion()
+        );
     }
 
 public static function install() { 

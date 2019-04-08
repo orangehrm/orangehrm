@@ -23,12 +23,14 @@ class UpgradeSystemConfiguration
 
     const KEY_INSTANCE_IDENTIFIER = "instance.identifier";
     const KEY_INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
+    private $sysConf = null;
 
     /**
      * create and returns a database connection
      * @return mysqli|void
      */
-    private function createDbConnection() {
+    private function createDbConnection()
+    {
         $host = $_SESSION['dbHostName'];
         $username = $_SESSION['dbUserName'];
         $password = $_SESSION['dbPassword'];
@@ -52,7 +54,8 @@ class UpgradeSystemConfiguration
      * Get the organization name from Admin > General Info > Organization Name
      * @return bool|mysqli_result|string
      */
-    public function getOrganizationName() {
+    public function getOrganizationName()
+    {
         $query = "SELECT `name` FROM `ohrm_organization_gen_info`";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->query($query);
@@ -70,14 +73,15 @@ class UpgradeSystemConfiguration
      * Get the country name from Admin > General Info > Country
      * @return bool|mysqli_result|string
      */
-    public function getCountry() {
+    public function getCountry()
+    {
         $query = "SELECT `country` FROM `ohrm_organization_gen_info`";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->query($query);
         $row = $statement->fetch();
         $countryCode = $row['country'];
 
-        if($countryCode) {
+        if ($countryCode) {
             return $countryCode;
         } else {
             return "Not Captured";
@@ -88,7 +92,8 @@ class UpgradeSystemConfiguration
      * Get the language from Admin > Configuration > Localization > Language
      * @return bool|mysqli_result|string
      */
-    public function getLanguage() {
+    public function getLanguage()
+    {
         $query = "SELECT `value` FROM `hs_hr_config` WHERE `key` = 'admin.localization.default_language'";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->query($query);
@@ -106,7 +111,8 @@ class UpgradeSystemConfiguration
      * Get an admin employee with first name
      * @return bool|mysqli_result
      */
-    public function getFirstName() {
+    public function getFirstName()
+    {
         $adminEmpNumber = $this->getAdminEmployeeNumber();
         $query = "SELECT `emp_firstname` FROM `hs_hr_employee` WHERE  `emp_number` = '$adminEmpNumber';";
 
@@ -122,7 +128,8 @@ class UpgradeSystemConfiguration
      * Get an admin employee with last name
      * @return bool|mysqli_result
      */
-    public function getLastName() {
+    public function getLastName()
+    {
         $adminEmpNumber = $this->getAdminEmployeeNumber();
         $query = "SELECT `emp_lastname` FROM `hs_hr_employee` WHERE  `emp_number` = '$adminEmpNumber'";
 
@@ -138,7 +145,8 @@ class UpgradeSystemConfiguration
      * Get the email address of admin employee from PIM > Contact Details > Work Email
      * @return bool|mysqli_result
      */
-    public function getAdminEmail() {
+    public function getAdminEmail()
+    {
         $adminEmpNumber = $this->getAdminEmployeeNumber();
         $query = "SELECT `emp_work_email` FROM `hs_hr_employee` WHERE `emp_number` = '$adminEmpNumber';";
 
@@ -154,7 +162,8 @@ class UpgradeSystemConfiguration
      * Get the contact number of admin employee from PIM > Contact Details > Work Telephone
      * @return bool|mysqli_result
      */
-    public function getAdminContactNumber() {
+    public function getAdminContactNumber()
+    {
         $adminEmpNumber = $this->getAdminEmployeeNumber();
         $query = "SELECT `emp_work_telephone` FROM `hs_hr_employee` WHERE `emp_number` = '$adminEmpNumber'";
         $dbConnection = $this->createDbConnection();
@@ -169,7 +178,8 @@ class UpgradeSystemConfiguration
      * Retrun admin user name
      * @return mixed
      */
-    public function getAdminUserName() {
+    public function getAdminUserName()
+    {
         $adminIdQuery = "SELECT `id` FROM `ohrm_user_role` WHERE  `name` = 'Admin' LIMIT 1";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->query($adminIdQuery);
@@ -189,7 +199,8 @@ class UpgradeSystemConfiguration
      * Get Admin employee number
      * @return mixed
      */
-    private function getAdminEmployeeNumber() {
+    private function getAdminEmployeeNumber()
+    {
         $adminIdQuery = "SELECT `id` FROM `ohrm_user_role` WHERE  `name` = 'Admin' LIMIT 1";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->query($adminIdQuery);
@@ -209,19 +220,25 @@ class UpgradeSystemConfiguration
     /**
      * Set the instance identifier of upgraded instance
      */
-    public function setInstanceIdentifier() {
-        $instanceIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
-        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
-        $dbConnection = $this->createDbConnection();
-        $statement = $dbConnection->prepare($query);
-        $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER, base64_encode($instanceIdentifier)));
+    public function setInstanceIdentifier()
+    {
+        $this->sysConf = $this->getSystemConfiguration();
+        $this->sysConf->setInstanceIdentifier(
+            $_SESSION['defUser']['organizationName'],
+            $_SESSION['defUser']['organizationEmailAddress'],
+            $_SESSION['defUser']['adminEmployeeFirstName'],
+            $_SESSION['defUser']['adminEmployeeLastName'],
+            $_SERVER['HTTP_HOST'], $_SESSION['defUser']['country'],
+            $this->sysConf->getOhrmVersion()
+        );
     }
 
     /**
      * Get instance identifier
      * @return mixed
      */
-    public function getInstanceIdentifier() {
+    public function getInstanceIdentifier()
+    {
         $query = "SELECT `value` FROM `hs_hr_config` WHERE `key`='" . self::KEY_INSTANCE_IDENTIFIER . "'";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->query($query);
@@ -233,9 +250,9 @@ class UpgradeSystemConfiguration
      * Check whether the instance identifier exists
      * @return bool
      */
-    public function hasSetInstanceIdentifier() {
+    public function hasSetInstanceIdentifier()
+    {
         $instanceIdentifier = $this->getInstanceIdentifier();
-
         if (!is_null($instanceIdentifier)) {
             return true;
         }
@@ -244,20 +261,26 @@ class UpgradeSystemConfiguration
 
     /**
      * Set the instance identifier checksum
-     * @param $instanceIdentifierChecksum
      */
-    public function setInstanceIdentifierChecksum($instanceIdentifierChecksum) {
-        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
-        $dbConnection = $this->createDbConnection();
-        $statement = $dbConnection->prepare($query);
-        $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum));
+    public function setInstanceIdentifierChecksum()
+    {
+        $this->sysConf = $this->getSystemConfiguration();
+        $this->sysConf->setInstanceIdentifierChecksum(
+            $_SESSION['defUser']['organizationName'],
+            $_SESSION['defUser']['organizationEmailAddress'],
+            $_SESSION['defUser']['adminEmployeeFirstName'],
+            $_SESSION['defUser']['adminEmployeeLastName'],
+            $_SERVER['HTTP_HOST'], $_SESSION['defUser']['country'],
+            $this->sysConf->getOhrmVersion()
+        );
     }
 
     /**
      * Get instance identifier checksum value
      * @return mixed
      */
-    public function getInstanceIdentifierChecksum() {
+    public function getInstanceIdentifierChecksum()
+    {
         $query = "SELECT `value` FROM `hs_hr_config` WHERE `key`='" . self::KEY_INSTANCE_IDENTIFIER_CHECKSUM . "'";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->query($query);
@@ -269,12 +292,24 @@ class UpgradeSystemConfiguration
      * Check whether the instance identifier checksum exists
      * @return bool
      */
-    public function hasSetInstanceIdentifierChecksum() {
+    public function hasSetInstanceIdentifierChecksum()
+    {
         $instanceIdentifierChecksum = $this->getInstanceIdentifierChecksum();
-
         if (!is_null($instanceIdentifierChecksum)) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * gets an instance of SystemConfiguration
+     * @return SystemConfiguration
+     */
+    private function getSystemConfiguration()
+    {
+        if (is_null($this->sysConf)) {
+            $this->sysConf = new SystemConfiguration();
+        }
+        return $this->sysConf;
     }
 }
