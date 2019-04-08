@@ -18,7 +18,7 @@
  *
  */
 
-include_once(realpath(dirname(__FILE__)).'/../symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.php');
+include_once(realpath(dirname(__FILE__)) . '/../symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.php');
 
 class SystemConfiguration
 {
@@ -30,7 +30,8 @@ class SystemConfiguration
      * @param bool $dbSelect
      * @return PDO|void
      */
-    public function createDbConnection($dbSelect = true) {
+    public function createDbConnection($dbSelect = true)
+    {
         $host = $_SESSION['dbHostName'];
         $username = $_SESSION['dbUserName'];
         $password = $_SESSION['dbPassword'];
@@ -60,7 +61,8 @@ class SystemConfiguration
      * Set the organization name in Admin > General Info > Organization Name
      * @param $orgnaizationName
      */
-    public function setOrganizationName($orgnaizationName) {
+    public function setOrganizationName($orgnaizationName)
+    {
         $query = "INSERT INTO `ohrm_organization_gen_info` (`name`) VALUES (?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
@@ -71,7 +73,8 @@ class SystemConfiguration
      * Set the country name in Admin > General Info > Country
      * @param $countryCode
      */
-    public function setCountry($countryCode){
+    public function setCountry($countryCode)
+    {
         $query = "UPDATE `ohrm_organization_gen_info` SET `country` = ? WHERE `ohrm_organization_gen_info`.`id` = 1";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
@@ -83,7 +86,8 @@ class SystemConfiguration
      * Set the language in Admin > Configuration > Localization > Language
      * @param $languageCode
      */
-    public function setLanguage($languageCode) {
+    public function setLanguage($languageCode)
+    {
         $query = "UPDATE `hs_hr_config` SET `value` = ? WHERE `hs_hr_config`.`key` = 'admin.localization.default_language'";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
@@ -96,7 +100,8 @@ class SystemConfiguration
      * @param $firstName
      * @param $lastName
      */
-    public function setAdminName($firstName, $lastName) {
+    public function setAdminName($firstName, $lastName)
+    {
         $query = "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`) VALUES ('1', '0001', ?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
@@ -108,7 +113,8 @@ class SystemConfiguration
      * Set the email address of admin employee in PIM > Contact Details > Work Email
      * @param $email
      */
-    public function setAdminEmail($email) {
+    public function setAdminEmail($email)
+    {
         $query = "UPDATE `hs_hr_employee` SET `emp_work_email` = ? WHERE `hs_hr_employee`.`emp_number` = 1";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
@@ -120,7 +126,8 @@ class SystemConfiguration
      * Set the contact number of admin employee in PIM > Contact Details > Work Telephone
      * @param $contactNumber
      */
-    public function setAdminContactNumber($contactNumber) {
+    public function setAdminContactNumber($contactNumber)
+    {
         $query = "UPDATE `hs_hr_employee` SET `emp_work_telephone` = ? WHERE `hs_hr_employee`.`emp_number` = 1";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
@@ -133,7 +140,8 @@ class SystemConfiguration
      * @param $userName
      * @param $password
      */
-    public function createAdminUser($userName, $password) {
+    public function createAdminUser($userName, $password)
+    {
         $passwordHasher = new PasswordHash();
         $hash = $passwordHasher->hash($password);
 
@@ -145,15 +153,15 @@ class SystemConfiguration
 
     /**
      * Set the instance identifier value to db
-     * @param $organizationName
-     * @param $email
-     * @param $adminFirstName
-     * @param $adminLastName
-     * @param $host
-     * @param $country
-     * @param $ohrmVersion
+     * @param string $organizationName
+     * @param string $email
+     * @param string $adminFirstName
+     * @param string $adminLastName
+     * @param string $host
+     * @param string $country
+     * @param string $ohrmVersion
      */
-    public function setInstanceIdentifier (
+    public function setInstanceIdentifier(
         $organizationName,
         $email,
         $adminFirstName,
@@ -161,8 +169,9 @@ class SystemConfiguration
         $host,
         $country,
         $ohrmVersion
-    ) {
-        $instanceIdentifier = $this->createInstanceIdentifier (
+    )
+    {
+        $instanceIdentifier = $this->createInstanceIdentifier(
             $organizationName,
             $email,
             $adminFirstName,
@@ -179,16 +188,16 @@ class SystemConfiguration
 
     /**
      * Create instance identifier value
-     * @param $organizationName
-     * @param $email
-     * @param $adminFirstName
-     * @param $adminLastName
-     * @param $host
-     * @param $country
-     * @param $ohrmVersion
+     * @param string $organizationName
+     * @param string $email
+     * @param string $adminFirstName
+     * @param string $adminLastName
+     * @param string $host
+     * @param string $country
+     * @param string $ohrmVersion
      * @return string
      */
-    public function createInstanceIdentifier (
+    public function createInstanceIdentifier(
         $organizationName,
         $email,
         $adminFirstName,
@@ -196,28 +205,37 @@ class SystemConfiguration
         $host,
         $country,
         $ohrmVersion
-    ) {
+    )
+    {
         if (is_null($host)) {
             $host = '';
         }
         if (is_null($country)) {
             $country = '';
         }
-        return base64_encode($organizationName . '_' . $email . '_' . $adminFirstName . '_' . $adminLastName . '_' . $host . '_' . $country . '_' . $ohrmVersion);
+        return base64_encode(
+            $organizationName .
+            '_' . $email .
+            '_' . $adminFirstName .
+            '_' . $adminLastName .
+            '_' . $host .
+            '_' . $country .
+            '_' . $ohrmVersion
+        );
     }
 
     /**
      * Create instance identifier checksum value
-     * @param $organizationName
-     * @param $email
-     * @param $adminFirstName
-     * @param $adminLastName
-     * @param $host
-     * @param $country
-     * @param $ohrmVersion
+     * @param string $organizationName
+     * @param string $email
+     * @param string $adminFirstName
+     * @param string $adminLastName
+     * @param string $host
+     * @param string $country
+     * @param string $ohrmVersion
      * @return string
      */
-    public function createInstanceIdentifierChecksum (
+    public function createInstanceIdentifierChecksum(
         $organizationName,
         $email,
         $adminFirstName,
@@ -225,7 +243,8 @@ class SystemConfiguration
         $host,
         $country,
         $ohrmVersion
-    ) {
+    )
+    {
         if (is_null($host)) {
             $host = '';
         }
@@ -247,15 +266,15 @@ class SystemConfiguration
 
     /**
      * Set the instance identifier checksum value
-     * @param $organizationName
-     * @param $email
-     * @param $adminFirstName
-     * @param $adminLastName
-     * @param $host
-     * @param $country
-     * @param $ohrmVersion
+     * @param string $organizationName
+     * @param string $email
+     * @param string $adminFirstName
+     * @param string $adminLastName
+     * @param string $host
+     * @param string $country
+     * @param string $ohrmVersion
      */
-    public function setInstanceIdentifierChecksum (
+    public function setInstanceIdentifierChecksum(
         $organizationName,
         $email,
         $adminFirstName,
@@ -263,8 +282,9 @@ class SystemConfiguration
         $host,
         $country,
         $ohrmVersion
-    ) {
-        $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum (
+    )
+    {
+        $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum(
             $organizationName,
             $email,
             $adminFirstName,
@@ -283,7 +303,8 @@ class SystemConfiguration
      * get ohrmVersion
      * @return string ohrmVersion
      */
-    public function getOhrmVersion() {
+    public function getOhrmVersion()
+    {
         $sysConf = new sysConf();
         return $sysConf->getVersion();
     }
