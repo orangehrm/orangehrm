@@ -212,7 +212,14 @@ class UpgradeSystemConfiguration
      */
     public function setInstanceIdentifier() {
         $this->sysConf = $this->getSystemConfiguration();
-        $this->sysConf->setInstanceIdentifier($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['adminEmployeeFirstName'], $_SESSION['defUser']['adminEmployeeLastName'], $_SERVER['HTTP_HOST'], $_SESSION['defUser']['country'] , $this->sysConf->getOhrmVersion());
+        $this->sysConf->setInstanceIdentifier(
+            $_SESSION['defUser']['organizationName'],
+            $_SESSION['defUser']['organizationEmailAddress'],
+            $_SESSION['defUser']['adminEmployeeFirstName'],
+            $_SESSION['defUser']['adminEmployeeLastName'],
+            $_SERVER['HTTP_HOST'], $_SESSION['defUser']['country'],
+            $this->sysConf->getOhrmVersion()
+        );
     }
 
     /**
@@ -245,7 +252,14 @@ class UpgradeSystemConfiguration
      */
     public function setInstanceIdentifierChecksum() {
         $this->sysConf = $this->getSystemConfiguration();
-        $this->sysConf->setInstanceIdentifierChecksum($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['adminEmployeeFirstName'], $_SESSION['defUser']['adminEmployeeLastName'], $_SERVER['HTTP_HOST'], $_SESSION['defUser']['country'] , $this->sysConf->getOhrmVersion());
+        $this->sysConf->setInstanceIdentifierChecksum(
+            $_SESSION['defUser']['organizationName'],
+            $_SESSION['defUser']['organizationEmailAddress'],
+            $_SESSION['defUser']['adminEmployeeFirstName'],
+            $_SESSION['defUser']['adminEmployeeLastName'],
+            $_SERVER['HTTP_HOST'], $_SESSION['defUser']['country'],
+            $this->sysConf->getOhrmVersion()
+        );
     }
 
     /**

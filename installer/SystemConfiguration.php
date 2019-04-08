@@ -153,8 +153,24 @@ class SystemConfiguration
      * @param $country
      * @param $ohrmVersion
      */
-    public function setInstanceIdentifier($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion) {
-        $instanceIdentifier = $this->createInstanceIdentifier($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion);
+    public function setInstanceIdentifier (
+        $organizationName,
+        $email,
+        $adminFirstName,
+        $adminLastName,
+        $host,
+        $country,
+        $ohrmVersion
+    ) {
+        $instanceIdentifier = $this->createInstanceIdentifier (
+            $organizationName,
+            $email,
+            $adminFirstName,
+            $adminLastName,
+            $host,
+            $country,
+            $ohrmVersion
+        );
         $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
@@ -172,13 +188,19 @@ class SystemConfiguration
      * @param $ohrmVersion
      * @return string
      */
-    public function createInstanceIdentifier($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion) {
-        if(is_null($host))
-        {
+    public function createInstanceIdentifier (
+        $organizationName,
+        $email,
+        $adminFirstName,
+        $adminLastName,
+        $host,
+        $country,
+        $ohrmVersion
+    ) {
+        if (is_null($host)) {
             $host = '';
         }
-        if(is_null($country))
-        {
+        if (is_null($country)) {
             $country = '';
         }
         return base64_encode($organizationName . '_' . $email . '_' . $adminFirstName . '_' . $adminLastName . '_' . $host . '_' . $country . '_' . $ohrmVersion);
@@ -195,13 +217,19 @@ class SystemConfiguration
      * @param $ohrmVersion
      * @return string
      */
-    public function createInstanceIdentifierChecksum($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion) {
-        if(is_null($host))
-        {
+    public function createInstanceIdentifierChecksum (
+        $organizationName,
+        $email,
+        $adminFirstName,
+        $adminLastName,
+        $host,
+        $country,
+        $ohrmVersion
+    ) {
+        if (is_null($host)) {
             $host = '';
         }
-        if(is_null($country))
-        {
+        if (is_null($country)) {
             $country = '';
         }
         $params = array(
@@ -227,8 +255,24 @@ class SystemConfiguration
      * @param $country
      * @param $ohrmVersion
      */
-    public function setInstanceIdentifierChecksum($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion) {
-        $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum($organizationName, $email, $adminFirstName, $adminLastName, $host, $country, $ohrmVersion);
+    public function setInstanceIdentifierChecksum (
+        $organizationName,
+        $email,
+        $adminFirstName,
+        $adminLastName,
+        $host,
+        $country,
+        $ohrmVersion
+    ) {
+        $instanceIdentifierChecksum = $this->createInstanceIdentifierChecksum (
+            $organizationName,
+            $email,
+            $adminFirstName,
+            $adminLastName,
+            $host,
+            $country,
+            $ohrmVersion
+        );
         $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
@@ -239,8 +283,7 @@ class SystemConfiguration
      * get ohrmVersion
      * @return string ohrmVersion
      */
-    public function getOhrmVersion()
-    {
+    public function getOhrmVersion() {
         $sysConf = new sysConf();
         return $sysConf->getVersion();
     }
