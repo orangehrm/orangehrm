@@ -184,4 +184,34 @@ class MarketplaceService extends ConfigService
         return $this->sysConfig;
     }
 
+    /**
+     * Create instance identifier and checksum value for the instance identifier
+     * @return array
+     * @throws CoreServiceException
+     * @throws DaoException
+     */
+    public function createInstanceIdentifierAndChecksum()
+    {
+        $organizationInfo = $this->getMarketplaceDao()->getOrganizationGeneralInformation();
+        $organizationName = "OrganizationName";
+        if ($organizationInfo instanceof Organization) {
+            $organizationName = $organizationInfo->getName();
+        }
+        $adminEmployee = $this->getMarketplaceDao()->getAdmin();
+        $organizationEmail = "OrganizationEmail";
+        if ($adminEmployee instanceof Employee) {
+            $organizationEmail = $adminEmployee->getEmpWorkEmail();
+        }
+        $createdDate = date('Y-m-d');
+        $randomNumber = rand(1, 100);
+        $instanceId = $this->getSysConfig()->createInstanceIdentifier($organizationName, $organizationEmail, $createdDate, $randomNumber);
+        $instanceIdChecksum = $this->getSysConfig()->createInstanceIdentifierChecksum($organizationName, $organizationEmail, $createdDate, $randomNumber);
+        $this->_setConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER, $instanceId);
+        $this->_setConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdChecksum);
+
+        return array(
+            'instanceId' => $this->_getConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER),
+            'instanceIdChecksum' => $this->_getConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER_CHECKSUM)
+        );
+    }
 }
