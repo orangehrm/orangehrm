@@ -194,18 +194,42 @@ class MarketplaceService extends ConfigService
     {
         $organizationInfo = $this->getMarketplaceDao()->getOrganizationGeneralInformation();
         $organizationName = "OrganizationName";
+        $country = "";
+
         if ($organizationInfo instanceof Organization) {
             $organizationName = $organizationInfo->getName();
+            $country = $organizationInfo->getCountry();
         }
+
         $adminEmployee = $this->getMarketplaceDao()->getAdmin();
         $organizationEmail = "OrganizationEmail";
+        $adminFirstName = "";
+        $adminLastName = "";
+
         if ($adminEmployee instanceof Employee) {
             $organizationEmail = $adminEmployee->getEmpWorkEmail();
+            $adminFirstName = $adminEmployee->getFirstname();
+            $adminLastName = $adminEmployee->getLastname();
         }
-        $createdDate = date('Y-m-d');
-        $randomNumber = rand(1, 100);
-        $instanceId = $this->getSysConfig()->createInstanceIdentifier($organizationName, $organizationEmail, $createdDate, $randomNumber);
-        $instanceIdChecksum = $this->getSysConfig()->createInstanceIdentifierChecksum($organizationName, $organizationEmail, $createdDate, $randomNumber);
+
+        $instanceId = $this->getSysConfig()->createInstanceIdentifier(
+            $organizationName,
+            $organizationEmail,
+            $adminFirstName,
+            $adminLastName,
+            $_SERVER['HTTP_HOST'],
+            $country,
+            $this->getSysConfig()->getOhrmVersion()
+        );
+        $instanceIdChecksum = $this->getSysConfig()->createInstanceIdentifierChecksum(
+            $organizationName,
+            $organizationEmail,
+            $adminFirstName,
+            $adminLastName,
+            $_SERVER['HTTP_HOST'],
+            $country,
+            $this->getSysConfig()->getOhrmVersion()
+        );
         $this->_setConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER, $instanceId);
         $this->_setConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdChecksum);
 
