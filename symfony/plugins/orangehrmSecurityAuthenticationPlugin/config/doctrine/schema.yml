@@ -1,0 +1,19 @@
+ResetPassword:
+  tableName: ohrm_reset_password
+  columns:
+    id:
+      name: id
+      primary: true
+      type: integer(11)
+      autoincrement: true
+    reset_email:
+      type: string(60)
+      notnull: true
+    reset_request_date:
+      type: timestamp(25)
+      notnull: true
+    reset_code:
+      type: string(200)
+      notnull: true
+
+
