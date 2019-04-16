@@ -72,6 +72,16 @@ $imagePath = theme_path("images/login");
     #divLoginHelpLink {
         width: 270px;
         background-color: transparent;
+        height: 2px;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 50%;
+    }
+
+    #forgotPasswordLink {
+        width: 270px;
+        background-color: transparent;
         height: 20px;
         margin-top: 12px;
         margin-right: 0px;
@@ -80,7 +90,7 @@ $imagePath = theme_path("images/login");
     }
 
     #divLoginButton {
-        padding-top: 2px;
+        padding-top: 10px;
         padding-left: 49.3%;
         float: left;
         width: 350px;
@@ -177,6 +187,9 @@ $imagePath = theme_path("images/login");
             <?php if (!empty($message)) : ?>
             <span id="spanMessage"><?php echo __($message); ?></span>
             <?php endif; ?>
+        </div>
+        <div id="forgotPasswordLink">
+            <a href="<?php echo url_for('auth/requestPasswordResetCode'); ?>"><?php echo __('Forgot your password?'); ?></a>
         </div>
     </form>
 

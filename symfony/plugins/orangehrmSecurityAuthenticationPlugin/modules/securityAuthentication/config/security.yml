@@ -3,3 +3,9 @@ all:
 
 securityAuthenticationConfigure:
   is_secure: true
+
+requestPasswordResetCode:
+  is_secure: true
+
+resetPassword:
+  is_secure: true
