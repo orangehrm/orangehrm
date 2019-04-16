@@ -2043,3 +2043,11 @@ CREATE TABLE `ohrm_marketplace_addon` (
   `plugin_name` VARCHAR(255),
   PRIMARY KEY(`addon_id`)
 ) engine=innodb default charset=utf8;
+
+CREATE  TABLE `ohrm_reset_password` (
+  `id` BIGINT UNSIGNED AUTO_INCREMENT,
+  `reset_email` VARCHAR(60) NOT NULL,
+  `reset_request_date` TIMESTAMP NOT NULL ,
+  `reset_code` VARCHAR(200) NOT NULL ,
+  PRIMARY KEY(`id`))
+ENGINE = InnoDB DEFAULT CHARSET=UTF8;
