@@ -214,7 +214,7 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
         $securityAuthDao->expects($this->any())
             ->method('getResetPasswordLogByEmail')
             ->with($this->equalTo($email))
-            ->will($this->returnValue(new ResetPasswordLog()));
+            ->will($this->returnValue(new ResetPassword()));
 
         $this->secuirtyAuthService->setPasswordResetDao($securityAuthDao);
         $result=$this->secuirtyAuthService->getResetPasswordLogByEmail($email);
@@ -434,10 +434,9 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testExtractUsername() {
         $identfier = 'testUsername';
-        $seperator= 'SEPARATOR';
         $resetCode = $this->secuirtyAuthService->generatePasswordResetCode($identfier);
 
-        $this->assertEquals(array($identfier,$seperator), $this->secuirtyAuthService->extractPasswordResetMetaData($resetCode));
+        $this->assertEquals(array($identfier), $this->secuirtyAuthService->extractPasswordResetMetaData($resetCode));
     }
 
 
