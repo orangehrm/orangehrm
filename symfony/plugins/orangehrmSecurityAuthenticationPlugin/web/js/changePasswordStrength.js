@@ -8,7 +8,9 @@ $(document).ready(function () {
     });
 
     $('#btnCancel').click(function() {
-        window.history.back();
+        var url = location.href;
+        var urlSegments = url.toString().split('index.php');
+        location.href = urlSegments[0] + 'index.php/auth/login';
     });
 
     $("#resetPasswordForm").validate({
@@ -17,23 +19,33 @@ $(document).ready(function () {
             'securityAuthentication[newPrimaryPassword]' : {
                 required: true,
                 minlength: 8,
-                maxlength: 64
+                maxlength: 64,
+                remote: {
+                    url: requiredStrengthCheckUrl,
+                    data: {
+                        password: function(){return $('#securityAuthentication_newPrimaryPassword').val();}
+                    }
+                }
             },
             'securityAuthentication[primaryPasswordConfirmation]' : {
                 required: true,
+                minlength: 8,
                 equalTo: "#securityAuthentication_newPrimaryPassword"
             }
         },
         messages: {
-            'securityAuthentication[newPrimaryPassword]]' : {
+            'securityAuthentication[newPrimaryPassword]' : {
                 required: lang_newPasswordRequired,
+                minlength: lang_UserPasswordLength,
                 maxlength: lang_maxLengthExceeds,
-                minlength: lang_UserPasswordLength
+                remote: lang_passwordStrengthInvalid
+
             },
             'securityAuthentication[primaryPasswordConfirmation]' : {
                 required: lang_confirmNewPasswordRequired,
+                minlength: lang_UserPasswordLength,
                 equalTo: lang_passwordMissMatch
-            }
+            },
         }
     });
 });

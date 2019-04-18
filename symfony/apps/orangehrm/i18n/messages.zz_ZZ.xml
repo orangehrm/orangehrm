@@ -7653,8 +7653,8 @@
         <target>FR_Access Data</target>
       </trans-unit>
       <trans-unit id="1913">
-        <source>Before we can reset your password, you need to enter the information below to help identify your account</source>
-        <target>FR_Before we can reset your password, you need to enter the information below to help identify your account</target>
+        <source>Please enter your username to identify your account to reset your password.</source>
+        <target>FR_Please enter your username to identify your account to reset your password.</target>
       </trans-unit>
       <trans-unit id="1914">
         <source>OrangeHRM Username</source>
@@ -7669,8 +7669,8 @@
         <target>FR_The username is invalid.</target>
       </trans-unit>
       <trans-unit id="1917">
-        <source>Identify Your Account</source>
-        <target>FR_Identify Your Account</target>
+        <source>Forgot Your Password?</source>
+        <target>FR_Forgot Your Password?</target>
       </trans-unit>
       <trans-unit id="1918">
         <source>User account is not associated with an employee</source>
@@ -7724,17 +7724,17 @@
         <source>Instructions for resetting your password have been sent to Email</source>
         <target>FR_Instructions for resetting your password have been sent to Email</target>
       </trans-unit>
-      <trans-unit id="1931">
-        <source>You will receive this email within 5 minutes. Be sure to check check your spam folder too.</source>
-        <target>FR_You will receive this email within 5 minutes. Be sure to check check your spam folder too.</target>
-      </trans-unit>
       <trans-unit id="1932">
-        <source>Password reset was successful. Go to login page and try to login</source>
-        <target>FR_Password reset was successful. Go to login page and try to login</target>
+        <source>Successfully reset your password.</source>
+        <target>FR_Successfully reset your password.</target>
       </trans-unit>
       <trans-unit id="1933">
         <source>Go to Login Page</source>
         <target>FR_Go to Login Page</target>
+      </trans-unit>
+      <trans-unit id="1934">
+        <source>This link is expired, Please request again</source>
+        <target>FR_This link is expired, Please request again</target>
       </trans-unit>
     </body>
   </file>
