@@ -37,6 +37,10 @@ abstract class basePimAction extends ohrmBaseAction {
         if (empty($initialActionName)) {
             $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
             $empNumber = $request->getParameter('empNumber');
+
+            if ($this->isEmployeePurged($empNumber)) {
+                $this->forwardToSecureAction();
+            }
             
             if (!empty($loggedInEmpNum) && $loggedInEmpNum == $empNumber) {
                 $request->setParameter('initialActionName', 'viewMyDetails');
@@ -133,6 +137,11 @@ abstract class basePimAction extends ohrmBaseAction {
             'orangehrm_action_name' => $actionName,
         ));
         $sessionVariableManager->registerVariables();
+    }
+
+    protected function isEmployeePurged($empNumber) {
+        $employee = $this->getEmployeeService()->getEmployee($empNumber);
+        return $employee->getPurgedAt() !== null;
     }
 
 }
