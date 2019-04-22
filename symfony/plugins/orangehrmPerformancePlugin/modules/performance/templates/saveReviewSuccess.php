@@ -287,7 +287,7 @@
         function addReviewerRow(type, tableId, employeeName, employeeNumber) {
 
             if ($("#saveReview360Form_employeeId").val() == employeeNumber) {
-                $("#messageNorecord").text('<?php echo __("Employee cannot be a reviewer in another category") ?>');
+                $("#messageNorecord").text('<?php echo __js("Employee cannot be a reviewer in another category") ?>');
                 $("#alertModal").modal();
                 return false;
             }
@@ -304,7 +304,7 @@
                 $('#' + tableId + ' tbody>tr:first').show();
 
             } else {
-                $("#messageNorecord").text('<?php echo __("Cannot add same person as a reviewer multiple times") ?>');
+                $("#messageNorecord").text('<?php echo __js("Cannot add same person as a reviewer multiple times") ?>');
                 $("#alertModal").modal();
             }
 
