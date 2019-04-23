@@ -18,40 +18,41 @@
  */
 ?>
 <?php use_javascript(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'js/passwordReset'));?>
-    <div class="box">
-        <?php include_partial('securityAuthenticationHeader'); ?>
-        <div class="head"><h1><?php echo __('Identify Your Account'); ?></h1>
-        </div>
-        <div class="inner">
-            <?php include_partial('global/flash_messages'); ?>
-            <div>
-                <?php echo __("Before we can reset your password, you need to enter the information below to help identify your account"); ?>
-            </div>
-            <form id="resetPasswordForm" action="<?php echo url_for('auth/requestPasswordResetCode'); ?>" method="post">
-
-                <?php echo $form['_csrf_token']; ?>
-            </br>
-                <fieldset>
-                    <ol>
-                        <li>
-                            <?php echo $form['userName']->renderLabel(__('OrangeHRM Username')); ?>
-                            <?php echo $form['userName']->render(); ?>
-                            <?php echo $form['userName']->renderError() ?>
-                        </li>
-                    </ol>
-                    <p>
-                    <div class="formbuttons">
-                        <input type="submit" class="searchValues" name="button" id="btnSearchValues"
-
-                               value="<?php echo __('Search'); ?>"/>
-                        <input type="button" class="cancel" name="button" id="btnCancel"
-
-                               value="<?php echo __('Cancel'); ?>"/>
-                    </div>
-                    </p>
-                </fieldset>
-            </form>
-        </div>
+<div  class="box">
+    <?php include_partial('securityAuthenticationHeader'); ?>
+    </br>
+    <div class="head"><h1><?php echo __('Forgot Your Password?'); ?></h1>
     </div>
+    <div class="inner">
+        <?php include_partial('global/flash_messages'); ?>
+        <div>
+            <?php echo __("Please enter your username to identify your account to reset your password."); ?>
+        </div>
+        <form id="resetPasswordForm" action="<?php echo url_for('auth/requestPasswordResetCode'); ?>" method="post">
 
-    <?php include_partial('global/footer_copyright_social_links'); ?>
+            <?php echo $form['_csrf_token']; ?>
+            </br>
+            <fieldset>
+                <ol>
+                    <li>
+                        <?php echo $form['userName']->renderLabel(__('OrangeHRM Username')); ?>
+                        <?php echo $form['userName']->render(); ?>
+                        <?php echo $form['userName']->renderError() ?>
+                    </li>
+                </ol>
+                <p>
+                <div class="formbuttons">
+                    <input type="submit" class="searchValues" name="button" id="btnSearchValues"
+
+                           value="<?php echo __('Reset Password'); ?>"/>
+                    <input type="button" class="cancel" name="button" id="btnCancel"
+
+                           value="<?php echo __('Cancel'); ?>"/>
+                </div>
+                </p>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<?php include_partial('global/footer_copyright_social_links'); ?>

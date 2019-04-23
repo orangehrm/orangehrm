@@ -18,15 +18,14 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<?php use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/password_strength')); ?>
 <?php use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/passwordStrength.css'));?>
 <?php use_javascript(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'js/changePasswordStrength.js')); ?>
-<?php use_javascript(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'js/passwordReset.js'));?>
-<?php include_partial('securityAuthenticationHeader'); ?>
-    <div id="validationMsg"><?php echo isset($messageData) ? templateMessage($messageData) : '';?></div>
 
 <?php if ($showForm): ?>
     <div class="box">
+        <?php include_partial('securityAuthenticationHeader'); ?>
+        </br>
+        <div id="validationMsg"><?php echo isset($messageData) ? templateMessage($messageData) : '';?></div>
         <div class="head"><h1><?php echo __('Enter A New Password'); ?></h1>
         </div>
         <div class="inner">
@@ -38,22 +37,22 @@
                             <?php echo $form['_csrf_token']; ?>
                         </li>
 
-                            <li>
-                                <?php echo $form['newPrimaryPassword']->renderLabel(__('New Password') . ' <em>*</em>'); ?>
-                                <?php echo $form['newPrimaryPassword']->render(array("title" => __("Complexity of the password can be increase by using a mix of special characters, number, upper and lower case characters"))); ?>
-                                <?php echo $form['newPrimaryPassword']->renderError() ?>
-                                <label class="score"></label>
-                            </li>
+                        <li>
+                            <?php echo $form['newPrimaryPassword']->renderLabel(__('New Password') . ' <em>*</em>'); ?>
+                            <?php echo $form['newPrimaryPassword']->render(); ?>
+                            <?php echo $form['newPrimaryPassword']->renderError() ?>
+                            <label class="score"></label>
+                        </li>
 
-                            <li>
-                                <?php echo $form['primaryPasswordConfirmation']->renderLabel(__('Confirm New Password') . ' <em>*</em>'); ?>
-                                <?php echo $form['primaryPasswordConfirmation']->render(); ?>
-                                <?php echo $form['primaryPasswordConfirmation']->renderError(); ?>
-                            </li>                            
+                        <li>
+                            <?php echo $form['primaryPasswordConfirmation']->renderLabel(__('Confirm New Password') . ' <em>*</em>'); ?>
+                            <?php echo $form['primaryPasswordConfirmation']->render(); ?>
+                            <?php echo $form['primaryPasswordConfirmation']->renderError(); ?>
+                        </li>
 
-                            <li class="required">
-                                <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
-                            </li>
+                        <li class="required">
+                            <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                        </li>
                     </ol>
                     <p>
                         <input type="submit" class="savebutton" id="btnSavePassword"
@@ -63,7 +62,7 @@
                         <input type="button" class="cancel" id="btnCancel"
                                value="<?php echo __('Cancel'); ?>" />
                     </p>
-                </fieldset> 
+                </fieldset>
             </form>
         </div>
     </div>
@@ -81,5 +80,6 @@
     var requiredStrengthCheckUrl = '<?php echo url_for('securityAuthentication/checkMinimumRequiredPasswordStrengthAjax') ?>';
     var lang_passwordStrengthInvalid = '<?php echo __("Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.");?>';
 </script>
+
 <?php include_partial('global/footer_copyright_social_links'); ?>
 

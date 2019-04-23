@@ -44,7 +44,14 @@ class requestPasswordResetCodeAction extends basePasswordResetAction
                     );
                     $this->getUser()->setAttribute('username', $user->getUserName());
 
-                    $this->redirect('auth/confirmPasswordReset');
+                    $passwordResetService = new PasswordResetService();
+                    try {
+                        $passwordResetService->logPasswordResetRequest($user);
+                        $this->redirect('auth/sendPasswordReset');
+                    } catch (ServiceException $e) {
+                        $this->getUser()->setFlash('warning', __($e->getMessage()));
+                    }
+
                 } catch (ServiceException $se) {
                     $this->getUser()->setFlash('warning', __($se->getMessage()), false);
                 }
