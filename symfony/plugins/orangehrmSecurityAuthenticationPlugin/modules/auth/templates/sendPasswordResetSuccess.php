@@ -17,19 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<div class="box">
-    <?php include_partial('securityAuthenticationHeader');?>
-    <div class="head">
-        <h1><?php echo __('Instruction Sent !'); ?></h1>
-    </div>    
-    <div id="divContent" class="inner">
-        <p>
-            <?php echo __('Instructions for resetting your password have been sent to'.' '); ?><?php echo $email?>
-        </p>
+    <div class="box">
+        <?php include_partial('securityAuthenticationHeader');?>
         </br>
-        <p>
-            <?php echo __('You will receive this email within 5 minutes. Be sure to check check your spam folder too.'); ?>
-        </p>
+        <div class="head">
+            <h1><?php echo __('Instruction Sent !'); ?></h1>
+        </div>
+        <div id="divContent" class="inner">
+            <p>
+                <?php echo __('Instructions for resetting your password have been sent to'.' '); ?><?php echo $email?>
+            </p>
+            </br>
+        </div>
     </div>
-</div>
 <?php include_partial('global/footer_copyright_social_links'); ?>
