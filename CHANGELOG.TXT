@@ -1,3 +1,17 @@
+New & Changed Features for OrangeHRM ver 4.3.1
+    New Features
+    ------------
+    Reset forgotten password
+    Compatibility with PHP 7.2.16
+    Compatibility with MySQL 5.7.24
+    Compatibility with MariaDB 10.3.14
+
+    Bug Fixes
+    ---------
+    Pending leave request is not showing in the dashboard for admin or supervisor git Issue #470
+    Google OpenID Support git Issue #472 & #222
+    French Add User not working git Issue #452
+
 New & Changed Features for OrangeHRM ver 4.3
     New Features
     ------------
