@@ -38,7 +38,7 @@ abstract class basePimAction extends ohrmBaseAction {
             $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
             $empNumber = $request->getParameter('empNumber');
 
-            if ($this->isEmployeePurged($empNumber)) {
+            if ($empNumber && $this->isEmployeePurged($empNumber)) {
                 $this->forwardToSecureAction();
             }
             
