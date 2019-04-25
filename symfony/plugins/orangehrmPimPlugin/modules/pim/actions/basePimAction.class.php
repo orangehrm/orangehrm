@@ -141,7 +141,7 @@ abstract class basePimAction extends ohrmBaseAction {
 
     protected function isEmployeePurged($empNumber) {
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
-        return $employee->getPurgedAt() !== null;
+        return $employee instanceof Employee && $employee->getPurgedAt() !== null;
     }
 
 }
