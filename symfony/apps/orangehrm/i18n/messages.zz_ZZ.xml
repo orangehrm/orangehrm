@@ -7681,8 +7681,8 @@
         <target>FR_Please contact HR admin in order to reset the password</target>
       </trans-unit>
       <trans-unit id="1920">
-        <source>Work email is not set. please contact HR admin in order to reset the password</source>
-        <target>FR_Work email is not set. please contact HR admin in order to reset the password</target>
+        <source>Work email is not set. Please contact HR admin in order to reset the password</source>
+        <target>FR_Work email is not set. Please contact HR admin in order to reset the password</target>
       </trans-unit>
       <trans-unit id="1921">
         <source>Password reset email could not be sent</source>
@@ -7721,8 +7721,8 @@
         <target>FR_Instruction Sent !</target>
       </trans-unit>
       <trans-unit id="1930">
-        <source>Instructions for resetting your password have been sent to Email</source>
-        <target>FR_Instructions for resetting your password have been sent to Email</target>
+        <source>Instructions for resetting your password have been sent to </source>
+        <target>FR_Instructions for resetting your password have been sent to </target>
       </trans-unit>
       <trans-unit id="1932">
         <source>Successfully reset your password.</source>
