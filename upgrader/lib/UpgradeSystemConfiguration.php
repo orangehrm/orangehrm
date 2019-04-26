@@ -18,6 +18,8 @@
  *
  */
 
+require_once ROOT_PATH.'/installer/SystemConfiguration.php';
+
 class UpgradeSystemConfiguration
 {
 
