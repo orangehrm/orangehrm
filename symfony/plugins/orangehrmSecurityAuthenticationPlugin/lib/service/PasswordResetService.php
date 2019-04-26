@@ -96,7 +96,7 @@ class PasswordResetService extends BaseService {
                             }
 
                         } else {
-                            throw new ServiceException(__('Work email is not set. please contact HR admin in order to reset the password'));
+                            throw new ServiceException(__('Work email is not set. Please contact HR admin in order to reset the password'));
                         }
                     } else {
                         throw new ServiceException(__('Please contact HR admin in order to reset the password'));
