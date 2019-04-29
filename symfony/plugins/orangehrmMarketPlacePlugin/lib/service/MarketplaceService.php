@@ -260,4 +260,34 @@ class MarketplaceService extends ConfigService
             'instanceIdChecksum' => $this->_getConfigValue(ConfigService::KEY_INSTANCE_IDENTIFIER_CHECKSUM)
         );
     }
+
+    /**
+     * @param $addon array object
+     * @return array $notInstalledExtensions
+     */
+    public function addonPrerequisitesVerify($addon)
+    {
+        $notInstalledExtensions = [];
+        if ($addon["type"] == "paid") {
+            if (!extension_loaded("ionCube Loader")) {
+                $notInstalledExtensions[] = 'ionCube Loader';
+            }
+        }
+        if (count($addon["prerequisites"]) != 0) {
+            foreach ($addon["prerequisites"] as $prerequisiteType) {
+                if ($prerequisiteType["type"] == "php_extension") {
+                    $php_extensions = explode(',', $prerequisiteType["params"]["extension"]);
+                    foreach ($php_extensions as $php_extension) {
+                        if (!extension_loaded($php_extension)) {
+                            $notInstalledExtensions[] = $php_extension;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $notInstalledExtensions;
+
+    }
+
 }
