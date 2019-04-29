@@ -7725,8 +7725,8 @@
         <target>FR_Instructions for resetting your password have been sent to </target>
       </trans-unit>
       <trans-unit id="1932">
-        <source>Successfully reset your password.</source>
-        <target>FR_Successfully reset your password.</target>
+        <source>Successfully reset your password</source>
+        <target>FR_Successfully reset your password</target>
       </trans-unit>
       <trans-unit id="1933">
         <source>Go to Login Page</source>
