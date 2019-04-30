@@ -208,8 +208,8 @@ class MarketplaceService extends ConfigService
 
         if ($adminEmployee instanceof Employee) {
             $organizationEmail = $adminEmployee->getEmpWorkEmail();
-            $adminFirstName = $adminEmployee->getFirstname();
-            $adminLastName = $adminEmployee->getLastname();
+            $adminFirstName = $adminEmployee->getFirstName();
+            $adminLastName = $adminEmployee->getLastName();
         }
 
         $instanceId = $this->getSysConfig()->createInstanceIdentifier(
