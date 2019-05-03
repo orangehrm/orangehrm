@@ -118,7 +118,7 @@ $(document).ready(function () {
         });
     });
     $('.buyBtn').click(function () {
-        var buyNowId = $(this).attr('addid');
+        buyNowId = $(this).attr('addid');
 
         $.ajax({
             method: "POST",
