@@ -22,6 +22,9 @@
  */
 class MarketplaceDao
 {
+    const INSTALLED = 'Installed';
+    const REQUESTED = 'Requested';
+    const PAID = 'Paid';
     /**
      * @return array
      * @throws DaoException
@@ -32,7 +35,7 @@ class MarketplaceDao
             $q = Doctrine_Query::create()
                 ->select('id')
                 ->from('Addon c')
-                ->where('c.status = ?', 'Installed');
+                ->where('c.status = ?', self::INSTALLED);
             $value = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
             return $value;
         } catch (Exception $e) {
@@ -51,7 +54,7 @@ class MarketplaceDao
             $q = Doctrine_Query::create()
                 ->select('id')
                 ->from('Addon c')
-                ->where('c.status = ?', 'Requested');
+                ->where('c.status = ?', self::REQUESTED);
             $value = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
             return $value;
         } catch (Exception $e) {
@@ -59,7 +62,26 @@ class MarketplaceDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-
+    /**
+     * @return array $paidAddonIds
+     * @throws DaoException
+     */
+    public function getPaidAddonIds()
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->select('id')
+                ->from('Addon c')
+                ->where('c.status = ?', self::PAID);
+            $value = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+            return $value;
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            $this->getLogger()->error("Exception in getValue:" . $e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
     /**
      * @param $data
      * @return bool
@@ -78,6 +100,31 @@ class MarketplaceDao
             }
             $addon->save();
             return true;
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @param $status
+     * @return bool
+     * @throws DaoException
+     */
+    public function updateStatusRequestAddon($paidAddonNames)
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->update('Addon a')
+                ->set('a.addonStatus', '?',self::PAID)
+                ->whereIn('a.addonName', $paidAddonNames)
+                ->andWhere('a.addonStatus = ?',self::REQUESTED);
+            $p = $q->execute();
+            if($p > 0) {
+                return true;
+            }
+            return false;
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

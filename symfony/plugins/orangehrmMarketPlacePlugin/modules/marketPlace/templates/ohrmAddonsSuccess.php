@@ -32,6 +32,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
             <a href="#" class="messageCloseButton"><?php echo __('Close'); ?></a>
         </div>
         <?php $buyNowPendingAddon = $sf_data->getRaw("buyNowPendingAddon");
+        $paidAddons = $sf_data->getRaw("paidAddonIds");
         if (!$exception) {
         if ($canRead) { ?>
         <?php foreach ($addonList as $addon) { ?>
@@ -55,13 +56,13 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                 <input type="button" name="Submit" class="buttons delete uninstallBtn"
                                        id="<?php echo 'uninstallButton' . $addon['id']; ?>"
                                        value="Uninstall" data-toggle="modal" data-target="#deleteConfModal"
-                                       addid=<?php echo $addon['id'] ?>> <?php } ?>
-                            <?php if (!in_array($addon['id'], $installedAddons) and $canCreate and $addon['type'] == 'free') { ?>
+                                       addid=<?php echo $addon['id'] ?>> <?php }
+                            elseif (!in_array($addon['id'], $installedAddons) and $canCreate and ($addon['type'] == 'free')||in_array($addon['id'], $paidAddons)) { ?>
                                 <input type="button" name="Submit" class="buttons installBtn"
                                        id="<?php echo 'installButton' . $addon['id']; ?>" value="Install"
                                        data-toggle="modal"
-                                       data-target="#installConfModal" addid=<?php echo $addon['id'] ?>> <?php } ?>
-                            <?php if (!in_array($addon['id'], $installedAddons) and $canCreate and $addon['type'] == 'paid') { ?>
+                                       data-target="#installConfModal" addid=<?php echo $addon['id'] ?>> <?php }
+                            elseif (!in_array($addon['id'], $installedAddons) and $canCreate and $addon['type'] == 'paid') { ?>
                                 <input type="button" name="Submit"
                                        class="buttons buyBtn <?php if (in_array($addon['id'], $buyNowPendingAddon)) {
                                            echo 'requested';

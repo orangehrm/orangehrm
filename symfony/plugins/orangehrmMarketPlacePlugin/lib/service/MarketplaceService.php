@@ -117,6 +117,20 @@ class MarketplaceService extends ConfigService
     }
 
     /**
+     * @return array $paidAddonIds
+     * @throws DaoException
+     */
+    public function getPaidAddonIds()
+    {
+        $paidAddons = $this->getMarketplaceDao()->getPaidAddonIds();
+        $addonlist = [];
+        foreach ($paidAddons as $addon) {
+            $addonlist[] = $addon['id'];
+        }
+        return $addonlist;
+    }
+
+    /**
      * @param $data
      * @return bool
      * @throws DaoException
@@ -124,6 +138,16 @@ class MarketplaceService extends ConfigService
     public function installOrRequestAddon($data)
     {
         return $this->getMarketplaceDao()->installOrRequestAddon($data);
+    }
+
+    /**
+     * @param $paidAddonNames
+     * @return bool
+     * @throws DaoException
+     */
+    public function updateStatusAddonRequests($paidAddonNames)
+    {
+        return $this->getMarketplaceDao()->updateStatusRequestAddon($paidAddonNames);
     }
 
     /**

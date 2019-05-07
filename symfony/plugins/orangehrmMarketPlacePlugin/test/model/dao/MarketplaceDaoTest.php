@@ -1,5 +1,6 @@
 <?php
-/**
+/*
+ *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -14,22 +15,34 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
+ *
  */
 
 /**
- * Class orangehrmMarketPlacePluginAllTests
+ * @group Marketplace
  */
-class orangehrmMarketPlacePluginAllTests
-{
-    /**
-     * @return PHPUnit_Framework_TestSuite
-     */
-    public static function suite()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('orangehrmMaintenancePluginAllTest');
-        $suite->addTestFile(dirname(__FILE__) . '/model/service/APIManagerServiceTest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/model/dao/MarketplaceDaoTest.php');
-        return $suite;
+class MarketplaceDaoTest extends PHPUnit_Framework_TestCase {
+
+    private $marketplaceDao;
+    private $fixture;
+
+    protected function setUp() {
+        $this->marketplaceDao = new MarketplaceDao();
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmMarketPlacePlugin/test/fixtures/MarketplaceDao.yml';
+        TestDataService::populate($this->fixture);
     }
+
+    public function testUpdateStatusRequestAddon() {
+        $paidAddonNames = array("LDAP");
+        $result = $this->marketplaceDao->updateStatusRequestAddon($paidAddonNames);
+        $this->assertEquals($result, true);
+
+    }
+
+    public function testGetPaidAddonIds() {
+        $result = $this->marketplaceDao->getPaidAddonIds();
+        $this->assertEquals(count($result), 1);
+    }
+
 }
