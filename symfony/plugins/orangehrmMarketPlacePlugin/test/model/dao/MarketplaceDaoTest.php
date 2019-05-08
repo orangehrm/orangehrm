@@ -33,15 +33,19 @@ class MarketplaceDaoTest extends PHPUnit_Framework_TestCase {
         TestDataService::populate($this->fixture);
     }
 
-    public function testUpdateStatusRequestAddon() {
+    public function testChangeAddonStatus() {
         $paidAddonNames = array("LDAP");
-        $result = $this->marketplaceDao->updateStatusRequestAddon($paidAddonNames);
+        $result = $this->marketplaceDao->changeAddonStatus(
+            $paidAddonNames,
+            MarketplaceDao::ADDON_STATUS_REQUESTED,
+            MarketplaceDao::ADDON_STATUS_PAID
+        );
         $this->assertEquals($result, true);
 
     }
 
-    public function testGetPaidAddonIds() {
-        $result = $this->marketplaceDao->getPaidAddonIds();
+    public function testGetAddonByStatus() {
+        $result = $this->marketplaceDao->getAddonByStatus(MarketplaceDao::ADDON_STATUS_PAID);
         $this->assertEquals(count($result), 1);
     }
 

@@ -40,13 +40,17 @@ class ohrmAddonsAction extends baseAddonAction
         if (ini_get('max_execution_time') < 600) {
             ini_set('max_execution_time', 600);
         }
-        $paidInstallationPendingAddons = $this->getApiManagerService()->getPaidInstallationPendingAddons();
+        $paidInstallationPendingAddons = $this->getApiManagerService()->getAddonPaymentStatus();
         $paidInstallationPendingAddonNames = [];
         foreach($paidInstallationPendingAddons as $paidInstallationAddon) {
             $paidInstallationPendingAddonNames[] = $paidInstallationAddon["title"];
         }
         if(count($paidInstallationPendingAddonNames)!=0) {
-            $this->getMarcketplaceService()->updateStatusAddonRequests($paidInstallationPendingAddonNames);
+            $this->getMarcketplaceService()->changeAddonStatus(
+                $paidInstallationPendingAddonNames,
+                MarketplaceDao::ADDON_STATUS_REQUESTED,
+                MarketplaceDao::ADDON_STATUS_PAID
+            );
         }
 
         $paidAddonIds = $this->getMarcketplaceService()->getPaidAddonIds();

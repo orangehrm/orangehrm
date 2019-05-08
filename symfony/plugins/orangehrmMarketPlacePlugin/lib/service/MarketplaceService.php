@@ -122,7 +122,7 @@ class MarketplaceService extends ConfigService
      */
     public function getPaidAddonIds()
     {
-        $paidAddons = $this->getMarketplaceDao()->getPaidAddonIds();
+        $paidAddons = $this->getMarketplaceDao()->getAddonByStatus(MarketplaceDao::ADDON_STATUS_PAID);
         $addonlist = [];
         foreach ($paidAddons as $addon) {
             $addonlist[] = $addon['id'];
@@ -141,13 +141,15 @@ class MarketplaceService extends ConfigService
     }
 
     /**
-     * @param $paidAddonNames
+     * @param array $addonNames
+     * @param string $fromStatus
+     * @param string$toStatus
      * @return bool
      * @throws DaoException
      */
-    public function updateStatusAddonRequests($paidAddonNames)
+    public function changeAddonStatus($addonNames, $fromStatus, $toStatus)
     {
-        return $this->getMarketplaceDao()->updateStatusRequestAddon($paidAddonNames);
+        return $this->getMarketplaceDao()->changeAddonStatus( $addonNames,$fromStatus, $toStatus);
     }
 
     /**

@@ -33,7 +33,7 @@ class APIManagerService
     /**
      * url to get paid installation pending addons from marketplace
      */
-    const PAID_INSTALLATION_PENDING_ADDONS = '/api/v1/getPaidInstallationPendingAddons';
+    const ADDON_PAYMENT_STATUS = '/api/v1/addon-payment-status';
     /**
      * url for get access token from marketplace
      */
@@ -285,10 +285,10 @@ class APIManagerService
     }
 
     /**
-     * @return array $paidInstallationPendingAddons
+     * @return array $addonsWithPaidPaymentStatus
      * @throws CoreServiceException
      */
-    public function getPaidInstallationPendingAddons()
+    public function getAddonPaymentStatus()
     {
         $token = $this->getApiToken();
         $headers = array(
@@ -299,7 +299,7 @@ class APIManagerService
         $requestData = array(
             'instanceId' => $instanceID
         );
-        $response = $this->getApiClient()->post(self::PAID_INSTALLATION_PENDING_ADDONS ,
+        $response = $this->getApiClient()->post(self::ADDON_PAYMENT_STATUS,
             array(
                 'headers' => $headers,
                 'form_params' => $requestData
