@@ -31,6 +31,10 @@ class APIManagerService
      */
     const ADDON_LIST = '/api/v1/addon';
     /**
+     * url to get paid installation pending addons from marketplace
+     */
+    const ADDON_PAYMENT_STATUS = '/api/v1/addon-payment-status';
+    /**
      * url for get access token from marketplace
      */
     const API_TOKEN = '/oauth/v2/token';
@@ -277,6 +281,33 @@ class APIManagerService
         );
         if ($response->getStatusCode() == 200) {
             return 'Success';
+        }
+    }
+
+    /**
+     * @return array $addonsWithPaidPaymentStatus
+     * @throws CoreServiceException
+     */
+    public function getAddonPaymentStatus()
+    {
+        $token = $this->getApiToken();
+        $headers = array(
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token
+        );
+        $instanceID = $this->getConfigService()->getInstanceIdentifier();
+        $requestData = array(
+            'instanceId' => $instanceID
+        );
+        $response = $this->getApiClient()->post(self::ADDON_PAYMENT_STATUS,
+            array(
+                'headers' => $headers,
+                'form_params' => $requestData
+            )
+        );
+        if ($response->getStatusCode() == 200) {
+            $body = json_decode($response->getBody(), true);
+            return $body;
         }
     }
 

@@ -29,6 +29,7 @@ class orangehrmMarketPlacePluginAllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('orangehrmMaintenancePluginAllTest');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/APIManagerServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/MarketplaceDaoTest.php');
         return $suite;
     }
 }
