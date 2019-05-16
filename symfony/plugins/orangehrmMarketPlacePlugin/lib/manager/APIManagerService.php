@@ -33,7 +33,7 @@ class APIManagerService
     /**
      * url to get paid installation pending addons from marketplace
      */
-    const ADDON_PAYMENT_STATUS = '/api/v1/addon-payment-status';
+    const ADDON_PAYMENT_STATUS = '/api/v1/addon-payment-status?instanceId=';
     /**
      * url for get access token from marketplace
      */
@@ -296,13 +296,10 @@ class APIManagerService
             'Authorization' => 'Bearer ' . $token
         );
         $instanceID = $this->getConfigService()->getInstanceIdentifier();
-        $requestData = array(
-            'instanceId' => $instanceID
-        );
-        $response = $this->getApiClient()->post(self::ADDON_PAYMENT_STATUS,
+
+        $response = $this->getApiClient()->get(self::ADDON_PAYMENT_STATUS . $instanceID,
             array(
-                'headers' => $headers,
-                'form_params' => $requestData
+                'headers' => $headers
             )
         );
         if ($response->getStatusCode() == 200) {
