@@ -125,7 +125,7 @@ class MarketplaceService extends ConfigService
         $paidAddons = $this->getMarketplaceDao()->getAddonByStatus(MarketplaceDao::ADDON_STATUS_PAID);
         $addonlist = [];
         foreach ($paidAddons as $addon) {
-            $addonlist[] = $addon['id'];
+            $addonlist[] = $addon;
         }
         return $addonlist;
     }
