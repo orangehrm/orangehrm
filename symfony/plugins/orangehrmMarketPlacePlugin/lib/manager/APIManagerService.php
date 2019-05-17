@@ -31,10 +31,6 @@ class APIManagerService
      */
     const ADDON_LIST = '/api/v1/addon';
     /**
-     * url to get paid installation pending addons from marketplace
-     */
-    const ADDON_PAYMENT_STATUS = '/api/v1/addon-payment-status?instanceId=';
-    /**
      * url for get access token from marketplace
      */
     const API_TOKEN = '/oauth/v2/token';
@@ -297,7 +293,7 @@ class APIManagerService
         );
         $instanceID = $this->getConfigService()->getInstanceIdentifier();
 
-        $response = $this->getApiClient()->get(self::ADDON_PAYMENT_STATUS . $instanceID,
+        $response = $this->getApiClient()->get('/api/v1/instanceId/' . $instanceID . '/addon-payment-status' ,
             array(
                 'headers' => $headers
             )
