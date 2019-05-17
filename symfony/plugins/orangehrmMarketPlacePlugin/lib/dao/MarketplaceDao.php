@@ -73,7 +73,10 @@ class MarketplaceDao
                 ->select('id')
                 ->from('Addon c')
                 ->where('c.status = ?', $status);
-            $value = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+            $value = $q->execute(array(), Doctrine::HYDRATE_SINGLE_SCALAR);
+            if(!is_array($value)){
+                $value = array($value);
+            }
             return $value;
         } catch (Exception $e) {
             $this->getLogger()->error("Exception in getValue:" . $e);
