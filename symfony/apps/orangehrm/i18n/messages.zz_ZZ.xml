@@ -7736,6 +7736,10 @@
         <source>This link is expired, Please request again</source>
         <target>FR_This link is expired, Please request again</target>
       </trans-unit>
+      <trans-unit id="1935">
+        <source>OrangeHRM - Prerequisites Verification</source>
+        <target>FR_OrangeHRM - Prerequisites Verification</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -47,18 +47,18 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                 <label id="title"><?php echo __($addon['title']); ?></label>
                             </div>
                             <div class="row">
-                                <p><?php echo __($addon['summary']); ?></p>
+                                <p><?php echo $addon['summary']; ?></p>
                             </div>
                             <div class="row">
                                 <p><?php
                                     if (!empty($addon['prerequisites']) || $addon['type'] == "paid") {
-                                        echo __("Prerequisites:- ");
+                                        echo "Prerequisites:- ";
                                         if ($addon['type'] == "paid") {
-                                            echo __("ionCube Loader, ");
+                                            echo "ionCube Loader, ";
                                         }
                                         foreach ($addon['prerequisites'] as $prerequisite) {
                                             if ($prerequisite['type'] == 'php_extension') {
-                                                echo __($prerequisite['params']['extension']);
+                                                echo $prerequisite['params']['extension'];
                                                 break;
                                             }
                                         }
