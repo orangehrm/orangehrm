@@ -124,23 +124,17 @@ class MarketplaceServiceTest extends PHPUnit_Framework_TestCase
 
         $result = $this->marketplaceService->addonPrerequisitesVerify($addon);
 
-        if (extension_loaded("toggl") && extension_loaded("soap") && extension_loaded("image")) {
-            $this->assertEquals(count($result), 0);
-        } elseif (!extension_loaded("toggl") && extension_loaded("soap") && extension_loaded("image")) {
-            $this->assertEquals(count($result), 1);
-        } elseif (extension_loaded("toggl") && !extension_loaded("soap") && extension_loaded("image")) {
-            $this->assertEquals(count($result), 1);
-        } elseif (extension_loaded("toggl") && extension_loaded("soap") && !extension_loaded("image")) {
-            $this->assertEquals(count($result), 1);
-        } elseif (!extension_loaded("toggl") && !extension_loaded("soap") && extension_loaded("image")) {
-            $this->assertEquals(count($result), 2);
-        } elseif (!extension_loaded("toggl") && extension_loaded("soap") && !extension_loaded("image")) {
-            $this->assertEquals(count($result), 2);
-        } elseif (extension_loaded("toggl") && !extension_loaded("soap") && !extension_loaded("image")) {
-            $this->assertEquals(count($result), 2);
-        } else {
-            $this->assertEquals(count($result), 3);
+        $preRequisiteNotMetCount = 3;
+
+        $prerequisites = ["toggl","soap","image"];
+        foreach($prerequisites as $prerequisite) {
+            if(extension_loaded($prerequisite)) {
+                $preRequisiteNotMetCount--;
+
+            }
         }
+
+        $this->assertEquals($preRequisiteNotMetCount, count($result));
     }
 
 }
