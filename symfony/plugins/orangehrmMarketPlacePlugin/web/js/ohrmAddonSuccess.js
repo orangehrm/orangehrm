@@ -33,6 +33,21 @@ $(document).ready(function () {
     });
     $('.installBtn').live('click', function (event) {
         installId = $(this).attr('addid');
+
+        $.ajax({
+            method: "POST",
+            data: {addonID: installId},
+            url: prerequisiteVerificationUrl,
+            success: function (result) {
+                var notInstalledPrerequisites = JSON.parse(result);
+                if (notInstalledPrerequisites.length != 0) {
+                    $('#prerequisitesNotMetModal').modal('toggle');
+                    $("#prerequisitesNotMet").text("Prerequisites:- OrangeHRM requires below prerequisites in order for the add on to work successfully. Please install " + notInstalledPrerequisites.toString());
+                } else {
+                    $('#installConfModal').modal('toggle');
+                }
+            }
+        });
     });
     $('.uninstallBtn').live('click', function () {
         uninstallId = $(this).attr('addid');
@@ -56,16 +71,14 @@ $(document).ready(function () {
                         'id': 'uninstallButton' + installId,
                         'data-target': '#deleteConfModal'
                     });
-                }
-                else {
+                } else {
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();
                     $('#installButton' + installId).attr('value', 'Install');
                     var errorcode = 'e' + result;
                     if (errorcode in installErrorMessage) {
                         $("#addon_div").text(installErrorMessage[errorcode] + messaegeInFail)
-                    }
-                    else {
+                    } else {
                         $("#addon_div").text(messaegeInFail);
                     }
                 }
@@ -96,9 +109,8 @@ $(document).ready(function () {
                     $('#loading').removeClass();
                     var errorcode = 'e' + result;
                     if (errorcode in installErrorMessage) {
-                        $("#addon_div").text(uninstallErrorMessage[errorcode]+ meassageUninFail)
-                    }
-                    else {
+                        $("#addon_div").text(uninstallErrorMessage[errorcode] + meassageUninFail)
+                    } else {
                         $("#addon_div").text(meassageUninFail);
                     }
                 }
@@ -107,6 +119,19 @@ $(document).ready(function () {
     });
     $('.buyBtn').click(function () {
         buyNowId = $(this).attr('addid');
+
+        $.ajax({
+            method: "POST",
+            data: {addonID: buyNowId},
+            url: prerequisiteVerificationUrl,
+            success: function (result) {
+                var notInstalledPrerequisites = JSON.parse(result);
+                $('#buyNowModal').modal('toggle');
+                if (notInstalledPrerequisites.length != 0) {
+                    $("#prerequisites").text("Prerequisites:- OrangeHRM requires below prerequisites in order for the add on to work successfully. Please install " + notInstalledPrerequisites.toString());
+                }
+            }
+        });
     });
     $('#modal_confirm_buy').click(function () {
         if ($("#frmBuyNow").valid()) {
@@ -127,13 +152,11 @@ $(document).ready(function () {
                         $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
                         $('#disable-screen').removeClass();
                         $('#messege_div').show(0).delay(2000).fadeOut(1000);
-                    }
-                    else if (result === '3000') {
+                    } else if (result === '3000') {
                         $('#disable-screen').removeClass();
                         $('#loading').removeClass();
                         $("#addon_div").text(networkErrMessage);
-                    }
-                    else if (result === '1') {
+                    } else if (result === '1') {
                         $('#loading').removeClass();
                         $('#disable-screen').removeClass();
                         $("#addon_div").text(buyNowReqFail);

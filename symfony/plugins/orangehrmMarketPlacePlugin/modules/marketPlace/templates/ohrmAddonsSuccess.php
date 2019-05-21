@@ -47,7 +47,24 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                 <label id="title"><?php echo __($addon['title']); ?></label>
                             </div>
                             <div class="row">
-                                <p><?php echo __($addon['summary']); ?></p>
+                                <p><?php echo $addon['summary']; ?></p>
+                            </div>
+                            <div class="row">
+                                <p><?php
+                                    if (!empty($addon['prerequisites']) || $addon['type'] == "paid") {
+                                        echo "Prerequisites:- ";
+                                        if ($addon['type'] == "paid") {
+                                            echo "ionCube Loader, ";
+                                        }
+                                        foreach ($addon['prerequisites'] as $prerequisite) {
+                                            if ($prerequisite['type'] == 'php_extension') {
+                                                echo $prerequisite['params']['extension'];
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                    ?></p>
                             </div>
                         </div>
                         <div id="column" class="install_button">
@@ -76,8 +93,6 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                        } ?>" <?php if (in_array($addon['id'], $buyNowPendingAddon)) {
                                     echo 'disabled';
                                 } ?>
-                                       data-toggle="modal"
-                                       data-target="#buyNowModal"
                                        addid=<?php echo $addon['id'] ?>> <?php } ?>
                         </div>
                     </div>
@@ -124,6 +139,19 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>
+<!--Prerequisites Not Met Modal-->
+<div class="modal hide" id="prerequisitesNotMetModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3><?php echo __('OrangeHRM - Prerequisites Verification'); ?></h3>
+    </div>
+    <div class="modal-body">
+        <div id="prerequisitesNotMet" class="box"></div>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
+    </div>
+</div>
 <!--Buy now modal-->
 <div class="modal hide" id="buyNowModal">
     <div class="modal-header">
@@ -140,12 +168,15 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                 </ol>
             </form>
         </div>
+        <div id="prerequisites" class="box"
     </div>
-    <div class="modal-footer">
-        <input type="button" class="btn" id="modal_confirm_buy"
-               value="<?php echo __('Ok'); ?>"/>
-        <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
-    </div>
+
+</div>
+<div class="modal-footer">
+    <input type="button" class="btn" id="modal_confirm_buy"
+           value="<?php echo __('Ok'); ?>"/>
+    <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
+</div>
 
 </div>
 <script>
@@ -154,6 +185,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var installUrl = "<?php echo url_for('marketPlace/installAddonAPI'); ?>";
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
     var buyNowUrl = "<?php echo url_for('marketPlace/ohrmBuyNowAPI'); ?>";
+    var prerequisiteVerificationUrl = "<?php echo url_for('marketPlace/prerequisiteVerification');?>";
 
     var meassageInSuccess = "<?php echo __js('Successfully Installed'); ?>";
     var messaegeInFail = "<?php echo __js('Failed to Install'); ?>";
