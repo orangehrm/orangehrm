@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35546da24dca9d6fca420136c378ba0d",
+    "content-hash": "6c787f619cbecb8d2fcbf408d208c3dc",
     "packages": [
         {
             "name": "bjeavons/zxcvbn-php",
@@ -278,16 +278,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.97",
+            "version": "v0.99",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "682f5ea10b63a4a008933afae5185c5239b653cb"
+                "reference": "000516c530f0731ec90a168b6a294d42e062d087"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/682f5ea10b63a4a008933afae5185c5239b653cb",
-                "reference": "682f5ea10b63a4a008933afae5185c5239b653cb",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/000516c530f0731ec90a168b6a294d42e062d087",
+                "reference": "000516c530f0731ec90a168b6a294d42e062d087",
                 "shasum": ""
             },
             "require": {
@@ -311,7 +311,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2019-05-04T00:23:16+00:00"
+            "time": "2019-05-18T00:23:17+00:00"
         },
         {
             "name": "google/auth",
@@ -598,30 +598,37 @@
         },
         {
             "name": "lexpress/doctrine1",
-            "version": "dev-ohrm",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/orangehrm/doctrine1.git",
-                "reference": "51ca4ec05873786fa3724f0afe950db369532898"
+                "url": "https://github.com/FriendsOfSymfony1/doctrine1.git",
+                "reference": "d6c2c675ab38dbc823fedbdad2b805577f2cf922"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orangehrm/doctrine1/zipball/51ca4ec05873786fa3724f0afe950db369532898",
-                "reference": "51ca4ec05873786fa3724f0afe950db369532898",
+                "url": "https://api.github.com/repos/FriendsOfSymfony1/doctrine1/zipball/d6c2c675ab38dbc823fedbdad2b805577f2cf922",
+                "reference": "d6c2c675ab38dbc823fedbdad2b805577f2cf922",
                 "shasum": ""
             },
             "require": {
+                "ext-mbstring": "*",
                 "ext-pdo": "*",
-                "php": ">=5.2.3"
+                "php": ">=5.3"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Doctrine_": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL"
+                "LGPL-2.1-or-later"
             ],
             "authors": [
                 {
@@ -631,18 +638,21 @@
                 {
                     "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Doctrine1 Contributors",
+                    "homepage": "https://github.com/FriendsOfSymfony1/doctrine1/graphs/contributors"
                 }
             ],
-            "description": "PHP5 Database ORM",
+            "description": "PHP Database ORM for Symfony1. Do NOT use for new projects: please move to a newest Symfony release and Doctrine2",
             "homepage": "http://www.doctrine-project.org",
             "keywords": [
                 "database",
-                "orm"
+                "doctrine1",
+                "orm",
+                "symfony1"
             ],
-            "support": {
-                "source": "https://github.com/orangehrm/doctrine1/tree/ohrm"
-            },
-            "time": "2018-07-18T03:18:03+00:00"
+            "time": "2019-04-16T12:12:17+00:00"
         },
         {
             "name": "lexpress/symfony1",
@@ -2909,16 +2919,16 @@
         },
         {
             "name": "symfony/contracts",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/contracts.git",
-                "reference": "1aa7ab2429c3d594dd70689604b5cf7421254cdf"
+                "reference": "d3636025e8253c6144358ec0a62773cae588395b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/contracts/zipball/1aa7ab2429c3d594dd70689604b5cf7421254cdf",
-                "reference": "1aa7ab2429c3d594dd70689604b5cf7421254cdf",
+                "url": "https://api.github.com/repos/symfony/contracts/zipball/d3636025e8253c6144358ec0a62773cae588395b",
+                "reference": "d3636025e8253c6144358ec0a62773cae588395b",
                 "shasum": ""
             },
             "require": {
@@ -2926,19 +2936,22 @@
             },
             "require-dev": {
                 "psr/cache": "^1.0",
-                "psr/container": "^1.0"
+                "psr/container": "^1.0",
+                "symfony/polyfill-intl-idn": "^1.10"
             },
             "suggest": {
                 "psr/cache": "When using the Cache contracts",
                 "psr/container": "When using the Service contracts",
                 "symfony/cache-contracts-implementation": "",
+                "symfony/event-dispatcher-implementation": "",
+                "symfony/http-client-contracts-implementation": "",
                 "symfony/service-contracts-implementation": "",
                 "symfony/translation-contracts-implementation": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2973,7 +2986,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2018-12-05T08:06:11+00:00"
+            "time": "2019-04-27T14:29:50+00:00"
         },
         {
             "name": "symfony/css-selector",

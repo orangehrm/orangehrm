@@ -23,7 +23,7 @@
   },
   "require": {
     "lexpress/symfony1": "dev-ohrm",
-    "lexpress/doctrine1": "dev-ohrm",
+    "lexpress/doctrine1": "dev-master",
     "oomphinc/composer-installers-extender": "^1.1",
     "iignatov/lightopenid": "dev-master",
     "phpseclib/phpseclib": "~2.0",
