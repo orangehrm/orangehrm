@@ -51,10 +51,13 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                             </div>
                             <div class="row">
                                 <p><?php
-                                    if (!empty($addon['prerequisites']) || $addon['type'] == "paid") {
+                                    if (count($addon['prerequisites'])!=0 || $addon['type'] == "paid") {
                                         echo "Prerequisites:- ";
-                                        if ($addon['type'] == "paid") {
+                                        if ($addon['type'] == "paid" && count($addon['prerequisites'])!=0) {
                                             echo "ionCube Loader, ";
+                                        }
+                                        if ($addon['type'] == "paid" && count($addon['prerequisites'])==0) {
+                                            echo "ionCube Loader";
                                         }
                                         foreach ($addon['prerequisites'] as $prerequisite) {
                                             if ($prerequisite['type'] == 'php_extension') {
@@ -77,8 +80,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                             elseif (!in_array($addon['id'], $installedAddons) and $canCreate and ($addon['type'] == 'free')||in_array($addon['id'], $paidAddons)) { ?>
                                 <input type="button" name="Submit" class="buttons installBtn"
                                        id="<?php echo 'installButton' . $addon['id']; ?>" value="Install"
-                                       data-toggle="modal"
-                                       data-target="#installConfModal" addid=<?php echo $addon['id'] ?>> <?php }
+                                       addid=<?php echo $addon['id'] ?>> <?php }
                             elseif (!in_array($addon['id'], $installedAddons) and $canCreate and $addon['type'] == 'paid') { ?>
                                 <input type="button" name="Submit"
                                        class="buttons buyBtn <?php if (in_array($addon['id'], $buyNowPendingAddon)) {
@@ -149,7 +151,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <div id="prerequisitesNotMet" class="box"></div>
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
+        <input type="button" class="btn" data-dismiss="modal" value="<?php echo __('Ok'); ?>"/>
     </div>
 </div>
 <!--Buy now modal-->
