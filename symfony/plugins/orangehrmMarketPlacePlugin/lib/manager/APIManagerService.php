@@ -220,7 +220,8 @@ class APIManagerService
         );
 
         $instanceID = $this->getConfigService()->getInstanceIdentifier();
-        $response = $this->getApiClient()->get('/api/v1/instanceId/' . $instanceID . '/addonId/' . $addonId . '/addon-license',
+        $response = $this->getApiClient()->get(
+            '/api/v1/instanceId/' . $instanceID . '/addonId/' . $addonId . '/addon-license',
             array(
                 'headers' => $headers
             )
