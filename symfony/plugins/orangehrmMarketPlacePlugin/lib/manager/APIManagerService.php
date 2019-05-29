@@ -126,7 +126,7 @@ class APIManagerService
     private function getApiClient()
     {
         if (!isset($this->apiClient)) {
-            $this->apiClient = new GuzzleHttp\Client(['base_uri' => $this->getBaseURL(), 'verify' => false]);
+            $this->apiClient = new GuzzleHttp\Client(['base_uri' => $this->getBaseURL()]);
         }
         return $this->apiClient;
     }
