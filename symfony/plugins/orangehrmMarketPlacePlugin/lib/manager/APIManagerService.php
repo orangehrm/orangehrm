@@ -126,7 +126,7 @@ class APIManagerService
     private function getApiClient()
     {
         if (!isset($this->apiClient)) {
-            $this->apiClient = new GuzzleHttp\Client(['base_uri' => $this->getBaseURL()]);
+            $this->apiClient = new GuzzleHttp\Client(['base_uri' => $this->getBaseURL(), 'verify' => false]);
         }
         return $this->apiClient;
     }
@@ -215,7 +215,7 @@ class APIManagerService
     {
         $token = $this->getApiToken();
         $headers = array(
-            'Accept' => 'application/json',
+            'Accept' => 'text/plain',
             'Authorization' => 'Bearer ' . $token
         );
 
@@ -227,8 +227,7 @@ class APIManagerService
             )
         );
         if ($response->getStatusCode() == 200) {
-            $body = json_decode($response->getBody(), true);
-            return $body;
+            return $response->getBody()->getContents();
         }
     }
 
