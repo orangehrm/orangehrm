@@ -207,6 +207,31 @@ class APIManagerService
     }
 
     /**
+     * @param $addonId
+     * @return string $addonLicense
+     * @throws CoreServiceException
+     */
+    public function getAddonLicense($addonId)
+    {
+        $token = $this->getApiToken();
+        $headers = array(
+            'Accept' => 'text/plain',
+            'Authorization' => 'Bearer ' . $token
+        );
+
+        $instanceID = $this->getConfigService()->getInstanceIdentifier();
+        $response = $this->getApiClient()->get(
+            '/api/v1/instanceId/' . $instanceID . '/addonId/' . $addonId . '/addon-license',
+            array(
+                'headers' => $headers
+            )
+        );
+        if ($response->getStatusCode() == 200) {
+            return $response->getBody()->getContents();
+        }
+    }
+
+    /**
      * @param $addonURL
      * @return string
      * @throws CoreServiceException
@@ -220,7 +245,8 @@ class APIManagerService
         );
 
         $tempAddonFile = $this->getTempAddonFile();
-        $response = $this->getApiClient()->get($addonURL,
+        $phpVersion = phpversion();
+        $response = $this->getApiClient()->get($addonURL . '&phpVersion=' . $phpVersion,
             array(
                 'headers' => $headers,
                 'sink' => $tempAddonFile
@@ -232,6 +258,7 @@ class APIManagerService
             return $this->renameTempAddonFile($tempAddonFile, $addonFileName);
         }
     }
+
 
     /**
      * @param $addonURL

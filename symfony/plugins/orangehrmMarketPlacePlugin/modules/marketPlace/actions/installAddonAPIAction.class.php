@@ -44,7 +44,14 @@ class installAddonAPIAction extends baseAddonAction
                 }
             }
             $addonFilePath = $this->getAddonFile($addonURL, $addonDetail);
-            $result = $this->installAddon($addonFilePath, $addonDetail);
+            $pluginname = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
+            if($addonDetail['type']=='paid') {
+                $addonLicenseContent = $this->getApiManagerService()->getAddonLicense($addonId);
+                if(!is_null($addonLicenseContent)) {
+                    file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginname . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);
+                }
+            }
+            $result = $this->installAddon($addonFilePath, $addonDetail, $pluginname);
             echo json_encode($result);
             return sfView::NONE;
         } catch (GuzzleHttp\Exception\ConnectException $e) {
@@ -79,12 +86,11 @@ class installAddonAPIAction extends baseAddonAction
      * @throws DaoException
      * @throws Doctrine_Transaction_Exception
      */
-    protected function installAddon($addonFilePath, $addonDetail)
+    protected function installAddon($addonFilePath, $addonDetail, $pluginname)
     {
         try {
             $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
             $connection->beginTransaction();
-            $pluginname = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
             $symfonyPath = sfConfig::get('sf_root_dir');
             $pluginInstallFilePath = $symfonyPath . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginname . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'plugin_install.php';
             chdir($symfonyPath);
@@ -120,7 +126,7 @@ class installAddonAPIAction extends baseAddonAction
         );
         $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
         if ($result != true) {
-            throw new Exception('Can not add to OrangeHRM daabase. Uninstallation will cause errors. But plugin can used.', 1006);
+            throw new Exception('Can not add to OrangeHRM database. Uninstallation will cause errors. But plugin can used.', 1006);
         }
         return $result;
     }
