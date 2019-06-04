@@ -65,12 +65,15 @@ $(document).ready(function () {
                     $('#disable-screen').removeClass();
                     $('#message_body').text(meassageInSuccess);
                     $('#messege_div').show(0).delay(2000).fadeOut(1000);
-                    $('#installButton' + installId).attr({
+                    var intallBtn = $('#installButton' + installId).attr({
                         'class': 'buttons delete uninstallBtn',
                         'value': 'Uninstall',
                         'id': 'uninstallButton' + installId,
                         'data-target': '#deleteConfModal'
                     });
+                    if (paidAddons.indexOf(installId) > -1) {
+                        intallBtn.attr('value', 'Installed').prop("disabled", true).css('background-color', '#808080');
+                    }
                 } else {
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();

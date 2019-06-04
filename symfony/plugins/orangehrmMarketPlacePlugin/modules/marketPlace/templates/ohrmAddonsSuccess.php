@@ -72,16 +72,28 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                         </div>
                         <div id="column" class="install_button">
                             <?php $installedAddons = $sf_data->getRaw("installedAddons");
-                            if (in_array($addon['id'], $installedAddons) and $canDelete) { ?>
-                                <input type="button" name="Submit" class="buttons delete uninstallBtn"
-                                       id="<?php echo 'uninstallButton' . $addon['id']; ?>"
-                                       value="Uninstall" data-toggle="modal" data-target="#deleteConfModal"
-                                       addid=<?php echo $addon['id'] ?>> <?php }
-                            elseif (!in_array($addon['id'], $installedAddons) and $canCreate and ($addon['type'] == 'free')||in_array($addon['id'], $paidAddons)) { ?>
+                            if (in_array($addon['id'], $installedAddons)) {
+                                if ($canDelete) { ?>
+                                    <input type="button" name="Submit" class="buttons delete uninstallBtn <?php if ($addon['type'] == 'paid') {
+                                        echo 'requested';
+                                    } ?>"
+                                           id="<?php echo 'uninstallButton' . $addon['id']; ?>"
+                                           value="<?php
+                                           if ($addon['type'] == 'paid') {
+                                               echo __('Installed');
+                                           } else {
+                                               echo __('Uninstall');
+                                           } ?>" data-toggle="modal" data-target="#deleteConfModal" <?php if ($addon['type'] == 'paid') {
+                                        echo 'disabled';
+                                    } ?>
+                                           addid=<?php echo $addon['id'] ?>>
+                                <?php }?>
+                             <?php }
+                            elseif ($canCreate and ($addon['type'] == 'free')||in_array($addon['id'], $paidAddons)) { ?>
                                 <input type="button" name="Submit" class="buttons installBtn"
-                                       id="<?php echo 'installButton' . $addon['id']; ?>" value="Install"
+                                       id="<?php echo 'installButton' . $addon['id']; ?>" value="<?php echo __('Install');?>"
                                        addid=<?php echo $addon['id'] ?>> <?php }
-                            elseif (!in_array($addon['id'], $installedAddons) and $canCreate and $addon['type'] == 'paid') { ?>
+                            elseif ($canCreate and $addon['type'] == 'paid') { ?>
                                 <input type="button" name="Submit"
                                        class="buttons buyBtn <?php if (in_array($addon['id'], $buyNowPendingAddon)) {
                                            echo 'requested';
@@ -188,6 +200,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
     var buyNowUrl = "<?php echo url_for('marketPlace/ohrmBuyNowAPI'); ?>";
     var prerequisiteVerificationUrl = "<?php echo url_for('marketPlace/prerequisiteVerification');?>";
+    var paidAddons = <?php echo json_encode($paidAddons);?>;
 
     var meassageInSuccess = "<?php echo __js('Successfully Installed'); ?>";
     var messaegeInFail = "<?php echo __js('Failed to Install'); ?>";

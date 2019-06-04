@@ -255,7 +255,7 @@ class APIManagerService
         if ($response->getStatusCode() == 200) {
             $contentDispositionHeader = $response->getHeader('Content-Disposition')[0];
             $addonFileName = explode("filename=", $contentDispositionHeader)[1];
-            return $this->renameTempAddonFile($tempAddonFile, $addonFileName);
+            return [$this->renameTempAddonFile($tempAddonFile, $addonFileName), $response->getHeaders()['ETag'][0]];
         }
     }
 
@@ -268,10 +268,9 @@ class APIManagerService
      */
     public function getAddonFile($addonURL, $addonDetail)
     {
-        $addonFilePath = $this->getAddonFileFromMP($addonURL);
-        $addonVersion = $addonDetail['version'];
-        $isSuccess = $this->evaluateChecksum($addonFilePath, $addonVersion['checksumAlgo'], $addonVersion['checksum']);
-        if (!$isSuccess) {
+        list($addonFilePath, $eTag) = $this->getAddonFileFromMP($addonURL);
+        $checksum = bin2hex(base64_decode($eTag));
+        if (strcasecmp(hash_file('sha256', $addonFilePath), $checksum) !== 0) {
             throw new Exception('Downloaded file corrupted.', 1007);
         }
         return $addonFilePath;
@@ -424,22 +423,5 @@ class APIManagerService
         $addonFilePath = sfConfig::get('sf_cache_dir') . DIRECTORY_SEPARATOR . $fileName;
         $status = copy($tempFilePath, $addonFilePath);
         return $status ? $addonFilePath : null;
-    }
-
-    /**
-     * Evaluate the checksum value of the downloaded add-on file
-     *
-     * @param $filePath
-     * @param $checksumAlgo
-     * @param $checksum
-     * @return bool
-     */
-    protected function evaluateChecksum($filePath, $checksumAlgo, $checksum)
-    {
-        $generatedHash = hash_file($checksumAlgo, $filePath);
-        if (strcasecmp($generatedHash, $checksum) == 0) {
-            return true;
-        }
-        return false;
     }
 }
