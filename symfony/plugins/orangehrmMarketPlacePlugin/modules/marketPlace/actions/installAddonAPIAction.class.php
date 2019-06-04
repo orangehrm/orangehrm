@@ -128,10 +128,8 @@ class installAddonAPIAction extends baseAddonAction
             );
             $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
         } else {
-            $addonNames = [];
-            $addonNames[] = $addonDetail['title'];
             $result = $this->getMarcketplaceService()->changeAddonStatus(
-                $addonNames,
+                [$addonDetail['title']],
                 MarketplaceDao::ADDON_STATUS_PAID,
                 MarketplaceDao::ADDON_STATUS_INSTALLED
             );
