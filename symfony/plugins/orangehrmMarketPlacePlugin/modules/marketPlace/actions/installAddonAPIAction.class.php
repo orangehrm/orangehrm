@@ -118,13 +118,23 @@ class installAddonAPIAction extends baseAddonAction
         if ($buildModelStatus != 0) {
             throw new Exception('Running php symfony d:build-model fails.', 1005);
         }
-        $data = array(
-            'id' => $addonDetail['id'],
-            'addonName' => $addonDetail['title'],
-            'status' => 'Installed',
-            'pluginName' => $pluginname
-        );
-        $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
+
+        if ($addonDetail['type'] != "paid") {
+            $data = array(
+                'id' => $addonDetail['id'],
+                'addonName' => $addonDetail['title'],
+                'status' => 'Installed',
+                'pluginName' => $pluginname
+            );
+            $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
+        } else {
+            $result = $this->getMarcketplaceService()->changeAddonStatus(
+                [$addonDetail['title']],
+                MarketplaceDao::ADDON_STATUS_PAID,
+                MarketplaceDao::ADDON_STATUS_INSTALLED
+            );
+        }
+
         if ($result != true) {
             throw new Exception('Can not add to OrangeHRM database. Uninstallation will cause errors. But plugin can used.', 1006);
         }
