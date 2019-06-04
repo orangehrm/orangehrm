@@ -45,9 +45,9 @@ class installAddonAPIAction extends baseAddonAction
             }
             $addonFilePath = $this->getAddonFile($addonURL, $addonDetail);
             $pluginname = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
-            if($addonDetail['type']=='paid') {
+            if ($addonDetail['type']=='paid') {
                 $addonLicenseContent = $this->getApiManagerService()->getAddonLicense($addonId);
-                if(!is_null($addonLicenseContent)) {
+                if (is_string($addonLicenseContent) && strlen($addonLicenseContent) > 0) {
                     file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginname . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);
                 }
             }

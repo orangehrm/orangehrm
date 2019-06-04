@@ -112,24 +112,21 @@ class MarketplaceDao
      * @param array $addonNames
      * @param string $fromStatus
      * @param string$toStatus
-     * @return bool
+     * @return int
      * @throws DaoException
      */
     public function changeAddonStatus($addonNames, $fromStatus, $toStatus)
     {
         try {
-            if(!empty($addonNames) && !is_null($addonNames)) {
+            if (!empty($addonNames)) {
                 $q = Doctrine_Query::create()
                     ->update('Addon a')
                     ->set('a.addonStatus', '?', $toStatus)
                     ->whereIn('a.addonName', $addonNames)
                     ->andWhere('a.addonStatus = ?', $fromStatus);
-                $p = $q->execute();
-                if ($p > 0) {
-                    return true;
-                }
+                return $q->execute();
             }
-            return false;
+            return 0;
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

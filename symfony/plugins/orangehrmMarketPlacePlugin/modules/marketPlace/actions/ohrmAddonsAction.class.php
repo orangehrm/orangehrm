@@ -40,23 +40,25 @@ class ohrmAddonsAction extends baseAddonAction
         if (ini_get('max_execution_time') < 600) {
             ini_set('max_execution_time', 600);
         }
-        $paidInstallationPendingAddons = $this->getApiManagerService()->getAddonPaymentStatus();
-        $paidInstallationPendingAddonNames = [];
-        foreach($paidInstallationPendingAddons as $paidInstallationAddon) {
-            $paidInstallationPendingAddonNames[] = $paidInstallationAddon["title"];
-        }
-        if(count($paidInstallationPendingAddonNames)!=0) {
-            $this->getMarcketplaceService()->changeAddonStatus(
-                $paidInstallationPendingAddonNames,
-                MarketplaceDao::ADDON_STATUS_REQUESTED,
-                MarketplaceDao::ADDON_STATUS_PAID
-            );
+        $this->paidAddonIds = $this->getMarcketplaceService()->getPaidAddonIds();
+        $buyNowPendingAddons = $this->getMarcketplaceService()->getInstalationPendingAddonIds();
+        if ($buyNowPendingAddons) {
+            $paidInstallationPendingAddons = $this->getApiManagerService()->getAddonPaymentStatus();
+            $paidInstallationPendingAddonNames = array_column($paidInstallationPendingAddons, 'title');
+            if (count($paidInstallationPendingAddonNames) > 0) {
+                $count = $this->getMarcketplaceService()->changeAddonStatus(
+                    $paidInstallationPendingAddonNames,
+                    MarketplaceDao::ADDON_STATUS_REQUESTED,
+                    MarketplaceDao::ADDON_STATUS_PAID
+                );
+                if ($count > 0) {
+                    $this->paidAddonIds = $this->getMarcketplaceService()->getPaidAddonIds();
+                    $buyNowPendingAddons = array_diff($buyNowPendingAddons, $this->paidAddonIds);
+                }
+            }
         }
 
-        $paidAddonIds = $this->getMarcketplaceService()->getPaidAddonIds();
-        $this->paidAddonIds = $paidAddonIds;
-        $data = $this->getMarcketplaceService()->getInstalationPendingAddonIds();
-        $this->buyNowPendingAddon = $data;
+        $this->buyNowPendingAddon = $buyNowPendingAddons;
         $this->buyNowForm = new BuyNowForm();
         $this->dataGroupPermission = $this->getPermissions();
         $this->canRead = $this->dataGroupPermission->canRead();
