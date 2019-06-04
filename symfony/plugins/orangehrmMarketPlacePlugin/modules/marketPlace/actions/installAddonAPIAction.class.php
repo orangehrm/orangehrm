@@ -119,7 +119,7 @@ class installAddonAPIAction extends baseAddonAction
             throw new Exception('Running php symfony d:build-model fails.', 1005);
         }
 
-        if($addonDetail['type'] != "paid") {
+        if ($addonDetail['type'] != "paid") {
             $data = array(
                 'id' => $addonDetail['id'],
                 'addonName' => $addonDetail['title'],
@@ -127,9 +127,11 @@ class installAddonAPIAction extends baseAddonAction
                 'pluginName' => $pluginname
             );
             $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
-        }else {
+        } else {
+            $addonNames = [];
+            $addonNames[] = $addonDetail['title'];
             $result = $this->getMarcketplaceService()->changeAddonStatus(
-                $addonDetail['title'],
+                $addonNames,
                 MarketplaceDao::ADDON_STATUS_PAID,
                 MarketplaceDao::ADDON_STATUS_INSTALLED
             );
