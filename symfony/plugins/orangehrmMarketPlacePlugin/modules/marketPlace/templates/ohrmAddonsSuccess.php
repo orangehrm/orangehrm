@@ -200,6 +200,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
     var buyNowUrl = "<?php echo url_for('marketPlace/ohrmBuyNowAPI'); ?>";
     var prerequisiteVerificationUrl = "<?php echo url_for('marketPlace/prerequisiteVerification');?>";
+    var paidAddons = <?php echo json_encode($paidAddons);?>;
 
     var meassageInSuccess = "<?php echo __js('Successfully Installed'); ?>";
     var messaegeInFail = "<?php echo __js('Failed to Install'); ?>";
