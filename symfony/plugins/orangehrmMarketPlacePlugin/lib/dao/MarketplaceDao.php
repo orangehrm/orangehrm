@@ -119,9 +119,7 @@ class MarketplaceDao
             $addon = Doctrine::getTable('Addon')->find($data['id']);
             $addon->setInstalledDate(date('Y-m-d H:i:s'));
             $addon->setAddonStatus($data['status']);
-            if ($data['pluginName']) {
-                $addon->setPluginName($data['pluginName']);
-            }
+            $addon->setPluginName($data['pluginName']);
             $addon->save();
             return true;
             // @codeCoverageIgnoreStart
