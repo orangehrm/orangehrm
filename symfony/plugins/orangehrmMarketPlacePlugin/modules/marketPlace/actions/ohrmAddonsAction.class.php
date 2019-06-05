@@ -69,7 +69,7 @@ class ohrmAddonsAction extends baseAddonAction
             $addonList = $this->getAddons();
             $this->addonList = $addonList;
             $installAddons = $this->getInstalledAddons();
-            $this->installedAddons = $installAddons[0];
+            $this->installedAddons = array_column($installAddons, 'id');
         } catch (GuzzleHttp\Exception\ConnectException $e) {
             Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());

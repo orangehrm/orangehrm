@@ -52,9 +52,7 @@ class installAddonAPIAction extends baseAddonAction
                 } else {
                     chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
                     exec("rm -r " . $pluginname , $clearResponse, $clearStatus);
-                    if ($clearStatus != 0) {
-                        throw new Exception('Trying to remove extracted directory fails.', 1000);
-                    }
+                    throw new Exception('Error when retrieving the license file');
                 }
             }
             $result = $this->installAddon($addonFilePath, $addonDetail, $pluginname);
