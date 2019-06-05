@@ -17,6 +17,10 @@ if (!defined('SF_CONN')) {
     define('SF_CONN', 'doctrine' );
 }
 
+if(!defined('PHPUnit_MAIN_METHOD')){
+    define('PHPUnit_MAIN_METHOD', 'AppsOrangeHRMAllTests::main');
+}
+
 if (!defined('TEST_ENV_CONFIGURED')) {
     
     require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
@@ -84,5 +88,3 @@ class PluginAllTests
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
 }
-
-?>
