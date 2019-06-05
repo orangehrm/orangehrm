@@ -109,6 +109,29 @@ class MarketplaceDao
     }
 
     /**
+     * @param $data
+     * @return bool
+     * @throws DaoException
+     */
+    public function updateAddon($data)
+    {
+        try {
+            $addon = Doctrine::getTable('Addon')->find($data['id']);
+            $addon->setInstalledDate(date('Y-m-d H:i:s'));
+            $addon->setAddonStatus($data['status']);
+            if ($data['pluginName']) {
+                $addon->setPluginName($data['pluginName']);
+            }
+            $addon->save();
+            return true;
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
      * @param array $addonNames
      * @param string $fromStatus
      * @param string$toStatus

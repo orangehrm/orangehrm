@@ -2,3 +2,4 @@ Addon:
   0: {addon_id: 1, title: 'LDAP', status: 'Requested'}
   1: {addon_id: 2, title: 'Toggl', status: 'Installed'}
   2: {addon_id: 3, title: 'Cooperate-Branding', status: 'Paid'}
+  3: {addon_id: 4, title: 'Claim Plugin', status: 'Paid'}

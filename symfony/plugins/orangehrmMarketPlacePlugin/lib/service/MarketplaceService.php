@@ -137,6 +137,16 @@ class MarketplaceService extends ConfigService
     }
 
     /**
+     * @param $data
+     * @return bool
+     * @throws DaoException
+     */
+    public function updateAddon($data)
+    {
+        return $this->getMarketplaceDao()->updateAddon($data);
+    }
+
+    /**
      * @param array $addonNames
      * @param string $fromStatus
      * @param string$toStatus

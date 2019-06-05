@@ -49,6 +49,12 @@ class installAddonAPIAction extends baseAddonAction
                 $addonLicenseContent = $this->getApiManagerService()->getAddonLicense($addonId);
                 if (is_string($addonLicenseContent) && strlen($addonLicenseContent) > 0) {
                     file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginname . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);
+                } else {
+                    chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
+                    exec("rm -r " . $pluginname , $clearResponse, $clearStatus);
+                    if ($clearStatus != 0) {
+                        throw new Exception('Trying to remove extracted directory fails.', 1000);
+                    }
                 }
             }
             $result = $this->installAddon($addonFilePath, $addonDetail, $pluginname);
@@ -128,14 +134,16 @@ class installAddonAPIAction extends baseAddonAction
             );
             $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
         } else {
-            $result = $this->getMarcketplaceService()->changeAddonStatus(
-                [$addonDetail['title']],
-                MarketplaceDao::ADDON_STATUS_PAID,
-                MarketplaceDao::ADDON_STATUS_INSTALLED
+            $data = array(
+                'id' => $addonDetail['id'],
+                'addonName' => $addonDetail['title'],
+                'status' => 'Installed',
+                'pluginName' => $pluginname
             );
+            $result = $this->getMarcketplaceService()->updateAddon($data);
         }
 
-        if ($result != true) {
+        if (!$result) {
             throw new Exception('Can not add to OrangeHRM database. Uninstallation will cause errors. But plugin can used.', 1006);
         }
         return $result;
