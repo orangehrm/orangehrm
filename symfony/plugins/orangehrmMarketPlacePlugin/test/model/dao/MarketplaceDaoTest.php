@@ -46,7 +46,7 @@ class MarketplaceDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetAddonByStatus() {
         $result = $this->marketplaceDao->getAddonByStatus(MarketplaceDao::ADDON_STATUS_PAID);
-        $this->assertEquals(count($result), 1);
+        $this->assertEquals(2, count($result));
     }
 
     public function testUpdateAddon() {
