@@ -31,7 +31,7 @@ class AttendanceDao {
             if ($attendanceRecord->getId() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($attendanceRecord);
-                $attendanceRecord->setId($idGenService->getNextID());
+                $attendanceRecord->setId((int)$idGenService->getNextID());
             }
             $attendanceRecord->save();
 

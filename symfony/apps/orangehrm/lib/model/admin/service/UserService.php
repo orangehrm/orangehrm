@@ -62,7 +62,7 @@ class UserService extends BaseService {
         	{
 	        	$idGenService	=	new IDGeneratorService();
 				$idGenService->setEntity($userGroup);
-				$userGroup->setUsergId( $idGenService->getNextID() );
+				$userGroup->setUsergId( (int)$idGenService->getNextID() );
         	}
         	$userGroup->save();
 			
@@ -176,7 +176,7 @@ class UserService extends BaseService {
         	{
 	        	$idGenService	=	new IDGeneratorService();
 				$idGenService->setEntity($user);
-				$user->setId( $idGenService->getNextID() );
+				$user->setId( (int)$idGenService->getNextID() );
         	}
         	
         	$user->save();

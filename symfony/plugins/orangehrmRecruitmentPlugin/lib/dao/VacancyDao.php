@@ -277,7 +277,7 @@ class VacancyDao extends BaseDao {
             if ($jobVacancy->getId() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($jobVacancy);
-                $jobVacancy->setId($idGenService->getNextID());
+                $jobVacancy->setId((int)$idGenService->getNextID());
             }
 
             $jobVacancy->save();

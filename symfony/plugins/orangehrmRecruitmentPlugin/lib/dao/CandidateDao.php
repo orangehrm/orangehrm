@@ -189,7 +189,7 @@ class CandidateDao extends BaseDao {
             if ($candidate->getId() == "") {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($candidate);
-                $candidate->setId($idGenService->getNextID());
+                $candidate->setId((int)$idGenService->getNextID());
             }
             $candidate->save();
             return true;
@@ -208,7 +208,7 @@ class CandidateDao extends BaseDao {
             if ($candidateVacancy->getId() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($candidateVacancy);
-                $candidateVacancy->setId($idGenService->getNextID());
+                $candidateVacancy->setId((int)$idGenService->getNextID());
             }
             $candidateVacancy->save();
             return true;
@@ -301,7 +301,7 @@ class CandidateDao extends BaseDao {
             if ($candidateHistory->getId() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($candidateHistory);
-                $candidateHistory->setId($idGenService->getNextID());
+                $candidateHistory->setId((int)$idGenService->getNextID());
             }
             $candidateHistory->save();
             return true;

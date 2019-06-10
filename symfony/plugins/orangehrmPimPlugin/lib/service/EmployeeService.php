@@ -171,7 +171,7 @@ class EmployeeService extends BaseService {
     public function getDefaultEmployeeId() {
         $idGenService = new IDGeneratorService();
         $idGenService->setEntity(new Employee());
-        return $idGenService->getNextID(false);
+        return (int)$idGenService->getNextID(false);
     }
 
     /**
