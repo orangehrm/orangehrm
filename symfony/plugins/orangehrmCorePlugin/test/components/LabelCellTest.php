@@ -32,7 +32,7 @@ class LabelCellTest extends PHPUnit_Framework_TestCase {
 
     public function test__toString() {
         $dataObject = new LabelCellTestDataObject();
-        $dataObject->getName = create_function('', "return 'Kayla Abbey';");
+        $dataObject->getName = 'Kayla Abbey';
 
         $this->labelCell->setDataObject($dataObject);
         $this->labelCell->setProperties(array('getter' => 'getDescription'));
