@@ -42,8 +42,4 @@ class orangehrmBeaconPluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmBeaconPluginAllTests::main') {
 
-    orangehrmBeaconPluginPluginAllTests::main();
-
-}

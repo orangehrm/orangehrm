@@ -78,8 +78,4 @@ class orangehrmAdminPluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmAdminPluginAllTests::main') {
-    orangehrmCoreLeavePluginAllTests::main();
-}
 
-?>

@@ -367,27 +367,26 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
     public function xtestGetLeaveNotificationService() {
         $service = $this->leaveRequestService->getLeaveNotificationService();
-        $this->assertTrue(is_a($service, LeaveNotificationService) );
+        $this->assertTrue(is_a($service, 'LeaveNotificationService') );
     }
-
     public function testGetLeaveEntitlementService() {
         $service = $this->leaveRequestService->getLeaveEntitlementService();
-        $this->assertTrue(is_a($service, LeaveEntitlementService) );
+        $this->assertTrue(is_a($service, 'LeaveEntitlementService') );
     }
 
     public function testGetLeaveTypeService() {
         $service = $this->leaveRequestService->getLeaveTypeService();
-        $this->assertTrue(is_a($service, LeaveTypeService) );
+        $this->assertTrue(is_a($service, 'LeaveTypeService') );
     }
 
     public function testGetLeavePeriodService() {
         $service = $this->leaveRequestService->getLeavePeriodService();
-        $this->assertTrue(is_a($service, LeavePeriodService) );
+        $this->assertTrue(is_a($service, 'LeavePeriodService') );
     }
 
     public function testGetHolidayService() {
         $service = $this->leaveRequestService->getHolidayService();
-        $this->assertTrue(is_a($service, HolidayService) );
+        $this->assertTrue(is_a($service, 'HolidayService') );
     }
 
     public function testGetLeaveRequestStatus() {

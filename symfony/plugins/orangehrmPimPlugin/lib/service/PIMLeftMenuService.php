@@ -226,7 +226,7 @@ class PIMLeftMenuService {
                 
         // If employee state not allowed, allow if can act on at least one state
         if (is_null($employeeState)) {
-            $allowed = count($actionableStates) > 0;
+            $allowed = empty($actionableStates)?false:true;
         } else {
             $allowed = in_array($employeeState, $actionableStates);
         }  

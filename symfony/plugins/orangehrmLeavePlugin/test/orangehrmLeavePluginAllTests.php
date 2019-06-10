@@ -51,6 +51,3 @@ class orangehrmLeavePluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmLeavePluginAllTests::main') {
-    orangehrmCoreLeavePluginAllTests::main();
-}

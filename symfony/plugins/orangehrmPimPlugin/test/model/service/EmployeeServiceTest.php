@@ -1467,7 +1467,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
              ->will($this->returnValue($employeePropertyArray));
         
         $this->employeeService->setEmployeeDao($mockDao);
-        $result = $this->employeeService->getEmployeePropertyList($properties, 'empNumber', ASC, true);
+        $result = $this->employeeService->getEmployeePropertyList($properties, 'empNumber', 'ASC', true);
         $this->compareArrays($employeePropertyArray, $result);
         
     }

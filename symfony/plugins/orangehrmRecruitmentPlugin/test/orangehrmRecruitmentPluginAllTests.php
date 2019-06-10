@@ -34,7 +34,3 @@ class orangehrmRecruitmentPluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmRecruitmentPluginAllTests::main') {
-    orangehrmRecruitmentPluginAllTests::main();
-}
-?>

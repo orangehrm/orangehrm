@@ -1709,7 +1709,7 @@
                                     ->where('id = ?', $leave->id)
                                     ->execute();
         $this->assertTrue($result->count() == 1);
-        $this->assertTrue(is_a($result[0], Leave));
+        $this->assertTrue(is_a($result[0], 'Leave'));
 
         $origAsArray = $leave->toArray();
         $savedAsArray = $result[0]->toArray();

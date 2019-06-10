@@ -26,8 +26,4 @@ class orangehrmPerformanceTrackerPluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmPerformanceTrackerPluginAllTests::main') {
-    orangehrmPerformanceTrackerPluginAllTests::main();
-}
 
-?>
