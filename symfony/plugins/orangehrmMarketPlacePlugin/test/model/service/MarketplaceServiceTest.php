@@ -55,11 +55,15 @@ class MarketplaceServiceTest extends PHPUnit_Framework_TestCase
                     ]
             ];
         $result = $this->marketplaceService->addonPrerequisitesVerify($addon);
-        if (!extension_loaded("ldap")) {
-            $this->assertEquals(count($result), 1);
-        } else {
-            $this->assertEquals(count($result), 0);
+        $preRequisiteNotMetCount = 2;
+        $prerequisites = ["ldap","ionCube Loader"];
+        foreach($prerequisites as $prerequisite) {
+            if(extension_loaded($prerequisite)) {
+                $preRequisiteNotMetCount--;
+            }
         }
+
+        $this->assertEquals($preRequisiteNotMetCount, count($result));
 
     }
 
@@ -89,9 +93,9 @@ class MarketplaceServiceTest extends PHPUnit_Framework_TestCase
             ];
         $result = $this->marketplaceService->addonPrerequisitesVerify($addon);
         if (!extension_loaded("toggl")) {
-            $this->assertEquals(count($result), 1);
+            $this->assertEquals(1, count($result));
         } else {
-            $this->assertEquals(count($result), 0);
+            $this->assertEquals(0, count($result));
         }
 
     }
@@ -124,9 +128,9 @@ class MarketplaceServiceTest extends PHPUnit_Framework_TestCase
 
         $result = $this->marketplaceService->addonPrerequisitesVerify($addon);
 
-        $preRequisiteNotMetCount = 3;
+        $preRequisiteNotMetCount = 4;
 
-        $prerequisites = ["toggl","soap","image"];
+        $prerequisites = ["toggl","soap","image","ionCube Loader"];
         foreach($prerequisites as $prerequisite) {
             if(extension_loaded($prerequisite)) {
                 $preRequisiteNotMetCount--;
