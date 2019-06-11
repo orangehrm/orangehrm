@@ -44,7 +44,4 @@ class AppsOrangeHRMAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'AppsOrangeHRMAllTests::main') {
-    orangehrmTimePluginAllTests::main();
-}
 

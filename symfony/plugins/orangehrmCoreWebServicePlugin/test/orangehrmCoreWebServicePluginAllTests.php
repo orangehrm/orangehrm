@@ -31,8 +31,4 @@ class orangehrmCoreWebServicePluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmCoreWebServicePluginAllTests::main') {
-    orangehrmCoreWebServicePluginAllTests::main();
-}
 
-?>

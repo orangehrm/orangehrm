@@ -26,9 +26,3 @@ class orangehrmPerformancePluginAllTests {
     }
 
 }
-
-if (PHPUnit_MAIN_METHOD == 'orangehrmPerformancePluginTest::main') {
-    orangehrmPimPluginAllTests::main();
-}
-
-?>

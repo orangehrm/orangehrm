@@ -100,7 +100,4 @@ class orangehrmCorePluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmCorePluginAllTests::main') {
-    orangehrmCorePluginAllTests::main();
-}
 

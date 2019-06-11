@@ -340,7 +340,7 @@ class LoggerConfiguratorIni implements LoggerConfigurator {
 	 * @param LoggerHierarchy $hierarchy
 	 */
 	private function parseCatsAndRenderers($props, LoggerHierarchy $hierarchy) {
-		while(list($key,$value) = each($props)) {
+		foreach($props as $key => $value) {
 			if(strpos($key, self::CATEGORY_PREFIX) === 0 or 
 				strpos($key, self::LOGGER_PREFIX) === 0) {
 				if(strpos($key, self::CATEGORY_PREFIX) === 0) {

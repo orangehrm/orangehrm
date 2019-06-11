@@ -33,9 +33,3 @@ class orangehrmCorporateDirectoryPluginAllTests {
     
 }
 
-    if (PHPUnit_MAIN_METHOD == 'orangehrmCorporateDirectoryPluginAllTests::main') {
-    orangehrmAdvancedReportsPluginAllTests::main();
-}
-
-
-?>

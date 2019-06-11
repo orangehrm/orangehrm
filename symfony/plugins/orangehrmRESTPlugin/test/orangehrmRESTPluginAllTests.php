@@ -81,6 +81,4 @@ class orangehrmRESTPluginAllTests
     }
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmRESTPluginAllTests::main') {
-    orangehrmRESTPluginAllTests::main();
-}
+

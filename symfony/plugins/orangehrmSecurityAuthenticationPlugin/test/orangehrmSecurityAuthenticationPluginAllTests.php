@@ -1,5 +1,7 @@
 <?php
 
+
+
 class orangehrmSecurityAuthenticationPluginAllTests {
 
     public static function suite() {
@@ -20,6 +22,4 @@ class orangehrmSecurityAuthenticationPluginAllTests {
     }
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmSecurityAuthenticationPluginAllTests::main') {
-    orangehrmSecurityAuthenticationPluginAllTests::main();
-}
+

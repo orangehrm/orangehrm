@@ -36,6 +36,3 @@ class orangehrmOpenidAuthenticationPluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmOpenidAuthenticationPluginAllTests::main') {
-    orangehrmOpenidAuthenticationPluginAllTests::main();
-}

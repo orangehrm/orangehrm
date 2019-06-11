@@ -75,7 +75,7 @@ class LeaveEntitlementDao extends BaseDao {
                     ->where("s.name LIKE '%PENDING APPROVAL%'");
 
             self::$pendingStatusIds = $q->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
-            if (count(self::$pendingStatusIds) == 0) {
+            if (empty(self::$pendingStatusIds)) {
                 $logger = $this->getLogger();
                 $logger->error('No PENDING APPROVAL leave status found!');
                 throw new DaoException("No PENDING APPROVAL leave statuses in ohrm_leave_status table!");

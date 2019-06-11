@@ -46,8 +46,3 @@ class orangehrmAttendancePluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmAttendancePluginAllTests::main') {
-    orangehrmAttendancePluginAllTests::main();
-}
-
-?>

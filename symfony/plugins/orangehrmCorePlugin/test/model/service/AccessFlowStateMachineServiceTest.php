@@ -272,7 +272,7 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testGetWorkflowItemsByStateActionAndRole() {
         $item = new WorkflowStateMachine();
-        $item->fromArray(array('id' => 9, 'workflow' => Time, 'state' => 'APPROVED', 'role' => 'SUPERVISOR',
+        $item->fromArray(array('id' => 9, 'workflow' => 'Time', 'state' => 'APPROVED', 'role' => 'SUPERVISOR',
             'action' => 'VIEW TIMESHEET','resulting_state' => 'APPROVED'));
         $accessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
 			->setMethods( array('getWorkflowItemByStateActionAndRole'))

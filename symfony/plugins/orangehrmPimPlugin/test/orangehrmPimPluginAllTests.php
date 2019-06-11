@@ -34,7 +34,3 @@ class orangehrmPimPluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmPimPluginAllTests::main') {
-    orangehrmPimPluginAllTests::main();
-}
-?>
