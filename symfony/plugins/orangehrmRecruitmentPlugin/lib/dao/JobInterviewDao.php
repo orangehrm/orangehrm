@@ -79,7 +79,7 @@ class JobInterviewDao extends BaseDao {
 			if ($jobInterview->getId() == "") {
 				$idGenService = new IDGeneratorService();
 				$idGenService->setEntity($jobInterview);
-				$jobInterview->setId($idGenService->getNextID());
+				$jobInterview->setId((int)$idGenService->getNextID());
 			}
 			$jobInterview->save();
 			return true;

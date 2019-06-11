@@ -49,7 +49,7 @@ class UserDao extends BaseDao {
          if( $userGroup->getUsergId() == '') {
             $idGenService	=	new IDGeneratorService();
             $idGenService->setEntity($userGroup);
-            $userGroup->setUsergId( $idGenService->getNextID());
+            $userGroup->setUsergId( (int)$idGenService->getNextID());
          }
          $userGroup->save();
          return $userGroup ;
@@ -148,7 +148,7 @@ class UserDao extends BaseDao {
          if($user->getId() == '') {
             $idGenService	=	new IDGeneratorService();
             $idGenService->setEntity($user);
-            $user->setId($idGenService->getNextID());
+            $user->setId((int)$idGenService->getNextID());
          }
          $user->save();
          return true;

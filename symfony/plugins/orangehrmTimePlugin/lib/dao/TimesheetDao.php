@@ -87,7 +87,7 @@ class TimesheetDao {
             if ($timesheet->getTimesheetId() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($timesheet);
-                $timesheet->setTimesheetId($idGenService->getNextID());
+                $timesheet->setTimesheetId((int)$idGenService->getNextID());
             }
             $timesheet->save();
 
@@ -175,7 +175,7 @@ class TimesheetDao {
                 $idGenService = new IDGeneratorService();
 
                 $idGenService->setEntity($timesheetItem);
-                $timesheetItem->setTimesheetItemId($idGenService->getNextID());
+                $timesheetItem->setTimesheetItemId((int)$idGenService->getNextID());
             }
 
             $timesheetItem->save();
@@ -253,7 +253,7 @@ class TimesheetDao {
             if ($timesheetActionLog->getTimesheetActionLogId() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($timesheetActionLog);
-                $timesheetActionLog->setTimesheetActionLogId($idGenService->getNextID());
+                $timesheetActionLog->setTimesheetActionLogId((int)$idGenService->getNextID());
             }
 
             $timesheetActionLog->save();

@@ -283,7 +283,7 @@ class LeaveRequestDao extends BaseDao {
                         $nextLeaveRequest = new LeaveRequest();
                         $idGenService = new IDGeneratorService();
                         $idGenService->setEntity($leaveRequest);
-                        $nextLeaveRequest->setLeaveRequestId($idGenService->getNextID());
+                        $nextLeaveRequest->setLeaveRequestId((int)$idGenService->getNextID());
 
                         $nextLeaveRequest->setLeaveTypeId($leaveRequest->getLeaveTypeId());
                         $nextLeaveRequest->setDateApplied($leaveRequest->getDateApplied());

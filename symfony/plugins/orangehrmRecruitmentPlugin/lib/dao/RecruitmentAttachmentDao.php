@@ -29,7 +29,7 @@ class RecruitmentAttachmentDao extends BaseDao {
             if ($attachment->getId() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($attachment);
-                $attachment->setId($idGenService->getNextID());
+                $attachment->setId((int)$idGenService->getNextID());
             }
             $attachment->save();
             return true;
@@ -48,7 +48,7 @@ class RecruitmentAttachmentDao extends BaseDao {
             if ($attachment->getId() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($attachment);
-                $attachment->setId($idGenService->getNextID());
+                $attachment->setId((int)$idGenService->getNextID());
             }
             $attachment->save();
             return true;

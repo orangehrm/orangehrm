@@ -117,7 +117,7 @@ class AccessFlowStateMachineDao {
             if ($workflowStateMachine->getId() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($workflowStateMachine);
-                $workflowStateMachine->setId($idGenService->getNextID());
+                $workflowStateMachine->setId((int)$idGenService->getNextID());
             }
             $workflowStateMachine->save();
 
