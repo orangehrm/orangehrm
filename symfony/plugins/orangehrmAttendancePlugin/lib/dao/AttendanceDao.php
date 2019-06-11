@@ -233,7 +233,7 @@ class AttendanceDao {
 
             $result = $q->execute();
 
-            if (empty($result)) {
+            if (!empty($result)) {
                 return true;
             } else {
                 return false;
