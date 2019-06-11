@@ -19,7 +19,7 @@ class LeaveParameterObject {
     
 
     public function __construct(array $formParameters) {
-        $this->employeeNumber = $formParameters['txtEmpID']; // TODO: Make this employee number
+        $this->employeeNumber = (int)$formParameters['txtEmpID']; // TODO: Make this employee number
         $this->fromDate = $formParameters['txtFromDate'];
         $this->toDate = $formParameters['txtToDate'];
         $this->fromTime = $formParameters['txtFromTime'];
