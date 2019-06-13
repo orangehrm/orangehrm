@@ -33,6 +33,7 @@ class EmailService extends BaseService {
     
     const FALLBACK_TEMPLATE_LOCALE = 'en_US';
 
+    private $sendmailPath;
     private $emailConfig;
     private $configSet = false;
 
@@ -53,7 +54,7 @@ class EmailService extends BaseService {
 
     /**
      * to get confuguration service
-     * @return <type>
+     * @return ConfigService
      */
     public function getConfigService() {
         if (is_null($this->configService)) {
@@ -116,6 +117,7 @@ class EmailService extends BaseService {
     public function __construct() {
         $emailConfigurationService = new EmailConfigurationService();
         $this->emailConfig = $emailConfigurationService->getEmailConfiguration();
+        $this->sendmailPath = $this->getConfigService()->getSendmailPath();
 
         if ($this->emailConfig->getMailType() == 'smtp' ||
             $this->emailConfig->getMailType() == 'sendmail') {
@@ -171,7 +173,7 @@ class EmailService extends BaseService {
 
                 case 'sendmail':
 
-                    $transport = Swift_SendmailTransport::newInstance($this->emailConfig->getSendmailPath());
+                    $transport = Swift_SendmailTransport::newInstance($this->sendmailPath);
                     $mailer = Swift_Mailer::newInstance($transport);
 
                     break;

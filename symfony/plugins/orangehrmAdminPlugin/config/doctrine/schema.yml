@@ -487,8 +487,6 @@ EmailConfiguration:
     sent_as as sentAs:
       type: string(250)
       notnull: true
-    sendmail_path as sendmailPath:
-      type: string(250)
     smtp_host as smtpHost:
       type: string(250)
     smtp_port as smtpPort:

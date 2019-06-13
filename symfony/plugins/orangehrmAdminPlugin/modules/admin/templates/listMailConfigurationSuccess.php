@@ -28,7 +28,7 @@
                     <li id="divsendmailControls" class="toggleDiv">
                         <?php echo $form['txtSendmailPath']->renderLabel(__("Path to Sendmail")); ?>
                         <?php echo $form['txtSendmailPath']->render(array("maxlength" => 100)); ?>
-                    </li>      
+                    </li>
                 </ol>
                 
                 <ol id="divsmtpControls" class="toggleDiv">
@@ -121,6 +121,7 @@
             {
                 $('#editBtn').attr('value', "<?php echo __js('Save'); ?>");
                 $('#frmSave :input').removeAttr('disabled');
+                $('#emailConfigurationForm_txtSendmailPath').prop('disabled', true);
                 toggleSMTPAuthenticationFields();        
                 checkSendTestMail();                
                 mode = 'save';

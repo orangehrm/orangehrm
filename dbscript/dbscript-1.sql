@@ -1073,7 +1073,6 @@ create table `ohrm_email_configuration` (
   `id` int(10) not null auto_increment,
   `mail_type` varchar(50) DEFAULT NULL,
   `sent_as` varchar(250) NOT NULL,
-  `sendmail_path` varchar(250) DEFAULT NULL,
   `smtp_host` varchar(250) DEFAULT NULL,
   `smtp_port` int(10) DEFAULT NULL,
   `smtp_username` varchar(250) DEFAULT NULL,

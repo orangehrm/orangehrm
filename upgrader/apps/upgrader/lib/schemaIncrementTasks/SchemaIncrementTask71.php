@@ -25,7 +25,14 @@ class SchemaIncrementTask71  extends SchemaIncrementTask
 
     public function loadSql()
     {
-        $sql = array();
+        $sql = array(
+            "SET @old_path := (SELECT `sendmail_path` FROM `ohrm_email_configuration` WHERE `mail_type`='sendmail' AND `sendmail_path` IS NOT NULL AND `sendmail_path` != '');",
+            "INSERT INTO hs_hr_config(`key`, `value`) VALUES ('email_config.sendmail_path','/usr/sbin/sendmail -bs');",
+            'UPDATE `hs_hr_config`
+            SET `value` = @old_path
+            WHERE `key`= "email_config.sendmail_path" AND @old_path!="";',
+            'ALTER TABLE `ohrm_email_configuration` DROP COLUMN `sendmail_path`;'
+        );
         $this->sql = $sql;
     }
 
