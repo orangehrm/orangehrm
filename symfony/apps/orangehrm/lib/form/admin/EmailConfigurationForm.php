@@ -24,7 +24,6 @@ class EmailConfigurationForm extends BaseForm {
 
     const EIGHT_STARS = "********";
     private $emailConfigurationService;
-    private $configService;
     private $emailConfiguration;
 
     /**
@@ -38,16 +37,6 @@ class EmailConfigurationForm extends BaseForm {
         return $this->emailConfigurationService;
     }
 
-    /**
-     * @return ConfigService
-     */
-    public function getConfigService() {
-        if (is_null($this->configService)) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
-
     public function configure() {
 
         /* Widgests */
@@ -59,7 +48,6 @@ class EmailConfigurationForm extends BaseForm {
                             'sendmail' => 'Sendmail',
                             'smtp' => 'SMTP')
                         )),
-            'txtSendmailPath' => new sfWidgetFormInputText([], ['disabled' => 'disabled']),
             'txtSmtpHost' => new sfWidgetFormInputText(),
             'txtSmtpPort' => new sfWidgetFormInputText(),
             'optAuth' => new sfWidgetFormChoice(
@@ -111,7 +99,6 @@ class EmailConfigurationForm extends BaseForm {
          $this->setDefaults(array(
              'txtMailAddress' => $emailConfiguration->getSentAs(),
              'cmbMailSendingMethod' => $emailConfiguration->getMailType(),
-             'txtSendmailPath' => $this->getConfigService()->getSendmailPath(),
              'txtSmtpHost' => $emailConfiguration->getSmtpHost(),
              'txtSmtpPort' => $emailConfiguration->getSmtpPort(),
              'optAuth' => $emailConfiguration->getSmtpAuthType(),

@@ -18,6 +18,18 @@
  * Boston, MA  02110-1301, USA
  */
 class listMailConfigurationAction extends sfAction {
+
+    private $configService;
+
+    /**
+     * @return ConfigService
+     */
+    public function getConfigService() {
+        if (is_null($this->configService)) {
+            $this->configService = new ConfigService();
+        }
+        return $this->configService;
+    }
     
     public function setForm(sfForm $form) {
         if (is_null($this->form)) {
@@ -28,6 +40,7 @@ class listMailConfigurationAction extends sfAction {
     public function execute($request) {
         
         $this->setForm(new EmailConfigurationForm());
+        $this->sendmailPath = $this->getConfigService()->getSendmailPath();
         
         if ($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()));      
