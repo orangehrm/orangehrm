@@ -120,7 +120,7 @@ class WorkShiftForm extends BaseForm {
         $workHours = $this->getValue('workHours');
         $workShift->setStartTime($workHours['from']);
         $workShift->setEndTime($workHours['to']);
-        $workShift->setHoursPerDay($this->getDuration($workHours['from'], $workHours['to']));
+        $workShift->setHoursPerDay(floatval($this->getDuration($workHours['from'], $workHours['to'])));
         
         if (empty($workShiftId)) {
             $workShift->save();

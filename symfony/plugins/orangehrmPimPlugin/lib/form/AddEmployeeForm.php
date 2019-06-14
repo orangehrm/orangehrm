@@ -65,7 +65,7 @@ class AddEmployeeForm extends sfForm {
 
         $idGenService = new IDGeneratorService();
         $idGenService->setEntity(new Employee());
-        $empNumber = (int)$idGenService->getNextID(false);
+        $empNumber = $idGenService->getNextID(false);
         $employeeId = str_pad($empNumber, 4, '0');
 
         $this->widgets = array(
