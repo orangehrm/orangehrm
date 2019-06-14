@@ -51,6 +51,7 @@ class ConfigService extends BaseService {
     const KEY_OPEN_SOURCE_INTEGRATIONS = 'open_source_integrations';
     const KEY_INSTANCE_IDENTIFIER = "instance.identifier";
     const KEY_INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
+    const KEY_SENDMAIL_PATH = 'email_config.sendmail_path';
     
     /**
      * Get ConfigDao
@@ -405,5 +406,14 @@ class ConfigService extends BaseService {
      */
     public function getInstanceIdentifierChecksum() {
         return $this->_getConfigValue(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM);
+    }
+
+    /**
+     * Get sendmail configuration path
+     * @return String
+     * @throws CoreServiceException
+     */
+    public function getSendmailPath() {
+        return $this->_getConfigValue(self::KEY_SENDMAIL_PATH);
     }
 }

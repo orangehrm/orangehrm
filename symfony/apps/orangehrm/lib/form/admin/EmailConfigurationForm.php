@@ -48,7 +48,6 @@ class EmailConfigurationForm extends BaseForm {
                             'sendmail' => 'Sendmail',
                             'smtp' => 'SMTP')
                         )),
-            'txtSendmailPath' => new sfWidgetFormInputText(),
             'txtSmtpHost' => new sfWidgetFormInputText(),
             'txtSmtpPort' => new sfWidgetFormInputText(),
             'optAuth' => new sfWidgetFormChoice(
@@ -76,7 +75,6 @@ class EmailConfigurationForm extends BaseForm {
         $this->setValidators(array(
             'txtMailAddress' => new sfValidatorEmail(array('required' => true, 'max_length' => 100)),
             'cmbMailSendingMethod' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
-            'txtSendmailPath' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
             'txtSmtpHost' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
             'txtSmtpPort' => new sfValidatorNumber(array('required' => false)),
             'optAuth' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
@@ -101,7 +99,6 @@ class EmailConfigurationForm extends BaseForm {
          $this->setDefaults(array(
              'txtMailAddress' => $emailConfiguration->getSentAs(),
              'cmbMailSendingMethod' => $emailConfiguration->getMailType(),
-             'txtSendmailPath' => $emailConfiguration->getSendmailPath(),
              'txtSmtpHost' => $emailConfiguration->getSmtpHost(),
              'txtSmtpPort' => $emailConfiguration->getSmtpPort(),
              'optAuth' => $emailConfiguration->getSmtpAuthType(),
@@ -121,7 +118,6 @@ class EmailConfigurationForm extends BaseForm {
         $stmpPort = $this->getValue('txtSmtpPort');
         $this->emailConfiguration->setSentAs($this->getValue('txtMailAddress'));
         $this->emailConfiguration->setMailType($this->getValue('cmbMailSendingMethod'));
-        $this->emailConfiguration->setSendmailPath($this->getValue('txtSendmailPath'));
         $this->emailConfiguration->setSmtpHost($this->getValue('txtSmtpHost'));
         $this->emailConfiguration->setSmtpPort($stmpPort ? $stmpPort : NULL);
         $this->emailConfiguration->setSmtpAuthType($this->getValue('optAuth'));
@@ -134,5 +130,3 @@ class EmailConfigurationForm extends BaseForm {
     }
     
 }
-
-?>

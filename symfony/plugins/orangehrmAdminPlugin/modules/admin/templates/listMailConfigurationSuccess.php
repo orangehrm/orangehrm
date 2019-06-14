@@ -26,9 +26,10 @@
                         <?php echo $form['cmbMailSendingMethod']->render(); ?>
                     </li>
                     <li id="divsendmailControls" class="toggleDiv">
-                        <?php echo $form['txtSendmailPath']->renderLabel(__("Path to Sendmail")); ?>
-                        <?php echo $form['txtSendmailPath']->render(array("maxlength" => 100)); ?>
-                    </li>      
+                        <label><?php echo __("Path to Sendmail"); ?></label>
+                        <label><?php echo $sendmailPath; ?></label>
+
+                    </li>
                 </ol>
                 
                 <ol id="divsmtpControls" class="toggleDiv">
