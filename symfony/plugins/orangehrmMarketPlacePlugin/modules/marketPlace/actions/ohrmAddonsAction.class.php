@@ -57,8 +57,26 @@ class ohrmAddonsAction extends baseAddonAction
                 }
             }
         }
+        $this->renewedAddonIds = $this->getMarcketplaceService()->getRenewedAddonIds();
+        $renewPendingAddons = $this->getMarcketplaceService()->getRenewPendingAddonIds();
+        if ($renewPendingAddons) {
+            $renewedAddons = $this->getApiManagerService()->getAddonPaymentStatus();
+            $renewedAddonNames = array_column($renewedAddons, 'title');
+            if (count($renewedAddonNames) > 0) {
+                $count = $this->getMarcketplaceService()->changeAddonStatus(
+                    $renewedAddonNames,
+                    MarketplaceDao::ADDON_STATUS_RENEW_REQUESTED,
+                    MarketplaceDao::ADDON_STATUS_RENEWED
+                );
+                if ($count > 0) {
+                    $this->renewedAddonIds = $this->getMarcketplaceService()->getRenewedAddonIds();
+                    $renewPendingAddons = array_diff($renewPendingAddons, $this->renewedAddonIds);
+                }
+            }
+        }
 
         $this->buyNowPendingAddon = $buyNowPendingAddons;
+        $this->renewPendingAddons = $renewPendingAddons;
         $this->buyNowForm = new BuyNowForm();
         $this->dataGroupPermission = $this->getPermissions();
         $this->canRead = $this->dataGroupPermission->canRead();
@@ -68,8 +86,10 @@ class ohrmAddonsAction extends baseAddonAction
         try {
             $addonList = $this->getAddons();
             $this->addonList = $addonList;
+            $this->getMarcketplaceService()->MarkExpiredAddons();
             $installAddons = $this->getInstalledAddons();
             $this->installedAddons = array_column($installAddons, 'id');
+            $this->expiredAddons = $this->getMarcketplaceService()->getExpiredAddons(MarketplaceDao::ADDON_STATUS_EXPIRED);
         } catch (GuzzleHttp\Exception\ConnectException $e) {
             Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());

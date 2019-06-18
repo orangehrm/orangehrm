@@ -18,3 +18,7 @@ Addon:
     plugin_name:
       type: string(255)
       name: plugin_name as PluginName
+    type:
+      type: string(30)
+      name: type as addonType
+      default: 'free'

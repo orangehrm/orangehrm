@@ -294,6 +294,7 @@ class APIManagerService
             'companyName' => $data['companyName'],
             'contactEmail' => $data['contactEmail'],
             'contactNumber' => $data['contactNumber'],
+            'isRenew' => $data['isRenew']
         );
         $response = $this->getApiClient()->post(self::BUY_NOW_REQUEST . $data['buyAddonID'] . '/request',
             array(

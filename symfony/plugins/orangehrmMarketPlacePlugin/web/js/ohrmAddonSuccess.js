@@ -1,6 +1,8 @@
 var installId;
 var uninstallId;
 var buyNowId;
+var isRenew = false;
+var renewId;
 $(document).ready(function () {
     var acc = document.getElementsByClassName("accordion");
     var i;
@@ -122,7 +124,7 @@ $(document).ready(function () {
     });
     $('.buyBtn').click(function () {
         buyNowId = $(this).attr('addid');
-
+        isRenew = $(this).attr('isRenew');
         $.ajax({
             method: "POST",
             data: {addonID: buyNowId},
@@ -136,6 +138,43 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.requestRenewBtn').click(function() {
+        buyNowId = $(this).attr('addid');
+        isRenew = $(this).attr('isRenew');
+        $('#buyNowModal').modal('toggle');
+
+    });
+
+    $('.renewBtn').click(function() {
+        renewId = $(this).attr('addid');
+        $.ajax({
+            method: "POST",
+            data: {addonID: renewId},
+            url: renewUrl,
+            success: function (result) {
+                if (result) {
+                    $('#loading').removeClass();
+                    $('#disable-screen').removeClass();
+                    $('#message_body').text(renewSuccess);
+                    $('#messege_div').show(0).delay(2000).fadeOut(1000);
+                    $('#renewButton' + renewId).attr('value', 'Installed').prop("disabled", true).css('background-color', '#808080');
+                } else {
+                    $('#disable-screen').removeClass();
+                    $('#loading').removeClass();
+                    $('#renewButton' + renewId).attr('value', 'Renew');
+                    var errorcode = 'e' + result;
+                    if (errorcode in installErrorMessage) {
+                        $("#addon_div").text(installErrorMessage[errorcode] + messaegeInFail)
+                    } else {
+                        $("#addon_div").text(messaegeInFail);
+                    }
+                }
+            }
+        });
+
+    });
+
     $('#modal_confirm_buy').click(function () {
         if ($("#frmBuyNow").valid()) {
             var cusEmail = $('#email').val();
@@ -147,12 +186,16 @@ $(document).ready(function () {
             $('#loading').attr('class', 'loading-class');
             $.ajax({
                 method: "POST",
-                data: {buyAddonID: buyNowId, companyName: comName, contactEmail: cusEmail, contactNumber: contactNum},
+                data: {buyAddonID: buyNowId, companyName: comName, contactEmail: cusEmail, contactNumber: contactNum, isRenew: isRenew},
                 url: buyNowUrl, success: function (result) {
                     if (result === '"Success"') {
                         $('#message_body').text(buyNowReqSuccess);
                         $('#loading').removeClass();
-                        $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
+                        if(!isRenew) {
+                            $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
+                        } else {
+                            $('#buyBtn' + buyNowId).attr('value', 'Renew requested').prop("disabled", true).css('background-color', '#808080');
+                        }
                         $('#disable-screen').removeClass();
                         $('#messege_div').show(0).delay(2000).fadeOut(1000);
                     } else if (result === '3000') {
