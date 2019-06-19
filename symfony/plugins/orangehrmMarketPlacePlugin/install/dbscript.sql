@@ -43,6 +43,6 @@ CREATE TABLE `ohrm_marketplace_addon` (
     `status` VARCHAR(30),
     `version` VARCHAR(100),
     `plugin_name` VARCHAR(255),
-    `type` VARCHAR(30) DEFAULT 'free',
+    `type` ENUM('paid','free') DEFAULT 'free',
     PRIMARY KEY(`addon_id`)
 ) engine=innodb default charset=utf8;
