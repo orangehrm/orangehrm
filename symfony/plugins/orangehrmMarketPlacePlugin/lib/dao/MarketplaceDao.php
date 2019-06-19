@@ -268,7 +268,6 @@ class MarketplaceDao
             $value = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
             return $value;
         } catch (Exception $e) {
-            $this->getLogger()->error("Exception in getValue:" . $e);
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
