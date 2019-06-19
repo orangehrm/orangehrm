@@ -144,6 +144,8 @@ class installAddonAPIAction extends baseAddonAction
         if (!$result) {
             throw new Exception('Can not add to OrangeHRM database. Uninstallation will cause errors. But plugin can used.', 1006);
         }
+        // clearing menu item cache so that new menus will be added.
+        $this->getUser()->getAttributeHolder()->remove(mainMenuComponent::MAIN_MENU_USER_ATTRIBUTE);
         return $result;
     }
 }
