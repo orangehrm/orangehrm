@@ -322,9 +322,8 @@ class MarketplaceService extends ConfigService
      * Check whether the installed paid type addons have expired and if expired
      * update the status of the addon as "Expired"
      */
-    public function MarkExpiredAddons()
+    public function markExpiredAddons()
     {
-
         $paidTypeInstalledAddons = $this->getMarketplaceDao()->getPaidTypeInstalledAddons();
         $expiredAddonNames = [];
         if(count($paidTypeInstalledAddons)!=0) {

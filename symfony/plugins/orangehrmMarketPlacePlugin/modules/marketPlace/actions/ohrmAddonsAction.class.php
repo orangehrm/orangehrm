@@ -40,35 +40,34 @@ class ohrmAddonsAction extends baseAddonAction
         if (ini_get('max_execution_time') < 600) {
             ini_set('max_execution_time', 600);
         }
+
         $this->paidAddonIds = $this->getMarcketplaceService()->getPaidAddonIds();
         $buyNowPendingAddons = $this->getMarcketplaceService()->getInstalationPendingAddonIds();
-        if ($buyNowPendingAddons) {
-            $paidInstallationPendingAddons = $this->getApiManagerService()->getAddonPaymentStatus();
-            $paidInstallationPendingAddonNames = array_column($paidInstallationPendingAddons, 'title');
-            if (count($paidInstallationPendingAddonNames) > 0) {
-                $count = $this->getMarcketplaceService()->changeAddonStatus(
-                    $paidInstallationPendingAddonNames,
+        $this->renewedAddonIds = $this->getMarcketplaceService()->getRenewedAddonIds();
+        $renewPendingAddons = $this->getMarcketplaceService()->getRenewPendingAddonIds();
+
+        if ($buyNowPendingAddons || $renewPendingAddons) {
+            $readyToUseAddons = $this->getApiManagerService()->getAddonPaymentStatus();
+            $readyToUseAddonNames = array_column($readyToUseAddons, 'title');
+            if (count($readyToUseAddonNames) > 0) {
+                $requestedToPaidCount = $this->getMarcketplaceService()->changeAddonStatus(
+                    $readyToUseAddonNames,
                     MarketplaceDao::ADDON_STATUS_REQUESTED,
                     MarketplaceDao::ADDON_STATUS_PAID
                 );
-                if ($count > 0) {
+
+                if ($requestedToPaidCount > 0) {
                     $this->paidAddonIds = $this->getMarcketplaceService()->getPaidAddonIds();
                     $buyNowPendingAddons = array_diff($buyNowPendingAddons, $this->paidAddonIds);
                 }
-            }
-        }
-        $this->renewedAddonIds = $this->getMarcketplaceService()->getRenewedAddonIds();
-        $renewPendingAddons = $this->getMarcketplaceService()->getRenewPendingAddonIds();
-        if ($renewPendingAddons) {
-            $renewedAddons = $this->getApiManagerService()->getAddonPaymentStatus();
-            $renewedAddonNames = array_column($renewedAddons, 'title');
-            if (count($renewedAddonNames) > 0) {
-                $count = $this->getMarcketplaceService()->changeAddonStatus(
-                    $renewedAddonNames,
+
+                $renewRequestedToRenewedCount = $this->getMarcketplaceService()->changeAddonStatus(
+                    $readyToUseAddonNames,
                     MarketplaceDao::ADDON_STATUS_RENEW_REQUESTED,
                     MarketplaceDao::ADDON_STATUS_RENEWED
                 );
-                if ($count > 0) {
+
+                if ($renewRequestedToRenewedCount > 0) {
                     $this->renewedAddonIds = $this->getMarcketplaceService()->getRenewedAddonIds();
                     $renewPendingAddons = array_diff($renewPendingAddons, $this->renewedAddonIds);
                 }
@@ -86,7 +85,7 @@ class ohrmAddonsAction extends baseAddonAction
         try {
             $addonList = $this->getAddons();
             $this->addonList = $addonList;
-            $this->getMarcketplaceService()->MarkExpiredAddons();
+            $this->getMarcketplaceService()->markExpiredAddons();
             $installAddons = $this->getInstalledAddons();
             $this->installedAddons = array_column($installAddons, 'id');
             $this->expiredAddons = $this->getMarcketplaceService()->getExpiredAddons(MarketplaceDao::ADDON_STATUS_EXPIRED);
