@@ -142,7 +142,7 @@ $(document).ready(function () {
     $('.requestRenewBtn').click(function() {
         buyNowId = $(this).attr('addid');
         isRenew = $(this).attr('isRenew');
-        $('#buyNowModal').modal('toggle');
+        $('#renewModal').modal('toggle');
 
     });
 

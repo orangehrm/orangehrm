@@ -217,18 +217,42 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                 </ol>
             </form>
         </div>
-        <div id="prerequisites" class="box"
+        <div id="prerequisites" class="box"></div>
+
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn" id="modal_confirm_buy"
+               value="<?php echo __('Ok'); ?>"/>
+        <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 
 </div>
-<div class="modal-footer">
-    <input type="button" class="btn" id="modal_confirm_buy"
-           value="<?php echo __('Ok'); ?>"/>
-    <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
-</div>
+<!--renew confirmation modal-->
+<div class="modal hide" id="renewModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3><?php echo __('Renew the addon license'); ?></h3>
+    </div>
+    <div class="modal-body">
+        <p><?php echo __("You are requesting to renew this add-on."); ?></p><br>
+        <p><?php echo __("Please confirm your contact details. Your details will be forwarded to OrangeHRM sales representative."); ?></p>
+        <div class="box">
+            <form id="frmBuyNow" method="post">
+                <ol>
+                    <?php echo $buyNowForm->render() ?>
+                </ol>
+            </form>
+        </div>
 
-</div>
-<script>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn" id="modal_confirm_buy"
+               value="<?php echo __('Ok'); ?>"/>
+        <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
+    </div>
+
+
+    <script>
     var marketplaceURL = "<?php echo url_for('marketPlace/ohrmAddons'); ?>";
     var descriptionUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
     var installUrl = "<?php echo url_for('marketPlace/installAddonAPI'); ?>";
