@@ -40,25 +40,42 @@ class ohrmAddonsAction extends baseAddonAction
         if (ini_get('max_execution_time') < 600) {
             ini_set('max_execution_time', 600);
         }
+
         $this->paidAddonIds = $this->getMarcketplaceService()->getPaidAddonIds();
         $buyNowPendingAddons = $this->getMarcketplaceService()->getInstalationPendingAddonIds();
-        if ($buyNowPendingAddons) {
-            $paidInstallationPendingAddons = $this->getApiManagerService()->getAddonPaymentStatus();
-            $paidInstallationPendingAddonNames = array_column($paidInstallationPendingAddons, 'title');
-            if (count($paidInstallationPendingAddonNames) > 0) {
-                $count = $this->getMarcketplaceService()->changeAddonStatus(
-                    $paidInstallationPendingAddonNames,
+        $this->renewedAddonIds = $this->getMarcketplaceService()->getRenewedAddonIds();
+        $renewPendingAddons = $this->getMarcketplaceService()->getRenewPendingAddonIds();
+
+        if ($buyNowPendingAddons || $renewPendingAddons) {
+            $readyToUseAddons = $this->getApiManagerService()->getAddonPaymentStatus();
+            $readyToUseAddonNames = array_column($readyToUseAddons, 'title');
+            if (count($readyToUseAddonNames) > 0) {
+                $requestedToPaidCount = $this->getMarcketplaceService()->changeAddonStatus(
+                    $readyToUseAddonNames,
                     MarketplaceDao::ADDON_STATUS_REQUESTED,
                     MarketplaceDao::ADDON_STATUS_PAID
                 );
-                if ($count > 0) {
+
+                if ($requestedToPaidCount > 0) {
                     $this->paidAddonIds = $this->getMarcketplaceService()->getPaidAddonIds();
                     $buyNowPendingAddons = array_diff($buyNowPendingAddons, $this->paidAddonIds);
+                }
+
+                $renewRequestedToRenewedCount = $this->getMarcketplaceService()->changeAddonStatus(
+                    $readyToUseAddonNames,
+                    MarketplaceDao::ADDON_STATUS_RENEW_REQUESTED,
+                    MarketplaceDao::ADDON_STATUS_RENEWED
+                );
+
+                if ($renewRequestedToRenewedCount > 0) {
+                    $this->renewedAddonIds = $this->getMarcketplaceService()->getRenewedAddonIds();
+                    $renewPendingAddons = array_diff($renewPendingAddons, $this->renewedAddonIds);
                 }
             }
         }
 
         $this->buyNowPendingAddon = $buyNowPendingAddons;
+        $this->renewPendingAddons = $renewPendingAddons;
         $this->buyNowForm = new BuyNowForm();
         $this->dataGroupPermission = $this->getPermissions();
         $this->canRead = $this->dataGroupPermission->canRead();
@@ -66,10 +83,14 @@ class ohrmAddonsAction extends baseAddonAction
         $this->canDelete = $this->dataGroupPermission->canDelete();
         $this->exception = false;
         try {
-            $addonList = $this->getAddons();
+            $addonList = $this->getAddons(true);
             $this->addonList = $addonList;
+            $expirationDates = $this->getMarcketplaceService()->getExpirationDatesOfInstalledPaidAddons();
+            $this->expirationDates = $expirationDates;
+            $this->getMarcketplaceService()->markExpiredAddons();
             $installAddons = $this->getInstalledAddons();
             $this->installedAddons = array_column($installAddons, 'id');
+            $this->expiredAddons = $this->getMarcketplaceService()->getExpiredAddons();
         } catch (GuzzleHttp\Exception\ConnectException $e) {
             Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());

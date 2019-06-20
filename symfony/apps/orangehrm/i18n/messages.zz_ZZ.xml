@@ -7724,21 +7724,33 @@
         <source>Instructions for resetting your password have been sent to </source>
         <target>FR_Instructions for resetting your password have been sent to </target>
       </trans-unit>
-      <trans-unit id="1932">
+      <trans-unit id="1931">
         <source>Successfully reset your password</source>
         <target>FR_Successfully reset your password</target>
       </trans-unit>
-      <trans-unit id="1933">
+      <trans-unit id="1932">
         <source>Go to Login Page</source>
         <target>FR_Go to Login Page</target>
       </trans-unit>
-      <trans-unit id="1934">
+      <trans-unit id="1933">
         <source>This link is expired, Please request again</source>
         <target>FR_This link is expired, Please request again</target>
       </trans-unit>
-      <trans-unit id="1935">
+      <trans-unit id="1934">
         <source>OrangeHRM - Prerequisites Verification</source>
         <target>FR_OrangeHRM - Prerequisites Verification</target>
+      </trans-unit>
+      <trans-unit id="1935">
+        <source>Expiry Date</source>
+        <target>FR_Expiry Date</target>
+      </trans-unit>
+      <trans-unit id="1936">
+        <source>Successfully Renewed license.</source>
+        <target>FR_Successfully Renewed license.</target>
+      </trans-unit>
+      <trans-unit id="1937">
+        <source>Renew Failed.</source>
+        <target>FR_Renew Failed.</target>
       </trans-unit>
     </body>
   </file>

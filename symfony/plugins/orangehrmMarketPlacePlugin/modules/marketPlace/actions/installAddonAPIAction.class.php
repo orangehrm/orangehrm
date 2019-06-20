@@ -22,6 +22,9 @@
  */
 class installAddonAPIAction extends baseAddonAction
 {
+    private $pluginName;
+    private $licenseDownloaded = false;
+
     /**
      * @param sfRequest $request
      * @return mixed|string
@@ -44,26 +47,35 @@ class installAddonAPIAction extends baseAddonAction
                 }
             }
             $addonFilePath = $this->getAddonFile($addonURL, $addonDetail);
-            $pluginname = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
+            $this->pluginName = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
             if ($addonDetail['type']=='paid') {
                 $addonLicenseContent = $this->getApiManagerService()->getAddonLicense($addonId);
                 if (is_string($addonLicenseContent) && strlen($addonLicenseContent) > 0) {
-                    file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginname . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);
+                    file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $this->pluginName . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);
                 } else {
                     chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
-                    exec("rm -r " . $pluginname , $clearResponse, $clearStatus);
+                    exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
                     throw new Exception('Error when retrieving the license file');
                 }
             }
-            $result = $this->installAddon($addonFilePath, $addonDetail, $pluginname);
+            $this->licenseDownloaded = true;
+            $result = $this->installAddon($addonFilePath, $addonDetail, $this->pluginName);
             echo json_encode($result);
             return sfView::NONE;
         } catch (GuzzleHttp\Exception\ConnectException $e) {
+            if ($this->pluginName && !$this->licenseDownloaded) {
+                chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
+                exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
+            }
             Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());
             echo json_encode(self::ERROR_CODE_NO_CONNECTION);
             return sfView::NONE;
         } catch (Exception $e) {
+            if ($this->pluginName && !$this->licenseDownloaded) {
+                chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
+                exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
+            }
             Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());
             echo json_encode($e->getCode());
@@ -127,7 +139,8 @@ class installAddonAPIAction extends baseAddonAction
             $data = array(
                 'id' => $addonDetail['id'],
                 'addonName' => $addonDetail['title'],
-                'status' => 'Installed',
+                'status' => MarketplaceDao::ADDON_STATUS_INSTALLED,
+                'type' => $addonDetail['type'],
                 'pluginName' => $pluginname
             );
             $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
@@ -135,7 +148,7 @@ class installAddonAPIAction extends baseAddonAction
             $data = array(
                 'id' => $addonDetail['id'],
                 'addonName' => $addonDetail['title'],
-                'status' => 'Installed',
+                'status' => MarketplaceDao::ADDON_STATUS_INSTALLED,
                 'pluginName' => $pluginname
             );
             $result = $this->getMarcketplaceService()->updateAddon($data);

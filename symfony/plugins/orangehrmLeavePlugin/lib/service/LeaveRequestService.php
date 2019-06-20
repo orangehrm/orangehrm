@@ -573,10 +573,17 @@ class LeaveRequestService extends BaseService {
                     //LeaveEvents::LEAVE_CANCEL
 
                     foreach ($changedItems as $leaveRequestId) {
-                        $changedLeave = $this->searchLeave($leaveRequestId);
-                        $this->_changeLeaveStatus($changedLeave, $nextState, $changeComments[$leaveRequestId]);
-                        $this->_notifyLeaveStatusChange($event, $workFlow, $changedLeave, 
-                                $changedByUserType, $changedUserId, 'request');                        
+                        $changedLeaveRequest = $this->fetchLeaveRequest($leaveRequestId);
+                        $changedLeave = $changedLeaveRequest->getLeave();
+                        $allowedActions = $this->getLeaveRequestActions($changedLeaveRequest, $changedUserId);
+
+                        if (isset($allowedActions[$workFlowId])) {
+                            $this->_changeLeaveStatus($changedLeave, $nextState, $changeComments[$leaveRequestId]);
+                            $this->_notifyLeaveStatusChange($event, $workFlow, $changedLeave,
+                                $changedByUserType, $changedUserId, 'request');
+                        } else {
+                            throw new Exception('Action Not allowed');
+                        }
                     }
                 }
 
@@ -600,7 +607,14 @@ class LeaveRequestService extends BaseService {
                     //LeaveEvents::LEAVE_CANCEL
                     $changedLeave = array();
                     foreach ($changedItems as $leaveId) {
-                        $changedLeave[] = $this->getLeaveRequestDao()->getLeaveById($leaveId);
+                        $leaveObj = $this->getLeaveRequestDao()->getLeaveById($leaveId);
+                        if (array_key_exists($workFlowId, $this->getLeaveActions($leaveObj, $changedUserId))) {
+                            $changedLeave[] = $leaveObj;
+                        }
+                    }
+
+                    if (count($changedLeave) === 0) {
+                        throw new Exception('Action Not allowed');
                     }
                     
                     $this->_changeLeaveStatus($changedLeave, $nextState, $changeComments); 
@@ -747,7 +761,7 @@ class LeaveRequestService extends BaseService {
         $userRoleManager = $this->getUserRoleManager();
 
         // If looking at own leave, only consider ESS role
-        if ($leave->getEmpNumber() == $loggedInEmpNumber && ($userRoleManager->essRightsToOwnWorkflow() || !$userRoleManager->isEntityAccessible('Employee', $empNumber))) {
+        if ($leave->getEmpNumber() == $loggedInEmpNumber && ($userRoleManager->essRightsToOwnWorkflow() || !$userRoleManager->isEntityAccessible('Employee', $leave->getEmpNumber()))) {
             $includeRoles = array('ESS');
         }
         

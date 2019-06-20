@@ -1,6 +1,8 @@
 var installId;
 var uninstallId;
 var buyNowId;
+var isRenew = false;
+var renewId;
 $(document).ready(function () {
     var acc = document.getElementsByClassName("accordion");
     var i;
@@ -15,7 +17,7 @@ $(document).ready(function () {
             }
         });
     }
-    $('.accordion').click(function () {
+    /*$('.accordion').click(function () {
         var addId = $(this).attr('addonid');
         $.ajax({
             method: "POST",
@@ -30,7 +32,7 @@ $(document).ready(function () {
                 }
             }
         });
-    });
+    });*/
     $('.installBtn').live('click', function (event) {
         installId = $(this).attr('addid');
 
@@ -74,6 +76,7 @@ $(document).ready(function () {
                     if (paidAddons.indexOf(installId) > -1) {
                         intallBtn.attr('value', 'Installed').prop("disabled", true).css('background-color', '#808080');
                     }
+                    window.location.reload();
                 } else {
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();
@@ -101,12 +104,18 @@ $(document).ready(function () {
                     $('#disable-screen').removeClass();
                     $('#message_body').text(meassageUninSuccess);
                     $('#messege_div').show(0).delay(2000).fadeOut(1000);
-                    $('#uninstallButton' + uninstallId).attr({
+                    var uninstallBtn = $('#uninstallButton' + uninstallId);
+                    uninstallBtn.attr({
                         'class': 'buttons installBtn',
                         'value': 'Install',
                         'id': 'installButton' + uninstallId,
                         'data-target': '#installConfModal'
                     });
+                    if ($('#requestRenewButton' + uninstallId).length > 0) {
+                        uninstallBtn.attr('value', 'Request');
+                        $('#requestRenewButton' + uninstallId).remove();
+                    }
+                    window.location.reload();
                 } else {
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();
@@ -122,7 +131,7 @@ $(document).ready(function () {
     });
     $('.buyBtn').click(function () {
         buyNowId = $(this).attr('addid');
-
+        isRenew = $(this).attr('isRenew');
         $.ajax({
             method: "POST",
             data: {addonID: buyNowId},
@@ -136,23 +145,67 @@ $(document).ready(function () {
             }
         });
     });
-    $('#modal_confirm_buy').click(function () {
-        if ($("#frmBuyNow").valid()) {
-            var cusEmail = $('#email').val();
-            var contactNum = $('#contactNumber').val();
-            var comName = $('#organization').val();
-            $('#buyNowModal').modal('toggle');
+
+    $('.requestRenewBtn').click(function() {
+        buyNowId = $(this).attr('addid');
+        isRenew = $(this).attr('isRenew');
+        $('#renewModal').modal('toggle');
+
+    });
+
+    $('.renewBtn').click(function() {
+        renewId = $(this).attr('addid');
+        $('#renewButton' + renewId).attr('value', 'Renewing');
+        $('#disable-screen').attr('class', 'overlay');
+        $('#loading').attr('class', 'loading-class');
+        $.ajax({
+            method: "POST",
+            data: {addonID: renewId},
+            url: renewUrl,
+            success: function (result) {
+                if (result) {
+                    $('#loading').removeClass();
+                    $('#disable-screen').removeClass();
+                    $('#message_body').text(renewSuccess);
+                    $('#messege_div').show(0).delay(2000).fadeOut(1000);
+                    $('#renewButton' + renewId).attr('value', 'Installed').prop("disabled", true).css('background-color', '#808080');
+                } else {
+                    $('#disable-screen').removeClass();
+                    $('#loading').removeClass();
+                    $('#renewButton' + renewId).attr('value', 'Renew');
+                    $("#addon_div").text(renewFail);
+                }
+            }
+        });
+
+    });
+
+    $('#modal_confirm_buy, #modal_confirm_renew').click(function () {
+        var form = isRenew ? $("#frmRenewNow") : $("#frmBuyNow");
+        if (form.valid()) {
+            var cusEmail = $('#email', form).val();
+            var contactNum = $('#contactNumber', form).val();
+            var comName = $('#organization', form).val();
+            if (isRenew) {
+                $('#renewModal').modal('toggle');
+            } else {
+                $('#buyNowModal').modal('toggle');
+            }
             $('#disable-screen').attr('class', 'overlay');
             $('#buyBtn' + buyNowId).attr('value', 'Requesting');
             $('#loading').attr('class', 'loading-class');
             $.ajax({
                 method: "POST",
-                data: {buyAddonID: buyNowId, companyName: comName, contactEmail: cusEmail, contactNumber: contactNum},
+                data: {buyAddonID: buyNowId, companyName: comName, contactEmail: cusEmail, contactNumber: contactNum, isRenew: isRenew},
                 url: buyNowUrl, success: function (result) {
                     if (result === '"Success"') {
                         $('#message_body').text(buyNowReqSuccess);
                         $('#loading').removeClass();
-                        $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
+                        if(!isRenew) {
+                            $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
+                        } else {
+                            $('#requestRenewButton' + buyNowId).attr('value', 'Renew Requested').prop("disabled", true).css('background-color', '#808080');
+                        }
                         $('#disable-screen').removeClass();
                         $('#messege_div').show(0).delay(2000).fadeOut(1000);
                     } else if (result === '3000') {

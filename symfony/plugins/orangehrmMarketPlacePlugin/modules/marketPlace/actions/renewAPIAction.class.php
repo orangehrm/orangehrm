@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -19,9 +18,10 @@
  */
 
 /**
- * Class ohrmBuyNowAPIAction
+ * Class renewAPI
  */
-class ohrmBuyNowAPIAction extends baseAddonAction
+
+class renewAPIAction extends baseAddonAction
 {
     /**
      * @param sfRequest $request
@@ -30,15 +30,27 @@ class ohrmBuyNowAPIAction extends baseAddonAction
     public function execute($request)
     {
         try {
-            $data = $request->getParameterHolder()->getAll();
-            $addonId = $data['buyAddonID'];
-            $addonList = $this->getAddons();
-            foreach ($addonList as $addon) {
-                if ($addon['id'] == $addonId) {
-                    $addonDetail = $addon;
-                }
+            if (ini_get('max_execution_time') < 600) {
+                ini_set('max_execution_time', 600);
             }
-            $result = $this->buyNow($data, $addonDetail);
+            $data = $request->getParameterHolder()->getAll();
+            $addonId = $data['addonID'];
+            $addonLicenseContent = $this->getApiManagerService()->getAddonLicense($addonId);
+            $addon = $this->getMarcketplaceService()->getAddonById($addonId);
+            if(count($addon)==1) {
+                $pluginName = $addon[0]->getPluginName();
+                $addonName = $addon[0]->getAddonName();
+            }
+            if (is_string($addonLicenseContent) && strlen($addonLicenseContent) > 0) {
+                file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);
+            } else {
+                throw new Exception('Error when renewing the license file');
+            }
+            $result = $this->getMarcketplaceService()->changeAddonStatus(
+                [$addonName],
+                MarketplaceDao::ADDON_STATUS_RENEWED,
+                MarketplaceDao::ADDON_STATUS_INSTALLED
+            );
             echo json_encode($result);
             return sfView::NONE;
         } catch (GuzzleHttp\Exception\ConnectException $e) {
@@ -49,36 +61,8 @@ class ohrmBuyNowAPIAction extends baseAddonAction
         } catch (Exception $e) {
             Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());
-            echo json_encode(self::ERROR_CODE_EXCEPTION);
+            echo json_encode($e->getCode());
             return sfView::NONE;
         }
-    }
-
-    /**
-     * @param $data
-     * @param $addonDetail
-     * @return string
-     * @throws CoreServiceException
-     * @throws DaoException
-     */
-    public function buyNow($data, $addonDetail)
-    {
-        $result = $this->getApiManagerService()->buyNowAddon($data);
-        if(!$data['isRenew']) {
-            $addonData = array(
-                'id' => $addonDetail['id'],
-                'addonName' => $addonDetail['title'],
-                'type' => $addonDetail['type'],
-                'status' => MarketplaceDao::ADDON_STATUS_REQUESTED
-            );
-            $this->getMarcketplaceService()->installOrRequestAddon($addonData);
-        } else {
-            $this->getMarcketplaceService()->changeAddonStatus(
-                [$addonDetail['title']],
-                MarketplaceDao::ADDON_STATUS_EXPIRED,
-                MarketplaceDao::ADDON_STATUS_RENEW_REQUESTED
-            );
-        }
-        return $result;
     }
 }

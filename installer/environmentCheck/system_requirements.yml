@@ -1,6 +1,6 @@
 phpversion:
     min: '7.0'
-    max: '7.3.4'
+    max: '7.3.6'
     excludeRange: []
 
 mysqlversion:
@@ -10,7 +10,7 @@ mysqlversion:
 
 mariadbversion:
     min: '5.5'
-    max: '10.3.14'
+    max: '10.4.6'
     excludeRange: []
 
 webserver: ['Apache', 'nginx', 'IIS']

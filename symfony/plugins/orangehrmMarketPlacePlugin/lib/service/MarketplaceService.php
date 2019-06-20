@@ -127,6 +127,24 @@ class MarketplaceService extends ConfigService
     }
 
     /**
+     * @return array $renewedAddonIds
+     * @throws DaoException
+     */
+    public function getRenewedAddonIds()
+    {
+        return $this->getMarketplaceDao()->getAddonByStatus(MarketplaceDao::ADDON_STATUS_RENEWED);
+    }
+
+    /**
+     * @return array $renewPendingAddonIds
+     * @throws DaoException
+     */
+    public function getRenewPendingAddonIds()
+    {
+        return $this->getMarketplaceDao()->getAddonByStatus(MarketplaceDao::ADDON_STATUS_RENEW_REQUESTED);
+    }
+
+    /**
      * @param $data
      * @return bool
      * @throws DaoException
@@ -198,9 +216,9 @@ class MarketplaceService extends ConfigService
      * @return Doctrine_Collection
      * @throws DaoException
      */
-    public function getInstalledAddonById($addonId)
+    public function getAddonById($addonId)
     {
-        return $this->getMarketplaceDao()->getInstalledAddonById($addonId);
+        return $this->getMarketplaceDao()->getAddonById($addonId);
     }
 
     /**
@@ -300,4 +318,53 @@ class MarketplaceService extends ConfigService
 
     }
 
+    /**
+     * @return array expiryDates of the installed paid addons
+     */
+    public function getExpirationDatesOfInstalledPaidAddons()
+    {
+        $paidTypeInstalledAddons = $this->getMarketplaceDao()->getPaidTypeInstalledAddons();
+        $expirationDates = [];
+        foreach ($paidTypeInstalledAddons as $addon) {
+            $addonInfo = require(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $addon['PluginName'] . DIRECTORY_SEPARATOR . 'addon_info.php');
+            $expirationDates[$addon['id']] = date(sfContext::getInstance()->getUser()->getDateFormat(), $addonInfo['expiryTime']);
+        }
+        return $expirationDates;
+    }
+
+
+    /**
+     * Check whether the installed paid type addons have expired and if expired
+     * update the status of the addon as "Expired"
+     */
+    public function markExpiredAddons()
+    {
+        $paidTypeInstalledAddons = $this->getMarketplaceDao()->getPaidTypeInstalledAddons();
+        $expiredAddonNames = [];
+        if(count($paidTypeInstalledAddons)!=0) {
+            foreach ($paidTypeInstalledAddons as $paidTypeInstalledAddon) {
+                $addonInfo = require(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $paidTypeInstalledAddon['PluginName'] . DIRECTORY_SEPARATOR . 'addon_info.php');
+                if ($addonInfo['expired']) {
+                    $expiredAddonNames[] = $paidTypeInstalledAddon['addonName'];
+                }
+            }
+        }
+
+        if(count($expiredAddonNames) > 0) {
+            $this->getMarketplaceDao()->changeAddonStatus(
+                $expiredAddonNames,
+                MarketplaceDao::ADDON_STATUS_INSTALLED,
+                MarketplaceDao::ADDON_STATUS_EXPIRED
+            );
+        }
+    }
+
+    /**
+     * @return array $expiredAddonIds
+     * @throws DaoException
+     */
+    public function getExpiredAddons()
+    {
+        return $this->getMarketplaceDao()->getAddonByStatus(MarketplaceDao::ADDON_STATUS_EXPIRED);
+    }
 }

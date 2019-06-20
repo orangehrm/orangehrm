@@ -1,3 +1,18 @@
+New & Changed Features for OrangeHRM ver 4.3.2
+    New Features
+    ------------
+    Claim addon :-
+        - Employee submit claims and supervisor/admin approves.
+        - Admin / Supervisor assign claims to employees.
+        - Email notifications on the apply and approve.
+        - Admin manage claim types & event types.
+    Compatibility with PHP 7.3
+    Compatibility with MariaDB 10.4.6
+
+    Bug Fixes
+    ---------
+    Security fix [CVE-2019-12839]
+
 New & Changed Features for OrangeHRM ver 4.3.1
     New Features
     ------------

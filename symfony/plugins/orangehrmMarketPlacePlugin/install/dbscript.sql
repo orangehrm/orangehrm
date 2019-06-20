@@ -36,4 +36,13 @@ INSERT INTO ohrm_user_role_data_group (user_role_id, data_group_id, can_read, ca
 (@ESS_role_id, @data_group_id, 1, 0, 0, 0, 0),
 (@Supervisor_role_id, @data_group_id, 1, 0, 0, 0, 0);
 
-CREATE TABLE `ohrm_marketplace_addon` (`addon_id` INT(11), `title` VARCHAR(100), `date` TIMESTAMP, `status` VARCHAR(30), `version` VARCHAR(100), `plugin_name` VARCHAR(255), PRIMARY KEY(`addon_id`)) engine=innodb default charset=utf8;
+CREATE TABLE `ohrm_marketplace_addon` (
+    `addon_id` INT(11),
+    `title` VARCHAR(100),
+    `date` TIMESTAMP,
+    `status` VARCHAR(30),
+    `version` VARCHAR(100),
+    `plugin_name` VARCHAR(255),
+    `type` ENUM('paid','free') DEFAULT 'free',
+    PRIMARY KEY(`addon_id`)
+) engine=innodb default charset=utf8;

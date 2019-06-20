@@ -18,3 +18,8 @@ Addon:
     plugin_name:
       type: string(255)
       name: plugin_name as PluginName
+    type:
+      type: enum
+      values: ['free', 'paid']
+      name: type as addonType
+      default: 'free'

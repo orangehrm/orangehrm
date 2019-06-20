@@ -34,7 +34,7 @@
 }
 
 .buttons {
-    width: 50%;
+    width: 70%;
     float: right;
 }
 
@@ -120,6 +120,14 @@
     width: 500px;
 }
 
+#renewModal {
+    width: 500px;
+}
+
 .requested {
     background-color: #808080 !important;
+}
+
+.requestRenewBtn {
+    margin-bottom: 4px;
 }
