@@ -335,7 +335,7 @@ class MarketplaceService extends ConfigService
             }
         }
 
-        if(count($expiredAddonNames)!=0) {
+        if(count($expiredAddonNames) > 0) {
             $this->getMarketplaceDao()->changeAddonStatus(
                 $expiredAddonNames,
                 MarketplaceDao::ADDON_STATUS_INSTALLED,
