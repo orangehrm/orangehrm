@@ -352,7 +352,4 @@ class MarketplaceService extends ConfigService
     {
         return $this->getMarketplaceDao()->getAddonByStatus(MarketplaceDao::ADDON_STATUS_EXPIRED);
     }
-
-
-
 }

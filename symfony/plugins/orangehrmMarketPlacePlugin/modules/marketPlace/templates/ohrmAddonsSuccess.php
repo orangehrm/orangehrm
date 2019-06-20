@@ -105,7 +105,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                             elseif ($canCreate and ($addon['type'] == 'paid') and in_array($addon['id'], $expiredAddons)) { ?>
                                 <input type="button" name="Submit" class="buttons requestRenewBtn"
                                        id="<?php echo 'requestRenewButton' . $addon['id']; ?>"
-                                       value="<?php echo __('Req. renew'); ?>"
+                                       value="<?php echo __('Request Renew'); ?>"
                                        addid=<?php echo $addon['id'] ?>
                                        isRenew = <?php echo true; ?>
                                 >

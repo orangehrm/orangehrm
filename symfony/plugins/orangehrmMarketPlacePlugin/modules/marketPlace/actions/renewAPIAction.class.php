@@ -65,6 +65,4 @@ class renewAPIAction extends baseAddonAction
             return sfView::NONE;
         }
     }
-
-
 }
