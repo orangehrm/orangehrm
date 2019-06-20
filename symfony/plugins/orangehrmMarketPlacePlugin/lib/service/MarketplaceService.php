@@ -348,9 +348,9 @@ class MarketplaceService extends ConfigService
      * @return array $expiredAddonIds
      * @throws DaoException
      */
-    public function getExpiredAddons($status)
+    public function getExpiredAddons()
     {
-        return $this->getMarketplaceDao()->getAddonByStatus($status);
+        return $this->getMarketplaceDao()->getAddonByStatus(MarketplaceDao::ADDON_STATUS_EXPIRED);
     }
 
 

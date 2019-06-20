@@ -175,12 +175,17 @@ $(document).ready(function () {
 
     });
 
-    $('#modal_confirm_buy').click(function () {
-        if ($("#frmBuyNow").valid()) {
-            var cusEmail = $('#email').val();
-            var contactNum = $('#contactNumber').val();
-            var comName = $('#organization').val();
-            $('#buyNowModal').modal('toggle');
+    $('#modal_confirm_buy, #modal_confirm_renew').click(function () {
+        var form = isRenew ? $("#frmRenewNow") : $("#frmBuyNow");
+        if (form.valid()) {
+            var cusEmail = $('#email', form).val();
+            var contactNum = $('#contactNumber', form).val();
+            var comName = $('#organization', form).val();
+            if (isRenew) {
+                $('#renewModal').modal('toggle');
+            } else {
+                $('#buyNowModal').modal('toggle');
+            }
             $('#disable-screen').attr('class', 'overlay');
             $('#buyBtn' + buyNowId).attr('value', 'Requesting');
             $('#loading').attr('class', 'loading-class');

@@ -88,7 +88,7 @@ class ohrmAddonsAction extends baseAddonAction
             $this->getMarcketplaceService()->markExpiredAddons();
             $installAddons = $this->getInstalledAddons();
             $this->installedAddons = array_column($installAddons, 'id');
-            $this->expiredAddons = $this->getMarcketplaceService()->getExpiredAddons(MarketplaceDao::ADDON_STATUS_EXPIRED);
+            $this->expiredAddons = $this->getMarcketplaceService()->getExpiredAddons();
         } catch (GuzzleHttp\Exception\ConnectException $e) {
             Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());

@@ -237,7 +237,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <p><?php echo __("You are requesting to renew this add-on."); ?></p><br>
         <p><?php echo __("Please confirm your contact details. Your details will be forwarded to OrangeHRM sales representative."); ?></p>
         <div class="box">
-            <form id="frmBuyNow" method="post">
+            <form id="frmRenewNow" method="post">
                 <ol>
                     <?php echo $buyNowForm->render() ?>
                 </ol>
@@ -246,7 +246,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
 
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn" id="modal_confirm_buy"
+        <input type="button" class="btn" id="modal_confirm_renew"
                value="<?php echo __('Ok'); ?>"/>
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
