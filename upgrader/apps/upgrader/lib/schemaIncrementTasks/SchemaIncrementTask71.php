@@ -31,7 +31,8 @@ class SchemaIncrementTask71  extends SchemaIncrementTask
             'UPDATE `hs_hr_config`
             SET `value` = @old_path
             WHERE `key`= "email_config.sendmail_path" AND @old_path!="";',
-            'ALTER TABLE `ohrm_email_configuration` DROP COLUMN `sendmail_path`;'
+            'ALTER TABLE `ohrm_email_configuration` DROP COLUMN `sendmail_path`;',
+            'ALTER TABLE `ohrm_marketplace_addon` ADD `type` ENUM(\'free\',\'paid\') DEFAULT \'free\';'
         );
         $this->sql = $sql;
     }

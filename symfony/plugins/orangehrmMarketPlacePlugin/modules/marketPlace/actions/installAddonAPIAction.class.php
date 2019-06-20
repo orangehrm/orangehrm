@@ -127,7 +127,8 @@ class installAddonAPIAction extends baseAddonAction
             $data = array(
                 'id' => $addonDetail['id'],
                 'addonName' => $addonDetail['title'],
-                'status' => 'Installed',
+                'status' => MarketplaceDao::ADDON_STATUS_INSTALLED,
+                'type' => $addonDetail['type'],
                 'pluginName' => $pluginname
             );
             $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
@@ -135,7 +136,7 @@ class installAddonAPIAction extends baseAddonAction
             $data = array(
                 'id' => $addonDetail['id'],
                 'addonName' => $addonDetail['title'],
-                'status' => 'Installed',
+                'status' => MarketplaceDao::ADDON_STATUS_INSTALLED,
                 'pluginName' => $pluginname
             );
             $result = $this->getMarcketplaceService()->updateAddon($data);

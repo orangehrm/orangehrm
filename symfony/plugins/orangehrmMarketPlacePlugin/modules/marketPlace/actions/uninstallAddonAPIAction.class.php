@@ -52,7 +52,7 @@ class uninstallAddonAPIAction extends baseAddonAction
      */
     public function uninstallAddon($addonid)
     {
-        $addonDetail = $this->getMarcketplaceService()->getInstalledAddonById($addonid);
+        $addonDetail = $this->getMarcketplaceService()->getAddonById($addonid);
         if (sizeof($addonDetail) == 1) {
             $pluginName = $addonDetail[0]->getPluginName();
         } else {

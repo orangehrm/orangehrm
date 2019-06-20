@@ -289,11 +289,13 @@ class APIManagerService
             'Authorization' => 'Bearer ' . $token
         );
         $instanceID = $this->getConfigService()->getInstanceIdentifier();
+        $isRenew = intval($data['isRenew']);
         $requestData = array(
             'instanceId' => $instanceID,
             'companyName' => $data['companyName'],
             'contactEmail' => $data['contactEmail'],
             'contactNumber' => $data['contactNumber'],
+            'isRenew' => $isRenew
         );
         $response = $this->getApiClient()->post(self::BUY_NOW_REQUEST . $data['buyAddonID'] . '/request',
             array(

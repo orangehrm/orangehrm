@@ -25,6 +25,12 @@ class MarketplaceDao
     const ADDON_STATUS_INSTALLED = 'Installed';
     const ADDON_STATUS_REQUESTED = 'Requested';
     const ADDON_STATUS_PAID = 'Paid';
+    const ADDON_STATUS_EXPIRED = 'Expired';
+    const ADDON_STATUS_RENEW_REQUESTED = 'Renew requested';
+    const ADDON_STATUS_RENEWED = 'Renewed';
+
+    const ADDON_TYPE_PAID = 'paid';
+    const ADDON_TYPE_FREE = 'free';
     /**
      * @return array
      * @throws DaoException
@@ -64,7 +70,7 @@ class MarketplaceDao
     }
     /**
      * @param string $addonStatus
-     * @return array $paidAddonIds
+     * @return array $addonIds
      * @throws DaoException
      */
     public function getAddonByStatus($status) {
@@ -95,6 +101,7 @@ class MarketplaceDao
             $addon->setId($data['id']);
             $addon->setAddonName($data['addonName']);
             $addon->setInstalledDate(date('Y-m-d H:i:s'));
+            $addon->setAddonType($data['type']);
             $addon->setAddonStatus($data['status']);
             if ($data['pluginName']) {
                 $addon->setPluginName($data['pluginName']);
@@ -183,7 +190,7 @@ class MarketplaceDao
      * @return Doctrine_Collection
      * @throws DaoException
      */
-    public function getInstalledAddonById($addonId)
+    public function getAddonById($addonId)
     {
         try {
             $q = Doctrine_Query::create()
@@ -246,4 +253,23 @@ class MarketplaceDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @return array $paidTypeInstalledAddonIds
+     * @throws DaoException
+     */
+    public function getPaidTypeInstalledAddons()
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->from('Addon c')
+                ->where('c.addonStatus = ?', self::ADDON_STATUS_INSTALLED)
+                ->andWhere('c.addonType = ?', self::ADDON_TYPE_PAID);
+            $value = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+            return $value;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
 }
