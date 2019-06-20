@@ -199,7 +199,7 @@ $(document).ready(function () {
                         if(!isRenew) {
                             $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
                         } else {
-                            $('#buyBtn' + buyNowId).attr('value', 'Renew requested').prop("disabled", true).css('background-color', '#808080');
+                            $('#requestRenewButton' + buyNowId).attr('value', 'Renew requested').prop("disabled", true).css('background-color', '#808080');
                         }
                         $('#disable-screen').removeClass();
                         $('#messege_div').show(0).delay(2000).fadeOut(1000);
