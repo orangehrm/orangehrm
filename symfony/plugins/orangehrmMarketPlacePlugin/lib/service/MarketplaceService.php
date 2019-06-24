@@ -328,14 +328,14 @@ class MarketplaceService extends ConfigService
         $expiredAddonNames = [];
         if(count($paidTypeInstalledAddons)!=0) {
             foreach ($paidTypeInstalledAddons as $paidTypeInstalledAddon) {
-                $expiredDate = require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $paidTypeInstalledAddon['PluginName'] . DIRECTORY_SEPARATOR . 'expireDate.php');
-                if (time() < $expiredDate) {
+                $addonInfo = require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $paidTypeInstalledAddon['PluginName'] . DIRECTORY_SEPARATOR . 'addon_info.php');
+                if (addonInfo['expired']) {
                     $expiredAddonNames[] = $paidTypeInstalledAddon['addonName'];
                 }
             }
         }
 
-        if(count($expiredAddonNames)!=0) {
+        if(count($expiredAddonNames) > 0) {
             $this->getMarketplaceDao()->changeAddonStatus(
                 $expiredAddonNames,
                 MarketplaceDao::ADDON_STATUS_INSTALLED,
