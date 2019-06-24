@@ -329,7 +329,7 @@ class MarketplaceService extends ConfigService
         if(count($paidTypeInstalledAddons)!=0) {
             foreach ($paidTypeInstalledAddons as $paidTypeInstalledAddon) {
                 $addonInfo = require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $paidTypeInstalledAddon['PluginName'] . DIRECTORY_SEPARATOR . 'addon_info.php');
-                if (addonInfo['expired']) {
+                if ($addonInfo['expired']) {
                     $expiredAddonNames[] = $paidTypeInstalledAddon['addonName'];
                 }
             }
