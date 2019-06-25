@@ -319,6 +319,21 @@ class MarketplaceService extends ConfigService
     }
 
     /**
+     * @return array expiryDates of the installed paid addons
+     */
+    public function getExpirationDatesOfInstalledPaidAddons()
+    {
+        $paidTypeInstalledAddons = $this->getMarketplaceDao()->getPaidTypeInstalledAddons();
+        $expirationDates = [];
+        foreach ($paidTypeInstalledAddons as $addon) {
+            $addonInfo = require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $addon['PluginName'] . DIRECTORY_SEPARATOR . 'addon_info.php');
+            $expirationDates[$addon['id']] = date('Y-m-d', $addonInfo['expiryTime']);
+        }
+        return $expirationDates;
+    }
+
+
+    /**
      * Check whether the installed paid type addons have expired and if expired
      * update the status of the addon as "Expired"
      */

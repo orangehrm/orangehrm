@@ -85,6 +85,8 @@ class ohrmAddonsAction extends baseAddonAction
         try {
             $addonList = $this->getAddons();
             $this->addonList = $addonList;
+            $expirationDates = $this->getMarcketplaceService()->getExpirationDatesOfInstalledPaidAddons();
+            $this->expirationDates = $expirationDates;
             $this->getMarcketplaceService()->markExpiredAddons();
             $installAddons = $this->getInstalledAddons();
             $this->installedAddons = array_column($installAddons, 'id');

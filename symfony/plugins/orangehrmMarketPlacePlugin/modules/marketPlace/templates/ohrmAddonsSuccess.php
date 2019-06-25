@@ -38,6 +38,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         $expiredAddons = $sf_data->getRaw("expiredAddons");
         $renewPendingAddons = $sf_data->getRaw("renewPendingAddons");
         $renewedAddons = $sf_data->getRaw("renewedAddonIds");
+        $expirationDates = $sf_data->getRaw("expirationDates");
         if (!$exception) {
         if ($canRead) { ?>
         <?php foreach ($addonList as $addon) { ?>
@@ -73,6 +74,13 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
 
                                     }
                                     ?></p>
+                            </div>
+                            <div>
+                                <p><?php
+                                    if (array_key_exists($addon['id'], $expirationDates)) {
+                                        echo "Expiration Date:- " . $expirationDates[$addon['id']];
+                                    }
+                                ?></p>
                             </div>
                         </div>
                         <div id="column" class="install_button">
