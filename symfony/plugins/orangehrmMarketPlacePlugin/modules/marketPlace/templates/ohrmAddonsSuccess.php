@@ -78,7 +78,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                             <div>
                                 <p><?php
                                     if (array_key_exists($addon['id'], $expirationDates)) {
-                                        echo "Expiration Date:- " . $expirationDates[$addon['id']];
+                                        echo __('Expiration Date') . ':- ' .$expirationDates[$addon['id']];
                                     }
                                 ?></p>
                             </div>
