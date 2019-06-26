@@ -74,8 +74,14 @@ class changeLeaveStatusAction extends baseCoreLeaveAction {
             }
 
             if ($form->isValid()) {
-                $this->getLeaveRequestService()->changeLeaveStatus($changes, $changeType, $changeComments, $changedByUserType, $_SESSION['empNumber']);                
-                $this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS)); 
+                try {
+                    $this->getLeaveRequestService()->changeLeaveStatus($changes, $changeType, $changeComments, $changedByUserType, $_SESSION['empNumber']);
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS));
+                } catch (Exception $e) {
+                    if ($e->getMessage() == 'Action Not allowed') {
+                        $this->forwardToSecureAction();
+                    }
+                }
             }
         }
 
