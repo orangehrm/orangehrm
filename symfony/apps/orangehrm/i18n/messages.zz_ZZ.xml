@@ -7741,8 +7741,8 @@
         <target>FR_OrangeHRM - Prerequisites Verification</target>
       </trans-unit>
       <trans-unit id="1936">
-        <source>Expiration Date:- </source>
-        <target>FR_Expiration Date:- </target>
+        <source>Expiration Date</source>
+        <target>FR_Expiration Date</target>
       </trans-unit>
     </body>
   </file>
