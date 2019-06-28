@@ -148,6 +148,9 @@ $(document).ready(function () {
 
     $('.renewBtn').click(function() {
         renewId = $(this).attr('addid');
+        $('#renewButton' + renewId).attr('value', 'Renewing');
+        $('#disable-screen').attr('class', 'overlay');
+        $('#loading').attr('class', 'loading-class');
         $.ajax({
             method: "POST",
             data: {addonID: renewId},
@@ -163,12 +166,7 @@ $(document).ready(function () {
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();
                     $('#renewButton' + renewId).attr('value', 'Renew');
-                    var errorcode = 'e' + result;
-                    if (errorcode in installErrorMessage) {
-                        $("#addon_div").text(installErrorMessage[errorcode] + messaegeInFail)
-                    } else {
-                        $("#addon_div").text(messaegeInFail);
-                    }
+                    $("#addon_div").text(renewFail);
                 }
             }
         });
@@ -199,7 +197,7 @@ $(document).ready(function () {
                         if(!isRenew) {
                             $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
                         } else {
-                            $('#requestRenewButton' + buyNowId).attr('value', 'Renew requested').prop("disabled", true).css('background-color', '#808080');
+                            $('#requestRenewButton' + buyNowId).attr('value', 'Renew Requested').prop("disabled", true).css('background-color', '#808080');
                         }
                         $('#disable-screen').removeClass();
                         $('#messege_div').show(0).delay(2000).fadeOut(1000);
