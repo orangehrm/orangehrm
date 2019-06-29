@@ -88,6 +88,9 @@ class uninstallAddonAPIAction extends baseAddonAction
             }
             $result = $this->getMarcketplaceService()->uninstallAddon($addonid);
             $connection->commit();
+
+            // clearing menu item cache so that new menus will be added.
+            $this->getUser()->getAttributeHolder()->remove(mainMenuComponent::MAIN_MENU_USER_ATTRIBUTE);
             return $result;
         } catch (Exception $e) {
             $connection->rollback();

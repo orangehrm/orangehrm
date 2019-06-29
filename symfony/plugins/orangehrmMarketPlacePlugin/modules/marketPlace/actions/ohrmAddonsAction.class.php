@@ -83,7 +83,7 @@ class ohrmAddonsAction extends baseAddonAction
         $this->canDelete = $this->dataGroupPermission->canDelete();
         $this->exception = false;
         try {
-            $addonList = $this->getAddons();
+            $addonList = $this->getAddons(true);
             $this->addonList = $addonList;
             $expirationDates = $this->getMarcketplaceService()->getExpirationDatesOfInstalledPaidAddons();
             $this->expirationDates = $expirationDates;
