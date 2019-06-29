@@ -54,28 +54,36 @@ class APIManagerService
     private $configService = null;
 
     /**
+     * @param bool $includeDescription
      * @return mixed
      * @throws CoreServiceException
      */
-    public function getAddons()
+    public function getAddons($includeDescription = false)
     {
-        $addons = $this->getAddonsFromMP();
+        $addons = $this->getAddonsFromMP($includeDescription);
         return $addons;
     }
 
     /**
+     * @param bool $includeDescription
      * @return mixed
      * @throws CoreServiceException
      */
-    public function getAddonsFromMP()
+    public function getAddonsFromMP($includeDescription = false)
     {
         $token = $this->getApiToken();
         $headers = array(
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
         );
-        $response = $this->getApiClient()->get(self::ADDON_LIST . '?version=' . $this->getVersion() .
-            '&product=' . self::PRODUCT,
+        $queryParams = [
+            'version' => $this->getVersion(),
+            'product' => self::PRODUCT
+        ];
+        if ($includeDescription) {
+            $queryParams['includeDescription'] = 1;
+        }
+        $response = $this->getApiClient()->get(self::ADDON_LIST . '?' . http_build_query($queryParams),
             array(
                 'headers' => $headers
             )

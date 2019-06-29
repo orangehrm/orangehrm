@@ -17,7 +17,7 @@ $(document).ready(function () {
             }
         });
     }
-    $('.accordion').click(function () {
+    /*$('.accordion').click(function () {
         var addId = $(this).attr('addonid');
         $.ajax({
             method: "POST",
@@ -32,7 +32,7 @@ $(document).ready(function () {
                 }
             }
         });
-    });
+    });*/
     $('.installBtn').live('click', function (event) {
         installId = $(this).attr('addid');
 
@@ -76,6 +76,7 @@ $(document).ready(function () {
                     if (paidAddons.indexOf(installId) > -1) {
                         intallBtn.attr('value', 'Installed').prop("disabled", true).css('background-color', '#808080');
                     }
+                    window.location.reload();
                 } else {
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();
@@ -103,12 +104,18 @@ $(document).ready(function () {
                     $('#disable-screen').removeClass();
                     $('#message_body').text(meassageUninSuccess);
                     $('#messege_div').show(0).delay(2000).fadeOut(1000);
-                    $('#uninstallButton' + uninstallId).attr({
+                    var uninstallBtn = $('#uninstallButton' + uninstallId);
+                    uninstallBtn.attr({
                         'class': 'buttons installBtn',
                         'value': 'Install',
                         'id': 'installButton' + uninstallId,
                         'data-target': '#installConfModal'
                     });
+                    if ($('#requestRenewButton' + uninstallId).length > 0) {
+                        uninstallBtn.attr('value', 'Request');
+                        $('#requestRenewButton' + uninstallId).remove();
+                    }
+                    window.location.reload();
                 } else {
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();

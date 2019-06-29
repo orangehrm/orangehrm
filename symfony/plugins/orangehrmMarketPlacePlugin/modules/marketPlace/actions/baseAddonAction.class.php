@@ -75,13 +75,14 @@ abstract class baseAddonAction extends sfAction
     }
 
     /**
+     * @param bool $includeDescription
      * @return array
      * @throws CoreServiceException
      */
-    protected function getAddons()
+    protected function getAddons($includeDescription = false)
     {
         if (!isset($this->addonList)) {
-            $this->addonList = $this->getApiManagerService()->getAddons();
+            $this->addonList = $this->getApiManagerService()->getAddons($includeDescription);
         }
         return $this->addonList;
     }

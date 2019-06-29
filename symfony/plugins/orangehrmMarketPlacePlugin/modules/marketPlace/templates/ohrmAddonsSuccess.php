@@ -134,16 +134,18 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                 > <?php }
                             elseif ($canCreate and $addon['type'] == 'paid') { ?>
                                 <input type="button" name="Submit"
-                                       class="buttons buyBtn <?php if (in_array($addon['id'], $buyNowPendingAddon)) {
+                                       class="buttons buyBtn <?php if (in_array($addon['id'], $buyNowPendingAddon) || in_array($addon['id'], $renewPendingAddons)) {
                                            echo 'requested';
                                        } ?>"
                                        id="<?php echo 'buyBtn' . $addon['id']; ?>"
                                        value="<?php if (in_array($addon['id'], $buyNowPendingAddon)) {
                                            echo __('Requested');
+                                       } elseif (in_array($addon['id'], $renewPendingAddons)) {
+                                           echo __('Renew Requested');
                                        } else {
                                            echo __('Request');
                                        } ?>"
-                                       <?php if (in_array($addon['id'], $buyNowPendingAddon)) {
+                                       <?php if (in_array($addon['id'], $buyNowPendingAddon) || in_array($addon['id'], $renewPendingAddons)) {
                                            echo 'disabled';
                                        } ?>
                                        addid=<?php echo $addon['id'] ?>
@@ -153,7 +155,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
 
                         </div>
                     </div>
-                    <div id="<?php echo 'des' . $addon['id'] ?>" class="panel">
+                    <div id="<?php echo 'des' . $addon['id'] ?>" class="panel"><?php echo $addon->getRaw('description');?>
                     </div>
                 </div>
             </div>
@@ -262,7 +264,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
 
 <script>
     var marketplaceURL = "<?php echo url_for('marketPlace/ohrmAddons'); ?>";
-    var descriptionUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
+    //var descriptionUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
     var installUrl = "<?php echo url_for('marketPlace/installAddonAPI'); ?>";
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
     var buyNowUrl = "<?php echo url_for('marketPlace/ohrmBuyNowAPI'); ?>";
