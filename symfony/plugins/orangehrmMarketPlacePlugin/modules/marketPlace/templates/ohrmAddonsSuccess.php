@@ -151,8 +151,16 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                        addid=<?php echo $addon['id'] ?>
                                        isRenew = <?php echo false; ?>
                                 > <?php } ?>
-
-
+                                <?php if (in_array($addon['id'], $renewPendingAddons)) :?>
+                                    <input type="button" name="Submit"
+                                           class="buttons delete uninstallBtn"
+                                           id="<?php echo 'uninstallButton' . $addon['id']; ?>"
+                                           value="<?php echo __('Uninstall'); ?>"
+                                           data-toggle="modal"
+                                           data-target="#deleteConfModal"
+                                           addid=<?php echo $addon['id'] ?>
+                                    >
+                                <?php endif; ?>
                         </div>
                     </div>
                     <div id="<?php echo 'des' . $addon['id'] ?>" class="panel"><?php echo $addon->getRaw('description');?>

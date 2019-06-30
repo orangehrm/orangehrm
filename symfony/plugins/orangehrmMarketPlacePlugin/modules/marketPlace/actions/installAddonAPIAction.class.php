@@ -52,13 +52,13 @@ class installAddonAPIAction extends baseAddonAction
                 $addonLicenseContent = $this->getApiManagerService()->getAddonLicense($addonId);
                 if (is_string($addonLicenseContent) && strlen($addonLicenseContent) > 0) {
                     file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $this->pluginName . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);
-                    $this->licenseDownloaded = true;
                 } else {
                     chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
                     exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
                     throw new Exception('Error when retrieving the license file');
                 }
             }
+            $this->licenseDownloaded = true;
             $result = $this->installAddon($addonFilePath, $addonDetail, $this->pluginName);
             echo json_encode($result);
             return sfView::NONE;
