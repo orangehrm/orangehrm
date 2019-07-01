@@ -326,7 +326,7 @@ class MarketplaceService extends ConfigService
         $paidTypeInstalledAddons = $this->getMarketplaceDao()->getPaidTypeInstalledAddons();
         $expirationDates = [];
         foreach ($paidTypeInstalledAddons as $addon) {
-            $addonInfo = require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $addon['PluginName'] . DIRECTORY_SEPARATOR . 'addon_info.php');
+            $addonInfo = require(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $addon['PluginName'] . DIRECTORY_SEPARATOR . 'addon_info.php');
             $expirationDates[$addon['id']] = date('Y-m-d', $addonInfo['expiryTime']);
         }
         return $expirationDates;
@@ -343,7 +343,7 @@ class MarketplaceService extends ConfigService
         $expiredAddonNames = [];
         if(count($paidTypeInstalledAddons)!=0) {
             foreach ($paidTypeInstalledAddons as $paidTypeInstalledAddon) {
-                $addonInfo = require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $paidTypeInstalledAddon['PluginName'] . DIRECTORY_SEPARATOR . 'addon_info.php');
+                $addonInfo = require(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $paidTypeInstalledAddon['PluginName'] . DIRECTORY_SEPARATOR . 'addon_info.php');
                 if ($addonInfo['expired']) {
                     $expiredAddonNames[] = $paidTypeInstalledAddon['addonName'];
                 }

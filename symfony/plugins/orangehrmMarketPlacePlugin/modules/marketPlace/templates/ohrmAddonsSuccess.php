@@ -78,7 +78,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                             <div>
                                 <p><?php
                                     if (array_key_exists($addon['id'], $expirationDates)) {
-                                        echo __('Expiration Date') . ':- ' .$expirationDates[$addon['id']];
+                                        echo __('Expiry Date') . ':- ' .$expirationDates[$addon['id']];
                                     }
                                 ?></p>
                             </div>
@@ -277,6 +277,7 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var buyNowReqSuccess = "<?php echo __js('Your request has been forwarded'); ?>";
     var buyNowReqFail = "<?php echo __js('Failed to proceed with the request, try again.'); ?>";
     var renewSuccess = "<?php echo __js('Successfully Renewed license.'); ?>";
+    var renewFail = "<?php echo __js('Renew Failed.'); ?>";
 
     var networkErrMessage = "<?php echo __js('Please connect to the internet to view the available add-ons.'); ?>";
     var marketpalceErrMessage = "<?php echo __js('Error Occur Please try again later'); ?>";
