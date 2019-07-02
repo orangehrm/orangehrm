@@ -327,7 +327,7 @@ class MarketplaceService extends ConfigService
         $expirationDates = [];
         foreach ($paidTypeInstalledAddons as $addon) {
             $addonInfo = require(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $addon['PluginName'] . DIRECTORY_SEPARATOR . 'addon_info.php');
-            $expirationDates[$addon['id']] = date('Y-m-d', $addonInfo['expiryTime']);
+            $expirationDates[$addon['id']] = date(sfContext::getInstance()->getUser()->getDateFormat(), $addonInfo['expiryTime']);
         }
         return $expirationDates;
     }
