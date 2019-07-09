@@ -20,7 +20,7 @@ $(document).ready(function() {
     });
     
     // Edit a membership detail in the list
-    $('#frmEmpDelMemberships a').live('click', function() {
+    $(document).on('click', '#frmEmpDelMemberships a', function() {
         var id = $(this).parent().prev().find('input').val();
         var memcode = $(this).parent().attr('mem_type_id');
         $('#nameContainer').show();

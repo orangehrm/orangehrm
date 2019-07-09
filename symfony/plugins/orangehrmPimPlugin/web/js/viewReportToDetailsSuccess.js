@@ -28,7 +28,7 @@ $(document).ready(function() {
     hideShowReportingMethodOther();
 
     hideShowSupervisorSubordinate();
-    $('.radio_list input').live('click', function() {
+    $(document).on('click', '.radio_list input', function() {
         hideShowSupervisorSubordinate();
         $("#reportto_supervisorName_empName").val(typeForHints);
         $("#reportto_subordinateName_empName").val(typeForHints);
@@ -169,7 +169,7 @@ $(document).ready(function() {
     });
 
     // Edit a supervisor detail in the list
-    $('#frmEmpDelSupervisors a').live('click', function() {
+    $(document).on('click', '#frmEmpDelSupervisors a', function() {
         
         if (!($("#frmAddReportTo #nameType").length > 0)) {
             $('<input type="hidden" name="nameType" id="nameType">').insertAfter('#frmAddReportTo #reportto_empNumber');
@@ -210,7 +210,7 @@ $(document).ready(function() {
 
 
     // Edit a subordinate detail in the list
-    $('#frmEmpDelSubordinates a').live('click', function() {
+    $(document).on('click', '#frmEmpDelSubordinates a', function() {
 
         if (!($("#frmAddReportTo #nameType").length > 0)) {
             $('<input type="hidden" name="nameType" id="nameType">').insertAfter('#frmAddReportTo #reportto_empNumber');

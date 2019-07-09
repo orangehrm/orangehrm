@@ -109,7 +109,7 @@ function loadAddForm() {
 
 function loadEditForm() {
     
-    $('#recordsListTable a').live('click', function() {
+    $(document).on('click', '#recordsListTable a', function() {
         
         $('#saveFormDiv').show();
         $('#saveFormHeading').text(lang_editFormHeading);

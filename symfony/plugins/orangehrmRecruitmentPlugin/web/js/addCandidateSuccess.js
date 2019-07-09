@@ -9,7 +9,7 @@ $(document).ready(function() {
         $("#btnSave").attr('disabled', 'disabled');
     }
 
-    $(".addText").live('click', function(){
+    $(document).on('click', ".addText", function(){
        
         if($("#btnSave").attr('value') == lang_edit){
         
@@ -27,7 +27,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.removeText').live('click', function(){
+    $(document).on('click', '.removeText', function(){
 
         result = /\d+(?:\.\d+)?/.exec(this.id);
         if(vacancyString.trim() != "" && result < vacancyList.length){

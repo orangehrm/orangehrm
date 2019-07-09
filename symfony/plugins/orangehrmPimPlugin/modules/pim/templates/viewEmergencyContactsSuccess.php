@@ -244,7 +244,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             }
         });
         // Edit a emergency contact in the list
-        $('#frmEmpDelEmgContacts a').live('click', function() {
+        $(document).on('click', '#frmEmpDelEmgContacts a', function() {
 
             var row = $(this).closest("tr");
             var seqNo = row.find('input.check:first').val();

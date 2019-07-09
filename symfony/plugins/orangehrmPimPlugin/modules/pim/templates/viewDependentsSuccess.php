@@ -258,7 +258,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         hideShowRelationshipOther();
         
         // Edit a emergency contact in the list
-        $('#frmEmpDelDependents a').live('click', function() {
+        $(document).on('click', '#frmEmpDelDependents a', function() {
             $("#heading").text("<?php echo __js("Edit Dependent");?>");
             var row = $(this).closest("tr");
             var seqNo = row.find('input.checkbox:first').val();

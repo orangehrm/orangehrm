@@ -303,7 +303,7 @@ $(document).ready(function() {
         $('#language_lang_type').removeAttr('disabled');
     });
     
-    $('form#frmDelLanguage a.edit').live('click', function(event) {
+    $(document).on('click', 'form#frmDelLanguage a.edit', function(event) {
         event.preventDefault();
         clearMessageBar();
 

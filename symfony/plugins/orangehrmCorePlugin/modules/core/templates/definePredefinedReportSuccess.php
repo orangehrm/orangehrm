@@ -314,7 +314,7 @@ use_javascript('orangehrm.datepicker.js');
         $('#report_display_groups').change(function(){
             updateDisplayFieldList();
         });
-        $('ol#filter_fields li a').live('click', function(event) {
+        $(document).on('click', 'ol#filter_fields li a', function(event) {
             event.preventDefault();
         
             var li = $(this).parent();
@@ -336,7 +336,7 @@ use_javascript('orangehrm.datepicker.js');
             $("#btnAddConstraint").removeAttr('disabled');
         });
     
-        $('ol#display_groups > li a').live('click', function(event) {
+        $(document).on('click', 'ol#display_groups > li a', function(event) {
             event.preventDefault();
             var li = $(this).parent();
             li.find('li').each(function() {
@@ -354,7 +354,7 @@ use_javascript('orangehrm.datepicker.js');
             updateDisplayFieldList();
         });
 
-        $('ol#display_groups ul.display_field_ul li a').live('click', function(event) {
+        $(document).on('click', 'ol#display_groups ul.display_field_ul li a', function(event) {
             event.preventDefault();
             var li = $(this).parent();
             li.find('input').attr('checked', false);

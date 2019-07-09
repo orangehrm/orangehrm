@@ -396,7 +396,7 @@ function getSortClass($column, $sortField, $sortOrder) {
 
         });        
     
-        $('#customFieldList tbody a').live('click', function() {
+        $(document).on('click', '#customFieldList tbody a', function() {
             $("#heading").text("<?php echo __js("Edit Custom Field"); ?>");
         
             var row = $(this).closest("tr");

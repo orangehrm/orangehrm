@@ -182,7 +182,7 @@ $(document).ready(function() {
         $("#workCheckAll").show();
     });
     
-    $('form#frmDelWorkExperience table a.edit').live('click', function(event) {
+    $(document).on('click', 'form#frmDelWorkExperience table a.edit', function(event) {
         event.preventDefault();
 
         var seqno = $(this).closest("tr").find('input.chkbox1:first').val();

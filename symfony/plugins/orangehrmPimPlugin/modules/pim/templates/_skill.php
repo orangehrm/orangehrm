@@ -285,7 +285,7 @@ $haveSkills = count($form->empSkillList)>0;
             $('#skill_code').removeAttr('disabled');
         });
         
-        $('form#frmDelSkill a.edit').live('click', function(event) {
+        $(document).on('click', 'form#frmDelSkill a.edit', function(event) {
             event.preventDefault();
             clearMessageBar();
             

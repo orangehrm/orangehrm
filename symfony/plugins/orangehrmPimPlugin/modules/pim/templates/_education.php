@@ -318,7 +318,7 @@ $haveEducation = count($form->empEducationList) > 0;
             $('#education_code').removeAttr('disabled');
         });
    
-        $('form#frmDelEducation a.edit').live('click', function(event) {
+        $(document).on('click', 'form#frmDelEducation a.edit', function(event) {
             event.preventDefault();
             clearMessageBar();
 

@@ -596,7 +596,7 @@
 
     });
 
-    $('form#frmDelSalary a.edit').live('click', function(event) {
+    $(document).on('click', 'form#frmDelSalary a.edit', function(event) {
         event.preventDefault();
         clearMessageBar();
         $('#actionClearBr').hide();

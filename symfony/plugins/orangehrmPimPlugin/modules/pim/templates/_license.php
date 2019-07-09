@@ -286,7 +286,7 @@ var issuedDate = "";
         $('#license_code').removeAttr('disabled');
     });
     
-    $('form#frmDelLicense a.edit').live('click', function(event) {
+    $(document).on('click', 'form#frmDelLicense a.edit', function(event) {
         event.preventDefault();
         clearMessageBar();
 

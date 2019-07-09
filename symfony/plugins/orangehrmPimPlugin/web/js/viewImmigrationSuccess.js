@@ -104,7 +104,7 @@ $(document).ready(function() {
 
     });
 
-     $('form#frmImmigrationDelete td.document a').live('click', function() {
+     $(document).on('click', 'form#frmImmigrationDelete td.document a', function() {
         $('div#immigrationDataPane label.error').hide();
         
         var code = $(this).closest("tr").find('input.checkbox:first').val();
