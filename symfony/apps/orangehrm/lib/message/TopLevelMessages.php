@@ -18,7 +18,6 @@ class TopLevelMessages {
     const ACCESS_EMPLOYEE_DATA_FAILED  = "Access Employee Data Failed";
     const PURGE_CANDIDATE_FAILED = "Purge Candidate Data Failed";
     const PURGE_SUCCESS = "Successfully Purged";
-    const THEME_APPLY_SUCCESS = "Successfully applied theme. Please logout and login.";
 
 }
 
