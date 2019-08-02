@@ -3,7 +3,6 @@ $imagePath = theme_path("images/login");
 echo stylesheet_tag(theme_path('css/login.css'));
 $loginImage = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . sfConfig::get('ohrm_resource_dir')
     . DIRECTORY_SEPARATOR . '/themes/default/images/login/login.svg';
-echo stylesheet_tag(theme_path('images/login.css'));
 ?>
 
 <div>
