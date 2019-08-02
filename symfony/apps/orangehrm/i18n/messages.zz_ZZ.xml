@@ -7752,10 +7752,6 @@
         <source>Renew Failed.</source>
         <target>FR_Renew Failed.</target>
       </trans-unit>
-      <trans-unit id="1938">
-        <source>Successfully applied theme. Please logout and login.</source>
-        <target>FR_Successfully applied theme. Please logout and login.</target>
-      </trans-unit>
     </body>
   </file>
 </xliff>
