@@ -4,16 +4,6 @@ input:not([type="image"]) {
     border: none;
 }
 
-/*#divLogin {*/
-/*    background: transparent url("../images/login/login.svg") no-repeat center top;*/
-/*    height: 520px;*/
-/*    width: 100%;*/
-/*    border-style: hidden;*/
-/*    margin: auto;*/
-/*    padding-left: 10px;*/
-/*}*/
-
-
 #txtUsername {
     width: 240px;
     border: 0px;
@@ -42,7 +32,6 @@ input:not([type="image"]) {
     padding-left: 55px;
     width: 100%;
 }
-/* ================ enterprise ================ */
 
 stop.inner {
     stop-color: #f0d47b;/*$login-logo-inner-color;*/
@@ -233,7 +222,6 @@ input:-webkit-autofill {
     color: #AA4935;
 }
 
-
 .form-hint {
     color: #878787;
     padding: 4px 8px;
@@ -244,7 +232,6 @@ input:-webkit-autofill {
 #content > div:nth-child(3) > div {
     padding: 5px !important;
 }
-
 
 #flashLicense {
     text-align: center;
