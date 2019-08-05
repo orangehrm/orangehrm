@@ -44,10 +44,11 @@ $loginImage = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . sfConfig::get(
                     <?php if (!empty($message)) : ?>
                     <span id="spanMessage"><?php echo __($message); ?></span>
                     <?php endif; ?>
+                    <div id="forgotPasswordLink">
+                        <a href="<?php echo url_for('auth/requestPasswordResetCode'); ?>"><?php echo __('Forgot your password?'); ?></a>
+                    </div>
                 </div>
-                <div id="forgotPasswordLink">
-                    <a href="<?php echo url_for('auth/requestPasswordResetCode'); ?>"><?php echo __('Forgot your password?'); ?></a>
-                </div>
+
             </form>
         </div>
     </div>

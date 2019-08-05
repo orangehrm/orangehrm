@@ -20,10 +20,9 @@ input:not([type="image"]) {
     width: 270px;
     background-color: transparent;
     height: 20px;
-    margin-top: 12px;
+    margin-top: 1px;
     margin-right: 0px;
     margin-bottom: 0px;
-    margin-left: 50%;
 }
 
 .loginSuccessMessage {
@@ -113,7 +112,7 @@ input:focus, select:focus, textarea:focus {
     position: relative;
     width: 1024px;
     height: 390px;
-    top: -405px;
+    top: -390px;
 }
 
 #frmLogin {
