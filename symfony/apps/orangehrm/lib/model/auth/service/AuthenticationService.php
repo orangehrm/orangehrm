@@ -103,6 +103,9 @@ class AuthenticationService extends BaseService {
      * Clear user credentials from session and cookies
      */
     public function clearCredentials() {
+        if ($sfUser = sfContext::getInstance()->getUser()) {
+            $sfUser->getAttributeHolder()->clear();
+        }
         session_destroy();
         session_start();
         $cookieManager = new CookieManager();
