@@ -10,6 +10,9 @@ class indexAction extends sfAction {
                     $this->redirect('upgrade/executeSystemCheck');
                     break;
                 case 'systemCheck':
+                    $this->redirect('upgrade/executePluginCheck');
+                    break;
+                case 'pluginCheck':
                     $this->redirect('upgrade/calculateIncrementNumbers');
                     break;
                 case 'versionSelection':

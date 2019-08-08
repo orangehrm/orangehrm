@@ -18,13 +18,10 @@
  */
 
 /**
- * Class installAddonAPI
+ * Class updateAddonAPIAction
  */
-class installAddonAPIAction extends baseAddonAction
+class updateAddonAPIAction extends baseAddonAction
 {
-    private $pluginName;
-    private $licenseDownloaded = false;
-
     /**
      * @param sfRequest $request
      * @return mixed|string
@@ -37,7 +34,7 @@ class installAddonAPIAction extends baseAddonAction
             }
             $addonList = $this->getAddons();
             $data = $request->getParameterHolder()->getAll();
-            $addonId = $data['installAddonID'];
+            $addonId = $data['updateAddonID'];
             $addonURL = null;
             $addonDetail = null;
             foreach ($addonList as $addon) {
@@ -46,9 +43,15 @@ class installAddonAPIAction extends baseAddonAction
                     $addonURL = $addon['links']['file'];
                 }
             }
+            $addon = $this->getMarcketplaceService()->getAddonById($addonId, true);
+            $pluginsDir = sfConfig::get('sf_plugins_dir');
+            $filePath = $pluginsDir . DIRECTORY_SEPARATOR . $addon['PluginName'] . DIRECTORY_SEPARATOR .
+                'config' . DIRECTORY_SEPARATOR . 'app.yml';
+            $content = sfYaml::load($filePath);
+            $currentVersion = $content['all'][$addon['PluginName']]['version'];
             $addonFilePath = $this->getAddonFile($addonURL, $addonDetail);
-            $this->pluginName = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
-            if ($addonDetail['type']=='paid') {
+            $pluginName = $this->getMarcketplaceService()->extractAddonFile($addonFilePath);
+            /*if ($addonDetail['type']=='paid') {
                 $addonLicenseContent = $this->getApiManagerService()->getAddonLicense($addonId);
                 if (is_string($addonLicenseContent) && strlen($addonLicenseContent) > 0) {
                     file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $this->pluginName . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);
@@ -57,25 +60,16 @@ class installAddonAPIAction extends baseAddonAction
                     exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
                     throw new Exception('Error when retrieving the license file');
                 }
-            }
-            $this->licenseDownloaded = true;
-            $result = $this->installAddon($addonFilePath, $addonDetail, $this->pluginName);
+            }*/
+            $result = $this->updateAddon($addonDetail, $pluginName, $currentVersion);
             echo json_encode($result);
             return sfView::NONE;
         } catch (GuzzleHttp\Exception\ConnectException $e) {
-            if ($this->pluginName && !$this->licenseDownloaded) {
-                chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
-                exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
-            }
             Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());
             echo json_encode(self::ERROR_CODE_NO_CONNECTION);
             return sfView::NONE;
         } catch (Exception $e) {
-            if ($this->pluginName && !$this->licenseDownloaded) {
-                chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
-                exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
-            }
             Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
             Logger::getLogger("orangehrm")->error($e->getTraceAsString());
             echo json_encode($e->getCode());
@@ -102,7 +96,7 @@ class installAddonAPIAction extends baseAddonAction
      * @throws DaoException
      * @throws Doctrine_Transaction_Exception
      */
-    protected function installAddon($addonFilePath, $addonDetail, $pluginname)
+    protected function updateAddon($addonDetail, $pluginname, $currentVersion)
     {
         try {
             $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
@@ -115,14 +109,17 @@ class installAddonAPIAction extends baseAddonAction
                 throw new Exception('Running php symfony cc fails.', 1001);
             }
 
-            $install = require_once($pluginInstallFilePath);
+            exec("php symfony o:upgrade-plugin '$pluginname' $currentVersion", $upgradePluginResponse, $upgradePluginStatus);
+            if ($upgradePluginStatus != 0) {
+                throw new Exception('Error upgrading addon.', 1004);
+            }
             $connection->commit();
         } catch (Exception $e) {
             $connection->rollback();
-            throw new Exception('installation query fails', 1002);
+            throw new Exception('upgrade query fails', 1002);
         }
-        if (!$install) {
-            throw new Exception('install file execution failed.', 1003);
+        if ($upgradePluginStatus != 0) {
+            throw new Exception('upgrade file execution failed.', 1003);
         }
         chdir($symfonyPath);
         exec("php symfony o:publish-asset", $publishAssetResponse, $publishAssetStatus);
@@ -135,25 +132,13 @@ class installAddonAPIAction extends baseAddonAction
             throw new Exception('Running php symfony d:build-model fails.', 1005);
         }
 
-        if ($addonDetail['type'] != "paid") {
-            $data = array(
-                'id' => $addonDetail['id'],
-                'addonName' => $addonDetail['title'],
-                'status' => MarketplaceDao::ADDON_STATUS_INSTALLED,
-                'type' => $addonDetail['type'],
-                'pluginName' => $pluginname,
-                'version' => $addonDetail['version']['name']
-            );
-            $result = $this->getMarcketplaceService()->installOrRequestAddon($data);
-        } else {
-            $data = array(
-                'id' => $addonDetail['id'],
-                'addonName' => $addonDetail['title'],
-                'status' => MarketplaceDao::ADDON_STATUS_INSTALLED,
-                'pluginName' => $pluginname
-            );
-            $result = $this->getMarcketplaceService()->updateAddon($data);
-        }
+        $data = array(
+            'id' => $addonDetail['id'],
+            'pluginName' => $pluginname,
+            'status' => MarketplaceDao::ADDON_STATUS_INSTALLED,
+            'version' => $addonDetail['version']['name']
+        );
+        $result = $this->getMarcketplaceService()->updateAddon($data);
 
         if (!$result) {
             throw new Exception('Can not add to OrangeHRM database. Uninstallation will cause errors. But plugin can used.', 1006);

@@ -378,5 +378,31 @@ CONFCONT;
         return $notes;
         
     }
-    
+
+    public function getInstalledAddons() {
+        $query = 'select * from ohrm_marketplace_addon where plugin_name is not null';
+        return mysqli_fetch_all($this->executeSql($query), MYSQLI_ASSOC);
+    }
+
+    public function getMarketplaceBaseUrl() {
+        $query = 'select `value` from hs_hr_config where `key` = "base_url"';
+        return $this->executeSql($query)->fetch_assoc()['value'];
+    }
+
+    public function getMarketplaceAccessToken() {
+        $baseUrl = $this->getMarketplaceBaseUrl();
+        $query = 'select `key`, `value` from hs_hr_config where `key` in ("client_id", "client_secret")';
+        $result = mysqli_fetch_all($this->executeSql($query), MYSQLI_ASSOC);
+        $data = array_column($result, 'value', 'key');
+        $data['grant_type'] = 'client_credentials';
+        $ch = curl_init("$baseUrl/oauth/v2/token");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($response)->access_token;
+    }
 }

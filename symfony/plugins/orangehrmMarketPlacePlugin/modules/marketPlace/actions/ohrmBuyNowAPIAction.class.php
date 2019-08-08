@@ -69,7 +69,8 @@ class ohrmBuyNowAPIAction extends baseAddonAction
                 'id' => $addonDetail['id'],
                 'addonName' => $addonDetail['title'],
                 'type' => $addonDetail['type'],
-                'status' => MarketplaceDao::ADDON_STATUS_REQUESTED
+                'status' => MarketplaceDao::ADDON_STATUS_REQUESTED,
+                'version' => $addonDetail['version']['name']
             );
             $this->getMarcketplaceService()->installOrRequestAddon($addonData);
         } else {

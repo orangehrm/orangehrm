@@ -40,10 +40,9 @@ class MarketplaceService extends ConfigService
     /**
      * @return array
      */
-    public function getInstalledAddonIds()
+    public function getInstalledAddons()
     {
-        $result = $this->getMarketplaceDao()->getInstalledAddonIds();
-        return $result;
+        return $this->getMarketplaceDao()->getInstalledAddons();
     }
 
     /**
@@ -216,9 +215,9 @@ class MarketplaceService extends ConfigService
      * @return Doctrine_Collection
      * @throws DaoException
      */
-    public function getAddonById($addonId)
+    public function getAddonById($addonId, $asArray = false)
     {
-        return $this->getMarketplaceDao()->getAddonById($addonId);
+        return $this->getMarketplaceDao()->getAddonById($addonId, $asArray);
     }
 
     /**
