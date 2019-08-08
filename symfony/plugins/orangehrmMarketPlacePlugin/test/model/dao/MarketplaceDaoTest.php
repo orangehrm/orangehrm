@@ -68,8 +68,8 @@ class MarketplaceDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetAddonById() {
         $result = $this->marketplaceDao->getAddonById(1);
-        $this->assertEquals("orangehrmLDAPPlugin", $result[0]->getPluginName());
-        $this->assertEquals(1,count($result));
+        $this->assertInstanceOf('Addon', $result);
+        $this->assertEquals("orangehrmLDAPPlugin", $result->getPluginName());
     }
 
 }

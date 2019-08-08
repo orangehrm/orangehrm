@@ -70,8 +70,7 @@ abstract class baseAddonAction extends sfAction
      */
     protected function getInstalledAddons()
     {
-        $installedAddons = $this->getMarcketplaceService()->getInstalledAddonIds();
-        return $installedAddons;
+        return $this->getMarcketplaceService()->getInstalledAddons();
     }
 
     /**

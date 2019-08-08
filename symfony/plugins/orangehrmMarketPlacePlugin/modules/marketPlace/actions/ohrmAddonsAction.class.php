@@ -85,10 +85,29 @@ class ohrmAddonsAction extends baseAddonAction
         try {
             $addonList = $this->getAddons(true);
             $this->addonList = $addonList;
+            $versionById = array_column($addonList, 'version', 'id');
             $expirationDates = $this->getMarcketplaceService()->getExpirationDatesOfInstalledPaidAddons();
             $this->expirationDates = $expirationDates;
             $this->getMarcketplaceService()->markExpiredAddons();
             $installAddons = $this->getInstalledAddons();
+            $updatePendingAddons = [];
+            $pluginsDir = sfConfig::get('sf_plugins_dir');
+            foreach ($installAddons as $installAddon) {
+                $addonId = $installAddon['id'];
+                $filePath = $pluginsDir . DIRECTORY_SEPARATOR . $installAddon['PluginName'] . DIRECTORY_SEPARATOR .
+                    'config' . DIRECTORY_SEPARATOR . 'app.yml';
+                $content = sfYaml::load($filePath);
+                $currentVersion = $content['all'][$installAddon['PluginName']]['version'];
+                if (version_compare($currentVersion, $versionById[$addonId]['name']) === -1) {
+                    $updatePendingAddons[] = $addonId;
+                }
+            }
+            $this->paidTypeAddonIds = array_map(function($addon) {
+                return $addon['id'];
+            }, array_filter($addonList, function ($addon) {
+                return $addon['type'] === 'paid';
+            }));
+            $this->updatePendingAddons = $updatePendingAddons;
             $this->installedAddons = array_column($installAddons, 'id');
             $this->expiredAddons = $this->getMarcketplaceService()->getExpiredAddons();
         } catch (GuzzleHttp\Exception\ConnectException $e) {
