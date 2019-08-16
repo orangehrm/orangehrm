@@ -206,7 +206,7 @@ class PasswordResetService extends BaseService {
      * @return string
      */
     public function generatePasswordResetCode($identfier) {
-        return base64_encode(uniqid("{$identfier}#SEPARATOR#"));
+        return Base64Url::encode(uniqid("{$identfier}#SEPARATOR#"));
     }
 
     /**
@@ -343,7 +343,7 @@ class PasswordResetService extends BaseService {
      * @return array
      */
     public function extractPasswordResetMetaData($resetCode) {
-        $code = base64_decode($resetCode);
+        $code = Base64Url::decode($resetCode);
 
         $metaData = explode('#SEPARATOR#', $code);
 
