@@ -326,12 +326,7 @@ class PasswordResetService extends BaseService {
             try {
                 $primaryHash = $this->getSystemUserService()->hashPassword($newPrimaryPassword);
                 $success = (bool)$this->getPasswordResetDao()->saveNewPrimaryPassword($username, $primaryHash);
-                try {
-                    $this->getPasswordResetDao()->deletePasswordResetRequestsByEmail($email);
-                } catch (Exception $e) {
-                    throw new Exception($e->getMessage());
-                }
-
+                $this->getPasswordResetDao()->deletePasswordResetRequestsByEmail($email);
                 return $success;
             } catch (Exception $e) {
                 throw new ServiceException($e->getMessage());
