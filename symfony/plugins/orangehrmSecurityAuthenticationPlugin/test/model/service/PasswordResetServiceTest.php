@@ -160,11 +160,15 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
     public function testGeneratePasswordResetCode() {
         $identifier = 'test_username';
         $resetCode = $this->secuirtyAuthService->generatePasswordResetCode($identifier);
-        $decodedResetCode = base64_decode($resetCode);
+        $decodedResetCode = Base64Url::decode($resetCode);
 
         $this->assertNotNull($resetCode);
         $this->assertRegExp("/[^{$identifier}]/", $resetCode);
         $this->assertRegExp("/^{$identifier}#SEPARATOR#.{8,}/", $decodedResetCode);
+
+        $parts = explode('#SEPARATOR#', $decodedResetCode);
+        $this->assertCount(2, $parts);
+        $this->assertEquals(PasswordResetService::RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH, strlen($parts[1]));
     }
 
     /**

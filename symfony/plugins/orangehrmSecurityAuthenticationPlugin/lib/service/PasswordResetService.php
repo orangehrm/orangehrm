@@ -19,6 +19,7 @@
  */
 class PasswordResetService extends BaseService {
 
+    const RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH = 16;
 
     private $passwordResetDao = null;
     private $securityAuthenticationConfigService = null;
@@ -206,7 +207,8 @@ class PasswordResetService extends BaseService {
      * @return string
      */
     public function generatePasswordResetCode($identfier) {
-        return Base64Url::encode(uniqid("{$identfier}#SEPARATOR#"));
+        return Base64Url::encode("{$identfier}#SEPARATOR#" .
+            random_bytes(static::RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH));
     }
 
     /**
