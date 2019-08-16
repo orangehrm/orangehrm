@@ -5,7 +5,7 @@ $error_found = false;
 if (count($notCopiedPlugins) > 0) : ?>
     <?php $error_found = true; ?>
     <h2>Addon Check</h2>
-    <p>Following plugins are not copied. Please copy the plugins from previous codebase. You may find plugins under <strong>&lt;codebase_path&gt;/symfony/plugins</strong> directory</p>
+    <p>Following plugins are not copied. Please copy the plugins from previous codebase. You may find plugins under <strong>&lt;codebase_path&gt;/symfony/plugins</strong> directory. This step has to be completed manually.</p>
     <ul>
         <?php foreach ($notCopiedPlugins as $notCopiedPlugin) : ?>
             <li><?php echo $notCopiedPlugin;?></li>
@@ -54,23 +54,46 @@ if (count($notCopiedPlugins) > 0) : ?>
 <?php endif; ?>
 
 <br />
-<form action="<?php echo url_for('upgrade/executePluginCheck');?>" name="systemCheckForm" method="post">
+<form action="<?php echo url_for('upgrade/executePluginCheck');?>" id="pluginCheckForm" name="pluginCheckForm" method="post">
     <?php echo $form->renderHiddenFields();?>
-    <input class="button" id="recheckButton" type="button" name="Re-check" value="Re-check" tabindex="3" onclick="location.reload()">
+    <input class="button" id="recheckButton" type="button" name="Re-check" value="Re-check" tabindex="3">
     <input class="button" id="nextButton" type="submit" value="Proceed" <?php echo  ($error_found) ? 'disabled' : '' ?> tabindex="2">
 </form>
 
 <script type="application/javascript">
     var downloadAddonUrl = '<?php echo url_for("upgrade/updateAddon")?>';
+    var isDownloading = false;
+    var downloadCount = 0;
+
+    $('#pluginCheckForm').submit(function() {
+        if (isDownloading) {
+            alert('Download in progress. Please wait till download completes.');
+            return false;
+        }
+    });
+
+    $('#recheckButton').click(function() {
+        if (isDownloading) {
+            alert('Download in progress. Please wait till download completes.');
+            return false;
+        }
+        location.reload();
+    });
 
     function downloadAddon(event, addonId) {
         event.currentTarget.disabled = 1;
         $('#addon_status_' + addonId).text('Downloading...');
+        isDownloading = true;
+        downloadCount++;
         $.get(downloadAddonUrl + '?addonId=' + addonId, function(res) {
             if (res === '1') {
                 $('#addon_status_' + addonId).text('Downloaded').css('color', 'green');
             } else {
                 $('#addon_status_' + addonId).text('Download failed').css('color', 'red');
+            }
+            downloadCount--;
+            if (downloadCount === 0) {
+                isDownloading = false;
             }
         });
     }
