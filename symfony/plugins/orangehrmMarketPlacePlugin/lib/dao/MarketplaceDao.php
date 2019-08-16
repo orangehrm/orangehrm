@@ -35,15 +35,13 @@ class MarketplaceDao
      * @return array
      * @throws DaoException
      */
-    public function getInstalledAddonIds()
+    public function getInstalledAddons()
     {
         try {
             $q = Doctrine_Query::create()
-                ->select('id')
                 ->from('Addon c')
                 ->where('c.status = ?', self::ADDON_STATUS_INSTALLED);
-            $value = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
-            return $value;
+            return $q->execute(array(), Doctrine::HYDRATE_ARRAY);
         } catch (Exception $e) {
             $this->getLogger()->error("Exception in getValue:" . $e);
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -127,6 +125,9 @@ class MarketplaceDao
             $addon->setInstalledDate(date('Y-m-d H:i:s'));
             $addon->setAddonStatus($data['status']);
             $addon->setPluginName($data['pluginName']);
+            if (isset($data['version'])) {
+                $addon->setVersion($data['version']);
+            }
             $addon->save();
             return true;
             // @codeCoverageIgnoreStart
@@ -190,14 +191,17 @@ class MarketplaceDao
      * @return Doctrine_Collection
      * @throws DaoException
      */
-    public function getAddonById($addonId)
+    public function getAddonById($addonId, $asArray = false)
     {
         try {
             $q = Doctrine_Query::create()
                 ->select('*')
                 ->from('Addon c')
                 ->where('c.id = ?', $addonId);
-            return $q->execute();
+            if ($asArray) {
+                $q->setHydrationMode(Doctrine_Core::HYDRATE_ARRAY);
+            }
+            return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }

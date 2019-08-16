@@ -37,9 +37,9 @@ class renewAPIAction extends baseAddonAction
             $addonId = $data['addonID'];
             $addonLicenseContent = $this->getApiManagerService()->getAddonLicense($addonId);
             $addon = $this->getMarcketplaceService()->getAddonById($addonId);
-            if(count($addon)==1) {
-                $pluginName = $addon[0]->getPluginName();
-                $addonName = $addon[0]->getAddonName();
+            if($addon instanceof Addon) {
+                $pluginName = $addon->getPluginName();
+                $addonName = $addon->getAddonName();
             }
             if (is_string($addonLicenseContent) && strlen($addonLicenseContent) > 0) {
                 file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);

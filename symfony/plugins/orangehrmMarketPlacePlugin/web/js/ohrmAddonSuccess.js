@@ -1,4 +1,5 @@
 var installId;
+var updateId;
 var uninstallId;
 var buyNowId;
 var isRenew = false;
@@ -51,6 +52,10 @@ $(document).ready(function () {
             }
         });
     });
+    $('.updateBtn').live('click', function (event) {
+        updateId = $(this).attr('addid');
+        $('#updateConfModal').modal('toggle');
+    });
     $('.uninstallBtn').live('click', function () {
         uninstallId = $(this).attr('addid');
     });
@@ -91,6 +96,41 @@ $(document).ready(function () {
             }
         });
     });
+    $('#modal_confirm_update').click(function (event) {
+        var updateBtn = $('#updateButton' + updateId);
+        updateBtn.attr('value', 'Updating');
+        $('#disable-screen').attr('class', 'overlay');
+        $('#loading').attr('class', 'loading-class');
+        $.ajax({
+            method: "POST",
+            data: {updateAddonID: updateId},
+            url: updateUrl, success: function (result) {
+                if (result === "true") {
+                    $('#loading').removeClass();
+                    $('#disable-screen').removeClass();
+                    $('#message_body').text(meassageInSuccess);
+                    $('#messege_div').show(0).delay(2000).fadeOut(1000);
+                    if (paidTypeAddonIds.indexOf(updateBtn) > -1) {
+                        updateBtn.attr('value', 'Installed').prop("disabled", true).css('background-color', '#808080');
+                    } else {
+                        updateBtn.remove();
+                    }
+                    window.location.reload();
+                } else {
+                    $('#disable-screen').removeClass();
+                    $('#loading').removeClass();
+                    updateBtn.attr('value', 'Update');
+                    var errorcode = 'e' + result;
+                    if (errorcode in installErrorMessage) {
+                        $("#addon_div").text(installErrorMessage[errorcode] + messaegeInFail)
+                    } else {
+                        $("#addon_div").text(messaegeInFail);
+                    }
+                }
+            }
+        });
+    });
+
     $('#modal_confirm_uninstall').click(function () {
         $('#uninstallButton' + uninstallId).attr('value', 'Uninstalling');
         $('#disable-screen').attr('class', 'overlay');

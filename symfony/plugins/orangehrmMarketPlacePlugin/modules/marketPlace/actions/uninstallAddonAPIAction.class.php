@@ -53,8 +53,8 @@ class uninstallAddonAPIAction extends baseAddonAction
     public function uninstallAddon($addonid)
     {
         $addonDetail = $this->getMarcketplaceService()->getAddonById($addonid);
-        if (sizeof($addonDetail) == 1) {
-            $pluginName = $addonDetail[0]->getPluginName();
+        if ($addonDetail instanceof Addon) {
+            $pluginName = $addonDetail->getPluginName();
         } else {
             throw new Exception('Selected plugin to uninstall is not tracked in database.', 2000);
         }
@@ -65,7 +65,7 @@ class uninstallAddonAPIAction extends baseAddonAction
             $connection->beginTransaction();
             $uninstall = require_once($pluginInstallFilePath);
             if (!$uninstall) {
-                throw new Exception('Uninstall file excecution fails.', 2001);
+                throw new Exception('Uninstall file execution fails.', 2001);
             }
             $deletingPlugin = $this->recursiveDeletePlugin($symfonyPath . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginName);
             if (!$deletingPlugin) {

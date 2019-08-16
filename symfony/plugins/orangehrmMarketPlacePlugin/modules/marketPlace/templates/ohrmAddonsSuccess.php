@@ -39,6 +39,8 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         $renewPendingAddons = $sf_data->getRaw("renewPendingAddons");
         $renewedAddons = $sf_data->getRaw("renewedAddonIds");
         $expirationDates = $sf_data->getRaw("expirationDates");
+        $updatePendingAddons = $sf_data->getRaw("updatePendingAddons");
+        $paidTypeAddonIds = $sf_data->getRaw("paidTypeAddonIds");
         if (!$exception) {
         if ($canRead) { ?>
         <?php foreach ($addonList as $addon) { ?>
@@ -86,7 +88,15 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                         <div id="column" class="install_button">
                             <?php
                             if (in_array($addon['id'], $installedAddons)) {
-                                if ($canDelete) { ?>
+                                if ($canDelete) {
+                                    if (in_array($addon['id'], $updatePendingAddons)) { ?>
+                                        <input type="button" name="Submit" class="buttons updateBtn"
+                                               id="<?php echo 'updateButton' . $addon['id']; ?>"
+                                               value="<?php echo __('Update'); ?>"
+                                               addid=<?php echo $addon['id'] ?>
+                                        >
+                                    <?php }
+                                    if (!in_array($addon['id'], $updatePendingAddons) || $addon['type'] != 'paid') {?>
                                     <input type="button" name="Submit"
                                            class="buttons delete uninstallBtn <?php if ($addon['type'] == 'paid') {
                                                echo 'requested';
@@ -103,8 +113,9 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
                                                 echo 'disabled';
                                            } ?>
                                            addid=<?php echo $addon['id'] ?>>
-                                <?php } ?><?php }
-                            elseif ($canCreate and ($addon['type'] == 'free') || in_array($addon['id'], $paidAddons)) { ?>
+                                    <?php }
+                                }
+                            } elseif ($canCreate and ($addon['type'] == 'free') || in_array($addon['id'], $paidAddons)) { ?>
                                 <input type="button" name="Submit" class="buttons installBtn"
                                        id="<?php echo 'installButton' . $addon['id']; ?>"
                                        value="<?php echo __('Install'); ?>"
@@ -206,6 +217,21 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
     </div>
 </div>
+<!--install add_on confirmation modal-->
+<div class="modal hide" id="updateConfModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
+    </div>
+    <div class="modal-body">
+        <p><?php echo __("Are you sure you want to update the selected addon?"); ?></p>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn" data-dismiss="modal" id="modal_confirm_update"
+               value="<?php echo __('Confirm'); ?>"/>
+        <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
+    </div>
+</div>
 <!--Prerequisites Not Met Modal-->
 <div class="modal hide" id="prerequisitesNotMetModal">
     <div class="modal-header">
@@ -274,11 +300,13 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var marketplaceURL = "<?php echo url_for('marketPlace/ohrmAddons'); ?>";
     //var descriptionUrl = "<?php echo url_for('marketPlace/getAddonDescriptionAPI'); ?>";
     var installUrl = "<?php echo url_for('marketPlace/installAddonAPI'); ?>";
+    var updateUrl = "<?php echo url_for('marketPlace/updateAddonAPI'); ?>";
     var uninstallUrl = "<?php echo url_for('marketPlace/uninstallAddonAPI'); ?>";
     var buyNowUrl = "<?php echo url_for('marketPlace/ohrmBuyNowAPI'); ?>";
     var prerequisiteVerificationUrl = "<?php echo url_for('marketPlace/prerequisiteVerification');?>";
     var paidAddons = <?php echo json_encode($paidAddons);?>;
     var renewUrl = "<?php echo url_for('marketPlace/renewAPI');?>";
+    var paidTypeAddonIds = <?php echo json_encode($paidTypeAddonIds); ?>;
 
     var meassageInSuccess = "<?php echo __js('Successfully Installed'); ?>";
     var messaegeInFail = "<?php echo __js('Failed to Install'); ?>";
@@ -296,11 +324,11 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
         "e1001": "<?php echo __js('1001: Running php symfony cc fails. '); ?>",
         "e1004": "<?php echo __js('1004: Running php symfony o:publish-asset fails. '); ?>",
         "e1005": "<?php echo __js('1005: Running php symfony d:build-model fails. '); ?>",
-        "e1006": "<?php echo __js('1006: Can not add to OrangeHRM daabase. Uninstallation will cause errors. But plugin can used. '); ?>"
+        "e1006": "<?php echo __js('1006: Can not add to OrangeHRM database. Uninstallation will cause errors. But plugin can used. '); ?>"
     };
     var uninstallErrorMessage = {
         "e2000": "<?php echo __js('2000: Selected plugin to uninstall is not tracked in database. '); ?>",
-        "e2001": "<?php echo __js('2001: Uninstall file excecution fails. '); ?>",
+        "e2001": "<?php echo __js('2001: Uninstall file execution fails. '); ?>",
         "e2002": "<?php echo __js('2002: Removing plugin folder fails. '); ?>",
         "e2003": "<?php echo __js('2003: Running php symfony cc fails. '); ?>",
         "e2004": "<?php echo __js('2004: Running php symfony o:publish-asset fails. '); ?>",

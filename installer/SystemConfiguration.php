@@ -305,7 +305,7 @@ class SystemConfiguration
      */
     public function getOhrmVersion()
     {
-        if (!class_exists(sysConf)) {
+        if (!class_exists('sysConf')) {
             require_once ROOT_PATH . '/lib/confs/sysConf.php';
         }
         $sysConf = new sysConf();
