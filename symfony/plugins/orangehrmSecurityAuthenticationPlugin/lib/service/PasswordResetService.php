@@ -19,6 +19,7 @@
  */
 class PasswordResetService extends BaseService {
 
+    const RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH = 16;
 
     private $passwordResetDao = null;
     private $securityAuthenticationConfigService = null;
@@ -206,7 +207,8 @@ class PasswordResetService extends BaseService {
      * @return string
      */
     public function generatePasswordResetCode($identfier) {
-        return Base64Url::encode(uniqid("{$identfier}#SEPARATOR#"));
+        return Base64Url::encode("{$identfier}#SEPARATOR#" .
+            random_bytes(static::RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH));
     }
 
     /**
@@ -324,12 +326,7 @@ class PasswordResetService extends BaseService {
             try {
                 $primaryHash = $this->getSystemUserService()->hashPassword($newPrimaryPassword);
                 $success = (bool)$this->getPasswordResetDao()->saveNewPrimaryPassword($username, $primaryHash);
-                try {
-                    $this->getPasswordResetDao()->deletePasswordResetRequestsByEmail($email);
-                } catch (Exception $e) {
-                    throw new Exception($e->getMessage());
-                }
-
+                $this->getPasswordResetDao()->deletePasswordResetRequestsByEmail($email);
                 return $success;
             } catch (Exception $e) {
                 throw new ServiceException($e->getMessage());

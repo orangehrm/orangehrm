@@ -25,12 +25,11 @@ class PasswordResetDao extends BaseDao {
      * @throws DaoException
      */
     public function saveResetPasswordLog(ResetPassword $resetPassword) {
-
         try {
             $resetPassword->save();
             return true;
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -40,16 +39,16 @@ class PasswordResetDao extends BaseDao {
      * @throws DaoException
      */
     public function getResetPasswordLogByEmail($email) {
-
         try {
             $q = Doctrine_Query::create()
                 ->from("ResetPassword")
-                ->where('reset_email = ?', $email);
+                ->where('reset_email = ?', $email)
+                ->orderBy('reset_request_date DESC');
 
             $resetPassword = $q->fetchOne();
             return $resetPassword;
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -68,7 +67,7 @@ class PasswordResetDao extends BaseDao {
 
             return $query->execute();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -78,17 +77,14 @@ class PasswordResetDao extends BaseDao {
      * @throws DaoException
      */
     public function deletePasswordResetRequestsByEmail($email) {
-
         try {
             $query = Doctrine_Query::create()
                 ->delete('ResetPassword')
                 ->where('reset_email = ?', $email);
             return $query->execute();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-
-
 }
 
