@@ -69,12 +69,6 @@ div.formpage {
 }
 /*
 .ui-resizable, .ui-draggable { position: absolute !important;}*/
-.panel_resizable{
-    border: #F28C38 2px solid; 
-    overflow: hidden !important;
-    margin: 0;
-    /*  padding: 10px;*/
-}
 
 .panel_draggable {
     padding: 0px;

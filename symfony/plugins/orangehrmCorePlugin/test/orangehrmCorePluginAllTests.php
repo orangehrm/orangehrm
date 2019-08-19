@@ -90,7 +90,9 @@ class orangehrmCorePluginAllTests {
         
         $suite->addTestFile(dirname(__FILE__) . '/authorization/dao/MenuDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/authorization/service/MenuServiceTest.php');
-        
+
+        $suite->addTestFile(dirname(__FILE__) . '/utility/Base64UrlTest.php');
+
         return $suite;
     }
 
