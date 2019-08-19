@@ -62,11 +62,6 @@
     overflow: hidden;
 }
 
-#MP_link {
-    background-color: #f28c38 !important;
-    color: white !important;
-}
-
 .overlay {
     background-color: #EFEFEF;
     position: fixed;

@@ -1724,6 +1724,11 @@ div.personalDetails {
 	color: white;
 }
 
+#MP_link.current {
+	background-color: #f28c38 !important;
+	color: white !important;
+}
+
 .loading-class {
 	position: fixed;
 	top: 45%;
