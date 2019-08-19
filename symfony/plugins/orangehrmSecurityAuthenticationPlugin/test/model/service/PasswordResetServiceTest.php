@@ -158,13 +158,17 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
      * @test testGeneratePasswordResetCode().
      */
     public function testGeneratePasswordResetCode() {
-        $identfier = 'test_username';
-        $resetCode = $this->secuirtyAuthService->generatePasswordResetCode($identfier);
-        $decodedResetCode = base64_decode($resetCode);
+        $identifier = 'test_username';
+        $resetCode = $this->secuirtyAuthService->generatePasswordResetCode($identifier);
+        $decodedResetCode = Base64Url::decode($resetCode);
 
         $this->assertNotNull($resetCode);
-        $this->assertRegExp("/[^{$identfier}]/", $resetCode);
-        $this->assertRegExp("/^{$identfier}#SEPARATOR#.{8,}/", $decodedResetCode);
+        $this->assertRegExp("/[^{$identifier}]/", $resetCode);
+        $this->assertRegExp("/^{$identifier}#SEPARATOR#.{8,}/", $decodedResetCode);
+
+        $parts = explode('#SEPARATOR#', $decodedResetCode);
+        $this->assertCount(2, $parts);
+        $this->assertEquals(PasswordResetService::RESET_PASSWORD_TOKEN_RANDOM_BYTES_LENGTH, strlen($parts[1]));
     }
 
     /**
@@ -433,10 +437,10 @@ class PasswordResetServiceTest extends PHPUnit_Framework_TestCase
      * @test testExtractUsername().
      */
     public function testExtractUsername() {
-        $identfier = 'testUsername';
-        $resetCode = $this->secuirtyAuthService->generatePasswordResetCode($identfier);
+        $identifier = 'testUsername';
+        $resetCode = $this->secuirtyAuthService->generatePasswordResetCode($identifier);
 
-        $this->assertEquals(array($identfier), $this->secuirtyAuthService->extractPasswordResetMetaData($resetCode));
+        $this->assertEquals(array($identifier), $this->secuirtyAuthService->extractPasswordResetMetaData($resetCode));
     }
 
 
