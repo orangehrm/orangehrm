@@ -349,6 +349,7 @@ textarea {
 	font-size:12px;
 }
 #social-icons {
+	display: inline;
     margin-top: 5px;
 }
 .box {
@@ -1700,6 +1701,8 @@ div.personalDetails {
     margin-top: 23px;
 }
 /* ================ Personal Details styles: End ================ */
+
+/* ================ Marketplace styles: Begin ================ */
 #MP_btn {
 	float: right;
 	padding-right: 171px;
@@ -1720,3 +1723,39 @@ div.personalDetails {
 	background-color: #808080;
 	color: white;
 }
+
+#MP_link.current {
+	background-color: #f28c38 !important;
+	color: white !important;
+}
+
+.loading-class {
+	position: fixed;
+	top: 45%;
+	left: 43%;
+	border: 16px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 16px solid #f28c38 !important;
+	width: 150px;
+	height: 150px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+
+}
+/* ================ Marketplace styles: End ================ */
+
+/* ================ Panel styles: Begin ================ */
+.panel_resizable {
+	border: #F28C38 2px solid;
+	overflow: hidden !important;
+	margin: 0;
+	/*  padding: 10px;*/
+}
+/* ================ Panel styles: End ================ */
+
+/* ================ JQuery auto complete styles: Begin ================ */
+.ac_over {
+	background-color: #F28C38;
+	color: white;
+}
+/* ================ JQuery auto complete styles: End ================ */

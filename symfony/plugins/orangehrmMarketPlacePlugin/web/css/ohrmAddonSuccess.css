@@ -62,11 +62,6 @@
     overflow: hidden;
 }
 
-#MP_link {
-    background-color: #f28c38 !important;
-    color: white !important;
-}
-
 .overlay {
     background-color: #EFEFEF;
     position: fixed;
@@ -77,20 +72,6 @@
     left: 0px;
     opacity: .5; /* in FireFox */
     filter: alpha(opacity=50); /* in IE */
-}
-
-.loading-class {
-    position: fixed;
-    top: 45%;
-    left: 43%;
-    border: 16px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 16px solid #f28c38;
-    width: 150px;
-    height: 150px;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
-    animation: spin 2s linear infinite;
-
 }
 
 @-webkit-keyframes spin {
