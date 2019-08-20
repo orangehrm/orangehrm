@@ -318,7 +318,7 @@ class PasswordResetService extends BaseService {
         if ($newPrimaryPassword !== $primaryPasswordConfirmation) {
             throw new ServiceException(__('New primary password and the confirmation does not match'));
         } else if(!$expireDate) {
-            $this->getPasswordResetDao()->deletePasswordResetRequestsByEmail($email);
+            $this->getPasswordResetDao()->deletePasswordResetRequestsByEmail($email, true);
             throw new ServiceException(__('This link is expired, Please request again'));
         }elseif($resetPasswordLogByEmail['reset_code']!==$resetCode) {
             throw new ServiceException(__('Key does not match'));

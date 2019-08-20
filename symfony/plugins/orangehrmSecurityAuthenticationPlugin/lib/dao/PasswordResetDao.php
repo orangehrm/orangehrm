@@ -72,15 +72,19 @@ class PasswordResetDao extends BaseDao {
     }
 
     /**
-     * @param $email
+     * @param string $email
+     * @param bool $expiredOnly
      * @return Doctrine_Collection
      * @throws DaoException
      */
-    public function deletePasswordResetRequestsByEmail($email) {
+    public function deletePasswordResetRequestsByEmail($email, $expiredOnly = false) {
         try {
             $query = Doctrine_Query::create()
                 ->delete('ResetPassword')
                 ->where('reset_email = ?', $email);
+            if ($expiredOnly) {
+                $query->addWhere('unix_timestamp(reset_request_date) <= ?', time() - 24 * 3600);
+            }
             return $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
