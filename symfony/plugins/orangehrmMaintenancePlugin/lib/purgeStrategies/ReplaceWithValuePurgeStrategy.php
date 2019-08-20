@@ -51,8 +51,8 @@ class ReplaceWithValuePurgeStrategy extends PurgeStrategy
             $replaceStrategy = $this->getReplaceStrategy($replaceColumnArrayData['class']);
             $replace = $replaceStrategy->getFormattedValue($currentFieldValue);
             $purgeEntity->$currentField = $replace;
-            $this->getMaintenanceService()->saveEntity($purgeEntity);
         }
+        $this->getMaintenanceService()->saveEntity($purgeEntity);
     }
 
     /**
