@@ -1742,6 +1742,10 @@ div.personalDetails {
 	animation: spin 2s linear infinite;
 
 }
+
+.requested {
+	background-color: #808080 !important;
+}
 /* ================ Marketplace styles: End ================ */
 
 /* ================ Panel styles: Begin ================ */
