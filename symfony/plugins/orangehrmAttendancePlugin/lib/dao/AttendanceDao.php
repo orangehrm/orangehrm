@@ -25,16 +25,8 @@ class AttendanceDao {
      * @return AttendanceRecord
      */
     public function savePunchRecord(AttendanceRecord $attendanceRecord) {
-
         try {
-
-            if ($attendanceRecord->getId() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($attendanceRecord);
-                $attendanceRecord->setId((int)$idGenService->getNextID());
-            }
             $attendanceRecord->save();
-
             return $attendanceRecord;
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
