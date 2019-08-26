@@ -180,6 +180,10 @@ input:-webkit-autofill {
     position: relative;
 }
 
+#btnLogin:hover {
+    background-color: transparent;
+}
+
 #btnLogin::-moz-focus-inner {
     border: 0;
 }
