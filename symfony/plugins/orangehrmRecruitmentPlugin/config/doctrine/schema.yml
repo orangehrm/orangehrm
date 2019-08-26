@@ -4,6 +4,7 @@ JobVacancy:
     id:
       type: integer(13)
       primary: true
+      autoincrement: true
     job_title_code:
       name: job_title_code as jobTitleCode
       type: integer(13)
@@ -56,6 +57,7 @@ JobCandidate:
     id:
       type: integer(13)
       primary: true
+      autoincrement: true
     first_name:
       name: first_name as firstName
       type: string(30)
@@ -115,6 +117,7 @@ JobCandidateVacancy:
     id:
       type: integer(13)
       unique: true
+      autoincrement: true
     candidate_id:
       name: candidate_id as candidateId
       type: integer(13)
@@ -147,6 +150,7 @@ JobCandidateAttachment:
     id:
       type: integer(13)
       primary: true
+      autoincrement: true
     candidte_id:
       name: candidate_id as candidateId
       type: integer(13)
@@ -177,6 +181,7 @@ JobVacancyAttachment:
     id:
       type: integer(13)
       primary: true
+      autoincrement: true
     vacancy_id:
       name: vacancy_id as vacancyId
       type: integer(13)
@@ -275,6 +280,7 @@ CandidateHistory:
     id:
       type: integer(13)
       primary: true
+      autoincrement: true
     candidate_id:
       name: candidate_id as candidateId
       type: integer(13)
@@ -323,6 +329,7 @@ JobInterviewAttachment:
     id:
       type: integer(13)
       primary: true
+      autoincrement: true
     interview_id:
       name: interview_id as interviewId
       type: integer(13)

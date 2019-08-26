@@ -7,6 +7,7 @@ AttendanceRecord:
     id:
       type: integer
       primary: true
+      autoincrement: true
     employee_id:
       name: employee_id as employeeId
       type: integer

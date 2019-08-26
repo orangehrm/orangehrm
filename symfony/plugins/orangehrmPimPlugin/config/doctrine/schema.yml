@@ -5,6 +5,7 @@ Employee:
       name: emp_number as empNumber
       type: integer(4)
       primary: true
+      autoincrement: true
     emp_lastname:
       name: emp_lastname as lastName
       type: string(100)

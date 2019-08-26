@@ -71,16 +71,8 @@ class EmployeeDao extends BaseDao {
      */
     public function saveEmployee(Employee $employee) {
         try {
-            if ($employee->getEmpNumber() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($employee);
-                $employee->setEmpNumber((int)$idGenService->getNextID());
-            }
-            
             $employee->save();
-            
             return $employee;
-            
         // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

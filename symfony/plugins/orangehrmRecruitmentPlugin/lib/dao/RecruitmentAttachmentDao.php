@@ -26,11 +26,6 @@ class RecruitmentAttachmentDao extends BaseDao {
      */
     public function saveVacancyAttachment(JobVacancyAttachment $attachment) {
         try {
-            if ($attachment->getId() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($attachment);
-                $attachment->setId((int)$idGenService->getNextID());
-            }
             $attachment->save();
             return true;
         } catch (Exception $e) {
@@ -45,11 +40,6 @@ class RecruitmentAttachmentDao extends BaseDao {
      */
     public function saveCandidateAttachment(JobCandidateAttachment $attachment) {
         try {
-            if ($attachment->getId() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($attachment);
-                $attachment->setId((int)$idGenService->getNextID());
-            }
             $attachment->save();
             return true;
         } catch (Exception $e) {

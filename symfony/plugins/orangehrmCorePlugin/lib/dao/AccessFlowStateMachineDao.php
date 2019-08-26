@@ -111,16 +111,8 @@ class AccessFlowStateMachineDao {
     }
 
     public function saveWorkflowStateMachineRecord(WorkflowStateMachine $workflowStateMachine) {
-
         try {
-
-            if ($workflowStateMachine->getId() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($workflowStateMachine);
-                $workflowStateMachine->setId((int)$idGenService->getNextID());
-            }
             $workflowStateMachine->save();
-
             return $workflowStateMachine;
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
