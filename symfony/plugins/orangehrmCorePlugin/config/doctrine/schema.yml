@@ -34,6 +34,7 @@ WorkflowStateMachine:
     id:
       type: integer
       primary: true
+      autoincrement: true
     workflow:
       type: string(255)
       notnull: true

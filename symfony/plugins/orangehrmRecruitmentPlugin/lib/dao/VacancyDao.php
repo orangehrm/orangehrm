@@ -273,13 +273,6 @@ class VacancyDao extends BaseDao {
      */
     public function saveJobVacancy(JobVacancy $jobVacancy) {
         try {
-
-            if ($jobVacancy->getId() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($jobVacancy);
-                $jobVacancy->setId((int)$idGenService->getNextID());
-            }
-
             $jobVacancy->save();
             return true;
         } catch (Exception $e) {

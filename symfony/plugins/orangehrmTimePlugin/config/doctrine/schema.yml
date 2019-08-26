@@ -8,6 +8,7 @@ Timesheet:
       name: timesheet_id as timesheetId
       type: integer
       primary: true
+      autoincrement: true
     employee_id:
       name: employee_id as employeeId
       type: integer
@@ -73,6 +74,7 @@ TimesheetActionLog:
       name: timesheet_action_log_id as timesheetActionLogId
       type: integer
       primary: true
+      autoincrement: true
     timesheet_id:
       name: timesheet_id as timesheetId
       type: integer

@@ -263,7 +263,7 @@ create table `hs_hr_emp_work_experience` (
 
 
 create table `hs_hr_employee` (
-  `emp_number` int(7) not null default 0,
+  `emp_number` int(7) not null auto_increment,
   `employee_id` varchar(50) default null,
   `emp_lastname` varchar(100) default '' not null,
   `emp_firstname` varchar(100) default '' not null,
@@ -523,7 +523,7 @@ create table `hs_hr_emp_locations` (
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_timesheet`(
-  `timesheet_id` bigint(20) not null,
+  `timesheet_id` bigint(20) not null auto_increment,
   `state` varchar(255) not null,
   `start_date` date not null,
   `end_date` date not null,
@@ -532,7 +532,7 @@ create table `ohrm_timesheet`(
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_timesheet_item`(
-  `timesheet_item_id` bigint(20) not null,
+  `timesheet_item_id` bigint(20) not null auto_increment,
   `timesheet_id` bigint(20) not null,
   `date` date not null,
   `duration` bigint(20) default null,
@@ -546,7 +546,7 @@ create table `ohrm_timesheet_item`(
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_timesheet_action_log`(
-  `timesheet_action_log_id` bigint(20) not null,
+  `timesheet_action_log_id` bigint(20) not null auto_increment,
   `comment` varchar(255) default null,
   `action` varchar(255),
   `date_time` date not null,
@@ -570,7 +570,7 @@ create table `ohrm_workflow_state_machine`(
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_attendance_record`(
-  `id` bigint(20) not null,
+  `id` bigint(20) not null auto_increment,
   `employee_id` bigint(20) not null,
   `punch_in_utc_time` datetime ,
   `punch_in_note` varchar(255),
@@ -767,7 +767,7 @@ create table `ohrm_job_vacancy`(
 )engine=innodb default charset=utf8;
 
 create table `ohrm_job_candidate`(
-	`id` int(13) not null,
+	`id` int(13) not null auto_increment,
 	`first_name` varchar(30) not null,
 	`middle_name` varchar(30) default null,
     `last_name` varchar(30) not null,
@@ -786,7 +786,7 @@ create table `ohrm_job_candidate`(
 )engine=innodb default charset=utf8;
 
 create table `ohrm_job_candidate_vacancy`(
-        `id` int(13) default null unique,
+        `id` int(13) default null unique auto_increment,
 	`candidate_id` int(13) not null,
         `vacancy_id` int(13) not null,
 	`status` varchar(100) not null,

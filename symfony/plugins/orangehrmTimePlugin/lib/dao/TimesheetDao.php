@@ -81,16 +81,8 @@ class TimesheetDao {
      * @return Timesheet
      */
     public function saveTimesheet(Timesheet $timesheet) {
-
         try {
-
-            if ($timesheet->getTimesheetId() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($timesheet);
-                $timesheet->setTimesheetId((int)$idGenService->getNextID());
-            }
             $timesheet->save();
-
             return $timesheet;
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
@@ -168,21 +160,10 @@ class TimesheetDao {
      * @return $timesheetItem
      */
     public function saveTimesheetItem(TimesheetItem $timesheetItem) {
-
         try {
-
-            if ($timesheetItem->getTimesheetItemId() == '') {
-                $idGenService = new IDGeneratorService();
-
-                $idGenService->setEntity($timesheetItem);
-                $timesheetItem->setTimesheetItemId((int)$idGenService->getNextID());
-            }
-
             $timesheetItem->save();
-
             return $timesheetItem;
         } catch (Exception $ex) {
-
             throw new DaoException($ex->getMessage());
         }
     }
@@ -247,15 +228,7 @@ class TimesheetDao {
      * @return $timesheetActionLog
      */
     public function saveTimesheetActionLog(TimesheetActionLog $timesheetActionLog) {
-
         try {
-
-            if ($timesheetActionLog->getTimesheetActionLogId() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($timesheetActionLog);
-                $timesheetActionLog->setTimesheetActionLogId((int)$idGenService->getNextID());
-            }
-
             $timesheetActionLog->save();
             return $timesheetActionLog;
         } catch (Exception $ex) {

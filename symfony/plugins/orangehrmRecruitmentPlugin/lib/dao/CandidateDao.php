@@ -186,11 +186,6 @@ class CandidateDao extends BaseDao {
      */
     public function saveCandidate(JobCandidate $candidate) {
         try {
-            if ($candidate->getId() == "") {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($candidate);
-                $candidate->setId((int)$idGenService->getNextID());
-            }
             $candidate->save();
             return true;
         } catch (Exception $e) {
@@ -205,11 +200,6 @@ class CandidateDao extends BaseDao {
      */
     public function saveCandidateVacancy(JobCandidateVacancy $candidateVacancy) {
         try {
-            if ($candidateVacancy->getId() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($candidateVacancy);
-                $candidateVacancy->setId((int)$idGenService->getNextID());
-            }
             $candidateVacancy->save();
             return true;
         } catch (Exception $e) {
@@ -298,11 +288,6 @@ class CandidateDao extends BaseDao {
      */
     public function saveCandidateHistory(CandidateHistory $candidateHistory) {
         try {
-            if ($candidateHistory->getId() == '') {
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($candidateHistory);
-                $candidateHistory->setId((int)$idGenService->getNextID());
-            }
             $candidateHistory->save();
             return true;
         } catch (Exception $e) {
