@@ -1,3 +1,14 @@
+New & Changed Features for OrangeHRM ver 4.3.3
+    New Features
+    ------------
+    Upgrade supportability to upgrade the addons with latest versions.
+    Corporate Branding Improvements
+        - Admin can install the corporate branding and configure their organization logo and theme colors.
+
+    Bug Fixes
+    ---------
+    Code Improvements
+
 New & Changed Features for OrangeHRM ver 4.3.2
     New Features
     ------------
