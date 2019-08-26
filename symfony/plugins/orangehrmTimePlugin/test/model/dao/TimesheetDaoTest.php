@@ -231,7 +231,7 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $savedNewTimesheetItem = $this->timesheetDao->saveTimesheetItem($timesheetItem);
 
         $this->assertTrue($savedNewTimesheetItem instanceof TimesheetItem);
-        $this->assertEquals('001', $savedNewTimesheetItem->getTimesheetItemId());
+        $this->assertGreaterThan(0, $savedNewTimesheetItem->getTimesheetItemId());
         $this->assertEquals($timesheetItem->getTimesheetId(), $savedNewTimesheetItem->getTimesheetId());
         $this->assertEquals($timesheetItem->getDate(), $savedNewTimesheetItem->getDate());
         $this->assertEquals($timesheetItem->getDuration(), $savedNewTimesheetItem->getDuration());
@@ -332,7 +332,7 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $savedNewTimesheetActionLog = $this->timesheetDao->saveTimesheetActionLog($timesheetActionLog);
 
         $this->assertTrue($savedNewTimesheetActionLog instanceof TimesheetActionLog);
-        $this->assertEquals('001', $savedNewTimesheetActionLog->getTimesheetActionLogId());
+        $this->assertGreaterThan(0, $savedNewTimesheetActionLog->getTimesheetActionLogId());
         $this->assertEquals($timesheetActionLog->getTimesheetId(), $savedNewTimesheetActionLog->getTimesheetId());
         $this->assertEquals($timesheetActionLog->getDateTime(), $savedNewTimesheetActionLog->getDateTime());
         $this->assertEquals($timesheetActionLog->getComment(), $savedNewTimesheetActionLog->getComment());

@@ -753,7 +753,7 @@ create table `ohrm_selected_display_field_group` (
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_job_vacancy`(
-	`id` int(13) not null,
+	`id` int(13) not null auto_increment,
 	`job_title_code` int(4) not null,
         `hiring_manager_id` int(13) default null,
 	`name` varchar(100) not null,
