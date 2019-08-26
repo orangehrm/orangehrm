@@ -180,7 +180,7 @@ input:-webkit-autofill {
     position: relative;
 }
 
-#btnLogin.hover {
+#btnLogin:hover {
     background-color: transparent;
 }
 
