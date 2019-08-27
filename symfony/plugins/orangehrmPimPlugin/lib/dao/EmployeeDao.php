@@ -71,6 +71,9 @@ class EmployeeDao extends BaseDao {
      */
     public function saveEmployee(Employee $employee) {
         try {
+            $idGenService = new IDGeneratorService();
+            $idGenService->setEntity($employee);
+            $idGenService->incrementId();
             $employee->save();
             return $employee;
         // @codeCoverageIgnoreStart
