@@ -80,7 +80,7 @@ $(document).ready(function () {
                         'data-target': '#deleteConfModal'
                     });
                     if (paidAddons.indexOf(installId) > -1) {
-                        intallBtn.attr('value', 'Installed').prop("disabled", true).css('background-color', '#808080');
+                        intallBtn.attr('value', 'Installed').prop("disabled", true).addClass('requested');
                     }
                     window.location.reload();
                 } else {
@@ -112,7 +112,7 @@ $(document).ready(function () {
                     $('#message_body').text(meassageInSuccess);
                     $('#messege_div').show(0).delay(2000).fadeOut(1000);
                     if (paidTypeAddonIds.indexOf(updateBtn) > -1) {
-                        updateBtn.attr('value', 'Installed').prop("disabled", true).css('background-color', '#808080');
+                        updateBtn.attr('value', 'Installed').prop("disabled", true).addClass('requested');
                     } else {
                         updateBtn.remove();
                     }
@@ -209,7 +209,7 @@ $(document).ready(function () {
                     $('#disable-screen').removeClass();
                     $('#message_body').text(renewSuccess);
                     $('#messege_div').show(0).delay(2000).fadeOut(1000);
-                    $('#renewButton' + renewId).attr('value', 'Installed').prop("disabled", true).css('background-color', '#808080');
+                    $('#renewButton' + renewId).attr('value', 'Installed').prop("disabled", true).addClass('requested');
                 } else {
                     $('#disable-screen').removeClass();
                     $('#loading').removeClass();
@@ -243,9 +243,9 @@ $(document).ready(function () {
                         $('#message_body').text(buyNowReqSuccess);
                         $('#loading').removeClass();
                         if(!isRenew) {
-                            $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).css('background-color', '#808080');
+                            $('#buyBtn' + buyNowId).attr('value', 'Requested').prop("disabled", true).addClass('requested');
                         } else {
-                            $('#requestRenewButton' + buyNowId).attr('value', 'Renew Requested').prop("disabled", true).css('background-color', '#808080');
+                            $('#requestRenewButton' + buyNowId).attr('value', 'Renew Requested').prop("disabled", true).addClass('requested');
                         }
                         $('#disable-screen').removeClass();
                         $('#messege_div').show(0).delay(2000).fadeOut(1000);
