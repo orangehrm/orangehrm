@@ -183,4 +183,9 @@ class IDGeneratorService extends BaseService {
         }
     }
 
+    public function incrementId() {
+        $currentId = $this->getCurrentID();
+        $this->updateNextId($currentId + 1);
+    }
+
 }
