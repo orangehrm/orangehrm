@@ -1,6 +1,7 @@
 <?php
 use_javascript('jquery.js');
 $error_found = false;
+$notWritableAddons = $sf_data->getRaw('notWritableAddons');
 
 if (count($notCopiedPlugins) > 0) : ?>
     <?php $error_found = true; ?>
@@ -39,9 +40,11 @@ if (count($notCopiedPlugins) > 0) : ?>
                     <td style="padding: 2px 5px"><?php echo $addonDetails['title'];?></td>
                     <td style="padding: 2px 5px"><?php echo $addonDetails['currentVersion'];?></td>
                     <td style="padding: 2px 5px"><?php echo $addonDetails['newVersion'];?></td>
-                    <td style="padding: 2px 5px; color: orange" id="addon_status_<?php echo $addonId;?>">Download Pending</td>
+                    <td style="padding: 2px 5px; color: <?php echo isset($notWritableAddons[$addonId]) ? 'red': 'orange';?>" id="addon_status_<?php echo $addonId;?>"><?php
+                        echo isset($notWritableAddons[$addonId]) ? ('No write permission for symfony/plugins/' . $notWritableAddons[$addonId] . ' directory') : 'Download Pending';
+                    ?></td>
                     <td style="padding: 2px 5px">
-                        <button onclick="downloadAddon(event, <?php echo $addonId;?>)" style="padding: 2px 5px; margin: 2px 5px">Download</button>
+                        <button onclick="downloadAddon(event, <?php echo $addonId;?>)" style="padding: 2px 5px; margin: 2px 5px" <?php if (isset($notWritableAddons[$addonId])) {echo 'disabled';} ?>>Download</button>
                     </td>
                 </tr>
             <?php endforeach; ?>

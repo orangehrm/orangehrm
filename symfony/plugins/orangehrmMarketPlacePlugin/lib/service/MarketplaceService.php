@@ -298,6 +298,18 @@ class MarketplaceService extends ConfigService
         if ($addon["type"] == "paid") {
             if (!extension_loaded("ionCube Loader")) {
                 $notInstalledExtensions[] = 'ionCube Loader';
+            } else {
+                exec('php -m', $lines);
+                $ionCubeCliLoaded = false;
+                foreach ($lines as $line) {
+                    if (strpos($line, 'ionCube Loader') !== false) {
+                        $ionCubeCliLoaded = true;
+                        break;
+                    }
+                }
+                if (!$ionCubeCliLoaded) {
+                    $notInstalledExtensions[] = 'ionCube Loader - CLI';
+                }
             }
         }
         if (count($addon["prerequisites"]) != 0) {

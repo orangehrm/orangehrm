@@ -104,17 +104,16 @@ class installAddonAPIAction extends baseAddonAction
      */
     protected function installAddon($addonFilePath, $addonDetail, $pluginname)
     {
+        $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
+        $connection->beginTransaction();
+        $symfonyPath = sfConfig::get('sf_root_dir');
+        $pluginInstallFilePath = $symfonyPath . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginname . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'plugin_install.php';
+        chdir($symfonyPath);
+        exec("php symfony cc", $symfonyCcResponse, $symfonyCcStatus);
+        if ($symfonyCcStatus != 0) {
+            throw new Exception('Running php symfony cc fails.', 1001);
+        }
         try {
-            $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
-            $connection->beginTransaction();
-            $symfonyPath = sfConfig::get('sf_root_dir');
-            $pluginInstallFilePath = $symfonyPath . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginname . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'plugin_install.php';
-            chdir($symfonyPath);
-            exec("php symfony cc", $symfonyCcResponse, $symfonyCcStatus);
-            if ($symfonyCcStatus != 0) {
-                throw new Exception('Running php symfony cc fails.', 1001);
-            }
-
             $install = require_once($pluginInstallFilePath);
             $connection->commit();
         } catch (Exception $e) {

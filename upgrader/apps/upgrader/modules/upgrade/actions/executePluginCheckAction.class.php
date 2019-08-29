@@ -84,6 +84,15 @@ class executePluginCheckAction extends sfAction
             }
             $this->notSupportedPlugins = $notSupportedPlugins;
             $this->updatePendingAddons = $updatePendingAddons;
+            $this->notWritableAddons = [];
+
+            foreach (array_column($updatePendingAddons, 'title') as $addonName) {
+                $addon = $addonByName[$addonName];
+                $pluginDir = $pluginsDir . DIRECTORY_SEPARATOR . $addon['plugin_name'];
+                if (!is_writable($pluginDir)) {
+                    $this->notWritableAddons[$addon['addon_id']] = $addon['plugin_name'];
+                }
+            }
 
             if (count($updatePendingAddons) > 0) {
                 $this->getUser()->setAttribute('marketplace.baseUrl', $marketplaceUrl);
