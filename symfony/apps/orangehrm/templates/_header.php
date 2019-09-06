@@ -35,6 +35,7 @@ $cultureElements = explode('_', $sf_user->getCulture());
         echo javascript_include_tag('jquery/jquery.autocomplete.js');
         echo javascript_include_tag('orangehrm.autocomplete.js');
         echo javascript_include_tag('jquery/jquery.ui.datepicker.js');
+        //echo javascript_include_tag('jquery/jquery-ui.js');
         echo javascript_include_tag('jquery/jquery.form.js');
         echo javascript_include_tag('jquery/jquery.tipTip.minified.js');
         echo javascript_include_tag('jquery/bootstrap-modal.js');
