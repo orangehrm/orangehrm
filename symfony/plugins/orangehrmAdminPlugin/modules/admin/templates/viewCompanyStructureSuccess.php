@@ -1,4 +1,4 @@
-<?php echo javascript_include_tag('jquery.tooltip.js') ?>
+<?php //echo javascript_include_tag('jquery.tooltip.js') ?>
 <?php use_javascript(plugin_web_path('orangehrmAdminPlugin', '/js/viewCompanyStructureSuccess')); ?>
 
 <style type="text/css">
