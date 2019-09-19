@@ -37,7 +37,7 @@ $(document).ready(function() {
             },
             'systemUser[secondaryPassword]' : {
                 required:function(element) {
-                    if($('#systemUser_chkChangeSecPassword').attr('checked') == true)
+                    if($('#systemUser_chkChangeSecPassword').prop('checked'))
                         return true;
                     else
                         return false;

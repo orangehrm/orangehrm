@@ -185,17 +185,17 @@ $haveSkills = count($form->empSkillList)>0;
         
         //if check all button clicked
         $("#skillCheckAll").click(function() {
-            $("div#tblSkill .chkbox").removeAttr("checked");
-            if($("#skillCheckAll").attr("checked")) {
-                $("div#tblSkill .chkbox").attr("checked", "checked");
+            $("div#tblSkill .chkbox").prop('checked', false);
+            if($("#skillCheckAll").prop('checked')) {
+                $("div#tblSkill .chkbox").prop('checked', true);
             }
         });
         
         //remove tick from the all button if any checkbox unchecked
         $("div#tblSkill .chkbox").click(function() {
-            $("#skillCheckAll").removeAttr('checked');
+            $("#skillCheckAll").prop('checked', false);
             if($("div#tblSkill .chkbox").length == $("div#tblSkill .chkbox:checked").length) {
-                $("#skillCheckAll").attr('checked', 'checked');
+                $("#skillCheckAll").prop('checked', true);
             }
         });
         
@@ -269,7 +269,7 @@ $haveSkills = count($form->empSkillList)>0;
             
             $('div#changeSkill label.error').hide();
             
-            $("div#tblSkill .chkbox").removeAttr("checked").show();
+            $("div#tblSkill .chkbox").prop('checked', false).show();
             
             //hiding action button section
             $("#actionSkill").show();

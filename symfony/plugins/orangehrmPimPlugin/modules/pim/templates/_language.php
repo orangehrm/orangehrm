@@ -178,17 +178,17 @@ $(document).ready(function() {
 
     //if check all button clicked
     $("#languageCheckAll").click(function() {
-        $("div#tblLanguage .chkbox").removeAttr("checked");
-        if($("#languageCheckAll").attr("checked")) {
-            $("div#tblLanguage .chkbox").attr("checked", "checked");
+        $("div#tblLanguage .chkbox").prop('checked', false);
+        if($("#languageCheckAll").prop('checked')) {
+            $("div#tblLanguage .chkbox").prop('checked', true);
         }
     });
 
     //remove tick from the all button if any checkbox unchecked
     $("div#tblLanguage .chkbox").click(function() {
-        $("#languageCheckAll").removeAttr('checked');
+        $("#languageCheckAll").prop('checked', false);
         if($("div#tblLanguage .chkbox").length == $("div#tblLanguage .chkbox:checked").length) {
-            $("#languageCheckAll").attr('checked', 'checked');
+            $("#languageCheckAll").prop('checked', true);
         }
     });
     
@@ -288,7 +288,7 @@ $(document).ready(function() {
         
         $('div#changeLanguage label.error').hide();
 
-        $("div#tblLanguage .chkbox").removeAttr("checked").show();
+        $("div#tblLanguage .chkbox").prop('checked', false).show();
         
         //hiding action button section
         $("#actionLanguage").show();

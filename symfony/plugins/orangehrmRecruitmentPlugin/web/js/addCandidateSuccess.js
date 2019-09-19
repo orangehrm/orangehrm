@@ -63,7 +63,7 @@ $(document).ready(function() {
                 }
             });
             $('#radio').show();
-            $('#addCandidate_resumeUpdate_1').attr('checked', 'checked');
+            $('#addCandidate_resumeUpdate_1').prop('checked', true);
             $("#btnSave").attr('value', lang_save);
             $("#btnBack").attr('value', lang_cancel);
             
@@ -89,10 +89,10 @@ $(document).ready(function() {
     });
    
     $("input.fileEditOptions").click(function () {
-        if(attachment != "" && !$('#addCandidate_resumeUpdate_3').attr("checked")){
+        if(attachment != "" && !$('#addCandidate_resumeUpdate_3').prop('checked')){
             $('#addCandidate_resume').val("");
         }
-        if ($('#addCandidate_resumeUpdate_3').attr("checked")) {
+        if ($('#addCandidate_resumeUpdate_3').prop('checked')) {
             $('#fileUploadSection').show();
         } else {
             $('#fileUploadSection').hide();

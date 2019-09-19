@@ -181,17 +181,17 @@ var issuedDate = "";
 
     //if check all button clicked
     $("#licenseCheckAll").click(function() {
-        $("div#tblLicense .chkbox").removeAttr("checked");
-        if($("#licenseCheckAll").attr("checked")) {
-            $("div#tblLicense .chkbox").attr("checked", "checked");
+        $("div#tblLicense .chkbox").prop('checked', false);
+        if($("#licenseCheckAll").prop('checked')) {
+            $("div#tblLicense .chkbox").prop('checked', true);
         }
     });
 
     //remove tick from the all button if any checkbox unchecked
     $("div#tblLicense .chkbox").click(function() {
-        $("#licenseCheckAll").removeAttr('checked');
+        $("#licenseCheckAll").prop('checked', false);
         if($("div#tblLicense .chkbox").length == $("div#tblLicense .chkbox:checked").length) {
-            $("#licenseCheckAll").attr('checked', 'checked');
+            $("#licenseCheckAll").prop('checked', true);
         }
     });
 
@@ -270,7 +270,7 @@ var issuedDate = "";
 
         $('div#changeLicense label.error').hide();
 
-        $("div#tblLicense .chkbox").removeAttr("checked").show();
+        $("div#tblLicense .chkbox").prop('checked', false).show();
 
         //hiding action button section
         $("#actionLicense").show();

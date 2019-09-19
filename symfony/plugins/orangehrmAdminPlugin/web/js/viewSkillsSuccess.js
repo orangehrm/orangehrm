@@ -98,19 +98,19 @@ function executeLoadtimeActions() {
 function loadCheckboxBehavior() {
     
     $("#checkAll").click(function(){
-        if($("#checkAll:checked").attr('value') == 'on') {
-            $(".checkboxAtch").attr('checked', 'checked');
+        if($("#checkAll:checked").length > 0) {
+            $(".checkboxAtch").prop('checked', true);
         } else {
-            $(".checkboxAtch").removeAttr('checked');
+            $(".checkboxAtch").prop('checked', false);
         }
     });
 
     $(".checkboxAtch").click(function() {
         
-        $("#checkAll").removeAttr('checked');
+        $("#checkAll").prop('checked', false);
         
         if(($(".checkboxAtch").length - 1) == $(".checkboxAtch:checked").length) {
-            $("#checkAll").attr('checked', 'checked');
+            $("#checkAll").prop('checked', true);
         }
         
         if ($(".checkboxAtch:checked").length > 0 && $(".checkboxAtch").length >1) {

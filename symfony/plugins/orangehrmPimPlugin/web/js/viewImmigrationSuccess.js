@@ -76,7 +76,7 @@ $(document).ready(function() {
         
         //clearing all entered values
         var controls = new Array("number", "passport_issue_date", "seqno", "passport_expire_date", "i9_status", "country", "i9_review_date", "comments");
-        $("#immigration_type_flag_1").attr("checked", "checked");
+        $("#immigration_type_flag_1").prop('checked', true);
         for(i=0; i < controls.length; i++) {
             $("#immigration_" + controls[i]).val("");
         }
@@ -174,7 +174,7 @@ function fillDataToImmigrationDataPane(seqno) {
     $("#immigration_seqno").val(seqno);
 
     var typeFlag = $("#type_flag_" + seqno).val();
-    $("#immigration_type_flag_" + typeFlag).attr("checked", "checked");
+    $("#immigration_type_flag_" + typeFlag).prop('checked', true);
 
     $(".paddingLeftRequired").show();
     $("#immigrationHeading").text(lang_editImmigrationHeading);

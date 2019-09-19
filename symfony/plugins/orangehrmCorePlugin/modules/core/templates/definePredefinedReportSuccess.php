@@ -340,7 +340,7 @@ use_javascript('orangehrm.datepicker.js');
             event.preventDefault();
             var li = $(this).parent();
             li.find('li').each(function() {
-                $(this).find('input').attr('checked', false);
+                $(this).find('input').prop('checked', false);
                 $(this).hide();
             });
             var groupInput = li.children('input');
@@ -348,7 +348,7 @@ use_javascript('orangehrm.datepicker.js');
         
             $('#report_display_groups option[value=' + groupId + ']').show();
         
-            groupInput.attr('checked', false);
+            groupInput.prop('checked', false);
             li.hide();
             updateDisplayGroupList();
             updateDisplayFieldList();
@@ -357,7 +357,7 @@ use_javascript('orangehrm.datepicker.js');
         $(document).on('click', 'ol#display_groups ul.display_field_ul li a', function(event) {
             event.preventDefault();
             var li = $(this).parent();
-            li.find('input').attr('checked', false);
+            li.find('input').prop('checked', false);
             li.hide();
             var groupId = li.parents('ul.display_field_ul').parent().children('input').attr('id');
         
@@ -427,7 +427,7 @@ use_javascript('orangehrm.datepicker.js');
             }
         
             var selectedItemLi = $('#' + selectedItem.val());
-            selectedItemLi.parent().show().find('li').show().find('input').attr('checked', true);
+            selectedItemLi.parent().show().find('li').show().find('input').prop('checked', true);
         
             updateDisplayFieldList();
             clearErrors();
@@ -451,7 +451,7 @@ use_javascript('orangehrm.datepicker.js');
             }
         
             var selectedItemInput = $('#' + selectedItem.val());
-            selectedItemInput.attr('checked', true);
+            selectedItemInput.prop('checked', true);
             selectedItemInput.parent().show().parents('li').show();
         
             updateDisplayFieldList();

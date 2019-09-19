@@ -5,17 +5,17 @@ $(document).ready(function() {
 
     var commenceDate = "";
     $("#checkAllMem").click(function(){
-        if($("#checkAllMem:checked").attr('value') == 'on') {
-            $(".checkboxMem").attr('checked', 'checked');
+        if($("#checkAllMem:checked").length > 0) {
+            $(".checkboxMem").prop('checked', true);
         } else {
-            $(".checkboxMem").removeAttr('checked');
+            $(".checkboxMem").prop('checked', false);
         }
     });
 
     $(".checkboxMem").click(function() {
-        $("#checkAllMem").removeAttr('checked');
+        $("#checkAllMem").prop('checked', false);
         if(($(".checkboxMem").length - 1) == $(".checkboxMem:checked").length) {
-            $("#checkAllMem").attr('checked', 'checked');
+            $("#checkAllMem").prop('checked', true);
         }
     });
     

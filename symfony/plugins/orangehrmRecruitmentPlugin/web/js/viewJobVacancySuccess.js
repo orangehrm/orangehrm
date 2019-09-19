@@ -5,12 +5,11 @@ $(document).ready(function() {
     $('#btnDelete').attr('disabled','disabled');
       
     $("#ohrmList_chkSelectAll").click(function() {
-        $('table.table input[id^="ohrmList_chkSelectRecord_"]').attr('checked', ($(this).attr('checked') == 'checked'));
-        if($(":checkbox").length == 1) {
+        $('table.table input[id^="ohrmList_chkSelectRecord_"]').prop('checked', $(this).prop('checked'));
+        if ($(":checkbox").length == 1) {
             $('#btnDelete').attr('disabled','disabled');
-        }
-        else {
-            if($("#ohrmList_chkSelectAll").is(':checked')) {
+        } else {
+            if ($("#ohrmList_chkSelectAll").is(':checked')) {
                 $('#btnDelete').removeAttr('disabled');
             } else {
                 $('#btnDelete').attr('disabled','disabled');
@@ -20,7 +19,7 @@ $(document).ready(function() {
     
     
     $(':checkbox[name*="chkSelectRow[]"]').click(function() {
-        if($(':checkbox[name*="chkSelectRow[]"]').is(':checked')) {
+        if ($(':checkbox[name*="chkSelectRow[]"]').is(':checked')) {
             $('#btnDelete').removeAttr('disabled');
         } else {
             $('#btnDelete').attr('disabled','disabled');

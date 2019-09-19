@@ -229,10 +229,10 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         <?php } ?>
         
         $("#checkAll").click(function(){
-            if($("#checkAll:checked").attr('value') == 'on') {
-                $(".checkbox").attr('checked', 'checked');
+            if($("#checkAll:checked").length > 0) {
+                $(".checkbox").prop('checked', true);
             } else {
-                $(".checkbox").removeAttr('checked');
+                $(".checkbox").prop('checked', false);
             }
             
             if($('.checkbox:checkbox:checked').length > 0) {
@@ -243,9 +243,9 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         });
 
         $(".checkbox").click(function() {
-            $("#checkAll").removeAttr('checked');
+            $("#checkAll").prop('checked', false);
             if(($(".checkbox").length - 1) == $(".checkbox:checked").length) {
-                $("#checkAll").attr('checked', 'checked');
+                $("#checkAll").prop('checked', true);
             }
             
             if($('.checkbox:checkbox:checked').length > 0) {

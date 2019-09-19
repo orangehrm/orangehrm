@@ -37,17 +37,17 @@ $(document).ready(function() {
 
     //if check all button clicked
     $("#workCheckAll").click(function() {
-        $(".chkbox1").removeAttr("checked");
-        if($("#workCheckAll").attr("checked")) {
-            $(".chkbox1").attr("checked", "checked");
+        $(".chkbox1").prop('checked', false);
+        if($("#workCheckAll").prop('checked')) {
+            $(".chkbox1").prop('checked', true);
         }
     });
 
     //remove tick from the all button if any checkbox unchecked
     $(".chkbox1").click(function() {
-        $("#workCheckAll").removeAttr('checked');
+        $("#workCheckAll").prop('checked', false);
         if($(".chkbox1").length == $(".chkbox1:checked").length) {
-            $("#workCheckAll").attr('checked', 'checked');
+            $("#workCheckAll").prop('checked', true);
         }
     });
 
@@ -170,7 +170,7 @@ $(document).ready(function() {
         
         $('div#changeWorkExperience label.error').hide();
 
-        $(".chkbox1").removeAttr("checked");
+        $(".chkbox1").prop('checked', false);
 
         //hiding action button section
         $("#actionWorkExperience").show();

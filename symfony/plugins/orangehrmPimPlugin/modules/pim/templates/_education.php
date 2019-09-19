@@ -204,17 +204,17 @@ $haveEducation = count($form->empEducationList) > 0;
 
         //if check all button clicked
         $("#educationCheckAll").click(function() {
-            $("div#tblEducation .chkbox").removeAttr("checked");
-            if($("#educationCheckAll").attr("checked")) {
-                $("div#tblEducation .chkbox").attr("checked", "checked");
+            $("div#tblEducation .chkbox").prop('checked', false);
+            if($("#educationCheckAll").prop('checked')) {
+                $("div#tblEducation .chkbox").prop('checked', true);
             }
         });
 
         //remove tick from the all button if any checkbox unchecked
         $("div#tblEducation .chkbox").click(function() {
-            $("#educationCheckAll").removeAttr('checked');
+            $("#educationCheckAll").prop('checked', false);
             if($("div#tblEducation .chkbox").length == $("div#tblEducation .chkbox:checked").length) {
-                $("#educationCheckAll").attr('checked', 'checked');
+                $("#educationCheckAll").prop('checked', true);
             }
         });
 
@@ -303,7 +303,7 @@ $haveEducation = count($form->empEducationList) > 0;
             <?php }?>
             educationValidator.resetForm();
             $('div#changeEducation label.error').hide();
-            $("div#tblEducation .chkbox").removeAttr("checked").show();
+            $("div#tblEducation .chkbox").prop('checked', false).show();
 
             //hiding action button section
             $("#actionEducation").show();

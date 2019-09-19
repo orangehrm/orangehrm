@@ -103,6 +103,6 @@ function makeEditMode(){
     $('.formInputTextArea').removeAttr('disabled')
     $('#jobTitle_jobSpec').removeAttr('disabled')
     $('#radio').show()
-    $('#jobTitle_jobSpecUpdate_1').attr('checked', 'checked');
+    $('#jobTitle_jobSpecUpdate_1').prop('checked', true);
     $('#btnSave').attr('value', lang_save)
 }

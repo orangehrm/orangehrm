@@ -386,9 +386,9 @@
 
     //if check all button clicked
     $("#salaryCheckAll").click(function() {
-        $(".check .chkbox").removeAttr("checked");
-        if ($("#salaryCheckAll").attr("checked")) {
-            $(".check .chkbox").attr("checked", "checked");
+        $(".check .chkbox").prop('checked', false);
+        if ($("#salaryCheckAll").prop('checked')) {
+            $(".check .chkbox").prop('checked', true);
         }
         
         if($('.check .chkbox:checkbox:checked').length > 0) {
@@ -400,9 +400,9 @@
 
     //remove tick from the all button if any checkbox unchecked
     $(".check .chkbox").click(function() {
-        $("#salaryCheckAll").removeAttr('checked');
+        $("#salaryCheckAll").prop('checked', false);
         if ($(".check .chkbox").length == $(".check .chkbox:checked").length) {
-            $("#salaryCheckAll").attr('checked', 'checked');
+            $("#salaryCheckAll").prop('checked', true);
         }
         
         if($('.check .chkbox:checkbox:checked').length > 0) {
@@ -429,7 +429,7 @@
         // find row with direct deposit details
         var directDepositRow = $(this).closest("tr").next();
         
-        if ($(this).attr('checked')) {
+        if ($(this).prop('checked')) {
             directDepositRow.show();
         } else {
             directDepositRow.hide();
@@ -579,7 +579,7 @@
 
         $('div#changeSalary label.error').hide();
 
-        $(".chkbox").removeAttr("checked");
+        $(".chkbox").prop('checked', false);
         $('.check').show();
         $('td.component').attr('colspan', 1);
 
