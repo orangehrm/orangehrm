@@ -372,7 +372,7 @@
     }
 
     function clearDirectDepositFields() {
-        $("#salary_set_direct_debit").removeAttr('checked');
+        $("#salary_set_direct_debit").prop('checked', false);
         $("#directdeposit_id").val('');
         $("#directdeposit_account").val('');
         $("#directdeposit_account_type").val('');
@@ -414,7 +414,7 @@
 
     $("#salary_set_direct_debit").click(function() {
         
-        if ($(this).attr('checked')) {
+        if ($(this).prop('checked')) {
             $('#directDebitSection').show();
             $('#notDirectDebitSection').hide();
         } else {
@@ -478,7 +478,7 @@
         $('#directDebitSection').hide();
         $('#notDirectDebitSection').show();
         clearDirectDepositFields();
-        $("#salary_set_direct_debit").removeAttr('checked');
+        $("#salary_set_direct_debit").prop('checked', false);
 
     });
 
@@ -642,7 +642,7 @@
         var haveDirectDeposit = $("#have_dd_" + id).val() == "1";
         
         if (haveDirectDeposit) {
-            $("#salary_set_direct_debit").attr('checked', 'checked');
+            $("#salary_set_direct_debit").prop('checked', true);
             $("#directdeposit_id").val($("#dd_id_" + id).val());
             $("#directdeposit_account").val($("#dd_account_" + id).val());
             $("#directdeposit_account_type").val($("#dd_account_type_" + id).val());
@@ -660,7 +660,7 @@
             }
             
         } else {
-            $("#salary_set_direct_debit").removeAttr('checked');
+            $("#salary_set_direct_debit").prop('checked', false);
             $('#directDebitSection').hide();
             $('#notDirectDebitSection').show();
             clearDirectDepositFields();

@@ -4,18 +4,18 @@ function ohrmList_init() {
         
         var valueToSet = false;
         
-        if ($(this).attr('checked') == 'checked') {
+        if ($(this).prop('checked')) {
             valueToSet = true;
         }        
         
-        $('table.table input[id^="ohrmList_chkSelectRecord_"]').attr('checked', valueToSet);
+        $('table.table input[id^="ohrmList_chkSelectRecord_"]').prop('checked', valueToSet);
         
     });
 
     $('table.table input[id^="ohrmList_chkSelectRecord_"]').click(function() {
         var selectorCheckboxes = $('table.table input[id^="ohrmList_chkSelectRecord_"]');
         var isAllChecked = (selectorCheckboxes.size() == selectorCheckboxes.filter(':checked').size());
-        $('#ohrmList_chkSelectAll').attr('checked', isAllChecked);
+        $('#ohrmList_chkSelectAll').prop('checked', isAllChecked);
     });
 };
 

@@ -100,15 +100,13 @@ class ohrmWidgetCheckboxGroup extends sfWidgetFormSelectCheckbox {
 $(document).ready(function() {
 
     $('#{all.checkbox.id}').click(function() {
-       var checked = $(this).is(":checked");
-       $('#{container.id} input[type="checkbox"]').attr('checked', checked);
+       $('#{container.id} input[type="checkbox"]').prop('checked', $(this).is(":checked"));
     });
                                 
     $('#{container.id} input[type="checkbox"]').click(function() {
         var notCheckedCount = $('#{container.id} input[name="{field.name}"]:not(:checked)').length;
-        var check = (notCheckedCount == 0);
 
-        $('#{all.checkbox.id}').attr('checked', check);
+        $('#{all.checkbox.id}').prop('checked', notCheckedCount === 0);
     });
 });
 

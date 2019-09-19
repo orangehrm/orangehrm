@@ -93,9 +93,9 @@ $(document).ready(function() {
 
     //on clicking of delete button
     $("#btnDelete").click(function() {
-        var ticks = $('input[@class=check]:checked').length;
+        var ticks = $('td.check > input:checked:not(#immigrationCheckAll)').length;
 
-        if(ticks > 1) {
+        if(ticks > 0) {
             $("#frmImmigrationDelete").submit();
             return;
         }
@@ -119,26 +119,26 @@ $(document).ready(function() {
      
     //if check all button clicked
     $("#immigrationCheckAll").click(function() {
-        $("form#frmImmigrationDelete table tbody .checkbox").removeAttr("checked");
-        if($("#immigrationCheckAll").attr("checked")) {
-            $("form#frmImmigrationDelete table tbody .checkbox").attr("checked", "checked");
+        $("form#frmImmigrationDelete table tbody .checkbox").prop("checked", false);
+        if($("#immigrationCheckAll").prop("checked")) {
+            $("form#frmImmigrationDelete table tbody .checkbox").prop("checked", true);
         }
         
-        if($('form#frmImmigrationDelete table tbody .checkbox:checkbox:checked').length > 0) {
-            $('#btnDelete').removeAttr('disabled');
+        if ($('form#frmImmigrationDelete table tbody .checkbox:checkbox:checked').length > 0) {
+            $('#btnDelete').prop('disabled', false);
         } else {
-            $('#btnDelete').attr('disabled', 'disabled');
+            $('#btnDelete').prop('disabled', true);
         }
     });
 
     //remove tick from the all button if any checkbox unchecked
     $("form#frmImmigrationDelete table tbody .checkbox").click(function() {
-        $("#immigrationCheckAll").removeAttr('checked');
+        $("#immigrationCheckAll").prop('checked', false);
         if($("form#frmImmigrationDelete table tbody .checkbox").length == $("form#frmImmigrationDelete table tbody .checkbox:checked").length) {
-            $("#immigrationCheckAll").attr('checked', 'checked');
+            $("#immigrationCheckAll").prop('checked', true);
         }
         
-        if($('form#frmImmigrationDelete table tbody .checkbox:checkbox:checked').length > 0) {
+        if ($('form#frmImmigrationDelete table tbody .checkbox:checkbox:checked').length > 0) {
             $('#btnDelete').removeAttr('disabled');
         } else {
             $('#btnDelete').attr('disabled', 'disabled');
