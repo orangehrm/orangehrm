@@ -1,0 +1,70 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+?>
+<?php use_javascripts_for_form($form); ?>
+<?php use_stylesheets_for_form($form); ?>
+
+<?php if ($form->hasErrors()): ?>
+    <span class="error">
+<?php
+echo $form->renderGlobalErrors();
+
+foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
+    echo $form[$widgetName]->renderError();
+}
+?>
+</span>
+<?php endif; ?>
+
+<div class="box">
+
+        <div id="addPaneDependent">
+            <div class="head">
+                <h1 id="heading"><?php echo __('Subscribe'); ?></h1>
+            </div>
+
+            <div class="inner">
+                <form name="frmEmpDependent" id="frmEmpDependent" method="post" action="<?php echo url_for('pim/updateDependent?empNumber=' . $empNumber); ?>">
+                    <?php echo $form['_csrf_token']; ?>
+                    <?php echo $form["empNumber"]->render(); ?>
+                    <fieldset>
+                        <ol>
+                            <li>
+                                <?php echo $form['name']->renderLabel(__('Name') . ' <em>*</em>'); ?>
+                                <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
+                            </li>
+                            <li>
+                                <?php echo $form['email']->renderLabel(__('Email') . ' <em>*</em>'); ?>
+                                <?php echo $form['email']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
+                            </li>
+                            <li class="required">
+                                <em>*</em><?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                            </li>
+                        </ol>
+                        <p>
+                            <input type="button" class="" name="btnSaveDependent" id="btnSaveDependent" value="<?php echo __("Save"); ?>"/>
+                            <input type="button" id="btnCancel" class="reset" value="<?php echo __("Cancel"); ?>"/>
+                        </p>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+</div>
+
