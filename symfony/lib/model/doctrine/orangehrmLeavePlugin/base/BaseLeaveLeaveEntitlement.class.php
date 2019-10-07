@@ -8,17 +8,17 @@
  * @property int                    $id                        Type: integer(4), primary key
  * @property int                    $leave_id                  Type: integer(4)
  * @property int                    $entitlement_id            Type: integer(4)
- * @property float                  $length_days               Type: decimal(4)
+ * @property float                  $length_days               Type: decimal(6)
  *  
  * @method int                      getId()                    Type: integer(4), primary key
  * @method int                      getLeaveId()               Type: integer(4)
  * @method int                      getEntitlementId()         Type: integer(4)
- * @method float                    getLengthDays()            Type: decimal(4)
+ * @method float                    getLengthDays()            Type: decimal(6)
  *  
  * @method LeaveLeaveEntitlement    setId(int $val)            Type: integer(4), primary key
  * @method LeaveLeaveEntitlement    setLeaveId(int $val)       Type: integer(4)
  * @method LeaveLeaveEntitlement    setEntitlementId(int $val) Type: integer(4)
- * @method LeaveLeaveEntitlement    setLengthDays(float $val)  Type: decimal(4)
+ * @method LeaveLeaveEntitlement    setLengthDays(float $val)  Type: decimal(6)
  *  
  * @package    orangehrm
  * @subpackage model
@@ -56,15 +56,15 @@ abstract class BaseLeaveLeaveEntitlement extends sfDoctrineRecord
              'autoincrement' => false,
              'length' => 4,
              ));
-        $this->hasColumn('length_days', 'decimal', 4, array(
+        $this->hasColumn('length_days', 'decimal', 6, array(
              'type' => 'decimal',
              'fixed' => 0,
              'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => 4,
-             'scale' => '2',
+             'length' => 6,
+             'scale' => '4',
              ));
     }
 

@@ -311,14 +311,14 @@ Leave:
       notnull: false
       autoincrement: false
     length_hours:
-      type: 'decimal(6, 2)'
+      type: 'decimal(6, 4)'
       fixed: false
       unsigned: true
       primary: false
       notnull: false
       autoincrement: false
     length_days:
-      type: 'decimal(4, 2)'
+      type: 'decimal(6, 4)'
       fixed: false
       unsigned: true
       primary: false
@@ -415,7 +415,7 @@ LeaveLeaveEntitlement:
       notnull: false
       autoincrement: false
     length_days:
-      type: 'decimal(4, 2)'
+      type: 'decimal(6, 4)'
       fixed: false
       unsigned: true
       primary: false

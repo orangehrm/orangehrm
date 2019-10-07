@@ -8,7 +8,7 @@
  * @property int                                     $id                                            Type: integer(4), primary key
  * @property string                                  $date                                          Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
  * @property float                                   $length_hours                                  Type: decimal(6)
- * @property float                                   $length_days                                   Type: decimal(4)
+ * @property float                                   $length_days                                   Type: decimal(6)
  * @property int                                     $status                                        Type: integer(2)
  * @property string                                  $comments                                      Type: string(256)
  * @property int                                     $leave_request_id                              Type: integer(4)
@@ -25,7 +25,7 @@
  * @method int                                       getId()                                        Type: integer(4), primary key
  * @method string                                    getDate()                                      Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
  * @method float                                     getLengthHours()                               Type: decimal(6)
- * @method float                                     getLengthDays()                                Type: decimal(4)
+ * @method float                                     getLengthDays()                                Type: decimal(6)
  * @method int                                       getStatus()                                    Type: integer(2)
  * @method string                                    getComments()                                  Type: string(256)
  * @method int                                       getLeaveRequestId()                            Type: integer(4)
@@ -42,7 +42,7 @@
  * @method Leave                                     setId(int $val)                                Type: integer(4), primary key
  * @method Leave                                     setDate(string $val)                           Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
  * @method Leave                                     setLengthHours(float $val)                     Type: decimal(6)
- * @method Leave                                     setLengthDays(float $val)                      Type: decimal(4)
+ * @method Leave                                     setLengthDays(float $val)                      Type: decimal(6)
  * @method Leave                                     setStatus(int $val)                            Type: integer(2)
  * @method Leave                                     setComments(string $val)                       Type: string(256)
  * @method Leave                                     setLeaveRequestId(int $val)                    Type: integer(4)
@@ -91,17 +91,17 @@ abstract class BaseLeave extends sfDoctrineRecord
              'notnull' => false,
              'autoincrement' => false,
              'length' => 6,
-             'scale' => '2',
+             'scale' => '4',
              ));
-        $this->hasColumn('length_days', 'decimal', 4, array(
+        $this->hasColumn('length_days', 'decimal', 6, array(
              'type' => 'decimal',
              'fixed' => 0,
              'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => 4,
-             'scale' => '2',
+             'length' => 6,
+             'scale' => '4',
              ));
         $this->hasColumn('status', 'integer', 2, array(
              'type' => 'integer',
