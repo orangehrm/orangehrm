@@ -71,10 +71,8 @@ class APIManagerService
      */
     public function getAddonsFromMP($includeDescription = false)
     {
-        $token = $this->getApiToken();
         $headers = array(
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token
+            'Accept' => 'application/json'
         );
         $queryParams = [
             'version' => $this->getVersion(),
