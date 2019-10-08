@@ -35,13 +35,13 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
 <div class="box">
 
-        <div id="addPaneDependent">
+        <div id="addSubscribe">
             <div class="head">
                 <h1 id="heading"><?php echo __('Subscribe'); ?></h1>
             </div>
 
             <div class="inner">
-                <form name="frmEmpDependent" id="frmEmpDependent" method="post" action="<?php echo url_for('pim/updateDependent?empNumber=' . $empNumber); ?>">
+                <form name="frmSubscribe" id="frmSubscribe" method="post" action="<?php echo url_for('pim/subscriber?empNumber=' . $empNumber); ?>">
                     <?php echo $form['_csrf_token']; ?>
                     <?php echo $form["empNumber"]->render(); ?>
                     <fieldset>
@@ -59,7 +59,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                             </li>
                         </ol>
                         <p>
-                            <input type="button" class="" name="btnSaveDependent" id="btnSaveDependent" value="<?php echo __("Save"); ?>"/>
+                            <input type="button" class="" name="btnSaveDependent" id="btnSubscribe" value="<?php echo __("Subscribe"); ?>"/>
                             <input type="button" id="btnCancel" class="reset" value="<?php echo __("Cancel"); ?>"/>
                         </p>
                     </fieldset>
@@ -67,4 +67,17 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             </div>
         </div>
 </div>
+<script type="text/javascript">
+    //<![CDATA[
+    //we write javascript related stuff here, but if the logic gets lengthy should use a separate js file
+    $(document).ready(function() {
 
+        $("#btnSubscribe").click(function() {
+                $("#frmSubscribe").submit();
+        });
+        $("#btnCancel").click(function() {
+            $("#frmSubscribe").resetForm();
+        });
+    });
+    //]]>
+</script>

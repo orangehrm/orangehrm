@@ -47,6 +47,11 @@ class subscriberAction extends basePimAction {
 
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $this->form = new EmployeeSubscriberForm(array(), ['empNumber' => $loggedInEmpNum], true);
+        $this->empNumber = $loggedInEmpNum;
+
+        if ($request->isMethod('post')) {
+
+        }
     }
 
 }

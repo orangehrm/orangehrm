@@ -48,11 +48,16 @@ class EmployeeSubscriberForm extends sfForm {
      */
     private function getWidgets() {
         $empNumber = $this->getOption('empNumber');
+
+        $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $widgets = [];
 
         $widgets['empNumber'] = new sfWidgetFormInputHidden([], ['value' => $empNumber]);
         $widgets['name'] = new sfWidgetFormInputText();
         $widgets['email'] = new sfWidgetFormInputText();
+
+        $widgets['name']->setDefault($employee->getFullName());
+        $widgets['email']->setDefault($employee->getEmpWorkEmail());
 
         return $widgets;
     }
