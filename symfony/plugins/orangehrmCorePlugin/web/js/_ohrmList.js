@@ -14,7 +14,7 @@ function ohrmList_init() {
 
     $('table.table input[id^="ohrmList_chkSelectRecord_"]').click(function() {
         var selectorCheckboxes = $('table.table input[id^="ohrmList_chkSelectRecord_"]');
-        var isAllChecked = (selectorCheckboxes.size() == selectorCheckboxes.filter(':checked').size());
+        var isAllChecked = (selectorCheckboxes.length == selectorCheckboxes.filter(':checked').length);
         $('#ohrmList_chkSelectAll').prop('checked', isAllChecked);
     });
 };

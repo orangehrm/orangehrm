@@ -48,7 +48,7 @@ $(document).ready(function() {
                 element = $(this)
                 if($( element).is(':checked')){
                     var array=$(element).parent().attr('id').split("_");
-                    if((array!="") && ($(".toDelete").size()==1)){
+                    if((array!="") && ($(".toDelete").length==1)){
                         var csrfToken = $('#defaultList__csrf_token').val();
                         var projectId=array[0];
                         var activityId=array[1];
@@ -64,15 +64,15 @@ $(document).ready(function() {
                         });
                         $('form#timesheetForm').submit();
                     }
-                    else if((array=="") && ($(".toDelete").size()==1)){
+                    else if((array=="") && ($(".toDelete").length==1)){
                         _showMessage('warning', lang_noChagesToDelete);
                     }
-                    else if((array=="") && ($(".toDelete").size()!=1)){
+                    else if((array=="") && ($(".toDelete").length!=1)){
                         $(".messageBalloon_warning").remove();
                         _showMessage('success', lang_removeSuccess);
                         $(element).parent().parent().remove();
                     }
-                    else if((array!="") && ($(".toDelete").size()!=1)){
+                    else if((array!="") && ($(".toDelete").length!=1)){
                         var csrfToken = $('#defaultList__csrf_token').val();
                         var projectId=array[0];
                         var activityId=array[1];
@@ -108,7 +108,7 @@ function addRow(num, startDate, endDate, employeeId, timesheetId) {
 function isRowsSelected(){
     var count=0;
     var errFlag=false;
-    //alert($(".toDelete").size());
+    //alert($(".toDelete").length);
     $(".toDelete").each(function(){
         element = $(this)
         if($( element).is(':checked')){
@@ -129,7 +129,7 @@ function isDeleteAllRows(){
             count=count+1;
         }
     });
-    if($(".toDelete").size()==count){
+    if($(".toDelete").length==count){
         return true;
     }
     else{
