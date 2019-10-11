@@ -242,7 +242,7 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
     }
 
     public function isStatusDiffer() {
-
+        $this->_fetchLeave();
         if (count($this->getStatusCounter()) > 1) {
             return true;
         } else {
