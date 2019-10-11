@@ -41,6 +41,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             </div>
 
             <div class="inner">
+                <?php include_partial('global/flash_messages'); ?>
                 <form name="frmSubscribe" id="frmSubscribe" method="post" action="<?php echo url_for('pim/subscriber?empNumber=' . $empNumber); ?>">
                     <?php echo $form['_csrf_token']; ?>
                     <?php echo $form["empNumber"]->render(); ?>

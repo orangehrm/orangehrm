@@ -50,7 +50,9 @@ class subscriberAction extends basePimAction {
         $this->empNumber = $loggedInEmpNum;
 
         if ($request->isMethod('post')) {
-
+            $sunscriberService = new EmployeeSubscriptionService();
+            $sunscriberService->subscribe($loggedInEmpNum);
+            $this->getUser()->setFlash('success', __("Successfully subscribed"));
         }
     }
 

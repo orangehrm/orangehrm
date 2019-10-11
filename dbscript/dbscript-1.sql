@@ -1244,7 +1244,7 @@ create table `ohrm_advanced_report` (
 
 CREATE TABLE ohrm_employee_subscription (
   `id` int unsigned not null auto_increment,
-  `emp_number` int(7) not null,
+  `employee_id` int(7) not null,
   `status` smallint(6) NOT NULL,
   `created_at` date NOT NULL,
   PRIMARY KEY(`id`)
