@@ -225,7 +225,10 @@ class viewLeaveListAction extends baseLeaveAction {
                 ));
 
 
-        $result = $this->searchLeaveRequests($searchParams, $page);
+        $leaveStatusChoices = Leave::getStatusTextList();
+        $allStatuses = array_keys($leaveStatusChoices);
+        $prefetchLeave = count($allStatuses) === count(array_intersect($allStatuses, $statuses));
+        $result = $this->searchLeaveRequests($searchParams, $page, $prefetchLeave);
         $list = $result['list'];
         $recordCount = $result['meta']['record_count'];
 
@@ -259,8 +262,8 @@ class viewLeaveListAction extends baseLeaveAction {
         $this->setTemplate('viewLeaveList');
     }
 
-    protected function searchLeaveRequests($searchParams, $page) {
-        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page, false, false, true, true, false);
+    protected function searchLeaveRequests($searchParams, $page, $prefetchLeave = true) {
+        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page, false, false, $prefetchLeave, true, false);
         return $result;
     }
 
