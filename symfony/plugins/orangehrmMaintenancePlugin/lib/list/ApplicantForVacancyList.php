@@ -43,9 +43,7 @@ class ApplicantForVacancyList extends ohrmListConfigurationFactory
      */
     public function getClassName()
     {
-        return 'JobVacancy';
+        return 'Candidate';
     }
 
 }
-
-?>
