@@ -163,7 +163,7 @@ Candidate:
   buttonsPosition: before-data
   formMethod: post
   formAction: 'recruitment/deleteCandidateVacancies'
-  assets:
+  assets: []
   jsInitMethods: []
 
 JobVacancy:
