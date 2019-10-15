@@ -19,13 +19,16 @@
  */
 class EmployeeSubscriberForm extends sfForm {
 
-    private $employeeService;
+    /**
+     * @var EmployeeService
+     */
+    private $employeeService = null;
 
     /**
      * Get EmployeeService
      * @returns EmployeeService
      */
-    public function getEmployeeService() {
+    public function getEmployeeService(): EmployeeService {
         if (is_null($this->employeeService)) {
             $this->employeeService = new EmployeeService();
             $this->employeeService->setEmployeeDao(new EmployeeDao());
@@ -34,11 +37,14 @@ class EmployeeSubscriberForm extends sfForm {
         return $this->employeeService;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function configure() {
         $this->setWidgets($this->getWidgets());
         $this->setValidators($this->getValidators());
 
-        $this->widgetSchema->setNameFormat('subscrib[%s]');
+        $this->widgetSchema->setNameFormat('subscriber[%s]');
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
     }
 
@@ -46,7 +52,7 @@ class EmployeeSubscriberForm extends sfForm {
      * Get widgets
      * @return array of widget objects
      */
-    private function getWidgets() {
+    private function getWidgets(): array {
         $empNumber = $this->getOption('empNumber');
 
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
@@ -66,11 +72,12 @@ class EmployeeSubscriberForm extends sfForm {
      * Get Validators
      * @return \sfValidatorString
      */
-    private function getValidators() {
+    private function getValidators(): array {
 
         return [
+            'empNumber' => new sfValidatorString(array('required' => true)),
             'name'       => new sfValidatorString(array('required' => true, 'max_length' => 13)),
-            'email'       => new sfValidatorString(array('required' => true, 'max_length' => 13)),
+            'email'       => new sfValidatorEmail(array('required' => true, 'max_length' => 100, 'trim' => true)),
         ];
     }
 
@@ -78,7 +85,7 @@ class EmployeeSubscriberForm extends sfForm {
      *
      * @return array
      */
-    protected function getFormLabels() {
+    protected function getFormLabels(): array {
         $required = '<em> *</em>';
 
         return [

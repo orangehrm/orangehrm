@@ -21,20 +21,9 @@
 <?php use_javascripts_for_form($form); ?>
 <?php use_stylesheets_for_form($form); ?>
 
-<?php if ($form->hasErrors()): ?>
-    <span class="error">
-<?php
-echo $form->renderGlobalErrors();
 
-foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
-    echo $form[$widgetName]->renderError();
-}
-?>
-</span>
-<?php endif; ?>
 
 <div class="box">
-
         <div id="addSubscribe">
             <div class="head">
                 <h1 id="heading"><?php echo __('Subscribe'); ?></h1>
@@ -42,6 +31,9 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
             <div class="inner">
                 <?php include_partial('global/flash_messages'); ?>
+                <?php if ($form->hasErrors()): ?>
+                    <?php include_partial('global/form_errors', array('form' => $form)); ?>
+                <?php endif; ?>
                 <form name="frmSubscribe" id="frmSubscribe" method="post" action="<?php echo url_for('pim/subscriber?empNumber=' . $empNumber); ?>">
                     <?php echo $form['_csrf_token']; ?>
                     <?php echo $form["empNumber"]->render(); ?>

@@ -20,22 +20,47 @@
 class EmployeeSubscriptionService extends BaseService {
 
     /**
-     * Subscribe Employee into the mail service
-     *
-     * @param int $empId
+     * @var sysConf
+     */
+    private $sysConf = null;
+
+    /**
+     * @param int    $empId
+     * @param string $name
+     * @param string $email
+     * @param string $instanceId
      *
      * @return bool
+     * @throws Exception
      */
-    public function subscribe( int $empId): bool {
-        $employeeSubscription =  $this->getEmployeeSubscription($empId);
+    public function subscribe(int $empId, string $name, string $email): bool {
+        $employeeSubscription = $this->getEmployeeSubscription($empId);
         $employeeSubscription->setEmployeeId($empId);
         $employeeSubscription->setStatus(1);
         $employeeSubscription->setCreatedAt(date('Y-m-d'));
         $employeeSubscription->save();
 
-        return true;
+        //send info into remote server
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->getSysConf()->getRegistrationUrl() . '/subscribe.php');
+        curl_setopt($ch, CURLOPT_POST, 1);
 
-        //@todo send api request to external service
+        $data = "name=" . $name
+            . "&email=" . $email
+            . "&instance_id=" . $this->getInstanceId();
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if (!($http_status === 200)) {
+            return false;
+        }
+        else {
+
+            return true;
+        }
     }
 
     /**
@@ -46,13 +71,12 @@ class EmployeeSubscriptionService extends BaseService {
      * @return bool
      */
     public function unsubscribe(int $empId): bool {
-        $employeeSubscription =  $this->getEmployeeSubscription($empId);
+        $employeeSubscription = $this->getEmployeeSubscription($empId);
         $employeeSubscription->setEmployeeid($empId);
         $employeeSubscription->setStatus(0);
         $employeeSubscription->save();
 
         return true;
-
         //@todo send api request to external service
     }
 
@@ -66,11 +90,57 @@ class EmployeeSubscriptionService extends BaseService {
             ->from('EmployeeSubscription')
             ->where('employee_id = ?', $empId);
 
-        $employeeSubscription =  $q->fetchOne();
-        if(empty($employeeSubscription)) {
+        $employeeSubscription = $q->fetchOne();
+        if (empty($employeeSubscription)) {
             $employeeSubscription = new EmployeeSubscription();
         }
+
         return $employeeSubscription;
     }
 
+    /**
+     * Check emloyee already subscribed
+     *
+     * @param int $empId
+     *
+     * @return bool
+     * @throws Doctrine_Query_Exception
+     */
+    public function isSubscribed(int $empId): bool {
+        $q = Doctrine_Query::create()
+            ->from('EmployeeSubscription')
+            ->where('employee_id = ?', $empId);
+
+        $employeeSubscription = $q->fetchOne();
+
+        if (!empty($employeeSubscription)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get instance of sysConf
+     * @return null|sysConf
+     */
+    private function getSysConf(): sysConf {
+        require_once(sfConfig::get('sf_root_dir') . "/../lib/confs/sysConf.php");
+
+        if (is_null($this->sysConf)) {
+            $this->sysConf = new sysConf();
+        }
+
+        return $this->sysConf;
+    }
+
+    /**
+     * @return string
+     * @throws CoreServiceException
+     */
+    private function getInstanceId(): string {
+        $configService = new ConfigService();
+
+        return $configService->getInstanceIdentifier();
+    }
 }

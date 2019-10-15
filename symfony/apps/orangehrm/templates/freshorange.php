@@ -3,6 +3,7 @@
 // Allow header partial to be overridden in individual actions
 // Can be overridden by: slot('header', get_partial('module/partial'));
 include_slot('header', get_partial('global/header'));
+$subscribed = $sf_user->isSubscribed();
 ?>
 
     </head>
@@ -13,13 +14,18 @@ include_slot('header', get_partial('global/header'));
             <div id="branding">
                 <a href="http://www.orangehrm.com/" target="_blank"><img src="<?php echo theme_path('images/logo.png')?>" width="283" height="56" alt="OrangeHRM"/></a>
                 <a href="#" id="welcome" class="panelTrigger"><?php echo __("Welcome %username%", array("%username%" => $sf_user->getAttribute('auth.firstName'))); ?></a>
-
-                <div id="MP_btn">
-                    <input id="Subscriber_link" type="button" class="button" value="<?php echo __('Subscribe'); ?>"/>
-                </div>
-                <div style="float: right; padding-top: 58px;">
-                    <input id="MP_link" type="button" class="button" value="<?php echo __('Marketplace'); ?>"/>
-                </div>
+                <?php if(!$subscribed) { ?>
+                    <div id="MP_btn">
+                        <input id="Subscriber_link" type="button" class="button" value="<?php echo __('Subscribe'); ?>"/>
+                    </div>
+                    <div style="float: right; padding-top: 58px;">
+                        <input id="MP_link" type="button" class="button" value="<?php echo __('Marketplace'); ?>"/>
+                    </div>
+                <?php } else {?>
+                    <div id="MP_btn">
+                        <input id="MP_link" type="button" class="button" value="<?php echo __('Marketplace'); ?>"/>
+                    </div>
+                <?php } ?>
                 <script>
                     var marketplaceURL = "<?php echo url_for('marketPlace/ohrmAddons'); ?>";
                     var SubscriberURL = "<?php echo url_for('pim/subscriber'); ?>";

@@ -19,13 +19,17 @@
  */
 class subscriberAction extends basePimAction {
 
-    private $employeeService;
+    /**
+     * @var EmployeeService
+     */
+    private $employeeService = null;
+
 
     /**
      * Get EmployeeService
      * @returns EmployeeService
      */
-    public function getEmployeeService() {
+    public function getEmployeeService(): EmployeeService {
         if (is_null($this->employeeService)) {
             $this->employeeService = new EmployeeService();
             $this->employeeService->setEmployeeDao(new EmployeeDao());
@@ -35,24 +39,29 @@ class subscriberAction extends basePimAction {
     }
 
     /**
-     * Set EmployeeService
+     * @param $request
      *
-     * @param EmployeeService $employeeService
+     * @throws Exception
      */
-    public function setEmployeeService(EmployeeService $employeeService) {
-        $this->employeeService = $employeeService;
-    }
-
     public function execute($request) {
-
+        $subscriberService = new EmployeeSubscriptionService();
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $this->form = new EmployeeSubscriberForm(array(), ['empNumber' => $loggedInEmpNum], true);
+
         $this->empNumber = $loggedInEmpNum;
 
         if ($request->isMethod('post')) {
-            $sunscriberService = new EmployeeSubscriptionService();
-            $sunscriberService->subscribe($loggedInEmpNum);
-            $this->getUser()->setFlash('success', __("Successfully subscribed"));
+
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $data = $this->form->getValues();
+
+                $subscriberService->subscribe(
+                    $loggedInEmpNum,
+                    $data['name'], $data['email']
+                );
+                $this->getUser()->setFlash('success', __("Successfully subscribed"));
+            }
         }
     }
 
