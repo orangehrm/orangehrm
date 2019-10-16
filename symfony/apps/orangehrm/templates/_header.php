@@ -25,11 +25,7 @@ $cultureElements = explode('_', $sf_user->getCulture());
         <?php       
         // Library JavaScript files
 
-        //echo javascript_include_tag('jquery/jquery-1.7.2.min.js');
-        //echo javascript_include_tag('jquery/jquery-1.12.4.js');
-        echo javascript_include_tag('jquery/jquery-3.4.1.js');
-        //echo javascript_include_tag('jquery/jquery-migrate-1.4.1.js');
-        //echo javascript_include_tag('jquery/jquery-migrate-3.1.0.min.js');
+        echo javascript_include_tag('jquery/jquery-3.4.1.min.js');
 
         echo javascript_include_tag('jquery/validate/jquery.validate.js');
         
