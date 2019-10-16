@@ -143,6 +143,12 @@ class APIManagerService
      */
     public function getApiToken()
     {
+        if (sfContext::getInstance()->getUser()->hasAttribute('marketplace_access_token_details')) {
+            $tokenDetails = sfContext::getInstance()->getUser()->getAttribute('marketplace_access_token_details');
+            if (time() < $tokenDetails['expiresAt']) {
+                return $tokenDetails['accessToken'];
+            }
+        }
         if (!$this->hasHandShook()) {
             $this->handShakeWithMarketPlace();
         }
@@ -161,6 +167,10 @@ class APIManagerService
         );
         if ($response->getStatusCode() == 200) {
             $body = json_decode($response->getBody(), true);
+            sfContext::getInstance()->getUser()->setAttribute('marketplace_access_token_details', [
+                'accessToken' => $body['access_token'],
+                'expiresAt' => time() + $body['expires_in']
+            ]);
             return $body['access_token'];
         }
     }
