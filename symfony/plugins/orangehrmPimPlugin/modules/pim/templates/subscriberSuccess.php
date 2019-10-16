@@ -18,11 +18,6 @@
  *
  */
 ?>
-<?php use_javascripts_for_form($form); ?>
-<?php use_stylesheets_for_form($form); ?>
-
-
-
 <div class="box">
         <div id="addSubscribe">
             <div class="head">
@@ -35,8 +30,7 @@
                     <?php include_partial('global/form_errors', array('form' => $form)); ?>
                 <?php endif; ?>
                 <form name="frmSubscribe" id="frmSubscribe" method="post" action="<?php echo url_for('pim/subscriber?empNumber=' . $empNumber); ?>">
-                    <?php echo $form['_csrf_token']; ?>
-                    <?php echo $form["empNumber"]->render(); ?>
+                    <?php echo $form->renderHiddenFields(); ?>
                     <fieldset>
                         <ol>
                             <li>
@@ -61,16 +55,30 @@
         </div>
 </div>
 <script type="text/javascript">
+    var lang_languageRequired = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_languageEmail = '<?php echo __js(ValidationMessages::EMAIL_INVALID); ?>';
     //<![CDATA[
     //we write javascript related stuff here, but if the logic gets lengthy should use a separate js file
     $(document).ready(function() {
 
         $("#btnSubscribe").click(function() {
-                $("#frmSubscribe").submit();
+            $("#frmSubscribe").submit();
         });
         $("#btnCancel").click(function() {
             $("#frmSubscribe").resetForm();
         });
+
+        var subscribeValidator =
+            $("#frmSubscribe").validate({
+                rules: {
+                    'subscriber[name]': {required: true},
+                    'subscriber[email]': {required: true, email: true}
+                },
+                messages: {
+                    'subscriber[name]': {required: lang_languageRequired},
+                    'subscriber[email]': {required: lang_languageRequired, email: lang_languageEmail}
+                }
+            });
     });
     //]]>
 </script>

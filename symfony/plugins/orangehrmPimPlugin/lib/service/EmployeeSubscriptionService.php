@@ -45,22 +45,20 @@ class EmployeeSubscriptionService extends BaseService {
         curl_setopt($ch, CURLOPT_URL, $this->getSysConf()->getRegistrationUrl() . '/subscribe.php');
         curl_setopt($ch, CURLOPT_POST, 1);
 
-        $data = "name=" . $name
-            . "&email=" . $email
-            . "&instance_id=" . $this->getInstanceId();
-
+        $data = http_build_query(
+            [
+                'name'        => $name,
+                'email'       => $email,
+                'instance_id' => $this->getInstanceId(),
+            ]
+        );
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        if (!($http_status === 200)) {
-            return false;
-        }
-        else {
 
-            return true;
-        }
+        return ($http_status === 200);
     }
 
     /**
@@ -113,19 +111,16 @@ class EmployeeSubscriptionService extends BaseService {
 
         $employeeSubscription = $q->fetchOne();
 
-        if (!empty($employeeSubscription)) {
-            return true;
-        }
-
-        return false;
+        return (!empty($employeeSubscription));
     }
-
     /**
      * Get instance of sysConf
      * @return null|sysConf
      */
     private function getSysConf(): sysConf {
-        require_once(sfConfig::get('sf_root_dir') . "/../lib/confs/sysConf.php");
+        if (!class_exists(sysConf)) {
+            require_once(sfConfig::get('sf_root_dir') . "/../lib/confs/sysConf.php");
+        }
 
         if (is_null($this->sysConf)) {
             $this->sysConf = new sysConf();

@@ -18,7 +18,7 @@ $subscribed = $sf_user->isSubscribed();
                     <div id="MP_btn">
                         <input id="Subscriber_link" type="button" class="button" value="<?php echo __('Subscribe'); ?>"/>
                     </div>
-                    <div style="float: right; padding-top: 58px;">
+                    <div id="mp_btn_inner">
                         <input id="MP_link" type="button" class="button" value="<?php echo __('Marketplace'); ?>"/>
                     </div>
                 <?php } else {?>
