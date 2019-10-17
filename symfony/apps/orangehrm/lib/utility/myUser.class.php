@@ -47,7 +47,7 @@ class myUser extends sfBasicSecurityUser {
      * @param mixed $credential Credential data.
      */
     public function addCredential($credential) {
-        
+
     }
 
     /**
@@ -55,7 +55,7 @@ class myUser extends sfBasicSecurityUser {
      * Not implemented
      */
     public function clearCredentials() {
-        
+
     }
 
     /**
@@ -72,7 +72,7 @@ class myUser extends sfBasicSecurityUser {
 
         $auth = Auth::instance();
 
-        // If not an array, check now and return    
+        // If not an array, check now and return
         if (!is_array($credentials)) {
             return $auth->hasRole($credentials);
         }
@@ -122,7 +122,7 @@ class myUser extends sfBasicSecurityUser {
      * @param mixed $credential  Credential data.
      */
     public function removeCredential($credential) {
-        
+
     }
 
     /**
@@ -131,25 +131,30 @@ class myUser extends sfBasicSecurityUser {
      * @param bool $authenticated  A flag indicating the authenticated status of this user.
      */
     public function setAuthenticated($authenticated) {
-        
+
     }
 
     public function getEmployeeNumber() {
         $auth = Auth::instance();
         return $auth->getEmployeeNumber();
     }
-    
+
     public function getUserTimeZoneOffset() {
         return $this->getAttribute('system.timeZoneOffset', 0);
     }
-    
+
     public function initialize(sfEventDispatcher $dispatcher, sfStorage $storage, $options = array()) {
         parent::initialize($dispatcher, $storage, $options);
         if ($this->isTimedOut()) {
             $authService = new AuthenticationService();
-            $authService->clearCredentials();    
+            $authService->clearCredentials();
             $_SESSION = array();
         }
+    }
+
+    public function isSubscribed() {
+        $subscriptionService = new EmployeeSubscriptionService();
+        return $subscriptionService->isSubscribed($this->getEmployeeNumber());
     }
 
 }

@@ -93,6 +93,7 @@
  * @property Doctrine_Collection|EmployeeWorkShift[]           $EmployeeWorkShift                                           
  * @property Doctrine_Collection|EmployeeEducation[]           $EmployeeEducation                                           
  * @property Doctrine_Collection|EmployeeEvent[]               $EmployeeEvent                                               
+ * @property Doctrine_Collection|EmployeeSubscription[]        $EmployeeSubscription                                        
  * @property Doctrine_Collection|JobVacancy[]                  $managedVacancies                                            
  * @property Doctrine_Collection|JobCandidate[]                $JobCandidate                                                
  * @property Doctrine_Collection|JobInterviewInterviewer[]     $JobInterviewInterviewer                                     
@@ -188,6 +189,7 @@
  * @method Doctrine_Collection|EmployeeWorkShift[]             getEmployeeWorkShift()                                       
  * @method Doctrine_Collection|EmployeeEducation[]             getEmployeeEducation()                                       
  * @method Doctrine_Collection|EmployeeEvent[]                 getEmployeeEvent()                                           
+ * @method Doctrine_Collection|EmployeeSubscription[]          getEmployeeSubscription()                                    
  * @method Doctrine_Collection|JobVacancy[]                    getManagedVacancies()                                        
  * @method Doctrine_Collection|JobCandidate[]                  getJobCandidate()                                            
  * @method Doctrine_Collection|JobInterviewInterviewer[]       getJobInterviewInterviewer()                                 
@@ -283,6 +285,7 @@
  * @method Employee                                            setEmployeeWorkShift(Doctrine_Collection $val)               
  * @method Employee                                            setEmployeeEducation(Doctrine_Collection $val)               
  * @method Employee                                            setEmployeeEvent(Doctrine_Collection $val)                   
+ * @method Employee                                            setEmployeeSubscription(Doctrine_Collection $val)            
  * @method Employee                                            setManagedVacancies(Doctrine_Collection $val)                
  * @method Employee                                            setJobCandidate(Doctrine_Collection $val)                    
  * @method Employee                                            setJobInterviewInterviewer(Doctrine_Collection $val)         
@@ -675,6 +678,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'foreign' => 'empNumber'));
 
         $this->hasMany('EmployeeEvent', array(
+             'local' => 'emp_number',
+             'foreign' => 'employee_id'));
+
+        $this->hasMany('EmployeeSubscription', array(
              'local' => 'emp_number',
              'foreign' => 'employee_id'));
 
