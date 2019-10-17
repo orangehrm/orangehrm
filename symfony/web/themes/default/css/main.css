@@ -131,7 +131,7 @@ textarea {
 .menu ul {
 	padding:0;
 	margin:0;
-	list-style:none; 
+	list-style:none;
 	padding:0 25px;
 }
 .menu > ul {
@@ -429,7 +429,7 @@ textarea {
 }
 .box ul.top {
 	float:right;
-	padding: 10px 0 0 ;    
+	padding: 10px 0 0 ;
 }
 .box ul.bottom {
 	float:right;
@@ -509,7 +509,7 @@ input:disabled, select:disabled, textarea:disabled {
 form ol {
 	border-bottom:1px solid #dedede;
 	overflow:hidden;
-    padding-bottom: 5px;  /* ruchira: fix overlap between validation error in last input field */    
+    padding-bottom: 5px;  /* ruchira: fix overlap between validation error in last input field */
     margin-bottom: 10px;
 }
 form ol li {
@@ -544,7 +544,7 @@ form ol li label.sublabel2 {
 }
 
  /* TODO: Check whether .label is in use */
-/* 
+/*
 form ol li .label {
 	display:block;
 	color:#5d5d5d;
@@ -756,7 +756,7 @@ form ol li label.hasTopFieldHelp {
 form ol li div.fieldDescription {
     margin-bottom: 5px;
 	color:#a9a9a9;
-	font-size:11px;    
+	font-size:11px;
 }
 form ol li div.fieldDescription em {
 	color:#aa4935;
@@ -766,8 +766,8 @@ form ol li ol.fieldsInLine li span.validation-error {
     top: 38px;
 }
 /* ------------- Button hovering styles ------------- */
-/* 
- * Button hovering effects 
+/*
+ * Button hovering effects
  * Note: we are not using pure css using :hover because :hover applies to even disabled elements.
  * The pseudo class :enabled is not supported in IE < 9.
  */
@@ -830,7 +830,7 @@ input[type=submit].reset {
 }
 .searchForm form ol li select {
 	float:left;
-	width:84%;    
+	width:84%;
 }
 .searchForm form ol li input.calendar {
 	width:165px;
@@ -932,7 +932,7 @@ form ol li input.time_range_duration {
 table.table {
     width: 100%;
     border-spacing:0;
-    border-collapse:collapse;    
+    border-collapse:collapse;
 }
 table.table th {
 	background:#f28c38;
@@ -1015,8 +1015,8 @@ table tfoot tr.total td strong {
 	font-weight:bold;
 	color:#fff;
 }
-table.hover tr:hover, 
-table.hover tr:hover td, 
+table.hover tr:hover,
+table.hover tr:hover td,
 table.hover tr:hover td table tbody tr,
 table.hover tr:hover td table tbody tr td {
     background-color:#CCC;
@@ -1025,7 +1025,7 @@ table.data th { /* Used in performance/performanceReview */
     background: #FFFFFF;
     color: inherit;
     border: none;
-    font-weight: bold;    
+    font-weight: bold;
 }
 
 /* ================ Table styles: End ================ */
@@ -1149,13 +1149,13 @@ form span.validation-error {
     color: #aa4935;
 }
 form ol li span.validation-error {
-    font-size: 12px;    
+    font-size: 12px;
 	display:block;
 	/*z-index:9999; This makes error to appear over menu */
 	position:absolute;
 	top:21px;
 	left:150px;
-    margin-top: 6px; 
+    margin-top: 6px;
 }
 form table span.validation-error {  /* Used in performance/performanceReview */
     font-size: 12px;
@@ -1184,22 +1184,22 @@ ul.error_list li { /* For Symfony form errors. Used in PIM Define Reports */
     color: #aa4935;
 }
 .score { /* Used for password strength indicator */
-    float:left; 
-    margin-left:5px; 
-    padding:2px; 
-    margin-top:5px; 
-    font-weight: bold;  
-    width:100px; 
-    text-align:center; 
+    float:left;
+    margin-left:5px;
+    padding:2px;
+    margin-top:5px;
+    font-weight: bold;
+    width:100px;
+    text-align:center;
 }
 .scoreSec { /* Used for password strength indicator */
-    float:left; 
-    margin-left:5px; 
-    padding:2px; 
-    margin-top:5px; 
-    font-weight: bold;  
-    width:100px; 
-    text-align:center; 
+    float:left;
+    margin-left:5px;
+    padding:2px;
+    margin-top:5px;
+    font-weight: bold;
+    width:100px;
+    text-align:center;
 }
 /* ================ Field level message styles: End ================ */
 
@@ -1232,7 +1232,7 @@ ul.error_list li { /* For Symfony form errors. Used in PIM Define Reports */
 	position:absolute;
 	top:21px;
 	left:115px;
-    margin-top: 6px; 
+    margin-top: 6px;
 }
 .modal-open form ol li.largeTextBox span.validation-error {
     font-size: 12px;
@@ -1241,7 +1241,7 @@ ul.error_list li { /* For Symfony form errors. Used in PIM Define Reports */
 	position:absolute;
 	top:105px;
 	left:115px;
-    margin-top: 6px; 
+    margin-top: 6px;
 }
 .modal-backdrop {
   position: fixed;
@@ -1306,7 +1306,7 @@ ul.error_list li { /* For Symfony form errors. Used in PIM Define Reports */
 
 .modal.large {
   width: 800px;
-  left: 40%;  
+  left: 40%;
 }
 
 .modal-header {
@@ -1627,7 +1627,7 @@ div#timesheet table.table tbody tr td.comments, div#edit-timesheet table.table t
 	color:#aa4935;
 }
 .pimPane form ol li label { /* Used in attachments */
-    margin-top: 0; 
+    margin-top: 0;
 }
 .pimPane div.imageHolder {
     height: 200px;
@@ -1640,7 +1640,7 @@ div#timesheet table.table tbody tr td.comments, div#edit-timesheet table.table t
 	border-bottom-right-radius: 3px;
 	-moz-border-radius-bottomleft: 3px;
 	-webkit-border-bottom-left-radius: 3px;
-	border-bottom-left-radius: 3px;    
+	border-bottom-left-radius: 3px;
 }
 /* ================ PIM styles: End ================ */
 
@@ -1745,6 +1745,11 @@ div.personalDetails {
 
 .requested {
 	background-color: #808080 !important;
+}
+
+#mp_btn_inner {
+	float: right;
+	padding-top: 58px;
 }
 /* ================ Marketplace styles: End ================ */
 

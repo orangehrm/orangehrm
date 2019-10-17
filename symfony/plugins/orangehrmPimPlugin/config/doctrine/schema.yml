@@ -185,7 +185,7 @@ Employee:
       class: EmpContract
       local: emp_number
       foreign: emp_number
-      type: many      
+      type: many
     attachments:
       class: EmployeeAttachment
       local: emp_number
@@ -398,7 +398,7 @@ EmpUsTaxExemption:
       foreign: empNumber
       type: one
 
-EmployeeSalary:     
+EmployeeSalary:
   tableName: hs_hr_emp_basicsalary
   columns:
     id:
@@ -408,18 +408,18 @@ EmployeeSalary:
       notnull: true
     emp_number as empNumber:
       type: integer(4)
-      notnull: true      
+      notnull: true
     sal_grd_code as payGradeId:
       type: integer
       default: null
     currency_id as currencyCode:
       type: string(6)
       notnull: true
-      default: ''      
+      default: ''
     ebsal_basic_salary as amount: string(100)
     payperiod_code as payPeriodId: string(13)
     salary_component as salaryName: string(100)
-    comments as notes: string(255)        
+    comments as notes: string(255)
   relations:
     currencyType:
       class: CurrencyType
@@ -440,13 +440,13 @@ EmployeeSalary:
       class: EmpDirectdebit
       local: id
       foreign: salary_id
-      type: one      
+      type: one
     payGrade:
       class: PayGrade
       local: payGradeId
       foreign: id
-      type: one  
-      
+      type: one
+
 EmpDirectdebit:
   tableName: hs_hr_emp_directdebit
   columns:
@@ -478,7 +478,7 @@ EmpDirectdebit:
       default: ''
       notnull: true
   relations:
-    salary: 
+    salary:
       class: EmployeeSalary
       local: salary_id
       foreign: id
@@ -524,7 +524,7 @@ EmployeeMembership:
     Employee:
       local: empNumber
       foreign: empNumber
-      type: one      
+      type: one
 
 ReportTo:
   tableName: hs_hr_emp_reportto
@@ -614,7 +614,7 @@ TerminationReason:
       local: id
       foreign: reasonId
       type: one
-      
+
 CustomField:
   tableName: hs_hr_custom_fields
   columns:
@@ -630,8 +630,8 @@ CustomField:
     screen:
       type: string(100)
       notnull: false
-    extra_data as extraData: string(250)      
-      
+    extra_data as extraData: string(250)
+
 EmployeeLanguage:
   tableName: hs_hr_emp_language
   columns:
@@ -658,7 +658,7 @@ EmployeeLanguage:
     Language:
       local: lang_id
       foreign: id
-      type: one      
+      type: one
 
 EmployeeLicense:
   tableName: ohrm_emp_license
@@ -671,7 +671,7 @@ EmployeeLicense:
       type: integer
       primary: true
     license_no as licenseNo:
-      type: string(50)      
+      type: string(50)
     license_issued_date as licenseIssuedDate: date
     license_expiry_date as licenseExpiryDate: date
   relations:
@@ -684,7 +684,7 @@ EmployeeLicense:
       local: license_id
       foreign: id
       type: one
-      
+
 EmployeeWorkShift:
   tableName: ohrm_employee_work_shift
   columns:
@@ -704,7 +704,7 @@ EmployeeWorkShift:
       local: emp_number
       foreign: empNumber
       type: one
-      
+
 EmployeeEducation:
   tableName: ohrm_emp_education
   columns:
@@ -716,7 +716,7 @@ EmployeeEducation:
       type: integer
     education_id as educationId:
       type: integer
-    institute: string(100)  
+    institute: string(100)
     major: string(100)
     year: decimal(4)
     score: string(25)
@@ -749,6 +749,24 @@ EmployeeEvent:
     created_date as createdDate: date(25)
     created_by as createdBy:
         type: string(45)
+  relations:
+    Employee:
+      local: employee_id
+      foreign: emp_number
+      type: one
+
+EmployeeSubscription:
+  tableName: ohrm_employee_subscription
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+    employee_id as employeeId:
+      type: integer(4)
+    status:
+      type: integer(4)
+    created_at as createdAt:
+      type: date(25)
   relations:
     Employee:
       local: employee_id
