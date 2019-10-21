@@ -72,12 +72,12 @@ class listCustomFieldsAction extends basePimAction {
             $customFieldsService = $this->getCustomFieldService();
             $this->sorter = new ListSorter('propoerty.sort', 'admin_module', $this->getUser(), array('field_num', ListSorter::ASCENDING));
 
-            $sortBy = 'name';
-            $sortOrder = 'ASC';
+            $sortByDefault = 'name';
+            $sortOrderDefault = 'ASC';
             
-            if ($request->getParameter('sort')) {
-                $sortBy = $request->getParameter('sort');
-                $sortOrder = $request->getParameter('order');
+            if ($request->getParameter('sort', $sortByDefault)) {
+                $sortBy = $request->getParameter('sort', $sortByDefault);
+                $sortOrder = $request->getParameter('order', $sortOrderDefault);
                 $this->sortField = $sortBy;
                 if (in_array($sortOrder, array(ListSorter::ASCENDING, ListSorter::DESCENDING))) {
                     $this->sortOrder = $sortOrder;
