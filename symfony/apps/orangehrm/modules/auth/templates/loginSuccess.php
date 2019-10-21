@@ -82,7 +82,7 @@ $loginImage = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . sfConfig::get(
     }
     
     function showMessage(message) {
-        if ($('#spanMessage').size() == 0) {
+        if ($('#spanMessage').length == 0) {
             $('<span id="spanMessage"></span>').insertAfter('#btnLogin');
         }
 
