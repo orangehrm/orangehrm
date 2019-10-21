@@ -127,11 +127,12 @@ class viewLeaveEntitlementsAction extends baseLeaveAction {
             } else {
                 $this->handleBadRequest();
             }
-        } else if ($request->hasParameter('savedsearch')) {
-            $filters = $this->getFilters();            
-            $this->showResultTable = true;
-
-            $this->setFormDefaults($filters);
+        } else if ($request->hasParameter('savedsearch') && $this->getUser()->hasAttribute(self::FILTERS_ATTRIBUTE_NAME, 'leave')) {
+            $filters = $this->getFilters();
+            if ($filters) {
+                $this->showResultTable = true;
+                $this->setFormDefaults($filters);
+            }
         } else if ($request->hasParameter('empNumber') 
                 && $request->hasParameter('fromDate')
                 && $request->hasParameter('toDate')
