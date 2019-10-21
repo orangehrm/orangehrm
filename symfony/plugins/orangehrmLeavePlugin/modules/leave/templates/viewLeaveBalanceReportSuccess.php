@@ -112,7 +112,7 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/viewLeaveBalanceRepo
                                     $link = $info['link'];
                                     if ($mode == 'my') {
                                         $link = str_replace('viewLeaveList', 'viewMyLeaveList', $link);
-                                        $link = str_replace('viewLeaveEntitlements', 'viewMyLeaveEntitlements', $link);
+                                        $link = str_replace('viewLeaveEntitlements?empNumber=$P{empNumber}', 'viewMyLeaveEntitlements?', $link);
                                     }
                                     $linkParts = explode('/', $link, 2);
                                     $module = $linkParts[0];
