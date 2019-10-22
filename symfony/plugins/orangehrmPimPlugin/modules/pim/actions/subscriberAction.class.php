@@ -44,8 +44,12 @@ class subscriberAction extends basePimAction {
      * @throws Exception
      */
     public function execute($request) {
+        $request->setParameter('initialActionName', '');
+
         $subscriberService = new EmployeeSubscriptionService();
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+
+        $this->isSubscribed = $subscriberService->isSubscribed($loggedInEmpNum);
         $this->form = new EmployeeSubscriberForm(array(), ['empNumber' => $loggedInEmpNum], true);
 
         $this->empNumber = $loggedInEmpNum;
@@ -60,7 +64,7 @@ class subscriberAction extends basePimAction {
                     $loggedInEmpNum,
                     $data['name'], $data['email']
                 );
-                $this->getUser()->setFlash('success', __("Successfully subscribed"));
+                $this->isSubscribed = true;
             }
         }
     }
