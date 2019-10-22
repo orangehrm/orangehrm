@@ -23,35 +23,41 @@
             <div class="head">
                 <h1 id="heading"><?php echo __('Subscribe'); ?></h1>
             </div>
+                <div class="inner">
+                    <?php include_partial('global/flash_messages'); ?>
+                    <?php if ($form->hasErrors()): ?>
+                        <?php include_partial('global/form_errors', array('form' => $form)); ?>
+                    <?php endif; ?>
+                    <?php if(!$isSubscribed) { ?>
+                    <form name="frmSubscribe" id="frmSubscribe" method="post" action="<?php echo url_for('pim/subscriber?empNumber=' . $empNumber); ?>">
+                        <?php echo $form->renderHiddenFields(); ?>
+                        <fieldset>
+                            <ol>
+                                <li>
+                                    <?php echo $form['name']->renderLabel(__('Name') . ' <em>*</em>'); ?>
+                                    <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
+                                </li>
+                                <li>
+                                    <?php echo $form['email']->renderLabel(__('Email') . ' <em>*</em>'); ?>
+                                    <?php echo $form['email']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
+                                </li>
+                                <li class="required">
+                                    <em>*</em><?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                                </li>
+                            </ol>
+                            <p>
+                                <input type="button" class="" name="btnSubscribe" id="btnSubscribe" value="<?php echo __("Subscribe"); ?>"/>
+                            </p>
+                        </fieldset>
+                    </form>
+                    <?php } else { ?>
+                        <div class="message success">
+                            <?php echo __("Successfully Subscribed"); ?>
+                        </div>
+                    <?php } ?>
+                </div>
 
-            <div class="inner">
-                <?php include_partial('global/flash_messages'); ?>
-                <?php if ($form->hasErrors()): ?>
-                    <?php include_partial('global/form_errors', array('form' => $form)); ?>
-                <?php endif; ?>
-                <form name="frmSubscribe" id="frmSubscribe" method="post" action="<?php echo url_for('pim/subscriber?empNumber=' . $empNumber); ?>">
-                    <?php echo $form->renderHiddenFields(); ?>
-                    <fieldset>
-                        <ol>
-                            <li>
-                                <?php echo $form['name']->renderLabel(__('Name') . ' <em>*</em>'); ?>
-                                <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
-                            </li>
-                            <li>
-                                <?php echo $form['email']->renderLabel(__('Email') . ' <em>*</em>'); ?>
-                                <?php echo $form['email']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
-                            </li>
-                            <li class="required">
-                                <em>*</em><?php echo __(CommonMessages::REQUIRED_FIELD); ?>
-                            </li>
-                        </ol>
-                        <p>
-                            <input type="button" class="" name="btnSaveDependent" id="btnSubscribe" value="<?php echo __("Subscribe"); ?>"/>
-                            <input type="button" id="btnCancel" class="reset" value="<?php echo __("Cancel"); ?>"/>
-                        </p>
-                    </fieldset>
-                </form>
-            </div>
+
         </div>
 </div>
 <script type="text/javascript">
@@ -63,9 +69,6 @@
 
         $("#btnSubscribe").click(function() {
             $("#frmSubscribe").submit();
-        });
-        $("#btnCancel").click(function() {
-            $("#frmSubscribe").resetForm();
         });
 
         var subscribeValidator =
