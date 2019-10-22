@@ -46,7 +46,7 @@
                                 </li>
                             </ol>
                             <p>
-                                <input type="button" class="" name="btnSaveDependent" id="btnSubscribe" value="<?php echo __("Subscribe"); ?>"/>
+                                <input type="button" class="" name="btnSubscribe" id="btnSubscribe" value="<?php echo __("Subscribe"); ?>"/>
                             </p>
                         </fieldset>
                     </form>
