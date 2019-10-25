@@ -35,10 +35,10 @@ class EditAttendanceRecordForm extends sfForm {
                 $this->setWidget('recordId_' . $i, new sfWidgetFormInputHidden());
                 $this->setWidget('InOffset_' . $i, new sfWidgetFormInputHidden());
                 $this->setWidget('OutOffset_' . $i, new sfWidgetFormInputHidden());
-                $this->setWidget('punchInDate_' . $i, new ohrmWidgetDatePicker(array(), array('id' => 'punchInDate_' . $i)));
+                $this->setWidget('punchInDate_' . $i, new sfWidgetFormInputText());
                 $this->setWidget('punchInTime_' . $i, new sfWidgetFormInputText());
                 $this->setWidget('inNote_' . $i, new sfWidgetFormInputText(array(), array('class' => 'inNote')));
-                $this->setWidget('punchOutDate_' . $i, new ohrmWidgetDatePicker(array(), array('id' => 'punchOutDate_' . $i)));
+                $this->setWidget('punchOutDate_' . $i, new sfWidgetFormInputText());
                 $this->setWidget('punchOutTime_' . $i, new sfWidgetFormInputText());
                 $this->setWidget('outNote_' . $i, new sfWidgetFormInputText(array(), array('class' => 'outNote')));
             }
