@@ -1,4 +1,4 @@
-var version = "4.3.3";
+var version = "4.3.4-beta.1";
 var elements = document.getElementsByClassName('version');
 for (var i = 0; i < elements.length; i++){
 	elements[i].innerHTML = version;

@@ -23,7 +23,7 @@ If Match <> "" Then
 		Pos = InStr(Match, " ")
 		ExeName = Left(Match, Pos-1)
 		If ExeName = "httpd.exe" Then
-			 ReturnVal = WshShell.Run("http://127.0.0.1/orangehrm-4.3.3/", 1, false)
+			 ReturnVal = WshShell.Run("http://127.0.0.1/orangehrm-4.3.4-beta.1/", 1, false)
 		Else
             Rtn = WshShell.Popup("Quit " & ExeName & " and restart OrangeHRM. Once OrangeHRM is started, you can start using " & ExeName & " again. Visit www.orangehrm.com/exe-faq.shtml for more details.", 0, "OrangeHRM", &H40)
 		End If	
