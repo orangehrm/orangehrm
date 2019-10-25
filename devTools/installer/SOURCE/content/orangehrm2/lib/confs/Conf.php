@@ -15,7 +15,7 @@ class Conf {
 		$this->dbname	= 'orangehrm_mysql';
 		$this->dbuser	= 'root';
 		$this->dbpass	= '';
-		$this->version = '4.3.3';
+		$this->version = '4.3.4-beta.1';
 
 		$this->emailConfiguration = dirname(__FILE__).'mailConf.php';
 		$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
