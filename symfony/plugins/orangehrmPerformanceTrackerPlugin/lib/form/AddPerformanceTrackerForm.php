@@ -108,7 +108,7 @@ class AddPerformanceTrackerForm extends sfForm {
             $this->setDefault('tracker_name', $performanceTrack->getTrackerName());
             $this->setDefault('hdnTrckId', $performanceTrack->getId());
             $this->setDefault('hdnMode', 'edit');
-            $this->setDefault('employeeName', array('empName' => $performanceTrack->getEmployee()->getFirstAndLastNames(), 'empId' => $performanceTrack->getEmployee()->getEmpNumber()));
+            $this->setDefault('employeeName', array('empName' => $performanceTrack->getEmployee()->getFullName(), 'empId' => $performanceTrack->getEmployee()->getEmpNumber()));
         }
     }
 
