@@ -476,3 +476,7 @@ function isEmpty(value) {
 
 }
 
+function is_msie() {
+	return /Edge\/|Trident\/|MSIE /.test(window.navigator.userAgent);
+}
+

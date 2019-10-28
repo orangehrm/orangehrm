@@ -217,7 +217,7 @@ function getWorkShiftEmpInfo(url){
             // Use Jquery to get select list element
             var dropdownList = $("#workShift_assignedEmp")[0];
 
-            if (/Edge\/|Trident\/|MSIE /.test(window.navigator.userAgent)) {
+            if (is_msie()) {
                 dropdownList.add(option);
             }
             else {
