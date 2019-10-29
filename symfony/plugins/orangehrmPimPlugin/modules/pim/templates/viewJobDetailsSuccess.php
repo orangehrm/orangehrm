@@ -360,7 +360,7 @@
         $('#job_joined_date,#job_contract_start_date,#job_contract_end_date').datepicker('disable');
         
         <?php if (empty($form->attachment)) { ?>
-            $('#job_contract_update_3').attr('checked', 'checked');
+            $('#job_contract_update_3').prop('checked', true);
         <?php } ?>
         
         $('#fileUploadSection').hide();
@@ -396,7 +396,7 @@
                     <?php if (empty($form->attachment)) { ?>
                         $('#job_contract_update_1').attr('disabled', 'disabled');
                         $('#job_contract_update_2').attr('disabled', 'disabled');
-                        $('#job_contract_update_3').attr('checked', 'checked');
+                        $('#job_contract_update_3').prop('checked', true);
                     <?php } ?>
                     
                     return;

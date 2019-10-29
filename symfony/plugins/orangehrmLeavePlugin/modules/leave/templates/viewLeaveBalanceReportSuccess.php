@@ -219,7 +219,7 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/viewLeaveBalanceRepo
    
     $(document).ready(function() {        
         
-        $('a.total').live('click', function(){
+        $(document).on('click', 'a.total', function(){
             
         });
         

@@ -19,8 +19,7 @@
  */
 ?>
 
-<?php 
-use_stylesheet(plugin_web_path('orangehrmAdminPlugin', 'css/viewEducationSuccess')); 
+<?php
 use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewEducationSuccess')); 
 ?>
 

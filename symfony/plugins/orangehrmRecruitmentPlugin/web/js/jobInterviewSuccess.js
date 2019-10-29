@@ -19,7 +19,7 @@ $(document).ready(function() {
     }
     countArray = countArray.reverse();
     
-    $("#addButton").live('click', function(){
+    $(document).on('click', "#addButton", function(){
 
         if(countArray.length == 1){
             $("#addButton").hide();
@@ -31,7 +31,7 @@ $(document).ready(function() {
         }
     });
     
-    $('.removeText').live('click', function(){
+    $(document).on('click', '.removeText', function(){
         var result = /\d+(?:\.\d+)?/.exec(this.id);
         $('#interviewer_'+result).hide();
         $('#jobInterview_interviewer_'+result).val("");

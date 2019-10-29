@@ -5,22 +5,22 @@ $(document).ready(function() {
 
     var commenceDate = "";
     $("#checkAllMem").click(function(){
-        if($("#checkAllMem:checked").attr('value') == 'on') {
-            $(".checkboxMem").attr('checked', 'checked');
+        if($("#checkAllMem:checked").length > 0) {
+            $(".checkboxMem").prop('checked', true);
         } else {
-            $(".checkboxMem").removeAttr('checked');
+            $(".checkboxMem").prop('checked', false);
         }
     });
 
     $(".checkboxMem").click(function() {
-        $("#checkAllMem").removeAttr('checked');
+        $("#checkAllMem").prop('checked', false);
         if(($(".checkboxMem").length - 1) == $(".checkboxMem:checked").length) {
-            $("#checkAllMem").attr('checked', 'checked');
+            $("#checkAllMem").prop('checked', true);
         }
     });
     
     // Edit a membership detail in the list
-    $('#frmEmpDelMemberships a').live('click', function() {
+    $(document).on('click', '#frmEmpDelMemberships a', function() {
         var id = $(this).parent().prev().find('input').val();
         var memcode = $(this).parent().attr('mem_type_id');
         $('#nameContainer').show();

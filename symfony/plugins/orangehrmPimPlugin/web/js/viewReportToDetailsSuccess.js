@@ -19,16 +19,16 @@ $(document).ready(function() {
     
     if (!canCreateSupervisors) {
         $('#frmAddReportTo').find(':radio[id="reportto_type_flag_1"]').attr('disabled', 'disabled');
-        $('#frmAddReportTo').find(':radio[id="reportto_type_flag_2"]').attr('checked', true);
+        $('#frmAddReportTo').find(':radio[id="reportto_type_flag_2"]').prop('checked', true);
     }
     if (!canCreateSubordinates) {
         $('#frmAddReportTo').find(':radio[id="reportto_type_flag_2"]').attr('disabled', 'disabled');
-        $('#frmAddReportTo').find(':radio[id="reportto_type_flag_2"]').attr('checked', false);
+        $('#frmAddReportTo').find(':radio[id="reportto_type_flag_2"]').prop('checked', false);
     }
     hideShowReportingMethodOther();
 
     hideShowSupervisorSubordinate();
-    $('.radio_list input').live('click', function() {
+    $(document).on('click', '.radio_list input', function() {
         hideShowSupervisorSubordinate();
         $("#reportto_supervisorName_empName").val(typeForHints);
         $("#reportto_subordinateName_empName").val(typeForHints);
@@ -53,32 +53,32 @@ $(document).ready(function() {
     });
 
     $("#checkAllSup").click(function(){
-        if($("#checkAllSup:checked").attr('value') == 'on') {
-            $(".checkboxSup").attr('checked', 'checked');
+        if($("#checkAllSup:checked").length > 0) {
+            $(".checkboxSup").prop('checked', true);
         } else {
-            $(".checkboxSup").removeAttr('checked');
+            $(".checkboxSup").prop('checked', false);
         }
     });
 
     $(".checkboxSup").click(function() {
-        $("#checkAllSup").removeAttr('checked');
+        $("#checkAllSup").prop('checked', false);
         if(($(".checkboxSup").length - 1) == $(".checkboxSup:checked").length) {
-            $("#checkAllSup").attr('checked', 'checked');
+            $("#checkAllSup").prop('checked', true);
         }
     });
 
     $("#checkAllSub").click(function(){
-        if($("#checkAllSub:checked").attr('value') == 'on') {
-            $(".checkboxSub").attr('checked', 'checked');
+        if($("#checkAllSub:checked").length > 0) {
+            $(".checkboxSub").prop('checked', true);
         } else {
-            $(".checkboxSub").removeAttr('checked');
+            $(".checkboxSub").prop('checked', false);
         }
     });
 
     $(".checkboxSub").click(function() {
-        $("#checkAllSub").removeAttr('checked');
+        $("#checkAllSub").prop('checked', false);
         if(($(".checkboxSub").length - 1) == $(".checkboxSub:checked").length) {
-            $("#checkAllSub").attr('checked', 'checked');
+            $("#checkAllSub").prop('checked', true);
         }
     });
 
@@ -88,7 +88,7 @@ $(document).ready(function() {
         $('#reportto_subordinateName_empId').val("");
         $('#reportto_supervisorName_empId').val("");
         $("#reportto_previousRecord").val("");
-        $('#reportto_type_flag_1').attr('checked', 'checked');
+        $('#reportto_type_flag_1').prop('checked', true);
         $("#reportToHeading").text(addSupervisor);
         $('.radio_list').hide();
         $(".paddingLeftRequired").show();
@@ -110,7 +110,7 @@ $(document).ready(function() {
         $('#reportto_subordinateName_empId').val("");
         $('#reportto_supervisorName_empId').val("");
         $("#reportto_previousRecord").val("");
-        $('#reportto_type_flag_2').attr('checked', 'checked');
+        $('#reportto_type_flag_2').prop('checked', true);
         $("#reportToHeading").text(addSubordinate);
         $('.radio_list').hide();
         $(".paddingLeftRequired").show();
@@ -169,7 +169,7 @@ $(document).ready(function() {
     });
 
     // Edit a supervisor detail in the list
-    $('#frmEmpDelSupervisors a').live('click', function() {
+    $(document).on('click', '#frmEmpDelSupervisors a', function() {
         
         if (!($("#frmAddReportTo #nameType").length > 0)) {
             $('<input type="hidden" name="nameType" id="nameType">').insertAfter('#frmAddReportTo #reportto_empNumber');
@@ -183,7 +183,7 @@ $(document).ready(function() {
 
         $("#reportto_supervisorName_empId").val(tempArray[0]);
         $("#reportto_previousRecord").val(primarykey);
-        $('#reportto_type_flag_1').attr('checked', 'checked');
+        $('#reportto_type_flag_1').prop('checked', true);
         $('#reportto_supervisorName_empName').val(name);
         $('#reportto_subordinateName_empName').hide();
         $('label[for="reportto_subordinateName"]').hide();
@@ -210,7 +210,7 @@ $(document).ready(function() {
 
 
     // Edit a subordinate detail in the list
-    $('#frmEmpDelSubordinates a').live('click', function() {
+    $(document).on('click', '#frmEmpDelSubordinates a', function() {
 
         if (!($("#frmAddReportTo #nameType").length > 0)) {
             $('<input type="hidden" name="nameType" id="nameType">').insertAfter('#frmAddReportTo #reportto_empNumber');
@@ -224,7 +224,7 @@ $(document).ready(function() {
 
         $("#reportto_subordinateName_empId").val(tempArray[1]);
         $("#reportto_previousRecord").val(primarykey);
-        $('#reportto_type_flag_2').attr('checked', 'checked');
+        $('#reportto_type_flag_2').prop('checked', true);
 
         $('#reportto_subordinateName_empName').val(name1);
         $('#reportto_supervisorName_empName').hide();

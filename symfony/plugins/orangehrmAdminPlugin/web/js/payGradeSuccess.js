@@ -127,17 +127,17 @@ $(document).ready(function() {
     
     //if check all button clicked
     $("#currencyCheckAll").click(function() {
-        $("table#tblCurrencies tbody input.checkboxCurr").removeAttr("checked");
-        if($("#currencyCheckAll").attr("checked")) {
-            $("table#tblCurrencies tbody input.checkboxCurr").attr("checked", "checked");
+        $("table#tblCurrencies tbody input.checkboxCurr").prop('checked', false);
+        if($("#currencyCheckAll").prop('checked')) {
+            $("table#tblCurrencies tbody input.checkboxCurr").prop('checked', true);
         }
     });
 
     //remove tick from the all button if any checkbox unchecked
     $("table#tblCurrencies tbody input.checkboxCurr").click(function() {
-        $("#currencyCheckAll").removeAttr('checked');
+        $("#currencyCheckAll").prop('checked', false);
         if($("table#tblCurrencies tbody input.checkboxCurr").length == $("table#tblCurrencies tbody input.checkboxCurr:checked").length) {
-            $("#currencyCheckAll").attr('checked', 'checked');
+            $("#currencyCheckAll").prop('checked', true);
         }
     });
     

@@ -103,8 +103,8 @@
 
         $('#btnSearch').click(function () {
             $("#empsearch_isSubmitted").val('yes');
-            $("#performanceReview360SearchForm_employeeName.inputFormatHint'").val('');
-            $("#performanceReview360SearchForm_reviwerName.inputFormatHint'").val('');
+            $("#performanceReview360SearchForm_employeeName.inputFormatHint").val('');
+            $("#performanceReview360SearchForm_reviwerName.inputFormatHint").val('');
             $('#performanceReview360SearchForm').submit();
         });
 

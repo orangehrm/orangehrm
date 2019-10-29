@@ -35,7 +35,7 @@ $(document).ready(function () {
             }
         });
     });*/
-    $('.installBtn').live('click', function (event) {
+    $(document).on('click', '.installBtn', function (event) {
         installId = $(this).attr('addid');
 
         $.ajax({
@@ -53,11 +53,11 @@ $(document).ready(function () {
             }
         });
     });
-    $('.updateBtn').live('click', function (event) {
+    $(document).on('click', '.updateBtn', function (event) {
         updateId = $(this).attr('addid');
         $('#updateConfModal').modal('toggle');
     });
-    $('.uninstallBtn').live('click', function () {
+    $(document).on('click', '.uninstallBtn', function () {
         uninstallId = $(this).attr('addid');
     });
     $('#modal_confirm_install').click(function (event) {
