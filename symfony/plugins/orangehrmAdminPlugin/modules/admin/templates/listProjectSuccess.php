@@ -104,10 +104,10 @@ $(document).ready(function() {
 
 	// When Click Main Tick box
 	$("#allCheck").change(function() {
-		if ($('#allCheck').attr('checked')) {
-			$('.innercheckbox').attr('checked','checked');
+		if ($('#allCheck').prop('checked')) {
+			$('.innercheckbox').prop('checked', true);
 		}else{
-			$('.innercheckbox').removeAttr('checked');
+			$('.innercheckbox').prop('checked', false);
 		}
 		
 	});

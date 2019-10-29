@@ -93,14 +93,14 @@
     
     $(document).ready(function() {
         
-        $('#emailConfigurationForm_chkSendTestEmail').attr('checked', false);
+        $('#emailConfigurationForm_chkSendTestEmail').prop('checked', false);
         $('#emailConfigurationForm_txtTestEmail').val('');
         
         var mode	=	'edit';
         
         //Disable all fields
-        $('#frmSave :input').attr('disabled', true);
-        $('#editBtn').removeAttr('disabled');
+        $('#frmSave :input').prop('disabled', true);
+        $('#editBtn').prop('disabled', false);
 
         $('#emailConfigurationForm_txtSmtpPass').on('click focusin', function() {
             this.value = '';
@@ -160,11 +160,12 @@
         checkSmtpValidation();
         $("#emailConfigurationForm_cmbMailSendingMethod").change(function() {
             checkSmtpValidation();
-        })
+        });
         //When click reset buton
         $("#resetBtn").click(function() {
             document.forms[0].reset('');
             validator.resetForm();
+            $('#emailConfigurationForm_cmbMailSendingMethod').trigger('change');
         });
         
         // When changing the mail sending method
@@ -183,7 +184,7 @@
     
     function checkSendTestMail() {
         
-        if($("#emailConfigurationForm_chkSendTestEmail").attr("checked")){
+        if($("#emailConfigurationForm_chkSendTestEmail").prop("checked")){
             $("label[for=emailConfigurationForm_txtTestEmail]").append(' <em>*</em>');                
             $("#emailConfigurationForm_txtTestEmail")
                 .rules("add", {
@@ -196,13 +197,13 @@
                     }
                 });
                 
-                $("#emailConfigurationForm_txtTestEmail").removeAttr('disabled');
+                $("#emailConfigurationForm_txtTestEmail").prop('disabled', false);
                 
         } else {
             $("label[for=emailConfigurationForm_txtTestEmail] em").remove();
             $("#emailConfigurationForm_txtTestEmail").rules("remove", "required email onkeyup")
                 
-            $("#emailConfigurationForm_txtTestEmail").attr('disabled', true);
+            $("#emailConfigurationForm_txtTestEmail").prop('disabled', true);
         }
     }
             
@@ -231,7 +232,7 @@
     }
     
     function checkAuthenticationActivate() {
-        if($("#emailConfigurationForm_optAuth_login").attr("checked")){
+        if($("#emailConfigurationForm_optAuth_login").prop("checked")){
             $("label[for=emailConfigurationForm_txtSmtpUser]").append(' <em>*</em>');
             $("label[for=emailConfigurationForm_txtSmtpPass]").append(' <em>*</em>');
             $("#emailConfigurationForm_txtSmtpUser").rules("add", {
@@ -253,14 +254,14 @@
             $("label[for=emailConfigurationForm_txtSmtpPass] em").remove();
         }
     }
+
     function toggleSMTPAuthenticationFields() {
-        if ($('#emailConfigurationForm_optAuth_login').attr('checked')) {
-            
-            $('#emailConfigurationForm_txtSmtpUser').removeAttr('disabled');
-            $('#emailConfigurationForm_txtSmtpPass').removeAttr('disabled');
+        if ($('#emailConfigurationForm_optAuth_login').prop('checked')) {
+            $('#emailConfigurationForm_txtSmtpUser').prop('disabled', false);
+            $('#emailConfigurationForm_txtSmtpPass').prop('disabled', false);
         } else {
-            $('#emailConfigurationForm_txtSmtpUser').attr('disabled', true);
-            $('#emailConfigurationForm_txtSmtpPass').attr('disabled', true);
+            $('#emailConfigurationForm_txtSmtpUser').prop('disabled', true);
+            $('#emailConfigurationForm_txtSmtpPass').prop('disabled', true);
         }
     }
 //]]>    

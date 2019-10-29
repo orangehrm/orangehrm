@@ -248,22 +248,22 @@ function getSortClass($column, $sortField, $sortOrder) {
 
         // When Click Main Tick box
         $("#allCheck").click(function() {
-            if ($('#allCheck').attr('checked')){			
-                $('.innercheckbox').attr('checked','checked');
+            if ($('#allCheck').prop('checked')){			
+                $('.innercheckbox').prop('checked', true);
                 $("#buttonRemove").removeAttr('disabled');
             } else{
-                $('.innercheckbox').removeAttr('checked');
+                $('.innercheckbox').prop('checked', false);
                 $("#buttonRemove").attr('disabled', 'disabled');
             }
         });
 
         $(".innercheckbox").click(function() {
-            if($(this).attr('checked'))
+            if($(this).prop('checked'))
             {
                 $("#buttonRemove").removeAttr('disabled');	
             }else
             {
-                $('#allCheck').removeAttr('checked');
+                $('#allCheck').prop('checked', false);
                 $("#buttonRemove").attr('disabled', 'disabled');
             }
             
@@ -396,7 +396,7 @@ function getSortClass($column, $sortField, $sortOrder) {
 
         });        
     
-        $('#customFieldList tbody a').live('click', function() {
+        $(document).on('click', '#customFieldList tbody a', function() {
             $("#heading").text("<?php echo __js("Edit Custom Field"); ?>");
         
             var row = $(this).closest("tr");

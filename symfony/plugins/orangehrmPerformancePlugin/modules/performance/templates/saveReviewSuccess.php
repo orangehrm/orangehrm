@@ -264,14 +264,14 @@
 
         }
 
-        $('#add_supervisor_Btn').live("click", function () {
+        $(document).on("click", '#add_supervisor_Btn', function () {
             if ($('#saveReview360Form_supervisorReviewerId').val() > 0) {
                 addReviewerRow("supervisors", 'supervisor_table', $('#saveReview360Form_supervisorReviewer').val(), $('#saveReview360Form_supervisorReviewerId').val());
                 $("#saveReview360Form_supervisorReviewer").val('');
             }
         });
 
-        $('#deleteRow').live("click", function () {
+        $(document).on("click", '#deleteRow', function () {
             $(this).parent().parent().remove();
             employeeIdToBeDeleted = ($(this).parent().parent().find('input').val());
             addedReviewers = ($.removeFromArray(employeeIdToBeDeleted, addedReviewers));

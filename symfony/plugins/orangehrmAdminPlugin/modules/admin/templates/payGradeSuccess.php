@@ -1,6 +1,6 @@
 
 <?php 
-use_javascript('jquery/jquery.form');
+//use_javascript('jquery/jquery.form');
 use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess')); 
 ?>
 

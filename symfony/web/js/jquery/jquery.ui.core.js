@@ -1,319 +1,691 @@
+/*! jQuery UI - v1.12.1 - 2019-09-06
+* http://jqueryui.com
+* Includes: core.js, widget.js, mouse.js, draggable.js, droppable.js, resizable.js, selectable.js, sortable.js, effect.js, data.js, disable-selection.js, escape-selector.js, focusable.js, form-reset-mixin.js, form.js, ie.js, jquery-1-7.js, keycode.js, labels.js, plugin.js, position.js, safe-active-element.js, safe-blur.js, scroll-parent.js, tabbable.js, unique-id.js, version.js
+* Copyright jQuery Foundation and other contributors; Licensed  */
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/version',[ "jquery" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+	$.ui = $.ui || {};
+
+	return $.ui.version = "1.12.1";
+
+} ) );
+
 /*!
- * jQuery UI 1.8.21
+ * jQuery UI :data 1.12.1
+ * http://jqueryui.com
  *
- * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
- * Dual licensed under the MIT or GPL Version 2 licenses.
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
  * http://jquery.org/license
- *
- * http://docs.jquery.com/UI
  */
-(function( $, undefined ) {
 
-// prevent duplicate loading
-// this is only a problem because we proxy existing functions
-// and we don't want to double proxy them
-$.ui = $.ui || {};
-if ( $.ui.version ) {
-	return;
-}
+//>>label: :data Selector
+//>>group: Core
+//>>description: Selects elements which have data stored under the specified key.
+//>>docs: http://api.jqueryui.com/data-selector/
 
-$.extend( $.ui, {
-	version: "1.8.21",
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
 
-	keyCode: {
-		ALT: 18,
+		// AMD. Register as an anonymous module.
+		define( 'ui/data',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+	return $.extend( $.expr[ ":" ], {
+		data: $.expr.createPseudo ?
+			$.expr.createPseudo( function( dataName ) {
+				return function( elem ) {
+					return !!$.data( elem, dataName );
+				};
+			} ) :
+
+			// Support: jQuery <1.8
+			function( elem, i, match ) {
+				return !!$.data( elem, match[ 3 ] );
+			}
+	} );
+} ) );
+
+/*!
+ * jQuery UI Disable Selection 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: disableSelection
+//>>group: Core
+//>>description: Disable selection of text content within the set of matched elements.
+//>>docs: http://api.jqueryui.com/disableSelection/
+
+// This file is deprecated
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/disable-selection',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+	return $.fn.extend( {
+		disableSelection: ( function() {
+			var eventType = "onselectstart" in document.createElement( "div" ) ?
+				"selectstart" :
+				"mousedown";
+
+			return function() {
+				return this.on( eventType + ".ui-disableSelection", function( event ) {
+					event.preventDefault();
+				} );
+			};
+		} )(),
+
+		enableSelection: function() {
+			return this.off( ".ui-disableSelection" );
+		}
+	} );
+
+} ) );
+
+/*!
+ * jQuery UI Focusable 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: :focusable Selector
+//>>group: Core
+//>>description: Selects elements which can be focused.
+//>>docs: http://api.jqueryui.com/focusable-selector/
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/focusable',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+// Selectors
+	$.ui.focusable = function( element, hasTabindex ) {
+		var map, mapName, img, focusableIfVisible, fieldset,
+			nodeName = element.nodeName.toLowerCase();
+
+		if ( "area" === nodeName ) {
+			map = element.parentNode;
+			mapName = map.name;
+			if ( !element.href || !mapName || map.nodeName.toLowerCase() !== "map" ) {
+				return false;
+			}
+			img = $( "img[usemap='#" + mapName + "']" );
+			return img.length > 0 && img.is( ":visible" );
+		}
+
+		if ( /^(input|select|textarea|button|object)$/.test( nodeName ) ) {
+			focusableIfVisible = !element.disabled;
+
+			if ( focusableIfVisible ) {
+
+				// Form controls within a disabled fieldset are disabled.
+				// However, controls within the fieldset's legend do not get disabled.
+				// Since controls generally aren't placed inside legends, we skip
+				// this portion of the check.
+				fieldset = $( element ).closest( "fieldset" )[ 0 ];
+				if ( fieldset ) {
+					focusableIfVisible = !fieldset.disabled;
+				}
+			}
+		} else if ( "a" === nodeName ) {
+			focusableIfVisible = element.href || hasTabindex;
+		} else {
+			focusableIfVisible = hasTabindex;
+		}
+
+		return focusableIfVisible && $( element ).is( ":visible" ) && visible( $( element ) );
+	};
+
+// Support: IE 8 only
+// IE 8 doesn't resolve inherit to visible/hidden for computed values
+	function visible( element ) {
+		var visibility = element.css( "visibility" );
+		while ( visibility === "inherit" ) {
+			element = element.parent();
+			visibility = element.css( "visibility" );
+		}
+		return visibility !== "hidden";
+	}
+
+	$.extend( $.expr[ ":" ], {
+		focusable: function( element ) {
+			return $.ui.focusable( element, $.attr( element, "tabindex" ) != null );
+		}
+	} );
+
+	return $.ui.focusable;
+
+} ) );
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/form',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+// Support: IE8 Only
+// IE8 does not support the form attribute and when it is supplied. It overwrites the form prop
+// with a string, so we need to find the proper form.
+	return $.fn.form = function() {
+		return typeof this[ 0 ].form === "string" ? this.closest( "form" ) : $( this[ 0 ].form );
+	};
+
+} ) );
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/ie',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+// This file is deprecated
+	return $.ui.ie = !!/msie [\w.]+/.exec( navigator.userAgent.toLowerCase() );
+} ) );
+
+/*!
+ * jQuery UI Keycode 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: Keycode
+//>>group: Core
+//>>description: Provide keycodes as keynames
+//>>docs: http://api.jqueryui.com/jQuery.ui.keyCode/
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/keycode',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+	return $.ui.keyCode = {
 		BACKSPACE: 8,
-		CAPS_LOCK: 20,
 		COMMA: 188,
-		COMMAND: 91,
-		COMMAND_LEFT: 91, // COMMAND
-		COMMAND_RIGHT: 93,
-		CONTROL: 17,
 		DELETE: 46,
 		DOWN: 40,
 		END: 35,
 		ENTER: 13,
 		ESCAPE: 27,
 		HOME: 36,
-		INSERT: 45,
 		LEFT: 37,
-		MENU: 93, // COMMAND_RIGHT
-		NUMPAD_ADD: 107,
-		NUMPAD_DECIMAL: 110,
-		NUMPAD_DIVIDE: 111,
-		NUMPAD_ENTER: 108,
-		NUMPAD_MULTIPLY: 106,
-		NUMPAD_SUBTRACT: 109,
 		PAGE_DOWN: 34,
 		PAGE_UP: 33,
 		PERIOD: 190,
 		RIGHT: 39,
-		SHIFT: 16,
 		SPACE: 32,
 		TAB: 9,
-		UP: 38,
-		WINDOWS: 91 // COMMAND
+		UP: 38
+	};
+
+} ) );
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/escape-selector',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
 	}
-});
+} ( function( $ ) {
 
-// plugins
-$.fn.extend({
-	propAttr: $.fn.prop || $.fn.attr,
-
-	_focus: $.fn.focus,
-	focus: function( delay, fn ) {
-		return typeof delay === "number" ?
-			this.each(function() {
-				var elem = this;
-				setTimeout(function() {
-					$( elem ).focus();
-					if ( fn ) {
-						fn.call( elem );
-					}
-				}, delay );
-			}) :
-			this._focus.apply( this, arguments );
-	},
-
-	scrollParent: function() {
-		var scrollParent;
-		if (($.browser.msie && (/(static|relative)/).test(this.css('position'))) || (/absolute/).test(this.css('position'))) {
-			scrollParent = this.parents().filter(function() {
-				return (/(relative|absolute|fixed)/).test($.curCSS(this,'position',1)) && (/(auto|scroll)/).test($.curCSS(this,'overflow',1)+$.curCSS(this,'overflow-y',1)+$.curCSS(this,'overflow-x',1));
-			}).eq(0);
-		} else {
-			scrollParent = this.parents().filter(function() {
-				return (/(auto|scroll)/).test($.curCSS(this,'overflow',1)+$.curCSS(this,'overflow-y',1)+$.curCSS(this,'overflow-x',1));
-			}).eq(0);
-		}
-
-		return (/fixed/).test(this.css('position')) || !scrollParent.length ? $(document) : scrollParent;
-	},
-
-	zIndex: function( zIndex ) {
-		if ( zIndex !== undefined ) {
-			return this.css( "zIndex", zIndex );
-		}
-
-		if ( this.length ) {
-			var elem = $( this[ 0 ] ), position, value;
-			while ( elem.length && elem[ 0 ] !== document ) {
-				// Ignore z-index if position is set to a value where z-index is ignored by the browser
-				// This makes behavior of this function consistent across browsers
-				// WebKit always returns auto if the element is positioned
-				position = elem.css( "position" );
-				if ( position === "absolute" || position === "relative" || position === "fixed" ) {
-					// IE returns 0 when zIndex is not specified
-					// other browsers return a string
-					// we ignore the case of nested elements with an explicit value of 0
-					// <div style="z-index: -10;"><div style="z-index: 0;"></div></div>
-					value = parseInt( elem.css( "zIndex" ), 10 );
-					if ( !isNaN( value ) && value !== 0 ) {
-						return value;
-					}
-				}
-				elem = elem.parent();
-			}
-		}
-
-		return 0;
-	},
-
-	disableSelection: function() {
-		return this.bind( ( $.support.selectstart ? "selectstart" : "mousedown" ) +
-			".ui-disableSelection", function( event ) {
-				event.preventDefault();
-			});
-	},
-
-	enableSelection: function() {
-		return this.unbind( ".ui-disableSelection" );
-	}
-});
-
-$.each( [ "Width", "Height" ], function( i, name ) {
-	var side = name === "Width" ? [ "Left", "Right" ] : [ "Top", "Bottom" ],
-		type = name.toLowerCase(),
-		orig = {
-			innerWidth: $.fn.innerWidth,
-			innerHeight: $.fn.innerHeight,
-			outerWidth: $.fn.outerWidth,
-			outerHeight: $.fn.outerHeight
+// Internal use only
+	return $.ui.escapeSelector = ( function() {
+		var selectorEscape = /([!"#$%&'()*+,./:;<=>?@[\]^`{|}~])/g;
+		return function( selector ) {
+			return selector.replace( selectorEscape, "\\$1" );
 		};
+	} )();
 
-	function reduce( elem, size, border, margin ) {
-		$.each( side, function() {
-			size -= parseFloat( $.curCSS( elem, "padding" + this, true) ) || 0;
-			if ( border ) {
-				size -= parseFloat( $.curCSS( elem, "border" + this + "Width", true) ) || 0;
-			}
-			if ( margin ) {
-				size -= parseFloat( $.curCSS( elem, "margin" + this, true) ) || 0;
-			}
-		});
-		return size;
+} ) );
+
+/*!
+ * jQuery UI Labels 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: labels
+//>>group: Core
+//>>description: Find all the labels associated with a given input
+//>>docs: http://api.jqueryui.com/labels/
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/labels',[ "jquery", "./version", "./escape-selector" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
 	}
+} ( function( $ ) {
 
-	$.fn[ "inner" + name ] = function( size ) {
-		if ( size === undefined ) {
-			return orig[ "inner" + name ].call( this );
+	return $.fn.labels = function() {
+		var ancestor, selector, id, labels, ancestors;
+
+		// Check control.labels first
+		if ( this[ 0 ].labels && this[ 0 ].labels.length ) {
+			return this.pushStack( this[ 0 ].labels );
 		}
 
-		return this.each(function() {
-			$( this ).css( type, reduce( this, size ) + "px" );
-		});
+		// Support: IE <= 11, FF <= 37, Android <= 2.3 only
+		// Above browsers do not support control.labels. Everything below is to support them
+		// as well as document fragments. control.labels does not work on document fragments
+		labels = this.eq( 0 ).parents( "label" );
+
+		// Look for the label based on the id
+		id = this.attr( "id" );
+		if ( id ) {
+
+			// We don't search against the document in case the element
+			// is disconnected from the DOM
+			ancestor = this.eq( 0 ).parents().last();
+
+			// Get a full set of top level ancestors
+			ancestors = ancestor.add( ancestor.length ? ancestor.siblings() : this.siblings() );
+
+			// Create a selector for the label based on the id
+			selector = "label[for='" + $.ui.escapeSelector( id ) + "']";
+
+			labels = labels.add( ancestors.find( selector ).addBack( selector ) );
+
+		}
+
+		// Return whatever we have found for labels
+		return this.pushStack( labels );
 	};
 
-	$.fn[ "outer" + name] = function( size, margin ) {
-		if ( typeof size !== "number" ) {
-			return orig[ "outer" + name ].call( this, size );
-		}
+} ) );
 
-		return this.each(function() {
-			$( this).css( type, reduce( this, size, true, margin ) + "px" );
-		});
-	};
-});
+/*!
+ * jQuery UI Support for jQuery core 1.7.x 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ *
+ */
 
-// selectors
-function focusable( element, isTabIndexNotNaN ) {
-	var nodeName = element.nodeName.toLowerCase();
-	if ( "area" === nodeName ) {
-		var map = element.parentNode,
-			mapName = map.name,
-			img;
-		if ( !element.href || !mapName || map.nodeName.toLowerCase() !== "map" ) {
-			return false;
-		}
-		img = $( "img[usemap=#" + mapName + "]" )[0];
-		return !!img && visible( img );
+//>>label: jQuery 1.7 Support
+//>>group: Core
+//>>description: Support version 1.7.x of jQuery core
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/jquery-1-7',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
 	}
-	return ( /input|select|textarea|button|object/.test( nodeName )
-		? !element.disabled
-		: "a" == nodeName
-			? element.href || isTabIndexNotNaN
-			: isTabIndexNotNaN)
-		// the element and all of its ancestors must be visible
-		&& visible( element );
-}
+}( function( $ ) {
 
-function visible( element ) {
-	return !$( element ).parents().andSelf().filter(function() {
-		return $.curCSS( this, "visibility" ) === "hidden" ||
-			$.expr.filters.hidden( this );
-	}).length;
-}
+// Support: jQuery 1.7 only
+// Not a great way to check versions, but since we only support 1.7+ and only
+// need to detect <1.8, this is a simple check that should suffice. Checking
+// for "1.7." would be a bit safer, but the version string is 1.7, not 1.7.0
+// and we'll never reach 1.70.0 (if we do, we certainly won't be supporting
+// 1.7 anymore). See #11197 for why we're not using feature detection.
+	if ( $.fn.jquery.substring( 0, 3 ) === "1.7" ) {
 
-$.extend( $.expr[ ":" ], {
-	data: function( elem, i, match ) {
-		return !!$.data( elem, match[ 3 ] );
-	},
+		// Setters for .innerWidth(), .innerHeight(), .outerWidth(), .outerHeight()
+		// Unlike jQuery Core 1.8+, these only support numeric values to set the
+		// dimensions in pixels
+		$.each( [ "Width", "Height" ], function( i, name ) {
+			var side = name === "Width" ? [ "Left", "Right" ] : [ "Top", "Bottom" ],
+				type = name.toLowerCase(),
+				orig = {
+					innerWidth: $.fn.innerWidth,
+					innerHeight: $.fn.innerHeight,
+					outerWidth: $.fn.outerWidth,
+					outerHeight: $.fn.outerHeight
+				};
 
-	focusable: function( element ) {
-		return focusable( element, !isNaN( $.attr( element, "tabindex" ) ) );
-	},
+			function reduce( elem, size, border, margin ) {
+				$.each( side, function() {
+					size -= parseFloat( $.css( elem, "padding" + this ) ) || 0;
+					if ( border ) {
+						size -= parseFloat( $.css( elem, "border" + this + "Width" ) ) || 0;
+					}
+					if ( margin ) {
+						size -= parseFloat( $.css( elem, "margin" + this ) ) || 0;
+					}
+				} );
+				return size;
+			}
 
-	tabbable: function( element ) {
-		var tabIndex = $.attr( element, "tabindex" ),
-			isTabIndexNaN = isNaN( tabIndex );
-		return ( isTabIndexNaN || tabIndex >= 0 ) && focusable( element, !isTabIndexNaN );
+			$.fn[ "inner" + name ] = function( size ) {
+				if ( size === undefined ) {
+					return orig[ "inner" + name ].call( this );
+				}
+
+				return this.each( function() {
+					$( this ).css( type, reduce( this, size ) + "px" );
+				} );
+			};
+
+			$.fn[ "outer" + name ] = function( size, margin ) {
+				if ( typeof size !== "number" ) {
+					return orig[ "outer" + name ].call( this, size );
+				}
+
+				return this.each( function() {
+					$( this ).css( type, reduce( this, size, true, margin ) + "px" );
+				} );
+			};
+		} );
+
+		$.fn.addBack = function( selector ) {
+			return this.add( selector == null ?
+				this.prevObject : this.prevObject.filter( selector )
+			);
+		};
 	}
-});
 
-// support
-$(function() {
-	var body = document.body,
-		div = body.appendChild( div = document.createElement( "div" ) );
+} ) );
 
-	// access offsetHeight before setting the style to prevent a layout bug
-	// in IE 9 which causes the elemnt to continue to take up space even
-	// after it is removed from the DOM (#8026)
-	div.offsetHeight;
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
 
-	$.extend( div.style, {
-		minHeight: "100px",
-		height: "auto",
-		padding: 0,
-		borderWidth: 0
-	});
+		// AMD. Register as an anonymous module.
+		define( 'ui/plugin',[ "jquery", "./version" ], factory );
+	} else {
 
-	$.support.minHeight = div.offsetHeight === 100;
-	$.support.selectstart = "onselectstart" in div;
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
 
-	// set display to none to avoid a layout bug in IE
-	// http://dev.jquery.com/ticket/4014
-	body.removeChild( div ).style.display = "none";
-});
-
-
-
-
-
-// deprecated
-$.extend( $.ui, {
-	// $.ui.plugin is deprecated.  Use the proxy pattern instead.
-	plugin: {
+// $.ui.plugin is deprecated. Use $.widget() extensions instead.
+	return $.ui.plugin = {
 		add: function( module, option, set ) {
-			var proto = $.ui[ module ].prototype;
-			for ( var i in set ) {
+			var i,
+				proto = $.ui[ module ].prototype;
+			for ( i in set ) {
 				proto.plugins[ i ] = proto.plugins[ i ] || [];
 				proto.plugins[ i ].push( [ option, set[ i ] ] );
 			}
 		},
-		call: function( instance, name, args ) {
-			var set = instance.plugins[ name ];
-			if ( !set || !instance.element[ 0 ].parentNode ) {
+		call: function( instance, name, args, allowDisconnected ) {
+			var i,
+				set = instance.plugins[ name ];
+
+			if ( !set ) {
 				return;
 			}
-	
-			for ( var i = 0; i < set.length; i++ ) {
+
+			if ( !allowDisconnected && ( !instance.element[ 0 ].parentNode ||
+				instance.element[ 0 ].parentNode.nodeType === 11 ) ) {
+				return;
+			}
+
+			for ( i = 0; i < set.length; i++ ) {
 				if ( instance.options[ set[ i ][ 0 ] ] ) {
 					set[ i ][ 1 ].apply( instance.element, args );
 				}
 			}
 		}
-	},
-	
-	// will be deprecated when we switch to jQuery 1.4 - use jQuery.contains()
-	contains: function( a, b ) {
-		return document.compareDocumentPosition ?
-			a.compareDocumentPosition( b ) & 16 :
-			a !== b && a.contains( b );
-	},
-	
-	// only used by resizable
-	hasScroll: function( el, a ) {
-	
-		//If overflow is hidden, the element might have extra content, but the user wants to hide it
-		if ( $( el ).css( "overflow" ) === "hidden") {
-			return false;
-		}
-	
-		var scroll = ( a && a === "left" ) ? "scrollLeft" : "scrollTop",
-			has = false;
-	
-		if ( el[ scroll ] > 0 ) {
-			return true;
-		}
-	
-		// TODO: determine which cases actually cause this to happen
-		// if the element doesn't have the scroll set, see if it's possible to
-		// set the scroll
-		el[ scroll ] = 1;
-		has = ( el[ scroll ] > 0 );
-		el[ scroll ] = 0;
-		return has;
-	},
-	
-	// these are odd functions, fix the API or move into individual plugins
-	isOverAxis: function( x, reference, size ) {
-		//Determines when x coordinate is over "b" element axis
-		return ( x > reference ) && ( x < ( reference + size ) );
-	},
-	isOver: function( y, x, top, left, height, width ) {
-		//Determines when x, y coordinates is over "b" element
-		return $.ui.isOverAxis( y, top, height ) && $.ui.isOverAxis( x, left, width );
-	}
-});
+	};
 
-})( jQuery );
+} ) );
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/safe-active-element',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+	return $.ui.safeActiveElement = function( document ) {
+		var activeElement;
+
+		// Support: IE 9 only
+		// IE9 throws an "Unspecified error" accessing document.activeElement from an <iframe>
+		try {
+			activeElement = document.activeElement;
+		} catch ( error ) {
+			activeElement = document.body;
+		}
+
+		// Support: IE 9 - 11 only
+		// IE may return null instead of an element
+		// Interestingly, this only seems to occur when NOT in an iframe
+		if ( !activeElement ) {
+			activeElement = document.body;
+		}
+
+		// Support: IE 11 only
+		// IE11 returns a seemingly empty object in some cases when accessing
+		// document.activeElement from an <iframe>
+		if ( !activeElement.nodeName ) {
+			activeElement = document.body;
+		}
+
+		return activeElement;
+	};
+
+} ) );
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/safe-blur',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+	return $.ui.safeBlur = function( element ) {
+
+		// Support: IE9 - 10 only
+		// If the <body> is blurred, IE will switch windows, see #9420
+		if ( element && element.nodeName.toLowerCase() !== "body" ) {
+			$( element ).trigger( "blur" );
+		}
+	};
+
+} ) );
+
+/*!
+ * jQuery UI Scroll Parent 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: scrollParent
+//>>group: Core
+//>>description: Get the closest ancestor element that is scrollable.
+//>>docs: http://api.jqueryui.com/scrollParent/
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/scroll-parent',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+	return $.fn.scrollParent = function( includeHidden ) {
+		var position = this.css( "position" ),
+			excludeStaticParent = position === "absolute",
+			overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/,
+			scrollParent = this.parents().filter( function() {
+				var parent = $( this );
+				if ( excludeStaticParent && parent.css( "position" ) === "static" ) {
+					return false;
+				}
+				return overflowRegex.test( parent.css( "overflow" ) + parent.css( "overflow-y" ) +
+					parent.css( "overflow-x" ) );
+			} ).eq( 0 );
+
+		return position === "fixed" || !scrollParent.length ?
+			$( this[ 0 ].ownerDocument || document ) :
+			scrollParent;
+	};
+
+} ) );
+
+/*!
+ * jQuery UI Tabbable 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: :tabbable Selector
+//>>group: Core
+//>>description: Selects elements which can be tabbed to.
+//>>docs: http://api.jqueryui.com/tabbable-selector/
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/tabbable',[ "jquery", "./version", "./focusable" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+	return $.extend( $.expr[ ":" ], {
+		tabbable: function( element ) {
+			var tabIndex = $.attr( element, "tabindex" ),
+				hasTabindex = tabIndex != null;
+			return ( !hasTabindex || tabIndex >= 0 ) && $.ui.focusable( element, hasTabindex );
+		}
+	} );
+
+} ) );
+
+/*!
+ * jQuery UI Unique ID 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: uniqueId
+//>>group: Core
+//>>description: Functions to generate and remove uniqueId's
+//>>docs: http://api.jqueryui.com/uniqueId/
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( 'ui/unique-id',[ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+	return $.fn.extend( {
+		uniqueId: ( function() {
+			var uuid = 0;
+
+			return function() {
+				return this.each( function() {
+					if ( !this.id ) {
+						this.id = "ui-id-" + ( ++uuid );
+					}
+				} );
+			};
+		} )(),
+
+		removeUniqueId: function() {
+			return this.each( function() {
+				if ( /^ui-id-\d+$/.test( this.id ) ) {
+					$( this ).removeAttr( "id" );
+				}
+			} );
+		}
+	} );
+
+} ) );

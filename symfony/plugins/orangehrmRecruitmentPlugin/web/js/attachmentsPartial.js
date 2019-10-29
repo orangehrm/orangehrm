@@ -42,9 +42,9 @@ $(document).ready(function() {
 
     //if check all button clicked
     $("#attachmentsCheckAll").click(function() {
-        $("table#tblAttachments tbody input.checkboxAtch").removeAttr("checked");
-        if($("#attachmentsCheckAll").attr("checked")) {
-            $("table#tblAttachments tbody input.checkboxAtch").attr("checked", "checked");
+        $("table#tblAttachments tbody input.checkboxAtch").prop('checked', false);
+        if($("#attachmentsCheckAll").prop('checked')) {
+            $("table#tblAttachments tbody input.checkboxAtch").prop('checked', true);
         }
         if($('table#tblAttachments tbody .checkboxAtch:checkbox:checked').length > 0) {
             $('#btnDeleteAttachment').removeAttr('disabled');
@@ -55,9 +55,9 @@ $(document).ready(function() {
 
     //remove tick from the all button if any checkbox unchecked
     $("table#tblAttachments tbody input.checkboxAtch").click(function() {
-        $("#attachmentsCheckAll").removeAttr('checked');
+        $("#attachmentsCheckAll").prop('checked', false);
         if($("table#tblAttachments tbody input.checkboxAtch").length == $("table#tblAttachments tbody input.checkboxAtch:checked").length) {
-            $("#attachmentsCheckAll").attr('checked', 'checked');
+            $("#attachmentsCheckAll").prop('checked', true);
         }
         if($('table#tblAttachments tbody .checkboxAtch:checkbox:checked').length > 0) {
             $('#btnDeleteAttachment').removeAttr('disabled');

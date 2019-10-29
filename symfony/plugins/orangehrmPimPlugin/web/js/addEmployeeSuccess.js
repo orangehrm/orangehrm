@@ -5,7 +5,7 @@ $(document).ready(function() {
         $("#rePassword_required").hide();
     }    
 
-    $("#chkLogin").attr("checked", true);
+    $("#chkLogin").prop('checked', true);
 
     $("#addEmployeeTbl td div:empty").remove();
     $("#addEmployeeTbl td:empty").remove();
@@ -15,7 +15,7 @@ $(document).ready(function() {
     if(createUserAccount == 0) {
         //hiding login section by default
         $(".loginSection").hide();
-        $("#chkLogin").removeAttr("checked");
+        $("#chkLogin").prop('checked', false);
     }
 
     //default edit button behavior
