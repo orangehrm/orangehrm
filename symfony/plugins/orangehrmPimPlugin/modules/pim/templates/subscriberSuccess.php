@@ -42,8 +42,13 @@
                                     <?php echo $form['email']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
                                 </li>
                                 <li class="required">
-                                    <em>*</em><?php echo __(CommonMessages::REQUIRED_FIELD); ?>
-                                </li>
+				    <em>*</em><?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+				    <br>
+				    <br>
+				    <span>
+					<?php echo __("By subscribing you agree to receive periodic email updates from OrangeHRM."); ?>
+				    </span>
+				</li>
                             </ol>
                             <p>
                                 <input type="button" class="" name="btnSubscribe" id="btnSubscribe" value="<?php echo __("Subscribe"); ?>"/>

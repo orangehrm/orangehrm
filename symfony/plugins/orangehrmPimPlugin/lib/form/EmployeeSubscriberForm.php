@@ -76,8 +76,8 @@ class EmployeeSubscriberForm extends sfForm {
 
         return [
             'empNumber' => new sfValidatorString(array('required' => true)),
-            'name'       => new sfValidatorString(array('required' => true, 'max_length' => 200)),
-            'email'       => new sfValidatorEmail(array('required' => true, 'max_length' => 200, 'trim' => true)),
+            'name'       => new sfValidatorString(array('required' => true, 'max_length' => 50)),
+            'email'       => new sfValidatorEmail(array('required' => true, 'max_length' => 50, 'trim' => true)),
         ];
     }
 
