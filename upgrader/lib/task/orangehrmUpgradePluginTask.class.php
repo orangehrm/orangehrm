@@ -22,6 +22,10 @@ class orangehrmUpgradePluginTask extends sfBaseTask
         $pluginName = $arguments['plugin'];
         $previousVersion = $arguments['previousVersion'];
         $pluginsDir = sfConfig::get('sf_root_dir') . '/../symfony/plugins';
+        if (!is_file("$pluginsDir/$pluginName/upgrader/index.php")) {
+            $this->log('upgrade not found');
+            return;
+        }
         $data = require "$pluginsDir/$pluginName/upgrader/index.php";
         if (!array_key_exists($previousVersion, $data)) {
             $this->log('nothing to upgrade');

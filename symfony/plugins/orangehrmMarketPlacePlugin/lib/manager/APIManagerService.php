@@ -418,9 +418,8 @@ class APIManagerService
     public function getVersion()
     {
         include_once sfConfig::get('sf_root_dir') . "/../lib/confs/sysConf.php";
-        $version = new sysConf();
-        $version = $version->getVersion();
-        return $version;
+        $sysConf = new sysConf();
+        return $sysConf->getReleaseVersion();
     }
 
     /**
