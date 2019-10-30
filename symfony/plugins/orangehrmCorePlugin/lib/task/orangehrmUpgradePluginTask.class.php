@@ -33,5 +33,21 @@ class orangehrmUpgradePluginTask extends sfBaseTask
         if ($status !== 0) {
             throw new sfCommandException(sprintf('Error upgrading plugin: %s', $pluginName));
         }
+        $filePath = "$pluginsDir/$pluginName/install/installer.yml";
+        $content = sfYaml::load($filePath);
+        if (isset($content['post_upgrade_commands'])) {
+            chdir(sfConfig::get('sf_root_dir'));
+            if (is_string($content['post_upgrade_commands'])) {
+                $content['post_upgrade_commands'] = [$content['post_upgrade_commands']];
+            }
+            foreach ($content['post_upgrade_commands'] as $command) {
+                $out = [];
+                exec($command, $out, $status);
+                $this->log($out);
+                if ($status !== 0) {
+                    throw new sfCommandException('Error running post upgrade command');
+                }
+            }
+        }
     }
 }

@@ -114,6 +114,6 @@ class executePluginCheckAction extends sfAction
             require_once ROOT_PATH . '/lib/confs/sysConf.php';
         }
         $sysConf = new sysConf();
-        return $sysConf->getVersion();
+        return $sysConf->getReleaseVersion();
     }
 }
