@@ -154,7 +154,7 @@ class myUser extends sfBasicSecurityUser {
 
     public function isSubscribed() {
         $subscriptionService = new EmployeeSubscriptionService();
-        return $subscriptionService->isSubscribed($this->getEmployeeNumber());
+        return empty($this->getEmployeeNumber()) || $subscriptionService->isSubscribed($this->getEmployeeNumber());
     }
 
 }

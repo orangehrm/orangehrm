@@ -49,6 +49,10 @@ class subscriberAction extends basePimAction {
         $subscriberService = new EmployeeSubscriptionService();
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
 
+        if (empty($loggedInEmpNum)) {
+            $this->forwardToSecureAction();
+        }
+
         $this->isSubscribed = $subscriberService->isSubscribed($loggedInEmpNum);
         $this->form = new EmployeeSubscriberForm(array(), ['empNumber' => $loggedInEmpNum], true);
 

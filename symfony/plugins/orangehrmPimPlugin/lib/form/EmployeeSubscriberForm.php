@@ -62,7 +62,7 @@ class EmployeeSubscriberForm extends sfForm {
         $widgets['name'] = new sfWidgetFormInputText();
         $widgets['email'] = new sfWidgetFormInputText();
 
-        $widgets['name']->setDefault($employee->getFullName());
+        $widgets['name']->setDefault($employee->getFirstName() ?: $employee->getLastName());
         $widgets['email']->setDefault($employee->getEmpWorkEmail());
 
         return $widgets;

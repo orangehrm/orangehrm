@@ -109,9 +109,9 @@ $(document).ready(function () {
                 if (result === "true") {
                     $('#loading').removeClass();
                     $('#disable-screen').removeClass();
-                    $('#message_body').text(meassageInSuccess);
+                    $('#message_body').text(meassageInUpdateSuccess);
                     $('#messege_div').show(0).delay(2000).fadeOut(1000);
-                    if (paidTypeAddonIds.indexOf(updateBtn) > -1) {
+                    if (paidTypeAddonIds.indexOf(parseInt(updateId)) > -1) {
                         updateBtn.attr('value', 'Installed').prop("disabled", true).addClass('requested');
                     } else {
                         updateBtn.remove();
@@ -123,9 +123,9 @@ $(document).ready(function () {
                     updateBtn.attr('value', 'Update');
                     var errorcode = 'e' + result;
                     if (errorcode in installErrorMessage) {
-                        $("#addon_div").text(installErrorMessage[errorcode] + messaegeInFail)
+                        $("#addon_div").text(installErrorMessage[errorcode] + meassageInUpdateSuccess)
                     } else {
-                        $("#addon_div").text(messaegeInFail);
+                        $("#addon_div").text(meassageInUpdateSuccess);
                     }
                 }
             }

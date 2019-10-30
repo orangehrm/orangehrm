@@ -102,11 +102,11 @@ class ohrmAddonsAction extends baseAddonAction
                     $updatePendingAddons[] = $addonId;
                 }
             }
-            $this->paidTypeAddonIds = array_map(function($addon) {
+            $this->paidTypeAddonIds = array_values(array_map(function($addon) {
                 return $addon['id'];
             }, array_filter($addonList, function ($addon) {
                 return $addon['type'] === 'paid';
-            }));
+            })));
             $this->updatePendingAddons = $updatePendingAddons;
             $this->installedAddons = array_column($installAddons, 'id');
             $this->expiredAddons = $this->getMarcketplaceService()->getExpiredAddons();

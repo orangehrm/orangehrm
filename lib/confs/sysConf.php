@@ -17,122 +17,141 @@
 // Boston, MA  02110-1301, USA
 */
 
-class sysConf {
+class sysConf
+{
 
-  var $itemsPerPage;
+    var $itemsPerPage;
 
-  /** $accessDenied is depreciated and no longer in use
-         *  Please use the language files to change the access denied message.
-         */
-  var $accessDenied;
-  var $viewDescLen;
-  var $userEmail;
-  var $maxEmployees;
-  var $dateFormat;
-  var $timeFormat;
-
-  var $dateInputHint;
-  var $timeInputHint;
-  public $javascriptInputHint = "YYYY-MM-DD";
-  var $styleSheet;
-  var $version;
-
-  var $registrationUrl = null;
-  var $mode;
-  const DEV_MODE = "dev";
-  const PROD_MODE = "prod";
-  const TEST_MODE = "test";
-  const UAT_MODE = "uat";
-
-  /**
-   * Following variable decides if admin users can edit the sendmail path through a web browser.
-   * If set to false, the mailConf.php file has to be edited manually to set sendmail path.
-   *
-   * WARNING: Setting to true is not secure.
-   */
-  protected $allowSendmailPathEdit = false; // Set to true to edit sendmail path through a browser
-
-  /**
-   * Following variable limits sendmail path edit to a browser running on the same computer as OrangeHRM.
-   * Set to false to allow editing from anywhere.
-   *
-   * WARNING: Setting to false is not secure.
-   */
-  protected $sendmailPathEditOnlyFromLocalHost = true; // Set to edit sendmail path from
-
-  function __construct() {
-
-    $this->itemsPerPage=50;
-
-    /* $accessDenied is depreciated and no longer in use
+    /** $accessDenied is depreciated and no longer in use
      *  Please use the language files to change the access denied message.
      */
-    $this->accessDenied="Access Denied";
+    var $accessDenied;
+    var $viewDescLen;
+    var $userEmail;
+    var $maxEmployees;
+    var $dateFormat;
+    var $timeFormat;
 
-    $this->viewDescLen=60;
-    $this->userEmail = 'youremail@mailhost.com';
-    $this->maxEmployees = '4999';
-    $this->dateFormat = "Y-m-d";
-    $this->dateInputHint = "YYYY-mm-DD";
-    $this->timeFormat = "H:i";
-    $this->timeInputHint = "HH:MM";
-    $this->styleSheet = "orange";
-    $this->version = "4.3.4-beta.1";
-    $this->registrationUrl = "https://ospenguin.orangehrm.com";
-    $this->mode = "dev";
-  }
+    var $dateInputHint;
+    var $timeInputHint;
+    public $javascriptInputHint = "YYYY-MM-DD";
+    var $styleSheet;
+    var $version;
 
-  function getEmployeeIdLength() {
-    return strlen($this->maxEmployees);
-  }
+    var $registrationUrl = null;
+    var $mode;
+    const DEV_MODE = "dev";
+    const PROD_MODE = "prod";
+    const TEST_MODE = "test";
+    const UAT_MODE = "uat";
 
-  function getDateFormat() {
-    return $this->dateFormat;
-  }
+    /**
+     * Following variable decides if admin users can edit the sendmail path through a web browser.
+     * If set to false, the mailConf.php file has to be edited manually to set sendmail path.
+     *
+     * WARNING: Setting to true is not secure.
+     */
+    protected $allowSendmailPathEdit = false; // Set to true to edit sendmail path through a browser
 
-  function getTimeFormat() {
-    return $this->timeFormat;
-  }
+    /**
+     * Following variable limits sendmail path edit to a browser running on the same computer as OrangeHRM.
+     * Set to false to allow editing from anywhere.
+     *
+     * WARNING: Setting to false is not secure.
+     */
+    protected $sendmailPathEditOnlyFromLocalHost = true; // Set to edit sendmail path from
 
-  function getDateInputHint() {
-    return $this->dateInputHint;
-  }
+    function __construct()
+    {
 
-  function getTimeInputHint() {
-    return $this->timeInputHint;
-  }
+        $this->itemsPerPage = 50;
 
-  function getStyleSheet() {
-    return $this->styleSheet;
-  }
+        /* $accessDenied is depreciated and no longer in use
+         *  Please use the language files to change the access denied message.
+         */
+        $this->accessDenied = "Access Denied";
 
-  public function allowSendmailPathEdit() {
-      return $this->allowSendmailPathEdit;
-  }
+        $this->viewDescLen = 60;
+        $this->userEmail = 'youremail@mailhost.com';
+        $this->maxEmployees = '4999';
+        $this->dateFormat = "Y-m-d";
+        $this->dateInputHint = "YYYY-mm-DD";
+        $this->timeFormat = "H:i";
+        $this->timeInputHint = "HH:MM";
+        $this->styleSheet = "orange";
+        $this->version = "4.3.4";
+        $this->registrationUrl = "https://ospenguin.orangehrm.com";
+        $this->mode = "dev";
+    }
 
-  public function sendmailPathEditOnlyFromLocalHost() {
-    return $this->sendmailPathEditOnlyFromLocalHost;
-  }
+    function getEmployeeIdLength()
+    {
+        return strlen($this->maxEmployees);
+    }
 
-  public function getVersion() {
-    return $this->version;
-  }
+    function getDateFormat()
+    {
+        return $this->dateFormat;
+    }
 
-  /**
-   * Return the registration URL
-   * @return null|string
-   */
-  public function getRegistrationUrl() {
-    return $this->registrationUrl;
-  }
+    function getTimeFormat()
+    {
+        return $this->timeFormat;
+    }
 
-  /**
-   * Return the mode application should run.
-   * @return string
-   */
-  public function getMode() {
-    return $this->mode;
-  }
+    function getDateInputHint()
+    {
+        return $this->dateInputHint;
+    }
+
+    function getTimeInputHint()
+    {
+        return $this->timeInputHint;
+    }
+
+    function getStyleSheet()
+    {
+        return $this->styleSheet;
+    }
+
+    public function allowSendmailPathEdit()
+    {
+        return $this->allowSendmailPathEdit;
+    }
+
+    public function sendmailPathEditOnlyFromLocalHost()
+    {
+        return $this->sendmailPathEditOnlyFromLocalHost;
+    }
+
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    public function getReleaseVersion()
+    {
+        preg_match('/(\d\.\d+.\d+).*/', $this->version, $matches);
+        return $matches[1];
+    }
+
+    /**
+     * Return the registration URL
+     * @return null|string
+     */
+    public function getRegistrationUrl()
+    {
+        return $this->registrationUrl;
+    }
+
+    /**
+     * Return the mode application should run.
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
 }
 
 ?>
