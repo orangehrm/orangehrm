@@ -7752,6 +7752,14 @@
         <source>Renew Failed.</source>
         <target>FR_Renew Failed.</target>
       </trans-unit>
+      <trans-unit id="1938">
+        <source>Successfully Subscribed</source>
+        <target>FR_Successfully Subscribed</target>
+      </trans-unit>
+      <trans-unit id="1939">
+        <source>By subscribing you agree to receive periodic email updates from OrangeHRM.</source>
+        <target>FR_By subscribing you agree to receive periodic email updates from OrangeHRM.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
