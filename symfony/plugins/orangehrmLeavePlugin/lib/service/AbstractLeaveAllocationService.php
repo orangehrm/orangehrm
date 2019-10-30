@@ -550,7 +550,7 @@ abstract class AbstractLeaveAllocationService extends BaseService {
         }
         
         $leave->setLengthHours(floatval($durationInHours));
-        $leave->setLengthDays(floatval($durationInHours / $workScheduleDuration));
+        $leave->setLengthDays(floatval(number_format($durationInHours / $workScheduleDuration, 4)));
     }
     
     protected function addHoursDuration($time, $hoursToAdd) {
