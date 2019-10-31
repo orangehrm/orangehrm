@@ -309,7 +309,9 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var paidTypeAddonIds = <?php echo json_encode($paidTypeAddonIds); ?>;
 
     var meassageInSuccess = "<?php echo __js('Successfully Installed'); ?>";
+    var meassageInUpdateSuccess = "<?php echo __js('Successfully Updated'); ?>";
     var messaegeInFail = "<?php echo __js('Failed to Install'); ?>";
+    var messaegeInUpdateFail = "<?php echo __js('Failed to Update'); ?>";
     var meassageUninSuccess = "<?php echo __js('Successfully Uninstalled'); ?>";
     var meassageUninFail = "<?php echo __js('Failed to Uninstall'); ?>";
     var buyNowReqSuccess = "<?php echo __js('Your request has been forwarded'); ?>";
