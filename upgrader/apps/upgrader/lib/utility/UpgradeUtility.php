@@ -382,8 +382,20 @@ CONFCONT;
     }
 
     public function getInstalledAddons() {
+        if (!$this->tableExists('ohrm_marketplace_addon')) {
+            return [];
+        }
         $query = 'select * from ohrm_marketplace_addon where plugin_name is not null';
         return mysqli_fetch_all($this->executeSql($query), MYSQLI_ASSOC);
+    }
+
+    public function tableExists($tableName) {
+        $sql = "SHOW TABLES LIKE '$tableName'";
+        $result = $this->executeSql($sql);
+        if ($result) {
+            return mysqli_num_rows($result) > 0;
+        }
+        return false;
     }
 
     public function getMarketplaceBaseUrl() {
