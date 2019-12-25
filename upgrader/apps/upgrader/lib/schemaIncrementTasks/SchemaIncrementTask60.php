@@ -101,7 +101,7 @@ class SchemaIncrementTask60 extends SchemaIncrementTask {
     }
 
     public function createCsrfKey() {
-        return \phpseclib\Crypt\Random::string(55);
+        return bin2hex(\phpseclib\Crypt\Random::string(55));
     }
 
 }
