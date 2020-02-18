@@ -30,6 +30,7 @@ class orangehrmMailTransport {
 
     private $transport;
     private $configSet = false;
+    private $configService = null;
 
     public function __construct() {
 
@@ -73,7 +74,7 @@ class orangehrmMailTransport {
 
                 case 'sendmail':
 
-                    $this->transport = Swift_SendmailTransport::newInstance($this->emailConfig->getSendmailPath());
+                    $this->transport = Swift_SendmailTransport::newInstance($this->getConfigService()->getSendmailPath());
 
                     break;
 
@@ -87,6 +88,13 @@ class orangehrmMailTransport {
 
     public function setTransport($transport) {
         $this->transport = $transport;
+    }
+
+    private function getConfigService() {
+        if (!($this->configService instanceof ConfigService)) {
+            $this->configService = new ConfigService();
+        }
+        return $this->configService;
     }
 
 
