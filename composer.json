@@ -2,6 +2,6 @@
     "name": "orangehrm/orangehrm",
     "description": "OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures all the essential functionalities required for any enterprise.",
     "type": "project",
-    "license": "GNU General Public License",
+    "license": "GPL-3.0-only",
     "require": {}
 }
