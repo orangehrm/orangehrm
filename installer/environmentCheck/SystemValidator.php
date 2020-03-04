@@ -19,7 +19,7 @@
  */
 
 
-require __DIR__ . "/../../symfony/lib/vendor/autoload.php";
+require realpath(__DIR__ . "/../../symfony/lib/vendor/autoload.php");
 
 class SystemValidator
 {
