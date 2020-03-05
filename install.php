@@ -134,6 +134,7 @@ if (isset($_POST['actionResponse']))
             }
 
             if ($conn) {
+                $conn->set_charset("utf8mb4");
                 $mysqlHost = mysqli_get_server_info($conn);
 
                 if ($_POST['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName'])) {

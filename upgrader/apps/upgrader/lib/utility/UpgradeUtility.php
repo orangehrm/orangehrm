@@ -18,7 +18,7 @@ class UpgradeUtility {
         {
             die('Could not connect: ' . mysqli_connect_error());
         }
-        $this->dbConnection->set_charset("utf8");
+        $this->dbConnection->set_charset("utf8mb4");
         mysqli_autocommit($this->dbConnection, FALSE);
         return $this->dbConnection;
     }
@@ -139,12 +139,12 @@ CONFCONT;
         $dbOHRMUser = $username;
         $dbOHRMPassword = $password;
         
-        $dsn = "mysql:host=$dbHost;dbname=$dbName";
-        $testDsn = "mysql:host=$dbHost;dbname=test_$dbName";
+        $dsn = "mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4";
+        $testDsn = "mysql:host=$dbHost;dbname=test_$dbName;charset=utf8mb4";
         
         if (is_numeric($dbHostPort)) {
-            $dsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=$dbName";
-            $testDsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=test_$dbName";
+            $dsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=$dbName;charset=utf8mb4";
+            $testDsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=test_$dbName;charset=utf8mb4";
         }
     
     $confContent = <<< CONFCONT

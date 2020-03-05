@@ -480,6 +480,8 @@ function dbConfigurationCheck()
 
             if (mysqli_connect_error()) {
                 print_r($dbInfo);
+            } else {
+                $conn->set_charset("utf8mb4");
             }
         }
 

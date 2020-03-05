@@ -32,6 +32,7 @@ function connectDB() {
 		$_SESSION['error'] =  sprintf($errorMsg, $mysqlErrNo, $error);
 		return false;
 	}
+	$conn->set_charset("utf8mb4");
 return $conn;
 }
 

@@ -28,6 +28,8 @@ require_once "../../../lib/confs/Conf.php";
 $conf = new Conf();
 $dbConnection = mysqli_connect($conf->dbhost, $conf->dbuser, $conf->dbpass, $conf->dbname, $conf->dbport);
 if (!$dbConnection) { echo mysqli_error($dbConnection); die; }
+$dbConnection->set_charset("utf8mb4");
+
 //if (!mysqli_select_db($conf->dbname)) { echo mysqli_error(); exit(0); }
 
 // Truncating tables
