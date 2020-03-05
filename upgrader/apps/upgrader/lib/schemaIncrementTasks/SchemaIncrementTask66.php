@@ -30,11 +30,7 @@ class SchemaIncrementTask66 extends SchemaIncrementTask
 
         $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` DROP PRIMARY KEY;';
 
-        $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` ADD `id` int(6);';
-
-        $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` ADD PRIMARY KEY(`id`);';
-
-        $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` MODIFY COLUMN id INT auto_increment;';
+        $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` ADD `id` int(6) NOT NULL PRIMARY KEY AUTO_INCREMENT;';
 
         $this->sql = $sql;
     }
