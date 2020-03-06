@@ -21,7 +21,7 @@
 namespace Orangehrm\Rest\Api;
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\http\RequestParams;
+use Orangehrm\Rest\Http\RequestParams;
 
 class EndPoint {
 
