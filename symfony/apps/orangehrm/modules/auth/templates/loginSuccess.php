@@ -93,13 +93,13 @@ $loginImage = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . sfConfig::get(
         var isEmptyPasswordAllowed = false;
         
         if ($('#txtUsername').val() == '') {
-            showMessage('<?php echo __('Username cannot be empty'); ?>');
+            showMessage('<?php echo __js('Username cannot be empty'); ?>');
             return false;
         }
         
         if (!isEmptyPasswordAllowed) {
             if ($('#txtPassword').val() == '') {
-                showMessage('<?php echo __('Password cannot be empty'); ?>');
+                showMessage('<?php echo __js('Password cannot be empty'); ?>');
                 return false;
             }
         }
