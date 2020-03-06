@@ -25,7 +25,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     if (file_exists($resourceIncFile)) {
         require_once $resourceIncFile;
     } else {
-        sfConfig::set('ohrm_resource_dir', sfConfig::get('sf_web_dir'));
+        sfConfig::set('ohrm_resource_dir', "");
     }
 
     $this->dispatcher->connect('context.load_factories', array($this,
