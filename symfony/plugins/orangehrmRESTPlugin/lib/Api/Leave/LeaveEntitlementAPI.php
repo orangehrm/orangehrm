@@ -194,7 +194,9 @@ class LeaveEntitlementAPI extends EndPoint
         $fromDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_FROM_DATE);
         $toDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE);
 
-        $this->validateLeaveType($leaveType);
+        if (!is_null($leaveType)) {
+            $this->validateLeaveType($leaveType);
+        }
 
         $searchParameters->setEmpNumber($id);
         $searchParameters->setLeaveTypeId($leaveType);

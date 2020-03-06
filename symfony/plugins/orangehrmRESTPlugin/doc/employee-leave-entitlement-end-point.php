@@ -22,6 +22,13 @@
 *        {
 *        "data": [
 *        {
+*        "id": "1",
+*        "type": "Casual",
+*        "validFrom": "2017-01-01",
+*        "validTo": "2017-12-31",
+*        "days": "5.0"
+*        },
+*        {
 *        "id": "2",
 *        "type": "Annual",
 *        "validFrom": "2017-01-01 ",
