@@ -32,6 +32,9 @@ class InstallCleaner {
     public function dropDatabase($dbHost, $dbPort, $dbName, $dbUser, $dbPassword) {
 
         $conn = mysqli_connect($dbHost, $dbUser, $dbPassword, "", $dbPort);
+        if ($conn instanceof mysqli) {
+            $conn->set_charset("utf8mb4");
+        }
         if (mysqli_query($conn, "DROP DATABASE `{$dbName}`") !== FALSE) {
             $this->displayMessage("Database '{$dbName}' was deleted.");
         } else {

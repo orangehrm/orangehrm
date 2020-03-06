@@ -27,6 +27,7 @@ $dbConnection = mysqli_connect($conf->dbhost, $conf->dbuser, $conf->dbpass, $con
 if (!$dbConnection) {
     die(mysqli_connect_error());
 }
+$dbConnection->set_charset("utf8mb4");
 
 mysqli_query($dbConnection, "SET foreign_key_checks = 0");
 

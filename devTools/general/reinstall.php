@@ -26,6 +26,10 @@ require_once $confPath;
 $c = new Conf();
 
 $conn = mysqli_connect($c->dbhost, $c->dbuser, $c->dbpass, "", $c->dbport);
+if ($conn instanceof mysqli) {
+    $conn->set_charset("utf8mb4");
+}
+
 if (mysqli_query($conn, "DROP DATABASE `{$c->dbname}`")) {
     
     echo "Existing '{$c->dbname}' database was deleted.<br>\n";

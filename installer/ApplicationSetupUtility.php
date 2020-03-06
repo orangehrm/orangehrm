@@ -91,6 +91,9 @@ class ApplicationSetupUtility {
             $_SESSION['error'] = sprintf($errorMsg, $mysqlErrNo, $error);
             return;
         }
+        if (self::$conn instanceof mysqli) {
+            self::$conn->set_charset("utf8mb4");
+        }
 
     }
 
@@ -330,12 +333,12 @@ public static function writeSymfonyDbConfigFile() {
 		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
 	}
     
-    $dsn = "mysql:host=$dbHost;dbname=$dbName";
-    $testDsn = "mysql:host=$dbHost;dbname=test_$dbName";
+    $dsn = "mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4";
+    $testDsn = "mysql:host=$dbHost;dbname=test_$dbName;charset=utf8mb4";
     
     if (is_numeric($dbHostPort)) {
-        $dsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=$dbName";
-        $testDsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=test_$dbName";
+        $dsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=$dbName;charset=utf8mb4";
+        $testDsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=test_$dbName;charset=utf8mb4";
     }
 	
     $confContent = <<< CONFCONT
