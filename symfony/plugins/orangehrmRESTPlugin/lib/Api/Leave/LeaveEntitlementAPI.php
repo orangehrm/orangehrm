@@ -308,10 +308,7 @@ class LeaveEntitlementAPI extends EndPoint
         foreach ($leavePeriodList as $period) {
             if ($period[0] === $fromDate && $period[1] === $toDate) {
                 return true;
-            } else {
-                return false;
             }
-
         }
         return false;
     }
