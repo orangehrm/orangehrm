@@ -16,6 +16,11 @@ class LoginService extends BaseService{
     public function addLogin($form = null) {
         
         $user = UserRoleManagerFactory::getUserRoleManager()->getUser();
+        // Here user shouldn't be null since it's new user login.
+        // But in case session data changing the request user role manager should update with new user data
+        if (is_null($user)) {
+            $user = UserRoleManagerFactory::getNewUserRoleManager()->getUser();
+        }
         $login = new Login();
         $login->setUserId($user->getId());
         $login->setUserName($user->getName());

@@ -33,7 +33,18 @@ class UserRoleManagerFactory {
             self::$userRoleManager = $userRoleManagerService->getUserRoleManager();
         }        
         return self::$userRoleManager;
-    }    
+    }
+
+    /**
+     * Get new user role manager when session detail changes
+     *
+     * @return AbstractUserRoleManager
+     * @throws ServiceException
+     */
+    public static function getNewUserRoleManager() {
+        $userRoleManagerService = new UserRoleManagerService();
+        return $userRoleManagerService->getUserRoleManager();
+    }
     
 }
 
