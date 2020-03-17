@@ -54,7 +54,7 @@ class AuthProviderExtraDetailsForm extends AddOpenIdProviderForm {
     public function getAuthenticationTypeList() {
         $authenticationType = array(
             AuthProviderExtraDetails::OPEN_ID => 'OpenId',
-            AuthProviderExtraDetails::GOOGLE_PLUS => 'Google+'
+            AuthProviderExtraDetails::GOOGLE_PLUS => 'Google'
         );
         return $authenticationType;
     }
