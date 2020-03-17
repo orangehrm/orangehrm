@@ -2,6 +2,15 @@ FROM php:7.3.6-apache
 
 ENV OHRM_VERSION 4.3.4
 ENV OHRM_MD5 9e7e78d3992eaf60b5844af773304377
+ENV IONCUBE_MD5 d7df75a865246db01150f1f5ff8d1e40
+
+RUN set -ex; \
+    curl -fSL -o ioncube.tar.gz "https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"; \
+    echo "${IONCUBE_MD5} ioncube.tar.gz" | md5sum -c -; \
+    tar -xvvzf ioncube.tar.gz; \
+    mv ioncube/ioncube_loader_lin_7.3.so `php-config --extension-dir`; \
+    rm -rf ioncube.tar.gz ioncube; \
+    docker-php-ext-enable ioncube_loader_lin_7.3
 
 RUN set -ex; \
 	savedAptMark="$(apt-mark showmanual)"; \
@@ -11,15 +20,16 @@ RUN set -ex; \
 		libjpeg-dev \
 		libpng-dev \
 		libzip-dev \
+		libldap2-dev \
 		unzip \
 	; \
 	\
 	cd .. && rm -r html; \
-	curl -fSL -o orangehrm.zip "https://sourceforge.net/projects/orangehrm/files/stable/${OHRM_VERSION}/orangehrm-${OHRM_VERSION}.zip/download"; \
+	curl -fSL -o orangehrm.zip "https://github.com/orangehrm/orangehrm/releases/download/${OHRM_VERSION}/orangehrm-${OHRM_VERSION}.zip"; \
 	echo "${OHRM_MD5} orangehrm.zip" | md5sum -c -; \
 	unzip -q orangehrm.zip "orangehrm-${OHRM_VERSION}/*"; \
 	mv orangehrm-$OHRM_VERSION html; \
-	rm orangehrm.zip; \
+	rm -rf orangehrm.zip; \
 	chown www-data:www-data html; \
 	chown -R www-data:www-data html/symfony/cache html/symfony/log; \
 	chmod -R 775 html/symfony/cache html/symfony/log; \
@@ -29,6 +39,9 @@ RUN set -ex; \
 		--with-png-dir=/usr \
 		--with-jpeg-dir=/usr \
 	; \
+	docker-php-ext-configure ldap \
+	    --with-libdir=lib/x86_64-linux-gnu/ \
+	; \
 	\
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
@@ -36,6 +49,7 @@ RUN set -ex; \
 		mysqli \
 		pdo_mysql \
 		zip \
+		ldap \
 	; \
 	\
 	apt-mark auto '.*' > /dev/null; \
