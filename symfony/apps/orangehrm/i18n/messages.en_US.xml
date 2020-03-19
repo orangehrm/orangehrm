@@ -7556,6 +7556,14 @@
         <source>Should not be more than 10000</source>
         <target/>
       </trans-unit>
+      <trans-unit id="1889">
+        <source>User has authentication!</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1990">
+        <source>Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials</source>
+        <target/>
+      </trans-unit>
     </body>
   </file>
 </xliff>
