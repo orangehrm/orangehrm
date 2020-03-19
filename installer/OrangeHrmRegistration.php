@@ -75,7 +75,7 @@ class OrangeHrmRegistration
                 . "&admin_last_name=" . $_SESSION['defUser']['adminEmployeeLastName']
                 . "&timezone=" . ($_SESSION['defUser']['timezone'] ? $_SESSION['defUser']['timezone'] : "Not captured")
                 . "&language=" . ($_SESSION['defUser']['language'] ? $_SESSION['defUser']['language'] : "Not captured")
-                . "&country=" . $_SESSION['defUser']['country']
+                . "&country=" . ($_SESSION['defUser']['country'] ? $_SESSION['defUser']['country'] : "Not Captured")
                 . "&organization_name=" . $_SESSION['defUser']['organizationName']
                 . "&type=" . $_SESSION['defUser']['type']
                 . "&instance_identifier=" . $this->getSystemConfigurationInstance()->createInstanceIdentifier($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['adminEmployeeFirstName'], $_SESSION['defUser']['adminEmployeeLastName'], $_SERVER['HTTP_HOST'], $_SESSION['country'], $this->getSysConf()->getVersion())
