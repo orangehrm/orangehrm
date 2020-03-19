@@ -120,6 +120,9 @@ $systemConfigurationHelper = new systemConfigurationHelper();
                 'organizationName': {
                     required: true,
                 },
+                'country': {
+                    required: true,
+                },
                 'adminEmployeeFirstName': {
                     fistNameRequired: true,
                 },
@@ -148,6 +151,9 @@ $systemConfigurationHelper = new systemConfigurationHelper();
             },
             messages: {
                 'organizationName': {
+                    required: "Required",
+                },
+                'country': {
                     required: "Required",
                 },
                 'adminEmployeeFirstName': {
