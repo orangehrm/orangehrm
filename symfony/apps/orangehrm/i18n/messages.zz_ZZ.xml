@@ -7760,6 +7760,14 @@
         <source>By subscribing you agree to receive periodic email updates from OrangeHRM.</source>
         <target>FR_By subscribing you agree to receive periodic email updates from OrangeHRM.</target>
       </trans-unit>
+      <trans-unit id="1940">
+        <source>User has authentication!</source>
+        <target>FR_User has authentication!</target>
+      </trans-unit>
+      <trans-unit id="1941">
+        <source>Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials</source>
+        <target>FR_Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

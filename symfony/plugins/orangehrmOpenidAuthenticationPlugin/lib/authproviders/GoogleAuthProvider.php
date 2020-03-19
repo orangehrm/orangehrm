@@ -36,7 +36,7 @@ class GoogleAuthProvider extends AbstractAuthProvider {
     public function validateUser($provider, $authProvider = null)
     {
         $gClient = new Google_Client();
-        $gClient->setApplicationName('Login to Google +');
+        $gClient->setApplicationName('Login to Google');
         $gClient->setClientId($authProvider->getClientId());
         $gClient->setClientSecret($authProvider->getClientSecret());
         $gClient->setRedirectUri($provider->getProviderUrl());
@@ -58,11 +58,11 @@ class GoogleAuthProvider extends AbstractAuthProvider {
                 $this->authenticationMassage=__('User has authentication!');
                 $flag = array(
                     'type' => 'true',
-                    'message' =>  $this->authMassage
+                    'message' =>  $this->authenticationMassage
                 );
                 return $flag;
             } else {
-                $this->authenticationMassage=__('Invalid Credentials : you Have No OpenID account in Orangehrm try loging with OrangeHRM credentials');
+                $this->authenticationMassage=__('Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials');
                 $flag = array(
                     'type' => 'false',
                     'message' =>  $this->authenticationMassage
