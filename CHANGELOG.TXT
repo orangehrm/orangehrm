@@ -1,3 +1,18 @@
+New & Changed Features for OrangeHRM ver 4.3.5
+    Bug Fixes
+    ------------
+    Sendmail email not sending issue. Git Issue #604
+    Quick start guide points to non existing resource. Git Issue #602
+    Dockerfile build failure. Git Issue #601 #407
+    REST API bug in LeaveEntitlementAPI->validateLeavePeriods(). Git Issue #599
+    REST API get leave entitlement forces optional parameter. Git Issue #549
+    Errors upgrading from 3.3.2 to 4.3.4 because of issue in database character encoding. Git Issue #612
+    Errors upgrading from 3.1.1 to 4.3.4. Git Issue #595
+    CSS break issue in login page. Git Issue #611 #584
+    Error thrown when installing in Windows environment due to directory path issue. Git Issue #607
+    Cannot login if the system configured with french language. Username and Password fields are not typable.
+    When login to the system through Google alternative login, user redirect to an internal error page.
+
 New & Changed Features for OrangeHRM ver 4.3.4
     New Features
     ------------
