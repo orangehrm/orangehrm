@@ -7768,6 +7768,18 @@
         <source>Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials</source>
         <target>FR_Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials</target>
       </trans-unit>
+      <trans-unit id="1942">
+        <source>Employee is terminated</source>
+        <target>FR_Employee is terminated</target>
+      </trans-unit>
+      <trans-unit id="1943">
+        <source>Employee not assigned</source>
+        <target>FR_Employee not assigned</target>
+      </trans-unit>
+      <trans-unit id="1944">
+        <source>Account disabled</source>
+        <target>FR_Account disabled</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
