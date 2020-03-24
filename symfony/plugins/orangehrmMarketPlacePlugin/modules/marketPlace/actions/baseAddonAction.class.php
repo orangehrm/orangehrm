@@ -85,4 +85,12 @@ abstract class baseAddonAction extends sfAction
         }
         return $this->addonList;
     }
+
+    /**
+     * @return Logger
+     */
+    public function getMarketPlaceLogger()
+    {
+        return Logger::getLogger("marketplace");
+    }
 }

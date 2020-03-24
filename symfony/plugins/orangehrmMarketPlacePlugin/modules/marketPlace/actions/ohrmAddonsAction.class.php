@@ -111,15 +111,15 @@ class ohrmAddonsAction extends baseAddonAction
             $this->installedAddons = array_column($installAddons, 'id');
             $this->expiredAddons = $this->getMarcketplaceService()->getExpiredAddons();
         } catch (GuzzleHttp\Exception\ConnectException $e) {
-            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
-            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
+            $this->getMarketPlaceLogger()->error($e->getCode() . ' : ' . $e->getMessage());
+            $this->getMarketPlaceLogger()->error($e->getTraceAsString());
             $this->exception = true;
             $this->errorMessage = self::NO_NETWORK_ERR_MESSAGE;
         } catch (Exception $e) {
             $this->exception = true;
             $this->errorMessage = self::MP_MIDDLEWERE_ERR_MESSAGE;
-            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
-            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
+            $this->getMarketPlaceLogger()->error($e->getCode() . ' : ' . $e->getMessage());
+            $this->getMarketPlaceLogger()->error($e->getTraceAsString());
         }
     }
 
