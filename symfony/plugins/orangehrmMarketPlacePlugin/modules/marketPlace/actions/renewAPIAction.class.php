@@ -44,7 +44,7 @@ class renewAPIAction extends baseAddonAction
             if (is_string($addonLicenseContent) && strlen($addonLicenseContent) > 0) {
                 file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);
             } else {
-                throw new Exception('Error when renewing the license file');
+                throw new Exception('Error when renewing the license file', 1009);
             }
             $result = $this->getMarcketplaceService()->changeAddonStatus(
                 [$addonName],

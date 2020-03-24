@@ -55,7 +55,7 @@ class installAddonAPIAction extends baseAddonAction
                 } else {
                     chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
                     exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
-                    throw new Exception('Error when retrieving the license file');
+                    throw new Exception('Error when retrieving the license file', 1008);
                 }
             }
             $this->licenseDownloaded = true;
