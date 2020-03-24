@@ -82,11 +82,11 @@ class OpenIdAuthenticationService extends AuthenticationService {
             sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
 
             if ($user->getIsAdmin() == 'No' && $user->getEmpNumber() == '') {
-                throw new AuthenticationServiceException('Employee not assigned');
+                throw new AuthenticationServiceException(__('Employee not assigned'));
             } elseif (!is_null($user->getEmployee()->getTerminationId())) {
-                throw new AuthenticationServiceException('Employee is terminated');
+                throw new AuthenticationServiceException(__('Employee is terminated'));
             } elseif ($user->getStatus() == 0) {
-                throw new AuthenticationServiceException('Account disabled');
+                throw new AuthenticationServiceException(__('Account disabled'));
             }
 
             $identity=$this->getOpenIdentityDao()->getOpenIdentity($user->getId(), $additionalData['providerid']);

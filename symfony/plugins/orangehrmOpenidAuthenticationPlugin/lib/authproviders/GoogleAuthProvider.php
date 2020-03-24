@@ -52,20 +52,30 @@ class GoogleAuthProvider extends AbstractAuthProvider {
             $username = $tokenData[self::EMAIL_SCOPE];
             $dataArray['providerid'] = $provider->getProviderId();
             $dataArray['useridentity'] = json_encode($gClient->getAccessToken());
-            $success = $this->getOpenIdService()->setOpenIdCredentials($username, $dataArray);
-            if ($success) {
-                $this->getLoginService()->addLogin();
-                $this->authenticationMassage=__('User has authentication!');
-                $flag = array(
-                    'type' => 'true',
-                    'message' =>  $this->authenticationMassage
-                );
-                return $flag;
-            } else {
-                $this->authenticationMassage=__('Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials');
+            try {
+                $success = $this->getOpenIdService()->setOpenIdCredentials($username, $dataArray);
+                if ($success) {
+                    $this->getLoginService()->addLogin();
+                    $this->authenticationMassage=__('User has authentication!');
+                    $flag = array(
+                        'type' => 'true',
+                        'message' =>  $this->authenticationMassage
+                    );
+                    return $flag;
+                } else {
+                    $this->authenticationMassage=__('Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials');
+                    $flag = array(
+                        'type' => 'false',
+                        'message' =>  $this->authenticationMassage
+                    );
+                    return $flag;
+                }
+            } catch (AuthenticationServiceException $e) {
+
+                $this->authenticationMassage = $e->getMessage();
                 $flag = array(
                     'type' => 'false',
-                    'message' =>  $this->authenticationMassage
+                    'message' => $this->authenticationMassage
                 );
                 return $flag;
             }
