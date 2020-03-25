@@ -42,6 +42,7 @@ class GoogleAuthProvider extends AbstractAuthProvider {
         $gClient->setRedirectUri($provider->getProviderUrl());
         $gClient->setDeveloperKey($authProvider->getDeveloperKey());
         $gClient->addScope(array(self::EMAIL_SCOPE, self::PROFILE_SCOPE));
+        $gClient->setPrompt('consent');
         $requestParameters = $this->getOption();
 
         if (isset($requestParameters['code'])) {
