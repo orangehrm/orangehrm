@@ -42,13 +42,13 @@ class ohrmBuyNowAPIAction extends baseAddonAction
             echo json_encode($result);
             return sfView::NONE;
         } catch (GuzzleHttp\Exception\ConnectException $e) {
-            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
-            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
+            $this->getMarketPlaceLogger()->error($e->getCode() . ' : ' . $e->getMessage());
+            $this->getMarketPlaceLogger()->error($e->getTraceAsString());
             echo json_encode(self::ERROR_CODE_NO_CONNECTION);
             return sfView::NONE;
         } catch (Exception $e) {
-            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
-            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
+            $this->getMarketPlaceLogger()->error($e->getCode() . ' : ' . $e->getMessage());
+            $this->getMarketPlaceLogger()->error($e->getTraceAsString());
             echo json_encode(self::ERROR_CODE_EXCEPTION);
             return sfView::NONE;
         }

@@ -44,7 +44,7 @@ class renewAPIAction extends baseAddonAction
             if (is_string($addonLicenseContent) && strlen($addonLicenseContent) > 0) {
                 file_put_contents(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . 'ohrm.license.php', $addonLicenseContent);
             } else {
-                throw new Exception('Error when renewing the license file');
+                throw new Exception('Error when renewing the license file', 1009);
             }
             $result = $this->getMarcketplaceService()->changeAddonStatus(
                 [$addonName],
@@ -54,13 +54,13 @@ class renewAPIAction extends baseAddonAction
             echo json_encode($result);
             return sfView::NONE;
         } catch (GuzzleHttp\Exception\ConnectException $e) {
-            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
-            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
+            $this->getMarketPlaceLogger()->error($e->getCode() . ' : ' . $e->getMessage());
+            $this->getMarketPlaceLogger()->error($e->getTraceAsString());
             echo json_encode(self::ERROR_CODE_NO_CONNECTION);
             return sfView::NONE;
         } catch (Exception $e) {
-            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
-            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
+            $this->getMarketPlaceLogger()->error($e->getCode() . ' : ' . $e->getMessage());
+            $this->getMarketPlaceLogger()->error($e->getTraceAsString());
             echo json_encode($e->getCode());
             return sfView::NONE;
         }

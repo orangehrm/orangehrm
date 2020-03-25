@@ -324,9 +324,13 @@ use_javascript(plugin_web_path('orangehrmMarketPlacePlugin', 'js/ohrmAddonSucces
     var installErrorMessage = {
         "e3000": "<?php echo __js('3000 : Please connect to the internet to view the available add-ons. '); ?>",
         "e1001": "<?php echo __js('1001: Running php symfony cc fails. '); ?>",
+        "e1002": "<?php echo __js('1002: Failed to execute database queries.'); ?>",
         "e1004": "<?php echo __js('1004: Running php symfony o:publish-asset fails. '); ?>",
         "e1005": "<?php echo __js('1005: Running php symfony d:build-model fails. '); ?>",
-        "e1006": "<?php echo __js('1006: Can not add to OrangeHRM database. Uninstallation will cause errors. But plugin can used. '); ?>"
+        "e1006": "<?php echo __js('1006: Can not add to OrangeHRM database. Uninstallation will cause errors. But plugin can used. '); ?>",
+        "e1007": "<?php echo __js('1007: Downloaded file corrupted.'); ?>",
+        "e1008": "<?php echo __js('1008: Error when retrieving the license file.'); ?>",
+        "e1009": "<?php echo __js('1009: Error when renewing the license file.'); ?>"
     };
     var uninstallErrorMessage = {
         "e2000": "<?php echo __js('2000: Selected plugin to uninstall is not tracked in database. '); ?>",

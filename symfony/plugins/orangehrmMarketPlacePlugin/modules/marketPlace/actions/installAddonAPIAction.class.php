@@ -55,7 +55,7 @@ class installAddonAPIAction extends baseAddonAction
                 } else {
                     chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
                     exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
-                    throw new Exception('Error when retrieving the license file');
+                    throw new Exception('Error when retrieving the license file', 1008);
                 }
             }
             $this->licenseDownloaded = true;
@@ -67,8 +67,8 @@ class installAddonAPIAction extends baseAddonAction
                 chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
                 exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
             }
-            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
-            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
+            $this->getMarketPlaceLogger()->error($e->getCode() . ' : ' . $e->getMessage());
+            $this->getMarketPlaceLogger()->error($e->getTraceAsString());
             echo json_encode(self::ERROR_CODE_NO_CONNECTION);
             return sfView::NONE;
         } catch (Exception $e) {
@@ -76,8 +76,8 @@ class installAddonAPIAction extends baseAddonAction
                 chdir(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . 'plugins');
                 exec("rm -r " . $this->pluginName , $clearResponse, $clearStatus);
             }
-            Logger::getLogger("orangehrm")->error($e->getCode() . ' : ' . $e->getMessage());
-            Logger::getLogger("orangehrm")->error($e->getTraceAsString());
+            $this->getMarketPlaceLogger()->error($e->getCode() . ' : ' . $e->getMessage());
+            $this->getMarketPlaceLogger()->error($e->getTraceAsString());
             echo json_encode($e->getCode());
             return sfView::NONE;
         }
@@ -118,6 +118,8 @@ class installAddonAPIAction extends baseAddonAction
             $connection->commit();
         } catch (Exception $e) {
             $connection->rollback();
+            $this->getMarketPlaceLogger()->error($e->getCode() . ' : ' . $e->getMessage());
+            $this->getMarketPlaceLogger()->error($e->getTraceAsString());
             throw new Exception('installation query fails', 1002);
         }
         if (!$install) {

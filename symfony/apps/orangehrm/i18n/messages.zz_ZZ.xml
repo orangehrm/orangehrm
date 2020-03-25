@@ -7780,6 +7780,70 @@
         <source>Account disabled</source>
         <target>FR_Account disabled</target>
       </trans-unit>
+      <trans-unit id="1945">
+        <source>Marketplace</source>
+        <target>FR_Marketplace</target>
+      </trans-unit>
+      <trans-unit id="1946">
+        <source>OrangeHRM Addons</source>
+        <target>FR_OrangeHRM Addons</target>
+      </trans-unit>
+      <trans-unit id="1947">
+        <source>Installed</source>
+        <target>FR_Installed</target>
+      </trans-unit>
+      <trans-unit id="1948">
+        <source>Uninstall</source>
+        <target>FR_Uninstall</target>
+      </trans-unit>
+      <trans-unit id="1949">
+        <source>Update</source>
+        <target>FR_Update</target>
+      </trans-unit>
+      <trans-unit id="1950">
+        <source>Install</source>
+        <target>FR_Install</target>
+      </trans-unit>
+      <trans-unit id="1951">
+        <source>Request Renew</source>
+        <target>FR_Request Renew</target>
+      </trans-unit>
+      <trans-unit id="1952">
+        <source>Renew</source>
+        <target>FR_Renew</target>
+      </trans-unit>
+      <trans-unit id="1953">
+        <source>Requested</source>
+        <target>FR_Requested</target>
+      </trans-unit>
+      <trans-unit id="1954">
+        <source>Renew Requested</source>
+        <target>FR_Renew Requested</target>
+      </trans-unit>
+      <trans-unit id="1955">
+        <source>Request</source>
+        <target>FR_Request</target>
+      </trans-unit>
+      <trans-unit id="1956">
+        <source>Are you sure you want to install this application and it's dependencies?</source>
+        <target>FR_Are you sure you want to install this application and it's dependencies?</target>
+      </trans-unit>
+      <trans-unit id="1957">
+        <source>Request an add-on</source>
+        <target>FR_Request an add-on</target>
+      </trans-unit>
+      <trans-unit id="1958">
+        <source>You are requesting to buy this add-on.</source>
+        <target>FR_You are requesting to buy this add-on.</target>
+      </trans-unit>
+      <trans-unit id="1959">
+        <source>Please confirm your contact details. Your details will be forwarded to OrangeHRM sales representative.</source>
+        <target>FR_Please confirm your contact details. Your details will be forwarded to OrangeHRM sales representative.</target>
+      </trans-unit>
+      <trans-unit id="1960">
+        <source>Contact Number</source>
+        <target>FR_Contact Number</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
