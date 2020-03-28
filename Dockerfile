@@ -1,5 +1,7 @@
 FROM php:7.3.15-apache-buster
 
+LABEL maintainer="samanthaj@orangehrm.com"
+
 ENV OHRM_VERSION 4.3.5
 ENV OHRM_MD5 6e02c698d2c90d3dbd5b776e54c06d41
 ENV IONCUBE_MD5 d7df75a865246db01150f1f5ff8d1e40
