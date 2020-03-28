@@ -1,4 +1,4 @@
-FROM php:7.3.6-apache
+FROM php:7.3.15-apache-buster
 
 ENV OHRM_VERSION 4.3.5
 ENV OHRM_MD5 6e02c698d2c90d3dbd5b776e54c06d41
