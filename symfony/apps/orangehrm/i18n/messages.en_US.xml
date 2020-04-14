@@ -7920,6 +7920,10 @@
         <source>Buzz is accessible for the user who is assigned with an employee.</source>
         <target/>
       </trans-unit>
+      <trans-unit id="2034">
+        <source>File write permission required to `symfony/web` directory.</source>
+        <target/>
+      </trans-unit>
     </body>
   </file>
 </xliff>

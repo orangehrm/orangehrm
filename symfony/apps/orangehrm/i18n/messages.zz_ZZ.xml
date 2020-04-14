@@ -8124,6 +8124,10 @@
         <source>Buzz is accessible for the user who is assigned with an employee.</source>
         <target>FR_Buzz is accessible for the user who is assigned with an employee.</target>
       </trans-unit>
+      <trans-unit id="2034">
+        <source>File write permission required to `symfony/web` directory.</source>
+        <target>FR_File write permission required to `symfony/web` directory.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
