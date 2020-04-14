@@ -7844,6 +7844,10 @@
         <source>Contact Number</source>
         <target>FR_Contact Number</target>
       </trans-unit>
+      <trans-unit id="1961">
+        <source>File write permission required to `symfony/web` directory.</source>
+        <target>FR_File write permission required to `symfony/web` directory.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

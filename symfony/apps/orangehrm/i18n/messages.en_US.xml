@@ -7640,6 +7640,10 @@
         <source>Contact Number</source>
         <target/>
       </trans-unit>
+      <trans-unit id="1910">
+        <source>File write permission required to `symfony/web` directory.</source>
+        <target/>
+      </trans-unit>
     </body>
   </file>
 </xliff>
