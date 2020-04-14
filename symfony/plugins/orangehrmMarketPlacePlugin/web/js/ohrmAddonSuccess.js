@@ -180,6 +180,7 @@ $(document).ready(function () {
             success: function (result) {
                 var notInstalledPrerequisites = JSON.parse(result);
                 $('#buyNowModal').modal('toggle');
+                $("#prerequisites").text("");
                 if (notInstalledPrerequisites.length != 0) {
                     $("#prerequisites").text("Prerequisites:- OrangeHRM requires below prerequisites in order for the add on to work successfully. Please install " + notInstalledPrerequisites.toString());
                 }
