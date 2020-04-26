@@ -1,0 +1,80 @@
+.nfCommentMainContainer{
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    background: #FFF;
+    padding: 5px;
+    position: relative;
+    margin-top: -20px;
+    border: 1px solid #ddd;
+    margin-left: 100px;
+    margin-bottom: 20px;
+}
+.commentBox{
+    font-size: 16px;
+    font-family: "SourceSansProLight";
+    border-radius: 4px 4px 4px 4px;
+    min-width: 99.5%;
+    padding: 11px 11px 11px 10px;
+}
+
+.commentBox1{
+    font-size: 16px;
+    font-family: "SourceSansProLight";
+    border-radius: 4px 4px 4px 4px;
+    min-width: 75%;
+    padding: 11px 11px 11px 10px;
+}
+.nfCommentRow{
+    padding: 5px;
+}
+
+#nfCommentFirstRow{
+    margin-bottom: 5px;
+}
+
+#nfCommentSecondRow{
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+}
+
+#nfCommentFourthRow{
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+}
+
+#nfCommentDate{
+    position: absolute;
+    right: 30px;
+    margin-top: 5px;
+    padding-right: 10px;
+    font-size: 9px;
+}
+
+#nfCommentUserName a{
+    color: #f38c28;
+}
+#nfCommentUserName{
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#nfCommentOptionWidget{ 
+    position: absolute;
+    right: 0px; 
+    padding-right: 10px;
+}
+
+#nfCommentLikeBtn{
+    padding-right: 10px;
+}
+
+#nfCommentLikesLabel{
+    padding-right: 10px;
+}
+
+#nfCommentContent{
+    font-size: 10px;
+    line-height: 1.5;
+    text-align: justify;
+    margin-right: 100px;
+}

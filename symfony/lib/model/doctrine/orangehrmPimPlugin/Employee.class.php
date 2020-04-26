@@ -498,5 +498,17 @@ class Employee extends PluginEmployee {
         $state = $this->termination_id == null ? self::STATE_ACTIVE : self::STATE_TERMINATED;
         
         return $state;
-    }    
+    }
+
+    /**
+     * Get Location Name As String
+     *
+     * @return string
+     */
+    public function getLocationAsString() {
+        $employeeLocations = $this->getLocations();
+        if ($employeeLocations[0] instanceof Location) {
+            return $employeeLocations[0]->getName();
+        }
+    }
 }

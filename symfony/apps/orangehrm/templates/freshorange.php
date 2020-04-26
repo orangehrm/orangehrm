@@ -14,6 +14,7 @@ $subscribed = $sf_user->isSubscribed();
             <div id="branding">
                 <a href="http://www.orangehrm.com/" target="_blank"><img src="<?php echo theme_path('images/logo.png')?>" width="283" height="56" alt="OrangeHRM"/></a>
                 <a href="#" id="welcome" class="panelTrigger"><?php echo __("Welcome %username%", array("%username%" => $sf_user->getAttribute('auth.firstName'))); ?></a>
+                <?php include_component('buzz', 'viewNotification'); ?>
                 <?php if(!$subscribed) { ?>
                     <div id="MP_btn">
                         <input id="Subscriber_link" type="button" class="button" value="<?php echo __('Subscribe'); ?>"/>

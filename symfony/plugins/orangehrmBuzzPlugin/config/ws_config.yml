@@ -1,0 +1,85 @@
+methods:
+  getLatestBuzzShares:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: GET
+      params: ['recentShareId']
+  getBuzzShares:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: GET
+      params: ['limit']
+  getMoreBuzzShares:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: GET
+      params: ['lastShareId', 'limit']
+  getShareAndPostDetailsByShareId:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: GET
+      params: ['shareId']
+  postContentOnFeed:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: POST
+      params: ['contentText', 'image_data']
+  commentOnShare:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: POST
+      params: ['shareId', 'contentText']
+  likeOnShare:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: POST
+      params: ['shareId']
+  disLikeOnShare:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: POST
+      params: ['shareId']
+  likeOnComment:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: POST
+      params: ['commentId']
+  dislikeOnComment:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: POST
+      params: ['commentId']
+  getLoggedInEmployee:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: GET 
+  sharePost:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: POST
+      params: ['postId', 'newText']
+  deleteShare:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: POST
+      params: ['shareId']
+  deleteComment:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: POST
+      params: ['commentId']
+  getBuzzForEmployee:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: GET
+      params: ['empNum']
+  getBuzzImage:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: GET
+      params: ['imageId']
+  getEmployeeImage:
+      wrapper: BuzzServiceWrapper
+      group: buzz
+      type: GET
+      params: ['empNumber']

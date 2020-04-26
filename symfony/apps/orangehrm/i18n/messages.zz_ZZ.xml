@@ -7844,6 +7844,103 @@
         <source>Contact Number</source>
         <target>FR_Contact Number</target>
       </trans-unit>
+      <trans-unit id="1961">
+        <source>year</source>
+        <target>FR_year</target>
+      </trans-unit>
+      <trans-unit id="1962">
+        <source>month</source>
+        <target>FR_month</target>
+      </trans-unit>
+      <trans-unit id="1963">
+        <source>week</source>
+        <target>FR_week</target>
+      </trans-unit>
+      <trans-unit id="1964">
+        <source>day</source>
+        <target>FR_day</target>
+      </trans-unit>
+      <trans-unit id="1965">
+        <source>hour</source>
+        <target>FR_hour</target>
+      </trans-unit>
+      <trans-unit id="1966">
+        <source>minute</source>
+        <target>FR_minute</target>
+      </trans-unit>
+      <trans-unit id="1967">
+        <source>second</source>
+        <target>FR_second</target>
+      </trans-unit>
+      <trans-unit id="1968">
+        <source>years</source>
+        <target>FR_years</target>
+      </trans-unit>
+      <trans-unit id="1969">
+        <source>months</source>
+        <target>FR_months</target>
+      </trans-unit>
+      <trans-unit id="1970">
+        <source>weeks</source>
+        <target>FR_weeks</target>
+      </trans-unit>
+      <trans-unit id="1971">
+        <source>days</source>
+        <target>FR_days</target>
+      </trans-unit>
+      <trans-unit id="1972">
+        <source>hours</source>
+        <target>FR_hours</target>
+      </trans-unit>
+      <trans-unit id="1973">
+        <source>minutes</source>
+        <target>FR_minutes</target>
+      </trans-unit>
+      <trans-unit id="1974">
+        <source>seconds</source>
+        <target>FR_seconds</target>
+      </trans-unit>
+      <trans-unit id="1975">
+        <source>ago</source>
+        <target>FR_ago</target>
+      </trans-unit>
+      <trans-unit id="1976">
+        <source>Just now</source>
+        <target>FR_Just now</target>
+      </trans-unit>
+      <trans-unit id="1977">
+        <source>Clear all notifications</source>
+        <target>FR_Clear all notifications</target>
+      </trans-unit>
+
+      <trans-unit id="1978">
+        <source>shared a post.</source>
+        <target>FR_shared a post.</target>
+      </trans-unit>
+      <trans-unit id="1979">
+        <source>comments on your post.</source>
+        <target>FR_comments on your post.</target>
+      </trans-unit>
+      <trans-unit id="1980">
+        <source>likes your post.</source>
+        <target>FR_likes your post.</target>
+      </trans-unit>
+      <trans-unit id="1981">
+        <source>likes your comment.</source>
+        <target>FR_likes your comment.</target>
+      </trans-unit>
+      <trans-unit id="1982">
+        <source>shared your post.</source>
+        <target>FR_shared your post.</target>
+      </trans-unit>
+      <trans-unit id="1983">
+        <source>No new notifications</source>
+        <target>FR_No new notifications</target>
+      </trans-unit>
+      <trans-unit id="1984">
+        <source>Failed to clear notifications</source>
+        <target>FR_Failed to clear notifications</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

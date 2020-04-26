@@ -1,0 +1,89 @@
+#profilePicContainer {
+    width: 55px;
+    height: 55px;
+    margin-top: -8px;
+}
+
+#profilePicContainer img {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 5px;
+}
+
+#profilePicContainer {
+    float: left;
+    border: 2px solid white;
+    vertical-align: middle;
+    position: relative;
+    background-color: #EBEBEB;
+    margin-right: 8px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.picAndNameContainer {
+    margin-top: 8px;
+}
+
+.notification-row {
+    border-radius: 5px;
+    background-color: #e3e3e3;
+    height: 60px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    margin-bottom: 4px;
+    padding: 4px;
+}
+
+.notification-row:hover {
+    cursor: pointer;
+}
+
+.clear-notifications {
+    text-align: end;
+    margin-right: 4px;
+}
+
+.notification-container {
+    margin-top: 12px;
+}
+
+.clear-notifications-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.notifications-message {
+    margin-top: 12px;
+    text-align: center;
+}
+
+.notification-badge {
+    background:red;
+}
+
+.hide-notification-badge {
+    display: none;
+}
+
+.empty-notifications-message {
+    margin-top: 16px;
+}
+
+.notification-new-row {
+    background-color: #7d7c7c57;
+}
+
+.notification {
+    float: right;
+    top: 70px;
+    position: absolute;
+    right: 180px;
+}
+
+svg.notification-icon > path {
+    fill: #5d5d5d;
+}

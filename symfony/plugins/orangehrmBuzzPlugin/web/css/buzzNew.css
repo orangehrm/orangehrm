@@ -1,0 +1,200 @@
+#postTextBox{
+    background: #E2E2E2;
+    text-align: right;
+    clear: both;  
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 8px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; /* future proofing */
+    -khtml-border-radius: 5px; /* for old Konqueror browsers */
+}
+
+.postLoadingBox{
+    height: 100px;
+    width: 100%;
+    display: none;
+}
+
+.commentLoadingBox{
+    height: 60px;
+    width: 100%;
+}
+
+#postTextBox form textarea{
+    width: 107.5%;
+    margin: 10px 10px 0px 10px;
+    border: none;
+    border-radius: 5px;
+    height: 10%;
+    padding: 10px;
+    resize: none;
+}
+input[type="file"] {
+    height: 30px;
+    padding: 0;
+}
+
+#dashBoardBuzz{
+    /*border: 2px solid black;*/
+    width: 965px;
+    margin: 0 auto;
+}
+.buzzLeftBar{
+    /*        width: 26%;
+            float: left;
+            margin-top: 2%;*/
+    width: 200px;
+    //margin-left: 76%;
+    float: left;
+    margin-top: 1%;
+    z-index: 999;
+    //position: fixed;
+}
+
+.buzzRightBar{
+    width: 300px;
+    float: right;
+    right: 12%;
+    max-width: 300px;
+    margin-top: 50px;
+    /*        width: 26%;*/
+    /*float: left;*/
+    /*        position: fixed;
+            left: 2%;
+            top: 16%;*/
+    /*clear: both;*/
+}
+
+#buzzContainer{
+    width: 650px;
+    float: left;
+    margin-top: 60px;
+}
+#statisticsComponent{
+    /*        width: 23%;
+            float: right;
+            position: fixed;
+            right: 8%;
+            top: 12%;
+            clear: both;*/
+}
+.tabButton{
+    text-align: left;
+    padding: 8px;
+    background: #B2B2B2;
+    width: 220px;
+    height: 40px; 
+}
+
+.tb_one{
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-top-left-radius: 5px;
+
+}
+.tb_two{
+    border-right: 1px solid #aaa;
+
+
+}
+
+.tabButton a{
+    text-decoration: none;
+    font-size: 110%;
+    margin-left: 5px;
+    vertical-align: middle;
+    /*color: #d66807;*/
+}
+
+#images-tab-label, #video-tab-label{
+    color: #5d5d5d;
+}
+
+.tabButton img{
+    vertical-align: middle;
+    margin-top: 1px;
+}
+
+.tabSelected{
+    background-color: #E2E2E2;
+}
+
+.tabSelected a{
+    color: #F07C00;
+}
+
+
+
+#status_icon, #img_upld_icon, #vid_upld_icon{
+    margin-left: 10px;
+}
+
+#tabLink1{
+    border-radius: 8px 0 0 0;
+}
+
+#tabLink3{
+    border-radius: 0 8px 0 0;
+}
+
+form ol{
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+.rightBarBodyAll{
+    background-color: #f6f6f6;
+    border-radius: 8px;
+}
+.rightBarBody{
+    background-color: #f6f6f6;
+    margin-top:  0;
+    z-index: 200;
+    //border: 1px solid #dedede;
+    border-radius: 0 0 8px 8px;
+}
+
+.rightBarHeading{
+    background: rgb(40, 134, 49);
+    background: -moz-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: -webkit-linear-gradient( gray 20%, gray 100%);
+    background: -o-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: -ms-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: linear-gradient( #f3f3f3, #ececec);
+    color: #5d5d5d;
+    font-size: 18px;
+    padding: 15px;
+
+    border: 2px solid #dedede;
+    z-index: 99999;
+
+    border-radius: 10px;
+    font-family: SourceSansProExtraLight;
+    margin-top: 10px;
+}
+
+
+.rightBarHeading:hover, .rightBarHeading:hover{
+    cursor: pointer;
+    background-color: #F07C00;
+}
+
+li{
+    list-style: none;
+}
+
+/*        @media all and (min-width: 700px)  { .commentSubmitBtn { width: 30%;  } }
+        @media all and (min-width: 800px)  { .commentSubmitBtn { width: 40%;  } }*/
+@media all and (max-width: 1020px)  { 
+    .buzzRightBar{
+        width: 300px;
+        float: right;
+
+        max-width: 300px;
+        margin-top: 50px;
+        position: initial;
+
+    }
+}
+

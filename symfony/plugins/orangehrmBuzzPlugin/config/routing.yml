@@ -1,0 +1,6 @@
+post_photo:
+    url: /buzz/photo/:id
+    param: {module: buzz, action: viewPostPhoto}
+buzz_viewBuzz:
+  url: /buzz/viewBuzz
+  param: {module:buzz, action: viewBuzz}

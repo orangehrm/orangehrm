@@ -1,0 +1,134 @@
+#leftSide, #rightSide{
+    float: left;
+    width: 240px;
+}
+
+#links{
+    float: right;
+}
+
+#userName{
+    font-size: 0.7em;
+    margin-bottom: 5px;
+    text-align: right;
+}
+
+#companyPosition{
+    font-size: 0.4em;
+    text-align: right;
+    margin-bottom: 8px;
+    height: 15px;
+}
+
+#rightSide{
+    width: 62px;
+    height: 62px;
+    overflow: hidden;
+    border: 3px solid white;
+    vertical-align: middle;
+    text-align: center;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+#rightSide img{
+    width: 100%;
+    position:relative;
+    top:0;
+    bottom:0;
+    margin:auto;
+}
+.headerLink{
+    padding: 2px 5px;
+    font-size: 0.45em;
+    margin-left: 6px;
+    color: white;
+    padding: 2px 5px;
+
+    border-radius: 5px;
+}
+
+#gotoProfile{
+    font-size: 12px;
+    background-color: white;
+    border-radius: 0 5px 5px 0;
+    display: block;
+    float: left;
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
+    #gotoProfile{
+    }
+}
+
+#gotoProfile:hover{
+    cursor: pointer;
+}
+
+#buzzSearchForm input{
+    width: 410px;
+    border-radius: 5px 0 0 5px;
+    border: none;
+    padding: 7px 7px 7px 7px;
+    display: block;
+    float: left;
+    height: 30px;
+}
+
+.logoutLink:hover{
+    padding: 2px 5px;
+    background-color: #555657;
+    border-radius: 5px;
+}
+.ProfileLink:hover{
+    padding: 2px 5px;
+    background-color: #555657;
+    border-radius: 5px;
+}
+.homeLink:hover{
+    padding: 2px 5px;
+    background-color: #555657;
+    border-radius: 5px;
+}
+.homeLink{
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+.logoutLink{
+    padding: 2px 5px;
+
+    border-radius: 5px;
+}
+.ProfileLink{
+    padding: 2px 5px;
+
+    border-radius: 5px;
+}
+
+#buzzSearchForm{
+    float: left;
+}
+
+#profileDetails {
+    float: right;
+}
+
+#buzz-search-div,
+#buzz-logo {
+    display: block;
+    float: left;
+}
+
+#buzz-search-div {
+    margin-top: 15px;
+    margin-left: 30px;
+}
+/*@media all and (min-width: 900px) { #ddd input { width: 100%;  } }
+@media all and (min-width: 1000px) { #ddd input { width: 100%;  } }
+@media all and (min-width: 1100px) { #ddd input { width: 100%;  } }
+@media all and (min-width: 1200px) { #ddd input { width: 100%;  } }
+@media all and (min-width: 1300px) { #ddd input { width: 400px;  } }
+@media all and (min-width: 1400px) { #ddd input { width: 400px;  } }
+@media all and (min-width: 1500px) { #ddd input { width: 400px;  } }
+@media all and (min-width: 1500px) { #ddd input { width: 400px;  } }
+@media all and (min-width: 1600px) { #ddd input { width: 400px;  } }
+@media all and (min-width: 1700px) { #ddd input { width: 400px;  } }*/

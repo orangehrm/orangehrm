@@ -1,0 +1,222 @@
+
+#panelfirst
+{
+    margin-bottom: 2px;
+    float: left;
+    width: 39%;
+    text-align: left;
+    /*height: 20px;*/
+    font-size: 16px;
+    font-family: SourceSansProExtraLight;
+    padding: 0px 5px 0px 0px;
+}
+#panelsecond
+{
+    margin-bottom: 2px;
+    word-wrap: break-word;
+    width: 55%;
+    float: right;
+    text-align: left;
+    /*height: 20px;*/
+    font-size: 16px;
+    font-family: SourceSansProExtraLight;
+    padding: 0px 5px 0px 0px;
+}
+#panelsecondfirst
+{
+    margin-top: -10px;
+    margin-left: 40%;
+    width: 50%;
+    text-align: left;
+}
+#panelbody
+{
+    width: 100%;
+    display: inline;
+}
+#panelContact,#flipContact
+{
+    width: 100%;
+
+    padding:5px;
+    text-align:left;
+    background-color: #484343;
+    color: #fff;
+    border:solid 1px #c3c3c3;
+}
+#flipContact:hover{
+    cursor: pointer;
+}
+#panelContact
+{
+    background-color: #98a09f;
+    color: #fff;
+    width: 100%;
+
+    padding:4px;
+    display: none;
+}
+
+#flipPersonal
+{
+    background: rgb(40, 134, 49);
+    background: -moz-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: -webkit-linear-gradient( gray 20%, gray 100%);
+    background: -o-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: -ms-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: linear-gradient( #f3f3f3, #ececec);
+    color: #5d5d5d;
+    font-size: 18px;
+    padding: 12px;
+
+    border: 2px solid #dedede;
+    z-index: 99999;
+
+    border-radius: 8px 8px 0 0;
+    font-family: SourceSansProExtraLight;
+    margin-top: 0px;
+}
+#flipPersonal:hover{
+    cursor: pointer;
+}
+#panelPersonal
+{
+    // background-color: #EBEBEB;
+    padding: 5px;
+
+    // max-height: 100px;
+    overflow-y:auto;
+    margin-bottom: 0px;
+    height: 130px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #d0d1d5;
+    border-radius: 0 0 8px 8px;
+}
+
+#employeeStatus{
+    font-size: 13px;
+}
+
+#panelJob,#flipJob
+{
+    width: 100%;
+
+    padding:5px;
+    text-align:left;
+    background-color: #484343;
+    color: #fff;
+    border:solid 1px #c3c3c3;
+}
+#flipJob:hover{
+    cursor: pointer;
+}
+#panelJob
+{
+    background-color: #98a09f;
+    color: #fff;
+    width: 80%;
+
+    padding:4px;
+    display: none;
+}
+
+#panelStat
+{
+    padding: 5px;
+
+    // max-height: 100px;
+    overflow-y:auto;
+    margin-bottom: 20px;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: none;
+    border: 1px solid #dedede;
+    border-radius: 0 0 8px 8px;
+
+}
+#flipStat
+{
+    background: rgb(40, 134, 49);
+    background: -moz-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: -webkit-linear-gradient( gray 20%, gray 100%);
+    background: -o-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: -ms-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: linear-gradient( #f3f3f3, #ececec);
+    color: #5d5d5d;
+    font-size: 18px;
+    padding: 12px;
+
+    border: 2px solid #dedede;
+    z-index: 99999;
+
+    border-radius: 8px 8px 0 0;
+    font-family: SourceSansProExtraLight;
+    margin-top: 0px;
+}
+#flipStat:hover{
+    cursor: pointer;
+}
+
+
+
+
+.rightBarHeading:hover, .rightBarHeading:hover{
+    cursor: pointer;
+    background-color: #F07C00;
+}
+.rightBarBodyAllProf{
+    background-color: #f6f6f6;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    border: 2px solid #dedede;
+    overflow: hidden;
+}
+
+#profile-img-container{
+    width: 266px;
+    overflow: hidden;
+}
+
+#profile-img-container img{
+    /*border-radius: 5px;*/
+    bottom: 0;
+    margin: auto 0;
+    max-width: 266px;
+    top: 0;
+    vertical-align: middle;
+}
+
+.inlineBlock{
+    display: inline-block; 
+    width: 100%;
+}
+
+#lessDetails{
+    float: right;
+    margin-top: -7px;
+    margin-right: -10px;
+    border: 0px solid #f6f6f6;
+}
+
+#moreDetails{
+    float: right;
+    margin-top: -7px;
+    margin-right: -10px;
+    display: none;
+}
+
+#lessStat{
+    float: right;
+    margin-top: -7px;
+    margin-right: -10px;
+    border: 0px solid #f6f6f6;
+    display: none;
+}
+
+#moreStat{
+    float: right;
+    margin-top: -7px;
+    margin-right: -10px;
+}

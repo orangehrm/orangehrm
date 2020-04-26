@@ -1,0 +1,24 @@
+
+table.hovertable {
+    border-width: 1px;
+    border-color: #999999;
+    border-collapse: collapse;
+}
+table.hovertable th {
+    color: #EBEBEB;
+    background-color: #6B6B6B;
+    border-width: 1px;
+    font-size: 17px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #a9c6c9;
+}
+table.hovertable tr {
+    background-color:#EBEBEB;
+}
+table.hovertable td {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #a9c6c9;
+}
