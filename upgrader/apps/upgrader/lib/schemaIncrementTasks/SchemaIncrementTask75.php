@@ -249,7 +249,7 @@ INSERT INTO `ohrm_screen`(`name`, `module_id`, `action_url`) VALUES ('Buzz',@buz
         $sql[] = "
 SET @screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Buzz');";
         $sql[] = "
-INSERT INTO `ohrm_menu_item`(`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `status`, `url_extras`) VALUES ('Buzz', @screen_id, NULL, '1', '1500', 1, 'open_in_new_window');";
+INSERT INTO `ohrm_menu_item`(`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `status`) VALUES ('Buzz', @screen_id, NULL, '1', '1500', 1);";
         $sql[] = "
 INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@admin_role_id,@screen_id,1,1,1,1);";
         $sql[] = "

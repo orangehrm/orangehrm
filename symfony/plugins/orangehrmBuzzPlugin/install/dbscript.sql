@@ -257,7 +257,7 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_comment_text_lenth','25
 SET @buzz_module_id = (SELECT `id` FROM `ohrm_module` WHERE `name`='buzz');
 INSERT INTO `ohrm_screen`(`name`, `module_id`, `action_url`) VALUES ('Buzz',@buzz_module_id,'viewBuzz');
 SET @screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Buzz');
-INSERT INTO `ohrm_menu_item`(`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `status`, `url_extras`) VALUES ('Buzz', @screen_id, NULL, '1', '1500', 1, 'open_in_new_window');
+INSERT INTO `ohrm_menu_item`(`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `status`) VALUES ('Buzz', @screen_id, NULL, '1', '1500', 1);
 
 INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@admin_role_id,@screen_id,1,1,1,1);
 INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@ESS_role_id,@screen_id,1,1,1,1);

@@ -30,20 +30,11 @@ function getMenuUrl($menuItem) {
     
     if (!empty($menuItem['module']) && !empty($menuItem['action'])) {
         $url = url_for($menuItem['module'] . '/'. $menuItem['action']);
-        if (!empty($menuItem['urlExtras']) && !isOpenInNewWindow($menuItem)){
-            $url = $url . $menuItem['urlExtras'];
-        }
+        $url = empty($menuItem['urlExtras'])?$url:$url . $menuItem['urlExtras'];
     }
     
     return $url;
     
-}
-
-function isOpenInNewWindow($menuItem) {
-    if (!empty($menuItem['urlExtras']) && $menuItem['urlExtras'] == 'open_in_new_window') {
-        return true;
-    }
-    return false;
 }
 
 function getHtmlId($menuItem) {
@@ -74,14 +65,14 @@ function getHtmlId($menuItem) {
         
         <?php foreach ($menuItemArray as $firstLevelItem) : ?>
 
-            <li<?php echo getListItemClass($firstLevelItem, $currentItemDetails); ?>><a <?php if (isOpenInNewWindow($firstLevelItem)) echo "target='_blank'"; ?> href="<?php echo getMenuUrl($firstLevelItem); ?>" id="<?php echo getHtmlId($firstLevelItem); ?>" class="firstLevelMenu"><b><?php echo __($firstLevelItem['menuTitle']) ?></b></a>
+            <li<?php echo getListItemClass($firstLevelItem, $currentItemDetails); ?>><a href="<?php echo getMenuUrl($firstLevelItem); ?>" id="<?php echo getHtmlId($firstLevelItem); ?>" class="firstLevelMenu"><b><?php echo __($firstLevelItem['menuTitle']) ?></b></a>
 
             <ul>
             <?php if (count($firstLevelItem['subMenuItems']) > 0) : ?>            
                     
                     <?php foreach ($firstLevelItem['subMenuItems'] as $secondLevelItem) : ?>
 
-                    <li<?php echo getListItemClass($secondLevelItem, $currentItemDetails); ?>><a <?php if (isOpenInNewWindow($secondLevelItem)) echo "target='_blank'"; ?> href="<?php echo getMenuUrl($secondLevelItem); ?>" id="<?php echo getHtmlId($secondLevelItem); ?>"<?php echo getSubMenuIndication($secondLevelItem); ?>><?php echo __($secondLevelItem['menuTitle']) ?></a>
+                    <li<?php echo getListItemClass($secondLevelItem, $currentItemDetails); ?>><a href="<?php echo getMenuUrl($secondLevelItem); ?>" id="<?php echo getHtmlId($secondLevelItem); ?>"<?php echo getSubMenuIndication($secondLevelItem); ?>><?php echo __($secondLevelItem['menuTitle']) ?></a>
 
                         <?php if (count($secondLevelItem['subMenuItems']) > 0) : ?>
 
@@ -89,7 +80,7 @@ function getHtmlId($menuItem) {
 
                                 <?php foreach ($secondLevelItem['subMenuItems'] as $thirdLevelItem) : ?>
 
-                                    <li><a <?php if (isOpenInNewWindow($thirdLevelItem)) echo "target='_blank'"; ?> href="<?php echo getMenuUrl($thirdLevelItem); ?>" id="<?php echo getHtmlId($thirdLevelItem); ?>"><?php echo __($thirdLevelItem['menuTitle']) ?></a></li>
+                                    <li><a href="<?php echo getMenuUrl($thirdLevelItem); ?>" id="<?php echo getHtmlId($thirdLevelItem); ?>"><?php echo __($thirdLevelItem['menuTitle']) ?></a></li>
 
                                 <?php endforeach; ?>
 
