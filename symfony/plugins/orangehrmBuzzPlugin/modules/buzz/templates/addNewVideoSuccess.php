@@ -31,7 +31,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewBuzzSuccess'));
                           $videoForm->setDefault('linkAddress', $videoFeedUrl);
                           $placeholder = 'Write something about this video';
                           echo $videoForm['content']->render(array(
-                              'class' => 'commentBox', 'style' => 'width: 95%', 'rows' => '2', 'placeholder' => $placeholder));
+                              'class' => 'commentBox', 'rows' => '2', 'placeholder' => $placeholder));
                           echo $videoForm['linkAddress']->render();
                           echo $videoForm['_csrf_token']->render();
                           ?>
@@ -39,7 +39,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewBuzzSuccess'));
                 </form>
                 <div id="yuoutubeVideoId" style="display:none;"><?php echo $videoFeedUrl; ?></div>
 
-                <div style="text-align: center; margin-bottom: 10px;">
+                <div class="video-container add-new-video">
                     <iframe src="<?php echo $videoFeedUrl; ?>" width="80%" height="225px" frameborder="0" allowfullscreen></iframe >
                 </div>
 

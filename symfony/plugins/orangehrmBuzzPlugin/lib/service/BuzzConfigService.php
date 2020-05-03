@@ -36,6 +36,7 @@ class BuzzConfigService extends ConfigService {
     const KEY_BUZZ_POST_SHARE_COUNT = 'buzz_post_share_count';
     const KEY_BUZZ_COOKIE_VALID_TIME = 'buzz_cookie_valid_time';
     const KEY_BUZZ_IMAGE_MAX_DIMENSION = 'buzz_image_max_dimension';
+    const KEY_BUZZ_MAX_NOTIFICATION_PERIOD = 'buzz_max_notification_period';
     const DEFAULT_BUZZ_IMAGE_MAX_DIMENSION = '1024';
     
 
@@ -177,6 +178,15 @@ class BuzzConfigService extends ConfigService {
         } else {
             return self::DEFAULT_BUZZ_IMAGE_MAX_DIMENSION;
         }
+    }
+
+    /**
+     * Return string i.e. -4 weeks, -7 days, -1 day, -1 month
+     * https://www.php.net/manual/en/datetime.formats.relative.php
+     * @return string
+     */
+    public function getMaxNotificationPeriod() {
+        return $this->buzzConfigValues[BuzzConfigService::KEY_BUZZ_MAX_NOTIFICATION_PERIOD];
     }
 
 }

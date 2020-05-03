@@ -18,7 +18,18 @@
  */
 
 use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewNotificationComponent'));
+use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewShareSuccess'));
+use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewBuzzSuccess'));
+use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/getSharedEmployeeListSuccess'));
+use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewPostComponent'));
+use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/photoTiling'));
+use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/messageBoxStyles'));
+use_javascript(plugin_web_path('js/fontawesome-5.13.0', 'js/fontawesome.min.js'));
+use_javascript(plugin_web_path('js/fontawesome-5.13.0', 'js/solid.min.js'));
 use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewNotificationComponent'));
+use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/buzzCommon'));
+use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/buzzNew'));
+use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
 ?>
 
 <!--Notification icon-->
@@ -51,8 +62,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewNotificationCompon
 
                         <div class="notification-row <?php if (strtotime($notification['time']) > strtotime($lastNotificationViewTime)) echo 'notification-new-row'; ?>"
                              id="notification_<?php echo $key; ?>"
-                             data-shareid="<?php echo $notification["shareId"]; ?>"
-                             data-href="<?php echo url_for("buzz/viewProfile?empNumber=" . $notification["postOwnerEmpNumber"]) . '?postId=' . $notification["shareId"]; ?>">
+                             data-shareid="<?php echo $notification["shareId"]; ?>">
 
                             <div class="picAndNameContainer">
                                 <div id="profilePicContainer">
@@ -80,12 +90,129 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewNotificationCompon
             </div>
         </div>
     </div>
+
+    <div>
+        <form id="actionValidateForm" method="POST" action=""
+              enctype="multipart/form-data">
+            <fieldset>
+                <ol>
+                    <?php echo $actionValidateForm->render(); ?>
+                </ol>
+            </fieldset>
+
+        </form>
+
+        <form id="likedOrSharedEmployeeForm" method="POST" action="" >
+            <?php echo $likedOrSharedEmployeeForm->render(); ?>
+        </form>
+
+        <form id="deleteOrEditShareForm" method="POST" action="" >
+            <?php echo $deleteOrEditShareForm->render(); ?>
+        </form>
+    </div>
 </div>
 
+<!-- pop up-->
+<div class="modal hide notification-view-more-modal" id="notificationShareViewMoreModal">
+    <div class="modal-body notification-view-more-modal-body">
+        <div class="notification-hide-modal-popup">
+            <img
+                    class="notification-hide-modal-popup"
+                    src="<?php echo plugin_web_path("orangehrmBuzzPlugin", "images/close.png"); ?>"
+                    height="20"
+                    width="20"
+            /></div>
+
+        <div id="notificationShareView">
+            <div class="shareView"></div>
+        </div>
+
+    </div>
+</div>
+<div class="modal hide" id="successDataModal" >
+
+    <div class="modal-body" >
+        <div class="mb-heading ac_over">
+            <?php echo __("Success") . "!"; ?>
+        </div>
+        <div id="successBodyEdit" >
+            <?php echo __("Successfully Saved"); ?>
+        </div>
+        <div id="successBodyShare" >
+            <?php echo __("Successfully Shared"); ?>
+        </div>
+        <div id="successBodyDelete" >
+            <?php echo __("Successfully Deleted"); ?>
+        </div>
+
+    </div>
+</div>
+
+<!--start loading window popup window-->
+<div class="modal hide" id="loadingDataModal" >
+    <div class="modal-body loadingDataModal-body" >
+        <div id="loadingModalBody" >
+            <img id="img-spinner-loading"   src="<?php echo plugin_web_path("orangehrmBuzzPlugin", "images/vload.gif"); ?>"
+                 height="12"  />
+        </div>
+    </div>
+</div>
+<!--end loading window pop up window-->
+
+<!-- start like window popup window-->
+<div class="modal hide modal-on-preview" id='<?php echo 'postsharehide' ?>'>
+    <div id="modalHeader" >
+        <?php echo __("People who shared this post"); ?>
+    </div>
+    <div class="modal-body originalPostModal-body" >
+        <div class="hideModalPopUp" id='<?php echo 'postsharehide' ?>'>
+            <img
+                    class="hideModalPopUp" id='<?php echo 'postsharehide' ?>'
+                    src="<?php echo plugin_web_path("orangehrmBuzzPlugin", "images/close.png"); ?>" height="20" width="20"
+            /></div>
+        <div class=""  id='<?php echo 'postsharehidebody' ?>'></div>
+
+    </div>
+</div>
+<!-- end like window pop up window-->
+
+<!-- start like window popup window-->
+<div class="modal hide modal-on-preview" id='<?php echo 'postlikehide' ?>'>
+    <div id="modalHeader" >
+        <?php echo __("People who like this post"); ?>
+    </div>
+    <div class="modal-body originalPostModal-body" >
+        <div class="hideModalPopUp" id='<?php echo 'postlikehide' ?>'>
+            <img
+                    class="hideModalPopUp" id='<?php echo 'postlikehide' ?>'
+                    src="<?php echo plugin_web_path("orangehrmBuzzPlugin", "images/close.png"); ?>" height="20" width="20"
+            /></div>
+        <div class=""  id='<?php echo 'postlikehidebody' ?>'></div>
+
+    </div>
+</div>
+<!-- end like window pop up window-->
+
 <script>
-    const BuzzURL = "<?php echo url_for('buzz/viewBuzz'); ?>";
-    const ClearNotificationURL = "<?php echo url_for('buzz/clearNotificationAjax'); ?>";
-    const ClickOnNotificationIconURL = "<?php echo url_for('buzz/clickOnNotificationIconAjax'); ?>";
-    const lang_NoNewNotifications = '<?php echo __js("No new notifications");?>';
-    const lang_NotificationClearFailed = '<?php echo __js("Failed to clear notifications");?>';
+    var getAccessUrl = '<?php echo url_for('buzz/getLogedToBuzz'); ?>';
+    var loginpageURL = '<?php echo url_for('auth/login'); ?>';
+
+    // buzzCommon.js
+    var viewLikedEmployees = '<?php echo url_for('buzz/viewLikedEmployees'); ?>';
+    var addBuzzCommentURL = '<?php echo url_for('buzz/addNewComment'); ?>';
+    var shareShareURL = '<?php echo url_for('buzz/shareAPost'); ?>';
+    var getLikedEmployeeListURL = '<?php echo url_for('buzz/getLikedEmployeeList'); ?>';
+
+    // buzzNew.js
+    var shareLikeURL = '<?php echo url_for('buzz/likeOnShare'); ?>';
+    var commentLikeURL = '<?php echo url_for('buzz/likeOnComment'); ?>';
+    var getSharedEmployeeListURL = '<?php echo url_for('buzz/getSharedEmployeeList'); ?>';
+
+    // viewNotificationComponent.js
+    var viewMoreShare = '<?php echo url_for('buzz/viewShare'); ?>';
+    var buzzURL = "<?php echo url_for('buzz/viewBuzz'); ?>";
+    var ClearNotificationURL = "<?php echo url_for('buzz/clearNotificationAjax'); ?>";
+    var ClickOnNotificationIconURL = "<?php echo url_for('buzz/clickOnNotificationIconAjax'); ?>";
+    var lang_NoNewNotifications = '<?php echo __js("No new notifications");?>';
+    var lang_NotificationClearFailed = '<?php echo __js("Failed to clear notifications");?>';
 </script>

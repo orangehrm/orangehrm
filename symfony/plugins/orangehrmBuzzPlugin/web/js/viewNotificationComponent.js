@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     $("#notification").click(function () {
-        const notificationIconPosition = $("div.notification").position();
+        const notificationIconPosition = $("#notification").position();
         const iconSize = 30;
         const modalTop = notificationIconPosition.top + iconSize;
         const modalRight = $(document).width() - notificationIconPosition.left - iconSize;
@@ -22,21 +22,29 @@ $(document).ready(function () {
         $("#notificationBadge").addClass('hide-notification-badge');
     });
 
-    $("div.notification-row").click(function (event) {
-        const target = event.target;
-        var url = null;
+    $("div.notification-row").click(function (e) {
+        const target = e.target;
+        var shareId = null;
         if ($(target).is('div.notification-row')) {
-            url = $(target).data('href');
+            shareId = $(target).data('shareid');
         } else {
-            url = $($(target).closest('div.notification-row')).data('href');
+            shareId = $($(target).closest('div.notification-row')).data('shareid');
         }
 
-        var win = window.open(url, '_blank');
-        if (win) {
-            win.focus();
-        } else {
-            alert('Please allow popups');
-        }
+        $('#deleteOrEditShareForm_shareId').val(shareId);
+
+        $.ajax({
+            url: viewMoreShare,
+            type: "POST",
+            data: $('#deleteOrEditShareForm').serialize(),
+            success: function (data) {
+                $('#notificationModal').modal('toggle');
+
+                $('#deleteOrEditShareForm_shareId').val('');
+                $('#notificationShareView').find('.shareView').replaceWith(data);
+                $('#notificationShareViewMoreModal').modal();
+            }
+        });
     });
 
     $(document).click(function (e) {
@@ -63,5 +71,9 @@ $(document).ready(function () {
                     $('#notificationsMessages').slideUp();
                 }, 2000);
             });
+    });
+
+    $('#notificationShareViewMoreModal').on("click", ".notification-hide-modal-popup", function (e) {
+        $("#notificationShareViewMoreModal").modal('hide');
     });
 });

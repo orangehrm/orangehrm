@@ -18,6 +18,7 @@ $(document).ready(function () {
             $("#rightBarHeadingMl, #rightBarHeadingAnniv").css("border-radius", "10px");
             $(this).css("border-radius", "10px 10px 0px 0px");
             $("#mc_componentContainer").css("border", "1px solid #dedede");
+            $(".rightBarBody").css("border", "none");
         }
     });
 
@@ -39,6 +40,7 @@ $(document).ready(function () {
             $("#rightBarHeadingAnniv, #rightBarHeadingMc").css("border-radius", "10px");
             $(this).css("border-radius", "10px 10px 0px 0px");
             $("#ml_componentContainer").css("border", "1px solid #dedede");
+            $(".rightBarBody").css("border", "none");
         }
     });
 });

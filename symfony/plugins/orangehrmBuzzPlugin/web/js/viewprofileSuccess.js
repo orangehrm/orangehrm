@@ -93,10 +93,9 @@ $(document).ready(function () {
 
     });
 
-    $(".postViewMoreCommentsLink").on("click", function (e) {
+    $(document).on("click", ".postViewMoreCommentsLink", function (e) {
         var postId = e.target.id.split("_")[1];
         $("#" + e.target.id).hide(100);
-//        $("#" + postId).css("display", "block");
         $("." + postId).filter(function () {
             return ($(this).css("display") == "none")
         }).show(80);

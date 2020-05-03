@@ -25,6 +25,11 @@ class BuzzNotificationService
     protected $buzzNotificationDao = null;
 
     /**
+     * @var BuzzTimezoneUtility|null
+     */
+    protected $buzzTimeZoneUtility = null;
+
+    /**
      * @return BuzzNotificationDao
      */
     public function getBuzzNotificationDao(): BuzzNotificationDao
@@ -41,6 +46,25 @@ class BuzzNotificationService
     public function setBuzzNotificationDao(BuzzNotificationDao $buzzNotificationDao)
     {
         $this->buzzNotificationDao = $buzzNotificationDao;
+    }
+
+    /**
+     * @return BuzzTimezoneUtility
+     */
+    public function getBuzzTimezoneUtility()
+    {
+        if (!$this->buzzTimeZoneUtility instanceof BuzzTimezoneUtility) {
+            $this->buzzTimeZoneUtility = new BuzzTimezoneUtility();
+        }
+        return $this->buzzTimeZoneUtility;
+    }
+
+    /**
+     * @param BuzzTimezoneUtility $buzzTimeZoneUtility
+     */
+    public function setBuzzTimezoneUtility(BuzzTimezoneUtility $buzzTimeZoneUtility)
+    {
+        $this->buzzTimeZoneUtility = $buzzTimeZoneUtility;
     }
 
     /**
@@ -128,8 +152,9 @@ class BuzzNotificationService
      * @return string
      * @throws Exception
      */
-    public function timeElapsedString(DateTime $datetime, $full = false) {
-        $now = new DateTime;
+    public function timeElapsedString(DateTime $datetime, $full = false)
+    {
+        $now = $this->getUserNow();
         $diff = $now->diff($datetime);
 
         $diff->w = floor($diff->d / 7);
@@ -165,5 +190,43 @@ class BuzzNotificationService
 
         if (!$full) $string = array_slice($string, 0, 1);
         return $string ? implode(', ', $string) . ' ' . __('ago') : __('Just now');
+    }
+
+    /**
+     * @param DateTime $datetime
+     * @return DateTime
+     * @throws sfException
+     */
+    public function setTimezone(DateTime $datetime)
+    {
+        $offset = sfContext::getInstance()->getUser()->getUserTimeZoneOffsetForBuzz();
+        if (!isset($offset) || is_null($offset)) {
+            return $datetime;
+        }
+        $datetime->setTimezone(new DateTimeZone($this->getBuzzTimezoneUtility()->getTimeZoneFromClientOffset($offset)));
+        return $datetime;
+    }
+
+    /**
+     * @return DateTime
+     * @throws sfException
+     */
+    public function getUserNow()
+    {
+        $now = new DateTime();
+        return new DateTime($this->setTimezone($now)->format('Y-m-d H:i:s'));
+    }
+
+    /**
+     * Get and return converted timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
+     * @param string $date
+     * @return string
+     * @throws sfException
+     */
+    public function getUserDateTime(string $date)
+    {
+        $dateTime = new DateTime($date);
+        $dateTime = $this->setTimezone($dateTime);
+        return $dateTime->format('Y-m-d H:i:s');
     }
 }

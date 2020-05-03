@@ -60,11 +60,11 @@
         <div class="addNewCommentBody" id="commentBody">
             <div id="commentRowOne">
                 <div id="commentColumnOne">
-                    <a href="<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>"><img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $commentEmployeeId); ?>" border="0" id="empPic"/></a>
+                    <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $commentEmployeeId); ?>" border="0" id="empPic"/>
                 </div>
                 <div id="commentColumnTwo">
                     <div id="commentEmployeeName">
-                        <a class="name" href= '<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>' ><?php echo $commentEmployeeName; ?></a>
+                        <?php echo $commentEmployeeName; ?>
                     </div>
                     <div id="commentEmployeeJobTitle">
                         <?php echo $commentEmployeeJobTitle; ?>

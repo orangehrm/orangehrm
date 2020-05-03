@@ -29,6 +29,11 @@ class viewNotificationComponent extends sfComponent
     protected $buzzNotificationService = null;
 
     /**
+     * @var BuzzConfigService|null
+     */
+    protected $buzzConfigService = null;
+
+    /**
      * @return BuzzNotificationService
      */
     public function getBuzzNotificationService(): BuzzNotificationService
@@ -58,11 +63,23 @@ class viewNotificationComponent extends sfComponent
         return $this->buzzService;
     }
 
+    /**
+     * @return BuzzConfigService
+     */
+    protected function getBuzzConfigService()
+    {
+        if (!$this->buzzConfigService instanceof BuzzConfigService) {
+            $this->buzzConfigService = new BuzzConfigService();
+        }
+        return $this->buzzConfigService;
+    }
+
     public function execute($request)
     {
         $empNumber = $this->getUser()->getEmployeeNumber();
         $buzzNotificationMetadata = $this->getBuzzNotificationService()->getBuzzNotificationMetadata($empNumber);
-        $since = null;
+        $since = new DateTime($this->getBuzzConfigService()->getMaxNotificationPeriod());
+        $since = $since instanceof DateTime ? $since : null;
         if ($buzzNotificationMetadata instanceof BuzzNotificationMetadata) {
             if (!is_null($buzzNotificationMetadata->getLastClearNotifications())) {
                 $since = new DateTime($buzzNotificationMetadata->getLastClearNotifications());
@@ -95,7 +112,7 @@ class viewNotificationComponent extends sfComponent
         if (!empty($this->notifications)) {
             $buzzNotificationMetadata = $this->getBuzzNotificationService()->getBuzzNotificationMetadata($empNumber);
             if ($buzzNotificationMetadata instanceof BuzzNotificationMetadata) {
-                $this->lastNotificationViewTime = $buzzNotificationMetadata->getLastNotificationViewTime();
+                $this->lastNotificationViewTime = $buzzNotificationMetadata->getUserLastNotificationViewTime();
                 if (!is_null($this->lastNotificationViewTime) && ((new DateTime($sortNotifications[0])) < (new DateTime($this->lastNotificationViewTime)))) {
                     $this->batchHide = true;
                 }
@@ -104,6 +121,10 @@ class viewNotificationComponent extends sfComponent
             $this->batchHide = true;
             $this->empty = true;
         }
+
+        $this->deleteOrEditShareForm = new DeleteOrEditShareForm();
+        $this->actionValidateForm = new ActionValidatingForm();
+        $this->likedOrSharedEmployeeForm = new LikedOrSharedEmployeeForm();
     }
 
     protected function prepareNotifications(
@@ -140,25 +161,27 @@ class viewNotificationComponent extends sfComponent
         }
 
         foreach ($newLikesOnEmployeePosts as $activity) {
+            $likeTime = $this->getBuzzNotificationService()->getUserDateTime($activity->getLikeTime());
             array_push($this->notifications, [
                 "message" => $activity->getEmployeeName() . ' ' . __("likes your post."),
                 "empNumber" => $activity->getEmployeeNumber(),
                 "postOwnerEmpNumber" => $empNumber,
-                "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($activity->getLikeTime())),
+                "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($likeTime)),
                 "shareId" => $activity->getShareId(),
-                "time" => $activity->getLikeTime(),
+                "time" => $likeTime,
                 "type" => "like_post",
             ]);
         }
 
         foreach ($newLikesOnEmployeeComments as $activity) {
+            $likeTime = $this->getBuzzNotificationService()->getUserDateTime($activity->getLikeTime());
             array_push($this->notifications, [
                 "message" => $activity->getEmployeeName() . ' ' . __("likes your comment."),
                 "empNumber" => $activity->getEmployeeNumber(),
                 "postOwnerEmpNumber" => $empNumber,
-                "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($activity->getLikeTime())),
+                "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($likeTime)),
                 "shareId" => $activity->getCommentLike()->getShareId(),
-                "time" => $activity->getLikeTime(),
+                "time" => $likeTime,
                 "type" => "like_comment",
             ]);
         }

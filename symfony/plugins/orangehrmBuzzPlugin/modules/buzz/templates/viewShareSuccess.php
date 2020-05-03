@@ -39,9 +39,9 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/tooltip_js/jquery.qtip
                                 <?php echo $postEmployeeName; ?>
                             </label>
                         <?php } else { ?>
-                            <a class="name" href= '<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>' >
+                            <label class="name">
                                 <?php echo $postEmployeeName; ?>
-                            </a>
+                            </label>
                         <?php } ?>
                     </div>
                     <div id="postEmloyeeJobTitle" style="margin-bottom: 0px;margin-top: 0px">
@@ -95,9 +95,9 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/tooltip_js/jquery.qtip
                                                 <?php echo $originalPostSharerName; ?>
                                             </label>
                                         <?php } else { ?>
-                                            <a class="originalPostView" href="<?php echo url_for("buzz/viewProfile?empNumber=" . $originalPostEmpNumber); ?>" id='<?php echo 'postView_' . $postId . '_' . $originalPostId ?>' >
+                                            <label class="originalPostView">
                                                 <?php echo $originalPostSharerName; ?>
-                                            </a>
+                                            </label>
                                         <?php } ?>
                                     </div>
                                     <div id="postDateTime">
@@ -216,7 +216,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/tooltip_js/jquery.qtip
                           <?php
                           $placeholder = __("What's on your mind");
                           echo $commentForm['comment']->render(array('id' => "shareBox_" . $postId,
-                              'class' => 'shareBox', 'style' => 'width: 95%', 'rows' => '2', 'placeholder' => $placeholder));
+                              'class' => 'shareBox sharePostText', 'rows' => '2', 'placeholder' => $placeholder));
                           ?>
 
                 </form>
@@ -224,7 +224,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/tooltip_js/jquery.qtip
 
                     <div id="postBodyFirstRow">
                         <div id="postFirstRowColumnOne">
-                            <a href="<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>"><img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic"/></a>
+                            <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic"/>
                         </div>
                         <div id="postFirstRowColumnTwo">
                             <div id="postEmployeeName" >
@@ -319,9 +319,9 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/tooltip_js/jquery.qtip
                             <?php echo $postEmployeeName; ?>
                         </label>
                     <?php } else { ?>
-                        <a class="name" href= '<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>' >
+                        <label class="name">
                             <?php echo $postEmployeeName; ?>
-                        </a>
+                        </label>
                     <?php } ?>
                 </div>
                 <div id="postEmloyeeJobTitle" style="margin-bottom: 0px;margin-top: 0px">

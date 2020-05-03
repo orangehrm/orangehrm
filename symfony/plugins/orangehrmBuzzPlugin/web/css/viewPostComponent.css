@@ -27,11 +27,9 @@
 
 }
 .likeLinknew:hover{
-    background-color: white;
     opacity: 0.8;
 } 
 .unlikeLinknew:hover{
-    background-color: white;
     opacity: 0.8;
 
 }
@@ -53,19 +51,16 @@
     margin-bottom: -0px;
 }
 #postBodyThirdRowNewPopUP{
-    width: 70px;
+    width: 110px;
     height: 35px;
     float: right;
-    margin-top: 5px;
-    margin-bottom: -35px;
-    margin-right: 10px;
 }
 
 #postBodyViewMore{
     opacity: 0.8;
     float: right;
     height: 35px;
-    margin: -36px 0 0 -460px;
+    margin: 42px 0 0 -460px;
     width: 150px;
 }
 #postBodyReadMore{
@@ -74,7 +69,6 @@
     float: right;
     margin-top: -30px;
     margin-bottom: 0px;
-    //margin-right: -60px;
 }
 
 .textTopOfImage{
@@ -100,6 +94,12 @@
     font-size: 14px;
 }
 
+#postBodyThirdRow #noOfUnLikesLinknew{
+    margin-left: auto;
+    margin-right: 1%;
+    font-size: 14px;
+}
+
 #noOfUnLikesLinknewInModal{
     margin-left: 90px;
     font-size: 14px;
@@ -112,7 +112,7 @@
     font-size: 14px;
 }
 #noOfSharesLinknew{
-    margin-left:130px;
+    margin-left:auto;
     font-size: 14px;
 }
 
@@ -224,12 +224,10 @@
     position: relative;
     width: 100%;
     height: 230px;
-    //border: 1px solid white;
     margin: 0 auto;
     margin-top: 10px;
     border-radius: 10px;
     overflow: hidden;
-    //max-width: 510px;
 }
 .imageContainer div {
     text-align: center;
@@ -304,7 +302,6 @@
 }
 .viewMoreModal{
     width: 920px;
-    height: 600px;
     left: 36%;
     top:55%;
     overflow-x: hidden;
@@ -316,19 +313,21 @@
     overflow-y: auto;
 }
 .hideModalPopUp{
-    top: 2px;
-    right: 2px;
+    top: 4px;
+    right: 4px;
     position: absolute;
     z-index: 99999;
-    border: 2px solid;
-    border-radius: 250px;
     background-color: white;
 
 }
 
+.hideModalPopUp img {
+    border: 2px solid;
+    border-radius: 250px;
+}
+
 .originalPostModal{
     width: 920px;
-    height: 700px;
     left: 40%;
     top:58%;
     overflow-x: hidden;
@@ -513,7 +512,6 @@
 }
 .sharePostPopUpModal{
     width: 550px;
-    height: 600px;
     left: 50%;
     top: 60%;
 }
@@ -521,4 +519,28 @@
     padding: 20px;
     background-color: white;
     margin-bottom: 20px;
+}
+
+.video-container {
+    position: relative;
+    height: 230px;
+    text-align: center;
+    background: #ccc;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+
+.video-container iframe {
+    width: auto;
+    height: 100%;
+}
+
+.sharePostText {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.shareEditText {
+    width: 100%;
+    box-sizing: border-box;
 }

@@ -1,8 +1,9 @@
 #postTextBox{
     background: #E2E2E2;
     text-align: right;
-    clear: both;  
-    width: 100%;
+    clear: both;
+    width: calc(-380px + 100vw);
+    min-width: 650px;
     margin: 0 auto;
     border-radius: 8px;
     -moz-border-radius: 5px;
@@ -23,8 +24,8 @@
 }
 
 #postTextBox form textarea{
-    width: 107.5%;
-    margin: 10px 10px 0px 10px;
+    width: 100% !important;
+    box-sizing: border-box;
     border: none;
     border-radius: 5px;
     height: 10%;
@@ -37,54 +38,46 @@ input[type="file"] {
 }
 
 #dashBoardBuzz{
-    /*border: 2px solid black;*/
-    width: 965px;
-    margin: 0 auto;
+    min-width: 965px;
+    margin: 20px;
+    display: grid;
+    grid-template-areas: 'container  container container container container rightBar';
+    grid-gap: 20px;
+    justify-content: space-around;
 }
 .buzzLeftBar{
-    /*        width: 26%;
-            float: left;
-            margin-top: 2%;*/
     width: 200px;
-    //margin-left: 76%;
     float: left;
     margin-top: 1%;
     z-index: 999;
-    //position: fixed;
 }
 
 .buzzRightBar{
     width: 300px;
     float: right;
-    right: 12%;
     max-width: 300px;
-    margin-top: 50px;
-    /*        width: 26%;*/
-    /*float: left;*/
-    /*        position: fixed;
-            left: 2%;
-            top: 16%;*/
-    /*clear: both;*/
+    grid-area: rightBar;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    right: 20px;
+    margin-top: 20px;
 }
 
 #buzzContainer{
-    width: 650px;
+    min-width: 650px;
     float: left;
-    margin-top: 60px;
+    margin-bottom: 60px;
+    grid-area: container;
 }
-#statisticsComponent{
-    /*        width: 23%;
-            float: right;
-            position: fixed;
-            right: 8%;
-            top: 12%;
-            clear: both;*/
-}
+
 .tabButton{
     text-align: left;
     padding: 8px;
     background: #B2B2B2;
-    width: 220px;
     height: 40px; 
 }
 
@@ -95,8 +88,6 @@ input[type="file"] {
 }
 .tb_two{
     border-right: 1px solid #aaa;
-
-
 }
 
 .tabButton a{
@@ -104,7 +95,6 @@ input[type="file"] {
     font-size: 110%;
     margin-left: 5px;
     vertical-align: middle;
-    /*color: #d66807;*/
 }
 
 #images-tab-label, #video-tab-label{
@@ -124,18 +114,22 @@ input[type="file"] {
     color: #F07C00;
 }
 
-
-
 #status_icon, #img_upld_icon, #vid_upld_icon{
     margin-left: 10px;
 }
 
 #tabLink1{
     border-radius: 8px 0 0 0;
+    grid-area: tab1;
+}
+
+#tabLink2{
+    grid-area: tab2;
 }
 
 #tabLink3{
     border-radius: 0 8px 0 0;
+    grid-area: tab3;
 }
 
 form ol{
@@ -151,7 +145,6 @@ form ol{
     background-color: #f6f6f6;
     margin-top:  0;
     z-index: 200;
-    //border: 1px solid #dedede;
     border-radius: 0 0 8px 8px;
 }
 
@@ -174,6 +167,10 @@ form ol{
     margin-top: 10px;
 }
 
+#rightBarHeadingAnniv.rightBarHeading {
+    margin-top: 0;
+}
+
 
 .rightBarHeading:hover, .rightBarHeading:hover{
     cursor: pointer;
@@ -184,17 +181,18 @@ li{
     list-style: none;
 }
 
-/*        @media all and (min-width: 700px)  { .commentSubmitBtn { width: 30%;  } }
-        @media all and (min-width: 800px)  { .commentSubmitBtn { width: 40%;  } }*/
 @media all and (max-width: 1020px)  { 
     .buzzRightBar{
         width: 300px;
         float: right;
 
         max-width: 300px;
-        margin-top: 50px;
         position: initial;
 
     }
 }
 
+#postTextBox .largeTextBox {
+    width: 100%;
+    box-sizing: border-box;
+}

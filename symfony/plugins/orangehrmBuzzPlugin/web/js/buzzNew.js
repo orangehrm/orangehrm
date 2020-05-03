@@ -86,174 +86,6 @@ $(document).ready(function () {
             }, "json");
         }
     });
-//    });
-    $(document).on('click', ".btnSaveVideo", function (e) {
-        var code = trim($("#yuoutubeVideoId").html());
-        var text = $("#shareVideo").val();
-        $('.postLoadingBox').show();
-        var data = {
-            'url': code,
-            'actions': 'save',
-            'text': text
-        };
-        $.ajax({
-            url: addNewVideo,
-            type: "POST",
-            data: $('#frmSaveVideo').serialize(),
-            success: function (data) {
-                $('#tempVideoBlock').remove();
-                $('#buzz').prepend(data);
-                $('.postLoadingBox').hide();
-                $("#frmUploadVideo").show();
-                $("#createVideo_content").val('');
-            }
-        });
-    });
-
-    function videoUrlPaste(e) {
-
-        var url = "";
-        var urlForIe = "";
-
-        var ua = window.navigator.userAgent;
-        var msie = ua.indexOf('MSIE ');
-        var trident = ua.indexOf('Trident/');
-
-        if (msie > 0) {
-            urlForIe = window.clipboardData.getData('text') || prompt('Paste something..');
-        }
-
-        else if (trident > 0) {
-            urlForIe = window.clipboardData.getData('text') || prompt('Paste something..');
-        } else {
-            url = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste something..');
-        }
-//            if ($.browser.chrome || $.browser.mozilla) {            
-//                alert("ASDa");
-//                url = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste something..');
-//            }
-//            if (window.clipboardData) {
-//                urlForIe = window.clipboardData.getData('text/plain') || prompt('Paste something..');
-//            }
-        if (url == "") {
-            url = urlForIe;
-        }
-//        var url = 'https://www.youtube.com/watch?v=oNGvfuQI1Fw';
-        var data = {
-            'url': url,
-            'actions': 'paste',
-            'text': 'no'
-        };
-
-//document.domain = "92.168.1.176";
-        if (url != '') {
-            $.ajax({
-                url: addNewVideo,
-                type: "GET",
-                data: data,
-                success: function (data) {
-                    $("#frmUploadVideo").hide();
-                    $("#loadVideo").hide();
-                    $('#videoPostArea').replaceWith(data);
-                },
-                error: function (error) {
-//                    alert(addNewVideo);
-//                    alert(JSON.stringify(error));
-                }
-            });
-        }
-    }
-
-    $("#createVideo_content").on('paste', function (e) {
-
-        var ua = window.navigator.userAgent;
-        var msie = ua.indexOf('MSIE ');
-        var trident = ua.indexOf('Trident/');
-
-        if (msie > 0) {
-            setTimeout(videoUrlPaste, 100);
-        }
-
-        else if (trident > 0) {
-            setTimeout(videoUrlPaste, 100);
-        } else {
-            setTimeout(videoUrlPaste(e), 100);
-        }
-
-
-    });
-    $("#createPost_content").bind({paste: function (e) {
-            //e.preventDefault();
-//            alert(window.clipboardData.getData('text/plain'));
-            var url = "";
-            var urlForIe = "";
-
-            var ua = window.navigator.userAgent;
-            var msie = ua.indexOf('MSIE ');
-            var trident = ua.indexOf('Trident/');
-
-            if (msie > 0) {
-                urlForIe = window.clipboardData.getData('text') || prompt('Paste something..');
-            }
-
-            else if (trident > 0) {
-                urlForIe = window.clipboardData.getData('text') || prompt('Paste something..');
-            } else {
-                url = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste something..');
-            }
-//            if ($.browser.chrome || $.browser.mozilla) {            
-//                alert("ASDa");
-//                url = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste something..');
-//            }
-//            if (window.clipboardData) {
-//                urlForIe = window.clipboardData.getData('text/plain') || prompt('Paste something..');
-//            }
-            if (url == "") {
-                url = urlForIe;
-            }
-//            var text = $("#createPost_content").val() + url;
-//            $("#createPost_content").val(text);
-            $("#postLinkState").html('no');
-            $.ajax({
-                url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/lookup?v=1.0&num=10&callback=?&q=' + encodeURIComponent(url),
-                dataType: 'json',
-                success: function (data) {
-                    if (data.responseData) {
-                        var feedurl = data.responseData.url;
-                        $.ajax({
-                            url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&callback=?&q=' + encodeURIComponent(feedurl),
-                            dataType: 'json',
-                            success: function (data) {
-                                if (data.responseData) {
-                                    if (data.responseData.feed && data.responseData.feed.entries) {
-                                        var char = 1;
-                                        $.each(data.responseData.feed.entries, function (i, e) {
-                                            if (char === 1) {
-                                                $("#linkTitle").html(e.title);
-                                                $("#createPost_linkTitle").val(e.title);
-                                                $("#linkText").html(e.contentSnippet);
-                                                $("#createPost_linkText").val(e.contentSnippet);
-                                                $("#createPost_linkAddress").val(url);
-                                                $("#postLinkData").show();
-                                                $("#postLinkState").html('yes');
-                                                char = 2;
-                                            }
-                                        });
-                                    }
-                                } else {
-                                    $("#postLinkData").hide();
-                                    $("#postLinkState").html('no');
-                                }
-                            }
-                        });
-                    } else {
-                        $("#postLinkData").hide();
-                        $("#postLinkState").html('no');
-                    }
-                }
-            });
-        }
-    });
     
     $(document).on("click", ".commentLike", function (e) {
         isAccess();
@@ -323,7 +155,7 @@ $(document).ready(function () {
             }
         }, "json");
     });
-    var modalVisible = false;
+
     $(".closeFeed").on("click", function (e) {
         $("#postLinkData").hide();
         $("#postLinkState").html('no');
@@ -343,4 +175,24 @@ $(document).ready(function () {
 
         window.location = loginpageURL;
     }
+
+    if ($('#buzzRightBar').length) {
+        $(window).scroll(function() {
+            makeRightBarSticky()
+        });
+
+        var header = $('#buzzRightBar');
+        var sticky = header.offset().top - 20;
+
+        makeRightBarSticky();
+
+        function makeRightBarSticky() {
+            if (window.pageYOffset > sticky) {
+                header.addClass('sticky');
+            } else {
+                header.removeClass('sticky');
+            }
+        }
+    }
+
 });

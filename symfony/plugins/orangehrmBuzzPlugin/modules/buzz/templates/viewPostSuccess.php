@@ -34,9 +34,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/tooltip_js/jquery.qtip
             </div>
             <div id="postFirstRowColumnTwo">
                 <div id="postEmployeeName" >
-                    <a class="name" href= '<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>' >
-                        <?php echo $postEmployeeName; ?>
-                    </a>
+                    <?php echo $postEmployeeName; ?>
                 </div>
                 <div id="postEmloyeeJobTitlePopUp" >
                     <?php echo $postEmployeeJobTitle; ?>
@@ -50,22 +48,6 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/tooltip_js/jquery.qtip
                     </div>
                 </div>                        
             </div>
-
-            <!--            <div id="postFirstRowColumnThree">
-            <?php // if (($employeeID == $loggedInUser) || ($loggedInUser == '')) { ?>
-                                <div id="postOptionWidget">
-                                    <div class="dropdown" >
-                                        <a class="account"  id=<?php // echo $postId  ?> ></a>
-                                        <div class="submenu" id=<?php // echo 'submenu' . $postId  ?>>
-                                            <ul class = "root">
-                                                <li ><a href = "javascript:void(0)" class="editShare" id=<?php // echo 'editShare_' . $postId  ?> ><?php // echo __("Edit");  ?></a></li>
-                                                <li ><a href = "javascript:void(0)" class="deleteShare" id=<?php // echo 'deleteShare_' . $postId  ?>><?php // echo __("Delete");  ?></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-            <?php // } ?>
-                        </div>-->
         </div>
 
         <!--new Code of like, unlike and share buttons-->
@@ -154,9 +136,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/tooltip_js/jquery.qtip
                             </div>
                             <div id="postFirstRowColumnTwo">
                                 <div id="postEmployeeName" >
-                                    <a class="originalPostView" href="javascript:void(0);" id='<?php echo 'postView_' . $postId . '_' . $originalPostId ?>' >
-                                        <?php echo $originalPostSharerName; ?>
-                                    </a>
+                                    <?php echo $originalPostSharerName; ?>
                                 </div>
                                 <div id="postDateTime">
                                     <div id="postDate">
@@ -275,13 +255,11 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/tooltip_js/jquery.qtip
 
                 <div id="postBodyFirstRow">
                     <div id="postFirstRowColumnOne">
-                        <a href="<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>"><img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic"/></a>
+                        <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic"/>
                     </div>
                     <div id="postFirstRowColumnTwo">
                         <div id="postEmployeeName" >
-                            <a class="name" href="javascript:void(0);">
-                                <?php echo $originalPostSharerName; ?>
-                            </a>
+                            <?php echo $originalPostSharerName; ?>
                         </div>
                         <div id="postDateTime">
                             <div id="postDate">
@@ -355,9 +333,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/tooltip_js/jquery.qtip
         </div>
         <div id="postFirstRowColumnTwo" >
             <div id="postEmployeeName" >
-                <a class="name" href= '<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>' >
-                    <?php echo $postEmployeeName; ?>
-                </a>
+                <?php echo $postEmployeeName; ?>
             </div>
             <div id="postDateTime">
                 <div id="postDate">

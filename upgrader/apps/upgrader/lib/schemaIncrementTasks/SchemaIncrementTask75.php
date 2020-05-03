@@ -257,6 +257,11 @@ INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `ca
         $sql[] = "
 INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@Supervisor_role_id,@screen_id,1,1,1,1);";
 
+        // i.e. -4 weeks, -2 days, -1 day, -1 month
+        // https://www.php.net/manual/en/datetime.formats.relative.php
+        $sql[] = "
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_max_notification_period','-1 week');";
+
         $this->sql = $sql;
     }
 

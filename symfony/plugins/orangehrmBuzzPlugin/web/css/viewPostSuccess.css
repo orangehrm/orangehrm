@@ -19,11 +19,9 @@
 
 }
 .likeLinknew:hover{
-    background-color: white;
     opacity: 0.8;
 } 
 .unlikeLinknew:hover{
-    background-color: white;
     opacity: 0.8;
 
 }
@@ -76,12 +74,9 @@
     position: relative;
     width: 100%;
     height: 230px;
-    //border: 1px solid white;
-    margin: 0 auto;
-    margin-top: 10px;
+    margin: 10px auto 0;
     border-radius: 10px;
     overflow: hidden;
-    //max-width: 510px;
 }
 .imageContainer div {
     position: absolute;
@@ -89,8 +84,8 @@
     border: 5px solid white;
 }
 #postBodySecondRowPop{
-    padding: 5px;
-    margin-top: -3px;
+    padding: 12px 5px 5px;
+    margin-top: -12px;
     text-align: justify;
     background-color: white;
     border-radius: 0 0 4px 4px;

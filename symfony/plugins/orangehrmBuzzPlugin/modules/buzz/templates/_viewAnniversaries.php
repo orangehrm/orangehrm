@@ -49,7 +49,6 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewAnniversaries'));
                             </div>  
                             <?php $employeeFirstAndLastNames = $employee->getFirstName() . " " . $employee->getLastName(); ?>
                             <div id="anniversaryUserName" title="<?php echo $employeeFirstAndLastNames; ?>">
-                                <a href= '<?php echo url_for("buzz/viewProfile?empNumber=" . $employee->getEmpNumber()); ?>' class="name">
                                     <?php
                                     if (strlen($employeeFirstAndLastNames) > 18) {
                                         echo substr($employeeFirstAndLastNames, 0, 18) . '...';
@@ -57,7 +56,6 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewAnniversaries'));
                                         echo $employeeFirstAndLastNames;
                                     }
                                     ?>
-                                </a>
                             </div>        
                         </div>
                         <br>

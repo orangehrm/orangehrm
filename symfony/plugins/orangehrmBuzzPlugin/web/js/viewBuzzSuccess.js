@@ -161,7 +161,6 @@ $(document).ready(function () {
         $('#thumb' + id).hide();
         $('#thumb' + id).attr('src', null);
         delete imageList[id];
-//        $(this).attr('hidden', 'true');
         $(this).hide();
         noOfPhotosStacked--;
     });
@@ -227,15 +226,6 @@ $(document).ready(function () {
         formData = new FormData();
     }
 
-    $("#gotoProfile").click(function () {
-        var id = $('#searchChatter_emp_name_empId').val();
-        if (id.length <= 0) {
-
-        } else {
-            window.location = profilePage + id;
-        }
-    });
-
     var windowTitle = "OrangeBuzz";
     var newlyAddedPostCount = 0;
     var noOfPostsWhenLeavingWindow = 0;
@@ -286,47 +276,9 @@ $(document).ready(function () {
                 }
             }
         });
-
-        refreshStatComponent();
     }
 
-    function refreshStatComponent() {
-        isAccess();
-
-        $('#refreshStatusForm_profileUserId').val($('#profileUserId').html());
-        $.ajax({
-            url: refreshStatsURL,
-            type: "POST",
-            data: $('#refreshStatsForm').serialize(),
-            success: function (data) {
-                $('#refreshStatusForm_profileUserId').val();
-                $('#statTable').replaceWith(data);
-            }
-        });
-    }
-
-    $(".loadMorePostsLink").on("click", function (e) {
-        isAccess();
-
-        $('#loadMorePostsForm_lastPostId').val($('#buzz .lastLoadedPost').last().attr('id'));
-
-        $.ajax({
-            url: loadNextSharesURL,
-            type: "POST",
-            data: $('#loadMorePostsForm').serialize(),
-            success: function (data) {
-                $('#loadMorePostsForm_lastPostId').val('');
-                $('#buzz').append(data);
-            }
-        });
-
-    });
-    $(document).on("click", ".hideModalPopUp", function (e) {
-        var id = e.target.id;
-        $("#" + id).modal('hide');
-    });
-
-    $(".postViewMoreCommentsLink").on("click", function (e) {
+    $(document).on("click", ".postViewMoreCommentsLink", function(e) {
         isAccess();
         var postId = e.target.id.split("_")[1];
         $("#" + e.target.id).hide(100);
@@ -336,206 +288,9 @@ $(document).ready(function () {
 
     });
 
-
-    $(".nfPostCommentLink").on("click", function (e) {
-        isAccess();
-        $("#nfPostCommentTextBox" + e.target.id).toggle(300);
-    });
-
     /**
-     * Liking a share
+     * Option share edit/delete widget
      */
-    $(".nfShowComments").on("click", function (e) {
-        isAccess();
-        var idValue = e.target.id;
-        if ($("#" + idValue).html() == "Show Comments") {
-            $("#" + idValue).html("Hide Comments");
-        } else {
-            $("#" + idValue).html("Show Comments");
-        }
-        idValue = idValue.split("_")[1];
-        $("#commentList" + idValue).toggle(300);
-
-    });
-
-    $(document).on('mouseenter', ".postNoofLikesTooltip", function (e) {
-        isAccess();
-        const target = e.target;
-        var idValue = e.target.id;
-        var shareId = idValue.split("_")[1];
-
-        $('#likedOrSharedEmployeeForm_id').val(shareId);
-        $('#likedOrSharedEmployeeForm_type').val('post');
-
-        $.ajax({
-            url: getLikedEmployeeListURL,
-            type: "POST",
-            data: $('#likedOrSharedEmployeeForm').serialize(),
-            success: function (data) {
-                $('#likedOrSharedEmployeeForm_id').val('');
-                $('#likedOrSharedEmployeeForm_type').val('');
-                $(target).attr('title', '');
-                $(target).attr('title', data);
-            }
-        });
-    });
-
-    $(document).on('mouseenter', ".postNoofSharesTooltip", function (e) {
-        isAccess();
-        const target = e.target;
-        var idValue = e.target.id;
-        var shareId = idValue.split("_")[1];
-
-        $('#likedOrSharedEmployeeForm_id').val(shareId);
-        $('#likedOrSharedEmployeeForm_type').val('post');
-        $('#likedOrSharedEmployeeForm_event').val('hover');
-
-        $.ajax({
-            url: getSharedEmployeeListURL,
-            type: "POST",
-            data: $('#likedOrSharedEmployeeForm').serialize(),
-            success: function (data) {
-                $('#likedOrSharedEmployeeForm_id').val('');
-                $('#likedOrSharedEmployeeForm_type').val('');
-                $('#likedOrSharedEmployeeForm_event').val('');
-                $(target).attr('title', '');
-                $(target).attr('title', data);
-            }
-        });
-    });
-
-    $(document).on("click", ".postNoofSharesTooltip", function (e) {
-        isAccess();
-        var idValue = e.target.id;
-        var shareId = idValue.split("_")[1];
-
-        $('#likedOrSharedEmployeeForm_id').val(shareId);
-        $('#likedOrSharedEmployeeForm_type').val('post');
-        $('#likedOrSharedEmployeeForm_event').val('click');
-
-        $("#postsharehidebody").html("");
-        $.ajax({
-            url: getSharedEmployeeListURL,
-            type: "POST",
-            data: $('#likedOrSharedEmployeeForm').serialize(),
-            success: function (data) {
-                $('#likedOrSharedEmployeeForm_id').val('');
-                $('#likedOrSharedEmployeeForm_type').val('');
-                $('#likedOrSharedEmployeeForm_event').val('');
-                $("#postsharehidebody").html(data);
-            }
-        });
-        $("#postsharehide").modal();
-    });
-
-    $(document).on('mouseenter', ".commentNoofLikesTooltip", function (e) {
-        isAccess();
-        const target = e.target;
-        var idValue = e.target.id;
-        var commentId = idValue.split("_")[1];
-
-        $('#likedOrSharedEmployeeForm_id').val(commentId);
-        $('#likedOrSharedEmployeeForm_type').val('comment');
-
-        $.ajax({
-            url: getLikedEmployeeListURL,
-            type: "POST",
-            data: $('#likedOrSharedEmployeeForm').serialize(),
-            success: function (data) {
-                $('#likedOrSharedEmployeeForm_id').val('');
-                $('#likedOrSharedEmployeeForm_type').val('');
-                $(target).attr('title', '');
-                $(target).attr('title', data);
-            }
-        });
-    });
-
-
-    $(document).on("click", ".commentSubmitBtn", function (e) {
-        isAccess();
-
-        var elementId = "#" + e.target.id;
-        var value = $(elementId).val();
-
-        var value;
-        var formName;
-        var loadingSpinner;
-        var commentId;
-        var elementSplitted = elementId.split("_");
-        
-        if (elementSplitted[1] == 'popShareId') {
-            var element = '#commentBoxnew_txt_popShareId_' + elementSplitted[2];
-            value = $(element).val();
-            formName = '#formCreateComment_' + elementSplitted[1] + elementSplitted[2];
-            commentId = elementSplitted[2];
-        } else if (elementSplitted[1] == 'popPhotoId') {
-            var element = '#commentBoxnew_txt_popPhotoId_' + elementSplitted[2];
-            value = $(element).val();
-            formName = '#formCreateComment_' + elementSplitted[1] + elementSplitted[2];
-            commentId = elementSplitted[2];
-        } else {
-            value = $(elementId).val();
-            formName = '#formCreateComment_' + elementId.split("_")[1];
-            loadingSpinner = '#commentLoadingBox' + elementId.split("_")[1];
-            commentId = elementId.split("Id")[1];
-        }
-        
-        $("#commentListContainer_" + elementId.split("Id")[1]).css("display", "block");
-        if (trim(value).length > 0) {
-            $('#commentLoadingBox' + elementId.split("_")[1]).show();
-            $.ajax({
-                url: addBuzzCommentURL,
-                type: 'POST',
-                data: $(formName).serialize(),
-                success: function (data) {
-                    $("#comment-text-width-analyzer").html("");
-
-                    $("#commentListNew_popPostId" + commentId).append(data);
-                    $("#commentListNew_popPostId" + commentId + " " + "#modalEdit").replaceWith(' ');
-                    $("#commentListNew_popPostId" + commentId + " li .addNewCommentBody " + "#modatLikeWindow").replaceWith(' ');
-
-                    $("#commentListNew_popShareId" + commentId).append(data);
-                    $("#commentListNew_popShareId" + commentId + " " + "#modalEdit").replaceWith(' ');
-                    $("#commentListNew_popShareId" + commentId + " li .addNewCommentBody " + "#modatLikeWindow").replaceWith(' ');
-
-                    $("#commentListNew_popPhotoId" + commentId).append(data);
-                    $("#commentListNew_popPhotoId" + commentId + " " + "#modalEdit").replaceWith(' ');
-                    $("#commentListNew_popPhotoId" + commentId + " li .addNewCommentBody " + "#modatLikeWindow").replaceWith(' ');
-
-                    $("#commentListNew_listId" + commentId).append(data);
-                    $("#commentListContainer_" + commentId).css("display", "block");
-                    $('.commentLoadingBox').hide();
-                    $(".commentBox").val('');
-                }
-            });
-        }
-    });
-
-    function getCaret(el) {
-        if (el.selectionStart) {
-            return el.selectionStart;
-        } else if (document.selection) {
-            el.focus();
-
-            var r = document.selection.createRange();
-            if (r == null) {
-                return 0;
-            }
-
-            var re = el.createTextRange(),
-                    rc = re.duplicate();
-            re.moveToBookmark(r.getBookmark());
-            rc.setEndPoint('EndToStart', re);
-
-            return rc.text.length;
-        }
-        return 0;
-    }
-
-    /**
-     * Option widget
-     */
-
     $(document).on("click", ".account", function (e)
     {
         var elementId = "#submenu" + e.target.id;
@@ -548,23 +303,6 @@ $(document).ready(function () {
         var elementId = "submenu" + e.target.id;
         $('[id=' + elementId + "]").toggle(100);
     });
-
-//Mouse click on sub menu
-    $(".submenu").on("mouseup", function ()
-    {
-        return false;
-    });
-
-//Mouse click on my account link
-    $(document).on("mouseup", ".account", function ()
-    {
-        return false;
-    });
-    $(document).on("mouseup", ".commentAccount", function ()
-    {
-        return false;
-    });
-
 
 //Document Click
     $(document).on("mouseup", function ()
@@ -615,81 +353,6 @@ $(document).ready(function () {
     $(document).on("click", ".editShare", function (e) {
         var shareId = e.target.id.split("_")[1];
         $("#editposthide_" + shareId).modal();
-    });
-
-    var nextBtn;
-    var prevBtn;
-    var shownImgId;
-    var shownImgPostId;
-    /**
-     * Show images in modal..
-     */
-    $(document).on("click", ".postPhoto", function (e) {
-        $(".modal").modal('hide');
-        var shareId = parseInt(e.target.id.split("_")[1]);
-        var imageId = parseInt(e.target.id.split("_")[0]);
-
-
-        $(".postPhotoPrev").hide();
-        $(".imagePrevBtn").attr("disabled", 'true');
-        $(".imageNextBtn").attr("disabled", 'true');
-        $("#showPhotos" + shareId).modal();
-        modalVisible = true;
-        shownImgId = imageId;
-        shownImgPostId = shareId;
-        $("#img_" + shownImgId + "_" + shownImgPostId).show();
-        if ($("#img_" + '2' + "_" + shownImgPostId).length > 0) {
-            $("#imageNextBtn" + shownImgPostId).removeAttr("disabled");
-        }
-
-        if ($("#img_" + '2' + "_" + shownImgPostId).length > 0) {
-            $("#imagePrevBtn" + shownImgPostId).removeAttr("disabled");
-        }
-    });
-
-    $(document).on("click", ".imageNextBtn", function (e) {
-//        alert(e.target.id);
-        if ($("#img_" + parseInt(shownImgId + 1) + "_" + shownImgPostId).length <= 0) {
-            $("#img_" + shownImgId + "_" + shownImgPostId).hide();
-            shownImgId = 1;
-            $("#img_" + shownImgId + "_" + shownImgPostId).show();
-        } else {
-            $("#img_" + shownImgId + "_" + shownImgPostId).hide();
-            shownImgId = shownImgId + 1;
-            $("#img_" + shownImgId + "_" + shownImgPostId).show();
-        }
-
-        $("#imagePrevBtn" + shownImgPostId).removeAttr("disabled");
-
-    });
-
-    $(document).on("click", ".imagePrevBtn", function (e) {
-        if ($("#img_" + parseInt(shownImgId - 1) + "_" + shownImgPostId).length <= 0) {
-            if ($("#img_" + '5' + "_" + shownImgPostId).length > 0) {
-                $("#img_" + shownImgId + "_" + shownImgPostId).hide();
-                shownImgId = 5;
-                $("#img_" + shownImgId + "_" + shownImgPostId).show();
-            } else if ($("#img_" + '4' + "_" + shownImgPostId).length > 0) {
-                $("#img_" + shownImgId + "_" + shownImgPostId).hide();
-                shownImgId = 4;
-                $("#img_" + shownImgId + "_" + shownImgPostId).show();
-            } else if ($("#img_" + '3' + "_" + shownImgPostId).length > 0) {
-                $("#img_" + shownImgId + "_" + shownImgPostId).hide();
-                shownImgId = 3;
-                $("#img_" + shownImgId + "_" + shownImgPostId).show();
-            } else if ($("#img_" + '2' + "_" + shownImgPostId).length > 0) {
-                $("#img_" + shownImgId + "_" + shownImgPostId).hide();
-                shownImgId = 2;
-                $("#img_" + shownImgId + "_" + shownImgPostId).show();
-            }
-        } else {
-            $("#img_" + shownImgId + "_" + shownImgPostId).hide();
-            shownImgId = shownImgId - 1;
-            $("#img_" + shownImgId + "_" + shownImgPostId).show();
-        }
-
-        $("#imageNextBtn" + shownImgPostId).removeAttr("disabled");
-
     });
 
     /**
@@ -750,92 +413,6 @@ $(document).ready(function () {
         });
     });
 
-    /**
-     * share post save 
-     */
-    $(document).on("click", ".btnShare", function (e) {
-        var fromProfile = false;
-        if (window.location.href.indexOf("viewProfile") > -1) {
-            fromProfile = true;
-        }
-
-        if (!fromProfile) {
-            var idValue = e.target.id;
-            $("#posthide_" + idValue.split("_")[1]).modal('hide');
-            $(".modal").modal('hide');
-            $("#loadingDataModal").modal();
-
-            var postId = idValue.split("_")[2];
-
-            var shareId = idValue.split("_")[1];
-            var share = $("[id=shareBox_" + idValue.split("_")[1] + ']').val();
-
-            $('#deleteOrEditShareForm_shareId').val(postId);
-            $('#deleteOrEditShareForm_textShare').val(share);
-
-            $.ajax({
-                url: shareShareURL,
-                type: 'POST',
-                data: $('#deleteOrEditShareForm').serialize(),
-                success: function (data) {
-                    $('#deleteOrEditShareForm_shareId').val('');
-                    $('#deleteOrEditShareForm_textShare').val('');
-                    $("#posthide_" + shareId).modal("hide");
-                    $("#posthidePopup_" + shareId).modal("hide");
-                    $('#buzz').prepend(data);
-                    $("#loadingDataModal").modal('hide');
-                    $("#successBodyShare").show();
-                    $("#successBodyEdit").hide();
-                    $("#successBodyDelete").hide();
-                    $("#successDataModal").modal();
-                    $('#postShareno_' + shareId).hide();
-                    $('#postShareyes_' + shareId).show();
-                    setTimeout(hideSuccessModal, 3000);
-                }
-            });
-        }
-    });
-
-    /**
-     * share post save 
-     */
-    $(".btnShareOnPreview").on("click", function (e) {
-        var idValue = e.target.id;
-        $("#posthide_" + idValue.split("_")[1]).hide();
-        $(".modal").hide();
-        $("#loadingDataModal").modal();
-        var shareId = idValue.split("_")[1];
-        var share = $("[id=share1Box_" + idValue.split("_")[1] + ']').val();
-
-        var postId = idValue.split("_")[2];
-
-        $('#deleteOrEditShareForm_shareId').val(postId);
-        $('#deleteOrEditShareForm_textShare').val(share);
-
-        $.ajax({
-            url: shareShareURL,
-            type: 'POST',
-            data: $('#deleteOrEditShareForm').serialize(),
-            success: function (data) {
-                $('#deleteOrEditShareForm_shareId').val('');
-                $('#deleteOrEditShareForm_textShare').val('');
-                $("#posthide_" + shareId).modal("hide");
-                $("#posthidePopup_" + shareId).modal("hide");
-                $('#buzz').prepend(data);
-                $("#loadingDataModal").modal('hide');
-                $("#successBodyDelete").hide();
-                $("#successBodyShare").show();
-                $("#successBodyEdit").hide();
-                $("#successDataModal").modal();
-                setTimeout(hideSuccessModal, 3000);
-            }
-        });
-
-
-
-
-    });
-
     $(document).on("click", ".viewMoreShare", function (e) {
         var idValue = e.target.id;
         var shareId = idValue.split("_")[1];
@@ -857,51 +434,6 @@ $(document).ready(function () {
         });
     });
 
-    $(".viewMoreComment").on("click", function (e) {
-        var idValue = e.target.id;
-        var commentId = idValue.split("_")[1];
-        $('#commentBasic_' + commentId).hide();
-        $('#commentFull_' + commentId).show();
-    });
-
-    /**
-     * share post popup window view
-     */
-    $(document).on("click", ".postShare", function (e) {
-        var idValue = e.target.id;
-        $("#posthide_" + idValue.split("_")[1]).modal();
-
-    });
-
-    /**
-     * share post popup window in original post popup
-     */
-    $(".postShareOnOriginalPostPopup").on("click", function (e) {
-        var idValue = e.target.id;
-        $("#posthidePopupOnOriginalPost_" + idValue.split("_")[1]).modal();
-
-    });
-
-    /**
-     * share post popup window view in PopUp
-     */
-    $(document).on("click", ".postSharePopup", function (e) {
-        var idValue = e.target.id;
-        $("#posthidePopup_" + idValue.split("_")[1]).modal();
-
-    });
-
-    $(document).on("click", ".editComment", function (e) {
-        var commentId = e.target.id.split("_")[1];
-        var contentOfTheCommentBox = $("#editcommentBoxNew2_" + commentId).val();
-        if (contentOfTheCommentBox.length == 0) {
-            var content = $.trim($("#commentContentNew_" + commentId).text());
-            if (content.length != 0) {
-                $("#editcommentBoxNew2_" + commentId).val(content);
-            }
-        }
-        $("#editcommenthideNew2_" + commentId).modal();
-    });
     $(document).on("click", ".btnEditCommentNew", function (e) {
         var commentId = e.target.id.split("_")[1];
         var content = $("#editcommentBoxNew2_" + commentId).val();
@@ -929,112 +461,7 @@ $(document).ready(function () {
 
             }
         });
-
-
     });
-    /**
-     * view liked employee list for post
-     */
-    $(document).on("click", ".postNoofLikesTooltip", function (e) {
-        var idValue = e.target.id;
-        var shareId = idValue.split("_")[1];
-        var likeLabelId = "#noOfLikes_" + idValue.split("_")[1];
-        var existingLikes = parseInt($(likeLabelId).html());
-        $("#postlikehidebody").html("");
-        if (existingLikes > 0) {
-            var action = "post";
-
-            $('#likedOrSharedEmployeeForm_id').val(shareId);
-            $('#likedOrSharedEmployeeForm_type').val(action);
-
-            $.ajax({
-                url: viewLikedEmployees,
-                type: 'POST',
-                data: $('#likedOrSharedEmployeeForm').serialize(),
-                success: function (data) {
-                    $('#likedOrSharedEmployeeForm_id').val('');
-                    $('#likedOrSharedEmployeeForm_type').val('');
-                    ;
-                    $("#postlikehidebody").html(data);
-                }
-            });
-
-            $("#postlikehide").modal();
-        }
-    });
-    /**
-     * hide liked employee list
-     */
-    $(".btnBackHide").on("click", function (e) {
-        var idValue = e.target.id;
-        var shareId = idValue.split("_")[1];
-        $("#postlikehide_" + shareId).modal('hide');
-    });
-
-    /**
-     * view like employee list for comment
-     */
-    $(document).on("click", ".commentNoofLikesTooltip", function (e) {
-        var idValue = e.target.id;
-        var commentId = idValue.split("_")[1];
-        var likeLabelId = "#commentNoOfLikes_" + idValue.split("_")[1];
-        var existingLikes = parseInt($(likeLabelId).html().split(" ")[0]);
-
-        if (existingLikes > 0) {
-            var action = "comment";
-
-            $('#likedOrSharedEmployeeForm_id').val(commentId);
-            $('#likedOrSharedEmployeeForm_type').val(action);
-
-            $.ajax({
-                url: viewLikedEmployees,
-                type: 'POST',
-                data: $('#likedOrSharedEmployeeForm').serialize(),
-                success: function (data) {
-                    $('#likedOrSharedEmployeeForm_id').val('');
-                    $('#likedOrSharedEmployeeForm_type').val('');
-                    $("#postlikehidebody_" + commentId).replaceWith(data);
-                }
-            });
-            $("#postlikehide_" + commentId).modal();
-        }
-    });
-    /**
-     * hide liked employee list for comment
-     */
-
-    $("#spinner").bind("ajaxSend", function () {
-        //$(this).show();
-    }).bind("ajaxStop", function () {
-        $(this).hide();
-    }).bind("ajaxError", function () {
-        $(this).hide();
-    });
-
-    /**
-     * original post view
-     */
-//    $(".originalPostView").live("click", function (e) {
-//        var idValue = e.target.id;
-//        var shareId = idValue.split("_")[1];
-//        var postId = idValue.split("_")[2];
-//
-//        $("#loadingDataModal").modal();
-//
-//        $('#deleteOrEditShareForm_shareId').val(postId);
-//
-//        $.ajax({
-//            url: viewOriginalPost,
-//            type: "POST",
-//            data: $('#deleteOrEditShareForm').serialize(),
-//            success: function (data) {
-//                $('#deleteOrEditShareForm_shareId').val('');
-//                $('#postViewContent_' + shareId).replaceWith(data);
-//                $("#loadingDataModal").modal('hide');
-//                $('#postViewOriginal_' + shareId).modal();
-//            }
-//        });
-//    });
 
     $(".postCommentBox").on('click', function (e) {
         var idValue = e.target.className;
@@ -1158,6 +585,91 @@ $(document).ready(function () {
                 }
             }
         }
+    });
+
+    $(document).on('click', ".btnSaveVideo", function (e) {
+        var code = trim($("#yuoutubeVideoId").html());
+        var text = $("#shareVideo").val();
+        $('.postLoadingBox').show();
+        var data = {
+            'url': code,
+            'actions': 'save',
+            'text': text
+        };
+        $.ajax({
+            url: addNewVideo,
+            type: "POST",
+            data: $('#frmSaveVideo').serialize(),
+            success: function (data) {
+                $('#tempVideoBlock').remove();
+                $('#buzz').prepend(data);
+                $('.postLoadingBox').hide();
+                $("#frmUploadVideo").show();
+                $("#createVideo_content").val('');
+            }
+        });
+    });
+
+    function videoUrlPaste(e) {
+
+        var url = "";
+        var urlForIe = "";
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+
+        if (msie > 0) {
+            urlForIe = window.clipboardData.getData('text') || prompt('Paste something..');
+        }
+
+        else if (trident > 0) {
+            urlForIe = window.clipboardData.getData('text') || prompt('Paste something..');
+        } else {
+            url = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste something..');
+        }
+        if (url == "") {
+            url = urlForIe;
+        }
+        var data = {
+            'url': url,
+            'actions': 'paste',
+            'text': 'no'
+        };
+
+        if (url != '') {
+            $.ajax({
+                url: addNewVideo,
+                type: "GET",
+                data: data,
+                success: function (data) {
+                    $("#frmUploadVideo").hide();
+                    $("#loadVideo").hide();
+                    $('#videoPostArea').replaceWith(data);
+                },
+                error: function (error) {
+                }
+            });
+        }
+    }
+
+    $("#createVideo_content").on('paste', function (e) {
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+
+        if (msie > 0) {
+            setTimeout(videoUrlPaste, 100);
+        }
+
+        else if (trident > 0) {
+            setTimeout(videoUrlPaste, 100);
+        } else {
+            setTimeout(videoUrlPaste(e), 100);
+        }
+
+
     });
 }
 );

@@ -275,4 +275,6 @@ ALTER TABLE `ohrm_buzz_notification_metadata`
   ADD CONSTRAINT `notificationMetadata` FOREIGN KEY (`emp_number`)
     REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
-INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_notification_count','10');
+-- i.e. -4 weeks, -2 days, -1 day, -1 month
+-- https://www.php.net/manual/en/datetime.formats.relative.php
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_max_notification_period','-1 week');

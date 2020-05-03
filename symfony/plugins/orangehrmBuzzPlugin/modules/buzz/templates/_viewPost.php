@@ -29,11 +29,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
 
         <div id="postBodyFirstRow">
             <div id="postFirstRowColumnOne">
-                <?php if ($postSharerDeleted) { ?>
-                    <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $employeeID); ?>" border="0" id="empPic" />
-                <?php } else { ?>
-                    <a href="<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>"><img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $employeeID); ?>" border="0" id="empPic" /></a>
-                <?php } ?>
+                <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $employeeID); ?>" border="0" id="empPic" />
             </div>
             <div id="postFirstRowColumnTwo">
                 <div id="postEmployeeName" >
@@ -42,9 +38,9 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                             <?php echo $postEmployeeName; ?>
                         </label>
                     <?php } else { ?>
-                        <a class="name" href= '<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>' >
+                        <label class="name">
                             <?php echo $postEmployeeName; ?>
-                        </a>
+                        </label>
                     <?php } ?>
                 </div>
                 <div id="postEmloyeeJobTitle">
@@ -189,11 +185,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
 
                         <div id="postBodyFirstRow">
                             <div id="postFirstRowColumnOne">
-                                <?php if ($originalPostSharerDeleted) { ?>
-                                    <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic"/>
-                                <?php } else { ?>
-                                    <a href="<?php echo url_for("buzz/viewProfile?empNumber=" . $originalPostEmpNumber); ?>"><img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic"/></a>
-                                <?php } ?>
+                                <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic"/>
                             </div>
                             <div id="postFirstRowColumnTwo">
                                 <div id="postEmployeeName" >
@@ -202,9 +194,9 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                                             <?php echo $originalPostSharerName; ?>
                                         </label>
                                     <?php } else { ?>
-                                        <a class="originalPostView" href= "<?php echo url_for("buzz/viewProfile?empNumber=" . $originalPostEmpNumber); ?>" id='<?php echo 'postView_' . $postId . '_' . $originalPostId ?>' >
+                                        <label class="originalPostView">
                                             <?php echo $originalPostSharerName; ?>
-                                        </a>
+                                        </label>
                                     <?php } ?>
                                 </div>
                                 <div id="postDateTime">
@@ -268,7 +260,9 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
         <?php if (count($originalPost->getLinks()) > 0) { ?>
             <?php foreach ($originalPost->getLinks() as $link) { ?>
                 <?php if ($link->getType() == 1) { ?>
-                    <iframe src="<?php echo $link->getLink(); ?>" width="100%" height="250" style="margin-top: 5px " frameborder="0" allowfullscreen></iframe >
+                    <div class="video-container">
+                        <iframe src="<?php echo $link->getLink(); ?>" width="100%" height="250" frameborder="0" allowfullscreen></iframe >
+                    </div>
 
                 <?php } ?>
                 <?php if ($link->getType() == 0) { ?>
@@ -340,9 +334,9 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                                         <?php echo $postEmployeeName; ?>
                                     </label>
                                 <?php } else { ?>
-                                    <a class="name" href= '<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>' >
+                                    <label class="name">
                                         <?php echo $postEmployeeName; ?>
-                                    </a>
+                                    </label>
                                 <?php } ?>
                             </div>
                             <div>
@@ -491,7 +485,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                               <?php
                               $placeholder = __("What's on your mind");
                               echo $commentForm['comment']->render(array('id' => "shareBox_" . $postId,
-                                  'class' => 'shareBox', 'style' => 'width: 95%', 'rows' => '2', 'placeholder' => $placeholder));
+                                  'class' => 'shareBox sharePostText', 'rows' => '2', 'placeholder' => $placeholder));
                               ?>
 
                     </form>
@@ -499,7 +493,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
 
                         <div id="postBodyFirstRow">
                             <div id="postFirstRowColumnOne">
-                                <a href="<?php echo url_for("buzz/viewProfile?empNumber=" . $employeeID); ?>"><img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic" height="40" width="30"/></a>
+                                <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic" height="40" width="40"/>
                             </div>
                             <div id="postFirstRowColumnTwo">
                                 <div id="postEmployeeName" >
@@ -508,9 +502,9 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                                             <?php echo $originalPostSharerName; ?>
                                         </label>
                                     <?php } else { ?>
-                                        <a class="name" href= "<?php echo url_for("buzz/viewProfile?empNumber=" . $originalPostEmpNumber); ?>" id='<?php echo 'postView_' . $postId . '_' . $originalPostId ?>' >
+                                        <label class="name">
                                             <?php echo $originalPostSharerName; ?>
-                                        </a>
+                                        </label>
                                     <?php } ?>
                                 </div>
                                 <div id="postDateTime">
@@ -600,7 +594,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                                       <?php
                                       $editForm->setDefault('comment', $postContent);
                                       echo $editForm['comment']->render(array('id' => "editshareBox_" . $postId,
-                                          'class' => 'shareBox popupEdit', 'style' => 'width: 100%', 'rows' => '5'));
+                                          'class' => 'shareBox popupEdit shareEditText', 'rows' => '5'));
                                       ?>
 
                             </form>
@@ -610,7 +604,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                                       <?php
                                       $editForm->setDefault('comment', $originalPostContent);
                                       echo $editForm['comment']->render(array('id' => "editshareBox_" . $postId,
-                                          'class' => 'shareBox popupEdit', 'style' => 'width: 100%', 'rows' => '5'));
+                                          'class' => 'shareBox popupEdit shareEditText', 'rows' => '5'));
                                       ?>
 
                             </form>
@@ -736,7 +730,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                 $isLikeComment = $comment->isLike($loggedInUser);
                 $commentLikeEmployes = $comment->getLikedEmployeeList();
                 $peopleLikeArray = $comment->getLikedEmployees();
-//                            $peopleLikeArray = array("Aruna Tebel", "Dewmal Anicitus");
+
                 if ($count >= $initialcommentCount) {
                     $display = 'none';
                 }
@@ -783,7 +777,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                                 <?php if ($commenterDeleted) { ?>
                                     <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $commentEmployeeId); ?>" border="0" id="empPic"/>
                                 <?php } else { ?>
-                                    <a href="<?php echo url_for("buzz/viewProfile?empNumber=" . $commentEmployeeId); ?>"><img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $commentEmployeeId); ?>" border="0" id="empPic"/></a>
+                                    <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $commentEmployeeId); ?>" border="0" id="empPic"/>
                                 <?php } ?>
                             </div>
                             <div id="commentColumnTwo">
@@ -791,7 +785,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                                     <?php if ($commenterDeleted) { ?>
                                         <label class="name"><?php echo $commentEmployeeName; ?></label>
                                     <?php } else { ?>
-                                        <a class="name" href= '<?php echo url_for("buzz/viewProfile?empNumber=" . $commentEmployeeId); ?>' ><?php echo $commentEmployeeName; ?></a>
+                                        <label class="name"><?php echo $commentEmployeeName; ?></label>
                                     <?php } ?>
                                 </div>
                                 <div id="commentEmployeeJobTitle">

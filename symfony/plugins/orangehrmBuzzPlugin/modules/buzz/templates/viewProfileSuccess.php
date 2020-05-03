@@ -191,15 +191,12 @@ ini_set("memory_limit", '-1');
 
                 var viewMoreShare = '<?php echo url_for('buzz/viewShare'); ?>';
                 var profilePage = '<?php echo url_for('buzz/viewProfile?empNumber='); ?>';
-                var getCsrfUrl = '<?php echo url_for('buzz/getFormCsrfToken'); ?>';
                 var loginpageURL = '<?php echo url_for('auth/login'); ?>';
                 var addNewVideo = '<?php echo url_for('buzz/addNewVideo'); ?>';
-                var viewOriginalPost = '<?php echo url_for('buzz/viewPost'); ?>';
                 var viewLikedEmployees = '<?php echo url_for('buzz/viewLikedEmployees'); ?>';
                 var addBuzzPostURL = '<?php echo url_for('buzz/addNewPost'); ?>';
                 var addBuzzCommentURL = '<?php echo url_for('buzz/addNewComment'); ?>';
                 var shareLikeURL = '<?php echo url_for('buzz/likeOnShare'); ?>';
-                var shareCommentURL = '<?php echo url_for('buzz/commentOnShare'); ?>';
                 var shareShareURL = '<?php echo url_for('buzz/shareAPost'); ?>';
                 var commentLikeURL = '<?php echo url_for('buzz/likeOnComment'); ?>';
                 var shareDeleteURL = '<?php echo url_for('buzz/deleteShare'); ?>';

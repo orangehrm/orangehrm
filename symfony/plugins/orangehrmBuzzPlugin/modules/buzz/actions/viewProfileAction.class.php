@@ -50,8 +50,6 @@ class viewProfileAction extends BaseBuzzAction {
     }
 
     public function execute($request) {
-        $template = $this->getContext()->getConfiguration()->getTemplateDir('buzz', 'chatter.php');
-        $this->setLayout($template . '/chatter');
         $this->searchForm = $this->getSearchForm();
         $this->actionValidateForm = $this->getActionValidateForm();
 

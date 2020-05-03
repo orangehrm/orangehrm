@@ -77,16 +77,14 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewBuzzSuccess'));
 
                                 <div id="postBodyFirstRow">
                                     <div id="postFirstRowColumnOne">
-                                        <a href="<?php echo url_for("buzz/viewProfile?empNumber=" . $originalPostEmpNumber); ?>"><img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic" height="40" width="30"/>
+                                        <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $originalPostEmpNumber); ?>" border="0" id="empPic" height="40" width="30"/>
                                     </div>
                                     <div id="postFirstRowColumnTwo">
                                         <div id="postEmployeeName" >
                                             <?php if ($originalPostSharerDeleted) { ?>
                                                 <?php echo $originalPostSharerName; ?>
                                             <?php } else { ?>
-                                                <a class="originalPostView" href="<?php echo url_for("buzz/viewProfile?empNumber=" . $originalPostEmpNumber); ?>" id="<?php echo 'postView_' . $postId . '_' . $originalPostId ?>">
-                                                    <?php echo $originalPostSharerName; ?>
-                                                </a>
+                                                <?php echo $originalPostSharerName; ?>
                                             <?php } ?>
                                         </div>                       
                                     </div>

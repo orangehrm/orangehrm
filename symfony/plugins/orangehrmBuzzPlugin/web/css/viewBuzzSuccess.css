@@ -18,19 +18,6 @@
     src: url("fonts/SourceSansPro-Bold.otf") format("opentype");
 }
 
-html, body{
-    margin: 0;
-    padding: 0;
-    font-family: SourceSansProRegular;
-    /*background-color: #c9c9c9;*/
-}
-
-a{
-    color: #f28c38;
-    text-decoration: none;
-    font-family: SourceSansProRegular;
-}
-
 a:hover{
     text-decoration: underline;
 }
@@ -54,6 +41,10 @@ a:hover{
 
 .postPhoto:hover{
     cursor: pointer;
+}
+
+.postPhotoUnclickable {
+    cursor: auto !important;
 }
 
 ::-webkit-scrollbar
@@ -180,10 +171,10 @@ textarea{
 #postBodyFirstRow{
     background-color: white;
     display: inline-block;
-    height: 64px;
     border-radius: 5px 5px 0px 0px;
     padding: 4px;
-    width: 99%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #postFirstRowColumnOne img{
@@ -308,15 +299,16 @@ textarea{
 
 /*Content row*/
 #postBodySecondRow{
-    padding: 10px;
-    margin-top: -3px;
+    padding: 12px 5px 5px;
+    margin-top: -12px;
     text-align: justify;
     background-color: white;
     border-radius: 0px 0px 4px 4px;
     line-height: 1.5;
     font-family: 'SourceSansProLight';
     font-size: 16px;
-    width:97.1%;
+    width:100%;
+    box-sizing: border-box;
     overflow: hidden;
 }
 
@@ -385,7 +377,6 @@ textarea{
 }
 
 .commentListContainer{
-    //border: px solid #d0d1d5;
     border-top: none;
     padding: 5px;
     max-width: 100%;
@@ -406,14 +397,12 @@ textarea{
 }
 
 #commentColumnOne{
-    //width: 8%;
 }
 
 #commentRowOne{
     height: 58px;
     background-color: #f3f3f3;
     border-radius: 4px;
-    /*padding: 4px;*/
 }
 
 #commentColumnOne, #commentColumnTwo, #commentColumnThree{
@@ -446,7 +435,6 @@ textarea{
 }
 
 #commentColumnTwo{
-    //width: 60%;
     margin-left: -2px;
     vertical-align: top;
 }
@@ -491,12 +479,10 @@ textarea{
 }
 
 #commentColumnTwoRowTwo{
-    //padding: 5px;
     margin-left: 10px;
 }
 
 #commentDate{
-    /*font-size: 9px;*/
     display: inline-block;
 }
 
@@ -509,7 +495,6 @@ textarea{
 }
 
 #commentTime{
-    /*font-size: 9px;*/
     display: inline-block;
 }
 
@@ -556,13 +541,9 @@ textarea{
 {
     background: #fff;
     position: absolute;
-    //top: 11px;
-    /*left: -34px;*/
     z-index: 100;
-    /*width: 60px;*/
     display: none;
     left: 21px;
-    /*margin-left: 19px;*/
     padding: 20px 0 5px;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
@@ -621,11 +602,8 @@ a.commentAccount
     background: #fff;
     position: absolute;
     top: 11px;
-    /*left: -34px;*/
     z-index: 100;
-    /*width: 60px;*/
     display: none;
-    /*margin-left: 17px;*/
     padding: 20px 0 5px;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
@@ -651,7 +629,6 @@ a.commentAccount
     padding: 5px 20px;
     border-radius: 3px;
     margin-right: 10px;
-    /*margin-bottom: 8px;*/
     color: white;
     font-size: 15px;
     font-size: 16px;
@@ -660,28 +637,47 @@ a.commentAccount
     margin-top: -60px;
 }
 
-input[type="button"]{
+#dashBoardBuzz input[type="button"]{
     font-size: 16px;
     margin-left: 81.8%;
-    //margin-top: -60px;
     padding: 5px;
     width: 105px;
+    float: right;
+    margin-right: 0;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0){  
-    input[type="button"]{
+#dashBoardBuzz input[type="submit"]{
+    font-size: 16px;
+    margin-left: 81.8%;
+    padding: 5px;
+    width: 105px;
+    float: right;
+    margin-right: 0;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0){
+    #dashBoardBuzz input[type="button"]{
+        font-size: 16px;
+        margin-left: 81.7%;
+        padding: 5px;
+        float: right;
+        margin-right: 0;
+    }
+
+    #dashBoardBuzz input[type="submit"]{
         font-size: 16px;
         margin-left: 81.7%;
         margin-top: -36px;
         padding: 5px;
-        /*width: 17%;*/
+        float: right;
+        margin-right: 0;
     }
 
-    .submitBtn {
+    #dashBoardBuzz .submitBtn {
         margin-top: -40px;
     }
 
-    .submitBtnnew {
+    #dashBoardBuzz .submitBtnnew {
         margin-top: 5px !important;
     }
 }
@@ -727,6 +723,7 @@ input[type="button"]{
     border-radius: 4px 4px 4px 4px;
     min-width: 99.5%;
     padding: 11px 11px 11px 10px;
+    box-sizing: border-box;
 }
 
 .root
@@ -739,14 +736,8 @@ input[type="button"]{
 }
 
 #tabLinks{
-    display: -webkit-box;    
-    display: -moz-box;
-    display: -ms-flexbox;    -ms-flex-direction: row;
-    -webkit-box-orient: horizontal;    
-    -moz-box-orient: horizontal;
-
-    display: -ms-flexbox;
-    -ms-flex-direction: row;
+    display: grid;
+    grid-template-areas: 'tab1 tab2 tab3';
     overflow-x: hidden;
     overflow: hidden;border-top-right-radius: 5px;
 }
@@ -800,10 +791,10 @@ img.imgThumbnailView {
 }
 
 #imageThumbnails{
-    display:inline-block; 
-    margin-top: 20px;
+    margin: 20px auto 0;
     width: 640px;
     overflow-x: auto;
+    clear: both;
 }
 
 .imageDefinition{
@@ -852,14 +843,14 @@ img.imgThumbnailView {
     margin-left: 40%; margin-top: 5px;
 }
 #img-spinner-loading{
-    margin-top:9px ;
-    margin-left: 40%;
+    padding-top: 12px;
+    display: block;
+    margin: auto !important;
 }
 #commentListContainerforpev{
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     -ms-border-radius: 10px;
-    //border-radius: 10px; /* future proofing */
     -khtml-border-radius: 5px; /* for old Konqueror browsers */
     border: 10px ;
     height: 260px;
@@ -974,9 +965,22 @@ img.imgThumbnailView {
     word-wrap: break-word;
 }
 
-#postSubmitBtn, #imageUploadBtn, .btnSaveVideo{
+.btnSaveVideo{
+    float: none !important;
+    margin-bottom: 0;
+    margin-right: 0 !important;
+}
+
+#imageUploadBtn {
+    margin-bottom: 0;
+    margin-right: 0;
+    float: none !important;
+}
+
+#postSubmitBtn {
     margin-top: 0 !important;
     margin-right: 10px !important;
+    float: none !important;
 }
 
 .linkAddress, .linkTitle, .linkText{
@@ -988,7 +992,7 @@ img.imgThumbnailView {
 }
 
 #image-upload-button{
-    float: left;
+    float: left !important;
     -webkit-border-radius: 7px;
     -moz-border-radius: 7px;
     border-radius: 7px;
@@ -998,10 +1002,10 @@ img.imgThumbnailView {
     padding: 5px 20px;
     text-decoration: none;
     border: 0;
-    margin-left: 10px;
+    margin-left: 0 !important;
     border-radius: 3px;
     font-family: "SourceSansProRegular";
-    margin-top: -18px;
+    margin-top: -18px !important;
     width: 150px !important;
 }
 
@@ -1017,8 +1021,9 @@ img.imgThumbnailView {
     border-radius: 5px;
     font-family: "SourceSansProLight";
     font-size: 16px;
-    min-width: 99.5%;
     padding: 10px 0 10px 10px;
+    box-sizing: border-box;
+    width: calc(-116px + 100%) !important;
 }
 
 .delete-share-message-box{
@@ -1032,6 +1037,15 @@ img.imgThumbnailView {
 
 #frmPublishPost{
     margin-bottom: -45px;
+    padding: 10px;
+}
+
+#frmUploadImage {
+    padding: 10px;
+}
+
+#frmUploadVideo {
+    padding: 10px;
 }
 
 .smileys{
@@ -1054,6 +1068,10 @@ img.imgThumbnailView {
     overflow-y: scroll;
 }
 
+.commentBox.popupEdit {
+    width: 100% !important;
+}
+
 .photoBox{
     height: 100px;
     overflow-y: auto !important;
@@ -1062,10 +1080,6 @@ img.imgThumbnailView {
 div.photoPreviewComment > div#commentListContainerforpev { 
     max-height: 120px !important;
     overflow-y: auto !important;
-}
-
-#wrapper{
-    padding-top:30px;
 }
 
 #profilePicContainer {
@@ -1104,4 +1118,9 @@ div.photoPreviewComment > div#commentListContainerforpev {
 
 .ac_results {
     width: 33.75em !important;
+}
+
+.add-new-video {
+    text-align: center;
+    margin: 20px 0 24px;
 }

@@ -74,16 +74,103 @@
 }
 
 .notification-new-row {
-    background-color: #7d7c7c57;
+    background-color: #c3c0c0;
 }
 
 .notification {
     float: right;
-    top: 70px;
-    position: absolute;
-    right: 180px;
+    padding-top: 68px;
+    margin-right: 12px;
 }
 
 svg.notification-icon > path {
     fill: #5d5d5d;
+}
+
+.notification-view-more-modal-body {
+    height: 530px;
+    background-color: #e2e2e2;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.notification-view-more-modal {
+    width: 920px;
+    left: 36%;
+    top:55%;
+    overflow-x: hidden;
+}
+
+.notification-hide-modal-popup {
+    top: 4px;
+    right: 4px;
+    position: absolute;
+    z-index: 99999;
+    background-color: white;
+
+}
+
+.notification-hide-modal-popup img {
+    border: 2px solid;
+    border-radius: 250px;
+}
+
+#branding img {
+    margin-top: 0 !important;
+}
+
+#branding > a > img {
+    margin-top: 14px !important;
+}
+
+#notificationShareViewMoreModal input[type="button"]{
+    font-size: 16px;
+    margin-left: 81.8%;
+    padding: 5px;
+    width: 105px;
+    float: right;
+    margin-right: 0;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0){
+    #notificationShareViewMoreModal input[type="button"]{
+        font-size: 16px;
+        margin-left: 81.7%;
+        margin-top: -36px;
+        padding: 5px;
+        float: right;
+        margin-right: 0;
+    }
+
+    #notificationShareViewMoreModal .submitBtn {
+        margin-top: -40px;
+    }
+
+    #notificationShareViewMoreModal .submitBtnnew {
+        margin-top: 5px !important;
+    }
+}
+
+#notificationShareView a:hover{
+    text-decoration: underline !important;
+}
+
+/*Override main.css*/
+#welcome {
+    float: right;
+    margin-top: 68px;
+    margin-right: 8px;
+    margin-left: 4px;
+    position: unset;
+    top: unset;
+    right: unset;
+}
+
+#MP_btn {
+    padding-right: unset;
+    margin-right: 12px;
+}
+
+#mp_btn_inner {
+    padding-top: 56px !important;
 }

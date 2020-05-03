@@ -63,7 +63,7 @@ use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewBuzzSuccessCommen
                                   <?php
                                   $editForm->setDefault('comment', $commentContent);
                                   echo $editForm['comment']->render(array('id' => "editcommentBoxNew_" . $commentId,
-                                      'class' => 'commentBox popupEdit', 'style' => 'width: 95%', 'rows' => '3'));
+                                      'class' => 'commentBox popupEdit', 'rows' => '3'));
                                   ?>
 
                         </form>
@@ -109,7 +109,6 @@ use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewBuzzSuccessCommen
                                         ?>
                                     </label>
                                 <?php } else { ?>
-                                    <a class="name" href="<?php echo url_for("buzz/viewProfile?empNumber=" . $commentEmployeeId); ?>" title="<?php echo $commentEmployeeName; ?>">
                                         <?php
                                         if (strlen($commentEmployeeName) > 26) {
                                             echo substr($commentEmployeeName, 0, 26) . '...';
@@ -117,7 +116,6 @@ use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewBuzzSuccessCommen
                                             echo $commentEmployeeName;
                                         }
                                         ?>
-                                    </a> 
                                 <?php } ?>
                             </div>
                             <div id="commentEmployeeJobTitle">
@@ -193,7 +191,7 @@ use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewBuzzSuccessCommen
                   <?php
                   $placeholder = __("Add your comment");
                   echo $commentForm['comment']->render(array('id' => "commentBoxnew_txt_" . $commentBoxId . '_' . $postId,
-                      'class' => 'commentBox1', 'style' => 'width: 70%', 'rows' => '1', 'placeholder' => $placeholder));
+                      'class' => 'commentBox', 'style' => 'width: 70%', 'rows' => '1', 'placeholder' => $placeholder));
                   $commentForm->setDefault('shareId', $postId);
                   ?>
             <div style="display:none">

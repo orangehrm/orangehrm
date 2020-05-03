@@ -14,8 +14,10 @@
     left:0;
     right:0;
     bottom:10px;
-    margin:auto;
+    margin:auto !important;
     top:0;
+    width: auto;
+    height: 100%;
 }
 
 .twoImageOne{
@@ -128,4 +130,9 @@
     width: 30%; 
     height: 75px;
     overflow: hidden;
+}
+
+.imageContainer img {
+    width: auto;
+    height: 100%;
 }

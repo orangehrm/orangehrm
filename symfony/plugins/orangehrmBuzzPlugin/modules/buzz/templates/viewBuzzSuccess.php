@@ -23,6 +23,7 @@ use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/buzzNew'));
 use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/jquerycollagePlus'));
 use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/jqueryremoveWhitespace'));
 use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewBuzzSuccess'));
+use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/buzzCommon'));
 use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/buzzNew'));
 use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/jquery.autosize.min.js'));
 use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/getSharedEmployeeListSuccess'));
@@ -33,26 +34,6 @@ ini_set("memory_limit", '-1');
 ?>
 
 <div id="dashBoardBuzz">
-
-    <div class="modal hide" id="successDataModal" >
-
-        <div class="modal-body" >
-            <div class="mb-heading ac_over">
-                <?php echo __("Success") . "!"; ?>
-            </div>
-            <!--<div id="successHeader" style="width: 100%;height: 20px;background-color: green;">Success</div>-->
-            <div id="successBodyEdit" >
-                <?php echo __("Successfully Saved"); ?>
-            </div>
-            <div id="successBodyShare" >
-                <?php echo __("Successfully Shared"); ?>
-            </div>
-            <div id="successBodyDelete" >
-                <?php echo __("Successfully Deleted"); ?>
-            </div>
-
-        </div>
-    </div>
 
     <div class="delete-share-message-box modal hide" id="delete-share">
         <div class="hideModalPopUp"
@@ -90,17 +71,13 @@ ini_set("memory_limit", '-1');
         </div>
     </div>
 
-    <div class="buzzRightBar">
+    <div class="buzzRightBar"></div>
+    <div id="buzzRightBar" class="buzzRightBar">
         <!--Start anniversary Component-->
         <div id="anniversaryComponent">
             <?php include_component('buzz', 'viewAnniversaries', array()); ?>
         </div>
         <!--End anniversary Component-->
-        <!--Start Stat Component-->
-        <div id="statisticsComponent">
-            <?php // include_component('buzz', 'viewStatistics', array('loggedInUserId' => $loggedInUser));  ?>
-        </div>
-        <!--End Stat Component-->
         <!--Start Most Liked Shares Component-->
         <div id="statisticsComponent">
             <?php include_component('buzz', 'mostLikedShares', array()); ?>
@@ -234,19 +211,6 @@ ini_set("memory_limit", '-1');
             ?> 
         </ul>
 
-        <!--start loading window popup window-->
-        <div class="modal hide" id="loadingDataModal" >
-            <div class="modal-body loadingDataModal-body" >            
-                <div id="loadingModalBody" >
-                    <img id="img-spinner-loading"   src="<?php echo plugin_web_path("orangehrmBuzzPlugin", "images/vload.gif"); ?>" 
-                         height="12"  />
-                </div>
-            </div>
-        </div>
-        <!--end loading window pop up window-->
-        <!--start Success popup window-->
-
-        <!--end loading window pop up window-->
         <div class="loadMoreBox">
             <div id="lodingGif">
                 <img id="img-spinner"   src="<?php echo plugin_web_path("orangehrmBuzzPlugin", "images/loading2.gif"); ?>" height="70" />
@@ -265,40 +229,6 @@ ini_set("memory_limit", '-1');
                 </div>
             </div>
         </div>
-
-        <!-- start like window popup window-->
-        <div class="modal hide modal-on-preview" id='<?php echo 'postsharehide' ?>'>
-            <div id="modalHeader" >
-                <?php echo __("People who shared this post"); ?>
-            </div>
-            <div class="modal-body originalPostModal-body" >
-                <div class="hideModalPopUp" id='<?php echo 'postsharehide' ?>'
-                     ><img 
-                        class="hideModalPopUp" id='<?php echo 'postsharehide' ?>' 
-                        src="<?php echo plugin_web_path("orangehrmBuzzPlugin", "images/close.png"); ?>" height="20" width="20"
-                        /></div>
-                <div class=""  id='<?php echo 'postsharehidebody' ?>'></div>
-
-            </div>
-        </div>
-        <!-- end like window pop up window-->
-
-        <!-- start like window popup window-->
-        <div class="modal hide modal-on-preview" id='<?php echo 'postlikehide' ?>'>
-            <div id="modalHeader" >
-                <?php echo __("People who like this post"); ?>
-            </div>
-            <div class="modal-body originalPostModal-body" >
-                <div class="hideModalPopUp" id='<?php echo 'postlikehide' ?>'
-                     ><img 
-                        class="hideModalPopUp" id='<?php echo 'postlikehide' ?>' 
-                        src="<?php echo plugin_web_path("orangehrmBuzzPlugin", "images/close.png"); ?>" height="20" width="20"
-                        /></div>
-                <div class=""  id='<?php echo 'postlikehidebody' ?>'></div>
-
-            </div>
-        </div>
-        <!-- end like window pop up window-->
 
         <form id="actionValidateForm" method="POST" action="" 
               enctype="multipart/form-data">
@@ -342,16 +272,13 @@ ini_set("memory_limit", '-1');
 
         <script  type="text/javascript">
             var getAccessUrl = '<?php echo url_for('buzz/getLogedToBuzz'); ?>';
-            var getCsrfUrl = '<?php echo url_for('buzz/getFormCsrfToken'); ?>';
             var loginpageURL = '<?php echo url_for('auth/login'); ?>';
             var addNewVideo = '<?php echo url_for('buzz/addNewVideo'); ?>';
-            var viewOriginalPost = '<?php echo url_for('buzz/viewPost'); ?>';
             var viewMoreShare = '<?php echo url_for('buzz/viewShare'); ?>';
             var viewLikedEmployees = '<?php echo url_for('buzz/viewLikedEmployees'); ?>';
             var addBuzzPostURL = '<?php echo url_for('buzz/addNewPost'); ?>';
             var addBuzzCommentURL = '<?php echo url_for('buzz/addNewComment'); ?>';
             var shareLikeURL = '<?php echo url_for('buzz/likeOnShare'); ?>';
-            var shareCommentURL = '<?php echo url_for('buzz/commentOnShare'); ?>';
             var shareShareURL = '<?php echo url_for('buzz/shareAPost'); ?>';
             var commentLikeURL = '<?php echo url_for('buzz/likeOnComment'); ?>';
             var shareDeleteURL = '<?php echo url_for('buzz/deleteShare'); ?>';
@@ -365,19 +292,11 @@ ini_set("memory_limit", '-1');
             var refreshStatsURL = '<?php echo url_for('buzz/viewStatistics'); ?>';
             var getSharedEmployeeListURL = '<?php echo url_for('buzz/getSharedEmployeeList'); ?>';
             var imageFolderPath = '<?php echo plugin_web_path("orangehrmBuzzPlugin", "images/"); ?>';
-            var viewShareCss = '<?php echo plugin_web_path('orangehrmBuzzPlugin', 'css/viewShareSuccess'); ?>';
             var logoutActionURL = '<?php echo url_for('auth/logout'); ?>';
             var imageMaxWidth = <?php echo $imageMaxDimension; ?>;
             var imageMaxHeight = <?php echo $imageMaxDimension; ?>;
             var writeYourComment = "<?php echo __js('Write your comment...'); ?>";
         </script>
-        <style type="text/css">
-            .homeLink{
-                padding: 2px 5px;
-                background-color: #5d5d5d;
-                border-radius: 5px;
-            }
-        </style>
 
     </div>
 
