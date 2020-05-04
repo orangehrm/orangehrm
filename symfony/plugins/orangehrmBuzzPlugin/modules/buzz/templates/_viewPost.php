@@ -683,9 +683,6 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                     echo $commentForm['_csrf_token']->render();
                     ?>
                     <input type="button" value="<?php echo __attr("Comment"); ?>"  id='<?php echo 'commentBoxNew_listId' . $postId; ?>' class="commentSubmitBtn submitBtn" style="padding: 8px">
-                    <button style="margin-top: 10px" type="button" id='<?php echo 'commentBoxNew_listId' . $postId; ?>' class="commentSubmitBtn submitBtn commentSubmitBtnForIe">
-                        <?php echo __("Comment"); ?>
-                    </button>
                     <div style="display:none">
                         <?php echo $commentForm['shareId']->render(); ?>
                     </div>

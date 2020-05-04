@@ -320,7 +320,7 @@ textarea{
 
 /*Like, Share and Number of likes label row*/
 #postBodyThirdRow{
-    display: -webkit-box;    
+    display: flex;
     display: -moz-box;
     display: -ms-flexbox;    -ms-flex-direction: row;
     -webkit-box-orient: horizontal;    
@@ -694,19 +694,13 @@ a.commentAccount
     margin-left: 73%;
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none){  
-
-
-    input[type="button"]{
-        display: none;
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none){
+    .commentSubmitBtn{
+        margin-top: -37px;
     }
 
-    .commentSubmitBtnForIe{
-        display: block;
-        position: relative;
-        margin-top: -37px;
-        padding: 8px;
-        float: right;
+    .commentPreviewSubmitBtn {
+        margin-top: 4px;
     }
 }
 
@@ -736,6 +730,8 @@ a.commentAccount
 }
 
 #tabLinks{
+    display: -ms-grid;
+    -ms-grid-columns: 1fr 1fr 1fr;
     display: grid;
     grid-template-areas: 'tab1 tab2 tab3';
     overflow-x: hidden;

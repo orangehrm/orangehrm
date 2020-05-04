@@ -40,6 +40,8 @@ input[type="file"] {
 #dashBoardBuzz{
     min-width: 965px;
     margin: 20px;
+    display: -ms-grid;
+    -ms-grid-columns: 5fr 20px 300px;
     display: grid;
     grid-template-areas: 'container  container container container container rightBar';
     grid-gap: 20px;
@@ -56,6 +58,7 @@ input[type="file"] {
     width: 300px;
     float: right;
     max-width: 300px;
+    -ms-grid-column: 3;
     grid-area: rightBar;
 }
 
@@ -71,6 +74,7 @@ input[type="file"] {
     min-width: 650px;
     float: left;
     margin-bottom: 60px;
+    -ms-grid-column: 1;
     grid-area: container;
 }
 
@@ -120,15 +124,18 @@ input[type="file"] {
 
 #tabLink1{
     border-radius: 8px 0 0 0;
+    -ms-grid-column: 1;
     grid-area: tab1;
 }
 
 #tabLink2{
+    -ms-grid-column: 2;
     grid-area: tab2;
 }
 
 #tabLink3{
     border-radius: 0 8px 0 0;
+    -ms-grid-column: 3;
     grid-area: tab3;
 }
 

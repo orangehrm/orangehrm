@@ -161,13 +161,13 @@ svg.notification-icon > path {
     margin-top: 68px;
     margin-right: 8px;
     margin-left: 4px;
-    position: unset;
-    top: unset;
-    right: unset;
+    position: relative;
+    top: auto;
+    right: auto;
 }
 
 #MP_btn {
-    padding-right: unset;
+    padding-right: 0;
     margin-right: 12px;
 }
 

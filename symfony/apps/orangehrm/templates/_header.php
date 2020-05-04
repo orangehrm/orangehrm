@@ -42,6 +42,7 @@ $cultureElements = explode('_', $sf_user->getCulture());
         echo javascript_include_tag('orangehrm.validate.js');
         echo javascript_include_tag('archive.js');
         echo javascript_include_tag('orangehrm.marketplace.js');
+        echo javascript_include_tag('orangehrm.helper.js');
         
 
         /* Note: use_javascript() doesn't work well when we need to maintain the order of JS inclutions.
