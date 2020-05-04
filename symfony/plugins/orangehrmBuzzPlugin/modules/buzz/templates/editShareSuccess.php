@@ -80,7 +80,6 @@
     <div id ='errorFirstRow'>
         <?php
         include_partial('global/flash_messages');
-//        echo __("This share has been deleted or you do not have permission to perform this action"); 
         ?>
     </div>
 <?php } ?>

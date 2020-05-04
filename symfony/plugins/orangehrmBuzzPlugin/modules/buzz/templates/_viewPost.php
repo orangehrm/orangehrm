@@ -24,7 +24,6 @@ use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/messageBoxStyles'));
 use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
 ?>
 <li class="singlePost" id=<?php echo "postInList" . $postId; ?>>
-<!--<div class="debugDiv"><?php // $user = new myUser(new sfEventDispatcher(), new sfSessionStorage()); echo $user->getLastRequestTime();                        ?></div>-->
     <div id="postBody">
 
         <div id="postBodyFirstRow">

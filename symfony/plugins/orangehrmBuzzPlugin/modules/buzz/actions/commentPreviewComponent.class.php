@@ -27,6 +27,4 @@ class commentPreviewComponent extends sfComponent{
     public function execute($request) {
         
     }
-
-//put your code here
 }

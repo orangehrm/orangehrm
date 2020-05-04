@@ -47,7 +47,6 @@ class viewPhotoAction extends basePimAction {
         if ((!empty($empPicture))) {
             $contents = $empPicture->picture;
             $contentType = $empPicture->file_type;
-//            $fileSize = $empPicture->size;
             $fileName = $empPicture->filename;
         } else {
             $tmpName = ROOT_PATH . '/symfony/web/themes/' . $this->_getThemeName() . '/images/default-photo.png';

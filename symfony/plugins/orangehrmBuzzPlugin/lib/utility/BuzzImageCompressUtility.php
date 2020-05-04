@@ -70,8 +70,6 @@ class BuzzImageCompressUtility {
                 
                 $message .= "reduced to: ({$photo->width} x {$photo->height}) size: " . strlen($photo->photo);
                 
-                //echo($message . "\n");
-                
                 imagedestroy($image);
                 $buzzDao->savePhoto($photo);
                 $photo->free();

@@ -71,11 +71,6 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                                          src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $notification["empNumber"]); ?>"/>
                                 </div>
                                 <div>
-                                    <?php //if ($postSharerDeleted) { ?>
-                                    <?php //echo $postEmployeeName; ?>
-                                    <?php //} else { ?>
-                                    <?php //echo $employee['emp_firstname'] . " " . $postEmployeeName; ?>
-                                    <?php //} ?>
                                     <?php echo $notification["message"]; ?>
                                 </div>
                                 <br>

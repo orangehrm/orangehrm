@@ -133,6 +133,4 @@ class likeOnCommentAction extends BaseBuzzAction {
         $like->setCommentId($this->commentId);
         return $like;
     }
-
-//put your code here
 }

@@ -186,21 +186,12 @@ class viewPostComponent extends sfComponent {
      */
     protected function intializeConfigValuves() {
         $buzzConfigService = $this->getBuzzConfigService();
-        //$this->shareCount = $buzzConfigService->getBuzzShareCount();
         $this->initialcommentCount = $buzzConfigService->getBuzzInitialCommentCount();
         $this->viewMoreComment = $buzzConfigService->getBuzzViewCommentCount();
         $this->likeCount = $buzzConfigService->getBuzzLikeCount();
-        //$this->refeshTime = $buzzConfigService->getRefreshTime();
         $this->postLenth = $buzzConfigService->getBuzzPostTextLenth();
         $this->postLines = $buzzConfigService->getBuzzPostTextLines();
         $this->commentLength = $buzzConfigService->getBuzzCommentTextLenth();
-
-//        $this->initialcommentCount = $this->getUser()->getAttribute("initial_comment_count");
-//        $this->viewMoreComment = $this->getUser()->getAttribute("view_more_comment");
-//        $this->likeCount = $this->getUser()->getAttribute("like_count");
-//        $this->postLenth = $this->getUser()->getAttribute("post_length");
-//        $this->postLines = $this->getUser()->getAttribute("post_lines");
-//        echo $this->postLenth; die;
     }
 
     /**

@@ -171,6 +171,4 @@ class likeOnShareAction extends BaseBuzzAction {
     private function setCommentForm($form) {
         $this->commentForm = $form;
     }
-
-//put your code here
 }

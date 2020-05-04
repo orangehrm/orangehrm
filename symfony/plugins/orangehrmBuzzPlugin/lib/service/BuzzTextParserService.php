@@ -65,20 +65,12 @@ class BuzzTextParserService {
      * @return $text emoticons inserted text
      */
     public static function parseText($text) {
-//        var_dump(self::$smiles);
         if (strpos($text, "'") !== FALSE) {
             echo 'true';
             die;
         }
-//        if (BuzzTextParserService::isImage($text) === true) {
-//
-//            return "<img src=\"" . $text . "\" height=\"100px\" >";
-//        }
+
         $reg_exUrl = "#(www\.|https?://)?[a-z0-9]+\.[a-z0-9]{2,4}\S*#i";
-
-
-
-
 
         if (preg_match_all($reg_exUrl, $text, $url,PREG_PATTERN_ORDER)) {
             $machedUrl = array_flip ( $url[0]);

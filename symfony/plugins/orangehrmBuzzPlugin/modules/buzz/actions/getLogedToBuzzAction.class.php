@@ -39,6 +39,4 @@ class getLogedToBuzzAction extends BaseBuzzAction {
 
         return sfView::NONE;
     }
-
-//put your code here
 }

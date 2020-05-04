@@ -87,7 +87,6 @@ class getSharedEmployeeListAction extends BaseBuzzAction {
                 array_push($sharedEmployeeList, $employee);
             }
         }
-//        $sharedUniqueEmployeeList=array_unique($sharedEmployeeList);
         $sharedUniqueEmployeeList = $this->generateUniqueEmployeeList($sharedEmployeeList);
         if ($isAdminShare) {
             array_push($sharedUniqueEmployeeList, new Employee());

@@ -67,6 +67,4 @@ class getLikedEmployeeListAction extends BaseBuzzAction {
             $this->redirect('auth/login');
         }
     }
-
-//put your code here
 }
