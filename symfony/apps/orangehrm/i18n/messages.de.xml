@@ -9644,6 +9644,11 @@
         <source>Read More</source>
         <target>Weiterlesen</target>
       </trans-unit>
+      <trans-unit id="2032">
+        <source>Save Video</source>
+        <target>Video sichern</target>
+        <note>Save a video</note>
+      </trans-unit>
     </body>
   </file>
 </xliff>

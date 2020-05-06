@@ -8116,6 +8116,10 @@
         <source>Read More</source>
         <target>FR_Read More</target>
       </trans-unit>
+      <trans-unit id="2032">
+        <source>Save Video</source>
+        <target>FR_Save Video</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

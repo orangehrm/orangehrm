@@ -7912,6 +7912,10 @@
         <source>Read More</source>
         <target/>
       </trans-unit>
+      <trans-unit id="2032">
+        <source>Save Video</source>
+        <target/>
+      </trans-unit>
     </body>
   </file>
 </xliff>

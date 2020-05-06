@@ -9645,6 +9645,11 @@
         <source>Read More</source>
         <target>讀取細節</target>
       </trans-unit>
+      <trans-unit id="2032">
+        <source>Save Video</source>
+        <target>儲存視訊</target>
+        <note>Save a video</note>
+      </trans-unit>
     </body>
   </file>
 </xliff>
