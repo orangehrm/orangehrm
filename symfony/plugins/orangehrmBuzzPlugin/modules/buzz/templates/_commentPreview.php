@@ -97,7 +97,7 @@ use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewBuzzSuccessCommen
                             <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $commentEmployeeId); ?>" border="0" id="empPic"/>
                         </div>
                         <div class="cmnt_prev_commentColTwo" id="commentColumnTwo">
-                            <div id="commentEmployeeName">
+                            <div id="commentEmployeeName" title="<?php if (strlen($commentEmployeeName) > 26) echo $commentEmployeeName; ?>">
                                 <?php if ($commenterDeleted) { ?>
                                     <label class="name">
                                         <?php

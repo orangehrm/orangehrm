@@ -381,7 +381,6 @@
 .btnShare{
     float: right;
     margin-top: 20px !important;
-    background-color: #33ac3f;
     border: medium none;
     border-radius: 3px;
     color: #fff;
@@ -393,7 +392,6 @@
 .btnShareOnPreview{
     float: right;
     margin-top: 20px !important;
-    background-color: #33ac3f;
     border: medium none;
     border-radius: 3px;
     color: #fff;
@@ -491,8 +489,6 @@
 .btnEditCommentNew{
     margin-top: 10px !important;
     float: right;
-    
-    background-color: #33ac3f;
     border: medium none;
     border-radius: 3px;
     color: #fff;

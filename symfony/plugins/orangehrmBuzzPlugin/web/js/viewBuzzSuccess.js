@@ -653,7 +653,7 @@ $(document).ready(function () {
         }
     }
 
-    $("#createVideo_content").on('paste', function (e) {
+    $("#page3").on('paste', "#createVideo_content", function (e) {
 
         var ua = window.navigator.userAgent;
         var msie = ua.indexOf('MSIE ');

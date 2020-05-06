@@ -63,12 +63,12 @@ a:hover{
     background: rgba(0, 0, 0, 0.5);
 }
 
-textarea{
+#dashBoardBuzz textarea, #notificationShareViewMoreModal textarea {
     resize: none;
     overflow: hidden;
 }
 
-.name{
+#dashBoardBuzz .name, #notificationShareViewMoreModal .name {
     font-family: 'SourceSansProLight';
     font-size: 20px;
     text-decoration: none;
@@ -260,14 +260,6 @@ textarea{
 
 }
 
-/*Name hide row*/
-#postFirstRowColumnTwohide{
-    width: 70%;
-    margin-top: 16px;
-    margin-left: 40px;
-    color: #1423CA;
-    font-size: 18px;
-}
 #errorFirstRow{
     width: 70%;
     margin-top: 16px;
@@ -720,7 +712,7 @@ a.commentAccount
     box-sizing: border-box;
 }
 
-.root
+#dashBoardBuzz .root, #notificationShareViewMoreModal .root
 {
     list-style:none;
     margin:0px;
@@ -872,10 +864,6 @@ img.imgThumbnailView {
     margin-left: -10px;
 }
 
-.headerEmpName{
-    color: white;
-}
-
 #imageUploadErrorHeading{
     float:left;
     font-size: 21px;
@@ -983,7 +971,7 @@ img.imgThumbnailView {
     display: none;
 }
 
-#photofile{
+#dashBoardBuzz #photofile{
     display: none;
 }
 
@@ -1110,10 +1098,6 @@ div.photoPreviewComment > div#commentListContainerforpev {
 
 #name2 {
     font-size: 20px;
-}
-
-.ac_results {
-    width: 33.75em !important;
 }
 
 .add-new-video {

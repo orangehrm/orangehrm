@@ -32,10 +32,6 @@
     padding: 10px;
     resize: none;
 }
-input[type="file"] {
-    height: 30px;
-    padding: 0;
-}
 
 #dashBoardBuzz{
     min-width: 965px;
@@ -139,7 +135,7 @@ input[type="file"] {
     grid-area: tab3;
 }
 
-form ol{
+#dashBoardBuzz form ol {
     border-bottom: none;
     padding-bottom: 0;
     margin-bottom: 0;
@@ -156,11 +152,11 @@ form ol{
 }
 
 .rightBarHeading{
-    background: rgb(40, 134, 49);
-    background: -moz-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: rgb(243, 243, 243);
+    background: -moz-linear-gradient(90deg, rgb(243, 243, 243) 100%, rgb(236, 236, 236) 100%);
     background: -webkit-linear-gradient( gray 20%, gray 100%);
-    background: -o-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
-    background: -ms-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+    background: -o-linear-gradient(90deg, rgb(243, 243, 243) 100%, rgb(236, 236, 236) 100%);
+    background: -ms-linear-gradient(90deg, rgb(243, 243, 243) 100%, rgb(236, 236, 236) 100%);
     background: linear-gradient( #f3f3f3, #ececec);
     color: #5d5d5d;
     font-size: 18px;
@@ -181,10 +177,9 @@ form ol{
 
 .rightBarHeading:hover, .rightBarHeading:hover{
     cursor: pointer;
-    background-color: #F07C00;
 }
 
-li{
+#dashBoardBuzz li{
     list-style: none;
 }
 

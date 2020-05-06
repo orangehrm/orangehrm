@@ -63,8 +63,14 @@
                     <img alt="<?php echo __("Employee Photo"); ?>" src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $commentEmployeeId); ?>" border="0" id="empPic"/>
                 </div>
                 <div id="commentColumnTwo">
-                    <div id="commentEmployeeName">
-                        <?php echo $commentEmployeeName; ?>
+                    <div id="commentEmployeeName" title="<?php if (strlen($commentEmployeeName) > 26) echo $commentEmployeeName; ?>">
+                        <?php
+                        if (strlen($commentEmployeeName) > 26) {
+                            echo substr($commentEmployeeName, 0, 26) . '...';
+                        } else {
+                            echo $commentEmployeeName;
+                        }
+                        ?>
                     </div>
                     <div id="commentEmployeeJobTitle">
                         <?php echo $commentEmployeeJobTitle; ?>
