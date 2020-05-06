@@ -1,10 +1,10 @@
-#profilePicContainer {
+.notification-profile-pic-container {
     width: 55px;
     height: 55px;
     margin-top: -8px;
 }
 
-#profilePicContainer img {
+.notification-profile-pic-container img {
     width: 100%;
     position: absolute;
     top: 0;
@@ -13,7 +13,7 @@
     border-radius: 5px;
 }
 
-#profilePicContainer {
+.notification-profile-pic-container {
     float: left;
     border: 2px solid white;
     vertical-align: middle;
@@ -24,8 +24,32 @@
     overflow: hidden;
 }
 
-.picAndNameContainer {
+.notification-pic-name-container {
     margin-top: 8px;
+    position: relative;
+}
+
+.notification-elapsed-time {
+    position: absolute;
+    bottom: 0;
+    left: 66px;
+}
+
+.notification-message {
+    width: 290px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none){
+    .notification-message {
+        word-wrap: break-word;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 }
 
 .notification-row {

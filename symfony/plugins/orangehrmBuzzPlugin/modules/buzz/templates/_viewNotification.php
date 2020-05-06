@@ -64,17 +64,17 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                              id="notification_<?php echo $key; ?>"
                              data-shareid="<?php echo $notification["shareId"]; ?>">
 
-                            <div class="picAndNameContainer">
-                                <div id="profilePicContainer">
-                                    <img class="profPic"
+                            <div class="notification-pic-name-container">
+                                <div id="profilePicContainer" class="notification-profile-pic-container">
+                                    <img
                                          alt="<?php echo __("Employee Photo"); ?>"
                                          src="<?php echo url_for("buzz/viewPhoto?empNumber=" . $notification["empNumber"]); ?>"/>
                                 </div>
-                                <div>
+                                <div class="notification-message" title="<?php echo $notification["message"]; ?>">
                                     <?php echo $notification["message"]; ?>
                                 </div>
                                 <br>
-                                <div>
+                                <div class="notification-elapsed-time">
                                     <?php echo $notification["elapsedTime"]; ?>
                                 </div>
                             </div>
