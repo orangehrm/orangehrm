@@ -137,65 +137,90 @@ class viewNotificationComponent extends sfComponent
     )
     {
         foreach ($newShares as $activity) {
-            array_push($this->notifications, [
-                "message" => $activity->getEmployeeName() . ' ' . __("shared a post."),
-                "empNumber" => $activity->getEmployeeNumber(),
-                "postOwnerEmpNumber" => $activity->getEmployeeNumber(),
-                "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($activity->getShareTime())),
-                "shareId" => $activity->getId(),
-                "time" => $activity->getShareTime(),
-                "type" => "share_new",
-            ]);
+            if ($activity instanceof Share) {
+                $employee = $activity->getEmployeePostShared();
+                if ($employee instanceof Employee && is_null($employee->getPurgedAt())) {
+                    array_push($this->notifications, [
+                        "message" => $employee->getFirstAndLastNames() . ' ' . __("shared a post."),
+                        "empNumber" => $activity->getEmployeeNumber(),
+                        "postOwnerEmpNumber" => $activity->getEmployeeNumber(),
+                        "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($activity->getShareTime())),
+                        "shareId" => $activity->getId(),
+                        "time" => $activity->getShareTime(),
+                        "type" => "share_new",
+                    ]);
+                }
+            }
         }
 
         foreach ($newCommentsOnEmployeePosts as $activity) {
-            array_push($this->notifications, [
-                "message" => $activity->getEmployeeName() . ' ' . __("comments on your post."),
-                "empNumber" => $activity->getEmployeeNumber(),
-                "postOwnerEmpNumber" => $empNumber,
-                "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($activity->getCommentTime())),
-                "shareId" => $activity->getShareId(),
-                "time" => $activity->getCommentTime(),
-                "type" => "comment_on_post",
-            ]);
+            if ($activity instanceof Comment) {
+                $employee = $activity->getEmployeeComment();
+                if ($employee instanceof Employee && is_null($employee->getPurgedAt())) {
+                    array_push($this->notifications, [
+                        "message" => $employee->getFirstAndLastNames() . ' ' . __("comments on your post."),
+                        "empNumber" => $activity->getEmployeeNumber(),
+                        "postOwnerEmpNumber" => $empNumber,
+                        "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($activity->getCommentTime())),
+                        "shareId" => $activity->getShareId(),
+                        "time" => $activity->getCommentTime(),
+                        "type" => "comment_on_post",
+                    ]);
+                }
+            }
         }
 
         foreach ($newLikesOnEmployeePosts as $activity) {
-            $likeTime = $this->getBuzzNotificationService()->getUserDateTime($activity->getLikeTime());
-            array_push($this->notifications, [
-                "message" => $activity->getEmployeeName() . ' ' . __("likes your post."),
-                "empNumber" => $activity->getEmployeeNumber(),
-                "postOwnerEmpNumber" => $empNumber,
-                "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($likeTime)),
-                "shareId" => $activity->getShareId(),
-                "time" => $likeTime,
-                "type" => "like_post",
-            ]);
+            if ($activity instanceof LikeOnShare) {
+                $employee = $activity->getEmployeeLike();
+                if ($employee instanceof Employee && is_null($employee->getPurgedAt())) {
+                    $likeTime = $this->getBuzzNotificationService()->getUserDateTime($activity->getLikeTime());
+                    array_push($this->notifications, [
+                        "message" => $employee->getFirstAndLastNames() . ' ' . __("likes your post."),
+                        "empNumber" => $activity->getEmployeeNumber(),
+                        "postOwnerEmpNumber" => $empNumber,
+                        "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($likeTime)),
+                        "shareId" => $activity->getShareId(),
+                        "time" => $likeTime,
+                        "type" => "like_post",
+                    ]);
+                }
+            }
         }
 
         foreach ($newLikesOnEmployeeComments as $activity) {
-            $likeTime = $this->getBuzzNotificationService()->getUserDateTime($activity->getLikeTime());
-            array_push($this->notifications, [
-                "message" => $activity->getEmployeeName() . ' ' . __("likes your comment."),
-                "empNumber" => $activity->getEmployeeNumber(),
-                "postOwnerEmpNumber" => $empNumber,
-                "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($likeTime)),
-                "shareId" => $activity->getCommentLike()->getShareId(),
-                "time" => $likeTime,
-                "type" => "like_comment",
-            ]);
+            if ($activity instanceof LikeOnComment) {
+                $employee = $activity->getEmployeeLike();
+                if ($employee instanceof Employee && is_null($employee->getPurgedAt())) {
+                    $likeTime = $this->getBuzzNotificationService()->getUserDateTime($activity->getLikeTime());
+                    array_push($this->notifications, [
+                        "message" => $employee->getFirstAndLastNames() . ' ' . __("likes your comment."),
+                        "empNumber" => $activity->getEmployeeNumber(),
+                        "postOwnerEmpNumber" => $empNumber,
+                        "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($likeTime)),
+                        "shareId" => $activity->getCommentLike()->getShareId(),
+                        "time" => $likeTime,
+                        "type" => "like_comment",
+                    ]);
+                }
+            }
         }
 
         foreach ($newSharesOfEmployeePosts as $activity) {
-            array_push($this->notifications, [
-                "message" => $activity->getEmployeeName() . ' ' . __("shared your post."),
-                "empNumber" => $activity->getEmployeeNumber(),
-                "postOwnerEmpNumber" => $activity->getEmployeeNumber(),
-                "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($activity->getShareTime())),
-                "shareId" => $activity->getId(),
-                "time" => $activity->getShareTime(),
-                "type" => "share_post",
-            ]);
+            if ($activity instanceof Share) {
+                $employee = $activity->getEmployeePostShared();
+                if ($employee instanceof Employee && is_null($employee->getPurgedAt())) {
+                    array_push($this->notifications, [
+                        "message" => $employee->getFirstAndLastNames() . ' ' . __("shared your post."),
+                        "empNumber" => $activity->getEmployeeNumber(),
+                        "postOwnerEmpNumber" => $activity->getEmployeeNumber(),
+                        "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($activity->getShareTime())),
+                        "shareId" => $activity->getId(),
+                        "time" => $activity->getShareTime(),
+                        "type" => "share_post",
+                    ]);
+                }
+            }
         }
     }
 }
