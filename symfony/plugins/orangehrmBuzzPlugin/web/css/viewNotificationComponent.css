@@ -44,7 +44,7 @@
     margin-bottom: 8px;
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none){
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     .notification-message {
         word-wrap: break-word;
         white-space: nowrap;
@@ -86,7 +86,7 @@
 }
 
 .notification-badge {
-    background:red;
+    background: red;
 }
 
 .hide-notification-badge {
@@ -121,7 +121,7 @@ svg.notification-icon > path {
 .notification-view-more-modal {
     width: 920px;
     left: 36%;
-    top:55%;
+    top: 55%;
     overflow-x: hidden;
 }
 
@@ -147,7 +147,7 @@ svg.notification-icon > path {
     margin-top: 14px !important;
 }
 
-#notificationShareViewMoreModal input[type="button"]{
+#notificationShareViewMoreModal input[type="button"] {
     font-size: 16px;
     margin-left: 81.8%;
     padding: 5px;
@@ -156,8 +156,8 @@ svg.notification-icon > path {
     margin-right: 0;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0){
-    #notificationShareViewMoreModal input[type="button"]{
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    #notificationShareViewMoreModal input[type="button"] {
         font-size: 16px;
         margin-left: 81.7%;
         margin-top: -36px;
@@ -175,26 +175,34 @@ svg.notification-icon > path {
     }
 }
 
-#notificationShareView a:hover{
+#notificationShareView a:hover {
     text-decoration: underline !important;
 }
 
-/*Override main.css*/
+/*Following classes override main.css*/
 #welcome {
-    float: right;
-    margin-top: 68px;
-    margin-right: 8px;
-    margin-left: 4px;
-    position: relative;
-    top: auto;
-    right: auto;
+    float: right !important;
+    margin-top: 68px !important;
+    margin-right: 8px !important;
+    margin-left: 4px !important;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
 }
 
 #MP_btn {
-    padding-right: 0;
-    margin-right: 12px;
+    padding-right: 0 !important;
+    margin-right: 12px !important;
 }
 
 #mp_btn_inner {
     padding-top: 56px !important;
+}
+
+#Subscriber_link { /*OHRM-632*/
+    max-height: 33px !important;
+}
+
+#MP_link { /*OHRM-632*/
+    max-height: 33px !important;
 }
