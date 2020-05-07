@@ -7916,6 +7916,10 @@
         <source>Save Video</source>
         <target/>
       </trans-unit>
+      <trans-unit id="2033">
+        <source>Please assign employee for this user account.</source>
+        <target/>
+      </trans-unit>
     </body>
   </file>
 </xliff>

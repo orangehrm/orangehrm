@@ -8120,6 +8120,10 @@
         <source>Save Video</source>
         <target>FR_Save Video</target>
       </trans-unit>
+      <trans-unit id="2033">
+        <source>Please assign employee for this user account.</source>
+        <target>FR_Please assign employee for this user account.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -117,6 +117,10 @@ class viewBuzzAction extends BaseBuzzAction {
             $buzzConfigService = $this->getBuzzConfigService();
             
             $this->loggedInUser = $this->getLogedInEmployeeNumber();
+            if (is_null($this->loggedInUser)){
+                $this->getUser()->setFlash('error.nofade', __("Please assign employee for this user account."), false);
+                $this->getController()->forward('core', 'displayMessage');
+            }
             $this->setConfigurationValues();
             $this->postForm = $this->getPostForm();
             $this->commentForm = $this->getCommentForm();
@@ -141,13 +145,15 @@ class viewBuzzAction extends BaseBuzzAction {
             $this->forward('auth', 'login');
         }
 
-        $buzzNotificationMetadata = $this->getBuzzNotificationService()->getBuzzNotificationMetadata($this->loggedInUser);
-        if (!$buzzNotificationMetadata instanceof BuzzNotificationMetadata) {
-            $buzzNotificationMetadata = new BuzzNotificationMetadata();
-            $buzzNotificationMetadata->setEmpNumber($this->loggedInUser);
+        if (!is_null($this->loggedInUser)) {
+            $buzzNotificationMetadata = $this->getBuzzNotificationService()->getBuzzNotificationMetadata($this->loggedInUser);
+            if (!$buzzNotificationMetadata instanceof BuzzNotificationMetadata) {
+                $buzzNotificationMetadata = new BuzzNotificationMetadata();
+                $buzzNotificationMetadata->setEmpNumber($this->loggedInUser);
+            }
+            $buzzNotificationMetadata->setLastBuzzViewTime(date("Y-m-d H:i:s"));
+            $this->getBuzzNotificationService()->saveBuzzNotificationMetadata($buzzNotificationMetadata);
         }
-        $buzzNotificationMetadata->setLastBuzzViewTime(date("Y-m-d H:i:s"));
-        $this->getBuzzNotificationService()->saveBuzzNotificationMetadata($buzzNotificationMetadata);
     }
     
     protected function getRefreshStatsForm() {
