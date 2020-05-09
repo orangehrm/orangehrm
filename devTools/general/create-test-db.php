@@ -31,7 +31,7 @@ $dbHost = $c->dbhost;
 $dbPort = $c->dbport;
 
 $tempFile = tempnam(sys_get_temp_dir(), 'ohrmtestdb');
- 
+
 
 if ($argc > 1) {
 	$mysqlRootPwd = $argv[1];
@@ -41,8 +41,7 @@ if ($argc > 1) {
 }
 
 
-$createdbStatement = "DROP DATABASE IF EXISTS `{$testDb}`; CREATE DATABASE `{$testDb}`;USE `{$testDb}`;" .
-                     "GRANT ALL on `{$testDb}`.* to \"{$dbUser}\"@\"{$dbHost}\";\n";
+$createdbStatement = "DROP DATABASE IF EXISTS `{$testDb}`; CREATE DATABASE `{$testDb}`;USE `{$testDb}`;" ;
 
 file_put_contents($tempFile, $createdbStatement);
 
@@ -59,7 +58,7 @@ if ($returnStatus !== 0) {
 }
 
 
-$cmd = "mysql -h {$dbHost} --port={$dbPort} -u root -p{$mysqlRootPwd}  < {$tempFile}";
+$cmd = "mysql -h {$dbHost} --port={$dbPort} -u root -p{$mysqlRootPwd} {$testDb} < {$tempFile}";
 
 exec($cmd, $output, $returnStatus);
 
