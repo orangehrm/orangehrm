@@ -119,13 +119,10 @@ class CreatePostForm extends sfForm {
     public function savePost($userId, $employee) {
         $post = new Post();
         $post->setEmployeeNumber($userId);
-        if($employee instanceof Employee){
-            $post->setEmployeeName($employee->getFirstAndLastNames());
-        }
         $post->setText($this->getValue('content'));
         $post->setPostTime(date("Y-m-d H:i:s"));
+        $post->setUpdatedAt(date("Y-m-d H:i:s"));
 
-//        return $this->getBuzzService()->savePost($post);
         return $post;
     }
 
@@ -149,11 +146,11 @@ class CreatePostForm extends sfForm {
         $share->setPostShared($post);
         $share->setPostId($post->getId());
         $share->setEmployeeNumber($post->getEmployeeNumber());
-        $share->setEmployeeName($post->getEmployeeName());
         $share->setNumberOfComments(0);
         $share->setNumberOfLikes(0);
         $share->setNumberOfUnlikes(0);
         $share->setShareTime(date("Y-m-d H:i:s"));
+        $share->setUpdatedAt(date("Y-m-d H:i:s"));
         $share->setType(0);
         return $share;
     }

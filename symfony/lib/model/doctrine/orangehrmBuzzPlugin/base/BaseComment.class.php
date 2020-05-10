@@ -8,7 +8,6 @@
  * @property int                                    $id                                 Type: integer, primary key
  * @property int                                    $share_id                           Type: integer
  * @property int                                    $employee_number                    Type: integer(7)
- * @property string                                 $employee_name                      Type: string
  * @property int                                    $number_of_likes                    Type: integer(6)
  * @property int                                    $number_of_unlikes                  Type: integer(6)
  * @property string                                 $comment_text                       Type: string
@@ -22,7 +21,6 @@
  * @method int                                      getId()                             Type: integer, primary key
  * @method int                                      getShareId()                        Type: integer
  * @method int                                      getEmployeeNumber()                 Type: integer(7)
- * @method string                                   getEmployeeName()                   Type: string
  * @method int                                      getNumberOfLikes()                  Type: integer(6)
  * @method int                                      getNumberOfUnlikes()                Type: integer(6)
  * @method string                                   getCommentText()                    Type: string
@@ -36,7 +34,6 @@
  * @method Comment                                  setId(int $val)                     Type: integer, primary key
  * @method Comment                                  setShareId(int $val)                Type: integer
  * @method Comment                                  setEmployeeNumber(int $val)         Type: integer(7)
- * @method Comment                                  setEmployeeName(string $val)        Type: string
  * @method Comment                                  setNumberOfLikes(int $val)          Type: integer(6)
  * @method Comment                                  setNumberOfUnlikes(int $val)        Type: integer(6)
  * @method Comment                                  setCommentText(string $val)         Type: string
@@ -71,9 +68,6 @@ abstract class BaseComment extends sfDoctrineRecord
         $this->hasColumn('employee_number', 'integer', 7, array(
              'type' => 'integer',
              'length' => 7,
-             ));
-        $this->hasColumn('employee_name', 'string', null, array(
-             'type' => 'string',
              ));
         $this->hasColumn('number_of_likes', 'integer', 6, array(
              'type' => 'integer',

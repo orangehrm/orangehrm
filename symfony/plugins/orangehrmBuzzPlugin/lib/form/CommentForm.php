@@ -86,15 +86,12 @@ class CommentForm extends sfForm {
         $comment = new Comment();
         $comment->setShareId($this->getValue('shareId'));
         $comment->setEmployeeNumber($loggedInEmployeeNumber);
-        if($employee instanceof Employee){
-            $comment->setEmployeeName($employee->getFirstAndLastNames());
-        }
         $comment->setCommentText($this->getValue('comment'));
         $comment->setCommentTime(date("Y-m-d H:i:s"));
+        $comment->setUpdatedAt(date("Y-m-d H:i:s"));
         $comment->setNumberOfLikes(0);
         $comment->setNumberOfUnlikes(0);
         return $this->getBuzzService()->saveCommentShare($comment);
-        ;
     }
 
 }

@@ -661,17 +661,12 @@ class BuzzService extends BaseService {
         $shareDetails = new Share();
         $shareDetails->setPostId($postId);
         $shareDetails->setEmployeeNumber($loggedInEmployeeNumber);
-        if($loggedInEmployeeNumber != "" && !is_null($loggedInEmployeeNumber)) {
-            $loggedInEmployee = $this->getEmployeeService()->getEmployee($loggedInEmployeeNumber);
-            if ($loggedInEmployee instanceof Employee) {
-                $shareDetails->setEmployeeName($loggedInEmployee->getFirstAndLastNames());
-            }
-        }
         $shareDetails->setNumberOfComments(0);
         $shareDetails->setNumberOfLikes(0);
         $shareDetails->setNumberOfUnlikes(0);
         $shareDetails->setText($newText);
         $shareDetails->setShareTime(date("Y-m-d H:i:s"));
+        $shareDetails->setUpdatedAt(date("Y-m-d H:i:s"));
         $shareDetails->setType('1');
         return $shareDetails;
     }

@@ -8,8 +8,6 @@ Post:
       autoincrement: true
     employee_number:
       type: integer(7)
-    employee_name:
-      type: string
     text:
       type: string()
     post_time:
@@ -95,8 +93,6 @@ Share:
       notnull: true
     employee_number:
       type: integer(7)
-    employee_name:
-      type: string
     number_of_likes:
       type: integer(6)
     number_of_unlikes:
@@ -140,8 +136,6 @@ Comment:
       notnull: true
     employee_number:
       type: integer(7)
-    employee_name:
-      type: string
     number_of_likes:
       type: integer(6)
     number_of_unlikes:
@@ -183,8 +177,6 @@ LikeOnComment:
     employee_number:
       name: employee_number
       type: integer(7)
-    employee_name:
-      type: string
     like_time:
       type: timestamp
       notnull: true   
@@ -216,8 +208,6 @@ LikeOnShare:
       notnull: true
     employee_number:
       type: integer(7)
-    employee_name:
-      type: string
     like_time:
       type: timestamp
       notnull: true   
@@ -251,8 +241,6 @@ UnLikeOnComment:
     employee_number:
       name: employee_number
       type: integer(7)
-    employee_name:
-      type: string
     like_time:
       type: timestamp
       notnull: true   
@@ -284,8 +272,6 @@ UnLikeOnShare:
       notnull: true
     employee_number:
       type: integer(7)
-    employee_name:
-      type: string
     like_time:
       type: timestamp
       notnull: true   

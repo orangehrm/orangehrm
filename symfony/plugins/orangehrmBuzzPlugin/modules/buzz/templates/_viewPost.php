@@ -711,7 +711,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewPostComponent'));
                 $commentContent = $comment->getCommentText();
                 $commentEmployeeName = $comment->getEmployeeFirstLastName();
                 if ($commentEmployeeName == ' ') {
-                    $commentEmployeeName = $comment->getEmployeeName() . ' (' . __('Deleted') . ')';
+                    $commentEmployeeName = '(' . __('Deleted') . ')';
                     $commenterDeleted = true;
                 }
                 $commentEmployeeId = $comment->getEmployeeNumber();

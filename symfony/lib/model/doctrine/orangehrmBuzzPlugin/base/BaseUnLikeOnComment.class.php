@@ -8,7 +8,6 @@
  * @property int                             $id                                         Type: integer, primary key
  * @property int                             $comment_id                                 Type: integer
  * @property int                             $employee_number                            Type: integer(7)
- * @property string                          $employee_name                              Type: string
  * @property string                          $like_time                                  Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
  * @property Doctrine_Collection|Employee[]  $employeeUnLike                             
  * @property Comment                         $CommentUnLike                              
@@ -16,7 +15,6 @@
  * @method int                               getId()                                     Type: integer, primary key
  * @method int                               getCommentId()                              Type: integer
  * @method int                               getEmployeeNumber()                         Type: integer(7)
- * @method string                            getEmployeeName()                           Type: string
  * @method string                            getLikeTime()                               Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
  * @method Doctrine_Collection|Employee[]    getEmployeeUnLike()                         
  * @method Comment                           getCommentUnLike()                          
@@ -24,7 +22,6 @@
  * @method UnLikeOnComment                   setId(int $val)                             Type: integer, primary key
  * @method UnLikeOnComment                   setCommentId(int $val)                      Type: integer
  * @method UnLikeOnComment                   setEmployeeNumber(int $val)                 Type: integer(7)
- * @method UnLikeOnComment                   setEmployeeName(string $val)                Type: string
  * @method UnLikeOnComment                   setLikeTime(string $val)                    Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
  * @method UnLikeOnComment                   setEmployeeUnLike(Doctrine_Collection $val) 
  * @method UnLikeOnComment                   setCommentUnLike(Comment $val)              
@@ -53,9 +50,6 @@ abstract class BaseUnLikeOnComment extends sfDoctrineRecord
         $this->hasColumn('employee_number', 'integer', 7, array(
              'type' => 'integer',
              'length' => 7,
-             ));
-        $this->hasColumn('employee_name', 'string', null, array(
-             'type' => 'string',
              ));
         $this->hasColumn('like_time', 'timestamp', null, array(
              'type' => 'timestamp',

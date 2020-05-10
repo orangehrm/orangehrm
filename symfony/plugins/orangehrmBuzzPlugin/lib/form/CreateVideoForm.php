@@ -102,6 +102,7 @@ class CreateVideoForm extends sfForm {
         $post->setEmployeeNumber($userId);
         $post->setText($this->getValue('content'));
         $post->setPostTime(date("Y-m-d H:i:s"));
+        $post->setUpdatedAt(date("Y-m-d H:i:s"));
 
         return $this->getBuzzService()->savePost($post);
     }
@@ -129,6 +130,7 @@ class CreateVideoForm extends sfForm {
         $share->setNumberOfLikes(0);
         $share->setNumberOfUnlikes(0);
         $share->setShareTime(date("Y-m-d H:i:s"));
+        $share->setUpdatedAt(date("Y-m-d H:i:s"));
         $share->setType(0);
         return $share;
     }

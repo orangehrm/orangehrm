@@ -121,11 +121,12 @@ class getSharedEmployeeListAction extends BaseBuzzAction {
                 $empName = 'Admin';
             } else {
                 $employee = $share->getEmployeePostShared();
-                $empName = $employee->getFirstAndLastNames();
-                $jobTitle = $employee->getJobTitleName();
-
-                if ($empName == ' ' && $share->getEmployeeName() != null) {
-                    $empName = $share->getEmployeeName() . ' (' . __(self::LABEL_EMPLOYEE_DELETED) . ')';
+                if ($employee instanceof Employee) {
+                    $empName = $employee->getFirstAndLastNames();
+                    $jobTitle = $employee->getJobTitleName();
+                } else {
+                    $empName = '(' . __(self::LABEL_EMPLOYEE_DELETED) . ')';
+                    $jobTitle = '';
                     $employeeDeleted = true;
                 }
             }

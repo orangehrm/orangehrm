@@ -7,7 +7,6 @@
  * 
  * @property int                          $id                                 Type: integer, primary key
  * @property int                          $employee_number                    Type: integer(7)
- * @property string                       $employee_name                      Type: string
  * @property string                       $text                               Type: string
  * @property string                       $post_time                          Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
  * @property string                       $updated_at                         Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
@@ -18,7 +17,6 @@
  *  
  * @method int                            getId()                             Type: integer, primary key
  * @method int                            getEmployeeNumber()                 Type: integer(7)
- * @method string                         getEmployeeName()                   Type: string
  * @method string                         getText()                           Type: string
  * @method string                         getPostTime()                       Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
  * @method string                         getUpdatedAt()                      Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
@@ -29,7 +27,6 @@
  *  
  * @method Post                           setId(int $val)                     Type: integer, primary key
  * @method Post                           setEmployeeNumber(int $val)         Type: integer(7)
- * @method Post                           setEmployeeName(string $val)        Type: string
  * @method Post                           setText(string $val)                Type: string
  * @method Post                           setPostTime(string $val)            Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
  * @method Post                           setUpdatedAt(string $val)           Type: timestamp, Timestamp in ISO-8601 format (YYYY-MM-DD HH:MI:SS)
@@ -57,9 +54,6 @@ abstract class BasePost extends sfDoctrineRecord
         $this->hasColumn('employee_number', 'integer', 7, array(
              'type' => 'integer',
              'length' => 7,
-             ));
-        $this->hasColumn('employee_name', 'string', null, array(
-             'type' => 'string',
              ));
         $this->hasColumn('text', 'string', null, array(
              'type' => 'string',

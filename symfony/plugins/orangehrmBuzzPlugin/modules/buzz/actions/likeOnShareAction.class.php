@@ -146,9 +146,6 @@ class likeOnShareAction extends BaseBuzzAction {
         $like = New LikeOnShare();
         $like->setLikeTime(date("Y-m-d H:i:s"));
         $like->setEmployeeNumber($this->getLogedInEmployeeNumber());
-        if ($employee instanceof Employee) {
-            $like->setEmployeeName($employee->getFirstAndLastNames());
-        }
         $like->setShareId($this->shareId);
         return $like;
     }
@@ -157,9 +154,6 @@ class likeOnShareAction extends BaseBuzzAction {
         $like = New UnLikeOnShare();
         $like->setLikeTime(date("Y-m-d H:i:s"));
         $like->setEmployeeNumber($this->getLogedInEmployeeNumber());
-        if ($employee instanceof Employee) {
-            $like->setEmployeeName($employee->getFirstAndLastNames());
-        }
         $like->setShareId($this->shareId);
         return $like;
     }

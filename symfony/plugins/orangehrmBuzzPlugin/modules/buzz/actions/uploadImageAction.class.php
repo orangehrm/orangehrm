@@ -107,11 +107,9 @@ class uploadImageAction extends BaseBuzzAction {
     private function savePost($postContent, $employee) {
         $post = new Post();
         $post->setEmployeeNumber($this->getLogedInEmployeeNumber());
-        if ($employee instanceof Employee) {
-            $post->setEmployeeName($employee->getFirstAndLastNames());
-        }
         $post->setText($postContent);
         $post->setPostTime(date("Y-m-d H:i:s"));
+        $post->setUpdatedAt(date("Y-m-d H:i:s"));
         $service = $this->getBuzzService();
         $this->post = $service->savePost($post);
     }
@@ -123,8 +121,8 @@ class uploadImageAction extends BaseBuzzAction {
     private function saveShare() {
         $share = new Share();
         $share->setEmployeeNumber($this->getLogedInEmployeeNumber());
-        $share->setEmployeeName($this->post->getEmployeeName());
         $share->setShareTime(date("Y-m-d H:i:s"));
+        $share->setUpdatedAt(date("Y-m-d H:i:s"));
         $share->setType(0);
         $share->setNumberOfComments(0);
         $share->setNumberOfLikes(0);

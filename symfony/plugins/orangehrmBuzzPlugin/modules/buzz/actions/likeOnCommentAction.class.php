@@ -116,9 +116,6 @@ class likeOnCommentAction extends BaseBuzzAction {
         $like = New LikeOnComment();
         $like->setLikeTime(date("Y-m-d H:i:s"));
         $like->setEmployeeNumber($loggedInEmployeeNumber);
-        if ($employee instanceof Employee) {
-            $like->setEmployeeName($employee->getFirstAndLastNames());
-        }
         $like->setCommentId($this->commentId);
         return $like;
     }
@@ -127,9 +124,6 @@ class likeOnCommentAction extends BaseBuzzAction {
         $like = New UnLikeOnComment();
         $like->setLikeTime(date("Y-m-d H:i:s"));
         $like->setEmployeeNumber($loggedInEmployeeNumber);
-        if($employee instanceof Employee){
-            $like->setEmployeeName($employee->getFirstAndLastNames());
-        }
         $like->setCommentId($this->commentId);
         return $like;
     }

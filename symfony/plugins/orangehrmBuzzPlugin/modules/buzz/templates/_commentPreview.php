@@ -34,7 +34,7 @@ use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewBuzzSuccessCommen
             $commentContent = $comment->getCommentText();
             $commentEmployeeName = $comment->getEmployeeFirstLastName();
             if ($commentEmployeeName == ' ') {
-                $commentEmployeeName = $comment->getEmployeeName() . ' (' . __('Deleted') . ')';
+                $commentEmployeeName = '(' . __('Deleted') . ')';
                 $commenterDeleted = true;
             }
             $commentEmployeeJobTitle = $comment->getEmployeeComment()->getJobTitleName();

@@ -262,6 +262,7 @@ class BuzzObjectBuilder {
         $post->setEmployeeNumber($loggedInEmployeeNumber);
         $post->setText($content);
         $post->setPostTime($postedDateTime);
+        $post->setUpdatedAt($postedDateTime);
 
         return $post;
     }
@@ -282,6 +283,7 @@ class BuzzObjectBuilder {
             $share->setNumberOfLikes(self::DEFAULT_START_NUMBER);
             $share->setNumberOfUnlikes(self::DEFAULT_START_NUMBER);
             $share->setShareTime($postedDateTime);
+            $share->setUpdatedAt($postedDateTime);
             $share->setType(self::DEFAULT_START_NUMBER);
             return $share;
         } catch (Exception $ex) {
@@ -306,6 +308,7 @@ class BuzzObjectBuilder {
             $comment->setEmployeeNumber($loggedInEmployeeNumber);
             $comment->setCommentText($commentText);
             $comment->setCommentTime($postedDateTime);
+            $comment->setUpdatedAt($postedDateTime);
             $comment->setNumberOfLikes(self::DEFAULT_START_NUMBER);
             $comment->setNumberOfUnlikes(self::DEFAULT_START_NUMBER);
 

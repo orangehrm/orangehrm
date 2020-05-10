@@ -177,20 +177,6 @@ ALTER TABLE `ohrm_buzz_unlike_on_share`
   ADD CONSTRAINT `buzzUNLikeOnshare` FOREIGN KEY (`share_id`)
     REFERENCES `ohrm_buzz_share` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;";
         $sql[] = "
-ALTER TABLE `ohrm_buzz_post` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_share` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_comment` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_like_on_comment` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_like_on_share` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_unlike_on_comment` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_unlike_on_share` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
 CREATE TABLE IF NOT EXISTS `ohrm_buzz_notification_metadata` (
   `emp_number` int(7) ,
   `last_notification_view_time` datetime DEFAULT NULL,

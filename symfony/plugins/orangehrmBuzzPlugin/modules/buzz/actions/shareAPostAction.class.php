@@ -119,14 +119,12 @@ class shareAPostAction extends BaseBuzzAction {
         $share = new Share();
         $share->setPostId($postId);
         $share->setEmployeeNumber($this->getLogedInEmployeeNumber());
-        if ($employee instanceof Employee) {
-            $share->setEmployeeName($employee->getFirstAndLastNames());
-        }
         $share->setNumberOfComments(0);
         $share->setNumberOfLikes(0);
         $share->setNumberOfUnlikes(0);
         $share->setText($this->shareText);
         $share->setShareTime(date("Y-m-d H:i:s"));
+        $share->setUpdatedAt(date("Y-m-d H:i:s"));
         $share->setType('1');
         return $share;
     }

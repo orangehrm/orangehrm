@@ -30,7 +30,7 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 (@Supervisor_role_id, @buzz_link_data_group_id, 1, 1, 1, 0, 0);
 
 INSERT INTO `ohrm_data_group` (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
-('buzz_link_admin', 'buzz link permition for admin', 1, 1, 1, 0);
+('buzz_link_admin', 'buzz link permission for admin', 1, 1, 1, 0);
 
 SET @buzz_link_admin_data_group_id := (SELECT id FROM `ohrm_data_group` WHERE `name` = 'buzz_link_admin');
 
@@ -235,21 +235,6 @@ ALTER TABLE `ohrm_buzz_unlike_on_share`
     REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `buzzUNLikeOnshare` FOREIGN KEY (`share_id`) 
     REFERENCES `ohrm_buzz_share` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
-
-
-ALTER TABLE `ohrm_buzz_post` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;
-
-ALTER TABLE `ohrm_buzz_share` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;
-
-ALTER TABLE `ohrm_buzz_comment` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;
-
-ALTER TABLE `ohrm_buzz_like_on_comment` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;
-
-ALTER TABLE `ohrm_buzz_like_on_share` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;
-
-ALTER TABLE `ohrm_buzz_unlike_on_comment` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;
-
-ALTER TABLE `ohrm_buzz_unlike_on_share` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;
 
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_comment_text_lenth','250');
 
