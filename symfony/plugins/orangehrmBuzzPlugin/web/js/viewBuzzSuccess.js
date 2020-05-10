@@ -173,12 +173,12 @@ $(document).ready(function () {
     $("#frmUploadImage").on("submit", function (e) {
         isAccess();
 
-
         noOfPhotosPreviewed = 1;
         noOfPhotosStacked = 1;
         e.preventDefault();
         var photoText = $("#phototext").val();
-        if (true) {
+
+        if (Object.keys(imageList).length > 0) {
             activateTab('page1');
             $("#tabLink1").attr("class", "tabButton tb_one tabSelected");
             $("#tabLink2").removeClass("tabSelected");
