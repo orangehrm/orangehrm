@@ -149,12 +149,6 @@ class addNewVideoAction extends BaseBuzzAction {
 
         $temp2 = explode("v=", $url);
         if (count($temp2) > 1) {
-            $videoJson = "https://www.youtube.com/oembed?url=$url&format=json";
-            $headers = get_headers($videoJson);
-            $responeCode = substr($headers[0], 9, 3);
-            if ($responeCode != "200") {
-                return 'not';
-            }
             $embededUrl = "https://www.youtube.com/embed/" . $temp2[1] . "?rel=0";
             return $embededUrl;
         }
@@ -163,7 +157,7 @@ class addNewVideoAction extends BaseBuzzAction {
         if (count($temp3) > 1) {
             $urlParts = explode("/", parse_url($temp3[1], PHP_URL_PATH));
             $videoId = (int) $urlParts[count($urlParts) - 1];
-            $embededUrl = "http://player.vimeo.com/video/" . $videoId;
+            $embededUrl = "https://player.vimeo.com/video/" . $videoId;
             return $embededUrl;
         }
 
@@ -202,13 +196,13 @@ class addNewVideoAction extends BaseBuzzAction {
             return $embededUrl;
         }
 
-        $temp8 = explode("http://www.metacafe.com/watch/", $url);
+        $temp8 = explode("//www.metacafe.com/watch/", $url);
         if (count($temp8) > 1) {
             $lstCode = explode("/", $temp8[1]);
 
 
 
-            $embededUrl = "http://www.metacafe.com/embed/" . $lstCode[0];
+            $embededUrl = "https://www.metacafe.com/embed/" . $lstCode[0];
             return $embededUrl;
         }
 
