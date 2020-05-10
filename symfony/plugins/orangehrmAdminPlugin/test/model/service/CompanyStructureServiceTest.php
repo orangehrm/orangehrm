@@ -18,12 +18,11 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
 /**
  * @group Admin
  */
-class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
+class CompanyStructureServiceTest extends PHPUnit\Framework\TestCase {
 
     private $companyStructureService;
     protected $fixture;
@@ -31,7 +30,7 @@ class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
     /**
      * Set up method
      */
-    protected function setUp() {
+    public function setUp(): void {
         $this->companyStructureService = new CompanyStructureService();
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/CompanyStructureDao.yml';
         TestDataService::populate($this->fixture);
@@ -69,7 +68,7 @@ class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->companyStructureService->saveSubunit($subunit);
         $this->assertTrue($result);
     }
-    
+
     public function testAddSubunit() {
 
         $subunit = TestDataService::fetchObject('Subunit', 1);
@@ -107,7 +106,7 @@ class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->companyStructureService->deleteSubunit($subunit);
         $this->assertTrue($result);
     }
-    
+
     public function testSetOrganizationName() {
 
         $name = "Company Name";
@@ -124,7 +123,7 @@ class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->companyStructureService->setOrganizationName($name);
         $this->assertEquals($returnvalue, $result);
     }
-    
+
     public function testGetSubunitTreeObject() {
 
         $treeObject = Doctrine::getTable('Subunit')->getTree();

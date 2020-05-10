@@ -32,7 +32,7 @@
     "bjeavons/zxcvbn-php": "^0.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.7"
+    "phpunit/phpunit": "^8"
   },
   "extra": {
     "installer-types": ["library"],

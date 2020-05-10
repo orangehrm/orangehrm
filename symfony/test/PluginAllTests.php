@@ -19,13 +19,14 @@ if (!defined('SF_CONN')) {
 
 
 if (!defined('TEST_ENV_CONFIGURED')) {
-    
+
     require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
     PluginAllTests::$configuration = ProjectConfiguration::getApplicationConfiguration( SF_APP_NAME , SF_ENV, true);
     sfContext::createInstance(PluginAllTests::$configuration);
 
     define('TEST_ENV_CONFIGURED', TRUE);
 }
+
 
 class PluginAllTests
 {
@@ -49,13 +50,13 @@ class PluginAllTests
 
 
     public static function suite() {
-        $suite = new PHPUnit_Framework_TestSuite('PluginAllTest');
+        $suite = new PHPUnit\Framework\TestCase('PluginAllTest');
         $config = new ProjectConfiguration();
-        
+
         // Add the apps/orangehrm unit tests
         require_once(dirname(__FILE__) . '/AppsOrangeHRMAllTests.php');
         $suite->addTestSuite('AppsOrangeHRMAllTests');
-        
+
         $enabledPlugins = $config->getPlugins();
         $pluginDirs     = new DirectoryIterator( dirname(__FILE__). '/../plugins' );
         $omitDirs       = array(".", "..", ".svn");
@@ -82,6 +83,6 @@ class PluginAllTests
 
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 }
