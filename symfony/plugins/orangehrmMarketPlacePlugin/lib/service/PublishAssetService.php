@@ -145,7 +145,7 @@ class PublishAssetService
             $objects = scandir($dir);
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
-                    if (filetype($dir . "/" . $object) == "dir") $this->directoryRecursiveDelete($dir . "/" . $object); else unlink($dir . "/" . $object);
+                    if (filetype($dir . DIRECTORY_SEPARATOR . $object) == "dir") $this->directoryRecursiveDelete($dir . DIRECTORY_SEPARATOR . $object); else unlink($dir . DIRECTORY_SEPARATOR . $object);
                 }
             }
             reset($objects);
