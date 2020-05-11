@@ -84,7 +84,7 @@ use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewAnniversaries'));
                             ?>
                             </div>
                             <div id="joinedDate">
-                                <?php echo __("Joined Date") . " : " . date('Y', strtotime($employee->getJoinedDate())).'-'.__(date('M', strtotime($employee->getJoinedDate()))).'-'.date('d', strtotime($employee->getJoinedDate())); ?>
+                                <?php echo __("Joined Date") . " : " . set_datepicker_date_format($employee->getJoinedDate()); ?>
                             </div>
                         </div>
                     </li>
