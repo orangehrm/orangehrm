@@ -158,7 +158,7 @@ class viewNotificationComponent extends sfComponent
                 $employee = $activity->getEmployeeComment();
                 if ($employee instanceof Employee && is_null($employee->getPurgedAt())) {
                     array_push($this->notifications, [
-                        "message" => $employee->getFirstAndLastNames() . ' ' . __("comments on your post."),
+                        "message" => $employee->getFirstAndLastNames() . ' ' . __("commented on your post."),
                         "empNumber" => $activity->getEmployeeNumber(),
                         "postOwnerEmpNumber" => $empNumber,
                         "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($activity->getCommentTime())),
@@ -176,7 +176,7 @@ class viewNotificationComponent extends sfComponent
                 if ($employee instanceof Employee && is_null($employee->getPurgedAt())) {
                     $likeTime = $this->getBuzzNotificationService()->getUserDateTime($activity->getLikeTime());
                     array_push($this->notifications, [
-                        "message" => $employee->getFirstAndLastNames() . ' ' . __("likes your post."),
+                        "message" => $employee->getFirstAndLastNames() . ' ' . __("liked to a post you shared."),
                         "empNumber" => $activity->getEmployeeNumber(),
                         "postOwnerEmpNumber" => $empNumber,
                         "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($likeTime)),
@@ -194,7 +194,7 @@ class viewNotificationComponent extends sfComponent
                 if ($employee instanceof Employee && is_null($employee->getPurgedAt())) {
                     $likeTime = $this->getBuzzNotificationService()->getUserDateTime($activity->getLikeTime());
                     array_push($this->notifications, [
-                        "message" => $employee->getFirstAndLastNames() . ' ' . __("likes your comment."),
+                        "message" => $employee->getFirstAndLastNames() . ' ' . __("liked to your comment."),
                         "empNumber" => $activity->getEmployeeNumber(),
                         "postOwnerEmpNumber" => $empNumber,
                         "elapsedTime" => $this->getBuzzNotificationService()->timeElapsedString(new DateTime($likeTime)),

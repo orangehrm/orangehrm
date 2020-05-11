@@ -7917,16 +7917,16 @@
         <target>FR_shared a post.</target>
       </trans-unit>
       <trans-unit id="1979">
-        <source>comments on your post.</source>
-        <target>FR_comments on your post.</target>
+        <source>commented on your post.</source>
+        <target>FR_commented on your post.</target>
       </trans-unit>
       <trans-unit id="1980">
-        <source>likes your post.</source>
-        <target>FR_likes your post.</target>
+        <source>liked to a post you shared.</source>
+        <target>FR_liked to a post you shared.</target>
       </trans-unit>
       <trans-unit id="1981">
-        <source>likes your comment.</source>
-        <target>FR_likes your comment.</target>
+        <source>liked to your comment.</source>
+        <target>FR_liked to your comment.</target>
       </trans-unit>
       <trans-unit id="1982">
         <source>shared your post.</source>
