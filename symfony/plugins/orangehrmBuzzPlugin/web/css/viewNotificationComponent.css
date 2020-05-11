@@ -195,10 +195,6 @@ svg.notification-icon > path {
     margin-right: 12px !important;
 }
 
-#mp_btn_inner {
-    padding-top: 56px !important;
-}
-
 #Subscriber_link { /*OHRM-632*/
     max-height: 33px !important;
 }

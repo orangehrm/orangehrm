@@ -23,7 +23,7 @@
 .main-menu-first-level-list-item {
     display: inline-block;
     *display: inline;
-    float: unset !important;
+    float: none !important;
 }
 
 .menu-overflow {
