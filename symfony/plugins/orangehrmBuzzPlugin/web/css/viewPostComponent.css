@@ -236,6 +236,10 @@
     border: 5px solid white;
 }
 
+.viewMoreShare {/*OHRM-665*/
+    color: #F07C00;
+}
+
 .viewMoreShare:hover{
     cursor: pointer;
 }

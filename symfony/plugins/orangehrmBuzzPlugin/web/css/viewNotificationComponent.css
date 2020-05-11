@@ -36,7 +36,7 @@
 }
 
 .notification-message {
-    width: 290px;
+    width: 280px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -67,7 +67,7 @@
 }
 
 .clear-notifications {
-    text-align: end;
+    text-align: right;
     margin-right: 4px;
 }
 
