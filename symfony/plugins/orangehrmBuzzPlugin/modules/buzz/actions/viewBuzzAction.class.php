@@ -116,7 +116,7 @@ class viewBuzzAction extends BaseBuzzAction {
         $buzzConfigService = $this->getBuzzConfigService();
         $this->loggedInUser = $this->getLogedInEmployeeNumber();
         if (is_null($this->loggedInUser)) {
-            $this->getUser()->setFlash('error.nofade', __("Please assign employee for this user account."), false);
+            $this->getUser()->setFlash('error.nofade', __("Buzz is accessible for the user who is assigned with an employee."), false);
             $this->getController()->forward('core', 'displayMessage');
             // OHRM-663: Should stop request further execution
             throw new sfStopException();

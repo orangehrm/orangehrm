@@ -7917,7 +7917,7 @@
         <target/>
       </trans-unit>
       <trans-unit id="2033">
-        <source>Please assign employee for this user account.</source>
+        <source>Buzz is accessible for the user who is assigned with an employee.</source>
         <target/>
       </trans-unit>
     </body>
