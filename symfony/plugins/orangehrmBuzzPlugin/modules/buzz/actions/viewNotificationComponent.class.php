@@ -190,7 +190,7 @@ class viewNotificationComponent extends sfComponent
 
         foreach ($newLikesOnEmployeeComments as $activity) {
             if ($activity instanceof LikeOnComment) {
-                $employee = $activity->getEmployeeLike();
+                $employee = $activity->getEmployeeLike()->getFirst();
                 if ($employee instanceof Employee && is_null($employee->getPurgedAt())) {
                     $likeTime = $this->getBuzzNotificationService()->getUserDateTime($activity->getLikeTime());
                     array_push($this->notifications, [
