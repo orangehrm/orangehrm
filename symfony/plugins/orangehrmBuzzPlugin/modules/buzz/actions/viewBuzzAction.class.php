@@ -113,14 +113,15 @@ class viewBuzzAction extends BaseBuzzAction {
             return sfView::NONE;
         }
 
+        $buzzConfigService = $this->getBuzzConfigService();
+        $this->loggedInUser = $this->getLogedInEmployeeNumber();
+        if (is_null($this->loggedInUser)) {
+            $this->getUser()->setFlash('error.nofade', __("Please assign employee for this user account."), false);
+            $this->getController()->forward('core', 'displayMessage');
+            // OHRM-663: Should stop request further execution
+            throw new sfStopException();
+        }
         try {
-            $buzzConfigService = $this->getBuzzConfigService();
-            
-            $this->loggedInUser = $this->getLogedInEmployeeNumber();
-            if (is_null($this->loggedInUser)){
-                $this->getUser()->setFlash('error.nofade', __("Please assign employee for this user account."), false);
-                $this->getController()->forward('core', 'displayMessage');
-            }
             $this->setConfigurationValues();
             $this->postForm = $this->getPostForm();
             $this->commentForm = $this->getCommentForm();
