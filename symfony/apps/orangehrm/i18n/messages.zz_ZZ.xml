@@ -7844,6 +7844,286 @@
         <source>Contact Number</source>
         <target>FR_Contact Number</target>
       </trans-unit>
+      <trans-unit id="1961">
+        <source>year</source>
+        <target>FR_year</target>
+      </trans-unit>
+      <trans-unit id="1962">
+        <source>month</source>
+        <target>FR_month</target>
+      </trans-unit>
+      <trans-unit id="1963">
+        <source>week</source>
+        <target>FR_week</target>
+      </trans-unit>
+      <trans-unit id="1964">
+        <source>day</source>
+        <target>FR_day</target>
+      </trans-unit>
+      <trans-unit id="1965">
+        <source>hour</source>
+        <target>FR_hour</target>
+      </trans-unit>
+      <trans-unit id="1966">
+        <source>minute</source>
+        <target>FR_minute</target>
+      </trans-unit>
+      <trans-unit id="1967">
+        <source>second</source>
+        <target>FR_second</target>
+      </trans-unit>
+      <trans-unit id="1968">
+        <source>years</source>
+        <target>FR_years</target>
+      </trans-unit>
+      <trans-unit id="1969">
+        <source>months</source>
+        <target>FR_months</target>
+      </trans-unit>
+      <trans-unit id="1970">
+        <source>weeks</source>
+        <target>FR_weeks</target>
+      </trans-unit>
+      <trans-unit id="1971">
+        <source>days</source>
+        <target>FR_days</target>
+      </trans-unit>
+      <trans-unit id="1972">
+        <source>hours</source>
+        <target>FR_hours</target>
+      </trans-unit>
+      <trans-unit id="1973">
+        <source>minutes</source>
+        <target>FR_minutes</target>
+      </trans-unit>
+      <trans-unit id="1974">
+        <source>seconds</source>
+        <target>FR_seconds</target>
+      </trans-unit>
+      <trans-unit id="1975">
+        <source>ago</source>
+        <target>FR_ago</target>
+      </trans-unit>
+      <trans-unit id="1976">
+        <source>Just now</source>
+        <target>FR_Just now</target>
+      </trans-unit>
+      <trans-unit id="1977">
+        <source>Clear all notifications</source>
+        <target>FR_Clear all notifications</target>
+      </trans-unit>
+      <trans-unit id="1978">
+        <source>shared a post.</source>
+        <target>FR_shared a post.</target>
+      </trans-unit>
+      <trans-unit id="1979">
+        <source>commented on your post.</source>
+        <target>FR_commented on your post.</target>
+      </trans-unit>
+      <trans-unit id="1980">
+        <source>liked to a post you shared.</source>
+        <target>FR_liked to a post you shared.</target>
+      </trans-unit>
+      <trans-unit id="1981">
+        <source>liked to your comment.</source>
+        <target>FR_liked to your comment.</target>
+      </trans-unit>
+      <trans-unit id="1982">
+        <source>shared your post.</source>
+        <target>FR_shared your post.</target>
+      </trans-unit>
+      <trans-unit id="1983">
+        <source>No new notifications</source>
+        <target>FR_No new notifications</target>
+      </trans-unit>
+      <trans-unit id="1984">
+        <source>Failed to clear notifications</source>
+        <target>FR_Failed to clear notifications</target>
+      </trans-unit>
+      <trans-unit id="1985">
+        <source>HOME</source>
+        <target>FR_HOME</target>
+      </trans-unit>
+      <trans-unit id="1986">
+        <source>PROFILE</source>
+        <target>FR_PROFILE</target>
+      </trans-unit>
+      <trans-unit id="1987">
+        <source>LOGOUT</source>
+        <target>FR_LOGOUT</target>
+      </trans-unit>
+      <trans-unit id="1988">
+        <source>Update Status</source>
+        <target>FR_Update Status</target>
+      </trans-unit>
+      <trans-unit id="1989">
+        <source>Upload Images</source>
+        <target>FR_Upload Images</target>
+      </trans-unit>
+      <trans-unit id="1990">
+        <source>Share Video</source>
+        <target>FR_Share Video</target>
+      </trans-unit>
+      <trans-unit id="1991">
+        <source>UPCOMING ANNIVERSARIES</source>
+        <target>FR_UPCOMING ANNIVERSARIES</target>
+      </trans-unit>
+      <trans-unit id="1992">
+        <source>No Upcoming Anniversaries For Next 30 Days</source>
+        <target>FR_No Upcoming Anniversaries For Next 30 Days</target>
+      </trans-unit>
+      <trans-unit id="1993">
+        <source>MOST LIKED POSTS</source>
+        <target>FR_MOST LIKED POSTS</target>
+      </trans-unit>
+      <trans-unit id="1994">
+        <source>MOST COMMENTED POSTS</source>
+        <target>FR_MOST COMMENTED POSTS</target>
+      </trans-unit>
+      <trans-unit id="1995">
+        <source>this</source>
+        <target>FR_this</target>
+      </trans-unit>
+      <trans-unit id="1996">
+        <source>Post</source>
+        <target>FR_Post</target>
+      </trans-unit>
+      <trans-unit id="1997">
+        <source>Add your comment</source>
+        <target>FR_Add your comment</target>
+      </trans-unit>
+      <trans-unit id="1998">
+        <source>STATISTICS</source>
+        <target>FR_STATISTICS</target>
+      </trans-unit>
+      <trans-unit id="1999">
+        <source>Shares</source>
+        <target>FR_Shares</target>
+      </trans-unit>
+      <trans-unit id="2000">
+        <source>Likes</source>
+        <target>FR_Likes</target>
+      </trans-unit>
+      <trans-unit id="2001">
+        <source>People who likes this comment</source>
+        <target>FR_People who likes this comment</target>
+      </trans-unit>
+      <trans-unit id="2004">
+        <source>People who like this comment</source>
+        <target>FR_People who like this comment</target>
+      </trans-unit>
+      <trans-unit id="2005">
+        <source>People who like this post</source>
+        <target>FR_People who like this post</target>
+      </trans-unit>
+      <trans-unit id="2006">
+        <source>Only 'gif', 'png', 'jpg', 'jpeg' type images are allowed!</source>
+        <target>FR_Only 'gif', 'png', 'jpg', 'jpeg' type images are allowed!</target>
+      </trans-unit>
+      <trans-unit id="2007">
+        <source>Only five images are allowed in a single post!</source>
+        <target>FR_Only five images are allowed in a single post!</target>
+      </trans-unit>
+      <trans-unit id="2008">
+        <source>Sorry!</source>
+        <target>FR_Sorry!</target>
+      </trans-unit>
+      <trans-unit id="2009">
+        <source>People who shared this post</source>
+        <target>FR_People who shared this post</target>
+      </trans-unit>
+      <trans-unit id="2010">
+        <source>Paste Video Url</source>
+        <target>FR_Paste Video Url</target>
+      </trans-unit>
+      <trans-unit id="2011">
+        <source>What's on your mind?</source>
+        <target>FR_What's on your mind?</target>
+      </trans-unit>
+      <trans-unit id="2012">
+        <source>Say something about these photos</source>
+        <target>FR_Say something about these photos</target>
+      </trans-unit>
+      <trans-unit id="2013">
+        <source>Do you really want to delete this?</source>
+        <target>FR_Do you really want to delete this?</target>
+      </trans-unit>
+      <trans-unit id="2014">
+        <source>Successfully Deleted!</source>
+        <target>FR_Successfully Deleted!</target>
+      </trans-unit>
+      <trans-unit id="2015">
+        <source>Successfully Saved!</source>
+        <target>FR_Successfully Saved!</target>
+      </trans-unit>
+      <trans-unit id="2016">
+        <source>Edit your comment</source>
+        <target>FR_Edit your comment</target>
+      </trans-unit>
+      <trans-unit id="2017">
+        <source>Edit your post</source>
+        <target>FR_Edit your post</target>
+      </trans-unit>
+      <trans-unit id="2018">
+        <source>Orange Buzz</source>
+        <target>FR_Orange Buzz</target>
+      </trans-unit>
+      <trans-unit id="2019">
+        <source>Successfully Shared</source>
+        <target>FR_Successfully Shared</target>
+      </trans-unit>
+      <trans-unit id="2021">
+        <source>This url is not a valid url of a video or it is not supported by the system</source>
+        <target>FR_This url is not a valid url of a video or it is not supported by the system</target>
+      </trans-unit>
+      <trans-unit id="2022">
+        <source>Buzz</source>
+        <target>FR_Buzz</target>
+      </trans-unit>
+      <trans-unit id="2023">
+        <source>Like</source>
+        <target>FR_Like</target>
+      </trans-unit>
+      <trans-unit id="2024">
+        <source>Unlike</source>
+        <target>FR_Unlike</target>
+      </trans-unit>
+      <trans-unit id="2025">
+        <source>Expand</source>
+        <target>FR_Expand</target>
+      </trans-unit>
+      <trans-unit id="2026">
+        <source>What's on your mind</source>
+        <target>FR_What's on your mind</target>
+      </trans-unit>
+      <trans-unit id="2027">
+        <source>This share has been deleted or you do not have permission to perform this action</source>
+        <target>FR_This share has been deleted or you do not have permission to perform this action</target>
+      </trans-unit>
+      <trans-unit id="2028">
+        <source>OrangeBuzz</source>
+        <target>FR_OrangeBuzz</target>
+      </trans-unit>
+      <trans-unit id="2029">
+        <source>Share</source>
+        <target>FR_Share</target>
+      </trans-unit>
+      <trans-unit id="2030">
+        <source>Success</source>
+        <target>FR_Success</target>
+      </trans-unit>
+      <trans-unit id="2031">
+        <source>Read More</source>
+        <target>FR_Read More</target>
+      </trans-unit>
+      <trans-unit id="2032">
+        <source>Save Video</source>
+        <target>FR_Save Video</target>
+      </trans-unit>
+      <trans-unit id="2033">
+        <source>Buzz is accessible for the user who is assigned with an employee.</source>
+        <target>FR_Buzz is accessible for the user who is assigned with an employee.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

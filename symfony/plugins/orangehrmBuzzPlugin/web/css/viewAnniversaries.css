@@ -1,0 +1,122 @@
+#annivProfilePicContainer{
+    width: 53px;
+    height: 53px;
+    overflow: hidden;
+}
+
+#anniversaryPost{
+    background-color: #6B6B6B;
+    margin-bottom: 10px;
+}
+
+#annivProfilePicContainer img{
+    width: 100%;
+    position:relative;
+    top:0;
+    bottom:0;
+    margin:auto;
+}
+
+#annivProfilePicContainer{
+    float: left;
+    border: 2px solid white;
+    vertical-align: middle;
+    position:relative;
+    background-color: #EBEBEB;
+    margin-right: 8px;
+    border-radius: 5px;
+}
+
+#anniversaryUserName{
+    float: left;
+    font-size: 18px;
+}
+
+#anniversaryText{
+    background-color: #ebebeb;
+    color: #9c9c9c;
+    float: right;
+    font-size: 11px;
+    margin-left: 30px;
+
+    position: relative;
+    width: 268px;
+}
+
+#annivDate{
+    font-size: 11px;
+    font-style: italic;
+}
+
+#annivPicAndNameContainer div{
+    /*float: left;*/
+}
+
+#anniversaryPost{
+    height: 70px;
+    border: 1px solid #d2d2d2;
+    border-radius: 5px;
+    padding: 4px;
+    background-color: #e3e3e3;
+    margin: 10px auto;
+    width: 263px;
+}
+#anniversaryPostNull{
+    height: 70px;
+    //border: 2px solid white;
+
+    padding: 4px;
+
+}
+
+#upcomingAnnivMonth{
+    //background-color: #EBEBEB;
+    color: #6B6B6B;
+    font-size: 16px;
+    padding: 10px;
+}
+
+#upcomingAnnivList{
+    padding: 5px;
+
+    // max-height: 100px;
+    overflow-y:auto;
+    margin-bottom: 20px;
+    height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#yearsBox{
+    background-color: #9c9c9c;
+    border-radius: 0 0 0 4px;
+    color: white;
+    float: left;
+    font-size: 11px;
+    height: 15px;
+    padding: 4px;
+    text-align: center;
+    width: 50px;
+}
+
+#joinedDate{
+
+    padding: 6px;
+    background-color: #cfcfcf;
+    width: 203px;
+    border-radius: 0 0 4px;
+    float: right;
+    margin-right: -5px;
+}
+
+#moreAniversary{
+    float: right;
+    margin-top: -3px;
+    margin-right: -10px;
+}
+
+#lessAniversary{
+    float: right;
+    margin-top: -3px;
+    margin-right: -10px;
+    display: none;
+}

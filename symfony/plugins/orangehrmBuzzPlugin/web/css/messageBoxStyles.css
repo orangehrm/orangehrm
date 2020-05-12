@@ -1,0 +1,29 @@
+.mb-button-panel{
+    float: right;
+    margin-top: 40px;
+}
+
+.mb-heading{
+    border-radius: 7px 7px 0 0;
+    color: white;
+    font-family: "SourceSansProLight";
+    font-size: 20px;
+    padding: 10px;
+}
+
+.mb-body{
+    background-color: #ffffff;
+    border-radius: 0 0 10px 10px;
+    font-family: "SourceSansProLight";
+    font-size: 16px;
+    padding: 15px;
+}
+
+.hidden-element{
+    display: none;
+}
+
+.mb-btn {
+    margin-left: auto !important;
+    float: none !important;
+}

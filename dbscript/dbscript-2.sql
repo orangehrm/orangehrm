@@ -2922,3 +2922,58 @@ INSERT INTO ohrm_user_role_data_group (user_role_id, data_group_id, can_read, ca
 (@admin_role_id, @data_group_id, 1, 1, 0, 1, 0),
 (@ESS_role_id, @data_group_id, 1, 0, 0, 0, 0),
 (@Supervisor_role_id, @data_group_id, 1, 0, 0, 0, 0);
+
+-- Buzz plugin
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_refresh_time','60000'),
+        ('buzz_share_count','10'),
+        ('buzz_initial_comments','2'),
+        ('buzz_viewmore_comment','5'),
+        ('buzz_like_count','5'),
+        ('buzz_time_format','h:i a'),
+        ('buzz_most_like_posts','5'),
+        ('buzz_post_text_lenth','500'),
+        ('buzz_post_text_lines','5'),
+        ('buzz_cookie_valid_time','5000'),
+        ('buzz_most_like_shares','5'),
+        ('buzz_image_max_dimension', '1024');
+--
+-- Inserting News feed Module to The Database
+--
+INSERT INTO `ohrm_module`( `name`, `status`) VALUES ('buzz','1');
+
+set @admin_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'Admin');
+set @ESS_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'ESS');
+set @Supervisor_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'Supervisor');
+
+INSERT INTO `ohrm_data_group` (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
+('buzz_link', 'buzz link permition ', 1, 1, 1, 0);
+
+SET @buzz_link_data_group_id := (SELECT id FROM `ohrm_data_group` WHERE `name` = 'buzz_link');
+
+INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
+(@ESS_role_id, @buzz_link_data_group_id, 1, 1, 1, 0, 0),
+(@Supervisor_role_id, @buzz_link_data_group_id, 1, 1, 1, 0, 0);
+
+INSERT INTO `ohrm_data_group` (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
+('buzz_link_admin', 'buzz link permition for admin', 1, 1, 1, 0);
+
+SET @buzz_link_admin_data_group_id := (SELECT id FROM `ohrm_data_group` WHERE `name` = 'buzz_link_admin');
+
+INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
+(@admin_role_id, @buzz_link_admin_data_group_id, 1, 1, 1, 0, 0);
+
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_comment_text_lenth','250');
+
+-- Add Buzz As A menu Item
+SET @buzz_module_id = (SELECT `id` FROM `ohrm_module` WHERE `name`='buzz');
+INSERT INTO `ohrm_screen`(`name`, `module_id`, `action_url`) VALUES ('Buzz',@buzz_module_id,'viewBuzz');
+SET @screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Buzz');
+INSERT INTO `ohrm_menu_item`(`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `status`) VALUES ('Buzz', @screen_id, NULL, '1', '1500', 1);
+
+INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@admin_role_id,@screen_id,1,1,1,1);
+INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@ESS_role_id,@screen_id,1,1,1,1);
+INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@Supervisor_role_id,@screen_id,1,1,1,1);
+
+-- i.e. -4 weeks, -2 days, -1 day, -1 month
+-- https://www.php.net/manual/en/datetime.formats.relative.php
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_max_notification_period','-1 week');

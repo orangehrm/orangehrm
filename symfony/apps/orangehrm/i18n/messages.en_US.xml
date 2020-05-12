@@ -7640,6 +7640,286 @@
         <source>Contact Number</source>
         <target/>
       </trans-unit>
+      <trans-unit id="1961">
+        <source>year</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1962">
+        <source>month</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1963">
+        <source>week</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1964">
+        <source>day</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1965">
+        <source>hour</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1966">
+        <source>minute</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1967">
+        <source>second</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1968">
+        <source>years</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1969">
+        <source>months</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1970">
+        <source>weeks</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1971">
+        <source>days</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1972">
+        <source>hours</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1973">
+        <source>minutes</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1974">
+        <source>seconds</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1975">
+        <source>ago</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1976">
+        <source>Just now</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1977">
+        <source>Clear all notifications</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1978">
+        <source>shared a post.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1979">
+        <source>commented on your post.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1980">
+        <source>liked to a post you shared.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1981">
+        <source>liked to your comment.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1982">
+        <source>shared your post.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1983">
+        <source>No new notifications</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1984">
+        <source>Failed to clear notifications</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1985">
+        <source>HOME</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1986">
+        <source>PROFILE</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1987">
+        <source>LOGOUT</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1988">
+        <source>Update Status</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1989">
+        <source>Upload Images</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1990">
+        <source>Share Video</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1991">
+        <source>UPCOMING ANNIVERSARIES</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1992">
+        <source>No Upcoming Anniversaries For Next 30 Days</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1993">
+        <source>MOST LIKED POSTS</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1994">
+        <source>MOST COMMENTED POSTS</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1995">
+        <source>this</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1996">
+        <source>Post</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1997">
+        <source>Add your comment</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1998">
+        <source>STATISTICS</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="1999">
+        <source>Shares</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2000">
+        <source>Likes</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2001">
+        <source>People who likes this comment</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2004">
+        <source>People who like this comment</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2005">
+        <source>People who like this post</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2006">
+        <source>Only 'gif', 'png', 'jpg', 'jpeg' type images are allowed!</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2007">
+        <source>Only five images are allowed in a single post!</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2008">
+        <source>Sorry!</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2009">
+        <source>People who shared this post</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2010">
+        <source>Paste Video Url</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2011">
+        <source>What's on your mind?</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2012">
+        <source>Say something about these photos</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2013">
+        <source>Do you really want to delete this?</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2014">
+        <source>Successfully Deleted!</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2015">
+        <source>Successfully Saved!</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2016">
+        <source>Edit your comment</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2017">
+        <source>Edit your post</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2018">
+        <source>Orange Buzz</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2019">
+        <source>Successfully Shared</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2021">
+        <source>This url is not a valid url of a video or it is not supported by the system</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2022">
+        <source>Buzz</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2023">
+        <source>Like</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2024">
+        <source>Unlike</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2025">
+        <source>Expand</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2026">
+        <source>What's on your mind</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2027">
+        <source>This share has been deleted or you do not have permission to perform this action</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2028">
+        <source>OrangeBuzz</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2029">
+        <source>Share</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2030">
+        <source>Success</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2031">
+        <source>Read More</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2032">
+        <source>Save Video</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2033">
+        <source>Buzz is accessible for the user who is assigned with an employee.</source>
+        <target/>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -1,0 +1,8 @@
+plugin_name: orangehrmBuzzPlugin
+dbscript_path: install/dbscript.sql
+dependencies:
+    plugins:
+        depends:
+        install-after: []
+        conflicts: []
+        replaces: []

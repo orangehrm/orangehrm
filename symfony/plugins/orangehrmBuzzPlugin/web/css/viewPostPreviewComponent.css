@@ -1,0 +1,51 @@
+
+#dashBoardBuzz li, #notificationShareViewMoreModal li{
+    list-style: none;
+}
+.previewSecondRow{
+    background-color: white;
+    padding: 10px;
+    margin: 0;
+    margin-left: 76px;
+}
+.previewFirstRowColTwo #postEmployeeName .name{
+    font-size: 95%;
+    padding: 0;
+    margin: 0;
+}
+.previewPost{
+    margin-bottom: 100px;
+    height: 100px;
+}
+
+.modalPopUP{
+    width: 920px;
+    left: 40%;
+    overflow-x: hidden;
+}
+
+.modalPopUP-body{
+    height: 530px;
+    background-color: #e2e2e2;
+    overflow-x: hidden;
+}
+.hideModalPopUp{
+    top: 4px;
+    right: 4px;
+    position: absolute;
+    z-index: 99999;
+    background-color: white;
+}
+
+.hideModalPopUp img {
+    border: 2px solid;
+    border-radius: 250px;
+}
+
+.photoPreviewOne{
+    overflow: hidden;
+    text-align: center;
+}
+.iframePrev{
+    margin-top: 5px ;
+}

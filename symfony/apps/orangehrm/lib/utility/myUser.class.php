@@ -143,6 +143,10 @@ class myUser extends sfBasicSecurityUser {
         return $this->getAttribute('system.timeZoneOffset', 0);
     }
 
+    public function getUserTimeZoneOffsetForBuzz() {
+        return $this->getAttribute('system.timeZoneOffset', null);
+    }
+
     public function initialize(sfEventDispatcher $dispatcher, sfStorage $storage, $options = array()) {
         parent::initialize($dispatcher, $storage, $options);
         if ($this->isTimedOut()) {

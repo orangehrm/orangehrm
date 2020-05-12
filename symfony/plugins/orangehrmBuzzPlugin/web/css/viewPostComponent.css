@@ -1,0 +1,550 @@
+.imageNextBtn:hover{
+    background-color: white;
+    opacity: .5;
+}
+.imagePrevBtn:hover{
+    background-color: white;
+    opacity: .5;
+}
+.likeLinknew{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 35px;
+    margin-left: 0px;
+    z-index: 1;
+    position: absolute;
+
+} 
+.unlikeLinknew{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 35px;
+    margin-left: 35px;
+    z-index: 1;
+    position: absolute;
+
+}
+.likeLinknew:hover{
+    opacity: 0.8;
+} 
+.unlikeLinknew:hover{
+    opacity: 0.8;
+
+}
+.shareLinknew{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 35px;
+    margin-left: 70px;
+    z-index: 1;
+    position: absolute;
+
+}
+#postBodyThirdRowNew{
+    width: 110px;
+    height: 35px;
+    float: right;
+    margin-top: -35px;
+    margin-bottom: -0px;
+}
+#postBodyThirdRowNewPopUP{
+    width: 110px;
+    height: 35px;
+    float: right;
+}
+
+#postBodyViewMore{
+    opacity: 0.8;
+    float: right;
+    height: 35px;
+    margin: 42px 0 0 -460px;
+    width: 150px;
+}
+#postBodyReadMore{
+    width: 50px;
+    height: 35px;
+    float: right;
+    margin-top: -30px;
+    margin-bottom: 0px;
+}
+
+.textTopOfImage{
+    color: white;
+    font-size: 20px;
+    margin-left: 23px;
+    margin-top: -27px;
+    z-index: 9998;
+    position: absolute;
+
+}
+#noOfLikesLinknew{
+    margin-left: 1%;
+    font-size: 14px;
+}
+
+#noOfLikesLinknewInModal{
+    margin-left: 1%;
+    font-size: 14px;
+}
+#noOfUnLikesLinknew{
+    margin-left: 170px;
+    font-size: 14px;
+}
+
+#postBodyThirdRow #noOfUnLikesLinknew{
+    margin-left: auto;
+    margin-right: 1%;
+    font-size: 14px;
+}
+
+#noOfUnLikesLinknewInModal{
+    margin-left: 90px;
+    font-size: 14px;
+}
+.commentBoxContainer .postRow{
+}
+.tooltipInsideModal{
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 14px;
+}
+#noOfSharesLinknew{
+    margin-left:auto;
+    font-size: 14px;
+}
+
+#noOfSharesLinknewInModal{
+    margin-left: 100px;
+    font-size: 14px;
+}
+
+.likeCommentnew{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 30px;
+    margin-left: 0px;
+    position: absolute;
+
+} 
+
+.likeCommentnewPopup{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 30px;
+    margin-left: 0px;
+    position: absolute;
+
+} 
+.unlikeCommentnew{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 30px;
+    margin-left: 40px;
+    position: absolute;
+
+}
+.unlikeCommentnewPopup{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 30px;
+    margin-left: 40px;
+    position: absolute;
+
+}
+
+.likeCommentnewPop{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 30px;
+    margin-left: 0px;
+
+} 
+.unlikeCommentnewPop{
+    background-color: transparent;
+    opacity: 0.8;
+
+    width: 30px;
+    margin-left: 40px;
+    margin-top: -16px;
+
+}
+
+#commentBodyThirdRowNew{
+    width: 70px;
+    height: 30px;
+
+    margin-top: -25px;
+    margin-bottom: 10px;
+    float:right;
+}
+
+#commentBodyThirdRowNewPopup{
+    width: 70px;
+    height: 30px;
+
+    margin-top: -50px;
+    margin-bottom: 10px;
+    float:right;
+}
+.textTopOfImageComment{
+    color: white;
+    font-size: 15px;
+    margin-left: 17px;
+    margin-top: -21px;
+    z-index: 9999;
+    position: absolute;
+    border-radius: 100px;
+    background-color: black;
+    padding-left: 2px;
+    padding-right: 2px;
+
+}
+
+.textTopOfImageCommentPop{
+    color: white;
+    font-size: 15px;
+    margin-left: 17px;
+    margin-top: -21px;
+    z-index: 9999;
+    border-radius: 100px;
+    background-color: black;
+    padding-left: 2px;
+    padding-right: 2px;
+
+}
+.imageContainer {
+    position: relative;
+    width: 100%;
+    height: 230px;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.imageContainer div {
+    text-align: center;
+    position: absolute;
+    background: #ccc;
+    border: 5px solid white;
+}
+
+.viewMoreShare {/*OHRM-665*/
+    color: #F07C00;
+}
+
+.viewMoreShare:hover{
+    cursor: pointer;
+}
+
+.viewMoreComment {/*OHRM-665*/
+    color: #F07C00;
+}
+
+.viewMoreComment:hover{
+    cursor: pointer;
+}
+
+#photoPage{
+
+    background-color: white;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px; /* future proofing */
+    -khtml-border-radius: 5px; /* for old Konqueror browsers */
+}
+.imageNextBtn{
+
+    background-color: transparent; /* make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+    border: none;           /* assuming we don't want any borders */
+    cursor: pointer;        /* make the cursor like hovering over an <a> element */
+    height: 50px;
+    position: absolute;/* make this the size of your image */
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    z-index: 99999;
+    vertical-align: middle; 
+}
+.imagePrevBtn{
+
+    background-color: transparent; /* make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+    border: none;           /* assuming we don't want any borders */
+    cursor: pointer;        /* make the cursor like hovering over an <a> element */
+    height: 50px;
+    position: absolute;/* make this the size of your image */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99999;
+    margin: auto;
+    vertical-align: middle; 
+}
+.photoViewEmp{
+    height: 60px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px; /* future proofing */
+    -khtml-border-radius: 5px; /* for old Konqueror browsers */
+}
+#modalnewlook{
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px; /* future proofing */
+    -khtml-border-radius: 5px; /* for old Konqueror browsers */
+}
+.viewMoreModal{
+    width: 920px;
+    left: 36%;
+    top:55%;
+    overflow-x: hidden;
+}
+.viewMoreModal-body{
+    height: 530px;
+    background-color: #e2e2e2;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.hideModalPopUp{
+    top: 4px;
+    right: 4px;
+    position: absolute;
+    z-index: 99999;
+    background-color: white;
+
+}
+
+.hideModalPopUp img {
+    border: 2px solid;
+    border-radius: 250px;
+}
+
+.originalPostModal{
+    width: 920px;
+    left: 40%;
+    top:58%;
+    overflow-x: hidden;
+}
+.originalPostModal-body{
+    height: 530px;
+    background-color: #e2e2e2;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.editPostModal-body{
+    background-color: #e2e2e2;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.photopageCss{
+    height: 400px;
+    top: 15px;
+    left: 12px;
+    width: 450px;
+    margin-bottom: -20px;
+    position: absolute;
+}
+.postPhotoPrev{
+    position:absolute;
+    top:0;
+    bottom:0;
+    right: 0;
+    left: 0;
+    margin:auto;
+}
+#photoPageComment{
+    
+    top: 5px;
+    left: 467px;
+    width: 440px;
+    margin-bottom: -20px;
+    position: absolute;background-color: #e2e2e2;
+}
+#photoPagePhotoDiv{
+    top:0;
+    max-width: 70px;
+    bottom:0;
+    margin: auto 0;
+    vertical-align: middle;
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+.btnShare{
+    float: right;
+    margin-top: 20px !important;
+    border: medium none;
+    border-radius: 3px;
+    color: #fff;
+    font-family: "SourceSansProRegular";
+    font-size: 20px;
+    padding: 0 15px 0 15px;
+}
+
+.btnShareOnPreview{
+    float: right;
+    margin-top: 20px !important;
+    border: medium none;
+    border-radius: 3px;
+    color: #fff;
+    font-family: "SourceSansProRegular";
+    font-size: 20px;
+    padding: 0 15px 0 15px;
+}
+.popUpContainer{
+    border-radius: 5px;
+    padding: 15px;
+    background-color: white;
+}
+.sharePageForm{
+    height: 380px;
+    top: 15px;
+    left: 12px;
+    width: 500px;
+    margin-bottom: -20px;
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    overflow-y: auto;
+    padding: 10px; 
+}
+.sharePageIframe{
+    height: 150px;
+    width: 60%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.sharePagePhotoComponent{
+    height: 160px;
+    width: 60%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.postNoofLikesTooltip{
+    color: #232323;
+    font-family: 'SourceSansProLight';
+    text-decoration: none;
+}
+
+.disabledLinks{
+    pointer-events: none;
+}
+
+.postNoofSharesTooltip{
+    color: #232323;
+    font-family: 'SourceSansProLight';
+    text-decoration: none;
+}
+.postNoofUnLikesTooltip{
+    color: #232323;
+    font-family: 'SourceSansProLight';
+    text-decoration: none;
+}
+.commentNoofLikesTooltip{
+    color: #232323;
+    font-family: 'SourceSansProLight';
+    text-decoration: none;
+}
+.postNoofLikesTooltip img{
+    vertical-align: middle;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.postNoofSharesTooltip img{
+   vertical-align: middle;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.postNoofUnLikesTooltip img{
+    vertical-align: middle;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.commentNoofLikesTooltip img{
+    vertical-align: middle;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.commentLikeImages{
+    vertical-align: middle;
+    padding-left: 5px; 
+    padding-right: 5px;
+}
+#modalHeader{
+    font-size: 16px;
+    color: white; 
+    background-color: #aaa;
+    padding: 5px;
+    text-align: center;
+    font-family: 'SourceSansProLight';
+}
+.btnEditCommentNew{
+    margin-top: 10px !important;
+    float: right;
+    border: medium none;
+    border-radius: 3px;
+    color: #fff;
+    font-family: "SourceSansProRegular";
+    font-size: 20px;
+}
+.sharePopUpbutton{
+    padding: 20px;
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+#photoPostFirstRowColumnOne{
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+.sharePostPopUpModal{
+    width: 550px;
+    left: 50%;
+    top: 60%;
+}
+.editCommrntPageButton{
+    padding: 20px;
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+.video-container {
+    position: relative;
+    height: 230px;
+    text-align: center;
+    background: #ccc;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+
+.video-container iframe {
+    width: auto;
+    height: 100%;
+}
+
+.sharePostText {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.shareEditText {
+    width: 100%;
+    box-sizing: border-box;
+}

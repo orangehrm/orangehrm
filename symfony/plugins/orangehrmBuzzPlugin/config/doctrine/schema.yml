@@ -1,0 +1,313 @@
+Post:
+  tableName: ohrm_buzz_post
+  columns:
+    id:
+      name: id 
+      type: integer()
+      primary: true
+      autoincrement: true
+    employee_number:
+      type: integer(7)
+    text:
+      type: string()
+    post_time:
+      type: timestamp
+      notnull: true   
+    updated_at:
+      type: timestamp
+  relations:
+    employeePostAdded:
+      class: Employee
+      local: employee_number
+      foreign: empNumber
+      foreignAlias: posts
+      foreignType: many
+      type: one
+     
+Photo:
+  tableName: ohrm_buzz_photo
+  columns:
+    id:
+      name: id 
+      type: integer()
+      primary: true
+      autoincrement: true
+    post_id:
+      type: integer()
+      notnull: true
+    photo:
+      type: blob(2147483647)
+    filename:
+      type: string(100)
+    file_type: string(50)
+    size: string(20)
+    width: string(20)
+    height: string(20)
+  relations:
+    PhotoAttached:
+      class: Post
+      local: post_id
+      foreign: id
+      foreignAlias: photos
+      foreignType: many
+      type: one
+
+Link:
+  tableName: ohrm_buzz_link
+  columns:
+    id:
+      name: id 
+      type: integer()
+      primary: true
+      autoincrement: true
+    post_id:
+      type: integer()
+      notnull: true
+    link:
+      type: string()
+      notnull: true
+    type:
+      type: integer()
+    title:
+      type: string()
+    description:
+      type: string()
+  relations:
+    LinkAttached:
+      class: Post
+      local: post_id
+      foreign: id
+      foreignAlias: Links
+      foreignType: many
+      type: one
+
+Share:
+  tableName: ohrm_buzz_share
+  columns:
+    id:
+      type: integer()
+      primary: true
+      autoincrement: true
+    post_id:
+      type: integer()
+      notnull: true
+    employee_number:
+      type: integer(7)
+    number_of_likes:
+      type: integer(6)
+    number_of_unlikes:
+      type: integer(6)
+    number_of_comments:
+      type: integer(6)
+    share_time:
+      type: timestamp
+      notnull: true
+    type:
+      type: int(1)
+    text:
+      type: string(600)
+    updated_at:
+      type: timestamp   
+  relations:
+    employeePostShared:
+      class: Employee
+      local: employee_number
+      foreign: empNumber
+      foreignAlias: share
+      foreignType: many
+      type: one
+    PostShared:
+      class: Post
+      local: post_id
+      foreign: id
+      foreignAlias: share
+      foreignType: many
+      type: one
+
+Comment:
+  tableName: ohrm_buzz_comment
+  columns:
+    id:
+      type: integer()
+      primary: true
+      autoincrement: true
+    share_id:
+      type: integer()
+      notnull: true
+    employee_number:
+      type: integer(7)
+    number_of_likes:
+      type: integer(6)
+    number_of_unlikes:
+      type: integer(6)
+    comment_text:
+      type: string
+    comment_time:
+      type: timestamp
+      notnull: true   
+    updated_at:
+      type: timestamp      
+  relations:
+    employeeComment:
+      class: Employee
+      local: employee_number
+      foreign: empNumber
+      foreignType: many
+      foreignAlias: comment
+      type: one
+    shareComment:
+      class: Share
+      local: share_id
+      foreign: id
+      foreignAlias: comment
+      foreignType: many
+      type: one
+      
+LikeOnComment:
+  tableName: ohrm_buzz_like_on_comment
+  columns:
+    id:
+      type: integer()
+      primary: true
+      autoincrement: true
+    comment_id:
+      name: comment_id
+      type: integer()
+      notnull: true
+    employee_number:
+      name: employee_number
+      type: integer(7)
+    like_time:
+      type: timestamp
+      notnull: true   
+  relations:
+    employeeLike:
+      class: Employee
+      local: employee_number
+      foreign: empNumber
+      foreignType: many
+      foreignAlias: comment
+      type: many
+    CommentLike:
+      class: Comment
+      local: comment_id
+      foreign: id
+      foreignAlias: Like
+      foreignType: many
+      type: one
+      
+LikeOnShare:
+  tableName: ohrm_buzz_like_on_share
+  columns:
+    id:
+      type: integer()
+      primary: true
+      autoincrement: true
+    share_id:
+      type: integer()
+      notnull: true
+    employee_number:
+      type: integer(7)
+    like_time:
+      type: timestamp
+      notnull: true   
+  relations:
+    employeeLike:
+      class: Employee
+      local: employee_number
+      foreign: empNumber
+      foreignType: one
+      foreignAlias: comment
+      type: one
+    ShareLike:
+      class: Share
+      local: share_id
+      foreign: id
+      foreignAlias: Like
+      foreignType: many
+      type: one
+
+UnLikeOnComment:
+  tableName: ohrm_buzz_unlike_on_comment
+  columns:
+    id:
+      type: integer()
+      primary: true
+      autoincrement: true
+    comment_id:
+      name: comment_id
+      type: integer()
+      notnull: true
+    employee_number:
+      name: employee_number
+      type: integer(7)
+    like_time:
+      type: timestamp
+      notnull: true   
+  relations:
+    employeeUnLike:
+      class: Employee
+      local: employee_number
+      foreign: empNumber
+      foreignType: many
+      foreignAlias: comment
+      type: many
+    CommentUnLike:
+      class: Comment
+      local: comment_id
+      foreign: id
+      foreignAlias: Unlike
+      foreignType: many
+      type: one
+      
+UnLikeOnShare:
+  tableName: ohrm_buzz_unlike_on_share
+  columns:
+    id:
+      type: integer()
+      primary: true
+      autoincrement: true
+    share_id:
+      type: integer()
+      notnull: true
+    employee_number:
+      type: integer(7)
+    like_time:
+      type: timestamp
+      notnull: true   
+  relations:
+    employeeUnLike:
+      class: Employee
+      local: employee_number
+      foreign: empNumber
+      foreignType: one
+      foreignAlias: comment
+      type: one
+    ShareUnLike:
+      class: Share
+      local: share_id
+      foreign: id
+      foreignAlias: Unlike
+      foreignType: many
+      type: one
+
+BuzzNotificationMetadata:
+  tableName: ohrm_buzz_notification_metadata
+  columns:
+    emp_number:
+      type: integer(7)
+      primary: true
+    last_notification_view_time:
+      type: timestamp
+    last_buzz_view_time:
+      type: timestamp
+    last_clear_notifications:
+      type: timestamp
+  relations:
+    employeeLastView:
+      class: Employee
+      local: employee_number
+      foreign: empNumber
+      foreignType: one
+      foreignAlias: NotificationMetadata
+      type: one

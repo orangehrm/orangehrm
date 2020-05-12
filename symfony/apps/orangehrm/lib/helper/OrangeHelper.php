@@ -311,3 +311,13 @@ function __js($text, $args = array(), $catalogue = 'messages') {
 
     return esc_js_no_entities($validationMassages);
 }
+
+/**
+ * @param $text
+ * @param array $args
+ * @param string $catalogue
+ * @return string
+ */
+function __attr($text, $args = array(), $catalogue = 'messages') {
+    return esc_specialchars(__($text, $args, $catalogue));
+}

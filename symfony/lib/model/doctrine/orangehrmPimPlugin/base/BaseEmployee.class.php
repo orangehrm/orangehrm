@@ -72,6 +72,10 @@
  * @property Nationality                                       $Nationality                                                 
  * @property JobCategory                                       $JobCategory                                                 
  * @property Doctrine_Collection|AttendanceRecord[]            $AttendanceRecord                                            
+ * @property Doctrine_Collection|Post[]                        $posts                                                       
+ * @property Doctrine_Collection|Share[]                       $share                                                       
+ * @property Doctrine_Collection|Comment[]                     $comment                                                     
+ * @property BuzzNotificationMetadata                          $NotificationMetadata                                        
  * @property Doctrine_Collection|SystemUser[]                  $SystemUser                                                  
  * @property Doctrine_Collection|LeaveEntitlement[]            $LeaveEntitlement                                            
  * @property Doctrine_Collection|LeaveAdjustment[]             $LeaveAdjustment                                             
@@ -168,6 +172,10 @@
  * @method Nationality                                         getNationality()                                             
  * @method JobCategory                                         getJobCategory()                                             
  * @method Doctrine_Collection|AttendanceRecord[]              getAttendanceRecord()                                        
+ * @method Doctrine_Collection|Post[]                          getPosts()                                                   
+ * @method Doctrine_Collection|Share[]                         getShare()                                                   
+ * @method Doctrine_Collection|Comment[]                       getComment()                                                 
+ * @method BuzzNotificationMetadata                            getNotificationMetadata()                                    
  * @method Doctrine_Collection|SystemUser[]                    getSystemUser()                                              
  * @method Doctrine_Collection|LeaveEntitlement[]              getLeaveEntitlement()                                        
  * @method Doctrine_Collection|LeaveAdjustment[]               getLeaveAdjustment()                                         
@@ -264,6 +272,10 @@
  * @method Employee                                            setNationality(Nationality $val)                             
  * @method Employee                                            setJobCategory(JobCategory $val)                             
  * @method Employee                                            setAttendanceRecord(Doctrine_Collection $val)                
+ * @method Employee                                            setPosts(Doctrine_Collection $val)                           
+ * @method Employee                                            setShare(Doctrine_Collection $val)                           
+ * @method Employee                                            setComment(Doctrine_Collection $val)                         
+ * @method Employee                                            setNotificationMetadata(BuzzNotificationMetadata $val)       
  * @method Employee                                            setSystemUser(Doctrine_Collection $val)                      
  * @method Employee                                            setLeaveEntitlement(Doctrine_Collection $val)                
  * @method Employee                                            setLeaveAdjustment(Doctrine_Collection $val)                 
@@ -595,6 +607,22 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasMany('AttendanceRecord', array(
              'local' => 'empNumber',
              'foreign' => 'employeeId'));
+
+        $this->hasMany('Post as posts', array(
+             'local' => 'empNumber',
+             'foreign' => 'employee_number'));
+
+        $this->hasMany('Share as share', array(
+             'local' => 'empNumber',
+             'foreign' => 'employee_number'));
+
+        $this->hasMany('Comment as comment', array(
+             'local' => 'empNumber',
+             'foreign' => 'employee_number'));
+
+        $this->hasOne('BuzzNotificationMetadata as NotificationMetadata', array(
+             'local' => 'empNumber',
+             'foreign' => 'employee_number'));
 
         $this->hasMany('SystemUser', array(
              'local' => 'emp_number',

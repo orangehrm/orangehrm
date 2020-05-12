@@ -9435,6 +9435,220 @@
         <source>Should not be more than 10000</source>
         <target/>
       </trans-unit>
+
+      <trans-unit id="1985">
+        <source>HOME</source>
+        <target>Startseite</target>
+        <note>This appears under Orange buzz where it redirects to the home page once clicked.</note>
+      </trans-unit>
+      <trans-unit id="1986">
+        <source>PROFILE</source>
+        <target>Profil</target>
+        <note>Employee profile that appear under My info Screen.</note>
+      </trans-unit>
+      <trans-unit id="1987">
+        <source>LOGOUT</source>
+        <target>Ausloggen</target>
+        <note>Click on Log out to conclude use of the system.</note>
+      </trans-unit>
+      <trans-unit id="1988">
+        <source>Update Status</source>
+        <target>Status aktualisieren</target>
+      </trans-unit>
+      <trans-unit id="1989">
+        <source>Upload Images</source>
+        <target>Bild hochladen</target>
+        <note>Upload an image with an acceptable format in order to give pictorial representation about it.</note>
+      </trans-unit>
+      <trans-unit id="1990">
+        <source>Share Video</source>
+        <target>Video verteilen</target>
+        <note>Share video in Orange buzz</note>
+      </trans-unit>
+      <trans-unit id="1991">
+        <source>UPCOMING ANNIVERSARIES</source>
+        <target>AUSTEHENDE JUBILAEN</target>
+        <note>Displayed under the Orange Buzz which shows the list of upcoming anniversaries</note>
+      </trans-unit>
+      <trans-unit id="1992">
+        <source>No Upcoming Anniversaries For Next 30 Days</source>
+        <target>Es gibt keine Feiertage in den nächsten 30 Tagen</target>
+      </trans-unit>
+      <trans-unit id="1993">
+        <source>MOST LIKED POSTS</source>
+        <target>BEILIEBTESTE BEITRÄGE</target>
+        <note>Articles have most no of likes which is posted on orange buzz/social media networks.</note>
+      </trans-unit>
+      <trans-unit id="1994">
+        <source>MOST COMMENTED POSTS</source>
+        <target>BEITRAG MIT DEN MEISTEN KOMMENTAREN</target>
+        <note>Articles have most no of comments which is posted on orange buzz/social media networks.</note>
+      </trans-unit>
+      <trans-unit id="1995">
+        <source>this</source>
+        <target>dieses</target>
+        <note>This action cannot be undone.</note>
+      </trans-unit>
+      <trans-unit id="1996">
+        <source>Post</source>
+        <target>Beitrag</target>
+        <note>It is a button which helps in updating a status, uploading images and sharing video once clicked.</note>
+      </trans-unit>
+      <trans-unit id="1997">
+        <source>Add your comment</source>
+        <target>Fügen Sie Ihren Kommentar hinzu</target>
+        <note>You may write a comment if necessary. For ex: Salary information</note>
+      </trans-unit>
+      <trans-unit id="1998">
+        <source>STATISTICS</source>
+        <target>STATISIKEN</target>
+        <note>The practice or science of collecting and analyzing numerical data in large quantities.</note>
+      </trans-unit>
+      <trans-unit id="1999">
+        <source>Shares</source>
+        <target>Anteile</target>
+        <note>Publish and share company related documents and news articles</note>
+      </trans-unit>
+      <trans-unit id="2000">
+        <source>Likes</source>
+        <target>Likes</target>
+      </trans-unit>
+      <trans-unit id="2001">
+        <source>People who likes this comment</source>
+        <target>Menschen, denen diesen Kommentar gefällt</target>
+        <note>This appears under Orange Buzz and helps in viewing people who like a particular comment</note>
+      </trans-unit>
+      <trans-unit id="2004">
+        <source>People who like this comment</source>
+        <target>Menschen, die diesen Kommentar mögen</target>
+        <note>This appears under Orange Buzz and helps in viewing people who like a particular comment</note>
+      </trans-unit>
+      <trans-unit id="2005">
+        <source>People who like this post</source>
+        <target>Menschen, die diesen Beitrag mögen</target>
+        <note>This appears under Orange Buzz and helps in viewing people who like a particular post.</note>
+      </trans-unit>
+      <trans-unit id="2006">
+        <source>Only 'gif', 'png', 'jpg', 'jpeg' type images are allowed!</source>
+        <target>Nur "gif", "png", "jpg", "jpeg" Typ Bilder dürfen benutzt werden</target>
+        <note>You may upload any attachment that would support Only 'gif', 'png', 'jpg', 'jpeg' type images</note>
+      </trans-unit>
+      <trans-unit id="2007">
+        <source>Only five images are allowed in a single post!</source>
+        <target>Nur fünf Bilder werden in einem einzigen Beitrag erlaubt!</target>
+        <note>This is a validation message which says only five images are allowed to be attached in one post.</note>
+      </trans-unit>
+      <trans-unit id="2008">
+        <source>Sorry!</source>
+        <target>Entschuldigung</target>
+        <note>This is a label which appears in Orange buzz.</note>
+      </trans-unit>
+      <trans-unit id="2009">
+        <source>People who shared this post</source>
+        <target>Menschen, die diesen Beitrag geteilt haben</target>
+        <note>This appears under Orange Buzz and helps in viewing people who share a particular post</note>
+      </trans-unit>
+      <trans-unit id="2010">
+        <source>Paste Video Url</source>
+        <target>Video-URL einfügen</target>
+        <note>When uploading a video under orange buzz, can paste video URL in the status field.</note>
+      </trans-unit>
+      <trans-unit id="2011">
+        <source>What's on your mind?</source>
+        <target>Was haben Sie auf dem Herzen?</target>
+        <note>Displayed under the Orange Buzz when updating the status</note>
+      </trans-unit>
+      <trans-unit id="2012">
+        <source>Say something about these photos</source>
+        <target>Bitte sagen Sie etwas über diese Fotos</target>
+        <note>This appears when uploading photos under Orange buzz.</note>
+      </trans-unit>
+      <trans-unit id="2013">
+        <source>Do you really want to delete this?</source>
+        <target>Wollen Sie das wirklich löschen?</target>
+        <note>That is a confirmation message which appears when we delete an item that is added previously</note>
+      </trans-unit>
+      <trans-unit id="2014">
+        <source>Successfully Deleted!</source>
+        <target>Erfolgreich gelöscht</target>
+        <note>It is a user friendly message saying that deleting of a record is done successfully</note>
+      </trans-unit>
+      <trans-unit id="2015">
+        <source>Successfully Saved!</source>
+        <target>Erfolgreich gesichert</target>
+        <note>It is a user friendly message saying that saving of a record is done successfully</note>
+      </trans-unit>
+      <trans-unit id="2016">
+        <source>Edit your comment</source>
+        <target>Bearbeiten Sie ihren Kommentar</target>
+        <note>The supervisor can approve or reject a time sheet by entering a comment which can be later edited</note>
+      </trans-unit>
+      <trans-unit id="2017">
+        <source>Edit your post</source>
+        <target>Bearbeiten Sie ihren Beitrag</target>
+        <note>Edit what you posted on social media networks</note>
+      </trans-unit>
+      <trans-unit id="2018">
+        <source>Orange Buzz</source>
+        <target>Orange Buzz</target>
+      </trans-unit>
+      <trans-unit id="2019">
+        <source>Successfully Shared</source>
+        <target>Erfolgreich gemeinsam genutzt</target>
+        <note>It is a user friendly message saying that sharing of post is done successfully</note>
+      </trans-unit>
+      <trans-unit id="2021">
+        <source>This url is not a valid url of a video or it is not supported by the system</source>
+        <target>Diese URL ist keine gültige Adresse für eine Video- oder ist nicht vom System unterstützt</target>
+        <note>This is a message which appear when the user triggers an action to upload a video with an invalid url</note>
+      </trans-unit>
+      <trans-unit id="2022">
+        <source>Buzz</source>
+        <target>Buzz</target>
+      </trans-unit>
+      <trans-unit id="2023">
+        <source>Like</source>
+        <target>Like</target>
+      </trans-unit>
+      <trans-unit id="2024">
+        <source>Unlike</source>
+        <target>Unlike</target>
+      </trans-unit>
+      <trans-unit id="2025">
+        <source>Expand</source>
+        <target>Expandieren</target>
+      </trans-unit>
+      <trans-unit id="2026">
+        <source>What's on your mind</source>
+        <target>Was haben Sie auf dem Herzen</target>
+      </trans-unit>
+      <trans-unit id="2027">
+        <source>This share has been deleted or you do not have permission to perform this action</source>
+        <target>Dieser Anteil wurde gelöscht, oder Sie haben keine Berechtigung, diese Aktion durchzuführen</target>
+      </trans-unit>
+      <trans-unit id="2028">
+        <source>OrangeBuzz</source>
+        <target>OrangeBuzz</target>
+      </trans-unit>
+      <trans-unit id="2029">
+        <source>Share</source>
+        <target>Teilen</target>
+        <note>Publish and share company related documents and news articles</note>
+      </trans-unit>
+      <trans-unit id="2030">
+        <source>Success</source>
+        <target>Erfolg</target>
+        <note>A person or thing that achieves desired aims or attains prosperity</note>
+      </trans-unit>
+      <trans-unit id="2031">
+        <source>Read More</source>
+        <target>Weiterlesen</target>
+      </trans-unit>
+      <trans-unit id="2032">
+        <source>Save Video</source>
+        <target>Video sichern</target>
+        <note>Save a video</note>
+      </trans-unit>
     </body>
   </file>
 </xliff>

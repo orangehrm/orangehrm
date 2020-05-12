@@ -1,0 +1,6 @@
+## YAML Template.
+---
+default:
+  is_secure: true
+viewBuzzImage:
+  is_secure: true

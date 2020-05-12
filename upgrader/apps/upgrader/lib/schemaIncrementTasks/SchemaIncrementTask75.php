@@ -177,20 +177,6 @@ ALTER TABLE `ohrm_buzz_unlike_on_share`
   ADD CONSTRAINT `buzzUNLikeOnshare` FOREIGN KEY (`share_id`)
     REFERENCES `ohrm_buzz_share` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;";
         $sql[] = "
-ALTER TABLE `ohrm_buzz_post` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_share` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_comment` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_like_on_comment` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_like_on_share` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_unlike_on_comment` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
-ALTER TABLE `ohrm_buzz_unlike_on_share` ADD `employee_name` VARCHAR( 255 ) NULL AFTER `employee_number` ;";
-        $sql[] = "
 CREATE TABLE IF NOT EXISTS `ohrm_buzz_notification_metadata` (
   `emp_number` int(7) ,
   `last_notification_view_time` datetime DEFAULT NULL,
@@ -249,13 +235,18 @@ INSERT INTO `ohrm_screen`(`name`, `module_id`, `action_url`) VALUES ('Buzz',@buz
         $sql[] = "
 SET @screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Buzz');";
         $sql[] = "
-INSERT INTO `ohrm_menu_item`(`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `status`, `url_extras`) VALUES ('Buzz', @screen_id, NULL, '1', '1500', 1, 'open_in_new_window');";
+INSERT INTO `ohrm_menu_item`(`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `status`) VALUES ('Buzz', @screen_id, NULL, '1', '1500', 1);";
         $sql[] = "
 INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@admin_role_id,@screen_id,1,1,1,1);";
         $sql[] = "
 INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@ESS_role_id,@screen_id,1,1,1,1);";
         $sql[] = "
 INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES (@Supervisor_role_id,@screen_id,1,1,1,1);";
+
+        // i.e. -4 weeks, -2 days, -1 day, -1 month
+        // https://www.php.net/manual/en/datetime.formats.relative.php
+        $sql[] = "
+INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_max_notification_period','-1 week');";
 
         $this->sql = $sql;
     }
