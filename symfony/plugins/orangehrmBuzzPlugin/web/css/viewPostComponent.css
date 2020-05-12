@@ -244,6 +244,10 @@
     cursor: pointer;
 }
 
+.viewMoreComment {/*OHRM-665*/
+    color: #F07C00;
+}
+
 .viewMoreComment:hover{
     cursor: pointer;
 }
