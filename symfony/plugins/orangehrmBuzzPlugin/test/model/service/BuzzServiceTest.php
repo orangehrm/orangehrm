@@ -949,12 +949,7 @@ class BuzzServiceTest extends PHPUnit\Framework\TestCase {
         $mockEmployee->setEmployeeId($loggedInEmployeeNumber);
 
         $mockEmployeeService = $this->getMockBuilder('employeeService')
-			->setMethods( array('getEmployee'))
 			->getMock();
-        $mockEmployeeService->expects($this->once())
-                ->method('getEmployee')
-                ->with($loggedInEmployeeNumber)
-                ->will($this->returnValue($mockEmployee));
 
         $this->buzzService->setEmployeeService($mockEmployeeService);
 
@@ -966,7 +961,6 @@ class BuzzServiceTest extends PHPUnit\Framework\TestCase {
         $this->assertEquals('0', $shareObject->getNumberOfUnlikes());
         $this->assertEquals($newText, $shareObject->getText());
         $this->assertEquals('1', $shareObject->getType());
-        $this->assertEquals($firstName . ' ' . $lastName, $shareObject->getEmployeeName());
     }
 
     public function testGetSharePostDoneByAdmin() {
@@ -996,7 +990,6 @@ class BuzzServiceTest extends PHPUnit\Framework\TestCase {
         $this->assertEquals('0', $shareObject->getNumberOfUnlikes());
         $this->assertEquals($newText, $shareObject->getText());
         $this->assertEquals('1', $shareObject->getType());
-        $this->assertEquals('', $shareObject->getEmployeeName());
     }
 
     public function testGetSharedEmployeeNamesForOnlyOriginalPost() {

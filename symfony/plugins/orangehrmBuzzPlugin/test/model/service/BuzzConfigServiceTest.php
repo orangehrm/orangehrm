@@ -160,4 +160,14 @@ class BuzzConfigServiceTest extends PHPUnit\Framework\TestCase {
         
         $this->assertEquals(500098,$cookieTime);
     }
+
+    public function testGetMaxImageDimension() {
+        $imageDim =$this->buzzConfigService->getMaxImageDimension();
+        $this->assertEquals(1080, $imageDim);
+    }
+
+    public function testGetMaxNotificationPeriod() {
+        $maxNotificationPeriod =$this->buzzConfigService->getMaxNotificationPeriod();
+        $this->assertEquals('-4 weeks', $maxNotificationPeriod);
+    }
 }

@@ -13,5 +13,5 @@ Comment:
 
 
 LikeOnComment:
-  0: {id: 1, employee_number: '1', comment_id: '1', like_time: '2014-01-01 00:00:00', employee_name: 'amila wick'}
-  1: {id: 2, employee_number: '2', comment_id: '1', like_time: '2014-01-01 00:00:00', employee_name: 'damith dan'}
+  0: {id: 1, employee_number: '1', comment_id: '1', like_time: '2014-01-01 00:00:00'}
+  1: {id: 2, employee_number: '2', comment_id: '1', like_time: '2014-01-01 00:00:00'}

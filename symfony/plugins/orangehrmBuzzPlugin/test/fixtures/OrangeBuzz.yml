@@ -3,6 +3,7 @@ Employee:
   1: {emp_number:2, employee_id:'002', emp_lastname:'tebel2' emp_birthday:'2010-06-07', joined_date:'2010-06-07'}
   2: {emp_number:3, employee_id:'003', emp_lastname:'tebel3' emp_birthday:'2014-06-07', joined_date:'2010-05-10'}
   3: {emp_number:4, employee_id:'004', emp_lastname:'tebel3' emp_birthday:'2000-01-01', joined_date:'2010-01-01'}
+  4: {emp_number: 100, employee_id: '100', emp_lastname: 'last name', emp_birthday: '2000-01-01'}
   
 EmpPicture:
   0: {emp_number: '1', epic_filename: 'test_file.jpg', epic_type: 'test/type'}
@@ -18,16 +19,19 @@ Share:
   1: {id: 2, employee_number: '2', post_id: '3', number_of_likes: '2', number_of_comments: '3', type: 'post', text: '', share_time: '2015-01-01 00:00:00'}
   2: {id: 3, employee_number: '2', post_id: '2', number_of_likes: '2', number_of_comments: '3', type: 'post', text: '', share_time: '2016-01-01 00:00:00'}
   3: {id: 4, post_id: '2', number_of_likes: '2', number_of_comments: '3', type: 'post', text: 'admin share', share_time: '2016-01-01 00:00:00'}
+  4: {id: 5, employee_number: '3', post_id: '2', number_of_likes: '2', number_of_comments: '3', type: 1, text: 'emp-3 share emp-2 post', share_time: '2015-01-03 00:00:00'}
   
 Comment:
   0: {id: 1, employee_number: '1', share_id: '1', number_of_likes: '4', comment_text: 'this is first comment', comment_time: '2014-01-01 00:00:00'}
   1: {id: 2, employee_number: '1', share_id: '1', number_of_likes: '4', comment_text: 'this is second comment', comment_time: '2014-01-01 00:00:00'}
   2: {id: 3, share_id: '2', number_of_likes: '4', comment_text: 'this is admin comment', comment_time: '2014-01-01 00:00:00'}
+  3: {id: 4, employee_number: '2', share_id: '1', number_of_likes: '4', comment_text: 'this is second comment', comment_time: '2014-01-02 00:00:00'}
 
 LikeOnShare:
   0: {id: 21, employee_number: '1', share_id: '1', like_time: '2014-01-01 00:00:00'}
   1: {id: 20, employee_number: '2', share_id: '2', like_time: '2014-01-01 00:00:00'}
   2: {id: 22, share_id: '1', like_time: '2014-01-01 00:00:00'}
+  3: {id: 23, employee_number: '2', share_id: '1', like_time: '2014-01-03 00:00:00'}
   
 LikeOnComment:
   0: {id: 21, employee_number: '1', comment_id: '1', like_time: '2014-01-01 00:00:00'}
@@ -52,6 +56,10 @@ UnLikeOnComment:
   0: {id: 21, employee_number: '1', comment_id: '1', like_time: '2014-01-01 00:00:00'}
   1: {id: 20, employee_number: '2', comment_id: '1', like_time: '2014-01-01 00:00:00'}
 
+BuzzNotificationMetadata:
+  0: {emp_number: 1, last_notification_view_time: '2014-01-01 00:00:00', last_buzz_view_time : '2014-01-01 00:00:00'}
+  1: {emp_number: 2, last_notification_view_time: '2014-01-03 00:00:00', last_buzz_view_time : '2014-01-01 00:00:00', last_clear_notifications : '2014-01-02 00:00:00'}
+
 Config:
   0: {key: "buzz_share_count", value: '10'}
   1: {key: "buzz_initial_comments", value: '5'}
@@ -67,3 +75,5 @@ Config:
   11: {key: 'buzz_cookie_valid_time', value: '500098'}
   12: {key: 'buzz_comment_text_lenth', value: '250'}
   13: {key: 'themeName', value: 'default'}
+  14: {key: 'buzz_image_max_dimension' , value: '1080'}
+  15: {key: 'buzz_max_notification_period', value: '-4 weeks'}

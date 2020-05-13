@@ -40,7 +40,7 @@ class BuzzDaoTest extends PHPUnit\Framework\TestCase {
     public function testGetSharesCount() {
 
         $resultShareCount = $this->buzzDao->getSharesCount();
-        $this->assertEquals(4, $resultShareCount);
+        $this->assertEquals(5, $resultShareCount);
     }
 
     /**
@@ -89,7 +89,7 @@ class BuzzDaoTest extends PHPUnit\Framework\TestCase {
         $limit = 50;
         $resultShares = $this->buzzDao->getShares($limit);
 
-        $this->assertEquals(4, count($resultShares));
+        $this->assertEquals(5, count($resultShares));
         $this->assertTrue($resultShares->getFirst() instanceof Share);
     }
 
@@ -437,7 +437,7 @@ class BuzzDaoTest extends PHPUnit\Framework\TestCase {
     public function testGetNoOfCommentFor() {
         $resultCommentCount = $this->buzzDao->getNoOfCommentsForEmployeeByEmployeeNumber(1);
 
-        $this->assertEquals(2, $resultCommentCount);
+        $this->assertEquals(3, $resultCommentCount);
     }
 
     /**
@@ -455,7 +455,7 @@ class BuzzDaoTest extends PHPUnit\Framework\TestCase {
     public function testGetNoOfSharesLikeByEmployee() {
         $resultLikeCount = $this->buzzDao->getNoOfShareLikesForEmployeeByEmployeeNumber(1);
 
-        $this->assertEquals(2, $resultLikeCount);
+        $this->assertEquals(3, $resultLikeCount);
     }
 
     /**
@@ -869,7 +869,7 @@ class BuzzDaoTest extends PHPUnit\Framework\TestCase {
         $resultShares = $this->buzzDao->getSharesUptoId($lastId);
 
 
-        $this->assertEquals(4, Count($resultShares));
+        $this->assertEquals(5, Count($resultShares));
     }
 
     /**

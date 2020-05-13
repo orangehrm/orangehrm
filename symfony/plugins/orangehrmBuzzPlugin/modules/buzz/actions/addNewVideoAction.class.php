@@ -198,11 +198,7 @@ class addNewVideoAction extends BaseBuzzAction {
 
         $temp8 = explode("//www.metacafe.com/watch/", $url);
         if (count($temp8) > 1) {
-            $lstCode = explode("/", $temp8[1]);
-
-
-
-            $embededUrl = "https://www.metacafe.com/embed/" . $lstCode[0];
+            $embededUrl = "https://www.metacafe.com/embed/" . $temp8[1];
             return $embededUrl;
         }
 
