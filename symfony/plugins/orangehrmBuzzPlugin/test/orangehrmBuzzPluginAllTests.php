@@ -13,6 +13,8 @@ class orangehrmBuzzPluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/service/BuzzServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/BuzzConfigServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/BuzzTextParserServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/BuzzNotificationDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/BuzzNotificationServiceTest.php');
            
         // utility test cases
         //$suite->addTestFile(dirname(__FILE__) . '/model/utility/BuzzWebServiceHelperTest.php');
