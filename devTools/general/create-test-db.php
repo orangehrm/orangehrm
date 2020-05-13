@@ -58,7 +58,7 @@ if ($returnStatus !== 0) {
 }
 
 
-$cmd = "mysql -h {$dbHost} --port={$dbPort} -u root -p{$mysqlRootPwd} {$testDb} < {$tempFile}";
+$cmd = "mysql -h {$dbHost} --port={$dbPort} -u root -p{$mysqlRootPwd} < {$tempFile}";
 
 exec($cmd, $output, $returnStatus);
 
