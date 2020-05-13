@@ -1,3 +1,13 @@
+New & Changed Features for OrangeHRM ver 4.4
+    New Features
+    ------------
+    Buzz available to all users. It creates a collaborative workspace, and increase engagement.
+        - Employees can share thoughts, pictures, and videos.
+        - Employees can like, dislike, comment, and share others' posts.
+        - Shows the upcoming work anniversaries of the employees.
+        - Admin can delete the posts
+        - Employees can view the most commented, liked posts.
+
 New & Changed Features for OrangeHRM ver 4.3.5
     Bug Fixes
     ------------
