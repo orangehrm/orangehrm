@@ -131,7 +131,7 @@ class sysConf
 
     public function getReleaseVersion()
     {
-        preg_match('/(\d\.\d+.\d+).*/', $this->version, $matches);
+        preg_match('/(\d\.\d+(\.\d+)*)/', $this->version, $matches);
         return $matches[1];
     }
 
