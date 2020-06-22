@@ -25,6 +25,7 @@ use Orangehrm\Rest\Api\Pim\EmployeePhotoAPI;
 use Orangehrm\Rest\Api\Pim\EmployeeSearchAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Http\Response;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 
 class MyInfoApiAction extends baseRestAction
 {
@@ -70,9 +71,10 @@ class MyInfoApiAction extends baseRestAction
                 $employeePhoto = $this->apiEmployeePhoto->getEmployeePhotoById($user->getEmployeeId());
                 $response['employeePhoto'] = $employeePhoto;
             }
+            return new Response($response);
+        } else {
+            throw  new BadRequestException("No Bound User");
         }
-
-        return new Response($response);
     }
 
     /**

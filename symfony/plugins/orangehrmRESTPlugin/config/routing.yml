@@ -209,7 +209,7 @@ api_integration:
 
 api_mobile_myinfo:
   url: /api/v1/myinfo
-  param: { module:apiv1mobile, action:MyInfoApi}
+  param: { module:apiv1pim, action:MyInfoApi}
   requirements:
     sf_method: [get]
 
