@@ -6,7 +6,7 @@
  */
 require_once __DIR__ . '/../../../lib/vendor/autoload.php';
 /**
- * Description of orangehrmCoreOAuthPluginConfiguration
+ * Description of orangehrmRESTPluginConfiguration
  *
  * @author orangehrm
  */

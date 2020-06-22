@@ -100,4 +100,20 @@ class UserAPI extends EndPoint
         return $searchParameters;
     }
 
+    /**
+     * Return API User entity or null if user not exits
+     * @param $userId
+     * @return User|null
+     * @throws \ServiceException
+     */
+    public function getSystemUserById($userId)
+    {
+        $systemUser = $this->getSystemUserService()->getSystemUser($userId);
+        if ($systemUser instanceof \SystemUser){
+            $user = new User();
+            $user->buildUser($systemUser);
+            return $user;
+        }
+        return null;
+    }
 }

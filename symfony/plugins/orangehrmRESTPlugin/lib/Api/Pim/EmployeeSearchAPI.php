@@ -324,5 +324,21 @@ class EmployeeSearchAPI extends EndPoint
         }
     }
 
-
+    /**
+     * Return API Employee entity or null if employee not exits
+     * @param $employeeId
+     * @return Employee|null
+     * @throws \DaoException
+     */
+    public function getEmployeeById($employeeId)
+    {
+        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+        if ($employee instanceof \Employee) {
+            $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(),
+                $employee->getEmployeeId());
+            $emp->buildEmployee($employee);
+            return $emp;
+        }
+        return null;
+    }
 }

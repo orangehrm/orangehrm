@@ -78,4 +78,19 @@ class EmployeePhotoAPI extends EndPoint
 
         return new Response($employeePhoto, array());
     }
+
+    /**
+     * Return base64 encoded employee picture or null if picture not exists
+     * @param $employeeId
+     * @return string|null
+     * @throws \DaoException
+     */
+    public function getEmployeePhotoById($employeeId)
+    {
+        $employeePicture = $this->getEmployeeService()->getEmployeePicture($employeeId);
+        if ($employeePicture instanceof \EmpPicture) {
+            return base64_encode($employeePicture->getPicture());
+        }
+        return null;
+    }
 }
