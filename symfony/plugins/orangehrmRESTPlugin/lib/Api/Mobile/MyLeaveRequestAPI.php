@@ -22,19 +22,25 @@ namespace Orangehrm\Rest\Api\Mobile;
 use EmployeeService;
 use LeaveEntitlementService;
 use LeavePeriodService;
+use LeaveRequestService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
+use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI;
+use Orangehrm\Rest\Api\Mobile\Entity\LeaveBalance;
+use Orangehrm\Rest\Api\Mobile\Model\LeaveEntitlementModel;
+use Orangehrm\Rest\Api\Mobile\Model\LeaveRequestModel;
 use Orangehrm\Rest\Http\Response;
 
 class MyLeaveRequestAPI extends EndPoint
 {
-    const PARAMETER_LEAVE_TYPE = 'leaveType';
     const PARAMETER_FROM_DATE = 'fromDate';
     const PARAMETER_TO_DATE = 'toDate';
+    const PARAMETER_LIMIT = 'limit';
+    const PARAMETER_PAGE = 'page';
 
     /**
      * @var null|LeaveEntitlementService
@@ -57,9 +63,14 @@ class MyLeaveRequestAPI extends EndPoint
     private $leaveEntitlementApi = null;
 
     /**
+     * @var null|LeaveRequestService
+     */
+    private $leaveRequestService = null;
+
+    /**
      * @return LeavePeriodService
      */
-    public function getLeavePeriodService()
+    public function getLeavePeriodService(): LeavePeriodService
     {
         if (is_null($this->leavePeriodService)) {
             $leavePeriodService = new LeavePeriodService();
@@ -72,7 +83,7 @@ class MyLeaveRequestAPI extends EndPoint
     /**
      * @param LeavePeriodService $leavePeriodService
      */
-    public function setLeavePeriodService($leavePeriodService)
+    public function setLeavePeriodService(LeavePeriodService $leavePeriodService)
     {
         $this->leavePeriodService = $leavePeriodService;
     }
@@ -80,7 +91,7 @@ class MyLeaveRequestAPI extends EndPoint
     /**
      * @return LeaveEntitlementService
      */
-    public function getLeaveEntitlementService()
+    public function getLeaveEntitlementService(): LeaveEntitlementService
     {
         if (empty($this->leaveEntitlementService)) {
             $this->leaveEntitlementService = new LeaveEntitlementService();
@@ -91,7 +102,7 @@ class MyLeaveRequestAPI extends EndPoint
     /**
      * @param LeaveEntitlementService $leaveEntitlementService
      */
-    public function setLeaveEntitlementService($leaveEntitlementService)
+    public function setLeaveEntitlementService(LeaveEntitlementService $leaveEntitlementService)
     {
         $this->leaveEntitlementService = $leaveEntitlementService;
     }
@@ -99,7 +110,7 @@ class MyLeaveRequestAPI extends EndPoint
     /**
      * @return LeaveEntitlementAPI
      */
-    public function getLeaveEntitlementApi()
+    public function getLeaveEntitlementApi(): LeaveEntitlementAPI
     {
         if (empty($this->leaveEntitlementApi)) {
             $this->leaveEntitlementApi = new LeaveEntitlementAPI($this->getRequest());
@@ -110,7 +121,7 @@ class MyLeaveRequestAPI extends EndPoint
     /**
      * @param LeaveEntitlementAPI $leaveEntitlementApi
      */
-    public function setLeaveEntitlementApi($leaveEntitlementApi)
+    public function setLeaveEntitlementApi(LeaveEntitlementAPI $leaveEntitlementApi)
     {
         $this->leaveEntitlementApi = $leaveEntitlementApi;
     }
@@ -118,7 +129,7 @@ class MyLeaveRequestAPI extends EndPoint
     /**
      * @returns EmployeeService
      */
-    public function getEmployeeService()
+    public function getEmployeeService(): EmployeeService
     {
         if (is_null($this->employeeService)) {
             $this->employeeService = new EmployeeService();
@@ -135,88 +146,175 @@ class MyLeaveRequestAPI extends EndPoint
     }
 
     /**
-     * @param $employeeId
+     * @return LeaveRequestService
+     */
+    public function getLeaveRequestService(): LeaveRequestService
+    {
+        if (is_null($this->leaveRequestService)) {
+            $this->leaveRequestService = new LeaveRequestService();
+        }
+        return $this->leaveRequestService;
+    }
+
+    /**
+     * @param LeaveRequestService $leaveRequestService
+     */
+    public function setLeaveRequestService(LeaveRequestService $leaveRequestService)
+    {
+        $this->leaveRequestService = $leaveRequestService;
+    }
+
+    /**
+     * @param int $employeeId
      * @return Response
      * @throws InvalidParamException
      * @throws RecordNotFoundException
      * @throws \DaoException
      */
-    public function getMyLeaveDetails($employeeId)
+    public function getMyLeaveDetails(int $employeeId): Response
     {
-        $searchParameters = $this->getFilters($employeeId);
+        $response = [];
+        $filters = $this->getFilters($employeeId);
+        $response['entitlement'] = $this->getMyLeaveEntitlement($employeeId, $filters);
+        $response['leaveRequest'] = $this->getMyLeaveRequests($employeeId, $filters);
+        return new Response($response, array());
+    }
+
+    /**
+     * Fetch leave entitlements for given leave period
+     * @param int $employeeId
+     * @param array $filters
+     * @return array
+     * @throws RecordNotFoundException
+     */
+    public function getMyLeaveEntitlement(int $employeeId, array $filters)
+    {
+        $searchParameters = $this->getEntitlementSearchParams($employeeId, $filters);
         $results = $this->getLeaveEntitlementService()->searchLeaveEntitlements($searchParameters);
-        $response = null;
-        $responseEntitlement = null;
+        $responseEntitlement = [];
         if (count($results) == 0) {
             throw new RecordNotFoundException('No Records Found');
         } else {
             foreach ($results as $entitlement) {
-                $leaveEntitlement = new LeaveEntitlement($entitlement->getId());
-                $leaveEntitlement->buildEntitlement($entitlement);
-                $leaveBalance = (array)$this->getLeaveEntitlementService()->getLeaveBalance($employeeId, $entitlement->getLeaveTypeId());
+                $leaveEntitlementEntity = new LeaveEntitlement($entitlement->getId());
+                $leaveEntitlementEntity->buildEntitlement($entitlement);
+                $leaveEntitlementModel = new LeaveEntitlementModel($leaveEntitlementEntity);
+                $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance($employeeId, $entitlement->getLeaveTypeId());
+                $leaveBalanceEntity = new LeaveBalance($leaveBalance);
                 $leaveType = new LeaveType($entitlement->getLeaveTypeId(), $entitlement->getLeaveType()->getName());
-                array_walk($leaveBalance, function (&$value, $key) {
-                    $value = (float)$value;
-                });
                 $responseEntitlement[] = array_merge(
-                    $leaveEntitlement->toArray(),
+                    $leaveEntitlementModel->toArray(),
                     array(
-                        'leaveBalance' => $leaveBalance,
+                        'leaveBalance' => $leaveBalanceEntity->toArray(),
                         'leaveType' => $leaveType->toArray(),
                     )
                 );
             }
-            $response['entitlement'] = $responseEntitlement;
-            return new Response($response, array());
+            return $responseEntitlement;
         }
     }
 
     /**
-     * @param $employeeId
-     * @return \LeaveEntitlementSearchParameterHolder
+     * Fetch leave requests for given leave period
+     * @param int $employeeId
+     * @param array $filters
+     * @return array
+     */
+    public function getMyLeaveRequests(int $employeeId, array $filters)
+    {
+        $params = [
+            'employeeFilter' => [$employeeId],
+            'dateRange' => new \DateRange($filters[self::PARAMETER_FROM_DATE], $filters[self::PARAMETER_TO_DATE]),
+        ];
+        $limit = $filters[self::PARAMETER_LIMIT];
+        $page = empty($filters[self::PARAMETER_PAGE]) ? 1 : $filters[self::PARAMETER_PAGE];
+        $disablePagination = false;
+
+        if (empty($limit)) {
+            $disablePagination = true;
+        } else {
+            $params['noOfRecordsPerPage'] = $limit;
+        }
+
+        $searchParameters = new \ParameterObject($params);
+        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParameters, $page, $disablePagination, false,
+            true, true);
+
+        if (!$disablePagination) {
+            $result = $result['list'];
+        }
+
+        $leaveRequests = [];
+
+        foreach ($result as $leaveRequest) {
+            $leaveRequestEntity = new LeaveRequest($leaveRequest->getId(), $leaveRequest->getLeaveTypeName());
+            $leaveRequestEntity->buildLeaveRequest($leaveRequest);
+            $leaveRequestModel = new LeaveRequestModel($leaveRequestEntity);
+            $leaveRequests [] = $leaveRequestModel->toArray();
+        }
+        return $leaveRequests;
+    }
+
+    /**
+     * Get request params with validation
+     * @param int $employeeId
+     * @return array
      * @throws InvalidParamException
      * @throws RecordNotFoundException
      * @throws \DaoException
      */
-    protected function getFilters($employeeId)
+    protected function getFilters(int $employeeId): array
     {
-        $searchParameters = new \LeaveEntitlementSearchParameterHolder();
+        $filters = [];
         $employee = $this->getEmployeeService()->getEmployee($employeeId);
 
         if (empty($employee)) {
             throw new RecordNotFoundException('Employee Not Found');
         }
-        $leaveType = $this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_TYPE);
         $fromDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_FROM_DATE);
         $toDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE);
-
-        if (!is_null($leaveType)) {
-            $this->getLeaveEntitlementApi()->validateLeaveType($leaveType);
-        }
+        $filters[self::PARAMETER_LIMIT] = $this->getRequestParams()->getUrlParam(self::PARAMETER_LIMIT);
+        $filters[self::PARAMETER_PAGE] = $this->getRequestParams()->getUrlParam(self::PARAMETER_PAGE);
 
         if (empty($fromDate) && empty($toDate)) {
             $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(date('Y-m-d'));
             $fromDate = $currentLeavePeriod[0];
             $toDate = $currentLeavePeriod[1];
+        } else {
+            if (!$this->getLeaveEntitlementApi()->validateLeavePeriods($fromDate, $toDate)) {
+                throw new InvalidParamException('No Leave Period Found');
+            };
         }
 
+        $filters[self::PARAMETER_FROM_DATE] = $fromDate;
+        $filters[self::PARAMETER_TO_DATE] = $toDate;
+        return $filters;
+    }
+
+    /**
+     * @param int $employeeId
+     * @param array $filter
+     * @return \LeaveEntitlementSearchParameterHolder
+     */
+    protected function getEntitlementSearchParams(int $employeeId, array $filter): \LeaveEntitlementSearchParameterHolder
+    {
+        $searchParameters = new \LeaveEntitlementSearchParameterHolder();
         $searchParameters->setEmpNumber($employeeId);
-        $searchParameters->setLeaveTypeId($leaveType);
-        $searchParameters->setFromDate($fromDate);
-        $searchParameters->setToDate($toDate);
-
-        if (!$this->getLeaveEntitlementApi()->validateLeavePeriods($searchParameters->getFromDate(), $searchParameters->getToDate())) {
-            throw new InvalidParamException('No Leave Period Found');
-        };
-
+        $searchParameters->setFromDate($filter[self::PARAMETER_FROM_DATE]);
+        $searchParameters->setToDate($filter[self::PARAMETER_TO_DATE]);
         return $searchParameters;
     }
 
-    public function getValidationRules()
+    /**
+     * @return array
+     */
+    public function getValidationRules(): array
     {
-        return array(
-            self::PARAMETER_TO_DATE => array('Date' => array('Y-m-d')),
-            self::PARAMETER_FROM_DATE => array('Date' => array('Y-m-d')),
-        );
+        return [
+            self::PARAMETER_TO_DATE => ['Date' => ['Y-m-d']],
+            self::PARAMETER_FROM_DATE => ['Date' => ['Y-m-d']],
+            self::PARAMETER_LIMIT => ['Numeric' => true],
+            self::PARAMETER_PAGE => ['Numeric' => true],
+        ];
     }
 }

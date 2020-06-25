@@ -41,6 +41,7 @@ class MyLeaveRequestApiAction extends baseRestAction
         $this->systemUserApi = new UserAPI($request);
         $this->myLeaveRequestAPI = new MyLeaveRequestAPI($request);
         $this->myLeaveRequestAPI->setRequest($request);
+        $this->getValidationRule = $this->myLeaveRequestAPI->getValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
