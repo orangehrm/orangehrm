@@ -334,14 +334,14 @@ class LeaveRequest implements Serializable
         $this->setEmpId($leaveRequest->getEmpNumber());
         $this->setLeaveType($leaveRequest->getLeaveTypeName());
 
-        $commentsList = '';
+        $commentsList = [];
 
         if (!empty($leaveRequest->getLeaveRequestComment())) {
             foreach ($leaveRequest->getLeaveRequestComment() as $comment) {
                 $datetime = explode(" ", $comment->getCreated());
                 $leaveComment = new LeaveRequestComment($comment->getCreatedByName(), $datetime[0],
                     $datetime[1], $comment->getComments());
-                $commentsList = $leaveComment->toArray();
+                $commentsList[] = $leaveComment->toArray();
             }
         }
         $this->setComments($commentsList);
