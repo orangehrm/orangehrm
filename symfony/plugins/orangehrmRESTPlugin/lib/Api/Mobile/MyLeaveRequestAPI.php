@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\Leave;
+namespace Orangehrm\Rest\Api\Mobile;
 
 use EmployeeService;
 use LeaveEntitlementService;
@@ -27,6 +27,7 @@ use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
+use Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI;
 use Orangehrm\Rest\Http\Response;
 
 class MyLeaveRequestAPI extends EndPoint

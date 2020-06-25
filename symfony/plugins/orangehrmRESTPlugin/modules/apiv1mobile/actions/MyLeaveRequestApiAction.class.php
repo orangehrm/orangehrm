@@ -19,7 +19,7 @@
 
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Api\Admin\Entity\User;
-use Orangehrm\Rest\Api\Leave\MyLeaveRequestAPI;
+use Orangehrm\Rest\Api\Mobile\MyLeaveRequestAPI;
 use Orangehrm\Rest\Api\Admin\UserAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
