@@ -162,14 +162,14 @@ class Leave implements Serializable
         $this->setDuration($leave->getLengthHours());
         $this->setDurationString($leave->getLeaveDurationAsAString());
 
-        $commentsList = '';
+        $commentsList = [];
 
         if (!empty($leave->getLeaveComment())) {
             foreach ($leave->getLeaveComment() as $comment) {
 
                 $datetime = explode(" ", $comment->getCreated());
                 $leaveComment = new LeaveRequestComment($comment->getCreatedByName(), $datetime[0], $datetime[1], $comment->getComments());
-                $commentsList = $leaveComment->toArray();
+                $commentsList[] = $leaveComment->toArray();
             }
         }
         $this->setComments($commentsList);

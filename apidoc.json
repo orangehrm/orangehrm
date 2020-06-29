@@ -3,5 +3,15 @@
   "version": "0.1.0",
   "description": "REST api docs",
   "title": "OrangeHRM Open Source : REST api docs",
-  "url" : "https://{your-orangehrm-host}/api/v1"
+  "url": "https://{your-orangehrm-host}/api/v1",
+  "order": [
+      "Admin",
+      "Attendance",
+      "Employee",
+      "Leave",
+      "Performance",
+      "Time",
+      "Mobile",
+      "Types"
+  ]
 }

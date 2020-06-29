@@ -42,6 +42,8 @@ class ApiEmployeeSearchAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
         $this->employeeSearchAPI = new EmployeeSearchAPI($request);
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmRESTPlugin/test/fixtures/Employee.yml';
+        TestDataService::populate($this->fixture);
     }
 
     public function testGetEmployeeDetails()
@@ -98,5 +100,37 @@ class ApiEmployeeSearchAPITest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($assertResponse, $employeeReturned);
 
+    }
+
+    public function testGetEmployeeById()
+    {
+        $employeeReturned = $this->employeeSearchAPI->getEmployeeById(1);
+        $this->assertTrue($employeeReturned instanceof Employee);
+        $this->assertEquals('Sanath', $employeeReturned->getFirstName());
+        $this->assertEquals('Jayasooriya', $employeeReturned->getLastName());
+        $this->assertEquals('Teran', $employeeReturned->getMiddleName());
+        $this->assertEquals('A001', $employeeReturned->getEmployeeId());
+
+        $employeeReturned = $this->employeeSearchAPI->getEmployeeById(1000);
+        $this->assertTrue(is_null($employeeReturned));
+
+        $empNumber = 1;
+        $employee = new \Employee();
+        $employee->setLastName('Lewis');
+        $employee->setFirstName('Nina');
+        $employee->setEmpNumber($empNumber);
+        $employee->setEmployeeId('001');
+
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
+        $pimEmployeeService->expects($this->once())
+            ->method('getEmployee')
+            ->will($this->returnValue($employee));
+
+        $this->employeeSearchAPI->setEmployeeService($pimEmployeeService);
+        $employeeReturned = $this->employeeSearchAPI->getEmployeeById($empNumber);
+        $this->assertTrue($employeeReturned instanceof Employee);
+        $this->assertEquals('Nina', $employeeReturned->getFirstName());
+        $this->assertEquals('Lewis', $employeeReturned->getLastName());
+        $this->assertEquals('001', $employeeReturned->getEmployeeId());
     }
 }
