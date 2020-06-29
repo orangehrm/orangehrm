@@ -47,6 +47,11 @@ abstract class baseOAuthAction extends sfAction {
         return $this->oauthServer;
     }
 
+    /**
+     * @return null|array
+     */
+    public function getAccessTokenData() {
+        $server = $this->getOAuthServer();
+        return $server->getAccessTokenData($this->getOAuthRequest(), $this->getOAuthResponse());
+    }
 }
-
-?>
