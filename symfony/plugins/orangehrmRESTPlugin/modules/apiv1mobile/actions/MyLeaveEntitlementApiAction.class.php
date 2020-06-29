@@ -19,15 +19,15 @@
 
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Api\Admin\Entity\User;
-use Orangehrm\Rest\Api\Mobile\MyLeaveRequestAPI;
+use Orangehrm\Rest\Api\Mobile\MyLeaveEntitlementAPI;
 use Orangehrm\Rest\Api\Admin\UserAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 
-class MyLeaveRequestApiAction extends baseRestAction
+class MyLeaveEntitlementApiAction extends baseRestAction
 {
     /**
-     * @var null|MyLeaveRequestAPI
+     * @var null|MyLeaveEntitlementAPI
      */
     private $myLeaveRequestAPI = null;
 
@@ -39,7 +39,7 @@ class MyLeaveRequestApiAction extends baseRestAction
     protected function init(Request $request)
     {
         $this->systemUserApi = new UserAPI($request);
-        $this->myLeaveRequestAPI = new MyLeaveRequestAPI($request);
+        $this->myLeaveRequestAPI = new MyLeaveEntitlementAPI($request);
         $this->myLeaveRequestAPI->setRequest($request);
         $this->getValidationRule = $this->myLeaveRequestAPI->getValidationRules();
     }

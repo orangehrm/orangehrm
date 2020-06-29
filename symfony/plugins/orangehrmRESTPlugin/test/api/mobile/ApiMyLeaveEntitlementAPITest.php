@@ -19,14 +19,14 @@
 
 use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
-use Orangehrm\Rest\Api\Mobile\MyLeaveRequestAPI;
+use Orangehrm\Rest\Api\Mobile\MyLeaveEntitlementAPI;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 
 /**
  * @group API
  */
-class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
+class ApiMyLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
 {
     protected function setUp()
     {
@@ -63,7 +63,7 @@ class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
         $searchParameters->setFromDate('2019-04-20');
         $searchParameters->setToDate('2020-04-20');
 
-        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\Mobile\MyLeaveRequestAPI')
+        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\Mobile\MyLeaveEntitlementAPI')
             ->setMethods(array('getEntitlementSearchParams'))
             ->setConstructorArgs(array($request))
             ->getMock();
@@ -98,51 +98,6 @@ class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
         $this->assertEquals('TestLeaveType', $responseEntitlement[0]['leaveType']['type']);
     }
 
-    public function testGetMyLeaveRequests()
-    {
-        $sfEvent = new sfEventDispatcher();
-        $sfRequest = new sfWebRequest($sfEvent);
-        $request = new Request($sfRequest);
-
-        $leaveType = new \LeaveType();
-        $leaveType->setId(10);
-        $leaveType->setName('TestLeaveType');
-
-        $leaveRequest = new \LeaveRequest();
-        $leaveRequest->setLeaveTypeId(10);
-        $leaveRequest->setLeaveType($leaveType);
-        $leaveRequest->setEmpNumber(32);
-        $leaveRequest->setDateApplied('2020-06-20');
-        $leaveRequest->setId(5);
-        $leaveRequestEntity = new LeaveRequest($leaveRequest->getId(), $leaveType->getName());
-        $leaveRequestEntity->setAppliedDate($leaveRequest->getDateApplied());
-        $leaveRequestEntity->setEmpId($leaveRequest->getEmpNumber());
-
-        $leaveRequestsCollection = new Doctrine_Collection('LeaveRequest');
-        $leaveRequestsCollection[] = $leaveRequest;
-
-        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\Mobile\MyLeaveRequestAPI')
-            ->setMethods(array('createLeaveRequestEntity'))
-            ->setConstructorArgs(array($request))
-            ->getMock();
-        $myLeaveRequestApi->expects($this->once())
-            ->method('createLeaveRequestEntity')
-            ->will($this->returnValue($leaveRequestEntity));
-
-        $leaveRequestService = $this->getMockBuilder('LeaveRequestService')->getMock();
-        $leaveRequestService->expects($this->once())
-            ->method('searchLeaveRequests')
-            ->withAnyParameters()
-            ->will($this->returnValue($leaveRequestsCollection));
-
-        $myLeaveRequestApi->setLeaveRequestService($leaveRequestService);
-        $leaveRequests = $myLeaveRequestApi->getMyLeaveRequests(1, []);
-
-        $this->assertEquals($leaveRequest->getId(), $leaveRequests[0]['id']);
-        $this->assertEquals($leaveRequest->getDateApplied(), $leaveRequests[0]['appliedDate']);
-        $this->assertEquals($leaveType->getName(), $leaveRequests[0]['leaveType']);
-    }
-
     public function testGetMyLeaveDetails()
     {
         $sfEvent = new sfEventDispatcher();
@@ -172,28 +127,7 @@ class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
             ]
         ];
 
-        $leaveRequest = [
-            [
-                "id" => "2",
-                "fromDate" => "2020-07-22",
-                "toDate" => "2020-07-22",
-                "appliedDate" => "2020-07-22",
-                "leaveType" => "Casual",
-                "numberOfDays" => "0.50",
-                "comments" => [],
-                "days" => [
-                    [
-                        "date" => "2020-07-22",
-                        "status" => "SCHEDULED",
-                        "duration" => "4.00",
-                        "durationString" => "(09:00 - 13:00)",
-                        "comments" => []
-                    ]
-                ]
-            ]
-        ];
-
-        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\Mobile\MyLeaveRequestAPI')
+        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\Mobile\MyLeaveEntitlementAPI')
             ->setMethods(['getMyLeaveEntitlement', 'getMyLeaveRequests', 'getFilters'])
             ->setConstructorArgs(array($request))
             ->getMock();
@@ -201,19 +135,12 @@ class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
             ->method('getMyLeaveEntitlement')
             ->will($this->returnValue($entitlement));
         $myLeaveRequestApi->expects($this->once())
-            ->method('getMyLeaveRequests')
-            ->will($this->returnValue($leaveRequest));
-        $myLeaveRequestApi->expects($this->once())
             ->method('getFilters')
             ->will($this->returnValue([]));
 
         $leaveDetailsResponse = $myLeaveRequestApi->getMyLeaveDetails(1);
 
-        $testResponse = [
-            'entitlement' => $entitlement,
-            'leaveRequest' => $leaveRequest
-        ];
-        $success = new Response($testResponse, array());
+        $success = new Response($entitlement, array());
 
         $this->assertEquals($success, $leaveDetailsResponse);
     }
@@ -236,7 +163,7 @@ class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getUrlParam'])
             ->getMock();
-        $requestParams->expects($this->exactly(4))
+        $requestParams->expects($this->exactly(2))
             ->method('getUrlParam')
             ->will($this->returnCallback($returnParamCallback));
 
@@ -244,7 +171,7 @@ class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $myLeaveRequestApi = new MyLeaveRequestAPI($request);
+        $myLeaveRequestApi = new MyLeaveEntitlementAPI($request);
         $myLeaveRequestApi->setRequestParams($requestParams);
 
         $employeeService = $this->getMockBuilder('EmployeeService')->getMock();
