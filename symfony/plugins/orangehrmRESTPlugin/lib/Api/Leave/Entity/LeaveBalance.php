@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\Mobile\Entity;
+namespace Orangehrm\Rest\Api\Leave\Entity;
 
 use Orangehrm\Rest\Api\Entity\Serializable;
 

@@ -30,7 +30,7 @@ use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI;
-use Orangehrm\Rest\Api\Mobile\Entity\LeaveBalance;
+use Orangehrm\Rest\Api\Leave\Entity\LeaveBalance;
 use Orangehrm\Rest\Api\Mobile\Model\LeaveEntitlementModel;
 use Orangehrm\Rest\Api\Mobile\Model\LeaveRequestModel;
 use Orangehrm\Rest\Http\Response;
@@ -247,12 +247,22 @@ class MyLeaveRequestAPI extends EndPoint
         $leaveRequests = [];
 
         foreach ($result as $leaveRequest) {
-            $leaveRequestEntity = new LeaveRequest($leaveRequest->getId(), $leaveRequest->getLeaveTypeName());
-            $leaveRequestEntity->buildLeaveRequest($leaveRequest);
+            $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
             $leaveRequestModel = new LeaveRequestModel($leaveRequestEntity);
             $leaveRequests [] = $leaveRequestModel->toArray();
         }
         return $leaveRequests;
+    }
+
+    /**
+     * @param \LeaveRequest $leaveRequest
+     * @return LeaveRequest
+     */
+    public function createLeaveRequestEntity(\LeaveRequest $leaveRequest): LeaveRequest
+    {
+        $leaveRequestEntity = new LeaveRequest($leaveRequest->getId(), $leaveRequest->getLeaveTypeName());
+        $leaveRequestEntity->buildLeaveRequest($leaveRequest);
+        return $leaveRequestEntity;
     }
 
     /**
@@ -263,7 +273,7 @@ class MyLeaveRequestAPI extends EndPoint
      * @throws RecordNotFoundException
      * @throws \DaoException
      */
-    protected function getFilters(int $employeeId): array
+    public function getFilters(int $employeeId): array
     {
         $filters = [];
         $employee = $this->getEmployeeService()->getEmployee($employeeId);
