@@ -66,14 +66,14 @@
 *                "status": "SCHEDULED",
 *                "type": "Short Leave",
 *                "duration": "8.00",
-*                "comments": ""
+*                "comments": []
 *            },
 *            {
 *                "date": "2017-05-24",
 *                "status": "SCHEDULED",
 *                "type": "Short Leave",
 *                "duration": "8.00",
-*                "comments": ""
+*                "comments": []
 *            }
 *                ]
 *

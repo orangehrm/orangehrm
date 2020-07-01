@@ -17,66 +17,45 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Api\Admin\Entity\User;
-use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Api\Admin\Entity\User;
+use Orangehrm\Rest\Api\Mobile\MyLeaveEntitlementAPI;
 use Orangehrm\Rest\Api\Admin\UserAPI;
-use Orangehrm\Rest\Api\Pim\EmployeePhotoAPI;
-use Orangehrm\Rest\Api\Pim\EmployeeSearchAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 
-class MyInfoApiAction extends baseRestAction
+class MyLeaveEntitlementApiAction extends baseRestAction
 {
+    /**
+     * @var null|MyLeaveEntitlementAPI
+     */
+    private $myLeaveRequestAPI = null;
+
     /**
      * @var null|UserAPI
      */
     private $systemUserApi = null;
 
-    /**
-     * @var null|EmployeePhotoAPI
-     */
-    private $apiEmployeePhoto = null;
-
-    /**
-     * @var null|EmployeeSearchAPI
-     */
-    private $apiEmployeeSearch = null;
-
     protected function init(Request $request)
     {
         $this->systemUserApi = new UserAPI($request);
-        $this->apiEmployeePhoto = new EmployeePhotoAPI($request);
-        $this->apiEmployeeSearch = new EmployeeSearchAPI($request);
+        $this->myLeaveRequestAPI = new MyLeaveEntitlementAPI($request);
+        $this->myLeaveRequestAPI->setRequest($request);
+        $this->getValidationRule = $this->myLeaveRequestAPI->getValidationRules();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function handleGetRequest(Request $request)
     {
         $token = $this->getAccessTokenData();
-
         $user = $this->systemUserApi->getSystemUserById($token['user_id']);
-        $response = [];
         if ($user instanceof User) {
-            $response['user'] = $user->toArray();
-            $employee = $this->apiEmployeeSearch->getEmployeeById($user->getEmployeeId());
-            if ($employee instanceof Employee) {
-                $response['employee'] = $employee->toArray();
-                $employeePhoto = $this->apiEmployeePhoto->getEmployeePhotoById($user->getEmployeeId());
-                $response['employeePhoto'] = $employeePhoto;
-            }
-            return new Response($response);
+            $employeeId = $user->getEmployeeId();
+            return $this->myLeaveRequestAPI->getMyLeaveDetails($employeeId);
         } else {
             throw  new BadRequestException("No Bound User");
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function handlePostRequest(Request $request)
     {
         throw new NotImplementedException();

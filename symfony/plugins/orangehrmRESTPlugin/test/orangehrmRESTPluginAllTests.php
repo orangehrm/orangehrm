@@ -25,7 +25,7 @@ class orangehrmRESTPluginAllTests
     }
 
     public static function suite() {
-        $suite = new PHPUnit_Framework_TestSuite('orangehrmRESTPluginAllTest');
+        $suite = new PHPUnit\Framework\TestSuite('orangehrmRESTPluginAllTest');
 
         /* HTTP test Cases */
 
@@ -70,15 +70,18 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveTypeTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveRequestCommentTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveBalanceEntityTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/admin/entity/ApiUserTest.php');
 
+        // Api/Model
+        $suite->addTestFile(dirname(__FILE__) . '/api/model/ModelTraitTest.php');
+
+        // Api/Mobile
+        $suite->addTestFile(dirname(__FILE__) . '/api/mobile/ApiMyLeaveEntitlementAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/mobile/model/ApiLeaveEntitlementModelTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/mobile/ApiMyLeaveRequestAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/mobile/model/ApiLeaveRequestModelTest.php');
 
         return $suite;
     }
-
-    public static function main() {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
 }
-
-

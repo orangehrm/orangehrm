@@ -28,6 +28,7 @@ class LeaveEntitlement implements Serializable
      private $entitlementType;
      private $validFrom;
      private $validTo;
+    private $creditedDate;
      private $days;
 
     /**
@@ -76,6 +77,22 @@ class LeaveEntitlement implements Serializable
     public function setValidTo($validTo)
     {
         $this->validTo = $validTo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreditedDate(): string
+    {
+        return $this->creditedDate;
+    }
+
+    /**
+     * @param string $creditedDate
+     */
+    public function setCreditedDate(string $creditedDate)
+    {
+        $this->creditedDate = $creditedDate;
     }
 
     /**
@@ -143,6 +160,7 @@ class LeaveEntitlement implements Serializable
         $this->setDays($entitlement->getNoOfDays()+ 0); // adding a zero to remove unwanted zero digits in decimals
         $this->setValidFrom(substr($entitlement->getFromDate(), 0, -9));
         $this->setValidTo(substr($entitlement->getToDate(), 0, -9));
+        $this->setCreditedDate(substr($entitlement->getCreditedDate(), 0, -9));
         $this->setEntitlementType($entitlement->getLeaveType()->getName());
     }
 }

@@ -79,7 +79,7 @@
 *                "status": "SCHEDULED",
 *                "type": "Short Leave",
 *                "duration": "8.00",
-*                "comments": ""
+*                "comments": []
 *            }
 *                ]
 *

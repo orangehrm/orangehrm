@@ -213,3 +213,14 @@ api_mobile_myinfo:
   requirements:
     sf_method: [get]
 
+api_leave_myleave_entitlement:
+  url: /api/v1/leave/my-leave-entitlement
+  param: { module:apiv1mobile, action:MyLeaveEntitlementApi }
+  requirements:
+    sf_method: [get]
+
+api_leave_myleave_request:
+  url: /api/v1/leave/my-leave-request
+  param: { module:apiv1mobile, action:MyLeaveRequestApi }
+  requirements:
+    sf_method: [get]
