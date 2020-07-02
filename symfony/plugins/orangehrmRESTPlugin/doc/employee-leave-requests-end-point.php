@@ -1,5 +1,5 @@
 /**
-* @api {get} /employee/:id/leave-request 9.Get Employee Leave Requests
+* @api {get} /employee/:id/leave-request 09.Get Employee Leave Requests
 * @apiName employeeLeaveRequest
 * @apiGroup Leave
 * @apiVersion 0.1.0

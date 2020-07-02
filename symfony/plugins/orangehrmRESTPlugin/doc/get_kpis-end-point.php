@@ -1,5 +1,5 @@
 /**
-* @api {get} /kpis 1.Get KPIS
+* @api {get} /kpis 01.Get KPIS
 * @apiName getKPIS
 * @apiGroup Performance
 * @apiVersion 0.1.0

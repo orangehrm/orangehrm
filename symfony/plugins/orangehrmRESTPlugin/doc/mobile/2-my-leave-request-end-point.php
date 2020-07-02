@@ -1,6 +1,6 @@
 <?php
 /**
- * @api {get} /leave/my-leave-request 2.Get My Leave Requests
+ * @api {get} /leave/my-leave-request 02.Get My Leave Requests
  * @apiName myLeaveRequests
  * @apiGroup Mobile
  * @apiVersion 0.1.0

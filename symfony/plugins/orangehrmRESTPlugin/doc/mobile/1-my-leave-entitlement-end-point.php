@@ -1,7 +1,7 @@
 <?php
 /**
- * @api {get} /leave/my-leave-entitlement 1.Get My Leave Entitlements & Requests
- * @apiName myLeaveRequest
+ * @api {get} /leave/my-leave-entitlement 01.Get My Leave Entitlements
+ * @apiName myLeaveEntitlements
  * @apiGroup Mobile
  * @apiVersion 0.1.0
  *

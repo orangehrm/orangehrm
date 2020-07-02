@@ -1,5 +1,5 @@
 /**
-* @api {delete} /customer 4.Delete Customer
+* @api {delete} /customer 04.Delete Customer
 * @apiName deleteCustomer
 * @apiGroup Time
 * @apiVersion 0.1.0
