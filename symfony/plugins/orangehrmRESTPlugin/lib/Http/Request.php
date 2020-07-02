@@ -23,12 +23,15 @@ class Request{
 
     protected $actionRequest;
 
+    /**
+     * @param \sfWebRequest $request
+     */
     public function __construct($request){
         $this->actionRequest = $request;
     }
 
     /**
-     * @return mixed
+     * @return \sfWebRequest
      */
     public function getActionRequest()
     {
@@ -36,13 +39,16 @@ class Request{
     }
 
     /**
-     * @param mixed $actionRequest
+     * @param \sfWebRequest $actionRequest
      */
     public function setActionRequest($actionRequest)
     {
         $this->actionRequest = $actionRequest;
     }
 
+    /**
+     * @return string
+     */
     public function getMethod(){
         return $this->getActionRequest()->getMethod();
     }
@@ -67,5 +73,14 @@ class Request{
     public function isMethod($method)
     {
         return strtoupper($method) == $this->getActionRequest()->getMethod();
+    }
+
+    /**
+     * Check whether HTTP request `application/json`
+     * @return bool
+     */
+    public function isJsonHttpRequest()
+    {
+        return $this->getActionRequest()->getContentType() === 'application/json';
     }
 }

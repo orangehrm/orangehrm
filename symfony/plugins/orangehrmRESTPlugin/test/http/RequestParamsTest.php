@@ -17,17 +17,63 @@
  * Boston, MA  02110-1301, USA
  */
 
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Http\RequestParams;
+
 /**
- * Test class of Api/EmployeeService
- *
  * @group API
  */
-
-class RequestParamsTest extends PHPUnit_Framework_TestCase
+class RequestParamsTest extends PHPUnit\Framework\TestCase
 {
 
-   public function testGetQueryParam(){
+    public function testGetQueryParam()
+    {
+        $_GET['id'] = 1;
+        $request = new Request($this->getSfRequest());
+        $requestParam = new RequestParams($request);
+        $this->assertEquals(1, $requestParam->getQueryParam('id'));
+    }
 
+    public function testSetParam()
+    {
+        $request = new Request($this->getSfRequest());
+        $requestParam = new RequestParams($request);
+        $this->assertTrue(is_null($requestParam->getQueryParam('test')));
+        $requestParam->setParam('test', 'TestValue');
+        $this->assertEquals('TestValue', $requestParam->getQueryParam('test'));
+    }
 
-   }
+    public function testGetPostParams()
+    {
+        $request = new Request($this->getSfRequest());
+        $requestParam = new RequestParams($request);
+        $this->assertTrue(empty($requestParam->getPostParams()));
+
+        $_POST['id'] = 1;
+        $request = new Request($this->getSfRequest());
+        $requestParam = new RequestParams($request);
+        $this->assertEquals(['id' => 1], $requestParam->getPostParams());
+    }
+
+    public function testSetPostParams()
+    {
+        $request = new Request($this->getSfRequest());
+        $requestParam = new RequestParams($request);
+        $this->assertTrue(empty($requestParam->getPostParams()));
+
+        $requestParam->setPostParam('test', 'TestValue');
+        $this->assertEquals(['test' => 'TestValue'], $requestParam->getPostParams());
+
+        $_POST['id'] = 1;
+        $request = new Request($this->getSfRequest());
+        $requestParam = new RequestParams($request);
+        $requestParam->setPostParam('id', 2);
+        $this->assertEquals(['id' => 2], $requestParam->getPostParams());
+    }
+
+    private function getSfRequest()
+    {
+        $sfEvent = new sfEventDispatcher();
+        return new sfWebRequest($sfEvent);
+    }
 }

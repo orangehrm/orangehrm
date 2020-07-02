@@ -18,27 +18,18 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\Admin\Entity\User;
 use Orangehrm\Rest\Api\Mobile\MyLeaveEntitlementAPI;
-use Orangehrm\Rest\Api\Admin\UserAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\Exception\BadRequestException;
 
-class MyLeaveEntitlementApiAction extends baseRestAction
+class MyLeaveEntitlementApiAction extends BaseMobileApiAction
 {
     /**
      * @var null|MyLeaveEntitlementAPI
      */
     private $myLeaveRequestAPI = null;
 
-    /**
-     * @var null|UserAPI
-     */
-    private $systemUserApi = null;
-
     protected function init(Request $request)
     {
-        $this->systemUserApi = new UserAPI($request);
         $this->myLeaveRequestAPI = new MyLeaveEntitlementAPI($request);
         $this->myLeaveRequestAPI->setRequest($request);
         $this->getValidationRule = $this->myLeaveRequestAPI->getValidationRules();
@@ -46,14 +37,8 @@ class MyLeaveEntitlementApiAction extends baseRestAction
 
     protected function handleGetRequest(Request $request)
     {
-        $token = $this->getAccessTokenData();
-        $user = $this->systemUserApi->getSystemUserById($token['user_id']);
-        if ($user instanceof User) {
-            $employeeId = $user->getEmployeeId();
-            return $this->myLeaveRequestAPI->getMyLeaveDetails($employeeId);
-        } else {
-            throw  new BadRequestException("No Bound User");
-        }
+        $systemUser = $this->getSystemUser();
+        return $this->myLeaveRequestAPI->getMyLeaveDetails($systemUser->getEmpNumber());
     }
 
     protected function handlePostRequest(Request $request)

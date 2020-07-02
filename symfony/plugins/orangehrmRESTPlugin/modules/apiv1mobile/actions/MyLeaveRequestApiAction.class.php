@@ -19,8 +19,7 @@
 
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Api\Mobile\MyLeaveRequestAPI;
-use Orangehrm\Rest\Api\Admin\UserAPI;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Leave\SaveLeaveRequestAPI;
 
 class MyLeaveRequestApiAction extends BaseMobileApiAction
 {
@@ -30,15 +29,21 @@ class MyLeaveRequestApiAction extends BaseMobileApiAction
     private $myLeaveRequestAPI = null;
 
     /**
-     * @var null|UserAPI
+     * @var null|SaveLeaveRequestAPI
      */
-    private $systemUserApi = null;
+    private $saveLeaveRequestApi = null;
 
     protected function init(Request $request)
     {
-        $this->systemUserApi = new UserAPI($request);
+        $systemUser = $this->getSystemUser();
         $this->myLeaveRequestAPI = new MyLeaveRequestAPI($request);
         $this->myLeaveRequestAPI->setRequest($request);
+        $this->saveLeaveRequestApi = new SaveLeaveRequestAPI($request);
+        $this->saveLeaveRequestApi->getRequestParams()->setParam(
+            SaveLeaveRequestAPI::PARAMETER_ID, $systemUser->getEmpNumber());
+        $this->saveLeaveRequestApi->getRequestParams()->setPostParam(
+            SaveLeaveRequestAPI::PARAMETER_LEAVE_ACTION, "PENDING");
+        $this->postValidationRule = $this->saveLeaveRequestApi->getValidationRules();
         $this->getValidationRule = $this->myLeaveRequestAPI->getValidationRules();
     }
 
@@ -50,6 +55,6 @@ class MyLeaveRequestApiAction extends BaseMobileApiAction
 
     protected function handlePostRequest(Request $request)
     {
-        throw new NotImplementedException();
+        return $this->saveLeaveRequestApi->saveLeaveRequest();
     }
 }
