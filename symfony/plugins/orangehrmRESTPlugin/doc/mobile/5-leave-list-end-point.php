@@ -1,34 +1,43 @@
 <?php
 /**
- * @api {get} /leave/my-leave-request 02.Get My Leave Requests
- * @apiName myLeaveRequests
+ * @api {get} /leave/leave-list 05.Get Leave List
+ * @apiName getLeaveList
  * @apiGroup Mobile
  * @apiVersion 0.1.0
  *
- * @apiParam {Date}  [fromDate] From date
- * @apiParam {Date}  [toDate] To date
- * @apiParam {Number}  [page] Page number
- * @apiParam {Number}  [limit] Leave record limit
+ * @apiParam {Date} fromDate From date
+ * @apiParam {Date} toDate To date
+ * @apiParam {String='true','false'} [rejected] Leave status rejected
+ * @apiParam {String='true','false'} [cancelled] Leave status cancelled
+ * @apiParam {String='true','false'} [pendingApproval] Leave status pending approval
+ * @apiParam {String='true','false'} [scheduled] Leave status scheduled
+ * @apiParam {String='true','false'} [taken] Leave status taken
+ * @apiParam {String='true','false'} [pastEmployee] Past employee results
+ * @apiParam {Number} [subunit] Employee subunit id
+ * @apiParam {Number} [page] Page number
+ * @apiParam {Number} [limit] Leave record limit
  *
  * @apiSuccess {Object[]} data Leave requests array
- * @apiSuccess {String} data.id Leave request id
+ * @apiSuccess {String} data.employeeId Employee id
+ * @apiSuccess {String} data.employeeName Employee name
+ * @apiSuccess {String} data.leaveRequestId Leave request id
  * @apiSuccess {Date} data.fromDate From date
  * @apiSuccess {Date} data.toDate To date
  * @apiSuccess {Date} data.appliedDate Applied date
  * @apiSuccess {String} data.leaveType Leave type
  * @apiSuccess {String} data.numberOfDays No of days
  * @apiSuccess {String} data.leaveBreakdown Leave breakdown string
- * @apiSuccess {Object[]} data.comments Leave request comments
+ * @apiSuccess {Object[]} data.comments Leave comments
  * @apiSuccess {String} data.comments.user Employee name
  * @apiSuccess {Date} data.comments.date Commented date
  * @apiSuccess {String} data.comments.time Commented time
  * @apiSuccess {String} data.comments.comment Comment
  * @apiSuccess {Object[]} data.days Leaves
- * @apiSuccess {Date} data.days.date Leave date
+ * @apiSuccess {Date} data.days.date Leaves
  * @apiSuccess {String="REJECTED","CANCELLED","PENDING APPROVAL","SCHEDULED","TAKEN","WEEKEND","HOLIDAY"} data.days.status Leave status
- * @apiSuccess {String} data.days.duration Duration (eg. 4.00)
+ * @apiSuccess {Date} data.days.duration Duration (eg. 4.00)
  * @apiSuccess {String} data.days.durationString Duration as string (eg.(09:00 - 13:00))
- * @apiSuccess {Object[]} data.days.comments Leave comments
+ * @apiSuccess {Object[]} data.days.comments Leaves
  * @apiSuccess {String} data.days.comments.user Employee name
  * @apiSuccess {Date} data.days.comments.date Commented date
  * @apiSuccess {String} data.days.comments.time Commented time
@@ -40,14 +49,15 @@
  * {
  *   "data": [
  *       {
- *         "id": "8",
+ *         "employeeId": "4",
+ *         "employeeName": "Kevin Mathews",
+ *         "leaveRequestId": "8",
  *         "fromDate": "2020-07-16",
  *         "toDate": "2020-07-21",
  *         "appliedDate": "2020-07-16",
- *         "leaveType": "Annual",
  *         "numberOfDays": "3.00",
  *         "comments": {
- *           "user": "Employee Name",
+ *           "user": "Kevin Mathews",
  *           "date": "2020-06-25",
  *           "time": "17:23:03",
  *           "comment": "Comment"
@@ -83,13 +93,18 @@
  *           }
  *         ],
  *         "leaveBreakdown": "Scheduled(2.00)",
+ *         "leaveType": {
+ *           "type": "Annual",
+ *           "id": "2"
+ *         }
  *       },
  *       {
- *         "id": "3",
+ *         "employeeId": "5",
+ *         "employeeName": "Linda Jane",
+ *         "leaveRequestId": "3",
  *         "fromDate": "2020-07-15",
  *         "toDate": "2020-07-15",
  *         "appliedDate": "2020-07-15",
- *         "leaveType": "Casual",
  *         "numberOfDays": "0.50",
  *         "comments": [],
  *         "days": [
@@ -102,21 +117,31 @@
  *           }
  *         ],
  *         "leaveBreakdown": "Pending Approval(0.50)",
+ *         "leaveType": {
+ *           "type": "Casual",
+ *           "id": "3"
+ *         }
  *       }
  *     ]
  *   ],
  *   "rels": []
  * }
  *
- * @apiError RecordNotFound No Records Found
+ * @apiError No-Records Found.
  *
  * @apiErrorExample Error-Response:
  * HTTP/1.1 404 Record Not Found
  * {
- *   "error": {
- *     "status": "404",
- *     "text": "No Records Found"
- *   }
+ *   "error": ["No Records Found"]
+ * }
+ *
+ *
+ * @apiError Employee Not Found.
+ *
+ * @apiErrorExample Error-Response:
+ * HTTP/1.1 404 Employee Not Found
+ * {
+ *   "error": ["Employee Not Found"]
  * }
  *
  */

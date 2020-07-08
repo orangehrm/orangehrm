@@ -27,6 +27,11 @@ abstract class BaseMobileApiAction extends baseRestAction
     private $systemUserService = null;
 
     /**
+     * @var null|AuthenticationService
+     */
+    private $authenticationService = null;
+
+    /**
      * Get system user service
      *
      * @return SystemUserService
@@ -61,5 +66,30 @@ abstract class BaseMobileApiAction extends baseRestAction
         } else {
             throw  new BadRequestException("No Bound User");
         }
+    }
+
+    /**
+     * @return AuthenticationService
+     */
+    public function getAuthenticationService(): AuthenticationService
+    {
+        if (is_null($this->authenticationService)) {
+            $this->authenticationService = new AuthenticationService();
+        }
+        return $this->authenticationService;
+    }
+
+    /**
+     * Set logged in user attributes for system user
+     * @throws AuthenticationServiceException
+     * @throws BadRequestException
+     * @throws ServiceException
+     */
+    public function setUserToContext()
+    {
+        $systemUser = $this->getSystemUser();
+        $authService = new AuthService();
+        $authService->setLoggedInUser($systemUser);
+        $this->getAuthenticationService()->setCredentialsForUser($systemUser, []);
     }
 }

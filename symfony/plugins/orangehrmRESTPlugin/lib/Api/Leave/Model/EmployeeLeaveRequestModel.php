@@ -17,19 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\Mobile\Model;
+namespace Orangehrm\Rest\Api\Leave\Model;
 
 use Orangehrm\Rest\Api\Entity\Serializable;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Model\ModelTrait;
 
-class LeaveRequestModel implements Serializable
+class EmployeeLeaveRequestModel implements Serializable
 {
     use ModelTrait;
 
     public function __construct(LeaveRequest $leaveRequest)
     {
         $this->setEntity($leaveRequest);
-        $this->setFilters(['id', 'fromDate', 'toDate', 'appliedDate', 'leaveType', 'numberOfDays', 'comments', 'days', 'leaveBreakdown']);
+        $this->setFilters([
+            'empId',
+            'employeeName',
+            'id',
+            'fromDate',
+            'toDate',
+            'appliedDate',
+            'numberOfDays',
+            'comments',
+            'days',
+            'leaveBreakdown',
+        ]);
+        $this->setAttributeNames([
+            'employeeId',
+            'employeeName',
+            'leaveRequestId'
+        ]);
     }
 }

@@ -21,9 +21,11 @@ namespace Orangehrm\Rest\Api\Leave;
 
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
+use Orangehrm\Rest\Api\Leave\Entity\LeaveBalance;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
-
+use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
+use Orangehrm\Rest\Api\Leave\Model\EmployeeLeaveRequestModel;
 use Orangehrm\Rest\Http\Response;
 
 class LeaveRequestAPI extends EndPoint
@@ -223,6 +225,69 @@ class LeaveRequestAPI extends EndPoint
 
     }
 
+    public function getLeaveRequests($employeeName = null)
+    {
+        $filters = $this->filterParameters();
+        $this->validateInputs($filters);
+        $limit = $filters[self::PARAMETER_LIMIT];
+        $page = empty($filters[self::PARAMETER_PAGE]) ? 1 : $filters[self::PARAMETER_PAGE];
+        $disablePagination = empty($limit) ? true : false;
+        $withTerminated = $this->validatePastEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]);
+        $employeeIds = $this->getAccessibleEmployeeIds($withTerminated);
+        $params = [
+            'employeeFilter' => $employeeIds,
+            'dateRange' => new \DateRange($filters[self::PARAMETER_FROM_DATE], $filters[self::PARAMETER_TO_DATE]),
+            'statuses' => $this->getStatusesArray($filters),
+            'cmbWithTerminated' => $withTerminated,
+            'subUnit' => $this->subunit
+        ];
+
+        if (!is_null($employeeName)) {
+            $params['employeeName'] = $employeeName;
+        }
+        if (!empty($limit)) {
+            $params['noOfRecordsPerPage'] = $limit;
+        }
+
+        $searchParams = new \ParameterObject($params);
+        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page, $disablePagination, false,
+            true, true);
+
+        if (!$disablePagination) {
+            $result = $result['list'];
+        }
+
+        $leaveRequests = [];
+
+        foreach ($result as $leaveRequest) {
+            if ($leaveRequest instanceof \LeaveRequest) {
+                $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
+                $leaveRequestModel = new EmployeeLeaveRequestModel($leaveRequestEntity);
+                $leaveType = new LeaveType($leaveRequest->getLeaveTypeId(), $leaveRequest->getLeaveType()->getName());
+                $leaveRequests[] = array_merge(
+                    $leaveRequestModel->toArray(),
+                    ['leaveType' => $leaveType->toArray()]
+                );
+            }
+        }
+
+        if (empty($leaveRequests)) {
+            throw new RecordNotFoundException('No Records Found');
+        }
+        return new Response($leaveRequests, array());
+    }
+
+    /**
+     * @param \LeaveRequest $leaveRequest
+     * @return LeaveRequest
+     */
+    public function createLeaveRequestEntity($leaveRequest)
+    {
+        $leaveRequestEntity = new LeaveRequest($leaveRequest->getId(), $leaveRequest->getLeaveTypeName());
+        $leaveRequestEntity->buildLeaveRequest($leaveRequest);
+        return $leaveRequestEntity;
+    }
+
 
     /**
      * Filters
@@ -372,4 +437,31 @@ class LeaveRequestAPI extends EndPoint
         return new \ParameterObject($parameters);
     }
 
+    /**
+     * Return accessible leave list employees for current request user
+     * @param bool $withTerminated
+     * @return array
+     * @throws \ServiceException
+     */
+    protected function getAccessibleEmployeeIds($withTerminated)
+    {
+        $properties = array("empNumber", "firstName", "middleName", "lastName", "termination_id");
+        $requiredPermissions = ['action' => ['view_leave_list']];
+
+        $employeeList = \UserRoleManagerFactory::getNewUserRoleManager()->getAccessibleEntityProperties('Employee',
+            $properties, null, null, array(), array(), $requiredPermissions);
+
+        if ($withTerminated) {
+            return array_map(function ($employee) {
+                return $employee['empNumber'];
+            }, array_values($employeeList));
+        }
+        $employeeIds = [];
+        foreach ($employeeList as $employee) {
+            if (is_null($employee['termination_id'])) {
+                $employeeIds[] = $employee['empNumber'];
+            }
+        }
+        return $employeeIds;
+    }
 }
