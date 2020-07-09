@@ -4,9 +4,11 @@
  * @apiName getLeaveList
  * @apiGroup Mobile
  * @apiVersion 0.1.0
+ * @apiDescription Required access using OAuth2 access token created with password grant type
  *
  * @apiParam {Date} fromDate From date
  * @apiParam {Date} toDate To date
+ * @apiParam {String} [employeeName] Employee name
  * @apiParam {String='true','false'} [rejected] Leave status rejected
  * @apiParam {String='true','false'} [cancelled] Leave status cancelled
  * @apiParam {String='true','false'} [pendingApproval] Leave status pending approval
@@ -24,20 +26,19 @@
  * @apiSuccess {Date} data.fromDate From date
  * @apiSuccess {Date} data.toDate To date
  * @apiSuccess {Date} data.appliedDate Applied date
- * @apiSuccess {String} data.leaveType Leave type
  * @apiSuccess {String} data.numberOfDays No of days
  * @apiSuccess {String} data.leaveBreakdown Leave breakdown string
- * @apiSuccess {Object[]} data.comments Leave comments
+ * @apiSuccess {Object[]} data.comments Leave request comments
  * @apiSuccess {String} data.comments.user Employee name
  * @apiSuccess {Date} data.comments.date Commented date
  * @apiSuccess {String} data.comments.time Commented time
  * @apiSuccess {String} data.comments.comment Comment
  * @apiSuccess {Object[]} data.days Leaves
- * @apiSuccess {Date} data.days.date Leaves
+ * @apiSuccess {Date} data.days.date Leave date
  * @apiSuccess {String="REJECTED","CANCELLED","PENDING APPROVAL","SCHEDULED","TAKEN","WEEKEND","HOLIDAY"} data.days.status Leave status
- * @apiSuccess {Date} data.days.duration Duration (eg. 4.00)
+ * @apiSuccess {String} data.days.duration Duration (eg. 4.00)
  * @apiSuccess {String} data.days.durationString Duration as string (eg.(09:00 - 13:00))
- * @apiSuccess {Object[]} data.days.comments Leaves
+ * @apiSuccess {Object[]} data.days.comments Leave comments
  * @apiSuccess {String} data.days.comments.user Employee name
  * @apiSuccess {Date} data.days.comments.date Commented date
  * @apiSuccess {String} data.days.comments.time Commented time

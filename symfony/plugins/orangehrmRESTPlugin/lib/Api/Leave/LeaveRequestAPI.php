@@ -62,6 +62,7 @@ class LeaveRequestAPI extends EndPoint
     CONST PARAMETER_SUBUNIT = 'subunit';
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_PAGE = 'page';
+    const PARAMETER_EMPLOYEE_NAME = 'employeeName';
 
 
     /**
@@ -225,7 +226,14 @@ class LeaveRequestAPI extends EndPoint
 
     }
 
-    public function getLeaveRequests($employeeName = null)
+    /**
+     * Get leave requests for accessible leave list employees for current request user
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     * @throws \ServiceException
+     */
+    public function getLeaveRequests()
     {
         $filters = $this->filterParameters();
         $this->validateInputs($filters);
@@ -242,6 +250,7 @@ class LeaveRequestAPI extends EndPoint
             'subUnit' => $this->subunit
         ];
 
+        $employeeName = $this->getRequestParams()->getUrlParam(self::PARAMETER_EMPLOYEE_NAME);
         if (!is_null($employeeName)) {
             $params['employeeName'] = $employeeName;
         }
