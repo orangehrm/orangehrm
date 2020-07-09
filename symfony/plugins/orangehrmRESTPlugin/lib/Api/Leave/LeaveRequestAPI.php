@@ -19,9 +19,9 @@
 
 namespace Orangehrm\Rest\Api\Leave;
 
+use LeavePeriodService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-use Orangehrm\Rest\Api\Leave\Entity\LeaveBalance;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
@@ -45,6 +45,11 @@ class LeaveRequestAPI extends EndPoint
     private $statusList;
 
     private $subunit;
+
+    /**
+     * @var null|LeavePeriodService
+     */
+    private $leavePeriodService = null;
 
     /**
      * Constants
@@ -148,6 +153,27 @@ class LeaveRequestAPI extends EndPoint
     }
 
     /**
+     * @return LeavePeriodService
+     */
+    public function getLeavePeriodService(): LeavePeriodService
+    {
+        if (is_null($this->leavePeriodService)) {
+            $leavePeriodService = new LeavePeriodService();
+            $leavePeriodService->setLeavePeriodDao(new \LeavePeriodDao());
+            $this->leavePeriodService = $leavePeriodService;
+        }
+        return $this->leavePeriodService;
+    }
+
+    /**
+     * @param LeavePeriodService $leavePeriodService
+     */
+    public function setLeavePeriodService(LeavePeriodService $leavePeriodService)
+    {
+        $this->leavePeriodService = $leavePeriodService;
+    }
+
+    /**
      * search Leave requests
      *
      * @return Response
@@ -242,9 +268,19 @@ class LeaveRequestAPI extends EndPoint
         $disablePagination = empty($limit) ? true : false;
         $withTerminated = $this->validatePastEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]);
         $employeeIds = $this->getAccessibleEmployeeIds($withTerminated);
+
+        $fromDate = $filters[self::PARAMETER_FROM_DATE];
+        $toDate = $filters[self::PARAMETER_TO_DATE];
+
+        if (empty($fromDate) && empty($toDate)) {
+            $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(date('Y-m-d'));
+            $fromDate = $currentLeavePeriod[0];
+            $toDate = $currentLeavePeriod[1];
+        }
+
         $params = [
             'employeeFilter' => $employeeIds,
-            'dateRange' => new \DateRange($filters[self::PARAMETER_FROM_DATE], $filters[self::PARAMETER_TO_DATE]),
+            'dateRange' => new \DateRange($fromDate, $toDate),
             'statuses' => $this->getStatusesArray($filters),
             'cmbWithTerminated' => $withTerminated,
             'subUnit' => $this->subunit

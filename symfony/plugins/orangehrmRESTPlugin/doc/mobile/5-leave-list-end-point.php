@@ -6,8 +6,8 @@
  * @apiVersion 0.1.0
  * @apiDescription Required access using OAuth2 access token created with password grant type
  *
- * @apiParam {Date} fromDate From date
- * @apiParam {Date} toDate To date
+ * @apiParam {Date} [fromDate] From date (default current leave period from date)
+ * @apiParam {Date} [toDate] To date (default current leave period to date)
  * @apiParam {String} [employeeName] Employee name
  * @apiParam {String='true','false'} [rejected] Leave status rejected
  * @apiParam {String='true','false'} [cancelled] Leave status cancelled
