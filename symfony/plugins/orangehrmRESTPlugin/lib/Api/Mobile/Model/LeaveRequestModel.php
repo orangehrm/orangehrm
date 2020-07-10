@@ -30,6 +30,17 @@ class LeaveRequestModel implements Serializable
     public function __construct(LeaveRequest $leaveRequest)
     {
         $this->setEntity($leaveRequest);
-        $this->setFilters(['id', 'fromDate', 'toDate', 'appliedDate', 'leaveType', 'numberOfDays', 'comments', 'days', 'leaveBreakdown']);
+        $this->setFilters([
+            'id',
+            'fromDate',
+            'toDate',
+            'appliedDate',
+            'leaveType',
+            'leaveBalance',
+            'numberOfDays',
+            'comments',
+            'days',
+            'leaveBreakdown'
+        ]);
     }
 }

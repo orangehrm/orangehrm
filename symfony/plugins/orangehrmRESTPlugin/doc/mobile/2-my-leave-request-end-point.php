@@ -16,6 +16,7 @@
  * @apiSuccess {Date} data.toDate To date
  * @apiSuccess {Date} data.appliedDate Applied date
  * @apiSuccess {String} data.leaveType Leave type
+ * @apiSuccess {String} data.leaveBalance Leave balance
  * @apiSuccess {String} data.numberOfDays No of days
  * @apiSuccess {String} data.leaveBreakdown Leave breakdown string
  * @apiSuccess {Object[]} data.comments Leave request comments
@@ -45,6 +46,7 @@
  *         "toDate": "2020-07-21",
  *         "appliedDate": "2020-07-16",
  *         "leaveType": "Annual",
+ *         "leaveBalance": "10.00",
  *         "numberOfDays": "3.00",
  *         "comments": {
  *           "user": "Employee Name",
@@ -90,6 +92,7 @@
  *         "toDate": "2020-07-15",
  *         "appliedDate": "2020-07-15",
  *         "leaveType": "Casual",
+ *         "leaveBalance": "3.00",
  *         "numberOfDays": "0.50",
  *         "comments": [],
  *         "days": [

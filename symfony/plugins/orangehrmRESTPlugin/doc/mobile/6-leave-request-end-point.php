@@ -45,6 +45,7 @@
  *         "fromDate": "2020-07-16",
  *         "toDate": "2020-07-21",
  *         "appliedDate": "2020-07-16",
+ *         "leaveBalance": "10.00",
  *         "numberOfDays": "3.00",
  *         "comments": {
  *           "user": "Kevin Mathews",
