@@ -21,11 +21,13 @@ namespace Orangehrm\Rest\Api\Leave;
 
 use LeavePeriodService;
 use Orangehrm\Rest\Api\EndPoint;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\Leave\Model\EmployeeLeaveRequestModel;
+use Orangehrm\Rest\Api\Leave\Model\LeaveListLeaveRequestModel;
 use Orangehrm\Rest\Http\Response;
 
 class LeaveRequestAPI extends EndPoint
@@ -307,7 +309,7 @@ class LeaveRequestAPI extends EndPoint
         foreach ($result as $leaveRequest) {
             if ($leaveRequest instanceof \LeaveRequest) {
                 $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
-                $leaveRequestModel = new EmployeeLeaveRequestModel($leaveRequestEntity);
+                $leaveRequestModel = new LeaveListLeaveRequestModel($leaveRequestEntity);
                 $leaveType = new LeaveType($leaveRequest->getLeaveTypeId(), $leaveRequest->getLeaveType()->getName());
                 $leaveRequests[] = array_merge(
                     $leaveRequestModel->toArray(),
@@ -320,6 +322,36 @@ class LeaveRequestAPI extends EndPoint
             throw new RecordNotFoundException('No Records Found');
         }
         return new Response($leaveRequests, array());
+    }
+
+    /**
+     * Return leave request with leaves by leave request id
+     * @return Response
+     * @throws BadRequestException
+     * @throws InvalidParamException
+     * @throws \ServiceException
+     */
+    public function getLeaveRequestById()
+    {
+        $leaveRequestId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($leaveRequestId);
+        if (!($leaveRequest instanceof \LeaveRequest)) {
+            throw new InvalidParamException('Invalid Leave Request Id');
+        }
+        $accessible = in_array($leaveRequest->getEmpNumber(), $this->getAccessibleEmployeeIds(true));
+        if (!$accessible) {
+            throw new BadRequestException('Access Denied');
+        }
+
+        $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
+        $leaveRequestModel = new EmployeeLeaveRequestModel($leaveRequestEntity);
+
+        $leaveType = new LeaveType($leaveRequest->getLeaveType()->getId(), $leaveRequest->getLeaveType()->getName());
+        $response = array_merge(
+            $leaveRequestModel->toArray(),
+            ['leaveType' => $leaveType->toArray()]
+        );
+        return new Response($response, array());
     }
 
     /**

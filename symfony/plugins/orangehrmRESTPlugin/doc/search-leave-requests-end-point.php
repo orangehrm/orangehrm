@@ -14,6 +14,8 @@
 * @apiParam {String}  [taken] Leave status taken ( 'true' / 'false' ).
 * @apiParam {String}  [pastEmployee] Past employee results ( 'true' /'false').
 * @apiParam {Number}  [subunit] Employee subunit id.
+* @apiParam {Number}  [page] Page number
+* @apiParam {Number}  [limit] Leave record limit
 *
 * @apiSuccess {String} employeeName Employee name
 * @apiSuccess {String} employeeId Employee id.

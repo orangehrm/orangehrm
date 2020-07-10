@@ -23,7 +23,7 @@ use Orangehrm\Rest\Api\Entity\Serializable;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Model\ModelTrait;
 
-class EmployeeLeaveRequestModel implements Serializable
+class LeaveListLeaveRequestModel implements Serializable
 {
     use ModelTrait;
 
@@ -39,8 +39,6 @@ class EmployeeLeaveRequestModel implements Serializable
             'appliedDate',
             'leaveBalance',
             'numberOfDays',
-            'comments',
-            'days',
             'leaveBreakdown',
         ]);
         $this->setAttributeNames([
