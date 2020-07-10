@@ -1,5 +1,5 @@
 /**
-* @api {get} /activity 5.Get Activities
+* @api {get} /activity 05.Get Activities
 * @apiName getActivities
 * @apiGroup Time
 * @apiVersion 0.1.0

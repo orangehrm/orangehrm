@@ -1,5 +1,5 @@
 /**
-* @api {delete} /activity 8.Delete Activity
+* @api {delete} /activity 08.Delete Activity
 * @apiName delete
 * @apiGroup Time
 * @apiVersion 0.1.0

@@ -1,5 +1,5 @@
 /**
-* @api {post} /leave/type 1.Save Leave Type
+* @api {post} /leave/type 01.Save Leave Type
 * @apiName saveLeaveType
 * @apiGroup Leave
 * @apiVersion 0.1.0

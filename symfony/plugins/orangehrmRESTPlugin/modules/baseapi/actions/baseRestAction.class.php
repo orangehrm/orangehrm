@@ -101,7 +101,7 @@ abstract class baseRestAction extends baseOAuthAction {
     }
 
     /**
-     * @param sfRequest $request
+     * @param sfWebRequest $request
      * @return string
      */
     public function execute($request) {

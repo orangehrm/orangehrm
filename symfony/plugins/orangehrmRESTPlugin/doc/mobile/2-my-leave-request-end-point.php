@@ -1,6 +1,6 @@
 <?php
 /**
- * @api {get} /leave/my-leave-request 2.Get My Leave Requests
+ * @api {get} /leave/my-leave-request 02.Get My Leave Requests
  * @apiName myLeaveRequests
  * @apiGroup Mobile
  * @apiVersion 0.1.0
@@ -17,17 +17,18 @@
  * @apiSuccess {Date} data.appliedDate Applied date
  * @apiSuccess {String} data.leaveType Leave type
  * @apiSuccess {String} data.numberOfDays No of days
- * @apiSuccess {Object[]} data.comments Leave comments
+ * @apiSuccess {String} data.leaveBreakdown Leave breakdown string
+ * @apiSuccess {Object[]} data.comments Leave request comments
  * @apiSuccess {String} data.comments.user Employee name
  * @apiSuccess {Date} data.comments.date Commented date
  * @apiSuccess {String} data.comments.time Commented time
  * @apiSuccess {String} data.comments.comment Comment
  * @apiSuccess {Object[]} data.days Leaves
- * @apiSuccess {Date} data.days.date Leaves
+ * @apiSuccess {Date} data.days.date Leave date
  * @apiSuccess {String="REJECTED","CANCELLED","PENDING APPROVAL","SCHEDULED","TAKEN","WEEKEND","HOLIDAY"} data.days.status Leave status
- * @apiSuccess {Date} data.days.duration Duration (eg. 4.00)
+ * @apiSuccess {String} data.days.duration Duration (eg. 4.00)
  * @apiSuccess {String} data.days.durationString Duration as string (eg.(09:00 - 13:00))
- * @apiSuccess {Object[]} data.days.comments Leaves
+ * @apiSuccess {Object[]} data.days.comments Leave comments
  * @apiSuccess {String} data.days.comments.user Employee name
  * @apiSuccess {Date} data.days.comments.date Commented date
  * @apiSuccess {String} data.days.comments.time Commented time
@@ -80,7 +81,8 @@
  *             "durationString": "",
  *             "comments": []
  *           }
- *         ]
+ *         ],
+ *         "leaveBreakdown": "Scheduled(2.00)",
  *       },
  *       {
  *         "id": "3",
@@ -98,7 +100,8 @@
  *             "durationString": "(09:00 - 13:00)",
  *             "comments": []
  *           }
- *         ]
+ *         ],
+ *         "leaveBreakdown": "Pending Approval(0.50)",
  *       }
  *     ]
  *   ],
