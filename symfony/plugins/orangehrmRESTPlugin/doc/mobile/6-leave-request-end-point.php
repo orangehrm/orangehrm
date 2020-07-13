@@ -33,6 +33,7 @@
  * @apiSuccess {Date} data.days.comments.date Commented date
  * @apiSuccess {String} data.days.comments.time Commented time
  * @apiSuccess {String} data.days.comments.comment Comment
+ * @apiSuccess {String[]='Approve','Reject','Cancel'} data.allowedActions Allowed actions on this leave request
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -87,7 +88,8 @@
  *         "leaveType": {
  *           "type": "Annual",
  *           "id": "2"
- *         }
+ *         },
+ *         "allowedActions": ["Cancel"]
  *       }
  *   ],
  *   "rels": []

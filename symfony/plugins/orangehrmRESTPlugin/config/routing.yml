@@ -235,4 +235,4 @@ api_leave_leave_request:
   url: /api/v1/leave/leave-request/:id
   param: { module:apiv1mobile, action:EmployeeLeaveRequestApi }
   requirements:
-    sf_method: [get]
+    sf_method: [get,post]

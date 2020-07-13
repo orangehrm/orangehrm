@@ -78,6 +78,10 @@ class ApiLeaveRequestAPITest extends PHPUnit\Framework\TestCase
             ->method('fetchLeaveRequest')
             ->withAnyParameters()
             ->will($this->returnValue($leaveRequest));
+        $leaveRequestService->expects($this->once())
+            ->method('getLeaveRequestActions')
+            ->withAnyParameters()
+            ->will($this->returnValue(['Cancel']));
 
         $leaveRequestResponseArray = [
             "leaveRequestId" => 5,
@@ -94,7 +98,8 @@ class ApiLeaveRequestAPITest extends PHPUnit\Framework\TestCase
             "comments" => [],
             "days" => [],
             'employeeId' => 32,
-            'employeeName' => 'Test Name'
+            'employeeName' => 'Test Name',
+            'allowedActions' => ['Cancel']
         ];
 
         $leaveRequestApi->setRequestParams($requestParams);

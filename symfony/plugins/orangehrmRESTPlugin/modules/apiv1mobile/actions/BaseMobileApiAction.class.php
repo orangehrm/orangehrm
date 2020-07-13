@@ -91,5 +91,6 @@ abstract class BaseMobileApiAction extends baseRestAction
         $authService = new AuthService();
         $authService->setLoggedInUser($systemUser);
         $this->getAuthenticationService()->setCredentialsForUser($systemUser, []);
+        \UserRoleManagerFactory::updateUserRoleManager();
     }
 }

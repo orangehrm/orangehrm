@@ -956,7 +956,33 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
             $this->assertTrue($found);
         }
     }
-    
+
+    public function testChangeLeaveRequestStatus() {
+        $leaveRequestService = $this->getMockBuilder(LeaveRequestService::class)
+            ->setMethods(['_changeLeaveStatus', 'getLeaveRequestActions'])
+            ->getMock();
+        $leaveRequestService->expects($this->once())
+            ->method('_changeLeaveStatus');
+        $leaveRequestService->expects($this->once())
+            ->method('getLeaveRequestActions')
+            ->will($this->returnValue([86 => 'Cancel']));
+
+        $cancelAction = new WorkflowStateMachine();
+        $cancelAction->fromArray(array('id' => 3, 'workflow' => 'leave',
+            'state' => 'PENDING APPROVAL', 'role' => 'ADMIN', 'action' => 'CANCEL',
+            'resulting_state' => 'CANCELLED', 'roles_to_notify' => '', 'priority' => 0));
+
+        $accessFlowStateMachineService = $this->getMockBuilder(AccessFlowStateMachineService::class)
+            ->setMethods(['getWorkflowItem'])
+            ->getMock();
+        $accessFlowStateMachineService->expects($this->once())
+            ->method('getWorkflowItem')
+            ->will($this->returnValue($cancelAction));
+
+        $leaveRequest = new LeaveRequest();
+        $leaveRequestService->setAccessFlowStateMachineService($accessFlowStateMachineService);
+        $leaveRequestService->changeLeaveRequestStatus($leaveRequest, 'Cancel');
+    }
 }
 
 /** TODO: Remove*/

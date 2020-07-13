@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Mobile\EmployeeLeaveRequestAPI;
 use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
 use Orangehrm\Rest\Http\Request;
 
@@ -28,9 +28,16 @@ class EmployeeLeaveRequestApiAction extends BaseMobileApiAction
      */
     private $leaveRequestApi = null;
 
+    /**
+     * @var null|EmployeeLeaveRequestAPI
+     */
+    private $employeeLeaveRequestApi = null;
+
     protected function init(Request $request)
     {
         $this->leaveRequestApi = new LeaveRequestAPI($request);
+        $this->employeeLeaveRequestApi = new EmployeeLeaveRequestAPI($request);
+        $this->postValidationRule = $this->employeeLeaveRequestApi->getValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
@@ -42,6 +49,7 @@ class EmployeeLeaveRequestApiAction extends BaseMobileApiAction
 
     protected function handlePostRequest(Request $request)
     {
-        throw new NotImplementedException();
+        $this->setUserToContext();
+        return $this->employeeLeaveRequestApi->saveLeaveRequestAction();
     }
 }

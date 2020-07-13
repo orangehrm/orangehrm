@@ -324,6 +324,11 @@ class LeaveRequestAPI extends EndPoint
         return new Response($leaveRequests, array());
     }
 
+    protected function getUserAttribute($name)
+    {
+        return \sfContext::getInstance()->getUser()->getAttribute($name);
+    }
+
     /**
      * Return leave request with leaves by leave request id
      * @return Response
@@ -338,7 +343,9 @@ class LeaveRequestAPI extends EndPoint
         if (!($leaveRequest instanceof \LeaveRequest)) {
             throw new InvalidParamException('Invalid Leave Request Id');
         }
-        $accessible = in_array($leaveRequest->getEmpNumber(), $this->getAccessibleEmployeeIds(true));
+
+        $loggedInEmpNumber = $this->getUserAttribute("auth.empNumber");
+        $accessible = ($loggedInEmpNumber == $leaveRequest->getEmpNumber()) || in_array($leaveRequest->getEmpNumber(), $this->getAccessibleEmployeeIds(true));
         if (!$accessible) {
             throw new BadRequestException('Access Denied');
         }
@@ -347,9 +354,13 @@ class LeaveRequestAPI extends EndPoint
         $leaveRequestModel = new EmployeeLeaveRequestModel($leaveRequestEntity);
 
         $leaveType = new LeaveType($leaveRequest->getLeaveType()->getId(), $leaveRequest->getLeaveType()->getName());
+        $allowedActions = $this->getLeaveRequestService()->getLeaveRequestActions($leaveRequest, $loggedInEmpNumber);
         $response = array_merge(
             $leaveRequestModel->toArray(),
-            ['leaveType' => $leaveType->toArray()]
+            [
+                'leaveType' => $leaveType->toArray(),
+                'allowedActions' => array_values($allowedActions),
+            ]
         );
         return new Response($response, array());
     }
@@ -525,7 +536,7 @@ class LeaveRequestAPI extends EndPoint
         $properties = array("empNumber", "firstName", "middleName", "lastName", "termination_id");
         $requiredPermissions = ['action' => ['view_leave_list']];
 
-        $employeeList = \UserRoleManagerFactory::getNewUserRoleManager()->getAccessibleEntityProperties('Employee',
+        $employeeList = \UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee',
             $properties, null, null, array(), array(), $requiredPermissions);
 
         if ($withTerminated) {
