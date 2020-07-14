@@ -298,7 +298,7 @@ class LeaveRequestAPI extends EndPoint
 
         $searchParams = new \ParameterObject($params);
         $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page, $disablePagination, false,
-            true, true);
+            false, false);
 
         if (!$disablePagination) {
             $result = $result['list'];
