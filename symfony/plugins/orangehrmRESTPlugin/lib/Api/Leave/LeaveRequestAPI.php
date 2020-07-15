@@ -22,13 +22,15 @@ namespace Orangehrm\Rest\Api\Leave;
 use LeavePeriodService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
-use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\Leave\Model\EmployeeLeaveRequestModel;
 use Orangehrm\Rest\Api\Leave\Model\LeaveListLeaveRequestModel;
 use Orangehrm\Rest\Http\Response;
+use ServiceException;
+use UserRoleManagerFactory;
 
 class LeaveRequestAPI extends EndPoint
 {
@@ -75,7 +77,7 @@ class LeaveRequestAPI extends EndPoint
     /**
      * @return \EmployeeService
      */
-    public function getEmployeeService()
+    public function getEmployeeService(): \EmployeeService
     {
         if (is_null($this->employeeService)) {
             $this->employeeService = new \EmployeeService();
@@ -87,7 +89,7 @@ class LeaveRequestAPI extends EndPoint
      * Sets EmployeeService
      * @param \EmployeeService $service
      */
-    public function setEmployeeService(\EmployeeService $service)
+    public function setEmployeeService(\EmployeeService $service): void
     {
         $this->employeeService = $service;
     }
@@ -96,7 +98,7 @@ class LeaveRequestAPI extends EndPoint
      *
      * @return \LeaveRequestService
      */
-    public function getLeaveRequestService()
+    public function getLeaveRequestService(): \LeaveRequestService
     {
         if (is_null($this->leaveRequestService)) {
             $this->leaveRequestService = new \LeaveRequestService();
@@ -110,7 +112,7 @@ class LeaveRequestAPI extends EndPoint
      *
      * @return \LeaveEntitlementService
      */
-    public function getLeaveEntitlementService()
+    public function getLeaveEntitlementService(): \LeaveEntitlementService
     {
         if (empty($this->leaveEntitlementService)) {
             $this->leaveEntitlementService = new \LeaveEntitlementService();
@@ -123,7 +125,7 @@ class LeaveRequestAPI extends EndPoint
      *
      * @param $leaveEntitlementService
      */
-    public function setLeaveEntitlementService($leaveEntitlementService)
+    public function setLeaveEntitlementService(\LeaveEntitlementService $leaveEntitlementService): void
     {
         $this->leaveEntitlementService = $leaveEntitlementService;
     }
@@ -149,7 +151,7 @@ class LeaveRequestAPI extends EndPoint
      * @param \LeaveRequestService $leaveRequestService
      * @return void
      */
-    public function setLeaveRequestService(\LeaveRequestService $leaveRequestService)
+    public function setLeaveRequestService(\LeaveRequestService $leaveRequestService): void
     {
         $this->leaveRequestService = $leaveRequestService;
     }
@@ -170,7 +172,7 @@ class LeaveRequestAPI extends EndPoint
     /**
      * @param LeavePeriodService $leavePeriodService
      */
-    public function setLeavePeriodService(LeavePeriodService $leavePeriodService)
+    public function setLeavePeriodService(LeavePeriodService $leavePeriodService): void
     {
         $this->leavePeriodService = $leavePeriodService;
     }
@@ -259,9 +261,9 @@ class LeaveRequestAPI extends EndPoint
      * @return Response
      * @throws InvalidParamException
      * @throws RecordNotFoundException
-     * @throws \ServiceException
+     * @throws ServiceException
      */
-    public function getLeaveRequests()
+    public function getLeaveRequests(): Response
     {
         $filters = $this->filterParameters();
         $this->validateInputs($filters);
@@ -324,7 +326,7 @@ class LeaveRequestAPI extends EndPoint
         return new Response($leaveRequests, array());
     }
 
-    protected function getUserAttribute($name)
+    protected function getUserAttribute(string $name): string
     {
         return \sfContext::getInstance()->getUser()->getAttribute($name);
     }
@@ -334,9 +336,9 @@ class LeaveRequestAPI extends EndPoint
      * @return Response
      * @throws BadRequestException
      * @throws InvalidParamException
-     * @throws \ServiceException
+     * @throws ServiceException
      */
-    public function getLeaveRequestById()
+    public function getLeaveRequestById(): Response
     {
         $leaveRequestId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($leaveRequestId);
@@ -369,7 +371,7 @@ class LeaveRequestAPI extends EndPoint
      * @param \LeaveRequest $leaveRequest
      * @return LeaveRequest
      */
-    public function createLeaveRequestEntity($leaveRequest)
+    public function createLeaveRequestEntity(\LeaveRequest $leaveRequest): LeaveRequest
     {
         $leaveRequestEntity = new LeaveRequest($leaveRequest->getId(), $leaveRequest->getLeaveTypeName());
         $leaveRequestEntity->buildLeaveRequest($leaveRequest);
@@ -529,20 +531,30 @@ class LeaveRequestAPI extends EndPoint
      * Return accessible leave list employees for current request user
      * @param bool $withTerminated
      * @return array
-     * @throws \ServiceException
+     * @throws ServiceException
      */
-    protected function getAccessibleEmployeeIds($withTerminated)
+    protected function getAccessibleEmployeeIds(bool $withTerminated):array
     {
         $properties = array("empNumber", "firstName", "middleName", "lastName", "termination_id");
         $requiredPermissions = ['action' => ['view_leave_list']];
 
-        $employeeList = \UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee',
-            $properties, null, null, array(), array(), $requiredPermissions);
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties(
+            'Employee',
+            $properties,
+            null,
+            null,
+            array(),
+            array(),
+            $requiredPermissions
+        );
 
         if ($withTerminated) {
-            return array_map(function ($employee) {
-                return $employee['empNumber'];
-            }, array_values($employeeList));
+            return array_map(
+                function ($employee) {
+                    return $employee['empNumber'];
+                },
+                array_values($employeeList)
+            );
         }
         $employeeIds = [];
         foreach ($employeeList as $employee) {

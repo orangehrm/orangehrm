@@ -4,6 +4,7 @@
  * @apiName saveMyLeaveRequestSingleDay
  * @apiGroup Mobile
  * @apiVersion 0.1.0
+ * @apiUse MobileDescription
  *
  * @apiParam {Number} type Mandatory leave type id
  * @apiParam {Date} fromDate Leave start date

@@ -4,7 +4,7 @@
  * @apiName changeLeaveRequestStatus
  * @apiGroup Mobile
  * @apiVersion 0.1.0
- * @apiDescription Required access using OAuth2 access token created with password grant type
+ * @apiUse MobileDescription
  *
  * @apiParam {Number} id Leave request id
  * @apiParam {String='changeStatus','comment'} actionType Action type on leave request

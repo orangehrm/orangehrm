@@ -19,20 +19,31 @@
 
 namespace Orangehrm\Rest\Api\Mobile;
 
+use DaoException;
+use EmployeeService;
+use LeaveRequest;
+use LeaveRequestComment;
+use LeaveRequestService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Http\Response;
+use ResourcePermission;
+use ServiceException;
+use sfContext;
+use sfException;
+use SystemUser;
+use UserRoleManagerFactory;
 
 class EmployeeLeaveRequestAPI extends EndPoint
 {
     /**
-     * @var null|\LeaveRequestService
+     * @var null|LeaveRequestService
      */
     private $leaveRequestService = null;
 
     /**
-     * @var null|\EmployeeService
+     * @var null|EmployeeService
      */
     private $employeeService = null;
 
@@ -45,42 +56,42 @@ class EmployeeLeaveRequestAPI extends EndPoint
     const ACTION_TYPE_CHANGE_STATUS = 'changeStatus';
 
     /**
-     * @return \LeaveRequestService
+     * @return LeaveRequestService
      */
-    public function getLeaveRequestService()
+    public function getLeaveRequestService(): LeaveRequestService
     {
         if (is_null($this->leaveRequestService)) {
-            $this->leaveRequestService = new \LeaveRequestService();
+            $this->leaveRequestService = new LeaveRequestService();
         }
         return $this->leaveRequestService;
     }
 
 
     /**
-     * @param \LeaveRequestService $leaveRequestService
+     * @param LeaveRequestService $leaveRequestService
      * @return void
      */
-    public function setLeaveRequestService(\LeaveRequestService $leaveRequestService)
+    public function setLeaveRequestService(LeaveRequestService $leaveRequestService): void
     {
         $this->leaveRequestService = $leaveRequestService;
     }
 
     /**
-     * @return \EmployeeService
+     * @return EmployeeService
      */
-    public function getEmployeeService()
+    public function getEmployeeService(): EmployeeService
     {
         if (is_null($this->employeeService)) {
-            $this->employeeService = new \EmployeeService();
+            $this->employeeService = new EmployeeService();
         }
         return $this->employeeService;
     }
 
     /**
      * Sets EmployeeService
-     * @param \EmployeeService $service
+     * @param EmployeeService $service
      */
-    public function setEmployeeService(\EmployeeService $service)
+    public function setEmployeeService(EmployeeService $service): void
     {
         $this->employeeService = $service;
     }
@@ -89,17 +100,19 @@ class EmployeeLeaveRequestAPI extends EndPoint
      * @return Response
      * @throws BadRequestException
      * @throws InvalidParamException
-     * @throws \DaoException
-     * @throws \ServiceException
-     * @throws \sfException
+     * @throws DaoException
+     * @throws ServiceException
+     * @throws sfException
      */
     public function saveLeaveRequestAction(): Response
     {
         $actionType = $this->getRequestParams()->getPostParam(self::PARAMETER_ACTION_TYPE);
         if ($actionType === self::ACTION_TYPE_COMMENT) {
             return $this->saveLeaveRequestComment();
-        } else if ($actionType === self::ACTION_TYPE_CHANGE_STATUS) {
-            return $this->changeLeaveRequestStatus();
+        } else {
+            if ($actionType === self::ACTION_TYPE_CHANGE_STATUS) {
+                return $this->changeLeaveRequestStatus();
+            }
         }
 
         throw new InvalidParamException(sprintf("Invalid `%s` Value", self::PARAMETER_ACTION_TYPE));
@@ -109,23 +122,28 @@ class EmployeeLeaveRequestAPI extends EndPoint
      * @return Response
      * @throws BadRequestException
      * @throws InvalidParamException
-     * @throws \ServiceException
-     * @throws \sfException
+     * @throws ServiceException
+     * @throws sfException
      */
     public function changeLeaveRequestStatus(): Response
     {
-        $actionPerformerUserType = \SystemUser::USER_TYPE_EMPLOYEE;
+        $actionPerformerUserType = SystemUser::USER_TYPE_EMPLOYEE;
         if (!empty($this->getUserAttribute("auth.isSupervisor"))) {
-            $actionPerformerUserType = \SystemUser::USER_TYPE_SUPERVISOR;
-        } else if (!empty($this->getUserAttribute("auth.isAdmin"))) {
-            $actionPerformerUserType = \SystemUser::USER_TYPE_ADMIN;
+            $actionPerformerUserType = SystemUser::USER_TYPE_SUPERVISOR;
+        } else {
+            if (!empty($this->getUserAttribute("auth.isAdmin"))) {
+                $actionPerformerUserType = SystemUser::USER_TYPE_ADMIN;
+            }
         }
 
         $loggedInEmpNumber = $this->getUserAttribute("auth.empNumber");
         $params = $this->filterChangeLeaveRequestStatusParameters();
         $leaveRequest = $this->getLeaveRequest($params);
 
-        $accessible = ($loggedInEmpNumber == $leaveRequest->getEmpNumber()) || in_array($leaveRequest->getEmpNumber(), $this->getAccessibleEmployeeIds());
+        $accessible = ($loggedInEmpNumber == $leaveRequest->getEmpNumber()) || in_array(
+                $leaveRequest->getEmpNumber(),
+                $this->getAccessibleEmployeeIds()
+            );
         if (!$accessible) {
             throw new BadRequestException('Access Denied');
         }
@@ -136,7 +154,12 @@ class EmployeeLeaveRequestAPI extends EndPoint
         if (!in_array($leaveStatus, array_values($allowedActions))) {
             throw new BadRequestException('Action Not Allowed');
         }
-        $this->getLeaveRequestService()->changeLeaveRequestStatus($leaveRequest, $leaveStatus, $actionPerformerUserType, $loggedInEmpNumber);
+        $this->getLeaveRequestService()->changeLeaveRequestStatus(
+            $leaveRequest,
+            $leaveStatus,
+            $actionPerformerUserType,
+            $loggedInEmpNumber
+        );
         return new Response(['success' => 'Successfully Saved']);
     }
 
@@ -144,9 +167,9 @@ class EmployeeLeaveRequestAPI extends EndPoint
      * @return Response
      * @throws BadRequestException
      * @throws InvalidParamException
-     * @throws \DaoException
-     * @throws \ServiceException
-     * @throws \sfException
+     * @throws DaoException
+     * @throws ServiceException
+     * @throws sfException
      */
     public function saveLeaveRequestComment(): Response
     {
@@ -165,9 +188,15 @@ class EmployeeLeaveRequestAPI extends EndPoint
 
         $permissions = $this->getCommentPermissions($loggedInEmpNumber == $leaveRequest->getEmpNumber());
         if ($permissions->canCreate()) {
-            $leaveRequestComment = $this->getLeaveRequestService()->saveLeaveRequestComment($leaveRequest->getId(), $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
+            $leaveRequestComment = $this->getLeaveRequestService()->saveLeaveRequestComment(
+                $leaveRequest->getId(),
+                $comment,
+                $createdBy,
+                $loggedInUserId,
+                $loggedInEmpNumber
+            );
 
-            if ($leaveRequestComment instanceof \LeaveRequestComment) {
+            if ($leaveRequestComment instanceof LeaveRequestComment) {
                 return new Response(['success' => 'Successfully Saved']);
             } else {
                 throw new BadRequestException("Saving Failed");
@@ -179,14 +208,14 @@ class EmployeeLeaveRequestAPI extends EndPoint
 
     /**
      * @param array $params
-     * @return \LeaveRequest
+     * @return LeaveRequest
      * @throws InvalidParamException
      */
-    protected function getLeaveRequest(array $params): \LeaveRequest
+    protected function getLeaveRequest(array $params): LeaveRequest
     {
         $leaveRequestId = $params[self::PARAMETER_LEAVE_REQUEST_ID];
         $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($leaveRequestId);
-        if ($leaveRequest instanceof \LeaveRequest) {
+        if ($leaveRequest instanceof LeaveRequest) {
             return $leaveRequest;
         }
         throw new InvalidParamException('Invalid Leave Request Id');
@@ -195,11 +224,11 @@ class EmployeeLeaveRequestAPI extends EndPoint
     /**
      * @param string $name
      * @return string
-     * @throws \sfException
+     * @throws sfException
      */
     protected function getUserAttribute(string $name): string
     {
-        return \sfContext::getInstance()->getUser()->getAttribute($name);
+        return sfContext::getInstance()->getUser()->getAttribute($name);
     }
 
     /**
@@ -209,7 +238,9 @@ class EmployeeLeaveRequestAPI extends EndPoint
     protected function filterChangeLeaveRequestStatusParameters(): array
     {
         $params = [];
-        $params[self::PARAMETER_LEAVE_REQUEST_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_REQUEST_ID);
+        $params[self::PARAMETER_LEAVE_REQUEST_ID] = $this->getRequestParams()->getUrlParam(
+            self::PARAMETER_LEAVE_REQUEST_ID
+        );
         $params[self::PARAMETER_STATUS] = $this->getRequestParams()->getPostParam(self::PARAMETER_STATUS);
         if (empty($params[self::PARAMETER_STATUS])) {
             throw new InvalidParamException(sprintf("Invalid `%s` Value", self::PARAMETER_STATUS));
@@ -224,7 +255,9 @@ class EmployeeLeaveRequestAPI extends EndPoint
     protected function filterCommentActionParameters(): array
     {
         $params = [];
-        $params[self::PARAMETER_LEAVE_REQUEST_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_REQUEST_ID);
+        $params[self::PARAMETER_LEAVE_REQUEST_ID] = $this->getRequestParams()->getUrlParam(
+            self::PARAMETER_LEAVE_REQUEST_ID
+        );
         $params[self::PARAMETER_COMMENT] = $this->getRequestParams()->getPostParam(self::PARAMETER_COMMENT);
         if (empty($params[self::PARAMETER_COMMENT])) {
             throw new InvalidParamException(sprintf("Invalid `%s` Value", self::PARAMETER_COMMENT));
@@ -234,10 +267,10 @@ class EmployeeLeaveRequestAPI extends EndPoint
 
     /**
      * @param bool $self
-     * @return \ResourcePermission
-     * @throws \ServiceException
+     * @return ResourcePermission
+     * @throws ServiceException
      */
-    protected function getCommentPermissions(bool $self): \ResourcePermission
+    protected function getCommentPermissions(bool $self): ResourcePermission
     {
         return $this->getDataGroupPermissions('leave_list_comments', $self);
     }
@@ -245,12 +278,12 @@ class EmployeeLeaveRequestAPI extends EndPoint
     /**
      * @param string $dataGroups
      * @param bool $self
-     * @return \ResourcePermission
-     * @throws \ServiceException
+     * @return ResourcePermission
+     * @throws ServiceException
      */
-    protected function getDataGroupPermissions(string $dataGroups, bool $self = false): \ResourcePermission
+    protected function getDataGroupPermissions(string $dataGroups, bool $self = false): ResourcePermission
     {
-        return \UserRoleManagerFactory::getUserRoleManager()->getDataGroupPermissions($dataGroups, [], [], $self, []);
+        return UserRoleManagerFactory::getUserRoleManager()->getDataGroupPermissions($dataGroups, [], [], $self, []);
     }
 
     public function getValidationRules()
@@ -264,15 +297,22 @@ class EmployeeLeaveRequestAPI extends EndPoint
     /**
      * Return accessible leave list employees for current request user
      * @return array
-     * @throws \ServiceException
+     * @throws ServiceException
      */
     protected function getAccessibleEmployeeIds(): array
     {
         $properties = ["empNumber"];
         $requiredPermissions = ['action' => ['view_leave_list']];
 
-        $employeeList = \UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee',
-            $properties, null, null, [], [], $requiredPermissions);
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties(
+            'Employee',
+            $properties,
+            null,
+            null,
+            [],
+            [],
+            $requiredPermissions
+        );
 
         return array_keys($employeeList);
     }

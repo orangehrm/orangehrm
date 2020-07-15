@@ -4,6 +4,7 @@
  * @apiName myLeaveRequests
  * @apiGroup Mobile
  * @apiVersion 0.1.0
+ * @apiUse MobileDescription
  *
  * @apiParam {Date}  [fromDate] From date
  * @apiParam {Date}  [toDate] To date
@@ -15,7 +16,9 @@
  * @apiSuccess {Date} data.fromDate From date
  * @apiSuccess {Date} data.toDate To date
  * @apiSuccess {Date} data.appliedDate Applied date
- * @apiSuccess {String} data.leaveType Leave type
+ * @apiSuccess {Object} data.leaveType Leave type
+ * @apiSuccess {String} data.leaveType.type Leave type name
+ * @apiSuccess {String} data.leaveType.id Leave type id
  * @apiSuccess {String} data.leaveBalance Leave balance
  * @apiSuccess {String} data.numberOfDays No of days
  * @apiSuccess {String} data.leaveBreakdown Leave breakdown string
@@ -45,7 +48,10 @@
  *         "fromDate": "2020-07-16",
  *         "toDate": "2020-07-21",
  *         "appliedDate": "2020-07-16",
- *         "leaveType": "Annual",
+ *         "leaveType": {
+ *           "type": "Annual",
+ *           "id": "2"
+ *         },
  *         "leaveBalance": "10.00",
  *         "numberOfDays": "3.00",
  *         "comments": {
@@ -91,7 +97,10 @@
  *         "fromDate": "2020-07-15",
  *         "toDate": "2020-07-15",
  *         "appliedDate": "2020-07-15",
- *         "leaveType": "Casual",
+ *         "leaveType": {
+ *           "type": "Casual",
+ *           "id": "1"
+ *         },
  *         "leaveBalance": "3.00",
  *         "numberOfDays": "0.50",
  *         "comments": [],

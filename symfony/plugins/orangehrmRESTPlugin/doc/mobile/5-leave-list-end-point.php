@@ -4,7 +4,7 @@
  * @apiName getLeaveList
  * @apiGroup Mobile
  * @apiVersion 0.1.0
- * @apiDescription Required access using OAuth2 access token created with password grant type
+ * @apiUse MobileDescription
  *
  * @apiParam {Date} [fromDate] From date (default current leave period from date)
  * @apiParam {Date} [toDate] To date (default current leave period to date)
@@ -29,6 +29,9 @@
  * @apiSuccess {String} data.leaveBalance Leave balance
  * @apiSuccess {String} data.numberOfDays No of days
  * @apiSuccess {String} data.leaveBreakdown Leave breakdown string
+ * @apiSuccess {Object} data.leaveType Leave type
+ * @apiSuccess {String} data.leaveType.type Leave type name
+ * @apiSuccess {String} data.leaveType.id Leave type id
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK

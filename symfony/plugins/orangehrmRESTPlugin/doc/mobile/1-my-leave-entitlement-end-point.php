@@ -4,6 +4,7 @@
  * @apiName myLeaveEntitlements
  * @apiGroup Mobile
  * @apiVersion 0.1.0
+ * @apiUse MobileDescription
  *
  * @apiParam {Date}  [fromDate] Valid leave period from date
  * @apiParam {Date}  [toDate] Valid leave period to date

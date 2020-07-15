@@ -4,7 +4,7 @@
  * @apiName getLeaveRequestById
  * @apiGroup Mobile
  * @apiVersion 0.1.0
- * @apiDescription Required access using OAuth2 access token created with password grant type
+ * @apiUse MobileDescription
  *
  * @apiParam {Number} id Leave request id
  *
@@ -33,6 +33,9 @@
  * @apiSuccess {Date} data.days.comments.date Commented date
  * @apiSuccess {String} data.days.comments.time Commented time
  * @apiSuccess {String} data.days.comments.comment Comment
+ * @apiSuccess {Object} data.leaveType Leave type
+ * @apiSuccess {String} data.leaveType.type Leave type name
+ * @apiSuccess {String} data.leaveType.id Leave type id
  * @apiSuccess {String[]='Approve','Reject','Cancel'} data.allowedActions Allowed actions on this leave request
  *
  * @apiSuccessExample Success-Response:
