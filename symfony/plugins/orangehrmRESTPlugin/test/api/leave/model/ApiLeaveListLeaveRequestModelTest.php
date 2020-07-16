@@ -18,25 +18,24 @@
  */
 
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
-use Orangehrm\Rest\Api\Mobile\Model\LeaveRequestModel;
+use Orangehrm\Rest\Api\Leave\Model\LeaveListLeaveRequestModel;
 
 /**
  * @group API
  */
-class ApiLeaveRequestModelTest extends PHPUnit\Framework\TestCase
+class ApiLeaveListLeaveRequestModelTest extends PHPUnit\Framework\TestCase
 {
     public function testToArray()
     {
         $testArray = array(
-            'id' => 1,
-            'leaveType' => 'Annual',
+            'employeeId' => 10,
+            'employeeName' => 'Test Name',
+            'leaveRequestId' => 1,
             'fromDate' => '2020-01-01',
             'toDate' => '2020-12-31',
             'appliedDate' => '2020-06-01',
             'leaveBalance' => '10.00',
             'numberOfDays' => '5',
-            'days' => [],
-            'comments' => [],
             'leaveBreakdown' => 'Scheduled(0.50)',
         );
 
@@ -49,8 +48,10 @@ class ApiLeaveRequestModelTest extends PHPUnit\Framework\TestCase
         $leaveRequestEntity->setLeaveBalance('10.00');
         $leaveRequestEntity->setNumberOfDays('5');
         $leaveRequestEntity->setLeaveBreakdown('Scheduled(0.50)');
+        $leaveRequestEntity->setEmpId(10);
+        $leaveRequestEntity->setEmployeeName('Test Name');
 
-        $leaveRequestModel = new LeaveRequestModel($leaveRequestEntity);
+        $leaveRequestModel = new LeaveListLeaveRequestModel($leaveRequestEntity);
 
         $this->assertEquals($testArray, $leaveRequestModel->toArray());
     }

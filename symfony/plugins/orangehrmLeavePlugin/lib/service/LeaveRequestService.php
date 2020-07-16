@@ -820,4 +820,24 @@ class LeaveRequestService extends BaseService {
     public function markApprovedLeaveAsTaken() {
         return $this->getLeaveRequestDao()->markApprovedLeaveAsTaken();
     }
+
+    /**
+     * Update leave request status (required prior access right validation)
+     * @param LeaveRequest $leaveRequest
+     * @param string $action 'Approve', 'Cancel', 'Reject'
+     * @param null|string $actionPerformerUserType
+     * @param null|string $actionPerformerEmpNumber
+     */
+    public function changeLeaveRequestStatus($leaveRequest, $action, $actionPerformerUserType = null, $actionPerformerEmpNumber = null) {
+        $changedLeave = $leaveRequest->getLeave();
+        $allowedActions = $this->getLeaveRequestActions($leaveRequest, $actionPerformerEmpNumber);
+
+        $workFlowId = array_flip($allowedActions)[$action];
+        $workFlow = $this->getAccessFlowStateMachineService()->getWorkflowItem($workFlowId);
+        $nextState = Leave::getLeaveStatusForText($workFlow->getResultingState());
+
+        $this->_changeLeaveStatus($changedLeave, $nextState);
+        $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
+            $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
+    }
 }

@@ -17,13 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\Mobile\Model;
+namespace Orangehrm\Rest\Api\Leave\Model;
 
 use Orangehrm\Rest\Api\Entity\Serializable;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Model\ModelTrait;
 
-class LeaveRequestModel implements Serializable
+class LeaveListLeaveRequestModel implements Serializable
 {
     use ModelTrait;
 
@@ -31,16 +31,20 @@ class LeaveRequestModel implements Serializable
     {
         $this->setEntity($leaveRequest);
         $this->setFilters([
+            'empId',
+            'employeeName',
             'id',
             'fromDate',
             'toDate',
             'appliedDate',
-            'leaveType',
             'leaveBalance',
             'numberOfDays',
-            'comments',
-            'days',
-            'leaveBreakdown'
+            'leaveBreakdown',
+        ]);
+        $this->setAttributeNames([
+            'employeeId',
+            'employeeName',
+            'leaveRequestId'
         ]);
     }
 }

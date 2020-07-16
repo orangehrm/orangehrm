@@ -23,9 +23,16 @@
  *
  */
 class UserRoleManagerFactory {
-    
+
+    /**
+     * @var null|AbstractUserRoleManager
+     */
     private static $userRoleManager = null;
-    
+
+    /**
+     * @return AbstractUserRoleManager
+     * @throws ServiceException
+     */
     public static function getUserRoleManager() {
         
         if (empty(self::$userRoleManager)) {
@@ -45,6 +52,15 @@ class UserRoleManagerFactory {
         $userRoleManagerService = new UserRoleManagerService();
         return $userRoleManagerService->getUserRoleManager();
     }
-    
+
+    /**
+     * Update current user role manager when session detail changes
+     * @return AbstractUserRoleManager
+     * @throws ServiceException
+     */
+    public static function updateUserRoleManager() {
+        self::$userRoleManager = self::getNewUserRoleManager();
+        return self::$userRoleManager;
+    }
 }
 

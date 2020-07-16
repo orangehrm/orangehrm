@@ -4,6 +4,7 @@
  * @apiName saveMyLeaveRequestMultipleDay
  * @apiGroup Mobile
  * @apiVersion 0.1.0
+ * @apiUse MobileDescription
  *
  * @apiParam {Number} type Mandatory leave type id
  * @apiParam {Date} fromDate Leave start date
@@ -11,11 +12,13 @@
  * @apiParam {String} [comment] Leave comment
  * @apiParam {String='all', 'start', 'end', 'start_end', 'none'} partialOption Partial day option
  *
- * Note : If partial option is 'all'  start day fields must be filled
- *        If partial option is 'end'  end day fields must be filed
- *        If partial option is 'start'  start day fields must be filed
- *        If partial option is 'start_end'  start and end day fields must be filed
- *        If partial option is 'none'  No partial option
+ * Note :
+ * If partial option is 'all'  start day fields must be filled.
+ * If partial option is 'end'  end day fields must be filed.
+ * If partial option is 'start'  start day fields must be filed.
+ * If partial option is 'start_end'  start and end day fields must be filed.
+ * If partial option is 'none'  No partial option.
+ *
  * @apiParam {String='half_day','full_day','specify_time'} startDayType Start day leave applying type
  * @apiParam {String='AM','PM'} startDayAMPM Half day morning or evening, required for  start day 'half_day'
  * @apiParam {String} startDayFromTime Start day from time for specify time(required for start day specifying time )

@@ -1,24 +1,20 @@
 <?php
 /**
- * @api {get} /leave/my-leave-request 02.Get My Leave Requests
- * @apiName myLeaveRequests
+ * @api {get} /leave/leave-request/:id 06.Get Leave Request
+ * @apiName getLeaveRequestById
  * @apiGroup Mobile
  * @apiVersion 0.1.0
  * @apiUse MobileDescription
  *
- * @apiParam {Date}  [fromDate] From date
- * @apiParam {Date}  [toDate] To date
- * @apiParam {Number}  [page] Page number
- * @apiParam {Number}  [limit] Leave record limit
+ * @apiParam {Number} id Leave request id
  *
- * @apiSuccess {Object[]} data Leave requests array
- * @apiSuccess {String} data.id Leave request id
+ * @apiSuccess {Object} data Leave request
+ * @apiSuccess {String} data.employeeId Employee id
+ * @apiSuccess {String} data.employeeName Employee name
+ * @apiSuccess {String} data.leaveRequestId Leave request id
  * @apiSuccess {Date} data.fromDate From date
  * @apiSuccess {Date} data.toDate To date
  * @apiSuccess {Date} data.appliedDate Applied date
- * @apiSuccess {Object} data.leaveType Leave type
- * @apiSuccess {String} data.leaveType.type Leave type name
- * @apiSuccess {String} data.leaveType.id Leave type id
  * @apiSuccess {String} data.leaveBalance Leave balance
  * @apiSuccess {String} data.numberOfDays No of days
  * @apiSuccess {String} data.leaveBreakdown Leave breakdown string
@@ -37,25 +33,26 @@
  * @apiSuccess {Date} data.days.comments.date Commented date
  * @apiSuccess {String} data.days.comments.time Commented time
  * @apiSuccess {String} data.days.comments.comment Comment
+ * @apiSuccess {Object} data.leaveType Leave type
+ * @apiSuccess {String} data.leaveType.type Leave type name
+ * @apiSuccess {String} data.leaveType.id Leave type id
+ * @apiSuccess {String[]='Approve','Reject','Cancel'} data.allowedActions Allowed actions on this leave request
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
  *
  * {
- *   "data": [
- *       {
- *         "id": "8",
+ *   "data": {
+ *         "employeeId": "4",
+ *         "employeeName": "Kevin Mathews",
+ *         "leaveRequestId": "8",
  *         "fromDate": "2020-07-16",
  *         "toDate": "2020-07-21",
  *         "appliedDate": "2020-07-16",
- *         "leaveType": {
- *           "type": "Annual",
- *           "id": "2"
- *         },
  *         "leaveBalance": "10.00",
  *         "numberOfDays": "3.00",
  *         "comments": {
- *           "user": "Employee Name",
+ *           "user": "Kevin Mathews",
  *           "date": "2020-06-25",
  *           "time": "17:23:03",
  *           "comment": "Comment"
@@ -91,44 +88,31 @@
  *           }
  *         ],
  *         "leaveBreakdown": "Scheduled(2.00)",
- *       },
- *       {
- *         "id": "3",
- *         "fromDate": "2020-07-15",
- *         "toDate": "2020-07-15",
- *         "appliedDate": "2020-07-15",
  *         "leaveType": {
- *           "type": "Casual",
- *           "id": "1"
+ *           "type": "Annual",
+ *           "id": "2"
  *         },
- *         "leaveBalance": "3.00",
- *         "numberOfDays": "0.50",
- *         "comments": [],
- *         "days": [
- *           {
- *             "date": "2020-07-15",
- *             "status": "PENDING APPROVAL",
- *             "duration": "4.00",
- *             "durationString": "(09:00 - 13:00)",
- *             "comments": []
- *           }
- *         ],
- *         "leaveBreakdown": "Pending Approval(0.50)",
+ *         "allowedActions": ["Cancel"]
  *       }
- *     ]
  *   ],
  *   "rels": []
  * }
  *
- * @apiError RecordNotFound No Records Found
+ * @apiError No-Records Found.
  *
  * @apiErrorExample Error-Response:
  * HTTP/1.1 404 Record Not Found
  * {
- *   "error": {
- *     "status": "404",
- *     "text": "No Records Found"
- *   }
+ *   "error": ["No Records Found"]
+ * }
+ *
+ *
+ * @apiError Employee Not Found.
+ *
+ * @apiErrorExample Error-Response:
+ * HTTP/1.1 404 Employee Not Found
+ * {
+ *   "error": ["Employee Not Found"]
  * }
  *
  */

@@ -17,30 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\Mobile\Model;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
+use Orangehrm\Rest\Http\Request;
 
-use Orangehrm\Rest\Api\Entity\Serializable;
-use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
-use Orangehrm\Rest\Api\Model\ModelTrait;
-
-class LeaveRequestModel implements Serializable
+class LeaveListApiAction extends BaseMobileApiAction
 {
-    use ModelTrait;
+    /**
+     * @var null|LeaveRequestAPI
+     */
+    private $leaveRequestApi = null;
 
-    public function __construct(LeaveRequest $leaveRequest)
+    protected function init(Request $request)
     {
-        $this->setEntity($leaveRequest);
-        $this->setFilters([
-            'id',
-            'fromDate',
-            'toDate',
-            'appliedDate',
-            'leaveType',
-            'leaveBalance',
-            'numberOfDays',
-            'comments',
-            'days',
-            'leaveBreakdown'
-        ]);
+        $this->leaveRequestApi = new LeaveRequestAPI($request);
+        $this->getValidationRule = $this->leaveRequestApi->getValidationRules();
+    }
+
+    protected function handleGetRequest(Request $request)
+    {
+        $this->setUserToContext();
+        return $this->leaveRequestApi->getLeaveRequests();
+    }
+
+
+    protected function handlePostRequest(Request $request)
+    {
+        throw new NotImplementedException();
     }
 }

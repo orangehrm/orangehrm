@@ -19,6 +19,7 @@
 
 namespace Orangehrm\Rest\Api\Mobile;
 
+use DateRange;
 use EmployeeService;
 use LeavePeriodService;
 use LeaveRequestService;
@@ -26,8 +27,10 @@ use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
+use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\Mobile\Model\LeaveRequestModel;
 use Orangehrm\Rest\Http\Response;
+use ParameterObject;
 
 class MyLeaveRequestAPI extends EndPoint
 {
@@ -111,30 +114,30 @@ class MyLeaveRequestAPI extends EndPoint
     }
 
     /**
-     * @param int $employeeId
+     * @param int $empNumber
      * @return Response
      * @throws InvalidParamException
      * @throws RecordNotFoundException
      * @throws \DaoException
      */
-    public function getMyLeaveDetails(int $employeeId): Response
+    public function getMyLeaveDetails(int $empNumber): Response
     {
-        $filters = $this->getFilters($employeeId);
-        $response = $this->getMyLeaveRequests($employeeId, $filters);
+        $filters = $this->getFilters($empNumber);
+        $response = $this->getMyLeaveRequests($empNumber, $filters);
         return new Response($response, array());
     }
 
     /**
      * Fetch leave requests for given date period with pagination
-     * @param int $employeeId
+     * @param int $empNumber
      * @param array $filters
      * @return array
      */
-    public function getMyLeaveRequests(int $employeeId, array $filters)
+    public function getMyLeaveRequests(int $empNumber, array $filters)
     {
         $params = [
-            'employeeFilter' => [$employeeId],
-            'dateRange' => new \DateRange($filters[self::PARAMETER_FROM_DATE], $filters[self::PARAMETER_TO_DATE]),
+            'employeeFilter' => [$empNumber],
+            'dateRange' => new DateRange($filters[self::PARAMETER_FROM_DATE], $filters[self::PARAMETER_TO_DATE]),
         ];
         $limit = $filters[self::PARAMETER_LIMIT];
         $page = empty($filters[self::PARAMETER_PAGE]) ? 1 : $filters[self::PARAMETER_PAGE];
@@ -146,9 +149,15 @@ class MyLeaveRequestAPI extends EndPoint
             $params['noOfRecordsPerPage'] = $limit;
         }
 
-        $searchParameters = new \ParameterObject($params);
-        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParameters, $page, $disablePagination, false,
-            true, true);
+        $searchParameters = new ParameterObject($params);
+        $result = $this->getLeaveRequestService()->searchLeaveRequests(
+            $searchParameters,
+            $page,
+            $disablePagination,
+            false,
+            false,
+            false
+        );
 
         if (!$disablePagination) {
             $result = $result['list'];
@@ -159,7 +168,15 @@ class MyLeaveRequestAPI extends EndPoint
         foreach ($result as $leaveRequest) {
             $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
             $leaveRequestModel = new LeaveRequestModel($leaveRequestEntity);
-            $leaveRequests [] = $leaveRequestModel->toArray();
+            $leaveType = new LeaveType(
+                $leaveRequest->getLeaveType()->getId(), $leaveRequest->getLeaveType()->getName()
+            );
+            $leaveRequests [] = array_merge(
+                $leaveRequestModel->toArray(),
+                [
+                    'leaveType' => $leaveType->toArray(),
+                ]
+            );
         }
         return $leaveRequests;
     }
@@ -177,16 +194,16 @@ class MyLeaveRequestAPI extends EndPoint
 
     /**
      * Get request params with validation
-     * @param int $employeeId
+     * @param int $empNumber
      * @return array
      * @throws InvalidParamException
      * @throws RecordNotFoundException
      * @throws \DaoException
      */
-    public function getFilters(int $employeeId): array
+    public function getFilters(int $empNumber): array
     {
         $filters = [];
-        $employee = $this->getEmployeeService()->getEmployee($employeeId);
+        $employee = $this->getEmployeeService()->getEmployee($empNumber);
 
         if (empty($employee)) {
             throw new RecordNotFoundException('Employee Not Found');
