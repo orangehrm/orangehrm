@@ -302,7 +302,7 @@ class EmployeeLeaveRequestAPI extends EndPoint
     protected function getAccessibleEmployeeIds(): array
     {
         $properties = ["empNumber"];
-        $requiredPermissions = ['action' => ['view_leave_list']];
+        $requiredPermissions = [\BasicUserRoleManager::PERMISSION_TYPE_ACTION => ['view_leave_list']];
 
         $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties(
             'Employee',

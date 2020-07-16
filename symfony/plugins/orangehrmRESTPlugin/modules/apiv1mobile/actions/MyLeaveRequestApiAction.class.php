@@ -17,9 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\Mobile\MyLeaveRequestAPI;
 use Orangehrm\Rest\Api\Leave\SaveLeaveRequestAPI;
+use Orangehrm\Rest\Api\Mobile\MyLeaveRequestAPI;
+use Orangehrm\Rest\Http\Request;
 
 class MyLeaveRequestApiAction extends BaseMobileApiAction
 {
@@ -35,14 +35,9 @@ class MyLeaveRequestApiAction extends BaseMobileApiAction
 
     protected function init(Request $request)
     {
-        $systemUser = $this->getSystemUser();
         $this->myLeaveRequestAPI = new MyLeaveRequestAPI($request);
         $this->myLeaveRequestAPI->setRequest($request);
         $this->saveLeaveRequestApi = new SaveLeaveRequestAPI($request);
-        $this->saveLeaveRequestApi->getRequestParams()->setParam(
-            SaveLeaveRequestAPI::PARAMETER_ID, $systemUser->getEmpNumber());
-        $this->saveLeaveRequestApi->getRequestParams()->setPostParam(
-            SaveLeaveRequestAPI::PARAMETER_LEAVE_ACTION, "PENDING");
         $this->postValidationRule = $this->saveLeaveRequestApi->getValidationRules();
         $this->getValidationRule = $this->myLeaveRequestAPI->getValidationRules();
     }
@@ -55,6 +50,16 @@ class MyLeaveRequestApiAction extends BaseMobileApiAction
 
     protected function handlePostRequest(Request $request)
     {
+        $this->setUserToContext();
+        $systemUser = $this->getSystemUser();
+        $this->saveLeaveRequestApi->getRequestParams()->setParam(
+            SaveLeaveRequestAPI::PARAMETER_ID,
+            $systemUser->getEmpNumber()
+        );
+        $this->saveLeaveRequestApi->getRequestParams()->setPostParam(
+            SaveLeaveRequestAPI::PARAMETER_LEAVE_ACTION,
+            "PENDING"
+        );
         return $this->saveLeaveRequestApi->saveLeaveRequest();
     }
 }

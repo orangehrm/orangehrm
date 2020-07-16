@@ -68,10 +68,12 @@ class RequestParams {
 
     /**
      * @param $paramName
+     * @param mixed $default
+     * @return mixed
      */
-    public function getQueryParam($paramName) {
+    public function getQueryParam($paramName, $default = null) {
 
-        return $this->getRequest()->getActionRequest()->getParameter($paramName);
+        return $this->getRequest()->getActionRequest()->getParameter($paramName, $default);
     }
 
     /**
