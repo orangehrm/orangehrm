@@ -6,6 +6,12 @@
  * @apiVersion 0.1.0
  * @apiUse MobileDescription
  *
+ * @apiUse MobileLeaveRequestSingleDayMultipleDay
+ *
+ */
+
+/**
+ * @apiDefine MobileLeaveRequestSingleDayMultipleDay
  * @apiParam {Number} type Mandatory leave type id
  * @apiParam {Date} fromDate Leave start date
  * @apiParam {Date} toDate Leave end date

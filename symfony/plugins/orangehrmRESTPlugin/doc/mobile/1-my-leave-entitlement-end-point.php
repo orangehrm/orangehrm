@@ -9,6 +9,12 @@
  * @apiParam {Date}  [fromDate] Valid leave period from date
  * @apiParam {Date}  [toDate] Valid leave period to date
  *
+ *@apiUse MobileLeaveEntitlementsSuccess
+ *
+ */
+
+/**
+ * @apiDefine MobileLeaveEntitlementsSuccess
  * @apiSuccess {Object[]} data Entitlements array
  * @apiSuccess {String} data.id Entitlement id
  * @apiSuccess {Date} data.validFrom From date
@@ -86,6 +92,5 @@
  *     "text": "No Records Found"
  *   }
  * }
- *
  *
  */
