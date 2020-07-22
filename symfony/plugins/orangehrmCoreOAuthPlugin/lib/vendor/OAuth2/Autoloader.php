@@ -1,15 +1,23 @@
 <?php
 
+namespace OAuth2;
+
 /**
  * Autoloads OAuth2 classes
  *
  * @author    Brent Shaffer <bshafs at gmail dot com>
  * @license   MIT License
  */
-class OAuth2_Autoloader
+class Autoloader
 {
+    /**
+     * @var string
+     */
     private $dir;
 
+    /**
+     * @param string $dir
+     */
     public function __construct($dir = null)
     {
         if (is_null($dir)) {
@@ -17,8 +25,9 @@ class OAuth2_Autoloader
         }
         $this->dir = $dir;
     }
+
     /**
-     * Registers OAuth2_Autoloader as an SPL autoloader.
+     * Registers OAuth2\Autoloader as an SPL autoloader.
      */
     public static function register($dir = null)
     {
@@ -29,9 +38,8 @@ class OAuth2_Autoloader
     /**
      * Handles autoloading of classes.
      *
-     * @param  string  $class  A class name.
-     *
-     * @return boolean Returns true if the class has been loaded
+     * @param string $class - A class name.
+     * @return boolean      - Returns true if the class has been loaded
      */
     public function autoload($class)
     {
@@ -39,7 +47,7 @@ class OAuth2_Autoloader
             return;
         }
 
-        if (file_exists($file = $this->dir.'/'.str_replace('_', '/', $class).'.php')) {
+        if (file_exists($file = $this->dir.'/'.str_replace('\\', '/', $class).'.php')) {
             require $file;
         }
     }

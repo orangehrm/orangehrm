@@ -1,24 +1,33 @@
 <?php
 
+namespace OAuth2;
+
+use InvalidArgumentException;
+use OAuth2\Storage\Memory;
+use OAuth2\Storage\ScopeInterface as ScopeStorageInterface;
+
 /**
-* @see OAuth2_ScopeInterface
+* @see ScopeInterface
 */
-class OAuth2_Scope implements OAuth2_ScopeInterface
+class Scope implements ScopeInterface
 {
-    private $storage;
+    protected $storage;
 
     /**
-     * @param mixed @storage
-     * Either an array of supported scopes, or an instance of OAuth2_Storage_ScopeInterface
+     * Constructor
+     *
+     * @param mixed $storage - Either an array of supported scopes, or an instance of OAuth2\Storage\ScopeInterface
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct($storage = null)
     {
         if (is_null($storage) || is_array($storage)) {
-            $storage = new OAuth2_Storage_Memory((array) $storage);
+            $storage = new Memory((array) $storage);
         }
 
-        if (!$storage instanceof OAuth2_Storage_ScopeInterface) {
-            throw new InvalidArgumentException("Argument 1 to OAuth2_Scope must be null, an array, or instance of OAuth2_Storage_ScopeInterface");
+        if (!$storage instanceof ScopeStorageInterface) {
+            throw new InvalidArgumentException("Argument 1 to OAuth2\Scope must be null, an array, or instance of OAuth2\Storage\ScopeInterface");
         }
 
         $this->storage = $storage;
@@ -27,12 +36,10 @@ class OAuth2_Scope implements OAuth2_ScopeInterface
     /**
      * Check if everything in required scope is contained in available scope.
      *
-     * @param $required_scope
-     * A space-separated string of scopes.
-     *
-     * @return
-     * TRUE if everything in required scope is contained in available scope,
-     * and FALSE if it isn't.
+     * @param string $required_scope  - A space-separated string of scopes.
+     * @param string $available_scope - A space-separated string of scopes.
+     * @return bool                   - TRUE if everything in required scope is contained in available scope and FALSE
+     *                                  if it isn't.
      *
      * @see http://tools.ietf.org/html/rfc6749#section-7
      *
@@ -42,33 +49,61 @@ class OAuth2_Scope implements OAuth2_ScopeInterface
     {
         $required_scope = explode(' ', trim($required_scope));
         $available_scope = explode(' ', trim($available_scope));
+
         return (count(array_diff($required_scope, $available_scope)) == 0);
     }
 
     /**
      * Check if the provided scope exists in storage.
      *
-     * @param $scope
-     *   A space-separated string of scopes.
-     * @param $client_id
-     *   The requesting client.
-     *
-     * @return
-     *   TRUE if it exists, FALSE otherwise.
+     * @param string $scope - A space-separated string of scopes.
+     * @return bool         - TRUE if it exists, FALSE otherwise.
      */
-    public function scopeExists($scope, $client_id = null)
+    public function scopeExists($scope)
     {
-        return $this->storage->scopeExists($scope, $client_id);
+        // Check reserved scopes first.
+        $scope = explode(' ', trim($scope));
+        $reservedScope = $this->getReservedScopes();
+        $nonReservedScopes = array_diff($scope, $reservedScope);
+        if (count($nonReservedScopes) == 0) {
+            return true;
+        } else {
+            // Check the storage for non-reserved scopes.
+            $nonReservedScopes = implode(' ', $nonReservedScopes);
+
+            return $this->storage->scopeExists($nonReservedScopes);
+        }
     }
 
-    public function getScopeFromRequest(OAuth2_RequestInterface $request)
+    /**
+     * @param RequestInterface $request
+     * @return string
+     */
+    public function getScopeFromRequest(RequestInterface $request)
     {
         // "scope" is valid if passed in either POST or QUERY
         return $request->request('scope', $request->query('scope'));
     }
 
-    public function getDefaultScope()
+    /**
+     * @param null $client_id
+     * @return mixed
+     */
+    public function getDefaultScope($client_id = null)
     {
-        return $this->storage->getDefaultScope();
+        return $this->storage->getDefaultScope($client_id);
+    }
+
+    /**
+     * Get reserved scopes needed by the server.
+     *
+     * In case OpenID Connect is used, these scopes must include:
+     * 'openid', offline_access'.
+     *
+     * @return array - An array of reserved scopes.
+     */
+    public function getReservedScopes()
+    {
+        return array('openid', 'offline_access');
     }
 }

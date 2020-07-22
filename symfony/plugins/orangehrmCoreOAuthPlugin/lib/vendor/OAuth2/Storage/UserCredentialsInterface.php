@@ -1,5 +1,7 @@
 <?php
 
+namespace OAuth2\Storage;
+
 /**
  * Implement this interface to specify where the OAuth2 Server
  * should retrieve user credentials for the
@@ -7,7 +9,7 @@
  *
  * @author Brent Shaffer <bshafs at gmail dot com>
  */
-interface OAuth2_Storage_UserCredentialsInterface
+interface UserCredentialsInterface
 {
     /**
      * Grant access tokens for basic user credentials.
@@ -35,15 +37,15 @@ interface OAuth2_Storage_UserCredentialsInterface
     public function checkUserCredentials($username, $password);
 
     /**
-     * @return
-     * ARRAY the associated "scope" or "user_id" values if applicable
-     * This function MUST return FALSE if the requested user does not exist or is
-     * invalid. "scope" is a space-separated list of restricted scopes.
+     * @param string $username - username to get details for
+     * @return array|false     - the associated "user_id" and optional "scope" values
+     *                           This function MUST return FALSE if the requested user does not exist or is
+     *                           invalid. "scope" is a space-separated list of restricted scopes.
      * @code
-     * return array(
-     *     "scope"   => SCOPE       // OPTIONAL space-separated list of restricted scopes
-     *     "user_id" => USER_ID,  // REQUIRED user id to be stored with the authorization code or access token
-     * );
+     *     return array(
+     *         "user_id"  => USER_ID,    // REQUIRED user_id to be stored with the authorization code or access token
+     *         "scope"    => SCOPE       // OPTIONAL space-separated list of restricted scopes
+     *     );
      * @endcode
      */
     public function getUserDetails($username);

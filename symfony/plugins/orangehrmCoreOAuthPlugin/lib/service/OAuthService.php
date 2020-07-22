@@ -29,13 +29,13 @@ class OAuthService extends BaseService
 
     public static function initService()
     {
-        OAuth2_Autoloader::register();
+        OAuth2\Autoloader::register();
     }
 
     public function getOAuthRequest()
     {
         if (is_null($this->oauthRequest)) {
-            $this->oauthRequest = OAuth2_Request::createFromGlobals();
+            $this->oauthRequest = OAuth2\Request::createFromGlobals();
         }
         return $this->oauthRequest;
     }
@@ -43,7 +43,7 @@ class OAuthService extends BaseService
     public function getOAuthResponse()
     {
         if (is_null($this->oauthResponse)) {
-            $this->oauthResponse = new OAuth2_Response();
+            $this->oauthResponse = new OAuth2\Response();
         }
         return $this->oauthResponse;
     }
@@ -87,12 +87,12 @@ class OAuthService extends BaseService
                 'jwt_table' => 'ohrm_oauth_jwt'
             );
             $conn = Doctrine_Manager::connection()->getDbh();
-            $storage = new OAuth2_Storage_Pdo($conn, $config);
-            $server = new OAuth2_Server($storage);
+            $storage = new OAuth2\Storage\Pdo($conn, $config);
+            $server = new OAuth2\Server($storage);
             // $server->addGrantType(new OAuth2_GrantType_AuthorizationCode($storage));
-            $server->addGrantType(new OAuth2_GrantType_ClientCredentials($storage));
-            $server->addGrantType(new OAuth2_GrantType_UserCredentials(new OAuth2_Storage_OhrmUserCredentials()));
-            $server->addGrantType(new OAuth2_GrantType_RefreshToken($storage));// or any grant type you like!
+            $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
+            $server->addGrantType(new OAuth2\GrantType\UserCredentials(new OAuth2_Storage_OhrmUserCredentials()));
+            $server->addGrantType(new OAuth2\GrantType\RefreshToken($storage));// or any grant type you like!
 
             $this->oauthServer = $server;
         }

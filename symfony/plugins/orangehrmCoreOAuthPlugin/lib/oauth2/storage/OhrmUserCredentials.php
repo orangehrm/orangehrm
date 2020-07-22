@@ -3,7 +3,7 @@
 /**
  * Storage for validate OrangeHRM user credentials
  */
-class OAuth2_Storage_OhrmUserCredentials implements OAuth2_Storage_UserCredentialsInterface
+class OAuth2_Storage_OhrmUserCredentials implements OAuth2\Storage\UserCredentialsInterface
 {
     protected $authenticationService;
     protected $systemUserService;

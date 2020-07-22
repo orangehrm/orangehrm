@@ -1,17 +1,53 @@
 <?php
 
-/**
- * @see OAuth2_Controller_ResourceControllerInterface
- */
-class OAuth2_Controller_ResourceController implements OAuth2_Controller_ResourceControllerInterface
-{
-    private $response;
-    private $tokenType;
-    private $tokenStorage;
-    private $config;
-    private $scopeUtil;
+namespace OAuth2\Controller;
 
-    public function __construct(OAuth2_TokenTypeInterface $tokenType, OAuth2_Storage_AccessTokenInterface $tokenStorage, $config = array(), OAuth2_ScopeInterface $scopeUtil = null)
+use OAuth2\TokenType\TokenTypeInterface;
+use OAuth2\Storage\AccessTokenInterface;
+use OAuth2\ScopeInterface;
+use OAuth2\RequestInterface;
+use OAuth2\ResponseInterface;
+use OAuth2\Scope;
+
+/**
+ * @see ResourceControllerInterface
+ */
+class ResourceController implements ResourceControllerInterface
+{
+    /**
+     * @var array
+     */
+    private $token;
+
+    /**
+     * @var TokenTypeInterface
+     */
+    protected $tokenType;
+
+    /**
+     * @var AccessTokenInterface
+     */
+    protected $tokenStorage;
+
+    /**
+     * @var array
+     */
+    protected $config;
+
+    /**
+     * @var ScopeInterface
+     */
+    protected $scopeUtil;
+
+    /**
+     * Constructor
+     *
+     * @param TokenTypeInterface   $tokenType
+     * @param AccessTokenInterface $tokenStorage
+     * @param array                $config
+     * @param ScopeInterface       $scopeUtil
+     */
+    public function __construct(TokenTypeInterface $tokenType, AccessTokenInterface $tokenStorage, $config = array(), ScopeInterface $scopeUtil = null)
     {
         $this->tokenType = $tokenType;
         $this->tokenStorage = $tokenStorage;
@@ -21,14 +57,22 @@ class OAuth2_Controller_ResourceController implements OAuth2_Controller_Resource
         ), $config);
 
         if (is_null($scopeUtil)) {
-            $scopeUtil = new OAuth2_Scope();
+            $scopeUtil = new Scope();
         }
         $this->scopeUtil = $scopeUtil;
     }
 
-    public function verifyResourceRequest(OAuth2_RequestInterface $request, OAuth2_ResponseInterface $response, $scope = null)
+    /**
+     * Verify the resource request
+     *
+     * @param RequestInterface  $request
+     * @param ResponseInterface $response
+     * @param null              $scope
+     * @return bool
+     */
+    public function verifyResourceRequest(RequestInterface $request, ResponseInterface $response, $scope = null)
     {
-        $token = $this->getAccessTokenData($request, $response, $scope);
+        $token = $this->getAccessTokenData($request, $response);
 
         // Check if we have token data
         if (is_null($token)) {
@@ -51,13 +95,24 @@ class OAuth2_Controller_ResourceController implements OAuth2_Controller_Resource
                     $response->getParameter('error_description')
                 )
             ));
+
             return false;
         }
+
+        // allow retrieval of the token
+        $this->token = $token;
 
         return (bool) $token;
     }
 
-    public function getAccessTokenData(OAuth2_RequestInterface $request, OAuth2_ResponseInterface $response)
+    /**
+     * Get access token data.
+     *
+     * @param RequestInterface  $request
+     * @param ResponseInterface $response
+     * @return array|null
+     */
+    public function getAccessTokenData(RequestInterface $request, ResponseInterface $response)
     {
         // Get the token parameter
         if ($token_param = $this->tokenType->getAccessTokenParameter($request, $response)) {
@@ -65,11 +120,11 @@ class OAuth2_Controller_ResourceController implements OAuth2_Controller_Resource
             // Check we have a well formed token
             // Check token expiration (expires is a mandatory paramter)
             if (!$token = $this->tokenStorage->getAccessToken($token_param)) {
-                $response->setError(401, 'invalid_grant', 'The access token provided is invalid');
-            } else if (!isset($token["expires"]) || !isset($token["client_id"])) {
-                $response->setError(401, 'invalid_grant', 'Malformed token (missing "expires" or "client_id")');
-            } else if (time() > $token["expires"]) {
-                $response->setError(401, 'invalid_grant', 'The access token provided has expired');
+                $response->setError(401, 'invalid_token', 'The access token provided is invalid');
+            } elseif (!isset($token["expires"]) || !isset($token["client_id"])) {
+                $response->setError(401, 'malformed_token', 'Malformed token (missing "expires")');
+            } elseif (time() > $token["expires"]) {
+                $response->setError(401, 'invalid_token', 'The access token provided has expired');
             } else {
                 return $token;
             }
@@ -85,6 +140,17 @@ class OAuth2_Controller_ResourceController implements OAuth2_Controller_Resource
         }
 
         $response->addHttpHeaders(array('WWW-Authenticate' => $authHeader));
+
         return null;
+    }
+
+    /**
+     * convenience method to allow retrieval of the token.
+     *
+     * @return array
+     */
+    public function getToken()
+    {
+        return $this->token;
     }
 }

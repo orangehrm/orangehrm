@@ -1,22 +1,48 @@
 <?php
 
+namespace OAuth2;
+
+use InvalidArgumentException;
+
 /**
  * Class to handle OAuth2 Responses in a graceful way.  Use this interface
  * to output the proper OAuth2 responses.
  *
- * @see OAuth2_ResponseInterface
+ * @see OAuth2\ResponseInterface
  *
  * This class borrows heavily from the Symfony2 Framework and is part of the symfony package
  * @see Symfony\Component\HttpFoundation\Request (https://github.com/symfony/symfony)
  */
-class OAuth2_Response implements OAuth2_ResponseInterface
+class Response implements ResponseInterface
 {
+    /**
+     * @var string
+     */
     public $version;
+
+    /**
+     * @var int
+     */
     protected $statusCode = 200;
+
+    /**
+     * @var string
+     */
     protected $statusText;
+
+    /**
+     * @var array
+     */
     protected $parameters = array();
+
+    /**
+     * @var array
+     */
     protected $httpHeaders = array();
 
+    /**
+     * @var array
+     */
     public static $statusTexts = array(
         100 => 'Continue',
         101 => 'Switching Protocols',
@@ -61,6 +87,11 @@ class OAuth2_Response implements OAuth2_ResponseInterface
         505 => 'HTTP Version Not Supported',
     );
 
+    /**
+     * @param array $parameters
+     * @param int   $statusCode
+     * @param array $headers
+     */
     public function __construct($parameters = array(), $statusCode = 200, $headers = array())
     {
         $this->setParameters($parameters);
@@ -100,11 +131,19 @@ class OAuth2_Response implements OAuth2_ResponseInterface
         return sprintf("%s: %s\n", $name, $value);
     }
 
+    /**
+     * @return int
+     */
     public function getStatusCode()
     {
         return $this->statusCode;
     }
 
+    /**
+     * @param int $statusCode
+     * @param string $text
+     * @throws InvalidArgumentException
+     */
     public function setStatusCode($statusCode, $text = null)
     {
         $this->statusCode = (int) $statusCode;
@@ -115,77 +154,127 @@ class OAuth2_Response implements OAuth2_ResponseInterface
         $this->statusText = false === $text ? '' : (null === $text ? self::$statusTexts[$this->statusCode] : $text);
     }
 
+    /**
+     * @return string
+     */
     public function getStatusText()
     {
         return $this->statusText;
     }
 
+    /**
+     * @return array
+     */
     public function getParameters()
     {
         return $this->parameters;
     }
 
+    /**
+     * @param array $parameters
+     */
     public function setParameters(array $parameters)
     {
         $this->parameters = $parameters;
     }
 
+    /**
+     * @param array $parameters
+     */
     public function addParameters(array $parameters)
     {
         $this->parameters = array_merge($this->parameters, $parameters);
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $default
+     * @return mixed
+     */
     public function getParameter($name, $default = null)
     {
         return isset($this->parameters[$name]) ? $this->parameters[$name] : $default;
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $value
+     */
     public function setParameter($name, $value)
     {
         $this->parameters[$name] = $value;
     }
 
+    /**
+     * @param array $httpHeaders
+     */
     public function setHttpHeaders(array $httpHeaders)
     {
         $this->httpHeaders = $httpHeaders;
     }
 
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
     public function setHttpHeader($name, $value)
     {
         $this->httpHeaders[$name] = $value;
     }
 
+    /**
+     * @param array $httpHeaders
+     */
     public function addHttpHeaders(array $httpHeaders)
     {
         $this->httpHeaders = array_merge($this->httpHeaders, $httpHeaders);
     }
 
+    /**
+     * @return array
+     */
     public function getHttpHeaders()
     {
         return $this->httpHeaders;
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $default
+     * @return mixed
+     */
     public function getHttpHeader($name, $default = null)
     {
         return isset($this->httpHeaders[$name]) ? $this->httpHeaders[$name] : $default;
     }
 
+    /**
+     * @param string $format
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
     public function getResponseBody($format = 'json')
     {
         switch ($format) {
             case 'json':
-                return json_encode($this->parameters);
+                return $this->parameters ? json_encode($this->parameters) : '';
             case 'xml':
                 // this only works for single-level arrays
-                $xml = new SimpleXMLElement('<response/>');
-                array_walk($this->parameters, array($xml, 'addChild'));
+                $xml = new \SimpleXMLElement('<response/>');
+                foreach ($this->parameters as $key => $param) {
+                    $xml->addChild($key, $param);
+                }
+
                 return $xml->asXML();
         }
 
-        throw new InvalidArgumentException(sprintf('The format %s is not supported'));
+        throw new InvalidArgumentException(sprintf('The format %s is not supported', $format));
 
     }
 
+    /**
+     * @param string $format
+     */
     public function send($format = 'json')
     {
         // headers have already been sent by the developer
@@ -210,6 +299,14 @@ class OAuth2_Response implements OAuth2_ResponseInterface
         echo $this->getResponseBody($format);
     }
 
+    /**
+     * @param int $statusCode
+     * @param string $error
+     * @param string $errorDescription
+     * @param string $errorUri
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
     public function setError($statusCode, $error, $errorDescription = null, $errorUri = null)
     {
         $parameters = array(
@@ -238,7 +335,17 @@ class OAuth2_Response implements OAuth2_ResponseInterface
         }
     }
 
-    public function setRedirect($statusCode = 302, $url, $state = null, $error = null, $errorDescription = null, $errorUri = null)
+    /**
+     * @param int $statusCode
+     * @param string $url
+     * @param string $state
+     * @param string $error
+     * @param string $errorDescription
+     * @param string $errorUri
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function setRedirect($statusCode, $url, $state = null, $error = null, $errorDescription = null, $errorUri = null)
     {
         if (empty($url)) {
             throw new InvalidArgumentException('Cannot redirect to an empty URL.');
@@ -259,7 +366,7 @@ class OAuth2_Response implements OAuth2_ResponseInterface
         if (count($this->parameters) > 0) {
             // add parameters to URL redirection
             $parts = parse_url($url);
-            $sep = isset($parts['query']) && count($parts['query']) > 0 ? '&' : '?';
+            $sep = isset($parts['query']) && !empty($parts['query']) ? '&' : '?';
             $url .= $sep . http_build_query($this->parameters);
         }
 
@@ -270,11 +377,12 @@ class OAuth2_Response implements OAuth2_ResponseInterface
         }
     }
 
-    // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     /**
      * @return Boolean
      *
      * @api
+     *
+     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
      */
     public function isInvalid()
     {
@@ -331,8 +439,11 @@ class OAuth2_Response implements OAuth2_ResponseInterface
         return $this->statusCode >= 500 && $this->statusCode < 600;
     }
 
-    /*
-     * Functions from Symfony2 HttpFoundation - output pretty header
+    /**
+     * Function from Symfony2 HttpFoundation - output pretty header
+     *
+     * @param array $headers
+     * @return string
      */
     private function getHttpHeadersAsString($headers)
     {
@@ -352,11 +463,23 @@ class OAuth2_Response implements OAuth2_ResponseInterface
         return $content;
     }
 
+    /**
+     * Function from Symfony2 HttpFoundation - output pretty header
+     *
+     * @param string $name
+     * @return mixed
+     */
     private function beautifyHeaderName($name)
     {
         return preg_replace_callback('/\-(.)/', array($this, 'beautifyCallback'), ucfirst($name));
     }
 
+    /**
+     * Function from Symfony2 HttpFoundation - output pretty header
+     *
+     * @param array $match
+     * @return string
+     */
     private function beautifyCallback($match)
     {
         return '-'.strtoupper($match[1]);
