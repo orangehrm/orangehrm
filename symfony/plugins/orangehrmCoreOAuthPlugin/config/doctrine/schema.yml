@@ -14,3 +14,15 @@ OAuthClient:
       name: redirect_uri as redirectUri
       type: string(2000)
       notnull: true
+
+OAuthScope:
+  tableName: ohrm_oauth_scope
+  columns:
+    scope:
+      name: scope
+      type: string(255)
+      notnull: true
+      primary: true
+    is_default:
+      name: is_default as isDefault
+      type: boolean

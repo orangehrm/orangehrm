@@ -18,14 +18,15 @@
  */
 
 use Orangehrm\Rest\Api\Admin\Entity\User;
-use Orangehrm\Rest\Api\Pim\Entity\Employee;
-use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Api\Admin\UserAPI;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Pim\EmployeePhotoAPI;
 use Orangehrm\Rest\Api\Pim\EmployeeSearchAPI;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Pim\Entity\Employee;
+use Orangehrm\Rest\Api\Scope;
+use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Exception\BadRequestException;
 
 class MyInfoApiAction extends baseRestAction
 {
@@ -80,5 +81,22 @@ class MyInfoApiAction extends baseRestAction
     protected function handlePostRequest(Request $request)
     {
         throw new NotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function verifyAllowedScope()
+    {
+        $oauthRequest = $this->getOAuthRequest();
+        $oauthResponse = $this->getOAuthResponse();
+        if (!$this->getOAuthServer()->verifyResourceRequest(
+            $oauthRequest,
+            $oauthResponse,
+            Scope::SCOPE_MOBILE
+        )) {
+            $oauthResponse->send();
+            throw new sfStopException();
+        }
     }
 }

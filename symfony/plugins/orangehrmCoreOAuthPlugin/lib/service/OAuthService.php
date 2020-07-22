@@ -84,7 +84,8 @@ class OAuthService extends BaseService
                 'refresh_token_table' => 'ohrm_oauth_refresh_token',
                 'code_table' => 'ohrm_oauth_authorization_code',
                 'user_table' => 'ohrm_oauth_user',
-                'jwt_table' => 'ohrm_oauth_jwt'
+                'jwt_table' => 'ohrm_oauth_jwt',
+                'scope_table'  => 'ohrm_oauth_scope',
             );
             $conn = Doctrine_Manager::connection()->getDbh();
             $storage = new OAuth2\Storage\Pdo($conn, $config);
@@ -92,7 +93,8 @@ class OAuthService extends BaseService
             // $server->addGrantType(new OAuth2_GrantType_AuthorizationCode($storage));
             $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
             $server->addGrantType(new OAuth2\GrantType\UserCredentials(new OAuth2_Storage_OhrmUserCredentials()));
-            $server->addGrantType(new OAuth2\GrantType\RefreshToken($storage));// or any grant type you like!
+            $server->addGrantType(new OAuth2\GrantType\RefreshToken($storage));
+            $server->setScopeUtil(new OAuth2\Scope($storage));
 
             $this->oauthServer = $server;
         }

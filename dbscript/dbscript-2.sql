@@ -2977,3 +2977,5 @@ INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `ca
 -- i.e. -4 weeks, -2 days, -1 day, -1 month
 -- https://www.php.net/manual/en/datetime.formats.relative.php
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_max_notification_period','-1 week');
+
+INSERT INTO `ohrm_oauth_scope` (`scope`, `is_default`) VALUES ('privileged', '0'), ('mobile', '0');
