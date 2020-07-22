@@ -63,7 +63,7 @@ class ApiLeaveRequestAPITest extends PHPUnit\Framework\TestCase
         $request = new Request($sfRequest);
 
         $leaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\Leave\LeaveRequestAPI')
-            ->setMethods(['createLeaveRequestEntity', 'getAccessibleEmployeeIds'])
+            ->setMethods(['createLeaveRequestEntity', 'getAccessibleEmployeeIds','getUserAttribute'])
             ->setConstructorArgs(array($request))
             ->getMock();
         $leaveRequestApi->expects($this->once())
@@ -72,6 +72,9 @@ class ApiLeaveRequestAPITest extends PHPUnit\Framework\TestCase
         $leaveRequestApi->expects($this->once())
             ->method('getAccessibleEmployeeIds')
             ->will($this->returnValue([1, 2, 3, 32]));
+        $leaveRequestApi->expects($this->once())
+            ->method('getUserAttribute')
+            ->will($this->returnValue('1'));
 
         $leaveRequestService = $this->getMockBuilder('LeaveRequestService')->getMock();
         $leaveRequestService->expects($this->once())
