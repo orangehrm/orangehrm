@@ -149,7 +149,11 @@ class SaveLeaveRequestAPI extends EndPoint
         $leaveParameters = new \LeaveParameterObject($filters);
         if ($this->validateLeaveType($filters['txtLeaveType'])) {
             $this->getLeaveAssignmentService()->setAction(($this->getRequestParams()->getPostParam(self::PARAMETER_LEAVE_ACTION)));
-            $success = $this->getLeaveAssignmentService()->assignLeave($leaveParameters);
+            try {
+                $success = $this->getLeaveAssignmentService()->assignLeave($leaveParameters);
+            } catch (\LeaveAllocationServiceException $e) {
+                throw new BadRequestException($e->getMessage());
+            }
         } else {
             $success = false;
         }
