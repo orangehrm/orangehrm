@@ -27,9 +27,9 @@ use UserRoleManagerFactory;
 
 class EmployeesAPI extends EndPoint
 {
-    public const PARAMETER_ACTION = 'actionName';
-    public const PARAMETER_PROPERTIES = 'properties';
-    public const PARAMETER_PAST_EMPLOYEE = 'pastEmployee';
+    const PARAMETER_ACTION = 'actionName';
+    const PARAMETER_PROPERTIES = 'properties';
+    const PARAMETER_PAST_EMPLOYEE = 'pastEmployee';
 
     public function getEmployees():Response
     {
