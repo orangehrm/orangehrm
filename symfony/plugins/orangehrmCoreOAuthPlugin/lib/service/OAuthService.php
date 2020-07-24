@@ -1,8 +1,20 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
  */
 
 /**
@@ -93,7 +105,9 @@ class OAuthService extends BaseService
             // $server->addGrantType(new OAuth2_GrantType_AuthorizationCode($storage));
             $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
             $server->addGrantType(new OAuth2\GrantType\UserCredentials(new OAuth2_Storage_OhrmUserCredentials()));
-            $server->addGrantType(new OAuth2\GrantType\RefreshToken($storage));
+            $server->addGrantType(
+                new OAuth2\GrantType\RefreshToken($storage, ['always_issue_new_refresh_token' => true])
+            );
             $server->setScopeUtil(new OAuth2\Scope($storage));
 
             $this->oauthServer = $server;
@@ -161,5 +175,3 @@ class OAuthService extends BaseService
     }
 
 }
-
-?>
