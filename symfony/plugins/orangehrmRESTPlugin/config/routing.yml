@@ -236,3 +236,21 @@ api_leave_leave_request:
   param: { module:apiv1mobile, action:EmployeeLeaveRequestApi }
   requirements:
     sf_method: [get,post]
+
+api_leave_subordinate_leave_entitlement:
+  url: /api/v1/subordinate/:id/leave-entitlement
+  param: { module:apiv1mobile, action:SubordinateLeaveEntitlementApi }
+  requirements:
+    sf_method: [get]
+
+api_leave_subordinate_leave_request:
+  url: /api/v1/subordinate/:id/leave-request
+  param: { module:apiv1mobile, action:SubordinateLeaveRequestApi }
+  requirements:
+    sf_method: [post]
+
+api_employees:
+  url: /api/v1/employees
+  param: { module:apiv1mobile, action:EmployeesApi }
+  requirements:
+    sf_method: [get]

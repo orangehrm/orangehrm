@@ -17,17 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
+use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Leave\SaveLeaveRequestAPI;
-use Orangehrm\Rest\Api\Mobile\MyLeaveRequestAPI;
 use Orangehrm\Rest\Http\Request;
 
-class MyLeaveRequestApiAction extends BaseMobileApiAction
+class SubordinateLeaveRequestApiAction extends BaseMobileApiAction
 {
-    /**
-     * @var null|MyLeaveRequestAPI
-     */
-    private $myLeaveRequestAPI = null;
-
     /**
      * @var null|SaveLeaveRequestAPI
      */
@@ -35,31 +31,45 @@ class MyLeaveRequestApiAction extends BaseMobileApiAction
 
     protected function init(Request $request)
     {
-        $this->myLeaveRequestAPI = new MyLeaveRequestAPI($request);
-        $this->myLeaveRequestAPI->setRequest($request);
         $this->saveLeaveRequestApi = new SaveLeaveRequestAPI($request);
         $this->postValidationRule = $this->saveLeaveRequestApi->getValidationRules();
-        $this->getValidationRule = $this->myLeaveRequestAPI->getValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
     {
-        $systemUser = $this->getSystemUser();
-        return $this->myLeaveRequestAPI->getMyLeaveDetails($systemUser->getEmpNumber());
+        throw new NotImplementedException();
     }
 
     protected function handlePostRequest(Request $request)
     {
         $this->setUserToContext();
-        $systemUser = $this->getSystemUser();
-        $this->saveLeaveRequestApi->getRequestParams()->setParam(
-            SaveLeaveRequestAPI::PARAMETER_ID,
-            $systemUser->getEmpNumber()
-        );
+        $empNumber = $this->saveLeaveRequestApi->getRequestParams()->getUrlParam(SaveLeaveRequestAPI::PARAMETER_ID);
+        if (!in_array($empNumber, $this->getAccessibleEmpNumbers())) {
+            throw new BadRequestException('Access Denied');
+        }
+
+        //To assign leave as SCHEDULED
         $this->saveLeaveRequestApi->getRequestParams()->setPostParam(
             SaveLeaveRequestAPI::PARAMETER_LEAVE_ACTION,
-            "PENDING"
+            null
         );
         return $this->saveLeaveRequestApi->saveLeaveRequest();
+    }
+
+    protected function getAccessibleEmpNumbers(): array
+    {
+        $properties = ["empNumber"];
+        $requiredPermissions = [BasicUserRoleManager::PERMISSION_TYPE_ACTION => ['assign_leave']];
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties(
+            'Employee',
+            $properties,
+            null,
+            null,
+            [],
+            [],
+            $requiredPermissions
+        );
+
+        return array_keys($employeeList);
     }
 }

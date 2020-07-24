@@ -86,6 +86,8 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/mobile/ApiMyLeaveRequestAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/mobile/ApiEmployeeLeaveRequestAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/mobile/model/ApiLeaveRequestModelTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/mobile/ApiSubordinateLeaveEntitlementAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/mobile/ApiEmployeesAPITest.php');
 
         return $suite;
     }

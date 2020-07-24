@@ -69,9 +69,8 @@ class EmployeeLeaveRequestAPI extends EndPoint
 
     /**
      * @param LeaveRequestService $leaveRequestService
-     * @return void
      */
-    public function setLeaveRequestService(LeaveRequestService $leaveRequestService): void
+    public function setLeaveRequestService(LeaveRequestService $leaveRequestService)
     {
         $this->leaveRequestService = $leaveRequestService;
     }
@@ -91,7 +90,7 @@ class EmployeeLeaveRequestAPI extends EndPoint
      * Sets EmployeeService
      * @param EmployeeService $service
      */
-    public function setEmployeeService(EmployeeService $service): void
+    public function setEmployeeService(EmployeeService $service)
     {
         $this->employeeService = $service;
     }
@@ -302,7 +301,7 @@ class EmployeeLeaveRequestAPI extends EndPoint
     protected function getAccessibleEmployeeIds(): array
     {
         $properties = ["empNumber"];
-        $requiredPermissions = ['action' => ['view_leave_list']];
+        $requiredPermissions = [\BasicUserRoleManager::PERMISSION_TYPE_ACTION => ['view_leave_list']];
 
         $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties(
             'Employee',

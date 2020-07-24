@@ -89,7 +89,7 @@ class LeaveRequestAPI extends EndPoint
      * Sets EmployeeService
      * @param \EmployeeService $service
      */
-    public function setEmployeeService(\EmployeeService $service): void
+    public function setEmployeeService(\EmployeeService $service)
     {
         $this->employeeService = $service;
     }
@@ -125,7 +125,7 @@ class LeaveRequestAPI extends EndPoint
      *
      * @param $leaveEntitlementService
      */
-    public function setLeaveEntitlementService(\LeaveEntitlementService $leaveEntitlementService): void
+    public function setLeaveEntitlementService(\LeaveEntitlementService $leaveEntitlementService)
     {
         $this->leaveEntitlementService = $leaveEntitlementService;
     }
@@ -149,9 +149,8 @@ class LeaveRequestAPI extends EndPoint
     /**
      *
      * @param \LeaveRequestService $leaveRequestService
-     * @return void
      */
-    public function setLeaveRequestService(\LeaveRequestService $leaveRequestService): void
+    public function setLeaveRequestService(\LeaveRequestService $leaveRequestService)
     {
         $this->leaveRequestService = $leaveRequestService;
     }
@@ -172,7 +171,7 @@ class LeaveRequestAPI extends EndPoint
     /**
      * @param LeavePeriodService $leavePeriodService
      */
-    public function setLeavePeriodService(LeavePeriodService $leavePeriodService): void
+    public function setLeavePeriodService(LeavePeriodService $leavePeriodService)
     {
         $this->leavePeriodService = $leavePeriodService;
     }

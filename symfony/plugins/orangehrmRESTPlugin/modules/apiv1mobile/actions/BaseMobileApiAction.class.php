@@ -85,7 +85,7 @@ abstract class BaseMobileApiAction extends baseRestAction
      * @throws BadRequestException
      * @throws ServiceException
      */
-    public function setUserToContext(): void
+    public function setUserToContext()
     {
         $systemUser = $this->getSystemUser();
         $authService = new AuthService();

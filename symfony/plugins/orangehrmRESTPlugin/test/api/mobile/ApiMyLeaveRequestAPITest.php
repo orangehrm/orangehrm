@@ -73,7 +73,7 @@ class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
 
         $this->assertEquals($leaveRequest->getId(), $leaveRequests[0]['id']);
         $this->assertEquals($leaveRequest->getDateApplied(), $leaveRequests[0]['appliedDate']);
-        $this->assertEquals($leaveType->getName(), $leaveRequests[0]['leaveType']);
+        $this->assertEquals($leaveType->getName(), $leaveRequests[0]['leaveType']['type']);
     }
 
     public function testGetMyLeaveDetails()
