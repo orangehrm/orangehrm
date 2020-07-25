@@ -24,7 +24,6 @@ use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Pim\EmployeePhotoAPI;
 use Orangehrm\Rest\Api\Pim\EmployeeSearchAPI;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
-use Orangehrm\Rest\Api\Scope;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 
@@ -93,7 +92,7 @@ class MyInfoApiAction extends baseRestAction
         if (!$this->getOAuthServer()->verifyResourceRequest(
             $oauthRequest,
             $oauthResponse,
-            Scope::SCOPE_MOBILE
+            Scope::SCOPE_USER
         )) {
             $oauthResponse->send();
             throw new sfStopException();

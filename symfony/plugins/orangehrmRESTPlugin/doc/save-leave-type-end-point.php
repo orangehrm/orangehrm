@@ -3,6 +3,7 @@
 * @apiName saveLeaveType
 * @apiGroup Leave
 * @apiVersion 0.1.0
+* @apiUse AdminDescription
 *
 * @apiParam   {String} name Mandatory leave type name.
 *

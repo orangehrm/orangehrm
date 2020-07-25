@@ -3,6 +3,7 @@
 * @apiName getTimesheets
 * @apiGroup Time
 * @apiVersion 0.1.0
+* @apiUse AdminDescription
 *
 *
 * @apiParam    {Number} id Employee id.

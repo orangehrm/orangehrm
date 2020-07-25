@@ -21,7 +21,6 @@ use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-use Orangehrm\Rest\Api\Scope;
 use Orangehrm\Rest\Api\Validator;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
@@ -166,7 +165,7 @@ abstract class baseRestAction extends baseOAuthAction {
         if (!$this->getOAuthServer()->verifyResourceRequest(
             $oauthRequest,
             $oauthResponse,
-            Scope::SCOPE_PRIVILEGED
+            Scope::SCOPE_ADMIN
         )) {
             $oauthResponse->send();
             throw new sfStopException();

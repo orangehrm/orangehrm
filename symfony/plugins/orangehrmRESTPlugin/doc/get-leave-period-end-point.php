@@ -3,6 +3,7 @@
 * @apiName getLeavePeriods
 * @apiGroup Leave
 * @apiVersion 0.1.0
+* @apiUse AdminDescription
 *
 *
 *

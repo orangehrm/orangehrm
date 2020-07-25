@@ -2275,3 +2275,6 @@ CREATE TABLE `ohrm_oauth_scope` (
   `scope` text,
   `is_default` boolean not null default false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `ohrm_oauth_client` ADD `grant_types` VARCHAR(80) NULL DEFAULT NULL;
+ALTER TABLE `ohrm_oauth_client` ADD `scope` VARCHAR(4000) NULL DEFAULT NULL;

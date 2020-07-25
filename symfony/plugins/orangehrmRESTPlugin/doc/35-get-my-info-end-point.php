@@ -3,6 +3,7 @@
 * @apiName getMyInfo
 * @apiGroup Employee
 * @apiVersion 0.1.0
+* @apiUse UserDescription
 *
 * @apiSuccess {Object} employee  Employee details.
 * @apiSuccess {String} employeePhoto Base64 encoded employee picture.

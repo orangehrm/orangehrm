@@ -2978,4 +2978,6 @@ INSERT INTO `ohrm_user_role_screen`(`user_role_id`, `screen_id`, `can_read`, `ca
 -- https://www.php.net/manual/en/datetime.formats.relative.php
 INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_max_notification_period','-1 week');
 
-INSERT INTO `ohrm_oauth_scope` (`scope`, `is_default`) VALUES ('privileged', '0'), ('mobile', '0');
+INSERT INTO `ohrm_oauth_scope` (`scope`, `is_default`) VALUES ('admin', '0'), ('user', '0');
+INSERT IGNORE INTO `ohrm_oauth_client`(`client_id`, `client_secret`, `redirect_uri`, `grant_types`, `scope`) VALUES
+('__mobile_client','','','password refresh_token','user');
