@@ -27,7 +27,7 @@ use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 
-class MyInfoApiAction extends baseRestAction
+class MyInfoApiAction extends BaseUserApiAction
 {
     /**
      * @var null|UserAPI
@@ -80,22 +80,5 @@ class MyInfoApiAction extends baseRestAction
     protected function handlePostRequest(Request $request)
     {
         throw new NotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function verifyAllowedScope()
-    {
-        $oauthRequest = $this->getOAuthRequest();
-        $oauthResponse = $this->getOAuthResponse();
-        if (!$this->getOAuthServer()->verifyResourceRequest(
-            $oauthRequest,
-            $oauthResponse,
-            Scope::SCOPE_USER
-        )) {
-            $oauthResponse->send();
-            throw new sfStopException();
-        }
     }
 }
