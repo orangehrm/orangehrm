@@ -22,9 +22,6 @@
  *
  * @author orangehrm
  */
-
-require_once __DIR__ . '/../vendor/OAuth2/Autoloader.php';
-
 class OAuthService extends BaseService
 {
 
@@ -33,16 +30,6 @@ class OAuthService extends BaseService
     protected $oauthResponse = null;
     protected $authenticationService;
     protected $oAuthClientDao;
-
-    public function __construct()
-    {
-        self::initService();
-    }
-
-    public static function initService()
-    {
-        OAuth2\Autoloader::register();
-    }
 
     public function getOAuthRequest()
     {
