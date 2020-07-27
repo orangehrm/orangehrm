@@ -140,6 +140,7 @@ class registerOAuthClientAction extends ohrmBaseAction {
         $buttons = array();
 
         $runtimeDefinitions['hasSelectableRows'] = true;
+        $runtimeDefinitions['unselectableRowIds'] = [OAuthClientDao::PUBLIC_MOBILE_CLIENT_ID];
         $runtimeDefinitions['idValueGetter'] = 'getClientId';
         $buttons['Delete'] = array('label' => 'Delete',
             'type' => 'submit',
