@@ -8128,6 +8128,10 @@
         <source>File write permission required to `symfony/web` directory.</source>
         <target>FR_File write permission required to `symfony/web` directory.</target>
       </trans-unit>
+      <trans-unit id="2035">
+        <source>Enable Mobile</source>
+        <target>FR_Enable Mobile</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

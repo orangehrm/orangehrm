@@ -16,13 +16,14 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
+
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Validator;
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Http\Response;
 
 abstract class baseRestAction extends baseOAuthAction {
 
@@ -35,17 +36,8 @@ abstract class baseRestAction extends baseOAuthAction {
      * Check token validation
      */
     public function preExecute() {
-
-
         parent::preExecute();
-
-        $server = $this->getOAuthServer();
-        $oauthRequest = $this->getOAuthRequest();
-        $oauthResponse = $this->getOAuthResponse();
-        if (!$server->verifyResourceRequest($oauthRequest, $oauthResponse)) {
-            $server->getResponse()->send();
-            exit;
-        }
+        $this->verifyAllowedScope();
     }
 
     protected function init(Request $request){
@@ -160,6 +152,24 @@ abstract class baseRestAction extends baseOAuthAction {
 
 
         return sfView::NONE;
+    }
+
+    /**
+     * Check allowed scopes. By default check `privileged` for non-mobile endpoints
+     * @throws sfStopException
+     */
+    public function verifyAllowedScope()
+    {
+        $oauthRequest = $this->getOAuthRequest();
+        $oauthResponse = $this->getOAuthResponse();
+        if (!$this->getOAuthServer()->verifyResourceRequest(
+            $oauthRequest,
+            $oauthResponse,
+            Scope::SCOPE_ADMIN
+        )) {
+            $oauthResponse->send();
+            throw new sfStopException();
+        }
     }
 }
 

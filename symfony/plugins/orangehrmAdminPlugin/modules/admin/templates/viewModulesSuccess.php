@@ -81,6 +81,10 @@
                         <?php echo $form['maintenance']->renderLabel(__('Enable Maintenance module')); ?>
                         <?php echo $form['maintenance']->render(); ?>
                     </li>
+                    <li class="checkbox">
+                        <?php echo $form['mobile']->renderLabel(__('Enable Mobile')); ?>
+                        <?php echo $form['mobile']->render(); ?>
+                    </li>
                     <li class="required">
                         <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
                     </li>

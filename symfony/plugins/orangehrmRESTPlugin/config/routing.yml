@@ -209,48 +209,48 @@ api_integration:
 
 api_mobile_myinfo:
   url: /api/v1/myinfo
-  param: { module:apiv1pim, action:MyInfoApi}
+  param: { module:apiv1user, action:MyInfoApi}
   requirements:
     sf_method: [get]
 
 api_leave_myleave_entitlement:
   url: /api/v1/leave/my-leave-entitlement
-  param: { module:apiv1mobile, action:MyLeaveEntitlementApi }
+  param: { module:apiv1user, action:MyLeaveEntitlementApi }
   requirements:
     sf_method: [get]
 
 api_leave_myleave_request:
   url: /api/v1/leave/my-leave-request
-  param: { module:apiv1mobile, action:MyLeaveRequestApi }
+  param: { module:apiv1user, action:MyLeaveRequestApi }
   requirements:
     sf_method: [get,post]
 
 api_leave_leavelist:
   url: /api/v1/leave/leave-list
-  param: { module:apiv1mobile, action:LeaveListApi }
+  param: { module:apiv1user, action:LeaveListApi }
   requirements:
     sf_method: [get]
 
 api_leave_leave_request:
   url: /api/v1/leave/leave-request/:id
-  param: { module:apiv1mobile, action:EmployeeLeaveRequestApi }
+  param: { module:apiv1user, action:EmployeeLeaveRequestApi }
   requirements:
     sf_method: [get,post]
 
 api_leave_subordinate_leave_entitlement:
   url: /api/v1/subordinate/:id/leave-entitlement
-  param: { module:apiv1mobile, action:SubordinateLeaveEntitlementApi }
+  param: { module:apiv1user, action:SubordinateLeaveEntitlementApi }
   requirements:
     sf_method: [get]
 
 api_leave_subordinate_leave_request:
   url: /api/v1/subordinate/:id/leave-request
-  param: { module:apiv1mobile, action:SubordinateLeaveRequestApi }
+  param: { module:apiv1user, action:SubordinateLeaveRequestApi }
   requirements:
     sf_method: [post]
 
 api_employees:
   url: /api/v1/employees
-  param: { module:apiv1mobile, action:EmployeesApi }
+  param: { module:apiv1user, action:EmployeesApi }
   requirements:
     sf_method: [get]

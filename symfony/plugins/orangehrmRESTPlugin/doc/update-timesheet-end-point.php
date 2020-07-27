@@ -3,6 +3,7 @@
 * @apiName updateTimesheet
 * @apiGroup Time
 * @apiVersion 0.1.0
+* @apiUse AdminDescription
 *
 * @apiParam  {Date} startDate  Timesheet start date.
 * @apiParam  {Number} id  Employee id.

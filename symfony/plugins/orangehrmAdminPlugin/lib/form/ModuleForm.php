@@ -48,7 +48,7 @@ class ModuleForm extends BaseForm {
             'help' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
             'directory' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
             'maintenance' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
-
+            'mobile' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
         ));        
         
         $this->setValidators(array(
@@ -60,8 +60,8 @@ class ModuleForm extends BaseForm {
             'performance' => new sfValidatorPass(),
             'help' => new sfValidatorPass(),
             'directory' => new sfValidatorPass(),
-            'maintenance' => new sfValidatorPass()
-
+            'maintenance' => new sfValidatorPass(),
+            'mobile' => new sfValidatorPass(),
         ));
         
         $this->setDefaults($this->_getDefaultValues());
@@ -90,6 +90,8 @@ class ModuleForm extends BaseForm {
         foreach ($modules as $module) {
             $defaultValues[$module] = true;
         }
+
+        $defaultValues[ModuleService::MODULE_MOBILE] = $this->getModuleService()->isMobileEnabled();
         
         return $defaultValues;
         
@@ -103,8 +105,12 @@ class ModuleForm extends BaseForm {
         $modulesToEnable = array();
         $modulesToDisable = array();
         $defaultModules = array('admin', 'pim');
-        
+
         foreach ($modules as $key => $value) {
+            // enable mobile handle separately below
+            if ($key == ModuleService::MODULE_MOBILE) {
+                continue;
+            }
             
             if (!empty($value)) {
                 
@@ -145,11 +151,11 @@ class ModuleForm extends BaseForm {
         if (!empty($modulesToDisable)) {
             $this->getModuleService()->updateModuleStatus($modulesToDisable, Module::DISABLED);
         }
+
+        $this->getModuleService()->updateMobileStatus(!empty($modules[ModuleService::MODULE_MOBILE]));
         
         return array('messageType' => 'success', 'message' => __(TopLevelMessages::SAVE_SUCCESS));
         
     }
 
 }
-
-?>

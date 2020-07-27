@@ -3,6 +3,7 @@
 * @apiName getUsers
 * @apiGroup Admin
 * @apiVersion 0.1.0
+* @apiUse AdminDescription
 *
 * @apiParam  {Number} offset  Page number.
 * @apiParam  {Number} limit  Number of results per page.

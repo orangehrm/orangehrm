@@ -3,6 +3,7 @@
 * @apiName getCustomField
 * @apiGroup Employee
 * @apiVersion 0.1.0
+* @apiUse AdminDescription
 *
 * @apiSuccess {Number} id Field id.
 * @apiSuccess {String} name Field name.

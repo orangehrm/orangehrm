@@ -1,8 +1,20 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
  */
 
 /**
@@ -10,9 +22,6 @@
  *
  * @author orangehrm
  */
-
-require_once __DIR__ . '/../vendor/OAuth2/Autoloader.php';
-
 class OAuthService extends BaseService
 {
 
@@ -22,20 +31,10 @@ class OAuthService extends BaseService
     protected $authenticationService;
     protected $oAuthClientDao;
 
-    public function __construct()
-    {
-        self::initService();
-    }
-
-    public static function initService()
-    {
-        OAuth2_Autoloader::register();
-    }
-
     public function getOAuthRequest()
     {
         if (is_null($this->oauthRequest)) {
-            $this->oauthRequest = OAuth2_Request::createFromGlobals();
+            $this->oauthRequest = OAuth2\Request::createFromGlobals();
         }
         return $this->oauthRequest;
     }
@@ -43,7 +42,7 @@ class OAuthService extends BaseService
     public function getOAuthResponse()
     {
         if (is_null($this->oauthResponse)) {
-            $this->oauthResponse = new OAuth2_Response();
+            $this->oauthResponse = new OAuth2\Response();
         }
         return $this->oauthResponse;
     }
@@ -84,15 +83,19 @@ class OAuthService extends BaseService
                 'refresh_token_table' => 'ohrm_oauth_refresh_token',
                 'code_table' => 'ohrm_oauth_authorization_code',
                 'user_table' => 'ohrm_oauth_user',
-                'jwt_table' => 'ohrm_oauth_jwt'
+                'jwt_table' => 'ohrm_oauth_jwt',
+                'scope_table'  => 'ohrm_oauth_scope',
             );
             $conn = Doctrine_Manager::connection()->getDbh();
-            $storage = new OAuth2_Storage_Pdo($conn, $config);
-            $server = new OAuth2_Server($storage);
+            $storage = new OAuth2\Storage\Pdo($conn, $config);
+            $server = new OAuth2\Server($storage);
             // $server->addGrantType(new OAuth2_GrantType_AuthorizationCode($storage));
-            $server->addGrantType(new OAuth2_GrantType_ClientCredentials($storage));
-            $server->addGrantType(new OAuth2_GrantType_UserCredentials(new OAuth2_Storage_OhrmUserCredentials()));
-            $server->addGrantType(new OAuth2_GrantType_RefreshToken($storage));// or any grant type you like!
+            $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
+            $server->addGrantType(new OAuth2\GrantType\UserCredentials(new OAuth2_Storage_OhrmUserCredentials()));
+            $server->addGrantType(
+                new OAuth2\GrantType\RefreshToken($storage, ['always_issue_new_refresh_token' => true])
+            );
+            $server->setScopeUtil(new OAuth2\Scope($storage));
 
             $this->oauthServer = $server;
         }
@@ -159,5 +162,3 @@ class OAuthService extends BaseService
     }
 
 }
-
-?>

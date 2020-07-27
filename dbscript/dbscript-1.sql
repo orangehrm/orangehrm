@@ -2270,3 +2270,11 @@ CREATE TABLE IF NOT EXISTS `ohrm_buzz_notification_metadata` (
 ALTER TABLE `ohrm_buzz_notification_metadata`
   ADD CONSTRAINT `notificationMetadata` FOREIGN KEY (`emp_number`)
     REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+CREATE TABLE `ohrm_oauth_scope` (
+  `scope` text,
+  `is_default` boolean not null default false
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `ohrm_oauth_client` ADD `grant_types` VARCHAR(80) NULL DEFAULT NULL;
+ALTER TABLE `ohrm_oauth_client` ADD `scope` VARCHAR(4000) NULL DEFAULT NULL;

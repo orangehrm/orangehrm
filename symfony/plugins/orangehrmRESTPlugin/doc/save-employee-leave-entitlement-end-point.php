@@ -3,6 +3,7 @@
 * @apiName saveEmployeeLeaveEntitlement
 * @apiGroup Leave
 * @apiVersion 0.1.0
+* @apiUse AdminDescription
 *
 * @apiParam {Number} id Employee id.
 * @apiParam {Number} leaveType Leave type id.
