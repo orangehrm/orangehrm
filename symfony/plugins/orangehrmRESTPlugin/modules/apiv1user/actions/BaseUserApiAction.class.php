@@ -88,8 +88,6 @@ abstract class BaseUserApiAction extends baseRestAction
     public function setUserToContext()
     {
         $systemUser = $this->getSystemUser();
-        $authService = new AuthService();
-        $authService->setLoggedInUser($systemUser);
         $this->getAuthenticationService()->setCredentialsForUser($systemUser, []);
         \UserRoleManagerFactory::updateUserRoleManager();
     }
