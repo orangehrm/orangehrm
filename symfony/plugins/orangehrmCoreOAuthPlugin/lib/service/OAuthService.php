@@ -92,9 +92,7 @@ class OAuthService extends BaseService
             // $server->addGrantType(new OAuth2_GrantType_AuthorizationCode($storage));
             $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
             $server->addGrantType(new OAuth2\GrantType\UserCredentials(new OAuth2_Storage_OhrmUserCredentials()));
-            $server->addGrantType(
-                new OAuth2\GrantType\RefreshToken($storage, ['always_issue_new_refresh_token' => true])
-            );
+            $server->addGrantType(new OhrmRefreshToken($storage, ['always_issue_new_refresh_token' => true]));
             $server->setScopeUtil(new OAuth2\Scope($storage));
 
             $this->oauthServer = $server;
