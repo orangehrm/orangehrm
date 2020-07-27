@@ -207,7 +207,7 @@ CONFCONT;
      */
     public function getEndIncrementNumber() {
         
-        return 75;
+        return 76;
         
     }
     
@@ -271,6 +271,7 @@ CONFCONT;
         $a['4.3.3']     = 73; //4.3.3 to 4.3.4
         $a['4.3.4']     = 74; //No db change between 4.3.3 to 4.3.4
         $a['4.3.5']     = 75; // 4.3.5 to 4.4
+        $a['4.4']     = 76; // 4.4 to 4.4.1
         return $a;
         
     }
