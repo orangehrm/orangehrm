@@ -38,7 +38,7 @@ class OhrmRefreshToken extends RefreshToken
      *
      * @return SystemUserService
      */
-    public function getSystemUserService()
+    public function getSystemUserService(): SystemUserService
     {
         if (is_null($this->systemUserService)) {
             $this->systemUserService = new SystemUserService();
