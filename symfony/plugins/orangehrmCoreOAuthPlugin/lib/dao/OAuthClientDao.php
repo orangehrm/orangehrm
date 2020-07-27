@@ -21,7 +21,7 @@
 
 
 class OAuthClientDao extends BaseOpenIdDao{
-
+    const PUBLIC_MOBILE_CLIENT_ID = '__mobile_client';
 
     /**
      * List OAuth Clients
@@ -74,5 +74,24 @@ class OAuthClientDao extends BaseOpenIdDao{
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-    }   
+    }
+
+    /**
+     * Create mobile OAuth client with default settings
+     * @throws DaoException
+     */
+    public function createMobileClient()
+    {
+        try {
+            $client = new OAuthClient();
+            $client->setClientId(self::PUBLIC_MOBILE_CLIENT_ID);
+            $client->setClientSecret('');
+            $client->setRedirectUri('');
+            $client->setGrantTypes(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN));
+            $client->setScope(Scope::SCOPE_USER);
+            $client->save();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }

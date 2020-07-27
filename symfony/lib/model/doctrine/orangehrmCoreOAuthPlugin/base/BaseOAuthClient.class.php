@@ -11,15 +11,15 @@
  * @property string       $scope                       Type: string(4000)
  * @property string       $grantTypes                  Type: string(80)
  *  
- * @method string         getClientid()                Type: string(80), primary key
- * @method string         getClientsecret()            Type: string(80)
- * @method string         getRedirecturi()             Type: string(2000)
+ * @method string         getClientId()                Type: string(80), primary key
+ * @method string         getClientSecret()            Type: string(80)
+ * @method string         getRedirectUri()             Type: string(2000)
  * @method string         getScope()                   Type: string(4000)
  * @method string         getGrantTypes()              Type: string(80)
  *  
- * @method OAuthClient    setClientid(string $val)     Type: string(80), primary key
- * @method OAuthClient    setClientsecret(string $val) Type: string(80)
- * @method OAuthClient    setRedirecturi(string $val)  Type: string(2000)
+ * @method OAuthClient    setClientId(string $val)     Type: string(80), primary key
+ * @method OAuthClient    setClientSecret(string $val) Type: string(80)
+ * @method OAuthClient    setRedirectUri(string $val)  Type: string(2000)
  * @method OAuthClient    setScope(string $val)        Type: string(4000)
  * @method OAuthClient    setGrantTypes(string $val)   Type: string(80)
  *  

@@ -18,8 +18,32 @@
  * Boston, MA  02110-1301, USA
  */
 class ModuleService extends BaseService {
+    const MODULE_MOBILE = 'mobile';
     
     private $moduleDao;
+    /**
+     * @var null|OAuthClientDao
+     */
+    private $oauthClientDao = null;
+
+    /**
+     * @return OAuthClientDao
+     */
+    public function getOAuthClientDao(): OAuthClientDao
+    {
+        if (is_null($this->oauthClientDao)) {
+            $this->oauthClientDao = new OAuthClientDao();
+        }
+        return $this->oauthClientDao;
+    }
+
+    /**
+     * @param OAuthClientDao $oauthClientDao
+     */
+    public function setOAuthClientDao(OAuthClientDao $oauthClientDao)
+    {
+        $this->oauthClientDao = $oauthClientDao;
+    }
     
     /**
      * @ignore
@@ -59,6 +83,22 @@ class ModuleService extends BaseService {
      */
     public function updateModuleStatus($moduleList, $status) {
         return $this->getModuleDao()->updateModuleStatus($moduleList, $status);
+    }
+
+    public function isMobileEnabled()
+    {
+        $mobileClient = $this->getOAuthClientDao()->getOAuthClient(OAuthClientDao::PUBLIC_MOBILE_CLIENT_ID);
+        return $mobileClient instanceof OAuthClient;
+    }
+
+    public function updateMobileStatus(bool $status)
+    {
+        $isMobileEnabled = $this->isMobileEnabled();
+        if ($status == true && !$isMobileEnabled) {
+            $this->getOAuthClientDao()->createMobileClient();
+        } elseif ($status == false && $isMobileEnabled) {
+            $this->getOAuthClientDao()->deleteOAuthClient(OAuthClientDao::PUBLIC_MOBILE_CLIENT_ID);
+        }
     }
     
 }
