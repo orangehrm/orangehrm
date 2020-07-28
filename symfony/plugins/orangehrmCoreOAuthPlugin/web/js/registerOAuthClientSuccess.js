@@ -14,6 +14,10 @@ $(document).ready(function() {
 
     });
 
+    $("#resultTable tr td:first-child").not($("td:has(input)")).parent().find('a').css({
+        "text-decoration": "none",
+        "cursor": "default"
+    });
 
     $('#btnCancel').click(function() {
         $('#openid').hide();

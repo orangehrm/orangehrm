@@ -21,7 +21,7 @@
 
 
 class OAuthClientDao extends BaseOpenIdDao{
-    const PUBLIC_MOBILE_CLIENT_ID = '__mobile_client';
+    const PUBLIC_MOBILE_CLIENT_ID = 'orangehrm_mobile_app';
 
     /**
      * List OAuth Clients
