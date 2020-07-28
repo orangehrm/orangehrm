@@ -17,9 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Api\Exception\BadRequestException;
+use OAuth2\GrantType\RefreshToken;
+use OAuth2\RequestInterface;
+use OAuth2\ResponseInterface;
 
-abstract class BaseUserApiAction extends baseRestAction
+class OhrmRefreshToken extends RefreshToken
 {
     /**
      * @var null|SystemUserService
@@ -36,36 +38,12 @@ abstract class BaseUserApiAction extends baseRestAction
      *
      * @return SystemUserService
      */
-    public function getSystemUserService()
+    public function getSystemUserService(): SystemUserService
     {
         if (is_null($this->systemUserService)) {
             $this->systemUserService = new SystemUserService();
         }
         return $this->systemUserService;
-    }
-
-    /**
-     * @param SystemUserService $systemUserService
-     */
-    public function setSystemUserService(SystemUserService $systemUserService)
-    {
-        $this->systemUserService = $systemUserService;
-    }
-
-    /**
-     * @return SystemUser
-     * @throws BadRequestException
-     * @throws ServiceException
-     */
-    public function getSystemUser(): SystemUser
-    {
-        $tokenData = $this->getAccessTokenData();
-        $systemUser = $this->getSystemUserService()->getSystemUser($tokenData['user_id']);
-        if ($systemUser instanceof \SystemUser) {
-            return $systemUser;
-        } else {
-            throw  new BadRequestException("No Bound User");
-        }
     }
 
     /**
@@ -80,28 +58,23 @@ abstract class BaseUserApiAction extends baseRestAction
     }
 
     /**
-     * Set logged in user attributes for system user
-     * @throws AuthenticationServiceException
-     * @throws BadRequestException
-     * @throws ServiceException
-     */
-    public function setUserToContext()
-    {
-        $systemUser = $this->getSystemUser();
-        $this->getAuthenticationService()->setCredentialsForUser($systemUser, []);
-        \UserRoleManagerFactory::updateUserRoleManager();
-    }
-
-    /**
      * @inheritDoc
      */
-    public function verifyAllowedScope()
+    public function validateRequest(RequestInterface $request, ResponseInterface $response)
     {
-        $oauthRequest = $this->getOAuthRequest();
-        $oauthResponse = $this->getOAuthResponse();
-        if (!$this->getOAuthServer()->verifyResourceRequest($oauthRequest, $oauthResponse, Scope::SCOPE_USER)) {
-            $oauthResponse->send();
-            throw new sfStopException();
+        $basicValidation = parent::validateRequest($request, $response);
+        if (!$basicValidation) {
+            return $basicValidation;
         }
+
+        $systemUser = $this->getSystemUserService()->getSystemUser($this->getUserId());
+        if ($systemUser instanceof SystemUser) {
+            $this->getAuthenticationService()->setCredentialsForUser($systemUser, []);
+        } else {
+            $response->setError(HttpResponseCode::HTTP_BAD_REQUEST, 'invalid_request', 'No Bound User');
+            return null;
+        }
+
+        return true;
     }
 }
