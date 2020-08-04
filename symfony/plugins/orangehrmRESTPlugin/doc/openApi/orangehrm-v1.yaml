@@ -2,6 +2,7 @@ openapi: 3.0.3
 info:
     title: 'OrangeHRM Open Source : REST api docs'
     version: 1.1.0
+    x-base-path: /api/v1
 servers:
     -   url: '{schema}://{your-orangehrm-host}/{basePath}'
         variables:
