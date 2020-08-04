@@ -254,3 +254,9 @@ api_employees:
   param: { module:apiv1user, action:EmployeesApi }
   requirements:
     sf_method: [get]
+
+api_public_rest_api_meta:
+  url: /api/v1/rest-api-meta
+  param: { module:apiv1public, action:RestApiMetaApi }
+  requirements:
+    sf_method: [get]
