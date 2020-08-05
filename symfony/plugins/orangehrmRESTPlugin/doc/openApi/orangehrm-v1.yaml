@@ -33,6 +33,13 @@ paths:
             tags:
                 - User
             summary: Employee Info
+            parameters:
+                -   name: withPhoto
+                    in: query
+                    required: false
+                    description: 'Specify whether with employee photo'
+                    schema:
+                        type: boolean
             responses:
                 '200':
                     description: successful operation
@@ -62,7 +69,14 @@ paths:
                                         user:
                                             userName: Nina
                                             userRole: ESS
-                                            status: Enabled
+                                            isSupervisor: true
+                                            isProjectAdmin: false
+                                            isManager: false
+                                            isDirector: false
+                                            isAcceptor: false
+                                            isOfferer: false
+                                            isHiringManager: false
+                                            isInterviewer: false
                                     rels: []
 
     /leave/my-leave-entitlement:

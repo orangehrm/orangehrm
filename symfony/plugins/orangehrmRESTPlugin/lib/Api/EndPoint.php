@@ -40,7 +40,7 @@ class EndPoint {
      * @param Request $request
      */
     public function __construct(Request $request) {
-
+        $this->setRequest($request);
         $this->setRequestParams(new RequestParams($request));
     }
 

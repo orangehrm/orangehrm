@@ -17,38 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Api\Admin\Entity\User;
-use Orangehrm\Rest\Api\Admin\UserAPI;
-use Orangehrm\Rest\Api\Exception\BadRequestException;
+
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\Pim\EmployeePhotoAPI;
-use Orangehrm\Rest\Api\Pim\EmployeeSearchAPI;
-use Orangehrm\Rest\Api\Pim\Entity\Employee;
+use Orangehrm\Rest\Api\User\MyInfoAPI;
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
 
 class MyInfoApiAction extends BaseUserApiAction
 {
     /**
-     * @var null|UserAPI
+     * @var null|MyInfoAPI
      */
-    private $systemUserApi = null;
-
-    /**
-     * @var null|EmployeePhotoAPI
-     */
-    private $apiEmployeePhoto = null;
-
-    /**
-     * @var null|EmployeeSearchAPI
-     */
-    private $apiEmployeeSearch = null;
+    private $apiMyInfo = null;
 
     protected function init(Request $request)
     {
-        $this->systemUserApi = new UserAPI($request);
-        $this->apiEmployeePhoto = new EmployeePhotoAPI($request);
-        $this->apiEmployeeSearch = new EmployeeSearchAPI($request);
+        $this->apiMyInfo = new MyInfoAPI($request);
     }
 
     /**
@@ -56,22 +39,8 @@ class MyInfoApiAction extends BaseUserApiAction
      */
     protected function handleGetRequest(Request $request)
     {
-        $token = $this->getAccessTokenData();
-
-        $user = $this->systemUserApi->getSystemUserById($token['user_id']);
-        $response = [];
-        if ($user instanceof User) {
-            $response['user'] = $user->toArray();
-            $employee = $this->apiEmployeeSearch->getEmployeeById($user->getEmployeeId());
-            if ($employee instanceof Employee) {
-                $response['employee'] = $employee->toArray();
-                $employeePhoto = $this->apiEmployeePhoto->getEmployeePhotoById($user->getEmployeeId());
-                $response['employeePhoto'] = $employeePhoto;
-            }
-            return new Response($response);
-        } else {
-            throw  new BadRequestException("No Bound User");
-        }
+        $this->setUserToContext();
+        return $this->apiMyInfo->getMyInfo();
     }
 
     /**

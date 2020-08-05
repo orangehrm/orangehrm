@@ -50,6 +50,7 @@ class ApiDefinitionAPI extends EndPoint
         if (!($minified == 'true' || $minified == 'false')) {
             throw new InvalidParamException(sprintf("Invalid `%s` Value", self::PARAMETER_MINIFIED));
         }
+        $minified = $minified == 'true' ? true : false;
         $params[self::PARAMETER_MINIFIED] = $minified;
         return $params;
     }
