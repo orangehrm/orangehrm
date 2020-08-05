@@ -34,7 +34,7 @@ class SchemaIncrementTask76 extends SchemaIncrementTask
         // Update existing client records as `client_credentials` grant type
         $sql[] = "UPDATE `ohrm_oauth_client` SET `grant_types`='client_credentials',`scope`='admin';";
         $sql[] = "INSERT IGNORE INTO `ohrm_oauth_client`(`client_id`, `client_secret`, `redirect_uri`, `grant_types`, `scope`) VALUES
-('__mobile_client','','','password refresh_token','user');";
+('orangehrm_mobile_app','','','password refresh_token','user');";
         $this->sql = $sql;
     }
 

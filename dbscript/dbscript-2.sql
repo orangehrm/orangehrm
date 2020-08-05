@@ -2980,4 +2980,4 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_max_notification_period
 
 INSERT INTO `ohrm_oauth_scope` (`scope`, `is_default`) VALUES ('admin', '0'), ('user', '0');
 INSERT IGNORE INTO `ohrm_oauth_client`(`client_id`, `client_secret`, `redirect_uri`, `grant_types`, `scope`) VALUES
-('__mobile_client','','','password refresh_token','user');
+('orangehrm_mobile_app','','','password refresh_token','user');
