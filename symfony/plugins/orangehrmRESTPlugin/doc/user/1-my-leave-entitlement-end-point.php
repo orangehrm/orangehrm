@@ -3,7 +3,7 @@
  * @api {get} /leave/my-leave-entitlement 01.Get My Leave Entitlements
  * @apiName myLeaveEntitlements
  * @apiGroup User
- * @apiVersion 0.1.0
+ * @apiVersion 1.1.0
  * @apiUse UserDescription
  *
  * @apiParam {Date}  [fromDate] Valid leave period from date

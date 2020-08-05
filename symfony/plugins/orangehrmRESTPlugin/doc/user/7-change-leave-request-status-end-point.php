@@ -3,7 +3,7 @@
  * @api {post} /leave/leave-request/:id 07.Change Leave Request Status
  * @apiName changeLeaveRequestStatus
  * @apiGroup User
- * @apiVersion 0.1.0
+ * @apiVersion 1.1.0
  * @apiUse UserDescription
  *
  * @apiParam {Number} id Leave request id

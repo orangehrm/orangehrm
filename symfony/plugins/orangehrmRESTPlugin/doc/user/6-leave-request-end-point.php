@@ -3,7 +3,7 @@
  * @api {get} /leave/leave-request/:id 06.Get Leave Request
  * @apiName getLeaveRequestById
  * @apiGroup User
- * @apiVersion 0.1.0
+ * @apiVersion 1.1.0
  * @apiUse UserDescription
  *
  * @apiParam {Number} id Leave request id

@@ -3,7 +3,7 @@
  * @api {get} /leave/my-leave-request 02.Get My Leave Requests
  * @apiName myLeaveRequests
  * @apiGroup User
- * @apiVersion 0.1.0
+ * @apiVersion 1.1.0
  * @apiUse UserDescription
  *
  * @apiParam {Date}  [fromDate] From date

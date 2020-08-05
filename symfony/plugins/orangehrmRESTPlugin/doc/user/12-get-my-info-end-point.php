@@ -3,7 +3,7 @@
  * @api {get} /myinfo 12.Employee Info
  * @apiName getMyInfo
  * @apiGroup User
- * @apiVersion 0.1.0
+ * @apiVersion 1.1.0
  * @apiUse UserDescription
  *
  * @apiSuccess {Object} employee  Employee details.
