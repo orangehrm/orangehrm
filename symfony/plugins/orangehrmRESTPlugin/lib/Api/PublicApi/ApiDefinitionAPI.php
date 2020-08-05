@@ -24,7 +24,7 @@ use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Http\JsonResponse;
 use sfConfig;
 
-class RestApiMetaAPI extends EndPoint
+class ApiDefinitionAPI extends EndPoint
 {
     const PARAMETER_MINIFIED = 'minified';
 

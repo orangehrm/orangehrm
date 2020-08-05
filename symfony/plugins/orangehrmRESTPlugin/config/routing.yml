@@ -255,8 +255,8 @@ api_employees:
   requirements:
     sf_method: [get]
 
-api_public_rest_api_meta:
-  url: /api/v1/rest-api-meta
-  param: { module:apiv1public, action:RestApiMetaApi }
+api_public_api_definition:
+  url: /api/v1/api-definition
+  param: { module:apiv1public, action:ApiDefinitionApi }
   requirements:
     sf_method: [get]

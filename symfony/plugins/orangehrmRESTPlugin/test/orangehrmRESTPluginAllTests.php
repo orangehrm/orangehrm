@@ -32,6 +32,7 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/http/HttpResponseTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/http/RequestParamsTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/http/RequestTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/http/JsonResponseTest.php');
 
         $suite->addTestFile(dirname(__FILE__) . '/api/ValidatorTest.php');
         /* API test cases */
@@ -88,6 +89,9 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/user/model/ApiLeaveRequestModelTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiSubordinateLeaveEntitlementAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiEmployeesAPITest.php');
+
+        // Api/PublicApi
+        $suite->addTestFile(dirname(__FILE__) . '/api/publicApi/ApiDefinitionAPITest.php');
 
         return $suite;
     }

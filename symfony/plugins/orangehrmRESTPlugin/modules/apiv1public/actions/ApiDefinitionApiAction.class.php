@@ -18,24 +18,24 @@
  */
 
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\PublicApi\RestApiMetaAPI;
+use Orangehrm\Rest\Api\PublicApi\ApiDefinitionAPI;
 use Orangehrm\Rest\Http\Request;
 
-class RestApiMetaApiAction extends BasePublicApiAction
+class ApiDefinitionApiAction extends BasePublicApiAction
 {
     /**
-     * @var null|RestApiMetaAPI
+     * @var null|ApiDefinitionAPI
      */
-    private $restMetaApi = null;
+    private $apiDefinitionAPI = null;
 
     protected function init(Request $request)
     {
-        $this->restMetaApi = new RestApiMetaAPI($request);
+        $this->apiDefinitionAPI = new ApiDefinitionAPI($request);
     }
 
     protected function handleGetRequest(Request $request)
     {
-        return $this->restMetaApi->getOpenApiDefinition();
+        return $this->apiDefinitionAPI->getOpenApiDefinition();
     }
 
     protected function handlePostRequest(Request $request)
