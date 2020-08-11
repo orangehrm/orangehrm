@@ -7,6 +7,6 @@
  *
  * Required scope by grant type;
  * - `client_credentials`: No need to request scopes. By default grant only for `admin` scope
- * - `password`: Required `admin` scope `Since OrangeHRM 4.4.1`
+ * - `password`: Required `admin` scope `Since OrangeHRM 4.5`
  *
  */

@@ -5,6 +5,6 @@
  *
  * Required scope: `user`
  *
- * `Since OrangeHRM 4.4.1`
+ * `Since OrangeHRM 4.5`
  *
  */
