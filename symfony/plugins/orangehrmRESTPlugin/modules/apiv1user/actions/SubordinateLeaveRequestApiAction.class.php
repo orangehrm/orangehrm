@@ -20,19 +20,20 @@
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Leave\SaveLeaveRequestAPI;
+use Orangehrm\Rest\Api\User\AssignLeaveRequestAPI;
 use Orangehrm\Rest\Http\Request;
 
 class SubordinateLeaveRequestApiAction extends BaseUserApiAction
 {
     /**
-     * @var null|SaveLeaveRequestAPI
+     * @var null|AssignLeaveRequestAPI
      */
-    private $saveLeaveRequestApi = null;
+    private $assignLeaveRequestAPI = null;
 
     protected function init(Request $request)
     {
-        $this->saveLeaveRequestApi = new SaveLeaveRequestAPI($request);
-        $this->postValidationRule = $this->saveLeaveRequestApi->getValidationRules();
+        $this->assignLeaveRequestAPI = new AssignLeaveRequestAPI($request);
+        $this->postValidationRule = $this->assignLeaveRequestAPI->getValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
@@ -43,17 +44,11 @@ class SubordinateLeaveRequestApiAction extends BaseUserApiAction
     protected function handlePostRequest(Request $request)
     {
         $this->setUserToContext();
-        $empNumber = $this->saveLeaveRequestApi->getRequestParams()->getUrlParam(SaveLeaveRequestAPI::PARAMETER_ID);
+        $empNumber = $this->assignLeaveRequestAPI->getRequestParams()->getUrlParam(SaveLeaveRequestAPI::PARAMETER_ID);
         if (!in_array($empNumber, $this->getAccessibleEmpNumbers())) {
             throw new BadRequestException('Access Denied');
         }
-
-        //To assign leave as SCHEDULED
-        $this->saveLeaveRequestApi->getRequestParams()->setPostParam(
-            SaveLeaveRequestAPI::PARAMETER_LEAVE_ACTION,
-            null
-        );
-        return $this->saveLeaveRequestApi->saveLeaveRequest();
+        return $this->assignLeaveRequestAPI->saveLeaveRequest();
     }
 
     protected function getAccessibleEmpNumbers(): array

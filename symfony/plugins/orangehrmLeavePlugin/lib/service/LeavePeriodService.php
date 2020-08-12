@@ -312,7 +312,7 @@ class LeavePeriodService extends BaseService {
         $leavePeriodHistoryList = $this->_getLeavePeriodHistoryList($forceReload);
         
         if(count($leavePeriodHistoryList) == 0)
-            throw new ServiceException("Leave Period Start date is not defined");
+            throw new ServiceException("Leave Period Start Date Is Not Defined.");
         
         if(empty($this->leavePeriodList)){
         

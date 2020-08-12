@@ -18,6 +18,7 @@
  */
 
 use Orangehrm\Rest\Api\Leave\SaveLeaveRequestAPI;
+use Orangehrm\Rest\Api\User\ApplyLeaveRequestAPI;
 use Orangehrm\Rest\Api\User\MyLeaveRequestAPI;
 use Orangehrm\Rest\Http\Request;
 
@@ -29,16 +30,16 @@ class MyLeaveRequestApiAction extends BaseUserApiAction
     private $myLeaveRequestAPI = null;
 
     /**
-     * @var null|SaveLeaveRequestAPI
+     * @var null|ApplyLeaveRequestAPI
      */
-    private $saveLeaveRequestApi = null;
+    private $applyLeaveRequestAPI = null;
 
     protected function init(Request $request)
     {
         $this->myLeaveRequestAPI = new MyLeaveRequestAPI($request);
         $this->myLeaveRequestAPI->setRequest($request);
-        $this->saveLeaveRequestApi = new SaveLeaveRequestAPI($request);
-        $this->postValidationRule = $this->saveLeaveRequestApi->getValidationRules();
+        $this->applyLeaveRequestAPI = new ApplyLeaveRequestAPI($request);
+        $this->postValidationRule = $this->applyLeaveRequestAPI->getValidationRules();
         $this->getValidationRule = $this->myLeaveRequestAPI->getValidationRules();
     }
 
@@ -52,14 +53,10 @@ class MyLeaveRequestApiAction extends BaseUserApiAction
     {
         $this->setUserToContext();
         $systemUser = $this->getSystemUser();
-        $this->saveLeaveRequestApi->getRequestParams()->setParam(
+        $this->applyLeaveRequestAPI->getRequestParams()->setParam(
             SaveLeaveRequestAPI::PARAMETER_ID,
             $systemUser->getEmpNumber()
         );
-        $this->saveLeaveRequestApi->getRequestParams()->setPostParam(
-            SaveLeaveRequestAPI::PARAMETER_LEAVE_ACTION,
-            "PENDING"
-        );
-        return $this->saveLeaveRequestApi->saveLeaveRequest();
+        return $this->applyLeaveRequestAPI->saveLeaveRequest();
     }
 }
