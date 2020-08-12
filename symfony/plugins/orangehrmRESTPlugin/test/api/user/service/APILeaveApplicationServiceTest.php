@@ -47,7 +47,7 @@ class APILeaveApplicationServiceTest extends PHPUnit\Framework\TestCase
             ->will($this->returnValue(true));
 
         $this->expectException(LeaveAllocationServiceException::class);
-        $this->expectExceptionMessage('Failed to Apply: Has Overlapping Leave');
+        $this->expectExceptionMessage('Overlapping Leave Request Found.');
 
         $leaveAssignmentData = new LeaveParameterObject(['txtEmpID' => '1']);
         $apiLeaveApplicationService->applyLeave($leaveAssignmentData);
@@ -68,7 +68,7 @@ class APILeaveApplicationServiceTest extends PHPUnit\Framework\TestCase
             ->will($this->returnValue(true));
 
         $this->expectException(LeaveAllocationServiceException::class);
-        $this->expectExceptionMessage('Failed to Apply: Work Shift Length Exceeded');
+        $this->expectExceptionMessage('Work Shift Length Exceeded.');
 
         $leaveAssignmentData = new LeaveParameterObject(['txtEmpID' => '1']);
         $apiLeaveApplicationService->applyLeave($leaveAssignmentData);

@@ -38,10 +38,10 @@ class APILeaveAssignmentService extends LeaveAssignmentService
             throw new LeaveAllocationServiceException('Invalid Employee');
         }
         if ($this->hasOverlapLeave($leaveAssignmentData)) {
-            throw new LeaveAllocationServiceException('Failed to Assign: Has Overlapping Leave');
+            throw new LeaveAllocationServiceException('Overlapping Leave Request Found.');
         }
         if ($this->applyMoreThanAllowedForADay($leaveAssignmentData)) {
-            throw new LeaveAllocationServiceException('Failed to Assign: Work Shift Length Exceeded');
+            throw new LeaveAllocationServiceException('Work Shift Length Exceeded.');
         }
 
         return $this->saveLeaveRequest($leaveAssignmentData);
