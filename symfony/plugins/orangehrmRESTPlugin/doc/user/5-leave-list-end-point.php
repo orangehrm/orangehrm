@@ -3,7 +3,7 @@
  * @api {get} /leave/leave-list 05.Get Leave List
  * @apiName getLeaveList
  * @apiGroup User
- * @apiVersion 0.1.0
+ * @apiVersion 1.1.0
  * @apiUse UserDescription
  *
  * @apiParam {Date} [fromDate] From date (default current leave period from date)

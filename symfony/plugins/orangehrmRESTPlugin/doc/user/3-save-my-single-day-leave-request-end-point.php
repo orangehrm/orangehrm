@@ -3,7 +3,7 @@
  * @api {post} /leave/my-leave-request 03.Save My Leave Request (Single Day)
  * @apiName saveMyLeaveRequestSingleDay
  * @apiGroup User
- * @apiVersion 0.1.0
+ * @apiVersion 1.1.0
  * @apiUse UserDescription
  *
  * @apiUse UserLeaveRequestSingleDay

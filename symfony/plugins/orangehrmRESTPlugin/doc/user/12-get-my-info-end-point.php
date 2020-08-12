@@ -3,8 +3,10 @@
  * @api {get} /myinfo 12.Employee Info
  * @apiName getMyInfo
  * @apiGroup User
- * @apiVersion 0.1.0
+ * @apiVersion 1.1.0
  * @apiUse UserDescription
+ *
+ * @apiParam {String='true','false'} [withPhoto] Specify whether with employee photo. Default `false`
  *
  * @apiSuccess {Object} employee  Employee details.
  * @apiSuccess {String} employeePhoto Base64 encoded employee picture.
@@ -38,7 +40,14 @@
  *            "user": {
  *              "userName":"Nina",
  *              "userRole":"ESS",
- *              "status":"Enabled"
+ *              "isSupervisor":true,
+ *              "isProjectAdmin":false,
+ *              "isManager":false,
+ *              "isDirector":false,
+ *              "isAcceptor":false,
+ *              "isOfferer":false,
+ *              "isHiringManager":false,
+ *              "isInterviewer":false,
  *            }
  *          }
  *         }

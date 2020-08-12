@@ -254,3 +254,9 @@ api_employees:
   param: { module:apiv1user, action:EmployeesApi }
   requirements:
     sf_method: [get]
+
+api_public_api_definition:
+  url: /api/v1/api-definition
+  param: { module:apiv1public, action:ApiDefinitionApi }
+  requirements:
+    sf_method: [get]

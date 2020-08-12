@@ -17,37 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\User\MyInfoAPI;
-use Orangehrm\Rest\Http\Request;
-
-class MyInfoApiAction extends BaseUserApiAction
+abstract class BasePublicApiAction extends baseRestAction
 {
     /**
-     * @var null|MyInfoAPI
+     * Override token verification @ baseRestAction
      */
-    private $apiMyInfo = null;
-
-    protected function init(Request $request)
+    public function preExecute()
     {
-        $this->apiMyInfo = new MyInfoAPI($request);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function handleGetRequest(Request $request)
-    {
-        $this->setUserToContext();
-        return $this->apiMyInfo->getMyInfo();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function handlePostRequest(Request $request)
-    {
-        throw new NotImplementedException();
     }
 }

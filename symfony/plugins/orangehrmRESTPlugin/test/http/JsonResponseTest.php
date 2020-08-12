@@ -17,37 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
+use Orangehrm\Rest\Http\JsonResponse;
 
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\User\MyInfoAPI;
-use Orangehrm\Rest\Http\Request;
-
-class MyInfoApiAction extends BaseUserApiAction
+/**
+ * @group API
+ */
+class JsonResponseTest extends PHPUnit\Framework\TestCase
 {
     /**
-     * @var null|MyInfoAPI
+     * @var JsonResponse
      */
-    private $apiMyInfo = null;
+    private $response = null;
 
-    protected function init(Request $request)
+    protected function setUp()
     {
-        $this->apiMyInfo = new MyInfoAPI($request);
+        $this->response = new JsonResponse(json_encode(['test' => 'object']));
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function handleGetRequest(Request $request)
+    public function testFormat()
     {
-        $this->setUserToContext();
-        return $this->apiMyInfo->getMyInfo();
+        $result = $this->response->formatData();
+        $this->assertEquals('{"test":"object"}', $result);
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function handlePostRequest(Request $request)
+    public function testFormatData()
     {
-        throw new NotImplementedException();
+        $result = $this->response->formatData();
+        $this->assertEquals('{"test":"object"}', $result);
     }
 }

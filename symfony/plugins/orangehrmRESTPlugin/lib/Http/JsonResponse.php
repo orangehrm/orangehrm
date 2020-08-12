@@ -17,37 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace Orangehrm\Rest\Http;
 
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\User\MyInfoAPI;
-use Orangehrm\Rest\Http\Request;
-
-class MyInfoApiAction extends BaseUserApiAction
+class JsonResponse extends Response
 {
     /**
-     * @var null|MyInfoAPI
+     * @var string|null
      */
-    private $apiMyInfo = null;
+    private $jsonEncodedData = null;
 
-    protected function init(Request $request)
+    public function __construct(string $jsonEncodedData)
     {
-        $this->apiMyInfo = new MyInfoAPI($request);
+        $this->jsonEncodedData = $jsonEncodedData;
     }
 
     /**
-     * @inheritDoc
+     * Override
+     * @return string
      */
-    protected function handleGetRequest(Request $request)
+    public function format(): string
     {
-        $this->setUserToContext();
-        return $this->apiMyInfo->getMyInfo();
+        return $this->jsonEncodedData;
     }
 
     /**
-     * @inheritDoc
+     * Override
+     * @return string
      */
-    protected function handlePostRequest(Request $request)
+    public function formatData(): string
     {
-        throw new NotImplementedException();
+        return $this->jsonEncodedData;
     }
 }

@@ -17,35 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\User\MyInfoAPI;
+use Orangehrm\Rest\Api\PublicApi\ApiDefinitionAPI;
 use Orangehrm\Rest\Http\Request;
 
-class MyInfoApiAction extends BaseUserApiAction
+class ApiDefinitionApiAction extends BasePublicApiAction
 {
     /**
-     * @var null|MyInfoAPI
+     * @var null|ApiDefinitionAPI
      */
-    private $apiMyInfo = null;
+    private $apiDefinitionAPI = null;
 
     protected function init(Request $request)
     {
-        $this->apiMyInfo = new MyInfoAPI($request);
+        $this->apiDefinitionAPI = new ApiDefinitionAPI($request);
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function handleGetRequest(Request $request)
     {
-        $this->setUserToContext();
-        return $this->apiMyInfo->getMyInfo();
+        return $this->apiDefinitionAPI->getOpenApiDefinition();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function handlePostRequest(Request $request)
     {
         throw new NotImplementedException();

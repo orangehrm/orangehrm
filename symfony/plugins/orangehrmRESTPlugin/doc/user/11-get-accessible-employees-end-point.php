@@ -3,7 +3,7 @@
  * @api {get} /employees 11.Get Accessible Employees
  * @apiName getAccessibleEmployees
  * @apiGroup User
- * @apiVersion 0.1.0
+ * @apiVersion 1.1.0
  * @apiUse UserDescription
  *
  * @apiParam {String} [actionName] Action name. e.g. `assign_leave`, `view_leave_list`
