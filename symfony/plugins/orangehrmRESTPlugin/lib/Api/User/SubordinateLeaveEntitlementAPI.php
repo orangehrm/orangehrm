@@ -34,6 +34,7 @@ use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI;
 use Orangehrm\Rest\Api\User\Model\LeaveEntitlementModel;
+use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 use UserRoleManagerFactory;
 
@@ -42,6 +43,7 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
     const PARAMETER_FROM_DATE = 'fromDate';
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_EMPLOYEE_NUMBER = 'id';
+    const PARAMETER_DELETED_LEAVE_TYPES = 'deletedLeaveTypes';
 
     /**
      * @var null|LeaveEntitlementService
@@ -65,7 +67,6 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
     {
         if (is_null($this->leavePeriodService)) {
             $leavePeriodService = new LeavePeriodService();
-            $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
             $this->leavePeriodService = $leavePeriodService;
         }
         return $this->leavePeriodService;
@@ -146,7 +147,12 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
         if (count($results) == 0) {
             throw new RecordNotFoundException('No Records Found');
         } else {
+            $withDeletedLeaveTypes = $filters[self::PARAMETER_DELETED_LEAVE_TYPES];
             foreach ($results as $entitlement) {
+                if (!$withDeletedLeaveTypes && $entitlement->getLeaveType()->getDeleted() == '1') {
+                    continue;
+                }
+
                 $leaveEntitlementEntity = new LeaveEntitlement($entitlement->getId());
                 $leaveEntitlementEntity->buildEntitlement($entitlement);
                 $leaveEntitlementModel = new LeaveEntitlementModel($leaveEntitlementEntity);
@@ -155,12 +161,12 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
                     $entitlement->getLeaveTypeId()
                 );
                 $leaveBalanceEntity = new LeaveBalance($leaveBalance);
-                $leaveType = new LeaveType($entitlement->getLeaveTypeId(), $entitlement->getLeaveType()->getName());
+                $leaveTypeModel = new LeaveTypeModel($entitlement->getLeaveType());
                 $responseEntitlement[] = array_merge(
                     $leaveEntitlementModel->toArray(),
                     array(
                         'leaveBalance' => $leaveBalanceEntity->toArray(),
-                        'leaveType' => $leaveType->toArray(),
+                        'leaveType' => $leaveTypeModel->toArray(),
                     )
                 );
             }
@@ -184,8 +190,8 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
             throw new BadRequestException('Access Denied');
         }
 
-        $fromDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_FROM_DATE);
-        $toDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE);
+        $fromDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_FROM_DATE);
+        $toDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_TO_DATE);
 
         if (empty($fromDate) && empty($toDate)) {
             $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(date('Y-m-d'));
@@ -197,9 +203,16 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
             }
         }
 
+        $deletedLeaveTypes = $this->getRequestParams()->getQueryParam(self::PARAMETER_DELETED_LEAVE_TYPES, 'false');
+        if (!($deletedLeaveTypes == 'true' || $deletedLeaveTypes == 'false')) {
+            throw new InvalidParamException(sprintf("Invalid `%s` Value", self::PARAMETER_DELETED_LEAVE_TYPES));
+        }
+        $deletedLeaveTypes = $deletedLeaveTypes == 'true';
+
         $filters[self::PARAMETER_FROM_DATE] = $fromDate;
         $filters[self::PARAMETER_TO_DATE] = $toDate;
         $filters[self::PARAMETER_EMPLOYEE_NUMBER] = $empNumber;
+        $filters[self::PARAMETER_DELETED_LEAVE_TYPES] = $deletedLeaveTypes;
         return $filters;
     }
 

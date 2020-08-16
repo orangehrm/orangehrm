@@ -28,6 +28,7 @@ use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\Leave\Model\EmployeeLeaveRequestModel;
 use Orangehrm\Rest\Api\Leave\Model\LeaveListLeaveRequestModel;
+use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 use ServiceException;
 use UserRoleManagerFactory;
@@ -311,10 +312,10 @@ class LeaveRequestAPI extends EndPoint
             if ($leaveRequest instanceof \LeaveRequest) {
                 $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
                 $leaveRequestModel = new LeaveListLeaveRequestModel($leaveRequestEntity);
-                $leaveType = new LeaveType($leaveRequest->getLeaveTypeId(), $leaveRequest->getLeaveType()->getName());
+                $leaveTypeModel = new LeaveTypeModel($leaveRequest->getLeaveType());
                 $leaveRequests[] = array_merge(
                     $leaveRequestModel->toArray(),
-                    ['leaveType' => $leaveType->toArray()]
+                    ['leaveType' => $leaveTypeModel->toArray()]
                 );
             }
         }
@@ -354,12 +355,12 @@ class LeaveRequestAPI extends EndPoint
         $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
         $leaveRequestModel = new EmployeeLeaveRequestModel($leaveRequestEntity);
 
-        $leaveType = new LeaveType($leaveRequest->getLeaveType()->getId(), $leaveRequest->getLeaveType()->getName());
+        $leaveTypeModel = new LeaveTypeModel($leaveRequest->getLeaveType());
         $allowedActions = $this->getLeaveRequestService()->getLeaveRequestActions($leaveRequest, $loggedInEmpNumber);
         $response = array_merge(
             $leaveRequestModel->toArray(),
             [
-                'leaveType' => $leaveType->toArray(),
+                'leaveType' => $leaveTypeModel->toArray(),
                 'allowedActions' => array_values($allowedActions),
             ]
         );

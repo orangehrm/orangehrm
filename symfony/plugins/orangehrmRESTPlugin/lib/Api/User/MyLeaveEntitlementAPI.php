@@ -19,23 +19,26 @@
 
 namespace Orangehrm\Rest\Api\User;
 
+use DaoException;
 use EmployeeService;
+use LeaveEntitlementSearchParameterHolder;
 use LeaveEntitlementService;
 use LeavePeriodService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
-use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveBalance;
 use Orangehrm\Rest\Api\User\Model\LeaveEntitlementModel;
+use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 
 class MyLeaveEntitlementAPI extends EndPoint
 {
     const PARAMETER_FROM_DATE = 'fromDate';
     const PARAMETER_TO_DATE = 'toDate';
+    const PARAMETER_DELETED_LEAVE_TYPES = 'deletedLeaveTypes';
 
     /**
      * @var null|LeaveEntitlementService
@@ -64,7 +67,6 @@ class MyLeaveEntitlementAPI extends EndPoint
     {
         if (is_null($this->leavePeriodService)) {
             $leavePeriodService = new LeavePeriodService();
-            $leavePeriodService->setLeavePeriodDao(new \LeavePeriodDao());
             $this->leavePeriodService = $leavePeriodService;
         }
         return $this->leavePeriodService;
@@ -140,7 +142,7 @@ class MyLeaveEntitlementAPI extends EndPoint
      * @return Response
      * @throws InvalidParamException
      * @throws RecordNotFoundException
-     * @throws \DaoException
+     * @throws DaoException
      */
     public function getMyLeaveDetails(int $employeeId): Response
     {
@@ -164,18 +166,26 @@ class MyLeaveEntitlementAPI extends EndPoint
         if (count($results) == 0) {
             throw new RecordNotFoundException('No Records Found');
         } else {
+            $withDeletedLeaveTypes = $filters[self::PARAMETER_DELETED_LEAVE_TYPES];
             foreach ($results as $entitlement) {
+                if (!$withDeletedLeaveTypes && $entitlement->getLeaveType()->getDeleted() == '1') {
+                    continue;
+                }
+
                 $leaveEntitlementEntity = new LeaveEntitlement($entitlement->getId());
                 $leaveEntitlementEntity->buildEntitlement($entitlement);
                 $leaveEntitlementModel = new LeaveEntitlementModel($leaveEntitlementEntity);
-                $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance($employeeId, $entitlement->getLeaveTypeId());
+                $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance(
+                    $employeeId,
+                    $entitlement->getLeaveTypeId()
+                );
                 $leaveBalanceEntity = new LeaveBalance($leaveBalance);
-                $leaveType = new LeaveType($entitlement->getLeaveTypeId(), $entitlement->getLeaveType()->getName());
+                $leaveTypeModel = new LeaveTypeModel($entitlement->getLeaveType());
                 $responseEntitlement[] = array_merge(
                     $leaveEntitlementModel->toArray(),
                     array(
                         'leaveBalance' => $leaveBalanceEntity->toArray(),
-                        'leaveType' => $leaveType->toArray(),
+                        'leaveType' => $leaveTypeModel->toArray(),
                     )
                 );
             }
@@ -189,7 +199,7 @@ class MyLeaveEntitlementAPI extends EndPoint
      * @return array
      * @throws InvalidParamException
      * @throws RecordNotFoundException
-     * @throws \DaoException
+     * @throws DaoException
      */
     public function getFilters(int $employeeId): array
     {
@@ -199,8 +209,8 @@ class MyLeaveEntitlementAPI extends EndPoint
         if (empty($employee)) {
             throw new RecordNotFoundException('Employee Not Found');
         }
-        $fromDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_FROM_DATE);
-        $toDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE);
+        $fromDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_FROM_DATE);
+        $toDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_TO_DATE);
 
         if (empty($fromDate) && empty($toDate)) {
             $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(date('Y-m-d'));
@@ -209,22 +219,31 @@ class MyLeaveEntitlementAPI extends EndPoint
         } else {
             if (!$this->getLeaveEntitlementApi()->validateLeavePeriods($fromDate, $toDate)) {
                 throw new InvalidParamException('No Leave Period Found');
-            };
+            }
         }
+
+        $deletedLeaveTypes = $this->getRequestParams()->getQueryParam(self::PARAMETER_DELETED_LEAVE_TYPES, 'false');
+        if (!($deletedLeaveTypes == 'true' || $deletedLeaveTypes == 'false')) {
+            throw new InvalidParamException(sprintf("Invalid `%s` Value", self::PARAMETER_DELETED_LEAVE_TYPES));
+        }
+        $deletedLeaveTypes = $deletedLeaveTypes == 'true';
 
         $filters[self::PARAMETER_FROM_DATE] = $fromDate;
         $filters[self::PARAMETER_TO_DATE] = $toDate;
+        $filters[self::PARAMETER_DELETED_LEAVE_TYPES] = $deletedLeaveTypes;
         return $filters;
     }
 
     /**
      * @param int $employeeId
      * @param array $filter
-     * @return \LeaveEntitlementSearchParameterHolder
+     * @return LeaveEntitlementSearchParameterHolder
      */
-    protected function getEntitlementSearchParams(int $employeeId, array $filter): \LeaveEntitlementSearchParameterHolder
-    {
-        $searchParameters = new \LeaveEntitlementSearchParameterHolder();
+    protected function getEntitlementSearchParams(
+        int $employeeId,
+        array $filter
+    ): LeaveEntitlementSearchParameterHolder {
+        $searchParameters = new LeaveEntitlementSearchParameterHolder();
         $searchParameters->setEmpNumber($employeeId);
         $searchParameters->setFromDate($filter[self::PARAMETER_FROM_DATE]);
         $searchParameters->setToDate($filter[self::PARAMETER_TO_DATE]);

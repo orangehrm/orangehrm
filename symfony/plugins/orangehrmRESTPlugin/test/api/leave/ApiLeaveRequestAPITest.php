@@ -93,7 +93,10 @@ class ApiLeaveRequestAPITest extends PHPUnit\Framework\TestCase
             "appliedDate" => "2020-06-20",
             "leaveType" => [
                 'type' => "TestLeaveType",
-                'id' => 10
+                'id' => 10,
+                'deleted' => '0',
+                'situational' => null
+
             ],
             "numberOfDays" => "0.50",
             'leaveBalance' => '10.00',

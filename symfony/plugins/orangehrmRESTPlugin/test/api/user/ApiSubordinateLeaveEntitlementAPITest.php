@@ -102,20 +102,18 @@ class ApiSubordinateLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
      * @param $returnParamCallback
      * @param $fromDate
      * @param $toDate
-     * @throws DaoException
-     * @throws Doctrine_Connection_Exception
-     * @throws Doctrine_Record_Exception
-     * @throws InvalidParamException
-     * @throws RecordNotFoundException
      */
     public function testGetFilters($id, $returnParamCallback, $fromDate, $toDate)
     {
         $requestParams = $this->getMockBuilder('\Orangehrm\Rest\Http\RequestParams')
             ->disableOriginalConstructor()
-            ->setMethods(['getUrlParam'])
+            ->setMethods(['getUrlParam','getQueryParam'])
             ->getMock();
-        $requestParams->expects($this->exactly(3))
+        $requestParams->expects($this->once())
             ->method('getUrlParam')
+            ->will($this->returnCallback($returnParamCallback));
+        $requestParams->expects($this->exactly(3))
+            ->method('getQueryParam')
             ->will($this->returnCallback($returnParamCallback));
 
         $sfEvent = new sfEventDispatcher();
@@ -169,6 +167,8 @@ class ApiSubordinateLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
             function ($param) {
                 if ($param == 'fromDate' || $param == 'toDate') {
                     return null;
+                } elseif ($param == 'deletedLeaveTypes') {
+                    return 'true';
                 }
                 return 1;
             },
@@ -180,10 +180,10 @@ class ApiSubordinateLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
             function ($param) {
                 if ($param == 'fromDate') {
                     return '2020-01-01';
-                } else {
-                    if ($param == 'toDate') {
-                        return '2020-12-31';
-                    }
+                } elseif ($param == 'toDate') {
+                    return '2020-12-31';
+                } elseif ($param == 'deletedLeaveTypes') {
+                    return 'true';
                 }
                 return 2;
             },
