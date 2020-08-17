@@ -29,6 +29,7 @@ use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\User\Model\LeaveRequestModel;
+use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 use ParameterObject;
 
@@ -168,13 +169,11 @@ class MyLeaveRequestAPI extends EndPoint
         foreach ($result as $leaveRequest) {
             $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
             $leaveRequestModel = new LeaveRequestModel($leaveRequestEntity);
-            $leaveType = new LeaveType(
-                $leaveRequest->getLeaveType()->getId(), $leaveRequest->getLeaveType()->getName()
-            );
+            $leaveTypeModel = new LeaveTypeModel($leaveRequest->getLeaveType());
             $leaveRequests [] = array_merge(
                 $leaveRequestModel->toArray(),
                 [
-                    'leaveType' => $leaveType->toArray(),
+                    'leaveType' => $leaveTypeModel->toArray(),
                 ]
             );
         }
