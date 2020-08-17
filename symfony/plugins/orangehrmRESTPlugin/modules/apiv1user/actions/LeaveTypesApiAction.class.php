@@ -21,7 +21,7 @@ use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\User\LeaveConfigAPI;
 use Orangehrm\Rest\Http\Request;
 
-class WorkShiftApiAction extends BaseUserApiAction
+class LeaveTypesApiAction extends BaseUserApiAction
 {
     /**
      * @var null|LeaveConfigAPI
@@ -30,6 +30,7 @@ class WorkShiftApiAction extends BaseUserApiAction
 
     protected function init(Request $request)
     {
+        $this->setUserToContext();
         $this->leaveConfigApi = new LeaveConfigAPI($request);
     }
 
@@ -38,8 +39,7 @@ class WorkShiftApiAction extends BaseUserApiAction
      */
     protected function handleGetRequest(Request $request)
     {
-        $this->setUserToContext();
-        return $this->leaveConfigApi->getEmployeeWorkShift();
+        return $this->leaveConfigApi->getLeaveTypes();
     }
 
     /**

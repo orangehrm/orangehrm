@@ -19,13 +19,18 @@
 
 namespace Orangehrm\Rest\Api\User;
 
+use AuthorizeService;
 use BasicUserRoleManager;
+use EmployeeService;
 use HolidayService;
 use LeavePeriodService;
+use LeaveRequestService;
+use LeaveTypeService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
+use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 use sfContext;
 use UserRoleManagerFactory;
@@ -38,16 +43,20 @@ class LeaveConfigAPI extends EndPoint
     const PARAMETER_FROM_DATE = 'fromDate';
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_EMP_NUMBER = 'empNumber';
+    const PARAMETER_LEAVE_TYPES_ALL = 'all';
 
     protected $workWeekService = null;
     protected $leavePeriodService = null;
     protected $holidayService = null;
     protected $workScheduleService = null;
+    protected $leaveRequestService = null;
+    protected $leaveTypeService = null;
+    protected $employeeService = null;
 
     /**
      * @return WorkWeekService
      */
-    protected function getWorkWeekService(): WorkWeekService
+    public function getWorkWeekService(): WorkWeekService
     {
         if (is_null($this->workWeekService)) {
             $this->workWeekService = new WorkWeekService();
@@ -58,7 +67,7 @@ class LeaveConfigAPI extends EndPoint
     /**
      * @param WorkWeekService $service
      */
-    protected function setWorkWeekService(WorkWeekService $service)
+    public function setWorkWeekService(WorkWeekService $service)
     {
         $this->workWeekService = $service;
     }
@@ -121,7 +130,64 @@ class LeaveConfigAPI extends EndPoint
         $this->workScheduleService = $service;
     }
 
-    protected function getUserAttribute(string $name): string
+    /**
+     * @return LeaveRequestService|null
+     */
+    public function getLeaveRequestService(): LeaveRequestService
+    {
+        if (is_null($this->leaveRequestService)) {
+            $this->leaveRequestService = new LeaveRequestService();
+        }
+        return $this->leaveRequestService;
+    }
+
+    /**
+     * @param LeaveRequestService $leaveRequestService
+     */
+    public function setLeaveRequestService(LeaveRequestService $leaveRequestService)
+    {
+        $this->leaveRequestService = $leaveRequestService;
+    }
+
+    /**
+     * @return LeaveTypeService
+     */
+    protected function getLeaveTypeService(): LeaveTypeService
+    {
+        if (is_null($this->leaveTypeService)) {
+            $this->leaveTypeService = new LeaveTypeService();
+        }
+        return $this->leaveTypeService;
+    }
+
+    /**
+     * @param LeaveTypeService $leaveTypeService
+     */
+    protected function setLeaveTypeService(LeaveTypeService $leaveTypeService)
+    {
+        $this->leaveTypeService = $leaveTypeService;
+    }
+
+    /**
+     * @return EmployeeService
+     */
+    public function getEmployeeService(): EmployeeService
+    {
+        if (is_null($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+        }
+        return $this->employeeService;
+    }
+
+    /**
+     * @param EmployeeService $employeeService
+     */
+    public function setEmployeeService(EmployeeService $employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
+    protected function getUserAttribute(string $name)
     {
         return sfContext::getInstance()->getUser()->getAttribute($name);
     }
@@ -183,6 +249,25 @@ class LeaveConfigAPI extends EndPoint
         return new Response($leavePeriods);
     }
 
+    public function getLeaveTypes(): Response
+    {
+        $params = $this->filterLeaveTypes();
+        if ($params[self::PARAMETER_LEAVE_TYPES_ALL]) {
+            $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
+        } else {
+            $empNumber = $this->getUserAttribute("auth.empNumber");
+            $employee = $this->getEmployeeService()->getEmployee($empNumber);
+            $leaveTypeList = $this->getLeaveRequestService()->getEmployeeAllowedToApplyLeaveTypes($employee);
+        }
+
+        $leaveTypes = [];
+        foreach ($leaveTypeList as $leaveType) {
+            $leaveTypeModel = new LeaveTypeModel($leaveType);
+            $leaveTypes[] = $leaveTypeModel->toArray();
+        }
+        return new Response($leaveTypes);
+    }
+
     public function filterHolidaysParameters(): array
     {
         $params = [];
@@ -217,6 +302,25 @@ class LeaveConfigAPI extends EndPoint
         }
 
         $params[self::PARAMETER_EMP_NUMBER] = $empNumber;
+        return $params;
+    }
+
+    public function filterLeaveTypes(): array
+    {
+        $params = [];
+        $all = $this->getRequestParams()->getQueryParam(self::PARAMETER_LEAVE_TYPES_ALL, 'false');
+        if (!($all == 'true' || $all == 'false')) {
+            throw new InvalidParamException(sprintf("Invalid `%s` Value", self::PARAMETER_LEAVE_TYPES_ALL));
+        }
+        $all = $all == 'true';
+        if ($all) {
+            $isSupervisor = $this->getUserAttribute('auth.isSupervisor');
+            $isAdmin = $this->getUserAttribute('auth.isAdmin') == AuthorizeService::YES;
+            if (!($isSupervisor || $isAdmin)) {
+                throw new BadRequestException('Access Denied');
+            }
+        }
+        $params[self::PARAMETER_LEAVE_TYPES_ALL] = $all;
         return $params;
     }
 

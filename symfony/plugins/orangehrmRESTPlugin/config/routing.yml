@@ -284,3 +284,9 @@ api_leave_config_work_week:
   param: { module:apiv1user, action:WorkWeekApi }
   requirements:
     sf_method: [get]
+
+api_leave_config_types:
+  url: /api/v1/leave/leave-types
+  param: { module:apiv1user, action: LeaveTypesApi }
+  requirements:
+    sf_method: [get]
