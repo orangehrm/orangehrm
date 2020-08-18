@@ -1066,6 +1066,46 @@
                     }
                 }
             }
+        },
+        "/leave/leave-types": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get Leave Types",
+                "parameters": [
+                    {
+                        "name": "all",
+                        "in": "query",
+                        "required": false,
+                        "description": "Get all leave types. Only allowed to perform supervisors and admins",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "example": {
+                                        "data": [
+                                            {
+                                                "workShift": "8.00",
+                                                "startTime": "09:00",
+                                                "endTime": "17:00"
+                                            }
+                                        ],
+                                        "rels": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
