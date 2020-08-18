@@ -18,10 +18,10 @@
  */
 
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\User\EnabledModulesAPI;
+use Orangehrm\Rest\Api\PublicApi\EnabledModulesAPI;
 use Orangehrm\Rest\Http\Request;
 
-class EnabledModulesApiAction extends BaseUserApiAction
+class EnabledModulesApiAction extends BasePublicApiAction
 {
     /**
      * @var null|EnabledModulesAPI
