@@ -297,7 +297,10 @@ class LeaveConfigAPI extends EndPoint
         $empNumber = $this->getRequestParams()->getQueryParam(self::PARAMETER_EMP_NUMBER);
         if (empty($empNumber)) {
             $empNumber = $this->getUserAttribute("auth.empNumber");
-        } elseif (!in_array($empNumber, $this->getAccessibleEmpNumbers('assign_leave'))) {
+        } elseif (!(in_array(
+                $empNumber,
+                $this->getAccessibleEmpNumbers('assign_leave')
+            ) || $empNumber == $this->getUserAttribute("auth.empNumber"))) {
             throw new BadRequestException('Access Denied');
         }
 

@@ -290,3 +290,9 @@ api_leave_config_types:
   param: { module:apiv1user, action: LeaveTypesApi }
   requirements:
     sf_method: [get]
+
+api_enabled_modules:
+  url: /api/v1/enabled-modules
+  param: { module:apiv1user, action: EnabledModulesApi }
+  requirements:
+    sf_method: [get]
