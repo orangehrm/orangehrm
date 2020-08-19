@@ -56,6 +56,11 @@ class AssignLeaveRequestAPI extends SaveLeaveRequestAPI
     public function saveLeaveRequest()
     {
         $filters = $this->filterParameters();
+        if (!$this->isValidToDate($filters['txtToDate'])) {
+            throw new BadRequestException(
+                sprintf('Cannot Assign Leave Beyond %s.', $this->getMaxAllowedToDate()->format('Y-m-d'))
+            );
+        }
         $leaveParameters = new LeaveParameterObject($filters);
         if ($this->validateLeaveType($filters['txtLeaveType'])) {
             try {

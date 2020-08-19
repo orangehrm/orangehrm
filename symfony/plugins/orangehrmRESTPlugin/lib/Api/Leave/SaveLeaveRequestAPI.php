@@ -19,6 +19,9 @@
 
 namespace Orangehrm\Rest\Api\Leave;
 
+use DateTime;
+use Exception;
+use LeavePeriodService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
@@ -35,6 +38,7 @@ class SaveLeaveRequestAPI extends EndPoint
     private $employeeService;
     private $leaveTypeService;
     private $leaveAssignmentService;
+    protected $leavePeriodService = null;
 
     /**
      * Constants
@@ -138,6 +142,25 @@ class SaveLeaveRequestAPI extends EndPoint
     }
 
     /**
+     * @return LeavePeriodService
+     */
+    public function getLeavePeriodService(): LeavePeriodService
+    {
+        if (is_null($this->leavePeriodService)) {
+            $this->leavePeriodService = new LeavePeriodService();
+        }
+        return $this->leavePeriodService;
+    }
+
+    /**
+     * @param LeavePeriodService $leavePeriodService
+     */
+    public function setLeavePeriodService(LeavePeriodService $leavePeriodService)
+    {
+        $this->leavePeriodService = $leavePeriodService;
+    }
+
+    /**
      * Save leave request
      *
      * @return Response
@@ -237,6 +260,30 @@ class SaveLeaveRequestAPI extends EndPoint
         }
 
         return $filters;
+    }
+
+    /**
+     * Check leave request toDate exceeding next leave period
+     * @param string $toDateString
+     * @return bool
+     * @throws Exception
+     */
+    public function isValidToDate($toDateString): bool
+    {
+        $toDate = new DateTime($toDateString);
+        return $toDate <= $this->getMaxAllowedToDate();
+    }
+
+    /**
+     * @return DateTime
+     * @throws Exception
+     */
+    public function getMaxAllowedToDate(): DateTime
+    {
+        $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(date('Y-m-d'));
+        $maxAllowedDate = new DateTime($currentLeavePeriod[1]);
+        $maxAllowedDate->modify('+1 year');
+        return $maxAllowedDate;
     }
 
     /**
