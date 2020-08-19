@@ -29,6 +29,7 @@ use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\User\Model\LeaveRequestModel;
+use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 use ParameterObject;
 
@@ -38,6 +39,7 @@ class MyLeaveRequestAPI extends EndPoint
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_PAGE = 'page';
+    const PARAMETER_LEAVE_TYPE_ID = 'leaveTypeId';
 
     /**
      * @var null|EmployeeService
@@ -149,6 +151,10 @@ class MyLeaveRequestAPI extends EndPoint
             $params['noOfRecordsPerPage'] = $limit;
         }
 
+        if (!empty($filters[self::PARAMETER_LEAVE_TYPE_ID])) {
+            $params['leaveTypeId'] = $filters[self::PARAMETER_LEAVE_TYPE_ID];
+        }
+
         $searchParameters = new ParameterObject($params);
         $result = $this->getLeaveRequestService()->searchLeaveRequests(
             $searchParameters,
@@ -168,13 +174,11 @@ class MyLeaveRequestAPI extends EndPoint
         foreach ($result as $leaveRequest) {
             $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
             $leaveRequestModel = new LeaveRequestModel($leaveRequestEntity);
-            $leaveType = new LeaveType(
-                $leaveRequest->getLeaveType()->getId(), $leaveRequest->getLeaveType()->getName()
-            );
+            $leaveTypeModel = new LeaveTypeModel($leaveRequest->getLeaveType());
             $leaveRequests [] = array_merge(
                 $leaveRequestModel->toArray(),
                 [
-                    'leaveType' => $leaveType->toArray(),
+                    'leaveType' => $leaveTypeModel->toArray(),
                 ]
             );
         }
@@ -212,6 +216,7 @@ class MyLeaveRequestAPI extends EndPoint
         $toDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE);
         $filters[self::PARAMETER_LIMIT] = $this->getRequestParams()->getUrlParam(self::PARAMETER_LIMIT);
         $filters[self::PARAMETER_PAGE] = $this->getRequestParams()->getUrlParam(self::PARAMETER_PAGE);
+        $filters[self::PARAMETER_LEAVE_TYPE_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_TYPE_ID);
 
         if (empty($fromDate) && empty($toDate)) {
             $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(date('Y-m-d'));

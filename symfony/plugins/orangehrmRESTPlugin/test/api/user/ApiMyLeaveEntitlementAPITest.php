@@ -122,7 +122,9 @@ class ApiMyLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
                 ],
                 "leaveType" => [
                     "type" => "Casual",
-                    "id" => "2"
+                    "id" => "2",
+                    "deleted" => null,
+                    "situational" => false
                 ]
             ]
         ];
@@ -161,10 +163,10 @@ class ApiMyLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
     {
         $requestParams = $this->getMockBuilder('\Orangehrm\Rest\Http\RequestParams')
             ->disableOriginalConstructor()
-            ->setMethods(['getUrlParam'])
+            ->setMethods(['getQueryParam'])
             ->getMock();
-        $requestParams->expects($this->exactly(2))
-            ->method('getUrlParam')
+        $requestParams->expects($this->exactly(3))
+            ->method('getQueryParam')
             ->will($this->returnCallback($returnParamCallback));
 
         $sfEvent = new sfEventDispatcher();
@@ -213,13 +215,18 @@ class ApiMyLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
     public function requestParamProvider()
     {
         yield [1, function ($param) {
+            if ($param == 'deletedLeaveTypes') {
+                return 'true';
+            }
             return null;
         }, '2021-01-01', '2021-12-31'];
         yield [2, function ($param) {
             if ($param == 'fromDate') {
                 return '2020-01-01';
-            } else if ($param == 'toDate') {
+            } elseif ($param == 'toDate') {
                 return '2020-12-31';
+            } elseif ($param == 'deletedLeaveTypes') {
+                return 'false';
             }
             return null;
         }, '2020-01-01', '2020-12-31'];

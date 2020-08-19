@@ -28,6 +28,7 @@ use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\Leave\Model\EmployeeLeaveRequestModel;
 use Orangehrm\Rest\Api\Leave\Model\LeaveListLeaveRequestModel;
+use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 use ServiceException;
 use UserRoleManagerFactory;
@@ -72,6 +73,7 @@ class LeaveRequestAPI extends EndPoint
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_PAGE = 'page';
     const PARAMETER_EMPLOYEE_NAME = 'employeeName';
+    const PARAMETER_LEAVE_TYPE_ID = 'leaveTypeId';
 
 
     /**
@@ -296,6 +298,9 @@ class LeaveRequestAPI extends EndPoint
         if (!empty($limit)) {
             $params['noOfRecordsPerPage'] = $limit;
         }
+        if (!empty($filters[self::PARAMETER_LEAVE_TYPE_ID])) {
+            $params['leaveTypeId'] = $filters[self::PARAMETER_LEAVE_TYPE_ID];
+        }
 
         $searchParams = new \ParameterObject($params);
         $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page, $disablePagination, false,
@@ -311,10 +316,10 @@ class LeaveRequestAPI extends EndPoint
             if ($leaveRequest instanceof \LeaveRequest) {
                 $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
                 $leaveRequestModel = new LeaveListLeaveRequestModel($leaveRequestEntity);
-                $leaveType = new LeaveType($leaveRequest->getLeaveTypeId(), $leaveRequest->getLeaveType()->getName());
+                $leaveTypeModel = new LeaveTypeModel($leaveRequest->getLeaveType());
                 $leaveRequests[] = array_merge(
                     $leaveRequestModel->toArray(),
-                    ['leaveType' => $leaveType->toArray()]
+                    ['leaveType' => $leaveTypeModel->toArray()]
                 );
             }
         }
@@ -354,12 +359,12 @@ class LeaveRequestAPI extends EndPoint
         $leaveRequestEntity = $this->createLeaveRequestEntity($leaveRequest);
         $leaveRequestModel = new EmployeeLeaveRequestModel($leaveRequestEntity);
 
-        $leaveType = new LeaveType($leaveRequest->getLeaveType()->getId(), $leaveRequest->getLeaveType()->getName());
+        $leaveTypeModel = new LeaveTypeModel($leaveRequest->getLeaveType());
         $allowedActions = $this->getLeaveRequestService()->getLeaveRequestActions($leaveRequest, $loggedInEmpNumber);
         $response = array_merge(
             $leaveRequestModel->toArray(),
             [
-                'leaveType' => $leaveType->toArray(),
+                'leaveType' => $leaveTypeModel->toArray(),
                 'allowedActions' => array_values($allowedActions),
             ]
         );
@@ -400,6 +405,7 @@ class LeaveRequestAPI extends EndPoint
         $filters[self::PARAMETER_LIMIT] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_LIMIT));
         $filters[self::PARAMETER_PAGE] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_PAGE));
         $filters[self::PARAMETER_LEAVE_TYPE] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_TYPE));
+        $filters[self::PARAMETER_LEAVE_TYPE_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_TYPE_ID);
 
         return $filters;
     }

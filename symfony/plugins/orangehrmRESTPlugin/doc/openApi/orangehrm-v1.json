@@ -931,6 +931,181 @@
                     }
                 }
             }
+        },
+        "/leave/holidays": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get Holidays",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "example": {
+                                        "data": [
+                                            {
+                                                "id": "1",
+                                                "recurring": "0",
+                                                "description": "Holyday 1",
+                                                "date": "2020-08-05",
+                                                "length": "4"
+                                            },
+                                            {
+                                                "id": "2",
+                                                "recurring": "1",
+                                                "description": "Holyday 2",
+                                                "date": "2020-08-06",
+                                                "length": "8"
+                                            }
+                                        ],
+                                        "rels": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/leave-periods": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get Leave Periods",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "example": {
+                                        "data": [
+                                            {
+                                                "startDate": "2020-01-01",
+                                                "endDate": "2020-12-31"
+                                            }
+                                        ],
+                                        "rels": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/work-shift": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get Employee Work Shift",
+                "parameters": [
+                    {
+                        "name": "empNumber",
+                        "in": "query",
+                        "required": false,
+                        "description": "Employee number",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "example": {
+                                        "data": {
+                                            "workShift": "8.00",
+                                            "startTime": "09:00",
+                                            "endTime": "17:00"
+                                        },
+                                        "rels": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/work-week": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get Work Week",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "example": {
+                                        "data": {
+                                            "mon": "0",
+                                            "tue": "0",
+                                            "wed": "0",
+                                            "thu": "0",
+                                            "fri": "0",
+                                            "sat": "4",
+                                            "sun": "8"
+                                        },
+                                        "rels": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/leave-types": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get Leave Types",
+                "parameters": [
+                    {
+                        "name": "all",
+                        "in": "query",
+                        "required": false,
+                        "description": "Get all leave types. Only allowed to perform supervisors and admins",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "example": {
+                                        "data": [
+                                            {
+                                                "workShift": "8.00",
+                                                "startTime": "09:00",
+                                                "endTime": "17:00"
+                                            }
+                                        ],
+                                        "rels": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {

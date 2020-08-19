@@ -260,3 +260,39 @@ api_public_api_definition:
   param: { module:apiv1public, action:ApiDefinitionApi }
   requirements:
     sf_method: [get]
+
+api_leave_config_holidays:
+  url: /api/v1/leave/holidays
+  param: { module:apiv1user, action:HolidaysApi }
+  requirements:
+    sf_method: [get]
+
+api_leave_config_leave_periods:
+  url: /api/v1/leave/leave-periods
+  param: { module:apiv1user, action:LeavePeriodsApi }
+  requirements:
+    sf_method: [get]
+
+api_leave_config_work_shift:
+  url: /api/v1/leave/work-shift
+  param: { module:apiv1user, action:WorkShiftApi }
+  requirements:
+    sf_method: [get]
+
+api_leave_config_work_week:
+  url: /api/v1/leave/work-week
+  param: { module:apiv1user, action:WorkWeekApi }
+  requirements:
+    sf_method: [get]
+
+api_leave_config_types:
+  url: /api/v1/leave/leave-types
+  param: { module:apiv1user, action: LeaveTypesApi }
+  requirements:
+    sf_method: [get]
+
+api_enabled_modules:
+  url: /api/v1/enabled-modules
+  param: { module:apiv1public, action: EnabledModulesApi }
+  requirements:
+    sf_method: [get]
