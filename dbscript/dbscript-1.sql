@@ -2278,3 +2278,17 @@ CREATE TABLE `ohrm_oauth_scope` (
 
 ALTER TABLE `ohrm_oauth_client` ADD `grant_types` VARCHAR(80) NULL DEFAULT NULL;
 ALTER TABLE `ohrm_oauth_client` ADD `scope` VARCHAR(4000) NULL DEFAULT NULL;
+
+CREATE TABLE `ohrm_rest_api_usage` (
+    `id` INT NOT NULL AUTO_INCREMENT ,
+    `client_id` VARCHAR(255) NULL DEFAULT NULL ,
+    `user_id` VARCHAR(255) NULL DEFAULT NULL ,
+    `scope` VARCHAR(20) NULL DEFAULT NULL,
+    `method` VARCHAR(20) NULL DEFAULT NULL ,
+    `module` VARCHAR(20) NULL DEFAULT NULL ,
+    `action` VARCHAR(50) NULL DEFAULT NULL ,
+    `path` VARCHAR(255) NULL DEFAULT NULL ,
+    `parameters` TINYTEXT NULL DEFAULT NULL ,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
