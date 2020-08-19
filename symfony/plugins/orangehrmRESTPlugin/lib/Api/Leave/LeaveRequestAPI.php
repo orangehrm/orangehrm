@@ -73,6 +73,7 @@ class LeaveRequestAPI extends EndPoint
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_PAGE = 'page';
     const PARAMETER_EMPLOYEE_NAME = 'employeeName';
+    const PARAMETER_LEAVE_TYPE_ID = 'leaveTypeId';
 
 
     /**
@@ -297,6 +298,9 @@ class LeaveRequestAPI extends EndPoint
         if (!empty($limit)) {
             $params['noOfRecordsPerPage'] = $limit;
         }
+        if (!empty($filters[self::PARAMETER_LEAVE_TYPE_ID])) {
+            $params['leaveTypeId'] = $filters[self::PARAMETER_LEAVE_TYPE_ID];
+        }
 
         $searchParams = new \ParameterObject($params);
         $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page, $disablePagination, false,
@@ -401,6 +405,7 @@ class LeaveRequestAPI extends EndPoint
         $filters[self::PARAMETER_LIMIT] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_LIMIT));
         $filters[self::PARAMETER_PAGE] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_PAGE));
         $filters[self::PARAMETER_LEAVE_TYPE] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_TYPE));
+        $filters[self::PARAMETER_LEAVE_TYPE_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_TYPE_ID);
 
         return $filters;
     }

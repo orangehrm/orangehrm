@@ -139,7 +139,7 @@ class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getUrlParam'])
             ->getMock();
-        $requestParams->expects($this->exactly(4))
+        $requestParams->expects($this->exactly(5))
             ->method('getUrlParam')
             ->will($this->returnCallback($returnParamCallback));
 

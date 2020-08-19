@@ -39,6 +39,7 @@ class MyLeaveRequestAPI extends EndPoint
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_PAGE = 'page';
+    const PARAMETER_LEAVE_TYPE_ID = 'leaveTypeId';
 
     /**
      * @var null|EmployeeService
@@ -150,6 +151,10 @@ class MyLeaveRequestAPI extends EndPoint
             $params['noOfRecordsPerPage'] = $limit;
         }
 
+        if (!empty($filters[self::PARAMETER_LEAVE_TYPE_ID])) {
+            $params['leaveTypeId'] = $filters[self::PARAMETER_LEAVE_TYPE_ID];
+        }
+
         $searchParameters = new ParameterObject($params);
         $result = $this->getLeaveRequestService()->searchLeaveRequests(
             $searchParameters,
@@ -211,6 +216,7 @@ class MyLeaveRequestAPI extends EndPoint
         $toDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE);
         $filters[self::PARAMETER_LIMIT] = $this->getRequestParams()->getUrlParam(self::PARAMETER_LIMIT);
         $filters[self::PARAMETER_PAGE] = $this->getRequestParams()->getUrlParam(self::PARAMETER_PAGE);
+        $filters[self::PARAMETER_LEAVE_TYPE_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_TYPE_ID);
 
         if (empty($fromDate) && empty($toDate)) {
             $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(date('Y-m-d'));
