@@ -41,7 +41,7 @@ class ApiAssignLeaveRequestAPITest extends PHPUnit\Framework\TestCase
     public function testSaveLeaveRequest()
     {
         $assignLeaveRequestAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\AssignLeaveRequestAPI')
-            ->setMethods(['filterParameters', 'validateLeaveType'])
+            ->setMethods(['filterParameters', 'validateLeaveType', 'isValidToDate'])
             ->setConstructorArgs([$this->request])
             ->getMock();
         $assignLeaveRequestAPI->expects($this->once())
@@ -49,6 +49,9 @@ class ApiAssignLeaveRequestAPITest extends PHPUnit\Framework\TestCase
             ->will($this->returnValue([]));
         $assignLeaveRequestAPI->expects($this->once())
             ->method('validateLeaveType')
+            ->will($this->returnValue(true));
+        $assignLeaveRequestAPI->expects($this->once())
+            ->method('isValidToDate')
             ->will($this->returnValue(true));
 
         $APILeaveAssignmentService = $this->getMockBuilder(
@@ -68,7 +71,7 @@ class ApiAssignLeaveRequestAPITest extends PHPUnit\Framework\TestCase
     public function testSaveLeaveRequestSaveFailed()
     {
         $assignLeaveRequestAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\AssignLeaveRequestAPI')
-            ->setMethods(['filterParameters', 'validateLeaveType'])
+            ->setMethods(['filterParameters', 'validateLeaveType', 'isValidToDate'])
             ->setConstructorArgs([$this->request])
             ->getMock();
         $assignLeaveRequestAPI->expects($this->once())
@@ -77,6 +80,9 @@ class ApiAssignLeaveRequestAPITest extends PHPUnit\Framework\TestCase
         $assignLeaveRequestAPI->expects($this->once())
             ->method('validateLeaveType')
             ->will($this->returnValue(false));
+        $assignLeaveRequestAPI->expects($this->once())
+            ->method('isValidToDate')
+            ->will($this->returnValue(true));
 
         $this->expectException(BadRequestException::class);
         $assignLeaveRequestAPI->saveLeaveRequest();
@@ -86,7 +92,7 @@ class ApiAssignLeaveRequestAPITest extends PHPUnit\Framework\TestCase
     {
         $this->expectException(BadRequestException::class);
         $assignLeaveRequestAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\AssignLeaveRequestAPI')
-            ->setMethods(['filterParameters', 'validateLeaveType'])
+            ->setMethods(['filterParameters', 'validateLeaveType', 'isValidToDate'])
             ->setConstructorArgs([$this->request])
             ->getMock();
         $assignLeaveRequestAPI->expects($this->once())
@@ -94,6 +100,9 @@ class ApiAssignLeaveRequestAPITest extends PHPUnit\Framework\TestCase
             ->will($this->returnValue([]));
         $assignLeaveRequestAPI->expects($this->once())
             ->method('validateLeaveType')
+            ->will($this->returnValue(true));
+        $assignLeaveRequestAPI->expects($this->once())
+            ->method('isValidToDate')
             ->will($this->returnValue(true));
         $APILeaveAssignmentService = $this->getMockBuilder(
             'Orangehrm\Rest\Api\User\Service\APILeaveAssignmentService'

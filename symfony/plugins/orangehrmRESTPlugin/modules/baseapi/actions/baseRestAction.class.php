@@ -24,6 +24,7 @@ use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Validator;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
+use Orangehrm\Rest\Service\ApiUsageService;
 
 abstract class baseRestAction extends baseOAuthAction {
 
@@ -31,6 +32,7 @@ abstract class baseRestAction extends baseOAuthAction {
     protected $postValidationRule = array();
     protected $putValidationRule = array();
     protected $deleteValidationRule = array();
+    protected $apiUsageService = null;
 
     /**
      * Check token validation
@@ -38,6 +40,7 @@ abstract class baseRestAction extends baseOAuthAction {
     public function preExecute() {
         parent::preExecute();
         $this->verifyAllowedScope();
+        $this->getApiUsageService()->persistApiRequestMetaData($this->getAccessTokenData(), $this->getRequest());
     }
 
     protected function init(Request $request){
@@ -170,6 +173,14 @@ abstract class baseRestAction extends baseOAuthAction {
             $oauthResponse->send();
             throw new sfStopException();
         }
+    }
+
+    public function getApiUsageService()
+    {
+        if (is_null($this->apiUsageService)) {
+            $this->apiUsageService = new ApiUsageService();
+        }
+        return $this->apiUsageService;
     }
 }
 

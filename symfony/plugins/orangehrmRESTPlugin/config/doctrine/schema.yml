@@ -1,0 +1,35 @@
+RestApiUsage:
+    tableName: ohrm_rest_api_usage
+    columns:
+        id:
+            name: id
+            type: integer()
+            primary: true
+            autoincrement: true
+        client_id:
+            name: client_id
+            type: string(255)
+            notnull: true
+        user_id:
+            name: user_id
+            type: string(255)
+        scope:
+            name: scope
+            type: string(20)
+        method:
+            name: method
+            type: string(20)
+        module:
+            name: module
+            type: string(20)
+        action:
+            name: action
+            type: string(50)
+        path:
+            name: path
+            type: string(255)
+        parameters:
+            name: parameters
+            type: string()
+        created_at:
+            type: timestamp

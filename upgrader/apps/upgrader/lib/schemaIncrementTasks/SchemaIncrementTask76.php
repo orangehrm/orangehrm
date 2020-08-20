@@ -35,6 +35,19 @@ class SchemaIncrementTask76 extends SchemaIncrementTask
         $sql[] = "UPDATE `ohrm_oauth_client` SET `grant_types`='client_credentials',`scope`='admin';";
         $sql[] = "INSERT IGNORE INTO `ohrm_oauth_client`(`client_id`, `client_secret`, `redirect_uri`, `grant_types`, `scope`) VALUES
 ('orangehrm_mobile_app','','','password refresh_token','user');";
+        $sql[] = "CREATE TABLE `ohrm_rest_api_usage` (
+    `id` INT NOT NULL AUTO_INCREMENT ,
+    `client_id` VARCHAR(255) NULL DEFAULT NULL ,
+    `user_id` VARCHAR(255) NULL DEFAULT NULL ,
+    `scope` VARCHAR(20) NULL DEFAULT NULL,
+    `method` VARCHAR(20) NULL DEFAULT NULL ,
+    `module` VARCHAR(20) NULL DEFAULT NULL ,
+    `action` VARCHAR(50) NULL DEFAULT NULL ,
+    `path` VARCHAR(255) NULL DEFAULT NULL ,
+    `parameters` TINYTEXT NULL DEFAULT NULL ,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;";
         $this->sql = $sql;
     }
 
