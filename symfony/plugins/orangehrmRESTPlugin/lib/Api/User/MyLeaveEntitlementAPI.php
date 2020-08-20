@@ -24,7 +24,9 @@ use EmployeeService;
 use LeaveEntitlementSearchParameterHolder;
 use LeaveEntitlementService;
 use LeavePeriodService;
+use LeaveTypeService;
 use Orangehrm\Rest\Api\EndPoint;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
@@ -39,6 +41,8 @@ class MyLeaveEntitlementAPI extends EndPoint
     const PARAMETER_FROM_DATE = 'fromDate';
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_DELETED_LEAVE_TYPES = 'deletedLeaveTypes';
+    const PARAMETER_AS_AT_DATE = 'balanceAsAtDate';
+    const PARAMETER_END_DATE = 'balanceEndDate';
 
     /**
      * @var null|LeaveEntitlementService
@@ -59,6 +63,11 @@ class MyLeaveEntitlementAPI extends EndPoint
      * @var null|LeaveEntitlementAPI
      */
     private $leaveEntitlementApi = null;
+
+    /**
+     * @var null|LeaveTypeService
+     */
+    private $leaveTypeService = null;
 
     /**
      * @return LeavePeriodService
@@ -138,11 +147,31 @@ class MyLeaveEntitlementAPI extends EndPoint
     }
 
     /**
+     * @return LeaveTypeService
+     */
+    public function getLeaveTypeService(): LeaveTypeService
+    {
+        if (is_null($this->leaveTypeService)) {
+            $this->leaveTypeService = new LeaveTypeService();
+        }
+        return $this->leaveTypeService;
+    }
+
+    /**
+     * @param LeaveTypeService $leaveTypeService
+     */
+    public function setLeaveTypeService(LeaveTypeService $leaveTypeService)
+    {
+        $this->leaveTypeService = $leaveTypeService;
+    }
+
+    /**
      * @param int $employeeId
      * @return Response
      * @throws InvalidParamException
      * @throws RecordNotFoundException
      * @throws DaoException
+     * @throws BadRequestException
      */
     public function getMyLeaveDetails(int $employeeId): Response
     {
@@ -157,9 +186,15 @@ class MyLeaveEntitlementAPI extends EndPoint
      * @param array $filters
      * @return array
      * @throws RecordNotFoundException
+     * @throws BadRequestException
      */
     public function getMyLeaveEntitlement(int $employeeId, array $filters)
     {
+        $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
+        if (count($leaveTypeList) === 0) {
+            throw new BadRequestException('No Leave Types Defined.');
+        }
+
         $searchParameters = $this->getEntitlementSearchParams($employeeId, $filters);
         $results = $this->getLeaveEntitlementService()->searchLeaveEntitlements($searchParameters);
         $responseEntitlement = [];
@@ -177,7 +212,9 @@ class MyLeaveEntitlementAPI extends EndPoint
                 $leaveEntitlementModel = new LeaveEntitlementModel($leaveEntitlementEntity);
                 $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance(
                     $employeeId,
-                    $entitlement->getLeaveTypeId()
+                    $entitlement->getLeaveTypeId(),
+                    $filters[self::PARAMETER_AS_AT_DATE],
+                    $filters[self::PARAMETER_END_DATE]
                 );
                 $leaveBalanceEntity = new LeaveBalance($leaveBalance);
                 $leaveTypeModel = new LeaveTypeModel($entitlement->getLeaveType());
@@ -227,10 +264,14 @@ class MyLeaveEntitlementAPI extends EndPoint
             throw new InvalidParamException(sprintf("Invalid `%s` Value", self::PARAMETER_DELETED_LEAVE_TYPES));
         }
         $deletedLeaveTypes = $deletedLeaveTypes == 'true';
+        $asAtDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_AS_AT_DATE);
+        $endDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_END_DATE);
 
         $filters[self::PARAMETER_FROM_DATE] = $fromDate;
         $filters[self::PARAMETER_TO_DATE] = $toDate;
         $filters[self::PARAMETER_DELETED_LEAVE_TYPES] = $deletedLeaveTypes;
+        $filters[self::PARAMETER_AS_AT_DATE] = $asAtDate;
+        $filters[self::PARAMETER_END_DATE] = $endDate;
         return $filters;
     }
 
@@ -258,6 +299,8 @@ class MyLeaveEntitlementAPI extends EndPoint
         return [
             self::PARAMETER_TO_DATE => ['Date' => ['Y-m-d']],
             self::PARAMETER_FROM_DATE => ['Date' => ['Y-m-d']],
+            self::PARAMETER_AS_AT_DATE => ['Date' => ['Y-m-d']],
+            self::PARAMETER_END_DATE => ['Date' => ['Y-m-d']],
         ];
     }
 }
