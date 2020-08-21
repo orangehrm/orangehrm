@@ -252,9 +252,11 @@ class LeaveConfigAPI extends EndPoint
     public function getLeaveTypes(): Response
     {
         $params = $this->filterLeaveTypes();
-        if ($params[self::PARAMETER_LEAVE_TYPES_ALL]) {
-            $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
-        } else {
+        $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
+        if (count($leaveTypeList) === 0) {
+            throw new BadRequestException('No Leave Types Defined.');
+        }
+        if (!$params[self::PARAMETER_LEAVE_TYPES_ALL]) {
             $empNumber = $this->getUserAttribute("auth.empNumber");
             $employee = $this->getEmployeeService()->getEmployee($empNumber);
             $leaveTypeList = $this->getLeaveRequestService()->getEmployeeAllowedToApplyLeaveTypes($employee);

@@ -138,6 +138,24 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "balanceAsAtDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "Start date for calculate balance. Default: current date.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "balanceEndDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "End date for calculate balance. Default: end date of current leave period",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -736,6 +754,33 @@
                         "in": "query",
                         "required": false,
                         "description": "Valid leave period to date",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "combineLeaveTypes",
+                        "in": "query",
+                        "required": false,
+                        "description": "Whether combine not entitled leave types with leave balance.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "balanceAsAtDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "Start date for calculate balance. Default: current date.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "balanceEndDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "End date for calculate balance. Default: end date of current leave period",
                         "schema": {
                             "type": "string"
                         }

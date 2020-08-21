@@ -77,6 +77,11 @@ class ApiMyLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
             ->with($searchParameters)
             ->will($this->returnValue($entitlementsCollection));
 
+        $leaveTypeService = $this->getMockBuilder('LeaveTypeService')->getMock();
+        $leaveTypeService->expects($this->once())
+            ->method('getLeaveTypeList')
+            ->will($this->returnValue([$leaveType]));
+
         $leaveBalance = new \LeaveBalance();
         $leaveBalance->setEntitled(14);
         $leaveBalance->setScheduled(1);
@@ -86,6 +91,7 @@ class ApiMyLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
             ->will($this->returnValue($leaveBalance));
 
         $myLeaveRequestApi->setLeaveEntitlementService($entitlementService);
+        $myLeaveRequestApi->setLeaveTypeService($leaveTypeService);
         $responseEntitlement = $myLeaveRequestApi->getMyLeaveEntitlement(1, []);
         $testResponse = null;
         $testResponse[] = $leaveEntitlementEntity->toArray();
@@ -165,7 +171,7 @@ class ApiMyLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getQueryParam'])
             ->getMock();
-        $requestParams->expects($this->exactly(3))
+        $requestParams->expects($this->exactly(5))
             ->method('getQueryParam')
             ->will($this->returnCallback($returnParamCallback));
 

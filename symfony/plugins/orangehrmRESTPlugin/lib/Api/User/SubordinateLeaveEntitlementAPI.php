@@ -25,6 +25,7 @@ use LeaveEntitlementSearchParameterHolder;
 use LeaveEntitlementService;
 use LeavePeriodDao;
 use LeavePeriodService;
+use LeaveTypeService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
@@ -44,6 +45,9 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_EMPLOYEE_NUMBER = 'id';
     const PARAMETER_DELETED_LEAVE_TYPES = 'deletedLeaveTypes';
+    const PARAMETER_COMBINE_LEAVE_TYPES = 'combineLeaveTypes';
+    const PARAMETER_AS_AT_DATE = 'balanceAsAtDate';
+    const PARAMETER_END_DATE = 'balanceEndDate';
 
     /**
      * @var null|LeaveEntitlementService
@@ -59,6 +63,11 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
      * @var null|LeaveEntitlementAPI
      */
     private $leaveEntitlementApi = null;
+
+    /**
+     * @var null|LeaveTypeService
+     */
+    private $leaveTypeService = null;
 
     /**
      * @return LeavePeriodService
@@ -133,21 +142,47 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
     }
 
     /**
+     * @return LeaveTypeService
+     */
+    public function getLeaveTypeService(): LeaveTypeService
+    {
+        if (is_null($this->leaveTypeService)) {
+            $this->leaveTypeService = new LeaveTypeService();
+        }
+        return $this->leaveTypeService;
+    }
+
+    /**
+     * @param LeaveTypeService $leaveTypeService
+     */
+    public function setLeaveTypeService(LeaveTypeService $leaveTypeService)
+    {
+        $this->leaveTypeService = $leaveTypeService;
+    }
+
+    /**
      * Fetch leave entitlements for given leave period
      * @param array $filters
      * @return array
      * @throws RecordNotFoundException
+     * @throws BadRequestException
      */
     public function getLeaveEntitlements(array $filters)
     {
+        $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
+        if (count($leaveTypeList) === 0) {
+            throw new BadRequestException('No Leave Types Defined.');
+        }
+
         $searchParameters = $this->getEntitlementSearchParams($filters);
         $results = $this->getLeaveEntitlementService()->searchLeaveEntitlements($searchParameters);
         $responseEntitlement = [];
         $empNumber = $filters[self::PARAMETER_EMPLOYEE_NUMBER];
-        if (count($results) == 0) {
+        if (count($results) == 0 && !$filters[self::PARAMETER_COMBINE_LEAVE_TYPES]) {
             throw new RecordNotFoundException('No Records Found');
         } else {
             $withDeletedLeaveTypes = $filters[self::PARAMETER_DELETED_LEAVE_TYPES];
+            $entitledLeaveTypes = [];
             foreach ($results as $entitlement) {
                 if (!$withDeletedLeaveTypes && $entitlement->getLeaveType()->getDeleted() == '1') {
                     continue;
@@ -158,9 +193,12 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
                 $leaveEntitlementModel = new LeaveEntitlementModel($leaveEntitlementEntity);
                 $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance(
                     $empNumber,
-                    $entitlement->getLeaveTypeId()
+                    $entitlement->getLeaveTypeId(),
+                    $filters[self::PARAMETER_AS_AT_DATE],
+                    $filters[self::PARAMETER_END_DATE]
                 );
                 $leaveBalanceEntity = new LeaveBalance($leaveBalance);
+                $entitledLeaveTypes[] = $entitlement->getLeaveTypeId();
                 $leaveTypeModel = new LeaveTypeModel($entitlement->getLeaveType());
                 $responseEntitlement[] = array_merge(
                     $leaveEntitlementModel->toArray(),
@@ -169,6 +207,23 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
                         'leaveType' => $leaveTypeModel->toArray(),
                     )
                 );
+            }
+
+            foreach ($leaveTypeList as $leaveType) {
+                if (!in_array($leaveType->getId(), $entitledLeaveTypes)) {
+                    $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance(
+                        $empNumber,
+                        $leaveType->getId(),
+                        $filters[self::PARAMETER_AS_AT_DATE],
+                        $filters[self::PARAMETER_END_DATE]
+                    );
+                    $leaveBalanceEntity = new LeaveBalance($leaveBalance);
+                    $leaveTypeModel = new LeaveTypeModel($leaveType);
+                    $responseEntitlement[] = [
+                        'leaveBalance' => $leaveBalanceEntity->toArray(),
+                        'leaveType' => $leaveTypeModel->toArray(),
+                    ];
+                }
             }
             return $responseEntitlement;
         }
@@ -209,10 +264,17 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
         }
         $deletedLeaveTypes = $deletedLeaveTypes == 'true';
 
+        $combineLeaveTypes = $this->getRequestParams()->getQueryParam(self::PARAMETER_COMBINE_LEAVE_TYPES, 'false');
+        $asAtDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_AS_AT_DATE);
+        $endDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_END_DATE);
+
         $filters[self::PARAMETER_FROM_DATE] = $fromDate;
         $filters[self::PARAMETER_TO_DATE] = $toDate;
         $filters[self::PARAMETER_EMPLOYEE_NUMBER] = $empNumber;
         $filters[self::PARAMETER_DELETED_LEAVE_TYPES] = $deletedLeaveTypes;
+        $filters[self::PARAMETER_COMBINE_LEAVE_TYPES] = filter_var($combineLeaveTypes, FILTER_VALIDATE_BOOLEAN);
+        $filters[self::PARAMETER_AS_AT_DATE] = $asAtDate;
+        $filters[self::PARAMETER_END_DATE] = $endDate;
         return $filters;
     }
 
@@ -237,6 +299,8 @@ class SubordinateLeaveEntitlementAPI extends EndPoint
         return [
             self::PARAMETER_TO_DATE => ['Date' => ['Y-m-d']],
             self::PARAMETER_FROM_DATE => ['Date' => ['Y-m-d']],
+            self::PARAMETER_AS_AT_DATE => ['Date' => ['Y-m-d']],
+            self::PARAMETER_END_DATE => ['Date' => ['Y-m-d']],
         ];
     }
 
