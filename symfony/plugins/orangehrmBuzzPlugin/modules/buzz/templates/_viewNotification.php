@@ -24,8 +24,6 @@ use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/getSharedEmployeeList
 use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/viewPostComponent'));
 use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/photoTiling'));
 use_stylesheet(plugin_web_path('orangehrmBuzzPlugin', 'css/messageBoxStyles'));
-use_javascript(plugin_web_path('js/fontawesome-5.13.0', 'js/fontawesome.min.js'));
-use_javascript(plugin_web_path('js/fontawesome-5.13.0', 'js/solid.min.js'));
 use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/viewNotificationComponent'));
 use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/buzzCommon'));
 use_javascript(plugin_web_path('orangehrmBuzzPlugin', 'js/buzzNew'));
