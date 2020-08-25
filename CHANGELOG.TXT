@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 4.5
+    New Features
+    ------------
+    Mobile app 1.0 version release with leave features
+    - Request for leave/time off on the go
+    - Check available balances of your leave entitlements before applying for a leave.
+    - Supervisors can approve leave requests of their employees
+    - Assign leave on behalf of your employees when they cannot make it to the office
+
 New & Changed Features for OrangeHRM ver 4.4
     New Features
     ------------
