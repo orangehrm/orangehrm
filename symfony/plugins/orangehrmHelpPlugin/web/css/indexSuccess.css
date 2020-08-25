@@ -1,0 +1,45 @@
+svg.help-icon > path {
+    fill: #f28c38 !important;
+}
+
+.play-store-img {
+    height: 54px;
+}
+
+.app-store-img {
+    height: 36px;
+    padding-top: 9px;
+}
+
+.help-inner-row {
+    border-top: 1px solid #dedede !important;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 0 !important;
+}
+
+.help-inner-row p {
+    padding-bottom: 4px;
+    clear: both;
+}
+
+.help-inner-row strong {
+    font-weight: bold;
+}
+
+.help-column {
+    float: left;
+}
+
+.help-header-icon {
+    padding-right: 12px;
+}
+
+.help-header {
+    background-color: #eee;
+    padding: 12px;
+}
+
+.help-ss {
+    width: 300px;
+}
