@@ -31,8 +31,12 @@ svg.help-icon > path {
     float: left;
 }
 
-.help-header-icon {
+div.help-header-icon {
     padding-right: 12px;
+}
+
+svg.help-header-icon > path {
+    fill: #5d5d5d;
 }
 
 .help-header {
