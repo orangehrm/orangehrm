@@ -107,6 +107,10 @@
     margin-right: 12px;
 }
 
+.notification:hover {
+    cursor: pointer;
+}
+
 svg.notification-icon > path {
     fill: #5d5d5d;
 }

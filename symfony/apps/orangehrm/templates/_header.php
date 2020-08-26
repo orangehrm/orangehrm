@@ -37,6 +37,9 @@ $cultureElements = explode('_', $sf_user->getCulture());
         echo javascript_include_tag('jquery/jquery.tipTip.minified.js');
         echo javascript_include_tag('jquery/bootstrap-modal.js');
         echo javascript_include_tag('jquery/jquery.clickoutside.js');
+        echo javascript_include_tag('fontawesome-5.13.0/js/fontawesome.min.js');
+        echo javascript_include_tag('fontawesome-5.13.0/js/solid.min.js');
+        echo javascript_include_tag('fontawesome-5.13.0/js/regular.min.js');
 
         // Custom JavaScript files
         echo javascript_include_tag('orangehrm.validate.js');
