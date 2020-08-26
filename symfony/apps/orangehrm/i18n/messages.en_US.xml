@@ -7929,12 +7929,11 @@
         <target/>
       </trans-unit>
       <trans-unit id="2036">
-        <source>OrangeHRM Open Source Mobile app - How to download the application</source>
+        <source>OrangeHRM Open Source Mobile App - How to Download the Application</source>
         <target/>
       </trans-unit>
       <trans-unit id="2037">
-        <source>OrangeHRM Open Source mobile application allows you to perform your day to day HR tasks through the
-          comfort of your mobile phone. This application is available on both iOS and Android platforms.</source>
+        <source>OrangeHRM Open Source mobile application allows you to apply leave, assign leave and approve leave via a mobile device. This application is available for download on both iOS and Android platforms.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2038">
@@ -7950,40 +7949,39 @@
         <target/>
       </trans-unit>
       <trans-unit id="2041">
-        <source>Visit Appstore or Playstore depending on the device you use. Android users can
-          download the app from Playstore while iOS users can download from Appstore.</source>
+        <source>Download and install the application from the App Store or Play Store.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2042">
-        <source>Search for OrangeHRM Open Source application.</source>
+        <source>To install and get started.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2043">
-        <source>Following links direct you to locate the app.</source>
+        <source>The following links direct you to find the app in the Play Store / App Store.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2044">
-        <source>You can even scan for the following QR code to find the application</source>
+        <source>You may alternatively scan for the following QR code from your mobile phone camera to find and download the application.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2045">
-        <source>Download and Install the application.</source>
+        <source>Ensure the OrangeHRM username and password credentials are entered correctly, and click LOGIN. You will be granted access to the system after successful validation of your username and password credentials.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2046">
-        <source>Once the installation is complete, you can open the application.</source>
+        <source>Once the installation is complete, open the application and follow the steps outlined below to access your OrangeHRM system.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2047">
-        <source>OrangeHRM Open Source Mobile app - How to Configure URL and Login</source>
+        <source>OrangeHRM Open Source Mobile App - How to Configure URL and Login</source>
         <target/>
       </trans-unit>
       <trans-unit id="2048">
-        <source>Once you download the application, you will require to configure the instance to access the system.</source>
+        <source>Upon opening the application, you will be required to configure the OrangeHRM instance that you wish to access via your mobile device.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2049">
-        <source>Enter URL of your OrangeHRM instance URL.</source>
+        <source>Enter the OrangeHRM instance URL.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2050">
@@ -7991,7 +7989,7 @@
         <target/>
       </trans-unit>
       <trans-unit id="2051">
-        <source>Mobile application does not support your instance. Please contact IT/System Administrator for more information.</source>
+        <source>OrangeHRM Opensource mobile app does not support your instance. Please contact your system administrator for more information.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2052">
@@ -8003,23 +8001,15 @@
         <target/>
       </trans-unit>
       <trans-unit id="2054">
-        <source>Use the same OrangeHRM username and password credentials and click LOGIN.
-          You will be granted access to the system after successfully validating your username and password
-          credentials.</source>
+        <source>LOGIN</source>
         <target/>
       </trans-unit>
       <trans-unit id="2055">
-        <source>Directly below the login fields, the URL of the system you are connecting to will be visible so that
-          you can verify the URL specified is accurate. If you wish to reconfigure the URL, click on the URL
-          and the app will take you back to Step 01.</source>
+        <source>Directly below the login fields, the URL of the system you are connecting to will be displayed so that you can verify the URL specified is accurate. </source>
         <target/>
       </trans-unit>
       <trans-unit id="2056">
         <source>Help &amp; Support</source>
-        <target/>
-      </trans-unit>
-      <trans-unit id="2057">
-        <source>This article contains guide you on how to download the application to your mobile.</source>
         <target/>
       </trans-unit>
     </body>

@@ -23,6 +23,17 @@ OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 
 - For OrangeHRM Installation issues please refer to the OrangeHRM Installation Guide
 
+## OrangeHRM Mobile App
+
+<a href="https://play.google.com/store/apps/details?id=com.orangehrm.opensource" target="_blank">
+<img height="54" alt='Get it on Google Play'
+    src='https://raw.githubusercontent.com/wiki/orangehrm/orangehrm/mobile/play_store_cropped_en_US.png'/>
+</a>
+<a href="https://apps.apple.com/us/app/orangehrm/id1527247547" target="_blank">
+<img height="53" alt='Download on the App Store'
+    src='https://raw.githubusercontent.com/wiki/orangehrm/orangehrm/mobile/app_store_en_US.svg'/>
+</a>
+
 ## Contribute
 
 https://github.com/orangehrm/orangehrm/wiki/How-to-Contribute
@@ -30,9 +41,6 @@ https://github.com/orangehrm/orangehrm/wiki/How-to-Contribute
 ## Resources
 
 https://github.com/orangehrm/orangehrm/wiki/Resources
-
-## License 
-
 
 ## Demo
 Live demo is available at : https://opensource-demo.orangehrmlive.com/index.php/auth/login

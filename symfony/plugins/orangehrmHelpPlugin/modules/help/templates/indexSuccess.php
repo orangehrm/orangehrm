@@ -28,29 +28,27 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
         <div class="inner help-inner-row">
             <div class="help-header">
                 <div class="help-column help-header-icon">
-                    <i class="fas fa-lg fa-mobile-alt help-icon"></i>
+                    <i class="fas fa-lg fa-mobile-alt help-header-icon"></i>
                 </div>
-                <h2><?php echo __('OrangeHRM Open Source Mobile app - How to download the application'); ?></h2>
+                <h2><?php echo __('OrangeHRM Open Source Mobile App - How to Download the Application'); ?></h2>
             </div>
             <div class="box">
                 <p><?php echo __(
-                        'OrangeHRM Open Source mobile application allows you to perform your day to day HR tasks through the
-          comfort of your mobile phone. This application is available on both iOS and Android platforms.'
+                        'OrangeHRM Open Source mobile application allows you to apply leave, assign leave and approve leave via a mobile device. This application is available for download on both iOS and Android platforms.'
                     ); ?></p>
                 <br>
                 <p><?php echo __(
-                        'This article contains guide you on how to download the application to your mobile.'
+                        'To install and get started.'
                     ); ?></p>
                 <br>
-                <p><strong><?php echo __('Step 01:'); ?></strong> <?php echo __(
-                        'Visit Appstore or Playstore depending on the device you use. Android users can
-          download the app from Playstore while iOS users can download from Appstore.'
-                    ); ?></p>
+                <p><?php echo __(
+                        'Download and install the application from the App Store or Play Store.'
+                    ); ?>
+                </p>
                 <br>
-                <p><strong><?php echo __('Step 02:'); ?></strong> <?php echo __(
-                        'Search for OrangeHRM Open Source application.'
+                <p><?php echo __(
+                        'The following links direct you to find the app in the Play Store / App Store.'
                     ); ?></p>
-                <p><?php echo __('Following links direct you to locate the app.'); ?></p>
                 <p>
                 <div class="help-column">
                     <a target="_blank"
@@ -66,42 +64,45 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                     </a>
                 </div>
                 </p>
-                <p><?php echo __('You can even scan for the following QR code to find the application'); ?></p>
+                <p><?php echo __(
+                        'You may alternatively scan for the following QR code from your mobile phone camera to find and download the application.'
+                    ); ?></p>
                 <br>
                 <p>
                     <img alt='Mobile app QR code'
                          src='<?php echo theme_path('images/mobile_app_qr.png') ?>'/>
                 </p>
                 <br>
-                <p><strong><?php echo __('Step 03:'); ?></strong> <?php echo __(
-                        'Download and Install the application.'
+                <p><?php echo __(
+                        'Once the installation is complete, open the application and follow the steps outlined below to access your OrangeHRM system.'
                     ); ?></p>
-                <p><?php echo __('Once the installation is complete, you can open the application.'); ?></p>
             </div>
         </div>
 
         <div class="inner help-inner-row">
             <div class="help-header">
                 <div class="help-column help-header-icon">
-                    <i class="fas fa-lg fa-mobile-alt help-icon"></i>
+                    <i class="fas fa-lg fa-mobile-alt help-header-icon"></i>
                 </div>
-                <h2><?php echo __('OrangeHRM Open Source Mobile app - How to Configure URL and Login'); ?></h2>
+                <h2><?php echo __('OrangeHRM Open Source Mobile App - How to Configure URL and Login'); ?></h2>
             </div>
             <div class="box">
                 <p><?php echo __(
-                        'Once you download the application, you will require to configure the instance to access the system.'
+                        'Upon opening the application, you will be required to configure the OrangeHRM instance that you wish to access via your mobile device.'
                     ); ?></p>
                 <br>
                 <p><strong><?php echo __('Step 01:'); ?></strong> <?php echo __(
-                        'Enter URL of your OrangeHRM instance URL.'
-                    ); ?></p>
+                        'Enter the OrangeHRM instance URL.'
+                    ); ?>
+                </p>
+                <br>
                 <?php
                 if ($isHttps) {
-                    echo "<p>" . __("Your Instance URL is:") . " " . $url . "</p>";
+                    echo "<p>" . __("Your Instance URL is:") . " <a class='instance-link'>" . $url . "</a></p>";
                 } else {
-                    echo "<p><strong>" . __(
-                            "Mobile application does not support your instance. Please contact IT/System Administrator for more information."
-                        ) . "</strong></p>";
+                    echo "<p class='instance-warning'><span class='warning instance-warning'>" . __(
+                            "OrangeHRM Opensource mobile app does not support your instance. Please contact your system administrator for more information."
+                        ) . "</span></p>";
                 }
                 ?>
                 <br>
@@ -111,14 +112,15 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                 </p>
                 <br>
                 <p><strong><?php echo __('Step 02:'); ?></strong> <?php echo __('Click Continue'); ?></p>
+                <br>
                 <p><?php echo __(
                         'Once the URL is entered successfully, it will redirect to a page where the login information is requested.'
                     ); ?></p>
                 <br>
-                <p><strong><?php echo __('Step 03:'); ?></strong> <?php echo __(
-                        'Use the same OrangeHRM username and password credentials and click LOGIN.
-          You will be granted access to the system after successfully validating your username and password
-          credentials.'
+                <p><strong><?php echo __('Step 03:'); ?></strong> <?php echo __('LOGIN'); ?></p>
+                <br>
+                <p><?php echo __(
+                        'Ensure the OrangeHRM username and password credentials are entered correctly, and click LOGIN. You will be granted access to the system after successful validation of your username and password credentials.'
                     ); ?></p>
                 <br>
                 <p>
@@ -127,9 +129,7 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                 </p>
                 <br>
                 <p><?php echo __(
-                        'Directly below the login fields, the URL of the system you are connecting to will be visible so that
-          you can verify the URL specified is accurate. If you wish to reconfigure the URL, click on the URL
-          and the app will take you back to Step 01.'
+                        'Directly below the login fields, the URL of the system you are connecting to will be displayed so that you can verify the URL specified is accurate. '
                     ); ?></p>
             </div>
         </div>

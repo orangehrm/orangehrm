@@ -8133,14 +8133,12 @@
         <target>FR_Enable Mobile</target>
       </trans-unit>
       <trans-unit id="2036">
-        <source>OrangeHRM Open Source Mobile app - How to download the application</source>
-        <target>FR_OrangeHRM Open Source Mobile app - How to download the application</target>
+        <source>OrangeHRM Open Source Mobile App - How to Download the Application</source>
+        <target>FR_OrangeHRM Open Source Mobile App - How to Download the Application</target>
       </trans-unit>
       <trans-unit id="2037">
-        <source>OrangeHRM Open Source mobile application allows you to perform your day to day HR tasks through the
-          comfort of your mobile phone. This application is available on both iOS and Android platforms.</source>
-        <target>FR_OrangeHRM Open Source mobile application allows you to perform your day to day HR tasks through the
-          comfort of your mobile phone. This application is available on both iOS and Android platforms.</target>
+        <source>OrangeHRM Open Source mobile application allows you to apply leave, assign leave and approve leave via a mobile device. This application is available for download on both iOS and Android platforms.</source>
+        <target>FR_OrangeHRM Open Source mobile application allows you to apply leave, assign leave and approve leave via a mobile device. This application is available for download on both iOS and Android platforms.</target>
       </trans-unit>
       <trans-unit id="2038">
         <source>Step 01:</source>
@@ -8155,50 +8153,48 @@
         <target>FR_Step 03:</target>
       </trans-unit>
       <trans-unit id="2041">
-        <source>Visit Appstore or Playstore depending on the device you use. Android users can
-          download the app from Playstore while iOS users can download from Appstore.</source>
-        <target>FR_Visit Appstore or Playstore depending on the device you use. Android users can
-          download the app from Playstore while iOS users can download from Appstore</target>
+        <source>Download and install the application from the App Store or Play Store.</source>
+        <target>FR_Download and install the application from the App Store or Play Store.</target>
       </trans-unit>
       <trans-unit id="2042">
-        <source>Search for OrangeHRM Open Source application.</source>
-        <target>FR_Search for OrangeHRM Open Source application.</target>
+        <source>To install and get started.</source>
+        <target>FR_To install and get started.</target>
       </trans-unit>
       <trans-unit id="2043">
-        <source>Following links direct you to locate the app.</source>
-        <target>FR_Following links direct you to locate the app.</target>
+        <source>The following links direct you to find the app in the Play Store / App Store.</source>
+        <target>FR_The following links direct you to find the app in the Play Store / App Store.</target>
       </trans-unit>
       <trans-unit id="2044">
-        <source>You can even scan for the following QR code to find the application</source>
-        <target>FR_You can even scan for the following QR code to find the application</target>
+        <source>You may alternatively scan for the following QR code from your mobile phone camera to find and download the application.</source>
+        <target>FR_You may alternatively scan for the following QR code from your mobile phone camera to find and download the application.</target>
       </trans-unit>
       <trans-unit id="2045">
-        <source>Download and Install the application.</source>
-        <target>FR_Download and Install the application.</target>
+        <source>Ensure the OrangeHRM username and password credentials are entered correctly, and click LOGIN. You will be granted access to the system after successful validation of your username and password credentials.</source>
+        <target>FR_Ensure the OrangeHRM username and password credentials are entered correctly, and click LOGIN. You will be granted access to the system after successful validation of your username and password credentials.</target>
       </trans-unit>
       <trans-unit id="2046">
-        <source>Once the installation is complete, you can open the application.</source>
-        <target>FR_Once the installation is complete, you can open the application.</target>
+        <source>Once the installation is complete, open the application and follow the steps outlined below to access your OrangeHRM system.</source>
+        <target>FR_Once the installation is complete, open the application and follow the steps outlined below to access your OrangeHRM system.</target>
       </trans-unit>
       <trans-unit id="2047">
-        <source>OrangeHRM Open Source Mobile app - How to Configure URL and Login</source>
-        <target>FR_OrangeHRM Open Source Mobile app - How to Configure URL and Login</target>
+        <source>OrangeHRM Open Source Mobile App - How to Configure URL and Login</source>
+        <target>FR_OrangeHRM Open Source Mobile App - How to Configure URL and Login</target>
       </trans-unit>
       <trans-unit id="2048">
-        <source>Once you download the application, you will require to configure the instance to access the system.</source>
-        <target>FR_Once you download the application, you will require to configure the instance to access the system.</target>
+        <source>Upon opening the application, you will be required to configure the OrangeHRM instance that you wish to access via your mobile device.</source>
+        <target>FR_Upon opening the application, you will be required to configure the OrangeHRM instance that you wish to access via your mobile device.</target>
       </trans-unit>
       <trans-unit id="2049">
-        <source>Enter URL of your OrangeHRM instance URL.</source>
-        <target>FR_Enter URL of your OrangeHRM instance URL.</target>
+        <source>Enter the OrangeHRM instance URL.</source>
+        <target>FR_Enter the OrangeHRM instance URL.</target>
       </trans-unit>
       <trans-unit id="2050">
         <source>Your Instance URL is:</source>
         <target>FR_Your Instance URL is:</target>
       </trans-unit>
       <trans-unit id="2051">
-        <source>Mobile application does not support your instance. Please contact IT/System Administrator for more information.</source>
-        <target>FR_Mobile application does not support your instance. Please contact IT/System Administrator for more information.</target>
+        <source>OrangeHRM Opensource mobile app does not support your instance. Please contact your system administrator for more information.</source>
+        <target>FR_OrangeHRM Opensource mobile app does not support your instance. Please contact your system administrator for more information.</target>
       </trans-unit>
       <trans-unit id="2052">
         <source>Click Continue</source>
@@ -8210,28 +8206,16 @@
           requested.</target>
       </trans-unit>
       <trans-unit id="2054">
-        <source>Use the same OrangeHRM username and password credentials and click LOGIN.
-          You will be granted access to the system after successfully validating your username and password
-          credentials.</source>
-        <target>FR_Use the same OrangeHRM username and password credentials and click LOGIN.
-          You will be granted access to the system after successfully validating your username and password
-          credentials.</target>
+        <source>LOGIN</source>
+        <target>FR_LOGIN</target>
       </trans-unit>
       <trans-unit id="2055">
-        <source>Directly below the login fields, the URL of the system you are connecting to will be visible so that
-          you can verify the URL specified is accurate. If you wish to reconfigure the URL, click on the URL
-          and the app will take you back to Step 01.</source>
-        <target>FR_Directly below the login fields, the URL of the system you are connecting to will be visible so that
-          you can verify the URL specified is accurate. If you wish to reconfigure the URL, click on the URL
-          and the app will take you back to Step 01.</target>
+        <source>Directly below the login fields, the URL of the system you are connecting to will be displayed so that you can verify the URL specified is accurate. </source>
+        <target>FR_Directly below the login fields, the URL of the system you are connecting to will be displayed so that you can verify the URL specified is accurate. </target>
       </trans-unit>
       <trans-unit id="2056">
         <source>Help &amp; Support</source>
         <target>FR_Help &amp; Support</target>
-      </trans-unit>
-      <trans-unit id="2057">
-        <source>This article contains guide you on how to download the application to your mobile.</source>
-        <target>FR_This article contains guide you on how to download the application to your mobile.</target>
       </trans-unit>
     </body>
   </file>
