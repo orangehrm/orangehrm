@@ -47,3 +47,16 @@ svg.help-header-icon > path {
 .help-ss {
     width: 300px;
 }
+
+.instance-link {
+    cursor: default !important;
+}
+
+span.instance-warning {
+    padding: 8px;
+}
+
+p.instance-warning {
+    margin-top: 12px;
+    margin-bottom: 8px;
+}
