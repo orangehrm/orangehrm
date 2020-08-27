@@ -2,9 +2,9 @@ FROM php:7.3.15-apache-buster
 
 LABEL maintainer="samanthaj@orangehrm.com"
 
-ENV OHRM_VERSION 4.4
-ENV OHRM_MD5 a4ee1052977a28c1262ea27b073c22f3
-ENV IONCUBE_MD5 431155d4a1b4d1b6a651c9c65476ef58
+ENV OHRM_VERSION 4.5
+ENV OHRM_MD5 c02735dfd7909cbcf035f4cd07467c2f
+ENV IONCUBE_MD5 3853476b0e57bb6e68bf3d9777306745
 
 RUN set -ex; \
     curl -fSL -o ioncube.tar.gz "https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"; \
