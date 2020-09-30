@@ -2292,3 +2292,42 @@ CREATE TABLE `ohrm_rest_api_usage` (
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE `ohrm_i18n_group` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+CREATE TABLE `ohrm_i18n_language` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) DEFAULT NULL,
+  `code` VARCHAR(255) DEFAULT NULL,
+  `modified_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+CREATE TABLE `ohrm_i18n_lang_string` (
+  `id` INT PRIMARY KEY NOT NULL,
+  `group_id` INT DEFAULT NULL,
+  `value` TEXT NOT NULL,
+  `note` TEXT
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `ohrm_i18n_translate` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `lang_string_id` INT NOT NULL,
+  `language_id` INT NOT NULL,
+  `value` TEXT,
+  `note` TEXT
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+ALTER TABLE `ohrm_i18n_lang_string`
+    ADD CONSTRAINT `groupId` FOREIGN KEY (`group_id`)
+        REFERENCES `ohrm_i18n_group` (`id`) ON DELETE SET NULL;
+
+ALTER TABLE `ohrm_i18n_translate`
+    ADD CONSTRAINT `languageId` FOREIGN KEY (`language_id`)
+        REFERENCES `ohrm_i18n_language` (`id`);
+
+ALTER TABLE `ohrm_i18n_translate`
+    ADD CONSTRAINT `langStringId` FOREIGN KEY (`lang_string_id`)
+        REFERENCES `ohrm_i18n_lang_string` (`id`) ON DELETE CASCADE;
