@@ -19,6 +19,9 @@
 
 class sfMessageSource_OrangeHRM extends sfMessageSource
 {
+    /**
+     * @var null|I18NDao
+     */
     protected $i18nDao = null;
 
     public function __construct($source)
@@ -63,7 +66,7 @@ class sfMessageSource_OrangeHRM extends sfMessageSource
      */
     public function isValidSource($variant)
     {
-        return true;
+        return $variant === $this->culture;
     }
 
     /**
@@ -84,7 +87,7 @@ class sfMessageSource_OrangeHRM extends sfMessageSource
      */
     public function &loadData($variant)
     {
-        $messages = $this->getI18NDao()->getMessages();
+        $messages = $this->getI18NDao()->getMessages($this->culture);
 
         $translations = [];
         foreach ($messages as $message) {
@@ -110,10 +113,13 @@ class sfMessageSource_OrangeHRM extends sfMessageSource
      */
     public function getCatalogueList($catalogue)
     {
-        return [];
+        return [$this->culture];
     }
 
-    protected function getI18NDao()
+    /**
+     * @return I18NDao
+     */
+    protected function getI18NDao(): I18NDao
     {
         if (is_null($this->i18nDao)) {
             $this->i18nDao = new I18NDao();

@@ -48,6 +48,10 @@ class ohrmI18N extends sfI18N
         $this->messageFormat = null;
     }
 
+    /**
+     * @return sfMessageSource|sfMessageSource_OrangeHRM
+     * @throws sfException
+     */
     public function createOrangeHRMMessageSource()
     {
         return sfMessageSource::factory('OrangeHRM', null);

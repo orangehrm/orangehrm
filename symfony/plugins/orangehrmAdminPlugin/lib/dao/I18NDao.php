@@ -20,17 +20,18 @@
 class I18NDao extends BaseDao
 {
     /**
+     * @param string $langCode
      * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int|I18NTranslate[]
      * @throws DaoException
      */
-    public function getMessages()
+    public function getMessages(string $langCode)
     {
         try {
             $q = Doctrine_Query::create()
                 ->from('I18NTranslate t')
                 ->leftJoin('t.I18NLangString ls')
                 ->leftJoin('t.I18NLanguage l')
-                ->andWhere('l.code = ?', 'en_US');
+                ->andWhere('l.code = ?', $langCode);
             return $q->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
@@ -41,7 +42,7 @@ class I18NDao extends BaseDao
 
     /**
      * @param string $langCode
-     * @return Doctrine_Record
+     * @return Doctrine_Record|I18NLanguage
      * @throws DaoException
      */
     public function getLastModified(string $langCode)
