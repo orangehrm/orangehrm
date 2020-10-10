@@ -20,9 +20,13 @@
 class sfMessageSource_OrangeHRM extends sfMessageSource
 {
     /**
-     * @var null|I18NDao
+     * @var null|I18NService
      */
-    protected $i18nDao = null;
+    protected $i18NService = null;
+    /**
+     * @var bool
+     */
+    protected $loadData = true;
 
     public function __construct($source)
     {
@@ -34,7 +38,7 @@ class sfMessageSource_OrangeHRM extends sfMessageSource
      */
     public function save($catalogue = 'messages')
     {
-        return true;
+        throw new Exception('The "save()" method is not implemented for this message source.');
     }
 
     /**
@@ -42,7 +46,7 @@ class sfMessageSource_OrangeHRM extends sfMessageSource
      */
     public function delete($message, $catalogue = 'messages')
     {
-        return true;
+        throw new Exception('The "delete()" method is not implemented for this message source.');
     }
 
     /**
@@ -50,7 +54,7 @@ class sfMessageSource_OrangeHRM extends sfMessageSource
      */
     public function update($text, $target, $comments, $catalogue = 'messages')
     {
-        return true;
+        throw new Exception('The "update()" method is not implemented for this message source.');
     }
 
     /**
@@ -74,10 +78,12 @@ class sfMessageSource_OrangeHRM extends sfMessageSource
      */
     protected function getLastModified($source)
     {
-        $lastModified = $this->getI18NDao()->getLastModified($this->culture);
-        if ($lastModified instanceof I18NLanguage) {
-            return (new DateTime($lastModified->getModifiedAt()))->getTimestamp();
+        $language = $this->getI18NService()->getLanguageByCode($this->culture);
+        if ($language instanceof I18NLanguage && !empty($language->getModifiedAt())) {
+            return (new DateTime($language->getModifiedAt()))->getTimestamp();
         } else {
+            // if no particular language in database (avoid fetching messages from database)
+            $this->loadData = false;
             return 0;
         }
     }
@@ -87,9 +93,14 @@ class sfMessageSource_OrangeHRM extends sfMessageSource
      */
     public function &loadData($variant)
     {
-        $messages = $this->getI18NDao()->getMessages($this->culture);
-
         $translations = [];
+
+        if (!$this->loadData) {
+            return $translations;
+        }
+
+        $messages = $this->getI18NService()->getMessages($this->culture);
+
         foreach ($messages as $message) {
             $source = (string)$message->getI18NLangString()->getValue();
             $translations[$source][] = (string)$message->getValue();
@@ -117,13 +128,13 @@ class sfMessageSource_OrangeHRM extends sfMessageSource
     }
 
     /**
-     * @return I18NDao
+     * @return I18NService
      */
-    protected function getI18NDao(): I18NDao
+    protected function getI18NService(): I18NService
     {
-        if (is_null($this->i18nDao)) {
-            $this->i18nDao = new I18NDao();
+        if (is_null($this->i18NService)) {
+            $this->i18NService = new I18NService();
         }
-        return $this->i18nDao;
+        return $this->i18NService;
     }
 }
