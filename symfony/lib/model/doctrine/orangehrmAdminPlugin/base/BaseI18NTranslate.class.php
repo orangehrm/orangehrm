@@ -10,6 +10,8 @@
  * @property int             $languageId                            Type: integer
  * @property string          $value                                 Type: string
  * @property string          $note                                  Type: string
+ * @property bool            $translated                            Type: boolean
+ * @property string          $modifiedAt                            Type: datetime, Date and time in ISO-8601 format (YYYY-MM-DD HH:MI)
  * @property I18NLangString  $I18NLangString                        
  * @property I18NLanguage    $I18NLanguage                          
  *  
@@ -18,6 +20,8 @@
  * @method int               getLanguageId()                        Type: integer
  * @method string            getValue()                             Type: string
  * @method string            getNote()                              Type: string
+ * @method bool              getTranslated()                        Type: boolean
+ * @method string            getModifiedAt()                        Type: datetime, Date and time in ISO-8601 format (YYYY-MM-DD HH:MI)
  * @method I18NLangString    getI18NLangString()                    
  * @method I18NLanguage      getI18NLanguage()                      
  *  
@@ -26,6 +30,8 @@
  * @method I18NTranslate     setLanguageId(int $val)                Type: integer
  * @method I18NTranslate     setValue(string $val)                  Type: string
  * @method I18NTranslate     setNote(string $val)                   Type: string
+ * @method I18NTranslate     setTranslated(bool $val)               Type: boolean
+ * @method I18NTranslate     setModifiedAt(string $val)             Type: datetime, Date and time in ISO-8601 format (YYYY-MM-DD HH:MI)
  * @method I18NTranslate     setI18NLangString(I18NLangString $val) 
  * @method I18NTranslate     setI18NLanguage(I18NLanguage $val)     
  *  
@@ -42,6 +48,7 @@ abstract class BaseI18NTranslate extends sfDoctrineRecord
         $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'primary' => true,
+             'autoincrement' => true,
              ));
         $this->hasColumn('lang_string_id as langStringId', 'integer', null, array(
              'type' => 'integer',
@@ -54,6 +61,22 @@ abstract class BaseI18NTranslate extends sfDoctrineRecord
              ));
         $this->hasColumn('note', 'string', null, array(
              'type' => 'string',
+             ));
+        $this->hasColumn('translated', 'boolean', null, array(
+             'type' => 'boolean',
+             ));
+        $this->hasColumn('modified_at as modifiedAt', 'datetime', null, array(
+             'type' => 'datetime',
+             ));
+
+
+        $this->index('translateUniqueId', array(
+             'fields' => 
+             array(
+              0 => 'lang_string_id',
+              1 => 'language_id',
+             ),
+             'type' => 'unique',
              ));
     }
 

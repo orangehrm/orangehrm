@@ -7544,10 +7544,6 @@
         <source>Employee does not exist</source>
         <target>FR_Employee does not exist</target>
       </trans-unit>
-      <trans-unit id="1886">
-        <source>Employee does not exist</source>
-        <target>FR_Employee does not exist</target>
-      </trans-unit>
       <trans-unit id="1887">
         <source>Work Hours</source>
         <target>FR_Work Hours</target>
@@ -7599,26 +7595,6 @@
       <trans-unit id="1899">
         <source>Selected Employee</source>
         <target>FR_Selected Employee</target>
-      </trans-unit>
-      <trans-unit id="1900">
-        <source>First Name</source>
-        <target>FR_First Name</target>
-      </trans-unit>
-      <trans-unit id="1901">
-        <source>Middle Name</source>
-        <target>FR_Middle Name</target>
-      </trans-unit>
-      <trans-unit id="1902">
-        <source>Last Name</source>
-        <target>FR_Last Name</target>
-      </trans-unit>
-      <trans-unit id="1903">
-        <source>Employee Id</source>
-        <target>FR_Employee Id</target>
-      </trans-unit>
-      <trans-unit id="1904">
-        <source>Access Data</source>
-        <target>FR_Access Data</target>
       </trans-unit>
       <trans-unit id="1905">
         <source>Purge</source>
@@ -7739,10 +7715,6 @@
       <trans-unit id="1934">
         <source>OrangeHRM - Prerequisites Verification</source>
         <target>FR_OrangeHRM - Prerequisites Verification</target>
-      </trans-unit>
-      <trans-unit id="1935">
-        <source>Expiry Date</source>
-        <target>FR_Expiry Date</target>
       </trans-unit>
       <trans-unit id="1936">
         <source>Successfully Renewed license.</source>
@@ -7887,10 +7859,6 @@
       <trans-unit id="1971">
         <source>days</source>
         <target>FR_days</target>
-      </trans-unit>
-      <trans-unit id="1972">
-        <source>hours</source>
-        <target>FR_hours</target>
       </trans-unit>
       <trans-unit id="1973">
         <source>minutes</source>
@@ -8204,10 +8172,6 @@
         <source>Once the URL is entered successfully, it will redirect to a page where the login information is requested.</source>
         <target>FR_Once the URL is entered successfully, it will redirect to a page where the login information is
           requested.</target>
-      </trans-unit>
-      <trans-unit id="2054">
-        <source>LOGIN</source>
-        <target>FR_LOGIN</target>
       </trans-unit>
       <trans-unit id="2055">
         <source>Directly below the login fields, the URL of the system you are connecting to will be displayed so that you can verify the URL specified is accurate. </source>

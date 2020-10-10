@@ -517,7 +517,10 @@ I18NLanguage:
       primary: true
       autoincrement: true
     name: string(255)
-    code: string(255)
+    code:
+      type: string(255)
+      unique: true
+    enabled: boolean
     modified_at as modifiedAt: datetime
 
 I18NLangString:
@@ -526,12 +529,21 @@ I18NLangString:
     id:
       type: integer
       primary: true
+      autoincrement: true
+    unit_id as unitId: integer
+    source_id as sourceId: integer
     group_id as groupId: integer
-    value: string
+    value:
+      type: string
+      unique: true
     note: string
   relations:
     I18NGroup:
       local: groupId
+      foreign: id
+      type: one
+    I18NSource:
+      local: sourceId
       foreign: id
       type: one
 
@@ -541,10 +553,17 @@ I18NTranslate:
     id:
       type: integer
       primary: true
+      autoincrement: true
     lang_string_id as langStringId: integer
     language_id as languageId: integer
     value: string
     note: string
+    translated: boolean
+    modified_at as modifiedAt: datetime
+  indexes:
+    translateUniqueId:
+      fields: [lang_string_id, language_id]
+      type: unique
   relations:
     I18NLangString:
       local: langStringId
@@ -554,3 +573,15 @@ I18NTranslate:
       local: languageId
       foreign: id
       type: one
+
+I18NSource:
+  tableName: ohrm_i18n_source
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    source:
+      type: string
+      unique: true
+    modified_at as modifiedAt: datetime

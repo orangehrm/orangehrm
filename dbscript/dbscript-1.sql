@@ -2301,23 +2301,34 @@ CREATE TABLE `ohrm_i18n_group` (
 CREATE TABLE `ohrm_i18n_language` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) DEFAULT NULL,
-  `code` VARCHAR(255) DEFAULT NULL,
-  `modified_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `code` VARCHAR(255) NOT NULL UNIQUE,
+  `enabled` TINYINT UNSIGNED DEFAULT 1,
+  `modified_at` DATETIME DEFAULT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
 
 CREATE TABLE `ohrm_i18n_lang_string` (
-  `id` INT PRIMARY KEY NOT NULL,
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `unit_id` INT NOT NULL,
+  `source_id` INT,
   `group_id` INT DEFAULT NULL,
-  `value` TEXT NOT NULL,
+  `value` TEXT COLLATE utf8mb4_bin NOT NULL UNIQUE,
   `note` TEXT
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
 
 CREATE TABLE `ohrm_i18n_translate` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `lang_string_id` INT NOT NULL,
   `language_id` INT NOT NULL,
   `value` TEXT,
-  `note` TEXT
+  `note` TEXT,
+  `translated` TINYINT UNSIGNED DEFAULT 1,
+  `modified_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+CREATE TABLE `ohrm_i18n_source` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `source` MEDIUMTEXT NOT NULL UNIQUE,
+  `modified_at` DATETIME
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
 
 ALTER TABLE `ohrm_i18n_lang_string`
@@ -2331,3 +2342,10 @@ ALTER TABLE `ohrm_i18n_translate`
 ALTER TABLE `ohrm_i18n_translate`
     ADD CONSTRAINT `langStringId` FOREIGN KEY (`lang_string_id`)
         REFERENCES `ohrm_i18n_lang_string` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `ohrm_i18n_lang_string`
+    ADD CONSTRAINT `sourceId` FOREIGN KEY (`source_id`)
+        REFERENCES `ohrm_i18n_source` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `ohrm_i18n_translate`
+    ADD CONSTRAINT `translateUniqueId` UNIQUE (`lang_string_id`, `language_id`);

@@ -2981,3 +2981,37 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('buzz_max_notification_period
 INSERT INTO `ohrm_oauth_scope` (`scope`, `is_default`) VALUES ('admin', '0'), ('user', '0');
 INSERT IGNORE INTO `ohrm_oauth_client`(`client_id`, `client_secret`, `redirect_uri`, `grant_types`, `scope`) VALUES
 ('orangehrm_mobile_app','','','password refresh_token','user');
+
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');
+
+SET @admin_module_id = (SELECT `id` FROM `ohrm_module` WHERE `name`='admin');
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+('Language Packages', @admin_module_id, 'languagePackage'),
+('Language Customization', @admin_module_id, 'languageCustomization');
+
+SET @language_packages_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Language Packages');
+SET @language_customization_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Language Customization');
+
+SET @admin_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Admin' AND `level` = 1);
+SET @configuration_menu_id := (SELECT id FROM ohrm_menu_item where menu_title = 'Configuration' AND `parent_id` = @admin_menu_id);
+
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+('Language Packages', @language_packages_screen_id, @configuration_menu_id, 3, 350, '', 1);
+
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
+(@admin_role_id, @language_packages_screen_id, 1, 1, 1, 0),
+(@admin_role_id, @language_customization_screen_id, 1, 1, 1, 0);
+
+
+INSERT INTO `ohrm_i18n_language` (`id`, `name`, `code`) VALUES
+(NULL, 'Chinese (Simplified Han) - 中文（简体中文)', 'zh-cn'),
+(NULL, 'Chinese (Traditional Han) - 中文 (繁體中文)', 'zh-tw'),
+(NULL, 'Dutch - Nederlands', 'nl'),
+(NULL, 'English', 'en_US'),
+(NULL, 'French - Français', 'fr'),
+(NULL, 'German - Deutsch', 'de'),
+(NULL, 'Spanish - Español', 'es'),
+(NULL, 'Spanish - Costa Rica', 'es_CR');
+INSERT INTO `ohrm_i18n_language` (`id`, `name`, `code`, `enabled`) VALUES
+(NULL, 'test - TEST', 'zz_ZZ', 0);
