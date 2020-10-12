@@ -47,12 +47,13 @@ class I18NService extends BaseService
 
     /**
      * @param string $langCode
+     * @param bool $onlyCustomized
      * @return array|Doctrine_Collection|I18NTranslate[]|int
      * @throws DaoException
      */
-    public function getMessages(string $langCode)
+    public function getMessages(string $langCode, bool $onlyCustomized = true)
     {
-        return $this->getI18NDao()->getMessages($langCode);
+        return $this->getI18NDao()->getMessages($langCode, $onlyCustomized);
     }
 
     /**
@@ -92,7 +93,7 @@ class I18NService extends BaseService
      */
     public function getTranslationsByCode(string $langCode)
     {
-        return $this->getMessages($langCode);
+        return $this->getMessages($langCode, false);
     }
 
     /**
@@ -120,7 +121,7 @@ class I18NService extends BaseService
                 $newSource = new I18NSource();
                 $newSource->setSource($baseSource);
                 $newSource->setModifiedAt(date("Y-m-d H:i:s"));
-                $this->getI18NDao()->saveI18NSource($i18nSource);
+                $this->getI18NDao()->saveI18NSource($newSource);
 
                 $this->syncI18NSourceLangStrings($baseSource);
             }
@@ -289,8 +290,7 @@ class I18NService extends BaseService
                 // Translation already exists
                 $i18nTranslate = $this->getI18NDao()->getI18NTranslate($langString->getId(), $langId);
                 // Only update if not translated (avoid override customization)
-                // TODO:: Check customization
-                if (!$i18nTranslate->getTranslated()) {
+                if (!$i18nTranslate->getCustomized()) {
                     $i18nTranslate->setValue($translate->getValue());
                     $i18nTranslate->setTranslated(!empty($translate->getValue()));
                     $i18nTranslate->setModifiedAt($translate->getModifiedAt());

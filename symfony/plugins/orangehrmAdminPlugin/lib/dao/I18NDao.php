@@ -21,10 +21,11 @@ class I18NDao extends BaseDao
 {
     /**
      * @param string $langCode
+     * @param bool $onlyCustomized
      * @return Doctrine_Collection|I18NTranslate[]
      * @throws DaoException
      */
-    public function getMessages(string $langCode)
+    public function getMessages(string $langCode, bool $onlyCustomized = true)
     {
         try {
             $q = Doctrine_Query::create()
@@ -32,6 +33,9 @@ class I18NDao extends BaseDao
                 ->leftJoin('t.I18NLangString ls')
                 ->leftJoin('t.I18NLanguage l')
                 ->andWhere('l.code = ?', $langCode);
+            if ($onlyCustomized) {
+                $q->andWhere('t.customized = ?', true);
+            }
             return $q->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
