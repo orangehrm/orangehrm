@@ -41,10 +41,7 @@ class TextareaCell extends Cell
             'textarea',
             $this->getValue(),
             array_merge(
-                [
-                    'name' => $this->getPropertyValue('name'),
-                    'class' => $this->getPropertyValue('classPattern'),
-                ],
+                ['name' => $this->getPropertyValue('name')],
                 $props
             )
         );

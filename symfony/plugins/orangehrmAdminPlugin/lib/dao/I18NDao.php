@@ -217,4 +217,62 @@ class I18NDao extends BaseDao
         $i18NLanguage->save();
         return $i18NLanguage;
     }
+
+    /**
+     * @param ParameterObject $searchParams
+     * @param bool $getCount
+     * @return Doctrine_Collection
+     * @throws DaoException
+     */
+    public function searchTranslations(ParameterObject $searchParams, bool $getCount = false)
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->from('I18NTranslate t')
+                ->leftJoin('t.I18NLangString ls')
+                ->leftJoin('ls.I18NGroup g')
+                ->leftJoin('t.I18NLanguage l');
+
+            if (!empty($searchParams->getParameter('langCode'))) {
+                $q->andWhere('l.code = ?', $searchParams->getParameter('langCode'));
+            }
+            if (is_bool($searchParams->getParameter('translated'))) {
+                $q->andWhere('t.translated = ?', $searchParams->getParameter('translated'));
+            }
+            if (!empty($searchParams->getParameter('sourceText'))) {
+                $q->andWhere('ls.value LIKE ?', ['%' . $searchParams->getParameter('sourceText') . '%']);
+            }
+            if (!empty($searchParams->getParameter('translatedText'))) {
+                $q->andWhere('t.value LIKE ?', ['%' . $searchParams->getParameter('translatedText') . '%']);
+            }
+            if (!empty($searchParams->getParameter('group'))) {
+                $q->andWhere('g.name = ?', $searchParams->getParameter('group'));
+            }
+
+            if ($getCount) {
+                return $q->count();
+            }
+
+            if (!empty($searchParams->getParameter('sortField'))) {
+                if (in_array($searchParams->getParameter('sortOrder'), ['ASC', 'DESC'])) {
+                    $q->addOrderBy(
+                        $searchParams->getParameter('sortField') . ' ' . $searchParams->getParameter('sortOrder')
+                    );
+                } else {
+                    $q->addOrderBy($searchParams->getParameter('sortField'));
+                }
+            }
+            if (!empty($searchParams->getParameter('offset'))) {
+                $q->offset($searchParams->getParameter('offset'));
+            }
+            if (!empty($searchParams->getParameter('limit'))) {
+                $q->limit($searchParams->getParameter('limit'));
+            }
+            return $q->execute();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
 }

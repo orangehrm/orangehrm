@@ -29,34 +29,14 @@ class languagePackageAction extends baseAdminAction
     {
         $this->getI18NService()->syncI18NSourcesLangStrings();
 
-        $this->_setListComponent(
-            $this->getI18NService()->getLanguages(),
-            // TODO:: define data group permission for language customization
-            new ResourcePermission(true, true, true, true)
-        );
+        $this->_setListComponent($this->getI18NService()->getLanguages());
     }
 
-    private function _setListComponent($languageList, $permissions)
+    private function _setListComponent($languageList)
     {
         $configurationFactory = $this->_getConfigurationFactory();
         $runtimeDefinitions = [];
-        $buttons = [];
-
-        if ($permissions->canCreate()) {
-            $buttons['Add'] = ['label' => 'Add'];
-        }
-
-        if (!$permissions->canDelete()) {
-            $runtimeDefinitions['hasSelectableRows'] = false;
-        } else {
-            $buttons['Delete'] = [
-                'label' => 'Delete',
-                'type' => 'submit',
-                'data-toggle' => 'modal',
-                'data-target' => '#deleteConfModal',
-                'class' => 'delete'
-            ];
-        }
+        $buttons['Add'] = ['label' => 'Add'];
 
         $runtimeDefinitions['title'] = __('Language Packages');
         $runtimeDefinitions['buttons'] = $buttons;

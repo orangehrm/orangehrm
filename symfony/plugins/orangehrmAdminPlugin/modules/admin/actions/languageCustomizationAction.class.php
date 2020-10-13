@@ -41,15 +41,75 @@ class languageCustomizationAction extends baseAdminAction
             $this->forwardToSecureAction();
         }
 
+        $this->form = new SearchTranslationLanguageForm();
+        if ($request->getMethod() === sfWebRequest::POST) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+
+            if ($this->form->isValid()) {
+                $baseUrl = url_for('admin/languageCustomization') . "?langId={$language->getId()}";
+                if ($this->form->getValue('reset')) {
+                    $this->redirect($baseUrl);
+                }
+                $query = http_build_query($this->getFilteredValues($this->form));
+                $this->redirect($baseUrl . (empty($query) ? '' : '&' . $query));
+            } else {
+                $this->getUser()->setFlash('search.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
+                $this->handleBadRequest();
+            }
+        }
+
         $this->getI18NService()->syncI18NTranslations($language->getCode());
 
-        $translations = $this->getI18NService()->getTranslationsByCode($language->getCode());
-        $this->_setListComponent($translations);
+        $pageNo = intval($request->getParameter('pageNo', 1));
+        $sortField = $request->getParameter('sortField') ? $request->getParameter('sortField') : 'ls.value';
+        $sortOrder = $request->getParameter('sortOrder') ? $request->getParameter('sortOrder') : 'ASC';
+        $limit = sfConfig::get('app_items_per_page');
+        $offset = ($pageNo - 1) * $limit;
+
+        $group = $request->getParameter('group');
+        $sourceText = $request->getParameter('sourceText');
+        $translatedText = $request->getParameter('translatedText');
+        $translated = $request->getParameter('translated');
+        $translated = is_null($translated) ? null : filter_var(
+            $translated,
+            FILTER_VALIDATE_BOOLEAN,
+            FILTER_NULL_ON_FAILURE
+        );
+
+        $searchParams = new ParameterObject(
+            [
+                'sortField' => $sortField,
+                'sortOrder' => $sortOrder,
+                'offset' => $offset,
+                'limit' => $limit,
+                'group' => $group,
+                'sourceText' => $sourceText,
+                'translatedText' => $translatedText,
+                'translated' => $translated,
+                'langCode' => $language->getCode(),
+            ]
+        );
+
+        $translations = $this->getI18NService()->searchTranslations($searchParams);
+        $translationsCount = $this->getI18NService()->searchTranslations($searchParams, true);
+        $this->_setListComponent($translations, $translationsCount, $language);
+
+        $this->form->setDefaults(
+            [
+                'langPackage' => $language->getName(),
+                'sourceLang' => __('English - US'),
+                'group' => $searchParams->getParameter('group'),
+                'sourceText' => $searchParams->getParameter('sourceText'),
+                'translatedText' => $searchParams->getParameter('translatedText'),
+                'translated' => $searchParams->getParameter('translated'),
+            ]
+        );
+        $this->langId = $language->getId();
     }
 
-    private function _setListComponent($translations)
+    private function _setListComponent($translations, $count, $language)
     {
-        $configurationFactory = $this->_getConfigurationFactory();
+        $configurationFactory = $this->_getConfigurationFactory($language);
         $runtimeDefinitions = [];
         $buttons = [];
         $buttons['Save'] = ['label' => 'Save'];
@@ -63,15 +123,35 @@ class languageCustomizationAction extends baseAdminAction
         ohrmListComponent::setActivePlugin('orangehrmAdminPlugin');
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($translations);
+        ohrmListComponent::setNumberOfRecords($count);
         ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
     }
 
     /**
+     * @param I18NLanguage $language
      * @return LanguageCustomizationHeaderFactory
      */
-    private function _getConfigurationFactory()
+    private function _getConfigurationFactory(I18NLanguage $language): LanguageCustomizationHeaderFactory
     {
-        return new LanguageCustomizationHeaderFactory();
+        $configFactory = new LanguageCustomizationHeaderFactory();
+        $configFactory->setLanguage($language);
+        return $configFactory;
+    }
+
+    /**
+     * @param SearchTranslationLanguageForm $form
+     * @return array|null
+     */
+    private function getFilteredValues(SearchTranslationLanguageForm $form)
+    {
+        $values = $form->getValues();
+        unset($values['reset']);
+        foreach ($values as $key => $value) {
+            if (is_null($value) || (is_string($value) && $value === '')) {
+                unset($values[$key]);
+            }
+        }
+        return $values;
     }
 
     /**

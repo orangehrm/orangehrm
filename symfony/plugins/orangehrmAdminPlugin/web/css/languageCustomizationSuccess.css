@@ -1,0 +1,9 @@
+.no-border-bottom {
+    border-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.translated-textarea {
+    resize: none;
+    width: 98%;
+}

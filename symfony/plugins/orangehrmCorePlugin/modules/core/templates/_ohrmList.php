@@ -212,7 +212,9 @@ function getHeaderCellClassHtml($isSortable, $sortOrder) {
                                 $currentModule = sfContext::getInstance()->getModuleName();
                                 $currentAction = sfContext::getInstance()->getActionName();
 
-                                $sortUrl = public_path("index.php/{$currentModule}/{$currentAction}?sortField={$header->getSortField()}&sortOrder={$nextSortOrder}", true);
+                                $sortUrl = empty($header->getSortUrl()) ? public_path("index.php/{$currentModule}/{$currentAction}?sortField={$header->getSortField()}&sortOrder={$nextSortOrder}", true) : $header->getSortUrl();
+                                $sortUrl = str_replace('{sortField}', $header->getSortField(), $sortUrl);
+                                $sortUrl = str_replace('{sortOrder}', $nextSortOrder, $sortUrl);
 
                                 $headerCell = new SortableHeaderCell();
                                 $headerCell->setProperties(array(

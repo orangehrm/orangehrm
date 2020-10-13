@@ -20,15 +20,51 @@
 
 class LanguageCustomizationHeaderFactory extends ohrmListConfigurationFactory
 {
+    /**
+     * @var null|I18NLanguage
+     */
+    protected $language = null;
+
+    /**
+     * @return I18NLanguage|null
+     */
+    public function getLanguage(): I18NLanguage
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param I18NLanguage $language
+     */
+    public function setLanguage(I18NLanguage $language)
+    {
+        $this->language = $language;
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function init()
     {
         $header1 = new ListHeader();
         $header2 = new ListHeader();
+        $header3 = new ListHeader();
+
+        $sortUrl = null;
+        if ($this->language instanceof I18NLanguage) {
+            $sortUrl = url_for(
+                    'admin/languageCustomization',
+                    true
+                ) . "?langId={$this->language->getId()}&sortField={sortField}&sortOrder={sortOrder}";
+        }
 
         $header1->populateFromArray(
             [
                 'name' => 'Source Label',
-                'width' => '49%',
+                'width' => '20%',
+                'isSortable' => true,
+                'sortField' => 'ls.value',
+                'sortUrl' => $sortUrl,
                 'elementType' => 'label',
                 'elementProperty' => ['getter' => ['getI18NLangString', 'getValue']],
             ]
@@ -36,19 +72,39 @@ class LanguageCustomizationHeaderFactory extends ohrmListConfigurationFactory
 
         $header2->populateFromArray(
             [
+                'name' => 'Source Note',
+                'width' => '30%',
+                'elementType' => 'label',
+                'elementProperty' => ['getter' => ['getI18NLangString', 'getNote']],
+            ]
+        );
+
+        $header3->populateFromArray(
+            [
                 'name' => 'Translated Label',
-                'width' => '49%',
+                'width' => '50%',
+                'isSortable' => true,
+                'sortField' => 't.value',
+                'sortUrl' => $sortUrl,
                 'elementType' => 'textarea',
                 'elementProperty' => [
                     'getter' => 'getValue',
-                    'props' => ['rows' => '2', 'cols' => '50']
+                    'props' => [
+                        'rows' => '2',
+                        'cols' => '50',
+                        'class' => 'translated-textarea',
+                        'disabled' => true
+                    ]
                 ],
             ]
         );
 
-        $this->headers = [$header1, $header2];
+        $this->headers = [$header1, $header2, $header3];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getClassName()
     {
         return 'LanguageCustomization';

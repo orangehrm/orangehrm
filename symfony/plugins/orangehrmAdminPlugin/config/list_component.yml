@@ -1,14 +1,12 @@
 LanguagePackage:
   pluginName: orangehrmAdminPlugin
-  hasSelectableRows: true
+  hasSelectableRows: false
   unselectableRowIds: []
   idValueGetter: getId
   tableWidth: 100%
   hasSummary: false
   summary: []
   buttonsPosition: before-data
-  formMethod: post
-  formAction: 'admin/deleteLanguagePack'
   assets: []
   jsInitMethods: []
 
@@ -22,5 +20,6 @@ LanguageCustomization:
   hasSummary: false
   summary: []
   buttonsPosition: before-data
+  formMethod: post
   assets: []
   jsInitMethods: []

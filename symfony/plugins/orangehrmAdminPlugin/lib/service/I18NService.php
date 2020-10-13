@@ -87,13 +87,14 @@ class I18NService extends BaseService
     }
 
     /**
-     * @param string $langCode
-     * @return array|Doctrine_Collection|I18NTranslate[]|int
+     * @param ParameterObject $searchParams
+     * @param bool $getCount
+     * @return Doctrine_Collection|I18NTranslate[]
      * @throws DaoException
      */
-    public function getTranslationsByCode(string $langCode)
+    public function searchTranslations(ParameterObject $searchParams, bool $getCount = false)
     {
-        return $this->getMessages($langCode, false);
+        return $this->getI18NDao()->searchTranslations($searchParams, $getCount);
     }
 
     /**

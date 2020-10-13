@@ -7152,10 +7152,6 @@
         <source>Make Default Scale</source>
         <target>FR_Make Default Scale</target>
       </trans-unit>
-      <trans-unit id="1788">
-        <source> Cancel</source>
-        <target>FR_Cancel</target>
-      </trans-unit>
       <trans-unit id="1789">
         <source>Inactive</source>
         <target>FR_Inactive</target>
