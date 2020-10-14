@@ -521,6 +521,7 @@ I18NLanguage:
       type: string(255)
       unique: true
     enabled: boolean
+    added: boolean
     modified_at as modifiedAt: datetime
 
 I18NLangString:

@@ -24,11 +24,14 @@ class LanguagePackageHeaderFactory extends ohrmListConfigurationFactory
     {
         $header1 = new ListHeader();
         $header2 = new ListHeader();
+        $header3 = new ListHeader();
 
         $header1->populateFromArray(
             [
                 'name' => 'Language Packs',
-                'width' => '49%',
+                'width' => '70%',
+                'isSortable' => true,
+                'sortField' => 'l.name',
                 'elementType' => 'label',
                 'elementProperty' => ['getter' => 'getName'],
             ]
@@ -37,7 +40,7 @@ class LanguagePackageHeaderFactory extends ohrmListConfigurationFactory
         $header2->populateFromArray(
             [
                 'name' => '',
-                'width' => '49%',
+                'width' => '10%',
                 'isSortable' => false,
                 'elementType' => 'link',
                 'elementProperty' => [
@@ -45,6 +48,22 @@ class LanguagePackageHeaderFactory extends ohrmListConfigurationFactory
                     'placeholderGetters' => ['id' => 'getId'],
                     'urlPattern' => url_for('admin/languageCustomization') . '?langId={id}'
                 ],
+                'textAlignmentStyle' => 'center',
+            ]
+        );
+
+        $header3->populateFromArray(
+            [
+                'name' => '',
+                'width' => '10%',
+                'isSortable' => false,
+                'elementType' => 'link',
+                'elementProperty' => [
+                    'label' => __('Export'),
+                    'placeholderGetters' => ['id' => 'getId'],
+                    'urlPattern' => url_for('admin/languageCustomization') . '?langId={id}'
+                ],
+                'textAlignmentStyle' => 'center',
             ]
         );
 

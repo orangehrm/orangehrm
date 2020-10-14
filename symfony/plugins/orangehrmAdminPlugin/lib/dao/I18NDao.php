@@ -61,18 +61,35 @@ class I18NDao extends BaseDao
     }
 
     /**
-     * @param bool $withDisabled
+     * @param ParameterObject $searchParams
      * @return Doctrine_Collection|I18NLanguage[]
      * @throws DaoException
      */
-    public function getLanguages(bool $withDisabled = false)
+    public function searchLanguages(ParameterObject $searchParams)
     {
         try {
-            if ($withDisabled) {
-                return Doctrine::getTable('I18NLanguage')->findAll();
-            } else {
-                return Doctrine::getTable('I18NLanguage')->findBy('enabled', true);
+            $q = Doctrine_Query::create()->from('I18NLanguage l');
+
+            if (!empty($searchParams->getParameter('langCode'))) {
+                $q->andWhere('l.code = ?', $searchParams->getParameter('langCode'));
             }
+            if (is_bool($searchParams->getParameter('enabled'))) {
+                $q->andWhere('l.enabled = ?', $searchParams->getParameter('enabled'));
+            }
+            if (is_bool($searchParams->getParameter('added'))) {
+                $q->andWhere('l.added = ?', $searchParams->getParameter('added'));
+            }
+
+            if (!empty($searchParams->getParameter('sortField'))) {
+                if (in_array($searchParams->getParameter('sortOrder'), ['ASC', 'DESC'])) {
+                    $q->addOrderBy(
+                        $searchParams->getParameter('sortField') . ' ' . $searchParams->getParameter('sortOrder')
+                    );
+                } else {
+                    $q->addOrderBy($searchParams->getParameter('sortField'));
+                }
+            }
+            return $q->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

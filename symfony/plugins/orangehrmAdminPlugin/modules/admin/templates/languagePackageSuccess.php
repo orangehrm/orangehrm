@@ -16,8 +16,48 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/languagePackageSuccess'));
+use_stylesheet(plugin_web_path('orangehrmAdminPlugin', 'css/languagePackageSuccess'));
+
+$hasFlash = $sf_user->hasFlash('form.warning');
 ?>
+
+<div class="box <?php echo $hasFlash ? '' : 'div-hide'; ?>" id="divAddLanguagePackage">
+    <div class="head">
+        <h1><?php echo __('Add Language Package'); ?></h1>
+    </div>
+    <div class="inner">
+        <?php include_partial('global/flash_messages', ['prefix' => 'form']); ?>
+        <form id="frmAddLanguagePackage" name="frmAddLanguagePackage" method="post" action="<?php echo url_for('admin/languagePackage'); ?>">
+            <fieldset>
+                <ol>
+                    <?php echo $form->render();?>
+                    <li class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>
+                </ol>
+            </fieldset>
+            <p>
+                <?php
+                $actionButtons = $form->getActionButtons();
+                foreach ($actionButtons as $button) {
+                    echo $button->render(null), "\n";
+                }
+                ?>
+            </p>
+            <br><br>
+            <p>
+                <?php
+                echo __('Users will require translate texts manually after creating the language package.');
+                ?>
+            </p>
+        </form>
+    </div>
+</div>
 
 <?php include_component('core', 'ohrmList'); ?>
 
-<?php include_partial('global/delete_confirmation'); ?>
+<script type="text/javascript">
+    var lang_Required = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+</script>

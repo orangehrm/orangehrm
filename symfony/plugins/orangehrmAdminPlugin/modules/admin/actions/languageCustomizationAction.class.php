@@ -61,8 +61,8 @@ class languageCustomizationAction extends baseAdminAction
         $this->getI18NService()->syncI18NTranslations($language->getCode());
 
         $pageNo = intval($request->getParameter('pageNo', 1));
-        $sortField = $request->getParameter('sortField') ? $request->getParameter('sortField') : 'ls.value';
-        $sortOrder = $request->getParameter('sortOrder') ? $request->getParameter('sortOrder') : 'ASC';
+        $sortField = $request->getParameter('sortField', 'ls.value');
+        $sortOrder = $request->getParameter('sortOrder', 'ASC');
         $limit = sfConfig::get('app_items_per_page');
         $offset = ($pageNo - 1) * $limit;
 
@@ -118,7 +118,7 @@ class languageCustomizationAction extends baseAdminAction
         ];
         $buttons['Cancel'] = [
             'label' => __('Cancel'),
-            'class' => 'reset table-top-btn',
+            'class' => 'cancel table-top-btn',
         ];
 
         $runtimeDefinitions['formAction'] = 'admin/saveLanguageCustomization?langId=' . $language->getId();

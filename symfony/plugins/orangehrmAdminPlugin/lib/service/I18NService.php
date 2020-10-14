@@ -67,13 +67,13 @@ class I18NService extends BaseService
     }
 
     /**
-     * @param bool $withDisabled
-     * @return array|Doctrine_Collection|I18NLanguage[]
+     * @param ParameterObject $searchParams
+     * @return Doctrine_Collection|I18NLanguage[]
      * @throws DaoException
      */
-    public function getLanguages(bool $withDisabled = false)
+    public function searchLanguages(ParameterObject $searchParams)
     {
-        return $this->getI18NDao()->getLanguages($withDisabled);
+        return $this->getI18NDao()->searchLanguages($searchParams);
     }
 
     /**
@@ -392,6 +392,17 @@ class I18NService extends BaseService
     {
         $lang = $this->getI18NDao()->getLanguageByCode($langCode);
         $lang->setModifiedAt(date("Y-m-d H:i:s"));
+        $this->getI18NDao()->saveI18NLanguage($lang);
+    }
+
+    /**
+     * @param string $langCode
+     * @throws DaoException
+     */
+    public function markLanguageAsAdded(string $langCode)
+    {
+        $lang = $this->getI18NDao()->getLanguageByCode($langCode);
+        $lang->setAdded(true);
         $this->getI18NDao()->saveI18NLanguage($lang);
     }
 }

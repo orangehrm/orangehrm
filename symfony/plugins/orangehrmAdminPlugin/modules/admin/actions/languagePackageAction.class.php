@@ -29,18 +29,38 @@ class languagePackageAction extends baseAdminAction
     {
         $this->getI18NService()->syncI18NSourcesLangStrings();
 
-        $this->_setListComponent($this->getI18NService()->getLanguages());
+        $this->form = new AddLanguagePackageForm();
+        if ($request->getMethod() === sfWebRequest::POST) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $langCode = $this->form->getValue('name');
+                $this->getI18NService()->markLanguageAsAdded($langCode);
+            } else {
+                $this->getUser()->setFlash('form.warning', __(TopLevelMessages::VALIDATION_FAILED), true);
+                $this->handleBadRequest();
+            }
+            $this->redirect('admin/languagePackage');
+        }
+
+        $searchParams = new ParameterObject(
+            [
+                'enabled' => true,
+                'added' => true,
+                'sortField' => $request->getParameter('sortField', 'l.name'),
+                'sortOrder' => $request->getParameter('sortOrder', 'ASC'),
+            ]
+        );
+        $this->_setListComponent($this->getI18NService()->searchLanguages($searchParams));
     }
 
     private function _setListComponent($languageList)
     {
         $configurationFactory = $this->_getConfigurationFactory();
         $runtimeDefinitions = [];
-        // TODO
-        //$buttons['Add'] = ['label' => 'Add'];
+        $buttons['Add'] = ['label' => 'Add'];
 
         $runtimeDefinitions['title'] = __('Language Packages');
-        //$runtimeDefinitions['buttons'] = $buttons;
+        $runtimeDefinitions['buttons'] = $buttons;
         $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
         ohrmListComponent::setActivePlugin('orangehrmAdminPlugin');
         ohrmListComponent::setConfigurationFactory($configurationFactory);
