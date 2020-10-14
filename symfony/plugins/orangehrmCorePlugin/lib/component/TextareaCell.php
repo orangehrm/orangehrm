@@ -32,18 +32,28 @@ class TextareaCell extends Cell
             $readOnly = call_user_func_array([$this->dataObject, $method], $params->getRawValue());
         }
 
+        $placeholderGetters = $this->getPropertyValue('placeholderGetters', []);
+        $id = $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('id'));
+        $name = $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('name'));
+        $default = [];
+        if (!empty($id)) {
+            $default['id'] = $id;
+        }
+        if (!empty($name)) {
+            $default['name'] = $name;
+        }
         $props = $this->getPropertyValue('props', []);
         if ($props instanceof sfOutputEscaperArrayDecorator) {
             $props = $props->getRawValue();
         }
 
         return $readOnly ? $this->getValue() : content_tag(
-            'textarea',
-            $this->getValue(),
-            array_merge(
-                ['name' => $this->getPropertyValue('name')],
-                $props
-            )
-        );
+                'textarea',
+                $this->getValue(),
+                array_merge(
+                    $default,
+                    $props
+                )
+            ) . $this->getHiddenFieldHTML();
     }
 }

@@ -18,7 +18,7 @@
  *
  */
 
-class languagePackageAction extends baseAdminAction
+class saveLanguageCustomizationAction extends baseAdminAction
 {
     /**
      * @var null|I18NService
@@ -27,32 +27,32 @@ class languagePackageAction extends baseAdminAction
 
     public function execute($request)
     {
-        $this->getI18NService()->syncI18NSourcesLangStrings();
+        $langId = $request->getParameter('langId');
+        if (empty($langId)) {
+            $this->redirect('admin/languagePackage');
+        }
+        $language = $this->getI18NService()->getLanguageById($langId);
+        if (!($language instanceof I18NLanguage) || !$language->getEnabled()) {
+            $this->redirect('admin/languagePackage');
+        }
 
-        $this->_setListComponent($this->getI18NService()->getLanguages());
-    }
+        $form = new DefaultListForm();
+        if ($request->getMethod() === sfWebRequest::POST) {
+            $form->bind($request->getParameter($form->getName()));
 
-    private function _setListComponent($languageList)
-    {
-        $configurationFactory = $this->_getConfigurationFactory();
-        $runtimeDefinitions = [];
-        // TODO
-        //$buttons['Add'] = ['label' => 'Add'];
+            if ($form->isValid()) {
+                $changedTranslatedTexts = $request->getParameter('changedTranslatedText');
+                if (!empty($changedTranslatedTexts)) {
+                    $this->getI18NService()->saveTranslations($changedTranslatedTexts);
+                    $this->getI18NService()->markLanguageAsModified($language->getCode());
+                }
+            } else {
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), true);
+                $this->handleBadRequest();
+            }
+        }
 
-        $runtimeDefinitions['title'] = __('Language Packages');
-        //$runtimeDefinitions['buttons'] = $buttons;
-        $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
-        ohrmListComponent::setActivePlugin('orangehrmAdminPlugin');
-        ohrmListComponent::setConfigurationFactory($configurationFactory);
-        ohrmListComponent::setListData($languageList);
-    }
-
-    /**
-     * @return LanguagePackageHeaderFactory
-     */
-    private function _getConfigurationFactory()
-    {
-        return new LanguagePackageHeaderFactory();
+        $this->redirect($request->getReferer());
     }
 
     /**

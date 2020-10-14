@@ -98,6 +98,25 @@ class I18NService extends BaseService
     }
 
     /**
+     * @param array $translatedTexts
+     * Associative array e.g. ['I18NTranslate.id' => 'I18NTranslate.value']
+     * @throws DaoException
+     */
+    public function saveTranslations(array $translatedTexts)
+    {
+        foreach ($translatedTexts as $id => $translatedText) {
+            $i18nTranslate = $this->getI18NDao()->getI18NTranslateById($id);
+            if ($i18nTranslate instanceof I18NTranslate) {
+                $i18nTranslate->setValue($translatedText);
+                $i18nTranslate->setTranslated(true);
+                $i18nTranslate->setCustomized(true);
+                $i18nTranslate->setModifiedAt(date("Y-m-d H:i:s"));
+                $this->getI18NDao()->saveI18NTranslate($i18nTranslate);
+            }
+        }
+    }
+
+    /**
      * Sync all XLIFF sources language string to database
      * @throws DaoException
      * @throws sfException
@@ -365,6 +384,10 @@ class I18NService extends BaseService
         return $source . DIRECTORY_SEPARATOR . sprintf('messages.%s.xml', $langCode);
     }
 
+    /**
+     * @param string $langCode
+     * @throws DaoException
+     */
     public function markLanguageAsModified(string $langCode)
     {
         $lang = $this->getI18NDao()->getLanguageByCode($langCode);

@@ -197,6 +197,23 @@ class I18NDao extends BaseDao
     }
 
     /**
+     * @param string $id
+     * @return Doctrine_Record|null|I18NTranslate
+     * @throws DaoException
+     */
+    public function getI18NTranslateById(string $id)
+    {
+        try {
+            $translate = Doctrine::getTable('I18NTranslate')->find($id);
+            return $translate === false ? null : $translate;
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
      * @param I18NTranslate $i18NTranslate
      * @return I18NTranslate
      * @throws Exception

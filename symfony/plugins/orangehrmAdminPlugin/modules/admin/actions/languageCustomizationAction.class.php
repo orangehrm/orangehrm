@@ -112,12 +112,16 @@ class languageCustomizationAction extends baseAdminAction
         $configurationFactory = $this->_getConfigurationFactory($language);
         $runtimeDefinitions = [];
         $buttons = [];
-        $buttons['Save'] = ['label' => 'Save'];
+        $buttons['Save'] = [
+            'label' => __('Save'),
+            'class' => 'table-top-btn',
+        ];
         $buttons['Cancel'] = [
-            'label' => 'Cancel',
-            'class' => 'reset'
+            'label' => __('Cancel'),
+            'class' => 'reset table-top-btn',
         ];
 
+        $runtimeDefinitions['formAction'] = 'admin/saveLanguageCustomization?langId=' . $language->getId();
         $runtimeDefinitions['buttons'] = $buttons;
         $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
         ohrmListComponent::setActivePlugin('orangehrmAdminPlugin');

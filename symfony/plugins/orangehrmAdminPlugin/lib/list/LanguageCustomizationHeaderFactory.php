@@ -60,7 +60,7 @@ class LanguageCustomizationHeaderFactory extends ohrmListConfigurationFactory
 
         $header1->populateFromArray(
             [
-                'name' => 'Source Label',
+                'name' => 'Source Text',
                 'width' => '20%',
                 'isSortable' => true,
                 'sortField' => 'ls.value',
@@ -81,7 +81,7 @@ class LanguageCustomizationHeaderFactory extends ohrmListConfigurationFactory
 
         $header3->populateFromArray(
             [
-                'name' => 'Translated Label',
+                'name' => 'Translated Text',
                 'width' => '50%',
                 'isSortable' => true,
                 'sortField' => 't.value',
@@ -93,8 +93,16 @@ class LanguageCustomizationHeaderFactory extends ohrmListConfigurationFactory
                         'rows' => '2',
                         'cols' => '50',
                         'class' => 'translated-textarea',
-                        'disabled' => true
-                    ]
+                        'disabled' => true,
+                    ],
+                    'placeholderGetters' => ['id' => 'getId'],
+                    'hasHiddenField' => true,
+                    'hiddenFieldName' => 'translatedText[{id}]',
+                    'hiddenFieldId' => 'translatedText_{id}',
+                    'hiddenFieldValueGetter' => 'getValue',
+                    'hiddenFieldClass' => 'hidden-translated-text',
+                    'name' => '{id}',
+                    'id' => 'translatedTextarea_{id}'
                 ],
             ]
         );

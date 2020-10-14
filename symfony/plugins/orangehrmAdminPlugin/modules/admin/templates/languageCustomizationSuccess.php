@@ -76,6 +76,9 @@ use_stylesheet(plugin_web_path('orangehrmAdminPlugin', 'css/languageCustomizatio
 <?php include_component('core', 'ohrmList'); ?>
 
 <script>
+    var lang_edit = "<?php echo __js("Edit"); ?>";
+    var lang_save = "<?php echo __js("Save"); ?>";
+
     // Override global submitPage
     function submitPage(pageNumber) {
         var baseUrl = location.href;
