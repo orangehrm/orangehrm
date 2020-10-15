@@ -11,6 +11,7 @@
  * @property int                                  $groupId                                   Type: integer
  * @property string                               $value                                     Type: string, unique
  * @property string                               $note                                      Type: string
+ * @property string                               $version                                   Type: string(20)
  * @property I18NGroup                            $I18NGroup                                 
  * @property I18NSource                           $I18NSource                                
  * @property Doctrine_Collection|I18NTranslate[]  $I18NTranslate                             
@@ -21,6 +22,7 @@
  * @method int                                    getGroupId()                               Type: integer
  * @method string                                 getValue()                                 Type: string, unique
  * @method string                                 getNote()                                  Type: string
+ * @method string                                 getVersion()                               Type: string(20)
  * @method I18NGroup                              getI18NGroup()                             
  * @method I18NSource                             getI18NSource()                            
  * @method Doctrine_Collection|I18NTranslate[]    getI18NTranslate()                         
@@ -31,6 +33,7 @@
  * @method I18NLangString                         setGroupId(int $val)                       Type: integer
  * @method I18NLangString                         setValue(string $val)                      Type: string, unique
  * @method I18NLangString                         setNote(string $val)                       Type: string
+ * @method I18NLangString                         setVersion(string $val)                    Type: string(20)
  * @method I18NLangString                         setI18NGroup(I18NGroup $val)               
  * @method I18NLangString                         setI18NSource(I18NSource $val)             
  * @method I18NLangString                         setI18NTranslate(Doctrine_Collection $val) 
@@ -65,6 +68,10 @@ abstract class BaseI18NLangString extends sfDoctrineRecord
              ));
         $this->hasColumn('note', 'string', null, array(
              'type' => 'string',
+             ));
+        $this->hasColumn('version', 'string', 20, array(
+             'type' => 'string',
+             'length' => 20,
              ));
     }
 

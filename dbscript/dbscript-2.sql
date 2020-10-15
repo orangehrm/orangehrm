@@ -3513,3 +3513,18 @@ INSERT INTO `ohrm_i18n_language` (`name`, `code`) VALUES
 ('Yoruba (Nigeria) - Yorùbá (Nigeria)', 'yo-NG'),
 ('Zarma (Niger)', 'dje-NE'),
 ('Zulu (South Africa) - Zulu (South Africa)', 'zu-ZA');
+
+INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES
+('general', 'General'),
+('admin', 'Admin'),
+('pim', 'PIM'),
+('leave', 'Leave'),
+('time', 'Time'),
+('recruitment', 'Recruitment'),
+('performance', 'Performance'),
+('dashboard', 'Dashboard'),
+('directory', 'Directory'),
+('maintenance', 'Maintenance'),
+('buzz', 'Buzz'),
+('marketplace', 'Marketplace'),
+('mobile', 'Mobile');

@@ -204,6 +204,8 @@ class I18NService extends BaseService
             return null;
         }
 
+        $groups = $this->getI18NGroupsAssoc();
+
         $ids = [];
         foreach ($translationUnits as $unit) {
             $langString = new I18NLangString();
@@ -212,9 +214,17 @@ class I18NService extends BaseService
             $langString->setUnitId($id);
             $langString->setValue($source);
             $langString->setSourceId($sourceId);
-            // TODO:: group XLIFF source
-            //$langString->setGroupId()
-            //$langString->setVersion()
+
+            $group = (string)$unit['group'];
+            if (!empty($groups[$group])) {
+                $langString->setGroupId($groups[$group]);
+            }
+
+            $version = (string)$unit['version'];
+            if (!empty($groups[$group])) {
+                $langString->setVersion($version);
+            }
+
             $note = (string)$unit->note;
             if (!empty($note)) {
                 $langString->setNote($note);
@@ -428,5 +438,28 @@ class I18NService extends BaseService
         $lang = $this->getI18NDao()->getLanguageByCode($langCode);
         $lang->setAdded(true);
         $this->getI18NDao()->saveI18NLanguage($lang);
+    }
+
+    /**
+     * @return Doctrine_Collection|I18NGroup[]
+     * @throws DaoException
+     */
+    public function getI18NGroups()
+    {
+        return $this->getI18NDao()->getI18NGroups();
+    }
+
+    /**
+     * @return array ['pim'=>1, 'admin'=>2]
+     * @throws DaoException
+     */
+    public function getI18NGroupsAssoc()
+    {
+        $i18nGroups = $this->getI18NGroups();
+        $groups = [];
+        foreach ($i18nGroups as $i18nGroup) {
+            $groups[$i18nGroup->getName()] = $i18nGroup->getId();
+        }
+        return $groups;
     }
 }

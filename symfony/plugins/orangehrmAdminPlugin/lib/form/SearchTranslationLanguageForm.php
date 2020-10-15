@@ -20,6 +20,11 @@
 
 class SearchTranslationLanguageForm extends BaseForm
 {
+    /**
+     * @var null|I18NService
+     */
+    protected $i18nService = null;
+
     public function configure()
     {
         $this->setWidgets(
@@ -57,13 +62,18 @@ class SearchTranslationLanguageForm extends BaseForm
         $this->widgetSchema->setNameFormat('searchTranslationLanguage[%s]');
     }
 
+    /**
+     * @return array
+     * @throws DaoException
+     */
     public function getModules()
     {
-        // TODO:: fetch from DB
-        return [
-            null => __("All"),
-            'pim' => __("PIM")
-        ];
+        $i18nGroups = $this->getI18NService()->getI18NGroups();
+        $groups = [null => __("All")];
+        foreach ($i18nGroups as $i18nGroup) {
+            $groups[$i18nGroup->getName()] = __($i18nGroup->getTitle());
+        }
+        return $groups;
     }
 
     public function getTranslatedChoices()
@@ -88,5 +98,16 @@ class SearchTranslationLanguageForm extends BaseForm
             'translatedText' => __('Translated Text'),
             'translated' => __('Show'),
         ];
+    }
+
+    /**
+     * @return I18NService
+     */
+    protected function getI18NService(): I18NService
+    {
+        if (is_null($this->i18nService)) {
+            $this->i18nService = new I18NService();
+        }
+        return $this->i18nService;
     }
 }

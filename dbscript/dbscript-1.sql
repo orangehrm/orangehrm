@@ -2295,7 +2295,8 @@ CREATE TABLE `ohrm_rest_api_usage` (
 
 CREATE TABLE `ohrm_i18n_group` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) DEFAULT NULL
+  `name` VARCHAR(255),
+  `title` VARCHAR(255) DEFAULT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
 
 CREATE TABLE `ohrm_i18n_language` (
@@ -2313,7 +2314,8 @@ CREATE TABLE `ohrm_i18n_lang_string` (
   `source_id` INT,
   `group_id` INT DEFAULT NULL,
   `value` TEXT COLLATE utf8mb4_bin NOT NULL,
-  `note` TEXT
+  `note` TEXT,
+  `version` VARCHAR(20) DEFAULT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
 
 CREATE TABLE `ohrm_i18n_translate` (

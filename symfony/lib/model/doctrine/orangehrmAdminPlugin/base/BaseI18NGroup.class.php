@@ -7,14 +7,17 @@
  * 
  * @property int                                   $id                                         Type: integer, primary key
  * @property string                                $name                                       Type: string(255)
+ * @property string                                $title                                      Type: string(255)
  * @property Doctrine_Collection|I18NLangString[]  $I18NLangString                             
  *  
  * @method int                                     getId()                                     Type: integer, primary key
  * @method string                                  getName()                                   Type: string(255)
+ * @method string                                  getTitle()                                  Type: string(255)
  * @method Doctrine_Collection|I18NLangString[]    getI18NLangString()                         
  *  
  * @method I18NGroup                               setId(int $val)                             Type: integer, primary key
  * @method I18NGroup                               setName(string $val)                        Type: string(255)
+ * @method I18NGroup                               setTitle(string $val)                       Type: string(255)
  * @method I18NGroup                               setI18NLangString(Doctrine_Collection $val) 
  *  
  * @package    orangehrm
@@ -33,6 +36,10 @@ abstract class BaseI18NGroup extends sfDoctrineRecord
              'autoincrement' => true,
              ));
         $this->hasColumn('name', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
+             ));
+        $this->hasColumn('title', 'string', 255, array(
              'type' => 'string',
              'length' => 255,
              ));

@@ -508,6 +508,7 @@ I18NGroup:
       primary: true
       autoincrement: true
     name: string(255)
+    title: string(255)
 
 I18NLanguage:
   tableName: ohrm_i18n_language
@@ -538,6 +539,7 @@ I18NLangString:
       type: string
       unique: true
     note: string
+    version: string(20)
   relations:
     I18NGroup:
       local: groupId

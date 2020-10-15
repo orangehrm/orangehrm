@@ -309,4 +309,19 @@ class I18NDao extends BaseDao
         }
         // @codeCoverageIgnoreEnd
     }
+
+    /**
+     * @return Doctrine_Collection|I18NGroup[]
+     * @throws DaoException
+     */
+    public function getI18NGroups()
+    {
+        try {
+            return Doctrine::getTable('I18NGroup')->findAll();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
 }
