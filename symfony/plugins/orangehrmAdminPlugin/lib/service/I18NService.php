@@ -117,6 +117,32 @@ class I18NService extends BaseService
     }
 
     /**
+     * @param string $source
+     * @return string
+     */
+    public function getRelativeSource(string $source)
+    {
+        return str_replace($this->getRootDir() . DIRECTORY_SEPARATOR, '', $source);
+    }
+
+    /**
+     * @param string $relativeSource
+     * @return string
+     */
+    public function getAbsoluteSource(string $relativeSource)
+    {
+        return $this->getRootDir() . DIRECTORY_SEPARATOR . $relativeSource;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRootDir()
+    {
+        return realpath(sfConfig::get('sf_root_dir') . DIRECTORY_SEPARATOR . '..');
+    }
+
+    /**
      * Sync all XLIFF sources language string to database
      * @throws DaoException
      * @throws sfException
@@ -126,12 +152,12 @@ class I18NService extends BaseService
         foreach ($this->getI18NSourceDirs() as $sourceDir) {
             $baseSource = $this->getLangPackPath($sourceDir);
 
-            $i18nSource = $this->getI18NDao()->getI18NSource($baseSource);
+            $i18nSource = $this->getI18NDao()->getI18NSource($this->getRelativeSource($baseSource));
             if ($i18nSource instanceof I18NSource) {
                 // Source already exists
                 $timestamp = filemtime($baseSource);
                 if ($i18nSource->getModifiedAt() < date("Y-m-d H:i:s", $timestamp)) {
-                    $this->syncI18NSourceLangStrings($baseSource);
+                    $this->syncI18NSourceLangStrings($baseSource, $i18nSource->getId());
                     // Update last sync time
                     $i18nSource->setModifiedAt(date("Y-m-d H:i:s"));
                     $this->getI18NDao()->saveI18NSource($i18nSource);
@@ -139,11 +165,11 @@ class I18NService extends BaseService
             } else {
                 // New source
                 $newSource = new I18NSource();
-                $newSource->setSource($baseSource);
+                $newSource->setSource($this->getRelativeSource($baseSource));
                 $newSource->setModifiedAt(date("Y-m-d H:i:s"));
                 $this->getI18NDao()->saveI18NSource($newSource);
 
-                $this->syncI18NSourceLangStrings($baseSource);
+                $this->syncI18NSourceLangStrings($baseSource, $newSource->getId());
             }
         }
     }
@@ -151,19 +177,17 @@ class I18NService extends BaseService
     /**
      * Sync single XLIFF source to database
      * @param string $source
+     * @param int $sourceId
      * @throws DaoException
      */
-    public function syncI18NSourceLangStrings(string $source)
+    public function syncI18NSourceLangStrings(string $source, int $sourceId)
     {
-        $i18nSource = $this->getI18NDao()->getI18NSource($source);
-        if ($i18nSource instanceof I18NSource) {
-            $ids = $this->saveLangStringsFromSource(
-                $source,
-                $i18nSource->getId()
-            );
-            if (!is_null($ids)) {
-                $this->deleteRemovedLangStringsFromDatabase($ids, $i18nSource->getId());
-            }
+        $ids = $this->saveLangStringsFromSource(
+            $source,
+            $sourceId
+        );
+        if (!is_null($ids)) {
+            $this->deleteRemovedLangStringsFromDatabase($ids, $sourceId);
         }
     }
 
@@ -231,7 +255,7 @@ class I18NService extends BaseService
             $baseSource = $this->getLangPackPath($sourceDir);
             $source = $this->getLangPackPath($sourceDir, $langCode);
 
-            $i18nSource = $this->getI18NDao()->getI18NSource($source);
+            $i18nSource = $this->getI18NDao()->getI18NSource($this->getRelativeSource($source));
             if ($i18nSource instanceof I18NSource) {
                 $timestamp = filemtime($source);
                 if ($i18nSource->getModifiedAt() < date("Y-m-d H:i:s", $timestamp)) {
@@ -244,7 +268,7 @@ class I18NService extends BaseService
                 $this->syncI18NSourceTranslations($baseSource, $source, $language);
                 // New source
                 $newSource = new I18NSource();
-                $newSource->setSource($source);
+                $newSource->setSource($this->getRelativeSource($source));
                 $newSource->setModifiedAt(date("Y-m-d H:i:s"));
                 $this->getI18NDao()->saveI18NSource($newSource);
             }
@@ -259,7 +283,7 @@ class I18NService extends BaseService
      */
     public function syncI18NSourceTranslations(string $baseSource, string $source, I18NLanguage $language)
     {
-        $i18nSource = $this->getI18NDao()->getI18NSource($baseSource);
+        $i18nSource = $this->getI18NDao()->getI18NSource($this->getRelativeSource($baseSource));
         if ($i18nSource instanceof I18NSource) {
             $langStrings = $this->getLangStringsBySourceId($i18nSource->getId());
             $this->saveTranslationsFromSource(
@@ -309,7 +333,7 @@ class I18NService extends BaseService
             } catch (Doctrine_Exception $e) {
                 // Translation already exists
                 $i18nTranslate = $this->getI18NDao()->getI18NTranslate($langString->getId(), $langId);
-                // Only update if not translated (avoid override customization)
+                // Only update if not customized (avoid override customization)
                 if (!$i18nTranslate->getCustomized()) {
                     $i18nTranslate->setValue($translate->getValue());
                     $i18nTranslate->setTranslated(!empty($translate->getValue()));
