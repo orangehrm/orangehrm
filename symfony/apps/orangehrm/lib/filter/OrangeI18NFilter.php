@@ -46,7 +46,7 @@ class OrangeI18NFilter extends sfFilter {
         $languages = $this->getContext()->getRequest()->getLanguages();
         $userCulture = $this->getConfigService()->getAdminLocalizationDefaultLanguage();
         $localizationService = new LocalizationService();
-        $languageToSet = (!empty($languages[0]) && $this->getConfigService()->getAdminLocalizationUseBrowserLanguage() == "Yes" && key_exists($languages[0], $localizationService->getSupportedLanguageListFromYML())) ? $languages[0] : $userCulture;
+        $languageToSet = (!empty($languages[0]) && $this->getConfigService()->getAdminLocalizationUseBrowserLanguage() == "Yes" && key_exists($languages[0], $localizationService->getSupportedLanguageList())) ? $languages[0] : $userCulture;
         $datePattern = $this->getContext()->getUser()->getDateFormat();
         $datePattern = isset($datePattern) ? $datePattern : $this->getConfigService()->getAdminLocalizationDefaultDateFormat();
 
