@@ -2321,7 +2321,6 @@ CREATE TABLE `ohrm_i18n_translate` (
   `lang_string_id` INT NOT NULL,
   `language_id` INT NOT NULL,
   `value` TEXT,
-  `note` TEXT,
   `translated` TINYINT UNSIGNED DEFAULT 1,
   `customized` TINYINT UNSIGNED DEFAULT 0,
   `modified_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

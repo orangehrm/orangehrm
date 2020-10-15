@@ -105,7 +105,7 @@ class sfMessageSource_OrangeHRM extends sfMessageSource
             $source = (string)$message->getI18NLangString()->getValue();
             $translations[$source][] = (string)$message->getValue();
             $translations[$source][] = (string)$message->getI18NLangString()->getId();
-            $translations[$source][] = (string)$message->getNote();
+            $translations[$source][] = (string)$message->getI18NLangString()->getNote();
         }
 
         return $translations;

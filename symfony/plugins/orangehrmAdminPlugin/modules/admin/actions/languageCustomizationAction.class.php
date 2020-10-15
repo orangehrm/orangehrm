@@ -36,7 +36,7 @@ class languageCustomizationAction extends baseAdminAction
             $this->forwardToSecureAction();
         }
         $language = $this->getI18NService()->getLanguageById($langId);
-        if (!($language instanceof I18NLanguage) || !$language->getEnabled()) {
+        if (!($language instanceof I18NLanguage) || !$language->getEnabled() || !$language->getAdded()) {
             $this->handleBadRequest();
             $this->forwardToSecureAction();
         }

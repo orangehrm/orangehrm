@@ -9,7 +9,6 @@
  * @property int             $langStringId                          Type: integer
  * @property int             $languageId                            Type: integer
  * @property string          $value                                 Type: string
- * @property string          $note                                  Type: string
  * @property bool            $translated                            Type: boolean
  * @property bool            $customized                            Type: boolean
  * @property string          $modifiedAt                            Type: datetime, Date and time in ISO-8601 format (YYYY-MM-DD HH:MI)
@@ -20,7 +19,6 @@
  * @method int               getLangStringId()                      Type: integer
  * @method int               getLanguageId()                        Type: integer
  * @method string            getValue()                             Type: string
- * @method string            getNote()                              Type: string
  * @method bool              getTranslated()                        Type: boolean
  * @method bool              getCustomized()                        Type: boolean
  * @method string            getModifiedAt()                        Type: datetime, Date and time in ISO-8601 format (YYYY-MM-DD HH:MI)
@@ -31,7 +29,6 @@
  * @method I18NTranslate     setLangStringId(int $val)              Type: integer
  * @method I18NTranslate     setLanguageId(int $val)                Type: integer
  * @method I18NTranslate     setValue(string $val)                  Type: string
- * @method I18NTranslate     setNote(string $val)                   Type: string
  * @method I18NTranslate     setTranslated(bool $val)               Type: boolean
  * @method I18NTranslate     setCustomized(bool $val)               Type: boolean
  * @method I18NTranslate     setModifiedAt(string $val)             Type: datetime, Date and time in ISO-8601 format (YYYY-MM-DD HH:MI)
@@ -60,9 +57,6 @@ abstract class BaseI18NTranslate extends sfDoctrineRecord
              'type' => 'integer',
              ));
         $this->hasColumn('value', 'string', null, array(
-             'type' => 'string',
-             ));
-        $this->hasColumn('note', 'string', null, array(
              'type' => 'string',
              ));
         $this->hasColumn('translated', 'boolean', null, array(
