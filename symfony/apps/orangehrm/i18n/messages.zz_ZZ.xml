@@ -9811,6 +9811,18 @@
         <source>Help &amp; Support</source>
         <target>FR_Help &amp; Support</target>
       </trans-unit>
+      <trans-unit id="1996" group="directory" version="4.6-">
+        <source>Directory</source>
+        <target>FR_Directory</target>
+      </trans-unit>
+      <trans-unit id="1997" group="directory" version="4.6-">
+        <source>Search Listing</source>
+        <target>FR_Search Listing</target>
+      </trans-unit>
+      <trans-unit id="1998" group="directory" version="4.6-">
+        <source>Search Directory</source>
+        <target>FR_Search Directory</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
