@@ -2,7 +2,7 @@
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
   <header/>
-  <file source-language="en_US" target-language="zz_ZZ" datatype="xml" original="messages" date="2020-10-21T02:47:54Z" product-name="messages">
+  <file source-language="en_US" target-language="zz_ZZ" datatype="xml" original="messages" date="2020-10-21T03:56:39Z" product-name="messages">
     <body>
       <trans-unit id="1" group="general" version="4.6-">
         <source>1M Max, any larger attachments will be ignored</source>
@@ -9822,6 +9822,66 @@
       <trans-unit id="1998" group="directory" version="4.6-">
         <source>Search Directory</source>
         <target>FR_Search Directory</target>
+      </trans-unit>
+      <trans-unit id="1999" group="admin" version="4.6">
+        <source>Language Packages</source>
+        <target>FR_Language Packages</target>
+      </trans-unit>
+      <trans-unit id="2000" group="admin" version="4.6">
+        <source>Translate</source>
+        <target>FR_Translate</target>
+      </trans-unit>
+      <trans-unit id="2001" group="admin" version="4.6">
+        <source>Add Language Package</source>
+        <target>FR_Add Language Package</target>
+      </trans-unit>
+      <trans-unit id="2002" group="admin" version="4.6">
+        <source>Users will require translate texts manually after creating the language package.</source>
+        <target>FR_Users will require translate texts manually after creating the language package.</target>
+      </trans-unit>
+      <trans-unit id="2003" group="admin" version="4.6">
+        <source>Translate Language Package</source>
+        <target>FR_Translate Language Package</target>
+      </trans-unit>
+      <trans-unit id="2004" group="admin" version="4.6">
+        <source>Language Package</source>
+        <target>FR_Language Package</target>
+      </trans-unit>
+      <trans-unit id="2005" group="admin" version="4.6">
+        <source>Source Language</source>
+        <target>FR_Source Language</target>
+      </trans-unit>
+      <trans-unit id="2006" group="admin" version="4.6">
+        <source>Module</source>
+        <target>FR_Module</target>
+      </trans-unit>
+      <trans-unit id="2007" group="admin" version="4.6">
+        <source>Source Text</source>
+        <target>FR_Source Text</target>
+      </trans-unit>
+      <trans-unit id="2008" group="admin" version="4.6">
+        <source>Translated Text</source>
+        <target>FR_Translated Text</target>
+      </trans-unit>
+      <trans-unit id="2009" group="admin" version="4.6">
+        <source>Show</source>
+        <target>FR_Show</target>
+      </trans-unit>
+      <trans-unit id="2010" group="admin" version="4.6">
+        <source>Translated</source>
+        <target>FR_Translated</target>
+      </trans-unit>
+      <trans-unit id="2011" group="admin" version="4.6">
+        <source>Not Translated</source>
+        <target>FR_Not Translated</target>
+      </trans-unit>
+      <trans-unit id="2012" group="admin" version="4.6">
+        <source>General</source>
+        <target>FR_General</target>
+      </trans-unit>
+      <trans-unit id="2013" group="admin" version="4.6">
+        <source>Source Note</source>
+        <target>FR_Source Note</target>
       </trans-unit>
     </body>
   </file>
