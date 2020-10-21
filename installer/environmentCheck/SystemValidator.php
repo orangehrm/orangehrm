@@ -145,9 +145,9 @@ class SystemValidator
         }
         $pattern = $pattern . '/';
         preg_match($pattern, $value, $matches);
-        $value = $matches[0];
+        $trimmedValue = $matches[0];
 
-        if (!(version_compare($value, $min) >= 0 && version_compare($max, $value) >= 0)) {
+        if (!(version_compare($trimmedValue, $min) >= 0 && version_compare($max, $trimmedValue) >= 0)) {
             return false;
         }
         if ($this->isExcluded($value, $excludeRange)) {
@@ -183,7 +183,18 @@ class SystemValidator
             printf("Connect failed: %s\n", mysqli_connect_error());
             exit();
         }
-        $currentVersion = $mysqli->server_info;
+        // To avoid extra "5.5.5" in some environment
+        // E.g. 5.5.5-10.5.5-MariaDB-1:10.5.5+maria~focal
+        if ($result = $mysqli->query("SELECT version();")) {
+            $row = $result->fetch_row();
+            if (!empty($row) && isset($row[0])) {
+                $currentVersion = $row[0];
+            }
+            $result->free_result();
+        }
+        if (empty($currentVersion)) {
+            $currentVersion = $mysqli->server_info;
+        }
 
         $mysqli->close();
         return $currentVersion;
