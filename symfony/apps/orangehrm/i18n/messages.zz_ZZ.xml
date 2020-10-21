@@ -1199,6 +1199,7 @@
       <trans-unit id="239" group="pim" version="4.6-">
         <source>Driver's License Number</source>
         <target>FR_Driver's License Number</target>
+        <note>It is a field that appears when you edit personal details of a particular employee.Here, admin enters the number of employee's driving license.</note>
       </trans-unit>
       <trans-unit id="240" group="general" version="4.6-">
         <source>Duration</source>
@@ -1303,9 +1304,7 @@
       <trans-unit id="260" group="pim" version="4.6-">
         <source>Eligible Status</source>
         <target>FR_Eligible Status</target>
-        <note>Eligible Status of his Passport/Visa &#13;
-          for a particular country.
-        </note>
+        <note>Eligible Status of his Passport/Visa for a particular country.</note>
       </trans-unit>
       <trans-unit id="261" group="general" version="4.6-">
         <source>Email Notifications</source>
@@ -5626,7 +5625,7 @@
       <trans-unit id="1125" group="leave" version="4.6-">
         <source>Matches %count% employees</source>
         <target>FR_Matches %count% employees</target>
-        <note>This counts no of students match with the session.</note>
+        <note>Don't translate %count%.</note>
       </trans-unit>
       <trans-unit id="1126" group="leave" version="4.6-">
         <source>No matching employees</source>
@@ -5704,7 +5703,7 @@
       <trans-unit id="1140" group="leave" version="4.6-">
         <source>Should be a number with upto %count% decimal places</source>
         <target>Should be a number with upto %count% decimal places</target>
-        <note>It is a validation message which reminds the user to input a number with up to a certain number of decimal places.</note>
+        <note>Don't translate %count%. It is a validation message which reminds the user to input a number with up to a certain number of decimal places.</note>
       </trans-unit>
       <trans-unit id="1141" group="leave" version="4.6-">
         <source>Author</source>
@@ -6632,7 +6631,7 @@
       <trans-unit id="1328" group="dashboard" version="4.6-">
         <source>%months% month(s)</source>
         <target>FR_%months% month(s)</target>
-        <note>Time period in months</note>
+        <note>Don't translate %months%. Time period in months</note>
       </trans-unit>
       <trans-unit id="1329" group="dashboard" version="4.6-">
         <source>Total : </source>
@@ -7515,12 +7514,12 @@
       <trans-unit id="1504" group="pim" version="4.6-">
         <source>You do not have credentials to access PIM for employee %employee_name%</source>
         <target>FR_You do not have credentials to access PIM for employee %employee_name%</target>
-        <note>It is a restriction error message which strictly says that user do not have credentials to access PIM for a particular employee</note>
+        <note>Don't translate %employee_name%. It is a restriction error message which strictly says that user do not have credentials to access PIM for a particular employee</note>
       </trans-unit>
       <trans-unit id="1505" group="pim" version="4.6-">
         <source>Employee with Employee Number %emp_number% not found!</source>
         <target>FR_Employee with Employee Number %emp_number% not found!</target>
-        <note>This error message pops up when a certain employee number doesn't exist in the system.</note>
+        <note>Don't translate %emp_number%. This error message pops up when a certain employee number doesn't exist in the system.</note>
       </trans-unit>
       <trans-unit id="1506" group="general" version="4.6-">
         <source>Active</source>
@@ -8192,6 +8191,7 @@
       <trans-unit id="1640" group="leave" version="4.6-">
         <source>Leave Request (%date_range%) %name%</source>
         <target>FR_Leave Request (%date_range%) %name%</target>
+        <note>Don't translate %date_range% and %name%.</note>
       </trans-unit>
       <trans-unit id="1641" group="leave" version="4.6-">
         <source>Failed to Assign</source>
@@ -8319,7 +8319,7 @@
       <trans-unit id="1666" group="leave" version="4.6-">
         <source>Bulk Assigning Leave Entitlement to %count% Employees. Please Wait</source>
         <target>FR_Bulk Assigning Leave Entitlement to %count% Employees. Please Wait</target>
-        <note>When assigning leave entitlement to multiple employees, this response message appears.</note>
+        <note>Don't translate %count%. When assigning leave entitlement to multiple employees, this response message appears.</note>
       </trans-unit>
       <trans-unit id="1667" group="leave" version="4.6-">
         <source>Assigning Leave Entitlement. Please Wait</source>
@@ -8777,16 +8777,17 @@
       <trans-unit id="1759" group="general" version="4.6-">
         <source>Should be greater than %number%</source>
         <target>FR_Should be greater than %number%</target>
-        <note>It is a validation message which reminds the user to input an number greater than a certain number.</note>
+        <note>Don't translate %number%. It is a validation message which reminds the user to input an number greater than a certain number.</note>
       </trans-unit>
       <trans-unit id="1760" group="general" version="4.6-">
         <source>Should be less than %number%</source>
         <target>FR_Should be less than %number%</target>
-        <note>It is a validation message which reminds the user to input an number less than a certain number.</note>
+        <note>Don't translate %number%. It is a validation message which reminds the user to input an number less than a certain number.</note>
       </trans-unit>
       <trans-unit id="1761" group="performance" version="4.6-">
         <source>Rating should be less than or equal to %number%</source>
         <target>FR_Rating should be less than or equal to %number%</target>
+        <note>Don't translate %number%.</note>
       </trans-unit>
       <trans-unit id="1762" group="performance" version="4.6-">
         <source>Max rating should be greater than Min rating</source>
@@ -9015,12 +9016,12 @@
       <trans-unit id="1809" group="time" version="4.6-">
         <source>Should Be a Valid Date in %format% Format</source>
         <target>FR_Should Be a Valid Date in %format% Format</target>
-        <note>It is a validation message which reminds the user to input a valid date with a certain date format.</note>
+        <note>Don't translate %format%. It is a validation message which reminds the user to input a valid date with a certain date format.</note>
       </trans-unit>
       <trans-unit id="1810" group="time" version="4.6-">
         <source>Should Be a Valid Time in %format% Format</source>
         <target>FR_Should Be a Valid Time in %format% Format</target>
-        <note>It is a validation message which reminds the user to input a valid time with a certain time format.</note>
+        <note>Don't translate %format%. It is a validation message which reminds the user to input a valid time with a certain time format.</note>
       </trans-unit>
       <trans-unit id="1811" group="admin" version="4.6-">
         <source>Social Media Authentication</source>
