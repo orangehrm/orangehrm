@@ -7278,7 +7278,7 @@
       </trans-unit>
       <trans-unit id="1819">
         <source>Client Secret</source>
-        <target>Proveedor de autenticación (como Google +)</target>
+        <target>Proveedor de autenticación (como Google)</target>
       </trans-unit>
       <trans-unit id="1820">
         <source>Developer Key</source>

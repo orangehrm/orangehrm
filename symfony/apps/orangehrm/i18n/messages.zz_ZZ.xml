@@ -9058,14 +9058,14 @@
       <trans-unit id="1818" group="admin" version="4.6-">
         <source>Client Id</source>
         <target>FR_Client Id</target>
-        <note>"Configuration---&gt;Autherntication--&gt;Authentication type---&gt;Social Media---&gt;Add Provider type as Google+&#13;
+        <note>"Configuration---&gt;Autherntication--&gt;Authentication type---&gt;Social Media---&gt;Add Provider type as Google&#13;
           (You need to specify this when configuring gmail authentication which enable you to get connected with orangehrm application.)"
         </note>
       </trans-unit>
       <trans-unit id="1819" group="admin" version="4.6-">
         <source>Client Secret</source>
         <target>FR_Client Secret</target>
-        <note>"Configuration---&gt;Autherntication--&gt;Authentication type---&gt;Social Media---&gt;Add Provider type as Google+&#13;
+        <note>"Configuration---&gt;Autherntication--&gt;Authentication type---&gt;Social Media---&gt;Add Provider type as Google&#13;
           (You need to specify this when configuring gmail authentication which enable you to get connected with orangehrm application.)"
         </note>
       </trans-unit>

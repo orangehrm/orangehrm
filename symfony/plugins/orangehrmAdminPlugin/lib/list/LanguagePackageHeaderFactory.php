@@ -28,7 +28,7 @@ class LanguagePackageHeaderFactory extends ohrmListConfigurationFactory
 
         $header1->populateFromArray(
             [
-                'name' => 'Language Packs',
+                'name' => 'Language Packages',
                 'width' => '70%',
                 'isSortable' => true,
                 'sortField' => 'l.name',
