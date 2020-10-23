@@ -2989,11 +2989,13 @@ SET @admin_module_id = (SELECT `id` FROM `ohrm_module` WHERE `name`='admin');
 INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
 ('Language Packages', @admin_module_id, 'languagePackage'),
 ('Language Customization', @admin_module_id, 'languageCustomization'),
-('Save Language Customization', @admin_module_id, 'saveLanguageCustomization');
+('Save Language Customization', @admin_module_id, 'saveLanguageCustomization'),
+('Export Language Package', @admin_module_id, 'exportLanguagePackage');
 
 SET @language_packages_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Language Packages');
 SET @language_customization_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Language Customization');
 SET @save_language_customization_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Save Language Customization');
+SET @export_language_package_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Export Language Package');
 
 SET @admin_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Admin' AND `level` = 1);
 SET @configuration_menu_id := (SELECT id FROM ohrm_menu_item where menu_title = 'Configuration' AND `parent_id` = @admin_menu_id);
@@ -3004,7 +3006,8 @@ INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `or
 INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
 (@admin_role_id, @language_packages_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @language_customization_screen_id, 1, 1, 1, 0),
-(@admin_role_id, @save_language_customization_screen_id, 1, 1, 1, 0);
+(@admin_role_id, @save_language_customization_screen_id, 1, 1, 1, 0),
+(@admin_role_id, @export_language_package_screen_id, 1, 1, 1, 0);
 
 
 INSERT INTO `ohrm_i18n_language` (`name`, `code`, `added`) VALUES

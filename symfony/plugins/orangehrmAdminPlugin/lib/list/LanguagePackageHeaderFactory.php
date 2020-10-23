@@ -61,13 +61,13 @@ class LanguagePackageHeaderFactory extends ohrmListConfigurationFactory
                 'elementProperty' => [
                     'label' => __('Export'),
                     'placeholderGetters' => ['id' => 'getId'],
-                    'urlPattern' => url_for('admin/languageCustomization') . '?langId={id}'
+                    'urlPattern' => url_for('admin/exportLanguagePackage') . '?langId={id}'
                 ],
                 'textAlignmentStyle' => 'center',
             ]
         );
 
-        $this->headers = [$header1, $header2];
+        $this->headers = [$header1, $header2, $header3];
     }
 
     public function getClassName()

@@ -462,4 +462,125 @@ class I18NService extends BaseService
         }
         return $groups;
     }
+
+
+    /**
+     * Export language packages as ZIP file, return ZIP file location.
+     * null return if no translations found.
+     *
+     * @param string $langCode
+     * @return false|string|null
+     * @throws DaoException
+     * @throws sfException
+     */
+    public function exportLanguagePack(string $langCode)
+    {
+        $this->syncI18NTranslations($langCode);
+
+        $searchParams = new ParameterObject(['langCode' => $langCode]);
+        $translations = $this->searchTranslations($searchParams);
+
+        if (count($translations) == 0) {
+            return null;
+        }
+
+        $i18nSources = $this->getXliffGroupedBySources($translations, $langCode);
+
+        if (empty($i18nSources)) {
+            return null;
+        }
+
+        // Creating temp file in symfony/cache
+        $temp = tempnam($this->getSfConfig('sf_cache_dir'), 'export');
+        $zip = new ZipArchive();
+        $zip->open($temp, ZipArchive::CREATE);
+        foreach ($i18nSources as $sourceFile => $xml) {
+            $zip->addFromString($sourceFile, $xml->asXML());
+        }
+        $zip->close();
+
+        return $temp;
+    }
+
+    /**
+     * Create associative array with relative source and SimpleXMLElement
+     * e.g. ['symfony/apps/orangehrm/i18n/messages.en_US.xml' => SimpleXMLElement]
+     *
+     * @param array $translations
+     * @param string $langCode
+     * @return array
+     */
+    public function getXliffGroupedBySources($translations, $langCode)
+    {
+        $i18nSources = [];
+        foreach ($translations as $translation) {
+            if ($translation instanceof I18NTranslate) {
+                $id = $translation->getI18NLangString()->getUnitId();
+                $source = $translation->getI18NLangString()->getValue();
+                $target = $translation->getValue();
+                $sourceFile = $this->generateTargetRelativeSource(
+                    $translation->getI18NLangString()->getI18NSource()->getSource(),
+                    $langCode
+                );
+
+                if (!isset($i18nSources[$sourceFile])) {
+                    $i18nSources[$sourceFile] = $this->getXliffXml($langCode);
+                }
+                $xml = $i18nSources[$sourceFile];
+                $body = $xml->xpath('//body')[0];
+                $node = $body->addChild('trans-unit');
+                $node->addAttribute('id', $id);
+                $node->addChild('source', htmlspecialchars($source));
+                $node->addChild('target', htmlspecialchars($target));
+            }
+        }
+        return $i18nSources;
+    }
+
+    /**
+     * Generate relative path to target language (with respect to messages.zz_ZZ.xml)
+     *
+     * @param string $sourceFile
+     * @param string $langCode
+     * @return string
+     */
+    public function generateTargetRelativeSource(string $sourceFile, string $langCode)
+    {
+        $devFile = sprintf('messages.%s.xml', self::DEV_LANG_PACK);
+        $targetFile = sprintf('messages.%s.xml', $langCode);
+        return str_replace($devFile, $targetFile, $sourceFile);
+    }
+
+    /**
+     * @param string $name
+     * @return string|null
+     */
+    public function getSfConfig(string $name)
+    {
+        return sfConfig::get($name);
+    }
+
+    /**
+     * Get XLIFF skeleton to add trans-units
+     *
+     * @param string $langCode
+     * @return SimpleXMLElement
+     */
+    public function getXliffXml(string $langCode)
+    {
+        $date = new DateTime();
+        $xml = new SimpleXMLElement(
+            '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"><xliff version="1.0"></xliff>'
+        );
+        $xml->addChild('header');
+        $file = $xml->addChild('file');
+        $file->addAttribute('source-language', 'en_US');
+        $file->addAttribute('target-language', $langCode);
+        $file->addAttribute('datatype', "xml");
+        $file->addAttribute('original', "messages");
+        $file->addAttribute('date', $date->format('Y-m-d-H-i-s'));
+        $file->addAttribute('product-name', "messages");
+        $file->addChild('body');
+        return $xml;
+    }
 }
