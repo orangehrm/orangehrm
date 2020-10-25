@@ -45,6 +45,7 @@ class saveLanguageCustomizationAction extends baseAdminAction
                 if (!empty($changedTranslatedTexts)) {
                     $this->getI18NService()->saveTranslations($changedTranslatedTexts);
                     $this->getI18NService()->markLanguageAsModified($language->getCode());
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS), true);
                 }
             } else {
                 $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), true);

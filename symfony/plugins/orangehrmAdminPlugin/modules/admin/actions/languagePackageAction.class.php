@@ -35,6 +35,7 @@ class languagePackageAction extends baseAdminAction
             if ($this->form->isValid()) {
                 $langCode = $this->form->getValue('name');
                 $this->getI18NService()->markLanguageAsAdded($langCode);
+                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS), true);
             } else {
                 $this->getUser()->setFlash('form.warning', __(TopLevelMessages::VALIDATION_FAILED), true);
                 $this->handleBadRequest();
