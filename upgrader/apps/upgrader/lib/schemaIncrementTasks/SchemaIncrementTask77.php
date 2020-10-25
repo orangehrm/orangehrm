@@ -92,13 +92,16 @@ class SchemaIncrementTask77 extends SchemaIncrementTask
         $sql[] = "INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
 ('Language Packages', @admin_module_id, 'languagePackage'),
 ('Language Customization', @admin_module_id, 'languageCustomization'),
-('Save Language Customization', @admin_module_id, 'saveLanguageCustomization');";
+('Save Language Customization', @admin_module_id, 'saveLanguageCustomization'),
+('Export Language Package', @admin_module_id, 'exportLanguagePackage');";
 
         $sql[] = "SET @language_packages_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Language Packages');";
 
         $sql[] = "SET @language_customization_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Language Customization');";
 
         $sql[] = "SET @save_language_customization_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Save Language Customization');";
+
+        $sql[] = "SET @export_language_package_screen_id=(SELECT `id` FROM `ohrm_screen` WHERE `name`='Export Language Package');";
 
         $sql[] = "SET @admin_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Admin' AND `level` = 1);";
 
@@ -110,7 +113,8 @@ class SchemaIncrementTask77 extends SchemaIncrementTask
         $sql[] = "INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
 (@admin_role_id, @language_packages_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @language_customization_screen_id, 1, 1, 1, 0),
-(@admin_role_id, @save_language_customization_screen_id, 1, 1, 1, 0);";
+(@admin_role_id, @save_language_customization_screen_id, 1, 1, 1, 0),
+(@admin_role_id, @export_language_package_screen_id, 1, 1, 1, 0);";
 
         $sql[] = "INSERT INTO `ohrm_i18n_language` (`name`, `code`, `added`) VALUES
 ('Chinese (Simplified, China) - 中文（简体，中国）', 'zh_Hans_CN', 1),
