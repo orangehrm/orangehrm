@@ -71,4 +71,26 @@ $(document).ready(function () {
         }
         isTranslatedTextsChanged = true;
     });
+
+    $("#frmTranslateLanguageSearch").validate({
+        rules: {
+            'searchTranslationLanguage[sourceText]': {
+                maxlength: 250
+            },
+            'searchTranslationLanguage[translatedText]': {
+                maxlength: 250
+            },
+        },
+        messages: {
+            'searchTranslationLanguage[sourceText]': {
+                maxlength: lang_LengthExceeded
+            },
+            'searchTranslationLanguage[translatedText]': {
+                maxlength: lang_LengthExceeded
+            },
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
 });

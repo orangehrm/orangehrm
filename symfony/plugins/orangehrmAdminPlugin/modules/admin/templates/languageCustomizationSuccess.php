@@ -78,6 +78,7 @@ use_stylesheet(plugin_web_path('orangehrmAdminPlugin', 'css/languageCustomizatio
 <script>
     var lang_edit = "<?php echo __js("Edit"); ?>";
     var lang_save = "<?php echo __js("Save"); ?>";
+    var lang_LengthExceeded = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
 
     // Override global submitPage
     function submitPage(pageNumber) {

@@ -49,8 +49,8 @@ class SearchTranslationLanguageForm extends BaseForm
                 'group' => new sfValidatorChoice(
                     ['choices' => array_keys($this->getModules()), 'required' => false]
                 ),
-                'sourceText' => new sfValidatorString(['required' => false]),
-                'translatedText' => new sfValidatorString(['required' => false]),
+                'sourceText' => new sfValidatorString(['required' => false, 'max_length' => 250]),
+                'translatedText' => new sfValidatorString(['required' => false, 'max_length' => 250]),
                 'translated' => new sfValidatorChoice(
                     ['choices' => array_keys($this->getTranslatedChoices()), 'required' => false]
                 ),
