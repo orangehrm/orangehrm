@@ -27,7 +27,9 @@ $(document).ready(function () {
     });
 
     $('#btnCancel').click(function () {
-        location.reload();
+        // location.reload() caching textarea values on Firefox
+        // https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/1.5/Using_Firefox_1.5_caching
+        window.location = window.location;
     });
 
     function editTranslations() {

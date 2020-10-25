@@ -11,3 +11,7 @@
 .table-top-btn {
     display: none;
 }
+
+#resultTable td {
+    vertical-align: top
+}
