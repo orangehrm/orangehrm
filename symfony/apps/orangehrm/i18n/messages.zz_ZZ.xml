@@ -2,7 +2,7 @@
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
   <header/>
-  <file source-language="en_US" target-language="zz_ZZ" datatype="xml" original="messages" date="2020-10-21T03:56:39Z" product-name="messages">
+  <file source-language="en_US" target-language="zz_ZZ" datatype="xml" original="messages" date="2020-10-24T09:26:07Z" product-name="messages">
     <body>
       <trans-unit id="1" group="general" version="4.6-">
         <source>1M Max, any larger attachments will be ignored</source>
@@ -5702,7 +5702,7 @@
       </trans-unit>
       <trans-unit id="1140" group="leave" version="4.6-">
         <source>Should be a number with upto %count% decimal places</source>
-        <target>Should be a number with upto %count% decimal places</target>
+        <target>FR_Should be a number with upto %count% decimal places</target>
         <note>Don't translate %count%. It is a validation message which reminds the user to input a number with up to a certain number of decimal places.</note>
       </trans-unit>
       <trans-unit id="1141" group="leave" version="4.6-">
@@ -5798,12 +5798,12 @@
       </trans-unit>
       <trans-unit id="1160" group="performance" version="4.6-">
         <source>manage Performance Tracker Log</source>
-        <target>FR_Manage Performance Tracker Log</target>
+        <target>FR_manage Performance Tracker Log</target>
         <note>This feature allows the performance of employees to be logged and tracked throughout the year. Such tracking would be helpful during formal performance reviews for both employees and reviewers.</note>
       </trans-unit>
       <trans-unit id="1161" group="performance" version="4.6-">
         <source>log</source>
-        <target>FR_Log</target>
+        <target>FR_log</target>
         <note>Once a tracker is created, reviewers can add logs (comments about positive/negative performance) to the tracker.</note>
       </trans-unit>
       <trans-unit id="1162" group="general" version="4.6-">
@@ -5813,12 +5813,12 @@
       </trans-unit>
       <trans-unit id="1163" group="performance" version="4.6-">
         <source>available Reviewers</source>
-        <target>FR_Available Reviewers</target>
+        <target>FR_available Reviewers</target>
         <note>Relevant people who will be able to track employees performance.</note>
       </trans-unit>
       <trans-unit id="1164" group="performance" version="4.6-">
         <source>added Reviewers</source>
-        <target>FR_Assigned Reviewers</target>
+        <target>FR_added Reviewers</target>
         <note>Reviewers added for the tracker log.</note>
       </trans-unit>
       <trans-unit id="1165" group="performance" version="4.6-">
@@ -5832,12 +5832,12 @@
       </trans-unit>
       <trans-unit id="1167" group="performance" version="4.6-">
         <source>achievement</source>
-        <target>FR_Performance</target>
+        <target>FR_achievement</target>
         <note>The User can determine the work percentage achieved and indicate that in the progress bar in order to track the goal completion. , Performance-&gt;Goal-&gt;Add Goal</note>
       </trans-unit>
       <trans-unit id="1168" group="performance" version="4.6-">
         <source>invalid name</source>
-        <target>FR_Invalid Employee Name</target>
+        <target>FR_invalid name</target>
         <note>This error message appears when a not allowable name (Unacceptable) is added in the system.</note>
       </trans-unit>
       <trans-unit id="1169" group="performance" version="4.6-">
@@ -5847,7 +5847,7 @@
       </trans-unit>
       <trans-unit id="1170" group="performance" version="4.6-">
         <source>Achievement</source>
-        <target>FR_Performance</target>
+        <target>FR_Achievement</target>
         <note>Tracking Goal Achievement by determining the work percentage achieved and indicated in the progress bar</note>
       </trans-unit>
       <trans-unit id="1171" group="performance" version="4.6-">
@@ -5874,7 +5874,7 @@
       </trans-unit>
       <trans-unit id="1175" group="performance" version="4.6-">
         <source>Performance Trackers List</source>
-        <target>FR_Performance Trackers</target>
+        <target>FR_Performance Trackers List</target>
         <note>The Admin can then enter a Tracker Name, select Employee who will be tracked, and then pick the relevant reviewers who will be able to track that employees performance.Click on Save to save the performance tracker list.</note>
       </trans-unit>
       <trans-unit id="1176" group="performance" version="4.6-">
@@ -8686,1209 +8686,1203 @@
         <note>Global Admin views the review status and the progress of the Performance review</note>
       </trans-unit>
       <trans-unit id="1741" group="performance" version="4.6-">
-        <source>Review Details</source>
-        <target>FR_Review Details</target>
-        <note>All Evaluator ratings against competencies, goals by an individual evaluator</note>
-      </trans-unit>
-      <trans-unit id="1742" group="performance" version="4.6-">
         <source>Employee Reviewer</source>
         <target>FR_Employee Reviewer</target>
         <note>Relevant people who will be able to track employees performance.</note>
       </trans-unit>
-      <trans-unit id="1743" group="performance" version="4.6-">
+      <trans-unit id="1742" group="performance" version="4.6-">
         <source>Key Performance Indicators for Job Title</source>
         <target>FR_Key Performance Indicators for Job Title</target>
         <note>You may enter multiple entries of KPIs for different Job titles.</note>
       </trans-unit>
-      <trans-unit id="1744" group="performance" version="4.6-">
+      <trans-unit id="1743" group="performance" version="4.6-">
         <source>Minimum Rating</source>
         <target>FR_Minimum Rating</target>
         <note>Rate the employee based on the KPI with the assigned Min rate</note>
       </trans-unit>
-      <trans-unit id="1745" group="performance" version="4.6-">
+      <trans-unit id="1744" group="performance" version="4.6-">
         <source>Maximum Rating</source>
         <target>FR_Maximum Rating</target>
         <note>Maximum rating that can be given for a particular KPI</note>
       </trans-unit>
-      <trans-unit id="1746" group="performance" version="4.6-">
+      <trans-unit id="1745" group="performance" version="4.6-">
         <source>Make Default Scale</source>
         <target>FR_Make Default Scale</target>
         <note>If you select “Make Default Scale” the defined minimum and maximum rating will be pre-populated for all KPIs added in the future.</note>
       </trans-unit>
-      <trans-unit id="1747" group="performance" version="4.6-">
+      <trans-unit id="1746" group="performance" version="4.6-">
         <source>Inactive</source>
         <target>FR_Inactive</target>
         <note>Many application forms can be created for a particular vacancy, but only one is active at a time, others are inactive.</note>
       </trans-unit>
-      <trans-unit id="1748" group="performance" version="4.6-">
+      <trans-unit id="1747" group="performance" version="4.6-">
         <source>Activated</source>
         <target>FR_Activated</target>
         <note>Your performance appraisal a certain time period has been activated.The Email is sent to the employee who is being reviewed (if self-review is activated):</note>
       </trans-unit>
-      <trans-unit id="1749" group="performance" version="4.6-">
+      <trans-unit id="1748" group="performance" version="4.6-">
         <source>Employee cannot be a reviewer in another category</source>
         <target>FR_Employee cannot be a reviewer in another category</target>
         <note>If an employee selected as a Main evaluator for a certain appraisal, the same person can not be assigned as a peer/supervisor to that.</note>
       </trans-unit>
-      <trans-unit id="1750" group="performance" version="4.6-">
+      <trans-unit id="1749" group="performance" version="4.6-">
         <source>Cannot add same person as a reviewer multiple times</source>
         <target>FR_Cannot add same person as a reviewer multiple times</target>
         <note>It is a validation message that appears when we try to add same reviewer for multiple appraisals/evaluations.</note>
       </trans-unit>
-      <trans-unit id="1751" group="performance" version="4.6-">
+      <trans-unit id="1750" group="performance" version="4.6-">
         <source>Cannot activate review without reviewers</source>
         <target>FR_Cannot activate review without reviewers</target>
         <note>it is a validation message that appears when we try to active an employee review without selecting reviewers</note>
       </trans-unit>
-      <trans-unit id="1752" group="performance" version="4.6-">
+      <trans-unit id="1751" group="performance" version="4.6-">
         <source>End date should be after Start date</source>
         <target>FR_End date should be after Start date</target>
         <note>When viewing the leave list of employees, make sure the to date should be after the from date, if not this error message will be displayed.</note>
       </trans-unit>
-      <trans-unit id="1753" group="performance" version="4.6-">
+      <trans-unit id="1752" group="performance" version="4.6-">
         <source>Cannot activate review without KPIs</source>
         <target>FR_Cannot activate review without KPIs</target>
         <note>it is a validation message that appears when we try to active an employee review without selecting KPIs</note>
       </trans-unit>
-      <trans-unit id="1754" group="general" version="4.6-">
+      <trans-unit id="1753" group="general" version="4.6-">
         <source>Select either job title or department</source>
         <target>FR_Select either job title or department</target>
         <note>It is a user friendly text which asked the user to select either job title or department</note>
       </trans-unit>
-      <trans-unit id="1755" group="general" version="4.6-">
+      <trans-unit id="1754" group="general" version="4.6-">
         <source>Type for hints...</source>
         <target>FR_Type for hints...</target>
         <note>Type the first few letters of the text you are searching for and then intended text can be selected from the drop-down menu.</note>
       </trans-unit>
-      <trans-unit id="1756" group="general" version="4.6-">
+      <trans-unit id="1755" group="general" version="4.6-">
         <source>Selected groups will  be deleted</source>
         <target>FR_Selected groups will  be deleted</target>
       </trans-unit>
-      <trans-unit id="1757" group="general" version="4.6-">
+      <trans-unit id="1756" group="general" version="4.6-">
         <source>Should be a valid number</source>
         <target>FR_Should be a valid number</target>
         <note>It is a validation message which says it should be a valid number</note>
       </trans-unit>
-      <trans-unit id="1758" group="performance" version="4.6-">
+      <trans-unit id="1757" group="performance" version="4.6-">
         <source>Evaluation by Supervisors</source>
         <target>FR_Evaluation by Supervisors</target>
         <note>Perform an employee evaluation by a supervisor of that employee</note>
       </trans-unit>
-      <trans-unit id="1759" group="general" version="4.6-">
+      <trans-unit id="1758" group="general" version="4.6-">
         <source>Should be greater than %number%</source>
         <target>FR_Should be greater than %number%</target>
         <note>Don't translate %number%. It is a validation message which reminds the user to input an number greater than a certain number.</note>
       </trans-unit>
-      <trans-unit id="1760" group="general" version="4.6-">
+      <trans-unit id="1759" group="general" version="4.6-">
         <source>Should be less than %number%</source>
         <target>FR_Should be less than %number%</target>
         <note>Don't translate %number%. It is a validation message which reminds the user to input an number less than a certain number.</note>
       </trans-unit>
-      <trans-unit id="1761" group="performance" version="4.6-">
+      <trans-unit id="1760" group="performance" version="4.6-">
         <source>Rating should be less than or equal to %number%</source>
         <target>FR_Rating should be less than or equal to %number%</target>
         <note>Don't translate %number%.</note>
       </trans-unit>
-      <trans-unit id="1762" group="performance" version="4.6-">
+      <trans-unit id="1761" group="performance" version="4.6-">
         <source>Max rating should be greater than Min rating</source>
         <target>FR_Max rating should be greater than Min rating</target>
         <note>It is a validation message that appears when we assign a Max rate lesser than Min rate</note>
       </trans-unit>
-      <trans-unit id="1763" group="performance" version="4.6-">
+      <trans-unit id="1762" group="performance" version="4.6-">
         <source>Overall Rating : </source>
         <target>FR_Overall Rating : </target>
       </trans-unit>
-      <trans-unit id="1764" group="performance" version="4.6-">
+      <trans-unit id="1763" group="performance" version="4.6-">
         <source>Cannot activate review for employees who doesn't have Job Title and/or Sub-Division</source>
         <target>FR_Cannot activate review for employees who doesn't have Job Title and/or Sub-Division</target>
         <note>It is a validation message that appears when we try to active an employee review without selecting atleast the job title,sub division or both.</note>
       </trans-unit>
-      <trans-unit id="1765" group="performance" version="4.6-">
+      <trans-unit id="1764" group="performance" version="4.6-">
         <source>The review will be made read-only after completion.</source>
         <target>FR_The review will be made read-only after completion.</target>
       </trans-unit>
-      <trans-unit id="1766" group="performance" version="4.6-">
+      <trans-unit id="1765" group="performance" version="4.6-">
         <source>This action cannot be undone.</source>
         <target>FR_This action cannot be undone.</target>
         <note>This is a warning message which says if the user triggers a certain action, it can not be undone</note>
       </trans-unit>
-      <trans-unit id="1767" group="performance" version="4.6-">
+      <trans-unit id="1766" group="performance" version="4.6-">
         <source>Are you sure you want to continue?</source>
         <target>FR_Are you sure you want to continue?</target>
         <note>It is a confirmation message which asks whether you want to continue the process.</note>
       </trans-unit>
-      <trans-unit id="1768" group="performance" version="4.6-">
+      <trans-unit id="1767" group="performance" version="4.6-">
         <source>Peer Evaluation Form</source>
         <target>FR_Peer Evaluation Form</target>
         <note>For the peer to evaluate employee appraisal form, go to Performance&gt;&gt; Appraisals&gt;&gt;Employee Appraisals&gt;&gt;go to a particular record and select the “evaluate”</note>
       </trans-unit>
-      <trans-unit id="1769" group="performance" version="4.6-">
+      <trans-unit id="1768" group="performance" version="4.6-">
         <source>Rating should be less than or equal to </source>
         <target>FR_Rating should be less than or equal to </target>
       </trans-unit>
-      <trans-unit id="1770" group="performance" version="4.6-">
+      <trans-unit id="1769" group="performance" version="4.6-">
         <source>Rating should be greater than or equal to </source>
         <target>FR_Rating should be greater than or equal to </target>
       </trans-unit>
-      <trans-unit id="1771" group="performance" version="4.6-">
+      <trans-unit id="1770" group="performance" version="4.6-">
         <source>In Progress</source>
         <target>FR_In Progress</target>
         <note>When an employee performs a self-evaluation, status of the appraisal will be in progress until it is submitted.</note>
       </trans-unit>
-      <trans-unit id="1772" group="performance" version="4.6-">
+      <trans-unit id="1771" group="performance" version="4.6-">
         <source>OrangeHRM - Information</source>
         <target>FR_OrangeHRM - Information</target>
         <note>General information of the OrangeHRM company</note>
       </trans-unit>
-      <trans-unit id="1773" group="performance" version="4.6-">
+      <trans-unit id="1772" group="performance" version="4.6-">
         <source>Employee Evaluation Form</source>
         <target>FR_Employee Evaluation Form</target>
         <note>Reviewing an employee's performance in an appraisal form by evaluator groups.</note>
       </trans-unit>
-      <trans-unit id="1774" group="performance" version="4.6-">
+      <trans-unit id="1773" group="performance" version="4.6-">
         <source>Completed</source>
         <target>FR_Completed</target>
         <note>The performance appraisal for a certain time period for an Employee has been completed.</note>
       </trans-unit>
-      <trans-unit id="1775" group="performance" version="4.6-">
+      <trans-unit id="1774" group="performance" version="4.6-">
         <source>Should be a positive value</source>
         <target>FR_Should be a positive value</target>
       </trans-unit>
-      <trans-unit id="1776" group="performance" version="4.6-">
+      <trans-unit id="1775" group="performance" version="4.6-">
         <source>Subordinate Evaluation Form</source>
         <target>FR_Subordinate Evaluation Form</target>
         <note>Needs to evaluate subordinate appraisals by his supervisor as the evaluator</note>
       </trans-unit>
-      <trans-unit id="1777" group="performance" version="4.6-">
+      <trans-unit id="1776" group="performance" version="4.6-">
         <source>Supervisor Evaluation Form</source>
         <target>FR_Supervisor Evaluation Form</target>
         <note>Reviewing an employee's performance in an appraisal form by supervisors.</note>
       </trans-unit>
-      <trans-unit id="1778" group="performance" version="4.6-">
+      <trans-unit id="1777" group="performance" version="4.6-">
         <source>Evaluation by Supervisor</source>
         <target>FR_Evaluation by Supervisor</target>
         <note>Perform an employee evaluation by a supervisor of that employee</note>
       </trans-unit>
-      <trans-unit id="1779" group="performance" version="4.6-">
+      <trans-unit id="1778" group="performance" version="4.6-">
         <source>Evaluation by Peer</source>
         <target>FR_Evaluation by Peer</target>
         <note>Perform an employee evaluation by a person who is equal to him in working abilities.(same position)</note>
       </trans-unit>
-      <trans-unit id="1780" group="performance" version="4.6-">
+      <trans-unit id="1779" group="performance" version="4.6-">
         <source>Peer</source>
         <target>FR_Peer</target>
         <note>Someone at your own level in the organization</note>
       </trans-unit>
-      <trans-unit id="1781" group="performance" version="4.6-">
+      <trans-unit id="1780" group="performance" version="4.6-">
         <source>Evaluation by Subordinates</source>
         <target>FR_Evaluation by Subordinates</target>
         <note>Perform an employee evaluation by a subordinate of that employee</note>
       </trans-unit>
-      <trans-unit id="1782" group="performance" version="4.6-">
+      <trans-unit id="1781" group="performance" version="4.6-">
         <source>Evaluation by Peers</source>
         <target>FR_Evaluation by Peers</target>
         <note>Perform an employee evaluation by a person who is equal to him in working abilities.(same position)</note>
       </trans-unit>
-      <trans-unit id="1783" group="performance" version="4.6-">
+      <trans-unit id="1782" group="performance" version="4.6-">
         <source>Supervisor Reviewer</source>
         <target>FR_Supervisor Reviewer</target>
       </trans-unit>
-      <trans-unit id="1784" group="performance" version="4.6-">
+      <trans-unit id="1783" group="performance" version="4.6-">
         <source>General Comment : </source>
         <target>FR_General Comment : </target>
       </trans-unit>
-      <trans-unit id="1785" group="performance" version="4.6-">
+      <trans-unit id="1784" group="performance" version="4.6-">
         <source>Final Comment</source>
         <target>FR_Final Comment</target>
       </trans-unit>
-      <trans-unit id="1786" group="performance" version="4.6-">
+      <trans-unit id="1785" group="performance" version="4.6-">
         <source>Finalization</source>
         <target>FR_Finalization</target>
       </trans-unit>
-      <trans-unit id="1787" group="performance" version="4.6-">
+      <trans-unit id="1786" group="performance" version="4.6-">
         <source>Invalid Supervisor</source>
         <target>FR_Invalid Supervisor</target>
       </trans-unit>
-      <trans-unit id="1788" group="time" version="4.6-">
+      <trans-unit id="1787" group="time" version="4.6-">
         <source>View Attendance Record</source>
         <target>FR_View Attendance Record</target>
         <note>Admin can run a report to view all attendance records (punch in/punch out)of employees</note>
       </trans-unit>
-      <trans-unit id="1789" group="time" version="4.6-">
+      <trans-unit id="1788" group="time" version="4.6-">
         <source>Punch In</source>
         <target>FR_Punch In</target>
         <note>This feature allows capturing the date and time that an employee reports to work</note>
       </trans-unit>
-      <trans-unit id="1790" group="time" version="4.6-">
+      <trans-unit id="1789" group="time" version="4.6-">
         <source>Punch In Note</source>
         <target>FR_Punch In Note</target>
         <note>This helps adding a small description of why the employee was not punctual on that day or why came early to office.</note>
       </trans-unit>
-      <trans-unit id="1791" group="time" version="4.6-">
+      <trans-unit id="1790" group="time" version="4.6-">
         <source>Punch Out</source>
         <target>FR_Punch Out</target>
         <note>This feature allows capturing the date and time that an employee leaves office after finishing work.</note>
       </trans-unit>
-      <trans-unit id="1792" group="time" version="4.6-">
+      <trans-unit id="1791" group="time" version="4.6-">
         <source>Punch Out Note</source>
         <target>FR_Punch Out Note</target>
         <note>This helps adding a small description of why the employee stayed late on that day or why leaving office early</note>
       </trans-unit>
-      <trans-unit id="1793" group="time" version="4.6-">
+      <trans-unit id="1792" group="time" version="4.6-">
         <source>No attendance records to display</source>
         <target>FR_No attendance records to display</target>
         <note>This message appears when there is no attendance records to display</note>
       </trans-unit>
-      <trans-unit id="1794" group="time" version="4.6-">
+      <trans-unit id="1793" group="time" version="4.6-">
         <source>Punch out Time Should Be Higher Than Punch in Time</source>
         <target>FR_Punch out Time Should Be Higher Than Punch in Time</target>
         <note>When adding the “Time” for both punch in/out, make sure the punch out time should be higher than the punch in time.</note>
       </trans-unit>
-      <trans-unit id="1795" group="time" version="4.6-">
+      <trans-unit id="1794" group="time" version="4.6-">
         <source>Overlapping Records Found</source>
         <target>FR_Overlapping Records Found</target>
         <note>To avoid the leave overlaps with other employees, when applying a leave an employee should be able to check the availability of others of same division subunit)</note>
       </trans-unit>
-      <trans-unit id="1796" group="time" version="4.6-">
+      <trans-unit id="1795" group="time" version="4.6-">
         <source>Comment should be less than 250 characters</source>
         <target>FR_Comment should be less than 250 characters</target>
         <note>The note that is adding can be up to 250 characters maximum</note>
       </trans-unit>
-      <trans-unit id="1797" group="time" version="4.6-">
+      <trans-unit id="1796" group="time" version="4.6-">
         <source>Punch in/out note</source>
         <target>FR_Punch in/out note</target>
         <note>This helps adding a small description to state a valid reason about his arrival or departure</note>
       </trans-unit>
-      <trans-unit id="1798" group="time" version="4.6-">
+      <trans-unit id="1797" group="time" version="4.6-">
         <source>Timezone</source>
         <target>FR_Timezone</target>
         <note>Time Zones are a geographical world globe division of 15o each, starting at Greenwich, in England, created to help people know what time is it now in another part of the world.</note>
       </trans-unit>
-      <trans-unit id="1799" group="time" version="4.6-">
+      <trans-unit id="1798" group="time" version="4.6-">
         <source>Last punch in time</source>
         <target>FR_Last punch in time</target>
         <note>When monitoring attendance records, the employee last punch in time is considered</note>
       </trans-unit>
-      <trans-unit id="1800" group="time" version="4.6-">
+      <trans-unit id="1799" group="time" version="4.6-">
         <source>In</source>
         <target>FR_In</target>
       </trans-unit>
-      <trans-unit id="1801" group="time" version="4.6-">
+      <trans-unit id="1800" group="time" version="4.6-">
         <source>Out</source>
         <target>FR_Out</target>
         <note>Enter punch in/out time</note>
       </trans-unit>
-      <trans-unit id="1802" group="time" version="4.6-">
+      <trans-unit id="1801" group="time" version="4.6-">
         <source>Attendance Configuration</source>
         <target>FR_Attendance Configuration</target>
         <note>The admin can select what privileges the employees and supervisors will have on the punch in/out and attendance. For configuration, go to Time&gt;&gt; Attendance&gt;&gt; Configuration.</note>
       </trans-unit>
-      <trans-unit id="1803" group="time" version="4.6-">
+      <trans-unit id="1802" group="time" version="4.6-">
         <source>Employee can change current time when punching in/out</source>
         <target>FR_Employee can change current time when punching in/out</target>
         <note>The “Time” for both punch in/out could be changed otherwise the system will automatically capture the “system time”.</note>
       </trans-unit>
-      <trans-unit id="1804" group="time" version="4.6-">
+      <trans-unit id="1803" group="time" version="4.6-">
         <source>Employee can edit/delete own attendance records</source>
         <target>FR_Employee can edit/delete own attendance records</target>
         <note>If the HR Admin has configured the attendance settings the following options: “Edit” and “Delete could be seen and selected. To edit the record, click “Edit” and to delete the record, click on the check box beside the record and click “Delete”.</note>
       </trans-unit>
-      <trans-unit id="1805" group="time" version="4.6-">
+      <trans-unit id="1804" group="time" version="4.6-">
         <source>Supervisor can add/edit/delete attendance records of subordinates</source>
         <target>FR_Supervisor can add/edit/delete attendance records of subordinates</target>
         <note>Only if the user has assigned subordinates, the supervisor user role privileges will work like accessing to his/her subordinates and his/her subordinates particulars attendance information.&#13;&#13;</note>
       </trans-unit>
-      <trans-unit id="1806" group="time" version="4.6-">
+      <trans-unit id="1805" group="time" version="4.6-">
         <source>My Attendance Records</source>
         <target>FR_My Attendance Records</target>
         <note>View personal attendance records that are maintained and recorded under “Attendance” menu</note>
       </trans-unit>
-      <trans-unit id="1807" group="general" version="4.6-">
+      <trans-unit id="1806" group="general" version="4.6-">
         <source>You are not allowed to view this page</source>
         <target>FR_You are not allowed to view this page</target>
         <note>It is a restriction error message which strictly says that user do not have permission to view a page.</note>
       </trans-unit>
-      <trans-unit id="1808" group="time" version="4.6-">
+      <trans-unit id="1807" group="time" version="4.6-">
         <source>Add Attendance Records</source>
         <target>FR_Add Attendance Records</target>
         <note>Insert attendance-related records</note>
       </trans-unit>
-      <trans-unit id="1809" group="time" version="4.6-">
+      <trans-unit id="1808" group="time" version="4.6-">
         <source>Should Be a Valid Date in %format% Format</source>
         <target>FR_Should Be a Valid Date in %format% Format</target>
         <note>Don't translate %format%. It is a validation message which reminds the user to input a valid date with a certain date format.</note>
       </trans-unit>
-      <trans-unit id="1810" group="time" version="4.6-">
+      <trans-unit id="1809" group="time" version="4.6-">
         <source>Should Be a Valid Time in %format% Format</source>
         <target>FR_Should Be a Valid Time in %format% Format</target>
         <note>Don't translate %format%. It is a validation message which reminds the user to input a valid time with a certain time format.</note>
       </trans-unit>
-      <trans-unit id="1811" group="admin" version="4.6-">
+      <trans-unit id="1810" group="admin" version="4.6-">
         <source>Social Media Authentication</source>
         <target>FR_Social Media Authentication</target>
       </trans-unit>
-      <trans-unit id="1812" group="admin" version="4.6-">
+      <trans-unit id="1811" group="admin" version="4.6-">
         <source>Provider List</source>
         <target>FR_Provider List</target>
         <note>OpenID provider list</note>
       </trans-unit>
-      <trans-unit id="1813" group="admin" version="4.6-">
+      <trans-unit id="1812" group="admin" version="4.6-">
         <source>Provider Name</source>
         <target>FR_Provider Name</target>
         <note>To add a provider, click on Add. You will then be prompted to enter the Name and URL of your OpenID provider</note>
       </trans-unit>
-      <trans-unit id="1814" group="admin" version="4.6-">
+      <trans-unit id="1813" group="admin" version="4.6-">
         <source>Url</source>
         <target>FR_Url</target>
         <note>Unified Resource Locator..web address of a particular web site</note>
       </trans-unit>
-      <trans-unit id="1815" group="admin" version="4.6-">
+      <trans-unit id="1814" group="admin" version="4.6-">
         <source>OpenId</source>
         <target>FR_OpenId</target>
       </trans-unit>
-      <trans-unit id="1816" group="admin" version="4.6-">
+      <trans-unit id="1815" group="admin" version="4.6-">
         <source>Google</source>
         <target>FR_Google</target>
       </trans-unit>
-      <trans-unit id="1817" group="admin" version="4.6-">
+      <trans-unit id="1816" group="admin" version="4.6-">
         <source>Redirect Url</source>
         <target>FR_Redirect Url</target>
         <note>When configuring the OAuth providers, enter the ID, Secret and Redirect URL of your OAuth provider.</note>
       </trans-unit>
-      <trans-unit id="1818" group="admin" version="4.6-">
+      <trans-unit id="1817" group="admin" version="4.6-">
         <source>Client Id</source>
         <target>FR_Client Id</target>
         <note>"Configuration---&gt;Autherntication--&gt;Authentication type---&gt;Social Media---&gt;Add Provider type as Google&#13;
           (You need to specify this when configuring gmail authentication which enable you to get connected with orangehrm application.)"
         </note>
       </trans-unit>
-      <trans-unit id="1819" group="admin" version="4.6-">
+      <trans-unit id="1818" group="admin" version="4.6-">
         <source>Client Secret</source>
         <target>FR_Client Secret</target>
         <note>"Configuration---&gt;Autherntication--&gt;Authentication type---&gt;Social Media---&gt;Add Provider type as Google&#13;
           (You need to specify this when configuring gmail authentication which enable you to get connected with orangehrm application.)"
         </note>
       </trans-unit>
-      <trans-unit id="1820" group="admin" version="4.6-">
+      <trans-unit id="1819" group="admin" version="4.6-">
         <source>Developer Key</source>
         <target>FR_Developer Key</target>
       </trans-unit>
-      <trans-unit id="1821" group="general" version="4.6-">
+      <trans-unit id="1820" group="general" version="4.6-">
         <source>Alternative Login</source>
         <target>FR_Alternative Login</target>
         <note>Login to OrangeHRM using Open Id providers. Ex: Google OpenID</note>
       </trans-unit>
-      <trans-unit id="1822" group="general" version="4.6-">
+      <trans-unit id="1821" group="general" version="4.6-">
         <source>Login</source>
         <target>FR_Login</target>
         <note>User login could be created when adding employees under the PIM Module.</note>
       </trans-unit>
-      <trans-unit id="1823" group="admin" version="4.6-">
+      <trans-unit id="1822" group="admin" version="4.6-">
         <source>Add Provider</source>
         <target>FR_Add Provider</target>
         <note>To add a provider, click on Add. You will then be prompted to enter the Name and URL of your Open ID provider</note>
       </trans-unit>
-      <trans-unit id="1824" group="admin" version="4.6-">
+      <trans-unit id="1823" group="admin" version="4.6-">
         <source>Enable Directory module</source>
         <target>FR_Enable Directory module</target>
       </trans-unit>
-      <trans-unit id="1825" group="admin" version="4.6-">
+      <trans-unit id="1824" group="admin" version="4.6-">
         <source>Please Add the Organization name</source>
         <target>FR_Please Add the Organization name</target>
       </trans-unit>
-      <trans-unit id="1826" group="admin" version="4.6-">
+      <trans-unit id="1825" group="admin" version="4.6-">
         <source>Add Organization Name</source>
         <target>FR_Add Organization Name</target>
       </trans-unit>
-      <trans-unit id="1827" group="general" version="4.6-">
+      <trans-unit id="1826" group="general" version="4.6-">
         <source>User Account Not found</source>
         <target>FR_User Account Not found</target>
       </trans-unit>
-      <trans-unit id="1828" group="admin" version="4.6-">
+      <trans-unit id="1827" group="admin" version="4.6-">
         <source>API Documentation</source>
         <target>FR_API Documentation</target>
       </trans-unit>
-      <trans-unit id="1829" group="admin" version="4.6-">
+      <trans-unit id="1828" group="admin" version="4.6-">
         <source>PHP Sample App</source>
         <target>FR_PHP Sample App</target>
       </trans-unit>
-      <trans-unit id="1830" group="admin" version="4.6-">
+      <trans-unit id="1829" group="admin" version="4.6-">
         <source>Add OAuth Client</source>
         <target>FR_Add OAuth Client</target>
         <note>Allows configuring the OAuth providers by entering the ID, Secret and Redirect URL . This section should be enabled from the back end.&#13;
           When clicking on Admin&gt;&gt; Authentication &gt;&gt; OAuth
         </note>
       </trans-unit>
-      <trans-unit id="1831" group="admin" version="4.6-">
+      <trans-unit id="1830" group="admin" version="4.6-">
         <source>ID</source>
         <target>FR_ID</target>
       </trans-unit>
-      <trans-unit id="1832" group="admin" version="4.6-">
+      <trans-unit id="1831" group="admin" version="4.6-">
         <source>Secret</source>
         <target>FR_Secret</target>
         <note>Enter the ID, Secret and Redirect URL of your OAuth provider when configuring the OAuth providers</note>
       </trans-unit>
-      <trans-unit id="1833" group="admin" version="4.6-">
+      <trans-unit id="1832" group="admin" version="4.6-">
         <source>Redirect URI</source>
         <target>FR_Redirect URI</target>
         <note>When configuring the OAuth providers, enter the ID, Secret and Redirect URL of your OAuth provider.</note>
       </trans-unit>
-      <trans-unit id="1834" group="admin" version="4.6-">
+      <trans-unit id="1833" group="admin" version="4.6-">
         <source>Register OAuth Client</source>
         <target>FR_Register OAuth Client</target>
       </trans-unit>
-      <trans-unit id="1835" group="admin" version="4.6-">
+      <trans-unit id="1834" group="admin" version="4.6-">
         <source>Given Client ID Is Already In The Database</source>
         <target>FR_Given Client ID Is Already In The Database</target>
       </trans-unit>
-      <trans-unit id="1836" group="admin" version="4.6-">
+      <trans-unit id="1835" group="admin" version="4.6-">
         <source>OAuth Client Saved Successfully</source>
         <target>FR_OAuth Client Saved Successfully</target>
       </trans-unit>
-      <trans-unit id="1837" group="admin" version="4.6-">
+      <trans-unit id="1836" group="admin" version="4.6-">
         <source>OAuth Client List</source>
         <target>FR_OAuth Client List</target>
       </trans-unit>
-      <trans-unit id="1838" group="general" version="4.6-">
+      <trans-unit id="1837" group="general" version="4.6-">
         <source>The password is too weak.</source>
         <target>FR_The password is too weak.</target>
       </trans-unit>
-      <trans-unit id="1839" group="general" version="4.6-">
+      <trans-unit id="1838" group="general" version="4.6-">
         <source>For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers</source>
         <target>FR_For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers</target>
       </trans-unit>
-      <trans-unit id="1840" group="general" version="4.6-">
+      <trans-unit id="1839" group="general" version="4.6-">
         <source>Your password meets the minimum requirements, but it could be guessable. Try a different password.</source>
         <target>FR_Your password meets the minimum requirements, but it could be guessable. Try a different password.</target>
       </trans-unit>
-      <trans-unit id="1841" group="general" version="4.6-">
+      <trans-unit id="1840" group="general" version="4.6-">
         <source>Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.</source>
         <target>FR_Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.</target>
       </trans-unit>
-      <trans-unit id="1842" group="leave" version="4.6-">
+      <trans-unit id="1841" group="leave" version="4.6-">
         <source>Should not be more than 10000</source>
         <target>FR_Should not be more than 10000</target>
       </trans-unit>
-      <trans-unit id="1843" group="general" version="4.6-">
+      <trans-unit id="1842" group="general" version="4.6-">
         <source>Employee does not exist</source>
         <target>FR_Employee does not exist</target>
       </trans-unit>
-      <trans-unit id="1844" group="admin" version="4.6-">
+      <trans-unit id="1843" group="admin" version="4.6-">
         <source>Work Hours</source>
         <target>FR_Work Hours</target>
         <note>It is capturing the number of hours an employee spends working for the company</note>
       </trans-unit>
-      <trans-unit id="1845" group="leave" version="4.6-">
+      <trans-unit id="1844" group="leave" version="4.6-">
         <source>Leave Entitlements</source>
         <target>FR_Leave Entitlements</target>
         <note>This feature enables the HR Admin with admin rights to Add and View Leave Entitlements for each leave type for all employees.</note>
       </trans-unit>
-      <trans-unit id="1846" group="maintenance" version="4.6-">
+      <trans-unit id="1845" group="maintenance" version="4.6-">
         <source>Maintenance</source>
         <target>FR_Maintenance</target>
       </trans-unit>
-      <trans-unit id="1847" group="maintenance" version="4.6-">
+      <trans-unit id="1846" group="maintenance" version="4.6-">
         <source>Purge Employee Records</source>
         <target>FR_Purge Employee Records</target>
       </trans-unit>
-      <trans-unit id="1848" group="maintenance" version="4.6-">
+      <trans-unit id="1847" group="maintenance" version="4.6-">
         <source>Purge Records</source>
         <target>FR_Purge Records</target>
       </trans-unit>
-      <trans-unit id="1849" group="maintenance" version="4.6-">
+      <trans-unit id="1848" group="maintenance" version="4.6-">
         <source>Access Records</source>
         <target>FR_Access Records</target>
       </trans-unit>
-      <trans-unit id="1850" group="maintenance" version="4.6-">
+      <trans-unit id="1849" group="maintenance" version="4.6-">
         <source>Verify Password</source>
         <target>FR_Verify Password</target>
       </trans-unit>
-      <trans-unit id="1851" group="maintenance" version="4.6-">
+      <trans-unit id="1850" group="maintenance" version="4.6-">
         <source>Verify</source>
         <target>FR_Verify</target>
       </trans-unit>
-      <trans-unit id="1852" group="maintenance" version="4.6-">
+      <trans-unit id="1851" group="maintenance" version="4.6-">
         <source>Select Terminated Employee</source>
         <target>FR_Select Terminated Employee</target>
       </trans-unit>
-      <trans-unit id="1853" group="maintenance" version="4.6-">
+      <trans-unit id="1852" group="maintenance" version="4.6-">
         <source>Purge Candidate Records</source>
-        <target>FR_Select Candidate Employee</target>
+        <target>FR_Purge Candidate Records</target>
       </trans-unit>
-      <trans-unit id="1854" group="maintenance" version="4.6-">
+      <trans-unit id="1853" group="maintenance" version="4.6-">
         <source>Select Vacancy</source>
         <target>FR_Select Vacancy</target>
       </trans-unit>
-      <trans-unit id="1855" group="maintenance" version="4.6-">
+      <trans-unit id="1854" group="maintenance" version="4.6-">
         <source>Download Personal Data</source>
         <target>FR_Download Personal Data</target>
       </trans-unit>
-      <trans-unit id="1856" group="maintenance" version="4.6-">
+      <trans-unit id="1855" group="maintenance" version="4.6-">
         <source>Selected Employee</source>
         <target>FR_Selected Employee</target>
       </trans-unit>
-      <trans-unit id="1857" group="maintenance" version="4.6-">
+      <trans-unit id="1856" group="maintenance" version="4.6-">
         <source>Purge</source>
         <target>FR_Purge</target>
       </trans-unit>
-      <trans-unit id="1858" group="maintenance" version="4.6-">
+      <trans-unit id="1857" group="maintenance" version="4.6-">
         <source>Purge Employee</source>
         <target>FR_Purge Employee</target>
       </trans-unit>
-      <trans-unit id="1859" group="maintenance" version="4.6-">
+      <trans-unit id="1858" group="maintenance" version="4.6-">
         <source>You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone.</source>
         <target>FR_You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone.</target>
       </trans-unit>
-      <trans-unit id="1860" group="maintenance" version="4.6-">
+      <trans-unit id="1859" group="maintenance" version="4.6-">
         <source>Download Employee Records?</source>
         <target>FR_Download Employee Records?</target>
       </trans-unit>
-      <trans-unit id="1861" group="maintenance" version="4.6-">
+      <trans-unit id="1860" group="maintenance" version="4.6-">
         <source>Selected Candidates</source>
         <target>FR_Selected Candidates</target>
       </trans-unit>
-      <trans-unit id="1862" group="maintenance" version="4.6-">
+      <trans-unit id="1861" group="maintenance" version="4.6-">
         <source>Date Of Applicant</source>
         <target>FR_Date Of Applicant</target>
       </trans-unit>
-      <trans-unit id="1863" group="maintenance" version="4.6-">
+      <trans-unit id="1862" group="maintenance" version="4.6-">
         <source>You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone.</source>
         <target>FR_You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone.</target>
       </trans-unit>
-      <trans-unit id="1864" group="maintenance" version="4.6-">
+      <trans-unit id="1863" group="maintenance" version="4.6-">
         <source>Access Data</source>
         <target>FR_Access Data</target>
       </trans-unit>
-      <trans-unit id="1865" group="general" version="4.6-">
+      <trans-unit id="1864" group="general" version="4.6-">
         <source>Please enter your username to identify your account to reset your password.</source>
         <target>FR_Please enter your username to identify your account to reset your password.</target>
       </trans-unit>
-      <trans-unit id="1866" group="general" version="4.6-">
+      <trans-unit id="1865" group="general" version="4.6-">
         <source>OrangeHRM Username</source>
         <target>FR_OrangeHRM Username</target>
       </trans-unit>
-      <trans-unit id="1867" group="general" version="4.6-">
+      <trans-unit id="1866" group="general" version="4.6-">
         <source>Expected format: admin@example.com.</source>
         <target>FR_Expected format: admin@example.com.</target>
       </trans-unit>
-      <trans-unit id="1868" group="general" version="4.6-">
+      <trans-unit id="1867" group="general" version="4.6-">
         <source>The username is invalid.</source>
         <target>FR_The username is invalid.</target>
       </trans-unit>
-      <trans-unit id="1869" group="general" version="4.6-">
+      <trans-unit id="1868" group="general" version="4.6-">
         <source>Forgot Your Password?</source>
         <target>FR_Forgot Your Password?</target>
       </trans-unit>
-      <trans-unit id="1870" group="general" version="4.6-">
+      <trans-unit id="1869" group="general" version="4.6-">
         <source>User account is not associated with an employee</source>
         <target>FR_User account is not associated with an employee</target>
       </trans-unit>
-      <trans-unit id="1871" group="general" version="4.6-">
+      <trans-unit id="1870" group="general" version="4.6-">
         <source>Please contact HR admin in order to reset the password</source>
         <target>FR_Please contact HR admin in order to reset the password</target>
       </trans-unit>
-      <trans-unit id="1872" group="general" version="4.6-">
+      <trans-unit id="1871" group="general" version="4.6-">
         <source>Work email is not set. Please contact HR admin in order to reset the password</source>
         <target>FR_Work email is not set. Please contact HR admin in order to reset the password</target>
       </trans-unit>
-      <trans-unit id="1873" group="general" version="4.6-">
+      <trans-unit id="1872" group="general" version="4.6-">
         <source>Password reset email could not be sent</source>
         <target>FR_Password reset email could not be sent</target>
       </trans-unit>
-      <trans-unit id="1874" group="general" version="4.6-">
+      <trans-unit id="1873" group="general" version="4.6-">
         <source>There is a password reset request already in the system.</source>
         <target>FR_There is a password reset request already in the system.</target>
       </trans-unit>
-      <trans-unit id="1875" group="general" version="4.6-">
+      <trans-unit id="1874" group="general" version="4.6-">
         <source>Could not find a user with given details</source>
         <target>FR_Could not find a user with given details</target>
       </trans-unit>
-      <trans-unit id="1876" group="general" version="4.6-">
+      <trans-unit id="1875" group="general" version="4.6-">
         <source>Reset Your Password?</source>
         <target>FR_Reset Your Password?</target>
       </trans-unit>
-      <trans-unit id="1877" group="general" version="4.6-">
+      <trans-unit id="1876" group="general" version="4.6-">
         <source>If you are sure that this is your account, please click Reset Password. We will send you an email to reset password.</source>
         <target>FR_If you are sure that this is your account, please click Reset Password. We will send you an email to reset password.</target>
       </trans-unit>
-      <trans-unit id="1878" group="general" version="4.6-">
+      <trans-unit id="1877" group="general" version="4.6-">
         <source>Username or email should be listed:</source>
         <target>FR_Username or email should be listed:</target>
       </trans-unit>
-      <trans-unit id="1879" group="general" version="4.6-">
+      <trans-unit id="1878" group="general" version="4.6-">
         <source>Reset Password</source>
         <target>FR_Reset Password</target>
       </trans-unit>
-      <trans-unit id="1880" group="general" version="4.6-">
+      <trans-unit id="1879" group="general" version="4.6-">
         <source>Enter A New Password</source>
         <target>FR_Enter A New Password</target>
       </trans-unit>
-      <trans-unit id="1881" group="general" version="4.6-">
+      <trans-unit id="1880" group="general" version="4.6-">
         <source>Instruction Sent !</source>
         <target>FR_Instruction Sent !</target>
       </trans-unit>
-      <trans-unit id="1882" group="general" version="4.6-">
+      <trans-unit id="1881" group="general" version="4.6-">
         <source>Instructions for resetting your password have been sent to </source>
         <target>FR_Instructions for resetting your password have been sent to </target>
       </trans-unit>
-      <trans-unit id="1883" group="general" version="4.6-">
+      <trans-unit id="1882" group="general" version="4.6-">
         <source>Successfully reset your password</source>
         <target>FR_Successfully reset your password</target>
       </trans-unit>
-      <trans-unit id="1884" group="general" version="4.6-">
+      <trans-unit id="1883" group="general" version="4.6-">
         <source>Go to Login Page</source>
         <target>FR_Go to Login Page</target>
       </trans-unit>
-      <trans-unit id="1885" group="general" version="4.6-">
+      <trans-unit id="1884" group="general" version="4.6-">
         <source>This link is expired, Please request again</source>
         <target>FR_This link is expired, Please request again</target>
       </trans-unit>
-      <trans-unit id="1886" group="marketplace" version="4.6-">
+      <trans-unit id="1885" group="marketplace" version="4.6-">
         <source>OrangeHRM - Prerequisites Verification</source>
         <target>FR_OrangeHRM - Prerequisites Verification</target>
       </trans-unit>
-      <trans-unit id="1887" group="marketplace" version="4.6-">
+      <trans-unit id="1886" group="marketplace" version="4.6-">
         <source>Successfully Renewed license.</source>
         <target>FR_Successfully Renewed license.</target>
       </trans-unit>
-      <trans-unit id="1888" group="marketplace" version="4.6-">
+      <trans-unit id="1887" group="marketplace" version="4.6-">
         <source>Renew Failed.</source>
         <target>FR_Renew Failed.</target>
       </trans-unit>
-      <trans-unit id="1889" group="pim" version="4.6-">
+      <trans-unit id="1888" group="pim" version="4.6-">
         <source>Successfully Subscribed</source>
         <target>FR_Successfully Subscribed</target>
       </trans-unit>
-      <trans-unit id="1890" group="pim" version="4.6-">
+      <trans-unit id="1889" group="pim" version="4.6-">
         <source>By subscribing you agree to receive periodic email updates from OrangeHRM.</source>
         <target>FR_By subscribing you agree to receive periodic email updates from OrangeHRM.</target>
       </trans-unit>
-      <trans-unit id="1891" group="general" version="4.6-">
+      <trans-unit id="1890" group="general" version="4.6-">
         <source>User has authentication!</source>
         <target>FR_User has authentication!</target>
       </trans-unit>
-      <trans-unit id="1892" group="general" version="4.6-">
+      <trans-unit id="1891" group="general" version="4.6-">
         <source>Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials</source>
         <target>FR_Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials</target>
       </trans-unit>
-      <trans-unit id="1893" group="general" version="4.6-">
+      <trans-unit id="1892" group="general" version="4.6-">
         <source>Employee is terminated</source>
         <target>FR_Employee is terminated</target>
       </trans-unit>
-      <trans-unit id="1894" group="general" version="4.6-">
+      <trans-unit id="1893" group="general" version="4.6-">
         <source>Employee not assigned</source>
         <target>FR_Employee not assigned</target>
       </trans-unit>
-      <trans-unit id="1895" group="general" version="4.6-">
+      <trans-unit id="1894" group="general" version="4.6-">
         <source>Account disabled</source>
         <target>FR_Account disabled</target>
       </trans-unit>
-      <trans-unit id="1896" group="marketplace" version="4.6-">
+      <trans-unit id="1895" group="marketplace" version="4.6-">
         <source>Marketplace</source>
         <target>FR_Marketplace</target>
       </trans-unit>
-      <trans-unit id="1897" group="marketplace" version="4.6-">
+      <trans-unit id="1896" group="marketplace" version="4.6-">
         <source>OrangeHRM Addons</source>
         <target>FR_OrangeHRM Addons</target>
       </trans-unit>
-      <trans-unit id="1898" group="marketplace" version="4.6-">
+      <trans-unit id="1897" group="marketplace" version="4.6-">
         <source>Installed</source>
         <target>FR_Installed</target>
       </trans-unit>
-      <trans-unit id="1899" group="marketplace" version="4.6-">
+      <trans-unit id="1898" group="marketplace" version="4.6-">
         <source>Uninstall</source>
         <target>FR_Uninstall</target>
       </trans-unit>
-      <trans-unit id="1900" group="marketplace" version="4.6-">
+      <trans-unit id="1899" group="marketplace" version="4.6-">
         <source>Update</source>
         <target>FR_Update</target>
       </trans-unit>
-      <trans-unit id="1901" group="marketplace" version="4.6-">
+      <trans-unit id="1900" group="marketplace" version="4.6-">
         <source>Install</source>
         <target>FR_Install</target>
       </trans-unit>
-      <trans-unit id="1902" group="marketplace" version="4.6-">
+      <trans-unit id="1901" group="marketplace" version="4.6-">
         <source>Request Renew</source>
         <target>FR_Request Renew</target>
       </trans-unit>
-      <trans-unit id="1903" group="marketplace" version="4.6-">
+      <trans-unit id="1902" group="marketplace" version="4.6-">
         <source>Renew</source>
         <target>FR_Renew</target>
       </trans-unit>
-      <trans-unit id="1904" group="marketplace" version="4.6-">
+      <trans-unit id="1903" group="marketplace" version="4.6-">
         <source>Requested</source>
         <target>FR_Requested</target>
       </trans-unit>
-      <trans-unit id="1905" group="marketplace" version="4.6-">
+      <trans-unit id="1904" group="marketplace" version="4.6-">
         <source>Renew Requested</source>
         <target>FR_Renew Requested</target>
       </trans-unit>
-      <trans-unit id="1906" group="marketplace" version="4.6-">
+      <trans-unit id="1905" group="marketplace" version="4.6-">
         <source>Request</source>
         <target>FR_Request</target>
       </trans-unit>
-      <trans-unit id="1907" group="marketplace" version="4.6-">
+      <trans-unit id="1906" group="marketplace" version="4.6-">
         <source>Are you sure you want to install this application and it's dependencies?</source>
         <target>FR_Are you sure you want to install this application and it's dependencies?</target>
       </trans-unit>
-      <trans-unit id="1908" group="marketplace" version="4.6-">
+      <trans-unit id="1907" group="marketplace" version="4.6-">
         <source>Request an add-on</source>
         <target>FR_Request an add-on</target>
       </trans-unit>
-      <trans-unit id="1909" group="marketplace" version="4.6-">
+      <trans-unit id="1908" group="marketplace" version="4.6-">
         <source>You are requesting to buy this add-on.</source>
         <target>FR_You are requesting to buy this add-on.</target>
       </trans-unit>
-      <trans-unit id="1910" group="marketplace" version="4.6-">
+      <trans-unit id="1909" group="marketplace" version="4.6-">
         <source>Please confirm your contact details. Your details will be forwarded to OrangeHRM sales representative.</source>
         <target>FR_Please confirm your contact details. Your details will be forwarded to OrangeHRM sales representative.</target>
       </trans-unit>
-      <trans-unit id="1911" group="marketplace" version="4.6-">
+      <trans-unit id="1910" group="marketplace" version="4.6-">
         <source>Contact Number</source>
         <target>FR_Contact Number</target>
       </trans-unit>
-      <trans-unit id="1912" group="buzz" version="4.6-">
+      <trans-unit id="1911" group="buzz" version="4.6-">
         <source>year</source>
         <target>FR_year</target>
       </trans-unit>
-      <trans-unit id="1913" group="buzz" version="4.6-">
+      <trans-unit id="1912" group="buzz" version="4.6-">
         <source>month</source>
         <target>FR_month</target>
       </trans-unit>
-      <trans-unit id="1914" group="buzz" version="4.6-">
+      <trans-unit id="1913" group="buzz" version="4.6-">
         <source>week</source>
         <target>FR_week</target>
       </trans-unit>
-      <trans-unit id="1915" group="buzz" version="4.6-">
+      <trans-unit id="1914" group="buzz" version="4.6-">
         <source>day</source>
         <target>FR_day</target>
       </trans-unit>
-      <trans-unit id="1916" group="buzz" version="4.6-">
+      <trans-unit id="1915" group="buzz" version="4.6-">
         <source>hour</source>
         <target>FR_hour</target>
       </trans-unit>
-      <trans-unit id="1917" group="buzz" version="4.6-">
+      <trans-unit id="1916" group="buzz" version="4.6-">
         <source>minute</source>
         <target>FR_minute</target>
       </trans-unit>
-      <trans-unit id="1918" group="buzz" version="4.6-">
+      <trans-unit id="1917" group="buzz" version="4.6-">
         <source>second</source>
         <target>FR_second</target>
       </trans-unit>
-      <trans-unit id="1919" group="buzz" version="4.6-">
+      <trans-unit id="1918" group="buzz" version="4.6-">
         <source>years</source>
         <target>FR_years</target>
       </trans-unit>
-      <trans-unit id="1920" group="buzz" version="4.6-">
+      <trans-unit id="1919" group="buzz" version="4.6-">
         <source>months</source>
         <target>FR_months</target>
       </trans-unit>
-      <trans-unit id="1921" group="buzz" version="4.6-">
+      <trans-unit id="1920" group="buzz" version="4.6-">
         <source>weeks</source>
         <target>FR_weeks</target>
       </trans-unit>
-      <trans-unit id="1922" group="buzz" version="4.6-">
+      <trans-unit id="1921" group="buzz" version="4.6-">
         <source>days</source>
         <target>FR_days</target>
       </trans-unit>
-      <trans-unit id="1923" group="buzz" version="4.6-">
+      <trans-unit id="1922" group="buzz" version="4.6-">
         <source>minutes</source>
         <target>FR_minutes</target>
       </trans-unit>
-      <trans-unit id="1924" group="buzz" version="4.6-">
+      <trans-unit id="1923" group="buzz" version="4.6-">
         <source>seconds</source>
         <target>FR_seconds</target>
       </trans-unit>
-      <trans-unit id="1925" group="buzz" version="4.6-">
+      <trans-unit id="1924" group="buzz" version="4.6-">
         <source>ago</source>
         <target>FR_ago</target>
       </trans-unit>
-      <trans-unit id="1926" group="buzz" version="4.6-">
+      <trans-unit id="1925" group="buzz" version="4.6-">
         <source>Just now</source>
         <target>FR_Just now</target>
       </trans-unit>
-      <trans-unit id="1927" group="buzz" version="4.6-">
+      <trans-unit id="1926" group="buzz" version="4.6-">
         <source>Clear all notifications</source>
         <target>FR_Clear all notifications</target>
       </trans-unit>
-      <trans-unit id="1928" group="buzz" version="4.6-">
+      <trans-unit id="1927" group="buzz" version="4.6-">
         <source>shared a post.</source>
         <target>FR_shared a post.</target>
       </trans-unit>
-      <trans-unit id="1929" group="buzz" version="4.6-">
+      <trans-unit id="1928" group="buzz" version="4.6-">
         <source>commented on your post.</source>
         <target>FR_commented on your post.</target>
       </trans-unit>
-      <trans-unit id="1930" group="buzz" version="4.6-">
+      <trans-unit id="1929" group="buzz" version="4.6-">
         <source>liked to a post you shared.</source>
         <target>FR_liked to a post you shared.</target>
       </trans-unit>
-      <trans-unit id="1931" group="buzz" version="4.6-">
+      <trans-unit id="1930" group="buzz" version="4.6-">
         <source>liked to your comment.</source>
         <target>FR_liked to your comment.</target>
       </trans-unit>
-      <trans-unit id="1932" group="buzz" version="4.6-">
+      <trans-unit id="1931" group="buzz" version="4.6-">
         <source>shared your post.</source>
         <target>FR_shared your post.</target>
       </trans-unit>
-      <trans-unit id="1933" group="buzz" version="4.6-">
+      <trans-unit id="1932" group="buzz" version="4.6-">
         <source>No new notifications</source>
         <target>FR_No new notifications</target>
       </trans-unit>
-      <trans-unit id="1934" group="buzz" version="4.6-">
+      <trans-unit id="1933" group="buzz" version="4.6-">
         <source>Failed to clear notifications</source>
         <target>FR_Failed to clear notifications</target>
       </trans-unit>
-      <trans-unit id="1935" group="buzz" version="4.6-">
+      <trans-unit id="1934" group="buzz" version="4.6-">
         <source>Update Status</source>
         <target>FR_Update Status</target>
       </trans-unit>
-      <trans-unit id="1936" group="buzz" version="4.6-">
+      <trans-unit id="1935" group="buzz" version="4.6-">
         <source>Upload Images</source>
         <target>FR_Upload Images</target>
         <note>Upload an image with an acceptable format in order to give pictorial representation about it.</note>
       </trans-unit>
-      <trans-unit id="1937" group="buzz" version="4.6-">
+      <trans-unit id="1936" group="buzz" version="4.6-">
         <source>Share Video</source>
         <target>FR_Share Video</target>
         <note>Share video in Orange buzz</note>
       </trans-unit>
-      <trans-unit id="1938" group="buzz" version="4.6-">
+      <trans-unit id="1937" group="buzz" version="4.6-">
         <source>UPCOMING ANNIVERSARIES</source>
         <target>FR_UPCOMING ANNIVERSARIES</target>
         <note>Displayed under the Orange Buzz which shows the list of upcoming anniversaries</note>
       </trans-unit>
-      <trans-unit id="1939" group="buzz" version="4.6-">
+      <trans-unit id="1938" group="buzz" version="4.6-">
         <source>No Upcoming Anniversaries For Next 30 Days</source>
         <target>FR_No Upcoming Anniversaries For Next 30 Days</target>
       </trans-unit>
-      <trans-unit id="1940" group="buzz" version="4.6-">
+      <trans-unit id="1939" group="buzz" version="4.6-">
         <source>MOST LIKED POSTS</source>
         <target>FR_MOST LIKED POSTS</target>
         <note>Articles have most no of likes which is posted on orange buzz/social media networks.</note>
       </trans-unit>
-      <trans-unit id="1941" group="buzz" version="4.6-">
+      <trans-unit id="1940" group="buzz" version="4.6-">
         <source>MOST COMMENTED POSTS</source>
         <target>FR_MOST COMMENTED POSTS</target>
         <note>Articles have most no of comments which is posted on orange buzz/social media networks.</note>
       </trans-unit>
-      <trans-unit id="1942" group="buzz" version="4.6-">
+      <trans-unit id="1941" group="buzz" version="4.6-">
         <source>this</source>
         <target>FR_this</target>
         <note>This action cannot be undone.</note>
       </trans-unit>
-      <trans-unit id="1943" group="buzz" version="4.6-">
+      <trans-unit id="1942" group="buzz" version="4.6-">
         <source>Post</source>
         <target>FR_Post</target>
         <note>It is a button which helps in updating a status, uploading images and sharing video once clicked.</note>
       </trans-unit>
-      <trans-unit id="1944" group="buzz" version="4.6-">
+      <trans-unit id="1943" group="buzz" version="4.6-">
         <source>Add your comment</source>
         <target>FR_Add your comment</target>
         <note>You may write a comment if necessary. For ex: Salary information</note>
       </trans-unit>
-      <trans-unit id="1945" group="buzz" version="4.6-">
+      <trans-unit id="1944" group="buzz" version="4.6-">
         <source>People who likes this comment</source>
         <target>FR_People who likes this comment</target>
         <note>This appears under Orange Buzz and helps in viewing people who like a particular comment</note>
       </trans-unit>
-      <trans-unit id="1946" group="buzz" version="4.6-">
+      <trans-unit id="1945" group="buzz" version="4.6-">
         <source>People who like this comment</source>
         <target>FR_People who like this comment</target>
         <note>This appears under Orange Buzz and helps in viewing people who like a particular comment</note>
       </trans-unit>
-      <trans-unit id="1947" group="buzz" version="4.6-">
+      <trans-unit id="1946" group="buzz" version="4.6-">
         <source>People who like this post</source>
         <target>FR_People who like this post</target>
         <note>This appears under Orange Buzz and helps in viewing people who like a particular post.</note>
       </trans-unit>
-      <trans-unit id="1948" group="buzz" version="4.6-">
+      <trans-unit id="1947" group="buzz" version="4.6-">
         <source>Only 'gif', 'png', 'jpg', 'jpeg' type images are allowed!</source>
         <target>FR_Only 'gif', 'png', 'jpg', 'jpeg' type images are allowed!</target>
         <note>You may upload any attachment that would support Only 'gif', 'png', 'jpg', 'jpeg' type images</note>
       </trans-unit>
-      <trans-unit id="1949" group="buzz" version="4.6-">
+      <trans-unit id="1948" group="buzz" version="4.6-">
         <source>Only five images are allowed in a single post!</source>
         <target>FR_Only five images are allowed in a single post!</target>
         <note>This is a validation message which says only five images are allowed to be attached in one post.</note>
       </trans-unit>
-      <trans-unit id="1950" group="buzz" version="4.6-">
+      <trans-unit id="1949" group="buzz" version="4.6-">
         <source>Sorry!</source>
         <target>FR_Sorry!</target>
         <note>This is a label which appears in Orange buzz.</note>
       </trans-unit>
-      <trans-unit id="1951" group="buzz" version="4.6-">
+      <trans-unit id="1950" group="buzz" version="4.6-">
         <source>People who shared this post</source>
         <target>FR_People who shared this post</target>
         <note>This appears under Orange Buzz and helps in viewing people who share a particular post</note>
       </trans-unit>
-      <trans-unit id="1952" group="buzz" version="4.6-">
+      <trans-unit id="1951" group="buzz" version="4.6-">
         <source>Paste Video Url</source>
         <target>FR_Paste Video Url</target>
         <note>When uploading a video under orange buzz, can paste video URL in the status field.</note>
       </trans-unit>
-      <trans-unit id="1953" group="buzz" version="4.6-">
+      <trans-unit id="1952" group="buzz" version="4.6-">
         <source>What's on your mind?</source>
         <target>FR_What's on your mind?</target>
         <note>Displayed under the Orange Buzz when updating the status</note>
       </trans-unit>
-      <trans-unit id="1954" group="buzz" version="4.6-">
+      <trans-unit id="1953" group="buzz" version="4.6-">
         <source>Say something about these photos</source>
         <target>FR_Say something about these photos</target>
         <note>This appears when uploading photos under Orange buzz.</note>
       </trans-unit>
-      <trans-unit id="1955" group="buzz" version="4.6-">
+      <trans-unit id="1954" group="buzz" version="4.6-">
         <source>Do you really want to delete this?</source>
         <target>FR_Do you really want to delete this?</target>
         <note>That is a confirmation message which appears when we delete an item that is added previously</note>
       </trans-unit>
-      <trans-unit id="1956" group="buzz" version="4.6-">
+      <trans-unit id="1955" group="buzz" version="4.6-">
         <source>Successfully Deleted!</source>
         <target>FR_Successfully Deleted!</target>
         <note>It is a user friendly message saying that deleting of a record is done successfully</note>
       </trans-unit>
-      <trans-unit id="1957" group="buzz" version="4.6-">
+      <trans-unit id="1956" group="buzz" version="4.6-">
         <source>Successfully Saved!</source>
         <target>FR_Successfully Saved!</target>
         <note>It is a user friendly message saying that saving of a record is done successfully</note>
       </trans-unit>
-      <trans-unit id="1958" group="buzz" version="4.6-">
+      <trans-unit id="1957" group="buzz" version="4.6-">
         <source>Edit your comment</source>
         <target>FR_Edit your comment</target>
         <note>The supervisor can approve or reject a time sheet by entering a comment which can be later edited</note>
       </trans-unit>
-      <trans-unit id="1959" group="buzz" version="4.6-">
+      <trans-unit id="1958" group="buzz" version="4.6-">
         <source>Edit your post</source>
         <target>FR_Edit your post</target>
         <note>Edit what you posted on social media networks</note>
       </trans-unit>
-      <trans-unit id="1960" group="buzz" version="4.6-">
+      <trans-unit id="1959" group="buzz" version="4.6-">
         <source>Successfully Shared</source>
         <target>FR_Successfully Shared</target>
         <note>It is a user friendly message saying that sharing of post is done successfully</note>
       </trans-unit>
-      <trans-unit id="1961" group="buzz" version="4.6-">
+      <trans-unit id="1960" group="buzz" version="4.6-">
         <source>This url is not a valid url of a video or it is not supported by the system</source>
         <target>FR_This url is not a valid url of a video or it is not supported by the system</target>
         <note>This is a message which appear when the user triggers an action to upload a video with an invalid url</note>
       </trans-unit>
-      <trans-unit id="1962" group="buzz" version="4.6-">
+      <trans-unit id="1961" group="buzz" version="4.6-">
         <source>Buzz</source>
         <target>FR_Buzz</target>
       </trans-unit>
-      <trans-unit id="1963" group="buzz" version="4.6-">
+      <trans-unit id="1962" group="buzz" version="4.6-">
         <source>Like</source>
         <target>FR_Like</target>
       </trans-unit>
-      <trans-unit id="1964" group="buzz" version="4.6-">
+      <trans-unit id="1963" group="buzz" version="4.6-">
         <source>Unlike</source>
         <target>FR_Unlike</target>
       </trans-unit>
-      <trans-unit id="1965" group="buzz" version="4.6-">
+      <trans-unit id="1964" group="buzz" version="4.6-">
         <source>Expand</source>
         <target>FR_Expand</target>
       </trans-unit>
-      <trans-unit id="1966" group="buzz" version="4.6-">
+      <trans-unit id="1965" group="buzz" version="4.6-">
         <source>What's on your mind</source>
         <target>FR_What's on your mind</target>
       </trans-unit>
-      <trans-unit id="1967" group="buzz" version="4.6-">
+      <trans-unit id="1966" group="buzz" version="4.6-">
         <source>This share has been deleted or you do not have permission to perform this action</source>
         <target>FR_This share has been deleted or you do not have permission to perform this action</target>
       </trans-unit>
-      <trans-unit id="1968" group="buzz" version="4.6-">
+      <trans-unit id="1967" group="buzz" version="4.6-">
         <source>OrangeBuzz</source>
         <target>FR_OrangeBuzz</target>
       </trans-unit>
-      <trans-unit id="1969" group="buzz" version="4.6-">
+      <trans-unit id="1968" group="buzz" version="4.6-">
         <source>Share</source>
         <target>FR_Share</target>
         <note>Publish and share company related documents and news articles</note>
       </trans-unit>
-      <trans-unit id="1970" group="buzz" version="4.6-">
+      <trans-unit id="1969" group="buzz" version="4.6-">
         <source>Success</source>
         <target>FR_Success</target>
         <note>A person or thing that achieves desired aims or attains prosperity</note>
       </trans-unit>
-      <trans-unit id="1971" group="buzz" version="4.6-">
+      <trans-unit id="1970" group="buzz" version="4.6-">
         <source>Read More</source>
         <target>FR_Read More</target>
       </trans-unit>
-      <trans-unit id="1972" group="buzz" version="4.6-">
+      <trans-unit id="1971" group="buzz" version="4.6-">
         <source>Save Video</source>
         <target>FR_Save Video</target>
         <note>Save a video</note>
       </trans-unit>
-      <trans-unit id="1973" group="buzz" version="4.6-">
+      <trans-unit id="1972" group="buzz" version="4.6-">
         <source>Buzz is accessible for the user who is assigned with an employee.</source>
         <target>FR_Buzz is accessible for the user who is assigned with an employee.</target>
       </trans-unit>
-      <trans-unit id="1974" group="general" version="4.6-">
+      <trans-unit id="1973" group="general" version="4.6-">
         <source>File write permission required to `symfony/web` directory.</source>
         <target>FR_File write permission required to `symfony/web` directory.</target>
       </trans-unit>
-      <trans-unit id="1975" group="admin" version="4.6-">
+      <trans-unit id="1974" group="admin" version="4.6-">
         <source>Enable Mobile</source>
         <target>FR_Enable Mobile</target>
       </trans-unit>
-      <trans-unit id="1976" group="mobile" version="4.6-">
+      <trans-unit id="1975" group="mobile" version="4.6-">
         <source>OrangeHRM Open Source Mobile App - How to Download the Application</source>
         <target>FR_OrangeHRM Open Source Mobile App - How to Download the Application</target>
       </trans-unit>
-      <trans-unit id="1977" group="mobile" version="4.6-">
+      <trans-unit id="1976" group="mobile" version="4.6-">
         <source>OrangeHRM Open Source mobile application allows you to apply leave, assign leave and approve leave via a mobile device. This application is available for download on both iOS and Android platforms.</source>
         <target>FR_OrangeHRM Open Source mobile application allows you to apply leave, assign leave and approve leave via a mobile device. This application is available for download on both iOS and Android platforms.</target>
       </trans-unit>
-      <trans-unit id="1978" group="mobile" version="4.6-">
+      <trans-unit id="1977" group="mobile" version="4.6-">
         <source>Step 01:</source>
         <target>FR_Step 01:</target>
       </trans-unit>
-      <trans-unit id="1979" group="mobile" version="4.6-">
+      <trans-unit id="1978" group="mobile" version="4.6-">
         <source>Step 02:</source>
         <target>FR_Step 02:</target>
       </trans-unit>
-      <trans-unit id="1980" group="mobile" version="4.6-">
+      <trans-unit id="1979" group="mobile" version="4.6-">
         <source>Step 03:</source>
         <target>FR_Step 03:</target>
       </trans-unit>
-      <trans-unit id="1981" group="mobile" version="4.6-">
+      <trans-unit id="1980" group="mobile" version="4.6-">
         <source>Download and install the application from the App Store or Play Store.</source>
         <target>FR_Download and install the application from the App Store or Play Store.</target>
       </trans-unit>
-      <trans-unit id="1982" group="mobile" version="4.6-">
+      <trans-unit id="1981" group="mobile" version="4.6-">
         <source>To install and get started.</source>
         <target>FR_To install and get started.</target>
       </trans-unit>
-      <trans-unit id="1983" group="mobile" version="4.6-">
+      <trans-unit id="1982" group="mobile" version="4.6-">
         <source>The following links direct you to find the app in the Play Store / App Store.</source>
         <target>FR_The following links direct you to find the app in the Play Store / App Store.</target>
       </trans-unit>
-      <trans-unit id="1984" group="mobile" version="4.6-">
+      <trans-unit id="1983" group="mobile" version="4.6-">
         <source>You may alternatively scan for the following QR code from your mobile phone camera to find and download the application.</source>
         <target>FR_You may alternatively scan for the following QR code from your mobile phone camera to find and download the application.</target>
       </trans-unit>
-      <trans-unit id="1985" group="mobile" version="4.6-">
+      <trans-unit id="1984" group="mobile" version="4.6-">
         <source>Ensure the OrangeHRM username and password credentials are entered correctly, and click LOGIN. You will be granted access to the system after successful validation of your username and password credentials.</source>
         <target>FR_Ensure the OrangeHRM username and password credentials are entered correctly, and click LOGIN. You will be granted access to the system after successful validation of your username and password credentials.</target>
       </trans-unit>
-      <trans-unit id="1986" group="mobile" version="4.6-">
+      <trans-unit id="1985" group="mobile" version="4.6-">
         <source>Once the installation is complete, open the application and follow the steps outlined below to access your OrangeHRM system.</source>
         <target>FR_Once the installation is complete, open the application and follow the steps outlined below to access your OrangeHRM system.</target>
       </trans-unit>
-      <trans-unit id="1987" group="mobile" version="4.6-">
+      <trans-unit id="1986" group="mobile" version="4.6-">
         <source>OrangeHRM Open Source Mobile App - How to Configure URL and Login</source>
         <target>FR_OrangeHRM Open Source Mobile App - How to Configure URL and Login</target>
       </trans-unit>
-      <trans-unit id="1988" group="mobile" version="4.6-">
+      <trans-unit id="1987" group="mobile" version="4.6-">
         <source>Upon opening the application, you will be required to configure the OrangeHRM instance that you wish to access via your mobile device.</source>
         <target>FR_Upon opening the application, you will be required to configure the OrangeHRM instance that you wish to access via your mobile device.</target>
       </trans-unit>
-      <trans-unit id="1989" group="mobile" version="4.6-">
+      <trans-unit id="1988" group="mobile" version="4.6-">
         <source>Enter the OrangeHRM instance URL.</source>
         <target>FR_Enter the OrangeHRM instance URL.</target>
       </trans-unit>
-      <trans-unit id="1990" group="mobile" version="4.6-">
+      <trans-unit id="1989" group="mobile" version="4.6-">
         <source>Your Instance URL is:</source>
         <target>FR_Your Instance URL is:</target>
       </trans-unit>
-      <trans-unit id="1991" group="mobile" version="4.6-">
+      <trans-unit id="1990" group="mobile" version="4.6-">
         <source>OrangeHRM Opensource mobile app does not support your instance. Please contact your system administrator for more information.</source>
         <target>FR_OrangeHRM Opensource mobile app does not support your instance. Please contact your system administrator for more information.</target>
       </trans-unit>
-      <trans-unit id="1992" group="mobile" version="4.6-">
+      <trans-unit id="1991" group="mobile" version="4.6-">
         <source>Click Continue</source>
         <target>FR_Click Continue</target>
       </trans-unit>
-      <trans-unit id="1993" group="mobile" version="4.6-">
+      <trans-unit id="1992" group="mobile" version="4.6-">
         <source>Once the URL is entered successfully, it will redirect to a page where the login information is requested.</source>
-        <target>FR_Once the URL is entered successfully, it will redirect to a page where the login information is
-          requested.</target>
+        <target>FR_Once the URL is entered successfully, it will redirect to a page where the login information is requested.</target>
       </trans-unit>
-      <trans-unit id="1994" group="mobile" version="4.6-">
+      <trans-unit id="1993" group="mobile" version="4.6-">
         <source>Directly below the login fields, the URL of the system you are connecting to will be displayed so that you can verify the URL specified is accurate. </source>
         <target>FR_Directly below the login fields, the URL of the system you are connecting to will be displayed so that you can verify the URL specified is accurate. </target>
       </trans-unit>
-      <trans-unit id="1995" group="general" version="4.6-">
+      <trans-unit id="1994" group="general" version="4.6-">
         <source>Help &amp; Support</source>
         <target>FR_Help &amp; Support</target>
       </trans-unit>
-      <trans-unit id="1996" group="directory" version="4.6-">
+      <trans-unit id="1995" group="directory" version="4.6-">
         <source>Directory</source>
         <target>FR_Directory</target>
       </trans-unit>
-      <trans-unit id="1997" group="directory" version="4.6-">
+      <trans-unit id="1996" group="directory" version="4.6-">
         <source>Search Listing</source>
         <target>FR_Search Listing</target>
       </trans-unit>
-      <trans-unit id="1998" group="directory" version="4.6-">
+      <trans-unit id="1997" group="directory" version="4.6-">
         <source>Search Directory</source>
         <target>FR_Search Directory</target>
       </trans-unit>
-      <trans-unit id="1999" group="admin" version="4.6">
+      <trans-unit id="1998" group="admin" version="4.6">
         <source>Language Packages</source>
         <target>FR_Language Packages</target>
       </trans-unit>
-      <trans-unit id="2000" group="admin" version="4.6">
+      <trans-unit id="1999" group="admin" version="4.6">
         <source>Translate</source>
         <target>FR_Translate</target>
       </trans-unit>
-      <trans-unit id="2001" group="admin" version="4.6">
+      <trans-unit id="2000" group="admin" version="4.6">
         <source>Add Language Package</source>
         <target>FR_Add Language Package</target>
       </trans-unit>
-      <trans-unit id="2002" group="admin" version="4.6">
+      <trans-unit id="2001" group="admin" version="4.6">
         <source>Users will require translate texts manually after creating the language package.</source>
         <target>FR_Users will require translate texts manually after creating the language package.</target>
       </trans-unit>
-      <trans-unit id="2003" group="admin" version="4.6">
+      <trans-unit id="2002" group="admin" version="4.6">
         <source>Translate Language Package</source>
         <target>FR_Translate Language Package</target>
       </trans-unit>
-      <trans-unit id="2004" group="admin" version="4.6">
+      <trans-unit id="2003" group="admin" version="4.6">
         <source>Language Package</source>
         <target>FR_Language Package</target>
       </trans-unit>
-      <trans-unit id="2005" group="admin" version="4.6">
+      <trans-unit id="2004" group="admin" version="4.6">
         <source>Source Language</source>
         <target>FR_Source Language</target>
       </trans-unit>
-      <trans-unit id="2006" group="admin" version="4.6">
+      <trans-unit id="2005" group="admin" version="4.6">
         <source>Module</source>
         <target>FR_Module</target>
       </trans-unit>
-      <trans-unit id="2007" group="admin" version="4.6">
+      <trans-unit id="2006" group="admin" version="4.6">
         <source>Source Text</source>
         <target>FR_Source Text</target>
       </trans-unit>
-      <trans-unit id="2008" group="admin" version="4.6">
+      <trans-unit id="2007" group="admin" version="4.6">
         <source>Translated Text</source>
         <target>FR_Translated Text</target>
       </trans-unit>
-      <trans-unit id="2009" group="admin" version="4.6">
+      <trans-unit id="2008" group="admin" version="4.6">
         <source>Show</source>
         <target>FR_Show</target>
       </trans-unit>
-      <trans-unit id="2010" group="admin" version="4.6">
+      <trans-unit id="2009" group="admin" version="4.6">
         <source>Translated</source>
         <target>FR_Translated</target>
       </trans-unit>
-      <trans-unit id="2011" group="admin" version="4.6">
+      <trans-unit id="2010" group="admin" version="4.6">
         <source>Not Translated</source>
         <target>FR_Not Translated</target>
       </trans-unit>
-      <trans-unit id="2012" group="admin" version="4.6">
+      <trans-unit id="2011" group="admin" version="4.6">
         <source>General</source>
         <target>FR_General</target>
       </trans-unit>
-      <trans-unit id="2013" group="admin" version="4.6">
+      <trans-unit id="2012" group="admin" version="4.6">
         <source>Source Note</source>
         <target>FR_Source Note</target>
       </trans-unit>
-      <trans-unit id="2014" group="admin" version="4.6">
+      <trans-unit id="2013" group="admin" version="4.6">
         <source>Export</source>
         <target>FR_Export</target>
       </trans-unit>
-      <trans-unit id="2015" group="admin" version="4.6">
+      <trans-unit id="2014" group="admin" version="4.6">
         <source>Failed to Export</source>
         <target>FR_Failed to Export</target>
       </trans-unit>

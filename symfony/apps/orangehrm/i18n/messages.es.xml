@@ -2,7 +2,7 @@
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
   <header/>
-  <file source-language="en_US" target-language="es_ES" datatype="xml" original="messages" date="2020-10-21T18:54:46Z" product-name="messages">
+  <file source-language="en_US" target-language="es_ES" datatype="xml" original="messages" date="2020-10-26T07:02:38Z" product-name="messages">
     <body>
       <trans-unit id="1">
         <source>1M Max, any larger attachments will be ignored</source>
@@ -6965,1095 +6965,1099 @@
         <target>Progreso de Revisión de Desempeño</target>
       </trans-unit>
       <trans-unit id="1741">
-        <source>Review Details</source>
-        <target>Detalles de Evaluación</target>
-      </trans-unit>
-      <trans-unit id="1742">
         <source>Employee Reviewer</source>
         <target>Revisión de Empleado</target>
       </trans-unit>
-      <trans-unit id="1743">
+      <trans-unit id="1742">
         <source>Key Performance Indicators for Job Title</source>
         <target>Competencias para el Puesto de Trabajo seleccionado</target>
       </trans-unit>
-      <trans-unit id="1744">
+      <trans-unit id="1743">
         <source>Minimum Rating</source>
         <target>Promedio mínimo</target>
       </trans-unit>
-      <trans-unit id="1745">
+      <trans-unit id="1744">
         <source>Maximum Rating</source>
         <target>Promedio máximo</target>
       </trans-unit>
-      <trans-unit id="1746">
+      <trans-unit id="1745">
         <source>Make Default Scale</source>
         <target>Hacer una escala por defecto</target>
       </trans-unit>
-      <trans-unit id="1747">
+      <trans-unit id="1746">
         <source>Inactive</source>
         <target>Inactivo</target>
       </trans-unit>
-      <trans-unit id="1748">
+      <trans-unit id="1747">
         <source>Activated</source>
         <target>Activo</target>
       </trans-unit>
-      <trans-unit id="1749">
+      <trans-unit id="1748">
         <source>Employee cannot be a reviewer in another category</source>
         <target>El empleado no puede ser un evaluador en otra categoría</target>
       </trans-unit>
-      <trans-unit id="1750">
+      <trans-unit id="1749">
         <source>Cannot add same person as a reviewer multiple times</source>
         <target>No se puede agregar la misma persona como evaluador en múltiples casos</target>
       </trans-unit>
-      <trans-unit id="1751">
+      <trans-unit id="1750">
         <source>Cannot activate review without reviewers</source>
         <target>No se puede activar la evaluación sin personas que evalúen.</target>
       </trans-unit>
-      <trans-unit id="1752">
+      <trans-unit id="1751">
         <source>End date should be after Start date</source>
         <target>Fecha final debe ser posterior de la fecha de inicio</target>
       </trans-unit>
-      <trans-unit id="1753">
+      <trans-unit id="1752">
         <source>Cannot activate review without KPIs</source>
         <target>No se puede activar la revisión sin competencias</target>
       </trans-unit>
-      <trans-unit id="1754">
+      <trans-unit id="1753">
         <source>Select either job title or department</source>
         <target>Seleccionar ya sea título de trabajo o departamento</target>
       </trans-unit>
-      <trans-unit id="1755">
+      <trans-unit id="1754">
         <source>Type for hints...</source>
         <target>Escriba para comenzar</target>
       </trans-unit>
-      <trans-unit id="1756">
+      <trans-unit id="1755">
         <source>Selected groups will  be deleted</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1757">
+      <trans-unit id="1756">
         <source>Should be a valid number</source>
         <target>Debe ser un número válido</target>
       </trans-unit>
-      <trans-unit id="1758">
+      <trans-unit id="1757">
         <source>Evaluation by Supervisors</source>
         <target>Evaluación de Supervisores</target>
       </trans-unit>
-      <trans-unit id="1759">
+      <trans-unit id="1758">
         <source>Should be greater than %number%</source>
         <target>Debe ser mayor que %number%</target>
       </trans-unit>
-      <trans-unit id="1760">
+      <trans-unit id="1759">
         <source>Should be less than %number%</source>
         <target>Debe ser menor que %number%</target>
       </trans-unit>
-      <trans-unit id="1761">
+      <trans-unit id="1760">
         <source>Rating should be less than or equal to %number%</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1762">
+      <trans-unit id="1761">
         <source>Max rating should be greater than Min rating</source>
         <target>El promedio debe ser mayor al mínimo</target>
       </trans-unit>
-      <trans-unit id="1763">
+      <trans-unit id="1762">
         <source>Overall Rating : </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1764">
+      <trans-unit id="1763">
         <source>Cannot activate review for employees who doesn't have Job Title and/or Sub-Division</source>
         <target>No se puede activar la revisión a un empleado que no posea un título de trabajo y / o subdivisión</target>
       </trans-unit>
-      <trans-unit id="1765">
+      <trans-unit id="1764">
         <source>The review will be made read-only after completion.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1766">
+      <trans-unit id="1765">
         <source>This action cannot be undone.</source>
         <target>Esta acción no puede ser deshecha</target>
       </trans-unit>
-      <trans-unit id="1767">
+      <trans-unit id="1766">
         <source>Are you sure you want to continue?</source>
         <target>¿Está seguro de continuar?</target>
       </trans-unit>
-      <trans-unit id="1768">
+      <trans-unit id="1767">
         <source>Peer Evaluation Form</source>
         <target>Formulario de evaluación de pares</target>
       </trans-unit>
-      <trans-unit id="1769">
+      <trans-unit id="1768">
         <source>Rating should be less than or equal to </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1770">
+      <trans-unit id="1769">
         <source>Rating should be greater than or equal to </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1771">
+      <trans-unit id="1770">
         <source>In Progress</source>
         <target>En Progreso</target>
       </trans-unit>
-      <trans-unit id="1772">
+      <trans-unit id="1771">
         <source>OrangeHRM - Information</source>
         <target>OrangeHRM - Información</target>
       </trans-unit>
-      <trans-unit id="1773">
+      <trans-unit id="1772">
         <source>Employee Evaluation Form</source>
         <target>Formulario de Auto-Evaluación</target>
       </trans-unit>
-      <trans-unit id="1774">
+      <trans-unit id="1773">
         <source>Completed</source>
         <target>Completado</target>
       </trans-unit>
-      <trans-unit id="1775">
+      <trans-unit id="1774">
         <source>Should be a positive value</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1776">
+      <trans-unit id="1775">
         <source>Subordinate Evaluation Form</source>
         <target>Formulario de Evaluación de Colaborador</target>
       </trans-unit>
-      <trans-unit id="1777">
+      <trans-unit id="1776">
         <source>Supervisor Evaluation Form</source>
         <target>Formulario de Evaluación de Supervisor</target>
       </trans-unit>
-      <trans-unit id="1778">
+      <trans-unit id="1777">
         <source>Evaluation by Supervisor</source>
         <target>Evaluación por el Supervisor</target>
       </trans-unit>
-      <trans-unit id="1779">
+      <trans-unit id="1778">
         <source>Evaluation by Peer</source>
         <target>Evaluación por el Par</target>
       </trans-unit>
-      <trans-unit id="1780">
+      <trans-unit id="1779">
         <source>Peer</source>
         <target>Par</target>
       </trans-unit>
-      <trans-unit id="1781">
+      <trans-unit id="1780">
         <source>Evaluation by Subordinates</source>
         <target>Evaluación por los colaboradores</target>
       </trans-unit>
-      <trans-unit id="1782">
+      <trans-unit id="1781">
         <source>Evaluation by Peers</source>
         <target>Evaluación de pares</target>
       </trans-unit>
-      <trans-unit id="1783">
+      <trans-unit id="1782">
         <source>Supervisor Reviewer</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1784">
+      <trans-unit id="1783">
         <source>General Comment : </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1785">
+      <trans-unit id="1784">
         <source>Final Comment</source>
         <target>Comentario final</target>
       </trans-unit>
-      <trans-unit id="1786">
+      <trans-unit id="1785">
         <source>Finalization</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1787">
+      <trans-unit id="1786">
         <source>Invalid Supervisor</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1788">
+      <trans-unit id="1787">
         <source>View Attendance Record</source>
         <target>Ver Registro de Asistencia</target>
       </trans-unit>
-      <trans-unit id="1789">
+      <trans-unit id="1788">
         <source>Punch In</source>
         <target>Marcar Entrada / Fichar</target>
       </trans-unit>
-      <trans-unit id="1790">
+      <trans-unit id="1789">
         <source>Punch In Note</source>
         <target>Comentario sobre el Ingreso</target>
       </trans-unit>
-      <trans-unit id="1791">
+      <trans-unit id="1790">
         <source>Punch Out</source>
         <target>Marcar Salida / Fichar</target>
       </trans-unit>
-      <trans-unit id="1792">
+      <trans-unit id="1791">
         <source>Punch Out Note</source>
         <target>Comentario sobre el Egreso</target>
       </trans-unit>
-      <trans-unit id="1793">
+      <trans-unit id="1792">
         <source>No attendance records to display</source>
         <target>No hay registros de asistencia para mostrar</target>
       </trans-unit>
-      <trans-unit id="1794">
+      <trans-unit id="1793">
         <source>Punch out Time Should Be Higher Than Punch in Time</source>
         <target>La hora de salida debe ser mayor que la hora de entrada</target>
       </trans-unit>
-      <trans-unit id="1795">
+      <trans-unit id="1794">
         <source>Overlapping Records Found</source>
         <target>Superposición de registros encontrados</target>
       </trans-unit>
-      <trans-unit id="1796">
+      <trans-unit id="1795">
         <source>Comment should be less than 250 characters</source>
         <target>El comentario debe ser inferior a 250 caracteres</target>
       </trans-unit>
-      <trans-unit id="1797">
+      <trans-unit id="1796">
         <source>Punch in/out note</source>
         <target>Nota de Ingreso / Egreso</target>
       </trans-unit>
-      <trans-unit id="1798">
+      <trans-unit id="1797">
         <source>Timezone</source>
         <target>Zona horaria</target>
       </trans-unit>
-      <trans-unit id="1799">
+      <trans-unit id="1798">
         <source>Last punch in time</source>
         <target>Última hora de fichadas como Entrada</target>
       </trans-unit>
-      <trans-unit id="1800">
+      <trans-unit id="1799">
         <source>In</source>
         <target>Entrada</target>
       </trans-unit>
-      <trans-unit id="1801">
+      <trans-unit id="1800">
         <source>Out</source>
         <target>Salida</target>
       </trans-unit>
-      <trans-unit id="1802">
+      <trans-unit id="1801">
         <source>Attendance Configuration</source>
         <target>Configuración de Asistencia</target>
       </trans-unit>
-      <trans-unit id="1803">
+      <trans-unit id="1802">
         <source>Employee can change current time when punching in/out</source>
         <target>El empleado puede cambiar la hora cuando marca entrada/salida</target>
       </trans-unit>
-      <trans-unit id="1804">
+      <trans-unit id="1803">
         <source>Employee can edit/delete own attendance records</source>
         <target>El empleado puede editar / borrar los registros propios de asistencia</target>
       </trans-unit>
-      <trans-unit id="1805">
+      <trans-unit id="1804">
         <source>Supervisor can add/edit/delete attendance records of subordinates</source>
         <target>Supervisor puede añadir / editar / borrar los registros de asistencia de sus subordinados</target>
       </trans-unit>
-      <trans-unit id="1806">
+      <trans-unit id="1805">
         <source>My Attendance Records</source>
         <target>Mis Registros de asistencia</target>
       </trans-unit>
-      <trans-unit id="1807">
+      <trans-unit id="1806">
         <source>You are not allowed to view this page</source>
         <target>Usted no está autorizado a ver esta página</target>
       </trans-unit>
-      <trans-unit id="1808">
+      <trans-unit id="1807">
         <source>Add Attendance Records</source>
         <target>Añadir registros de asistencia</target>
       </trans-unit>
-      <trans-unit id="1809">
+      <trans-unit id="1808">
         <source>Should Be a Valid Date in %format% Format</source>
         <target>Debe ser una fecha válida en el formato %format%</target>
       </trans-unit>
-      <trans-unit id="1810">
+      <trans-unit id="1809">
         <source>Should Be a Valid Time in %format% Format</source>
         <target>Debe ser una hora válida en el formato %format%</target>
       </trans-unit>
-      <trans-unit id="1811">
+      <trans-unit id="1810">
         <source>Social Media Authentication</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1812">
+      <trans-unit id="1811">
         <source>Provider List</source>
         <target>Lista de proveedores</target>
       </trans-unit>
-      <trans-unit id="1813">
+      <trans-unit id="1812">
         <source>Provider Name</source>
         <target>Nombre de Proveedor</target>
       </trans-unit>
-      <trans-unit id="1814">
+      <trans-unit id="1813">
         <source>Url</source>
         <target>URL</target>
       </trans-unit>
-      <trans-unit id="1815">
+      <trans-unit id="1814">
         <source>OpenId</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1816">
+      <trans-unit id="1815">
         <source>Google</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1817">
+      <trans-unit id="1816">
         <source>Redirect Url</source>
         <target>Redireccionar URL</target>
       </trans-unit>
-      <trans-unit id="1818">
+      <trans-unit id="1817">
         <source>Client Id</source>
         <target>Identificación de cliente</target>
       </trans-unit>
-      <trans-unit id="1819">
+      <trans-unit id="1818">
         <source>Client Secret</source>
         <target>Proveedor de autenticación (como Google)</target>
       </trans-unit>
-      <trans-unit id="1820">
+      <trans-unit id="1819">
         <source>Developer Key</source>
         <target>Clave de Desarrollador</target>
       </trans-unit>
-      <trans-unit id="1821">
+      <trans-unit id="1820">
         <source>Alternative Login</source>
         <target>Inicio de sesión alternativo</target>
       </trans-unit>
-      <trans-unit id="1822">
+      <trans-unit id="1821">
         <source>Login</source>
         <target>Ingresar</target>
       </trans-unit>
-      <trans-unit id="1823">
+      <trans-unit id="1822">
         <source>Add Provider</source>
         <target>Agregar Proveedor</target>
       </trans-unit>
-      <trans-unit id="1824">
+      <trans-unit id="1823">
         <source>Enable Directory module</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1825">
+      <trans-unit id="1824">
         <source>Please Add the Organization name</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1826">
+      <trans-unit id="1825">
         <source>Add Organization Name</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1827">
+      <trans-unit id="1826">
         <source>User Account Not found</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1828">
+      <trans-unit id="1827">
         <source>API Documentation</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1829">
+      <trans-unit id="1828">
         <source>PHP Sample App</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1830">
+      <trans-unit id="1829">
         <source>Add OAuth Client</source>
         <target>Agregar 0Cliente Aut</target>
       </trans-unit>
-      <trans-unit id="1831">
+      <trans-unit id="1830">
         <source>ID</source>
         <target>ID</target>
       </trans-unit>
-      <trans-unit id="1832">
+      <trans-unit id="1831">
         <source>Secret</source>
         <target>Secreto</target>
       </trans-unit>
-      <trans-unit id="1833">
+      <trans-unit id="1832">
         <source>Redirect URI</source>
         <target>Redireccionar URL</target>
       </trans-unit>
-      <trans-unit id="1834">
+      <trans-unit id="1833">
         <source>Register OAuth Client</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1835">
+      <trans-unit id="1834">
         <source>Given Client ID Is Already In The Database</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1836">
+      <trans-unit id="1835">
         <source>OAuth Client Saved Successfully</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1837">
+      <trans-unit id="1836">
         <source>OAuth Client List</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1838">
+      <trans-unit id="1837">
         <source>The password is too weak.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1839">
+      <trans-unit id="1838">
         <source>For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers</source>
         <target>Para una contraseña más fuerte, por favor, utilice una combinación de texto con mayúsculas y minúsculas, símbolos y números más difícil de adivinar</target>
       </trans-unit>
-      <trans-unit id="1840">
+      <trans-unit id="1839">
         <source>Your password meets the minimum requirements, but it could be guessable. Try a different password.</source>
         <target>Su contraseña cumple con los requisitos mínimos, pero podría ser fácil de descubrir. Intente con una contraseña diferente.</target>
       </trans-unit>
-      <trans-unit id="1841">
+      <trans-unit id="1840">
         <source>Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.</source>
         <target>Su contraseña debe contener una letra minúscula, una letra mayúscula, un dígito y un carácter especial. Intente una contraseña diferente.</target>
       </trans-unit>
-      <trans-unit id="1842">
+      <trans-unit id="1841">
         <source>Should not be more than 10000</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1843">
+      <trans-unit id="1842">
         <source>Employee does not exist</source>
         <target>El empleado no existe en la base de datos</target>
       </trans-unit>
-      <trans-unit id="1844">
+      <trans-unit id="1843">
         <source>Work Hours</source>
         <target>Horas Laborales</target>
       </trans-unit>
-      <trans-unit id="1845">
+      <trans-unit id="1844">
         <source>Leave Entitlements</source>
         <target>Solicitud a permiso</target>
       </trans-unit>
-      <trans-unit id="1846">
+      <trans-unit id="1845">
         <source>Maintenance</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1847">
+      <trans-unit id="1846">
         <source>Purge Employee Records</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1848">
+      <trans-unit id="1847">
         <source>Purge Records</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1849">
+      <trans-unit id="1848">
         <source>Access Records</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1850">
+      <trans-unit id="1849">
         <source>Verify Password</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1851">
+      <trans-unit id="1850">
         <source>Verify</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1852">
+      <trans-unit id="1851">
         <source>Select Terminated Employee</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1853">
+      <trans-unit id="1852">
         <source>Purge Candidate Records</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1854">
+      <trans-unit id="1853">
         <source>Select Vacancy</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1855">
+      <trans-unit id="1854">
         <source>Download Personal Data</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1856">
+      <trans-unit id="1855">
         <source>Selected Employee</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1857">
+      <trans-unit id="1856">
         <source>Purge</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1858">
+      <trans-unit id="1857">
         <source>Purge Employee</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1859">
+      <trans-unit id="1858">
         <source>You are about to purge the employee permanently. Are you sure you want to continue? This operation cannot be undone.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1860">
+      <trans-unit id="1859">
         <source>Download Employee Records?</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1861">
+      <trans-unit id="1860">
         <source>Selected Candidates</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1862">
+      <trans-unit id="1861">
         <source>Date Of Applicant</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1863">
+      <trans-unit id="1862">
         <source>You are about to purge selected candidates permanently. Are you sure you want to continue? This operation cannot be undone.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1864">
+      <trans-unit id="1863">
         <source>Access Data</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1865">
+      <trans-unit id="1864">
         <source>Please enter your username to identify your account to reset your password.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1866">
+      <trans-unit id="1865">
         <source>OrangeHRM Username</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1867">
+      <trans-unit id="1866">
         <source>Expected format: admin@example.com.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1868">
+      <trans-unit id="1867">
         <source>The username is invalid.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1869">
+      <trans-unit id="1868">
         <source>Forgot Your Password?</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1870">
+      <trans-unit id="1869">
         <source>User account is not associated with an employee</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1871">
+      <trans-unit id="1870">
         <source>Please contact HR admin in order to reset the password</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1872">
+      <trans-unit id="1871">
         <source>Work email is not set. Please contact HR admin in order to reset the password</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1873">
+      <trans-unit id="1872">
         <source>Password reset email could not be sent</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1874">
+      <trans-unit id="1873">
         <source>There is a password reset request already in the system.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1875">
+      <trans-unit id="1874">
         <source>Could not find a user with given details</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1876">
+      <trans-unit id="1875">
         <source>Reset Your Password?</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1877">
+      <trans-unit id="1876">
         <source>If you are sure that this is your account, please click Reset Password. We will send you an email to reset password.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1878">
+      <trans-unit id="1877">
         <source>Username or email should be listed:</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1879">
+      <trans-unit id="1878">
         <source>Reset Password</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1880">
+      <trans-unit id="1879">
         <source>Enter A New Password</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1881">
+      <trans-unit id="1880">
         <source>Instruction Sent !</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1882">
+      <trans-unit id="1881">
         <source>Instructions for resetting your password have been sent to </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1883">
+      <trans-unit id="1882">
         <source>Successfully reset your password</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1884">
+      <trans-unit id="1883">
         <source>Go to Login Page</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1885">
+      <trans-unit id="1884">
         <source>This link is expired, Please request again</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1886">
+      <trans-unit id="1885">
         <source>OrangeHRM - Prerequisites Verification</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1887">
+      <trans-unit id="1886">
         <source>Successfully Renewed license.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1888">
+      <trans-unit id="1887">
         <source>Renew Failed.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1889">
+      <trans-unit id="1888">
         <source>Successfully Subscribed</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1890">
+      <trans-unit id="1889">
         <source>By subscribing you agree to receive periodic email updates from OrangeHRM.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1891">
+      <trans-unit id="1890">
         <source>User has authentication!</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1892">
+      <trans-unit id="1891">
         <source>Invalid Credentials : You Have No OpenID Account in OrangeHRM Try Login with OrangeHRM Credentials</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1893">
+      <trans-unit id="1892">
         <source>Employee is terminated</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1894">
+      <trans-unit id="1893">
         <source>Employee not assigned</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1895">
+      <trans-unit id="1894">
         <source>Account disabled</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1896">
+      <trans-unit id="1895">
         <source>Marketplace</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1897">
+      <trans-unit id="1896">
         <source>OrangeHRM Addons</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1898">
+      <trans-unit id="1897">
         <source>Installed</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1899">
+      <trans-unit id="1898">
         <source>Uninstall</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1900">
+      <trans-unit id="1899">
         <source>Update</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1901">
+      <trans-unit id="1900">
         <source>Install</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1902">
+      <trans-unit id="1901">
         <source>Request Renew</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1903">
+      <trans-unit id="1902">
         <source>Renew</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1904">
+      <trans-unit id="1903">
         <source>Requested</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1905">
+      <trans-unit id="1904">
         <source>Renew Requested</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1906">
+      <trans-unit id="1905">
         <source>Request</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1907">
+      <trans-unit id="1906">
         <source>Are you sure you want to install this application and it's dependencies?</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1908">
+      <trans-unit id="1907">
         <source>Request an add-on</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1909">
+      <trans-unit id="1908">
         <source>You are requesting to buy this add-on.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1910">
+      <trans-unit id="1909">
         <source>Please confirm your contact details. Your details will be forwarded to OrangeHRM sales representative.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1911">
+      <trans-unit id="1910">
         <source>Contact Number</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1912">
+      <trans-unit id="1911">
         <source>year</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1913">
+      <trans-unit id="1912">
         <source>month</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1914">
+      <trans-unit id="1913">
         <source>week</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1915">
+      <trans-unit id="1914">
         <source>day</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1916">
+      <trans-unit id="1915">
         <source>hour</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1917">
+      <trans-unit id="1916">
         <source>minute</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1918">
+      <trans-unit id="1917">
         <source>second</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1919">
+      <trans-unit id="1918">
         <source>years</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1920">
+      <trans-unit id="1919">
         <source>months</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1921">
+      <trans-unit id="1920">
         <source>weeks</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1922">
+      <trans-unit id="1921">
         <source>days</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1923">
+      <trans-unit id="1922">
         <source>minutes</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1924">
+      <trans-unit id="1923">
         <source>seconds</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1925">
+      <trans-unit id="1924">
         <source>ago</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1926">
+      <trans-unit id="1925">
         <source>Just now</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1927">
+      <trans-unit id="1926">
         <source>Clear all notifications</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1928">
+      <trans-unit id="1927">
         <source>shared a post.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1929">
+      <trans-unit id="1928">
         <source>commented on your post.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1930">
+      <trans-unit id="1929">
         <source>liked to a post you shared.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1931">
+      <trans-unit id="1930">
         <source>liked to your comment.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1932">
+      <trans-unit id="1931">
         <source>shared your post.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1933">
+      <trans-unit id="1932">
         <source>No new notifications</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1934">
+      <trans-unit id="1933">
         <source>Failed to clear notifications</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1935">
+      <trans-unit id="1934">
         <source>Update Status</source>
         <target>Actualizar estatus</target>
       </trans-unit>
-      <trans-unit id="1936">
+      <trans-unit id="1935">
         <source>Upload Images</source>
         <target>Subir imagenes</target>
       </trans-unit>
-      <trans-unit id="1937">
+      <trans-unit id="1936">
         <source>Share Video</source>
         <target>Compartir video</target>
       </trans-unit>
-      <trans-unit id="1938">
+      <trans-unit id="1937">
         <source>UPCOMING ANNIVERSARIES</source>
         <target>Próximos aniversarios</target>
       </trans-unit>
-      <trans-unit id="1939">
+      <trans-unit id="1938">
         <source>No Upcoming Anniversaries For Next 30 Days</source>
         <target>No hay Aniversarios en los próximos 30 días</target>
       </trans-unit>
-      <trans-unit id="1940">
+      <trans-unit id="1939">
         <source>MOST LIKED POSTS</source>
         <target>Posteos con más me gusta</target>
       </trans-unit>
-      <trans-unit id="1941">
+      <trans-unit id="1940">
         <source>MOST COMMENTED POSTS</source>
         <target>Posteos más comentados</target>
       </trans-unit>
-      <trans-unit id="1942">
+      <trans-unit id="1941">
         <source>this</source>
         <target>Esta</target>
       </trans-unit>
-      <trans-unit id="1943">
+      <trans-unit id="1942">
         <source>Post</source>
         <target>Postear</target>
       </trans-unit>
-      <trans-unit id="1944">
+      <trans-unit id="1943">
         <source>Add your comment</source>
         <target>Agregue su comentario</target>
       </trans-unit>
-      <trans-unit id="1945">
+      <trans-unit id="1944">
         <source>People who likes this comment</source>
         <target>Personas que les gusta este comentario</target>
       </trans-unit>
-      <trans-unit id="1946">
+      <trans-unit id="1945">
         <source>People who like this comment</source>
         <target>Personas que les gustó este comentario</target>
       </trans-unit>
-      <trans-unit id="1947">
+      <trans-unit id="1946">
         <source>People who like this post</source>
         <target>Personas que les gusta esta publicación</target>
       </trans-unit>
-      <trans-unit id="1948">
+      <trans-unit id="1947">
         <source>Only 'gif', 'png', 'jpg', 'jpeg' type images are allowed!</source>
         <target>Solo imagenes en formados de gif, jpg, jpeg son permitidas</target>
       </trans-unit>
-      <trans-unit id="1949">
+      <trans-unit id="1948">
         <source>Only five images are allowed in a single post!</source>
         <target>Sólo 5 imagenes son permitidas por publicación</target>
       </trans-unit>
-      <trans-unit id="1950">
+      <trans-unit id="1949">
         <source>Sorry!</source>
         <target>Disculpas!</target>
       </trans-unit>
-      <trans-unit id="1951">
+      <trans-unit id="1950">
         <source>People who shared this post</source>
         <target>Personas que compartieron esta publicación</target>
       </trans-unit>
-      <trans-unit id="1952">
+      <trans-unit id="1951">
         <source>Paste Video Url</source>
         <target>Pegar el URL del Video</target>
       </trans-unit>
-      <trans-unit id="1953">
+      <trans-unit id="1952">
         <source>What's on your mind?</source>
         <target>Qué estás pensando?</target>
       </trans-unit>
-      <trans-unit id="1954">
+      <trans-unit id="1953">
         <source>Say something about these photos</source>
         <target>Comenta sobre estas imagenes</target>
       </trans-unit>
-      <trans-unit id="1955">
+      <trans-unit id="1954">
         <source>Do you really want to delete this?</source>
         <target>Está seguro de eliminar esto?</target>
       </trans-unit>
-      <trans-unit id="1956">
+      <trans-unit id="1955">
         <source>Successfully Deleted!</source>
         <target>Eliminado de manera exitosa!</target>
       </trans-unit>
-      <trans-unit id="1957">
+      <trans-unit id="1956">
         <source>Successfully Saved!</source>
         <target>Guardado de manera exitosa!</target>
       </trans-unit>
-      <trans-unit id="1958">
+      <trans-unit id="1957">
         <source>Edit your comment</source>
         <target>Editar su comentario</target>
       </trans-unit>
-      <trans-unit id="1959">
+      <trans-unit id="1958">
         <source>Edit your post</source>
         <target>Editar su publicación</target>
       </trans-unit>
-      <trans-unit id="1960">
+      <trans-unit id="1959">
         <source>Successfully Shared</source>
         <target>Compartido de manera exitosa</target>
       </trans-unit>
-      <trans-unit id="1961">
+      <trans-unit id="1960">
         <source>This url is not a valid url of a video or it is not supported by the system</source>
         <target>Este URL no es válido o no es soportado por el sistema</target>
       </trans-unit>
-      <trans-unit id="1962">
+      <trans-unit id="1961">
         <source>Buzz</source>
         <target>Buzz</target>
       </trans-unit>
-      <trans-unit id="1963">
+      <trans-unit id="1962">
         <source>Like</source>
         <target>Me gusta</target>
       </trans-unit>
-      <trans-unit id="1964">
+      <trans-unit id="1963">
         <source>Unlike</source>
         <target>No me gusta</target>
       </trans-unit>
-      <trans-unit id="1965">
+      <trans-unit id="1964">
         <source>Expand</source>
         <target>Expandir</target>
       </trans-unit>
-      <trans-unit id="1966">
+      <trans-unit id="1965">
         <source>What's on your mind</source>
         <target>Qué tienes en mente</target>
       </trans-unit>
-      <trans-unit id="1967">
+      <trans-unit id="1966">
         <source>This share has been deleted or you do not have permission to perform this action</source>
         <target>Este post se ha eliminado o no tienes permiso para realizar esta acción</target>
       </trans-unit>
-      <trans-unit id="1968">
+      <trans-unit id="1967">
         <source>OrangeBuzz</source>
         <target>OrangeBuzz</target>
       </trans-unit>
-      <trans-unit id="1969">
+      <trans-unit id="1968">
         <source>Share</source>
         <target>Compartir</target>
       </trans-unit>
-      <trans-unit id="1970">
+      <trans-unit id="1969">
         <source>Success</source>
         <target>Exito</target>
       </trans-unit>
-      <trans-unit id="1971">
+      <trans-unit id="1970">
         <source>Read More</source>
         <target>Leer Más</target>
       </trans-unit>
-      <trans-unit id="1972">
+      <trans-unit id="1971">
         <source>Save Video</source>
         <target>Guardar video</target>
       </trans-unit>
-      <trans-unit id="1973">
+      <trans-unit id="1972">
         <source>Buzz is accessible for the user who is assigned with an employee.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1974">
+      <trans-unit id="1973">
         <source>File write permission required to `symfony/web` directory.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1975">
+      <trans-unit id="1974">
         <source>Enable Mobile</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1976">
+      <trans-unit id="1975">
         <source>OrangeHRM Open Source Mobile App - How to Download the Application</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1977">
+      <trans-unit id="1976">
         <source>OrangeHRM Open Source mobile application allows you to apply leave, assign leave and approve leave via a mobile device. This application is available for download on both iOS and Android platforms.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1978">
+      <trans-unit id="1977">
         <source>Step 01:</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1979">
+      <trans-unit id="1978">
         <source>Step 02:</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1980">
+      <trans-unit id="1979">
         <source>Step 03:</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1981">
+      <trans-unit id="1980">
         <source>Download and install the application from the App Store or Play Store.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1982">
+      <trans-unit id="1981">
         <source>To install and get started.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1983">
+      <trans-unit id="1982">
         <source>The following links direct you to find the app in the Play Store / App Store.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1984">
+      <trans-unit id="1983">
         <source>You may alternatively scan for the following QR code from your mobile phone camera to find and download the application.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1985">
+      <trans-unit id="1984">
         <source>Ensure the OrangeHRM username and password credentials are entered correctly, and click LOGIN. You will be granted access to the system after successful validation of your username and password credentials.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1986">
+      <trans-unit id="1985">
         <source>Once the installation is complete, open the application and follow the steps outlined below to access your OrangeHRM system.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1987">
+      <trans-unit id="1986">
         <source>OrangeHRM Open Source Mobile App - How to Configure URL and Login</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1988">
+      <trans-unit id="1987">
         <source>Upon opening the application, you will be required to configure the OrangeHRM instance that you wish to access via your mobile device.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1989">
+      <trans-unit id="1988">
         <source>Enter the OrangeHRM instance URL.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1990">
+      <trans-unit id="1989">
         <source>Your Instance URL is:</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1991">
+      <trans-unit id="1990">
         <source>OrangeHRM Opensource mobile app does not support your instance. Please contact your system administrator for more information.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1992">
+      <trans-unit id="1991">
         <source>Click Continue</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1993">
+      <trans-unit id="1992">
         <source>Once the URL is entered successfully, it will redirect to a page where the login information is requested.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1994">
+      <trans-unit id="1993">
         <source>Directly below the login fields, the URL of the system you are connecting to will be displayed so that you can verify the URL specified is accurate. </source>
         <target/>
       </trans-unit>
-      <trans-unit id="1995">
+      <trans-unit id="1994">
         <source>Help &amp; Support</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1996">
+      <trans-unit id="1995">
         <source>Directory</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1997">
+      <trans-unit id="1996">
         <source>Search Listing</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1998">
+      <trans-unit id="1997">
         <source>Search Directory</source>
         <target/>
       </trans-unit>
-      <trans-unit id="1999">
+      <trans-unit id="1998">
         <source>Language Packages</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2000">
+      <trans-unit id="1999">
         <source>Translate</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2001">
+      <trans-unit id="2000">
         <source>Add Language Package</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2002">
+      <trans-unit id="2001">
         <source>Users will require translate texts manually after creating the language package.</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2003">
+      <trans-unit id="2002">
         <source>Translate Language Package</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2004">
+      <trans-unit id="2003">
         <source>Language Package</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2005">
+      <trans-unit id="2004">
         <source>Source Language</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2006">
+      <trans-unit id="2005">
         <source>Module</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2007">
+      <trans-unit id="2006">
         <source>Source Text</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2008">
+      <trans-unit id="2007">
         <source>Translated Text</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2009">
+      <trans-unit id="2008">
         <source>Show</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2010">
+      <trans-unit id="2009">
         <source>Translated</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2011">
+      <trans-unit id="2010">
         <source>Not Translated</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2012">
+      <trans-unit id="2011">
         <source>General</source>
         <target/>
       </trans-unit>
-      <trans-unit id="2013">
+      <trans-unit id="2012">
         <source>Source Note</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2013">
+        <source>Export</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2014">
+        <source>Failed to Export</source>
         <target/>
       </trans-unit>
     </body>

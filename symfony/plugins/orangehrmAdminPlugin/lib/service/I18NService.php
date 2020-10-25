@@ -265,10 +265,12 @@ class I18NService extends BaseService
             $baseSource = $this->getLangPackPath($sourceDir);
             $source = $this->getLangPackPath($sourceDir, $langCode);
 
+            $i18nBaseSource = $this->getI18NDao()->getI18NSource($this->getRelativeSource($baseSource));
             $i18nSource = $this->getI18NDao()->getI18NSource($this->getRelativeSource($source));
-            if ($i18nSource instanceof I18NSource) {
+            if ($i18nSource instanceof I18NSource && $i18nBaseSource instanceof I18NSource) {
                 $timestamp = filemtime($source);
-                if ($i18nSource->getModifiedAt() < date("Y-m-d H:i:s", $timestamp)) {
+                if ($i18nSource->getModifiedAt() < date("Y-m-d H:i:s", $timestamp)
+                    || $i18nSource->getModifiedAt() < $i18nBaseSource->getModifiedAt()) {
                     $this->syncI18NSourceTranslations($baseSource, $source, $language);
                     // Update last sync time
                     $i18nSource->setModifiedAt(date("Y-m-d H:i:s"));
@@ -355,6 +357,9 @@ class I18NService extends BaseService
     }
 
     /**
+     * Return associative array
+     * e.g. ['source1'=>'target1', 'source2'=>'target2']
+     *
      * @param SimpleXMLElement[]|null $translationUnits
      * @return array
      */
@@ -495,7 +500,11 @@ class I18NService extends BaseService
         $zip = new ZipArchive();
         $zip->open($temp, ZipArchive::CREATE);
         foreach ($i18nSources as $sourceFile => $xml) {
-            $zip->addFromString($sourceFile, $xml->asXML());
+            $doc = new DOMDocument();
+            $doc->formatOutput = true;
+            $doc->preserveWhiteSpace = false;
+            $doc->loadXML($xml->asXML());
+            $zip->addFromString($sourceFile, $doc->saveXML());
         }
         $zip->close();
 
@@ -568,7 +577,6 @@ class I18NService extends BaseService
      */
     public function getXliffXml(string $langCode)
     {
-        $date = new DateTime();
         $xml = new SimpleXMLElement(
             '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"><xliff version="1.0"></xliff>'
         );
@@ -578,9 +586,138 @@ class I18NService extends BaseService
         $file->addAttribute('target-language', $langCode);
         $file->addAttribute('datatype', "xml");
         $file->addAttribute('original', "messages");
-        $file->addAttribute('date', $date->format('Y-m-d-H-i-s'));
+        $file->addAttribute('date', @date('Y-m-d\TH:i:s\Z'));
         $file->addAttribute('product-name', "messages");
         $file->addChild('body');
         return $xml;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDevLanguagePackName()
+    {
+        return sprintf('messages.%s.xml', self::DEV_LANG_PACK);
+    }
+
+    /**
+     * e.g. ['symfony/apps/orangehrm/i18n' => ['messages.en_US.xml', 'messages.es.xml']]
+     *
+     * @param bool $withDevPack
+     * @return array
+     * @throws sfException
+     */
+    public function getLanguagePacksFromSources(bool $withDevPack = false): array
+    {
+        $sources = [];
+        foreach ($this->getI18NSourceDirs() as $sourceDir) {
+            $files = scandir($sourceDir);
+            $fileNames = [];
+            foreach ($files as $fileName) {
+                if (is_file($sourceDir . DIRECTORY_SEPARATOR . $fileName)) {
+                    if (!$withDevPack && $fileName == $this->getDevLanguagePackName()) {
+                        continue;
+                    }
+                    $fileNames[] = $fileName;
+                }
+            }
+
+            $sources[$this->getRelativeSource($sourceDir)] = $fileNames;
+        }
+
+        return $sources;
+    }
+
+    /**
+     * Reorganize all language packs based on dev packs in each source directories.
+     * Target for CLI usage.
+     *
+     * @throws sfException
+     */
+    public function reOrganizeLangPacks()
+    {
+        $sourcesLangPacks = $this->getLanguagePacksFromSources();
+        foreach ($sourcesLangPacks as $relativeSource => $langPacks) {
+            $baseSourceFile = $this->getAbsoluteSource(
+                    $relativeSource
+                ) . DIRECTORY_SEPARATOR . $this->getDevLanguagePackName();
+            $baseTranslationUnits = $this->readSource($baseSourceFile);
+
+            $xmls = [];
+            $translationUnits = [];
+
+            // load all packs from a source directory
+            foreach ($langPacks as $langPackName) {
+                $sourceFile = $this->getAbsoluteSource($relativeSource) . DIRECTORY_SEPARATOR . $langPackName;
+
+                $translationUnits[$langPackName] = $this->getTranslationUnitsAssoc(
+                    $this->readSource($sourceFile)
+                );
+
+                $xmls[$langPackName] = simplexml_load_file($sourceFile);
+                $body = $xmls[$langPackName]->xpath('//body')[0];
+                unset($body[0]);
+
+                $file = $xmls[$langPackName]->xpath('//file')[0];
+                $file['date'] = @date('Y-m-d\TH:i:s\Z');
+                $file->addChild('body');
+            }
+
+            // re-organize all language packs with respect to dev language pack
+            foreach ($baseTranslationUnits as $unit) {
+                foreach ($langPacks as $langPackName) {
+                    $id = (string)$unit['id'];
+                    $source = (string)$unit->source;
+                    $target = $translationUnits[$langPackName][$source];
+
+                    $body = $xmls[$langPackName]->xpath('//body')[0];
+                    $node = $body->addChild('trans-unit');
+                    $node->addAttribute('id', $id);
+                    $node->addChild('source', htmlspecialchars($source));
+                    $node->addChild('target', htmlspecialchars($target));
+                }
+            }
+
+            // Save organized language packs
+            foreach ($langPacks as $langPackName) {
+                $sourceFile = $this->getAbsoluteSource($relativeSource) . DIRECTORY_SEPARATOR . $langPackName;
+
+                $doc = new DOMDocument();
+                $doc->formatOutput = true;
+                $doc->preserveWhiteSpace = false;
+                $doc->loadXML($xmls[$langPackName]->asXML());
+                $doc->save($sourceFile);
+            }
+        }
+    }
+
+    /**
+     * Check duplicates in dev language pack in all source directories
+     *
+     * @return array
+     * @throws sfException
+     */
+    public function checkDuplicates()
+    {
+        $sourceDuplicates = [];
+        $assocTranslationUnits = [];
+        foreach ($this->getI18NSourceDirs() as $sourceDir) {
+            $sourceFile = $sourceDir . DIRECTORY_SEPARATOR . $this->getDevLanguagePackName();
+            $translationUnits = $this->readSource($sourceFile);
+            $duplicates = [];
+
+            foreach ($translationUnits as $unit) {
+                $source = (string)$unit->source;
+                $target = (string)$unit->target;
+                if (isset($assocTranslationUnits[$source])) {
+                    $id = (string)$unit['id'];
+                    $duplicates[$id] = $source;
+                } else {
+                    $assocTranslationUnits[$source] = $target;
+                }
+            }
+            $sourceDuplicates[$this->getRelativeSource($sourceFile)] = $duplicates;
+        }
+        return $sourceDuplicates;
     }
 }
