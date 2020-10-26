@@ -1,0 +1,26 @@
+LanguagePackage:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: false
+  unselectableRowIds: [ ]
+  idValueGetter: getId
+  tableWidth: 100%
+  hasSummary: false
+  summary: [ ]
+  buttonsPosition: before-data
+  assets: [ ]
+  jsInitMethods: [ ]
+
+LanguageCustomization:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: false
+  unselectableRowIds: [ ]
+  idValueGetter: getId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: [ ]
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/saveLanguageCustomization' # This is overridden in action
+  assets: [ ]
+  jsInitMethods: [ ]

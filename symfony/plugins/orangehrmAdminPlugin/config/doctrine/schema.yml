@@ -499,3 +499,92 @@ EmailConfiguration:
       type: string(50)
     smtp_security_type as smtpSecurityType:
       type: string(50)
+
+I18NGroup:
+  tableName: ohrm_i18n_group
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(255)
+    title: string(255)
+
+I18NLanguage:
+  tableName: ohrm_i18n_language
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(255)
+    code:
+      type: string(255)
+      unique: true
+    enabled: boolean
+    added: boolean
+    modified_at as modifiedAt: datetime
+
+I18NLangString:
+  tableName: ohrm_i18n_lang_string
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    unit_id as unitId: integer
+    source_id as sourceId: integer
+    group_id as groupId: integer
+    value:
+      type: string
+      unique: true
+    note: string
+    version: string(20)
+  relations:
+    I18NGroup:
+      local: groupId
+      foreign: id
+      type: one
+    I18NSource:
+      local: sourceId
+      foreign: id
+      type: one
+
+I18NTranslate:
+  tableName: ohrm_i18n_translate
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    lang_string_id as langStringId: integer
+    language_id as languageId: integer
+    value: string
+    translated: boolean
+    customized: boolean
+    modified_at as modifiedAt: datetime
+  indexes:
+    translateUniqueId:
+      fields: [lang_string_id, language_id]
+      type: unique
+  relations:
+    I18NLangString:
+      local: langStringId
+      foreign: id
+      type: one
+    I18NLanguage:
+      local: languageId
+      foreign: id
+      type: one
+
+I18NSource:
+  tableName: ohrm_i18n_source
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    source:
+      type: string
+      unique: true
+    modified_at as modifiedAt: datetime

@@ -115,12 +115,12 @@ class LocalizationForm extends BaseForm {
     }
 
     /**
-     * this is used to make language list from supported_languages.yml
+     * this is used to make language list from `ohrm_i18n_language`
      * @return <type>
      */
     public function getLanguages() {
         $localizationService = new LocalizationService();
-        return $localizationService->getSupportedLanguageListFromYML();
+        return $localizationService->getSupportedLanguageList();
     }
 
 }

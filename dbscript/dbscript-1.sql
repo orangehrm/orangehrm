@@ -2292,3 +2292,63 @@ CREATE TABLE `ohrm_rest_api_usage` (
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE `ohrm_i18n_group` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255),
+  `title` VARCHAR(255) DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+CREATE TABLE `ohrm_i18n_language` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) DEFAULT NULL,
+  `code` VARCHAR(100) NOT NULL UNIQUE,
+  `enabled` TINYINT UNSIGNED NOT NULL DEFAULT 1,
+  `added` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `modified_at` DATETIME DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+CREATE TABLE `ohrm_i18n_lang_string` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `unit_id` INT NOT NULL,
+  `source_id` INT,
+  `group_id` INT DEFAULT NULL,
+  `value` TEXT COLLATE utf8mb4_bin NOT NULL,
+  `note` TEXT,
+  `version` VARCHAR(20) DEFAULT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+CREATE TABLE `ohrm_i18n_translate` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `lang_string_id` INT NOT NULL,
+  `language_id` INT NOT NULL,
+  `value` TEXT,
+  `translated` TINYINT UNSIGNED DEFAULT 1,
+  `customized` TINYINT UNSIGNED DEFAULT 0,
+  `modified_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+CREATE TABLE `ohrm_i18n_source` (
+  `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `source` MEDIUMTEXT NOT NULL,
+  `modified_at` DATETIME
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1;
+
+ALTER TABLE `ohrm_i18n_lang_string`
+    ADD CONSTRAINT `groupId` FOREIGN KEY (`group_id`)
+        REFERENCES `ohrm_i18n_group` (`id`) ON DELETE SET NULL;
+
+ALTER TABLE `ohrm_i18n_translate`
+    ADD CONSTRAINT `languageId` FOREIGN KEY (`language_id`)
+        REFERENCES `ohrm_i18n_language` (`id`);
+
+ALTER TABLE `ohrm_i18n_translate`
+    ADD CONSTRAINT `langStringId` FOREIGN KEY (`lang_string_id`)
+        REFERENCES `ohrm_i18n_lang_string` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `ohrm_i18n_lang_string`
+    ADD CONSTRAINT `sourceId` FOREIGN KEY (`source_id`)
+        REFERENCES `ohrm_i18n_source` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `ohrm_i18n_translate`
+    ADD CONSTRAINT `translateUniqueId` UNIQUE (`lang_string_id`, `language_id`);

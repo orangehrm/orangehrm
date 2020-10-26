@@ -34,6 +34,7 @@ class ListHeader extends ComponentProperty {
     protected $textAlignmentStyle = "left";
     protected $textAlignmentStyleForHeader = "left";
     protected $filters = array();
+    protected $sortUrl = null;
     
     protected $filterObjects;
 
@@ -74,6 +75,14 @@ class ListHeader extends ComponentProperty {
             throw new ListHeaderException('Tried to assign a numeric value to sort field');
         }
         $this->sortField = $sortField;
+    }
+
+    public function getSortUrl() {
+        return $this->sortUrl;
+    }
+
+    public function setSortUrl($sortUrl) {
+        $this->sortUrl = $sortUrl;
     }
 
     public function getElementType() {

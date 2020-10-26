@@ -42,6 +42,22 @@ all:
        logging:         %SF_LOGGING_ENABLED%
        use_flash:       true
        default_culture: %SF_DEFAULT_CULTURE%
+
+  i18n:
+    class: ohrmI18N
+    param:
+      source:               XLIFF
+      debug:                false
+      untranslated_prefix:  "[T]"
+      untranslated_suffix:  "[/T]"
+      cache:
+        class: sfFileCache
+        param:
+          automatic_cleaning_factor: 0
+          cache_dir:                 %SF_I18N_CACHE_DIR%
+          lifetime:                  31556926
+          prefix:                    %SF_APP_DIR%/i18n
+
 #all:
 #  controller:
 #    class: sfFrontWebController

@@ -19,6 +19,11 @@
  */
 class LocalizationService {
 
+    /**
+     * @var null|I18NService
+     */
+    protected $i18nService = null;
+
     public function convertPHPFormatDateToISOFormatDate($inputPHPFormat, $date) {
         $dateFormat = new sfDateFormat();
         try {
@@ -96,13 +101,33 @@ class LocalizationService {
         return $symfonyDateFormat;
     }
 
-    public function getSupportedLanguageListFromYML() {
-        $languageList = array();
-        $languages = sfYaml::load(sfConfig::get("sf_plugins_dir") . '/orangehrmAdminPlugin/config/supported_languages.yml');
-        foreach ($languages['languages'] as $lang) {
-            $languageList[$lang['key']] = $lang['value'];
+    /**
+     * @return array
+     * @throws DaoException
+     */
+    public function getSupportedLanguageList() {
+        $languageList = [];
+        $searchParams = new ParameterObject(
+            [
+                'enabled' => true,
+                'added' => true,
+                'sortField' => 'l.name'
+            ]
+        );
+        $languages = $this->getI18NService()->searchLanguages($searchParams);
+        foreach ($languages as $language) {
+            $languageList[$language->getCode()] = $language->getName();
         }
         return $languageList;
     }
 
+    /**
+     * @return I18NService
+     */
+    protected function getI18NService(): I18NService {
+        if (is_null($this->i18nService)) {
+            $this->i18nService = new I18NService();
+        }
+        return $this->i18nService;
+    }
 }
