@@ -31,10 +31,9 @@ all:
       generate_shortest_url:            true
       extra_parameters_as_query_string: true
   storage:
-    class: sfSessionStorage
+    class: ohrmSessionStorage
     param:
-      session_name: PHPSESSID
-      session_cookie_secure: false
+      session_name: orangehrm
       session_cache_limiter: nocache
   user:
      class: myUser
