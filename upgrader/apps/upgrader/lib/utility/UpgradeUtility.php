@@ -202,13 +202,26 @@ CONFCONT;
     public function getRowCount($result) {
         return mysqli_num_rows($result);
     }
+
     /**
-     * @todo Look at SchemaIncrement directory and calculate the end Increment
+     * Get latest schema increment task number
+     * @return int
      */
     public function getEndIncrementNumber() {
-        
-        return 76;
-        
+        $pathToSchemaIncrementDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'schemaIncrementTasks';
+        $files = scandir($pathToSchemaIncrementDir);
+        // First SchemaIncrementTask, SchemaIncrementTask41.php
+        $end = 41;
+        foreach ($files as $fileName) {
+            if (!is_file($pathToSchemaIncrementDir . DIRECTORY_SEPARATOR . $fileName)) {
+                continue;
+            }
+            $number = intval(str_replace('SchemaIncrementTask', '', $fileName));
+            if ($number > $end) {
+                $end = $number;
+            }
+        }
+        return $end;
     }
     
     public function getVersionAndIncrementerNumbers() {
@@ -272,6 +285,7 @@ CONFCONT;
         $a['4.3.4']     = 74; //No db change between 4.3.3 to 4.3.4
         $a['4.3.5']     = 75; // 4.3.5 to 4.4
         $a['4.4']       = 76; // 4.4 to 4.5
+        $a['4.5']       = 77; // 4.5 to 4.6
         return $a;
         
     }
