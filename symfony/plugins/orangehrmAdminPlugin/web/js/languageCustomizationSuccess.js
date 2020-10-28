@@ -13,6 +13,8 @@ $(document).ready(function () {
     });
 
     $('#resetBtn').click(function () {
+        $('#searchTranslationLanguage_sourceText').val('');
+        $('#searchTranslationLanguage_translatedText').val('');
         $('#searchTranslationLanguage_reset').val(true);
         $('#frmTranslateLanguageSearch').submit();
     });
