@@ -839,7 +839,7 @@
         <target>FR_Competency</target>
         <note>Set of skills and abilities which are required for desired level of performance and can be grouped them into competency groups</note>
       </trans-unit>
-      <trans-unit id="168" group="admin" version="4.6-">
+      <trans-unit id="168" group="general" version="4.6-">
         <source>Configuration</source>
         <target>FR_Configuration</target>
         <note>An arrangement of elements in a particular form</note>
@@ -1261,7 +1261,7 @@
         <target>FR_Edit Salary Component</target>
         <note>The HR Admin can edit salary components by going to Admin&gt;&gt;Job&gt;&gt; Salary Components. Ex: Car Allowance</note>
       </trans-unit>
-      <trans-unit id="252" group="pim" version="4.6-">
+      <trans-unit id="252" group="general" version="4.6-">
         <source>Education</source>
         <target>FR_Education</target>
         <note>Add levels of education to the system.</note>
@@ -1361,7 +1361,7 @@
         <target>FR_Employee Records</target>
         <note>Records in the system which are related to employees.</note>
       </trans-unit>
-      <trans-unit id="272" group="time" version="4.6-">
+      <trans-unit id="272" group="general" version="4.6-">
         <source>Employee Reports</source>
         <target>FR_Employee Reports</target>
         <note>Generate reports that are relevant to employees</note>
@@ -1371,7 +1371,7 @@
         <target>FR_Employee Timesheets</target>
         <note>To action an employee timesheet, go to Time&gt;&gt; Time Sheets&gt;&gt; Employee Time sheets, those time sheets can be viewed, edited,approved and rejected.</note>
       </trans-unit>
-      <trans-unit id="274" group="time" version="4.6-">
+      <trans-unit id="274" group="general" version="4.6-">
         <source>Employment Status</source>
         <target>FR_Employment Status</target>
         <note>Administrators and supervisors can view leave details of employees with a particular employment status.</note>
@@ -1381,7 +1381,7 @@
         <target>FR_Enabled</target>
         <note>When adding a system user, Select enable to allow employee to access the system with the defined user role.</note>
       </trans-unit>
-      <trans-unit id="276" group="pim" version="4.6-">
+      <trans-unit id="276" group="general" version="4.6-">
         <source>End Date</source>
         <target>FR_End Date</target>
         <note>When defining the current leave period, the system will automatically set the “End Date” as to have a one-calendar year leave period.</note>
@@ -2520,7 +2520,7 @@
         <target>FR_Localization</target>
         <note>This feature enables the HR Admin to configure the language settings and translate the OrangeHRM system to the language of your choice. To configure localization settings, go to Admin&gt;&gt; Configuration&gt;&gt; Localization</note>
       </trans-unit>
-      <trans-unit id="504" group="pim" version="4.6-">
+      <trans-unit id="504" group="general" version="4.6-">
         <source>Location</source>
         <target>FR_Location</target>
         <note>All employees based in all the company locations need to be defined first under Admin&gt;&gt;Organization&gt;&gt;Locations.</note>
@@ -2975,7 +2975,7 @@
         <target>FR_Nationalities</target>
         <note>This feature allows the HR Admin to define the different nationalities that present in the company which can later be used in the PIM Module. Various nationalities are already pre-defined. To add a nationality, go to Admin&gt;&gt; Nationalities</note>
       </trans-unit>
-      <trans-unit id="595" group="pim" version="4.6-">
+      <trans-unit id="595" group="general" version="4.6-">
         <source>Nationality</source>
         <target>FR_Nationality</target>
         <note>This feature allows the HR Admin to define the different nationalities that present in the company which can later be used in the PIM Module. Various nationalities are already pre-defined. To add a nationality, go to Admin&gt;&gt; Nationalities</note>
@@ -6234,7 +6234,7 @@
         <target>FR_If gender is specified, value should be either</target>
         <note>If gender is specified, value should be either male or female</note>
       </trans-unit>
-      <trans-unit id="1248" group="recruitment" version="4.6-">
+      <trans-unit id="1248" group="general" version="4.6-">
         <source>Job Description</source>
         <target>FR_Job Description</target>
         <note>You could describe the role of the employee in the company through this feature</note>
