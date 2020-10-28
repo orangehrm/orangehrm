@@ -541,6 +541,21 @@ class I18NService extends BaseService
                 $node->addAttribute('id', $id);
                 $node->addChild('source', htmlspecialchars($source));
                 $node->addChild('target', htmlspecialchars($target));
+
+                $group = $translation->getI18NLangString()->getI18NGroup();
+                if ($group instanceof I18NGroup) {
+                    $node->addAttribute('group', $group->getName());
+                }
+
+                $version = $translation->getI18NLangString()->getVersion();
+                if ($version) {
+                    $node->addAttribute('version', $version);
+                }
+
+                $note = htmlspecialchars($translation->getI18NLangString()->getNote());
+                if ($note != '') {
+                    $node->addChild('note', $note);
+                }
             }
         }
         return $i18nSources;
