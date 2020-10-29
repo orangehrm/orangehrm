@@ -107,7 +107,7 @@ class I18NService extends BaseService
         foreach ($translatedTexts as $id => $translatedText) {
             $i18nTranslate = $this->getI18NDao()->getI18NTranslateById($id);
             if ($i18nTranslate instanceof I18NTranslate) {
-                $i18nTranslate->setValue($translatedText);
+                $i18nTranslate->setValue(htmlspecialchars($translatedText));
                 $i18nTranslate->setTranslated($translatedText == '' ? false : true);
                 $i18nTranslate->setCustomized(true);
                 $i18nTranslate->setModifiedAt(date("Y-m-d H:i:s"));

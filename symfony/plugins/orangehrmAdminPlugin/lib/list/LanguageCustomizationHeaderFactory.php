@@ -104,6 +104,7 @@ class LanguageCustomizationHeaderFactory extends ohrmListConfigurationFactory
                     'name' => '{id}',
                     'id' => 'translatedTextarea_{id}'
                 ],
+                'filters' => ['HtmlSpecialCharsDecodeCellFilter' => []],
             ]
         );
 
