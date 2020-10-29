@@ -17,9 +17,7 @@
  * Boston, MA 02110-1301, USA
  */
 use_javascript(plugin_web_path('orangehrmMaintenancePlugin', 'js/PassWordValidation'));
-const MESSEGE = 'Users who seek access to their data, or who seek to correct,
- amend, or delete the given information should direct their requests to Data@orangehrm.com
-  with the subject "Purge Records (Instance Identifier : ';
+const MESSEGE = 'Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier : %instanceid%)".';
 ?>
 <div class="box">
     <?php include_partial('global/flash_messages'); ?>
@@ -46,10 +44,14 @@ const MESSEGE = 'Users who seek access to their data, or who seek to correct,
         </form>
         <div id="Instance_Messege" style="padding-top: 0.75rem !important">
             <?php if (gettype($instanceId) == 'string') {
-                echo __(MESSEGE . $instanceId . ')".');
+                echo __(MESSEGE, ['%instanceid%' => $instanceId]);
             } ?>
         </div>
     </div>
 
 </div>
+
+<script type="text/javascript">
+    var lang_required = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+</script>
 
