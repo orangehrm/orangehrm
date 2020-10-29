@@ -35,10 +35,10 @@ all:
       generate_shortest_url:            true
       extra_parameters_as_query_string: true
   storage:
-      class: sfSessionStorage
-      param:
-        session_name: PHPSESSID
-        session_cache_limiter: nocache
+    class: ohrmSessionStorage
+    param:
+      session_name: orangehrm
+      session_cache_limiter: nocache
 
   view_cache_manager:
     class: sfViewCacheManager

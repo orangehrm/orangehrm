@@ -209,10 +209,27 @@ function createKeyFile($fileName) {
  * @return array
  */
 function getSessionCookieParams() {
+    $isSecure = isSecure();
     return array(
-        'cookie_secure' => false,
+    	'name' => ($isSecure ? '' : '_') . 'orangehrm',
+        'cookie_secure' => $isSecure,
         'cookie_httponly' => true
     );
+}
+
+function isSecure() {
+	return
+		(isset($_SERVER['HTTPS']) && (('on' == strtolower($_SERVER['HTTPS']) || 1 == $_SERVER['HTTPS'])))
+		||
+		(isset($_SERVER['HTTP_SSL_HTTPS']) && (('on' == strtolower(
+					$_SERVER['HTTP_SSL_HTTPS']
+				) || 1 == $_SERVER['HTTP_SSL_HTTPS'])))
+		||
+		(isForwardedSecure());
+}
+
+function isForwardedSecure() {
+	return isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' == strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
 }
 
 /**
@@ -243,4 +260,3 @@ function isPdoEnabled() {
 	return false;
 }
 
-?>
