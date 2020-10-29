@@ -59,7 +59,7 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
     var viewSystemUserUrl           = '<?php echo url_for('admin/viewSystemUsers'); ?>';
     var user_UserNameLength         = '<?php echo __js("Should have at least %number% characters", array('%number%' => 5)); ?>';
     var user_UserPasswordLength     = '<?php echo __js("Should have at least %number% characters", array('%number%' => 8)); ?>';
-    var password_user               = "<?php echo __js("Very Weak").",".__("Weak").",".__("Better").",".__("Medium").",".__("Strong").",".__("Strongest")?>";
+    var password_user               = "<?php echo __js("Very Weak").",".__js("Weak").",".__js("Better").",".__js("Medium").",".__js("Strong").",".__js("Strongest")?>";
     var isEditMode                  = '<?php echo ($form->edited)?'true':'false'; ?>';
     var ldapInstalled               = '<?php echo ($sf_user->getAttribute('ldap.available'))?'true':'false'; ?>';
     var validator = null;
