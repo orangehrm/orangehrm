@@ -65,6 +65,7 @@ class AttendanceService {
         return $this->getAttendanceDao()->getLastPunchRecord($employeeId, $actionableStatesList);
     }
 
+
     /**
      * check For Punch Out OverLapping Records
      * @param $punchInTime, $punchOutTime, $employeeId
@@ -87,7 +88,7 @@ class AttendanceService {
     /**
      * get saved Attendance configuration
      * @param $workflow, $state, $role, $action, $resultingState
-     * @return boolean 
+     * @return boolean
      */
     public function getSavedConfiguration($workflow, $state, $role, $action, $resultingState) {
 
@@ -95,9 +96,9 @@ class AttendanceService {
     }
 
     /**
-     * get Attendance record 
+     * get Attendance record
      * @param $employeeId, $date
-     * @return array of records 
+     * @return array of records
      */
     public function getAttendanceRecord($employeeId, $date) {
 
@@ -105,7 +106,7 @@ class AttendanceService {
     }
 
     /**
-     * delete Attendance record 
+     * delete Attendance record
      * @param $attendanceRecordId
      * @return boolean
      */
@@ -135,8 +136,8 @@ class AttendanceService {
     }
 
     /**
-     * Get Timezone Array 
-     * @param 
+     * Get Timezone Array
+     * @param
      * @return time zone values array
      */
     public function getTimezoneArray() {
@@ -225,8 +226,8 @@ class AttendanceService {
             return false;
         return $index[0];
     }
-    
-    
+
+
      /**
      * check For Punch In OverLapping Records when Editing
      * @param $punchInTime, $employeeId
@@ -235,8 +236,8 @@ class AttendanceService {
     public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId,$recordId, $punchOut) {
         return $this->getAttendanceDao()->checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId,$recordId, $punchOut);
     }
-    
-    
+
+
      /**
      * check For Punch out OverLapping Records when Editing
      * @param $punchInTime, $employeeId
@@ -245,7 +246,7 @@ class AttendanceService {
     public function checkForPunchOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId,$recordId) {
         return $this->getAttendanceDao()->checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $recordId);
     }
-    
+
      /**
      * check For Punch out/in OverLapping Records when Editing
      * @param $punchInTime, $employeeId
@@ -254,20 +255,24 @@ class AttendanceService {
     public function checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId,$recordId) {
         return $this->getAttendanceDao()->checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $recordId);
     }
-    
+
     /**
      *
      * @param int $employeeId
      * @param string $employeementStatus
-     * @param int $subDivision    
+     * @param int $subDivision
      * @param date $dateFrom
      * @param date $dateTo
-     * @return array 
+     * @return array
      */
     public function searchAttendanceRecords($employeeId = null, $employeementStatus = null, $subDivision = null, $dateFrom = null , $dateTo = null ){
         return $this->getAttendanceDao()->searchAttendanceRecords($employeeId, $employeementStatus, $subDivision, $dateFrom, $dateTo );
     }
 
+    public function getLastPunchRecordDetails($employeeId) {
+
+        return $this->getAttendanceDao()->getLastPunchRecordDetails($employeeId);
+    }
 }
 
 ?>
