@@ -5797,7 +5797,7 @@
         <target>FR_Performance Trackers</target>
       </trans-unit>
       <trans-unit id="1160" group="performance" version="4.6-">
-        <source>manage Performance Tracker Log</source>
+        <source>Manage Performance Tracker Log</source>
         <target>FR_manage Performance Tracker Log</target>
         <note>This feature allows the performance of employees to be logged and tracked throughout the year. Such tracking would be helpful during formal performance reviews for both employees and reviewers.</note>
       </trans-unit>

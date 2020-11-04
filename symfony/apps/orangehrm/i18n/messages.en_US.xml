@@ -4641,8 +4641,8 @@
         <target>Performance Trackers</target>
       </trans-unit>
       <trans-unit id="1160">
-        <source>manage Performance Tracker Log</source>
-        <target>manage Performance Tracker Log</target>
+        <source>Manage Performance Tracker Log</source>
+        <target>Manage Performance Tracker Log</target>
       </trans-unit>
       <trans-unit id="1161">
         <source>log</source>
