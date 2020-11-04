@@ -84,7 +84,7 @@ class languageCustomizationAction extends baseAdminAction
                 'limit' => $limit,
                 'group' => $group,
                 'sourceText' => $sourceText,
-                'translatedText' => $translatedText,
+                'translatedText' => htmlspecialchars($translatedText),
                 'translated' => $translated,
                 'langCode' => $language->getCode(),
             ]

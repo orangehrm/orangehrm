@@ -357,7 +357,7 @@ class I18NService extends BaseService
 
             $source = $langString->getValue();
             if (isset($translationUnits[$source]) && !empty($translationUnits[$source])) {
-                $translate->setValue($translationUnits[$source]);
+                $translate->setValue(htmlspecialchars($translationUnits[$source]));
             } else {
                 $translate->setTranslated(false);
             }
