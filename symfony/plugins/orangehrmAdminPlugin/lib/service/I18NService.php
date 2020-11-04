@@ -143,14 +143,28 @@ class I18NService extends BaseService
     }
 
     /**
+     * Accept symfony/apps/orangehrm/i18n/messages.[code].xml and return symfony/apps/orangehrm/i18n
+     * @param string $source
+     * @return string|null
+     */
+    public function generateSourceDirFromSource(string $source)
+    {
+        $replaced = preg_replace('/messages\.(.+)\.xml/', '', $source);
+        // remove end DIRECTORY_SEPARATOR
+        return substr($replaced, 0, strlen($replaced) - 1);
+    }
+
+    /**
      * Sync all XLIFF sources language string to database
      * @throws DaoException
      * @throws sfException
      */
     public function syncI18NSourcesLangStrings()
     {
+        $currentSourceDirs = [];
         foreach ($this->getI18NSourceDirs() as $sourceDir) {
             $baseSource = $this->getLangPackPath($sourceDir);
+            $currentSourceDirs[] = $this->getRelativeSource($sourceDir);
 
             $i18nSource = $this->getI18NDao()->getI18NSource($this->getRelativeSource($baseSource));
             if ($i18nSource instanceof I18NSource) {
@@ -170,6 +184,14 @@ class I18NService extends BaseService
                 $this->getI18NDao()->saveI18NSource($newSource);
 
                 $this->syncI18NSourceLangStrings($baseSource, $newSource->getId());
+            }
+        }
+
+        foreach ($this->getI18NDao()->getAllI18NSources() as $source) {
+            $sourceDir = $this->generateSourceDirFromSource($source->getSource());
+            if (!in_array($sourceDir, $currentSourceDirs)) {
+                // delete removed source
+                $this->getI18NDao()->deleteI18NSource($source);
             }
         }
     }
