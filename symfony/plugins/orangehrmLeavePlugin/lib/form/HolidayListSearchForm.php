@@ -54,7 +54,7 @@ class HolidayListSearchForm extends sfForm {
      */
     public function configure() {
 
-        sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N', 'OrangeDate'));
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('OrangeI18N', 'OrangeDate'));
         
         
         $this->setWidget('calFromDate',new ohrmWidgetDatePicker(array(), array('id' => 'calFromDate')));

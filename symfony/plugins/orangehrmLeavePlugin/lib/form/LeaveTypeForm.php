@@ -27,7 +27,7 @@ class LeaveTypeForm extends orangehrmForm {
         $this->leaveTypePermissions = $this->getOption('leaveTypePermissions');
         $id = $this->getOption('leaveTypeId');
 
-        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+        sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeI18N');
 
         $widgets = array(
             'txtLeaveTypeName' => new sfWidgetFormInput(array(), array('size' => 30)),

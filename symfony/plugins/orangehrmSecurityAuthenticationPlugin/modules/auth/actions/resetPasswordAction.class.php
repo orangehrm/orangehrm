@@ -35,7 +35,7 @@ class resetPasswordAction extends basePasswordResetAction {
         $this->showForm = true;
         $this->form = new ResetPasswordForm();
         $this->resetCode = $request->getParameter('resetCode');
-        $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
+        $this->getContext()->getConfiguration()->loadHelpers(array('OrangeI18N'));
 
         if (empty($this->resetCode)) {
             $this->getUser()->setFlash('warning', __('Reset code is not specified,'));
