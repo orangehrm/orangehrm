@@ -1,3 +1,15 @@
+New & Changed Features for OrangeHRM ver 4.6
+    New Features
+    ------------
+    Admin can create the language pack and translate the words to reflect in OrangeHRM System.
+    - Admin creates a new language package.
+    - Admin filter the words by the module to translate the words in those modules only.
+    - Admin exports the translated language pack to share with the OrangeHRM community.
+
+    Bug Fixes
+    ------------
+    Code improvements to enhance the security of the application.
+
 New & Changed Features for OrangeHRM ver 4.5
     New Features
     ------------
