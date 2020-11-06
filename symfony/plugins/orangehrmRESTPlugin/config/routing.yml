@@ -140,7 +140,6 @@ api_attendance_punchout:
 api_attendance_employee_punchin:
   url: /api/v1/attendance/punch-in
   param: { module:apiv1user, action:EmployeePunchInApi }
-#  param: { module:apiv1attendance, action:PunchInApi }
   requirements:
     id: \d+
     sf_method: [get,post]
