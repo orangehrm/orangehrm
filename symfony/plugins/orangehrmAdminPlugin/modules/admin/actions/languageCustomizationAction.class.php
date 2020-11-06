@@ -82,7 +82,7 @@ class languageCustomizationAction extends baseAdminAction
             'limit' => $limit,
             'group' => $group,
             'sourceText' => $sourceText,
-            'translatedText' => htmlspecialchars($translatedText),
+            'translatedText' => $this->filterTranslatedTextParam($translatedText),
             'translated' => $translated,
             'langCode' => $language->getCode(),
         ];
@@ -90,6 +90,7 @@ class languageCustomizationAction extends baseAdminAction
         if (!is_null($this->getUser()->getAttribute(self::FILTERS_ATTRIBUTE_NAME))) {
             $query = $this->getUser()->getAttribute(self::FILTERS_ATTRIBUTE_NAME);
             parse_str($query, $queryParams);
+            $queryParams['translatedText'] = $this->filterTranslatedTextParam($queryParams['translatedText']);
             $queryParams['translated'] = $this->filterTranslatedParam($queryParams['translated']);
             $params = array_merge($params, $queryParams);
         }
@@ -123,6 +124,15 @@ class languageCustomizationAction extends baseAdminAction
             FILTER_VALIDATE_BOOLEAN,
             FILTER_NULL_ON_FAILURE
         );
+    }
+
+    /**
+     * @param $translatedText
+     * @return string|null
+     */
+    private function filterTranslatedTextParam($translatedText)
+    {
+        return is_null($translatedText) ? null : htmlspecialchars($translatedText);
     }
 
     private function _setListComponent($translations, $count, $language)
