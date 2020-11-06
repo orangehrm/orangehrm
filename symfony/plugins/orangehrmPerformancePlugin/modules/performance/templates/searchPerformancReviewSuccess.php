@@ -43,7 +43,7 @@
         var resetUrl = '<?php echo url_for('performance/searchPerformancReview' . '?reset=1'); ?>';
         var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?>;
         var employeeList = eval(employees);
-        var typeHint = '<?php echo __("Type for hints") . "..."; ?>';
+        var typeHint = '<?php echo __js("Type for hints") . "..."; ?>';
 
         $('#btnDelete').attr('disabled', 'disabled');
 

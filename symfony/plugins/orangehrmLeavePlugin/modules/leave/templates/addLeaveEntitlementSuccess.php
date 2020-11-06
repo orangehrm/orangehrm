@@ -98,7 +98,7 @@ use_stylesheets_for_form($form);
 <div class="modal hide" id="employeeEntitlement" style="width:500px">
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
-    <h3><?php echo 'OrangeHRM - ' . __('Updating Entitlement'); ?></h3>
+    <h3><?php echo __('OrangeHRM') . ' - ' . __('Updating Entitlement'); ?></h3>
   </div>
   <div class="modal-body">
       
@@ -148,6 +148,7 @@ use_stylesheets_for_form($form);
     var lang_NoResultsFound = '<?php echo __js("No Records Found");?>';
     var lang_BulkAssignPleaseWait = '<?php echo __js('Bulk Assigning Leave Entitlement to %count% Employees. Please Wait');?>';
     var lang_PleaseWait = '<?php echo __js('Assigning Leave Entitlement. Please Wait');?>';
+    var lang_ExistingEntitlement = '<?php echo __js('Existing Entitlement value %oldvalue% will be updated to %newvalue%');?>';
         
     var filterMatchingEmployees = 0;
     

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,17 +15,34 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ *
  */
 
 /**
- * Cell filter to convert given value to configured language
+ * Refer symfony/lib/vendor/symfony/lib/helper/I18NHelper.php
+ * @param $text
+ * @param array $args
+ * @param string $catalogue
+ * @return string
+ * @throws sfConfigurationException
+ * @throws sfException
  */
-class I18nCellFilter extends ohrmCellFilter {
-    
-    public function filter($value) {
-        sfProjectConfiguration::getActive()->loadHelpers('OrangeI18N');
-        
-        return __($value);
+function __($text, $args = array(), $catalogue = 'messages')
+{
+    if (sfConfig::get('sf_i18n')) {
+        return sfContext::getInstance()->getI18N()->__($text, $args, $catalogue);
+    } else {
+        if (empty($args)) {
+            $args = array();
+        }
+
+        // replace object with strings
+        foreach ($args as $key => $value) {
+            if (is_object($value) && method_exists($value, '__toString')) {
+                $args[$key] = $value->__toString();
+            }
+        }
+
+        return strtr($text, $args);
     }
 }
-

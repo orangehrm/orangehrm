@@ -7,7 +7,7 @@ $(document).ready(function () {
             }
         },
         messages: {
-            confirm_password: 'This field is required',
+            confirm_password: lang_required,
         },
         submitHandler: function (form) {
             form.submit();

@@ -76,3 +76,9 @@
 <?php } ?>
     
 </div>
+
+<script>
+    var lang_required = "<?php echo __js(ValidationMessages::REQUIRED); ?>";
+    var lang_LengthExceeded80 = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 80)); ?>";
+    var lang_LengthExceeded2000 = "<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 2000)); ?>";
+</script>

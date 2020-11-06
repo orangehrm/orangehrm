@@ -2,7 +2,7 @@
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
   <header/>
-  <file source-language="en_US" target-language="es_ES" datatype="xml" original="messages" date="2020-10-26T07:02:38Z" product-name="messages">
+  <file source-language="en_US" target-language="es_ES" datatype="xml" original="messages" date="2020-10-30T09:48:33Z" product-name="messages">
     <body>
       <trans-unit id="1">
         <source>1M Max, any larger attachments will be ignored</source>
@@ -4641,7 +4641,7 @@
         <target/>
       </trans-unit>
       <trans-unit id="1160">
-        <source>manage Performance Tracker Log</source>
+        <source>Manage Performance Tracker Log</source>
         <target/>
       </trans-unit>
       <trans-unit id="1161">
@@ -7993,70 +7993,158 @@
         <target/>
       </trans-unit>
       <trans-unit id="1998">
-        <source>Language Packages</source>
+        <source>Craft Workers</source>
         <target/>
       </trans-unit>
       <trans-unit id="1999">
-        <source>Translate</source>
+        <source>Laborers and Helpers</source>
         <target/>
       </trans-unit>
       <trans-unit id="2000">
-        <source>Add Language Package</source>
+        <source>Office and Clerical Workers</source>
         <target/>
       </trans-unit>
       <trans-unit id="2001">
-        <source>Users will require translate texts manually after creating the language package.</source>
+        <source>Officials and Managers</source>
         <target/>
       </trans-unit>
       <trans-unit id="2002">
-        <source>Translate Language Package</source>
+        <source>Operatives</source>
         <target/>
       </trans-unit>
       <trans-unit id="2003">
-        <source>Language Package</source>
+        <source>Professionals</source>
         <target/>
       </trans-unit>
       <trans-unit id="2004">
-        <source>Source Language</source>
+        <source>Sales Workers</source>
         <target/>
       </trans-unit>
       <trans-unit id="2005">
-        <source>Module</source>
+        <source>Service Workers</source>
         <target/>
       </trans-unit>
       <trans-unit id="2006">
-        <source>Source Text</source>
+        <source>Technicians</source>
         <target/>
       </trans-unit>
       <trans-unit id="2007">
-        <source>Translated Text</source>
+        <source>Sendmail</source>
         <target/>
       </trans-unit>
       <trans-unit id="2008">
-        <source>Show</source>
+        <source>SMTP</source>
         <target/>
       </trans-unit>
       <trans-unit id="2009">
-        <source>Translated</source>
+        <source>Mal Formatted URL</source>
         <target/>
       </trans-unit>
       <trans-unit id="2010">
-        <source>Not Translated</source>
+        <source>Recommended dimensions: 200px X 200px</source>
         <target/>
       </trans-unit>
       <trans-unit id="2011">
-        <source>General</source>
+        <source>Enable Maintenance module</source>
         <target/>
       </trans-unit>
       <trans-unit id="2012">
-        <source>Source Note</source>
+        <source>No leave types defined</source>
         <target/>
       </trans-unit>
       <trans-unit id="2013">
-        <source>Export</source>
+        <source>Required.</source>
         <target/>
       </trans-unit>
       <trans-unit id="2014">
+        <source>Leave Pending Approval (Days)</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2015">
+        <source>Existing Entitlement value %oldvalue% will be updated to %newvalue%</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2016">
+        <source>Time (Hours)</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2017">
+        <source>Consent to keep data</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2018">
+        <source>Incorrect Password</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2019">
+        <source>Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier : %instanceid%)".</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2020">
+        <source>Language Packages</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2021">
+        <source>Translate</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2022">
+        <source>Add Language Package</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2023">
+        <source>Users will require translate texts manually after creating the language package.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2024">
+        <source>Translate Language Package</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2025">
+        <source>Language Package</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2026">
+        <source>Source Language</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2027">
+        <source>Module</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2028">
+        <source>Source Text</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2029">
+        <source>Translated Text</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2030">
+        <source>Show</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2031">
+        <source>Translated</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2032">
+        <source>Not Translated</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2033">
+        <source>General</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2034">
+        <source>Source Note</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2035">
+        <source>Export</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2036">
         <source>Failed to Export</source>
         <target/>
       </trans-unit>

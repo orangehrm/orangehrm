@@ -40,6 +40,7 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/components/ohrmCellFilterTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/components/EnumCellFilterTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/components/CellTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/TextareaCellTest.php');
         
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/dao/ConfigDaoTest.php');

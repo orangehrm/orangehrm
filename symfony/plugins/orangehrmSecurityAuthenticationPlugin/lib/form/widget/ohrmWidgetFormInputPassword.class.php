@@ -36,7 +36,8 @@ class ohrmWidgetFormInputPassword extends sfWidgetFormInputPassword
       $passwordStrengthUrl = url_for("securityAuthentication/getPasswordStrengthAjax");
       $passwordStrengths = $this->getSecurityAuthenticationConfigService()->getPasswordStrengthsWithViewValues();
       foreach ($passwordStrengths as $key=>$passwordStrength){
-          $passwordStrengths[$key] = __($passwordStrength);
+          // OHRM-878: Failed with newline
+          $passwordStrengths[$key] = __js($passwordStrength);
       }
 
 

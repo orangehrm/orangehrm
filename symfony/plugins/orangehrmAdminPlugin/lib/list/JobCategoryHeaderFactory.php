@@ -12,6 +12,7 @@ class JobCategoryHeaderFactory extends ohrmListConfigurationFactory {
 		    'elementProperty' => array(
 			'labelGetter' => 'getName',
 			'urlPattern' => 'javascript:'),
+            'filters' => array('I18nCellFilter' => array()),
 		));
 
 		$this->headers = array($header1);

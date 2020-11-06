@@ -120,11 +120,11 @@ Function ContactDetailsEnterValidate
 		StrCpy $LanguageCode "en_US"
 		
 		${If} $Language == "Chinese (Simplified Han) - 中文（简体中文）" 
-		      StrCpy $LanguageCode  "zh-cn"
+		      StrCpy $LanguageCode  "zh_Hans_CN"
 		${EndIf}
 	
 		${If} $Language == "Chinese (Traditional Han) - 中文 (繁體中文)"
-		      StrCpy $LanguageCode  "zh-tw"
+		      StrCpy $LanguageCode  "zh_Hant_TW"
 		${EndIf}
 		
 		${If} $Language == "Dutch - Nederlands"
@@ -360,10 +360,10 @@ Section "-Complete"
       nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -e "CREATE DATABASE orangehrm_mysql;"'
 
       DetailPrint "Creating OrangeHRM tables"
-      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-1.sql"'
+      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql --default-character-set=utf8 -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-1.sql"'
 
       DetailPrint "Filling required data"
-      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-2.sql"'
+      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql --default-character-set=utf8 -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-2.sql"'
 
       !insertmacro ReplaceInFile "$INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql" "?UserName" "$UserName"
       !insertmacro ReplaceInFile "$INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql" "?PasswordHash" "$PasswordHash"

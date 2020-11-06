@@ -20,6 +20,7 @@
 
 class languageCustomizationAction extends baseAdminAction
 {
+    const FILTERS_ATTRIBUTE_NAME = 'QUERY';
     /**
      * @var null|I18NService
      */
@@ -48,9 +49,11 @@ class languageCustomizationAction extends baseAdminAction
             if ($this->form->isValid()) {
                 $baseUrl = url_for('admin/languageCustomization') . "?langId={$language->getId()}";
                 if ($this->form->getValue('reset')) {
+                    $this->getUser()->setAttribute(self::FILTERS_ATTRIBUTE_NAME, null);
                     $this->redirect($baseUrl);
                 }
                 $query = http_build_query($this->getFilteredValues($this->form));
+                $this->getUser()->setAttribute(self::FILTERS_ATTRIBUTE_NAME, $query);
                 $this->redirect($baseUrl . (empty($query) ? '' : '&' . $query));
             } else {
                 $this->getUser()->setFlash('search.warning', __(TopLevelMessages::VALIDATION_FAILED), false);
@@ -70,25 +73,28 @@ class languageCustomizationAction extends baseAdminAction
         $sourceText = $request->getParameter('sourceText');
         $translatedText = $request->getParameter('translatedText');
         $translated = $request->getParameter('translated');
-        $translated = is_null($translated) ? null : filter_var(
-            $translated,
-            FILTER_VALIDATE_BOOLEAN,
-            FILTER_NULL_ON_FAILURE
-        );
+        $translated = $this->filterTranslatedParam($translated);
 
-        $searchParams = new ParameterObject(
-            [
-                'sortField' => $sortField,
-                'sortOrder' => $sortOrder,
-                'offset' => $offset,
-                'limit' => $limit,
-                'group' => $group,
-                'sourceText' => $sourceText,
-                'translatedText' => $translatedText,
-                'translated' => $translated,
-                'langCode' => $language->getCode(),
-            ]
-        );
+        $params = [
+            'sortField' => $sortField,
+            'sortOrder' => $sortOrder,
+            'offset' => $offset,
+            'limit' => $limit,
+            'group' => $group,
+            'sourceText' => $sourceText,
+            'translatedText' => $this->filterTranslatedTextParam($translatedText),
+            'translated' => $translated,
+            'langCode' => $language->getCode(),
+        ];
+
+        if (!is_null($this->getUser()->getAttribute(self::FILTERS_ATTRIBUTE_NAME))) {
+            $query = $this->getUser()->getAttribute(self::FILTERS_ATTRIBUTE_NAME);
+            parse_str($query, $queryParams);
+            $queryParams['translatedText'] = $this->filterTranslatedTextParam($queryParams['translatedText']);
+            $queryParams['translated'] = $this->filterTranslatedParam($queryParams['translated']);
+            $params = array_merge($params, $queryParams);
+        }
+        $searchParams = new ParameterObject($params);
 
         $translations = $this->getI18NService()->searchTranslations($searchParams);
         $translationsCount = $this->getI18NService()->searchTranslations($searchParams, true);
@@ -105,6 +111,28 @@ class languageCustomizationAction extends baseAdminAction
             ]
         );
         $this->langId = $language->getId();
+    }
+
+    /**
+     * @param $translated
+     * @return bool|null
+     */
+    private function filterTranslatedParam($translated)
+    {
+        return is_null($translated) ? null : filter_var(
+            $translated,
+            FILTER_VALIDATE_BOOLEAN,
+            FILTER_NULL_ON_FAILURE
+        );
+    }
+
+    /**
+     * @param $translatedText
+     * @return string|null
+     */
+    private function filterTranslatedTextParam($translatedText)
+    {
+        return is_null($translatedText) ? null : htmlspecialchars($translatedText);
     }
 
     private function _setListComponent($translations, $count, $language)

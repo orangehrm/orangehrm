@@ -29,7 +29,7 @@ class requestPasswordResetCodeAction extends basePasswordResetAction
         sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
 
         $this->form = new RequestResetPasswordForm();
-        $this->getContext()->getConfiguration()->loadHelpers(array('I18N'));
+        $this->getContext()->getConfiguration()->loadHelpers(array('OrangeI18N'));
 
         if ($request->isMethod('post')) {
             $this->form->bind($request->getParameter('securityAuthentication'));

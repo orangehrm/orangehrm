@@ -46,7 +46,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
         $attributes['type'] = 'text';
         
         $html           = parent::render($name . '[empName]', $empNameValue, $attributes, $errors);
-        $typeHint       = $this->getOption('typeHint');
+        $typeHint       = __js($this->getOption('typeHint'));
         $hiddenFieldId  = $this->getHiddenFieldId($name);
         
         $requiredPermissions = $this->getOption('requiredPermissions');
@@ -156,7 +156,7 @@ EOF
                         $hiddenFieldId,
                         $typeHint,
                         $this->getOption('loadingMethod'),
-                        __('Loading'),                
+                        __js('Loading'),
                         $this->generateId($name),
                         url_for('pim/getEmployeeListAjax'),
                         $ajaxRequiredPermissions);

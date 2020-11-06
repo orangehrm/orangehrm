@@ -71,14 +71,14 @@
 </div>
 
 <script type="text/javascript">
-    var lang_newPasswordRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_confirmNewPasswordRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_passwordMissMatch           = "<?php echo __("Passwords do not match"); ?>";
-    var lang_maxLengthExceeds             = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 64)); ?>';
-    var lang_UserPasswordLength     =   '<?php echo __("Should have at least %number% characters", array('%number%' => 8)); ?>';
-    var password_user               =   "<?php echo __("Very Weak").",".__("Weak").",".__("Better").",".__("Medium").",".__("Strong").",".__("Strongest")?>";
+    var lang_newPasswordRequired       = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_confirmNewPasswordRequired       = '<?php echo __js(ValidationMessages::REQUIRED); ?>';
+    var lang_passwordMissMatch           = "<?php echo __js("Passwords do not match"); ?>";
+    var lang_maxLengthExceeds             = '<?php echo __js(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 64)); ?>';
+    var lang_UserPasswordLength     =   '<?php echo __js("Should have at least %number% characters", array('%number%' => 8)); ?>';
+    var password_user               =   "<?php echo __js("Very Weak").",".__js("Weak").",".__js("Better").",".__js("Medium").",".__js("Strong").",".__js("Strongest")?>";
     var requiredStrengthCheckUrl = '<?php echo url_for('securityAuthentication/checkMinimumRequiredPasswordStrengthAjax') ?>';
-    var lang_passwordStrengthInvalid = '<?php echo __("Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.");?>';
+    var lang_passwordStrengthInvalid = '<?php echo __js("Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.");?>';
 </script>
 
 <?php include_partial('global/footer_copyright_social_links'); ?>

@@ -32,8 +32,17 @@ class getJobCategoryJsonAction extends sfAction {
 		$service = new JobCategoryService();
 		$status = $service->getJobCategoryById($jobCatId);
 
+		if ($status instanceof JobCategory) {
+			return $this->renderText(
+				json_encode(
+					[
+						'id' => $status->getId(),
+						'name' => __($status->getName())
+					]
+				)
+			);
+		}
+
 		return $this->renderText(json_encode($status->toArray()));
 	}
 }
-
-?>

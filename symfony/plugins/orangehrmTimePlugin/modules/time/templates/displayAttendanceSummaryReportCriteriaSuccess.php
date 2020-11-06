@@ -12,7 +12,7 @@
                 <ol>
                                                                    
                     <li> 
-                        <label><?php echo __('Employee Name'.' <em>*</em>') ?></label>
+                        <label><?php echo __('Employee Name') .' <em>*</em>' ?></label>
                         <?php echo $form['empName']->render(); ?>
                     
                     </li>

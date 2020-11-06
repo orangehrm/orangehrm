@@ -13,6 +13,8 @@ $(document).ready(function () {
     });
 
     $('#resetBtn').click(function () {
+        $('#searchTranslationLanguage_sourceText').val('');
+        $('#searchTranslationLanguage_translatedText').val('');
         $('#searchTranslationLanguage_reset').val(true);
         $('#frmTranslateLanguageSearch').submit();
     });
@@ -52,6 +54,10 @@ $(document).ready(function () {
             if (defaultValue != changedText) {
                 var changedInputName = 'changedTranslatedText[' + id + ']';
                 $(translatedTextId).prop('name', changedInputName)
+                // Remove newline from end of string
+                changedText = changedText.replace(/(\r\n|\n|\r)$/gm, "");
+                // Remove newlines middle of string and replace with space
+                changedText = changedText.replace(/(\r\n|\n|\r)/gm, " ");
                 $(translatedTextId).val(changedText);
             }
         });

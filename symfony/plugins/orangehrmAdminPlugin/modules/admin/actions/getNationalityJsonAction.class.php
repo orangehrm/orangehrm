@@ -17,6 +17,17 @@ class getNationalityJsonAction extends sfAction {
         $service = new NationalityService();
         $nationality = $service->getNationalityById($nationalityId);
 
+        if ($nationality instanceof Nationality) {
+            return $this->renderText(
+                json_encode(
+                    [
+                        'id' => $nationality->getId(),
+                        'name' => __($nationality->getName())
+                    ]
+                )
+            );
+        }
+
         return $this->renderText(json_encode($nationality->toArray()));
     }
 

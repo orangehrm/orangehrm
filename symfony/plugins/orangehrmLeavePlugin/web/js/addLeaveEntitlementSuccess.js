@@ -178,8 +178,10 @@
                                         var oldValue = parseFloat(data[0]);
                                         var newValue = parseFloat(data[1]);
                         
-                                        $('ol#employee_entitlement_update').html(''); 
-                                        var html = '<span>Existing Entitlement value '+ oldValue.toFixed(2)+' will be updated to '+ newValue.toFixed(2) +'</span>'
+                                        $('ol#employee_entitlement_update').html('');
+                                        lang_ExistingEntitlement = lang_ExistingEntitlement.replace('%oldvalue%', oldValue.toFixed(2));
+                                        lang_ExistingEntitlement = lang_ExistingEntitlement.replace('%newvalue%', newValue.toFixed(2));
+                                        var html = '<span>' + lang_ExistingEntitlement + '</span>'
                                         $('ol#employee_entitlement_update').append(html);
                                         $('#employeeEntitlement').modal();
                                     }else{

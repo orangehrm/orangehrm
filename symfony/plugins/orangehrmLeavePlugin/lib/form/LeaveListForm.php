@@ -50,7 +50,7 @@ class LeaveListForm extends sfForm {
         $validators = array();
         $defaults = array();
         
-        sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N', 'OrangeDate'));
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('OrangeI18N', 'OrangeDate'));
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
         
         // From and To Date

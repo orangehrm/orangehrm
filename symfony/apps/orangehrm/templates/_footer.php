@@ -51,9 +51,9 @@
                 $(".toggableForm .toggle").click(function () {
                     $(".toggableForm .inner").slideToggle('slow', function() {
                         if($(this).is(':hidden')) {
-                            $('.toggableForm .tiptip').tipTip({content:'<?php echo __(CommonMessages::EXPAND_OPTIONS); ?>'});
+                            $('.toggableForm .tiptip').tipTip({content:'<?php echo __js(CommonMessages::EXPAND_OPTIONS); ?>'});
                         } else {
-                            $('.toggableForm .tiptip').tipTip({content:'<?php echo __(CommonMessages::HIDE_OPTIONS); ?>'});
+                            $('.toggableForm .tiptip').tipTip({content:'<?php echo __js(CommonMessages::HIDE_OPTIONS); ?>'});
                         }
                     });
                     $(this).toggleClass("activated");

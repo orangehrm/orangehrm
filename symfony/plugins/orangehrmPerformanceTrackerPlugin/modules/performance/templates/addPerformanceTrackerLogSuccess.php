@@ -4,7 +4,7 @@
 
     <div class="head">
         <h1 id="formHeading">
-            <?php echo __('manage Performance Tracker Log'); ?>
+            <?php echo __('Manage Performance Tracker Log'); ?>
         </h1>
     </div>
 

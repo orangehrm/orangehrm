@@ -52,6 +52,7 @@ class languagePackageAction extends baseAdminAction
             ]
         );
         $this->_setListComponent($this->getI18NService()->searchLanguages($searchParams));
+        $this->getUser()->setAttribute(languageCustomizationAction::FILTERS_ATTRIBUTE_NAME, null);
     }
 
     private function _setListComponent($languageList)

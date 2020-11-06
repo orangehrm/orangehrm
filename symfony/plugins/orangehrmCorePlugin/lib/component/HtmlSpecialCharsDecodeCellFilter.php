@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,15 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Cell filter to convert given value to configured language
- */
-class I18nCellFilter extends ohrmCellFilter {
-    
-    public function filter($value) {
-        sfProjectConfiguration::getActive()->loadHelpers('OrangeI18N');
-        
-        return __($value);
+class HtmlSpecialCharsDecodeCellFilter extends ohrmCellFilter
+{
+    /**
+     * @inheritDoc
+     */
+    public function filter($value)
+    {
+        return htmlspecialchars_decode($value);
     }
 }
-

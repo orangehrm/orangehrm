@@ -94,6 +94,7 @@ class LanguageCustomizationHeaderFactory extends ohrmListConfigurationFactory
                         'cols' => '50',
                         'class' => 'translated-textarea',
                         'disabled' => true,
+                        'maxlength' => 1500,
                     ],
                     'placeholderGetters' => ['id' => 'getId'],
                     'hasHiddenField' => true,
@@ -104,6 +105,7 @@ class LanguageCustomizationHeaderFactory extends ohrmListConfigurationFactory
                     'name' => '{id}',
                     'id' => 'translatedTextarea_{id}'
                 ],
+                'filters' => ['HtmlSpecialCharsDecodeCellFilter' => []],
             ]
         );
 

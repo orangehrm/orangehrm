@@ -237,7 +237,7 @@
     //<![CDATA[
     
     var firstPart = '<?php echo url_for('admin/viewJobSpec?attachId='); ?>';
-    var notDefinedLabel = '<?php echo __('Not Defined'); ?>';
+    var notDefinedLabel = '<?php echo __js('Not Defined'); ?>';
     
     var stratDate = "";
     

@@ -107,8 +107,8 @@ class I18NService extends BaseService
         foreach ($translatedTexts as $id => $translatedText) {
             $i18nTranslate = $this->getI18NDao()->getI18NTranslateById($id);
             if ($i18nTranslate instanceof I18NTranslate) {
-                $i18nTranslate->setValue($translatedText);
-                $i18nTranslate->setTranslated(true);
+                $i18nTranslate->setValue(htmlspecialchars($translatedText));
+                $i18nTranslate->setTranslated($translatedText == '' ? false : true);
                 $i18nTranslate->setCustomized(true);
                 $i18nTranslate->setModifiedAt(date("Y-m-d H:i:s"));
                 $this->getI18NDao()->saveI18NTranslate($i18nTranslate);
@@ -143,14 +143,28 @@ class I18NService extends BaseService
     }
 
     /**
+     * Accept symfony/apps/orangehrm/i18n/messages.[code].xml and return symfony/apps/orangehrm/i18n
+     * @param string $source
+     * @return string|null
+     */
+    public function generateSourceDirFromSource(string $source)
+    {
+        $replaced = preg_replace('/messages\.(.+)\.xml/', '', $source);
+        // remove end DIRECTORY_SEPARATOR
+        return substr($replaced, 0, strlen($replaced) - 1);
+    }
+
+    /**
      * Sync all XLIFF sources language string to database
      * @throws DaoException
      * @throws sfException
      */
     public function syncI18NSourcesLangStrings()
     {
+        $currentSourceDirs = [];
         foreach ($this->getI18NSourceDirs() as $sourceDir) {
             $baseSource = $this->getLangPackPath($sourceDir);
+            $currentSourceDirs[] = $this->getRelativeSource($sourceDir);
 
             $i18nSource = $this->getI18NDao()->getI18NSource($this->getRelativeSource($baseSource));
             if ($i18nSource instanceof I18NSource) {
@@ -170,6 +184,14 @@ class I18NService extends BaseService
                 $this->getI18NDao()->saveI18NSource($newSource);
 
                 $this->syncI18NSourceLangStrings($baseSource, $newSource->getId());
+            }
+        }
+
+        foreach ($this->getI18NDao()->getAllI18NSources() as $source) {
+            $sourceDir = $this->generateSourceDirFromSource($source->getSource());
+            if (!in_array($sourceDir, $currentSourceDirs)) {
+                // delete removed source
+                $this->getI18NDao()->deleteI18NSource($source);
             }
         }
     }
@@ -335,7 +357,7 @@ class I18NService extends BaseService
 
             $source = $langString->getValue();
             if (isset($translationUnits[$source]) && !empty($translationUnits[$source])) {
-                $translate->setValue($translationUnits[$source]);
+                $translate->setValue(htmlspecialchars($translationUnits[$source]));
             } else {
                 $translate->setTranslated(false);
             }
@@ -425,24 +447,26 @@ class I18NService extends BaseService
 
     /**
      * @param string $langCode
+     * @return I18NLanguage
      * @throws DaoException
      */
     public function markLanguageAsModified(string $langCode)
     {
         $lang = $this->getI18NDao()->getLanguageByCode($langCode);
         $lang->setModifiedAt(date("Y-m-d H:i:s"));
-        $this->getI18NDao()->saveI18NLanguage($lang);
+        return $this->getI18NDao()->saveI18NLanguage($lang);
     }
 
     /**
      * @param string $langCode
+     * @return I18NLanguage
      * @throws DaoException
      */
     public function markLanguageAsAdded(string $langCode)
     {
         $lang = $this->getI18NDao()->getLanguageByCode($langCode);
         $lang->setAdded(true);
-        $this->getI18NDao()->saveI18NLanguage($lang);
+        return $this->getI18NDao()->saveI18NLanguage($lang);
     }
 
     /**
@@ -541,6 +565,21 @@ class I18NService extends BaseService
                 $node->addAttribute('id', $id);
                 $node->addChild('source', htmlspecialchars($source));
                 $node->addChild('target', htmlspecialchars($target));
+
+                $group = $translation->getI18NLangString()->getI18NGroup();
+                if ($group instanceof I18NGroup) {
+                    $node->addAttribute('group', $group->getName());
+                }
+
+                $version = $translation->getI18NLangString()->getVersion();
+                if ($version) {
+                    $node->addAttribute('version', $version);
+                }
+
+                $note = htmlspecialchars($translation->getI18NLangString()->getNote());
+                if ($note != '') {
+                    $node->addChild('note', $note);
+                }
             }
         }
         return $i18nSources;
@@ -719,5 +758,58 @@ class I18NService extends BaseService
             $sourceDuplicates[$this->getRelativeSource($sourceFile)] = $duplicates;
         }
         return $sourceDuplicates;
+    }
+
+    /**
+     * Continue trans-unit id in messages.zz_ZZ.xml
+     * @throws sfException
+     */
+    public function continueNumberingUnitId()
+    {
+        foreach ($this->getI18NSourceDirs() as $sourceDir) {
+            $sourceFile = $sourceDir . DIRECTORY_SEPARATOR . $this->getDevLanguagePackName();
+            $translationUnits = $this->readSource($sourceFile);
+            $lastId = 1;
+
+            $xml = $this->getXliffXml(self::DEV_LANG_PACK);
+            $body = $xml->xpath('//body')[0];
+            foreach ($translationUnits as $unit) {
+                $id = (string)$unit['id'];
+                if (empty($id)) {
+                    $lastId++;
+                    $id = $lastId;
+                } else {
+                    $lastId = intval($id);
+                }
+
+                $source = (string)$unit->source;
+                $target = (string)$unit->target;
+                $node = $body->addChild('trans-unit');
+                $node->addAttribute('id', $id);
+                $node->addChild('source', htmlspecialchars($source));
+                $node->addChild('target', htmlspecialchars($target));
+
+                $group = (string)$unit['group'];
+                if ($group) {
+                    $node->addAttribute('group', $group);
+                }
+
+                $version = (string)$unit['version'];
+                if ($version) {
+                    $node->addAttribute('version', $version);
+                }
+
+                $note = (string)$unit->note;
+                if (!empty($note)) {
+                    $node->addChild('note', $note);
+                }
+            }
+
+            $doc = new DOMDocument();
+            $doc->formatOutput = true;
+            $doc->preserveWhiteSpace = false;
+            $doc->loadXML($xml->asXML());
+            $doc->save($sourceFile);
+        }
     }
 }

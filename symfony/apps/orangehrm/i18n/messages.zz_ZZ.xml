@@ -2,7 +2,7 @@
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
   <header/>
-  <file source-language="en_US" target-language="zz_ZZ" datatype="xml" original="messages" date="2020-10-24T09:26:07Z" product-name="messages">
+  <file source-language="en_US" target-language="zz_ZZ" datatype="xml" original="messages" date="2020-10-30T09:48:33Z" product-name="messages">
     <body>
       <trans-unit id="1" group="general" version="4.6-">
         <source>1M Max, any larger attachments will be ignored</source>
@@ -839,7 +839,7 @@
         <target>FR_Competency</target>
         <note>Set of skills and abilities which are required for desired level of performance and can be grouped them into competency groups</note>
       </trans-unit>
-      <trans-unit id="168" group="admin" version="4.6-">
+      <trans-unit id="168" group="general" version="4.6-">
         <source>Configuration</source>
         <target>FR_Configuration</target>
         <note>An arrangement of elements in a particular form</note>
@@ -1261,7 +1261,7 @@
         <target>FR_Edit Salary Component</target>
         <note>The HR Admin can edit salary components by going to Admin&gt;&gt;Job&gt;&gt; Salary Components. Ex: Car Allowance</note>
       </trans-unit>
-      <trans-unit id="252" group="pim" version="4.6-">
+      <trans-unit id="252" group="general" version="4.6-">
         <source>Education</source>
         <target>FR_Education</target>
         <note>Add levels of education to the system.</note>
@@ -1361,7 +1361,7 @@
         <target>FR_Employee Records</target>
         <note>Records in the system which are related to employees.</note>
       </trans-unit>
-      <trans-unit id="272" group="time" version="4.6-">
+      <trans-unit id="272" group="general" version="4.6-">
         <source>Employee Reports</source>
         <target>FR_Employee Reports</target>
         <note>Generate reports that are relevant to employees</note>
@@ -1371,7 +1371,7 @@
         <target>FR_Employee Timesheets</target>
         <note>To action an employee timesheet, go to Time&gt;&gt; Time Sheets&gt;&gt; Employee Time sheets, those time sheets can be viewed, edited,approved and rejected.</note>
       </trans-unit>
-      <trans-unit id="274" group="time" version="4.6-">
+      <trans-unit id="274" group="general" version="4.6-">
         <source>Employment Status</source>
         <target>FR_Employment Status</target>
         <note>Administrators and supervisors can view leave details of employees with a particular employment status.</note>
@@ -1381,7 +1381,7 @@
         <target>FR_Enabled</target>
         <note>When adding a system user, Select enable to allow employee to access the system with the defined user role.</note>
       </trans-unit>
-      <trans-unit id="276" group="pim" version="4.6-">
+      <trans-unit id="276" group="general" version="4.6-">
         <source>End Date</source>
         <target>FR_End Date</target>
         <note>When defining the current leave period, the system will automatically set the “End Date” as to have a one-calendar year leave period.</note>
@@ -2520,7 +2520,7 @@
         <target>FR_Localization</target>
         <note>This feature enables the HR Admin to configure the language settings and translate the OrangeHRM system to the language of your choice. To configure localization settings, go to Admin&gt;&gt; Configuration&gt;&gt; Localization</note>
       </trans-unit>
-      <trans-unit id="504" group="pim" version="4.6-">
+      <trans-unit id="504" group="general" version="4.6-">
         <source>Location</source>
         <target>FR_Location</target>
         <note>All employees based in all the company locations need to be defined first under Admin&gt;&gt;Organization&gt;&gt;Locations.</note>
@@ -2975,7 +2975,7 @@
         <target>FR_Nationalities</target>
         <note>This feature allows the HR Admin to define the different nationalities that present in the company which can later be used in the PIM Module. Various nationalities are already pre-defined. To add a nationality, go to Admin&gt;&gt; Nationalities</note>
       </trans-unit>
-      <trans-unit id="595" group="pim" version="4.6-">
+      <trans-unit id="595" group="general" version="4.6-">
         <source>Nationality</source>
         <target>FR_Nationality</target>
         <note>This feature allows the HR Admin to define the different nationalities that present in the company which can later be used in the PIM Module. Various nationalities are already pre-defined. To add a nationality, go to Admin&gt;&gt; Nationalities</note>
@@ -5797,7 +5797,7 @@
         <target>FR_Performance Trackers</target>
       </trans-unit>
       <trans-unit id="1160" group="performance" version="4.6-">
-        <source>manage Performance Tracker Log</source>
+        <source>Manage Performance Tracker Log</source>
         <target>FR_manage Performance Tracker Log</target>
         <note>This feature allows the performance of employees to be logged and tracked throughout the year. Such tracking would be helpful during formal performance reviews for both employees and reviewers.</note>
       </trans-unit>
@@ -6234,7 +6234,7 @@
         <target>FR_If gender is specified, value should be either</target>
         <note>If gender is specified, value should be either male or female</note>
       </trans-unit>
-      <trans-unit id="1248" group="recruitment" version="4.6-">
+      <trans-unit id="1248" group="general" version="4.6-">
         <source>Job Description</source>
         <target>FR_Job Description</target>
         <note>You could describe the role of the employee in the company through this feature</note>
@@ -9818,71 +9818,161 @@
         <source>Search Directory</source>
         <target>FR_Search Directory</target>
       </trans-unit>
-      <trans-unit id="1998" group="admin" version="4.6">
+      <trans-unit id="1998" group="admin" version="4.6-">
+        <source>Craft Workers</source>
+        <target>FR_Craft Workers</target>
+      </trans-unit>
+      <trans-unit id="1999" group="admin" version="4.6-">
+        <source>Laborers and Helpers</source>
+        <target>FR_Laborers and Helpers</target>
+      </trans-unit>
+      <trans-unit id="2000" group="admin" version="4.6-">
+        <source>Office and Clerical Workers</source>
+        <target>FR_Office and Clerical Workers</target>
+      </trans-unit>
+      <trans-unit id="2001" group="admin" version="4.6-">
+        <source>Officials and Managers</source>
+        <target>FR_Officials and Managers</target>
+      </trans-unit>
+      <trans-unit id="2002" group="admin" version="4.6-">
+        <source>Operatives</source>
+        <target>FR_Operatives</target>
+      </trans-unit>
+      <trans-unit id="2003" group="admin" version="4.6-">
+        <source>Professionals</source>
+        <target>FR_Professionals</target>
+      </trans-unit>
+      <trans-unit id="2004" group="admin" version="4.6-">
+        <source>Sales Workers</source>
+        <target>FR_Sales Workers</target>
+      </trans-unit>
+      <trans-unit id="2005" group="admin" version="4.6-">
+        <source>Service Workers</source>
+        <target>FR_Service Workers</target>
+      </trans-unit>
+      <trans-unit id="2006" group="admin" version="4.6-">
+        <source>Technicians</source>
+        <target>FR_Technicians</target>
+      </trans-unit>
+      <trans-unit id="2007" group="admin" version="4.6-">
+        <source>Sendmail</source>
+        <target>FR_Sendmail</target>
+      </trans-unit>
+      <trans-unit id="2008" group="admin" version="4.6-">
+        <source>SMTP</source>
+        <target>FR_SMTP</target>
+      </trans-unit>
+      <trans-unit id="2009" group="admin" version="4.6-">
+        <source>Mal Formatted URL</source>
+        <target>FR_Mal Formatted URL</target>
+      </trans-unit>
+      <trans-unit id="2010" group="pim" version="4.6-">
+        <source>Recommended dimensions: 200px X 200px</source>
+        <target>FR_Recommended dimensions: 200px X 200px</target>
+      </trans-unit>
+      <trans-unit id="2011" group="admin" version="4.6-">
+        <source>Enable Maintenance module</source>
+        <target>FR_Enable Maintenance module</target>
+      </trans-unit>
+      <trans-unit id="2012" group="leave" version="4.6-">
+        <source>No leave types defined</source>
+        <target>FR_No leave types defined</target>
+      </trans-unit>
+      <trans-unit id="2013" group="leave" version="4.6-">
+        <source>Required.</source>
+        <target>FR_Required.</target>
+      </trans-unit>
+      <trans-unit id="2014" group="leave" version="4.6-">
+        <source>Leave Pending Approval (Days)</source>
+        <target>FR_Leave Pending Approval (Days)</target>
+      </trans-unit>
+      <trans-unit id="2015" group="leave" version="4.6-">
+        <source>Existing Entitlement value %oldvalue% will be updated to %newvalue%</source>
+        <target>FR_Existing Entitlement value %oldvalue% will be updated to %newvalue%</target>
+        <note>Don't translate %oldvalue% and %newvalue%</note>
+      </trans-unit>
+      <trans-unit id="2016" group="time" version="4.6-">
+        <source>Time (Hours)</source>
+        <target>FR_Time (Hours)</target>
+      </trans-unit>
+      <trans-unit id="2017" group="recruitment" version="4.6-">
+        <source>Consent to keep data</source>
+        <target>FR_Consent to keep data</target>
+      </trans-unit>
+      <trans-unit id="2018" group="general" version="4.6-">
+        <source>Incorrect Password</source>
+        <target>FR_Incorrect Password</target>
+      </trans-unit>
+      <trans-unit id="2019" group="maintenance" version="4.6-">
+        <source>Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier : %instanceid%)".</source>
+        <target>FR_Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to Data@orangehrm.com with the subject "Purge Records (Instance Identifier : %instanceid%)".</target>
+        <note>Don't translate %instanceid%.</note>
+      </trans-unit>
+      <trans-unit id="2020" group="admin" version="4.6">
         <source>Language Packages</source>
         <target>FR_Language Packages</target>
       </trans-unit>
-      <trans-unit id="1999" group="admin" version="4.6">
+      <trans-unit id="2021" group="admin" version="4.6">
         <source>Translate</source>
         <target>FR_Translate</target>
       </trans-unit>
-      <trans-unit id="2000" group="admin" version="4.6">
+      <trans-unit id="2022" group="admin" version="4.6">
         <source>Add Language Package</source>
         <target>FR_Add Language Package</target>
       </trans-unit>
-      <trans-unit id="2001" group="admin" version="4.6">
+      <trans-unit id="2023" group="admin" version="4.6">
         <source>Users will require translate texts manually after creating the language package.</source>
         <target>FR_Users will require translate texts manually after creating the language package.</target>
       </trans-unit>
-      <trans-unit id="2002" group="admin" version="4.6">
+      <trans-unit id="2024" group="admin" version="4.6">
         <source>Translate Language Package</source>
         <target>FR_Translate Language Package</target>
       </trans-unit>
-      <trans-unit id="2003" group="admin" version="4.6">
+      <trans-unit id="2025" group="admin" version="4.6">
         <source>Language Package</source>
         <target>FR_Language Package</target>
       </trans-unit>
-      <trans-unit id="2004" group="admin" version="4.6">
+      <trans-unit id="2026" group="admin" version="4.6">
         <source>Source Language</source>
         <target>FR_Source Language</target>
       </trans-unit>
-      <trans-unit id="2005" group="admin" version="4.6">
+      <trans-unit id="2027" group="admin" version="4.6">
         <source>Module</source>
         <target>FR_Module</target>
       </trans-unit>
-      <trans-unit id="2006" group="admin" version="4.6">
+      <trans-unit id="2028" group="admin" version="4.6">
         <source>Source Text</source>
         <target>FR_Source Text</target>
       </trans-unit>
-      <trans-unit id="2007" group="admin" version="4.6">
+      <trans-unit id="2029" group="admin" version="4.6">
         <source>Translated Text</source>
         <target>FR_Translated Text</target>
       </trans-unit>
-      <trans-unit id="2008" group="admin" version="4.6">
+      <trans-unit id="2030" group="admin" version="4.6">
         <source>Show</source>
         <target>FR_Show</target>
       </trans-unit>
-      <trans-unit id="2009" group="admin" version="4.6">
+      <trans-unit id="2031" group="admin" version="4.6">
         <source>Translated</source>
         <target>FR_Translated</target>
       </trans-unit>
-      <trans-unit id="2010" group="admin" version="4.6">
+      <trans-unit id="2032" group="admin" version="4.6">
         <source>Not Translated</source>
         <target>FR_Not Translated</target>
       </trans-unit>
-      <trans-unit id="2011" group="admin" version="4.6">
+      <trans-unit id="2033" group="admin" version="4.6">
         <source>General</source>
         <target>FR_General</target>
       </trans-unit>
-      <trans-unit id="2012" group="admin" version="4.6">
+      <trans-unit id="2034" group="admin" version="4.6">
         <source>Source Note</source>
         <target>FR_Source Note</target>
       </trans-unit>
-      <trans-unit id="2013" group="admin" version="4.6">
+      <trans-unit id="2035" group="admin" version="4.6">
         <source>Export</source>
         <target>FR_Export</target>
       </trans-unit>
-      <trans-unit id="2014" group="admin" version="4.6">
+      <trans-unit id="2036" group="admin" version="4.6">
         <source>Failed to Export</source>
         <target>FR_Failed to Export</target>
       </trans-unit>

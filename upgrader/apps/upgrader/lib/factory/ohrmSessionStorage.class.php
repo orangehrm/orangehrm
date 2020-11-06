@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,15 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Cell filter to convert given value to configured language
- */
-class I18nCellFilter extends ohrmCellFilter {
-    
-    public function filter($value) {
-        sfProjectConfiguration::getActive()->loadHelpers('OrangeI18N');
-        
-        return __($value);
+class ohrmSessionStorage extends sfSessionStorage
+{
+    public function __construct($options = [])
+    {
+        $isSecure = sfContext::getInstance()->getRequest()->isSecure();
+        parent::__construct(
+            array_merge(
+                $options,
+                [
+                    // if connection secure cookie name is `orangehrm` else `_orangehrm`
+                    'session_name' => ($isSecure ? '' : '_') . $options['session_name'],
+                    'session_cookie_secure' => $isSecure
+                ]
+            )
+        );
     }
 }
-

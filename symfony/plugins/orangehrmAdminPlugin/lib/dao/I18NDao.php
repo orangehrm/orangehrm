@@ -182,6 +182,30 @@ class I18NDao extends BaseDao
     }
 
     /**
+     * @param I18NSource $i18NSource
+     * @return bool
+     */
+    public function deleteI18NSource(I18NSource $i18NSource)
+    {
+        return $i18NSource->delete();
+    }
+
+    /**
+     * @return Doctrine_Collection|I18NSource[]
+     * @throws DaoException
+     */
+    public function getAllI18NSources()
+    {
+        try {
+            return Doctrine::getTable('I18NSource')->findAll();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
      * @param I18NLangString $i18NLangString
      * @return I18NLangString
      * @throws Exception
