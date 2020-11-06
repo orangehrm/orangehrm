@@ -30,7 +30,7 @@
 function __($text, $args = array(), $catalogue = 'messages')
 {
     if (sfConfig::get('sf_i18n')) {
-        return htmlspecialchars_decode(sfContext::getInstance()->getI18N()->__($text, $args, $catalogue));
+        return sfContext::getInstance()->getI18N()->__($text, $args, $catalogue);
     } else {
         if (empty($args)) {
             $args = array();
@@ -43,6 +43,6 @@ function __($text, $args = array(), $catalogue = 'messages')
             }
         }
 
-        return htmlspecialchars_decode(strtr($text, $args));
+        return strtr($text, $args);
     }
 }
