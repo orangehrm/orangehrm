@@ -187,7 +187,7 @@ EOF
                         $this->getEmployeeListAsJson($employeeList),
                         $this->attributes['id'],
                         $this->attributes['id'],
-                        $typeHint,
+                        __js($typeHint),
                         $this->attributes['id'],
                         $this->attributes['id'],
                         $this->attributes['id'],
