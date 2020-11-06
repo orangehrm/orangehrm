@@ -516,12 +516,14 @@ class AttendanceDao {
 
     }
 
-    public function getLastPunchRecordDetails($employeeId){
+    public function getLastPunchRecordDetails($employeeId)
+    {
         try {
             $query = Doctrine_Query::create()
                 ->from("attendanceRecord")
                 ->where("employeeId = ?", $employeeId)
-                ->orderBy('id DESC');;
+                ->orderBy('id DESC')
+                ->limit(1);
             $lastReocord = $query->execute();
             if (!count($lastReocord)) {
                 return null;
