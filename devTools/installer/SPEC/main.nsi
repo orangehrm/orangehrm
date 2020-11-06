@@ -40,6 +40,7 @@
 
   BrandingText "${Organization}"
   Name "${ProductName} ${ProductVersion}"
+  Caption "${ProductName} ${ProductVersion} Setup (Deprecated)"
 
 ;--------------------------------
 ; Directory structure
@@ -134,6 +135,10 @@
 ;--------------------------------
 ; Pages
 
+  !define MUI_WELCOMEPAGE_TITLE "Welcome to OrangeHRM ${ProductVersion} Setup \r\n(Deprecated)"
+  !define MUI_WELCOMEPAGE_TITLE_3LINES
+  !define MUI_WELCOMEPAGE_TEXT "OrangeHRM EXE version has been deprecated. \r\n\r\nOrangeHRM EXE version no longer supported from March 2021 onwards. Download the ZIP / docker version to install the OrangeHRM Opensource Application. \r\n\r\nSetup will guide you through the installation of OrangeHRM ${ProductVersion}. \r\n\r\nIt is recommended that you close all other applications before starting Setup. This will make it possibel to update relevent system files without having to reboot your computer. \r\n\r\nClick Next to continue."
+  !define MUI_PAGE_CUSTOMFUNCTION_SHOW wel_show
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE "${SourceLocation}\content\license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
@@ -217,6 +222,26 @@ Function Func_save_data
 	nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `ohrm_organization_gen_info`(`name`) VALUES ( $\' $CompanyName $\')"'
 	
     
+FunctionEnd
+
+Function wel_show
+         ; FindWindow $1 "#32770" "" $HWNDPARENT
+         ; Cannot use FindWindow here because it finds the wrong
+         ; dialog handle when pressing the back button!
+         !if "${MUI_SYSVERSION}" >= 2.0
+         StrCpy $1 $mui.WelcomePage
+         !else
+         StrCpy $1 $MUI_HWND
+         !endif
+         SetCtlColors $1 '' '0xFFFFFF'
+ 
+         GetDlgItem $2 $1 1201
+         SetCtlColors $2 '0xFF0000' '0xFFFFFF'
+ 
+        ;  GetDlgItem $2 $1 1202
+        ;  SetCtlColors $2 '0xFFFF00' '0xFFFFFF'
+        ;  CreateFont $1 "$(^Font)" "10" ""
+        ;  SendMessage $2 ${WM_SETFONT} $1 0
 FunctionEnd
 
 
