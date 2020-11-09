@@ -21,35 +21,33 @@
 //namespace Orangehrm\Rest\Api\User;
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\User\EmployeePunchInAPI;
-
-//use Orangehrm\Rest\Api\Attendance\PunchInAPI;
+use Orangehrm\Rest\Api\User\EmployeePunchOutAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-class EmployeePunchInApiAction extends \BaseUserApiAction
+class EmployeePunchOutApiAction extends \BaseUserApiAction
 {
 
-    private $punchInApi = null;
+    private $punchOutApi = null;
 
 
     /**
-     * @return PunchInAPI
+     * @return PunchOutAPI
      */
-    public function getPunchInApi($request)
+    public function getPunchOutApi($request)
     {
-        if (is_null($this->punchInApi)) {
-            $this->punchInApi = new EmployeePunchInAPI($request);
+        if (!$this->punchOutApi) {
+            $this->punchOutApi = new EmployeePunchOutAPI($request);
         }
-        return $this->punchInApi;
+        return $this->punchOutApi;
     }
 
     /**
-     * @param $punchInApi
+     * @param $punchOutApi
      * @return $this
      */
-    public function setPunchInApi($punchInApi)
+    public function setPunchOutApi($punchOutApi)
     {
-        $this->punchInApi = $punchInApi;
+        $this->punchOutApi = $punchOutApi;
         return $this;
     }
 
@@ -58,8 +56,8 @@ class EmployeePunchInApiAction extends \BaseUserApiAction
      */
     protected function init(Request $request)
     {
-        $this->punchInApi = new EmployeePunchInAPI($request);
-        $this->postValidationRule = $this->punchInApi->getValidationRules();
+        $this->punchOutApi = new EmployeePunchOutAPI($request);
+        $this->postValidationRule = $this->punchOutApi->getValidationRules();
     }
 
     /**
@@ -69,7 +67,7 @@ class EmployeePunchInApiAction extends \BaseUserApiAction
     protected function handleGetRequest(Request $request)
     {
         $this->setUserToContext();
-        return $this->getPunchInApi($request)->getDetailsForPunchIn();
+        return $this->getPunchOutApi($request)->getDetailsForPunchOut();
     }
 
     /**
@@ -79,6 +77,6 @@ class EmployeePunchInApiAction extends \BaseUserApiAction
     protected function handlePostRequest(Request $request)
     {
         $this->setUserToContext();
-        return $this->getPunchInApi($request)->savePunchIn();
+        return $this->getPunchOutApi($request)->savePunchOut();
     }
 }

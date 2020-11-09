@@ -26,6 +26,9 @@ use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
+use \WorkflowStateMachine;
+use \AttendanceRecord;
+use \configureAction;
 
 class PunchTimeAPI extends EndPoint{
 
@@ -104,6 +107,22 @@ class PunchTimeAPI extends EndPoint{
         $remote_dt = new \DateTime("now", $remote_dtz);
         $offset = $origin_dtz->getOffset($origin_dt) - $remote_dtz->getOffset($remote_dt);
         return $offset;
+    }
+
+    public function getPunchTimeEditable()
+    {
+        $isPunchTimeEditable = $this->getAttendanceService()->getSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_INITIAL,
+            configureAction::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            AttendanceRecord::STATE_INITIAL
+        );
+        $serverUtcTime = $serverUtcTime = gmdate('Y-m-d H:i');
+        return array(
+            'editable' => $isPunchTimeEditable,
+            'serverUtcTime' => $serverUtcTime
+        );
     }
 
 }

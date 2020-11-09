@@ -144,6 +144,13 @@ api_attendance_employee_punchin:
     id: \d+
     sf_method: [get,post]
 
+api_attendance_employee_punchout:
+  url: /api/v1/attendance/punch-out
+  param: { module:apiv1user, action:EmployeePunchOutApi }
+  requirements:
+    id: \d+
+    sf_method: [get,post]
+
 api_project:
   url: /api/v1/project
   param: { module:apiv1time, action:ProjectsApi }
