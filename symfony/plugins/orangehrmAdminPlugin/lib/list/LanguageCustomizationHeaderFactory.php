@@ -83,7 +83,7 @@ class LanguageCustomizationHeaderFactory extends ohrmListConfigurationFactory
             [
                 'name' => 'Translated Text',
                 'width' => '50%',
-                'isSortable' => true,
+                'isSortable' => false,
                 'sortField' => 't.value',
                 'sortUrl' => $sortUrl,
                 'elementType' => 'textarea',
