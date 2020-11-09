@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: root
+ * Date: 6/2/17
+ * Time: 9:04 PM
+ */
 
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -24,26 +30,25 @@ use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Attendance\PunchInAPI;
+use Orangehrm\Rest\Api\Attendance\PunchOutAPI;
 use \PluginAttendanceRecord;
-use \sfContext;
 use \DateTimeZone;
 use \DateTime;
-use \AttendanceRecord;
+use \Exception;
 
 
-class EmployeePunchInAPI extends PunchInAPI
+class EmployeePunchOutAPI extends PunchOutAPI
 {
     /**
      * @return Response
      * @throws InvalidParamException
      * @throws RecordNotFoundException
      */
-    public function savePunchIn()
+    public function savePunchOut()
     {
         $timeZone = $this->getRequestParams()->getPostParam(parent::PARAMETER_TIME_ZONE);
-        $punchInNote = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
         $dateTime = $this->getRequestParams()->getPostParam(parent::PARAMETER_DATE_TIME);
+        $punchOutNote = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
 
         $editable = $this->getAttendanceService()->getDateTimeEditable();
         if ($editable && empty($dateTime)) {
@@ -56,20 +61,16 @@ class EmployeePunchInAPI extends PunchInAPI
         $empNumber = $this->getAttendanceService()->GetLoggedInEmployeeNumber();
 
         if (!$this->checkValidEmployee($empNumber)) {
-            throw new RecordNotFoundException('Employee Id ' . $empNumber . ' Not Found');
+            throw new RecordNotFoundException('Employee id ' . $empNumber . ' Not Found');
         }
         $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
-        $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord(
-            $empNumber,
-            $actionableStatesList
-        );
-        if ($attendanceRecord) {
-            throw new InvalidParamException('Cannot Proceed Punch In Employee Already Punched In');
-        }
-        $attendanceRecord = new AttendanceRecord();
-        $attendanceRecord->setEmployeeId($empNumber);
+        $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($empNumber, $actionableStatesList);
 
-        $nextState = PluginAttendanceRecord::STATE_PUNCHED_IN;
+        if (is_null($attendanceRecord)) {
+            throw new InvalidParamException('Cannot Proceed Punch Out Employee Already Punched Out');
+        }
+        $nextState = PluginAttendanceRecord::STATE_PUNCHED_OUT;
+
         if (empty($timeZone)) {
             throw new InvalidParamException('Datetime Cannot Be Empty');
         }
@@ -77,39 +78,51 @@ class EmployeePunchInAPI extends PunchInAPI
             throw new InvalidParamException('Invalid Time Zone');
         }
         $timeZoneDTZ = new DateTimeZone($timeZone);
-        $originDateTime = new DateTime($dateTime, $timeZoneDTZ);
-        $punchIndateTime = $originDateTime->format('Y-m-d H:i');
+        $originDT = new DateTime($dateTime, $timeZoneDTZ);
+        $punchOutdateTime = $originDT->format('Y-m-d H:i');
         $timeZoneOffset = $this->getTimezoneOffset('UTC', $timeZone);
 
         //check overlapping
-        $punchInUtcTime = $this->getAttendanceService()->getCalculatedPunchInUtcTime($punchIndateTime, $timeZoneOffset);
-        $isValid = $this->getAttendanceService()->checkForPunchInOverLappingRecords(
-            $punchInUtcTime,
-            $empNumber
+        $punchOutUtcTime = $this->getAttendanceService()->getCalculatedPunchInUtcTime(
+            $punchOutdateTime,
+            $timeZoneOffset
+        );
+        $isValid = $this->getAttendanceService()->checkForPunchOutOverLappingRecords(
+            $attendanceRecord->getPunchInUtcTime(),
+            $punchOutUtcTime,
+            $empNumber,
+            $attendanceRecord->getId()
         );
         if (!$isValid) {
             throw new InvalidParamException('Overlapping Records Found');
         }
-
         try {
-            $attendanceRecord = $this->setPunchInRecord(
+            $attendanceRecord = $this->setPunchOutRecord(
                 $attendanceRecord,
                 $nextState,
-                $punchInUtcTime,
-                $punchIndateTime,
+                $punchOutUtcTime,
+                $punchOutdateTime,
                 $timeZoneOffset / 3600,
-                $punchInNote
+                $punchOutNote
             );
 
-            $displayTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset($timeZoneOffset);
+            $displayPunchInTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset(
+                $attendanceRecord->getPunchInTimeOffset()
+            );
+            $displayPunchOutTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset(
+                $timeZoneOffset
+            );
 
             return new Response(
                 array(
-                    'success' => 'Successfully Punched In',
+                    'success' => 'Successfully Punched Out',
                     'id' => $attendanceRecord->getId(),
-                    'datetime' => $attendanceRecord->getPunchInUserTime(),
-                    'timezone' => $displayTimeZoneOffset,
-                    'note' => $attendanceRecord->getPunchInNote()
+                    'punchInDateTime' => $attendanceRecord->getPunchInUserTime(),
+                    'punchInTimeZone' => $displayPunchInTimeZoneOffset,
+                    'punchInNote' => $attendanceRecord->getPunchInNote(),
+                    'punchOutDateTime' => $attendanceRecord->getPunchOutUserTime(),
+                    'punchOutTimeZone' => $displayPunchOutTimeZoneOffset,
+                    'punchOutNote' => $attendanceRecord->getPunchOutNote(),
                 )
             );
         } catch (Exception $e) {
@@ -117,19 +130,18 @@ class EmployeePunchInAPI extends PunchInAPI
         }
     }
 
-
     /**
      * @return array
      */
     public function getValidationRules()
     {
         return array(
-            self::PARAMETER_NOTE => array('NotEmpty' => true, 'StringType' => true, 'Length' => array(1, 250)),
-            self::PARAMETER_DATE_TIME => array('NotEmpty' => true, 'Date' => array('Y-m-d H:i'))
+            self::PARAMETER_NOTE => array('StringType' => true, 'Length' => array(1, 250)),
+            self::PARAMETER_DATE_TIME => array('Date' => array('Y-m-d H:i'))
         );
     }
 
-    public function getDetailsForPunchIn()
+    public function getDetailsForPunchOut()
     {
         $empNumber = $this->getAttendanceService()->GetLoggedInEmployeeNumber();
         if (!$this->checkValidEmployee($empNumber)) {
@@ -137,32 +149,33 @@ class EmployeePunchInAPI extends PunchInAPI
         }
         $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
         $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($empNumber, $actionableStatesList);
-        if ($attendanceRecord) {
-            throw new InvalidParamException('Cannot Proceed Punch In Employee Already Punched In');
+        if (is_null($attendanceRecord)) {
+            throw new InvalidParamException('Cannot Proceed Punch Out Employee Already Punched Out');
         }
         $lastRecord = $this->getAttendanceService()->getLatestPunchInRecord(
             $empNumber,
-            PluginAttendanceRecord::STATE_PUNCHED_OUT
+            PluginAttendanceRecord::STATE_PUNCHED_IN
         );
         $lastRecordId = null;
         $displayTimeZoneOffset = null;
         if ($lastRecord) {
             $lastRecordId = $lastRecord->getId();
-            $lastRecordPunchOutTime = $lastRecord->getPunchOutUserTime();
-            $punchOutTimeOffset = $lastRecord->getPunchOutTimeOffset();
-            $displayTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset($punchOutTimeOffset);
+            $lastRecordPunchInTime = $lastRecord->getPunchInUserTime();
+            $punchInTimeOffset = $lastRecord->getPunchInTimeOffset();
+            $displayTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset($punchInTimeOffset);
         }
-
 
         $punchTimeEditableDetails = $this->getPunchTimeEditable();
         return new Response(
             array(
                 'id' => $lastRecordId,
-                'punchOutTime' => $lastRecordPunchOutTime,
-                'punchOutTimezone' => $displayTimeZoneOffset,
+                'punchInTime' => $lastRecordPunchInTime,
+                'punchInTimezone' => $displayTimeZoneOffset,
                 'dateTimeEditable' => $punchTimeEditableDetails['editable'],
                 'currentUtcDateTime' => $punchTimeEditableDetails['serverUtcTime']
             )
         );
     }
+
+
 }

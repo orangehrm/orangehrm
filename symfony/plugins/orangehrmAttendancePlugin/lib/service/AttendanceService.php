@@ -1,5 +1,7 @@
 <?php
 
+use OrangeHRM\Api\RequestParams;
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -269,10 +271,76 @@ class AttendanceService {
         return $this->getAttendanceDao()->searchAttendanceRecords($employeeId, $employeementStatus, $subDivision, $dateFrom, $dateTo );
     }
 
-    public function getLastPunchRecordDetails($employeeId) {
-
-        return $this->getAttendanceDao()->getLastPunchRecordDetails($employeeId);
+    /**
+     * @param int $employeeId
+     * @param string $state
+     * @return array|bool|Doctrine_Record|float|int|mixed|string|null
+     * @throws DaoException
+     */
+    public function getLatestPunchInRecord(int $employeeId, string $state)
+    {
+        return $this->getAttendanceDao()->getLatestPunchInRecord($employeeId, $state);
     }
+
+    /**
+     * @param string $dateTime
+     * @param int $timeZoneOffset
+     * @return false|string
+     */
+    public function getCalculatedPunchInUtcTime(string $dateTime, int $timeZoneOffset)
+    {
+        return Date(
+            'Y-m-d H:i:s',
+            strtotime($dateTime) + ((-1) * $timeZoneOffset)
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDateTimeEditable()
+    {
+        return $this->getSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_INITIAL,
+            configureAction::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            AttendanceRecord::STATE_INITIAL
+        );
+    }
+
+    /**
+     * @param int $punchOutTimeOffset
+     * @return float|int
+     * @throws Exception
+     */
+    public function getOriginDisplayTimeZoneOffset(int $punchOutTimeOffset)
+    {
+        $remoteDTZ = new DateTimeZone('UTC');
+        $remoteDT = new DateTime("now", $remoteDTZ);
+        $displayTimeZoneOffset = $punchOutTimeOffset + ($remoteDTZ->getOffset($remoteDT)) / 3600;
+        return $displayTimeZoneOffset;
+    }
+
+    /**
+     * @return mixed|null
+     * @throws sfException
+     */
+    public function GetLoggedInEmployeeNumber()
+    {
+        return sfContext::getInstance()->getUser()->getAttribute("auth.empNumber");
+    }
+
+    /**
+     * @param string $timeZone
+     * @return bool
+     */
+    public function validateTimezone(string $timeZone)
+    {
+        $zoneList = timezone_identifiers_list();
+        return in_array($timeZone, $zoneList);
+    }
+
 }
 
 ?>
