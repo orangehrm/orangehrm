@@ -30,7 +30,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
 
-        $this->attendanceDao = new AttendanceDao();    
+        $this->attendanceDao = new AttendanceDao();
         TestDataService::truncateSpecificTables(array('AttendanceRecord','Employee'));
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmAttendancePlugin/test/fixtures/AttendanceDao.yml');
     }
@@ -38,7 +38,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * @group orangehrmAttendancePlugin
      */
-    public function testSaveNewPunchRecord() {        
+    public function testSaveNewPunchRecord() {
 
         $punchRecord = new AttendanceRecord();
 
@@ -239,36 +239,84 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
      * @group orangehrmAttendancePlugin
      */
     public function testSearchAttendanceRecords1() {
-        
-        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(1);      
+
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(1);
         $this->assertEquals(1, sizeof($attendanceRecords));
     }
-    
+
      /**
      * @group orangehrmAttendancePlugin
      */
     public function testSearchAttendanceRecords2() {
-        
-        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(5);      
+
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(5);
         $this->assertEquals(7, sizeof($attendanceRecords));
     }
-    
+
      /**
      * @group orangehrmAttendancePlugin
      */
     public function testSearchAttendanceRecords3() {
-        
-        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(2, array(3));      
+
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(2, array(3));
         $this->assertEquals(0, sizeof($attendanceRecords));
     }
-    
+
     /**
      * @group orangehrmAttendancePlugin
      */
     public function testSearchAttendanceRecords4() {
-        
-        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(2, array(1));      
+
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(2, array(1));
         $this->assertEquals(1, sizeof($attendanceRecords));
+    }
+
+    /**
+     * @group orangehrmAttendancePlugin
+     */
+    public function testGetLatestPunchOutRecordForValid() {
+
+        $employeeId = 3;
+        $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
+
+        $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_OUT);
+        $this->assertEquals($attendanceRecord->getId(), 3);
+        $this->assertEquals($attendanceRecord->getEmployeeId(), $employeeId);
+        $this->assertEquals($attendanceRecord->getPunchInTimeOffset(), 'Asia/Calcutta');
+    }
+
+    public function testGetLatestPunchInRecordForNotPunchedInEmployee() {
+
+        $employeeId = 3;
+        $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
+
+        $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
+        $this->assertFalse($attendanceRecord);
+    }
+
+    public function testGetLatestPunchInRecordForValid() {
+
+        $employeeId = 5;
+        $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
+
+        $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
+
+        $this->assertEquals($attendanceRecord->getId(), '6');
+        $this->assertEquals($attendanceRecord->getEmployeeId(), $employeeId);
+        $this->assertEquals($attendanceRecord->getPunchInTimeOffset(), 'Asia/Calcutta');
+    }
+
+    /**
+     * @group orangehrmAttendancePlugin
+     */
+    public function testGetLatestPunchInRecordForNonExistingEmployee() {
+
+        $employeeId = 1000;
+        $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
+
+        $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
+
+        $this->assertFalse($attendanceRecord);
     }
 
 }

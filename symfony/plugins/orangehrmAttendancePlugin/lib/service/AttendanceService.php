@@ -289,12 +289,11 @@ class AttendanceService {
      */
     public function getCalculatedPunchInUtcTime(string $dateTime, int $timeZoneOffset)
     {
-        return Date(
+        return date(
             'Y-m-d H:i:s',
             strtotime($dateTime) + ((-1) * $timeZoneOffset)
         );
     }
-
     /**
      * @return bool
      */
@@ -314,11 +313,11 @@ class AttendanceService {
      * @return float|int
      * @throws Exception
      */
-    public function getOriginDisplayTimeZoneOffset(int $punchOutTimeOffset)
+    public function getOriginDisplayTimeZoneOffset(int $punchTimeOffset)
     {
         $remoteDTZ = new DateTimeZone('UTC');
         $remoteDT = new DateTime("now", $remoteDTZ);
-        $displayTimeZoneOffset = $punchOutTimeOffset + ($remoteDTZ->getOffset($remoteDT)) / 3600;
+        $displayTimeZoneOffset = $punchTimeOffset + ($remoteDTZ->getOffset($remoteDT)) / 3600;
         return $displayTimeZoneOffset;
     }
 
@@ -340,7 +339,6 @@ class AttendanceService {
         $zoneList = timezone_identifiers_list();
         return in_array($timeZone, $zoneList);
     }
-
 }
 
 ?>

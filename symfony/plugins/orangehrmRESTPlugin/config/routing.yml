@@ -141,15 +141,19 @@ api_attendance_employee_punchin:
   url: /api/v1/attendance/punch-in
   param: { module:apiv1user, action:EmployeePunchInApi }
   requirements:
-    id: \d+
-    sf_method: [get,post]
+    sf_method: [post]
 
 api_attendance_employee_punchout:
   url: /api/v1/attendance/punch-out
   param: { module:apiv1user, action:EmployeePunchOutApi }
   requirements:
-    id: \d+
-    sf_method: [get,post]
+    sf_method: [post]
+
+api_attendance_employee_status:
+  url: /api/v1/attendance/punch-status
+  param: { module:apiv1user, action:EmployeePunchStatusApi }
+  requirements:
+    sf_method: [get]
 
 api_project:
   url: /api/v1/project

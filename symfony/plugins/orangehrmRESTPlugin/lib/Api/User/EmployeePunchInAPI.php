@@ -41,10 +41,10 @@ class EmployeePunchInAPI extends PunchInAPI
      */
     public function savePunchIn()
     {
-        $timeZone = $this->getRequestParams()->getPostParam(parent::PARAMETER_TIME_ZONE);
-        $punchInNote = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
-        $dateTime = $this->getRequestParams()->getPostParam(parent::PARAMETER_DATE_TIME);
-
+        $filters = $this->filterParameters();
+        $timeZone = $filters['timezone'];
+        $punchInNote = $filters['punchInNote'];
+        $dateTime = $filters['datetime'];
         $editable = $this->getAttendanceService()->getDateTimeEditable();
         if ($editable && empty($dateTime)) {
             throw new InvalidParamException('Datetime Cannot Be Empty');
@@ -71,7 +71,7 @@ class EmployeePunchInAPI extends PunchInAPI
 
         $nextState = PluginAttendanceRecord::STATE_PUNCHED_IN;
         if (empty($timeZone)) {
-            throw new InvalidParamException('Datetime Cannot Be Empty');
+            throw new InvalidParamException('TimeZone Cannot Be Empty');
         }
         if (!$this->getAttendanceService()->validateTimezone($timeZone)) {
             throw new InvalidParamException('Invalid Time Zone');
@@ -101,7 +101,9 @@ class EmployeePunchInAPI extends PunchInAPI
                 $punchInNote
             );
 
-            $displayTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset($timeZoneOffset);
+            $displayTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset(
+                $timeZoneOffset / 3600
+            );
 
             return new Response(
                 array(
@@ -117,52 +119,24 @@ class EmployeePunchInAPI extends PunchInAPI
         }
     }
 
+    public function filterParameters()
+    {
+        $filters = array();
+        $filters['timezone'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_TIME_ZONE);
+        $filters['punchInNote'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
+        $filters['datetime'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_DATE_TIME);
+        return $filters;
+    }
 
     /**
      * @return array
      */
-    public function getValidationRules()
+    public function getValidationRules(): array
     {
-        return array(
-            self::PARAMETER_NOTE => array('NotEmpty' => true, 'StringType' => true, 'Length' => array(1, 250)),
-            self::PARAMETER_DATE_TIME => array('NotEmpty' => true, 'Date' => array('Y-m-d H:i'))
-        );
-    }
-
-    public function getDetailsForPunchIn()
-    {
-        $empNumber = $this->getAttendanceService()->GetLoggedInEmployeeNumber();
-        if (!$this->checkValidEmployee($empNumber)) {
-            throw new RecordNotFoundException('Employee Id' . $empNumber . ' Not Found');
-        }
-        $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
-        $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($empNumber, $actionableStatesList);
-        if ($attendanceRecord) {
-            throw new InvalidParamException('Cannot Proceed Punch In Employee Already Punched In');
-        }
-        $lastRecord = $this->getAttendanceService()->getLatestPunchInRecord(
-            $empNumber,
-            PluginAttendanceRecord::STATE_PUNCHED_OUT
-        );
-        $lastRecordId = null;
-        $displayTimeZoneOffset = null;
-        if ($lastRecord) {
-            $lastRecordId = $lastRecord->getId();
-            $lastRecordPunchOutTime = $lastRecord->getPunchOutUserTime();
-            $punchOutTimeOffset = $lastRecord->getPunchOutTimeOffset();
-            $displayTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset($punchOutTimeOffset);
-        }
-
-
-        $punchTimeEditableDetails = $this->getPunchTimeEditable();
-        return new Response(
-            array(
-                'id' => $lastRecordId,
-                'punchOutTime' => $lastRecordPunchOutTime,
-                'punchOutTimezone' => $displayTimeZoneOffset,
-                'dateTimeEditable' => $punchTimeEditableDetails['editable'],
-                'currentUtcDateTime' => $punchTimeEditableDetails['serverUtcTime']
-            )
-        );
+        return [
+            parent::PARAMETER_NOTE => ['StringType' => true, 'Length' => [1, 250]],
+            parent::PARAMETER_DATE_TIME => ['Date' => ['Y-m-d H:i']],
+            parent::PARAMETER_TIME_ZONE => ['NotEmpty' => true, 'IntegerType' => true]
+        ];
     }
 }
