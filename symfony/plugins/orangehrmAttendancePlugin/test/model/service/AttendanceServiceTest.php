@@ -299,10 +299,44 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
                 ->method('searchAttendanceRecords')
                 ->with($attendanceRecordId)
                 ->will($this->returnValue(array("id"=>1)));
-       
+
         $attendanceService = new AttendanceService();
         $attendanceService->setAttendanceDao($attendanceDaoMock);
         $this->assertEquals(1, sizeof($attendanceService->searchAttendanceRecords()));
     }
 
+    public function testGetLatestPunchInRecord() {
+
+        $employeeId = 1;
+        $actionableStateList = array(AttendanceRecord::STATE_PUNCHED_IN);
+
+        $lastPunchRecord = TestDataService::fetchObject('AttendanceRecord', 2);
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+            ->setMethods( array('getLatestPunchInRecord'))
+            ->getMock();
+        $attendanceDaoMock->expects($this->once())
+            ->method('getLatestPunchInRecord')
+            ->with($employeeId,AttendanceRecord::STATE_PUNCHED_IN)
+            ->will($this->returnValue($lastPunchRecord));
+
+        $this->attendanceService->setAttendanceDao($attendanceDaoMock);
+        $retrievedPunchRecord = $this->attendanceService->getLatestPunchInRecord($employeeId,AttendanceRecord::STATE_PUNCHED_IN);
+        $this->assertTrue($retrievedPunchRecord instanceof AttendanceRecord);
+        $this->assertEquals($lastPunchRecord, $retrievedPunchRecord);
+    }
+
+
+    public function testValidateTimezoneForValidTimezone(){
+        $this->assertTrue($this->attendanceService->validateTimezone('Asia/Colombo'));
+    }
+    public function testValidateTimezoneForNotValidTimezone(){
+        $this->assertFalse($this->attendanceService->validateTimezone('Asia'));
+    }
+    public function testValidateTimezoneForNotStringInput(){
+        $this->assertFalse($this->attendanceService->validateTimezone('Asia'));
+    }
+    public function testGetOriginDisplayTimeZoneOffsetForValid(){
+        $this->assertEquals(5.5,$this->attendanceService->getOriginDisplayTimeZoneOffset(0));
+        $this->assertEquals(6,$this->attendanceService->getOriginDisplayTimeZoneOffset(1));
+    }
 }

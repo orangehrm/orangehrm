@@ -118,7 +118,7 @@ class PunchTimeAPI extends EndPoint{
             WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
             AttendanceRecord::STATE_INITIAL
         );
-        $serverUtcTime = $serverUtcTime = gmdate('Y-m-d H:i');
+        $serverUtcTime = gmdate('Y-m-d H:i');
         return array(
             'editable' => $isPunchTimeEditable,
             'serverUtcTime' => $serverUtcTime

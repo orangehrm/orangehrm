@@ -2,7 +2,7 @@
 * @api {post} /attendance/punch-in 15.Save Employee Punch In
 * @apiName EmployeePunchIn
 * @apiGroup User
-* @apiVersion 0.1.0
+* @apiVersion 1.2.0
 * @apiUse UserDescription
 *
 *

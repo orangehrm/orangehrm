@@ -19,33 +19,31 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\User\EmployeePunchOutAPI;
+use Orangehrm\Rest\Api\User\EmployeePunchStatusAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-class EmployeePunchOutApiAction extends \BaseUserApiAction
+class EmployeePunchStatusApiAction extends \BaseUserApiAction
 {
-
-    private $punchOutApi = null;
-
+    private $punchStatusApi = null;
 
     /**
-     * @return EmployeePunchOutAPI
+     * @return EmployeePunchStatusAPI
      */
-    public function getPunchOutApi($request)
+    public function getPunchStatusApi($request)
     {
-        if (!$this->punchOutApi) {
-            $this->punchOutApi = new EmployeePunchOutAPI($request);
+        if (!$this->punchStatusApi) {
+            $this->punchStatusApi = new EmployeePunchStatusAPI($request);
         }
-        return $this->punchOutApi;
+        return $this->punchStatusApi;
     }
 
     /**
-     * @param $punchOutApi
+     * @param $punchStatusApi
      * @return $this
      */
-    public function setPunchOutApi($punchOutApi)
+    public function setPunchStatusApi($punchStatusApi)
     {
-        $this->punchOutApi = $punchOutApi;
+        $this->punchStatusApi = $punchStatusApi;
         return $this;
     }
 
@@ -54,8 +52,18 @@ class EmployeePunchOutApiAction extends \BaseUserApiAction
      */
     protected function init(Request $request)
     {
-        $this->punchOutApi = new EmployeePunchOutAPI($request);
-        $this->postValidationRule = $this->punchOutApi->getValidationRules();
+        $this->punchStatusApi = new EmployeePunchStatusAPI($request);
+        $this->punchStatusApi->setRequest($request);
+    }
+
+    /**
+     * @param \Orangehrm\Rest\Http\Request $request
+     * @return \Orangehrm\Rest\Http\Response
+     */
+    protected function handleGetRequest(Request $request)
+    {
+        $this->setUserToContext();
+        return $this->getPunchStatusApi($request)->getStatusDetails();
     }
 
     /**
@@ -63,18 +71,8 @@ class EmployeePunchOutApiAction extends \BaseUserApiAction
      * @return \Orangehrm\Rest\Http\Response|void
      * @throws NotImplementedException
      */
-    protected function handleGetRequest(Request $request)
-    {
-        throw new NotImplementedException();
-    }
-
-    /**
-     * @param \Orangehrm\Rest\Http\Request $request
-     * @return \Orangehrm\Rest\Http\Response
-     */
     protected function handlePostRequest(Request $request)
     {
-        $this->setUserToContext();
-        return $this->getPunchOutApi($request)->savePunchOut();
+        throw new NotImplementedException();
     }
 }

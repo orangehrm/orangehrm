@@ -18,19 +18,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-//namespace Orangehrm\Rest\Api\User;
 
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Api\User\EmployeePunchInAPI;
-
-//use Orangehrm\Rest\Api\Attendance\PunchInAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-class EmployeePunchInApiAction extends \BaseUserApiAction
+class EmployeePunchInApiAction extends BaseUserApiAction
 {
-
     private $punchInApi = null;
-
 
     /**
      * @return PunchInAPI
@@ -59,17 +54,18 @@ class EmployeePunchInApiAction extends \BaseUserApiAction
     protected function init(Request $request)
     {
         $this->punchInApi = new EmployeePunchInAPI($request);
+        $this->punchInApi->setRequest($request);
         $this->postValidationRule = $this->punchInApi->getValidationRules();
     }
 
     /**
-     * @param \Orangehrm\Rest\Http\Request $request
-     * @return \Orangehrm\Rest\Http\Response
+     * @param Request $request
+     * @return \Orangehrm\Rest\Http\Response|void
+     * @throws NotImplementedException
      */
     protected function handleGetRequest(Request $request)
     {
-        $this->setUserToContext();
-        return $this->getPunchInApi($request)->getDetailsForPunchIn();
+        throw new NotImplementedException();
     }
 
     /**
