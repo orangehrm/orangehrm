@@ -28,7 +28,7 @@ class EmployeePunchInApiAction extends BaseUserApiAction
     private $punchInApi = null;
 
     /**
-     * @return PunchInAPI
+     * @return EmployeePunchInAPI
      */
     public function getPunchInApi($request)
     {

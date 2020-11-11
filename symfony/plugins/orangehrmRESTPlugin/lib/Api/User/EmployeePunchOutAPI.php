@@ -84,17 +84,21 @@ class EmployeePunchOutAPI extends PunchOutAPI
         $timeZoneOffset = $this->getTimezoneOffset('UTC', $timeZone);
 
         //check overlapping
+        $punchInUtcTime = $attendanceRecord->getPunchInUtcTime();
         $punchOutUtcTime = $this->getAttendanceService()->getCalculatedPunchInUtcTime(
             $punchOutdateTime,
             $timeZoneOffset
         );
+        if($punchInUtcTime > $punchOutUtcTime){
+            throw new InvalidParamException('Punch Out Time Should Be Later Than Punch In Time');
+        }
         $isValid = $this->getAttendanceService()->checkForPunchOutOverLappingRecords(
-            $attendanceRecord->getPunchInUtcTime(),
+            $punchInUtcTime,
             $punchOutUtcTime,
             $empNumber,
             $attendanceRecord->getId()
         );
-        if (!$isValid) {
+        if ($isValid=='0') {
             throw new InvalidParamException('Overlapping Records Found');
         }
         try {
@@ -148,7 +152,7 @@ class EmployeePunchOutAPI extends PunchOutAPI
         return array(
             parent::PARAMETER_NOTE => ['StringType' => true, 'Length' => [1, 250]],
             parent::PARAMETER_DATE_TIME => ['Date' => ['Y-m-d H:i']],
-            parent::PARAMETER_TIME_ZONE => ['NotEmpty' => true, 'IntegerType' => true]
+            parent::PARAMETER_TIME_ZONE => ['NotEmpty' => true,'StringType' => true]
         );
     }
 }
