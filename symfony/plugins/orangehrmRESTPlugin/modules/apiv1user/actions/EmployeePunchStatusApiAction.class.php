@@ -19,10 +19,11 @@
  */
 
 use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Api\User\EmployeePunchInAPI;
 use Orangehrm\Rest\Api\User\EmployeePunchStatusAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-class EmployeePunchStatusApiAction extends \BaseUserApiAction
+class EmployeePunchStatusApiAction extends BaseUserApiAction
 {
     private $punchStatusApi = null;
 

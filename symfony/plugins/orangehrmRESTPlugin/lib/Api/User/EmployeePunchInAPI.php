@@ -136,7 +136,7 @@ class EmployeePunchInAPI extends PunchInAPI
         return [
             parent::PARAMETER_NOTE => ['StringType' => true, 'Length' => [1, 250]],
             parent::PARAMETER_DATE_TIME => ['Date' => ['Y-m-d H:i']],
-            parent::PARAMETER_TIME_ZONE => ['NotEmpty' => true, 'IntegerType' => true]
+            parent::PARAMETER_TIME_ZONE => ['NotEmpty' => true,'StringType' => true]
         ];
     }
 }

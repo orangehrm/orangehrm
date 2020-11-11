@@ -39,11 +39,6 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
-        TestDataService::truncateSpecificTables(array('AttendanceRecord', 'Employee'));
-        TestDataService::populate(
-            sfConfig::get('sf_plugins_dir') . '/orangehrmRESTPlugin/test/fixtures/punchInRecords.yml'
-        );
-
         $sfEvent = new sfEventDispatcher();
         $sfRequest = new sfWebRequest($sfEvent);
         $this->request = new Request($sfRequest);
