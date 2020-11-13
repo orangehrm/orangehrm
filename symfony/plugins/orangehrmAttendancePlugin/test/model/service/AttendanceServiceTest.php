@@ -333,10 +333,10 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertFalse($this->attendanceService->validateTimezone('Asia'));
     }
     public function testValidateTimezoneForNotStringInput(){
-        $this->assertFalse($this->attendanceService->validateTimezone('Asia'));
+        $this->assertFalse($this->attendanceService->validateTimezone(1));
     }
     public function testGetOriginDisplayTimeZoneOffsetForValid(){
         $this->assertEquals(5.5,$this->attendanceService->getOriginDisplayTimeZoneOffset(0));
-        $this->assertEquals(6,$this->attendanceService->getOriginDisplayTimeZoneOffset(1));
+        $this->assertEquals(3.0,$this->attendanceService->getOriginDisplayTimeZoneOffset(-2.5));
     }
 }
