@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 6/2/17
- * Time: 9:04 PM
- */
 
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -30,6 +24,7 @@ use Orangehrm\Rest\Api\Attendance\PunchTimeAPI;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
 use \PluginAttendanceRecord;
+use \AttendanceRecord;
 
 
 class EmployeePunchStatusAPI extends PunchTimeAPI
@@ -61,7 +56,7 @@ class EmployeePunchStatusAPI extends PunchTimeAPI
                     $punchTimeZone
                 );
             } else {
-                $punchState = null;
+                $punchState = AttendanceRecord::STATE_INITIAL;
             }
         } else {
             $punchState = PluginAttendanceRecord::STATE_PUNCHED_IN;

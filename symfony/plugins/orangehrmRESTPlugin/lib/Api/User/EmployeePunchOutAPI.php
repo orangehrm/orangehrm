@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 6/2/17
- * Time: 9:04 PM
- */
 
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -50,7 +44,6 @@ class EmployeePunchOutAPI extends PunchOutAPI
         $timeZone = $filters['timeZone'];
         $punchOutNote = $filters['punchOutNote'];
         $dateTime = $filters['dateTime'];
-
         $editable = $this->getAttendanceService()->getDateTimeEditable();
         if ($editable && empty($dateTime)) {
             throw new InvalidParamException('Datetime Cannot Be Empty');
@@ -139,7 +132,7 @@ class EmployeePunchOutAPI extends PunchOutAPI
     {
         $filters = array();
         $filters['timeZone'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_TIME_ZONE);
-        $filters['punchInNote'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
+        $filters['punchOutNote'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
         $filters['dateTime'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_DATE_TIME);
         return $filters;
     }

@@ -277,8 +277,6 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetLatestPunchOutRecordForValid() {
 
         $employeeId = 3;
-        $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
-
         $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_OUT);
         $this->assertEquals($attendanceRecord->getId(), 3);
         $this->assertEquals($attendanceRecord->getEmployeeId(), $employeeId);
@@ -288,7 +286,6 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetLatestPunchInRecordForNotPunchedInEmployee() {
 
         $employeeId = 3;
-        $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
 
         $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
         $this->assertFalse($attendanceRecord);
@@ -297,8 +294,6 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetLatestPunchInRecordForValid() {
 
         $employeeId = 5;
-        $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
-
         $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
 
         $this->assertEquals($attendanceRecord->getId(), '6');
@@ -312,10 +307,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetLatestPunchInRecordForNonExistingEmployee() {
 
         $employeeId = 1000;
-        $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
-
         $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
-
         $this->assertFalse($attendanceRecord);
     }
 

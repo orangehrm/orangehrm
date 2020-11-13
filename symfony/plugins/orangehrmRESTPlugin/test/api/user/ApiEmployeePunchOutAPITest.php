@@ -17,7 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Http\Request;
@@ -25,7 +24,6 @@ use Orangehrm\Rest\Http\RequestParams;
 use Orangehrm\Rest\Http\Response;
 
 use Orangehrm\Rest\Api\User\EmployeePunchOutAPI;
-
 
 /**
  * @group API
