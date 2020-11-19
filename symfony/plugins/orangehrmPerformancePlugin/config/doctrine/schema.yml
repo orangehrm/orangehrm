@@ -10,7 +10,7 @@ Kpi:
       name: job_title_code as jobTitleCode
       type: string(10)
     kpi_indicators:
-      type: varchar(255)
+      type: string(255)
     min_rating:
       type: integer(11)
     max_rating:

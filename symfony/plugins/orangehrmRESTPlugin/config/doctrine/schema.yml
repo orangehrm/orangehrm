@@ -3,7 +3,7 @@ RestApiUsage:
     columns:
         id:
             name: id
-            type: integer()
+            type: integer
             primary: true
             autoincrement: true
         client_id:
@@ -30,6 +30,6 @@ RestApiUsage:
             type: string(255)
         parameters:
             name: parameters
-            type: string()
+            type: string
         created_at:
             type: timestamp

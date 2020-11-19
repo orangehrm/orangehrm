@@ -7,7 +7,7 @@ UniqueId:
       autoincrement: true
     last_id:
       type: integer(4)
-      unsigned: 1
+      unsigned: true
       notnull: true
     table_name:
       name: table_name as dbTable
@@ -19,8 +19,7 @@ UniqueId:
 Config:
   tableName: hs_hr_config
   columns:
-    `key`:
-      name: `key` as key
+    key:
       type: string(100)
       primary: true
     value:
@@ -55,7 +54,7 @@ WorkflowStateMachine:
       type: clob
       notnull: false
     priority:
-      type: int      
+      type: integer      
 
 ReportGroup:
   tableName: ohrm_report_group
@@ -239,7 +238,7 @@ AbstractDisplayField:
     is_meta:
       type: boolean
       notnull: true
-      default: false      
+      default: false
   relations:
     ReportGroup:
       onDelete: cascade
@@ -266,7 +265,7 @@ DisplayField:
       name: display_field_group_id
       type: true
       notnull: true
-      
+
 CompositeDisplayField:
   tableName: ohrm_composite_display_field
   inheritance:
@@ -328,7 +327,7 @@ GroupField:
     group_field_widget:
       name: group_field_widget as groupFieldWidget
       type: string(255)
-    
+
 AvailableGroupField:
   tableName: ohrm_available_group_field
   columns:
@@ -497,7 +496,7 @@ DisplayFieldGroup:
       onDelete: cascade
       local: report_group_id
       foreign: reportGroupId
-      
+
 SelectedDisplayFieldGroup:
   tableName: ohrm_selected_display_field_group
   columns:
@@ -510,19 +509,19 @@ SelectedDisplayFieldGroup:
       type: integer
       notnull: true
     display_field_group_id:
-      type: int
+      type: integer
       unsigned: true
       notnull: true
   relations:
     Report:
       onDelete: cascade
       local: report_id
-      foreign: reportId    
+      foreign: reportId
     DisplayFieldGroup:
       onDelete: cascade
       local: display_field_group_id
       foreign: id
-      
+
 SystemUser:
   tableName: ohrm_user
   columns:
@@ -567,16 +566,14 @@ UserRole:
       autoincrement: true
     name:
       type: string(255)
-      notnull: true      
+      notnull: true
     display_name:
       type: string(255)
       notnull: true
     is_assignable:
-      type: int
       type: boolean
       notnull: true
     is_predefined:
-      type: int
       type: boolean
       notnull: true
   relations:
@@ -585,7 +582,7 @@ UserRole:
       local: id
       foreign: user_role_id
       type: many
-      
+
 UserSelectionRule:
   tableName: ohrm_user_selection_rule
   columns:
@@ -605,7 +602,7 @@ UserSelectionRule:
     rule_xml_data:
       type: string
       notnull: true
-      
+
 UserRoleUserSelectionRule:
   tableName: ohrm_role_user_selection_rule
   columns:
@@ -619,7 +616,7 @@ UserRoleUserSelectionRule:
       primary: true
     configurable_params:
       type: string
-      notnull: true       
+      notnull: true
 Screen:
   tableName: ohrm_screen
   columns:
@@ -635,7 +632,7 @@ Screen:
       local: module_id
       foreign: id
       type: one
-      
+
 ScreenPermission:
   tableName: ohrm_user_role_screen
   columns:
@@ -645,7 +642,7 @@ ScreenPermission:
       autoincrement: true
     user_role_id: integer
     screen_id: integer
-    can_read: 
+    can_read:
       type: boolean
       default: false
     can_create:
@@ -656,17 +653,17 @@ ScreenPermission:
       default: false
     can_delete:
       type: boolean
-      default: false    
+      default: false
   relations:
     UserRole:
       local: user_role_id
       foreign: id
-      type: one  
+      type: one
     Screen:
       local: screen_id
       foreign: id
-      type: one 
-      
+      type: one
+
 DataGroup:
   tableName: ohrm_data_group
   columns:
@@ -692,7 +689,7 @@ DataGroup:
       refClass: DataGroupScreenPermission
       local: data_group_id
       foreign: screen_id
-      
+
 DataGroupScreenPermission:
   tableName: ohrm_data_group_screen
   columns:
@@ -702,7 +699,7 @@ DataGroupScreenPermission:
       primary: true
     data_group_id:
       type: integer
-    screen_id: 
+    screen_id:
       type: integer
     permission: integer
   relations:
@@ -744,7 +741,7 @@ DataGroupPermission:
     UserRole:
       local: user_role_id
       foreign: id
-      type: one    
+      type: one
 
 MenuItem:
   tableName: ohrm_menu_item
@@ -764,7 +761,7 @@ MenuItem:
     Screen:
       local: screenId
       foreign: id
-      type: one  
+      type: one
 Email:
   tableName: ohrm_email
   columns:
@@ -790,7 +787,7 @@ Email:
       local: id
       foreign: email_id
       type: many
-      
+
 EmailTemplate:
   connection: doctrine
   tableName: ohrm_email_template
@@ -831,7 +828,7 @@ EmailTemplate:
       notnull: false
       autoincrement: false
     body:
-      type: string()
+      type: string
       fixed: false
       unsigned: false
       primary: false
@@ -841,7 +838,7 @@ EmailTemplate:
     Email:
       local: email_id
       foreign: id
-      type: one 
+      type: one
 
 EmailProcessor:
   connection: doctrine
@@ -871,7 +868,7 @@ EmailProcessor:
     Email:
       local: email_id
       foreign: id
-      type: one    
+      type: one
 
 AdvancedReport:
   tableName: ohrm_advanced_report
@@ -885,8 +882,8 @@ AdvancedReport:
       notnull: true
     definition:
       type: clob
-      notnull: true      
-      
+      notnull: true
+
 HomePage:
   tableName: ohrm_home_page
   columns:
@@ -912,7 +909,7 @@ HomePage:
       local: user_role_id
       foreign: id
       type: one
-      
+
 ModuleDefaultPage:
   tableName: ohrm_module_default_page
   columns:
@@ -945,10 +942,10 @@ ModuleDefaultPage:
       local: module_id
       foreign: id
       type: one
-  
+
 Login:
   tableName: ohrm_login
-  columns: 
+  columns:
     id:
       type: integer
       primary: true
@@ -956,7 +953,7 @@ Login:
     user_id:
       type: integer
       notnull: true
-      name: user_id as userId      
+      name: user_id as userId
     user_name:
       type: string(255)
       name: user_name as userName
@@ -976,5 +973,5 @@ Login:
       local: user_id
       foreign: id
       type: one
-    
+
       

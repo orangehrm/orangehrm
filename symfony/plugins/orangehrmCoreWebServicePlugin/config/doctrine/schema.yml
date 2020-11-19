@@ -7,4 +7,4 @@ WSConsumer:
       autoincrement: true
     app_token: string(10)
     app_name: string(50)
-    status: int
+    status: integer

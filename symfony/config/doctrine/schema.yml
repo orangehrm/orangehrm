@@ -6,7 +6,7 @@ EmpLocations:
       primary: true
     location_id as locationId:
       type: integer
-      primary: true      
+      primary: true
 
 EmpChildren:
   tableName: hs_hr_emp_children
@@ -25,8 +25,8 @@ EmpChildren:
     Employee:
       local: emp_number
       foreign: emp_number
-      type: one      
-           
+      type: one
+
 EmpWorkExperience:
   tableName: hs_hr_emp_work_experience
   columns:
@@ -47,7 +47,7 @@ EmpWorkExperience:
       local: emp_number
       foreign: emp_number
       type: one
-      
+
 Country:
   tableName: hs_hr_country
   columns:
@@ -73,7 +73,7 @@ Country:
       local: cou_code
       foreign: country
       type: many
-      
+
 UniqueId:
   tableName: hs_hr_unique_id
   columns:
@@ -92,27 +92,7 @@ UniqueId:
     field_name:
       type: string(50)
       notnull: true
- 
-Country:
-  tableName: hs_hr_country
-  columns:
-    cou_code:
-      type: string(2)
-      fixed: true
-      primary: true
-    name:
-      type: string(80)
-      default: ''
-      notnull: true
-    cou_name:
-      type: string(80)
-      default: ''
-      notnull: true
-    iso3:
-      type: string(3)
-      fixed: true
-    numcode: integer(2)
-  
+
 Province:
   tableName: hs_hr_province
   columns:
@@ -134,7 +114,7 @@ Province:
       fixed: true
       default: us
       notnull: true
- 
+
 EmployeeSkill:
   tableName: hs_hr_emp_skill
   columns:
@@ -200,20 +180,4 @@ Payperiod:
       local: payperiod_code
       foreign: payperiod_code
       type: many
-       
-CurrencyType:
-  tableName: hs_hr_currency_type
-  columns:
-    code:
-      type: integer(4)
-      default: '0'
-      notnull: true
-    currency_id:
-      type: string(3)
-      fixed: true
-      primary: true
-    currency_name:
-      type: string(70)
-      default: ''
-      notnull: true
 

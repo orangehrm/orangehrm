@@ -200,7 +200,7 @@ Employee:
       local: empNumber
       foreign: empNumber
       type: many
-    EmployeeTerminationRecord:
+    EmployeeTerminationRecord as EmployeeTerminationRecord:
       local: termination_id
       foreign: id
       type: one
@@ -596,7 +596,7 @@ EmployeeTerminationRecord:
       local: empNumber
       foreign: empNumber
       type: one
-    Employee:
+    Employee as Employee:
       local: id
       foreign: termination_id
       type: one

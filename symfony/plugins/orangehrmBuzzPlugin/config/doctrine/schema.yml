@@ -3,13 +3,13 @@ Post:
   columns:
     id:
       name: id 
-      type: integer()
+      type: integer
       primary: true
       autoincrement: true
     employee_number:
       type: integer(7)
     text:
-      type: string()
+      type: string
     post_time:
       type: timestamp
       notnull: true   
@@ -29,11 +29,11 @@ Photo:
   columns:
     id:
       name: id 
-      type: integer()
+      type: integer
       primary: true
       autoincrement: true
     post_id:
-      type: integer()
+      type: integer
       notnull: true
     photo:
       type: blob(2147483647)
@@ -57,21 +57,21 @@ Link:
   columns:
     id:
       name: id 
-      type: integer()
+      type: integer
       primary: true
       autoincrement: true
     post_id:
-      type: integer()
+      type: integer
       notnull: true
     link:
-      type: string()
+      type: string
       notnull: true
     type:
-      type: integer()
+      type: integer
     title:
-      type: string()
+      type: string
     description:
-      type: string()
+      type: string
   relations:
     LinkAttached:
       class: Post
@@ -85,11 +85,11 @@ Share:
   tableName: ohrm_buzz_share
   columns:
     id:
-      type: integer()
+      type: integer
       primary: true
       autoincrement: true
     post_id:
-      type: integer()
+      type: integer
       notnull: true
     employee_number:
       type: integer(7)
@@ -103,7 +103,7 @@ Share:
       type: timestamp
       notnull: true
     type:
-      type: int(1)
+      type: integer(1)
     text:
       type: string(600)
     updated_at:
@@ -128,11 +128,11 @@ Comment:
   tableName: ohrm_buzz_comment
   columns:
     id:
-      type: integer()
+      type: integer
       primary: true
       autoincrement: true
     share_id:
-      type: integer()
+      type: integer
       notnull: true
     employee_number:
       type: integer(7)
@@ -167,12 +167,12 @@ LikeOnComment:
   tableName: ohrm_buzz_like_on_comment
   columns:
     id:
-      type: integer()
+      type: integer
       primary: true
       autoincrement: true
     comment_id:
       name: comment_id
-      type: integer()
+      type: integer
       notnull: true
     employee_number:
       name: employee_number
@@ -200,11 +200,11 @@ LikeOnShare:
   tableName: ohrm_buzz_like_on_share
   columns:
     id:
-      type: integer()
+      type: integer
       primary: true
       autoincrement: true
     share_id:
-      type: integer()
+      type: integer
       notnull: true
     employee_number:
       type: integer(7)
@@ -231,12 +231,12 @@ UnLikeOnComment:
   tableName: ohrm_buzz_unlike_on_comment
   columns:
     id:
-      type: integer()
+      type: integer
       primary: true
       autoincrement: true
     comment_id:
       name: comment_id
-      type: integer()
+      type: integer
       notnull: true
     employee_number:
       name: employee_number
@@ -264,11 +264,11 @@ UnLikeOnShare:
   tableName: ohrm_buzz_unlike_on_share
   columns:
     id:
-      type: integer()
+      type: integer
       primary: true
       autoincrement: true
     share_id:
-      type: integer()
+      type: integer
       notnull: true
     employee_number:
       type: integer(7)

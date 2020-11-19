@@ -281,7 +281,7 @@ PayGradeCurrency:
   tableName: ohrm_pay_grade_currency
   columns:
     pay_grade_id:
-      type: int
+      type: integer
       primary: true
     currency_id:
       type: string(6)

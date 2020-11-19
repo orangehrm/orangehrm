@@ -61,7 +61,7 @@ LeaveEntitlement:
       notnull: true
       autoincrement: false
     days_used:
-      type: 'decimal(4, 2)'
+      type: decimal(4, 2)
       fixed: false
       primary: false
       notnull: false
@@ -311,14 +311,14 @@ Leave:
       notnull: false
       autoincrement: false
     length_hours:
-      type: 'decimal(6, 4)'
+      type: decimal(6, 4)
       fixed: false
       unsigned: true
       primary: false
       notnull: false
       autoincrement: false
     length_days:
-      type: 'decimal(6, 4)'
+      type: decimal(6, 4)
       fixed: false
       unsigned: true
       primary: false
@@ -415,7 +415,7 @@ LeaveLeaveEntitlement:
       notnull: false
       autoincrement: false
     length_days:
-      type: 'decimal(6, 4)'
+      type: decimal(6, 4)
       fixed: false
       unsigned: true
       primary: false
@@ -446,7 +446,7 @@ LeaveEntitlementAdjustment:
       notnull: false
       autoincrement: false
     length_days:
-      type: 'decimal(4, 2)'
+      type: decimal(4, 2)
       fixed: false
       unsigned: true
       primary: false
