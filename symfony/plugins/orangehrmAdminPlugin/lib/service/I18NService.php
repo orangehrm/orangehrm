@@ -110,7 +110,7 @@ class I18NService extends BaseService
                 $i18nTranslate->setValue(htmlspecialchars($translatedText));
                 $i18nTranslate->setTranslated($translatedText == '' ? false : true);
                 $i18nTranslate->setCustomized(true);
-                $i18nTranslate->setModifiedAt(date("Y-m-d H:i:s"));
+                $i18nTranslate->setModifiedAt(new DateTime());
                 $this->getI18NDao()->saveI18NTranslate($i18nTranslate);
             }
         }
@@ -158,6 +158,7 @@ class I18NService extends BaseService
      * Sync all XLIFF sources language string to database
      * @throws DaoException
      * @throws sfException
+     * @throws Exception
      */
     public function syncI18NSourcesLangStrings()
     {
@@ -170,17 +171,17 @@ class I18NService extends BaseService
             if ($i18nSource instanceof I18NSource) {
                 // Source already exists
                 $timestamp = filemtime($baseSource);
-                if ($i18nSource->getModifiedAt() < date("Y-m-d H:i:s", $timestamp)) {
+                if ($i18nSource->getModifiedAt() < new DateTime($timestamp)) {
                     $this->syncI18NSourceLangStrings($baseSource, $i18nSource->getId());
                     // Update last sync time
-                    $i18nSource->setModifiedAt(date("Y-m-d H:i:s"));
+                    $i18nSource->setModifiedAt(new DateTime());
                     $this->getI18NDao()->saveI18NSource($i18nSource);
                 }
             } else {
                 // New source
                 $newSource = new I18NSource();
                 $newSource->setSource($this->getRelativeSource($baseSource));
-                $newSource->setModifiedAt(date("Y-m-d H:i:s"));
+                $newSource->setModifiedAt(new DateTime());
                 $this->getI18NDao()->saveI18NSource($newSource);
 
                 $this->syncI18NSourceLangStrings($baseSource, $newSource->getId());
@@ -278,6 +279,7 @@ class I18NService extends BaseService
      * @param string $langCode
      * @throws DaoException
      * @throws sfException
+     * @throws Exception
      */
     public function syncI18NTranslations(string $langCode)
     {
@@ -291,11 +293,11 @@ class I18NService extends BaseService
             $i18nSource = $this->getI18NDao()->getI18NSource($this->getRelativeSource($source));
             if ($i18nSource instanceof I18NSource && $i18nBaseSource instanceof I18NSource) {
                 $timestamp = filemtime($source);
-                if ($i18nSource->getModifiedAt() < date("Y-m-d H:i:s", $timestamp)
+                if ($i18nSource->getModifiedAt() < new DateTime($timestamp)
                     || $i18nSource->getModifiedAt() < $i18nBaseSource->getModifiedAt()) {
                     $this->syncI18NSourceTranslations($baseSource, $source, $language);
                     // Update last sync time
-                    $i18nSource->setModifiedAt(date("Y-m-d H:i:s"));
+                    $i18nSource->setModifiedAt(new DateTime());
                     $this->getI18NDao()->saveI18NSource($i18nSource);
                 }
             } else {
@@ -303,7 +305,7 @@ class I18NService extends BaseService
                 // New source
                 $newSource = new I18NSource();
                 $newSource->setSource($this->getRelativeSource($source));
-                $newSource->setModifiedAt(date("Y-m-d H:i:s"));
+                $newSource->setModifiedAt(new DateTime());
                 $this->getI18NDao()->saveI18NSource($newSource);
             }
         }
@@ -343,6 +345,7 @@ class I18NService extends BaseService
      * @param int $langId
      * @param $langStrings
      * @throws DaoException
+     * @throws Exception
      */
     public function saveTranslationsFromSource(string $sourceFile, int $langId, $langStrings)
     {
@@ -361,7 +364,7 @@ class I18NService extends BaseService
             } else {
                 $translate->setTranslated(false);
             }
-            $translate->setModifiedAt(date("Y-m-d H:i:s"));
+            $translate->setModifiedAt(new DateTime());
             try {
                 $this->getI18NDao()->saveI18NTranslate($translate);
             } catch (Doctrine_Exception $e) {
@@ -371,7 +374,7 @@ class I18NService extends BaseService
                 if (!$i18nTranslate->getCustomized()) {
                     $i18nTranslate->setValue($translate->getValue());
                     $i18nTranslate->setTranslated(!empty($translate->getValue()));
-                    $i18nTranslate->setModifiedAt($translate->getModifiedAt());
+                    $i18nTranslate->setModifiedAt(new DateTime());
                     $this->getI18NDao()->saveI18NTranslate($i18nTranslate);
                 }
             }
@@ -453,7 +456,7 @@ class I18NService extends BaseService
     public function markLanguageAsModified(string $langCode)
     {
         $lang = $this->getI18NDao()->getLanguageByCode($langCode);
-        $lang->setModifiedAt(date("Y-m-d H:i:s"));
+        $lang->setModifiedAt(new DateTime());
         return $this->getI18NDao()->saveI18NLanguage($lang);
     }
 

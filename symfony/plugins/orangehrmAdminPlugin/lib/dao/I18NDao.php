@@ -22,21 +22,21 @@ class I18NDao extends BaseDao
     /**
      * @param string $langCode
      * @param bool $onlyCustomized
-     * @return Doctrine_Collection|I18NTranslate[]
+     * @return I18NTranslate[]
      * @throws DaoException
      */
     public function getMessages(string $langCode, bool $onlyCustomized = true)
     {
         try {
-            $q = Doctrine_Query::create()
-                ->from('I18NTranslate t')
-                ->leftJoin('t.I18NLangString ls')
-                ->leftJoin('t.I18NLanguage l')
-                ->andWhere('l.code = ?', $langCode);
+            $q = Doctrine2::getEntityManager()->getRepository(I18NTranslate::class)->createQueryBuilder('t');
+            $q->leftJoin('t.I18NLangString', 'ls')
+                ->leftJoin('t.I18NLanguage', 'l')
+                ->andWhere('l.code = :langCode')
+                ->setParameter('langCode', $langCode);
             if ($onlyCustomized) {
                 $q->andWhere('t.customized = ?', true);
             }
-            return $q->execute();
+            return $q->getQuery()->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -46,13 +46,13 @@ class I18NDao extends BaseDao
 
     /**
      * @param string $langCode
-     * @return Doctrine_Record|I18NLanguage
+     * @return I18NLanguage
      * @throws DaoException
      */
     public function getLanguageByCode(string $langCode)
     {
         try {
-            return Doctrine::getTable('I18NLanguage')->findOneBy('code', $langCode);
+            return Doctrine2::getEntityManager()->getRepository(I18NLanguage::class)->findOneBy(['code' => $langCode]);
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -62,34 +62,38 @@ class I18NDao extends BaseDao
 
     /**
      * @param ParameterObject $searchParams
-     * @return Doctrine_Collection|I18NLanguage[]
+     * @return I18NLanguage[]
      * @throws DaoException
      */
     public function searchLanguages(ParameterObject $searchParams)
     {
         try {
-            $q = Doctrine_Query::create()->from('I18NLanguage l');
+            $q = Doctrine2::getEntityManager()->getRepository(I18NLanguage::class)->createQueryBuilder('l');
 
             if (!empty($searchParams->getParameter('langCode'))) {
-                $q->andWhere('l.code = ?', $searchParams->getParameter('langCode'));
+                $q->andWhere('l.code = :langCode');
+                $q->setParameter('langCode', $searchParams->getParameter('langCode'));
             }
             if (is_bool($searchParams->getParameter('enabled'))) {
-                $q->andWhere('l.enabled = ?', $searchParams->getParameter('enabled'));
+                $q->andWhere('l.enabled = :enabled');
+                $q->setParameter('enabled', $searchParams->getParameter('enabled'));
             }
             if (is_bool($searchParams->getParameter('added'))) {
-                $q->andWhere('l.added = ?', $searchParams->getParameter('added'));
+                $q->andWhere('l.added = :added');
+                $q->setParameter('added', $searchParams->getParameter('added'));
             }
 
             if (!empty($searchParams->getParameter('sortField'))) {
                 if (in_array($searchParams->getParameter('sortOrder'), ['ASC', 'DESC'])) {
                     $q->addOrderBy(
-                        $searchParams->getParameter('sortField') . ' ' . $searchParams->getParameter('sortOrder')
+                        $searchParams->getParameter('sortField'),
+                        $searchParams->getParameter('sortOrder')
                     );
                 } else {
                     $q->addOrderBy($searchParams->getParameter('sortField'));
                 }
             }
-            return $q->execute();
+            return $q->getQuery()->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -105,8 +109,7 @@ class I18NDao extends BaseDao
     public function getLanguageById(string $id)
     {
         try {
-            $lang = Doctrine::getTable('I18NLanguage')->find($id);
-            return $lang === false ? null : $lang;
+            return Doctrine2::getEntityManager()->getRepository(I18NLanguage::class)->find($id);
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -123,11 +126,12 @@ class I18NDao extends BaseDao
     public function deleteLangStrings(array $currentSourceIds, int $sourceId)
     {
         try {
-            $q = Doctrine_Query::create()
-                ->delete('I18NLangString ls')
-                ->andWhereNotIn('ls.unitId', $currentSourceIds)
-                ->andWhere('ls.sourceId = ?', $sourceId);
-            return $q->execute();
+            $q = Doctrine2::getEntityManager()->createQueryBuilder();
+            $q->delete(I18NLangString::class, 'ls')
+                ->andWhere($q->expr()->notIn('ls.unitId', $currentSourceIds))
+                ->andWhere('ls.sourceId = :sourceId')
+                ->setParameter('sourceId', $sourceId);
+            return $q->getQuery()->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -137,16 +141,16 @@ class I18NDao extends BaseDao
 
     /**
      * @param int $sourceId
-     * @return Doctrine_Collection|I18NLangString[]
+     * @return I18NLangString[]
      * @throws DaoException
      */
     public function getLangStringsBySourceId(int $sourceId)
     {
         try {
-            $q = Doctrine_Query::create()
-                ->from('I18NLangString ls')
-                ->andWhere('ls.sourceId = ?', $sourceId);
-            return $q->execute();
+            $q = Doctrine2::getEntityManager()->getRepository(I18NLangString::class)->createQueryBuilder('ls')
+                ->andWhere('ls.sourceId = :sourceId')
+                ->setParameter('sourceId', $sourceId);
+            return $q->getQuery()->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -156,13 +160,13 @@ class I18NDao extends BaseDao
 
     /**
      * @param string $source
-     * @return Doctrine_Record|I18NSource
+     * @return I18NSource
      * @throws DaoException
      */
     public function getI18NSource(string $source)
     {
         try {
-            return Doctrine::getTable('I18NSource')->findOneBy('source', $source);
+            return Doctrine2::getEntityManager()->getRepository(I18NSource::class)->findOneBy(['source' => $source]);
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -177,27 +181,28 @@ class I18NDao extends BaseDao
      */
     public function saveI18NSource(I18NSource $i18NSource)
     {
-        $i18NSource->save();
+        Doctrine2::getEntityManager()->persist($i18NSource);
+        Doctrine2::getEntityManager()->flush();
         return $i18NSource;
     }
 
     /**
      * @param I18NSource $i18NSource
-     * @return bool
      */
     public function deleteI18NSource(I18NSource $i18NSource)
     {
-        return $i18NSource->delete();
+        Doctrine2::getEntityManager()->remove($i18NSource);
+        Doctrine2::getEntityManager()->flush();
     }
 
     /**
-     * @return Doctrine_Collection|I18NSource[]
+     * @return I18NSource[]
      * @throws DaoException
      */
     public function getAllI18NSources()
     {
         try {
-            return Doctrine::getTable('I18NSource')->findAll();
+            return Doctrine2::getEntityManager()->getRepository(I18NSource::class)->findAll();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -212,24 +217,26 @@ class I18NDao extends BaseDao
      */
     public function saveI18NLangString(I18NLangString $i18NLangString)
     {
-        $i18NLangString->save();
+        Doctrine2::getEntityManager()->persist($i18NLangString);
+        Doctrine2::getEntityManager()->flush();
         return $i18NLangString;
     }
 
     /**
      * @param int $langStringId
      * @param int $langId
-     * @return Doctrine_Record|I18NTranslate
+     * @return I18NTranslate|null
      * @throws DaoException
      */
     public function getI18NTranslate(int $langStringId, int $langId)
     {
         try {
-            $q = Doctrine_Query::create()
-                ->from('I18NTranslate t')
-                ->andWhere('t.langStringId = ?', $langStringId)
-                ->andWhere('t.languageId = ?', $langId);
-            return $q->fetchOne();
+            $q = Doctrine2::getEntityManager()->getRepository(I18NTranslate::class)->createQueryBuilder('t')
+                ->andWhere('t.langStringId = :langStringId')
+                ->setParameter('langStringId', $langStringId)
+                ->andWhere('t.languageId = :languageId')
+                ->setParameter('languageId', $langId);
+            return $q->getQuery()->getOneOrNullResult();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -239,14 +246,13 @@ class I18NDao extends BaseDao
 
     /**
      * @param string $id
-     * @return Doctrine_Record|null|I18NTranslate
+     * @return null|I18NTranslate
      * @throws DaoException
      */
     public function getI18NTranslateById(string $id)
     {
         try {
-            $translate = Doctrine::getTable('I18NTranslate')->find($id);
-            return $translate === false ? null : $translate;
+            return Doctrine2::getEntityManager()->getRepository(I18NTranslate::class)->find($id);
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -261,7 +267,8 @@ class I18NDao extends BaseDao
      */
     public function saveI18NTranslate(I18NTranslate $i18NTranslate)
     {
-        $i18NTranslate->save();
+        Doctrine2::getEntityManager()->persist($i18NTranslate);
+        Doctrine2::getEntityManager()->flush();
         return $i18NTranslate;
     }
 
@@ -272,7 +279,8 @@ class I18NDao extends BaseDao
      */
     public function saveI18NLanguage(I18NLanguage $i18NLanguage)
     {
-        $i18NLanguage->save();
+        Doctrine2::getEntityManager()->persist($i18NLanguage);
+        Doctrine2::getEntityManager()->flush();
         return $i18NLanguage;
     }
 
@@ -285,48 +293,55 @@ class I18NDao extends BaseDao
     public function searchTranslations(ParameterObject $searchParams, bool $getCount = false)
     {
         try {
-            $q = Doctrine_Query::create()
-                ->from('I18NTranslate t')
-                ->leftJoin('t.I18NLangString ls')
-                ->leftJoin('ls.I18NGroup g')
-                ->leftJoin('t.I18NLanguage l');
+            $q = Doctrine2::getEntityManager()->getRepository(I18NTranslate::class)->createQueryBuilder('t')
+                ->leftJoin('t.I18NLangString', 'ls')
+                ->leftJoin('ls.I18NGroup', 'g')
+                ->leftJoin('t.I18NLanguage', 'l');
 
             if (!empty($searchParams->getParameter('langCode'))) {
-                $q->andWhere('l.code = ?', $searchParams->getParameter('langCode'));
+                $q->andWhere('l.code = :langCode');
+                $q->setParameter('langCode', $searchParams->getParameter('langCode'));
             }
             if (is_bool($searchParams->getParameter('translated'))) {
-                $q->andWhere('t.translated = ?', $searchParams->getParameter('translated'));
+                $q->andWhere('t.translated = :translated');
+                $q->setParameter('translated', $searchParams->getParameter('translated'));
             }
             if (!empty($searchParams->getParameter('sourceText'))) {
-                $q->andWhere('ls.value LIKE ?', ['%' . $searchParams->getParameter('sourceText') . '%']);
+                $q->andWhere('ls.value LIKE :sourceText');
+                $q->setParameter('sourceText', '%' . $searchParams->getParameter('sourceText') . '%');
             }
             if (!empty($searchParams->getParameter('translatedText'))) {
-                $q->andWhere('t.value LIKE ?', ['%' . $searchParams->getParameter('translatedText') . '%']);
+                $q->andWhere('t.value LIKE :translatedText');
+                $q->setParameter('translatedText', '%' . $searchParams->getParameter('translatedText') . '%');
             }
             if (!empty($searchParams->getParameter('group'))) {
-                $q->andWhere('g.name = ?', $searchParams->getParameter('group'));
+                $q->andWhere('g.name = :group');
+                $q->setParameter('group', $searchParams->getParameter('group'));
             }
 
             if ($getCount) {
-                return $q->count();
+                return $q->select('count(t.id)')
+                    ->getQuery()
+                    ->getSingleScalarResult();
             }
 
             if (!empty($searchParams->getParameter('sortField'))) {
                 if (in_array($searchParams->getParameter('sortOrder'), ['ASC', 'DESC'])) {
                     $q->addOrderBy(
-                        $searchParams->getParameter('sortField') . ' ' . $searchParams->getParameter('sortOrder')
+                        $searchParams->getParameter('sortField'),
+                        $searchParams->getParameter('sortOrder')
                     );
                 } else {
                     $q->addOrderBy($searchParams->getParameter('sortField'));
                 }
             }
             if (!empty($searchParams->getParameter('offset'))) {
-                $q->offset($searchParams->getParameter('offset'));
+                $q->setFirstResult($searchParams->getParameter('offset'));
             }
             if (!empty($searchParams->getParameter('limit'))) {
-                $q->limit($searchParams->getParameter('limit'));
+                $q->setMaxResults($searchParams->getParameter('limit'));
             }
-            return $q->execute();
+            return $q->getQuery()->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -341,7 +356,7 @@ class I18NDao extends BaseDao
     public function getI18NGroups()
     {
         try {
-            return Doctrine::getTable('I18NGroup')->findAll();
+            return Doctrine2::getEntityManager()->getRepository(I18NGroup::class)->findAll();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
