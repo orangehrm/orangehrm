@@ -44,13 +44,9 @@ class EmployeePunchOutAPI extends PunchOutAPI
         $timeZone = $filters['timeZone'];
         $punchOutNote = $filters['punchOutNote'];
         $dateTime = $filters['dateTime'];
-        $editable = $this->getAttendanceService()->getDateTimeEditable();
-        if ($editable && empty($dateTime)) {
+
+        if (empty($dateTime)) {
             throw new InvalidParamException('Datetime Cannot Be Empty');
-        } else {
-            if (!$editable && !empty($dateTime)) {
-                throw new InvalidParamException('You Are Not Allowed To Change Current Date & Time');
-            }
         }
         $empNumber = $this->getAttendanceService()->GetLoggedInEmployeeNumber();
 
@@ -79,9 +75,17 @@ class EmployeePunchOutAPI extends PunchOutAPI
         //check overlapping
         $punchInUtcTime = $attendanceRecord->getPunchInUtcTime();
         $punchOutUtcTime = date('Y-m-d H:i', strtotime($punchOutUserDateTime) - $originOffset);
-
         if($punchInUtcTime > $punchOutUtcTime){
             throw new InvalidParamException('Punch Out Time Should Be Later Than Punch In Time');
+        }
+        $editable = $this->getAttendanceService()->getDateTimeEditable();
+        if(!$editable) {
+            $utcNowTimeValue = strtotime($this->getCurrentUTCTime());
+            $userEnterTimeUTCValue = strtotime($punchInUtcTime);
+            $diff = abs($utcNowTimeValue-$userEnterTimeUTCValue);
+            if($diff>180){
+                throw new InvalidParamException('You Are Not Allowed To Change Current Date & Time');
+            }
         }
         $isValid = $this->getAttendanceService()->checkForPunchOutOverLappingRecords(
             $punchInUtcTime,
