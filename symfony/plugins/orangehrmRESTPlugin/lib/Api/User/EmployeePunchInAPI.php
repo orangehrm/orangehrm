@@ -46,6 +46,10 @@ class EmployeePunchInAPI extends PunchInAPI
         $punchInNote = $filters['punchInNote'];
         $dateTime = $filters['datetime'];
 
+        if (empty($dateTime)) {
+            throw new InvalidParamException('Datetime Cannot Be Empty');
+        }
+
         if (!$this->getAttendanceService()->validateTimezone($timeZone)) {
             throw new InvalidParamException('Invalid Time Zone'); // meet to do this part in validators
         }
@@ -79,14 +83,13 @@ class EmployeePunchInAPI extends PunchInAPI
         //check overlapping
         $punchInUtcTime = date('Y-m-d H:i', strtotime($punchInUserDateTime) - $originOffset);
         $editable = $this->getAttendanceService()->getDateTimeEditable();
-        if ($editable && empty($dateTime)) {
-            throw new InvalidParamException('Datetime Cannot Be Empty');
-        } else {
-            if($punchInUtcTime)
-//            if()
-                if (!$editable && !empty($dateTime)) {
-                    throw new InvalidParamException('You Are Not Allowed To Change Current Date & Time');
-                }
+        if(!$editable) {
+            $utcNowTimeValue = strtotime($this->getCurrentUTCTime());
+            $userEnterTimeUTCValue = strtotime($punchInUtcTime);
+            $diff = abs($utcNowTimeValue-$userEnterTimeUTCValue);
+            if($diff>180){
+                throw new InvalidParamException('You Are Not Allowed To Change Current Date & Time');
+            }
         }
         $isValid = $this->getAttendanceService()->checkForPunchInOverLappingRecords(
             $punchInUtcTime,
