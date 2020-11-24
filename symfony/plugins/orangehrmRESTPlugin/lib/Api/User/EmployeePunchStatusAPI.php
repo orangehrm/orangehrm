@@ -51,10 +51,7 @@ class EmployeePunchStatusAPI extends PunchTimeAPI
                 $punchState = PluginAttendanceRecord::STATE_PUNCHED_OUT;
                 $punchTime = $lastPunchOutRecord->getPunchOutUserTime();
                 $punchNote = $lastPunchOutRecord->getPunchOutNote();
-                $punchTimeZone = $lastPunchOutRecord->getPunchOutTimeOffset();
-                $displayPunchTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset(
-                    $punchTimeZone
-                );
+                $punchTimeZoneOffset = $lastPunchOutRecord->getPunchOutTimeOffset();
             } else {
                 $punchState = AttendanceRecord::STATE_INITIAL;
             }
@@ -62,19 +59,18 @@ class EmployeePunchStatusAPI extends PunchTimeAPI
             $punchState = PluginAttendanceRecord::STATE_PUNCHED_IN;
             $punchTime = $lastPunchInRecord->getPunchInUserTime();
             $punchNote = $lastPunchInRecord->getPunchInNote();
-            $punchTimeZone = $lastPunchInRecord->getPunchInTimeOffset();
-            $displayPunchTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset(
-                $punchTimeZone
-            );
+            $punchTimeZoneOffset = $lastPunchInRecord->getPunchInTimeOffset();
         }
-        $punchTimeEditableDetails = $this->getPunchTimeEditable();
+
+        $editable=$this->getAttendanceService()->getDateTimeEditable();
+        $currentUTCTime = $this->getCurrentUTCTime();
         return new Response(
             array(
                 'punchTime' => $punchTime,
                 'punchNote' => $punchNote,
-                'PunchTimeZoneOffset' => $displayPunchTimeZoneOffset,
-                'dateTimeEditable' => $punchTimeEditableDetails['editable'],
-                'currentUtcDateTime' => $punchTimeEditableDetails['serverUtcTime'],
+                'PunchTimeZoneOffset' => $punchTimeZoneOffset,
+                'dateTimeEditable' => $editable,
+                'currentUtcDateTime' => $currentUTCTime,
                 'punchState' => $punchState
             )
         );
