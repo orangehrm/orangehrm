@@ -25,8 +25,8 @@ Employee:
   E_018: { empNumber: 18, firstName: Duleep, lastName: Mendis, employeeId: H005 }
   E_019: { empNumber: 19, firstName: Angelo, middleName: Davis, lastName: Mathews, employeeId: A008 }
   E_020: { empNumber: 20, firstName: Nuwan, lastName: Kulasekara, employeeId: A009 }
-  
-  
+
+
 AttendanceRecord:
   0: {id: 1, employee_id: 1, punch_in_utc_time: '2011-05-27 12:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-05-27 12:10:00',punch_out_utc_time: '2011-05-27 12:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-05-27 12:10:00', state: 'PUNCHED IN'}
   1: {id: 2, employee_id: 2, punch_in_utc_time: '2011-04-20 1:10:00', punch_in_note: 'Im punched In',punch_in_time_offset: 'Asia/Calcutta',punch_in_user_time: '2011-04-20 1:10:00',punch_out_utc_time: '2011-04-20 5:10:00',punch_out_note: ' Punched Out',punch_out_time_offset: 'Asia/Calcutta',punch_out_user_time: '2011-04-20 5:10:00', state: 'PUNCHED IN'}
