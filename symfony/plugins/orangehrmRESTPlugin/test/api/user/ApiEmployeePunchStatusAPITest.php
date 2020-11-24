@@ -55,14 +55,10 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             ->setMethods(
                 [
                     'getLatestPunchInRecord',
-                    'GetLoggedInEmployeeNumber',
-                    'getOriginDisplayTimeZoneOffset'
+                    'GetLoggedInEmployeeNumber'
                 ]
             )
             ->getMock();
-        $attendanceService->expects($this->once())
-            ->method('getOriginDisplayTimeZoneOffset')
-            ->will($this->returnValue(true));
         $attendanceService->expects($this->once())
             ->method('GetLoggedInEmployeeNumber')
             ->will($this->returnValue(1));
@@ -87,7 +83,7 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             array(
                 'punchTime' => '2021-01-28 08:34',
                 'punchNote' => 'PUNCH IN NOTE',
-                'PunchTimeZoneOffset' => 3.5,
+                'PunchTimeZoneOffset' => -2.5,
                 'dateTimeEditable' => true,
                 'currentUtcDateTime' => '2020-11-11 11:35',
                 'punchState' => PluginAttendanceRecord::STATE_PUNCHED_IN
@@ -105,15 +101,10 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             ->setMethods(
                 [
                     'getLatestPunchInRecord',
-                    'GetLoggedInEmployeeNumber',
-                    'getOriginDisplayTimeZoneOffset'
+                    'GetLoggedInEmployeeNumber'
                 ]
             )
             ->getMock();
-        $attendanceService->expects($this->once())
-            ->method('getOriginDisplayTimeZoneOffset')
-            ->with(-2.5)
-            ->will($this->returnValue(3.5));
         $attendanceService->expects($this->once())
             ->method('GetLoggedInEmployeeNumber')
             ->will($this->returnValue(1));
@@ -130,7 +121,7 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
                             $lastrecord->setEmployeeId(1);
                             $lastrecord->setPunchOutUtcTime('2021-01-28 11:04:00');
                             $lastrecord->setPunchOutNote('PUNCH OUT NOTE');
-                            $lastrecord->setPunchOutTimeOffset(-2.5);
+                            $lastrecord->setPunchOutTimeOffset(3.5);
                             $lastrecord->setPunchOutUserTime("2021-01-28 08:34");
                             $lastrecord->setState(PluginAttendanceRecord::STATE_PUNCHED_IN);
                             return $lastrecord;
@@ -173,14 +164,10 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             ->setMethods(
                 [
                     'getLatestPunchInRecord',
-                    'GetLoggedInEmployeeNumber',
-                    'getOriginDisplayTimeZoneOffset'
+                    'GetLoggedInEmployeeNumber'
                 ]
             )
             ->getMock();
-        $attendanceService
-            ->method('getOriginDisplayTimeZoneOffset')
-            ->will($this->returnValue(true));
         $attendanceService->expects($this->once())
             ->method('GetLoggedInEmployeeNumber')
             ->will($this->returnValue(1));

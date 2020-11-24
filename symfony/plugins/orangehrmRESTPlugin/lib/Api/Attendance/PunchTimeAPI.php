@@ -109,20 +109,9 @@ class PunchTimeAPI extends EndPoint{
         return $offset;
     }
 
-    public function getPunchTimeEditable()
+    public function getCurrentUTCTime()
     {
-        $isPunchTimeEditable = $this->getAttendanceService()->getSavedConfiguration(
-            WorkflowStateMachine::FLOW_ATTENDANCE,
-            AttendanceRecord::STATE_INITIAL,
-            configureAction::ESS_USER,
-            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
-            AttendanceRecord::STATE_INITIAL
-        );
-        $serverUtcTime = gmdate('Y-m-d H:i');
-        return array(
-            'editable' => $isPunchTimeEditable,
-            'serverUtcTime' => $serverUtcTime
-        );
+        return gmdate('Y-m-d H:i');
     }
 
 }

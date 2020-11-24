@@ -72,16 +72,14 @@ class EmployeePunchOutAPI extends PunchOutAPI
             throw new InvalidParamException('Invalid Time Zone');
         }
         $timeZoneDTZ = new DateTimeZone($timeZone);
-        $originDT = new DateTime($dateTime, $timeZoneDTZ);
-        $punchOutdateTime = $originDT->format('Y-m-d H:i');
-        $timeZoneOffset = $this->getTimezoneOffset('UTC', $timeZone);
+        $originDateTime = new DateTime($dateTime, $timeZoneDTZ);
+        $originOffset= $timeZoneDTZ->getOffset($originDateTime);
+        $punchOutUserDateTime = $originDateTime->format('Y-m-d H:i');
 
         //check overlapping
         $punchInUtcTime = $attendanceRecord->getPunchInUtcTime();
-        $punchOutUtcTime = $this->getAttendanceService()->getCalculatedPunchInUtcTime(
-            $punchOutdateTime,
-            $timeZoneOffset
-        );
+        $punchOutUtcTime = date('Y-m-d H:i', strtotime($punchOutUserDateTime) - $originOffset);
+
         if($punchInUtcTime > $punchOutUtcTime){
             throw new InvalidParamException('Punch Out Time Should Be Later Than Punch In Time');
         }
@@ -99,16 +97,9 @@ class EmployeePunchOutAPI extends PunchOutAPI
                 $attendanceRecord,
                 $nextState,
                 $punchOutUtcTime,
-                $punchOutdateTime,
-                $timeZoneOffset / 3600,
+                $punchOutUserDateTime,
+                $originOffset / 3600,
                 $punchOutNote
-            );
-
-            $displayPunchInTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset(
-                $attendanceRecord->getPunchInTimeOffset()
-            );
-            $displayPunchOutTimeZoneOffset = $this->getAttendanceService()->getOriginDisplayTimeZoneOffset(
-                $timeZoneOffset / 3600
             );
 
             return new Response(
@@ -116,10 +107,10 @@ class EmployeePunchOutAPI extends PunchOutAPI
                     'success' => 'Successfully Punched Out',
                     'id' => $attendanceRecord->getId(),
                     'punchInDateTime' => $attendanceRecord->getPunchInUserTime(),
-                    'punchInTimeZone' => $displayPunchInTimeZoneOffset,
+                    'punchInTimeZone' => $attendanceRecord->getPunchInTimeOffset(),
                     'punchInNote' => $attendanceRecord->getPunchInNote(),
                     'punchOutDateTime' => $attendanceRecord->getPunchOutUserTime(),
-                    'punchOutTimeZone' => $displayPunchOutTimeZoneOffset,
+                    'punchOutTimeZone' => $attendanceRecord->getPunchOutTimeOffset(),
                     'punchOutNote' => $attendanceRecord->getPunchOutNote(),
                 )
             );

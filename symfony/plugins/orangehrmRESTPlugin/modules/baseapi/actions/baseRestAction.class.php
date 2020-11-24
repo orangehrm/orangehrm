@@ -100,7 +100,6 @@ abstract class baseRestAction extends baseOAuthAction {
      * @return string
      */
     public function execute($request) {
-
         $httpRequest = new Request($request);
         $this->init($httpRequest);
         $response = $this->getResponse();
