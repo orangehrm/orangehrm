@@ -26,9 +26,6 @@ use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Attendance\PunchInAPI;
 use \PluginAttendanceRecord;
-use \sfContext;
-use \DateTimeZone;
-use \DateTime;
 use \AttendanceRecord;
 
 
@@ -41,23 +38,26 @@ class EmployeePunchInAPI extends PunchInAPI
      */
     public function savePunchIn()
     {
-        $filters = $this->filterParameters();
-        $timeZone = $filters['timezone'];
-        $punchInNote = $filters['punchInNote'];
-        $dateTime = $filters['datetime'];
+        $params = $this->getParameters();
+        $timeZoneOffset = $params[parent::PARAMETER_TIME_ZONE];
+        $punchInNote = $params[parent::PARAMETER_NOTE];
+        $dateTime = $params[parent::PARAMETER_DATE_TIME];
 
         if (empty($dateTime)) {
             throw new InvalidParamException('Datetime Cannot Be Empty');
         }
-
-        if (!$this->getAttendanceService()->validateTimezone($timeZone)) {
-            throw new InvalidParamException('Invalid Time Zone'); // meet to do this part in validators
+        if (empty($timeZoneOffset)) {  // NotEmpty Not working
+            throw new InvalidParamException('TimeZone Cannot Be Empty');
         }
 
-        $empNumber = $this->getAttendanceService()->GetLoggedInEmployeeNumber();
+        if (!in_array($timeZoneOffset, $this->getValidateTimezoneOffsetList())) {
+            throw new InvalidParamException('Invalid Time Zone Offset');
+        }
+
+        $empNumber = $this->GetLoggedInEmployeeNumber();
 
         if (!$this->checkValidEmployee($empNumber)) {
-            throw new RecordNotFoundException('Employee Id ' . $empNumber . ' Not Found');
+            throw new BadRequestException('Employee Id ' . $empNumber . ' Not Found');
         }
         $actionableStatesList = array(PluginAttendanceRecord::STATE_PUNCHED_IN);
         $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord(
@@ -71,23 +71,15 @@ class EmployeePunchInAPI extends PunchInAPI
         $attendanceRecord->setEmployeeId($empNumber);
 
         $nextState = PluginAttendanceRecord::STATE_PUNCHED_IN;
-        if (empty($timeZone)) {  // NotEmpty Not working
-            throw new InvalidParamException('TimeZone Cannot Be Empty');
-        }
-
-        $timeZoneDTZ = new DateTimeZone($timeZone);
-        $originDateTime = new DateTime($dateTime, $timeZoneDTZ);
-        $originOffset= $timeZoneDTZ->getOffset($originDateTime);
-        $punchInUserDateTime = $originDateTime->format('Y-m-d H:i');
 
         //check overlapping
-        $punchInUtcTime = date('Y-m-d H:i', strtotime($punchInUserDateTime) - $originOffset);
+        $punchInUtcTime = date('Y-m-d H:i', strtotime($dateTime) - $timeZoneOffset * 3600);
         $editable = $this->getAttendanceService()->getDateTimeEditable();
-        if(!$editable) {
+        if (!$editable) {
             $utcNowTimeValue = strtotime($this->getCurrentUTCTime());
             $userEnterTimeUTCValue = strtotime($punchInUtcTime);
-            $diff = abs($utcNowTimeValue-$userEnterTimeUTCValue);
-            if($diff>180){
+            $diff = abs($utcNowTimeValue - $userEnterTimeUTCValue);
+            if ($diff > 180) {
                 throw new InvalidParamException('You Are Not Allowed To Change Current Date & Time');
             }
         }
@@ -99,37 +91,34 @@ class EmployeePunchInAPI extends PunchInAPI
             throw new InvalidParamException('Overlapping Records Found');
         }
 
-        try {
-            $attendanceRecord = $this->setPunchInRecord(
-                $attendanceRecord,
-                $nextState,
-                $punchInUtcTime,
-                $punchInUserDateTime,
-                $originOffset / 3600,
-                $punchInNote
-            );
+        $attendanceRecord = $this->setPunchInRecord(
+            $attendanceRecord,
+            $nextState,
+            $punchInUtcTime,
+            $dateTime,
+            $timeZoneOffset,
+            $punchInNote
+        );
 
-            return new Response(
-                array(
-                    'success' => 'Successfully Punched In',
-                    'id' => $attendanceRecord->getId(),
-                    'datetime' => $attendanceRecord->getPunchInUserTime(),
-                    'timezone' => $attendanceRecord->getPunchInTimeOffset(),
-                    'note' => $attendanceRecord->getPunchInNote()
-                )
-            );
-        } catch (Exception $e) {
-            new BadRequestException($e->getMessage());
-        }
+        return new Response(
+            array(
+                'id' => $attendanceRecord->getId(),
+                'datetime' => $attendanceRecord->getPunchInUserTime(),
+                'timezone' => $attendanceRecord->getPunchInTimeOffset(),
+                'note' => $attendanceRecord->getPunchInNote()
+            )
+        );
     }
 
-    public function filterParameters()
+    public function getParameters()
     {
-        $filters = array();
-        $filters['timezone'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_TIME_ZONE);
-        $filters['punchInNote'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
-        $filters['datetime'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_DATE_TIME);
-        return $filters;
+        $params = array();
+        $params[parent::PARAMETER_TIME_ZONE] = $this->getRequestParams()->getPostParam(
+            parent::PARAMETER_TIME_ZONE_OFFSET
+        );
+        $params[parent::PARAMETER_NOTE] = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
+        $params[parent::PARAMETER_DATE_TIME] = $this->getRequestParams()->getPostParam(parent::PARAMETER_DATE_TIME);
+        return $params;
     }
 
     /**
@@ -140,7 +129,8 @@ class EmployeePunchInAPI extends PunchInAPI
         return [
             parent::PARAMETER_NOTE => ['StringType' => true, 'Length' => [1, 250]],
             parent::PARAMETER_DATE_TIME => ['Date' => ['Y-m-d H:i']],
-            parent::PARAMETER_TIME_ZONE => ['NotEmpty' => true,'StringType' => true]
+            parent::PARAMETER_TIME_ZONE => ['Numeric' => true, 'NotEmpty' => true]
+
         ];
     }
 }
