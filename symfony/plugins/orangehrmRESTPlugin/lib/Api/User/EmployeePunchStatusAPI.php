@@ -29,7 +29,7 @@ use \AttendanceRecord;
 
 class EmployeePunchStatusAPI extends PunchTimeAPI
 {
-    public function getStatusDetails()
+    public function getStatusDetailsOfLatestAttendanceRecord()
     {
         $empNumber = $this->GetLoggedInEmployeeNumber();
         if (!$this->checkValidEmployee($empNumber)) {
@@ -62,14 +62,14 @@ class EmployeePunchStatusAPI extends PunchTimeAPI
         }
 
         $editable=$this->getAttendanceService()->getDateTimeEditable();
-        $currentUTCTime = $this->getCurrentUTCTime();
+        $currentUTCDateTime = $this->getCurrentUTCTime();
         return new Response(
             array(
                 'punchTime' => $punchTime,
                 'punchNote' => $punchNote,
                 'PunchTimeZoneOffset' => $punchTimeZoneOffset,
                 'dateTimeEditable' => $editable,
-                'currentUtcDateTime' => $currentUTCTime,
+                'currentUTCDateTime' => $currentUTCDateTime,
                 'punchState' => $punchState
             )
         );

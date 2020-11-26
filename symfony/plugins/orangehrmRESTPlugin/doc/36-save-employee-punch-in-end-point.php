@@ -6,7 +6,7 @@
 * @apiUse UserDescription
 *
 *
-* @apiParam   {String} timezone  Time Zone ( ex: "Asia/Colombo" ).
+* @apiParam   {String} timezoneOffset  Time Zone Offset ( ex: 5.5 ).
 * @apiParam   {String} [note] Punch In Note. ( ex: "Successfully Punched In" )
 * @apiParam   {Date}  datetime Date and Time Required If Current Time Editable ( ex: "2020-12-28 08:30" )
 *
@@ -15,7 +15,6 @@
 *     HTTP/1.1 200 OK
 *
 *            {
-*                "success": "Successfully Punched In",
 *                "id": "1",
 *                "datetime": "2020-12-28 08:30",
 *                "timezoneOffset": 5.5,
