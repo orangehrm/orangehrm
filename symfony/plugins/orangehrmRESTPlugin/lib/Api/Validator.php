@@ -34,7 +34,7 @@ class Validator
         try {
             foreach ($rule as $property => $propertyRules) {
 
-               if(isset($values[$property])) {
+//               if(isset($values[$property])) {
                     $classNames = array();
                     foreach ($propertyRules as $ruleType => $params) {
                         if (!is_array($params)) {
@@ -46,11 +46,11 @@ class Validator
                         );
 
                     }
+
                     $propertyValidatorRule = new Rules\AllOf($classNames);
                     $propertyValidator = new Rules\Key($property, $propertyValidatorRule);
                     $propertyValidator->check(array($property=>$values[$property]));
-                }
-
+//                }
             }
             return true;
 
