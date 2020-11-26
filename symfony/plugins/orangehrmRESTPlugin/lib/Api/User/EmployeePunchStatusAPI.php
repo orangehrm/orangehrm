@@ -31,13 +31,12 @@ class EmployeePunchStatusAPI extends PunchTimeAPI
 {
     public function getStatusDetails()
     {
-        $empNumber = $this->getAttendanceService()->GetLoggedInEmployeeNumber();
+        $empNumber = $this->GetLoggedInEmployeeNumber();
         if (!$this->checkValidEmployee($empNumber)) {
             throw new RecordNotFoundException('Employee Id' . $empNumber . ' Not Found');
         }
         $punchTime = null;
         $punchNote = null;
-        $displayPunchTimeZoneOffset = null;
         $lastPunchInRecord = $this->getAttendanceService()->getLatestPunchInRecord(
             $empNumber,
             PluginAttendanceRecord::STATE_PUNCHED_IN
