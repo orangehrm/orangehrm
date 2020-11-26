@@ -308,7 +308,6 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
     public function testGetLatestPunchInRecord() {
 
         $employeeId = 1;
-        $actionableStateList = array(AttendanceRecord::STATE_PUNCHED_IN);
 
         $lastPunchRecord = TestDataService::fetchObject('AttendanceRecord', 2);
         $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
@@ -323,20 +322,5 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $retrievedPunchRecord = $this->attendanceService->getLatestPunchInRecord($employeeId,AttendanceRecord::STATE_PUNCHED_IN);
         $this->assertTrue($retrievedPunchRecord instanceof AttendanceRecord);
         $this->assertEquals($lastPunchRecord, $retrievedPunchRecord);
-    }
-
-
-    public function testValidateTimezoneForValidTimezone(){
-        $this->assertTrue($this->attendanceService->validateTimezone('Asia/Colombo'));
-    }
-    public function testValidateTimezoneForNotValidTimezone(){
-        $this->assertFalse($this->attendanceService->validateTimezone('Asia'));
-    }
-    public function testValidateTimezoneForNotStringInput(){
-        $this->assertFalse($this->attendanceService->validateTimezone(1));
-    }
-    public function testGetOriginDisplayTimeZoneOffsetForValid(){
-        $this->assertEquals(5.5,$this->attendanceService->getOriginDisplayTimeZoneOffset(0));
-        $this->assertEquals(3.0,$this->attendanceService->getOriginDisplayTimeZoneOffset(-2.5));
     }
 }

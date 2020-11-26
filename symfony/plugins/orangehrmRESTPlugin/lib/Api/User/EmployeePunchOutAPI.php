@@ -49,7 +49,7 @@ class EmployeePunchOutAPI extends PunchOutAPI
             throw new InvalidParamException('Datetime Cannot Be Empty');
         }
         if (empty($timeZoneOffset)) {
-            throw new InvalidParamException('TimeZone Cannot Be Empty');
+            throw new InvalidParamException('TimeZone Offset Cannot Be Empty');
         }
 
         if (!in_array($timeZoneOffset, $this->getValidateTimezoneOffsetList())) {
@@ -108,10 +108,10 @@ class EmployeePunchOutAPI extends PunchOutAPI
             array(
                 'id' => $attendanceRecord->getId(),
                 'punchInDateTime' => $attendanceRecord->getPunchInUserTime(),
-                'punchInTimeZone' => $attendanceRecord->getPunchInTimeOffset(),
+                'punchInTimeZoneOffset' => $attendanceRecord->getPunchInTimeOffset(),
                 'punchInNote' => $attendanceRecord->getPunchInNote(),
                 'punchOutDateTime' => $attendanceRecord->getPunchOutUserTime(),
-                'punchOutTimeZone' => $attendanceRecord->getPunchOutTimeOffset(),
+                'punchOutTimeZoneOffset' => $attendanceRecord->getPunchOutTimeOffset(),
                 'punchOutNote' => $attendanceRecord->getPunchOutNote(),
             )
         );

@@ -82,7 +82,7 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
         $employeePunchStatusApi->expects($this->once())
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));
-        $actual=$employeePunchStatusApi->getStatusDetails();
+        $actual=$employeePunchStatusApi->getStatusDetailsOfLatestAttendanceRecord();
         $expected = new Response(
             array(
                 'punchTime' => '2021-01-28 08:34',
@@ -149,7 +149,7 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
         $employeePunchStatusApi->expects($this->once())
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));
-        $actual=$employeePunchStatusApi->getStatusDetails();
+        $actual=$employeePunchStatusApi->getStatusDetailsOfLatestAttendanceRecord();
         $expected = new Response(
             array(
                 'punchTime' => '2021-01-28 08:34',
@@ -198,7 +198,7 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
         $employeePunchStatusApi->expects($this->once())
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));
-        $actual=$employeePunchStatusApi->getStatusDetails();
+        $actual=$employeePunchStatusApi->getStatusDetailsOfLatestAttendanceRecord();
         $expected = new Response(
             array(
                 'punchTime' => null,

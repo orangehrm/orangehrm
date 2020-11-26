@@ -271,18 +271,6 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, sizeof($attendanceRecords));
     }
 
-    /**
-     * @group orangehrmAttendancePlugin
-     */
-    public function testGetLatestPunchOutRecordForValid() {
-
-        $employeeId = 3;
-        $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_OUT);
-        $this->assertEquals($attendanceRecord->getId(), 3);
-        $this->assertEquals($attendanceRecord->getEmployeeId(), $employeeId);
-        $this->assertEquals($attendanceRecord->getPunchInTimeOffset(), 'Asia/Calcutta');
-    }
-
     public function testGetLatestPunchInRecordForNotPunchedInEmployee() {
 
         $employeeId = 3;
@@ -290,17 +278,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
         $this->assertFalse($attendanceRecord);
     }
-
-    public function testGetLatestPunchInRecordForValid() {
-
-        $employeeId = 5;
-        $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
-
-        $this->assertEquals($attendanceRecord->getId(), '6');
-        $this->assertEquals($attendanceRecord->getEmployeeId(), $employeeId);
-        $this->assertEquals($attendanceRecord->getPunchInTimeOffset(), 'Asia/Calcutta');
-    }
-
+    
     /**
      * @group orangehrmAttendancePlugin
      */

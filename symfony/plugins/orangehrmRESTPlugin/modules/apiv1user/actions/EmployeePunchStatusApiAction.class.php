@@ -64,7 +64,7 @@ class EmployeePunchStatusApiAction extends BaseUserApiAction
     protected function handleGetRequest(Request $request)
     {
         $this->setUserToContext();
-        return $this->getPunchStatusApi($request)->getStatusDetails();
+        return $this->getPunchStatusApi($request)->getStatusDetailsOfLatestAttendanceRecord();
     }
 
     /**

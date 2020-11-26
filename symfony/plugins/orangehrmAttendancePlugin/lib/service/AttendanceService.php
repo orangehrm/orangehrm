@@ -280,18 +280,6 @@ class AttendanceService {
     }
 
     /**
-     * @param string $dateTime    example : "2021-01-31 19:55"
-     * @param int $timeZoneOffset  example : -9000
-     * @return false|string
-     */
-    public function getCalculatedPunchInUtcTime(string $dateTime, int $timeZoneOffset)
-    {
-        return date(
-            'Y-m-d H:i:s',
-            strtotime($dateTime) + ((-1) * $timeZoneOffset)
-        );
-    }
-    /**
      * @return bool
      */
     public function getDateTimeEditable()
@@ -303,29 +291,6 @@ class AttendanceService {
             WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
             AttendanceRecord::STATE_INITIAL
         );
-    }
-
-    /**
-     * @param float $punchTimeOffset
-     * @return float|int
-     * @throws Exception
-     */
-    public function getOriginDisplayTimeZoneOffset(float $punchTimeOffset)
-    {
-        $remoteDTZ = new DateTimeZone('UTC');
-        $remoteDT = new DateTime("now", $remoteDTZ);
-        $displayTimeZoneOffset = $punchTimeOffset + ($remoteDTZ->getOffset($remoteDT)) / 3600;
-        return $displayTimeZoneOffset;
-    }
-
-    /**
-     * @param string $timeZone
-     * @return bool
-     */
-    public function validateTimezone(string $timeZone)
-    {
-        $zoneList = timezone_identifiers_list();
-        return in_array($timeZone, $zoneList);
     }
 }
 
