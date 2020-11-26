@@ -278,7 +278,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
         $this->assertFalse($attendanceRecord);
     }
-    
+
     /**
      * @group orangehrmAttendancePlugin
      */
