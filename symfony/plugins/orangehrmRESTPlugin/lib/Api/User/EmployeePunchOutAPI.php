@@ -40,15 +40,23 @@ class EmployeePunchOutAPI extends PunchOutAPI
      */
     public function savePunchOut()
     {
-        $filters = $this->filterParameters();
-        $timeZone = $filters['timeZone'];
-        $punchOutNote = $filters['punchOutNote'];
-        $dateTime = $filters['dateTime'];
+        $params = $this->getParameters();
+        $timeZoneOffset = $params[parent::PARAMETER_TIME_ZONE];
+        $punchOutNote = $params[parent::PARAMETER_NOTE];
+        $dateTime = $params[parent::PARAMETER_DATE_TIME];
 
         if (empty($dateTime)) {
             throw new InvalidParamException('Datetime Cannot Be Empty');
         }
-        $empNumber = $this->getAttendanceService()->GetLoggedInEmployeeNumber();
+        if (empty($timeZoneOffset)) {
+            throw new InvalidParamException('TimeZone Cannot Be Empty');
+        }
+
+        if (!in_array($timeZoneOffset, $this->getValidateTimezoneOffsetList())) {
+            throw new InvalidParamException('Invalid Time Zone Offset');
+        }
+
+        $empNumber = $this->GetLoggedInEmployeeNumber();
 
         if (!$this->checkValidEmployee($empNumber)) {
             throw new RecordNotFoundException('Employee id ' . $empNumber . ' Not Found');
@@ -61,29 +69,20 @@ class EmployeePunchOutAPI extends PunchOutAPI
         }
         $nextState = PluginAttendanceRecord::STATE_PUNCHED_OUT;
 
-        if (empty($timeZone)) {
-            throw new InvalidParamException('Datetime Cannot Be Empty');
-        }
-        if (!$this->getAttendanceService()->validateTimezone($timeZone)) {
-            throw new InvalidParamException('Invalid Time Zone');
-        }
-        $timeZoneDTZ = new DateTimeZone($timeZone);
-        $originDateTime = new DateTime($dateTime, $timeZoneDTZ);
-        $originOffset= $timeZoneDTZ->getOffset($originDateTime);
-        $punchOutUserDateTime = $originDateTime->format('Y-m-d H:i');
-
         //check overlapping
         $punchInUtcTime = $attendanceRecord->getPunchInUtcTime();
-        $punchOutUtcTime = date('Y-m-d H:i', strtotime($punchOutUserDateTime) - $originOffset);
-        if($punchInUtcTime > $punchOutUtcTime){
+        $punchOutUtcTime = date('Y-m-d H:i:s', strtotime($dateTime) - $timeZoneOffset * 3600);
+        if ($punchInUtcTime > $punchOutUtcTime) {
+            echo $punchInUtcTime;
+            echo $punchOutUtcTime;
             throw new InvalidParamException('Punch Out Time Should Be Later Than Punch In Time');
         }
         $editable = $this->getAttendanceService()->getDateTimeEditable();
-        if(!$editable) {
+        if (!$editable) {
             $utcNowTimeValue = strtotime($this->getCurrentUTCTime());
             $userEnterTimeUTCValue = strtotime($punchInUtcTime);
-            $diff = abs($utcNowTimeValue-$userEnterTimeUTCValue);
-            if($diff>180){
+            $diff = abs($utcNowTimeValue - $userEnterTimeUTCValue);
+            if ($diff > 180) {
                 throw new InvalidParamException('You Are Not Allowed To Change Current Date & Time');
             }
         }
@@ -93,43 +92,40 @@ class EmployeePunchOutAPI extends PunchOutAPI
             $empNumber,
             $attendanceRecord->getId()
         );
-        if ($isValid=='0') {
+        if ($isValid == '0') {
             throw new InvalidParamException('Overlapping Records Found');
         }
-        try {
-            $attendanceRecord = $this->setPunchOutRecord(
-                $attendanceRecord,
-                $nextState,
-                $punchOutUtcTime,
-                $punchOutUserDateTime,
-                $originOffset / 3600,
-                $punchOutNote
-            );
+        $attendanceRecord = $this->setPunchOutRecord(
+            $attendanceRecord,
+            $nextState,
+            $punchOutUtcTime,
+            $dateTime,
+            $timeZoneOffset,
+            $punchOutNote
+        );
 
-            return new Response(
-                array(
-                    'success' => 'Successfully Punched Out',
-                    'id' => $attendanceRecord->getId(),
-                    'punchInDateTime' => $attendanceRecord->getPunchInUserTime(),
-                    'punchInTimeZone' => $attendanceRecord->getPunchInTimeOffset(),
-                    'punchInNote' => $attendanceRecord->getPunchInNote(),
-                    'punchOutDateTime' => $attendanceRecord->getPunchOutUserTime(),
-                    'punchOutTimeZone' => $attendanceRecord->getPunchOutTimeOffset(),
-                    'punchOutNote' => $attendanceRecord->getPunchOutNote(),
-                )
-            );
-        } catch (Exception $e) {
-            new BadRequestException($e->getMessage());
-        }
+        return new Response(
+            array(
+                'id' => $attendanceRecord->getId(),
+                'punchInDateTime' => $attendanceRecord->getPunchInUserTime(),
+                'punchInTimeZone' => $attendanceRecord->getPunchInTimeOffset(),
+                'punchInNote' => $attendanceRecord->getPunchInNote(),
+                'punchOutDateTime' => $attendanceRecord->getPunchOutUserTime(),
+                'punchOutTimeZone' => $attendanceRecord->getPunchOutTimeOffset(),
+                'punchOutNote' => $attendanceRecord->getPunchOutNote(),
+            )
+        );
     }
 
-    public function filterParameters()
+    public function getParameters()
     {
-        $filters = array();
-        $filters['timeZone'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_TIME_ZONE);
-        $filters['punchOutNote'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
-        $filters['dateTime'] = $this->getRequestParams()->getPostParam(parent::PARAMETER_DATE_TIME);
-        return $filters;
+        $params = array();
+        $params[parent::PARAMETER_TIME_ZONE] = $this->getRequestParams()->getPostParam(
+            parent::PARAMETER_TIME_ZONE_OFFSET
+        );
+        $params[parent::PARAMETER_NOTE] = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
+        $params[parent::PARAMETER_DATE_TIME] = $this->getRequestParams()->getPostParam(parent::PARAMETER_DATE_TIME);
+        return $params;
     }
 
     /**
@@ -140,7 +136,7 @@ class EmployeePunchOutAPI extends PunchOutAPI
         return array(
             parent::PARAMETER_NOTE => ['StringType' => true, 'Length' => [1, 250]],
             parent::PARAMETER_DATE_TIME => ['Date' => ['Y-m-d H:i']],
-            parent::PARAMETER_TIME_ZONE => ['NotEmpty' => true,'StringType' => true]
+            parent::PARAMETER_TIME_ZONE => ['NotEmpty' => true, 'Numeric' => true]
         );
     }
 }

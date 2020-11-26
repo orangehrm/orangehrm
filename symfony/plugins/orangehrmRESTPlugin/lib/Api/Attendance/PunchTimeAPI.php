@@ -29,6 +29,9 @@ use Orangehrm\Rest\Http\Response;
 use \WorkflowStateMachine;
 use \AttendanceRecord;
 use \configureAction;
+use \sfContext;
+use \DateTimeZone;
+use \DateTime;
 
 class PunchTimeAPI extends EndPoint{
 
@@ -36,6 +39,7 @@ class PunchTimeAPI extends EndPoint{
     const PARAMETER_TIME_ZONE = 'timezone';
     const PARAMETER_NOTE = 'note';
     const PARAMETER_DATE_TIME = 'datetime';
+    const PARAMETER_TIME_ZONE_OFFSET = 'timezoneOffset';
 
     protected $employeeService;
     protected $attendanceService;
@@ -114,4 +118,29 @@ class PunchTimeAPI extends EndPoint{
         return gmdate('Y-m-d H:i');
     }
 
+    /**
+     * @return mixed|null
+     * @throws sfException
+     */
+    public function GetLoggedInEmployeeNumber()
+    {
+        return sfContext::getInstance()->getUser()->getAttribute("auth.empNumber");
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public function getValidateTimezoneOffsetList()
+    {
+        $offsetList = array();
+        $zoneList = timezone_identifiers_list();
+        foreach ($zoneList as $timezoneName) {
+            $timeZoneDTZ = new DateTimeZone($timezoneName);
+            $dateTimeObj = new DateTime('now', $timeZoneDTZ);
+            $offset = $dateTimeObj->getOffset();
+            array_push($offsetList, $offset / 3600);
+        }
+        return $offsetList;
+    }
 }

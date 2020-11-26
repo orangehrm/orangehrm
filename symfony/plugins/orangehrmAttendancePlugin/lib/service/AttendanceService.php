@@ -319,15 +319,6 @@ class AttendanceService {
     }
 
     /**
-     * @return mixed|null
-     * @throws sfException
-     */
-    public function GetLoggedInEmployeeNumber()
-    {
-        return sfContext::getInstance()->getUser()->getAttribute("auth.empNumber");
-    }
-
-    /**
      * @param string $timeZone
      * @return bool
      */

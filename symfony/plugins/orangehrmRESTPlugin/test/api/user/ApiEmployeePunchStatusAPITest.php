@@ -55,26 +55,30 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             ->setMethods(
                 [
                     'getLatestPunchInRecord',
-                    'GetLoggedInEmployeeNumber'
+                    'GetLoggedInEmployeeNumber',
+                    'getDateTimeEditable'
                 ]
             )
             ->getMock();
         $attendanceService->expects($this->once())
             ->method('GetLoggedInEmployeeNumber')
             ->will($this->returnValue(1));
+        $attendanceService
+            ->method('getDateTimeEditable')
+            ->will($this->returnValue(true));
         $attendanceService->expects($this->once())
             ->method('getLatestPunchInRecord')
             ->with(1,PluginAttendanceRecord::STATE_PUNCHED_IN)
             ->will($this->returnValue($lastrecord));
 
         $employeePunchStatusApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchStatusAPI')
-            ->setMethods(['checkValidEmployee', 'getPunchTimeEditable'])
+            ->setMethods(['checkValidEmployee', 'getCurrentUTCTime'])
             ->setConstructorArgs([$this->request])
             ->getMock();
         $employeePunchStatusApi->setAttendanceService($attendanceService);
         $employeePunchStatusApi->expects($this->once())
-            ->method('getPunchTimeEditable')
-            ->will($this->returnValue(['editable'=>true,'serverUtcTime'=> '2020-11-11 11:35']));
+            ->method('getCurrentUTCTime')
+            ->will($this->returnValue('2020-11-11 11:35'));
         $employeePunchStatusApi->expects($this->once())
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));
@@ -101,13 +105,17 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             ->setMethods(
                 [
                     'getLatestPunchInRecord',
-                    'GetLoggedInEmployeeNumber'
+                    'GetLoggedInEmployeeNumber',
+                    'getDateTimeEditable'
                 ]
             )
             ->getMock();
         $attendanceService->expects($this->once())
             ->method('GetLoggedInEmployeeNumber')
             ->will($this->returnValue(1));
+        $attendanceService
+            ->method('getDateTimeEditable')
+            ->will($this->returnValue(true));
         $attendanceService
             ->method('getLatestPunchInRecord')
             ->will(
@@ -131,13 +139,13 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             );
 
         $employeePunchStatusApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchStatusAPI')
-            ->setMethods(['checkValidEmployee', 'getPunchTimeEditable'])
+            ->setMethods(['checkValidEmployee', 'getCurrentUTCTime'])
             ->setConstructorArgs([$this->request])
             ->getMock();
         $employeePunchStatusApi->setAttendanceService($attendanceService);
         $employeePunchStatusApi->expects($this->once())
-            ->method('getPunchTimeEditable')
-            ->will($this->returnValue(['editable'=>true,'serverUtcTime'=> '2020-11-11 11:35']));
+            ->method('getCurrentUTCTime')
+            ->will($this->returnValue('2020-11-11 11:35'));
         $employeePunchStatusApi->expects($this->once())
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));
@@ -164,7 +172,8 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             ->setMethods(
                 [
                     'getLatestPunchInRecord',
-                    'GetLoggedInEmployeeNumber'
+                    'GetLoggedInEmployeeNumber',
+                    'getDateTimeEditable'
                 ]
             )
             ->getMock();
@@ -174,15 +183,18 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
         $attendanceService
             ->method('getLatestPunchInRecord')
             ->will($this->returnValue(null));
+        $attendanceService
+            ->method('getDateTimeEditable')
+            ->will($this->returnValue(true));
 
         $employeePunchStatusApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchStatusAPI')
-            ->setMethods(['checkValidEmployee', 'getPunchTimeEditable'])
+            ->setMethods(['checkValidEmployee', 'getCurrentUTCTime'])
             ->setConstructorArgs([$this->request])
             ->getMock();
         $employeePunchStatusApi->setAttendanceService($attendanceService);
         $employeePunchStatusApi->expects($this->once())
-            ->method('getPunchTimeEditable')
-            ->will($this->returnValue(['editable'=>true,'serverUtcTime'=> '2020-11-11 11:35']));
+            ->method('getCurrentUTCTime')
+            ->will($this->returnValue('2020-11-11 11:35'));
         $employeePunchStatusApi->expects($this->once())
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));

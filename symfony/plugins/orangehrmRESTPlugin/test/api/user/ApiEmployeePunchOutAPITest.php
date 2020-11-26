@@ -46,7 +46,7 @@ class ApiEmployeePunchOutAPITest extends PHPUnit\Framework\TestCase
     {
         $attendanceService = $this->getMockBuilder(
             'AttendanceService')
-            ->setMethods(['getDateTimeEditable','getLastPunchRecord','validateTimezone','checkForPunchOutOverLappingRecords','checkForPunchInOverLappingRecords'])
+            ->setMethods(['getDateTimeEditable','getLastPunchRecord','checkForPunchOutOverLappingRecords','checkForPunchInOverLappingRecords'])
             ->getMock();
         $attendanceService
             ->method('getDateTimeEditable')
@@ -55,78 +55,32 @@ class ApiEmployeePunchOutAPITest extends PHPUnit\Framework\TestCase
             ->method('getLastPunchRecord')
             ->will($this->returnValue(null));
         $attendanceService
-            ->method('validateTimezone')
-            ->will($this->returnValue(true));
-        $attendanceService
             ->method('checkForPunchOutOverLappingRecords')
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(1));
 
-        $filters = ['timeZone'=> 'Asia/Colombo','dateTime'=>"2020-12-29 19:34"];
+        $filters = ['timezone'=> 5.5,'datetime'=>"2020-12-29 19:34"];
         $employeePunchOutApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchOutAPI')
-            ->setMethods(['checkValidEmployee','getTimezoneOffset','filterParameters'])
+            ->setMethods(['checkValidEmployee','getParameters'])
             ->setConstructorArgs([$this->request])
             ->getMock();
         $employeePunchOutApi->setAttendanceService($attendanceService);
         $employeePunchOutApi
-            ->method('filterParameters')
+            ->method('getParameters')
             ->will($this->returnValue($filters));
         $employeePunchOutApi
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));
-        $employeePunchOutApi
-            ->method('getTimezoneOffset')
-            ->with('UTC', 'Asia/Colombo')
-            ->will($this->returnValue(5.5));
         $this->expectException(InvalidParamException::class);
         $employeePunchOutApi->savePunchOut();
 
     }
 
-    public function testSavePunchOutForDateTimeEmptyWhenEditable()
-    {
-        $attendanceService = $this->getMockBuilder(
-            'AttendanceService')
-            ->setMethods(['getDateTimeEditable','getLastPunchRecord','validateTimezone','getCalculatedPunchInUtcTime','checkForPunchOutOverLappingRecords'])
-            ->getMock();
-        $attendanceService
-            ->method('getDateTimeEditable')
-            ->will($this->returnValue(true));
-        $attendanceService
-            ->method('getLastPunchRecord')
-            ->will($this->returnValue(null));
-        $attendanceService
-            ->method('validateTimezone')
-            ->will($this->returnValue(true));
-        $attendanceService
-            ->method('checkForPunchOutOverLappingRecords')
-            ->will($this->returnValue(0));
-
-        $filters = ['timeZone'=> 'Asia/Colombo'];
-        $employeePunchOutApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchOutAPI')
-            ->setMethods(['checkValidEmployee','getTimezoneOffset','filterParameters'])
-            ->setConstructorArgs([$this->request])
-            ->getMock();
-        $employeePunchOutApi->setAttendanceService($attendanceService);
-        $employeePunchOutApi
-            ->method('filterParameters')
-            ->will($this->returnValue($filters));
-        $employeePunchOutApi
-            ->method('checkValidEmployee')
-            ->will($this->returnValue(true));
-        $employeePunchOutApi
-            ->method('getTimezoneOffset')
-            ->with('UTC', 'Asia/Colombo')
-            ->will($this->returnValue(5.5));
-        $this->expectException(InvalidParamException::class);
-        $employeePunchOutApi->savePunchOut();
-
-    }
 
     public function testSavePunchOutForEmployeeAlreadyPunchedOut()
     {
         $attendanceService = $this->getMockBuilder(
             'AttendanceService')
-            ->setMethods(['getDateTimeEditable','getLastPunchRecord','validateTimezone','getCalculatedPunchInUtcTime','checkForPunchOutOverLappingRecords'])
+            ->setMethods(['getDateTimeEditable','getLastPunchRecord','getCalculatedPunchInUtcTime','checkForPunchOutOverLappingRecords'])
             ->getMock();
         $attendanceService
             ->method('getDateTimeEditable')
@@ -135,28 +89,21 @@ class ApiEmployeePunchOutAPITest extends PHPUnit\Framework\TestCase
             ->method('getLastPunchRecord')
             ->will($this->returnValue(true));
         $attendanceService
-            ->method('validateTimezone')
-            ->will($this->returnValue(true));
-        $attendanceService
             ->method('checkForPunchOutOverLappingRecords')
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(1));
 
-        $filters = ['timeZone'=> 'Asia/Colombo'];
+        $filters = ['timezone'=> 5.5];
         $employeePunchOutApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchOutAPI')
-            ->setMethods(['checkValidEmployee','getTimezoneOffset','filterParameters'])
+            ->setMethods(['checkValidEmployee','getParameters'])
             ->setConstructorArgs([$this->request])
             ->getMock();
         $employeePunchOutApi->setAttendanceService($attendanceService);
         $employeePunchOutApi
-            ->method('filterParameters')
+            ->method('getParameters')
             ->will($this->returnValue($filters));
         $employeePunchOutApi
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));
-        $employeePunchOutApi
-            ->method('getTimezoneOffset')
-            ->with('UTC', 'Asia/Colombo')
-            ->will($this->returnValue(5.5));
         $this->expectException(InvalidParamException::class);
         $employeePunchOutApi->savePunchOut();
 
@@ -166,7 +113,7 @@ class ApiEmployeePunchOutAPITest extends PHPUnit\Framework\TestCase
     {
         $attendanceService = $this->getMockBuilder(
             'AttendanceService')
-            ->setMethods(['getDateTimeEditable','getLastPunchRecord','validateTimezone','getCalculatedPunchInUtcTime','checkForPunchOutOverLappingRecords'])
+            ->setMethods(['getDateTimeEditable','getLastPunchRecord','getCalculatedPunchInUtcTime','checkForPunchOutOverLappingRecords'])
             ->getMock();
         $attendanceService
             ->method('getDateTimeEditable')
@@ -175,38 +122,30 @@ class ApiEmployeePunchOutAPITest extends PHPUnit\Framework\TestCase
             ->method('getLastPunchRecord')
             ->will($this->returnValue(true));
         $attendanceService
-            ->method('validateTimezone')
-            ->will($this->returnValue(true));
-        $attendanceService
             ->method('checkForPunchOutOverLappingRecords')
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(1));
 
-        $filters = ['dateTime'=>"2020-12-29 19:34"];
+        $filters = ['datetime'=>"2020-12-29 19:34"];
         $employeePunchOutApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchOutAPI')
-            ->setMethods(['checkValidEmployee','getTimezoneOffset','filterParameters'])
+            ->setMethods(['checkValidEmployee','getParameters'])
             ->setConstructorArgs([$this->request])
             ->getMock();
         $employeePunchOutApi->setAttendanceService($attendanceService);
         $employeePunchOutApi
-            ->method('filterParameters')
+            ->method('getParameters')
             ->will($this->returnValue($filters));
         $employeePunchOutApi
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));
-        $employeePunchOutApi
-            ->method('getTimezoneOffset')
-            ->with('UTC', 'Asia/Colombo')
-            ->will($this->returnValue(5.5));
         $this->expectException(InvalidParamException::class);
         $employeePunchOutApi->savePunchOut();
-
     }
 
     public function testSavePunchOutForTimeZoneInvalid()
     {
         $attendanceService = $this->getMockBuilder(
             'AttendanceService')
-            ->setMethods(['getDateTimeEditable','getLastPunchRecord','validateTimezone','getCalculatedPunchInUtcTime','checkForPunchOutOverLappingRecords'])
+            ->setMethods(['getDateTimeEditable','getLastPunchRecord','getCalculatedPunchInUtcTime','checkForPunchOutOverLappingRecords'])
             ->getMock();
         $attendanceService
             ->method('getDateTimeEditable')
@@ -215,28 +154,21 @@ class ApiEmployeePunchOutAPITest extends PHPUnit\Framework\TestCase
             ->method('getLastPunchRecord')
             ->will($this->returnValue(true));
         $attendanceService
-            ->method('validateTimezone')
-            ->will($this->returnValue(false));
-        $attendanceService
             ->method('checkForPunchOutOverLappingRecords')
             ->will($this->returnValue(0));
 
-        $filters = ['dateTime'=>"2020-12-29 19:34"];
+        $filters = ['datetime'=>"2020-12-29 19:34",'timezone'=>5.6];
         $employeePunchOutApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchOutAPI')
-            ->setMethods(['checkValidEmployee','getTimezoneOffset','filterParameters'])
+            ->setMethods(['checkValidEmployee','getTimezoneOffset','getParameters'])
             ->setConstructorArgs([$this->request])
             ->getMock();
         $employeePunchOutApi->setAttendanceService($attendanceService);
         $employeePunchOutApi
-            ->method('filterParameters')
+            ->method('getParameters')
             ->will($this->returnValue($filters));
         $employeePunchOutApi
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));
-        $employeePunchOutApi
-            ->method('getTimezoneOffset')
-            ->with('UTC', 'Asia/Colombo')
-            ->will($this->returnValue(5.5));
         $this->expectException(InvalidParamException::class);
         $employeePunchOutApi->savePunchOut();
 
