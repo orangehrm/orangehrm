@@ -518,14 +518,14 @@ class AttendanceDao {
 
     /**
      * @param int $employeeId
-     * @param string $state
+     * @param string $state  // PUNCHED_IN or PUNCHED_OUT
      * @return array|bool|Doctrine_Record|float|int|mixed|string|null
      * @throws DaoException
      */
     public function getLatestPunchInRecord(int $employeeId, string $state)
     {
         if($state == PluginAttendanceRecord::STATE_PUNCHED_IN) {
-            try {
+           try {
                 $query = Doctrine_Query::create()
                     ->from("attendanceRecord")
                     ->where("employeeId = ?", $employeeId)
