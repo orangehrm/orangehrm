@@ -25,6 +25,7 @@ use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Http\Response;
+use \LeaveRequestService;
 
 class GraphAPI extends EndPoint
 {
@@ -86,16 +87,13 @@ class GraphAPI extends EndPoint
             return "exception";
         }
         $result = [];
-        $leaveRecords = $this->getAttendanceService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId);
-
+        $leaveRecords = $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId);
 
         foreach ($leaveRecords as $leaveRecord) {
             $day = (new \DateTime($leaveRecord->getDate()))->format('l');
             $duration = $leaveRecord->getLength_hours();
-            $leaveType = $this->getAttendanceService()->getLeaveType($leaveRecord->getLeave_type_id())->getName();
-
+            $leaveType=$leaveRecord->toArray()['LeaveType']['name'];
             if (array_key_exists($day, $result)) {
-                echo $leaveType . "uhuh";
                 if (array_key_exists($leaveType, $result[$day])) {
                     $result[$day][$leaveType] = $result[$day][$leaveType] + $duration;
                 } else {
@@ -195,7 +193,7 @@ class GraphAPI extends EndPoint
         try {
             return $this->getEmployeeService()->getEmployee($empNumber);
         } catch (\Exception $e) {
-            new BadRequestException($e->getMessage());
+            throw new BadRequestException($e->getMessage());
         }
     }
 
@@ -231,4 +229,22 @@ class GraphAPI extends EndPoint
         return $this->attendanceService;
     }
 
+    /**
+     * @return LeaveRequestService
+     */
+    public function getLeaveRequestService()
+    {
+        if (is_null($this->leaveRequestService)) {
+            $this->leaveRequestService = new LeaveRequestService();
+        }
+        return $this->leaveRequestService;
+    }
+
+    /**
+     * @param LeaveRequestService $leaveRequestService
+     */
+    public function setLeaveRequestService(LeaveRequestService $leaveRequestService)
+    {
+        $this->leaveRequestService = $leaveRequestService;
+    }
 }
