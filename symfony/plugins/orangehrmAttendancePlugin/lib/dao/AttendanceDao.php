@@ -549,6 +549,21 @@ class AttendanceDao {
         }
     }
 
+    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId){
+        try {
+            $query = Doctrine_Query::create()
+                ->from("attendanceRecord")
+                ->where("employeeId = ?", $employeeId)
+                ->andWhere('punchInUserTime > ?', $fromDate)
+                ->andWhere('punchInUserTime < ?', $toDate)
+                ->orderBy('punchInUtcTime');
+            return $query->execute();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
 }
 
 
