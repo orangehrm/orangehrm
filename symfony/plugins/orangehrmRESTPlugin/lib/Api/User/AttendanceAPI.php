@@ -63,20 +63,12 @@ class AttendanceAPI extends PunchTimeAPI
 
     public function getAttendanceFinalDetails($params, int $empNumber)
     {
-        $result=[];
-        $employeeDetails = $this->getEmployeeDetails($empNumber);
         $workHoursResult = $this->getWorkHours(
             $params[self::PARAMETER_FROM_DATE],
             $params[self::PARAMETER_TO_DATE],
             $empNumber
         );
         return $workHoursResult;
-    }
-
-    public function getEmployeeDetails(int $empNumber)
-    {
-        $employee = $this->getEmployeeService()->getEmployee($empNumber);
-        return (new AttendanceEmployeeModel($employee))->toArray();
     }
 
     public function getParameters()
