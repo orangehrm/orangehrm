@@ -42,6 +42,11 @@ class GraphAPI extends EndPoint
     protected $employeeService;
     protected $attendanceService;
 
+    /**
+     * @return Response
+     * @throws BadRequestException
+     * @throws InvalidParamException
+     */
     public function getGraphRecords()
     {
         $params = $this->getParameters();
@@ -68,48 +73,45 @@ class GraphAPI extends EndPoint
         foreach (self::WEEK_DAYS as $day) {
             if (array_key_exists($day, $workHoursResult)) {
                 $workSummary[$day]['workHours'] = $workHoursResult[$day];
+            } else {
+                $workSummary[$day] = ['workHours' => 0];
             }
             if (array_key_exists($day, $leaveHoursResult)) {
                 $workSummary[$day]['leave'] = $leaveHoursResult[$day];
+            } else {
+                $workSummary[$day]['leave'] = [];
+            }
+        }
+        $totalWorkHors = 0;
+        $totalLeaveHours = 0;
+        $totalLeaveTypeHours = [];
+        foreach ($workSummary as $day => $dayResult) {
+            $totalWorkHors = $totalWorkHors + $dayResult['workHours'];
+            foreach ($dayResult['leave'] as $singleLeaveType) {
+                $type =$singleLeaveType['type'];
+                $hours = $singleLeaveType['hours'];
+                $totalLeaveHours = $totalLeaveHours + $hours;
+
+                $found = false;
+                foreach ($totalLeaveTypeHours as $singleLeaveType) {
+                    if ($singleLeaveType['type'] == $type) {
+                        $singleLeaveType['hours'] = $singleLeaveType['hours'] + $hours;
+                        $found = true;
+                    }
+                }
+                if (!$found) {
+                    array_push($totalLeaveTypeHours, ['type' => $type, 'hours' => $hours]);
+                }
             }
         }
         return new Response(
-            $workSummary
+            array(
+                'totalWorkHours'=>$totalWorkHors,
+                'totalLeaveHours'=>$totalLeaveHours,
+                'totalLeaveTypeHours'=> $totalLeaveTypeHours,
+                'workSummary'=>$workSummary
+            )
         );
-    }
-
-    public function getLeaveHours($fromDate, $toDate, $employeeId)
-    {
-        $date1 = new \DateTime($fromDate);
-        $date2 = new \DateTime($toDate);
-        $diff = $date1->diff($date2)->days;
-        if ($diff != 6) {
-            return "exception";
-        }
-        $result = [];
-        $leaveRecords = $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId);
-
-        foreach ($leaveRecords as $leaveRecord) {
-            $day = (new \DateTime($leaveRecord->getDate()))->format('l');
-            $duration = $leaveRecord->getLength_hours();
-            $leaveType=$leaveRecord->toArray()['LeaveType']['name'];
-            if (array_key_exists($day, $result)) {
-                if (array_key_exists($leaveType, $result[$day])) {
-                    $result[$day][$leaveType] = $result[$day][$leaveType] + $duration;
-                } else {
-                    $result[$day][$leaveType] = $duration;
-                }
-            } else {
-                $result[$day][$leaveType] = $duration;
-            }
-        }
-
-        foreach ($result as $day => $dayArray) {
-            foreach ($dayArray as $type => $value) {
-                $result[$day][$type] = round($value, 2);
-            }
-        }
-        return $result;
     }
 
     public function getParameters()
@@ -125,6 +127,54 @@ class GraphAPI extends EndPoint
         return $params;
     }
 
+    /**
+     * @param $fromDate
+     * @param $toDate
+     * @param $employeeId
+     * @return array|string
+     * @throws \Exception
+     */
+    public function getLeaveHours($fromDate, $toDate, $employeeId)
+    {
+        $date1 = new \DateTime($fromDate);
+        $date2 = new \DateTime($toDate);
+        $diff = $date1->diff($date2)->days;
+        if ($diff != 6) {
+            return "exception";
+        }
+        $workSummary = [];
+        $leaveRecords = $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId);
+
+        foreach ($leaveRecords as $leaveRecord) {
+            $day = (new \DateTime($leaveRecord->getDate()))->format('l');
+            $duration = $leaveRecord->getLength_hours();
+            $leaveType = $leaveRecord->toArray()['LeaveType']['name'];
+
+            if (array_key_exists($day, $workSummary)) {
+                $found = false;
+                foreach ($workSummary[$day] as $singleLeave) {
+                    if ($singleLeave['type'] == $leaveType) {
+                        $singleLeave['hours'] = $singleLeave['hours'] + $duration;
+                        $found = true;
+                    }
+                }
+                if (!$found) {
+                    array_push($workSummary[$day], ['type' => $leaveType, 'hours' => $duration]);
+                }
+            } else {
+                $workSummary[$day] = [['type' => $leaveType, 'hours' => $duration]];
+            }
+            return $workSummary;
+        }
+    }
+
+    /**
+     * @param $fromDate
+     * @param $toDate
+     * @param $employeeId
+     * @return array
+     * @throws InvalidParamException
+     */
     public function getWorkHours($fromDate, $toDate, $employeeId)
     {
         // need to check from date is starting date

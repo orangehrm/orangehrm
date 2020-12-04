@@ -845,5 +845,4 @@ class LeaveRequestService extends BaseService {
     {
         return $this->getLeaveRequestDao()->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId);
     }
-
 }
