@@ -82,11 +82,11 @@ class GraphAPI extends EndPoint
                 $workSummary[$day]['leave'] = [];
             }
         }
-        $totalWorkHors = 0;
+        $totalWorkHours = 0;
         $totalLeaveHours = 0;
         $totalLeaveTypeHours = [];
         foreach ($workSummary as $day => $dayResult) {
-            $totalWorkHors = $totalWorkHors + $dayResult['workHours'];
+            $totalWorkHours = $totalWorkHours + $dayResult['workHours'];
             foreach ($dayResult['leave'] as $singleLeaveType) {
                 $type =$singleLeaveType['type'];
                 $hours = $singleLeaveType['hours'];
@@ -95,7 +95,8 @@ class GraphAPI extends EndPoint
                 $found = false;
                 foreach ($totalLeaveTypeHours as $singleLeaveType) {
                     if ($singleLeaveType['type'] == $type) {
-                        $singleLeaveType['hours'] = $singleLeaveType['hours'] + $hours;
+                        $singleLeaveType['hours'] = number_format($singleLeaveType['hours'] + $hours,2);
+
                         $found = true;
                     }
                 }
@@ -104,9 +105,11 @@ class GraphAPI extends EndPoint
                 }
             }
         }
+        $totalWorkHours= number_format($totalWorkHours,2);
+        $totalLeaveHours= number_format($totalLeaveHours,2);
         return new Response(
             array(
-                'totalWorkHours'=>$totalWorkHors,
+                'totalWorkHours'=>$totalWorkHours,
                 'totalLeaveHours'=>$totalLeaveHours,
                 'totalLeaveTypeHours'=> $totalLeaveTypeHours,
                 'workSummary'=>$workSummary
@@ -142,29 +145,33 @@ class GraphAPI extends EndPoint
         if ($diff != 6) {
             return "exception";
         }
-        $workSummary = [];
+        $leaveSummary = [];
         $leaveRecords = $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId);
-
         foreach ($leaveRecords as $leaveRecord) {
             $day = (new \DateTime($leaveRecord->getDate()))->format('l');
             $duration = $leaveRecord->getLength_hours();
             $leaveType = $leaveRecord->toArray()['LeaveType']['name'];
 
-            if (array_key_exists($day, $workSummary)) {
+            if (array_key_exists($day, $leaveSummary)) {
                 $found = false;
-                foreach ($workSummary[$day] as $singleLeave) {
+                foreach ($leaveSummary[$day] as $singleLeave) {
                     if ($singleLeave['type'] == $leaveType) {
                         $singleLeave['hours'] = $singleLeave['hours'] + $duration;
                         $found = true;
                     }
                 }
                 if (!$found) {
-                    array_push($workSummary[$day], ['type' => $leaveType, 'hours' => $duration]);
+                    array_push($leaveSummary[$day], ['type' => $leaveType, 'hours' => $duration]);
                 }
             } else {
-                $workSummary[$day] = [['type' => $leaveType, 'hours' => $duration]];
+                $leaveSummary[$day] = [['type' => $leaveType, 'hours' => $duration]];
             }
-            return $workSummary;
+            foreach ($leaveSummary as $day=> $leaves){
+                foreach ($leaves as $leave) {
+                    $leave['hours'] = number_format($leave['hours'], 2);
+                }
+            }
+            return $leaveSummary;
         }
     }
 
@@ -177,7 +184,6 @@ class GraphAPI extends EndPoint
      */
     public function getWorkHours($fromDate, $toDate, $employeeId)
     {
-        // need to check from date is starting date
         $date1 = new \DateTime($fromDate);
         $date2 = new \DateTime($toDate);
         $diff = $date1->diff($date2)->days;
