@@ -41,6 +41,7 @@ class GraphAPI extends EndPoint
     const WEEK_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     protected $employeeService;
     protected $attendanceService;
+    protected $dayMapper;
 
     /**
      * @return Response
@@ -58,6 +59,20 @@ class GraphAPI extends EndPoint
         if (!empty($empNumber) && !$this->checkValidEmployee($empNumber)) {
             throw new BadRequestException('Employee Id ' . $empNumber . ' Not Found');
         }
+        $date1 = new \DateTime($params[self::PARAMETER_FROM_DATE]);
+        $date2 = new \DateTime($params[self::PARAMETER_TO_DATE]);
+        $diff = $date1->diff($date2)->days;
+        if ($diff != 6) {
+            throw new InvalidParamException(
+                'Duration should be one week   e.g :- fromDate=2020-11-24 & toDate=2020-11-30'
+            );
+        }
+
+        $dayMapper=[];
+        foreach(self::WEEK_DAYS as $weekDay){
+            $dayMapper[$weekDay]=strtolower($weekDay);
+        }
+        $this->dayMapper=$dayMapper;
 
         $workHoursResult = $this->getWorkHours(
             $params[self::PARAMETER_FROM_DATE],
@@ -71,15 +86,16 @@ class GraphAPI extends EndPoint
         );
         $workSummary = array();
         foreach (self::WEEK_DAYS as $day) {
+            $mappedDay=$this->dayMapper[$day];
             if (array_key_exists($day, $workHoursResult)) {
-                $workSummary[$day]['workHours'] = $workHoursResult[$day];
+                $workSummary[$mappedDay]['workHours'] = $workHoursResult[$day];
             } else {
-                $workSummary[$day] = ['workHours' => 0];
+                $workSummary[$mappedDay] = ['workHours' => 0];
             }
             if (array_key_exists($day, $leaveHoursResult)) {
-                $workSummary[$day]['leave'] = $leaveHoursResult[$day];
+                $workSummary[$mappedDay]['leave'] = $leaveHoursResult[$day];
             } else {
-                $workSummary[$day]['leave'] = [];
+                $workSummary[$mappedDay]['leave'] = [];
             }
         }
         $totalWorkHours = 0;
@@ -90,18 +106,18 @@ class GraphAPI extends EndPoint
             foreach ($dayResult['leave'] as $singleLeaveType) {
                 $type =$singleLeaveType['type'];
                 $hours = $singleLeaveType['hours'];
+                $typeId =$singleLeaveType['typeId'];
                 $totalLeaveHours = $totalLeaveHours + $hours;
 
                 $found = false;
                 foreach ($totalLeaveTypeHours as $singleLeaveType) {
                     if ($singleLeaveType['type'] == $type) {
                         $singleLeaveType['hours'] = number_format($singleLeaveType['hours'] + $hours,2);
-
                         $found = true;
                     }
                 }
                 if (!$found) {
-                    array_push($totalLeaveTypeHours, ['type' => $type, 'hours' => $hours]);
+                    array_push($totalLeaveTypeHours, ['typeId'=>$typeId,'type' => $type, 'hours' => $hours]);
                 }
             }
         }
@@ -139,19 +155,13 @@ class GraphAPI extends EndPoint
      */
     public function getLeaveHours($fromDate, $toDate, $employeeId)
     {
-        $date1 = new \DateTime($fromDate);
-        $date2 = new \DateTime($toDate);
-        $diff = $date1->diff($date2)->days;
-        if ($diff != 6) {
-            return "exception";
-        }
         $leaveSummary = [];
         $leaveRecords = $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId);
         foreach ($leaveRecords as $leaveRecord) {
             $day = (new \DateTime($leaveRecord->getDate()))->format('l');
             $duration = $leaveRecord->getLength_hours();
             $leaveType = $leaveRecord->toArray()['LeaveType']['name'];
-
+            $leaveTypeId = $leaveRecord->toArray()['LeaveType']['id'];
             if (array_key_exists($day, $leaveSummary)) {
                 $found = false;
                 foreach ($leaveSummary[$day] as $singleLeave) {
@@ -161,10 +171,10 @@ class GraphAPI extends EndPoint
                     }
                 }
                 if (!$found) {
-                    array_push($leaveSummary[$day], ['type' => $leaveType, 'hours' => $duration]);
+                    array_push($leaveSummary[$day], ['typeId'=>$leaveTypeId,'type' => $leaveType, 'hours' => $duration]);
                 }
             } else {
-                $leaveSummary[$day] = [['type' => $leaveType, 'hours' => $duration]];
+                $leaveSummary[$day] = [['typeId'=>$leaveTypeId,'type' => $leaveType, 'hours' => $duration]];
             }
             foreach ($leaveSummary as $day=> $leaves){
                 foreach ($leaves as $leave) {
@@ -184,14 +194,6 @@ class GraphAPI extends EndPoint
      */
     public function getWorkHours($fromDate, $toDate, $employeeId)
     {
-        $date1 = new \DateTime($fromDate);
-        $date2 = new \DateTime($toDate);
-        $diff = $date1->diff($date2)->days;
-        if ($diff != 6) {
-            throw new InvalidParamException(
-                'Duration should be one week   e.g :- fromDate=2020-11-24 & toDate=2020-11-30'
-            );
-        }
         $result = [];
         $attendanceRecords = $this->getAttendanceService()->getAttendanceRecordsBetweenTwoDays(
             $fromDate,
