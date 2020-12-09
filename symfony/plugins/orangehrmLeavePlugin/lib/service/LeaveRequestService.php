@@ -841,8 +841,16 @@ class LeaveRequestService extends BaseService {
             $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
     }
 
-    public function getLeaveRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId)
+    /**
+     * @param string $fromDate
+     * @param string $toDate
+     * @param int $employeeId
+     * @param $statuses
+     * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int
+     * @throws DaoException
+     */
+    public function getLeaveRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,$statuses)
     {
-        return $this->getLeaveRequestDao()->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId);
+        return $this->getLeaveRequestDao()->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$statuses);
     }
 }

@@ -1015,7 +1015,7 @@ class LeaveRequestDao extends BaseDao {
         return $timeValue;
     }
 
-    public function getLeaveRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId)
+    public function getLeaveRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,$statuses)
     {
         try {
             $select = 'l.*, lt.name ';
@@ -1027,6 +1027,10 @@ class LeaveRequestDao extends BaseDao {
                 ->andWhere('l.date >= ?', $fromDate)
                 ->andWhere('l.date <= ?', $toDate)
                 ->orderBy('l.date');
+
+            if(count($statuses)>0){
+                $query->whereIn("l.status", $statuses);
+            }
             return $query->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {

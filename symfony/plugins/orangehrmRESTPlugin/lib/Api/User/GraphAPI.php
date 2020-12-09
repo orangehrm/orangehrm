@@ -24,10 +24,11 @@ use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
 use Orangehrm\Rest\Http\Response;
 use \LeaveRequestService;
 
-class GraphAPI extends EndPoint
+class GraphAPI extends LeaveRequestAPI
 {
     /**
      * @return Response
@@ -67,7 +68,7 @@ class GraphAPI extends EndPoint
                 'Duration should be one week   e.g :- fromDate=2020-11-24 & toDate=2020-11-30'
             );
         }
-
+        $statuses=$this->getStatusesArray($params);
         $dayMapper=[];
         foreach(self::WEEK_DAYS as $weekDay){
             $dayMapper[$weekDay]=strtolower($weekDay);
@@ -82,7 +83,8 @@ class GraphAPI extends EndPoint
         $leaveHoursResult = $this->getLeaveHours(
             $params[self::PARAMETER_FROM_DATE],
             $params[self::PARAMETER_TO_DATE],
-            $loggedInEmpNumber
+            $loggedInEmpNumber,
+            $statuses
         );
         $workSummary = array();
         foreach (self::WEEK_DAYS as $day) {
@@ -144,6 +146,12 @@ class GraphAPI extends EndPoint
         $params[self::PARAMETER_EMPLOYEE_NUMBER] = $this->getRequestParams()->getQueryParam(
             self::PARAMETER_EMPLOYEE_NUMBER
         );
+        $params[self::PARAMETER_TAKEN] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_TAKEN));
+        $params[self::PARAMETER_REJECTED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_REJECTED));
+        $params[self::PARAMETER_CANCELLED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_CANCELLED));
+        $params[self::PARAMETER_SCHEDULED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_SCHEDULED));
+        $params[self::PARAMETER_PENDING_APPROVAL] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_PENDING_APPROVAL));
+
         return $params;
     }
 
@@ -154,10 +162,10 @@ class GraphAPI extends EndPoint
      * @return array|string
      * @throws \Exception
      */
-    public function getLeaveHours($fromDate, $toDate, $employeeId)
+    public function getLeaveHours($fromDate, $toDate, $employeeId,$statuses)
     {
         $leaveSummary = [];
-        $leaveRecords = $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId);
+        $leaveRecords = $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId,$statuses);
 
         foreach ($leaveRecords as $leaveRecord) {
             $day = (new \DateTime($leaveRecord->getDate()))->format('l');
@@ -258,17 +266,6 @@ class GraphAPI extends EndPoint
     }
 
     /**
-     * @return \EmployeeService
-     */
-    public function getEmployeeService()
-    {
-        if (!$this->employeeService) {
-            $this->employeeService = new \EmployeeService();
-        }
-        return $this->employeeService;
-    }
-
-    /**
      * @param $employeeService
      * @return $this
      */
@@ -287,24 +284,5 @@ class GraphAPI extends EndPoint
             $this->attendanceService = new \AttendanceService();
         }
         return $this->attendanceService;
-    }
-
-    /**
-     * @return LeaveRequestService
-     */
-    public function getLeaveRequestService()
-    {
-        if (is_null($this->leaveRequestService)) {
-            $this->leaveRequestService = new LeaveRequestService();
-        }
-        return $this->leaveRequestService;
-    }
-
-    /**
-     * @param LeaveRequestService $leaveRequestService
-     */
-    public function setLeaveRequestService(LeaveRequestService $leaveRequestService)
-    {
-        $this->leaveRequestService = $leaveRequestService;
     }
 }
