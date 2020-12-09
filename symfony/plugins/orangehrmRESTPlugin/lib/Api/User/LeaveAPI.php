@@ -20,22 +20,18 @@
 
 namespace Orangehrm\Rest\Api\User;
 
-use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
 use Orangehrm\Rest\Http\Response;
-use \PluginAttendanceRecord;
-use \AttendanceRecord;
-use Orangehrm\Rest\Api\Attendance\PunchTimeAPI;
 use Orangehrm\Rest\Api\User\Model\AttendanceLeaveTypeModel;
 use Orangehrm\Rest\Api\User\Model\AttendanceLeaveModel;
-use \LeaveRequestService;
-use \WorkWeekService;
 use \Leave;
-use \HolidayService;
+use \sfException;
+use \sfContext;
 
-class LeaveAPI extends PunchTimeAPI
+class LeaveAPI extends LeaveRequestAPI
 {
     /**
      * @return Response
@@ -71,10 +67,12 @@ class LeaveAPI extends PunchTimeAPI
 
     public function getAttendanceFinalDetails($params, int $empNumber)
     {
+        $statuses=$this->getStatusesArray($params);
         $leaveHoursResultArray = $this->getLeaveHours(
             $params[self::PARAMETER_FROM_DATE],
             $params[self::PARAMETER_TO_DATE],
-            $empNumber
+            $empNumber,
+            $statuses
         );
         $result =[];
         foreach ($leaveHoursResultArray as $leaveResult) {
@@ -100,12 +98,18 @@ class LeaveAPI extends PunchTimeAPI
         $params[self::PARAMETER_EMPLOYEE_NUMBER] = $this->getRequestParams()->getQueryParam(
             self::PARAMETER_EMPLOYEE_NUMBER
         );
+        $params[self::PARAMETER_TAKEN] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_TAKEN));
+        $params[self::PARAMETER_REJECTED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_REJECTED));
+        $params[self::PARAMETER_CANCELLED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_CANCELLED));
+        $params[self::PARAMETER_SCHEDULED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_SCHEDULED));
+        $params[self::PARAMETER_PENDING_APPROVAL] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_PENDING_APPROVAL));
+
         return $params;
     }
 
-    public function getLeaveHours($fromDate, $toDate, $employeeId)
+    public function getLeaveHours($fromDate, $toDate, $employeeId,$statuses)
     {
-        return $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId);
+        return $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId,$statuses);
     }
 
     /**
@@ -120,60 +124,27 @@ class LeaveAPI extends PunchTimeAPI
         ];
     }
 
+
     /**
-     * @return LeaveRequestService
+     * @param $empNumber
+     * @return \Employee
      */
-    public function getLeaveRequestService()
-    {
-        if (is_null($this->leaveRequestService)) {
-            $this->leaveRequestService = new LeaveRequestService();
+    public function checkValidEmployee($empNumber){
+        try {
+            return $this->getEmployeeService()->getEmployee($empNumber);
+        }catch (\Exception $e){
+            new BadRequestException($e->getMessage());
         }
-        return $this->leaveRequestService;
+
     }
 
     /**
-     * @param LeaveRequestService $leaveRequestService
+     * @return mixed|null
+     * @throws sfException
      */
-    public function setLeaveRequestService(LeaveRequestService $leaveRequestService)
+    public function GetLoggedInEmployeeNumber()
     {
-        $this->leaveRequestService = $leaveRequestService;
+        return sfContext::getInstance()->getUser()->getAttribute("auth.empNumber");
     }
 
-    /**
-     * @return WorkWeekService
-     */
-    public function getWorkWeekService()
-    {
-        if (is_null($this->workWeekService)) {
-            $this->workWeekService = new WorkWeekService();
-        }
-        return $this->workWeekService;
-    }
-
-    /**
-     * @param WorkWeekService $workWeekService
-     */
-    public function setWorkWeekService(WorkWeekService $workWeekService)
-    {
-        $this->workWeekService = $workWeekService;
-    }
-
-    /**
-     * @return HolidayService
-     */
-    public function getHolidayService()
-    {
-        if (is_null($this->holidayService)) {
-            $this->holidayService = new HolidayService();
-        }
-        return $this->holidayService;
-    }
-
-    /**
-     * @param HolidayService $holidayService
-     */
-    public function setHolidayService(WorkWeekService $holidayService)
-    {
-        $this->holidayService = $holidayService;
-    }
 }

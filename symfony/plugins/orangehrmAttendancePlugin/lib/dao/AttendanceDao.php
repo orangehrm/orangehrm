@@ -541,7 +541,7 @@ class AttendanceDao {
                     ->from("attendanceRecord")
                     ->where("employeeId = ?", $employeeId)
                     ->andWhere("state = ?", $state)
-                    ->orderBy('punchOutUtcTime DESC');
+                    ->orderBy('punchOutUtcTime');
                 return $query->fetchOne();
             } catch (Exception $ex) {
                 throw new DaoException($ex->getMessage());
@@ -551,6 +551,8 @@ class AttendanceDao {
 
     public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId){
         try {
+
+
             $query = Doctrine_Query::create()
                 ->from("attendanceRecord")
                 ->where("employeeId = ?", $employeeId)

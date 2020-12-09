@@ -297,18 +297,5 @@ class AttendanceService {
     {
         return $this->getAttendanceDao()->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId);
     }
-
-    public function getLeaveRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId)
-    {
-        return $this->getAttendanceDao()->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId);
-    }
-
-    public function getLeaveType(int $id)
-    {
-        return $this->getAttendanceDao()->getLeaveType($id);
-    }
-
-
-
 }
 
