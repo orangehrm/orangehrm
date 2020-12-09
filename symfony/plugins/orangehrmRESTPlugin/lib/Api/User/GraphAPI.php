@@ -110,10 +110,11 @@ class GraphAPI extends EndPoint
                 $totalLeaveHours = $totalLeaveHours + $hours;
 
                 $found = false;
-                foreach ($totalLeaveTypeHours as $singleLeaveType) {
-                    if ($singleLeaveType['type'] == $type) {
-                        $singleLeaveType['hours'] = number_format($singleLeaveType['hours'] + $hours,2);
-                        $found = true;
+
+                for($i=0;$i<count($totalLeaveTypeHours);$i++){
+                    if($totalLeaveTypeHours[$i]['type']==$type){
+                        $totalLeaveTypeHours[$i]['hours']= number_format($totalLeaveTypeHours[$i]['hours']+$hours,2);
+                        $found=true;
                     }
                 }
                 if (!$found) {
@@ -157,6 +158,7 @@ class GraphAPI extends EndPoint
     {
         $leaveSummary = [];
         $leaveRecords = $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId);
+
         foreach ($leaveRecords as $leaveRecord) {
             $day = (new \DateTime($leaveRecord->getDate()))->format('l');
             $duration = $leaveRecord->getLength_hours();
@@ -164,10 +166,10 @@ class GraphAPI extends EndPoint
             $leaveTypeId = $leaveRecord->toArray()['LeaveType']['id'];
             if (array_key_exists($day, $leaveSummary)) {
                 $found = false;
-                foreach ($leaveSummary[$day] as $singleLeave) {
-                    if ($singleLeave['type'] == $leaveType) {
-                        $singleLeave['hours'] = $singleLeave['hours'] + $duration;
-                        $found = true;
+                for ($i=0;$i<count($leaveSummary[$day]);$i++){
+                    if($leaveSummary[$day][$i]['type']==$leaveType){
+                        $leaveSummary[$day][$i]['hours']=$leaveSummary[$day][$i]['hours']+$duration;
+                        $found=true;
                     }
                 }
                 if (!$found) {
@@ -181,8 +183,8 @@ class GraphAPI extends EndPoint
                     $leave['hours'] = number_format($leave['hours'], 2);
                 }
             }
-            return $leaveSummary;
         }
+        return $leaveSummary;
     }
 
     /**

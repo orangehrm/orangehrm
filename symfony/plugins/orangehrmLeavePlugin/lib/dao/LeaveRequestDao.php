@@ -1025,7 +1025,8 @@ class LeaveRequestDao extends BaseDao {
                 ->leftJoin('l.LeaveType lt')
                 ->where("l.emp_number = ?", $employeeId)
                 ->andWhere('l.date >= ?', $fromDate)
-                ->andWhere('l.date <= ?', $toDate);
+                ->andWhere('l.date <= ?', $toDate)
+                ->orderBy('l.date');
             return $query->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
