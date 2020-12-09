@@ -35,6 +35,7 @@ class AttendanceLeaveModel implements Serializable
         $this->setFilters(
             [
                 'id',
+                'date',
                 'length_hours',
                 'length_days',
                 'LeaveType',
@@ -45,6 +46,7 @@ class AttendanceLeaveModel implements Serializable
         $this->setAttributeNames(
             [
                 'id',
+                'date',
                 'lengthHours',
                 'lengthDays',
                 'leaveType',
