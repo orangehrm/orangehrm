@@ -34,7 +34,38 @@ class WorkShiftApiAction extends BaseUserApiAction
     }
 
     /**
-     * @inheritDoc
+     * @OA\Get(
+     *     path="/leave/work-shift",
+     *     summary="Get Employee Work Shift",
+     *     tags={"Leave","User"},
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="Employee number",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeeWorkShift"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="EmployeeWorkShift",
+     *     type="object",
+     *     example={"data":{"workShift":"8.00","startTime":"09:00","endTime":"17:00"},"rels":{}}
+     * )
      */
     protected function handleGetRequest(Request $request)
     {

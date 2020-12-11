@@ -2,7 +2,7 @@
     "openapi": "3.0.3",
     "info": {
         "title": "OrangeHRM Open Source : REST api docs",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "x-base-path": "/api/v1"
     },
     "servers": [
@@ -10,11 +10,11 @@
             "url": "{schema}://{your-orangehrm-host}/{basePath}",
             "variables": {
                 "schema": {
-                    "default": "https",
                     "enum": [
                         "https",
                         "http"
-                    ]
+                    ],
+                    "default": "https"
                 },
                 "your-orangehrm-host": {
                     "default": "your-orangehrm-host"
@@ -28,11 +28,11 @@
             "url": "{schema}://{your-orangehrm-host}",
             "variables": {
                 "schema": {
-                    "default": "https",
                     "enum": [
                         "https",
                         "http"
-                    ]
+                    ],
+                    "default": "https"
                 },
                 "your-orangehrm-host": {
                     "default": "your-orangehrm-host"
@@ -40,559 +40,21 @@
             }
         }
     ],
-    "security": [
-        {
-            "OAuth": [
-                "user"
-            ]
-        }
-    ],
     "paths": {
-        "/myinfo": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Employee Info",
-                "parameters": [
-                    {
-                        "name": "withPhoto",
-                        "in": "query",
-                        "required": false,
-                        "description": "Specify whether with employee photo",
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "example": {
-                                        "data": {
-                                            "employee": {
-                                                "firstName": "Nina",
-                                                "middleName": "Jane",
-                                                "lastName": "Lewis",
-                                                "code": "0014",
-                                                "id": "1",
-                                                "fullName": "Nina Jane Lewis",
-                                                "status": "Active",
-                                                "dob": "2016-05-04",
-                                                "driversLicenseNumber": "444555124223",
-                                                "licenseExpiryDate": "2017-02-09",
-                                                "maritalStatus": "Married",
-                                                "gender": "2",
-                                                "otherId": "4646522",
-                                                "nationality": "Armenian",
-                                                "unit": "Marketing Unit",
-                                                "jobTitle": "marketing"
-                                            },
-                                            "employeePhoto": "iVBORw0KGgoAAAANSUhEUgAAABwAAAASCAYAAABIB77kAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wMCgQvOUl1YygAAAJJSURBVDjLvZUxayJRFIW",
-                                            "user": {
-                                                "userName": "Nina",
-                                                "userRole": "ESS",
-                                                "isSupervisor": true,
-                                                "isProjectAdmin": false,
-                                                "isManager": false,
-                                                "isDirector": false,
-                                                "isAcceptor": false,
-                                                "isOfferer": false,
-                                                "isHiringManager": false,
-                                                "isInterviewer": false
-                                            }
-                                        },
-                                        "rels": []
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/leave/my-leave-entitlement": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get My Leave Entitlements",
-                "parameters": [
-                    {
-                        "name": "fromDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "Valid leave period from date",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "toDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "Valid leave period to date",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "balanceAsAtDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "Start date for calculate balance. Default: current date.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "balanceEndDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "End date for calculate balance. Default: end date of current leave period",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/LeaveEntitlement"
-                                            }
-                                        },
-                                        "rels": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    },
-                                    "example": {
-                                        "data": [
-                                            {
-                                                "id": "1",
-                                                "validFrom": "2020-01-01",
-                                                "validTo": "2020-12-31",
-                                                "creditedDate": "2020-06-25",
-                                                "LeaveBalance": {
-                                                    "entitled": 3,
-                                                    "used": 1,
-                                                    "scheduled": 0.5,
-                                                    "pending": 0.5,
-                                                    "notLinked": 0,
-                                                    "taken": 0,
-                                                    "adjustment": 0,
-                                                    "balance": 2
-                                                },
-                                                "LeaveType": {
-                                                    "type": "Annual",
-                                                    "id": "2"
-                                                }
-                                            },
-                                            {
-                                                "id": "2",
-                                                "validFrom": "2020-01-01",
-                                                "validTo": "2020-12-31",
-                                                "creditedDate": "2020-06-20",
-                                                "LeaveBalance": {
-                                                    "entitled": 2,
-                                                    "used": 0.5,
-                                                    "scheduled": 0.5,
-                                                    "pending": 0,
-                                                    "notLinked": 0,
-                                                    "taken": 0,
-                                                    "adjustment": 0,
-                                                    "balance": 1.5
-                                                },
-                                                "LeaveType": {
-                                                    "type": "Casual",
-                                                    "id": "3"
-                                                }
-                                            }
-                                        ],
-                                        "rels": []
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/leave/my-leave-request": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get My Leave Requests",
-                "parameters": [
-                    {
-                        "name": "fromDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "From date",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "toDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "To date",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "required": false,
-                        "description": "Page number",
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "required": false,
-                        "description": "Leave record limit",
-                        "schema": {
-                            "type": "number"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "example": {
-                                        "data": [
-                                            {
-                                                "id": "8",
-                                                "fromDate": "2020-07-16",
-                                                "toDate": "2020-07-21",
-                                                "appliedDate": "2020-07-16",
-                                                "LeaveType": {
-                                                    "type": "Annual",
-                                                    "id": "2"
-                                                },
-                                                "LeaveBalance": "10.00",
-                                                "numberOfDays": "3.00",
-                                                "comments": {
-                                                    "user": "Employee Name",
-                                                    "date": "2020-06-25",
-                                                    "time": "17:23:03",
-                                                    "comment": "Comment"
-                                                },
-                                                "days": [
-                                                    {
-                                                        "date": "2020-07-20",
-                                                        "status": "SCHEDULED",
-                                                        "duration": "8.00",
-                                                        "durationString": "",
-                                                        "comments": []
-                                                    },
-                                                    {
-                                                        "date": "2020-07-19",
-                                                        "status": "WEEKEND",
-                                                        "duration": "0.00",
-                                                        "durationString": "",
-                                                        "comments": []
-                                                    },
-                                                    {
-                                                        "date": "2020-07-18",
-                                                        "status": "WEEKEND",
-                                                        "duration": "0.00",
-                                                        "durationString": "",
-                                                        "comments": []
-                                                    },
-                                                    {
-                                                        "date": "2020-07-17",
-                                                        "status": "SCHEDULED",
-                                                        "duration": "8.00",
-                                                        "durationString": "",
-                                                        "comments": []
-                                                    }
-                                                ],
-                                                "leaveBreakdown": "Scheduled(2.00)"
-                                            },
-                                            {
-                                                "id": "3",
-                                                "fromDate": "2020-07-15",
-                                                "toDate": "2020-07-15",
-                                                "appliedDate": "2020-07-15",
-                                                "LeaveType": {
-                                                    "type": "Casual",
-                                                    "id": "1"
-                                                },
-                                                "LeaveBalance": "3.00",
-                                                "numberOfDays": "0.50",
-                                                "comments": [],
-                                                "days": [
-                                                    {
-                                                        "date": "2020-07-15",
-                                                        "status": "PENDING APPROVAL",
-                                                        "duration": "4.00",
-                                                        "durationString": "(09:00 - 13:00)",
-                                                        "comments": []
-                                                    }
-                                                ],
-                                                "leaveBreakdown": "Pending Approval(0.50)"
-                                            }
-                                        ],
-                                        "rels": []
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Save My Leave Request (Single Day/Multiple Day)",
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "example": {
-                                        "success": "Successfully Saved"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "oneOf": [
-                                    {
-                                        "$ref": "#/components/schemas/LeaveRequestSingleDayRequestBody"
-                                    },
-                                    {
-                                        "$ref": "#/components/schemas/LeaveRequestMultipleDayRequestBody"
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "required": true
-                }
-            }
-        },
-        "/leave/leave-list": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get Leave List",
-                "parameters": [
-                    {
-                        "name": "fromDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "From date (default current leave period from date)",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "toDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "To date (default current leave period to date)",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "employeeName",
-                        "in": "query",
-                        "required": false,
-                        "description": "Employee name",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "rejected",
-                        "in": "query",
-                        "required": false,
-                        "description": "Leave status rejected",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "cancelled",
-                        "in": "query",
-                        "required": false,
-                        "description": "Leave status cancelled",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "pendingApproval",
-                        "in": "query",
-                        "required": false,
-                        "description": "Leave status pending approval",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "scheduled",
-                        "in": "query",
-                        "required": false,
-                        "description": "Leave status scheduled",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "taken",
-                        "in": "query",
-                        "required": false,
-                        "description": "Leave status taken",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "pastEmployee",
-                        "in": "query",
-                        "required": false,
-                        "description": "Past employee results",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "subunit",
-                        "in": "query",
-                        "required": false,
-                        "description": "Employee subunit id",
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "required": false,
-                        "description": "Page number",
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "required": false,
-                        "description": "Leave record limit",
-                        "schema": {
-                            "type": "number"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/getLeaveList"
-                                            }
-                                        },
-                                        "rels": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    },
-                                    "example": {
-                                        "data": [
-                                            {
-                                                "employeeId": "4",
-                                                "employeeName": "Kevin Mathews",
-                                                "leaveRequestId": "8",
-                                                "fromDate": "2020-07-16",
-                                                "toDate": "2020-07-21",
-                                                "appliedDate": "2020-07-16",
-                                                "LeaveBalance": "10.00",
-                                                "numberOfDays": "3.00",
-                                                "leaveBreakdown": "Scheduled(2.00)",
-                                                "LeaveType": {
-                                                    "type": "Annual",
-                                                    "id": "2"
-                                                }
-                                            },
-                                            {
-                                                "employeeId": "5",
-                                                "employeeName": "Linda Jane",
-                                                "leaveRequestId": "3",
-                                                "fromDate": "2020-07-15",
-                                                "toDate": "2020-07-15",
-                                                "appliedDate": "2020-07-15",
-                                                "LeaveBalance": "2.00",
-                                                "numberOfDays": "0.50",
-                                                "leaveBreakdown": "Pending Approval(0.50)",
-                                                "LeaveType": {
-                                                    "type": "Casual",
-                                                    "id": "3"
-                                                }
-                                            }
-                                        ],
-                                        "rels": []
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/leave/leave-request/{id}": {
             "get": {
                 "tags": [
+                    "Leave",
                     "User"
                 ],
                 "summary": "Get Leave Request",
+                "operationId": "EmployeeLeaveRequestApiAction::handleGetRequest",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "required": true,
                         "description": "Leave request id",
+                        "required": true,
                         "schema": {
                             "type": "number"
                         }
@@ -600,82 +62,31 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/EmployeeLeaveRequest"
-                                            }
-                                        },
-                                        "rels": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    },
-                                    "example": {
-                                        "data": {
-                                            "employeeId": "4",
-                                            "employeeName": "Kevin Mathews",
-                                            "leaveRequestId": "8",
-                                            "fromDate": "2020-07-16",
-                                            "toDate": "2020-07-21",
-                                            "appliedDate": "2020-07-16",
-                                            "LeaveBalance": "10.00",
-                                            "numberOfDays": "3.00",
-                                            "comments": {
-                                                "user": "Kevin Mathews",
-                                                "date": "2020-06-25",
-                                                "time": "17:23:03",
-                                                "comment": "Comment"
-                                            },
-                                            "days": [
-                                                {
-                                                    "date": "2020-07-20",
-                                                    "status": "SCHEDULED",
-                                                    "duration": "8.00",
-                                                    "durationString": "",
-                                                    "comments": []
-                                                },
-                                                {
-                                                    "date": "2020-07-19",
-                                                    "status": "WEEKEND",
-                                                    "duration": "0.00",
-                                                    "durationString": "",
-                                                    "comments": []
-                                                },
-                                                {
-                                                    "date": "2020-07-18",
-                                                    "status": "WEEKEND",
-                                                    "duration": "0.00",
-                                                    "durationString": "",
-                                                    "comments": []
-                                                },
-                                                {
-                                                    "date": "2020-07-17",
-                                                    "status": "SCHEDULED",
-                                                    "duration": "8.00",
-                                                    "durationString": "",
-                                                    "comments": []
-                                                }
-                                            ],
-                                            "leaveBreakdown": "Scheduled(2.00)",
-                                            "LeaveType": {
-                                                "type": "Annual",
-                                                "id": "2"
-                                            },
-                                            "allowedActions": [
-                                                "Cancel"
-                                            ]
-                                        },
-                                        "rels": []
-                                    }
+                                    "$ref": "#/components/schemas/LeaveRequest"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
                                 }
                             }
                         }
@@ -684,228 +95,207 @@
             },
             "post": {
                 "tags": [
+                    "Leave",
                     "User"
                 ],
                 "summary": "Change Leave Request Status",
+                "operationId": "EmployeeLeaveRequestApiAction::handlePostRequest",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "required": true,
                         "description": "Leave request id",
+                        "required": true,
                         "schema": {
                             "type": "number"
                         }
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "example": {
-                                        "success": "Successfully Saved"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/ChangeLeaveRequestStatusRequestBody"
                             }
                         }
-                    },
-                    "required": true
-                }
-            }
-        },
-        "/subordinate/{id}/leave-entitlement": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get Subordinate Leave Entitlements",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "description": "Subordinate employee id",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "fromDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "Valid leave period from date",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "toDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "Valid leave period to date",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "combineLeaveTypes",
-                        "in": "query",
-                        "required": false,
-                        "description": "Whether combine not entitled leave types with leave balance.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "balanceAsAtDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "Start date for calculate balance. Default: current date.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "balanceEndDate",
-                        "in": "query",
-                        "required": false,
-                        "description": "End date for calculate balance. Default: end date of current leave period",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/LeaveEntitlement"
-                                            }
-                                        },
-                                        "rels": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    },
-                                    "example": {
-                                        "data": [
-                                            {
-                                                "id": "1",
-                                                "validFrom": "2020-01-01",
-                                                "validTo": "2020-12-31",
-                                                "creditedDate": "2020-06-25",
-                                                "LeaveBalance": {
-                                                    "entitled": 3,
-                                                    "used": 1,
-                                                    "scheduled": 0.5,
-                                                    "pending": 0.5,
-                                                    "notLinked": 0,
-                                                    "taken": 0,
-                                                    "adjustment": 0,
-                                                    "balance": 2
-                                                },
-                                                "LeaveType": {
-                                                    "type": "Annual",
-                                                    "id": "2"
-                                                }
-                                            },
-                                            {
-                                                "id": "2",
-                                                "validFrom": "2020-01-01",
-                                                "validTo": "2020-12-31",
-                                                "creditedDate": "2020-06-20",
-                                                "LeaveBalance": {
-                                                    "entitled": 2,
-                                                    "used": 0.5,
-                                                    "scheduled": 0.5,
-                                                    "pending": 0,
-                                                    "notLinked": 0,
-                                                    "taken": 0,
-                                                    "adjustment": 0,
-                                                    "balance": 1.5
-                                                },
-                                                "LeaveType": {
-                                                    "type": "Casual",
-                                                    "id": "3"
-                                                }
-                                            }
-                                        ],
-                                        "rels": []
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/subordinate/{id}/leave-request": {
-            "post": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Save Subordinate Leave Request (Single Day/Multiple Day)",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "description": "Subordinate employee id",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "example": {
-                                        "success": "Successfully Saved"
-                                    }
-                                }
-                            }
-                        }
                     }
                 },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessfullySaved"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attendance/punch-in": {
+            "post": {
+                "tags": [
+                    "Attendance",
+                    "User"
+                ],
+                "summary": "Save Employee Punch In",
+                "operationId": "EmployeePunchInApiAction::handlePostRequest",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "oneOf": [
-                                    {
-                                        "$ref": "#/components/schemas/LeaveRequestSingleDayRequestBody"
-                                    },
-                                    {
-                                        "$ref": "#/components/schemas/LeaveRequestMultipleDayRequestBody"
-                                    }
-                                ]
+                                "$ref": "#/components/schemas/EmployeePunchInRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeePunchIn"
+                                }
                             }
                         }
                     },
-                    "required": true
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attendance/punch-out": {
+            "post": {
+                "tags": [
+                    "Attendance",
+                    "User"
+                ],
+                "summary": "Save Employee Punch Out",
+                "operationId": "EmployeePunchOutApiAction::handlePostRequest",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmployeePunchOutRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeePunchOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attendance/punch-status": {
+            "get": {
+                "tags": [
+                    "Attendance",
+                    "User"
+                ],
+                "summary": "Get Employee Punch Status",
+                "operationId": "EmployeePunchStatusApiAction::handleGetRequest",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeePunchStatus"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         },
@@ -915,12 +305,13 @@
                     "User"
                 ],
                 "summary": "Get Accessible Employees",
+                "operationId": "EmployeesApiAction::handleGetRequest",
                 "parameters": [
                     {
                         "name": "actionName",
                         "in": "query",
-                        "required": false,
                         "description": "Action name. e.g. assign_leave, view_leave_list",
+                        "required": false,
                         "schema": {
                             "type": "string"
                         }
@@ -928,8 +319,8 @@
                     {
                         "name": "properties",
                         "in": "query",
+                        "description": "Employee properties array. e.g. employeeId, firstName, lastName, termination_id. /api/v1/employees?properties[]=firstName&properties[]=lastName&properties[]=termination_id",
                         "required": false,
-                        "description": "Employee properties array. e.g. employeeId, firstName, lastName, termination_id. /api/v1/employees?properties[]=firstName&amp;properties[]=lastName&amp;properties[]=termination_id",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -940,36 +331,40 @@
                     {
                         "name": "pastEmployee",
                         "in": "query",
-                        "required": false,
                         "description": "Specify whether with past employee. Default false",
+                        "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "boolean"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "example": {
-                                        "data": [
-                                            {
-                                                "empNumber": "4",
-                                                "firstName": "Kevin",
-                                                "lastName": "Mathews",
-                                                "employeeId": "004"
-                                            },
-                                            {
-                                                "empNumber": "5",
-                                                "firstName": "Linda",
-                                                "lastName": "Jane",
-                                                "employeeId": "005"
-                                            }
-                                        ],
-                                        "rels": []
-                                    }
+                                    "$ref": "#/components/schemas/Employees"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
                                 }
                             }
                         }
@@ -980,34 +375,210 @@
         "/leave/holidays": {
             "get": {
                 "tags": [
+                    "Leave",
                     "User"
                 ],
                 "summary": "Get Holidays",
+                "operationId": "HolidaysApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "description": "From date (default current leave period from date)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "description": "To date (default current leave period to date)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "example": {
-                                        "data": [
-                                            {
-                                                "id": "1",
-                                                "recurring": "0",
-                                                "description": "Holyday 1",
-                                                "date": "2020-08-05",
-                                                "length": "4"
-                                            },
-                                            {
-                                                "id": "2",
-                                                "recurring": "1",
-                                                "description": "Holyday 2",
-                                                "date": "2020-08-06",
-                                                "length": "8"
-                                            }
-                                        ],
-                                        "rels": []
-                                    }
+                                    "$ref": "#/components/schemas/LeaveHolidays"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/leave-list": {
+            "get": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Get Leave List",
+                "operationId": "LeaveListApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "description": "From date (default current leave period from date)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "description": "To date (default current leave period to date)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "employeeName",
+                        "in": "query",
+                        "description": "Employee name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "rejected",
+                        "in": "query",
+                        "description": "Leave status rejected",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "cancelled",
+                        "in": "query",
+                        "description": "Leave status cancelled",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "pendingApproval",
+                        "in": "query",
+                        "description": "Leave status pending approval",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "scheduled",
+                        "in": "query",
+                        "description": "Leave status scheduled",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "taken",
+                        "in": "query",
+                        "description": "Leave status taken",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "pastEmployee",
+                        "in": "query",
+                        "description": "Past employee results",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "subunit",
+                        "in": "query",
+                        "description": "Employee subunit id",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Leave record limit",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LeaveRequests"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
                                 }
                             }
                         }
@@ -1018,24 +589,505 @@
         "/leave/leave-periods": {
             "get": {
                 "tags": [
+                    "Leave",
                     "User"
                 ],
                 "summary": "Get Leave Periods",
+                "operationId": "LeavePeriodsApiAction::handleGetRequest",
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "example": {
-                                        "data": [
-                                            {
-                                                "startDate": "2020-01-01",
-                                                "endDate": "2020-12-31"
-                                            }
-                                        ],
-                                        "rels": []
+                                    "$ref": "#/components/schemas/LeavePeriods"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/leave-types": {
+            "get": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Get Leave Types",
+                "operationId": "LeaveTypesApiAction::handleGetRequest",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LeaveTypes"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/myinfo": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Employee Info",
+                "operationId": "MyInfoApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "withPhoto",
+                        "in": "query",
+                        "description": "Specify whether with employee photo",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MyInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/my-leave-entitlement": {
+            "get": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Get My Leave Entitlements",
+                "operationId": "MyLeaveEntitlementApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "description": "Valid leave period from date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "description": "Valid leave period to date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "balanceAsAtDate",
+                        "in": "query",
+                        "description": "Start date for calculate balance. Default: current date.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "balanceEndDate",
+                        "in": "query",
+                        "description": "End date for calculate balance. Default: end date of current leave period",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LeaveEntitlements"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/my-leave-request": {
+            "get": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Get My Leave Requests",
+                "operationId": "MyLeaveRequestApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "description": "From date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "description": "To date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Leave record limit",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MyLeaveRequest"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Save My Leave Request (Single Day/Multiple Day)",
+                "operationId": "MyLeaveRequestApiAction::handlePostRequest",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "$ref": "#/components/schemas/LeaveRequestSingleDayRequestBody"
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/LeaveRequestMultipleDayRequestBody"
                                     }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessfullySaved"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/subordinate/{id}/leave-entitlement": {
+            "get": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Get Subordinate Leave Entitlements",
+                "operationId": "SubordinateLeaveEntitlementApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Subordinate employee id",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "description": "Valid leave period from date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "description": "Valid leave period to date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "combineLeaveTypes",
+                        "in": "query",
+                        "description": "Whether combine, not entitled leave types with leave balance.",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "balanceAsAtDate",
+                        "in": "query",
+                        "description": "Start date for calculate balance. Default: current date.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "balanceEndDate",
+                        "in": "query",
+                        "description": "End date for calculate balance. Default: end date of current leave period",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LeaveEntitlements"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/subordinate/{id}/leave-request": {
+            "post": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Save Subordinate Leave Request (Single Day/Multiple Day)",
+                "operationId": "SubordinateLeaveRequestApiAction::handlePostRequest",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Subordinate employee id",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "$ref": "#/components/schemas/LeaveRequestSingleDayRequestBody"
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/LeaveRequestMultipleDayRequestBody"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessfullySaved"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
                                 }
                             }
                         }
@@ -1046,15 +1098,17 @@
         "/leave/work-shift": {
             "get": {
                 "tags": [
+                    "Leave",
                     "User"
                 ],
                 "summary": "Get Employee Work Shift",
+                "operationId": "WorkShiftApiAction::handleGetRequest",
                 "parameters": [
                     {
                         "name": "empNumber",
                         "in": "query",
-                        "required": false,
                         "description": "Employee number",
+                        "required": false,
                         "schema": {
                             "type": "string"
                         }
@@ -1062,18 +1116,31 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "example": {
-                                        "data": {
-                                            "workShift": "8.00",
-                                            "startTime": "09:00",
-                                            "endTime": "17:00"
-                                        },
-                                        "rels": []
-                                    }
+                                    "$ref": "#/components/schemas/EmployeeWorkShift"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
                                 }
                             }
                         }
@@ -1087,64 +1154,34 @@
                     "User"
                 ],
                 "summary": "Get Work Week",
+                "operationId": "WorkWeekApiAction::handleGetRequest",
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "example": {
-                                        "data": {
-                                            "mon": "0",
-                                            "tue": "0",
-                                            "wed": "0",
-                                            "thu": "0",
-                                            "fri": "0",
-                                            "sat": "4",
-                                            "sun": "8"
-                                        },
-                                        "rels": []
-                                    }
+                                    "$ref": "#/components/schemas/WorkWeek"
                                 }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/leave/leave-types": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get Leave Types",
-                "parameters": [
-                    {
-                        "name": "all",
-                        "in": "query",
-                        "required": false,
-                        "description": "Get all leave types. Only allowed to perform supervisors and admins",
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
+                    },
+                    "400": {
+                        "description": "No Bound User",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "example": {
-                                        "data": [
-                                            {
-                                                "workShift": "8.00",
-                                                "startTime": "09:00",
-                                                "endTime": "17:00"
-                                            }
-                                        ],
-                                        "rels": []
-                                    }
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
                                 }
                             }
                         }
@@ -1154,485 +1191,639 @@
         }
     },
     "components": {
+        "schemas": {
+            "LeaveRequest": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "employeeId": "4",
+                        "employeeName": "KevinMathews",
+                        "leaveRequestId": "8",
+                        "fromDate": "2020-07-16",
+                        "toDate": "2020-07-21",
+                        "appliedDate": "2020-07-16",
+                        "LeaveBalance": "10.00",
+                        "numberOfDays": "3.00",
+                        "comments": {
+                            "user": "KevinMathews",
+                            "date": "2020-06-25",
+                            "time": "17:23:03",
+                            "comment": "Comment"
+                        },
+                        "days": [
+                            {
+                                "date": "2020-07-20",
+                                "status": "SCHEDULED",
+                                "duration": "8.00",
+                                "durationString": "",
+                                "comments": []
+                            },
+                            {
+                                "date": "2020-07-19",
+                                "status": "WEEKEND",
+                                "duration": "0.00",
+                                "durationString": "",
+                                "comments": []
+                            },
+                            {
+                                "date": "2020-07-18",
+                                "status": "WEEKEND",
+                                "duration": "0.00",
+                                "durationString": "",
+                                "comments": []
+                            },
+                            {
+                                "date": "2020-07-17",
+                                "status": "SCHEDULED",
+                                "duration": "8.00",
+                                "durationString": "",
+                                "comments": []
+                            }
+                        ],
+                        "leaveBreakdown": "Scheduled(2.00)",
+                        "LeaveType": {
+                            "type": "Annual",
+                            "id": "2"
+                        },
+                        "allowedActions": [
+                            "Cancel"
+                        ]
+                    },
+                    "rels": []
+                }
+            },
+            "ChangeLeaveRequestStatusRequestBody": {
+                "properties": {
+                    "actionType": {
+                        "description": "Action type on leave request. Note : If actionType is 'changeStatus', status fields must be filled. If actionType is 'comment', comment fields must be filled",
+                        "type": "string",
+                        "enum": [
+                            "changeStatus",
+                            "comment"
+                        ]
+                    },
+                    "status": {
+                        "description": "Status to be changed",
+                        "type": "string",
+                        "enum": [
+                            "Approve",
+                            "Reject",
+                            "Cancel"
+                        ]
+                    },
+                    "comment": {
+                        "description": "Leave comment",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "EmployeePunchInRequestBody": {
+                "properties": {
+                    "timezoneOffset": {
+                        "description": "Time Zone Offset (ex: 5.5)",
+                        "type": "string"
+                    },
+                    "datetime": {
+                        "description": "Date and Time Required If Current Time Editable (ex: '2020-12-28 08:30')",
+                        "type": "string"
+                    },
+                    "note": {
+                        "description": "Punch In Note",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "EmployeePunchIn": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "id": "1",
+                        "datetime": "2020-12-28 08:30",
+                        "timezoneOffset": 5.5,
+                        "note": "PUNCH IN NOTE"
+                    },
+                    "rels": []
+                }
+            },
+            "EmployeePunchOutRequestBody": {
+                "properties": {
+                    "timezoneOffset": {
+                        "description": "Time Zone Offset (ex: 5.5)",
+                        "type": "string"
+                    },
+                    "datetime": {
+                        "description": "Date and Time Required If Current Time Editable (ex: '2020-12-28 08:30')",
+                        "type": "string"
+                    },
+                    "note": {
+                        "description": "Punch Out Note",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "EmployeePunchOut": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "id": "1",
+                        "punchInDateTime": "2020-12-28 08:30",
+                        "punchInTimeZone": 5.5,
+                        "punchInNote": "PUNCH IN NOTE",
+                        "punchOutDateTime": "2020-12-28 18:30",
+                        "punchOutTimeZone": 5.5,
+                        "punchOutNote": "PUNCH OUT NOTE"
+                    },
+                    "rels": []
+                }
+            },
+            "EmployeePunchStatus": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "punchTime": "2021-01-31 19:31:00",
+                        "punchNote": "PUNCH IN NOTE",
+                        "PunchTimeZoneOffset": 5.5,
+                        "dateTimeEditable": true,
+                        "currentUtcDateTime": "2020-11-12 05:25",
+                        "punchState": "PUNCHED IN"
+                    },
+                    "rels": []
+                }
+            },
+            "Employees": {
+                "type": "object",
+                "example": {
+                    "data": [
+                        {
+                            "empNumber": "4",
+                            "firstName": "Kevin",
+                            "lastName": "Mathews",
+                            "employeeId": "004"
+                        },
+                        {
+                            "empNumber": "5",
+                            "firstName": "Linda",
+                            "lastName": "Jane",
+                            "employeeId": "005"
+                        }
+                    ],
+                    "rels": []
+                }
+            },
+            "LeaveHolidays": {
+                "type": "object",
+                "example": {
+                    "data": [
+                        {
+                            "id": "1",
+                            "recurring": "0",
+                            "description": "Holyday1",
+                            "date": "2020-08-05",
+                            "length": "4"
+                        },
+                        {
+                            "id": "2",
+                            "recurring": "1",
+                            "description": "Holyday2",
+                            "date": "2020-08-06",
+                            "length": "8"
+                        }
+                    ],
+                    "rels": []
+                }
+            },
+            "LeaveRequests": {
+                "type": "object",
+                "example": {
+                    "data": [
+                        {
+                            "employeeId": "4",
+                            "employeeName": "KevinMathews",
+                            "leaveRequestId": "8",
+                            "fromDate": "2020-07-16",
+                            "toDate": "2020-07-21",
+                            "appliedDate": "2020-07-16",
+                            "LeaveBalance": "10.00",
+                            "numberOfDays": "3.00",
+                            "leaveBreakdown": "Scheduled(2.00)",
+                            "LeaveType": {
+                                "type": "Annual",
+                                "id": "2"
+                            }
+                        },
+                        {
+                            "employeeId": "5",
+                            "employeeName": "LindaJane",
+                            "leaveRequestId": "3",
+                            "fromDate": "2020-07-15",
+                            "toDate": "2020-07-15",
+                            "appliedDate": "2020-07-15",
+                            "LeaveBalance": "2.00",
+                            "numberOfDays": "0.50",
+                            "leaveBreakdown": "PendingApproval(0.50)",
+                            "LeaveType": {
+                                "type": "Casual",
+                                "id": "3"
+                            }
+                        }
+                    ],
+                    "rels": []
+                }
+            },
+            "LeavePeriods": {
+                "type": "object",
+                "example": {
+                    "data": [
+                        {
+                            "startDate": "2020-01-01",
+                            "endDate": "2020-12-31"
+                        }
+                    ],
+                    "rels": []
+                }
+            },
+            "LeaveTypes": {
+                "type": "object",
+                "example": {
+                    "data": [
+                        {
+                            "id": "1",
+                            "type": "Casual",
+                            "deleted": "0",
+                            "situational": false
+                        },
+                        {
+                            "id": "2",
+                            "type": "Medical",
+                            "deleted": "0",
+                            "situational": false
+                        }
+                    ],
+                    "rels": []
+                }
+            },
+            "MyInfo": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "employee": {
+                            "firstName": "Nina",
+                            "middleName": "Jane",
+                            "lastName": "Lewis",
+                            "code": "0014",
+                            "id": "1",
+                            "fullName": "NinaJaneLewis",
+                            "status": "Active",
+                            "dob": "2016-05-04",
+                            "driversLicenseNumber": "444555124223",
+                            "licenseExpiryDate": "2017-02-09",
+                            "maritalStatus": "Married",
+                            "gender": "2",
+                            "otherId": "4646522",
+                            "nationality": "Armenian",
+                            "unit": "MarketingUnit",
+                            "jobTitle": "marketing"
+                        },
+                        "employeePhoto": "iVBORw0KGgoAAAANSUhEUgAAABwAAAASCAYAAABIB77kAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wMCgQvOUl1YygAAAJJSURBVDjLvZUxayJRFIW",
+                        "user": {
+                            "userName": "Nina",
+                            "userRole": "ESS",
+                            "isSupervisor": true,
+                            "isProjectAdmin": false,
+                            "isManager": false,
+                            "isDirector": false,
+                            "isAcceptor": false,
+                            "isOfferer": false,
+                            "isHiringManager": false,
+                            "isInterviewer": false
+                        }
+                    },
+                    "rels": []
+                }
+            },
+            "NoBoundUserError": {
+                "type": "object",
+                "example": {
+                    "error": [
+                        "No Bound User"
+                    ]
+                }
+            },
+            "LeaveEntitlements": {
+                "type": "object",
+                "example": {
+                    "data": [
+                        {
+                            "id": "1",
+                            "validFrom": "2020-01-01",
+                            "validTo": "2020-12-31",
+                            "creditedDate": "2020-06-25",
+                            "leaveBalance": {
+                                "entitled": 3,
+                                "used": 1,
+                                "scheduled": 0.5,
+                                "pending": 0.5,
+                                "notLinked": 0,
+                                "taken": 0,
+                                "adjustment": 0,
+                                "balance": 2
+                            },
+                            "leaveType": {
+                                "type": "Annual",
+                                "id": "2"
+                            }
+                        },
+                        {
+                            "id": "2",
+                            "validFrom": "2020-01-01",
+                            "validTo": "2020-12-31",
+                            "creditedDate": "2020-06-20",
+                            "leaveBalance": {
+                                "entitled": 2,
+                                "used": 0.5,
+                                "scheduled": 0.5,
+                                "pending": 0,
+                                "notLinked": 0,
+                                "taken": 0,
+                                "adjustment": 0,
+                                "balance": 1.5
+                            },
+                            "leaveType": {
+                                "type": "Casual",
+                                "id": "3"
+                            }
+                        }
+                    ],
+                    "rels": []
+                }
+            },
+            "MyLeaveRequest": {
+                "type": "object",
+                "example": {
+                    "data": [
+                        {
+                            "id": "8",
+                            "fromDate": "2020-07-16",
+                            "toDate": "2020-07-21",
+                            "appliedDate": "2020-07-16",
+                            "leaveType": {
+                                "type": "Annual",
+                                "id": "2"
+                            },
+                            "leaveBalance": "10.00",
+                            "numberOfDays": "3.00",
+                            "comments": {
+                                "user": "EmployeeName",
+                                "date": "2020-06-25",
+                                "time": "17:23:03",
+                                "comment": "Comment"
+                            },
+                            "days": [
+                                {
+                                    "date": "2020-07-20",
+                                    "status": "SCHEDULED",
+                                    "duration": "8.00",
+                                    "durationString": "",
+                                    "comments": []
+                                },
+                                {
+                                    "date": "2020-07-19",
+                                    "status": "WEEKEND",
+                                    "duration": "0.00",
+                                    "durationString": "",
+                                    "comments": []
+                                },
+                                {
+                                    "date": "2020-07-18",
+                                    "status": "WEEKEND",
+                                    "duration": "0.00",
+                                    "durationString": "",
+                                    "comments": []
+                                },
+                                {
+                                    "date": "2020-07-17",
+                                    "status": "SCHEDULED",
+                                    "duration": "8.00",
+                                    "durationString": "",
+                                    "comments": []
+                                }
+                            ],
+                            "leaveBreakdown": "Scheduled(2.00)"
+                        },
+                        {
+                            "id": "3",
+                            "fromDate": "2020-07-15",
+                            "toDate": "2020-07-15",
+                            "appliedDate": "2020-07-15",
+                            "leaveType": {
+                                "type": "Casual",
+                                "id": "1"
+                            },
+                            "leaveBalance": "3.00",
+                            "numberOfDays": "0.50",
+                            "comments": [],
+                            "days": [
+                                {
+                                    "date": "2020-07-15",
+                                    "status": "PENDINGAPPROVAL",
+                                    "duration": "4.00",
+                                    "durationString": "(09:00-13:00)",
+                                    "comments": []
+                                }
+                            ],
+                            "leaveBreakdown": "PendingApproval(0.50)"
+                        }
+                    ],
+                    "rels": []
+                }
+            },
+            "LeaveRequestSingleDayRequestBody": {
+                "properties": {
+                    "type": {
+                        "description": "Mandatory leave type id",
+                        "type": "number"
+                    },
+                    "fromDate": {
+                        "description": "Leave start date",
+                        "type": "string"
+                    },
+                    "toDate": {
+                        "description": "Leave end date",
+                        "type": "string"
+                    },
+                    "comment": {
+                        "description": "Leave comment",
+                        "type": "string"
+                    },
+                    "singleType": {
+                        "description": "Single day leave applying type",
+                        "type": "string",
+                        "enum": [
+                            "half_day",
+                            "full_day",
+                            "specify_time"
+                        ]
+                    },
+                    "singleAMPM": {
+                        "description": "Half day morning or evening, (required for 'half_day')",
+                        "type": "string",
+                        "enum": [
+                            "AM",
+                            "PM"
+                        ]
+                    },
+                    "singleFromTime": {
+                        "description": "Single day from time for specify time (required if specifying time)",
+                        "type": "string"
+                    },
+                    "singleToTime": {
+                        "description": "Single day to time for specify time (required if specifying time)",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "LeaveRequestMultipleDayRequestBody": {
+                "properties": {
+                    "type": {
+                        "description": "Mandatory leave type id",
+                        "type": "number"
+                    },
+                    "fromDate": {
+                        "description": "Leave start date",
+                        "type": "string"
+                    },
+                    "toDate": {
+                        "description": "Leave end date",
+                        "type": "string"
+                    },
+                    "comment": {
+                        "description": "Leave comment",
+                        "type": "string"
+                    },
+                    "partialOption": {
+                        "description": "Partial day option Note : If partial option is 'all'  start day fields must be filled. If partial option is 'end'  end day fields must be filed. If partial option is 'start' start day fields must be filed. If partial option is 'start_end'  start and end day fields must be filed. If partial option is 'none'  No partial option.",
+                        "type": "string"
+                    },
+                    "startDayType": {
+                        "description": "Start day leave applying type",
+                        "type": "string",
+                        "enum": [
+                            "half_day",
+                            "full_day",
+                            "specify_time"
+                        ]
+                    },
+                    "startDayAMPM": {
+                        "description": "Half day morning or evening, (required for 'half_day')",
+                        "type": "string",
+                        "enum": [
+                            "AM",
+                            "PM"
+                        ]
+                    },
+                    "startDayFromTime": {
+                        "description": "Start day from time for specify time (required if specifying time)",
+                        "type": "string"
+                    },
+                    "startDayToTime": {
+                        "description": "Start day to time for specify time (required if specifying time)",
+                        "type": "string"
+                    },
+                    "endDayType": {
+                        "description": "End day leave applying type",
+                        "type": "string",
+                        "enum": [
+                            "half_day",
+                            "full_day",
+                            "specify_time"
+                        ]
+                    },
+                    "endDayAMPM": {
+                        "description": "Half day morning or evening, (required for 'half_day')",
+                        "type": "string",
+                        "enum": [
+                            "AM",
+                            "PM"
+                        ]
+                    },
+                    "endDayFromTime": {
+                        "description": "End day from time for specify time (required if specifying time)",
+                        "type": "string"
+                    },
+                    "endDayToTime": {
+                        "description": "End day to time for specify time (required if specifying time)",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "SuccessfullySaved": {
+                "type": "object",
+                "example": {
+                    "success": "Successfully Saved"
+                }
+            },
+            "EmployeeWorkShift": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "workShift": "8.00",
+                        "startTime": "09:00",
+                        "endTime": "17:00"
+                    },
+                    "rels": []
+                }
+            },
+            "WorkWeek": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "mon": "0",
+                        "tue": "0",
+                        "wed": "0",
+                        "thu": "0",
+                        "fri": "0",
+                        "sat": "4",
+                        "sun": "8"
+                    },
+                    "rels": []
+                }
+            },
+            "RecordNotFoundException": {
+                "type": "object",
+                "example": {
+                    "error": {
+                        "status": "404",
+                        "text": "No Records Found"
+                    }
+                }
+            }
+        },
         "securitySchemes": {
             "OAuth": {
                 "type": "oauth2",
-                "description": "This API uses OAuth 2. [More info](https://github.com/orangehrm/orangehrm/wiki/REST-API)",
                 "flows": {
                     "password": {
-                        "tokenUrl": "oauth/issueToken",
+                        "tokenUrl": "./oauth/issueToken",
                         "scopes": {
-                            "admin": "Privilaged APIs",
+                            "admin": "Privileged APIs",
                             "user": "User scope APIs"
                         }
                     }
                 }
             }
-        },
-        "schemas": {
-            "EmployeeLeaveRequest": {
-                "properties": {
-                    "id": {
-                        "type": "number",
-                        "description": "Leave request id."
-                    },
-                    "employeeName": {
-                        "type": "string",
-                        "description": "Employee name"
-                    },
-                    "employeeId": {
-                        "type": "string",
-                        "description": "Employee number."
-                    },
-                    "fromDate": {
-                        "type": "string",
-                        "description": "From date."
-                    },
-                    "toDate": {
-                        "type": "string",
-                        "description": "To date."
-                    },
-                    "type": {
-                        "type": "string",
-                        "description": "Leave type."
-                    },
-                    "LeaveBalance": {
-                        "type": "number",
-                        "description": "Leave balance."
-                    },
-                    "numberOfDays": {
-                        "type": "number",
-                        "description": "Number of Days."
-                    },
-                    "comments": {
-                        "type": "array",
-                        "description": "Leave request comments.",
-                        "items": {
-                            "$ref": "#/components/schemas/LeaveComment"
-                        }
-                    },
-                    "user": {
-                        "type": "string",
-                        "description": "User."
-                    },
-                    "date": {
-                        "type": "string",
-                        "description": "Commented date."
-                    },
-                    "time": {
-                        "type": "string",
-                        "description": "Commented time."
-                    },
-                    "comment": {
-                        "type": "string",
-                        "description": "Comment ."
-                    },
-                    "days": {
-                        "type": "array",
-                        "description": "Leave days.",
-                        "items": {
-                            "$ref": "#/components/schemas/LeaveRequestDay"
-                        }
-                    },
-                    "status": {
-                        "type": "string",
-                        "description": "Leave status."
-                    },
-                    "duration": {
-                        "type": "number",
-                        "description": "Leave duration."
-                    },
-                    "durationString": {
-                        "type": "string",
-                        "description": "Leave duration as a String for specify time and half days."
-                    }
-                },
-                "required": [
-                    "employeeName",
-                    "employeeId",
-                    "fromDate",
-                    "toDate",
-                    "type",
-                    "id",
-                    "LeaveBalance",
-                    "numberOfDays",
-                    "comments",
-                    "user",
-                    "date",
-                    "time",
-                    "comment",
-                    "days",
-                    "status",
-                    "duration",
-                    "durationString"
-                ]
-            },
-            "getLeaveList": {
-                "properties": {
-                    "fromDate": {
-                        "type": "string",
-                        "description": "From date (default current leave period from date)"
-                    },
-                    "toDate": {
-                        "type": "string",
-                        "description": "To date (default current leave period to date)"
-                    },
-                    "employeeName": {
-                        "type": "string",
-                        "description": "Employee name"
-                    },
-                    "rejected": {
-                        "type": "string",
-                        "description": "Leave status rejected"
-                    },
-                    "cancelled": {
-                        "type": "string",
-                        "description": "Leave status cancelled"
-                    },
-                    "pendingApproval": {
-                        "type": "string",
-                        "description": "Leave status pending approval"
-                    },
-                    "scheduled": {
-                        "type": "string",
-                        "description": "Leave status scheduled"
-                    },
-                    "taken": {
-                        "type": "string",
-                        "description": "Leave status taken"
-                    },
-                    "pastEmployee": {
-                        "type": "string",
-                        "description": "Past employee results"
-                    },
-                    "subunit": {
-                        "type": "number",
-                        "description": "Employee subunit id"
-                    },
-                    "page": {
-                        "type": "number",
-                        "description": "Page number"
-                    },
-                    "limit": {
-                        "type": "number",
-                        "description": "Leave record limit"
-                    },
-                    "data": {
-                        "type": "array",
-                        "description": "Leave requests array",
-                        "items": {
-                            "type": "object"
-                        }
-                    }
-                },
-                "required": [
-                    "data"
-                ]
-            },
-            "ChangeLeaveRequestStatusRequestBody": {
-                "properties": {
-                    "actionType": {
-                        "type": "string",
-                        "description": "Action type on leave request\n> Note : If actionType is\n&quot;changeStatus&quot;, status fields must be filled. If\nactionType is &quot;comment&quot;, comment fields must be filled\n"
-                    },
-                    "status": {
-                        "type": "string",
-                        "description": "Status to be changed"
-                    },
-                    "comment": {
-                        "type": "string",
-                        "description": "Comment text"
-                    }
-                },
-                "required": [
-                    "id",
-                    "actionType",
-                    "status",
-                    "comment"
-                ]
-            },
-            "LeaveRequestDay": {
-                "properties": {
-                    "date": {
-                        "type": "string",
-                        "description": "Leave date"
-                    },
-                    "status": {
-                        "type": "string",
-                        "description": "Leave status"
-                    },
-                    "duration": {
-                        "type": "string",
-                        "description": "Duration (eg. 4.00)"
-                    },
-                    "durationString": {
-                        "type": "string",
-                        "description": "Duration as string (eg.(09:00 - 13:00))"
-                    },
-                    "comments": {
-                        "type": "array",
-                        "description": "Leave comments",
-                        "items": {
-                            "$ref": "#/components/schemas/LeaveComment"
-                        }
-                    }
-                },
-                "required": [
-                    "date",
-                    "status",
-                    "duration",
-                    "durationString",
-                    "comments"
-                ]
-            },
-            "LeaveComment": {
-                "properties": {
-                    "user": {
-                        "type": "string",
-                        "description": "Employee name"
-                    },
-                    "date": {
-                        "type": "string",
-                        "description": "Commented date"
-                    },
-                    "time": {
-                        "type": "string",
-                        "description": "Commented time"
-                    },
-                    "comment": {
-                        "type": "string",
-                        "description": "Comment"
-                    }
-                },
-                "required": [
-                    "user",
-                    "date",
-                    "time",
-                    "comment"
-                ]
-            },
-            "LeaveEntitlement": {
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "Leave entitlement id"
-                    },
-                    "validFrom": {
-                        "type": "string",
-                        "description": "Leave status"
-                    },
-                    "validTo": {
-                        "type": "string",
-                        "description": "Duration (eg. 4.00)"
-                    },
-                    "creditedDate": {
-                        "type": "string",
-                        "description": "Duration as string (eg.(09:00 - 13:00))"
-                    },
-                    "LeaveBalance": {
-                        "type": "object",
-                        "description": "Leave comments",
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/LeaveBalance"
-                            }
-                        ]
-                    },
-                    "LeaveType": {
-                        "type": "object",
-                        "description": "Leave comments",
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/LeaveType"
-                            }
-                        ]
-                    }
-                },
-                "required": [
-                    "date",
-                    "status",
-                    "duration",
-                    "durationString",
-                    "comments"
-                ]
-            },
-            "LeaveType": {
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "description": "Leave type"
-                    },
-                    "id": {
-                        "type": "string",
-                        "description": "Leave type id"
-                    }
-                },
-                "required": [
-                    "type",
-                    "id"
-                ]
-            },
-            "LeaveBalance": {
-                "properties": {
-                    "entitled": {
-                        "type": "number",
-                        "description": "Entitlement"
-                    },
-                    "used": {
-                        "type": "number",
-                        "description": "Used leave"
-                    },
-                    "scheduled": {
-                        "type": "number",
-                        "description": "Scheduled leave"
-                    },
-                    "pending": {
-                        "type": "number",
-                        "description": "Pending leave"
-                    },
-                    "notLinked": {
-                        "type": "number",
-                        "description": ""
-                    },
-                    "taken": {
-                        "type": "number",
-                        "description": "Leave taken"
-                    },
-                    "adjustment": {
-                        "type": "number",
-                        "description": ""
-                    },
-                    "balance": {
-                        "type": "number",
-                        "description": "Leave balance"
-                    }
-                },
-                "required": [
-                    "entitled",
-                    "used",
-                    "scheduled",
-                    "pending",
-                    "notLinked",
-                    "taken",
-                    "adjustment",
-                    "balance"
-                ]
-            },
-            "LeaveRequestMultipleDayRequestBody": {
-                "properties": {
-                    "type": {
-                        "type": "number",
-                        "description": "Mandatory leave type id"
-                    },
-                    "fromDate": {
-                        "type": "string",
-                        "description": "Leave start date"
-                    },
-                    "toDate": {
-                        "type": "string",
-                        "description": "Leave end date"
-                    },
-                    "comment": {
-                        "type": "string",
-                        "description": "Leave comment"
-                    },
-                    "partialOption": {
-                        "type": "string",
-                        "description": "Partial day option Note : If partial option is &#39;all&#39;  start day fields must be filled. If partial option is &#39;end&#39;  end day fields must be filed. If partial option is &#39;start&#39; start day fields must be filed. If partial option is &#39;start_end&#39;  start and end day fields must be filed. If partial option is &#39;none&#39;  No partial option."
-                    },
-                    "startDayType": {
-                        "type": "string",
-                        "description": "Start day leave applying type"
-                    },
-                    "startDayAMPM": {
-                        "type": "string",
-                        "description": "Half day morning or evening, required for  start day &#39;half_day&#39;"
-                    },
-                    "startDayFromTime": {
-                        "type": "string",
-                        "description": "Start day from time for specify time(required for start day specifying time )"
-                    },
-                    "startDayToTime": {
-                        "type": "string",
-                        "description": "Start day to time for specify time(required for start day specifying time )"
-                    },
-                    "endDayType": {
-                        "type": "string",
-                        "description": "End day leave applying type"
-                    },
-                    "endDayAMPM": {
-                        "type": "string",
-                        "description": "Half day morning or evening, required for end day &#39;half_day&#39;"
-                    },
-                    "endDayFromTime": {
-                        "type": "string",
-                        "description": "End day from time for specify time(required for end day specifying time )"
-                    },
-                    "endDayToTime": {
-                        "type": "string",
-                        "description": "End day to time for specify time (required for end day specifying time )"
-                    }
-                },
-                "required": [
-                    "type",
-                    "fromDate",
-                    "toDate",
-                    "partialOption",
-                    "startDayType",
-                    "startDayAMPM",
-                    "startDayFromTime",
-                    "startDayToTime",
-                    "endDayType",
-                    "endDayAMPM",
-                    "endDayFromTime",
-                    "endDayToTime"
-                ]
-            },
-            "LeaveRequestSingleDayRequestBody": {
-                "properties": {
-                    "type": {
-                        "type": "number",
-                        "description": "Mandatory leave type id"
-                    },
-                    "fromDate": {
-                        "type": "string",
-                        "description": "Leave start date"
-                    },
-                    "toDate": {
-                        "type": "string",
-                        "description": "Leave end date"
-                    },
-                    "comment": {
-                        "type": "string",
-                        "description": "Leave comment"
-                    },
-                    "singleType": {
-                        "type": "string",
-                        "description": "Single day leave applying type"
-                    },
-                    "singleAMPM": {
-                        "type": "string",
-                        "description": "Half day morning or evening, (required for &#39;half_day&#39;)"
-                    },
-                    "singleFromTime": {
-                        "type": "string",
-                        "description": "Single day from time for specify time ( required if specifying time )"
-                    },
-                    "singleToTime": {
-                        "type": "string",
-                        "description": "Single day to time for specify time ( required if specifying time )"
-                    }
-                },
-                "required": [
-                    "type",
-                    "fromDate",
-                    "toDate",
-                    "singleType",
-                    "singleAMPM",
-                    "singleFromTime",
-                    "singleToTime"
-                ]
-            }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Leave"
+        },
+        {
+            "name": "Attendance"
+        }
+    ]
 }

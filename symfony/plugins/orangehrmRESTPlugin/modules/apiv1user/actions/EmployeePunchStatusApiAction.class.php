@@ -58,8 +58,31 @@ class EmployeePunchStatusApiAction extends BaseUserApiAction
     }
 
     /**
-     * @param \Orangehrm\Rest\Http\Request $request
-     * @return \Orangehrm\Rest\Http\Response
+     * @OA\Get(
+     *     path="/attendance/punch-status",
+     *     summary="Get Employee Punch Status",
+     *     tags={"Attendance","User"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchStatus"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="EmployeePunchStatus",
+     *     type="object",
+     *     example={"data": {"punchTime": "2021-01-31 19:31:00","punchNote": "PUNCH IN NOTE","PunchTimeZoneOffset": 5.5,"dateTimeEditable": true,"currentUtcDateTime": "2020-11-12 05:25","punchState": "PUNCHED IN"},"rels": {}}
+     * )
      */
     protected function handleGetRequest(Request $request)
     {

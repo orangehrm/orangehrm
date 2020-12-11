@@ -35,6 +35,61 @@ class MyLeaveEntitlementApiAction extends BaseUserApiAction
         $this->getValidationRule = $this->myLeaveRequestAPI->getValidationRules();
     }
 
+    /**
+     * @OA\Get(
+     *     path="/leave/my-leave-entitlement",
+     *     summary="Get My Leave Entitlements",
+     *     tags={"Leave","User"},
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="Valid leave period from date",
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="Valid leave period to date",
+     *     ),
+     *     @OA\Parameter(
+     *         name="balanceAsAtDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="Start date for calculate balance. Default: current date.",
+     *     ),
+     *     @OA\Parameter(
+     *         name="balanceEndDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="End date for calculate balance. Default: end date of current leave period",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/LeaveEntitlements"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="LeaveEntitlements",
+     *     type="object",
+     *     example={"data":{{"id":"1","validFrom":"2020-01-01","validTo":"2020-12-31","creditedDate":"2020-06-25","leaveBalance":{"entitled":3,"used":1,"scheduled":0.5,"pending":0.5,"notLinked":0,"taken":0,"adjustment":0,"balance":2},"leaveType":{"type":"Annual","id":"2"}},{"id":"2","validFrom":"2020-01-01","validTo":"2020-12-31","creditedDate":"2020-06-20","leaveBalance":{"entitled":2,"used":0.5,"scheduled":0.5,"pending":0,"notLinked":0,"taken":0,"adjustment":0,"balance":1.5},"leaveType":{"type":"Casual","id":"3"}}},"rels":{}}
+     * )
+     */
     protected function handleGetRequest(Request $request)
     {
         $systemUser = $this->getSystemUser();

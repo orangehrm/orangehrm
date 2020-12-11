@@ -69,8 +69,53 @@ class EmployeePunchOutApiAction extends \BaseUserApiAction
     }
 
     /**
-     * @param \Orangehrm\Rest\Http\Request $request
-     * @return \Orangehrm\Rest\Http\Response
+     * @OA\Post(
+     *     path="/attendance/punch-out",
+     *     summary="Save Employee Punch Out",
+     *     tags={"Attendance","User"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchOutRequestBody")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchOut"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="EmployeePunchOutRequestBody",
+     *     type="object",
+     *     @OA\Property(
+     *         property="timezoneOffset",
+     *         description="Time Zone Offset (ex: 5.5)",
+     *         type="string"
+     *     ),
+     *     @OA\Property(
+     *         property="datetime",
+     *         description="Date and Time Required If Current Time Editable (ex: '2020-12-28 08:30')",
+     *         type="string"
+     *     ),
+     *     @OA\Property(
+     *         property="note",
+     *         description="Punch Out Note",
+     *         type="string"
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="EmployeePunchOut",
+     *     type="object",
+     *     example={"data": {"id": "1","punchInDateTime":"2020-12-28 08:30","punchInTimeZone":5.5,"punchInNote":"PUNCH IN NOTE","punchOutDateTime":"2020-12-28 18:30","punchOutTimeZone":5.5,"punchOutNote":"PUNCH OUT NOTE"},"rels": {}}
+     * )
      */
     protected function handlePostRequest(Request $request)
     {

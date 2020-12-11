@@ -33,6 +33,54 @@ class EmployeesApiAction extends BaseUserApiAction
         $this->employeesAPI = new EmployeesAPI($request);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/employees",
+     *     summary="Get Accessible Employees",
+     *     tags={"User"},
+     *     @OA\Parameter(
+     *         name="actionName",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="Action name. e.g. assign_leave, view_leave_list",
+     *     ),
+     *     @OA\Parameter(
+     *         name="properties",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="array",@OA\Items(type="string")),
+     *         description="Employee properties array. e.g. employeeId, firstName, lastName, termination_id. /api/v1/employees?properties[]=firstName&properties[]=lastName&properties[]=termination_id",
+     *     ),
+     *     @OA\Parameter(
+     *         name="pastEmployee",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Specify whether with past employee. Default false",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/Employees"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="Employees",
+     *     type="object",
+     *     example={"data":{{"empNumber":"4","firstName":"Kevin","lastName":"Mathews","employeeId":"004"},{"empNumber":"5","firstName":"Linda","lastName":"Jane","employeeId":"005"}},"rels":{}}
+     * )
+     */
     protected function handleGetRequest(Request $request)
     {
         $this->setUserToContext();

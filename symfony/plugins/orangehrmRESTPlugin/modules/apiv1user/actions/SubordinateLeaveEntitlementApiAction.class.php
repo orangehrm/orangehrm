@@ -35,6 +35,70 @@ class SubordinateLeaveEntitlementApiAction extends BaseUserApiAction
         $this->getValidationRule = $this->subordinateLeaveEntitlementAPI->getValidationRules();
     }
 
+    /**
+     * @OA\Get(
+     *     path="/subordinate/{id}/leave-entitlement",
+     *     summary="Get Subordinate Leave Entitlements",
+     *     tags={"Leave","User"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="number"),
+     *         description="Subordinate employee id",
+     *     ),
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="Valid leave period from date",
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="Valid leave period to date",
+     *     ),
+     *     @OA\Parameter(
+     *         name="combineLeaveTypes",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Whether combine, not entitled leave types with leave balance.",
+     *     ),
+     *     @OA\Parameter(
+     *         name="balanceAsAtDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="Start date for calculate balance. Default: current date.",
+     *     ),
+     *     @OA\Parameter(
+     *         name="balanceEndDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="End date for calculate balance. Default: end date of current leave period",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/LeaveEntitlements"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     */
     protected function handleGetRequest(Request $request)
     {
         $this->setUserToContext();
