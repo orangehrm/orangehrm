@@ -69,8 +69,53 @@ class EmployeePunchInApiAction extends BaseUserApiAction
     }
 
     /**
-     * @param \Orangehrm\Rest\Http\Request $request
-     * @return \Orangehrm\Rest\Http\Response
+     * @OA\Post(
+     *     path="/attendance/punch-in",
+     *     summary="Save Employee Punch In",
+     *     tags={"Attendance","User"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchInRequestBody")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchIn"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="EmployeePunchInRequestBody",
+     *     type="object",
+     *     @OA\Property(
+     *         property="timezoneOffset",
+     *         description="Time Zone Offset (ex: 5.5)",
+     *         type="string"
+     *     ),
+     *     @OA\Property(
+     *         property="datetime",
+     *         description="Date and Time Required If Current Time Editable (ex: '2020-12-28 08:30')",
+     *         type="string"
+     *     ),
+     *     @OA\Property(
+     *         property="note",
+     *         description="Punch In Note",
+     *         type="string"
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="EmployeePunchIn",
+     *     type="object",
+     *     example={"data": {"id": "1","datetime": "2020-12-28 08:30","timezoneOffset": 5.5,"note": "PUNCH IN NOTE"},"rels": {}}
+     * )
      */
     protected function handlePostRequest(Request $request)
     {

@@ -34,7 +34,31 @@ class WorkWeekApiAction extends BaseUserApiAction
     }
 
     /**
-     * @inheritDoc
+     * @OA\Get(
+     *     path="/leave/work-week",
+     *     summary="Get Work Week",
+     *     tags={"User"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/WorkWeek"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="WorkWeek",
+     *     type="object",
+     *     example={"data":{"mon":"0","tue":"0","wed":"0","thu":"0","fri":"0","sat":"4","sun":"8"},"rels":{}}
+     * )
      */
     protected function handleGetRequest(Request $request)
     {

@@ -41,6 +41,41 @@ class SubordinateLeaveRequestApiAction extends BaseUserApiAction
         throw new NotImplementedException();
     }
 
+    /**
+     * @OA\Post(
+     *     path="/subordinate/{id}/leave-request",
+     *     summary="Save Subordinate Leave Request (Single Day/Multiple Day)",
+     *     tags={"Leave","User"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="number"),
+     *         description="Subordinate employee id",
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             oneOf={@OA\Schema(ref="#/components/schemas/LeaveRequestSingleDayRequestBody"),
+     *                 @OA\Schema(ref="#/components/schemas/LeaveRequestMultipleDayRequestBody")}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/SuccessfullySaved"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     */
     protected function handlePostRequest(Request $request)
     {
         $this->setUserToContext();

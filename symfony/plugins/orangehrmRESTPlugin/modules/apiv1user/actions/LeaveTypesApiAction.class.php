@@ -35,7 +35,31 @@ class LeaveTypesApiAction extends BaseUserApiAction
     }
 
     /**
-     * @inheritDoc
+     * @OA\Get(
+     *     path="/leave/leave-types",
+     *     summary="Get Leave Types",
+     *     tags={"Leave","User"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/LeaveTypes"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="LeaveTypes",
+     *     type="object",
+     *     example={"data":{{"id":"1","type":"Casual","deleted":"0","situational":false},{"id":"2","type":"Medical","deleted":"0","situational":false}},"rels":{}}
+     * )
      */
     protected function handleGetRequest(Request $request)
     {

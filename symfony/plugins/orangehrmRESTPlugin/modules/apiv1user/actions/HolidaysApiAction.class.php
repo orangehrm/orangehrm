@@ -35,7 +35,45 @@ class HolidaysApiAction extends BaseUserApiAction
     }
 
     /**
-     * @inheritDoc
+     * @OA\Get(
+     *     path="/leave/holidays",
+     *     summary="Get Holidays",
+     *     tags={"Leave","User"},
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="From date (default current leave period from date)",
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="To date (default current leave period to date)",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/LeaveHolidays"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="LeaveHolidays",
+     *     type="object",
+     *     example={"data":{{"id":"1","recurring":"0","description":"Holyday1","date":"2020-08-05","length":"4"},{"id":"2","recurring":"1","description":"Holyday2","date":"2020-08-06","length":"8"}},"rels":{}}
+     * )
      */
     protected function handleGetRequest(Request $request)
     {

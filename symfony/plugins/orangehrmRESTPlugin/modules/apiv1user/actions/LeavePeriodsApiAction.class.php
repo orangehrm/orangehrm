@@ -34,7 +34,31 @@ class LeavePeriodsApiAction extends BaseUserApiAction
     }
 
     /**
-     * @inheritDoc
+     * @OA\Get(
+     *     path="/leave/leave-periods",
+     *     summary="Get Leave Periods",
+     *     tags={"Leave","User"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/LeavePeriods"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="LeavePeriods",
+     *     type="object",
+     *     example={"data":{{"startDate":"2020-01-01","endDate":"2020-12-31"}},"rels":{}}
+     * )
      */
     protected function handleGetRequest(Request $request)
     {
