@@ -558,6 +558,7 @@ class AttendanceDao {
                 ->where("employeeId = ?", $employeeId)
                 ->andWhere('punchInUserTime > ?', $fromDate)
                 ->andWhere('punchInUserTime < ?', $toDate)
+                ->andWhere("state = ?", PluginAttendanceRecord::STATE_PUNCHED_OUT)
                 ->orderBy('punchInUtcTime');
             return $query->execute();
             // @codeCoverageIgnoreStart
