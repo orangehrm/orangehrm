@@ -20,6 +20,8 @@
 
 class BuzzDao extends BaseDao {
 
+    const MOST_LIKED_COMMENTS_DEFAULT_LIMIT = 5;
+
     /**
      * get share count
      *
@@ -259,13 +261,17 @@ class BuzzDao extends BaseDao {
      */
     public function getMostLikedShares($shareCount) {
         try {
+            $limit = filter_var($shareCount, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
+            if ($limit === false) {
+                $limit = static::MOST_LIKED_COMMENTS_DEFAULT_LIMIT;
+            }
             $q = Doctrine_Manager::getInstance()->getCurrentConnection();
             $result = $q->execute(
                 "SELECT  share_id , COUNT(share_id) AS  no_of_likes 
                 FROM  ohrm_buzz_like_on_share 
                 GROUP BY  share_id 
                 ORDER BY  no_of_likes DESC 
-                LIMIT " . $shareCount
+                LIMIT " . $limit
             );
             return $result->fetchAll();
             // @codeCoverageIgnoreStart
@@ -277,19 +283,23 @@ class BuzzDao extends BaseDao {
 
     /**
      * get Most Commented Shares
-     * @param type $shareCount
+     * @param int $shareCount
      * @return array Share
      * @throws DaoException
      */
     public function getMostCommentedShares($shareCount) {
         try {
+            $limit = filter_var($shareCount, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
+            if ($limit === false) {
+                $limit = static::MOST_LIKED_COMMENTS_DEFAULT_LIMIT;
+            }
             $q = Doctrine_Manager::getInstance()->getCurrentConnection();
             $result = $q->execute(
                 "SELECT share_id, COUNT( share_id ) AS no_of_comments
                 FROM ohrm_buzz_comment
                 GROUP BY share_id
                 ORDER BY no_of_comments DESC 
-                LIMIT " . $shareCount
+                LIMIT " . $limit
             );
             return $result->fetchAll();
             // @codeCoverageIgnoreStart
@@ -331,17 +341,16 @@ class BuzzDao extends BaseDao {
      */
     public function getMoreEmployeeSharesByEmployeeNumber($limit, $fromId, $employeeNumber) {
         try {
-            if (!$employeeNumber) {
-                $queryBlock = 'employee_number is NULL';
-            } else {
-                $queryBlock = 'employee_number=' . $employeeNumber;
-            }
             $q = Doctrine_Query::create()
                 ->select('*')
                 ->from('Share')
-                ->andWhere('id < ?', $fromId)
-                ->andWhere($queryBlock)
-                ->limit($limit)
+                ->andWhere('id < ?', $fromId);
+            if (!$employeeNumber) {
+                $q->addWhere('employee_number is NULL');
+            } else {
+                $q->addWhere('employee_number = ?', $employeeNumber);
+            }
+            $q->limit($limit)
                 ->orderBy('share_time DESC');
             return $q->execute();
 
@@ -733,7 +742,7 @@ class BuzzDao extends BaseDao {
         try {
             $q = Doctrine_Query::create()
                 ->delete('Comment')
-                ->where('id =' . $comment->getId());
+                ->where('id = ?', $comment->getId());
             return $q->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {

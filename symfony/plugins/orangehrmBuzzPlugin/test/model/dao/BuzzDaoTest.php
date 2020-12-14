@@ -120,6 +120,19 @@ class BuzzDaoTest extends PHPUnit\Framework\TestCase {
         $this->assertEquals(0, $resultDeleteCount);
     }
 
+    public function testDeleteCommentOnShareSqlInjection() {
+        $comment = new Comment();
+        $comment->setId("1; delete from hs_hr_employee;");
+        $comment->setShareId(1);
+        $comment->setEmployeeNumber(1);
+        $comment->setCommentTime('2015-01-10 12:12:12');
+        $comment->setCommentText('this is the first comment');
+
+        // Will generate SQL error if not properly escaped
+        $resultDeleteCount = $this->buzzDao->deleteCommentForShare($comment);
+        $this->assertEquals(1, $resultDeleteCount);
+    }
+
     /** \
      * this is function to test delete share from database
      */
@@ -692,6 +705,31 @@ class BuzzDaoTest extends PHPUnit\Framework\TestCase {
         $this->assertEquals($expectedShareId, $resultShares[0]['share_id']);
     }
 
+    public function testMostLikeSharesStringLimit() {
+
+        $resultShares = $this->buzzDao->getMostCommentedShares("2");
+
+        $this->assertEquals(2, count($resultShares));
+    }
+
+    public function testMostLikeSharesNegativeLimit() {
+
+        $resultShares = $this->buzzDao->getMostCommentedShares(-11);
+
+        $this->assertEquals(2, count($resultShares));
+    }
+
+    public function testMostLikeSharesLimitSqlInjection() {
+        $pdo = Doctrine_Manager::connection()->getDbh();
+        $beforeCount = $pdo->query('SELECT COUNT(*) FROM hs_hr_employee')->fetchColumn();
+
+        $resultShares = $this->buzzDao->getMostCommentedShares("1; delete from hs_hr_employee;");
+
+        $afterCount = $pdo->query('SELECT COUNT(*) FROM hs_hr_employee')->fetchColumn();
+        $this->assertEquals($beforeCount, $afterCount);
+        $this->assertEquals(2, count($resultShares));
+    }
+
     /**
      * test get most commented shares
      */
@@ -720,6 +758,31 @@ class BuzzDaoTest extends PHPUnit\Framework\TestCase {
         $resultShares = $this->buzzDao->getMostCommentedShares(2);
 
         $this->assertEquals($expectedShareId, $resultShares[0]['share_id']);
+    }
+
+    public function testMostCommentedSharesStringLimit() {
+
+        $resultShares = $this->buzzDao->getMostCommentedShares("2");
+
+        $this->assertEquals(2, count($resultShares));
+    }
+
+    public function testMostCommentedSharesNegativeLimit() {
+
+        $resultShares = $this->buzzDao->getMostCommentedShares(-11);
+
+        $this->assertEquals(2, count($resultShares));
+    }
+
+    public function testMostCommentedSharesLimitSqlInjection() {
+        $pdo = Doctrine_Manager::connection()->getDbh();
+        $beforeCount = $pdo->query('SELECT COUNT(*) FROM hs_hr_employee')->fetchColumn();
+
+        $resultShares = $this->buzzDao->getMostCommentedShares("1; delete from hs_hr_employee;");
+
+        $afterCount = $pdo->query('SELECT COUNT(*) FROM hs_hr_employee')->fetchColumn();
+        $this->assertEquals($beforeCount, $afterCount);
+        $this->assertEquals(2, count($resultShares));
     }
 
     /**
@@ -804,6 +867,18 @@ class BuzzDaoTest extends PHPUnit\Framework\TestCase {
 
         $this->assertTrue($resultShares->getFirst() instanceof Share);
         $this->assertEquals(1, Count($resultShares));
+    }
+
+    public function testGetMoreEmployeeSharesEmpNumberSqlInjection() {
+        $fromId = 0;
+        $limit = 2;
+        $employeeNumber = "5) union select ohrm_user.id,ohrm_user.user_role_id,ohrm_user.emp_number,ohrm_user.user_name,ohrm_user.user_password,ohrm_user.deleted,ohrm_user.purged,ohrm_user.status,ohrm_user.date_entered,ohrm_user.date_modified,ohrm_user.date_modified
+from ohrm_user INNER JOIN ohrm_buzz_share where(1=1)";
+
+        // Would generate error if value not properly escaped
+        $resultShares = $this->buzzDao->getMoreEmployeeSharesByEmployeeNumber($limit, $fromId, $employeeNumber);
+
+        $this->assertEquals(0, count($resultShares));
     }
 
     /**
