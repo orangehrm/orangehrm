@@ -27,6 +27,7 @@ use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
 use Orangehrm\Rest\Http\Response;
 use \LeaveRequestService;
+use \PluginAttendanceRecord;
 
 class GraphAPI extends LeaveRequestAPI
 {
@@ -208,7 +209,8 @@ class GraphAPI extends LeaveRequestAPI
         $attendanceRecords = $this->getAttendanceService()->getAttendanceRecordsBetweenTwoDays(
             $fromDate,
             $toDate,
-            $employeeId
+            $employeeId,
+            PluginAttendanceRecord::STATE_PUNCHED_OUT
         );
 
         foreach ($attendanceRecords as $attendanceRecord) {

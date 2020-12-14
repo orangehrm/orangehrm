@@ -86,7 +86,7 @@ class AttendanceAPI extends PunchTimeAPI
 
     public function getWorkHours($fromDate, $toDate, $employeeId)
     {
-        $leaveRecordsArray=$this->getAttendanceService()->getAttendanceRecordsBetweenTwoDays($fromDate, $toDate, $employeeId);
+        $leaveRecordsArray=$this->getAttendanceService()->getAttendanceRecordsBetweenTwoDays($fromDate, $toDate, $employeeId,'ALL');
         $result=[];
         foreach ($leaveRecordsArray as $leaveRecord){
             array_push($result,(new UserAttendanceModel($leaveRecord))->toArray());

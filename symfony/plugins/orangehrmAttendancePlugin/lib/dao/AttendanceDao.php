@@ -522,7 +522,7 @@ class AttendanceDao {
      * @return array|bool|Doctrine_Record|float|int|mixed|string|null
      * @throws DaoException
      */
-    public function getLatestPunchInRecord(int $employeeId, string $state)
+    public function getLatestPunchInRecord(int $employeeId, $state)
     {
         if($state == PluginAttendanceRecord::STATE_PUNCHED_IN) {
            try {
@@ -549,17 +549,17 @@ class AttendanceDao {
         }
     }
 
-    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId){
+    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,string $state){
         try {
-
-
             $query = Doctrine_Query::create()
                 ->from("attendanceRecord")
                 ->where("employeeId = ?", $employeeId)
                 ->andWhere('punchInUserTime > ?', $fromDate)
                 ->andWhere('punchInUserTime < ?', $toDate)
-                ->andWhere("state = ?", PluginAttendanceRecord::STATE_PUNCHED_OUT)
                 ->orderBy('punchInUtcTime');
+            if($state!='ALL'){
+                $query->andWhere("state = ?", $state);
+            }
             return $query->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
