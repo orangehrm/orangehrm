@@ -293,9 +293,9 @@ class AttendanceService {
         );
     }
 
-    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId)
+    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,string $state)
     {
-        return $this->getAttendanceDao()->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId);
+        return $this->getAttendanceDao()->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
     }
 }
 

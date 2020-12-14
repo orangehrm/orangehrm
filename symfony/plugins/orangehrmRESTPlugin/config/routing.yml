@@ -156,19 +156,19 @@ api_attendance_employee_status:
     sf_method: [get]
 
 api_attendance_attendance:
-  url: /api/v1/attendance-period
+  url: /api/v1/attendance/records
   param: { module:apiv1user, action:AttendanceApi }
   requirements:
     sf_method: [get]
 
 api_attendance_leave:
-  url: /api/v1/leave-period
+  url: /api/v1/leave/leaves
   param: { module:apiv1user, action:LeaveApi }
   requirements:
     sf_method: [get]
 
 api_attendance_graph:
-  url: /api/v1/graph
+  url: /api/v1/attendance/summary
   param: { module:apiv1user, action:GraphApi }
   requirements:
     sf_method: [get]
