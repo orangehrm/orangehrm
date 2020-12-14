@@ -159,6 +159,8 @@ abstract class baseRestAction extends baseOAuthAction {
                 case 'DELETE':
                     $response->setContent($this->handleDeleteRequest($httpRequest)->format());
                     break;
+                default:
+                    throw new NotImplementedException();
             }
 
         } catch (RecordNotFoundException $e){

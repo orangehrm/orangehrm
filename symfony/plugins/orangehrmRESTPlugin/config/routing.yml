@@ -251,37 +251,37 @@ api_mobile_myinfo:
 
 api_leave_myleave_entitlement:
   url: /api/v1/leave/my-leave-entitlement
-  param: { module:apiv1user, action:MyLeaveEntitlementApi }
+  param: { module:apiv1userLeave, action:MyLeaveEntitlementApi }
   requirements:
     sf_method: [get]
 
 api_leave_myleave_request:
   url: /api/v1/leave/my-leave-request
-  param: { module:apiv1user, action:MyLeaveRequestApi }
+  param: { module:apiv1userLeave, action:MyLeaveRequestApi }
   requirements:
     sf_method: [get,post]
 
 api_leave_leavelist:
   url: /api/v1/leave/leave-list
-  param: { module:apiv1user, action:LeaveListApi }
+  param: { module:apiv1userLeave, action:LeaveListApi }
   requirements:
     sf_method: [get]
 
 api_leave_leave_request:
   url: /api/v1/leave/leave-request/:id
-  param: { module:apiv1user, action:EmployeeLeaveRequestApi }
+  param: { module:apiv1userLeave, action:EmployeeLeaveRequestApi }
   requirements:
     sf_method: [get,post]
 
 api_leave_subordinate_leave_entitlement:
   url: /api/v1/subordinate/:id/leave-entitlement
-  param: { module:apiv1user, action:SubordinateLeaveEntitlementApi }
+  param: { module:apiv1userLeave, action:SubordinateLeaveEntitlementApi }
   requirements:
     sf_method: [get]
 
 api_leave_subordinate_leave_request:
   url: /api/v1/subordinate/:id/leave-request
-  param: { module:apiv1user, action:SubordinateLeaveRequestApi }
+  param: { module:apiv1userLeave, action:SubordinateLeaveRequestApi }
   requirements:
     sf_method: [post]
 
@@ -299,13 +299,13 @@ api_public_api_definition:
 
 api_leave_config_holidays:
   url: /api/v1/leave/holidays
-  param: { module:apiv1user, action:HolidaysApi }
+  param: { module:apiv1userLeave, action:HolidaysApi }
   requirements:
     sf_method: [get]
 
 api_leave_config_leave_periods:
   url: /api/v1/leave/leave-periods
-  param: { module:apiv1user, action:LeavePeriodsApi }
+  param: { module:apiv1userLeave, action:LeavePeriodsApi }
   requirements:
     sf_method: [get]
 
@@ -317,13 +317,13 @@ api_leave_config_work_shift:
 
 api_leave_config_work_week:
   url: /api/v1/leave/work-week
-  param: { module:apiv1user, action:WorkWeekApi }
+  param: { module:apiv1userLeave, action:WorkWeekApi }
   requirements:
     sf_method: [get]
 
 api_leave_config_types:
   url: /api/v1/leave/leave-types
-  param: { module:apiv1user, action: LeaveTypesApi }
+  param: { module:apiv1userLeave, action: LeaveTypesApi }
   requirements:
     sf_method: [get]
 

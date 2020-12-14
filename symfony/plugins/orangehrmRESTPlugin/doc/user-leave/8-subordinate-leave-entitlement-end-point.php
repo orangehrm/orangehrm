@@ -2,7 +2,7 @@
 /**
  * @api {get} /subordinate/:id/leave-entitlement 08.Get Subordinate Leave Entitlements
  * @apiName subordinateLeaveEntitlements
- * @apiGroup User
+ * @apiGroup User-Leave
  * @apiVersion 1.1.0
  * @apiUse UserDescription
  *

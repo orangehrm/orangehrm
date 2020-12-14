@@ -2,7 +2,7 @@
 /**
  * @api {get} /leave/leave-request/:id 06.Get Leave Request
  * @apiName getLeaveRequestById
- * @apiGroup User
+ * @apiGroup User-Leave
  * @apiVersion 1.1.0
  * @apiUse UserDescription
  *

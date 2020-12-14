@@ -2,7 +2,7 @@
 /**
  * @api {post} /leave/my-leave-request 04.Save My Leave Request (Multiple Day)
  * @apiName saveMyLeaveRequestMultipleDay
- * @apiGroup User
+ * @apiGroup User-Leave
  * @apiVersion 1.1.0
  * @apiUse UserDescription
  *
