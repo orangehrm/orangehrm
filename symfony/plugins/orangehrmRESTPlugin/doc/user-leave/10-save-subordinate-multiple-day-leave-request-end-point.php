@@ -2,7 +2,7 @@
 /**
  * @api {post} /subordinate/:id/leave-request 10.Save Subordinate Leave Request (Multiple Day)
  * @apiName saveSubordinateLeaveRequestMultipleDay
- * @apiGroup User
+ * @apiGroup User-Leave
  * @apiVersion 1.1.0
  * @apiUse UserDescription
  *

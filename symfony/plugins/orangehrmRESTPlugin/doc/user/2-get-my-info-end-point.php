@@ -1,6 +1,6 @@
 <?php
 /**
- * @api {get} /myinfo 12.Employee Info
+ * @api {get} /myinfo 02.Employee Info
  * @apiName getMyInfo
  * @apiGroup User
  * @apiVersion 1.1.0

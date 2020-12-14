@@ -2,7 +2,7 @@
 /**
  * @api {get} /leave/my-leave-entitlement 01.Get My Leave Entitlements
  * @apiName myLeaveEntitlements
- * @apiGroup User
+ * @apiGroup User-Leave
  * @apiVersion 1.1.0
  * @apiUse UserDescription
  *
