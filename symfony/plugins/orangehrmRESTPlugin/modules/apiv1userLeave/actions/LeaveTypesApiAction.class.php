@@ -39,6 +39,13 @@ class LeaveTypesApiAction extends BaseUserApiAction
      *     path="/leave/leave-types",
      *     summary="Get Leave Types",
      *     tags={"Leave","User"},
+     *     @OA\Parameter(
+     *         name="all",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Get all leave types. Only allowed to perform supervisors and admins",
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",

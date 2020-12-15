@@ -55,6 +55,13 @@ class MyLeaveEntitlementApiAction extends BaseUserApiAction
      *         description="Valid leave period to date",
      *     ),
      *     @OA\Parameter(
+     *         name="deletedLeaveTypes",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="With deleted leave types",
+     *     ),
+     *     @OA\Parameter(
      *         name="balanceAsAtDate",
      *         in="query",
      *         required=false,

@@ -63,6 +63,13 @@ class MyLeaveRequestApiAction extends BaseUserApiAction
      *         description="To date",
      *     ),
      *     @OA\Parameter(
+     *         name="leaveTypeId",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="number"),
+     *         description="Leave type id",
+     *     ),
+     *     @OA\Parameter(
      *         name="page",
      *         in="query",
      *         required=false,
