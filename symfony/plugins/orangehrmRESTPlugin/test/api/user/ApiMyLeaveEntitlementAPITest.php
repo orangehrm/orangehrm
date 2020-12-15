@@ -19,7 +19,7 @@
 
 use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
-use Orangehrm\Rest\Api\User\MyLeaveEntitlementAPI;
+use Orangehrm\Rest\Api\User\Leave\MyLeaveEntitlementAPI;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 
@@ -63,7 +63,7 @@ class ApiMyLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
         $searchParameters->setFromDate('2019-04-20');
         $searchParameters->setToDate('2020-04-20');
 
-        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\MyLeaveEntitlementAPI')
+        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\MyLeaveEntitlementAPI')
             ->setMethods(array('getEntitlementSearchParams'))
             ->setConstructorArgs(array($request))
             ->getMock();
@@ -135,7 +135,7 @@ class ApiMyLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
             ]
         ];
 
-        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\MyLeaveEntitlementAPI')
+        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\MyLeaveEntitlementAPI')
             ->setMethods(['getMyLeaveEntitlement', 'getMyLeaveRequests', 'getFilters'])
             ->setConstructorArgs(array($request))
             ->getMock();

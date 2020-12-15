@@ -40,7 +40,7 @@ class ApiAssignLeaveRequestAPITest extends PHPUnit\Framework\TestCase
 
     public function testSaveLeaveRequest()
     {
-        $assignLeaveRequestAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\AssignLeaveRequestAPI')
+        $assignLeaveRequestAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\AssignLeaveRequestAPI')
             ->setMethods(['filterParameters', 'validateLeaveType', 'isValidToDate'])
             ->setConstructorArgs([$this->request])
             ->getMock();
@@ -70,7 +70,7 @@ class ApiAssignLeaveRequestAPITest extends PHPUnit\Framework\TestCase
 
     public function testSaveLeaveRequestSaveFailed()
     {
-        $assignLeaveRequestAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\AssignLeaveRequestAPI')
+        $assignLeaveRequestAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\AssignLeaveRequestAPI')
             ->setMethods(['filterParameters', 'validateLeaveType', 'isValidToDate'])
             ->setConstructorArgs([$this->request])
             ->getMock();
@@ -91,7 +91,7 @@ class ApiAssignLeaveRequestAPITest extends PHPUnit\Framework\TestCase
     public function testSaveLeaveRequestAllocationException()
     {
         $this->expectException(BadRequestException::class);
-        $assignLeaveRequestAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\AssignLeaveRequestAPI')
+        $assignLeaveRequestAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\AssignLeaveRequestAPI')
             ->setMethods(['filterParameters', 'validateLeaveType', 'isValidToDate'])
             ->setConstructorArgs([$this->request])
             ->getMock();

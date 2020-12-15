@@ -18,7 +18,7 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\User\SubordinateLeaveEntitlementAPI;
+use Orangehrm\Rest\Api\User\Leave\SubordinateLeaveEntitlementAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
 class SubordinateLeaveEntitlementApiAction extends BaseUserApiAction

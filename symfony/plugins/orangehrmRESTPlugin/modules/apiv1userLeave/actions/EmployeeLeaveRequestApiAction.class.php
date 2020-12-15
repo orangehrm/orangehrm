@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Api\User\EmployeeLeaveRequestAPI;
+use Orangehrm\Rest\Api\User\Leave\EmployeeLeaveRequestAPI;
 use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
 use Orangehrm\Rest\Http\Request;
 

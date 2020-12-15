@@ -18,7 +18,7 @@
  */
 
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
-use Orangehrm\Rest\Api\User\Model\LeaveRequestModel;
+use Orangehrm\Rest\Api\User\Leave\Model\LeaveRequestModel;
 
 /**
  * @group API

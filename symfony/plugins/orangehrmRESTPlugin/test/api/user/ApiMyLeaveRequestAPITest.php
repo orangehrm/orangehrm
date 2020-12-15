@@ -18,7 +18,7 @@
  */
 
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
-use Orangehrm\Rest\Api\User\MyLeaveRequestAPI;
+use Orangehrm\Rest\Api\User\Leave\MyLeaveRequestAPI;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 
@@ -54,7 +54,7 @@ class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
         $leaveRequestsCollection = new Doctrine_Collection('LeaveRequest');
         $leaveRequestsCollection[] = $leaveRequest;
 
-        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\MyLeaveRequestAPI')
+        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\MyLeaveRequestAPI')
             ->setMethods(array('createLeaveRequestEntity'))
             ->setConstructorArgs(array($request))
             ->getMock();
@@ -103,7 +103,7 @@ class ApiMyLeaveRequestAPITest extends PHPUnit\Framework\TestCase
             ]
         ];
 
-        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\MyLeaveRequestAPI')
+        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\MyLeaveRequestAPI')
             ->setMethods(['getMyLeaveEntitlement', 'getMyLeaveRequests', 'getFilters'])
             ->setConstructorArgs(array($request))
             ->getMock();

@@ -18,8 +18,8 @@
  */
 
 use Orangehrm\Rest\Api\Leave\SaveLeaveRequestAPI;
-use Orangehrm\Rest\Api\User\ApplyLeaveRequestAPI;
-use Orangehrm\Rest\Api\User\MyLeaveRequestAPI;
+use Orangehrm\Rest\Api\User\Leave\ApplyLeaveRequestAPI;
+use Orangehrm\Rest\Api\User\Leave\MyLeaveRequestAPI;
 use Orangehrm\Rest\Http\Request;
 
 class MyLeaveRequestApiAction extends BaseUserApiAction

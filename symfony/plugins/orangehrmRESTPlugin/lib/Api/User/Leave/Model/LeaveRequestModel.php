@@ -17,34 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\User\Model;
+namespace Orangehrm\Rest\Api\User\Leave\Model;
 
-use LeaveType;
 use Orangehrm\Rest\Api\Entity\Serializable;
+use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Model\ModelTrait;
 
-class LeaveTypeModel implements Serializable
+class LeaveRequestModel implements Serializable
 {
     use ModelTrait;
 
-    public function __construct(LeaveType $leaveType)
+    public function __construct(LeaveRequest $leaveRequest)
     {
-        $this->setEntity($leaveType);
-        $this->setFilters(
-            [
-                'id',
-                'name',
-                'deleted',
-                'excludeInReportsIfNoEntitlement',
-            ]
-        );
-        $this->setAttributeNames(
-            [
-                'id',
-                'type',
-                'deleted',
-                'situational',
-            ]
-        );
+        $this->setEntity($leaveRequest);
+        $this->setFilters([
+            'id',
+            'fromDate',
+            'toDate',
+            'appliedDate',
+            'leaveType',
+            'leaveBalance',
+            'numberOfDays',
+            'comments',
+            'days',
+            'leaveBreakdown'
+        ]);
     }
 }

@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\User;
+namespace Orangehrm\Rest\Api\User\Leave;
 
 use DaoException;
 use EmployeeService;
@@ -32,8 +32,8 @@ use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
 use Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveBalance;
-use Orangehrm\Rest\Api\User\Model\LeaveEntitlementModel;
-use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
+use Orangehrm\Rest\Api\User\Leave\Model\LeaveEntitlementModel;
+use Orangehrm\Rest\Api\User\Leave\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 
 class MyLeaveEntitlementAPI extends EndPoint

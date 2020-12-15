@@ -17,13 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\User;
+namespace Orangehrm\Rest\Api\User\Leave;
 
 use BasicUserRoleManager;
 use DaoException;
 use LeaveEntitlementSearchParameterHolder;
 use LeaveEntitlementService;
-use LeavePeriodDao;
 use LeavePeriodService;
 use LeaveTypeService;
 use Orangehrm\Rest\Api\EndPoint;
@@ -32,10 +31,9 @@ use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveBalance;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
-use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 use Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI;
-use Orangehrm\Rest\Api\User\Model\LeaveEntitlementModel;
-use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
+use Orangehrm\Rest\Api\User\Leave\Model\LeaveEntitlementModel;
+use Orangehrm\Rest\Api\User\Leave\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 use UserRoleManagerFactory;
 

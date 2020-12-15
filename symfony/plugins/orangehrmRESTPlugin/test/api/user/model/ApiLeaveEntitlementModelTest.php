@@ -18,7 +18,7 @@
  */
 
 use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
-use Orangehrm\Rest\Api\User\Model\LeaveEntitlementModel;
+use Orangehrm\Rest\Api\User\Leave\Model\LeaveEntitlementModel;
 
 /**
  * @group API

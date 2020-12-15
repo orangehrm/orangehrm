@@ -32,7 +32,7 @@ class ApiEmployeeLeaveRequestAPITest extends PHPUnit\Framework\TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $employeeLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeeLeaveRequestAPI')
+        $employeeLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\EmployeeLeaveRequestAPI')
             ->setMethods(['getUserAttribute', 'getAccessibleEmployeeIds', 'filterChangeLeaveRequestStatusParameters'])
             ->setConstructorArgs([$request])
             ->getMock();
@@ -84,7 +84,7 @@ class ApiEmployeeLeaveRequestAPITest extends PHPUnit\Framework\TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $employeeLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeeLeaveRequestAPI')
+        $employeeLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\EmployeeLeaveRequestAPI')
             ->setMethods(['getUserAttribute', 'filterCommentActionParameters', 'getCommentPermissions'])
             ->setConstructorArgs([$request])
             ->getMock();

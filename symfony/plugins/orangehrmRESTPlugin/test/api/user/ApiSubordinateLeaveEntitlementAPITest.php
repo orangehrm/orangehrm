@@ -61,7 +61,7 @@ class ApiSubordinateLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
         $searchParameters->setFromDate('2019-04-20');
         $searchParameters->setToDate('2020-04-20');
 
-        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\SubordinateLeaveEntitlementAPI')
+        $myLeaveRequestApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\SubordinateLeaveEntitlementAPI')
             ->setMethods(['getEntitlementSearchParams'])
             ->setConstructorArgs([$request])
             ->getMock();
@@ -127,7 +127,7 @@ class ApiSubordinateLeaveEntitlementAPITest extends PHPUnit\Framework\TestCase
         $request = new Request($sfRequest);
 
         $subordinateLeaveEntitlementAPI = $this->getMockBuilder(
-            'Orangehrm\Rest\Api\User\SubordinateLeaveEntitlementAPI'
+            'Orangehrm\Rest\Api\User\Leave\SubordinateLeaveEntitlementAPI'
         )
             ->setMethods(['getAccessibleEmpNumbers'])
             ->setConstructorArgs([$request])

@@ -20,7 +20,7 @@
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Leave\SaveLeaveRequestAPI;
-use Orangehrm\Rest\Api\User\AssignLeaveRequestAPI;
+use Orangehrm\Rest\Api\User\Leave\AssignLeaveRequestAPI;
 use Orangehrm\Rest\Http\Request;
 
 class SubordinateLeaveRequestApiAction extends BaseUserApiAction

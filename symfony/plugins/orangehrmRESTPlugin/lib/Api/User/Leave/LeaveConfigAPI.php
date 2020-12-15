@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\User;
+namespace Orangehrm\Rest\Api\User\Leave;
 
 use AuthorizeService;
 use BasicUserRoleManager;
@@ -30,7 +30,7 @@ use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
+use Orangehrm\Rest\Api\User\Leave\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 use sfContext;
 use UserRoleManagerFactory;

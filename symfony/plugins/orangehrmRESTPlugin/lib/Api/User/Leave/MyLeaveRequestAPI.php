@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\User;
+namespace Orangehrm\Rest\Api\User\Leave;
 
 use DateRange;
 use EmployeeService;
@@ -27,9 +27,8 @@ use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
-use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
-use Orangehrm\Rest\Api\User\Model\LeaveRequestModel;
-use Orangehrm\Rest\Api\User\Model\LeaveTypeModel;
+use Orangehrm\Rest\Api\User\Leave\Model\LeaveRequestModel;
+use Orangehrm\Rest\Api\User\Leave\Model\LeaveTypeModel;
 use Orangehrm\Rest\Http\Response;
 use ParameterObject;
 

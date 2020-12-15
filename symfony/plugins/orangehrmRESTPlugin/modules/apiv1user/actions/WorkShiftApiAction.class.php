@@ -18,7 +18,7 @@
  */
 
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\User\LeaveConfigAPI;
+use Orangehrm\Rest\Api\User\Leave\LeaveConfigAPI;
 use Orangehrm\Rest\Http\Request;
 
 class WorkShiftApiAction extends BaseUserApiAction
