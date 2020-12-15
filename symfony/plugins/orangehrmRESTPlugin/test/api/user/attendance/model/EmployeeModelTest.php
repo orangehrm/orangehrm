@@ -17,34 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\User\Model;
+use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
+use Orangehrm\Rest\Api\User\Attendance\Model\EmployeeModel;
+use Orangehrm\Rest\Api\User\Model\LeaveEntitlementModel;
 
-use LeaveType;
-use Orangehrm\Rest\Api\Entity\Serializable;
-use Orangehrm\Rest\Api\Model\ModelTrait;
-
-class LeaveTypeModel implements Serializable
+/**
+ * @group API
+ */
+class EmployeeModelTest extends PHPUnit\Framework\TestCase
 {
-    use ModelTrait;
-
-    public function __construct(LeaveType $leaveType)
+    public function testToArray()
     {
-        $this->setEntity($leaveType);
-        $this->setFilters(
-            [
-                'id',
-                'name',
-                'deleted',
-                'excludeInReportsIfNoEntitlement',
-            ]
-        );
-        $this->setAttributeNames(
-            [
-                'id',
-                'type',
-                'deleted',
-                'situational',
-            ]
-        );
+        $testArray = [
+            'employeeId' => '1',
+            'employeeName' => 'Test Employee',
+        ];
+
+        $employee = new Employee();
+        $employee->setEmpNumber(1);
+        $employee->setFirstName("Test");
+        $employee->setLastName("Employee");
+
+        $employeeModel = new EmployeeModel($employee);
+
+        $this->assertEquals($testArray, $employeeModel->toArray());
     }
 }

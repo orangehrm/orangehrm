@@ -297,5 +297,17 @@ class AttendanceService {
     {
         return $this->getAttendanceDao()->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
     }
+
+    /**
+     * @param $empNumbers
+     * @param null $dateFrom
+     * @param null $dateTo
+     * @return array|Doctrine_Collection
+     * @throws DaoException
+     */
+    public function getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom = null, $dateTo = null)
+    {
+        return $this->getAttendanceDao()->getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom, $dateTo);
+    }
 }
 

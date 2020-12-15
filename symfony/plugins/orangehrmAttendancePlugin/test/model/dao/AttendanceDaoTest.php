@@ -289,4 +289,27 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($attendanceRecord);
     }
 
+    /**
+     * @dataProvider dataProviderGetAttendanceRecordsByEmpNumbers
+     * @param $empNumbers
+     * @param $expectedCount
+     * @param null $dateFrom
+     * @param null $dateTo
+     * @throws DaoException
+     */
+    public function testGetAttendanceRecordsByEmpNumbers($empNumbers,$expectedCount,$dateFrom = null, $dateTo = null) {
+        $attendanceRecords = $this->attendanceDao->getAttendanceRecordsByEmpNumbers($empNumbers,$dateFrom,$dateTo);
+        $this->assertEquals($expectedCount, count($attendanceRecords));
+    }
+
+    /**
+     * @return Generator
+     */
+    public function dataProviderGetAttendanceRecordsByEmpNumbers() {
+        yield [2, 1];
+        yield [[2], 1];
+        yield [[2,5], 8];
+        yield [[2,5], 2, '2011-05-26','2011-12-12'];
+        yield [[2,5], 3, '2011-04-20','2011-12-12'];
+    }
 }

@@ -95,9 +95,12 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/user/service/APILeaveApplicationServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/user/service/APILeaveAssignmentServiceTest.php');
 
+        // Api/User/Attendance
         $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiEmployeePunchInAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiEmployeePunchOutAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiEmployeePunchStatusAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/attendance/model/EmployeeModelTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/attendance/ApiAttendanceListAPITest.php');
 
         // Api/PublicApi
         $suite->addTestFile(dirname(__FILE__) . '/api/publicApi/ApiDefinitionAPITest.php');

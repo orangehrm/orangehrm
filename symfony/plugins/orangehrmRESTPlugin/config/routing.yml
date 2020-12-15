@@ -332,3 +332,9 @@ api_enabled_modules:
   param: { module:apiv1public, action: EnabledModulesApi }
   requirements:
     sf_method: [get]
+
+api_attendance_attendancelist:
+  url: /api/v1/attendance/attendance-list
+  param: { module:apiv1userAttendance, action: AttendanceListApi }
+  requirements:
+    sf_method: [get]

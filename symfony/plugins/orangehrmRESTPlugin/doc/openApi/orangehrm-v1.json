@@ -41,120 +41,6 @@
         }
     ],
     "paths": {
-        "/leave/leave-request/{id}": {
-            "get": {
-                "tags": [
-                    "Leave",
-                    "User"
-                ],
-                "summary": "Get Leave Request",
-                "operationId": "EmployeeLeaveRequestApiAction::handleGetRequest",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Leave request id",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/LeaveRequest"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "No Bound User",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NoBoundUserError"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No Records Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RecordNotFoundException"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Leave",
-                    "User"
-                ],
-                "summary": "Change Leave Request Status",
-                "operationId": "EmployeeLeaveRequestApiAction::handlePostRequest",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Leave request id",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ChangeLeaveRequestStatusRequestBody"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SuccessfullySaved"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "No Bound User",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NoBoundUserError"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No Records Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RecordNotFoundException"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/attendance/punch-in": {
             "post": {
                 "tags": [
@@ -345,6 +231,295 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Employees"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/myinfo": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Employee Info",
+                "operationId": "MyInfoApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "withPhoto",
+                        "in": "query",
+                        "description": "Specify whether with employee photo",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MyInfo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/work-shift": {
+            "get": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Get Employee Work Shift",
+                "operationId": "WorkShiftApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "empNumber",
+                        "in": "query",
+                        "description": "Employee number",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeeWorkShift"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attendance/attendance-list": {
+            "get": {
+                "tags": [
+                    "Attendance",
+                    "User"
+                ],
+                "summary": "Get Attendance List",
+                "operationId": "AttendanceListApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "description": "From date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "description": "To date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "empNumber",
+                        "in": "query",
+                        "description": "Employee number",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "pastEmployee",
+                        "in": "query",
+                        "description": "Include past employee results",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AttendanceList"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/leave-request/{id}": {
+            "get": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Get Leave Request",
+                "operationId": "EmployeeLeaveRequestApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Leave request id",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LeaveRequest"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Change Leave Request Status",
+                "operationId": "EmployeeLeaveRequestApiAction::handlePostRequest",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Leave request id",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangeLeaveRequestStatusRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessfullySaved"
                                 }
                             }
                         }
@@ -636,6 +811,17 @@
                 ],
                 "summary": "Get Leave Types",
                 "operationId": "LeaveTypesApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "all",
+                        "in": "query",
+                        "description": "Get all leave types. Only allowed to perform supervisors and admins",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -670,48 +856,6 @@
                 }
             }
         },
-        "/myinfo": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Employee Info",
-                "operationId": "MyInfoApiAction::handleGetRequest",
-                "parameters": [
-                    {
-                        "name": "withPhoto",
-                        "in": "query",
-                        "description": "Specify whether with employee photo",
-                        "required": false,
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MyInfo"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "No Bound User",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NoBoundUserError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/leave/my-leave-entitlement": {
             "get": {
                 "tags": [
@@ -737,6 +881,15 @@
                         "required": false,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "deletedLeaveTypes",
+                        "in": "query",
+                        "description": "With deleted leave types",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
                         }
                     },
                     {
@@ -817,6 +970,15 @@
                         "required": false,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "leaveTypeId",
+                        "in": "query",
+                        "description": "Leave type id",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
                         }
                     },
                     {
@@ -965,6 +1127,15 @@
                         }
                     },
                     {
+                        "name": "deletedLeaveTypes",
+                        "in": "query",
+                        "description": "With deleted leave types",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
                         "name": "combineLeaveTypes",
                         "in": "query",
                         "description": "Whether combine, not entitled leave types with leave balance.",
@@ -1095,59 +1266,6 @@
                 }
             }
         },
-        "/leave/work-shift": {
-            "get": {
-                "tags": [
-                    "Leave",
-                    "User"
-                ],
-                "summary": "Get Employee Work Shift",
-                "operationId": "WorkShiftApiAction::handleGetRequest",
-                "parameters": [
-                    {
-                        "name": "empNumber",
-                        "in": "query",
-                        "description": "Employee number",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EmployeeWorkShift"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "No Bound User",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NoBoundUserError"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No Records Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RecordNotFoundException"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/leave/work-week": {
             "get": {
                 "tags": [
@@ -1192,92 +1310,6 @@
     },
     "components": {
         "schemas": {
-            "LeaveRequest": {
-                "type": "object",
-                "example": {
-                    "data": {
-                        "employeeId": "4",
-                        "employeeName": "KevinMathews",
-                        "leaveRequestId": "8",
-                        "fromDate": "2020-07-16",
-                        "toDate": "2020-07-21",
-                        "appliedDate": "2020-07-16",
-                        "LeaveBalance": "10.00",
-                        "numberOfDays": "3.00",
-                        "comments": {
-                            "user": "KevinMathews",
-                            "date": "2020-06-25",
-                            "time": "17:23:03",
-                            "comment": "Comment"
-                        },
-                        "days": [
-                            {
-                                "date": "2020-07-20",
-                                "status": "SCHEDULED",
-                                "duration": "8.00",
-                                "durationString": "",
-                                "comments": []
-                            },
-                            {
-                                "date": "2020-07-19",
-                                "status": "WEEKEND",
-                                "duration": "0.00",
-                                "durationString": "",
-                                "comments": []
-                            },
-                            {
-                                "date": "2020-07-18",
-                                "status": "WEEKEND",
-                                "duration": "0.00",
-                                "durationString": "",
-                                "comments": []
-                            },
-                            {
-                                "date": "2020-07-17",
-                                "status": "SCHEDULED",
-                                "duration": "8.00",
-                                "durationString": "",
-                                "comments": []
-                            }
-                        ],
-                        "leaveBreakdown": "Scheduled(2.00)",
-                        "LeaveType": {
-                            "type": "Annual",
-                            "id": "2"
-                        },
-                        "allowedActions": [
-                            "Cancel"
-                        ]
-                    },
-                    "rels": []
-                }
-            },
-            "ChangeLeaveRequestStatusRequestBody": {
-                "properties": {
-                    "actionType": {
-                        "description": "Action type on leave request. Note : If actionType is 'changeStatus', status fields must be filled. If actionType is 'comment', comment fields must be filled",
-                        "type": "string",
-                        "enum": [
-                            "changeStatus",
-                            "comment"
-                        ]
-                    },
-                    "status": {
-                        "description": "Status to be changed",
-                        "type": "string",
-                        "enum": [
-                            "Approve",
-                            "Reject",
-                            "Cancel"
-                        ]
-                    },
-                    "comment": {
-                        "description": "Leave comment",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
             "EmployeePunchInRequestBody": {
                 "properties": {
                     "timezoneOffset": {
@@ -1373,6 +1405,176 @@
                     "rels": []
                 }
             },
+            "MyInfo": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "employee": {
+                            "firstName": "Nina",
+                            "middleName": "Jane",
+                            "lastName": "Lewis",
+                            "code": "0014",
+                            "id": "1",
+                            "fullName": "NinaJaneLewis",
+                            "status": "Active",
+                            "dob": "2016-05-04",
+                            "driversLicenseNumber": "444555124223",
+                            "licenseExpiryDate": "2017-02-09",
+                            "maritalStatus": "Married",
+                            "gender": "2",
+                            "otherId": "4646522",
+                            "nationality": "Armenian",
+                            "unit": "MarketingUnit",
+                            "jobTitle": "marketing"
+                        },
+                        "employeePhoto": "iVBORw0KGgoAAAANSUhEUgAAABwAAAASCAYAAABIB77kAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wMCgQvOUl1YygAAAJJSURBVDjLvZUxayJRFIW",
+                        "user": {
+                            "userName": "Nina",
+                            "userRole": "ESS",
+                            "isSupervisor": true,
+                            "isProjectAdmin": false,
+                            "isManager": false,
+                            "isDirector": false,
+                            "isAcceptor": false,
+                            "isOfferer": false,
+                            "isHiringManager": false,
+                            "isInterviewer": false
+                        }
+                    },
+                    "rels": []
+                }
+            },
+            "NoBoundUserError": {
+                "type": "object",
+                "example": {
+                    "error": [
+                        "No Bound User"
+                    ]
+                }
+            },
+            "EmployeeWorkShift": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "workShift": "8.00",
+                        "startTime": "09:00",
+                        "endTime": "17:00"
+                    },
+                    "rels": []
+                }
+            },
+            "AttendanceList": {
+                "type": "object",
+                "example": {
+                    "data": [
+                        {
+                            "employeeId": "1",
+                            "employeeName": "AbbeyKayla",
+                            "duration": "8:48"
+                        },
+                        {
+                            "employeeId": "7",
+                            "employeeName": "RachelMunguia",
+                            "duration": "8:02"
+                        }
+                    ],
+                    "rels": []
+                }
+            },
+            "EmployeeNotFoundException": {
+                "type": "object",
+                "example": {
+                    "error": [
+                        "Employee Not Found"
+                    ]
+                }
+            },
+            "LeaveRequest": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "employeeId": "4",
+                        "employeeName": "KevinMathews",
+                        "leaveRequestId": "8",
+                        "fromDate": "2020-07-16",
+                        "toDate": "2020-07-21",
+                        "appliedDate": "2020-07-16",
+                        "LeaveBalance": "10.00",
+                        "numberOfDays": "3.00",
+                        "comments": {
+                            "user": "KevinMathews",
+                            "date": "2020-06-25",
+                            "time": "17:23:03",
+                            "comment": "Comment"
+                        },
+                        "days": [
+                            {
+                                "date": "2020-07-20",
+                                "status": "SCHEDULED",
+                                "duration": "8.00",
+                                "durationString": "",
+                                "comments": []
+                            },
+                            {
+                                "date": "2020-07-19",
+                                "status": "WEEKEND",
+                                "duration": "0.00",
+                                "durationString": "",
+                                "comments": []
+                            },
+                            {
+                                "date": "2020-07-18",
+                                "status": "WEEKEND",
+                                "duration": "0.00",
+                                "durationString": "",
+                                "comments": []
+                            },
+                            {
+                                "date": "2020-07-17",
+                                "status": "SCHEDULED",
+                                "duration": "8.00",
+                                "durationString": "",
+                                "comments": []
+                            }
+                        ],
+                        "leaveBreakdown": "Scheduled(2.00)",
+                        "LeaveType": {
+                            "type": "Annual",
+                            "id": "2"
+                        },
+                        "allowedActions": [
+                            "Cancel"
+                        ]
+                    },
+                    "rels": []
+                }
+            },
+            "ChangeLeaveRequestStatusRequestBody": {
+                "properties": {
+                    "actionType": {
+                        "description": "Action type on leave request. Note : If actionType is 'changeStatus', status fields must be filled. If actionType is 'comment', comment fields must be filled",
+                        "type": "string",
+                        "enum": [
+                            "changeStatus",
+                            "comment"
+                        ]
+                    },
+                    "status": {
+                        "description": "Status to be changed",
+                        "type": "string",
+                        "enum": [
+                            "Approve",
+                            "Reject",
+                            "Cancel"
+                        ]
+                    },
+                    "comment": {
+                        "description": "Leave comment",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "LeaveHolidays": {
                 "type": "object",
                 "example": {
@@ -1463,53 +1665,6 @@
                         }
                     ],
                     "rels": []
-                }
-            },
-            "MyInfo": {
-                "type": "object",
-                "example": {
-                    "data": {
-                        "employee": {
-                            "firstName": "Nina",
-                            "middleName": "Jane",
-                            "lastName": "Lewis",
-                            "code": "0014",
-                            "id": "1",
-                            "fullName": "NinaJaneLewis",
-                            "status": "Active",
-                            "dob": "2016-05-04",
-                            "driversLicenseNumber": "444555124223",
-                            "licenseExpiryDate": "2017-02-09",
-                            "maritalStatus": "Married",
-                            "gender": "2",
-                            "otherId": "4646522",
-                            "nationality": "Armenian",
-                            "unit": "MarketingUnit",
-                            "jobTitle": "marketing"
-                        },
-                        "employeePhoto": "iVBORw0KGgoAAAANSUhEUgAAABwAAAASCAYAAABIB77kAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wMCgQvOUl1YygAAAJJSURBVDjLvZUxayJRFIW",
-                        "user": {
-                            "userName": "Nina",
-                            "userRole": "ESS",
-                            "isSupervisor": true,
-                            "isProjectAdmin": false,
-                            "isManager": false,
-                            "isDirector": false,
-                            "isAcceptor": false,
-                            "isOfferer": false,
-                            "isHiringManager": false,
-                            "isInterviewer": false
-                        }
-                    },
-                    "rels": []
-                }
-            },
-            "NoBoundUserError": {
-                "type": "object",
-                "example": {
-                    "error": [
-                        "No Bound User"
-                    ]
                 }
             },
             "LeaveEntitlements": {
@@ -1765,17 +1920,6 @@
                 "type": "object",
                 "example": {
                     "success": "Successfully Saved"
-                }
-            },
-            "EmployeeWorkShift": {
-                "type": "object",
-                "example": {
-                    "data": {
-                        "workShift": "8.00",
-                        "startTime": "09:00",
-                        "endTime": "17:00"
-                    },
-                    "rels": []
                 }
             },
             "WorkWeek": {

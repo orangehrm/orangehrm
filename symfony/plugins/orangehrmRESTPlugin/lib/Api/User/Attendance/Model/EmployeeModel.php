@@ -17,33 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\User\Model;
+namespace Orangehrm\Rest\Api\User\Attendance\Model;
 
-use LeaveType;
+use Employee;
 use Orangehrm\Rest\Api\Entity\Serializable;
 use Orangehrm\Rest\Api\Model\ModelTrait;
 
-class LeaveTypeModel implements Serializable
+class EmployeeModel implements Serializable
 {
     use ModelTrait;
 
-    public function __construct(LeaveType $leaveType)
+    public function __construct(Employee $employee)
     {
-        $this->setEntity($leaveType);
+        $this->setEntity($employee);
         $this->setFilters(
             [
-                'id',
-                'name',
-                'deleted',
-                'excludeInReportsIfNoEntitlement',
+                'empNumber',
+                'fullName',
             ]
         );
         $this->setAttributeNames(
             [
-                'id',
-                'type',
-                'deleted',
-                'situational',
+                'employeeId',
+                'employeeName',
             ]
         );
     }

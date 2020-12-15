@@ -1,0 +1,189 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
+namespace Orangehrm\Rest\Api\User\Attendance;
+
+use AttendanceRecord;
+use AttendanceService;
+use BasicUserRoleManager;
+use DaoException;
+use Orangehrm\Rest\Api\EndPoint;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
+use Orangehrm\Rest\Api\User\Attendance\Model\EmployeeModel;
+use Orangehrm\Rest\Http\Response;
+use ResourcePermission;
+use ServiceException;
+use UserRoleManagerFactory;
+
+class AttendanceListAPI extends EndPoint
+{
+    const PARAMETER_FROM_DATE = 'fromDate';
+    const PARAMETER_TO_DATE = 'toDate';
+    const PARAMETER_EMP_NUMBER = 'empNumber';
+    const PARAMETER_PAST_EMPLOYEE = 'pastEmployee';
+    const DURATION = 'duration';
+    /**
+     * @var null|AttendanceService
+     */
+    protected $attendanceService = null;
+
+    /**
+     * @return AttendanceService
+     */
+    public function getAttendanceService(): AttendanceService
+    {
+        if (is_null($this->attendanceService)) {
+            $this->attendanceService = new AttendanceService();
+        }
+        return $this->attendanceService;
+    }
+
+    /**
+     * @param AttendanceService $attendanceService
+     */
+    public function setAttendanceService(AttendanceService $attendanceService)
+    {
+        $this->attendanceService = $attendanceService;
+    }
+
+    /**
+     * @return Response
+     * @throws BadRequestException
+     * @throws DaoException
+     */
+    public function getAttendanceList(): Response
+    {
+        $params = $this->getParameters();
+        if (!empty($params[self::PARAMETER_EMP_NUMBER])) {
+            $empNumbers = $params[self::PARAMETER_EMP_NUMBER];
+        } else {
+            $empNumbers = $this->getAccessibleEmployeeIds($params[self::PARAMETER_PAST_EMPLOYEE]);
+        }
+        $records = $this->getAttendanceService()->getAttendanceRecordsByEmpNumbers(
+            $empNumbers,
+            $params[self::PARAMETER_FROM_DATE],
+            $params[self::PARAMETER_TO_DATE]
+        );
+
+        $employees = [];
+        foreach ($records as $record) {
+            if ($record instanceof AttendanceRecord) {
+                $empId = $record->getEmployeeId();
+                if (empty($employees[$empId])) {
+                    $employeeModel = new EmployeeModel($record->getEmployee());
+                    $employees[$empId] = array_merge(
+                        $employeeModel->toArray(),
+                        [self::DURATION => 0]
+                    );
+                }
+
+                if ($record->getPunchOutUtcTime() != null) {
+                    // assume saving records, punch in datetime early than punch out datetime
+                    $timeDiff = strtotime($record->getPunchOutUtcTime()) - strtotime($record->getPunchInUtcTime());
+                    $employees[$empId][self::DURATION] += $timeDiff;
+                }
+            }
+        }
+        foreach ($employees as $empId => $employee) {
+            $hours = (gmdate("d", $employee[self::DURATION]) - 1) * 24 + gmdate("H", $employee[self::DURATION]);
+            $mins = (gmdate("i", $employee[self::DURATION]));
+            $employees[$empId][self::DURATION] = $hours . ':' . $mins;
+        }
+
+        if (count($employees) == 0) {
+            throw new RecordNotFoundException('No Records Found');
+        }
+        return new Response(array_values($employees));
+    }
+
+    /**
+     * @param bool $withTerminated
+     * @return array
+     * @throws ServiceException
+     */
+    protected function getAccessibleEmployeeIds(bool $withTerminated = false): array
+    {
+        $properties = ["termination_id"];
+        $requiredPermissions = [
+            BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP => [
+                'attendance_records' => new ResourcePermission(
+                    true, false, false, false
+                )
+            ]
+        ];
+
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties(
+            'Employee',
+            $properties,
+            null,
+            null,
+            [],
+            [],
+            $requiredPermissions
+        );
+
+        if ($withTerminated) {
+            return array_keys($employeeList);
+        }
+        $empNumbers = [];
+        foreach ($employeeList as $empNumber => $employee) {
+            if (is_null($employee['termination_id'])) {
+                $empNumbers[] = $empNumber;
+            }
+        }
+        return $empNumbers;
+    }
+
+    /**
+     * @return array
+     * @throws BadRequestException
+     * @throws DaoException
+     */
+    public function getParameters(): array
+    {
+        $params = [];
+        $empNumber = $this->getRequestParams()->getQueryParam(self::PARAMETER_EMP_NUMBER);
+        $empNumbers = $this->getAccessibleEmployeeIds(true);
+        if (!empty($empNumber) && !in_array($empNumber, $empNumbers)) {
+            throw new BadRequestException('Employee Not Found');
+        }
+        $fromDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_FROM_DATE);
+        $toDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_TO_DATE);
+        $pastEmployee = $this->getRequestParams()->getQueryParam(self::PARAMETER_PAST_EMPLOYEE);
+
+        $params[self::PARAMETER_FROM_DATE] = $fromDate;
+        $params[self::PARAMETER_TO_DATE] = $toDate;
+        $params[self::PARAMETER_EMP_NUMBER] = $empNumber;
+        $params[self::PARAMETER_PAST_EMPLOYEE] = filter_var($pastEmployee, FILTER_VALIDATE_BOOLEAN);
+        return $params;
+    }
+
+    /**
+     * @return array
+     */
+    public function getValidationRules(): array
+    {
+        return [
+            self::PARAMETER_TO_DATE => ['Date' => ['Y-m-d']],
+            self::PARAMETER_FROM_DATE => ['Date' => ['Y-m-d']],
+            self::PARAMETER_EMP_NUMBER => ['Numeric' => true],
+        ];
+    }
+}

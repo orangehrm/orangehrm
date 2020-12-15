@@ -567,6 +567,41 @@ class AttendanceDao {
         }
         // @codeCoverageIgnoreEnd
     }
+
+    /**
+     * @param $empNumbers
+     * @param null $dateFrom
+     * @param null $dateTo
+     * @return array|Doctrine_Collection
+     * @throws DaoException
+     */
+    public function getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom = null, $dateTo = null)
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->from("AttendanceRecord a")
+                ->leftJoin("a.Employee e")
+                ->orderBy('e.firstName ASC');
+
+            if (is_array($empNumbers)) {
+                $q->andWhereIn("e.emp_number", $empNumbers);
+            } else {
+                $q->andWhere(" e.emp_number = ?", $empNumbers);
+            }
+
+            if ($dateFrom != null) {
+                $q->andWhere("a.punchInUserTime >=?", $dateFrom);
+            }
+
+            if ($dateTo != null) {
+                $q->andWhere("a.punchOutUserTime <=?", $dateTo);
+            }
+
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }
 
 
