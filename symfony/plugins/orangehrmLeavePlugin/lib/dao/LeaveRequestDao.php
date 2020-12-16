@@ -1018,7 +1018,7 @@ class LeaveRequestDao extends BaseDao {
     public function getLeaveRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,$statuses)
     {
         try {
-            $select = 'l.*, lt.name ';
+            $select = 'l.*, lt.* ';
             $query = Doctrine_Query::create()
                 ->select($select)
                 ->from("Leave l")
@@ -1031,6 +1031,7 @@ class LeaveRequestDao extends BaseDao {
             if(count($statuses)>0){
                 $query->whereIn("l.status", $statuses);
             }
+
             return $query->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {

@@ -30,7 +30,6 @@ class AttendanceEmployeeModel implements Serializable
     public function __construct(Employee $employee)
     {
         $this->setEntity($employee);
-//        $employee->getExcludeInReportsIfNoEntitlement();
         $this->setFilters(
             [
                 'empNumber',

@@ -139,37 +139,37 @@ api_attendance_punchout:
 
 api_attendance_employee_punchin:
   url: /api/v1/attendance/punch-in
-  param: { module:apiv1user, action:EmployeePunchInApi }
+  param: { module:apiv1userAttendance, action:EmployeePunchInApi }
   requirements:
     sf_method: [post]
 
 api_attendance_employee_punchout:
   url: /api/v1/attendance/punch-out
-  param: { module:apiv1user, action:EmployeePunchOutApi }
+  param: { module:apiv1userAttendance, action:EmployeePunchOutApi }
   requirements:
     sf_method: [post]
 
 api_attendance_employee_status:
   url: /api/v1/attendance/punch-status
-  param: { module:apiv1user, action:EmployeePunchStatusApi }
+  param: { module:apiv1userAttendance, action:EmployeePunchStatusApi }
   requirements:
     sf_method: [get]
 
 api_attendance_attendance:
   url: /api/v1/attendance/records
-  param: { module:apiv1user, action:AttendanceApi }
+  param: { module:apiv1userAttendance, action:AttendanceApi }
   requirements:
     sf_method: [get]
 
 api_attendance_leave:
   url: /api/v1/leave/leaves
-  param: { module:apiv1user, action:LeaveApi }
+  param: { module:apiv1userLeave, action:LeaveApi }
   requirements:
     sf_method: [get]
 
-api_attendance_graph:
+api_attendance_summary:
   url: /api/v1/attendance/summary
-  param: { module:apiv1user, action:GraphApi }
+  param: { module:apiv1userAttendance, action:AttendanceSummaryApi}
   requirements:
     sf_method: [get]
 

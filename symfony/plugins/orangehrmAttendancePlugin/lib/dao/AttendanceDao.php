@@ -549,6 +549,14 @@ class AttendanceDao {
         }
     }
 
+    /**
+     * @param string $fromDate
+     * @param string $toDate
+     * @param int $employeeId
+     * @param string $state
+     * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int
+     * @throws DaoException
+     */
     public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,string $state){
         try {
             $query = Doctrine_Query::create()
@@ -572,7 +580,7 @@ class AttendanceDao {
      * @param $empNumbers
      * @param null $dateFrom
      * @param null $dateTo
-     * @return array|Doctrine_Collection
+     * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int
      * @throws DaoException
      */
     public function getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom = null, $dateTo = null)

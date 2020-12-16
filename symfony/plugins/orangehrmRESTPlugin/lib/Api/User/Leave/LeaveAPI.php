@@ -18,8 +18,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\User;
+namespace Orangehrm\Rest\Api\User\Leave;
 
+use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
@@ -30,8 +31,14 @@ use Orangehrm\Rest\Api\User\Model\AttendanceLeaveModel;
 use \Leave;
 use \sfException;
 use \sfContext;
+use \LeaveRequestService;
+use \EmployeeService;
+use \PluginLeave;
+use \BasicUserRoleManager;
+use \UserRoleManagerFactory;
+use \ServiceException;
 
-class LeaveAPI extends LeaveRequestAPI
+class LeaveAPI extends EndPoint
 {
     /**
      * @return Response
@@ -42,6 +49,11 @@ class LeaveAPI extends LeaveRequestAPI
     const PARAMETER_FROM_DATE = 'fromDate';
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_EMPLOYEE_NUMBER = 'empNumber';
+    const PARAMETER_REJECTED = "rejected";
+    const PARAMETER_CANCELLED = "cancelled";
+    const PARAMETER_PENDING_APPROVAL = "pendingApproval";
+    const PARAMETER_SCHEDULED = "scheduled";
+    const PARAMETER_TAKEN = 'taken';
 
     protected $leaveRequestService;
     protected $workWeekService;
@@ -50,15 +62,14 @@ class LeaveAPI extends LeaveRequestAPI
     public function getLeaveRecords()
     {
         $params = $this->getParameters();
-        $loggedInEmpNumber = $this->GetLoggedInEmployeeNumber();
+        $loggedInEmpNumber = $this->getLoggedInEmployeeNumber();
         $empNumber = $params[self::PARAMETER_EMPLOYEE_NUMBER];
         if (empty($empNumber)) {
             $empNumber = $loggedInEmpNumber;
         }
-        if (!empty($empNumber) && !$this->checkValidEmployee($empNumber)) {
-            throw new BadRequestException('Employee Id ' . $empNumber . ' Not Found');
+        if (!empty($empNumber) && !in_array($empNumber, $this->getAccessibleEmpNumbers())) {
+            throw new BadRequestException('Access Denied');
         }
-
         $response = $this->getAttendanceFinalDetails($params, $empNumber);
         return new Response(
             $response
@@ -67,14 +78,17 @@ class LeaveAPI extends LeaveRequestAPI
 
     public function getAttendanceFinalDetails($params, int $empNumber)
     {
-        $statuses=$this->getStatusesArray($params);
-        $leaveHoursResultArray = $this->getLeaveHours(
+        $statuses = $this->getStatusesArray($params);
+        $leaveHoursResultArray = $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays(
             $params[self::PARAMETER_FROM_DATE],
             $params[self::PARAMETER_TO_DATE],
             $empNumber,
             $statuses
         );
-        $result =[];
+        if (count($leaveHoursResultArray) == 0) {
+            throw new RecordNotFoundException('No Records Found');
+        }
+        $result = [];
         foreach ($leaveHoursResultArray as $leaveResult) {
             $status_id = $leaveResult->getStatus();
             $leaveResultArray = (new AttendanceLeaveModel($leaveResult))->toArray();
@@ -83,7 +97,7 @@ class LeaveAPI extends LeaveRequestAPI
 
             $leaveStatusName = Leave::getTextForLeaveStatus($status_id);
             $leaveResultArray['status'] = $leaveStatusName;
-            array_push($result,$leaveResultArray);
+            array_push($result, $leaveResultArray);
         }
         return $result;
     }
@@ -102,14 +116,21 @@ class LeaveAPI extends LeaveRequestAPI
         $params[self::PARAMETER_REJECTED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_REJECTED));
         $params[self::PARAMETER_CANCELLED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_CANCELLED));
         $params[self::PARAMETER_SCHEDULED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_SCHEDULED));
-        $params[self::PARAMETER_PENDING_APPROVAL] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_PENDING_APPROVAL));
+        $params[self::PARAMETER_PENDING_APPROVAL] = ($this->getRequestParams()->getUrlParam(
+            self::PARAMETER_PENDING_APPROVAL
+        ));
 
         return $params;
     }
 
-    public function getLeaveHours($fromDate, $toDate, $employeeId,$statuses)
+    public function getLeaveHours($fromDate, $toDate, $employeeId, $statuses)
     {
-        return $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays($fromDate, $toDate, $employeeId,$statuses);
+        return $this->getLeaveRequestService()->getLeaveRecordsBetweenTwoDays(
+            $fromDate,
+            $toDate,
+            $employeeId,
+            $statuses
+        );
     }
 
     /**
@@ -124,27 +145,101 @@ class LeaveAPI extends LeaveRequestAPI
         ];
     }
 
+    /**
+     * @return EmployeeService
+     */
+    public function getEmployeeService(): EmployeeService
+    {
+        if (is_null($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+        }
+        return $this->employeeService;
+    }
 
     /**
-     * @param $empNumber
-     * @return \Employee
+     * Sets EmployeeService
+     * @param EmployeeService $service
      */
-    public function checkValidEmployee($empNumber){
-        try {
-            return $this->getEmployeeService()->getEmployee($empNumber);
-        }catch (\Exception $e){
-            new BadRequestException($e->getMessage());
+    public function setEmployeeService(EmployeeService $service)
+    {
+        $this->employeeService = $service;
+    }
+
+    /**
+     *
+     * @return LeaveRequestService
+     */
+    public function getLeaveRequestService(): LeaveRequestService
+    {
+        if (is_null($this->leaveRequestService)) {
+            $this->leaveRequestService = new LeaveRequestService();
         }
 
+        return $this->leaveRequestService;
+    }
+
+    /**
+     *
+     * @param LeaveRequestService $leaveRequestService
+     */
+    public function setLeaveRequestService(LeaveRequestService $leaveRequestService)
+    {
+        $this->leaveRequestService = $leaveRequestService;
     }
 
     /**
      * @return mixed|null
      * @throws sfException
      */
-    public function GetLoggedInEmployeeNumber()
+    public function getLoggedInEmployeeNumber()
     {
         return sfContext::getInstance()->getUser()->getAttribute("auth.empNumber");
     }
 
+    /**
+     * Get statuses
+     *
+     * @param $filter
+     * @return array|null
+     */
+    protected function getStatusesArray($filter)
+    {
+        $statusIdArray = null;
+        if (!empty($filter[self::PARAMETER_TAKEN]) && $filter[self::PARAMETER_TAKEN] == 'true') {
+            $statusIdArray[] = PluginLeave::LEAVE_STATUS_LEAVE_TAKEN;
+        }
+        if (!empty($filter[self::PARAMETER_CANCELLED]) && $filter[self::PARAMETER_CANCELLED] == 'true') {
+            $statusIdArray[] = PluginLeave::LEAVE_STATUS_LEAVE_CANCELLED;
+        }
+        if (!empty($filter[self::PARAMETER_PENDING_APPROVAL]) && $filter[self::PARAMETER_PENDING_APPROVAL] == 'true') {
+            $statusIdArray[] = PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
+        }
+        if (!empty($filter[self::PARAMETER_REJECTED]) && $filter[self::PARAMETER_REJECTED] == 'true') {
+            $statusIdArray[] = PluginLeave::LEAVE_STATUS_LEAVE_REJECTED;
+        }
+        if (!empty($filter[self::PARAMETER_SCHEDULED]) && $filter[self::PARAMETER_SCHEDULED] == 'true') {
+            $statusIdArray[] = PluginLeave::LEAVE_STATUS_LEAVE_APPROVED;
+        }
+        return $statusIdArray;
+    }
+
+    /**
+     * @return array
+     * @throws ServiceException
+     */
+    protected function getAccessibleEmpNumbers(): array
+    {
+        $properties = ["empNumber"];
+        $requiredPermissions = [BasicUserRoleManager::PERMISSION_TYPE_ACTION => ['attendance_records']];
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties(
+            'Employee',
+            $properties,
+            null,
+            null,
+            [],
+            [],
+            $requiredPermissions
+        );
+        return array_keys($employeeList);
+    }
 }

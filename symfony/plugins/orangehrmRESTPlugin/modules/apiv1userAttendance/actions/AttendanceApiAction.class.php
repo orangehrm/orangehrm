@@ -20,30 +20,33 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\User\GraphAPI;
+use Orangehrm\Rest\Api\User\Attendance\AttendanceAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 
-class GraphApiAction extends BaseUserApiAction
+class AttendanceApiAction extends BaseUserApiAction
 {
-    private $graphAPI = null;
+
+    private $attendanceAPI = null;
 
     /**
-     * @return GraphAPI
+     * @param Request $request
+     * @return AttendanceAPI
      */
-    public function getGraphAPI($request)
+    public function getAttendanceApi(Request $request)
     {
-        if (is_null($this->graphAPI)) {
-            $this->graphAPI = new GraphAPI($request);
+        if (is_null($this->attendanceAPI)) {
+            $this->attendanceAPI = new AttendanceAPI($request);
         }
-        return $this->graphAPI;
+        return $this->attendanceAPI;
     }
 
-
-    public function setGraphAPI($graphAPI)
+    /**
+     * @param AttendanceAPI $attendanceAPI
+     */
+    public function setAttendanceApi(AttendanceAPI $attendanceAPI)
     {
-        $this->graphAPI = $graphAPI;
-        return $this;
+        $this->attendanceAPI = $attendanceAPI;
     }
 
     /**
@@ -51,23 +54,26 @@ class GraphApiAction extends BaseUserApiAction
      */
     protected function init(Request $request)
     {
-        $this->graphAPI = new GraphAPI($request);
-        $this->graphAPI->setRequest($request);
-        $this->getValidationRule = $this->graphAPI->getValidationRules();
+        $this->attendanceAPI = new AttendanceAPI($request);
+        $this->attendanceAPI->setRequest($request);
+        $this->getValidationRule = $this->attendanceAPI->getValidationRules();
     }
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return \Orangehrm\Rest\Http\Response
+     * @throws AuthenticationServiceException
+     * @throws BadRequestException
+     * @throws ServiceException
      */
     protected function handleGetRequest(Request $request)
     {
         $this->setUserToContext();
-        $empNumber = $this->graphAPI->getRequestParams()->getUrlParam(GraphAPI::PARAMETER_EMPLOYEE_NUMBER);
+        $empNumber = $this->attendanceAPI->getRequestParams()->getUrlParam(AttendanceAPI::PARAMETER_EMPLOYEE_NUMBER);
         if (!empty($empNumber) && !in_array($empNumber, $this->getAccessibleEmpNumbers())) {
             throw new BadRequestException('Access Denied');
         }
-        return $this->getGraphAPI($request)->getGraphRecords();
+        return $this->attendanceAPI->getAttendanceRecords();
     }
 
     /**

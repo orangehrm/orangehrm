@@ -20,31 +20,32 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\User\AttendanceAPI;
+use Orangehrm\Rest\Api\User\Leave\LeaveAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 
-class AttendanceApiAction extends BaseUserApiAction
+class LeaveApiAction extends BaseUserApiAction
 {
-
-    private $AttendanceAPI = null;
+    private $leaveAPI = null;
 
     /**
-     * @return AttendanceAPI
+     * @param Request $request
+     * @return LeaveAPI
      */
-    public function getAttendanceApi($request)
+    public function getLeaveAPI(Request $request)
     {
-        if (is_null($this->attendanceSummaryAPI)) {
-            $this->attendanceAPI = new AttendanceAPI($request);
+        if (is_null($this->leaveAPI)) {
+            $this->leaveAPI = new LeaveAPI($request);
         }
-        return $this->attendanceAPI;
+        return $this->leaveAPI;
     }
 
-
-    public function setAttendanceApi($attendanceAPI)
+    /**
+     * @param LeaveAPI $LeaveAPI
+     */
+    public function setLeaveAPI(LeaveAPI $LeaveAPI)
     {
-        $this->attendanceAPI = $attendanceAPI;
-        return $this;
+        $this->leaveAPI = $LeaveAPI;
     }
 
     /**
@@ -52,23 +53,26 @@ class AttendanceApiAction extends BaseUserApiAction
      */
     protected function init(Request $request)
     {
-        $this->attendanceAPI = new AttendanceAPI($request);
-        $this->attendanceAPI->setRequest($request);
-        $this->getValidationRule = $this->attendanceAPI->getValidationRules();
+        $this->leaveAPI = new LeaveAPI($request);
+        $this->leaveAPI->setRequest($request);
+        $this->getValidationRule = $this->leaveAPI->getValidationRules();
     }
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return \Orangehrm\Rest\Http\Response
+     * @throws AuthenticationServiceException
+     * @throws BadRequestException
+     * @throws ServiceException
      */
     protected function handleGetRequest(Request $request)
     {
         $this->setUserToContext();
-        $empNumber = $this->attendanceAPI->getRequestParams()->getUrlParam(AttendanceAPI::PARAMETER_EMPLOYEE_NUMBER);
+        $empNumber = $this->leaveAPI->getRequestParams()->getUrlParam(LeaveAPI::PARAMETER_EMPLOYEE_NUMBER);
         if (!empty($empNumber) && !in_array($empNumber, $this->getAccessibleEmpNumbers())) {
             throw new BadRequestException('Access Denied');
         }
-        return $this->getAttendanceApi($request)->getAttendanceRecords();
+        return $this->getLeaveAPI($request)->getLeaveRecords();
     }
 
     /**
@@ -90,6 +94,7 @@ class AttendanceApiAction extends BaseUserApiAction
         );
         return array_keys($employeeList);
     }
+
     /**
      * @param Request $request
      * @throws NotImplementedException

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,34 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\User\EmployeePunchInAPI;
+use Orangehrm\Rest\Api\User\Attendance\EmployeePunchOutAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-class EmployeePunchInApiAction extends BaseUserApiAction
+class EmployeePunchOutApiAction extends \BaseUserApiAction
 {
-    private $punchInApi = null;
+
+    private $punchOutApi = null;
+
 
     /**
-     * @return EmployeePunchInAPI
+     * @param Request $request
+     * @return EmployeePunchOutAPI
      */
-    public function getPunchInApi($request)
+    public function getPunchOutApi(Request $request)
     {
-        if (is_null($this->punchInApi)) {
-            $this->punchInApi = new EmployeePunchInAPI($request);
+        if (!$this->punchOutApi) {
+            $this->punchOutApi = new EmployeePunchOutAPI($request);
         }
-        return $this->punchInApi;
+        return $this->punchOutApi;
     }
 
     /**
-     * @param $punchInApi
-     * @return $this
+     * @param EmployeePunchOutAPI $punchOutApi
      */
-    public function setPunchInApi($punchInApi)
+    public function setPunchOutApi(EmployeePunchOutAPI $punchOutApi)
     {
-        $this->punchInApi = $punchInApi;
-        return $this;
+        $this->punchOutApi = $punchOutApi;
     }
 
     /**
@@ -53,9 +52,8 @@ class EmployeePunchInApiAction extends BaseUserApiAction
      */
     protected function init(Request $request)
     {
-        $this->punchInApi = new EmployeePunchInAPI($request);
-        $this->punchInApi->setRequest($request);
-        $this->postValidationRule = $this->punchInApi->getValidationRules();
+        $this->punchOutApi = new EmployeePunchOutAPI($request);
+        $this->postValidationRule = $this->punchOutApi->getValidationRules();
     }
 
     /**
@@ -70,16 +68,16 @@ class EmployeePunchInApiAction extends BaseUserApiAction
 
     /**
      * @OA\Post(
-     *     path="/attendance/punch-in",
-     *     summary="Save Employee Punch In",
+     *     path="/attendance/punch-out",
+     *     summary="Save Employee Punch Out",
      *     tags={"Attendance","User"},
      *     @OA\RequestBody(
-     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchInRequestBody")
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchOutRequestBody")
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchIn"),
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchOut"),
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -93,7 +91,7 @@ class EmployeePunchInApiAction extends BaseUserApiAction
      *     ),
      * )
      * @OA\Schema(
-     *     schema="EmployeePunchInRequestBody",
+     *     schema="EmployeePunchOutRequestBody",
      *     type="object",
      *     @OA\Property(
      *         property="timezoneOffset",
@@ -107,19 +105,19 @@ class EmployeePunchInApiAction extends BaseUserApiAction
      *     ),
      *     @OA\Property(
      *         property="note",
-     *         description="Punch In Note",
+     *         description="Punch Out Note",
      *         type="string"
      *     ),
      * )
      * @OA\Schema(
-     *     schema="EmployeePunchIn",
+     *     schema="EmployeePunchOut",
      *     type="object",
-     *     example={"data": {"id": "1","datetime": "2020-12-28 08:30","timezoneOffset": 5.5,"note": "PUNCH IN NOTE"},"rels": {}}
+     *     example={"data": {"id": "1","punchInDateTime":"2020-12-28 08:30","punchInTimeZone":5.5,"punchInNote":"PUNCH IN NOTE","punchOutDateTime":"2020-12-28 18:30","punchOutTimeZone":5.5,"punchOutNote":"PUNCH OUT NOTE"},"rels": {}}
      * )
      */
     protected function handlePostRequest(Request $request)
     {
         $this->setUserToContext();
-        return $this->getPunchInApi($request)->savePunchIn();
+        return $this->getPunchOutApi($request)->savePunchOut();
     }
 }

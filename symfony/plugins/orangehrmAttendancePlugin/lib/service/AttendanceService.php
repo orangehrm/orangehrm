@@ -282,7 +282,7 @@ class AttendanceService {
     /**
      * @return bool
      */
-    public function getDateTimeEditable()
+    public function getPunchTimeUserConfiguration()
     {
         return $this->getSavedConfiguration(
             WorkflowStateMachine::FLOW_ATTENDANCE,

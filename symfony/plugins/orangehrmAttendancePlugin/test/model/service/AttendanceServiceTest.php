@@ -306,10 +306,8 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
     }
 
     public function testGetLatestPunchInRecord() {
-
         $employeeId = 1;
-
-        $lastPunchRecord = TestDataService::fetchObject('AttendanceRecord', 2);
+        $lastPunchRecord = TestDataService::fetchObject('AttendanceRecord', 5);
         $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
             ->setMethods( array('getLatestPunchInRecord'))
             ->getMock();
@@ -323,4 +321,22 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertTrue($retrievedPunchRecord instanceof AttendanceRecord);
         $this->assertEquals($lastPunchRecord, $retrievedPunchRecord);
     }
+    public function testGetAttendanceRecordsBetweenTwoDays() {
+
+        $employeeId = 1;
+        $lastPunchRecord = TestDataService::fetchObject('AttendanceRecord', 10);
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+            ->setMethods( array('getAttendanceRecordsBetweenTwoDays'))
+            ->getMock();
+        $attendanceDaoMock->expects($this->once())
+            ->method('getAttendanceRecordsBetweenTwoDays')
+            ->with('2011-12-12','2011-12-14',1,'ALL')
+            ->will($this->returnValue($lastPunchRecord));
+
+        $this->attendanceService->setAttendanceDao($attendanceDaoMock);
+        $retrievedPunchRecord = $this->attendanceService->getAttendanceRecordsBetweenTwoDays('2011-12-12','2011-12-14',$employeeId,'ALL');
+        $this->assertTrue($retrievedPunchRecord instanceof AttendanceRecord);
+        $this->assertEquals($lastPunchRecord, $retrievedPunchRecord);
+    }
+
 }

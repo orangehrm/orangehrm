@@ -20,30 +20,32 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\User\AttendanceSummaryAPIh;
-use Orangehrm\Rest\Api\User\LeaveAPI;
+use Orangehrm\Rest\Api\User\Attendance\AttendanceSummaryAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 
-class LeaveApiAction extends BaseUserApiAction
+class AttendanceSummaryApiAction extends BaseUserApiAction
 {
-    private $leaveAPI = null;
+    /**
+     * @var null | AttendanceSummaryAPI
+     */
+    private $summaryAPI = null;
 
     /**
-     * @return LeaveAPI
+     * @return AttendanceSummaryAPI
      */
-    public function getLeaveAPI($request)
+    public function getsummaryAPI($request)
     {
-        if (is_null($this->leaveAPI)) {
-            $this->leaveAPI = new LeaveAPI($request);
+        if (is_null($this->summaryAPI)) {
+            $this->summaryAPI = new AttendanceSummaryAPI($request);
         }
-        return $this->leaveAPI;
+        return $this->summaryAPI;
     }
 
 
-    public function setLeaveAPI($LeaveAPI)
+    public function setsummaryAPI($summaryAPI)
     {
-        $this->leaveAPI = $LeaveAPI;
+        $this->summaryAPI = $summaryAPI;
         return $this;
     }
 
@@ -52,43 +54,22 @@ class LeaveApiAction extends BaseUserApiAction
      */
     protected function init(Request $request)
     {
-        $this->leaveAPI = new LeaveAPI($request);
-        $this->leaveAPI->setRequest($request);
-        $this->getValidationRule = $this->leaveAPI->getValidationRules();
+        $this->summaryAPI = new AttendanceSummaryAPI($request);
+        $this->summaryAPI->setRequest($request);
+        $this->getValidationRule = $this->summaryAPI->getValidationRules();
     }
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return \Orangehrm\Rest\Http\Response
+     * @throws AuthenticationServiceException
+     * @throws BadRequestException
+     * @throws ServiceException
      */
     protected function handleGetRequest(Request $request)
     {
         $this->setUserToContext();
-        $empNumber = $this->leaveAPI->getRequestParams()->getUrlParam(LeaveAPI::PARAMETER_EMPLOYEE_NUMBER);
-        if (!empty($empNumber) && !in_array($empNumber, $this->getAccessibleEmpNumbers())) {
-            throw new BadRequestException('Access Denied');
-        }
-        return $this->getLeaveAPI($request)->getLeaveRecords();
-    }
-
-    /**
-     * @return array
-     * @throws ServiceException
-     */
-    protected function getAccessibleEmpNumbers(): array
-    {
-        $properties = ["empNumber"];
-        $requiredPermissions = [BasicUserRoleManager::PERMISSION_TYPE_ACTION => ['attendance_records']];
-        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties(
-            'Employee',
-            $properties,
-            null,
-            null,
-            [],
-            [],
-            $requiredPermissions
-        );
-        return array_keys($employeeList);
+        return $this->summaryAPI->getAttendanceSummary();
     }
 
     /**

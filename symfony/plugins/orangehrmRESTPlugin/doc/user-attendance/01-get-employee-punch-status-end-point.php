@@ -1,9 +1,9 @@
 /**
-* @api {get} /attendance/punch-status 14.Get Employee Punch Status
+* @api {get} /attendance/punch-status 01.Get Employee Punch Status
 * @apiName EmployeePunchStatus
-* @apiGroup User
+* @apiGroup User-Attendance
 * @apiVersion 1.2.0
-* @apiUse UserDescription
+* @apiUse UserDescription_47
 *
 *
 * @apiSuccessExample Success-Response:

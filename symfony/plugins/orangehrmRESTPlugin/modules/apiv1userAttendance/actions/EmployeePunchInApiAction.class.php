@@ -18,35 +18,32 @@
  * Boston, MA  02110-1301, USA
  */
 
+
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\User\EmployeePunchOutAPI;
+use Orangehrm\Rest\Api\User\Attendance\EmployeePunchInAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-class EmployeePunchOutApiAction extends \BaseUserApiAction
+class EmployeePunchInApiAction extends BaseUserApiAction
 {
-
-    private $punchOutApi = null;
-
+    private $punchInApi = null;
 
     /**
-     * @return EmployeePunchOutAPI
+     * @return EmployeePunchInAPI
      */
-    public function getPunchOutApi($request)
+    public function getPunchInApi(Request $request)
     {
-        if (!$this->punchOutApi) {
-            $this->punchOutApi = new EmployeePunchOutAPI($request);
+        if (is_null($this->punchInApi)) {
+            $this->punchInApi = new EmployeePunchInAPI($request);
         }
-        return $this->punchOutApi;
+        return $this->punchInApi;
     }
 
     /**
-     * @param $punchOutApi
-     * @return $this
+     * @param $punchInApi
      */
-    public function setPunchOutApi($punchOutApi)
+    public function setPunchInApi(EmployeePunchInAPI $punchInApi)
     {
-        $this->punchOutApi = $punchOutApi;
-        return $this;
+        $this->punchInApi = $punchInApi;
     }
 
     /**
@@ -54,8 +51,9 @@ class EmployeePunchOutApiAction extends \BaseUserApiAction
      */
     protected function init(Request $request)
     {
-        $this->punchOutApi = new EmployeePunchOutAPI($request);
-        $this->postValidationRule = $this->punchOutApi->getValidationRules();
+        $this->punchInApi = new EmployeePunchInAPI($request);
+        $this->punchInApi->setRequest($request);
+        $this->postValidationRule = $this->punchInApi->getValidationRules();
     }
 
     /**
@@ -70,16 +68,16 @@ class EmployeePunchOutApiAction extends \BaseUserApiAction
 
     /**
      * @OA\Post(
-     *     path="/attendance/punch-out",
-     *     summary="Save Employee Punch Out",
+     *     path="/attendance/punch-in",
+     *     summary="Save Employee Punch In",
      *     tags={"Attendance","User"},
      *     @OA\RequestBody(
-     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchOutRequestBody")
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchInRequestBody")
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchOut"),
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeePunchIn"),
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -93,7 +91,7 @@ class EmployeePunchOutApiAction extends \BaseUserApiAction
      *     ),
      * )
      * @OA\Schema(
-     *     schema="EmployeePunchOutRequestBody",
+     *     schema="EmployeePunchInRequestBody",
      *     type="object",
      *     @OA\Property(
      *         property="timezoneOffset",
@@ -107,19 +105,19 @@ class EmployeePunchOutApiAction extends \BaseUserApiAction
      *     ),
      *     @OA\Property(
      *         property="note",
-     *         description="Punch Out Note",
+     *         description="Punch In Note",
      *         type="string"
      *     ),
      * )
      * @OA\Schema(
-     *     schema="EmployeePunchOut",
+     *     schema="EmployeePunchIn",
      *     type="object",
-     *     example={"data": {"id": "1","punchInDateTime":"2020-12-28 08:30","punchInTimeZone":5.5,"punchInNote":"PUNCH IN NOTE","punchOutDateTime":"2020-12-28 18:30","punchOutTimeZone":5.5,"punchOutNote":"PUNCH OUT NOTE"},"rels": {}}
+     *     example={"data": {"id": "1","datetime": "2020-12-28 08:30","timezoneOffset": 5.5,"note": "PUNCH IN NOTE"},"rels": {}}
      * )
      */
     protected function handlePostRequest(Request $request)
     {
         $this->setUserToContext();
-        return $this->getPunchOutApi($request)->savePunchOut();
+        return $this->getPunchInApi($request)->savePunchIn();
     }
 }

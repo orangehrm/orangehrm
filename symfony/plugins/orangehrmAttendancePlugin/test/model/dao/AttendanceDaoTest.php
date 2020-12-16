@@ -305,11 +305,45 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * @return Generator
      */
-    public function dataProviderGetAttendanceRecordsByEmpNumbers() {
+    public function dataProviderGetAttendanceRecordsByEmpNumbers()
+    {
         yield [2, 1];
         yield [[2], 1];
-        yield [[2,5], 8];
-        yield [[2,5], 2, '2011-05-26','2011-12-12'];
-        yield [[2,5], 3, '2011-04-20','2011-12-12'];
+        yield [[2, 5], 8];
+        yield [[2, 5], 2, '2011-05-26', '2011-12-12'];
+        yield [[2, 5], 3, '2011-04-20', '2011-12-12'];
+    }
+
+    public function testGetAttendanceRecordsBetweenTwoDaysForALLStates() {
+        $employeeId = 5;
+        $fromDate = '2011-12-12';
+        $toDate = '2011-12-19';
+        $state= "ALL";
+        $attendanceRecord = $this->attendanceDao->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
+        $this->assertEquals(2,count($attendanceRecord));
+    }
+    public function testGetAttendanceRecordsBetweenTwoDaysForPunchInState() {
+        $employeeId = 5;
+        $fromDate = '2011-04-01';
+        $toDate = '2011-06-13';
+        $state= "PUNCHED IN";
+        $attendanceRecord = $this->attendanceDao->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
+        $this->assertEquals(2,count($attendanceRecord));
+    }
+    public function testGetAttendanceRecordsBetweenTwoDaysForPunchOutState() {
+        $employeeId = 5;
+        $fromDate = '2011-04-01';
+        $toDate = '2011-06-13';
+        $state= "PUNCHED OUT";
+        $attendanceRecord = $this->attendanceDao->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
+        $this->assertEquals(1,count($attendanceRecord));
+    }
+    public function testGetAttendanceRecordsBetweenTwoDaysForEdgeDates() {
+        $employeeId = 5;
+        $fromDate = '2012-02-28';
+        $toDate = '2012-12-21';
+        $state= "ALL";
+        $attendanceRecords = $this->attendanceDao->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
+        $this->assertEquals(1,count($attendanceRecords));
     }
 }

@@ -19,8 +19,7 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\User\EmployeePunchInAPI;
-use Orangehrm\Rest\Api\User\EmployeePunchStatusAPI;
+use Orangehrm\Rest\Api\User\Attendance\EmployeePunchStatusAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
 class EmployeePunchStatusApiAction extends BaseUserApiAction
@@ -30,7 +29,7 @@ class EmployeePunchStatusApiAction extends BaseUserApiAction
     /**
      * @return EmployeePunchStatusAPI
      */
-    public function getPunchStatusApi($request)
+    public function getPunchStatusApi(Request $request)
     {
         if (!$this->punchStatusApi) {
             $this->punchStatusApi = new EmployeePunchStatusAPI($request);
@@ -40,12 +39,10 @@ class EmployeePunchStatusApiAction extends BaseUserApiAction
 
     /**
      * @param $punchStatusApi
-     * @return $this
      */
-    public function setPunchStatusApi($punchStatusApi)
+    public function setPunchStatusApi(EmployeePunchStatusAPI $punchStatusApi)
     {
         $this->punchStatusApi = $punchStatusApi;
-        return $this;
     }
 
     /**

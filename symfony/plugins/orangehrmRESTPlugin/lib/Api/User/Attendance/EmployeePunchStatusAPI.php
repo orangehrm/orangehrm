@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\User;
+namespace Orangehrm\Rest\Api\User\Attendance;
 
 use Orangehrm\Rest\Api\Attendance\PunchTimeAPI;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
@@ -31,7 +31,7 @@ class EmployeePunchStatusAPI extends PunchTimeAPI
 {
     public function getStatusDetailsOfLatestAttendanceRecord()
     {
-        $empNumber = $this->GetLoggedInEmployeeNumber();
+        $empNumber = $this->getLoggedInEmployeeNumber();
         if (!$this->checkValidEmployee($empNumber)) {
             throw new RecordNotFoundException('Employee Id' . $empNumber . ' Not Found');
         }
@@ -61,7 +61,7 @@ class EmployeePunchStatusAPI extends PunchTimeAPI
             $punchTimeZoneOffset = $lastPunchInRecord->getPunchInTimeOffset();
         }
 
-        $editable=$this->getAttendanceService()->getDateTimeEditable();
+        $editable = $this->getAttendanceService()->getPunchTimeUserConfiguration();
         $currentUTCDateTime = $this->getCurrentUTCTime();
         return new Response(
             array(

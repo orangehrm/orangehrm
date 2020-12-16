@@ -49,7 +49,7 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
         )
             ->setMethods(
                 [
-                    'getDateTimeEditable',
+                    'getPunchTimeUserConfiguration',
                     'getLastPunchRecord',
                     'getCalculatedPunchInUtcTime',
                     'checkForPunchInOverLappingRecords'
@@ -57,7 +57,7 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
             )
             ->getMock();
         $attendanceService->expects($this->once())
-            ->method('getDateTimeEditable')
+            ->method('getPunchTimeUserConfiguration')
             ->will($this->returnValue(true));
         $attendanceService->expects($this->once())
             ->method('getLastPunchRecord')
@@ -67,7 +67,7 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
             ->will($this->returnValue('0'));
 
         $filters = ['timezone' => 5.5, 'datetime' => "2020-12-29 19:34"];
-        $employeePunchInApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchInAPI')
+        $employeePunchInApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Attendance\EmployeePunchInAPI')
             ->setMethods(['checkValidEmployee', 'getParameters'])
             ->setConstructorArgs([$this->request])
             ->getMock();
@@ -89,7 +89,7 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
         )
             ->setMethods(
                 [
-                    'getDateTimeEditable',
+                    'getPunchTimeUserConfiguration',
                     'getLastPunchRecord',
                     'getCalculatedPunchInUtcTime',
                     'checkForPunchInOverLappingRecords'
@@ -97,7 +97,7 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
             )
             ->getMock();
         $attendanceService
-            ->method('getDateTimeEditable')
+            ->method('getPunchTimeUserConfiguration')
             ->will($this->returnValue(true));
         $attendanceService
             ->method('getLastPunchRecord')
@@ -107,7 +107,7 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
             ->will($this->returnValue('1'));
 
         $filters = ['timezone' => 5.5];
-        $employeePunchInApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchInAPI')
+        $employeePunchInApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Attendance\EmployeePunchInAPI')
             ->setMethods(['checkValidEmployee', 'getTimezoneOffset', 'getParameters'])
             ->setConstructorArgs([$this->request])
             ->getMock();
@@ -118,9 +118,6 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
         $employeePunchInApi
             ->method('checkValidEmployee')
             ->will($this->returnValue(true));
-//        $employeePunchInApi
-//            ->method('getValidateTimezoneOffsetList')
-//            ->will($this->returnValue(true));
         $this->expectException(InvalidParamException::class);
         $employeePunchInApi->savePunchIn();
     }
@@ -132,7 +129,7 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
         )
             ->setMethods(
                 [
-                    'getDateTimeEditable',
+                    'getPunchTimeUserConfiguration',
                     'getLastPunchRecord',
                     'getCalculatedPunchInUtcTime',
                     'checkForPunchInOverLappingRecords'
@@ -140,7 +137,7 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
             )
             ->getMock();
         $attendanceService
-            ->method('getDateTimeEditable')
+            ->method('getPunchTimeUserConfiguration')
             ->will($this->returnValue(true));
         $attendanceService
             ->method('getLastPunchRecord')
@@ -150,7 +147,7 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
             ->will($this->returnValue(0));
 
         $filters = ['datetime' => "2020-12-29 19:34"];
-        $employeePunchInApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchInAPI')
+        $employeePunchInApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Attendance\EmployeePunchInAPI')
             ->setMethods(['checkValidEmployee', 'getTimezoneOffset', 'getParameters'])
             ->setConstructorArgs([$this->request])
             ->getMock();
@@ -176,14 +173,14 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
         )
             ->setMethods(
                 [
-                    'getDateTimeEditable',
+                    'getPunchTimeUserConfiguration',
                     'getLastPunchRecord',
                     'checkForPunchInOverLappingRecords'
                 ]
             )
             ->getMock();
         $attendanceService
-            ->method('getDateTimeEditable')
+            ->method('getPunchTimeUserConfiguration')
             ->will($this->returnValue(true));
         $attendanceService
             ->method('getLastPunchRecord')
@@ -193,7 +190,7 @@ class ApiEmployeePunchInAPITest extends PHPUnit\Framework\TestCase
             ->will($this->returnValue(1));
 
         $filters = ['datetime' => "2020-12-29 19:34",'timezone'=>'Asia'];
-        $employeePunchInApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\EmployeePunchInAPI')
+        $employeePunchInApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Attendance\EmployeePunchInAPI')
             ->setMethods(['checkValidEmployee', 'getTimezoneOffset', 'getParameters'])
             ->setConstructorArgs([$this->request])
             ->getMock();

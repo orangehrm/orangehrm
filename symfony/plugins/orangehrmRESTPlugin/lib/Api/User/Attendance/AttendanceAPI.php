@@ -18,20 +18,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Api\User;
+namespace Orangehrm\Rest\Api\User\Attendance;
 
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Http\Response;
-use \PluginAttendanceRecord;
-use \AttendanceRecord;
-use Orangehrm\Rest\Api\Attendance\PunchTimeAPI;
-use Orangehrm\Rest\Api\User\Model\AttendanceEmployeeModel;
 use Orangehrm\Rest\Api\User\Model\UserAttendanceModel;
+use \sfException;
+use \AttendanceService;
+use \EmployeeService;
+use \Employee;
+use \Exception;
+use \sfContext;
+use \BasicUserRoleManager;
+use \UserRoleManagerFactory;
+use \ServiceException;
 
-class AttendanceAPI extends PunchTimeAPI
+class AttendanceAPI extends EndPoint
 {
     /**
      * @return Response
@@ -39,6 +44,8 @@ class AttendanceAPI extends PunchTimeAPI
      * @throws RecordNotFoundException
      */
 
+    protected $employeeService;
+    protected $attendanceService;
     const PARAMETER_FROM_DATE = 'fromDate';
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_EMPLOYEE_NUMBER = 'empNumber';
@@ -46,16 +53,15 @@ class AttendanceAPI extends PunchTimeAPI
     public function getAttendanceRecords()
     {
         $params = $this->getParameters();
-        $loggedInEmpNumber = $this->GetLoggedInEmployeeNumber();
+        $loggedInEmpNumber = $this->getLoggedInEmployeeNumber();
         $empNumber = $params[self::PARAMETER_EMPLOYEE_NUMBER];
         if (empty($empNumber)) {
             $empNumber = $loggedInEmpNumber;
         }
-        if (!empty($empNumber) && !$this->checkValidEmployee($empNumber)) {
-            throw new BadRequestException('Employee Id ' . $empNumber . ' Not Found');
+        if (!empty($empNumber) && !in_array($empNumber, $this->getAccessibleEmpNumbers())) {
+            throw new BadRequestException('Access Denied');
         }
-
-        $response = $this->getAttendanceFinalDetails($params,$empNumber);
+        $response = $this->getAttendanceFinalDetails($params, $empNumber);
         return new Response(
             $response
         );
@@ -86,10 +92,18 @@ class AttendanceAPI extends PunchTimeAPI
 
     public function getWorkHours($fromDate, $toDate, $employeeId)
     {
-        $leaveRecordsArray=$this->getAttendanceService()->getAttendanceRecordsBetweenTwoDays($fromDate, $toDate, $employeeId,'ALL');
-        $result=[];
-        foreach ($leaveRecordsArray as $leaveRecord){
-            array_push($result,(new UserAttendanceModel($leaveRecord))->toArray());
+        $leaveRecordsArray = $this->getAttendanceService()->getAttendanceRecordsBetweenTwoDays(
+            $fromDate,
+            $toDate,
+            $employeeId,
+            'ALL'
+        );
+        if (count($leaveRecordsArray) == 0) {
+            throw new RecordNotFoundException('No Records Found');
+        }
+        $result = [];
+        foreach ($leaveRecordsArray as $leaveRecord) {
+            array_push($result, (new UserAttendanceModel($leaveRecord))->toArray());
         }
         return $result;
     }
@@ -106,4 +120,70 @@ class AttendanceAPI extends PunchTimeAPI
         ];
     }
 
+    /**
+     * @return mixed|null
+     * @throws sfException
+     */
+    public function getLoggedInEmployeeNumber()
+    {
+        return sfContext::getInstance()->getUser()->getAttribute("auth.empNumber");
+    }
+
+    /**
+     * @return AttendanceService
+     */
+    public function getAttendanceService()
+    {
+        if (is_null($this->attendanceService)) {
+            $this->attendanceService = new AttendanceService();
+        }
+        return $this->attendanceService;
+    }
+
+    /**
+     * @param AttendanceService $attendanceService
+     */
+    public function setAttendanceService(AttendanceService $attendanceService)
+    {
+        $this->attendanceService = $attendanceService;
+    }
+
+    /**
+     * @return EmployeeService
+     */
+    public function getEmployeeService()
+    {
+        if (!$this->employeeService) {
+            $this->employeeService = new EmployeeService();
+        }
+        return $this->employeeService;
+    }
+
+    /**
+     * @param EmployeeService $employeeService
+     */
+    public function setEmployeeService(EmployeeService $employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
+    /**
+     * @return array
+     * @throws ServiceException
+     */
+    protected function getAccessibleEmpNumbers(): array
+    {
+        $properties = ["empNumber"];
+        $requiredPermissions = [BasicUserRoleManager::PERMISSION_TYPE_ACTION => ['attendance_records']];
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties(
+            'Employee',
+            $properties,
+            null,
+            null,
+            [],
+            [],
+            $requiredPermissions
+        );
+        return array_keys($employeeList);
+    }
 }
