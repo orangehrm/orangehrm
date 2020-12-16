@@ -67,7 +67,7 @@ class LeaveAPI extends EndPoint
         if (empty($empNumber)) {
             $empNumber = $loggedInEmpNumber;
         }
-        if (!empty($empNumber) && !in_array($empNumber, $this->getAccessibleEmpNumbers())) {
+        if (!in_array($empNumber, $this->getAccessibleEmpNumbers()) && $loggedInEmpNumber!=$empNumber) {
             throw new BadRequestException('Access Denied');
         }
         $response = $this->getAttendanceFinalDetails($params, $empNumber);

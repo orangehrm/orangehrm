@@ -72,7 +72,7 @@ class AttendanceSummaryAPI extends EndPoint
         if (empty($empNumber)) {
             $empNumber = $loggedInEmpNumber;
         }
-        if (!empty($empNumber) && !in_array($empNumber, $this->getAccessibleEmpNumbers())) {
+        if (!in_array($empNumber, $this->getAccessibleEmpNumbers()) && $loggedInEmpNumber!=$empNumber) {
             throw new BadRequestException('Access Denied');
         }
         $date1 = new DateTime($params[self::PARAMETER_FROM_DATE]);
