@@ -277,7 +277,7 @@ class ApiAttendanceSummaryAPITest extends PHPUnit\Framework\TestCase
         $params = [
             'fromDate' => "2020-12-18",
             'toDate' => "2020-12-24",
-            'empNumber' => 1,
+            'empNumber' => 1000,
             'pendingApproval' => 'true',
             'scheduled' => 'true',
             'taken' => 'true'

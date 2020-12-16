@@ -69,7 +69,7 @@ class ApiAttendanceAPITest extends PHPUnit\Framework\TestCase
     public function testGetAttendanceFinalDetailsForNotValidEmployee()
     {
         $attendanceRecord = TestDataService::fetchObject('AttendanceRecord', 10);
-        $params = ['fromDate' => "2020-12-29", 'toDate' => "2020-12-29", 'empNumber' => 1];
+        $params = ['fromDate' => "2020-12-29", 'toDate' => "2020-12-29", 'empNumber' => 1000];
         $attendanceSummaryAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\Attendance\AttendanceAPI')
             ->setMethods(['getParameters','getAccessibleEmpNumbers', 'getLoggedInEmployeeNumber', 'getEmployeeDetails','getWorkHours'])
             ->setConstructorArgs([$this->request])
