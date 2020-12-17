@@ -72,26 +72,6 @@ class LeaveApiAction extends BaseUserApiAction
     }
 
     /**
-     * @return array
-     * @throws ServiceException
-     */
-    protected function getAccessibleEmpNumbers(): array
-    {
-        $properties = ["empNumber"];
-        $requiredPermissions = [BasicUserRoleManager::PERMISSION_TYPE_ACTION => ['attendance_records']];
-        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties(
-            'Employee',
-            $properties,
-            null,
-            null,
-            [],
-            [],
-            $requiredPermissions
-        );
-        return array_keys($employeeList);
-    }
-
-    /**
      * @param Request $request
      * @throws NotImplementedException
      */
