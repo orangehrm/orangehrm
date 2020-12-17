@@ -68,10 +68,6 @@ class LeaveApiAction extends BaseUserApiAction
     protected function handleGetRequest(Request $request)
     {
         $this->setUserToContext();
-        $empNumber = $this->leaveAPI->getRequestParams()->getUrlParam(LeaveAPI::PARAMETER_EMPLOYEE_NUMBER);
-        if (!empty($empNumber) && !in_array($empNumber, $this->getAccessibleEmpNumbers())) {
-            throw new BadRequestException('Access Denied');
-        }
         return $this->getLeaveAPI($request)->getLeaveRecords();
     }
 

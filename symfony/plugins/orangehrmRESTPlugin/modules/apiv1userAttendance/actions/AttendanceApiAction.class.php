@@ -69,10 +69,6 @@ class AttendanceApiAction extends BaseUserApiAction
     protected function handleGetRequest(Request $request)
     {
         $this->setUserToContext();
-        $empNumber = $this->attendanceAPI->getRequestParams()->getUrlParam(AttendanceAPI::PARAMETER_EMPLOYEE_NUMBER);
-        if (!empty($empNumber) && !in_array($empNumber, $this->getAccessibleEmpNumbers())) {
-            throw new BadRequestException('Access Denied');
-        }
         return $this->attendanceAPI->getAttendanceRecords();
     }
 
