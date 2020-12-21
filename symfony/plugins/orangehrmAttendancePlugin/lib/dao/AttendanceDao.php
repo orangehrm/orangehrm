@@ -541,7 +541,7 @@ class AttendanceDao {
                     ->from("attendanceRecord")
                     ->where("employeeId = ?", $employeeId)
                     ->andWhere("state = ?", $state)
-                    ->orderBy('punchOutUtcTime');
+                    ->orderBy('punchInUtcTime DESC');
                 return $query->fetchOne();
             } catch (Exception $ex) {
                 throw new DaoException($ex->getMessage());
