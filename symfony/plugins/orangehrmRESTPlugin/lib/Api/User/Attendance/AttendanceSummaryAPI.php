@@ -69,19 +69,24 @@ class AttendanceSummaryAPI extends EndPoint
         $params = $this->getParameters();
         $loggedInEmpNumber = $this->getLoggedInEmployeeNumber();
         $empNumber = $params[self::PARAMETER_EMPLOYEE_NUMBER];
-        if (empty($empNumber)) {
-            $empNumber = $loggedInEmpNumber;
-        }
-        if (!in_array($empNumber, $this->getAccessibleEmpNumbers()) && $loggedInEmpNumber!=$empNumber) {
-            throw new BadRequestException('Access Denied');
-        }
         $date1 = new DateTime($params[self::PARAMETER_FROM_DATE]);
         $date2 = new DateTime($params[self::PARAMETER_TO_DATE]);
+        if($date1>$date2){
+            throw new InvalidParamException(
+                'Invalid date Period'
+            );
+        }
         $diff = $date1->diff($date2)->days;
         if ($diff != 6) {
             throw new InvalidParamException(
                 'Duration should be one week   e.g :- fromDate=2020-11-24 & toDate=2020-11-30'
             );
+        }
+        if (empty($empNumber)) {
+            $empNumber = $loggedInEmpNumber;
+        }
+        if (!in_array($empNumber, $this->getAccessibleEmpNumbers()) && $loggedInEmpNumber!=$empNumber) {
+            throw new BadRequestException('Access Denied');
         }
         $statuses = $this->getStatusesArray($params);
         $dayMapper = [];

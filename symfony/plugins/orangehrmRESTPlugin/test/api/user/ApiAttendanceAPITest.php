@@ -18,6 +18,7 @@
  */
 
 use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 
@@ -87,6 +88,30 @@ class ApiAttendanceAPITest extends PHPUnit\Framework\TestCase
             ->method('getAccessibleEmpNumbers')
             ->will($this->returnValue([]));
         $this->expectException(BadRequestException::class);
+        $attendanceSummaryAPI->getAttendanceRecords();
+    }
+
+    public function testGetAttendanceFinalDetailsForNotValidDatePeriod()
+    {
+        $attendanceRecord = TestDataService::fetchObject('AttendanceRecord', 10);
+        $params = ['fromDate' => "2020-12-31", 'toDate' => "2020-12-29", 'empNumber' => 1000];
+        $attendanceSummaryAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\Attendance\AttendanceAPI')
+            ->setMethods(['getParameters','getAccessibleEmpNumbers', 'getLoggedInEmployeeNumber', 'getEmployeeDetails','getWorkHours'])
+            ->setConstructorArgs([$this->request])
+            ->getMock();
+        $attendanceSummaryAPI->expects($this->once())
+            ->method('getParameters')
+            ->will($this->returnValue($params));
+        $attendanceSummaryAPI->expects($this->once())
+            ->method('getLoggedInEmployeeNumber')
+            ->will($this->returnValue(1));
+        $attendanceSummaryAPI
+            ->method('getWorkHours')
+            ->will($this->returnValue([$attendanceRecord->toArray()]));
+        $attendanceSummaryAPI
+            ->method('getAccessibleEmpNumbers')
+            ->will($this->returnValue([]));
+        $this->expectException(InvalidParamException::class);
         $attendanceSummaryAPI->getAttendanceRecords();
     }
 }

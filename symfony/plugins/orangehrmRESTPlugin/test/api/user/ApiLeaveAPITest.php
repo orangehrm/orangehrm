@@ -18,6 +18,7 @@
  */
 
 use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 
@@ -153,6 +154,57 @@ class ApiLeaveAPITest extends PHPUnit\Framework\TestCase
             ->method('getAccessibleEmpNumbers')
             ->will($this->returnValue([]));
         $this->expectException(BadRequestException::class);
+        $leaveAPI->getLeaveRecords();
+    }
+    public function testGetLeaveRecordsForNotValidDatePeriod()
+    {
+        $leaveRecord = TestDataService::fetchObject('Leave', 10);
+        $leaveRequestService = $this->getMockBuilder(
+            'LeaveRequestService'
+        )
+            ->setMethods(
+                [
+                    'getLeaveRecordsBetweenTwoDays',
+                ]
+            )
+            ->getMock();
+        $leaveRequestService
+            ->method('getLeaveRecordsBetweenTwoDays')
+            ->will($this->returnValue(array($leaveRecord)));
+        $params = [
+            'fromDate' => "2020-12-31",
+            'toDate' => "2020-12-29",
+            'empNumber' => 10000,
+            'pendingApproval' => 'true',
+            'scheduled' => 'true',
+            'taken' => 'true'
+        ];
+        $leaveAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\Leave\LeaveAPI')
+            ->setMethods(
+                [
+                    'getParameters',
+                    'getLoggedInEmployeeNumber',
+                    'getEmployeeDetails',
+                    'getWorkHours',
+                    'getAccessibleEmpNumbers',
+                ]
+            )
+            ->setConstructorArgs([$this->request])
+            ->getMock();
+        $leaveAPI->setLeaveRequestService($leaveRequestService);
+        $leaveAPI->expects($this->once())
+            ->method('getParameters')
+            ->will($this->returnValue($params));
+        $leaveAPI->expects($this->once())
+            ->method('getLoggedInEmployeeNumber')
+            ->will($this->returnValue(1));
+        $leaveAPI
+            ->method('getWorkHours')
+            ->will($this->returnValue([$leaveRecord->toArray()]));
+        $leaveAPI
+            ->method('getAccessibleEmpNumbers')
+            ->will($this->returnValue([]));
+        $this->expectException(InvalidParamException::class);
         $leaveAPI->getLeaveRecords();
     }
 }

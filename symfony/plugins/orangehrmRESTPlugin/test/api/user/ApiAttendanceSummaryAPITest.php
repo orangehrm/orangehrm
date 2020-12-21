@@ -172,7 +172,7 @@ class ApiAttendanceSummaryAPITest extends PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGetAttendanceSummaryForInvalidDateRange()
+    public function testGetAttendanceSummaryForDateRangeNotHavingSevenDaysGap()
     {
         $leaveRecord1 = TestDataService::fetchObject('Leave', 6);
         $leaveRecord2 = TestDataService::fetchObject('Leave', 7);
@@ -308,4 +308,71 @@ class ApiAttendanceSummaryAPITest extends PHPUnit\Framework\TestCase
         $attendanceGraphAPI->getAttendanceSummary();
     }
 
+    public function testGetAttendanceSummaryForInvalidDatePeriod()
+    {
+        $leaveRecord1 = TestDataService::fetchObject('Leave', 6);
+        $leaveRecord2 = TestDataService::fetchObject('Leave', 7);
+        $leaveType2 = TestDataService::fetchObject('LeaveType', 2);
+        $leaveRecord1->setLeaveType($leaveType2);
+        $leaveRecord2->setLeaveType($leaveType2);
+        $leaveRequestService = $this->getMockBuilder(
+            'LeaveRequestService'
+        )
+            ->setMethods(
+                [
+                    'getLeaveRecordsBetweenTwoDays',
+                ]
+            )
+            ->getMock();
+        $leaveRequestService
+            ->method('getLeaveRecordsBetweenTwoDays')
+            ->will($this->returnValue(array($leaveRecord1, $leaveRecord2)));
+
+        $attendanceRecord1 = TestDataService::fetchObject('AttendanceRecord', 4);
+        $attendanceRecord2 = TestDataService::fetchObject('AttendanceRecord', 5);
+        $attendanceService = $this->getMockBuilder(
+            'AttendanceService'
+        )
+            ->setMethods(
+                [
+                    'getAttendanceRecordsBetweenTwoDays',
+                ]
+            )
+            ->getMock();
+        $attendanceService
+            ->method('getAttendanceRecordsBetweenTwoDays')
+            ->will($this->returnValue(array($attendanceRecord1, $attendanceRecord2)));
+        $params = [
+            'fromDate' => "2020-12-31",
+            'toDate' => "2020-12-24",
+            'empNumber' => 1,
+            'pendingApproval' => 'true',
+            'scheduled' => 'true',
+            'taken' => 'true'
+        ];
+        $attendanceGraphAPI = $this->getMockBuilder('Orangehrm\Rest\Api\User\Attendance\AttendanceSummaryAPI')
+            ->setMethods(
+                [
+                    'getParameters',
+                    'getLoggedInEmployeeNumber',
+                    'getEmployeeDetails',
+                    'getAccessibleEmpNumbers'
+                ]
+            )
+            ->setConstructorArgs([$this->request])
+            ->getMock();
+        $attendanceGraphAPI->setLeaveRequestService($leaveRequestService);
+        $attendanceGraphAPI->setAttendanceService($attendanceService);
+        $attendanceGraphAPI->expects($this->once())
+            ->method('getParameters')
+            ->will($this->returnValue($params));
+        $attendanceGraphAPI->expects($this->once())
+            ->method('getLoggedInEmployeeNumber')
+            ->will($this->returnValue(1));
+        $attendanceGraphAPI
+            ->method('getAccessibleEmpNumbers')
+            ->will($this->returnValue([1]));
+        $this->expectException(InvalidParamException::class);
+        $attendanceGraphAPI->getAttendanceSummary();
+    }
 }

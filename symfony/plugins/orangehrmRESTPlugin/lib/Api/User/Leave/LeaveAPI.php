@@ -64,6 +64,11 @@ class LeaveAPI extends EndPoint
         $params = $this->getParameters();
         $loggedInEmpNumber = $this->getLoggedInEmployeeNumber();
         $empNumber = $params[self::PARAMETER_EMPLOYEE_NUMBER];
+        if($params[self::PARAMETER_FROM_DATE]>$params[self::PARAMETER_TO_DATE]){
+            throw new InvalidParamException(
+                'Invalid date Period'
+            );
+        }
         if (empty($empNumber)) {
             $empNumber = $loggedInEmpNumber;
         }

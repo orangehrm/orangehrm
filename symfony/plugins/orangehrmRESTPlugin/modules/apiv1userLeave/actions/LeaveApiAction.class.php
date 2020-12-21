@@ -70,7 +70,7 @@ class LeaveApiAction extends BaseUserApiAction
         $this->setUserToContext();
         return $this->getLeaveAPI($request)->getLeaveRecords();
     }
-
+    
     /**
      * @param Request $request
      * @throws NotImplementedException
