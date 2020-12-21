@@ -248,8 +248,8 @@ class AttendanceSummaryAPI extends EndPoint
         );
 
         foreach ($attendanceRecords as $attendanceRecord) {
-            $punchInDateTime1 = $attendanceRecord->getPunchInUserTime();
-            $punchInDateTime2 = $attendanceRecord->getPunchOutUserTime();
+            $punchInDateTime1 = $attendanceRecord->getPunchInUtcTime();
+            $punchInDateTime2 = $attendanceRecord->getPunchOutUtcTime();
             $day = (new DateTime($punchInDateTime1))->format('l');
 
             $duration = abs(strtotime($punchInDateTime2) - strtotime($punchInDateTime1)) / (60 * 60);

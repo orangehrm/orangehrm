@@ -559,10 +559,11 @@ class AttendanceDao {
      */
     public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,string $state){
         try {
+            $toDate = $toDate.' 23:59:59';
             $query = Doctrine_Query::create()
                 ->from("attendanceRecord")
                 ->where("employeeId = ?", $employeeId)
-                ->andWhere('punchInUserTime > ?', $fromDate)
+                ->andWhere('punchInUserTime >= ?', $fromDate)
                 ->andWhere('punchInUserTime < ?', $toDate)
                 ->orderBy('punchInUtcTime');
             if($state!='ALL'){
