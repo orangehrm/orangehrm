@@ -93,12 +93,12 @@ class AttendanceSummaryAPI extends EndPoint
         $workHoursResult = $this->getWorkHours(
             $params[self::PARAMETER_FROM_DATE],
             $params[self::PARAMETER_TO_DATE],
-            $loggedInEmpNumber
+            $empNumber
         );
         $leaveHoursResult = $this->getLeaveHours(
             $params[self::PARAMETER_FROM_DATE],
             $params[self::PARAMETER_TO_DATE],
-            $loggedInEmpNumber,
+            $empNumber,
             $statuses
         );
         $workSummary = array();
