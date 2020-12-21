@@ -73,10 +73,24 @@ trait ModelTrait
         $array = [];
         if (!is_null($this->entity)) {
             foreach ($this->filter as $index => $attribute) {
-                // Only work with camel cased get methods with particular attribute
-                $getMethodName = "get" . ucfirst($attribute);
-                $array[empty($this->attributeNames[$index]) ? $attribute :
-                    $this->attributeNames[$index]] = $this->entity->$getMethodName();
+                if (is_array($attribute)) {
+                    $value = $this->entity;
+                    foreach ($attribute as $func) {
+                        if (!is_null($value)) {
+                            $value = call_user_func([$value, $func]);
+                        }
+                    }
+                } else {
+                    // Only work with camel cased get methods with particular attribute
+                    $getMethodName = "get" . ucfirst($attribute);
+                    $value = $this->entity->$getMethodName();
+                }
+                $key = empty($this->attributeNames[$index]) ? $attribute :
+                    $this->attributeNames[$index];
+                if (is_array($key)) {
+                    $key = implode("_", $key);
+                }
+                $array[$key] = $value;
             }
         }
         return $array;

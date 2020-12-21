@@ -34,12 +34,20 @@ class EmployeeModel implements Serializable
             [
                 'empNumber',
                 'fullName',
+                ['getEmployeeId'],
+                ['getJobTitleName'],
+                ['getSubDivision','getName'],
+                ['getEmployeeStatus','getName'],
             ]
         );
         $this->setAttributeNames(
             [
                 'employeeId',
                 'employeeName',
+                'code',
+                'jobTitle',
+                'unit',
+                'status',
             ]
         );
     }

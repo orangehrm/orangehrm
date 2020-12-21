@@ -18,7 +18,6 @@
  */
 
 use Orangehrm\Rest\Api\Exception\BadRequestException;
-use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\User\Attendance\AttendanceListAPI;
 use Orangehrm\Rest\Http\Request;
@@ -84,10 +83,21 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
      */
     public function dataProviderGetAttendanceList()
     {
+        $jobTitle = new JobTitle();
+        $jobTitle->setJobTitleName('SE');
+        $unit = new Subunit();
+        $unit->setName('Subunit');
+        $status = new EmploymentStatus();
+        $status->setName('Status');
+
         $employee = new Employee();
-        $employee->setEmpNumber(1);
+        $employee->setEmpNumber('1');
         $employee->setFirstName("Test");
         $employee->setLastName("Employee");
+        $employee->setEmployeeId('0001');
+        $employee->setJobTitle($jobTitle);
+        $employee->setSubDivision($unit);
+        $employee->setEmployeeStatus($status);
 
         $record = new AttendanceRecord();
         $record->setEmployee($employee);
@@ -110,7 +120,11 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
                 [
                     'employeeId' => 1,
                     'employeeName' => 'Test Employee',
-                    'duration' => '9:03'
+                    'duration' => '9:03',
+                    'code' => '0001',
+                    'jobTitle' => 'SE',
+                    'unit' => 'Subunit',
+                    'status' => 'Status',
                 ]
             ],
             1,
@@ -129,7 +143,11 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
                 [
                     'employeeId' => 1,
                     'employeeName' => 'Test Employee',
-                    'duration' => '9:03'
+                    'duration' => '9:03',
+                    'code' => '0001',
+                    'jobTitle' => 'SE',
+                    'unit' => 'Subunit',
+                    'status' => 'Status',
                 ]
             ],
             0,
@@ -154,23 +172,48 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
      * @dataProvider requestParamProvider
      * @param $id
      * @param $returnParamCallback
-     * @param $fromDate
-     * @param $toDate
+     * @param $empIds
+     * @param $expectedParams
+     * @param $exactGetQueryParam
+     * @param $exactGetDefinedTimesheetPeriod
+     * @throws BadRequestException
      * @throws DaoException
-     * @throws Doctrine_Connection_Exception
-     * @throws Doctrine_Record_Exception
-     * @throws InvalidParamException
-     * @throws RecordNotFoundException
      */
-    public function testGetParameters($id, $returnParamCallback, $empIds, $expectedParams, $exact)
-    {
+    public function testGetParameters(
+        $id,
+        $returnParamCallback,
+        $empIds,
+        $expectedParams,
+        $exactGetQueryParam,
+        $exactGetDefinedTimesheetPeriod
+    ) {
         $requestParams = $this->getMockBuilder('\Orangehrm\Rest\Http\RequestParams')
             ->disableOriginalConstructor()
             ->setMethods(['getQueryParam'])
             ->getMock();
-        $requestParams->expects($this->exactly($exact))
+        $requestParams->expects($this->exactly($exactGetQueryParam))
             ->method('getQueryParam')
             ->will($this->returnCallback($returnParamCallback));
+
+        $timesheetPeriodService = $this->getMockBuilder('\TimesheetPeriodService')
+            ->disableOriginalConstructor()
+            ->setMethods(['getDefinedTimesheetPeriod'])
+            ->getMock();
+        $timesheetPeriodService->expects($this->exactly($exactGetDefinedTimesheetPeriod))
+            ->method('getDefinedTimesheetPeriod')
+            ->will(
+                $this->returnValue(
+                    [
+                        '2020-12-21 00:00',
+                        '2020-12-22 00:00',
+                        '2020-12-23 00:00',
+                        '2020-12-24 00:00',
+                        '2020-12-25 00:00',
+                        '2020-12-26 00:00',
+                        '2020-12-27 00:00'
+                    ]
+                )
+            );
 
         $sfEvent = new sfEventDispatcher();
         $sfRequest = new sfWebRequest($sfEvent);
@@ -181,6 +224,7 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
             ->setConstructorArgs([$request])
             ->getMock();
         $attendanceListApi->setRequestParams($requestParams);
+        $attendanceListApi->setTimesheetPeriodService($timesheetPeriodService);
 
         $attendanceListApi->expects($this->once())
             ->method('getAccessibleEmployeeIds')
@@ -207,12 +251,14 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
             },
             [1, 2, 10],
             [
-                AttendanceListAPI::PARAMETER_FROM_DATE => null,
-                AttendanceListAPI::PARAMETER_TO_DATE => null,
+                AttendanceListAPI::PARAMETER_FROM_DATE => '2020-12-21 00:00',
+                AttendanceListAPI::PARAMETER_TO_DATE => '2020-12-27 00:00',
                 AttendanceListAPI::PARAMETER_PAST_EMPLOYEE => false,
-                AttendanceListAPI::PARAMETER_EMP_NUMBER => null
+                AttendanceListAPI::PARAMETER_EMP_NUMBER => null,
+                AttendanceListAPI::PARAMETER_ALL => null
             ],
-            4
+            5,
+            1
         ];
         yield [
             2,
@@ -233,9 +279,11 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
                 AttendanceListAPI::PARAMETER_FROM_DATE => '2020-10-10',
                 AttendanceListAPI::PARAMETER_TO_DATE => '2020-10-11',
                 AttendanceListAPI::PARAMETER_PAST_EMPLOYEE => true,
-                AttendanceListAPI::PARAMETER_EMP_NUMBER => 1
+                AttendanceListAPI::PARAMETER_EMP_NUMBER => 1,
+                AttendanceListAPI::PARAMETER_ALL => false
             ],
-            4
+            5,
+            0
         ];
         yield [
             3,
@@ -247,7 +295,8 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
             },
             [2, 10],
             [],
-            1
+            1,
+            0
         ];
     }
 }

@@ -17,9 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Api\Leave\Entity\LeaveEntitlement;
 use Orangehrm\Rest\Api\User\Attendance\Model\EmployeeModel;
-use Orangehrm\Rest\Api\User\Leave\Model\LeaveEntitlementModel;
 
 /**
  * @group API
@@ -31,12 +29,29 @@ class EmployeeModelTest extends PHPUnit\Framework\TestCase
         $testArray = [
             'employeeId' => '1',
             'employeeName' => 'Test Employee',
+            'code' => '0001',
+            'jobTitle' => 'SE',
+            'unit' => 'Subunit',
+            'status' => 'Status',
         ];
 
+        $jobTitle = new JobTitle();
+        $jobTitle->setJobTitleName('SE');
+
+        $unit = new Subunit();
+        $unit->setName('Subunit');
+
+        $status = new EmploymentStatus();
+        $status->setName('Status');
+
         $employee = new Employee();
-        $employee->setEmpNumber(1);
+        $employee->setEmpNumber('1');
         $employee->setFirstName("Test");
         $employee->setLastName("Employee");
+        $employee->setEmployeeId('0001');
+        $employee->setJobTitle($jobTitle);
+        $employee->setSubDivision($unit);
+        $employee->setEmployeeStatus($status);
 
         $employeeModel = new EmployeeModel($employee);
 

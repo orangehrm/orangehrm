@@ -4,7 +4,7 @@
  * @apiName getLeave
  * @apiGroup User-Leave
  * @apiVersion 1.2.0
- * @apiUse UserDescription
+ * @apiUse UserDescription_47
  *
  * @apiParam {String} [fromDate] From date
  * @apiParam {String} [toDate] To date

@@ -6,14 +6,19 @@
  * @apiVersion 1.2.0
  * @apiUse UserDescription_47
  *
- * @apiParam {Date} [fromDate] From date
- * @apiParam {Date} [toDate] To date
+ * @apiParam {Date} [fromDate] From date (Default: Timesheet Period start date)
+ * @apiParam {Date} [toDate] To date (Default: Timesheet Period end date)
  * @apiParam {String} [empNumber] Employee number
  * @apiParam {String='true','false'} [pastEmployee] Past employee results
+ * @apiParam {String='true','false'} [all] With Zero duration results
  *
  * @apiSuccess {Object[]} data Leave requests array
  * @apiSuccess {String} data.employeeId Employee id
  * @apiSuccess {String} data.employeeName Employee name
+ * @apiSuccess {String} data.code Employee code
+ * @apiSuccess {String} data.jobTitle Job title
+ * @apiSuccess {String} data.unit Sub unit
+ * @apiSuccess {String} data.status Employment status
  * @apiSuccess {String} data.duration Work duration
  *
  * @apiSuccessExample Success-Response:
@@ -24,11 +29,19 @@
  *       {
  *         "employeeId": "4",
  *         "employeeName": "Kevin Mathews",
+ *         "code": "0004",
+ *         "jobTitle": "SE",
+ *         "unit": "Development",
+ *         "status": "Full Time",
  *         "duration": "8:40",
  *       },
  *       {
  *         "employeeId": "5",
  *         "employeeName": "Linda Jane",
+ *         "code": "0005",
+ *         "jobTitle": null,
+ *         "unit": null,
+ *         "status": null,
  *         "duration": "4:00",
  *       }
  *     ]

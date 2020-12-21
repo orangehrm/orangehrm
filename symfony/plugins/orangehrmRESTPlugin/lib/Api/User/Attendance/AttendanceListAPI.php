@@ -23,13 +23,19 @@ use AttendanceRecord;
 use AttendanceService;
 use BasicUserRoleManager;
 use DaoException;
+use Employee;
+use EmployeeSearchParameterHolder;
+use EmployeeService;
+use ListSorter;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\User\Attendance\Model\EmployeeModel;
 use Orangehrm\Rest\Http\Response;
 use ResourcePermission;
 use ServiceException;
+use TimesheetPeriodService;
 use UserRoleManagerFactory;
 
 class AttendanceListAPI extends EndPoint
@@ -38,11 +44,22 @@ class AttendanceListAPI extends EndPoint
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_EMP_NUMBER = 'empNumber';
     const PARAMETER_PAST_EMPLOYEE = 'pastEmployee';
+    const PARAMETER_ALL = 'all';
     const DURATION = 'duration';
     /**
      * @var null|AttendanceService
      */
     protected $attendanceService = null;
+
+    /**
+     * @var null|EmployeeService
+     */
+    protected $employeeService = null;
+
+    /**
+     * @var null|TimesheetPeriodService
+     */
+    protected $timesheetPeriodService = null;
 
     /**
      * @return AttendanceService
@@ -64,6 +81,41 @@ class AttendanceListAPI extends EndPoint
     }
 
     /**
+     * @return EmployeeService
+     */
+    public function getEmployeeService(): EmployeeService
+    {
+        if (is_null($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+        }
+        return $this->employeeService;
+    }
+
+    /**
+     * @param EmployeeService $service
+     */
+    public function setEmployeeService(EmployeeService $service)
+    {
+        $this->employeeService = $service;
+    }
+
+    public function getTimesheetPeriodService(): TimesheetPeriodService
+    {
+        if (is_null($this->timesheetPeriodService)) {
+            $this->timesheetPeriodService = new TimesheetPeriodService();
+        }
+        return $this->timesheetPeriodService;
+    }
+
+    /**
+     * @param TimesheetPeriodService $service
+     */
+    public function setTimesheetPeriodService(TimesheetPeriodService $service)
+    {
+        $this->timesheetPeriodService = $service;
+    }
+
+    /**
      * @return Response
      * @throws BadRequestException
      * @throws DaoException
@@ -76,13 +128,32 @@ class AttendanceListAPI extends EndPoint
         } else {
             $empNumbers = $this->getAccessibleEmployeeIds($params[self::PARAMETER_PAST_EMPLOYEE]);
         }
+
+        $employees = [];
+        if ($params[self::PARAMETER_ALL]) {
+            $filters['employee_id_list'] = is_array($empNumbers) ? $empNumbers : [$empNumbers];
+            $parameterHolder = new EmployeeSearchParameterHolder();
+            $parameterHolder->setOrderField('firstMiddleName');
+            $parameterHolder->setOrderBy(ListSorter::ASCENDING);
+            $parameterHolder->setFilters($filters);
+            $employeeList = $this->getEmployeeService()->searchEmployees($parameterHolder);
+            foreach ($employeeList as $employee) {
+                if ($employee instanceof Employee) {
+                    $employeeModel = new EmployeeModel($employee);
+                    $employees[$employee->getEmpNumber()] = array_merge(
+                        $employeeModel->toArray(),
+                        [self::DURATION => 0]
+                    );
+                }
+            }
+        }
+
         $records = $this->getAttendanceService()->getAttendanceRecordsByEmpNumbers(
             $empNumbers,
             $params[self::PARAMETER_FROM_DATE],
             $params[self::PARAMETER_TO_DATE]
         );
 
-        $employees = [];
         foreach ($records as $record) {
             if ($record instanceof AttendanceRecord) {
                 $empId = $record->getEmployeeId();
@@ -167,11 +238,22 @@ class AttendanceListAPI extends EndPoint
         $fromDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_FROM_DATE);
         $toDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_TO_DATE);
         $pastEmployee = $this->getRequestParams()->getQueryParam(self::PARAMETER_PAST_EMPLOYEE);
+        $all = $this->getRequestParams()->getQueryParam(self::PARAMETER_ALL);
+
+        if (empty($fromDate) && empty($toDate)) {
+            $period = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod(date("Y-m-d"));
+            $fromDate = $period[0];
+            $toDate = $period[6];
+        }
+        if (strtotime($fromDate) > strtotime($toDate)) {
+            throw new InvalidParamException('To Date Should Be After From Date');
+        }
 
         $params[self::PARAMETER_FROM_DATE] = $fromDate;
         $params[self::PARAMETER_TO_DATE] = $toDate;
         $params[self::PARAMETER_EMP_NUMBER] = $empNumber;
         $params[self::PARAMETER_PAST_EMPLOYEE] = filter_var($pastEmployee, FILTER_VALIDATE_BOOLEAN);
+        $params[self::PARAMETER_ALL] = filter_var($all, FILTER_VALIDATE_BOOLEAN);
         return $params;
     }
 
