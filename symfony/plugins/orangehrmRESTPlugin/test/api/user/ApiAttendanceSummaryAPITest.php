@@ -108,7 +108,7 @@ class ApiAttendanceSummaryAPITest extends PHPUnit\Framework\TestCase
         $actual = $attendanceGraphAPI->getAttendanceSummary();
         $expected = new Response(
             array(
-                "totalWorkHours"=> "2.33",
+                "totalWorkHours"=> "0.25",
                 "totalLeaveHours"=> "16.00",
                 "totalLeaveTypeHours"=> [
                     array(
@@ -119,11 +119,11 @@ class ApiAttendanceSummaryAPITest extends PHPUnit\Framework\TestCase
                 ],
                 "workSummary"=> array(
                     "sunday"=> array(
-                        "workHours"=> '1.00',
+                        "workHours"=> 0,
                         "leave"=> []
                     ),
                     "monday"=> array(
-                        "workHours"=> "1.33",
+                        "workHours"=> 0,
                         "leave"=> [
 
                         ]
@@ -155,7 +155,7 @@ class ApiAttendanceSummaryAPITest extends PHPUnit\Framework\TestCase
                         ]
                     ),
                     "friday"=> array(
-                        "workHours"=> 0,
+                        "workHours"=> '0.25',
                         "leave"=> [
 
                         ]
