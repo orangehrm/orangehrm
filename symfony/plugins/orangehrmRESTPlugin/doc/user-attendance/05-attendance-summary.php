@@ -1,13 +1,13 @@
 <?php
 /**
- * @api {get} /attendance/attendance-summary 05.Get Attendance Summary
+ * @api {get} /attendance/summary 05.Get Attendance Summary
  * @apiName getAttendanceSummary
  * @apiGroup User-Attendance
  * @apiVersion 1.2.0
  * @apiUse UserDescription_47
  *
- * @apiParam {String} [fromDate] From date
- * @apiParam {String} [toDate] To date
+ * @apiParam {String} fromDate From date
+ * @apiParam {String} toDate To date
  * @apiParam {String} [empNumber] Employee Number
  * @apiParam {String} [pendingApproval] True or False
  * @apiParam {String} [scheduled] True or False

@@ -32,24 +32,6 @@ class AttendanceSummaryApiAction extends BaseUserApiAction
     private $summaryAPI = null;
 
     /**
-     * @return AttendanceSummaryAPI
-     */
-    public function getsummaryAPI($request)
-    {
-        if (is_null($this->summaryAPI)) {
-            $this->summaryAPI = new AttendanceSummaryAPI($request);
-        }
-        return $this->summaryAPI;
-    }
-
-
-    public function setsummaryAPI($summaryAPI)
-    {
-        $this->summaryAPI = $summaryAPI;
-        return $this;
-    }
-
-    /**
      * @param Request $request
      */
     protected function init(Request $request)
@@ -60,11 +42,87 @@ class AttendanceSummaryApiAction extends BaseUserApiAction
     }
 
     /**
-     * @param Request $request
-     * @return \Orangehrm\Rest\Http\Response
-     * @throws AuthenticationServiceException
-     * @throws BadRequestException
-     * @throws ServiceException
+     * @OA\Get(
+     *     path="/attendance/summary",
+     *     summary="Get Attendance Summary",
+     *     tags={"Attendance","User"},
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         description="From date",
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         description="To date",
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="number"),
+     *         description="Employee number",
+     *     ),
+     *     @OA\Parameter(
+     *         name="rejected",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Leave status rejected",
+     *     ),
+     *     @OA\Parameter(
+     *         name="cancelled",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Leave status cancelled",
+     *     ),
+     *     @OA\Parameter(
+     *         name="pendingApproval",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Leave status pending approval",
+     *     ),
+     *     @OA\Parameter(
+     *         name="scheduled",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Leave status scheduled",
+     *     ),
+     *     @OA\Parameter(
+     *         name="taken",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Leave status taken",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/AttendanceSummary"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="AttendanceSummary",
+     *     type="object",
+     *     example={"data":{"totalWorkHours":"7.98","totalLeaveHours":"16.00","totalLeaveTypeHours":{{"typeId":"1","type":"Medical","hours":"4.00"},{"typeId":"3","type":"Anual","hours":"8.00"},{"typeId":"2","type":"Casual","hours":"4.00"}},"workSummary":{"sunday":{"workHours":0,"leave":{}},"monday":{"workHours":"7.00","leave":{}},"tuesday":{"workHours":0,"leave":{{"typeId":"1","type":"Medical","hours":"4.00"}}},"wednesday":{"workHours":0,"leave":{{"typeId":"3","type":"Anual","hours":"8.00"}}},"thursday":{"workHours":"0.98","leave":{}},"friday":{"workHours":0,"leave":{{"typeId":"2","type":"Casual","hours":"4.00"}}},"saturday":{"workHours":0,"leave":{}}}},"rels":{}}
+     * )
      */
     protected function handleGetRequest(Request $request)
     {

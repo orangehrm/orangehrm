@@ -46,7 +46,7 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
         $request = new Request($sfRequest);
 
         $attendanceListApi = $this->getMockBuilder('Orangehrm\Rest\Api\User\Attendance\AttendanceListAPI')
-            ->setMethods(['getParameters', 'getAccessibleEmployeeIds'])
+            ->setMethods(['getParameters', 'getAccessibleEmployeeIds','getUserAttribute'])
             ->setConstructorArgs([$request])
             ->getMock();
         $attendanceListApi->expects($this->once())
@@ -58,6 +58,10 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
             ->method('getAccessibleEmployeeIds')
             ->withAnyParameters()
             ->will($this->returnValue($empIds));
+        $attendanceListApi->expects($this->once())
+            ->method('getUserAttribute')
+            ->withAnyParameters()
+            ->will($this->returnValue(1));
 
         $attendanceService = $this->getMockBuilder('AttendanceService')->getMock();
         $attendanceService->expects($this->once())
@@ -255,9 +259,10 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
                 AttendanceListAPI::PARAMETER_TO_DATE => '2020-12-27 00:00',
                 AttendanceListAPI::PARAMETER_PAST_EMPLOYEE => false,
                 AttendanceListAPI::PARAMETER_EMP_NUMBER => null,
-                AttendanceListAPI::PARAMETER_ALL => null
+                AttendanceListAPI::PARAMETER_ALL => null,
+                AttendanceListAPI::PARAMETER_INCLUDE_SELF => false,
             ],
-            5,
+            6,
             1
         ];
         yield [
@@ -280,9 +285,10 @@ class ApiAttendanceListAPITest extends PHPUnit\Framework\TestCase
                 AttendanceListAPI::PARAMETER_TO_DATE => '2020-10-11',
                 AttendanceListAPI::PARAMETER_PAST_EMPLOYEE => true,
                 AttendanceListAPI::PARAMETER_EMP_NUMBER => 1,
-                AttendanceListAPI::PARAMETER_ALL => false
+                AttendanceListAPI::PARAMETER_ALL => false,
+                AttendanceListAPI::PARAMETER_INCLUDE_SELF => false,
             ],
-            5,
+            6,
             0
         ];
         yield [

@@ -70,6 +70,20 @@ class AttendanceListApiAction extends BaseUserApiAction
      *         @OA\Schema(type="boolean"),
      *         description="Include past employee results",
      *     ),
+     *     @OA\Parameter(
+     *         name="all",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="With Zero duration results",
+     *     ),
+     *     @OA\Parameter(
+     *         name="includeSelf",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Include past employee results",
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -78,23 +92,21 @@ class AttendanceListApiAction extends BaseUserApiAction
      *     @OA\Response(
      *         response=400,
      *         description="No Bound User",
-     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *         @OA\JsonContent(
+     *             oneOf={@OA\Schema(ref="#/components/schemas/NoBoundUserError"),
+     *                 @OA\Schema(ref="#/components/schemas/EmployeeNotFoundException")}
+     *         ),
      *     ),
      *     @OA\Response(
      *         response=404,
      *         description="No Records Found",
      *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
      *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Employee Not Found",
-     *         @OA\JsonContent(ref="#/components/schemas/EmployeeNotFoundException"),
-     *     ),
      * )
      * @OA\Schema(
      *     schema="AttendanceList",
      *     type="object",
-     *     example={"data":{{"employeeId":"1","employeeName":"AbbeyKayla","duration":"8:48"},{"employeeId":"7","employeeName":"RachelMunguia","duration":"8:02"}},"rels":{}}
+     *     example={"data":{{"employeeId":"1","employeeName":"AbbeyKayla","code": "0006","jobTitle": "SE","unit": "Development","status": "Full Time","duration":"8:48"},{"employeeId":"7","employeeName":"RachelMunguia","code": "0006","jobTitle": null,"unit": null,"status": null,"duration":"8:02"}},"rels":{}}
      * )
      * @OA\Schema(
      *     schema="EmployeeNotFoundException",

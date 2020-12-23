@@ -11,6 +11,7 @@
  * @apiParam {String} [empNumber] Employee number
  * @apiParam {String='true','false'} [pastEmployee] Past employee results
  * @apiParam {String='true','false'} [all] With Zero duration results
+ * @apiParam {String='true','false'} [includeSelf] Include self when getting list. This parameter ignore when `empNumber` parameter passed
  *
  * @apiSuccess {Object[]} data Leave requests array
  * @apiSuccess {String} data.employeeId Employee id

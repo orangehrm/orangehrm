@@ -35,6 +35,8 @@ use Orangehrm\Rest\Api\User\Attendance\Model\EmployeeModel;
 use Orangehrm\Rest\Http\Response;
 use ResourcePermission;
 use ServiceException;
+use sfContext;
+use sfException;
 use TimesheetPeriodService;
 use UserRoleManagerFactory;
 
@@ -45,7 +47,10 @@ class AttendanceListAPI extends EndPoint
     const PARAMETER_EMP_NUMBER = 'empNumber';
     const PARAMETER_PAST_EMPLOYEE = 'pastEmployee';
     const PARAMETER_ALL = 'all';
+    const PARAMETER_INCLUDE_SELF = 'includeSelf';
     const DURATION = 'duration';
+
+    const WITH_TERMINATED_ID = 2;
     /**
      * @var null|AttendanceService
      */
@@ -123,15 +128,25 @@ class AttendanceListAPI extends EndPoint
     public function getAttendanceList(): Response
     {
         $params = $this->getParameters();
+        $loggedInEmpNumber = $this->getUserAttribute("auth.empNumber");
         if (!empty($params[self::PARAMETER_EMP_NUMBER])) {
             $empNumbers = $params[self::PARAMETER_EMP_NUMBER];
         } else {
             $empNumbers = $this->getAccessibleEmployeeIds($params[self::PARAMETER_PAST_EMPLOYEE]);
+            if (!$params[self::PARAMETER_INCLUDE_SELF] && ($key = array_search(
+                    $loggedInEmpNumber,
+                    $empNumbers
+                )) !== false) {
+                unset($empNumbers[$key]);
+            }
         }
 
         $employees = [];
-        if ($params[self::PARAMETER_ALL]) {
+        if ($params[self::PARAMETER_ALL] && !empty($empNumbers)) {
             $filters['employee_id_list'] = is_array($empNumbers) ? $empNumbers : [$empNumbers];
+            if ($params[self::PARAMETER_PAST_EMPLOYEE]){
+                $filters['termination'] = self::WITH_TERMINATED_ID;
+            }
             $parameterHolder = new EmployeeSearchParameterHolder();
             $parameterHolder->setOrderField('firstMiddleName');
             $parameterHolder->setOrderBy(ListSorter::ASCENDING);
@@ -185,6 +200,16 @@ class AttendanceListAPI extends EndPoint
     }
 
     /**
+     * @param string $name
+     * @return string
+     * @throws sfException
+     */
+    protected function getUserAttribute(string $name): string
+    {
+        return sfContext::getInstance()->getUser()->getAttribute($name);
+    }
+
+    /**
      * @param bool $withTerminated
      * @return array
      * @throws ServiceException
@@ -209,15 +234,20 @@ class AttendanceListAPI extends EndPoint
             [],
             $requiredPermissions
         );
-
-        if ($withTerminated) {
-            return array_keys($employeeList);
-        }
         $empNumbers = [];
-        foreach ($employeeList as $empNumber => $employee) {
-            if (is_null($employee['termination_id'])) {
-                $empNumbers[] = $empNumber;
+        if ($withTerminated) {
+            $empNumbers = array_keys($employeeList);
+        } else {
+            foreach ($employeeList as $empNumber => $employee) {
+                if (is_null($employee['termination_id'])) {
+                    $empNumbers[] = $empNumber;
+                }
             }
+        }
+
+        $loggedInEmpNumber = $this->getUserAttribute("auth.empNumber");
+        if (!in_array($loggedInEmpNumber, $empNumbers)) {
+            array_push($empNumbers, $loggedInEmpNumber);
         }
         return $empNumbers;
     }
@@ -238,7 +268,8 @@ class AttendanceListAPI extends EndPoint
         $fromDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_FROM_DATE);
         $toDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_TO_DATE);
         $pastEmployee = $this->getRequestParams()->getQueryParam(self::PARAMETER_PAST_EMPLOYEE);
-        $all = $this->getRequestParams()->getQueryParam(self::PARAMETER_ALL);
+        $all = $this->getRequestParams()->getQueryParam(self::PARAMETER_ALL, false);
+        $includeSelf = $this->getRequestParams()->getQueryParam(self::PARAMETER_INCLUDE_SELF, false);
 
         if (empty($fromDate) && empty($toDate)) {
             $period = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod(date("Y-m-d"));
@@ -254,6 +285,7 @@ class AttendanceListAPI extends EndPoint
         $params[self::PARAMETER_EMP_NUMBER] = $empNumber;
         $params[self::PARAMETER_PAST_EMPLOYEE] = filter_var($pastEmployee, FILTER_VALIDATE_BOOLEAN);
         $params[self::PARAMETER_ALL] = filter_var($all, FILTER_VALIDATE_BOOLEAN);
+        $params[self::PARAMETER_INCLUDE_SELF] = filter_var($includeSelf, FILTER_VALIDATE_BOOLEAN);
         return $params;
     }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @api {get} /attendance/attendance 11.Get Leave
+ * @api {get} /leave/leaves 11.Get Leaves
  * @apiName getLeave
  * @apiGroup User-Leave
  * @apiVersion 1.2.0

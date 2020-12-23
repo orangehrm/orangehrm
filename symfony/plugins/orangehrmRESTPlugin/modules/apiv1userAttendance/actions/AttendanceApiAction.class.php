@@ -27,6 +27,9 @@ use Orangehrm\Rest\Api\Exception\BadRequestException;
 class AttendanceApiAction extends BaseUserApiAction
 {
 
+    /**
+     * @var null|AttendanceAPI
+     */
     private $attendanceAPI = null;
 
     /**
@@ -60,11 +63,52 @@ class AttendanceApiAction extends BaseUserApiAction
     }
 
     /**
-     * @param Request $request
-     * @return \Orangehrm\Rest\Http\Response
-     * @throws AuthenticationServiceException
-     * @throws BadRequestException
-     * @throws ServiceException
+     * @OA\Get(
+     *     path="/attendance/records",
+     *     summary="Get Attendance Records",
+     *     tags={"Attendance","User"},
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="From date",
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="To date",
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="number"),
+     *         description="Employee number",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/AttendanceRecords"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="AttendanceRecords",
+     *     type="object",
+     *     example={"data":{{"id":"94","punchInUtcTime":"2020-12-1703:00:00","punchInNote":null,"punchInTimeOffset":"5.5","punchInUserTime":"2020-12-1708:30:00","punchOutUtcTime":"2020-12-1703:31:00","punchOutNote":null,"punchOutTimeOffset":"5.0","punchOutUserTime":"2020-12-1708:31:00","state":"PUNCHEDOUT"},{"id":"95","punchInUtcTime":"2020-12-1704:00:00","punchInNote":null,"punchInTimeOffset":"5.5","punchInUserTime":"2020-12-1709:30:00","punchOutUtcTime":"2020-12-1704:01:00","punchOutNote":null,"punchOutTimeOffset":"5.5","punchOutUserTime":"2020-12-1709:31:00","state":"PUNCHEDOUT"},{"id":"93","punchInUtcTime":"2020-12-1704:33:00","punchInNote":"","punchInTimeOffset":"5.5","punchInUserTime":"2020-12-1710:03:00","punchOutUtcTime":"2020-12-1705:00:00","punchOutNote":null,"punchOutTimeOffset":"5.5","punchOutUserTime":"2020-12-1710:30:00","state":"PUNCHEDOUT"}},"rels":{}}
+     * )
      */
     protected function handleGetRequest(Request $request)
     {

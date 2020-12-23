@@ -41,150 +41,6 @@
         }
     ],
     "paths": {
-        "/attendance/punch-in": {
-            "post": {
-                "tags": [
-                    "Attendance",
-                    "User"
-                ],
-                "summary": "Save Employee Punch In",
-                "operationId": "EmployeePunchInApiAction::handlePostRequest",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EmployeePunchInRequestBody"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EmployeePunchIn"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "No Bound User",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NoBoundUserError"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No Records Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RecordNotFoundException"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/attendance/punch-out": {
-            "post": {
-                "tags": [
-                    "Attendance",
-                    "User"
-                ],
-                "summary": "Save Employee Punch Out",
-                "operationId": "EmployeePunchOutApiAction::handlePostRequest",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EmployeePunchOutRequestBody"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EmployeePunchOut"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "No Bound User",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NoBoundUserError"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No Records Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RecordNotFoundException"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/attendance/punch-status": {
-            "get": {
-                "tags": [
-                    "Attendance",
-                    "User"
-                ],
-                "summary": "Get Employee Punch Status",
-                "operationId": "EmployeePunchStatusApiAction::handleGetRequest",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EmployeePunchStatus"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "No Bound User",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NoBoundUserError"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No Records Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RecordNotFoundException"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/employees": {
             "get": {
                 "tags": [
@@ -353,6 +209,77 @@
                 }
             }
         },
+        "/attendance/records": {
+            "get": {
+                "tags": [
+                    "Attendance",
+                    "User"
+                ],
+                "summary": "Get Attendance Records",
+                "operationId": "AttendanceApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "description": "From date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "description": "To date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "empNumber",
+                        "in": "query",
+                        "description": "Employee number",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AttendanceRecords"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/attendance/attendance-list": {
             "get": {
                 "tags": [
@@ -397,6 +324,24 @@
                         "schema": {
                             "type": "boolean"
                         }
+                    },
+                    {
+                        "name": "all",
+                        "in": "query",
+                        "description": "With Zero duration results",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "includeSelf",
+                        "in": "query",
+                        "description": "Include past employee results",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
                     }
                 ],
                 "responses": {
@@ -406,6 +351,273 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AttendanceList"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/NoBoundUserError"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/EmployeeNotFoundException"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attendance/summary": {
+            "get": {
+                "tags": [
+                    "Attendance",
+                    "User"
+                ],
+                "summary": "Get Attendance Summary",
+                "operationId": "AttendanceSummaryApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "description": "From date",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "description": "To date",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "empNumber",
+                        "in": "query",
+                        "description": "Employee number",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "rejected",
+                        "in": "query",
+                        "description": "Leave status rejected",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "cancelled",
+                        "in": "query",
+                        "description": "Leave status cancelled",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "pendingApproval",
+                        "in": "query",
+                        "description": "Leave status pending approval",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "scheduled",
+                        "in": "query",
+                        "description": "Leave status scheduled",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "taken",
+                        "in": "query",
+                        "description": "Leave status taken",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AttendanceSummary"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attendance/punch-in": {
+            "post": {
+                "tags": [
+                    "Attendance",
+                    "User"
+                ],
+                "summary": "Save Employee Punch In",
+                "operationId": "EmployeePunchInApiAction::handlePostRequest",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmployeePunchInRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeePunchIn"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attendance/punch-out": {
+            "post": {
+                "tags": [
+                    "Attendance",
+                    "User"
+                ],
+                "summary": "Save Employee Punch Out",
+                "operationId": "EmployeePunchOutApiAction::handlePostRequest",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmployeePunchOutRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeePunchOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/attendance/punch-status": {
+            "get": {
+                "tags": [
+                    "Attendance",
+                    "User"
+                ],
+                "summary": "Get Employee Punch Status",
+                "operationId": "EmployeePunchStatusApiAction::handleGetRequest",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeePunchStatus"
                                 }
                             }
                         }
@@ -582,6 +794,122 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/LeaveHolidays"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/leave/leaves": {
+            "get": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Get Leaves",
+                "operationId": "LeaveApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "fromDate",
+                        "in": "query",
+                        "description": "From date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "toDate",
+                        "in": "query",
+                        "description": "To date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "empNumber",
+                        "in": "query",
+                        "description": "Employee number",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "rejected",
+                        "in": "query",
+                        "description": "Leave status rejected",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "cancelled",
+                        "in": "query",
+                        "description": "Leave status cancelled",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "pendingApproval",
+                        "in": "query",
+                        "description": "Leave status pending approval",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "scheduled",
+                        "in": "query",
+                        "description": "Leave status scheduled",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "taken",
+                        "in": "query",
+                        "description": "Leave status taken",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Leaves"
                                 }
                             }
                         }
@@ -1310,81 +1638,6 @@
     },
     "components": {
         "schemas": {
-            "EmployeePunchInRequestBody": {
-                "properties": {
-                    "timezoneOffset": {
-                        "description": "Time Zone Offset (ex: 5.5)",
-                        "type": "string"
-                    },
-                    "datetime": {
-                        "description": "Date and Time Required If Current Time Editable (ex: '2020-12-28 08:30')",
-                        "type": "string"
-                    },
-                    "note": {
-                        "description": "Punch In Note",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "EmployeePunchIn": {
-                "type": "object",
-                "example": {
-                    "data": {
-                        "id": "1",
-                        "datetime": "2020-12-28 08:30",
-                        "timezoneOffset": 5.5,
-                        "note": "PUNCH IN NOTE"
-                    },
-                    "rels": []
-                }
-            },
-            "EmployeePunchOutRequestBody": {
-                "properties": {
-                    "timezoneOffset": {
-                        "description": "Time Zone Offset (ex: 5.5)",
-                        "type": "string"
-                    },
-                    "datetime": {
-                        "description": "Date and Time Required If Current Time Editable (ex: '2020-12-28 08:30')",
-                        "type": "string"
-                    },
-                    "note": {
-                        "description": "Punch Out Note",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "EmployeePunchOut": {
-                "type": "object",
-                "example": {
-                    "data": {
-                        "id": "1",
-                        "punchInDateTime": "2020-12-28 08:30",
-                        "punchInTimeZone": 5.5,
-                        "punchInNote": "PUNCH IN NOTE",
-                        "punchOutDateTime": "2020-12-28 18:30",
-                        "punchOutTimeZone": 5.5,
-                        "punchOutNote": "PUNCH OUT NOTE"
-                    },
-                    "rels": []
-                }
-            },
-            "EmployeePunchStatus": {
-                "type": "object",
-                "example": {
-                    "data": {
-                        "punchTime": "2021-01-31 19:31:00",
-                        "punchNote": "PUNCH IN NOTE",
-                        "PunchTimeZoneOffset": 5.5,
-                        "dateTimeEditable": true,
-                        "currentUtcDateTime": "2020-11-12 05:25",
-                        "punchState": "PUNCHED IN"
-                    },
-                    "rels": []
-                }
-            },
             "Employees": {
                 "type": "object",
                 "example": {
@@ -1463,6 +1716,50 @@
                     "rels": []
                 }
             },
+            "AttendanceRecords": {
+                "type": "object",
+                "example": {
+                    "data": [
+                        {
+                            "id": "94",
+                            "punchInUtcTime": "2020-12-1703:00:00",
+                            "punchInNote": null,
+                            "punchInTimeOffset": "5.5",
+                            "punchInUserTime": "2020-12-1708:30:00",
+                            "punchOutUtcTime": "2020-12-1703:31:00",
+                            "punchOutNote": null,
+                            "punchOutTimeOffset": "5.0",
+                            "punchOutUserTime": "2020-12-1708:31:00",
+                            "state": "PUNCHEDOUT"
+                        },
+                        {
+                            "id": "95",
+                            "punchInUtcTime": "2020-12-1704:00:00",
+                            "punchInNote": null,
+                            "punchInTimeOffset": "5.5",
+                            "punchInUserTime": "2020-12-1709:30:00",
+                            "punchOutUtcTime": "2020-12-1704:01:00",
+                            "punchOutNote": null,
+                            "punchOutTimeOffset": "5.5",
+                            "punchOutUserTime": "2020-12-1709:31:00",
+                            "state": "PUNCHEDOUT"
+                        },
+                        {
+                            "id": "93",
+                            "punchInUtcTime": "2020-12-1704:33:00",
+                            "punchInNote": "",
+                            "punchInTimeOffset": "5.5",
+                            "punchInUserTime": "2020-12-1710:03:00",
+                            "punchOutUtcTime": "2020-12-1705:00:00",
+                            "punchOutNote": null,
+                            "punchOutTimeOffset": "5.5",
+                            "punchOutUserTime": "2020-12-1710:30:00",
+                            "state": "PUNCHEDOUT"
+                        }
+                    ],
+                    "rels": []
+                }
+            },
             "AttendanceList": {
                 "type": "object",
                 "example": {
@@ -1470,11 +1767,19 @@
                         {
                             "employeeId": "1",
                             "employeeName": "AbbeyKayla",
+                            "code": "0006",
+                            "jobTitle": "SE",
+                            "unit": "Development",
+                            "status": "Full Time",
                             "duration": "8:48"
                         },
                         {
                             "employeeId": "7",
                             "employeeName": "RachelMunguia",
+                            "code": "0006",
+                            "jobTitle": null,
+                            "unit": null,
+                            "status": null,
                             "duration": "8:02"
                         }
                     ],
@@ -1487,6 +1792,156 @@
                     "error": [
                         "Employee Not Found"
                     ]
+                }
+            },
+            "AttendanceSummary": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "totalWorkHours": "7.98",
+                        "totalLeaveHours": "16.00",
+                        "totalLeaveTypeHours": [
+                            {
+                                "typeId": "1",
+                                "type": "Medical",
+                                "hours": "4.00"
+                            },
+                            {
+                                "typeId": "3",
+                                "type": "Anual",
+                                "hours": "8.00"
+                            },
+                            {
+                                "typeId": "2",
+                                "type": "Casual",
+                                "hours": "4.00"
+                            }
+                        ],
+                        "workSummary": {
+                            "sunday": {
+                                "workHours": 0,
+                                "leave": []
+                            },
+                            "monday": {
+                                "workHours": "7.00",
+                                "leave": []
+                            },
+                            "tuesday": {
+                                "workHours": 0,
+                                "leave": [
+                                    {
+                                        "typeId": "1",
+                                        "type": "Medical",
+                                        "hours": "4.00"
+                                    }
+                                ]
+                            },
+                            "wednesday": {
+                                "workHours": 0,
+                                "leave": [
+                                    {
+                                        "typeId": "3",
+                                        "type": "Anual",
+                                        "hours": "8.00"
+                                    }
+                                ]
+                            },
+                            "thursday": {
+                                "workHours": "0.98",
+                                "leave": []
+                            },
+                            "friday": {
+                                "workHours": 0,
+                                "leave": [
+                                    {
+                                        "typeId": "2",
+                                        "type": "Casual",
+                                        "hours": "4.00"
+                                    }
+                                ]
+                            },
+                            "saturday": {
+                                "workHours": 0,
+                                "leave": []
+                            }
+                        }
+                    },
+                    "rels": []
+                }
+            },
+            "EmployeePunchInRequestBody": {
+                "properties": {
+                    "timezoneOffset": {
+                        "description": "Time Zone Offset (ex: 5.5)",
+                        "type": "string"
+                    },
+                    "datetime": {
+                        "description": "Date and Time Required If Current Time Editable (ex: '2020-12-28 08:30')",
+                        "type": "string"
+                    },
+                    "note": {
+                        "description": "Punch In Note",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "EmployeePunchIn": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "id": "1",
+                        "datetime": "2020-12-28 08:30",
+                        "timezoneOffset": 5.5,
+                        "note": "PUNCH IN NOTE"
+                    },
+                    "rels": []
+                }
+            },
+            "EmployeePunchOutRequestBody": {
+                "properties": {
+                    "timezoneOffset": {
+                        "description": "Time Zone Offset (ex: 5.5)",
+                        "type": "string"
+                    },
+                    "datetime": {
+                        "description": "Date and Time Required If Current Time Editable (ex: '2020-12-28 08:30')",
+                        "type": "string"
+                    },
+                    "note": {
+                        "description": "Punch Out Note",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "EmployeePunchOut": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "id": "1",
+                        "punchInDateTime": "2020-12-28 08:30",
+                        "punchInTimeZone": 5.5,
+                        "punchInNote": "PUNCH IN NOTE",
+                        "punchOutDateTime": "2020-12-28 18:30",
+                        "punchOutTimeZone": 5.5,
+                        "punchOutNote": "PUNCH OUT NOTE"
+                    },
+                    "rels": []
+                }
+            },
+            "EmployeePunchStatus": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "punchTime": "2021-01-31 19:31:00",
+                        "punchNote": "PUNCH IN NOTE",
+                        "PunchTimeZoneOffset": 5.5,
+                        "dateTimeEditable": true,
+                        "currentUtcDateTime": "2020-11-12 05:25",
+                        "punchState": "PUNCHED IN"
+                    },
+                    "rels": []
                 }
             },
             "LeaveRequest": {
@@ -1592,6 +2047,53 @@
                             "description": "Holyday2",
                             "date": "2020-08-06",
                             "length": "8"
+                        }
+                    ],
+                    "rels": []
+                }
+            },
+            "Leaves": {
+                "type": "object",
+                "example": {
+                    "data": [
+                        {
+                            "id": "12",
+                            "date": "2020-12-15",
+                            "lengthHours": "4.00",
+                            "lengthDays": "0.5000",
+                            "leaveType": {
+                                "id": "1",
+                                "type": "Medical"
+                            },
+                            "startTime": "09:00:00",
+                            "endTime": "13:00:00",
+                            "status": "CANCELLED"
+                        },
+                        {
+                            "id": "11",
+                            "date": "2020-12-16",
+                            "lengthHours": "8.00",
+                            "lengthDays": "1.0000",
+                            "leaveType": {
+                                "id": "3",
+                                "type": "Anual"
+                            },
+                            "startTime": "00:00:00",
+                            "endTime": "00:00:00",
+                            "status": "PENDINGAPPROVAL"
+                        },
+                        {
+                            "id": "13",
+                            "date": "2020-12-18",
+                            "lengthHours": "4.00",
+                            "lengthDays": "0.5000",
+                            "leaveType": {
+                                "id": "2",
+                                "type": "Casual"
+                            },
+                            "startTime": "09:00:00",
+                            "endTime": "13:00:00",
+                            "status": "REJECTED"
                         }
                     ],
                     "rels": []

@@ -26,27 +26,10 @@ use Orangehrm\Rest\Api\Exception\BadRequestException;
 
 class LeaveApiAction extends BaseUserApiAction
 {
+    /**
+     * @var null|LeaveAPI
+     */
     private $leaveAPI = null;
-
-    /**
-     * @param Request $request
-     * @return LeaveAPI
-     */
-    public function getLeaveAPI(Request $request)
-    {
-        if (is_null($this->leaveAPI)) {
-            $this->leaveAPI = new LeaveAPI($request);
-        }
-        return $this->leaveAPI;
-    }
-
-    /**
-     * @param LeaveAPI $LeaveAPI
-     */
-    public function setLeaveAPI(LeaveAPI $LeaveAPI)
-    {
-        $this->leaveAPI = $LeaveAPI;
-    }
 
     /**
      * @param Request $request
@@ -59,16 +42,92 @@ class LeaveApiAction extends BaseUserApiAction
     }
 
     /**
-     * @param Request $request
-     * @return \Orangehrm\Rest\Http\Response
-     * @throws AuthenticationServiceException
-     * @throws BadRequestException
-     * @throws ServiceException
+     * @OA\Get(
+     *     path="/leave/leaves",
+     *     summary="Get Leaves",
+     *     tags={"Leave","User"},
+     *     @OA\Parameter(
+     *         name="fromDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="From date",
+     *     ),
+     *     @OA\Parameter(
+     *         name="toDate",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="To date",
+     *     ),
+     *     @OA\Parameter(
+     *         name="empNumber",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="number"),
+     *         description="Employee number",
+     *     ),
+     *     @OA\Parameter(
+     *         name="rejected",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Leave status rejected",
+     *     ),
+     *     @OA\Parameter(
+     *         name="cancelled",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Leave status cancelled",
+     *     ),
+     *     @OA\Parameter(
+     *         name="pendingApproval",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Leave status pending approval",
+     *     ),
+     *     @OA\Parameter(
+     *         name="scheduled",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Leave status scheduled",
+     *     ),
+     *     @OA\Parameter(
+     *         name="taken",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="boolean"),
+     *         description="Leave status taken",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/Leaves"),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No Bound User",
+     *         @OA\JsonContent(ref="#/components/schemas/NoBoundUserError"),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No Records Found",
+     *         @OA\JsonContent(ref="#/components/schemas/RecordNotFoundException"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="Leaves",
+     *     type="object",
+     *     example={"data":{{"id":"12","date":"2020-12-15","lengthHours":"4.00","lengthDays":"0.5000","leaveType":{"id":"1","type":"Medical"},"startTime":"09:00:00","endTime":"13:00:00","status":"CANCELLED"},{"id":"11","date":"2020-12-16","lengthHours":"8.00","lengthDays":"1.0000","leaveType":{"id":"3","type":"Anual"},"startTime":"00:00:00","endTime":"00:00:00","status":"PENDINGAPPROVAL"},{"id":"13","date":"2020-12-18","lengthHours":"4.00","lengthDays":"0.5000","leaveType":{"id":"2","type":"Casual"},"startTime":"09:00:00","endTime":"13:00:00","status":"REJECTED"}},"rels":{}}
+     * )
      */
     protected function handleGetRequest(Request $request)
     {
         $this->setUserToContext();
-        return $this->getLeaveAPI($request)->getLeaveRecords();
+        return $this->leaveAPI->getLeaveRecords();
     }
     
     /**

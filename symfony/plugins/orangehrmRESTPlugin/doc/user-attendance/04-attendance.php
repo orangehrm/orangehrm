@@ -1,6 +1,6 @@
 <?php
 /**
- * @api {get} /attendance/attendance 04.Get Attendance
+ * @api {get} /attendance/records 04.Get Attendance Records
  * @apiName getAttendance
  * @apiGroup User-Attendance
  * @apiVersion 1.2.0
