@@ -1659,6 +1659,7 @@
                 }
             },
             "MyInfo": {
+                "description": "`employee` can be null as of 1.2.0",
                 "type": "object",
                 "example": {
                     "data": {

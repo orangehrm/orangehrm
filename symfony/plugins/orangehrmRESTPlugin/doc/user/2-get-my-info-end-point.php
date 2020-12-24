@@ -3,7 +3,7 @@
  * @api {get} /myinfo 02.Employee Info
  * @apiName getMyInfo
  * @apiGroup User
- * @apiVersion 1.1.0
+ * @apiVersion 1.2.0
  * @apiUse UserDescription
  *
  * @apiParam {String='true','false'} [withPhoto] Specify whether with employee photo. Default `false`
