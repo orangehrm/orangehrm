@@ -338,3 +338,9 @@ api_attendance_attendancelist:
   param: { module:apiv1userAttendance, action: AttendanceListApi }
   requirements:
     sf_method: [get]
+
+api_time_config:
+  url: /api/v1/time/config
+  param: { module:apiv1userTime, action: TimeConfigApi }
+  requirements:
+    sf_method: [get]

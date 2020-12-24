@@ -29,7 +29,8 @@ class orangehrmRESTPluginConfiguration extends sfPluginConfiguration {
                                   'apiv1user',
                                   'apiv1public',
                                   'apiv1userLeave',
-                                  'apiv1userAttendance'
+                                  'apiv1userAttendance',
+                                  'apiv1userTime',
                               )
                           )
             );

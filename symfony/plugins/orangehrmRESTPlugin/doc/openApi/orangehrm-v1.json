@@ -1634,6 +1634,38 @@
                     }
                 }
             }
+        },
+        "/time/config": {
+            "get": {
+                "tags": [
+                    "Time",
+                    "User"
+                ],
+                "summary": "Get Time Configurations",
+                "operationId": "TimeConfigApiAction::handleGetRequest",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeConfig"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -2436,6 +2468,15 @@
                         "fri": "0",
                         "sat": "4",
                         "sun": "8"
+                    },
+                    "rels": []
+                }
+            },
+            "TimeConfig": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "startDate": 3
                     },
                     "rels": []
                 }
