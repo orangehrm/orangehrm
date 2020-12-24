@@ -73,7 +73,7 @@ class EmployeePunchOutAPI extends PunchOutAPI
         $editable = $this->getAttendanceService()->getPunchTimeUserConfiguration();
         if (!$editable) {
             $utcNowTimeValue = strtotime($this->getCurrentUTCTime());
-            $userEnterTimeUTCValue = strtotime($punchInUtcTime);
+            $userEnterTimeUTCValue = strtotime($punchOutUtcTime);
             $diff = abs($utcNowTimeValue - $userEnterTimeUTCValue);
             if ($diff > 180) {
                 throw new InvalidParamException('You Are Not Allowed To Change Current Date & Time');

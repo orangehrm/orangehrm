@@ -340,10 +340,10 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
     }
     public function testGetAttendanceRecordsBetweenTwoDaysForEdgeDates() {
         $employeeId = 5;
-        $fromDate = '2012-02-28';
-        $toDate = '2012-12-21';
+        $fromDate = '2012-02-28 12:26:26';
+        $toDate = '2012-12-21 23:26:26';
         $state= "ALL";
         $attendanceRecords = $this->attendanceDao->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
-        $this->assertEquals(1,count($attendanceRecords));
+        $this->assertEquals(2,count($attendanceRecords));
     }
 }
