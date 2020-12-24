@@ -82,28 +82,32 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/model/ModelTraitTest.php');
 
         // Api/User
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiMyLeaveEntitlementAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/model/ApiLeaveEntitlementModelTest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiMyLeaveRequestAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiEmployeeLeaveRequestAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/model/ApiLeaveRequestModelTest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiSubordinateLeaveEntitlementAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiEmployeesAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiApplyLeaveRequestAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiAssignLeaveRequestAPITest.php');
 
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/service/APILeaveApplicationServiceTest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/service/APILeaveAssignmentServiceTest.php');
+        // Api/User/Leave
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/ApiMyLeaveEntitlementAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/model/ApiLeaveEntitlementModelTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/ApiMyLeaveRequestAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/ApiEmployeeLeaveRequestAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/model/ApiLeaveRequestModelTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/ApiSubordinateLeaveEntitlementAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/ApiApplyLeaveRequestAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/ApiAssignLeaveRequestAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/service/APILeaveApplicationServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/service/APILeaveAssignmentServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/leave/ApiLeaveAPITest.php');
 
         // Api/User/Attendance
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiEmployeePunchInAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiEmployeePunchOutAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiEmployeePunchStatusAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/attendance/ApiEmployeePunchInAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/attendance/ApiEmployeePunchOutAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/attendance/ApiEmployeePunchStatusAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/user/attendance/model/EmployeeModelTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/user/attendance/ApiAttendanceListAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiAttendanceAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiLeaveAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/user/ApiAttendanceSummaryAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/attendance/ApiAttendanceAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/attendance/ApiAttendanceSummaryAPITest.php');
+
+        // Api/User/Time
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/time/ApiTimeConfigAPITest.php');
 
         // Api/PublicApi
         $suite->addTestFile(dirname(__FILE__) . '/api/publicApi/ApiDefinitionAPITest.php');
