@@ -56,6 +56,7 @@ use OpenApi\Annotations as OA;
  *
  * @OA\Tag(name="Leave")
  * @OA\Tag(name="Attendance")
+ * @OA\Tag(name="Time")
  * @OA\Schema(
  *     schema="RecordNotFoundException",
  *     type="object",

@@ -72,7 +72,7 @@ class HolidaysApiAction extends BaseUserApiAction
      * @OA\Schema(
      *     schema="LeaveHolidays",
      *     type="object",
-     *     example={"data":{{"id":"1","recurring":"0","description":"Holyday1","date":"2020-08-05","length":"4"},{"id":"2","recurring":"1","description":"Holyday2","date":"2020-08-06","length":"8"}},"rels":{}}
+     *     example={"data":{{"id":"1","recurring":"0","description":"Holiday1","date":"2020-08-05","length":"4"},{"id":"2","recurring":"1","description":"Holiday2","date":"2020-08-06","length":"8"}},"rels":{}}
      * )
      */
     protected function handleGetRequest(Request $request)

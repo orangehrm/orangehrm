@@ -156,59 +156,6 @@
                 }
             }
         },
-        "/leave/work-shift": {
-            "get": {
-                "tags": [
-                    "Leave",
-                    "User"
-                ],
-                "summary": "Get Employee Work Shift",
-                "operationId": "WorkShiftApiAction::handleGetRequest",
-                "parameters": [
-                    {
-                        "name": "empNumber",
-                        "in": "query",
-                        "description": "Employee number",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EmployeeWorkShift"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "No Bound User",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NoBoundUserError"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No Records Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RecordNotFoundException"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/attendance/records": {
             "get": {
                 "tags": [
@@ -1594,9 +1541,63 @@
                 }
             }
         },
+        "/leave/work-shift": {
+            "get": {
+                "tags": [
+                    "Leave",
+                    "User"
+                ],
+                "summary": "Get Employee Work Shift",
+                "operationId": "WorkShiftApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "empNumber",
+                        "in": "query",
+                        "description": "Employee number",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeeWorkShift"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No Bound User",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoBoundUserError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Records Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RecordNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/leave/work-week": {
             "get": {
                 "tags": [
+                    "Leave",
                     "User"
                 ],
                 "summary": "Get Work Week",
@@ -1736,17 +1737,6 @@
                     "error": [
                         "No Bound User"
                     ]
-                }
-            },
-            "EmployeeWorkShift": {
-                "type": "object",
-                "example": {
-                    "data": {
-                        "workShift": "8.00",
-                        "startTime": "09:00",
-                        "endTime": "17:00"
-                    },
-                    "rels": []
                 }
             },
             "AttendanceRecords": {
@@ -2070,14 +2060,14 @@
                         {
                             "id": "1",
                             "recurring": "0",
-                            "description": "Holyday1",
+                            "description": "Holiday1",
                             "date": "2020-08-05",
                             "length": "4"
                         },
                         {
                             "id": "2",
                             "recurring": "1",
-                            "description": "Holyday2",
+                            "description": "Holiday2",
                             "date": "2020-08-06",
                             "length": "8"
                         }
@@ -2457,6 +2447,17 @@
                     "success": "Successfully Saved"
                 }
             },
+            "EmployeeWorkShift": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "workShift": "8.00",
+                        "startTime": "09:00",
+                        "endTime": "17:00"
+                    },
+                    "rels": []
+                }
+            },
             "WorkWeek": {
                 "type": "object",
                 "example": {
@@ -2512,6 +2513,9 @@
         },
         {
             "name": "Attendance"
+        },
+        {
+            "name": "Time"
         }
     ]
 }

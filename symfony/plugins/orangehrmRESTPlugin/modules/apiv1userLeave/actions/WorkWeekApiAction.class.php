@@ -37,7 +37,7 @@ class WorkWeekApiAction extends BaseUserApiAction
      * @OA\Get(
      *     path="/leave/work-week",
      *     summary="Get Work Week",
-     *     tags={"User"},
+     *     tags={"Leave","User"},
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",

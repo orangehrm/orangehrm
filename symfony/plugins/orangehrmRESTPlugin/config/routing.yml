@@ -311,7 +311,7 @@ api_leave_config_leave_periods:
 
 api_leave_config_work_shift:
   url: /api/v1/leave/work-shift
-  param: { module:apiv1user, action:WorkShiftApi }
+  param: { module:apiv1userLeave, action:WorkShiftApi }
   requirements:
     sf_method: [get]
 
