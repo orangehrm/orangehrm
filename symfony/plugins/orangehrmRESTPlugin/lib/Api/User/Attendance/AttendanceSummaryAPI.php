@@ -71,6 +71,16 @@ class AttendanceSummaryAPI extends EndPoint
         $empNumber = $params[self::PARAMETER_EMPLOYEE_NUMBER];
         $date1 = new DateTime($params[self::PARAMETER_FROM_DATE]);
         $date2 = new DateTime($params[self::PARAMETER_TO_DATE]);
+        if(empty($params[self::PARAMETER_FROM_DATE])){
+            throw new InvalidParamException(
+                'From Date is Required'
+            );
+        }
+        if(empty($params[self::PARAMETER_TO_DATE])){
+            throw new InvalidParamException(
+                'To Date is Required'
+            );
+        }
         if($date1>$date2){
             throw new InvalidParamException(
                 'Invalid date Period'

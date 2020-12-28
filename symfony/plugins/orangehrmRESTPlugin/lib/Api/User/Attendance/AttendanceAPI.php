@@ -55,6 +55,16 @@ class AttendanceAPI extends EndPoint
         $params = $this->getParameters();
         $loggedInEmpNumber = $this->getLoggedInEmployeeNumber();
         $empNumber = $params[self::PARAMETER_EMPLOYEE_NUMBER];
+        if(empty($params[self::PARAMETER_FROM_DATE])){
+            throw new InvalidParamException(
+                'From Date is Required'
+            );
+        }
+        if(empty($params[self::PARAMETER_TO_DATE])){
+            throw new InvalidParamException(
+                'To Date is Required'
+            );
+        }
         if($params[self::PARAMETER_FROM_DATE]>$params[self::PARAMETER_TO_DATE]){
             throw new InvalidParamException(
                 'Invalid date Period'
@@ -119,8 +129,8 @@ class AttendanceAPI extends EndPoint
     public function getValidationRules(): array
     {
         return [
-            self::PARAMETER_FROM_DATE => ['Date' => ['Y-m-d']],
-            self::PARAMETER_TO_DATE => ['Date' => ['Y-m-d']],
+            self::PARAMETER_FROM_DATE => ['Date' => ['Y-m-d H:i:s']],
+            self::PARAMETER_TO_DATE => ['Date' => ['Y-m-d H:i:s']],
             self::PARAMETER_EMPLOYEE_NUMBER => ['Numeric' => true],
         ];
     }

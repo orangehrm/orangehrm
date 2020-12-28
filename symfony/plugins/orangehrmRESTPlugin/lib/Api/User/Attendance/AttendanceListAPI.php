@@ -295,8 +295,8 @@ class AttendanceListAPI extends EndPoint
     public function getValidationRules(): array
     {
         return [
-            self::PARAMETER_TO_DATE => ['Date' => ['Y-m-d']],
-            self::PARAMETER_FROM_DATE => ['Date' => ['Y-m-d']],
+            self::PARAMETER_FROM_DATE => ['Date' => ['Y-m-d H:i:s']],
+            self::PARAMETER_TO_DATE => ['Date' => ['Y-m-d H:i:s']],
             self::PARAMETER_EMP_NUMBER => ['Numeric' => true],
         ];
     }
