@@ -86,7 +86,7 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             array(
                 'punchTime' => '2021-01-28 08:34',
                 'punchNote' => 'PUNCH IN NOTE',
-                'PunchTimeZoneOffset' => -2.5,
+                'punchTimeZoneOffset' => -2.5,
                 'dateTimeEditable' => true,
                 'currentUTCDateTime' => '2020-11-11 11:35',
                 'punchState' => PluginAttendanceRecord::STATE_PUNCHED_IN
@@ -152,7 +152,7 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             array(
                 'punchTime' => '2021-01-28 08:34',
                 'punchNote' => 'PUNCH OUT NOTE',
-                'PunchTimeZoneOffset' =>3.5 ,
+                'punchTimeZoneOffset' =>3.5 ,
                 'dateTimeEditable' => true,
                 'currentUTCDateTime' => '2020-11-11 11:35',
                 'punchState' => PluginAttendanceRecord::STATE_PUNCHED_OUT
@@ -200,7 +200,7 @@ class ApiEmployeePunchStatusAPITest extends PHPUnit\Framework\TestCase
             array(
                 'punchTime' => null,
                 'punchNote' => null,
-                'PunchTimeZoneOffset' => null,
+                'punchTimeZoneOffset' => null,
                 'dateTimeEditable' => true,
                 'currentUTCDateTime' => '2020-11-11 11:35',
                 'punchState' => AttendanceRecord::STATE_INITIAL
