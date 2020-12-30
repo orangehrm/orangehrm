@@ -51,14 +51,14 @@ class AttendanceSummaryApiAction extends BaseUserApiAction
      *         in="query",
      *         required=true,
      *         @OA\Schema(type="string"),
-     *         description="From date",
+     *         description="From date (Default: Timesheet Period start date, Format: Y-m-d H:i:s, e.g. 2020-05-20 00:00:00)",
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
      *         required=true,
      *         @OA\Schema(type="string"),
-     *         description="To date",
+     *         description="To date (Default: Timesheet Period end date, Format: Y-m-d H:i:s, e.g. 2020-05-26 23:59:59)",
      *     ),
      *     @OA\Parameter(
      *         name="empNumber",
