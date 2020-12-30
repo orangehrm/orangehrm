@@ -168,7 +168,7 @@
                     {
                         "name": "fromDate",
                         "in": "query",
-                        "description": "From date",
+                        "description": "From date (Default: Timesheet Period start date, Format: Y-m-d H:i:s, e.g. 2020-05-20 00:00:00)",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -177,7 +177,7 @@
                     {
                         "name": "toDate",
                         "in": "query",
-                        "description": "To date",
+                        "description": "To date (Default: Timesheet Period end date, Format: Y-m-d H:i:s, e.g. 2020-05-26 23:59:59)",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -239,7 +239,7 @@
                     {
                         "name": "fromDate",
                         "in": "query",
-                        "description": "From date",
+                        "description": "From date (Default: Timesheet Period start date, Format: Y-m-d H:i:s, e.g. 2020-05-20 00:00:00)",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -248,7 +248,7 @@
                     {
                         "name": "toDate",
                         "in": "query",
-                        "description": "To date",
+                        "description": "To date (Default: Timesheet Period end date, Format: Y-m-d H:i:s, e.g. 2020-05-26 23:59:59)",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -344,7 +344,7 @@
                     {
                         "name": "fromDate",
                         "in": "query",
-                        "description": "From date",
+                        "description": "From date (Default: Timesheet Period start date, Format: Y-m-d H:i:s, e.g. 2020-05-20 00:00:00)",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -353,7 +353,7 @@
                     {
                         "name": "toDate",
                         "in": "query",
-                        "description": "To date",
+                        "description": "To date (Default: Timesheet Period end date, Format: Y-m-d H:i:s, e.g. 2020-05-26 23:59:59)",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -780,7 +780,7 @@
                     {
                         "name": "fromDate",
                         "in": "query",
-                        "description": "From date",
+                        "description": "From date (Default: Current leave period from date, Format: Y-m-d, e.g. 2020-01-01)",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -789,7 +789,7 @@
                     {
                         "name": "toDate",
                         "in": "query",
-                        "description": "To date",
+                        "description": "To date (Default: Current leave period to date, Format: Y-m-d, e.g. 2020-12-31)",
                         "required": false,
                         "schema": {
                             "type": "string"
