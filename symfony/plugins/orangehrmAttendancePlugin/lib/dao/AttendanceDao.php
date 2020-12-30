@@ -602,7 +602,7 @@ class AttendanceDao {
             }
 
             if ($dateTo != null) {
-                $q->andWhere("a.punchOutUserTime <=?", $dateTo);
+                $q->andWhere("a.punchInUserTime <=?", $dateTo);
             }
 
             return $q->execute();
