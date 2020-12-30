@@ -6,8 +6,8 @@
  * @apiVersion 1.2.0
  * @apiUse UserDescription_47
  *
- * @apiParam {String} [fromDate] From date
- * @apiParam {String} [toDate] To date
+ * @apiParam {String} [fromDate] From date (Default: Timesheet Period start date & Format: 2020-05-20 07:40:00)
+ * @apiParam {String} [toDate] To date  (Default: Timesheet Period end date & Format: 2020-05-20 17:40:00)
  * @apiParam {String} [empNumber] Employee Number
  *
  *
@@ -75,5 +75,7 @@
  * {
  *   "error": ["Access Denied"]
  * }
+ *
+ *
  *
  */

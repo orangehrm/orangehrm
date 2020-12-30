@@ -6,8 +6,8 @@
  * @apiVersion 1.2.0
  * @apiUse UserDescription_47
  *
- * @apiParam {String} fromDate From date
- * @apiParam {String} toDate To date
+ * @apiParam {String} fromDate From date   ( eg:- Format 2020-05-20 07:40 )
+ * @apiParam {String} toDate To date      ( eg:- Format 2020-05-20 15:46 )
  * @apiParam {String} [empNumber] Employee Number
  * @apiParam {String} [pendingApproval] True or False
  * @apiParam {String} [scheduled] True or False
