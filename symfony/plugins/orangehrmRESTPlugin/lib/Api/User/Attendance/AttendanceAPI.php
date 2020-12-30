@@ -33,38 +33,47 @@ use \Employee;
 use \Exception;
 use \sfContext;
 use \BasicUserRoleManager;
+use TimesheetPeriodService;
 use \UserRoleManagerFactory;
 use \ServiceException;
 
 class AttendanceAPI extends EndPoint
 {
-    /**
-     * @return Response
-     * @throws InvalidParamException
-     * @throws RecordNotFoundException
-     */
-
     protected $employeeService;
     protected $attendanceService;
+    /**
+     * @var null|TimesheetPeriodService
+     */
+    protected $timesheetPeriodService = null;
+
     const PARAMETER_FROM_DATE = 'fromDate';
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_EMPLOYEE_NUMBER = 'empNumber';
+
+    /**
+     * @return TimesheetPeriodService
+     */
+    public function getTimesheetPeriodService(): TimesheetPeriodService
+    {
+        if (is_null($this->timesheetPeriodService)) {
+            $this->timesheetPeriodService = new TimesheetPeriodService();
+        }
+        return $this->timesheetPeriodService;
+    }
+
+    /**
+     * @param TimesheetPeriodService $service
+     */
+    public function setTimesheetPeriodService(TimesheetPeriodService $service)
+    {
+        $this->timesheetPeriodService = $service;
+    }
 
     public function getAttendanceRecords()
     {
         $params = $this->getParameters();
         $loggedInEmpNumber = $this->getLoggedInEmployeeNumber();
         $empNumber = $params[self::PARAMETER_EMPLOYEE_NUMBER];
-        if(empty($params[self::PARAMETER_FROM_DATE])){
-            throw new InvalidParamException(
-                'From Date is Required'
-            );
-        }
-        if(empty($params[self::PARAMETER_TO_DATE])){
-            throw new InvalidParamException(
-                'To Date is Required'
-            );
-        }
         if($params[self::PARAMETER_FROM_DATE]>$params[self::PARAMETER_TO_DATE]){
             throw new InvalidParamException(
                 'Invalid date Period'
@@ -95,10 +104,18 @@ class AttendanceAPI extends EndPoint
     public function getParameters()
     {
         $params = array();
-        $params[self::PARAMETER_FROM_DATE] = $this->getRequestParams()->getQueryParam(
-            self::PARAMETER_FROM_DATE
-        );
-        $params[self::PARAMETER_TO_DATE] = $this->getRequestParams()->getQueryParam(self::PARAMETER_TO_DATE);
+        $fromDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_FROM_DATE);
+        $toDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_TO_DATE);
+        if (empty($fromDate) && empty($toDate)) {
+            $period = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod(date("Y-m-d"));
+            $fromDate = $period[0];
+            $toDate = $period[6];
+        }
+        if (strtotime($fromDate) > strtotime($toDate)) {
+            throw new InvalidParamException('To Date Should Be After From Date');
+        }
+        $params[self::PARAMETER_FROM_DATE] = $fromDate;
+        $params[self::PARAMETER_TO_DATE] = $toDate;
         $params[self::PARAMETER_EMPLOYEE_NUMBER] = $this->getRequestParams()->getQueryParam(
             self::PARAMETER_EMPLOYEE_NUMBER
         );
