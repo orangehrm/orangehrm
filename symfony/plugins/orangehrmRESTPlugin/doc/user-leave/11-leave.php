@@ -6,8 +6,8 @@
  * @apiVersion 1.2.0
  * @apiUse UserDescription_47
  *
- * @apiParam {String} [fromDate] From date (Default: Timesheet Period start date)
- * @apiParam {String} [toDate] To date (Default: Timesheet Period end date)
+ * @apiParam {String} [fromDate] From date (Default: Current leave period from date, Format: Y-m-d, e.g. 2020-01-01)
+ * @apiParam {String} [toDate] To date (Default: Current leave period to date, Format: Y-m-d, e.g. 2020-12-31)
  * @apiParam {String} [empNumber] Employee Number
  * @apiParam {String} [pendingApproval] True or False
  * @apiParam {String} [scheduled] True or False

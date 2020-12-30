@@ -51,14 +51,14 @@ class LeaveApiAction extends BaseUserApiAction
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string"),
-     *         description="From date",
+     *         description="From date (Default: Current leave period from date, Format: Y-m-d, e.g. 2020-01-01)",
      *     ),
      *     @OA\Parameter(
      *         name="toDate",
      *         in="query",
      *         required=false,
      *         @OA\Schema(type="string"),
-     *         description="To date",
+     *         description="To date (Default: Current leave period to date, Format: Y-m-d, e.g. 2020-12-31)",
      *     ),
      *     @OA\Parameter(
      *         name="empNumber",

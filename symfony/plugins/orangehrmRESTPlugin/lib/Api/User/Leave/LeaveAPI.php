@@ -24,7 +24,6 @@ use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
-use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\User\Model\AttendanceLeaveTypeModel;
 use Orangehrm\Rest\Api\User\Model\AttendanceLeaveModel;
@@ -40,12 +39,6 @@ use \ServiceException;
 
 class LeaveAPI extends EndPoint
 {
-    /**
-     * @return Response
-     * @throws InvalidParamException
-     * @throws RecordNotFoundException
-     */
-
     const PARAMETER_FROM_DATE = 'fromDate';
     const PARAMETER_TO_DATE = 'toDate';
     const PARAMETER_EMPLOYEE_NUMBER = 'empNumber';
@@ -64,16 +57,6 @@ class LeaveAPI extends EndPoint
         $params = $this->getParameters();
         $loggedInEmpNumber = $this->getLoggedInEmployeeNumber();
         $empNumber = $params[self::PARAMETER_EMPLOYEE_NUMBER];
-        if(empty($params[self::PARAMETER_FROM_DATE])){
-            throw new InvalidParamException(
-                'From Date is Required'
-            );
-        }
-        if(empty($params[self::PARAMETER_TO_DATE])){
-            throw new InvalidParamException(
-                'To Date is Required'
-            );
-        }
         if($params[self::PARAMETER_FROM_DATE]>$params[self::PARAMETER_TO_DATE]){
             throw new InvalidParamException(
                 'Invalid date Period'
@@ -120,10 +103,18 @@ class LeaveAPI extends EndPoint
     public function getParameters()
     {
         $params = array();
-        $params[self::PARAMETER_FROM_DATE] = $this->getRequestParams()->getQueryParam(
-            self::PARAMETER_FROM_DATE
-        );
-        $params[self::PARAMETER_TO_DATE] = $this->getRequestParams()->getQueryParam(self::PARAMETER_TO_DATE);
+        $fromDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_FROM_DATE);
+        $toDate = $this->getRequestParams()->getQueryParam(self::PARAMETER_TO_DATE);
+        if (empty($fromDate) && empty($toDate)) {
+            $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(date('Y-m-d'));
+            $fromDate = $currentLeavePeriod[0];
+            $toDate = $currentLeavePeriod[1];
+        }
+        if (strtotime($fromDate) > strtotime($toDate)) {
+            throw new InvalidParamException('To Date Should Be After From Date');
+        }
+        $params[self::PARAMETER_FROM_DATE] = $fromDate;
+        $params[self::PARAMETER_TO_DATE] = $toDate;
         $params[self::PARAMETER_EMPLOYEE_NUMBER] = $this->getRequestParams()->getQueryParam(
             self::PARAMETER_EMPLOYEE_NUMBER
         );
