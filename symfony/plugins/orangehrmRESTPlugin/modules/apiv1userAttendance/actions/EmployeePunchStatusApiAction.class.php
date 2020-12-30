@@ -78,7 +78,7 @@ class EmployeePunchStatusApiAction extends BaseUserApiAction
      * @OA\Schema(
      *     schema="EmployeePunchStatus",
      *     type="object",
-     *     example={"data": {"punchTime": "2021-01-31 19:31:00","punchNote": "PUNCH IN NOTE","PunchTimeZoneOffset": 5.5,"dateTimeEditable": true,"currentUtcDateTime": "2020-11-12 05:25","punchState": "PUNCHED IN"},"rels": {}}
+     *     example={"data": {"punchTime": "2021-01-31 19:31:00","punchNote": "PUNCH IN NOTE","punchTimeZoneOffset": 5.5,"dateTimeEditable": true,"currentUtcDateTime": "2020-11-12 05:25","punchState": "PUNCHED IN"},"rels": {}}
      * )
      */
     protected function handleGetRequest(Request $request)

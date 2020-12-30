@@ -67,7 +67,7 @@ class EmployeePunchStatusAPI extends PunchTimeAPI
             array(
                 'punchTime' => $punchTime,
                 'punchNote' => $punchNote,
-                'PunchTimeZoneOffset' => $punchTimeZoneOffset,
+                'punchTimeZoneOffset' => $punchTimeZoneOffset,
                 'dateTimeEditable' => $editable,
                 'currentUTCDateTime' => $currentUTCDateTime,
                 'punchState' => $punchState

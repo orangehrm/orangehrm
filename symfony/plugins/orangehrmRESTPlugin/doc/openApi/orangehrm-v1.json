@@ -1959,7 +1959,7 @@
                     "data": {
                         "punchTime": "2021-01-31 19:31:00",
                         "punchNote": "PUNCH IN NOTE",
-                        "PunchTimeZoneOffset": 5.5,
+                        "punchTimeZoneOffset": 5.5,
                         "dateTimeEditable": true,
                         "currentUtcDateTime": "2020-11-12 05:25",
                         "punchState": "PUNCHED IN"
