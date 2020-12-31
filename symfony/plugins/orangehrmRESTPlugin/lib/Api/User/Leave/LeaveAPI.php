@@ -20,6 +20,7 @@
 
 namespace Orangehrm\Rest\Api\User\Leave;
 
+use LeavePeriodService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
@@ -51,6 +52,29 @@ class LeaveAPI extends EndPoint
     protected $leaveRequestService;
     protected $workWeekService;
     protected $holidayService;
+    /**
+     * @var null|LeavePeriodService
+     */
+    protected $leavePeriodService = null;
+
+    /**
+     * @return LeavePeriodService
+     */
+    public function getLeavePeriodService(): LeavePeriodService
+    {
+        if (is_null($this->leavePeriodService)) {
+            $this->leavePeriodService = new LeavePeriodService();
+        }
+        return $this->leavePeriodService;
+    }
+
+    /**
+     * @param LeavePeriodService $leavePeriodService
+     */
+    public function setLeavePeriodService(LeavePeriodService $leavePeriodService)
+    {
+        $this->leavePeriodService = $leavePeriodService;
+    }
 
     public function getLeaveRecords()
     {
