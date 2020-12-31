@@ -163,11 +163,14 @@ class AttendanceListAPI extends EndPoint
             }
         }
 
-        $records = $this->getAttendanceService()->getAttendanceRecordsByEmpNumbers(
-            $empNumbers,
-            $params[self::PARAMETER_FROM_DATE],
-            $params[self::PARAMETER_TO_DATE]
-        );
+        $records = [];
+        if (!empty($empNumbers)) {
+            $records = $this->getAttendanceService()->getAttendanceRecordsByEmpNumbers(
+                $empNumbers,
+                $params[self::PARAMETER_FROM_DATE],
+                $params[self::PARAMETER_TO_DATE]
+            );
+        }
 
         foreach ($records as $record) {
             if ($record instanceof AttendanceRecord) {
