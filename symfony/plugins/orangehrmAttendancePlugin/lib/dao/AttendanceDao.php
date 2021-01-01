@@ -76,7 +76,7 @@ class AttendanceDao {
             $records1 = $query1->execute();
 
          if ((count($records1) == 1) && ($records1[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records1) > 0)) {
 
                 $isValid = "0";
@@ -88,7 +88,7 @@ class AttendanceDao {
                     ->andWhere("punchOutUtcTime >= ?", $punchInTime)
                     ->andWhere("punchOutUtcTime < ?", $punchOutTime);
             $records2 = $query2->execute();
-         
+
 
 
             $query3 = Doctrine_Query::create()
@@ -274,7 +274,7 @@ class AttendanceDao {
             $records1 = $query1->execute();
 
             if ((count($records1) == 1) && ($records1[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records1) > 0)) {
 
                 $isValid = "0";
@@ -291,7 +291,7 @@ class AttendanceDao {
 
 
             if ((count($records2) == 1) && ($records2[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records2) > 0)) {
 
                 $isValid = "0";
@@ -305,7 +305,7 @@ class AttendanceDao {
             $records3 = $query3->execute();
 
             if ((count($records3) == 1) && ($records3[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records3) > 0)) {
 
                 $isValid = "0";
@@ -319,7 +319,7 @@ class AttendanceDao {
             $records4 = $query4->execute();
 
             if ((count($records4) == 1) && ($records4[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records4) > 0)) {
 
                 $isValid = "0";
@@ -334,7 +334,7 @@ class AttendanceDao {
 
 
             if ((count($records5) == 1) && ($records5[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records5) > 0)) {
 
                 $isValid = "0";
@@ -363,7 +363,7 @@ class AttendanceDao {
 
 
             if ((count($records1) == 1) && ($records1[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records1) > 0)) {
 
                 $isValid = "0";
@@ -378,7 +378,7 @@ class AttendanceDao {
 
 
             if ((count($records2) == 1) && ($records2[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records2) > 0)) {
 
                 $isValid = "0";
@@ -409,7 +409,7 @@ class AttendanceDao {
             $records1 = $query1->execute();
 
             if ((count($records1) == 1) && ($records1[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records1) > 0)) {
 
                 $isValid = "0";
@@ -425,7 +425,7 @@ class AttendanceDao {
             $records3 = $query3->execute();
 
             if ((count($records3) == 1) && ($records3[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records3) > 0)) {
 
                 $isValid = "0";
@@ -440,7 +440,7 @@ class AttendanceDao {
 
 
             if ((count($records4) == 1) && ($records4[0]->getId() == $recordId)) {
-                
+
             } elseif ((count($records4) > 0)) {
 
                 $isValid = "0";
@@ -450,17 +450,17 @@ class AttendanceDao {
         }
         return $isValid;
     }
-    
+
      /**
      *
      * @param int $employeeId
      * @param string $employeementStatus
-     * @param int $subDivision    
+     * @param int $subDivision
      * @param date $dateFrom
      * @param date $dateTo
-     * @return array 
+     * @return array
      */
-    
+
     public function searchAttendanceRecords($employeeIds = null, $employeementStatus = null, $subDivision = null, $dateFrom = null , $dateTo = null ){
 
          $q = Doctrine_Query::create()
@@ -470,52 +470,146 @@ class AttendanceDao {
                 ->orderBy('a.punch_in_user_time DESC');
 
         if( $employeeIds != null){
-            
+
             if(is_array($employeeIds)){
                 $q->andWhereIn("e.emp_number", $employeeIds);
             } else {
                 $q->andWhere(" e.emp_number = ?", $employeeIds);
-            }            
+            }
         }
-        
-        if( $employeementStatus != null){           
+
+        if( $employeementStatus != null){
             $q->andWhere("e.emp_status = ?", $employeementStatus);
         } else {
             if($employeeIds <= 0){
                 $q->andWhere("(e.termination_id IS NULL)");
-            }            
+            }
         }
-        
+
         if( $subDivision > 0){
-            
+
             $companyService = new CompanyStructureService();
             $subDivisions = $companyService->getCompanyStructureDao()->getSubunitById($subDivision);
-           
+
             $subUnitIds = array($subDivision);
              if (!empty($subDivisions)) {
                 $descendents = $subDivisions->getNode()->getDescendants();
-               
-                foreach($descendents as $descendent) {                
+
+                foreach($descendents as $descendent) {
                     $subUnitIds[] = $descendent->id;
                 }
             }
-            
-            $q->andWhereIn("e.work_station", $subUnitIds);            
+
+            $q->andWhereIn("e.work_station", $subUnitIds);
         }
-        
-        if( $dateFrom != null){            
+
+        if( $dateFrom != null){
             $q->andWhere("a.punch_in_user_time >=?", $dateFrom);
         }
-        
+
         if( $dateTo != null){
             $q->andWhere("a.punch_out_user_time <=?", $dateTo);
         }
-      
+
         $result = $q->execute(array(), Doctrine::HYDRATE_SCALAR);
         return $result;
-      
+
     }
 
+    /**
+     * @param int $employeeId
+     * @param string $state  // PUNCHED_IN or PUNCHED_OUT
+     * @return array|bool|Doctrine_Record|float|int|mixed|string|null
+     * @throws DaoException
+     */
+    public function getLatestPunchInRecord(int $employeeId, $state)
+    {
+        if($state == PluginAttendanceRecord::STATE_PUNCHED_IN) {
+           try {
+                $query = Doctrine_Query::create()
+                    ->from("attendanceRecord")
+                    ->where("employeeId = ?", $employeeId)
+                    ->andWhere("state = ?", $state)
+                    ->orderBy('punchInUtcTime DESC');
+                return $query->fetchOne();
+            } catch (Exception $ex) {
+                throw new DaoException($ex->getMessage());
+            }
+        } else if($state == PluginAttendanceRecord::STATE_PUNCHED_OUT) {
+            try {
+                $query = Doctrine_Query::create()
+                    ->from("attendanceRecord")
+                    ->where("employeeId = ?", $employeeId)
+                    ->andWhere("state = ?", $state)
+                    ->orderBy('punchInUtcTime DESC');
+                return $query->fetchOne();
+            } catch (Exception $ex) {
+                throw new DaoException($ex->getMessage());
+            }
+        }
+    }
+
+    /**
+     * @param string $fromDate
+     * @param string $toDate
+     * @param int $employeeId
+     * @param string $state
+     * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int
+     * @throws DaoException
+     */
+    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,string $state){
+        try {
+            $query = Doctrine_Query::create()
+                ->from("attendanceRecord")
+                ->where("employeeId = ?", $employeeId)
+                ->andWhere('punchInUserTime >= ?', $fromDate)
+                ->andWhere('punchInUserTime <= ?', $toDate)
+                ->orderBy('punchInUtcTime');
+            if($state!='ALL'){
+                $query->andWhere("state = ?", $state);
+            }
+            return $query->execute();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @param $empNumbers
+     * @param null $dateFrom
+     * @param null $dateTo
+     * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int
+     * @throws DaoException
+     */
+    public function getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom = null, $dateTo = null)
+    {
+        try {
+            $q = Doctrine_Query::create()
+                ->from("AttendanceRecord a")
+                ->leftJoin("a.Employee e")
+                ->orderBy('e.firstName ASC');
+
+            if (is_array($empNumbers)) {
+                $q->andWhereIn("e.emp_number", $empNumbers);
+            } else {
+                $q->andWhere(" e.emp_number = ?", $empNumbers);
+            }
+
+            if ($dateFrom != null) {
+                $q->andWhere("a.punchInUserTime >=?", $dateFrom);
+            }
+
+            if ($dateTo != null) {
+                $q->andWhere("a.punchInUserTime <=?", $dateTo);
+            }
+
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }
 
 

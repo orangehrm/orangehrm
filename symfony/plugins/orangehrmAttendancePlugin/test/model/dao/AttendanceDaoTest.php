@@ -30,7 +30,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
 
-        $this->attendanceDao = new AttendanceDao();    
+        $this->attendanceDao = new AttendanceDao();
         TestDataService::truncateSpecificTables(array('AttendanceRecord','Employee'));
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmAttendancePlugin/test/fixtures/AttendanceDao.yml');
     }
@@ -38,7 +38,7 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * @group orangehrmAttendancePlugin
      */
-    public function testSaveNewPunchRecord() {        
+    public function testSaveNewPunchRecord() {
 
         $punchRecord = new AttendanceRecord();
 
@@ -239,36 +239,111 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
      * @group orangehrmAttendancePlugin
      */
     public function testSearchAttendanceRecords1() {
-        
-        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(1);      
+
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(1);
         $this->assertEquals(1, sizeof($attendanceRecords));
     }
-    
+
      /**
      * @group orangehrmAttendancePlugin
      */
     public function testSearchAttendanceRecords2() {
-        
-        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(5);      
+
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(5);
         $this->assertEquals(7, sizeof($attendanceRecords));
     }
-    
+
      /**
      * @group orangehrmAttendancePlugin
      */
     public function testSearchAttendanceRecords3() {
-        
-        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(2, array(3));      
+
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(2, array(3));
         $this->assertEquals(0, sizeof($attendanceRecords));
     }
-    
+
     /**
      * @group orangehrmAttendancePlugin
      */
     public function testSearchAttendanceRecords4() {
-        
-        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(2, array(1));      
+
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(2, array(1));
         $this->assertEquals(1, sizeof($attendanceRecords));
     }
 
+    public function testGetLatestPunchInRecordForNotPunchedInEmployee() {
+
+        $employeeId = 3;
+
+        $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
+        $this->assertFalse($attendanceRecord);
+    }
+
+    /**
+     * @group orangehrmAttendancePlugin
+     */
+    public function testGetLatestPunchInRecordForNonExistingEmployee() {
+
+        $employeeId = 1000;
+        $attendanceRecord = $this->attendanceDao->getLatestPunchInRecord($employeeId,PluginAttendanceRecord::STATE_PUNCHED_IN);
+        $this->assertFalse($attendanceRecord);
+    }
+
+    /**
+     * @dataProvider dataProviderGetAttendanceRecordsByEmpNumbers
+     * @param $empNumbers
+     * @param $expectedCount
+     * @param null $dateFrom
+     * @param null $dateTo
+     * @throws DaoException
+     */
+    public function testGetAttendanceRecordsByEmpNumbers($empNumbers,$expectedCount,$dateFrom = null, $dateTo = null) {
+        $attendanceRecords = $this->attendanceDao->getAttendanceRecordsByEmpNumbers($empNumbers,$dateFrom,$dateTo);
+        $this->assertEquals($expectedCount, count($attendanceRecords));
+    }
+
+    /**
+     * @return Generator
+     */
+    public function dataProviderGetAttendanceRecordsByEmpNumbers()
+    {
+        yield [2, 1];
+        yield [[2], 1];
+        yield [[2, 5], 8];
+        yield [[2, 5], 2, '2011-05-26', '2011-12-12'];
+        yield [[2, 5], 3, '2011-04-20', '2011-12-12'];
+    }
+
+    public function testGetAttendanceRecordsBetweenTwoDaysForALLStates() {
+        $employeeId = 5;
+        $fromDate = '2011-12-12';
+        $toDate = '2011-12-19';
+        $state= "ALL";
+        $attendanceRecord = $this->attendanceDao->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
+        $this->assertEquals(2,count($attendanceRecord));
+    }
+    public function testGetAttendanceRecordsBetweenTwoDaysForPunchInState() {
+        $employeeId = 5;
+        $fromDate = '2011-04-01';
+        $toDate = '2011-06-13';
+        $state= "PUNCHED IN";
+        $attendanceRecord = $this->attendanceDao->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
+        $this->assertEquals(2,count($attendanceRecord));
+    }
+    public function testGetAttendanceRecordsBetweenTwoDaysForPunchOutState() {
+        $employeeId = 5;
+        $fromDate = '2011-04-01';
+        $toDate = '2011-06-13';
+        $state= "PUNCHED OUT";
+        $attendanceRecord = $this->attendanceDao->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
+        $this->assertEquals(1,count($attendanceRecord));
+    }
+    public function testGetAttendanceRecordsBetweenTwoDaysForEdgeDates() {
+        $employeeId = 5;
+        $fromDate = '2012-02-28 12:26:26';
+        $toDate = '2012-12-21 23:26:26';
+        $state= "ALL";
+        $attendanceRecords = $this->attendanceDao->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
+        $this->assertEquals(2,count($attendanceRecords));
+    }
 }

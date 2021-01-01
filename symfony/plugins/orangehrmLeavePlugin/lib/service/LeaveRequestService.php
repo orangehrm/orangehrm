@@ -25,10 +25,10 @@ class LeaveRequestService extends BaseService {
     private $leaveEntitlementService;
     private $leavePeriodService;
     private $holidayService;
-    private $accessFlowStateMachineService;        
+    private $accessFlowStateMachineService;
     private $leaveStateManager;
     private $userRoleManager;
-    
+
     private $dispatcher;
 
     const LEAVE_CHANGE_TYPE_LEAVE = 'change_leave';
@@ -128,10 +128,10 @@ class LeaveRequestService extends BaseService {
     public function setHolidayService(HolidayService $holidayService) {
         $this->holidayService = $holidayService;
     }
-    
+
     /**
      * Set dispatcher.
-     * 
+     *
      * @param $dispatcher
      */
     public function setDispatcher($dispatcher) {
@@ -143,7 +143,7 @@ class LeaveRequestService extends BaseService {
             $this->dispatcher = sfContext::getInstance()->getEventDispatcher();
         }
         return $this->dispatcher;
-    }    
+    }
 
     /**
      * Get User role manager instance
@@ -163,7 +163,7 @@ class LeaveRequestService extends BaseService {
     public function setUserRoleManager(AbstractUserRoleManager $userRoleManager) {
         $this->userRoleManager = $userRoleManager;
     }
-    
+
     public function getAccessFlowStateMachineService() {
         if (is_null($this->accessFlowStateMachineService)) {
             $this->accessFlowStateMachineService = new AccessFlowStateMachineService();
@@ -174,7 +174,7 @@ class LeaveRequestService extends BaseService {
     public function setAccessFlowStateMachineService($accessFlowStateMachineService) {
         $this->accessFlowStateMachineService = $accessFlowStateMachineService;
     }
-    
+
     /**
      *
      * @param LeaveRequest $leaveRequest
@@ -184,7 +184,7 @@ class LeaveRequestService extends BaseService {
     public function saveLeaveRequest( LeaveRequest $leaveRequest , $leaveList, $entitlements) {
         return $this->getLeaveRequestDao()->saveLeaveRequest($leaveRequest, $leaveList, $entitlements);
     }
-    
+
     public function saveLeaveRequestComment($leaveRequestId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber) {
         return $this->getLeaveRequestDao()->saveLeaveRequestComment($leaveRequestId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
     }
@@ -192,15 +192,15 @@ class LeaveRequestService extends BaseService {
     public function saveLeaveComment($leaveId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber) {
         return $this->getLeaveRequestDao()->saveLeaveComment($leaveId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
     }
-    
+
     public function getLeaveRequestComments($leaveRequestId) {
         return $this->getLeaveRequestDao()->getLeaveRequestComments($leaveRequestId);
     }
 
     public function getLeaveComments($leaveId) {
         return $this->getLeaveRequestDao()->getLeaveComments($leaveId);
-    }    
-    
+    }
+
     /**
      *
      * @param Employee $employee
@@ -209,7 +209,7 @@ class LeaveRequestService extends BaseService {
     public function getEmployeeAllowedToApplyLeaveTypes(Employee $employee) {
 
         try {
-            $leaveEntitlementService    = $this->getLeaveEntitlementService();                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();     
+            $leaveEntitlementService    = $this->getLeaveEntitlementService();                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
 
             $leaveTypeService           = $this->getLeaveTypeService();
 
@@ -273,14 +273,14 @@ class LeaveRequestService extends BaseService {
     /**
      *
      * @param $empId
-     * @param $leaveTypeId 
+     * @param $leaveTypeId
      * @param $$leavePeriodId
      * @return int
      */
     public function getNumOfAvaliableLeave($empId, $leaveTypeId, $leavePeriodId = null) {
-        
+
         return $this->getLeaveRequestDao()->getNumOfAvaliableLeave($empId, $leaveTypeId, $leavePeriodId);
-        
+
     }
 
     /**
@@ -434,9 +434,9 @@ class LeaveRequestService extends BaseService {
      * @param array $statuses
      * @return array
      */
-    public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false, $isMyLeaveList = false, 
+    public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false, $isMyLeaveList = false,
             $prefetchLeave = false, $prefetchComments = false, $includePurgeEmployee = false) {
-        $result = $this->getLeaveRequestDao()->searchLeaveRequests($searchParameters, $page, $isCSVPDFExport, 
+        $result = $this->getLeaveRequestDao()->searchLeaveRequests($searchParameters, $page, $isCSVPDFExport,
                 $isMyLeaveList, $prefetchLeave, $prefetchComments, $includePurgeEmployee);
         return $result;
 
@@ -534,7 +534,7 @@ class LeaveRequestService extends BaseService {
 
     function groupChanges($changes) {
         $groupedChanges = array();
-        
+
         foreach ($changes as $id => $value) {
             if (strpos($value, 'WF') === 0) {
                 $workFlowId = substr($value, 2);
@@ -545,10 +545,10 @@ class LeaveRequestService extends BaseService {
                 }
             }
         }
-        
+
         return $groupedChanges;
-    }           
-        
+    }
+
     /**
      *
      * @param array $changes
@@ -556,16 +556,16 @@ class LeaveRequestService extends BaseService {
      * @return boolean
      */
     public function changeLeaveStatus($changes, $changeType, $changeComments = null, $changedByUserType = null, $changedUserId = null) {
-        if (is_array($changes)) {            
+        if (is_array($changes)) {
             $groupedChanges = $this->groupChanges($changes);
 
             $workflowService = $this->getAccessFlowStateMachineService();
-            
+
             if ($changeType == 'change_leave_request') {
 
                 foreach ($groupedChanges as $workFlowId => $changedItems) {
                     $workFlow = $workflowService->getWorkflowItem($workFlowId);
-                    $nextStateStr = $workFlow->getResultingState();                    
+                    $nextStateStr = $workFlow->getResultingState();
                     $nextState = Leave::getLeaveStatusForText($nextStateStr);
 
                     $event = LeaveEvents::LEAVE_CHANGE;
@@ -588,20 +588,20 @@ class LeaveRequestService extends BaseService {
                 }
 
             } elseif ($changeType == 'change_leave') {
-                
+
                 $actionTypes = count($groupedChanges);
-                
+
                 $workFlowItems = array();
                 $changes = array();
                 $allDays = array();
-                
+
                 foreach ($groupedChanges as $workFlowId => $changedItems) {
                     $workFlow = $workflowService->getWorkflowItem($workFlowId);
                     $workFlowItems[$workFlow->getId()] = $workFlow;
-                    
-                    $nextStateStr = $workFlow->getResultingState();                    
+
+                    $nextStateStr = $workFlow->getResultingState();
                     $nextState = Leave::getLeaveStatusForText($nextStateStr);
-                    
+
                     $event = LeaveEvents::LEAVE_CHANGE;
                     //LeaveEvents::LEAVE_REJECT
                     //LeaveEvents::LEAVE_CANCEL
@@ -616,22 +616,22 @@ class LeaveRequestService extends BaseService {
                     if (count($changedLeave) === 0) {
                         throw new Exception('Action Not allowed');
                     }
-                    
-                    $this->_changeLeaveStatus($changedLeave, $nextState, $changeComments); 
-                    
+
+                    $this->_changeLeaveStatus($changedLeave, $nextState, $changeComments);
+
                     if ($actionTypes == 1) {
-                        $this->_notifyLeaveStatusChange($event, $workFlow, $changedLeave, 
-                                $changedByUserType, $changedUserId, 'multiple');                           
+                        $this->_notifyLeaveStatusChange($event, $workFlow, $changedLeave,
+                                $changedByUserType, $changedUserId, 'multiple');
                     } else {
-                        
+
                         $changes[$workFlow->getId()] = $changedLeave;
                         $allDays = array_merge($allDays, $changedLeave);
                     }
-                }                       
-                
+                }
+
                 if ($actionTypes > 1) {
                     $this->_notifyLeaveMultiStatusChange($allDays, $changes, $workFlowItems,
-                                $changedByUserType, $changedUserId, 'multiple');                        
+                                $changedByUserType, $changedUserId, 'multiple');
                 }
             } else {
                 throw new LeaveServiceException('Wrong change type passed');
@@ -644,26 +644,26 @@ class LeaveRequestService extends BaseService {
 
     protected function _changeLeaveStatus($leaveList, $newState, $comments = null) {
         $dao = $this->getLeaveRequestDao();
-        
+
         foreach ($leaveList as $leave) {
 
             $currentState = $leave->getStatus();
-            if (($currentState != Leave::LEAVE_STATUS_LEAVE_WEEKEND) && 
+            if (($currentState != Leave::LEAVE_STATUS_LEAVE_WEEKEND) &&
                     ($currentState != Leave::LEAVE_STATUS_LEAVE_HOLIDAY)) {
                 $entitlementChanges = array();
 
-                $removeLinkedEntitlements = (($newState == Leave::LEAVE_STATUS_LEAVE_CANCELLED) || 
+                $removeLinkedEntitlements = (($newState == Leave::LEAVE_STATUS_LEAVE_CANCELLED) ||
                         ($newState == Leave::LEAVE_STATUS_LEAVE_REJECTED));
 
 
-                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();     
+                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
 
-                if ($removeLinkedEntitlements) {                
+                if ($removeLinkedEntitlements) {
                     $entitlementChanges = $strategy->handleLeaveCancel($leave);
                 }
 
                 $leave->setStatus($newState);
-            
+
                 if (!is_null($comments)) {
                     if (is_array($comments)) {
                         $comment = isset($comments[$leave->getId()]) ? $comments[$leave->getId()] : '';
@@ -675,33 +675,33 @@ class LeaveRequestService extends BaseService {
 
                 $dao->changeLeaveStatus($leave, $entitlementChanges, $removeLinkedEntitlements);
             }
-        }                
+        }
     }
-    
+
     private function _notifyLeaveStatusChange($eventType, $workflow, $leaveList, $performerType, $performerId, $requestType) {
         $request = $leaveList[0]->getLeaveRequest();
-        
-        $eventData = array('days' => $leaveList, 
-                           'performerType' => $performerType, 
-                           'empNumber' => $performerId, 
+
+        $eventData = array('days' => $leaveList,
+                           'performerType' => $performerType,
+                           'empNumber' => $performerId,
                            'requestType' => $requestType,
                            'request' => $request,
                            'workFlow' => $workflow);
-        $this->getDispatcher()->notify(new sfEvent($this, $eventType, $eventData));   
+        $this->getDispatcher()->notify(new sfEvent($this, $eventType, $eventData));
     }
-    
+
     private function _notifyLeaveMultiStatusChange($allDays, $leaveList, $workFlows, $performerType, $performerId, $requestType) {
         $request = $allDays[0]->getLeaveRequest();
-        
+
         $eventData = array('days' => $allDays,
-                           'changes' => $leaveList, 
-                           'performerType' => $performerType, 
-                           'empNumber' => $performerId, 
+                           'changes' => $leaveList,
+                           'performerType' => $performerType,
+                           'empNumber' => $performerId,
                            'requestType' => $requestType,
                            'request' => $request,
                            'workFlow' => $workFlows);
-        $this->getDispatcher()->notify(new sfEvent($this, LeaveEvents::LEAVE_CHANGE, $eventData));   
-    }    
+        $this->getDispatcher()->notify(new sfEvent($this, LeaveEvents::LEAVE_CHANGE, $eventData));
+    }
 
     public function getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId) {
 
@@ -714,75 +714,75 @@ class LeaveRequestService extends BaseService {
         return $this->getLeaveRequestDao()->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
 
     }
-    
+
     public function getLeaveRequestActions($request, $loggedInEmpNumber) {
         $actions = array();
-        
+
         if (!$request->isStatusDiffer()) {
-            
+
             $includeRoles = array();
             $excludeRoles = array();
-            
+
             $userRoleManager = $this->getUserRoleManager();
-            
+
             $empNumber = $request->getEmpNumber();
 
             // If looking at own leave request, only consider ESS role
             if ($empNumber == $loggedInEmpNumber && ($userRoleManager->essRightsToOwnWorkflow() || !$userRoleManager->isEntityAccessible('Employee', $empNumber))) {
                 $includeRoles = array('ESS');
-            }            
-            
+            }
+
             $leaveTypeDeleted = $request->getLeaveType()->getDeleted();
-            
+
             $status = Leave::getTextForLeaveStatus($request->getLeaveStatusId());
-                    
+
             if ($leaveTypeDeleted) {
                 $status = Leave::LEAVE_STATUS_LEAVE_TYPE_DELETED_TEXT . ' ' . $status;
             }
 
-            $workFlowItems = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_LEAVE, 
+            $workFlowItems = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_LEAVE,
                     $status, $excludeRoles, $includeRoles, array('Employee' => $empNumber));
 
             foreach ($workFlowItems as $item) {
                 $name = $item->getAction();
                 $actions[$item->getId()] = ucfirst(strtolower($name));
-            }         
+            }
         }
-        
+
         return $actions;
     }
-    
+
     public function getLeaveActions($leave, $loggedInEmpNumber) {
         $actions = array();
-        
+
         $includeRoles = array();
         $excludeRoles = array();
-        
+
         $userRoleManager = $this->getUserRoleManager();
 
         // If looking at own leave, only consider ESS role
         if ($leave->getEmpNumber() == $loggedInEmpNumber && ($userRoleManager->essRightsToOwnWorkflow() || !$userRoleManager->isEntityAccessible('Employee', $leave->getEmpNumber()))) {
             $includeRoles = array('ESS');
         }
-        
+
         $status = $leave->getTextLeaveStatus();
-        
+
         $leaveTypeDeleted = $leave->getLeaveType()->getDeleted();
 
         if ($leaveTypeDeleted) {
             $status = Leave::LEAVE_STATUS_LEAVE_TYPE_DELETED_TEXT . ' ' . $status;
         }
-        
-        $workFlowItems = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_LEAVE, 
+
+        $workFlowItems = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_LEAVE,
                 $status, $excludeRoles, $includeRoles, array('Employee' => $leave->getEmpNumber()));
 
         foreach ($workFlowItems as $item) {
             $name = $item->getAction();
             $actions[$item->getId()] = ucfirst(strtolower($name));
-        }        
-        
+        }
+
         return $actions;
-    }    
+    }
 
     /**
      *
@@ -806,7 +806,7 @@ class LeaveRequestService extends BaseService {
     public function getLeaveRequestSearchResultAsArray($searchParameters) {
         return $this->getLeaveRequestDao()->getLeaveRequestSearchResultAsArray($searchParameters);
     }
-    
+
      /**
      *
      * @param ParameterObject $searchParameters
@@ -839,5 +839,18 @@ class LeaveRequestService extends BaseService {
         $this->_changeLeaveStatus($changedLeave, $nextState);
         $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
             $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
+    }
+
+    /**
+     * @param string $fromDate
+     * @param string $toDate
+     * @param int $employeeId
+     * @param $statuses
+     * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int
+     * @throws DaoException
+     */
+    public function getLeaveRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,$statuses)
+    {
+        return $this->getLeaveRequestDao()->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$statuses);
     }
 }

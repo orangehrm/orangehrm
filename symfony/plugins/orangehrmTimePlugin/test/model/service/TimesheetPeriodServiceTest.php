@@ -151,11 +151,20 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
         
     }
 
+    public function testGetTimesheetStartDate() {
+        $xmlString = TestDataService::getRecords(
+            "SELECT value from hs_hr_config WHERE `key` = 'timesheet_period_and_start_date'"
+        );
+        $value = $xmlString[0]['value'];
+        $timesheetPeriodDaoMock = $this->getMockBuilder('TimesheetPeriodDao')
+            ->setMethods(['getDefinedTimesheetPeriod'])
+            ->getMock();
+        $timesheetPeriodDaoMock->expects($this->once())
+            ->method('getDefinedTimesheetPeriod')
+            ->will($this->returnValue($value));
 
-
-   
-
-
+        $this->timesheetPeriodService->setTimesheetPeriodDao($timesheetPeriodDaoMock);
+        $timesheetStartDate = $this->timesheetPeriodService->getTimesheetStartDate();
+        $this->assertEquals("1", (string)$timesheetStartDate);
+    }
 }
-
-?>

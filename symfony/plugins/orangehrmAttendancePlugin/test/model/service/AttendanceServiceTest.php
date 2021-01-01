@@ -299,10 +299,44 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
                 ->method('searchAttendanceRecords')
                 ->with($attendanceRecordId)
                 ->will($this->returnValue(array("id"=>1)));
-       
+
         $attendanceService = new AttendanceService();
         $attendanceService->setAttendanceDao($attendanceDaoMock);
         $this->assertEquals(1, sizeof($attendanceService->searchAttendanceRecords()));
+    }
+
+    public function testGetLatestPunchInRecord() {
+        $employeeId = 1;
+        $lastPunchRecord = TestDataService::fetchObject('AttendanceRecord', 5);
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+            ->setMethods( array('getLatestPunchInRecord'))
+            ->getMock();
+        $attendanceDaoMock->expects($this->once())
+            ->method('getLatestPunchInRecord')
+            ->with($employeeId,AttendanceRecord::STATE_PUNCHED_IN)
+            ->will($this->returnValue($lastPunchRecord));
+
+        $this->attendanceService->setAttendanceDao($attendanceDaoMock);
+        $retrievedPunchRecord = $this->attendanceService->getLatestPunchInRecord($employeeId,AttendanceRecord::STATE_PUNCHED_IN);
+        $this->assertTrue($retrievedPunchRecord instanceof AttendanceRecord);
+        $this->assertEquals($lastPunchRecord, $retrievedPunchRecord);
+    }
+    public function testGetAttendanceRecordsBetweenTwoDays() {
+
+        $employeeId = 1;
+        $lastPunchRecord = TestDataService::fetchObject('AttendanceRecord', 10);
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+            ->setMethods( array('getAttendanceRecordsBetweenTwoDays'))
+            ->getMock();
+        $attendanceDaoMock->expects($this->once())
+            ->method('getAttendanceRecordsBetweenTwoDays')
+            ->with('2011-12-12','2011-12-14',1,'ALL')
+            ->will($this->returnValue($lastPunchRecord));
+
+        $this->attendanceService->setAttendanceDao($attendanceDaoMock);
+        $retrievedPunchRecord = $this->attendanceService->getAttendanceRecordsBetweenTwoDays('2011-12-12','2011-12-14',$employeeId,'ALL');
+        $this->assertTrue($retrievedPunchRecord instanceof AttendanceRecord);
+        $this->assertEquals($lastPunchRecord, $retrievedPunchRecord);
     }
 
 }

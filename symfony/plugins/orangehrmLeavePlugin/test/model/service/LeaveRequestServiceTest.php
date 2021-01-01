@@ -21,7 +21,7 @@
 
 /**
  * Leave Type rule service
- * @group Leave 
+ * @group Leave
  */
 class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
@@ -326,7 +326,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $returnVal = $this->leaveRequestService->getOverlappingLeave('2010-02-03', '2010-02-05', 12, '00:00:00','00:00:00', 8);
         $this->assertTrue($returnVal == $leaveList);
     }
-    
+
 
     public function testSaveLeave() {
 
@@ -340,7 +340,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
                 ->method('saveLeave')
                 ->with($leave)
                 ->will($this->returnValue(true));
-        
+
         $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
         $this->assertTrue($this->leaveRequestService->saveLeave($leave));
     }
@@ -449,12 +449,12 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $leaveRequestDao = $this->getMockBuilder('LeaveRequestDao')
                         ->setMethods( array('getLeavePeriodOverlapLeaves','fetchLeave','modifyOverlapLeaveRequest'))
                         ->getMock();
-        
+
         $leave        = $leaveList[0];
         $leaveRequest = new LeaveRequest();
         $leaveRequest->setLeaveRequestId($leave->getLeaveRequestId());
         $leave->setLeaveRequest($leaveRequest);
-        
+
         $leaveRequestDao->expects($this->once())
                 ->method('getLeavePeriodOverlapLeaves')
                 ->with($leavePeriod)
@@ -496,7 +496,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $currentLeavePeriod = new LeavePeriod();
         $currentLeavePeriod->setStartDate('2010-01-01');
         $currentLeavePeriod->setEndDate('2010-12-31');
-        
+
         $nextLeavePeriod = new LeavePeriod();
         $nextLeavePeriod->setStartDate('2011-01-01');
         $nextLeavePeriod->setEndDate('2011-12-31');
@@ -531,7 +531,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
                 ->method('getNumOfAvaliableLeave')
                 ->with($empId, $leaveTypeId)
                 ->will($this->returnValue($availableLeave));
-        
+
         $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
 
         $leavePeriodService = $this->getMockBuilder('LeavePeriodService')
@@ -648,10 +648,10 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
 
             // expected - check code thrown in LeaveRequestService
         }
-        
+
     }
-        
-        
+
+
        public function testGetTotalLeaveDuration() {
 
         $leaveList = TestDataService::loadObjectList('Leave', $this->fixture, 'set4');
@@ -675,11 +675,11 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $leave = new Leave();
         $leaveRequest = new LeaveRequest();
         $leaveRequest->setId(1);
-        
+
         $changes = array(1 =>'APPROVE',
                          21 => 'REJECT',
                          31 => 'CANCEL');
-        
+
         $changeType = 'change_leave_request';
 
         $leaveRequestDao = $this->getMockBuilder('LeaveRequestDao')
@@ -704,7 +704,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     public function xtestChangeLeaveStatusForLeave() {
-        
+
         $leaveRequest = new LeaveRequest();
         $leaveRequest->setId(1);
 
@@ -747,9 +747,9 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         } catch (LeaveServiceException $e) {
             // expected - check code thrown in LeaveRequestService
         }
-        
+
     }
-    
+
      /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
@@ -766,10 +766,10 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $service->setLeaveRequestDao($mockDao);
 
         $this->assertEquals(1, sizeof($service->getLeaveRequestSearchResultAsArray(array())));
-      
+
     }
-    
-    
+
+
      /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
@@ -786,27 +786,27 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $service->setLeaveRequestDao($mockDao);
 
         $this->assertEquals(1, sizeof($service->getDetailedLeaveRequestSearchResultAsArray(array())));
-      
-    }    
-    
+
+    }
+
     public function testGetLeaveRequestActions() {
         $loggedInEmpNumber = 4;
-        
+
         $approveAction = new WorkflowStateMachine();
         $approveAction->fromArray(array('id' => 2, 'workflow' => 'leave',
             'state' => 'PENDING APPROVAL','role' => 'ADMIN', 'action' => 'APPROVE',
-            'resulting_state' => 'SCHEDULED','roles_to_notify' => '','priority' => 0));        
+            'resulting_state' => 'SCHEDULED','roles_to_notify' => '','priority' => 0));
         $cancelAction = new WorkflowStateMachine();
         $cancelAction->fromArray(array('id' => 3, 'workflow' => 'leave',
             'state' => 'PENDING APPROVAL','role' => 'ADMIN', 'action' => 'CANCEL',
-            'resulting_state' => 'CANCELLED','roles_to_notify' => '','priority' => 0));        
+            'resulting_state' => 'CANCELLED','roles_to_notify' => '','priority' => 0));
         $rejectAction = new WorkflowStateMachine();
         $rejectAction->fromArray(array('id' => 5, 'workflow' => 'leave',
             'state' => 'PENDING APPROVAL','role' => 'ADMIN', 'action' => 'REJECT',
-            'resulting_state' => 'REJECTED','roles_to_notify' => '','priority' => 0));        
-        
+            'resulting_state' => 'REJECTED','roles_to_notify' => '','priority' => 0));
+
         $actions = array($approveAction, $cancelAction, $rejectAction);
-        
+
         $leave = $this->getMockBuilder('LeaveRequest')->setMethods(array('isStatusDiffer', 'getEmpNumber', 'getLeaveStatusId'))->getMock();
         $leave->expects($this->once())
               ->method('isStatusDiffer')
@@ -816,30 +816,30 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
               ->will($this->returnValue(5));
         $leave->expects($this->once())
               ->method('getLeaveStatusId')
-              ->will($this->returnValue(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL));        
-        
+              ->will($this->returnValue(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL));
+
         $userManager = $this->getMockBuilder('BasicUserRoleManager')->setMethods(array('getAllowedActions'))->getMock();
         $userManager->expects($this->any())
                     ->method('getAllowedActions')
-                    ->with(WorkflowStateMachine::FLOW_LEAVE, 
-                           Leave::getTextForLeaveStatus(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL), 
+                    ->with(WorkflowStateMachine::FLOW_LEAVE,
+                           Leave::getTextForLeaveStatus(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL),
                            array(), array())
                     ->will($this->returnValue($actions));
-        
+
         $this->leaveRequestService->setUserRoleManager($userManager);
         $result = $this->leaveRequestService->getLeaveRequestActions($leave, $loggedInEmpNumber);
-        $this->verifyLeaveActions($actions, $result);          
+        $this->verifyLeaveActions($actions, $result);
     }
-    
+
     public function testGetLeaveRequestActionsESS() {
         $loggedInEmpNumber = 4;
-        
+
         $cancelAction = new WorkflowStateMachine();
         $cancelAction->fromArray(array('id' => 3, 'workflow' => 'leave',
             'state' => 'PENDING APPROVAL','role' => 'ADMIN', 'action' => 'CANCEL',
-            'resulting_state' => 'CANCELLED','roles_to_notify' => '','priority' => 0));           
+            'resulting_state' => 'CANCELLED','roles_to_notify' => '','priority' => 0));
         $actions = array($cancelAction);
-        
+
         $leave = $this->getMockBuilder('LeaveRequest')->setMethods(array('isStatusDiffer', 'getEmpNumber', 'getLeaveStatusId'))->getMock();
         $leave->expects($this->once())
               ->method('isStatusDiffer')
@@ -849,21 +849,21 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
               ->will($this->returnValue($loggedInEmpNumber));
         $leave->expects($this->once())
               ->method('getLeaveStatusId')
-              ->will($this->returnValue(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL));        
-        
+              ->will($this->returnValue(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL));
+
         $userManager = $this->getMockBuilder('BasicUserRoleManager')->setMethods(array('getAllowedActions'))->getMock();
         $userManager->expects($this->any())
                     ->method('getAllowedActions')
-                    ->with(WorkflowStateMachine::FLOW_LEAVE, 
-                           Leave::getTextForLeaveStatus(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL), 
+                    ->with(WorkflowStateMachine::FLOW_LEAVE,
+                           Leave::getTextForLeaveStatus(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL),
                            array(), array('ESS'))
                     ->will($this->returnValue($actions));
-        
+
         $this->leaveRequestService->setUserRoleManager($userManager);
         $result = $this->leaveRequestService->getLeaveRequestActions($leave, $loggedInEmpNumber);
-        $this->verifyLeaveActions($actions, $result);          
+        $this->verifyLeaveActions($actions, $result);
     }
-    
+
     public function testGetLeaveRequestActionsStatusDiffer() {
         $loggedInEmpNumber = 4;
 
@@ -873,75 +873,75 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $leave->expects($this->once())
               ->method('isStatusDiffer')
               ->will($this->returnValue(true));
-        
+
         $result = $this->leaveRequestService->getLeaveRequestActions($leave, $loggedInEmpNumber);
         $this->assertTrue(is_array($result));
         $this->assertEquals(0, count($result));
-    }    
-    
+    }
+
     public function testGetLeaveActionsESS() {
         $loggedInEmpNumber = 4;
         $leave = new Leave();
         $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
         $leave->setEmpNumber($loggedInEmpNumber);
-        
+
         $cancelAction = new WorkflowStateMachine();
         $cancelAction->fromArray(array('id' => 3, 'workflow' => 'leave',
             'state' => 'PENDING APPROVAL','role' => 'ADMIN', 'action' => 'CANCEL',
-            'resulting_state' => 'CANCELLED','roles_to_notify' => '','priority' => 0));           
+            'resulting_state' => 'CANCELLED','roles_to_notify' => '','priority' => 0));
         $actions = array($cancelAction);
-        
+
         $userManager = $this->getMockBuilder('BasicUserRoleManager')
 			->setMethods( array('getAllowedActions'))
 			->getMock();
         $userManager->expects($this->any())
                     ->method('getAllowedActions')
-                    ->with(WorkflowStateMachine::FLOW_LEAVE, $leave->getTextLeaveStatus(), 
+                    ->with(WorkflowStateMachine::FLOW_LEAVE, $leave->getTextLeaveStatus(),
                             array(), array('ESS'))
                     ->will($this->returnValue($actions));
-        
+
         $this->leaveRequestService->setUserRoleManager($userManager);
         $result = $this->leaveRequestService->getLeaveActions($leave, $loggedInEmpNumber);
-        $this->verifyLeaveActions($actions, $result);         
+        $this->verifyLeaveActions($actions, $result);
     }
     public function testGetLeaveActions() {
         $loggedInEmpNumber = 4;
         $leave = new Leave();
         $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
         $leave->setEmpNumber(5);
-        
+
         $approveAction = new WorkflowStateMachine();
         $approveAction->fromArray(array('id' => 2, 'workflow' => 'leave',
             'state' => 'PENDING APPROVAL','role' => 'ADMIN', 'action' => 'APPROVE',
-            'resulting_state' => 'SCHEDULED','roles_to_notify' => '','priority' => 0));        
+            'resulting_state' => 'SCHEDULED','roles_to_notify' => '','priority' => 0));
         $cancelAction = new WorkflowStateMachine();
         $cancelAction->fromArray(array('id' => 3, 'workflow' => 'leave',
             'state' => 'PENDING APPROVAL','role' => 'ADMIN', 'action' => 'CANCEL',
-            'resulting_state' => 'CANCELLED','roles_to_notify' => '','priority' => 0));        
+            'resulting_state' => 'CANCELLED','roles_to_notify' => '','priority' => 0));
         $rejectAction = new WorkflowStateMachine();
         $rejectAction->fromArray(array('id' => 5, 'workflow' => 'leave',
             'state' => 'PENDING APPROVAL','role' => 'ADMIN', 'action' => 'REJECT',
-            'resulting_state' => 'REJECTED','roles_to_notify' => '','priority' => 0));        
-        
+            'resulting_state' => 'REJECTED','roles_to_notify' => '','priority' => 0));
+
         $actions = array($approveAction, $cancelAction, $rejectAction);
-        
+
         $userManager = $this->getMockBuilder('BasicUserRoleManager')
 			->setMethods( array('getAllowedActions'))
 			->getMock();
         $userManager->expects($this->any())
                     ->method('getAllowedActions')
-                    ->with(WorkflowStateMachine::FLOW_LEAVE, $leave->getTextLeaveStatus(), 
+                    ->with(WorkflowStateMachine::FLOW_LEAVE, $leave->getTextLeaveStatus(),
                             array(), array())
                     ->will($this->returnValue($actions));
-        
+
         $this->leaveRequestService->setUserRoleManager($userManager);
         $result = $this->leaveRequestService->getLeaveActions($leave, $loggedInEmpNumber);
-        $this->verifyLeaveActions($actions, $result);        
-    }   
-    
+        $this->verifyLeaveActions($actions, $result);
+    }
+
     protected function verifyLeaveActions($actions, $result) {
         $this->assertEquals(count($actions), count($result));
-        
+
         foreach ($actions as $action) {
             $found = false;
 
@@ -951,7 +951,7 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
                         ucfirst(strtolower($action->getAction())) == $actionName) {
                     $found = true;
                     break;
-                }                
+                }
             }
             $this->assertTrue($found);
         }
@@ -983,6 +983,22 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $leaveRequestService->setAccessFlowStateMachineService($accessFlowStateMachineService);
         $leaveRequestService->changeLeaveRequestStatus($leaveRequest, 'Cancel');
     }
+
+    public function testGetLeaveRecordsBetweenTwoDays(){
+        $employeeId = 1;
+        $leaveRecord = TestDataService::fetchObject('Leave', 2);
+        $leaveRequestDaoMock = $this->getMockBuilder('LeaveRequestDao')
+            ->setMethods( array('getLeaveRecordsBetweenTwoDays'))
+            ->getMock();
+        $leaveRequestDaoMock->expects($this->once())
+            ->method('getLeaveRecordsBetweenTwoDays')
+            ->with('2010-09-01','2010-09-02',1,[0,-1,1,2,3])
+            ->will($this->returnValue($leaveRecord));
+
+        $this->leaveRequestService->setLeaveRequestDao($leaveRequestDaoMock);
+        $retrievedLeaveRecord = $this->leaveRequestService->getLeaveRecordsBetweenTwoDays('2010-09-01','2010-09-02',$employeeId,[0,-1,1,2,3]);
+        $this->assertEquals($leaveRecord, $retrievedLeaveRecord);
+    }
 }
 
 /** TODO: Remove*/
@@ -1000,7 +1016,7 @@ class MockLeaveStateManager {
     }
 
     public function cancel() {
-        
+
     }
 }
 

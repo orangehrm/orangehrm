@@ -20,12 +20,16 @@
 
 namespace Orangehrm\Rest\Api\Attendance;
 
-use Orangehrm\Rest\Api\Admin\Entity\User;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
-use Orangehrm\Rest\Api\Exception\InvalidParamException;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-use Orangehrm\Rest\Http\Response;
+use \sfContext;
+use \DateTimeZone;
+use \DateTime;
+use \sfException;
+use \AttendanceService;
+use \EmployeeService;
+use \Employee;
+use \Exception;
 
 class PunchTimeAPI extends EndPoint{
 
@@ -33,16 +37,17 @@ class PunchTimeAPI extends EndPoint{
     const PARAMETER_TIME_ZONE = 'timezone';
     const PARAMETER_NOTE = 'note';
     const PARAMETER_DATE_TIME = 'datetime';
+    const PARAMETER_TIME_ZONE_OFFSET = 'timezoneOffset';
 
     protected $employeeService;
     protected $attendanceService;
 
     /**
-     * @return \EmployeeService
+     * @return EmployeeService
      */
     public function getEmployeeService(){
         if(!$this->employeeService){
-            $this->employeeService = new \EmployeeService();
+            $this->employeeService = new EmployeeService();
         }
         return $this->employeeService;
     }
@@ -57,31 +62,30 @@ class PunchTimeAPI extends EndPoint{
     }
 
     /**
-     * @return \AttendanceService
+     * @return AttendanceService
      */
     public function getAttendanceService() {
         if (is_null($this->attendanceService)) {
-            $this->attendanceService = new \AttendanceService();
+            $this->attendanceService = new AttendanceService();
         }
         return $this->attendanceService;
     }
 
     /**
-     * @param \AttendanceService $attendanceService
+     * @param AttendanceService $attendanceService
      */
-    public function setAttendanceService(\AttendanceService $attendanceService) {
+    public function setAttendanceService(AttendanceService $attendanceService) {
         $this->attendanceService = $attendanceService;
     }
 
-
     /**
      * @param $empNumber
-     * @return \Employee
+     * @return Employee
      */
     public function checkValidEmployee($empNumber){
         try {
             return $this->getEmployeeService()->getEmployee($empNumber);
-        }catch (\Exception $e){
+        } catch (Exception $e){
             new BadRequestException($e->getMessage());
         }
 
@@ -98,12 +102,41 @@ class PunchTimeAPI extends EndPoint{
                 return false;
             }
         }
-        $origin_dtz = new \DateTimeZone($origin_tz);
-        $remote_dtz = new \DateTimeZone($remote_tz);
-        $origin_dt = new \DateTime("now", $origin_dtz);
-        $remote_dt = new \DateTime("now", $remote_dtz);
-        $offset = $origin_dtz->getOffset($origin_dt) - $remote_dtz->getOffset($remote_dt);
-        return $offset;
+        $origin_dtz = new DateTimeZone($origin_tz);
+        $remote_dtz = new DateTimeZone($remote_tz);
+        $origin_dt = new DateTime("now", $origin_dtz);
+        $remote_dt = new DateTime("now", $remote_dtz);
+        return $origin_dtz->getOffset($origin_dt) - $remote_dtz->getOffset($remote_dt);
     }
 
+    public function getCurrentUTCTime()
+    {
+        return gmdate('Y-m-d H:i');
+    }
+
+    /**
+     * @return mixed|null
+     * @throws sfException
+     */
+    public function getLoggedInEmployeeNumber()
+    {
+        return sfContext::getInstance()->getUser()->getAttribute("auth.empNumber");
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getValidateTimezoneOffsetList()
+    {
+        $offsetList = array();
+        $zoneList = timezone_identifiers_list();
+        foreach ($zoneList as $timezoneName) {
+            $timeZoneDTZ = new DateTimeZone($timezoneName);
+            $dateTimeObj = new DateTime('now', $timeZoneDTZ);
+            $offset = $dateTimeObj->getOffset();
+            array_push($offsetList, $offset / 3600);
+        }
+        return $offsetList;
+    }
 }

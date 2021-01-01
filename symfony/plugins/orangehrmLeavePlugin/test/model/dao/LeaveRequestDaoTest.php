@@ -21,16 +21,16 @@
 
 /**
  * LeaveRequestDao Test
- * @group Leave 
+ * @group Leave
  */
  class LeaveRequestDaoTest extends PHPUnit_Framework_TestCase{
- 	
+
   	public $leaveRequestDao ;
   	public $leaveType ;
   	public $leavePeriod ;
   	public $employee ;
         private $fixture;
- 	
+
  	protected function setUp() {
 
             $this->leaveRequestDao = new LeaveRequestDao();
@@ -39,10 +39,10 @@
             TestDataService::populate($fixtureFile);
             $this->fixture = sfYaml::load($fixtureFile);
             sfConfig::set('app_items_per_page', 50);
-           
-    	
+
+
     }
-    
+
     /* Tests for fetchLeaveRequest() */
 
     public function testFetchLeaveRequest() {
@@ -179,7 +179,7 @@
         $this->assertEquals(18, $leaveList[10]->getId());
 
     }
-    
+
     public function testGetOverlappingLeaveInSameDay1() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6,'11:00:00','12:00:00' );
@@ -189,7 +189,7 @@
         }
         $this->assertEquals(1, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveInSameDay2() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6,'10:00:00','11:00:00' );
@@ -199,7 +199,7 @@
         }
         $this->assertEquals(1, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveInSameDay3() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6,'10:00:00','12:00:00' );
@@ -209,7 +209,7 @@
         }
         $this->assertEquals(2, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveInSameDay4() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6,'10:00:00','12:00:00' );
@@ -219,25 +219,25 @@
         }
         $this->assertEquals(2, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveInSameDay5() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6,'12:00:00','13:00:00' );
        $this->assertEquals(0, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveInSameDay6() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6,'09:00:00','10:00:00' );
        $this->assertEquals(0, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveInSameDay7() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6,'15:00:00','16:00:00' );
        $this->assertEquals(0, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveInSameDay8() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6);
@@ -247,7 +247,7 @@
         }
         $this->assertEquals(3, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveInSameDay9() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6, '10:30:00','10:45:00');
@@ -257,7 +257,7 @@
         }
         $this->assertEquals(1, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveInSameDay10() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6, '13:30:00','15:00:00');
@@ -273,9 +273,9 @@
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6, '09:00:00','10:00:00');
        $this->assertEquals(0, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveInSameDay12() {
-       
+
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6, '09:00:00','10:30:00');
 
         foreach ($leaveList as $leave) {
@@ -283,15 +283,15 @@
         }
         $this->assertEquals(1, count($leaveList));
     }
-    
+
     public function testGetOverlappingLeaveMultiDayFullNoOverlap() {
-       
+
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-05', '2011-01-10', 6);
         $this->assertEquals(0, count($leaveList));
-    }    
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayFullOverlapWithFullDay() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-10', 1);
         $this->assertEquals(1, count($leaveList));
 
@@ -301,10 +301,10 @@
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
         }
-    }       
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayFullOverlapWithPartialDay() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-12-30', '2011-01-01', 6);
         $this->assertEquals(3, count($leaveList));
 
@@ -314,10 +314,10 @@
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
         }
-    }     
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayFullDayNonStart() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-10', 1, '10:00:00', '13:00:00');
         $this->assertEquals(1, count($leaveList));
 
@@ -327,16 +327,16 @@
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
         }
-    }  
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayFullDayNonStartNoMatch() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-08', 1, '10:00:00', '13:00:00');
         $this->assertEquals(0, count($leaveList));
-    }    
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayPartialDayNonStart() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-04-01', '2011-04-03', 6, '10:00:00', '13:00:00');
         $this->assertEquals(1, count($leaveList));
 
@@ -346,10 +346,10 @@
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
         }
-    }       
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayFullDayEnd() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-09', 1, '10:00:00', '13:00:00');
         $this->assertEquals(1, count($leaveList));
 
@@ -359,10 +359,10 @@
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
         }
-    }    
+    }
 
     public function testGetOverlappingLeaveMultiDayPartialStartDayPartialDayEnd() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-30', '2011-04-02', 6, '10:00:00', '13:20:00');
         $this->assertEquals(1, count($leaveList));
 
@@ -372,16 +372,16 @@
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
         }
-    }    
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayPartialDayStartNoMatch() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-04-02', '2011-04-06', 6, '10:00:00', '13:00:00');
         $this->assertEquals(0, count($leaveList));
-    }    
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayPartialDayStart() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-04-02', '2011-04-06', 6, '10:00:00', '13:20:00');
         $this->assertEquals(1, count($leaveList));
 
@@ -391,10 +391,10 @@
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
         }
-    }     
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayFullDayStart() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-20', '2010-08-25', 1, '10:00:00', '13:20:00');
         $this->assertEquals(1, count($leaveList));
 
@@ -404,200 +404,200 @@
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
         }
-    }    
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayEndDay() {
-       
-        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '14:00:00', '15:20:00', false, 
+
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '14:00:00', '15:20:00', false,
                 '12:00:00', '13:00:00');
         $this->assertEquals(0, count($leaveList));
-    }     
-    
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayEndDayStartMatch() {
-       
-        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '13:50:00', '15:20:00', false, 
+
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '13:50:00', '15:20:00', false,
                 '12:00:00', '13:00:00');
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2011-01-01');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }        
-    }    
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayEndDayEndMatch() {
-       
-        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '14:00:00', '15:20:00', false, 
+
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '14:00:00', '15:20:00', false,
                 '12:10:00', '13:10:00');
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2011-04-02');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }        
-    }     
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialStartDayEndDayBothMatch() {
-       
-        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '13:50:00', '15:20:00', false, 
+
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '13:50:00', '15:20:00', false,
                 '12:10:00', '13:10:00');
         $this->assertEquals(2, count($leaveList));
-        
+
         $dates = array('2011-01-01', '2011-04-02');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }        
-    }    
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchPartialDayMiddle() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-30', '2011-04-05', 6, '13:50:00', '15:20:00', true);
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2011-04-02');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }        
-    }    
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchPartialDayStart() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-04-02', '2011-04-05', 6, '13:50:00', '15:20:00', true);
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2011-04-02');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }        
-    }    
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchPartialDayEnd() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-25', '2011-04-02', 6, '13:50:00', '15:20:00', true);
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2011-04-02');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }        
-    }    
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchFullDayMiddle() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-10', '2010-08-13', 1, '13:50:00', '15:20:00', true);
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2010-08-11');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }        
-    }      
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchFullDayStart() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-20', '2010-08-23', 1, '13:50:00', '15:20:00', true);
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2010-08-20');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }        
-    }   
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchFullDayEnd() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-09', 1, '13:50:00', '15:20:00', true);
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2010-08-09');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }        
-    }  
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialEndDayMatchPartialDayEnd() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-25', '2011-04-02', 6, null, null, false, '13:50:00', '15:20:00');
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2011-04-02');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }       
-    }     
-    
-    public function testGetOverlappingLeaveMultiDayPartialEndDayMatchPartialDayEndNoMatch() {
-       
-        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-25', '2011-04-02', 6, null, null, false, '12:50:00', '13:00:00');
-        $this->assertEquals(0, count($leaveList));       
+        }
     }
-    
+
+    public function testGetOverlappingLeaveMultiDayPartialEndDayMatchPartialDayEndNoMatch() {
+
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-25', '2011-04-02', 6, null, null, false, '12:50:00', '13:00:00');
+        $this->assertEquals(0, count($leaveList));
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialEndDayMatchFullDayEnd() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-09', 1, null, null, false, '13:50:00', '15:20:00');
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2010-08-09');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }       
-    } 
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialEndDayMatchFullDayStart() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-20', '2010-08-25', 1, null, null, false, '13:50:00', '15:20:00');
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2010-08-20');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }       
-    }     
-    
+        }
+    }
+
     public function testGetOverlappingLeaveMultiDayPartialEndDayMatchFullDayMiddle() {
-       
+
         $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-03', '2010-08-10', 1, null, null, false, '13:50:00', '15:20:00');
         $this->assertEquals(1, count($leaveList));
-        
+
         $dates = array('2010-08-09');
         for ($i = 0; $i < count($leaveList); $i++) {
             $leave = $leaveList[$i];
             $this->assertTrue($leave instanceof Leave);
             $this->assertEquals($dates[$i], $leave->getDate());
-        }       
-    }     
+        }
+    }
     /* Tests for getOverlappingLeave() */
-    
-    
+
+
     public function testGetTotalLeaveDuration (){
          $duration = $this->leaveRequestDao->getTotalLeaveDuration( 1, '2011-01-01');
          $this->assertNull($duration);
     }
-    
+
     public function testGetTotalLeaveDuration1 (){
          $duration = $this->leaveRequestDao->getTotalLeaveDuration( 6, '2011-01-01');
          $this->assertEquals( 3.00 ,$duration);
@@ -628,34 +628,34 @@
         return array($leaveRequest, array($leave1, $leave2));
 
     }
-    
+
     /* Tests for saveLeaveRequest() */
 
     public function testSaveLeaveRequestNewRequestNoEntitlement() {
 
         $leaveRequestIds = $this->getLeaveRequestIdsFromDb();
         $leaveIds = $this->getLeaveIdsFromDb();
-        
+
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
         $expected = range(1,21);
         $this->assertEquals($expected, $leaveRequestIds);
-        
+
         $leaveRequestData = $this->_getLeaveRequestData();
         $request = $leaveRequestData[0];
         $leave = $leaveRequestData[1];
 
         $leaveRequest = $this->leaveRequestDao->saveLeaveRequest($request, $leave, array());
         $this->assertTrue($leaveRequest instanceof LeaveRequest);
-        
+
         $leaveRequestList = $this->getNewLeaveRequests($leaveRequestIds);
-        $this->assertEquals(1, count($leaveRequestList));  
+        $this->assertEquals(1, count($leaveRequestList));
         $leaveRequest = $leaveRequestList[0];
         $this->compareLeaveRequest($request, $leaveRequest);
 
         $leaveList = $this->getNewLeave($leaveIds);
 
         $this->assertEquals(count($leave), count($leaveList));
-        
+
         // update leave type, leave request id , emp number in leave requests
         for ($i = 0; $i < count($leave); $i++) {
             $expected = $leave[$i];
@@ -663,45 +663,45 @@
             $expected->setLeaveTypeId($request->getLeaveTypeId());
             $expected->setEmpNumber($request->getEmpNumber());
             $expected->setLeaveRequestId($request->getId());
-            
+
             $this->compareLeave($expected, $actual);
-        }        
+        }
     }
-    
+
     public function testSaveLeaveRequestNewRequestWithEntitlement() {
 
         $leaveRequestIds = $this->getLeaveRequestIdsFromDb();
         $leaveIds = $this->getLeaveIdsFromDb();
-        
+
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
         $expected = range(1,21);
         $this->assertEquals($expected, $leaveRequestIds);
-        
+
         $leaveRequestData = $this->_getLeaveRequestData();
         $request = $leaveRequestData[0];
         $leave = $leaveRequestData[1];
 
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
-        
+
         // entitlements to be assigned to leave
         $entitlements = array('current' => array(
             '2010-12-01' => array(1 => 0.4, 2 => 0.6),
             '2010-12-02' => array(1 => 1)
         ));
-        
+
         $leaveRequest = $this->leaveRequestDao->saveLeaveRequest($request, $leave, $entitlements);
         $this->assertTrue($leaveRequest instanceof LeaveRequest);
-        
+
         $leaveRequestList = $this->getNewLeaveRequests($leaveRequestIds);
-        $this->assertEquals(1, count($leaveRequestList));  
+        $this->assertEquals(1, count($leaveRequestList));
         $leaveRequest = $leaveRequestList[0];
         $this->compareLeaveRequest($request, $leaveRequest);
 
         $newEntitlements = $this->getNewEntitlementAssignements($entitlementAssignmentIds);
         $this->assertEquals(3, count($newEntitlements));
-        
+
         $leaveList = $this->getNewLeave($leaveIds);
-        
+
         $this->assertEquals(count($leave), count($leaveList));
 
         // update leave type, leave request id , emp number in leave requests
@@ -711,29 +711,29 @@
             $expected->setLeaveTypeId($request->getLeaveTypeId());
             $expected->setEmpNumber($request->getEmpNumber());
             $expected->setLeaveRequestId($request->getId());
-            
+
             $this->compareLeave($expected, $actual);
-            
+
             //echo "Leave for date: " . $actual->getDate() . ", id: " . $actual->getId() . "\n";
-            
+
             // verify entitlement assignments
             $leaveId = $actual->getId();
             $leaveEntitlements = $entitlements['current'][$expected->getDate()];
             $newEntitlementsForThisLeave = $this->filterEntitlementsForLeave($leaveId, $newEntitlements);
             $this->validateLeaveEntitlementAssignment($leaveId, $leaveEntitlements, $newEntitlementsForThisLeave);
-        }                
-        
-    }    
-    
+        }
+
+    }
+
     public function testSaveLeaveRequestNewRequestWithEntitlementChanges() {
 
         $leaveRequestIds = $this->getLeaveRequestIdsFromDb();
         $leaveIds = $this->getLeaveIdsFromDb();
-        
+
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
         $expected = range(1,21);
         $this->assertEquals($expected, $leaveRequestIds);
-        
+
         $leaveRequestData = $this->_getLeaveRequestData();
         $request = $leaveRequestData[0];
         $leave = $leaveRequestData[1];
@@ -741,10 +741,10 @@
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
 
         $savedEntitlements = $this->getEntitlementsFromDb();
-        
+
         // Verify all entitlements in fixture retrieved.
         $this->assertEquals(4, count($savedEntitlements));
-        
+
         // entitlements to be assigned to leave
         $entitlements = array('current' => array(
                     '2010-12-01' => array(1 => 0.4, 2 => 0.6),
@@ -757,24 +757,24 @@
                     4 => array() // no entitlements
                 )
             );
-        
+
         $leaveRequest = $this->leaveRequestDao->saveLeaveRequest($request, $leave, $entitlements);
         $this->assertTrue($leaveRequest instanceof LeaveRequest);
-        
+
         $leaveRequestList = $this->getNewLeaveRequests($leaveRequestIds);
-        $this->assertEquals(1, count($leaveRequestList));  
+        $this->assertEquals(1, count($leaveRequestList));
         $leaveRequest = $leaveRequestList[0];
         $this->compareLeaveRequest($request, $leaveRequest);
 
         $newEntitlements = $this->getNewEntitlementAssignements($entitlementAssignmentIds);
         $this->assertEquals(12, count($newEntitlements));
-        
+
         $leaveList = $this->getNewLeave($leaveIds);
-        
+
         $this->assertEquals(count($leave), count($leaveList));
 
         $entitlementUsedDaysChanges = array();
-        
+
         // update leave type, leave request id , emp number in leave requests
         for ($i = 0; $i < count($leave); $i++) {
             $expected = $leave[$i];
@@ -782,17 +782,17 @@
             $expected->setLeaveTypeId($request->getLeaveTypeId());
             $expected->setEmpNumber($request->getEmpNumber());
             $expected->setLeaveRequestId($request->getId());
-            
+
             $this->compareLeave($expected, $actual);
-            
+
             //echo "Leave for date: " . $actual->getDate() . ", id: " . $actual->getId() . "\n";
-            
+
             // verify entitlement assignments
             $leaveId = $actual->getId();
             $leaveEntitlements = $entitlements['current'][$expected->getDate()];
             $newEntitlementsForThisLeave = $this->filterEntitlementsForLeave($leaveId, $newEntitlements);
-            $this->validateLeaveEntitlementAssignment($leaveId, $leaveEntitlements, $newEntitlementsForThisLeave);      
-            
+            $this->validateLeaveEntitlementAssignment($leaveId, $leaveEntitlements, $newEntitlementsForThisLeave);
+
             // update leave entitlement used days
             foreach ($leaveEntitlements as $entitlementId => $length) {
                 if (!isset($entitlementUsedDaysChanges[$entitlementId])) {
@@ -801,54 +801,54 @@
                     $entitlementUsedDaysChanges[$entitlementId] += $length;
                 }
             }
-        }                
-        
+        }
+
         // verify entitlement changes
         foreach($entitlements['change'] as $leaveId => $change) {
             $entitlementsForThisLeave = $this->getEntitlementAssignmentsForLeave($leaveId);
             $this->validateLeaveEntitlementAssignment($leaveId, $change, $entitlementsForThisLeave);
         }
-        
+
         // Verify no entitlement has changed - since leave request status is: pending approval
-        $savedEntitlementsAfter = $this->getEntitlementsFromDb();       
+        $savedEntitlementsAfter = $this->getEntitlementsFromDb();
         $this->assertEquals(count($savedEntitlements), count($savedEntitlementsAfter));
-        
+
         for ($i = 0; $i < count($savedEntitlements); $i++) {
-            
+
             $savedEntitlement = $savedEntitlements[$i];
 
             if (isset($entitlementUsedDaysChanges[$savedEntitlement['id']])) {
                 $savedEntitlement['days_used'] += $entitlementUsedDaysChanges[$savedEntitlement['id']];
-            }            
-            
+            }
+
             $this->compareEntitlement($savedEntitlement, $savedEntitlementsAfter[$i]);
         }
-        
-    }        
+
+    }
 
     public function testSaveLeaveRequestNewRequestWithEntitlementChangesAndTakenLeave() {
 
         $leaveRequestIds = $this->getLeaveRequestIdsFromDb();
         $leaveIds = $this->getLeaveIdsFromDb();
-        
+
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
         $expected = range(1,21);
         $this->assertEquals($expected, $leaveRequestIds);
-        
+
         $leaveRequestData = $this->_getLeaveRequestData();
         $request = $leaveRequestData[0];
         $leave = $leaveRequestData[1];
-        
+
         // convert first leave request to taken
         $leave[0]->setStatus(Leave::LEAVE_STATUS_LEAVE_TAKEN);
 
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
 
         $savedEntitlements = $this->getEntitlementsFromDb();
-        
+
         // Verify all entitlements in fixture retrieved.
         $this->assertEquals(4, count($savedEntitlements));
-        
+
         // entitlements to be assigned to leave
         $entitlements = array('current' => array(
                     '2010-12-01' => array(1 => 0.4, 2 => 0.6),
@@ -861,26 +861,26 @@
                     4 => array() // no entitlements
                 )
             );
-        
+
         $leaveRequest = $this->leaveRequestDao->saveLeaveRequest($request, $leave, $entitlements);
         $this->assertTrue($leaveRequest instanceof LeaveRequest);
-        
+
         $leaveRequestList = $this->getNewLeaveRequests($leaveRequestIds);
-        $this->assertEquals(1, count($leaveRequestList));  
+        $this->assertEquals(1, count($leaveRequestList));
         $leaveRequest = $leaveRequestList[0];
         $this->compareLeaveRequest($request, $leaveRequest);
 
         $newEntitlements = $this->getNewEntitlementAssignements($entitlementAssignmentIds);
         $this->assertEquals(12, count($newEntitlements));
-        
+
         $leaveList = $this->getNewLeave($leaveIds);
 
         $this->assertEquals(count($leave), count($leaveList));
 
         $takenLeaveId = null;
-       
-        $entitlementUsedDaysChanges = array();        
-        
+
+        $entitlementUsedDaysChanges = array();
+
         // update leave type, leave request id , emp number in leave requests
         for ($i = 0; $i < count($leave); $i++) {
             $expected = $leave[$i];
@@ -888,75 +888,75 @@
             $expected->setLeaveTypeId($request->getLeaveTypeId());
             $expected->setEmpNumber($request->getEmpNumber());
             $expected->setLeaveRequestId($request->getId());
-            
+
             $this->compareLeave($expected, $actual);
-            
+
             //echo "Leave for date: " . $actual->getDate() . ", id: " . $actual->getId() . "\n";
-            
+
             // verify entitlement assignments
             $leaveId = $actual->getId();
-            
+
             if ($i == 1) {
                 $takenLeaveId = $leaveId;
             }
-            
+
             $leaveEntitlements = $entitlements['current'][$expected->getDate()];
             $newEntitlementsForThisLeave = $this->filterEntitlementsForLeave($leaveId, $newEntitlements);
-            $this->validateLeaveEntitlementAssignment($leaveId, $leaveEntitlements, $newEntitlementsForThisLeave); 
-            
-        
-            // update leave entitlement used days             
+            $this->validateLeaveEntitlementAssignment($leaveId, $leaveEntitlements, $newEntitlementsForThisLeave);
+
+
+            // update leave entitlement used days
             foreach ($leaveEntitlements as $entitlementId => $length) {
                 if (!isset($entitlementUsedDaysChanges[$entitlementId])) {
                     $entitlementUsedDaysChanges[$entitlementId] = $length;
                 } else {
                     $entitlementUsedDaysChanges[$entitlementId] += $length;
                 }
-            }               
-        }                
-        
+            }
+        }
+
         // verify entitlement changes
         foreach($entitlements['change'] as $leaveId => $change) {
             $entitlementsForThisLeave = $this->getEntitlementAssignmentsForLeave($leaveId);
             $this->validateLeaveEntitlementAssignment($leaveId, $change, $entitlementsForThisLeave);
         }
-        
+
         // Verify days_used for entitlement for leave is updated
         $this->assertTrue(!is_null($takenLeaveId));
-                     
-        $savedEntitlementsAfter = $this->getEntitlementsFromDb();       
+
+        $savedEntitlementsAfter = $this->getEntitlementsFromDb();
         $this->assertEquals(count($savedEntitlements), count($savedEntitlementsAfter));
-        
+
         for ($i = 0; $i < count($savedEntitlements); $i++) {
             $saved = $savedEntitlements[$i];
             $after = $savedEntitlementsAfter[$i];
-            
+
                 // verify used_days incremented
                 $change = $entitlementUsedDaysChanges[$saved['id']];
                 $this->assertEquals($saved['days_used'] + $change, $after['days_used']);
-                
+
                 // Compare other fields
                 $saved['days_used'] = $saved['days_used'] + $change;
                 $this->compareEntitlement($saved, $after);
         }
-        
-    }        
-    
+
+    }
+
     public function testSaveLeaveRequestAbortTransaction() {
 
         // Get current records
         $leaveRequestIds = $this->getLeaveRequestIdsFromDb();
         $leaveIds = $this->getLeaveIdsFromDb();
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
-        
+
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
         $expected = range(1,21);
         $this->assertEquals($expected, $leaveRequestIds);
-        
+
         $leaveRequestData = $this->_getLeaveRequestData();
         $request = $leaveRequestData[0];
         $leave = $leaveRequestData[1];
-        
+
         // entitlements to be assigned to leave
         $entitlements = array('current' => array(
                     '2010-12-01' => array(1 => 0.4, 2 => 0.6),
@@ -970,35 +970,35 @@
                     4 => array() // no entitlements
                 )
             );
-        
+
         try {
             $this->leaveRequestDao->saveLeaveRequest($request, $leave, $entitlements);
             $this->fail("Exception expected");
         } catch (Exception $e) {
-            
+
         }
-        
-        // verify no new records created.        
+
+        // verify no new records created.
         $leaveRequestList = $this->getNewLeaveRequests($leaveRequestIds);
-        $this->assertEquals(0, count($leaveRequestList));  
-        
-        $leaveList = $this->getNewLeave($leaveIds);        
+        $this->assertEquals(0, count($leaveRequestList));
+
+        $leaveList = $this->getNewLeave($leaveIds);
         $this->assertEquals(0, count($leaveList));
-        
+
         $entitlementList = $this->getNewEntitlementAssignements($entitlementAssignmentIds);
         $this->assertEquals(0, count($entitlementList));
-        
-        // verify old records still exist      
+
+        // verify old records still exist
         $leaveRequestList = $this->getLeaveRequests($leaveRequestIds);
-        $this->assertEquals(count($leaveRequestIds), count($leaveRequestList));  
-        
-        $leaveList = $this->getLeave($leaveIds);        
+        $this->assertEquals(count($leaveRequestIds), count($leaveRequestList));
+
+        $leaveList = $this->getLeave($leaveIds);
         $this->assertEquals(count($leaveIds), count($leaveList));
-        
+
         $entitlementList = $this->getEntitlementAssignements($entitlementAssignmentIds);
-        $this->assertEquals(count($entitlementAssignmentIds), count($entitlementList));        
-    }        
-    
+        $this->assertEquals(count($entitlementAssignmentIds), count($entitlementList));
+    }
+
     /*public function testSaveLeaveRequestUpdateRequest() {
 
         $leaveRequest = TestDataService::fetchObject('LeaveRequest', 1);
@@ -1081,7 +1081,7 @@
 
         $leaveRequest = $this->leaveRequestDao->saveLeaveRequest($leaveRequest, $leave);
         $this->assertTrue($leaveRequest instanceof LeaveRequest);
-                
+
         $this->assertTrue($this->leaveRequestDao->modifyOverlapLeaveRequest($leaveRequest, $leave, $leavePeriod));
 
         $leaveRequestList = TestDataService::fetchLastInsertedRecords('LeaveRequest', 2);
@@ -1149,7 +1149,7 @@
         $searchParameters->setParameter('dateRange', $dateRange);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
         $searchParameters->setParameter('cmbWithTerminated','on');
-        
+
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -1165,7 +1165,7 @@
         $this->assertEquals(21, count($requestList));
         $this->assertEquals(21, $requestCount);
 
-        
+
         /* Checking values and order */
 
         $this->assertEquals(21, $requestList[0]->getId());
@@ -1179,7 +1179,7 @@
         $this->assertEquals(1, $requestList[19]->getEmpNumber());
 
     }
-    
+
     public function testSearchLeaveRequestsAllTerminatedEmployee() {
 
         $searchParameters = new ParameterStub();
@@ -1188,7 +1188,7 @@
         $searchParameters->setParameter('dateRange', $dateRange);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
         $searchParameters->setParameter('cmbWithTerminated','');
-        
+
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -1215,7 +1215,7 @@
         $searchParameters->setParameter('dateRange', $dateRange);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
         $searchParameters->setParameter('cmbWithTerminated','on');
-        
+
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -1242,7 +1242,7 @@
         $this->assertEquals(1, $requestList[8]->getLeaveTypeId());
         $this->assertEquals('2010-08-30', $requestList[8]->getDateApplied());
         $this->assertEquals(1, $requestList[8]->getEmpNumber());
-        
+
     }
 
     public function testSearchLeaveRequestsStates() {
@@ -1257,7 +1257,7 @@
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
         $searchParameters->setParameter('cmbWithTerminated','on');
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
-        
+
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
 
@@ -1295,7 +1295,7 @@
         $searchParameters->setParameter('employeeFilter', 1);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
         $searchParameters->setParameter('cmbWithTerminated','on');
-        
+
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -1333,7 +1333,7 @@
         $searchParameters->setParameter('dateRange', $dateRange);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
         $searchParameters->setParameter('cmbWithTerminated','on');
-        
+
         $employee = new Employee();
         $employee->setEmpNumber(1);
         $searchParameters->setParameter('employeeFilter', $employee);
@@ -1375,7 +1375,7 @@
         $searchParameters->setParameter('dateRange', $dateRange);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
         $searchParameters->setParameter('cmbWithTerminated','on');
-        
+
         $employee1 = new Employee();
         $employee1->setEmpNumber(1);
         $employee2 = new Employee();
@@ -1421,7 +1421,7 @@
         $searchParameters->setParameter('leavePeriod', 1);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
         $searchParameters->setParameter('cmbWithTerminated','on');
-        
+
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -1460,7 +1460,7 @@
         $searchParameters->setParameter('leaveType', 1);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
         $searchParameters->setParameter('cmbWithTerminated','on');
-        
+
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters, 1);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -1497,7 +1497,7 @@
     public function testSearchLeaveRequestsByEmployeeSubUnit() {
 
         $searchParameters = new ParameterObject();
-        
+
         // Employees under engineering, and support (2,5) : employees 2,5,6
         $searchParameters->setParameter('subUnit', 2);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
@@ -1505,7 +1505,7 @@
         $expected = array($leaveFixture[20], $leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
                           $leaveFixture[13], $leaveFixture[12], $leaveFixture[11],
                           $leaveFixture[15], $leaveFixture[17]);
-        
+
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -1532,10 +1532,10 @@
     public function testSearchLeaveRequestsByLocation() {
 
         $searchParameters = new ParameterObject();
-        
+
         // Location 1: employees 1
         $searchParameters->setParameter('locations', array(1));
-        
+
         // need to include terminated since employee 1 is terminated.
         $searchParameters->setParameter('cmbWithTerminated', true);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
@@ -1544,7 +1544,7 @@
                           $leaveFixture[4], $leaveFixture[3], $leaveFixture[2],
                           $leaveFixture[1], $leaveFixture[0], $leaveFixture[10],
                           $leaveFixture[9], $leaveFixture[8]);
-            
+
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -1561,7 +1561,7 @@
         $this->assertEquals(count($expected), $requestCount);
 
         /* Checking values and order */
-        $this->compareLeaveRequests($expected, $requestList);                
+        $this->compareLeaveRequests($expected, $requestList);
     }
 
     /**
@@ -1571,14 +1571,14 @@
     public function testSearchLeaveRequestsByMultipleLocations() {
 
         $searchParameters = new ParameterObject();
-        
+
         // Location 3,4: employees 5,6
         $searchParameters->setParameter('locations', array(3,4));
 
         $leaveFixture = $this->fixture['LeaveRequest'];
         $expected = array($leaveFixture[20], $leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
                           $leaveFixture[15], $leaveFixture[17]);
-            
+
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -1595,7 +1595,7 @@
         $this->assertEquals(count($expected), $requestCount);
 
         /* Checking values and order */
-        $this->compareLeaveRequests($expected, $requestList);                
+        $this->compareLeaveRequests($expected, $requestList);
     }
 
     /**
@@ -1616,7 +1616,7 @@
         for ($i = 0; $i < count($names); $i++) {
             $name = $names[$i];
             $expected = $expectedArray[$i];
-            
+
             $searchParameters = new ParameterObject();
             $searchParameters->setParameter('employeeName', $name);
 
@@ -1636,10 +1636,10 @@
             $this->assertEquals(count($expected), $requestCount);
 
             /* Checking values and order */
-            $this->compareLeaveRequests($expected, $requestList);             
-        }               
+            $this->compareLeaveRequests($expected, $requestList);
+        }
     }
-    
+
     /**
      * Test the readLeave() function
      */
@@ -1666,7 +1666,7 @@
 
         // Compare leave id
         $this->assertEquals($savedLeave->id, $leaveFixture['id'], 'leave id should match');
-        
+
         // Compare other properties
         foreach ($leaveFixture as $property => $value) {
             $this->assertEquals($savedLeave->$property, $value, $property . ' should match ');
@@ -1714,106 +1714,106 @@
         $origAsArray = $leave->toArray();
         $savedAsArray = $result[0]->toArray();
 
-        $this->assertEquals($origAsArray, $savedAsArray);        
+        $this->assertEquals($origAsArray, $savedAsArray);
     }
 
     public function xtestGetEmployeesInSubUnits() {
-        
+
         $this->assertEquals(array(2, 6), $this->getEmployeesInSubUnits(array(2)));
-        
+
         $this->assertEquals(array(1, 2, 3, 4, 5, 6), $this->getEmployeesInSubUnits(array(1,2,3,4,5)));
-        
+
         $this->assertEquals(array(5), $this->getEmployeesInSubUnits(array(5)));
     }
-    
+
     public function testChangeLeaveStatusNoEntitlementChanges() {
         $leaves = $this->getLeave(array(1));
         $this->assertEquals(1, count($leaves));
-        $savedEntitlements = $this->getEntitlementsFromDb();        
-        
+        $savedEntitlements = $this->getEntitlementsFromDb();
+
         $leave = $leaves[0];
         $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
         $this->leaveRequestDao->changeLeaveStatus($leave, array(), false);
-        
+
         $leavesAfterChange = $this->getLeave(array(1));
-        $this->assertEquals(1, count($leavesAfterChange));  
+        $this->assertEquals(1, count($leavesAfterChange));
         $leaveAfterChange = $leavesAfterChange[0];
-        
+
         // Verify status changed
         $this->assertEquals(Leave::LEAVE_STATUS_LEAVE_CANCELLED, $leaveAfterChange->getStatus());
-        
+
         // Verify no entitlement changes
-        $savedEntitlementsAfter = $this->getEntitlementsFromDb();       
+        $savedEntitlementsAfter = $this->getEntitlementsFromDb();
         $this->assertEquals(count($savedEntitlements), count($savedEntitlementsAfter));
-        
-        for ($i = 0; $i < count($savedEntitlements); $i++) {                       
+
+        for ($i = 0; $i < count($savedEntitlements); $i++) {
             $this->compareEntitlement($savedEntitlements[$i], $savedEntitlementsAfter[$i]);
-        }        
-        
-    }         
-    
+        }
+
+    }
+
     public function testChangeLeaveStatusNoEntitlementChangesRemoveLinked() {
         $leaveId = 1;
         $leaves = $this->getLeave(array($leaveId));
         $this->assertEquals(1, count($leaves));
         $leave = $leaves[0];
-        
-        $savedEntitlements = $this->getEntitlementsFromDb();        
-        
-        $thisLeaveEntitlementAssignments = $this->getEntitlementAssignmentsForLeave($leaveId);        
-        $this->assertEquals(2, count($thisLeaveEntitlementAssignments));
-        
-        $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();        
 
-        $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);     
+        $savedEntitlements = $this->getEntitlementsFromDb();
+
+        $thisLeaveEntitlementAssignments = $this->getEntitlementAssignmentsForLeave($leaveId);
+        $this->assertEquals(2, count($thisLeaveEntitlementAssignments));
+
+        $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
+
+        $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
         $this->leaveRequestDao->changeLeaveStatus($leave, array(), true);
 
         $leavesAfterChange = $this->getLeave(array(1));
-        $this->assertEquals(1, count($leavesAfterChange));  
+        $this->assertEquals(1, count($leavesAfterChange));
         $leaveAfterChange = $leavesAfterChange[0];
-        
+
         // Verify status changed
         $this->assertEquals(Leave::LEAVE_STATUS_LEAVE_CANCELLED, $leaveAfterChange->getStatus());
-        
+
         // Verify entitlement links to leave removed
         $thisLeaveEntitlementIdsAfter = $this->getEntitlementAssignmentsForLeave(1);
         $this->assertEquals(0, count($thisLeaveEntitlementIdsAfter));
-        
+
         $entitlementAssignmentIdsAfter = $this->getEntitlementAssignmentIdsFromDb();
         $this->assertEquals(count($entitlementAssignmentIds) - count($thisLeaveEntitlementAssignments), count($entitlementAssignmentIdsAfter));
-        
+
         // Verify entitlement changes
-        $savedEntitlementsAfter = $this->getEntitlementsFromDb();     
-        
-        $this->assertEquals(count($savedEntitlements), count($savedEntitlementsAfter));        
-        
+        $savedEntitlementsAfter = $this->getEntitlementsFromDb();
+
+        $this->assertEquals(count($savedEntitlements), count($savedEntitlementsAfter));
+
         for ($i = 0; $i < count($savedEntitlements); $i++) {
-            
+
             $savedEntitlement = $savedEntitlements[$i];
 
             foreach ($thisLeaveEntitlementAssignments as $assignment) {
-                
+
                 if ($assignment->getEntitlementId() == $savedEntitlement['id']) {
-                    $savedEntitlement['days_used'] -= $assignment->getLengthDays();                   
+                    $savedEntitlement['days_used'] -= $assignment->getLengthDays();
                 }
             }
 
             $this->compareEntitlement($savedEntitlement, $savedEntitlementsAfter[$i]);
-        }       
-    }   
-    
+        }
+    }
+
     public function testChangeLeaveStatusEntitlementChangesRemoveLinked() {
         $leaveId = 1;
         $leaves = $this->getLeave(array($leaveId));
         $this->assertEquals(1, count($leaves));
         $leave = $leaves[0];
-        
-        $savedEntitlements = $this->getEntitlementsFromDb();        
-        
-        $thisLeaveEntitlementAssignments = $this->getEntitlementAssignmentsForLeave($leaveId);        
+
+        $savedEntitlements = $this->getEntitlementsFromDb();
+
+        $thisLeaveEntitlementAssignments = $this->getEntitlementAssignmentsForLeave($leaveId);
         $this->assertEquals(2, count($thisLeaveEntitlementAssignments));
-        
-        $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();        
+
+        $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
 
         // entitlements to be assigned to leave
         $entitlements = array('current' => array(),
@@ -1823,20 +1823,20 @@
                     4 => array() // additions to existing, new ones
                 )
             );
-        
+
         //
         // Before: entitlement id: days: days_used
         // 1: 3: 2.25
         // 2: 6: 3.5
         // 3: 1: 0
         // 4: 5: 3
-        // 
+        //
         // Leave id: 1 is linked to the following (entitlement id: length_days)
         // 1: 0.5
         // 2: 0.5
-        // 
+        //
         // Removing links for leave id: 1 results in the following:
-        // 
+        //
         // entitlement id: days: days_used
         // 1: 3: 1.75
         // 2: 6: 3
@@ -1844,7 +1844,7 @@
         // 4: 5: 3
         //
         // Changes in above array: (entitlement id: delta days_used)
-        // 
+        //
         // 1: 0
         // 2: 2
         // 3: 0.9
@@ -1869,67 +1869,67 @@
 
         // 4
         //
-        
-        
-        $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);     
-        
+
+
+        $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
+
 
         $this->leaveRequestDao->changeLeaveStatus($leave, $entitlements, true);
 
         $leavesAfterChange = $this->getLeave(array(1));
-        $this->assertEquals(1, count($leavesAfterChange));  
+        $this->assertEquals(1, count($leavesAfterChange));
         $leaveAfterChange = $leavesAfterChange[0];
-        
+
         // Verify status changed
         $this->assertEquals(Leave::LEAVE_STATUS_LEAVE_CANCELLED, $leaveAfterChange->getStatus());
-        
+
         // Verify entitlement links to leave removed
         $thisLeaveEntitlementIdsAfter = $this->getEntitlementAssignmentsForLeave(1);
         $this->assertEquals(0, count($thisLeaveEntitlementIdsAfter));
-        
+
         $entitlementAssignmentIdsAfter = $this->getEntitlementAssignmentIdsFromDb();
-        
+
         $newlyInsertedAssignments = 5;
-        $this->assertEquals(count($entitlementAssignmentIds) - count($thisLeaveEntitlementAssignments) + $newlyInsertedAssignments, 
+        $this->assertEquals(count($entitlementAssignmentIds) - count($thisLeaveEntitlementAssignments) + $newlyInsertedAssignments,
                 count($entitlementAssignmentIdsAfter));
-        
+
         // Verify entitlement changes
-        $savedEntitlementsAfter = $this->getEntitlementsFromDb();     
-        
-        $this->assertEquals(count($savedEntitlements), count($savedEntitlementsAfter));        
+        $savedEntitlementsAfter = $this->getEntitlementsFromDb();
+
+        $this->assertEquals(count($savedEntitlements), count($savedEntitlementsAfter));
         for ($i = 0; $i < count($savedEntitlements); $i++) {
-            
+
             $savedEntitlement = $savedEntitlements[$i];
 
             // Apply changes due to removing links for changed leave
-            foreach ($thisLeaveEntitlementAssignments as $assignment) {                
+            foreach ($thisLeaveEntitlementAssignments as $assignment) {
                 if ($assignment->getEntitlementId() == $savedEntitlement['id']) {
-                    $savedEntitlement['days_used'] -= $assignment->getLengthDays();                   
+                    $savedEntitlement['days_used'] -= $assignment->getLengthDays();
                 }
             }
-            
+
             // apply changes due to specified entitlement changes
             foreach ($entitlements['change'] as $change) {
                 foreach ($change as $entitlementId => $length) {
                     if ($entitlementId == $savedEntitlement['id']) {
-                        $savedEntitlement['days_used'] += $length; 
+                        $savedEntitlement['days_used'] += $length;
                     }
                 }
             }
-            
+
             //print_r($savedEntitlement['id'] . ': ' . $savedEntitlement['no_of_days'] . ': ' . $savedEntitlement['days_used']); echo "\n";
 
             $this->compareEntitlement($savedEntitlement, $savedEntitlementsAfter[$i]);
         }
-        
+
         // Verify entitlement assignments to leave
         $expectedEntitlementAssignments = array(34 => array(2 => 1, 3 => 0.4, 4 => 1),
             2 => array(2 => 1, 3 => 0.5, 4 => 2));
-        
+
         foreach ($expectedEntitlementAssignments as $leaveId => $assignments) {
             $actualAssignments = $this->getEntitlementAssignmentsForLeave($leaveId, 'l.entitlement_id ASC');
             $this->assertEquals(count($assignments), count($actualAssignments));
-            
+
             $i = 0;
             foreach ($assignments as $entitlementId => $length) {
                 $actualAssignment = $actualAssignments[$i++];
@@ -1937,81 +1937,81 @@
                 $this->assertEquals($length, $actualAssignment->getLengthDays());
             }
         }
-    }      
-    
-    
+    }
+
+
     /**
-     * Get Employees under given subunit 
+     * Get Employees under given subunit
      * @param array $subUnits array of subunit ids
-     * 
+     *
      * @return array Array of employee numbers.
      */
     protected function getEmployeesInSubUnits(array $subUnits) {
         $empNumbers = array();
         $employees = $this->fixture['Employee'];
-        
+
         foreach($employees as $employee) {
             if (isset($employee['work_station']) &&
                     in_array($employee['work_station'], $subUnits)) {
                 $empNumbers[] = $employee['empNumber'];
             }
         }
-        
+
         return $empNumbers;
     }
-    
+
     public function xtestGetLeaveRequestsForEmployees() {
-        $this->assertEquals(range(1, 11), 
+        $this->assertEquals(range(1, 11),
                 $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees(array(1))));
-        
-        $this->assertEquals(range(1, 14), 
+
+        $this->assertEquals(range(1, 14),
                 $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees(array(1, 2))));
 
-        $this->assertEquals(array(20), 
+        $this->assertEquals(array(20),
                 $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees(array(6))));
-        
+
         $this->assertEquals(range(16, 19),
-                $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees(array(5))));        
-        
+                $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees(array(5))));
+
     }
-    
+
     protected function getLeaveRequestsForEmployees($empNumbers) {
-        
+
         $leaveRequests = array();
         $allLeaveRequests = $this->fixture['LeaveRequest'];
-        
+
         foreach($allLeaveRequests as $request) {
             if (in_array($request['empNumber'], $empNumbers)) {
                 $leaveRequests[] = $request;
             }
         }
-        
+
         return $leaveRequests;
     }
-    
+
     protected function getLeaveRequestIds($leaveRequests) {
         $ids = array();
         foreach ($leaveRequests as $request) {
             $ids[] = $request['leave_request_id'];
         }
-        
+
         return $ids;
     }
-    
+
     protected function compareLeaveRequests($expected, $requestList) {
         $this->assertEquals(count($expected), count($requestList));
 
         for ($i = 0; $i < count($expected); $i++) {
-            
+
             $item = $expected[$i];
             $result = $requestList[$i];
             $str = $item['id'] . '->' . $result->getId() . "\n" .
             $item['date_applied'] . '->' . $result->getDateApplied() . "\n" .
             $item['emp_number'] . '->' . $result->getEmpNumber() . "\n" .
             $item['comments'] . '->' . $result->getComments() . "\n\n";
-            
+
             //echo $str;
-            
+
             $this->assertEquals($item['id'], $result->getId());
             $this->assertEquals($item['leave_type_id'], $result->getLeaveTypeId());
             $this->assertEquals($item['date_applied'], $result->getDateApplied());
@@ -2019,56 +2019,56 @@
             $this->assertEquals($item['comments'], $result->getComments());
         }
     }
-    
+
     protected function sortLeaveRequestsByDate($leaveRequests) {
         $this->assertTrue(usort($leaveRequests, array($this, 'compareByDate')));
         return $leaveRequests;
     }
-    
+
     protected function compareByDate($request1, $request2) {
         $date1 = $request1['date_applied'];
         $date2 = $request2['date_applied'];
-        
+
         $time1 = strtotime($date1);
         $time2 = strtotime($date2);
-        
+
         $cmp = 0;
         if ($time1 < $time2) {
             $cmp = -1;
         } else if ($time1 > $time2) {
             $cmp = 1;
         }
-        
+
         return $cmp;
     }
 
     protected function getLeaveRequestIdsFromDb() {
         $conn = Doctrine_Manager::connection()->getDbh();
-        
+
         $query = "SELECT id from ohrm_leave_request";
         $statement = $conn->query($query);
         $ids = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
-        return $ids;        
+        return $ids;
     }
 
     protected function getLeaveIdsFromDb() {
         $conn = Doctrine_Manager::connection()->getDbh();
-        
+
         $query = "SELECT id from ohrm_leave";
         $statement = $conn->query($query);
         $ids = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
-        return $ids;        
+        return $ids;
     }
-    
+
     protected function getEntitlementAssignmentIdsFromDb() {
         $conn = Doctrine_Manager::connection()->getDbh();
-        
+
         $query = "SELECT id from ohrm_leave_leave_entitlement";
         $statement = $conn->query($query);
         $ids = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
-        return $ids;        
-    }    
-    
+        return $ids;
+    }
+
     protected function getEntitlementIdsFromAssignmentIds($assignmentIds) {
         $assignments = $this->getEntitlementAssignements($assignmentIds);
         $entitlementIds = array();
@@ -2081,19 +2081,19 @@
     protected function getEntitlementsFromDb() {
 
         $conn = Doctrine_Manager::connection()->getDbh();
-        
+
         $query = "SELECT * from ohrm_leave_entitlement order by id ASC";
         $statement = $conn->query($query);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        
+
 //        $q = Doctrine_Query::create()->from('LeaveEntitlement e')
 //                ->addOrderBy('e.id ASC');
 //
-//        return $q->execute();       
-    }    
+//        return $q->execute();
+    }
 
-    
+
     protected function getNewLeaveRequests($existingIds) {
         $q = Doctrine_Query::create()->from('LeaveRequest l')
                 ->whereNotIn('l.id', $existingIds)
@@ -2101,7 +2101,7 @@
 
         return $q->execute();
     }
-    
+
     protected function getLeaveRequests($ids) {
         $q = Doctrine_Query::create()->from('LeaveRequest l')
                 ->whereIn('l.id', $ids)
@@ -2115,93 +2115,93 @@
                 ->whereNotIn('l.id', $existingIds)
                 ->addOrderBy('l.id ASC');
 
-        return $q->execute();        
+        return $q->execute();
     }
-    
+
     protected function getLeave($ids) {
         $q = Doctrine_Query::create()->from('Leave l')
                 ->whereIn('l.id', $ids)
                 ->addOrderBy('l.id ASC');
 
-        return $q->execute();        
-    }    
-    
+        return $q->execute();
+    }
+
     protected function getNewEntitlementAssignements($existingIds) {
         $q = Doctrine_Query::create()->from('LeaveLeaveEntitlement l')
                 ->whereNotIn('l.id', $existingIds)
                 ->addOrderBy('l.id ASC');
 
-        return $q->execute();         
+        return $q->execute();
     }
-    
+
     protected function getEntitlementAssignements($ids) {
         $q = Doctrine_Query::create()->from('LeaveLeaveEntitlement l')
                 ->whereIn('l.id', $ids)
                 ->addOrderBy('l.id ASC');
 
-        return $q->execute();         
-    }    
-    
+        return $q->execute();
+    }
+
     protected function getEntitlementAssignmentsForLeave($leaveId, $sort = 'l.id ASC') {
         $q = Doctrine_Query::create()->from('LeaveLeaveEntitlement l')
                 ->where('l.leave_id = ?', $leaveId)
                 ->addOrderBy($sort);
 
-        return $q->execute();                 
+        return $q->execute();
     }
-    
+
     protected function compareLeaveRequest(LeaveRequest $expected, LeaveRequest $result) {
         $this->assertTrue($result instanceof LeaveRequest);
-        
+
         $expectedId = $expected->getId();
-        
+
         if (!empty($expectedId)) {
             $this->assertEquals($expectedId, $result->getId());
         } else {
             $leaveRequestId = $result->getId();
-            $this->assertTrue(!empty($leaveRequestId));            
+            $this->assertTrue(!empty($leaveRequestId));
         }
-        
+
         $this->assertEquals($expected->getLeaveTypeId(), $result->getLeaveTypeId());
         $this->assertEquals($expected->getDateApplied(), $result->getDateApplied());
         $this->assertEquals($expected->getEmpNumber(), $result->getEmpNumber());
-        $this->assertEquals($expected->getComments(), $result->getComments());        
+        $this->assertEquals($expected->getComments(), $result->getComments());
     }
-    
+
     protected function compareLeave(Leave $expected, Leave $result) {
         $this->assertTrue($result instanceof Leave);
-        
+
         $expectedId = $expected->getId();
-        
+
         if (!empty($expectedId)) {
             $this->assertEquals($expectedId, $result->getId());
         } else {
             $leaveId = $result->getId();
-            $this->assertTrue(!empty($leaveId));            
+            $this->assertTrue(!empty($leaveId));
         }
-                
+
         $this->assertEquals($expected->getLeaveTypeId(), $result->getLeaveTypeId());
         $this->assertEquals($expected->getDate(), $result->getDate());
         $this->assertEquals($expected->getEmpNumber(), $result->getEmpNumber());
-        $this->assertEquals($expected->getComments(), $result->getComments());        
-        $this->assertEquals($expected->getLengthHours(), $result->getLengthHours());        
-        $this->assertEquals($expected->getLengthDays(), $result->getLengthDays());        
-        $this->assertEquals($expected->getStatus(), $result->getStatus());        
-        $this->assertEquals($expected->getLeaveRequestId(), $result->getLeaveRequestId());    
-    }    
-    
+        $this->assertEquals($expected->getComments(), $result->getComments());
+        $this->assertEquals($expected->getLengthHours(), $result->getLengthHours());
+        $this->assertEquals($expected->getLengthDays(), $result->getLengthDays());
+        $this->assertEquals($expected->getStatus(), $result->getStatus());
+        $this->assertEquals($expected->getLeaveRequestId(), $result->getLeaveRequestId());
+    }
+
     protected function validateLeaveEntitlementAssignment($leaveId, $expectedEntitlements, $newEntitlements) {
-        
+
         $this->assertEquals(count($expectedEntitlements), count($newEntitlements));
-        
+
         $usedEntitlements = array();
-        
+
         foreach($expectedEntitlements as $entitlementId => $length) {
             $found = false;
-            
+
             // echo "Looking at $entitlementId => $length \n";
             foreach($newEntitlements as $new) {
-                
+
                 if (!in_array($new->getEntitlementId(), $usedEntitlements)) {
                     $this->assertEquals($leaveId, $new->getLeaveId());
 
@@ -2210,17 +2210,17 @@
 
                         // echo "Found\n";
                         $found = true;
-                        $usedEntitlements[] = $new->getEntitlementId();                    
+                        $usedEntitlements[] = $new->getEntitlementId();
                         $this->assertEquals($length, $new->getLengthDays());
                         break;
                     }
                 }
             }
-            
+
             $this->assertTrue($found);
         }
-    }    
-    
+    }
+
     protected function filterEntitlementsForLeave($leaveId, $newEntitlements) {
         $filteredEntitlements = array();
         foreach($newEntitlements as $entitlement) {
@@ -2231,7 +2231,7 @@
         }
         return $filteredEntitlements;
     }
-    
+
     protected function compareEntitlement($expected, $actual) {
         $this->assertEquals($expected['id'], $actual['id']);
         $this->assertEquals($expected['emp_number'], $actual['emp_number']);
@@ -2246,8 +2246,26 @@
         $this->assertEquals($expected['deleted'], $actual['deleted']);
         $this->assertEquals($expected['created_by_id'], $actual['created_by_id']);
         $this->assertEquals($expected['created_by_name'], $actual['created_by_name']);
-        
-    }    
+
+    }
+
+     public function testGetLeaveRecordsBetweenTwoDays() {
+         $employeeId = 1;
+         $fromDate = '2010-09-01';
+         $toDate = '2010-09-21';
+         $status =[-1,0,1,2,3];
+         $leaveRecords = $this->leaveRequestDao->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$status);
+         $this->assertEquals(10,count($leaveRecords));
+     }
+
+     public function testGetLeaveRecordsBetweenTwoDaysForOnlySelectedStates() {
+         $employeeId = 1;
+         $fromDate = '2010-09-01';
+         $toDate = '2010-09-21';
+         $status =[1];
+         $leaveRecords = $this->leaveRequestDao->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$status);
+         $this->assertEquals(2,count($leaveRecords));
+     }
  }
 
 

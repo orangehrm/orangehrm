@@ -137,6 +137,42 @@ api_attendance_punchout:
     id: \d+
     sf_method: [get,post]
 
+api_attendance_employee_punchin:
+  url: /api/v1/attendance/punch-in
+  param: { module:apiv1userAttendance, action:EmployeePunchInApi }
+  requirements:
+    sf_method: [post]
+
+api_attendance_employee_punchout:
+  url: /api/v1/attendance/punch-out
+  param: { module:apiv1userAttendance, action:EmployeePunchOutApi }
+  requirements:
+    sf_method: [post]
+
+api_attendance_employee_status:
+  url: /api/v1/attendance/punch-status
+  param: { module:apiv1userAttendance, action:EmployeePunchStatusApi }
+  requirements:
+    sf_method: [get]
+
+api_attendance_attendance:
+  url: /api/v1/attendance/records
+  param: { module:apiv1userAttendance, action:AttendanceApi }
+  requirements:
+    sf_method: [get]
+
+api_attendance_leave:
+  url: /api/v1/leave/leaves
+  param: { module:apiv1userLeave, action:LeaveApi }
+  requirements:
+    sf_method: [get]
+
+api_attendance_summary:
+  url: /api/v1/attendance/summary
+  param: { module:apiv1userAttendance, action:AttendanceSummaryApi}
+  requirements:
+    sf_method: [get]
+
 api_project:
   url: /api/v1/project
   param: { module:apiv1time, action:ProjectsApi }
@@ -215,37 +251,37 @@ api_mobile_myinfo:
 
 api_leave_myleave_entitlement:
   url: /api/v1/leave/my-leave-entitlement
-  param: { module:apiv1user, action:MyLeaveEntitlementApi }
+  param: { module:apiv1userLeave, action:MyLeaveEntitlementApi }
   requirements:
     sf_method: [get]
 
 api_leave_myleave_request:
   url: /api/v1/leave/my-leave-request
-  param: { module:apiv1user, action:MyLeaveRequestApi }
+  param: { module:apiv1userLeave, action:MyLeaveRequestApi }
   requirements:
     sf_method: [get,post]
 
 api_leave_leavelist:
   url: /api/v1/leave/leave-list
-  param: { module:apiv1user, action:LeaveListApi }
+  param: { module:apiv1userLeave, action:LeaveListApi }
   requirements:
     sf_method: [get]
 
 api_leave_leave_request:
   url: /api/v1/leave/leave-request/:id
-  param: { module:apiv1user, action:EmployeeLeaveRequestApi }
+  param: { module:apiv1userLeave, action:EmployeeLeaveRequestApi }
   requirements:
     sf_method: [get,post]
 
 api_leave_subordinate_leave_entitlement:
   url: /api/v1/subordinate/:id/leave-entitlement
-  param: { module:apiv1user, action:SubordinateLeaveEntitlementApi }
+  param: { module:apiv1userLeave, action:SubordinateLeaveEntitlementApi }
   requirements:
     sf_method: [get]
 
 api_leave_subordinate_leave_request:
   url: /api/v1/subordinate/:id/leave-request
-  param: { module:apiv1user, action:SubordinateLeaveRequestApi }
+  param: { module:apiv1userLeave, action:SubordinateLeaveRequestApi }
   requirements:
     sf_method: [post]
 
@@ -263,36 +299,48 @@ api_public_api_definition:
 
 api_leave_config_holidays:
   url: /api/v1/leave/holidays
-  param: { module:apiv1user, action:HolidaysApi }
+  param: { module:apiv1userLeave, action:HolidaysApi }
   requirements:
     sf_method: [get]
 
 api_leave_config_leave_periods:
   url: /api/v1/leave/leave-periods
-  param: { module:apiv1user, action:LeavePeriodsApi }
+  param: { module:apiv1userLeave, action:LeavePeriodsApi }
   requirements:
     sf_method: [get]
 
 api_leave_config_work_shift:
   url: /api/v1/leave/work-shift
-  param: { module:apiv1user, action:WorkShiftApi }
+  param: { module:apiv1userLeave, action:WorkShiftApi }
   requirements:
     sf_method: [get]
 
 api_leave_config_work_week:
   url: /api/v1/leave/work-week
-  param: { module:apiv1user, action:WorkWeekApi }
+  param: { module:apiv1userLeave, action:WorkWeekApi }
   requirements:
     sf_method: [get]
 
 api_leave_config_types:
   url: /api/v1/leave/leave-types
-  param: { module:apiv1user, action: LeaveTypesApi }
+  param: { module:apiv1userLeave, action: LeaveTypesApi }
   requirements:
     sf_method: [get]
 
 api_enabled_modules:
   url: /api/v1/enabled-modules
   param: { module:apiv1public, action: EnabledModulesApi }
+  requirements:
+    sf_method: [get]
+
+api_attendance_attendancelist:
+  url: /api/v1/attendance/attendance-list
+  param: { module:apiv1userAttendance, action: AttendanceListApi }
+  requirements:
+    sf_method: [get]
+
+api_time_config:
+  url: /api/v1/time/config
+  param: { module:apiv1userTime, action: TimeConfigApi }
   requirements:
     sf_method: [get]

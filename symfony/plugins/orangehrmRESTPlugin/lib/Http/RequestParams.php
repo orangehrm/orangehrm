@@ -40,12 +40,7 @@ class RequestParams {
      */
     public function __construct(Request $request) {
         $this->setRequest($request);
-        if ($request->isJsonHttpRequest()){
-            $this->postParameters = json_decode($this->getContent(),true);
-        }else{
-            // `application/x-www-form-urlencoded` already handled in sfWebRequest
-            $this->postParameters = $this->getRequest()->getActionRequest()->getPostParameters();
-        }
+        $this->postParameters = $request->getPostParameters();
     }
 
     /**

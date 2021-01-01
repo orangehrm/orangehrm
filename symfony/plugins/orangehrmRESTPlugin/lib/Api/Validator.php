@@ -46,11 +46,11 @@ class Validator
                         );
 
                     }
+
                     $propertyValidatorRule = new Rules\AllOf($classNames);
                     $propertyValidator = new Rules\Key($property, $propertyValidatorRule);
                     $propertyValidator->check(array($property=>$values[$property]));
                 }
-
             }
             return true;
 

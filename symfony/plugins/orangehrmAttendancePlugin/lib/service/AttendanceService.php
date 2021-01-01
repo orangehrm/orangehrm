@@ -87,7 +87,7 @@ class AttendanceService {
     /**
      * get saved Attendance configuration
      * @param $workflow, $state, $role, $action, $resultingState
-     * @return boolean 
+     * @return boolean
      */
     public function getSavedConfiguration($workflow, $state, $role, $action, $resultingState) {
 
@@ -95,9 +95,9 @@ class AttendanceService {
     }
 
     /**
-     * get Attendance record 
+     * get Attendance record
      * @param $employeeId, $date
-     * @return array of records 
+     * @return array of records
      */
     public function getAttendanceRecord($employeeId, $date) {
 
@@ -105,7 +105,7 @@ class AttendanceService {
     }
 
     /**
-     * delete Attendance record 
+     * delete Attendance record
      * @param $attendanceRecordId
      * @return boolean
      */
@@ -135,8 +135,8 @@ class AttendanceService {
     }
 
     /**
-     * Get Timezone Array 
-     * @param 
+     * Get Timezone Array
+     * @param
      * @return time zone values array
      */
     public function getTimezoneArray() {
@@ -225,8 +225,8 @@ class AttendanceService {
             return false;
         return $index[0];
     }
-    
-    
+
+
      /**
      * check For Punch In OverLapping Records when Editing
      * @param $punchInTime, $employeeId
@@ -235,8 +235,8 @@ class AttendanceService {
     public function checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId,$recordId, $punchOut) {
         return $this->getAttendanceDao()->checkForPunchInOverLappingRecordsWhenEditing($punchInTime, $employeeId,$recordId, $punchOut);
     }
-    
-    
+
+
      /**
      * check For Punch out OverLapping Records when Editing
      * @param $punchInTime, $employeeId
@@ -245,7 +245,7 @@ class AttendanceService {
     public function checkForPunchOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId,$recordId) {
         return $this->getAttendanceDao()->checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $recordId);
     }
-    
+
      /**
      * check For Punch out/in OverLapping Records when Editing
      * @param $punchInTime, $employeeId
@@ -254,20 +254,60 @@ class AttendanceService {
     public function checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId,$recordId) {
         return $this->getAttendanceDao()->checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $recordId);
     }
-    
+
     /**
      *
      * @param int $employeeId
      * @param string $employeementStatus
-     * @param int $subDivision    
+     * @param int $subDivision
      * @param date $dateFrom
      * @param date $dateTo
-     * @return array 
+     * @return array
      */
     public function searchAttendanceRecords($employeeId = null, $employeementStatus = null, $subDivision = null, $dateFrom = null , $dateTo = null ){
         return $this->getAttendanceDao()->searchAttendanceRecords($employeeId, $employeementStatus, $subDivision, $dateFrom, $dateTo );
     }
 
+    /**
+     * @param int $employeeId
+     * @param string $state
+     * @return array|bool|Doctrine_Record|float|int|mixed|string|null
+     * @throws DaoException
+     */
+    public function getLatestPunchInRecord(int $employeeId, string $state)
+    {
+        return $this->getAttendanceDao()->getLatestPunchInRecord($employeeId, $state);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getPunchTimeUserConfiguration()
+    {
+        return $this->getSavedConfiguration(
+            WorkflowStateMachine::FLOW_ATTENDANCE,
+            AttendanceRecord::STATE_INITIAL,
+            configureAction::ESS_USER,
+            WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_TIME,
+            AttendanceRecord::STATE_INITIAL
+        );
+    }
+
+    public function getAttendanceRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,string $state)
+    {
+        return $this->getAttendanceDao()->getAttendanceRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$state);
+    }
+
+    /**
+     * @param $empNumbers
+     * @param null $dateFrom
+     * @param null $dateTo
+     * @return array|Doctrine_Collection
+     * @throws DaoException
+     */
+    public function getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom = null, $dateTo = null)
+    {
+        return $this->getAttendanceDao()->getAttendanceRecordsByEmpNumbers($empNumbers, $dateFrom, $dateTo);
+    }
 }
 
-?>

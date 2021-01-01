@@ -54,15 +54,31 @@ class Request{
     }
 
     /**
+     * @return array|null
+     */
+    public function getPostParameters()
+    {
+        if ($this->isJsonHttpRequest()) {
+            return json_decode($this->getActionRequest()->getContent(), true);
+        } else {
+            // `application/x-www-form-urlencoded` already handled in sfWebRequest
+            return $this->getActionRequest()->getPostParameters();
+        }
+    }
+
+    /**
      * @return array
      */
-    public function getAllParameters() {
-        return array_merge($this->getActionRequest()->getGetParameters(),
-            $this->getActionRequest()->getPostParameters(),
-            array('id'=>$this->getActionRequest()->getParameter('id'))
-            );
-
+    public function getAllParameters()
+    {
+        $postParameters = $this->getPostParameters();
+        return array_merge(
+            $this->getActionRequest()->getGetParameters(),
+            is_array($postParameters) ? $postParameters : [],
+            array('id' => $this->getActionRequest()->getParameter('id'))
+        );
     }
+
     /**
      * Checks if the request method is the given one.
      *

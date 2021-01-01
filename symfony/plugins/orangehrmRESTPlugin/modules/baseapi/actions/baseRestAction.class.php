@@ -25,7 +25,44 @@ use Orangehrm\Rest\Api\Validator;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Service\ApiUsageService;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\OpenApi(openapi="3.0.3")
+ * @OA\Info(
+ *     title="OrangeHRM Open Source : REST api docs",
+ *     version="1.2.0",
+ *     x={
+ *         "base-path": "/api/v1"
+ *     }
+ * )
+ * @OA\Server(
+ *     url="{schema}://{your-orangehrm-host}/{basePath}",
+ *     variables={@OA\ServerVariable(serverVariable="schema",default="https",enum={"https","http"}),
+ *     @OA\ServerVariable(serverVariable="your-orangehrm-host",default="your-orangehrm-host"),
+ *     @OA\ServerVariable(serverVariable="basePath",default="api/v1")}
+ * )
+ * @OA\Server(
+ *     url="{schema}://{your-orangehrm-host}",
+ *     variables={@OA\ServerVariable(serverVariable="schema",default="https",enum={"https","http"}),
+ *     @OA\ServerVariable(serverVariable="your-orangehrm-host",default="your-orangehrm-host")}
+ * )
+ *
+ * @OA\SecurityScheme(
+ *     securityScheme="OAuth",
+ *     type="oauth2",
+ *     flows={@OA\Flow(flow="password",tokenUrl="./oauth/issueToken",scopes={"admin":"Privileged APIs","user":"User scope APIs"})}
+ * )
+ *
+ * @OA\Tag(name="Leave")
+ * @OA\Tag(name="Attendance")
+ * @OA\Tag(name="Time")
+ * @OA\Schema(
+ *     schema="RecordNotFoundException",
+ *     type="object",
+ *     example={"error":{"status":"404","text":"No Records Found"}}
+ * )
+ */
 abstract class baseRestAction extends baseOAuthAction {
 
     protected $getValidationRule = array();
@@ -100,7 +137,6 @@ abstract class baseRestAction extends baseOAuthAction {
      * @return string
      */
     public function execute($request) {
-
         $httpRequest = new Request($request);
         $this->init($httpRequest);
         $response = $this->getResponse();
@@ -124,6 +160,8 @@ abstract class baseRestAction extends baseOAuthAction {
                 case 'DELETE':
                     $response->setContent($this->handleDeleteRequest($httpRequest)->format());
                     break;
+                default:
+                    throw new NotImplementedException();
             }
 
         } catch (RecordNotFoundException $e){

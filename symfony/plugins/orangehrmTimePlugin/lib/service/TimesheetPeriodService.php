@@ -19,6 +19,7 @@
  */
 class TimesheetPeriodService {
 
+    const DEFAULT_TIMESHEET_START_DATE = 1;
 	private $timesheetPeriodDao;
 
 	/**
@@ -79,7 +80,13 @@ class TimesheetPeriodService {
         
     }
 
-
+	/**
+	 * @return string
+	 * @throws DaoException
+	 */
+	public function getTimesheetStartDate() {
+		$xmlString = $this->getTimesheetPeriodDao()->getDefinedTimesheetPeriod();
+		$xml = simplexml_load_String($xmlString);
+		return (string)$xml->StartDate;
+	}
 }
-
-?>

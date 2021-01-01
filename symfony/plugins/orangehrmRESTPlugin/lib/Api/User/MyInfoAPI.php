@@ -24,6 +24,7 @@ use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\EmployeePhotoAPI;
 use Orangehrm\Rest\Api\Pim\EmployeeSearchAPI;
+use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Api\User\Model\UserModel;
 use Orangehrm\Rest\Http\Response;
 use sfContext;
@@ -112,7 +113,11 @@ class MyInfoAPI extends EndPoint
         $userModel = new UserModel($user);
         $response['user'] = $userModel->toArray();
         $employee = $this->getApiEmployeeSearch()->getEmployeeById($user->getEmployeeId());
-        $response['employee'] = $employee->toArray();
+        if ($employee instanceof Employee) {
+            $response['employee'] = $employee->toArray();
+        } else {
+            $response['employee'] = null;
+        }
         if ($params[self::PARAMETER_WITH_PHOTO]) {
             $employeePhoto = $this->getApiEmployeePhoto()->getEmployeePhotoById($user->getEmployeeId());
             $response['employeePhoto'] = $employeePhoto;
