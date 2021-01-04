@@ -1,3 +1,11 @@
+New & Changed Features for OrangeHRM ver 4.7
+    New Features
+    ------------
+    OrangeHRM Open Source Mobile App Version 2.0 is released with the following features.
+    - Employees to Punch In/Out the attendance records
+    - Employees to view their attendance records summary and details
+    - Admin / Supervisor to view their employees' attendance summary and details
+
 New & Changed Features for OrangeHRM ver 4.6.0.1
     Bug Fixes
     ---------
