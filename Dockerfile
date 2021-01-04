@@ -2,8 +2,8 @@ FROM php:7.3.15-apache-buster
 
 LABEL maintainer="samanthaj@orangehrm.com"
 
-ENV OHRM_VERSION 4.6.0.1
-ENV OHRM_MD5 dd96e35f2d4311ba6889b72f20bc09b9
+ENV OHRM_VERSION 4.7
+ENV OHRM_MD5 0d41f2f5f6cc427d992eeacc915747f6
 ENV IONCUBE_MD5 1e6b0d8a8db6c5536c99bd7e67eb6a4f
 ENV IONCUBE_VER '10.4.4'
 
