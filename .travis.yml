@@ -4,15 +4,6 @@ php:
 sudo: required
 dist: trusty
 
-branches:
-  only:
-    - master
-    - develop
-env:
-  global:
-  - TAGDEV=develop
-  - TAGMASTER=master
-
 services:
   - mysql
   - docker
