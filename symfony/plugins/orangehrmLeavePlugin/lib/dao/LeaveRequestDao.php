@@ -872,13 +872,7 @@ class LeaveRequestDao extends BaseDao {
         $q = $this->getSearchBaseQuery($searchParameters);
 
         $q->select('lr.date_applied, lt.name, lr.comments, sum(l.length_hours) leave_length_hours_total, sum(l.length_days) as total_leave_length_days,em.firstName, em.middleName, em.lastName' .
-                        ',
-                         
-                         
-                         
-                         
-                         
-                         sum(IF(l.status = 2, l.length_days, 0)) as scheduled, ' .
+                        ', sum(IF(l.status = 2, l.length_days, 0)) as scheduled, ' .
                         ', sum(IF(l.status = 0, l.length_days, 0)) as cancelled, ' .
                         ', sum(IF(l.status = 3, l.length_days, 0)) as taken, ' .
                         ', sum(IF(l.status = -1, l.length_days, 0)) as rejected, ' .
