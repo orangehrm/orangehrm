@@ -60,7 +60,8 @@ class LeaveRequestDao extends BaseDao {
                         $le = new LeaveLeaveEntitlement();
                         $le->setLeaveId($leaveId);
                         $le->setEntitlementId($entitlementId);
-                        $le->setLengthDays($length);
+                        $lengthDays = NumberUtility::getPositiveDecimal($length, 4);
+                        $le->setLengthDays($lengthDays);
                         $le->save();
 
                         Doctrine_Query::create()
@@ -89,7 +90,8 @@ class LeaveRequestDao extends BaseDao {
                         $le = new LeaveLeaveEntitlement();
                         $le->setLeaveId($leaveId);
                         $le->setEntitlementId($entitlementId);
-                        $le->setLengthDays($length);
+                        $lengthDays = NumberUtility::getPositiveDecimal($length, 4);
+                        $le->setLengthDays($lengthDays);
                         $le->save();
                     }
                 }
@@ -231,10 +233,11 @@ class LeaveRequestDao extends BaseDao {
                             $entitlementAssignment = new LeaveLeaveEntitlement();
                             $entitlementAssignment->setLeaveId($leaveId);
                             $entitlementAssignment->setEntitlementId($entitlementId);
-                            $entitlementAssignment->setLengthDays($length);
+                            $lengthDays = NumberUtility::getPositiveDecimal($length, 4);
                         } else {
-                            $entitlementAssignment->setLengthDays($entitlementAssignment->getLengthDays() + $length);
+                            $lengthDays = NumberUtility::getPositiveDecimal($entitlementAssignment->getLengthDays() + $length, 4);
                         }
+                        $entitlementAssignment->setLengthDays($lengthDays);
                         $entitlementAssignment->save();
                     }
 
