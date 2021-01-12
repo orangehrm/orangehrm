@@ -17,30 +17,15 @@
  * Boston, MA  02110-1301, USA
  */
 
-class indexAction extends BaseHelpAction
-{
-    public function getHelpService() {
-        if (!$this->helpService instanceof HelpService) {
-            $this->helpService = new HelpService();
-        }
-        return $this->helpService;
-    }
+interface HelpProcessor {
 
-    public function execute($request) {
-        echo "hhhhhhhhhhhhhhhhh";
-        if($this->getHelpService()->isModuleEnabled()) {
-            try{
-                $label = $request->getParameter('label');
+    public function getBaseUrl();
 
-                $redirectUrl = $this->getHelpService()->getRedirectUrl($label);
+    public function getSearchUrl($label);
 
-                $this->redirect($redirectUrl);
-            } catch (Exception $e) {
-                $this->getHelpService()->getDefaultRedirectUrl();
-            }
-        } else {
-            $this->getResponse()->setContent('Unauthorized');
-            $this->getResponse()->setStatusCode(HttpResponseCode::HTTP_FORBIDDEN);
-        }
-    }
+    public function getRedirectUrl($label);
+
+    public function getDefaultRedirectUrl();
+
+    public function getRedirectUrlList($query,$labels,$categories);
 }

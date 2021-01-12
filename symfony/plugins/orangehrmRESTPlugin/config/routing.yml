@@ -344,3 +344,9 @@ api_time_config:
   param: { module:apiv1userTime, action: TimeConfigApi }
   requirements:
     sf_method: [get]
+
+api_help_config:
+  url: /api/v1/help/config
+  param: { module:apiv1userHelp, action: HelpConfigurationApi }
+  requirements:
+    sf_method: [get]

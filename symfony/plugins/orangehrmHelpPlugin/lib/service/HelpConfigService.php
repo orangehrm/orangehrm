@@ -17,30 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-class indexAction extends BaseHelpAction
-{
-    public function getHelpService() {
-        if (!$this->helpService instanceof HelpService) {
-            $this->helpService = new HelpService();
-        }
-        return $this->helpService;
+class HelpConfigService extends ConfigService {
+
+    const HELP_PROCESSOR_CLASS = 'help.processorClass';
+    const HELP_URL = 'help.url';
+
+
+    /**
+     * Gets Help Processor Class
+     *
+     * @return String
+     */
+    public function getHelpProcessorClass() {
+        return $this->_getConfigValue(self::HELP_PROCESSOR_CLASS);
     }
 
-    public function execute($request) {
-        echo "hhhhhhhhhhhhhhhhh";
-        if($this->getHelpService()->isModuleEnabled()) {
-            try{
-                $label = $request->getParameter('label');
-
-                $redirectUrl = $this->getHelpService()->getRedirectUrl($label);
-
-                $this->redirect($redirectUrl);
-            } catch (Exception $e) {
-                $this->getHelpService()->getDefaultRedirectUrl();
-            }
-        } else {
-            $this->getResponse()->setContent('Unauthorized');
-            $this->getResponse()->setStatusCode(HttpResponseCode::HTTP_FORBIDDEN);
-        }
+    /**
+     * Gets Help Base Url
+     *
+     * @return String
+     */
+    public function getBaseHelpUrl() {
+        return $this->_getConfigValue(self::HELP_URL);
     }
 }

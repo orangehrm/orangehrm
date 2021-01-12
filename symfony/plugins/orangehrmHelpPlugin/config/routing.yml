@@ -1,0 +1,3 @@
+help:
+  url: /help/help
+  param: {module:help, action: index}
