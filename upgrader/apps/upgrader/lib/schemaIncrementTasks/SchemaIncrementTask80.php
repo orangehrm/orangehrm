@@ -25,7 +25,7 @@ class SchemaIncrementTask80 extends SchemaIncrementTask
 
     public function loadSql()
     {
-        $sql[] = "INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.url',  'http://opensourcehelp.orangehrm.com');";
+        $sql[] = "INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.url',  'https://opensourcehelp.orangehrm.com');";
 
         $sql[] = "INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.processorClass',  'ZendeskHelpProcessor');";
 

@@ -20,7 +20,6 @@
 class ZendeskHelpProcessor implements HelpProcessor {
 
     const DEFAULT_CONTENT_TYPE = "application/json";
-    const GET_METHOD = "GET";
 
     protected $helpConfigService;
 
@@ -139,23 +138,12 @@ class ZendeskHelpProcessor implements HelpProcessor {
         }
     }
 
-    public function getArticleNameFromUrl($url){
-        $e=explode('/',$url);
-        $name =end($e);
-        $words=explode('-',$name);
-        $words=array_slice($words,1,count($words));
-        $name = implode(' ',$words);
-        return $name;
-    }
-
     public function getCategoryRedirectUrl($category){
-//        $url = $this->getBaseUrl().'/api/v2/help_center/categories/'.$category;
-        $url = 'https://opensourcehelp.zendesk.com/api/v2/help_center/en-us/categories/'.$category;
+        $url = $this->getBaseUrl().'/api/v2/help_center/categories/'.$category;
         $results = $this->sendQuery($url);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
         }
-//        $count = $response['error'];
         if (($results['responseCode'] == 200)) {
             $redirectUrl = $response['category']['html_url'];
         } else {
@@ -165,8 +153,7 @@ class ZendeskHelpProcessor implements HelpProcessor {
     }
 
     public function getCategoriesFromSearchQuery($query=null){
-//        $url = $this->getBaseUrl().'/api/v2/help_center/categories';
-        $url = 'https://opensourcehelp.zendesk.com/api/v2/help_center/en-us/categories';
+        $url = $this->getBaseUrl().'/api/v2/help_center/categories';
         $results = $this->sendQuery($url);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
@@ -178,7 +165,6 @@ class ZendeskHelpProcessor implements HelpProcessor {
                 $name =$category['name'];
                 if($query!=null) {
                     if (strpos($name, $query)!==false) {
-                        echo 'ee0';
                         array_push($final, array('name' => $name, 'url' => $redirectUrl));
                     }
                 } else {

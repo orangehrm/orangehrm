@@ -27,7 +27,6 @@ class indexAction extends BaseHelpAction
     }
 
     public function execute($request) {
-        echo "hhhhhhhhhhhhhhhhh";
         if($this->getHelpService()->isModuleEnabled()) {
             try{
                 $label = $request->getParameter('label');

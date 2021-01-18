@@ -3532,6 +3532,6 @@ INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES
 ('marketplace', 'Marketplace'),
 ('mobile', 'Mobile');
 
-INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.url',  'http://opensourcehelp.orangehrm.com');
+INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.url',  'https://opensourcehelp.orangehrm.com');
 INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.processorClass',  'ZendeskHelpProcessor');
 
