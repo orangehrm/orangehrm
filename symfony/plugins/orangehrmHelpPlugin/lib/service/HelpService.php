@@ -50,6 +50,7 @@ class HelpService {
     public function getHelpProcessorClass() {
         if (!$this->helpProcessorClass instanceof HelpProcessor) {
             $helpProcessorClassName = $this->getHelpConfigService()->getHelpProcessorClass();
+            echo $helpProcessorClassName;
             $this->helpProcessorClass = new $helpProcessorClassName();
         }
         return $this->helpProcessorClass;
@@ -63,25 +64,6 @@ class HelpService {
     }
 
     /**
-     * get ModuleService
-     * @return ModuleService
-     */
-    public function getModuleService() {
-        if (is_null($this->moduleService)) {
-            $this->moduleService = new ModuleService();
-        }
-        return $this->moduleService;
-    }
-
-    /**
-     * @param mixed $moduleService
-     */
-    public function setModuleService(ModuleService $moduleService) {
-        $this->moduleService = $moduleService;
-    }
-
-
-    /**
      * @param $label
      * @return mixed
      */
@@ -89,7 +71,6 @@ class HelpService {
         if (!$this->helpProcessorClass instanceof HelpProcessor) {
             $this->helpProcessorClass = $this->getHelpProcessorClass();
         }
-
         return $this->helpProcessorClass->getRedirectUrl($label);
     }
 
@@ -141,7 +122,7 @@ class HelpService {
     /**
      * @return bool
      */
-    public function isModuleEnabled() {
+    public function isValidUrl() {
         $validUrl = false;
         if (filter_var($this->getHelpConfigService()->getBaseHelpUrl(), FILTER_VALIDATE_URL)) {
             $validUrl = true;

@@ -16,30 +16,32 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+/**
+ *  @group Attendance
+ */
+class orangehrmHelpPluginAllTests {
 
-class indexAction extends BaseHelpAction
-{
-    public function getHelpService() {
-        if (!$this->helpService instanceof HelpService) {
-            $this->helpService = new HelpService();
-        }
-        return $this->helpService;
+    protected function setUp() {
+
+    }
+    public static function suite() {
+
+        $suite = new PHPUnit_Framework_TestSuite('orangehrmHelpPluginAllTest');
+
+        /* Service Test Cases */
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/HelpServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/processor/ZendeskHelpProcessorTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/HelpConfigServiceTest.php');
+
+
+        return $suite;
+
     }
 
-    public function execute($request) {
-        if($this->getHelpService()->isValidUrl()) {
-            try{
-                $label = $request->getParameter('label');
-
-                $redirectUrl = $this->getHelpService()->getRedirectUrl($label);
-
-                $this->redirect($redirectUrl);
-            } catch (Exception $e) {
-                $this->getHelpService()->getDefaultRedirectUrl();
-            }
-        } else {
-            $this->getResponse()->setContent('Unauthorized');
-            $this->getResponse()->setStatusCode(HttpResponseCode::HTTP_FORBIDDEN);
-        }
+    public static function main() {
+        PHPUnit_TextUI_TestRunner::run(self::suite());
     }
+
+
 }
+

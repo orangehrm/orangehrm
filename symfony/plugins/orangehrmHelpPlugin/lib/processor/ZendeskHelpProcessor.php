@@ -126,7 +126,6 @@ class ZendeskHelpProcessor implements HelpProcessor {
         $redirectUrls=array();
         $count = $response['count'];
         if (($count >= 1) && ($results['responseCode'] == 200)) {
-            array_push($result);
             foreach ($response['results'] as $result){
                 $redirectUrl = $result['html_url'];
                 $name=$result['name'];

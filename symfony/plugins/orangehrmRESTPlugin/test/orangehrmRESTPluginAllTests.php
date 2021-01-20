@@ -109,6 +109,9 @@ class orangehrmRESTPluginAllTests
         // Api/User/Time
         $suite->addTestFile(dirname(__FILE__) . '/api/user/time/ApiTimeConfigAPITest.php');
 
+        // Api/User/Help
+        $suite->addTestFile(dirname(__FILE__) . '/api/user/help/ApiHelpAPITest.php');
+
         // Api/PublicApi
         $suite->addTestFile(dirname(__FILE__) . '/api/publicApi/ApiDefinitionAPITest.php');
 

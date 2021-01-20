@@ -84,6 +84,15 @@ class HelpConfigurationAPI extends EndPoint
     }
 
     /**
+     * @param HelpService $helpService
+     */
+    public function setHelpService(HelpService $helpService)
+    {
+        $this->helpService = $helpService;
+    }
+
+
+    /**
      * @return array
      */
     public function getValidationRules()
