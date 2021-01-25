@@ -27,15 +27,15 @@ class indexAction extends BaseHelpAction
     }
 
     public function execute($request) {
-        if($this->getHelpService()->isValidUrl()) {
+        if($this->getHelpService()->isValidUrl() || true) {
+
             try{
                 $label = $request->getParameter('label');
-
                 $redirectUrl = $this->getHelpService()->getRedirectUrl($label);
-
                 $this->redirect($redirectUrl);
             } catch (Exception $e) {
-                $this->getHelpService()->getDefaultRedirectUrl();
+                $defaultRedirectUrl = $this->getHelpService()->getDefaultRedirectUrl();
+                $this->redirect($defaultRedirectUrl);
             }
         } else {
             $this->getResponse()->setContent('Unauthorized');

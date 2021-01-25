@@ -19,11 +19,13 @@
 
 use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/viewHelpComponent'));
 $moduleName =sfContext::getInstance()->getModuleName();
-$actionName = sfContext::getInstance()->getActionName();
 ?>
 <!--Help icon-->
-<a class="help-icon-div" href="<?php echo url_for('help/help');?>?label=<?php echo $moduleName;?>_<?php echo $actionName;?>" target="_blank">
+<a class="help-icon-div" href="<?php echo url_for('help/help');?>?label=<?php echo $moduleName;?>_<?php echo $routeActionName;?>" target="_blank">
     <span class="fa-lg fa-layers fa-fw">
         <i class="far fa-question-circle help-icon"></i>
     </span>
 </a>
+<?php
+
+

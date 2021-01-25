@@ -31,7 +31,7 @@ use OpenApi\Annotations as OA;
  * @OA\OpenApi(openapi="3.0.3")
  * @OA\Info(
  *     title="OrangeHRM Open Source : REST api docs",
- *     version="1.2.0",
+ *     version="1.3.0",
  *     x={
  *         "base-path": "/api/v1"
  *     }

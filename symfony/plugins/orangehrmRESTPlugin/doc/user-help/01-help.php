@@ -3,7 +3,7 @@
  * @api {get} /help/config 01.Get Help Config
  * @apiName getHelpConfig
  * @apiGroup User-Help
- * @apiVersion 1.2.0
+ * @apiVersion 1.3.0
  * @apiUse UserDescription_47
  *
  * @apiParam {query} [query] Search by article name mode category name.

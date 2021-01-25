@@ -77,6 +77,7 @@ class ZendeskHelpProcessor implements HelpProcessor {
     }
 
     public function getRedirectUrl($label) {
+
         $searchUrl = $this->getSearchUrl($label);
 
         $results = $this->sendQuery($searchUrl);
@@ -101,7 +102,11 @@ class ZendeskHelpProcessor implements HelpProcessor {
             'Content-Type' => $contentType
         ];
         $client = new GuzzleHttp\Client();
-        $response = $client->get($url,  $headerOptions);
+        try {
+            $response = $client->get($url, $headerOptions);
+        } catch (Exception $e){
+            return null;
+        }
         $body = $response->getBody();
         $responseCode = $response->getStatusCode();
         return array(

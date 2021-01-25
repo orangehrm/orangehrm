@@ -50,7 +50,6 @@ class HelpService {
     public function getHelpProcessorClass() {
         if (!$this->helpProcessorClass instanceof HelpProcessor) {
             $helpProcessorClassName = $this->getHelpConfigService()->getHelpProcessorClass();
-            echo $helpProcessorClassName;
             $this->helpProcessorClass = new $helpProcessorClassName();
         }
         return $this->helpProcessorClass;

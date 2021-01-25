@@ -1,0 +1,637 @@
+[
+  {
+    "State_Name": "reports",
+    "Label": "reports",
+    "Url_Pattern": "/reports/{module}/{dataGroup}"
+  },
+  {
+    "State_Name": "report_view",
+    "Label": "report_view",
+    "Url_Pattern": "/report/{module}/{templateName}/{prefix}/{dataGroup}/{id}"
+  },
+  {
+    "State_Name": "report_view_with_persistence",
+    "Label": "report_view_with_persistence",
+    "Url_Pattern": "/report/persisted/{id}/{filters:json}/{breadCrumbs:json}/{menuSelector}"
+  },
+  {
+    "State_Name": "report_definition",
+    "Label": "report_definition",
+    "Url_Pattern": "/reports/definition/{module}/{templateName}/{prefix}/{id}"
+  },
+  {
+    "State_Name": "pim.employees",
+    "Label": "pim_employees",
+    "Url_Pattern": "/employees"
+  },
+  {
+    "State_Name": "pim.employees.profile",
+    "Label": "pim_employees_profile",
+    "Url_Pattern": "/{empNumber}"
+  },
+  {
+    "State_Name": "pim.employees.profile.personal_details",
+    "Label": "pim_employees_profile_personal_details",
+    "Url_Pattern": "/personal_details"
+  },
+  {
+    "State_Name": "pim.employees.profile.qualifications",
+    "Label": "pim_employees_profile_qualifications",
+    "Url_Pattern": "/qualifications"
+  },
+  {
+    "State_Name": "pim.employees.profile.social_media",
+    "Label": "pim_employees_profile_social_media",
+    "Url_Pattern": "/social_media"
+  },
+  {
+    "State_Name": "pim.employees.profile.direct_deposit",
+    "Label": "pim_employees_profile_direct_deposit",
+    "Url_Pattern": "/direct_deposit"
+  },
+  {
+    "State_Name": "pim.employees.profile.work_week",
+    "Label": "pim_employees_profile_work_week",
+    "Url_Pattern": "/work_week"
+  },
+  {
+    "State_Name": "pim.employees.profile.contact_details",
+    "Label": "pim_employees_profile_contact_details",
+    "Url_Pattern": "/contact_details"
+  },
+  {
+    "State_Name": "pim.employees.profile.job",
+    "Label": "pim_employees_profile_job",
+    "Url_Pattern": "/job"
+  },
+  {
+    "State_Name": "pim.employees.profile.salary",
+    "Label": "pim_employees_profile_salary",
+    "Url_Pattern": "/salary"
+  },
+  {
+    "State_Name": "pim.employees.profile.emergency_contact",
+    "Label": "pim_employees_profile_emergency_contact",
+    "Url_Pattern": "/emergency_contact"
+  },
+  {
+    "State_Name": "pim.employees.profile.report_to",
+    "Label": "pim_employees_profile_report_to",
+    "Url_Pattern": "/employee_reportto"
+  },
+  {
+    "State_Name": "pim.employees.profile.dependent",
+    "Label": "pim_employees_profile_dependent",
+    "Url_Pattern": "/employee_dependents"
+  },
+  {
+    "State_Name": "pim.employees.profile.memberships",
+    "Label": "pim_employees_profile_memberships",
+    "Url_Pattern": "/employee_memberships"
+  },
+  {
+    "State_Name": "pim.reporting_methods",
+    "Label": "pim_reporting_methods",
+    "Url_Pattern": "/reporting_methods"
+  },
+  {
+    "State_Name": "pim.my_info",
+    "Label": "pim_my_info",
+    "Url_Pattern": "/my_info"
+  },
+  {
+    "State_Name": "pim.addEmployeeWizard",
+    "Label": "pim_addEmployeeWizard",
+    "Url_Pattern": "/add_employee_wizard"
+  },
+  {
+    "State_Name": "pim.add_employee",
+    "Label": "pim_add_employee",
+    "Url_Pattern": "/addEmployee"
+  },
+  {
+    "State_Name": "pim.employees.profile.immigration",
+    "Label": "pim_employees_profile_immigration",
+    "Url_Pattern": "/employee_immigrations"
+  },
+  {
+    "State_Name": "pim.employees.profile.tax_exemptions",
+    "Label": "pim_employees_profile_tax_exemptions",
+    "Url_Pattern": "/tax_exemptions"
+  },
+  {
+    "State_Name": "pim.termination_reasons",
+    "Label": "pim_termination_reasons",
+    "Url_Pattern": "/termination_reasons"
+  },
+  {
+    "State_Name": "pim.optional_fields",
+    "Label": "pim_optional_fields",
+    "Url_Pattern": "/optional_fields"
+  },
+  {
+    "State_Name": "pim.configure_employee_wizard",
+    "Label": "pim_configure_employee_wizard",
+    "Url_Pattern": "/configure_employee_wizard"
+  },
+  {
+    "State_Name": "pim.bulk_update",
+    "Label": "pim_bulk_update",
+    "Url_Pattern": "/bulk_update"
+  },
+  {
+    "State_Name": "pim.bulk_update.update",
+    "Label": "pim_bulk_update_update",
+    "Url_Pattern": "/update"
+  },
+  {
+    "State_Name": "pim.bulk_update.inline_edit",
+    "Label": "pim_bulk_update_inline_edit",
+    "Url_Pattern": "/inline_edit"
+  },
+  {
+    "State_Name": "pim.custom_field_sections",
+    "Label": "pim_custom_field_sections",
+    "Url_Pattern": "/custom_field_sections"
+  },
+  {
+    "State_Name": "pim.custom_field_sections_details",
+    "Label": "pim_custom_field_sections_details",
+    "Url_Pattern": "/custom_field_sections_details/{customFieldSectionId}"
+  },
+  {
+    "State_Name": "pim.document_templates",
+    "Label": "pim_document_templates",
+    "Url_Pattern": "/document_templates"
+  },
+  {
+    "State_Name": "pim.customizable_pim_tabs",
+    "Label": "pim_customizable_pim_tabs",
+    "Url_Pattern": "/customizable_pim_tabs"
+  },
+  {
+    "State_Name": "pim.employees.profile.custom_pimTab",
+    "Label": "pim_employees_profile_custom_pimTab",
+    "Url_Pattern": "/employee_pim_tab/:tabId"
+  },
+  {
+    "State_Name": "pim.configure_my_shortcuts",
+    "Label": "pim_configure_my_shortcuts",
+    "Url_Pattern": "/configure_my_shortcuts"
+  },
+  {
+    "State_Name": "pim.employee_data_export",
+    "Label": "pim_employee_data_export",
+    "Url_Pattern": "/exportEmployeeDataReport"
+  },
+  {
+    "State_Name": "maintenance.configuration",
+    "Label": "maintenance_configuration",
+    "Url_Pattern": "/configuration"
+  },
+  {
+    "State_Name": "maintenance.purge_employee_records",
+    "Label": "maintenance_purge_employee_records",
+    "Url_Pattern": "/purge_employee_records"
+  },
+  {
+    "State_Name": "maintenance.purge_candidate_records",
+    "Label": "maintenance_purge_candidate_records",
+    "Url_Pattern": "/purge_candidate_records"
+  },
+  {
+    "State_Name": "admin.pay_grades",
+    "Label": "admin_pay_grades",
+    "Url_Pattern": "/pay_grades"
+  },
+  {
+    "State_Name": "admin.pay_grade_details",
+    "Label": "admin_pay_grade_details",
+    "Url_Pattern": "/pay_grades/{payGradeId}"
+  },
+  {
+    "State_Name": "admin.education",
+    "Label": "admin_education",
+    "Url_Pattern": "/education"
+  },
+  {
+    "State_Name": "admin.languages",
+    "Label": "admin_languages",
+    "Url_Pattern": "/languages"
+  },
+  {
+    "State_Name": "admin.employment_status",
+    "Label": "admin_employment_status",
+    "Url_Pattern": "/employment_status"
+  },
+  {
+    "State_Name": "admin.jobcategories",
+    "Label": "admin_jobcategories",
+    "Url_Pattern": "/jobcategories"
+  },
+  {
+    "State_Name": "admin.job_titles",
+    "Label": "admin_job_titles",
+    "Url_Pattern": "/job_titles"
+  },
+  {
+    "State_Name": "admin.salary_components",
+    "Label": "admin_salary_components",
+    "Url_Pattern": "/salary_components"
+  },
+  {
+    "State_Name": "admin.licenses",
+    "Label": "admin_licenses",
+    "Url_Pattern": "/licenses"
+  },
+  {
+    "State_Name": "admin.nationalities",
+    "Label": "admin_nationalities",
+    "Url_Pattern": "/nationalities"
+  },
+  {
+    "State_Name": "admin.skills",
+    "Label": "admin_skills",
+    "Url_Pattern": "/skills"
+  },
+  {
+    "State_Name": "admin.memberships",
+    "Label": "admin_memberships",
+    "Url_Pattern": "/memberships"
+  },
+  {
+    "State_Name": "admin.localization",
+    "Label": "admin_localization",
+    "Url_Pattern": "/localization"
+  },
+  {
+    "State_Name": "admin.mail_configuration",
+    "Label": "admin_mail_configuration",
+    "Url_Pattern": "/mail_configuration"
+  },
+  {
+    "State_Name": "admin.configSystemAdmin",
+    "Label": "admin_configSystemAdmin",
+    "Url_Pattern": "/configSystemAdmin"
+  },
+  {
+    "State_Name": "admin.locations",
+    "Label": "admin_locations",
+    "Url_Pattern": "/locations"
+  },
+  {
+    "State_Name": "admin.costCentres",
+    "Label": "admin_costCentres",
+    "Url_Pattern": "/cost_centres"
+  },
+  {
+    "State_Name": "admin.processEEOFilling",
+    "Label": "admin_processEEOFilling",
+    "Url_Pattern": "/eeo_filling"
+  },
+  {
+    "State_Name": "admin.company_structure",
+    "Label": "admin_company_structure",
+    "Url_Pattern": "/company_structure"
+  },
+  {
+    "State_Name": "admin.work_shifts",
+    "Label": "admin_work_shifts",
+    "Url_Pattern": "/work_shifts"
+  },
+  {
+    "State_Name": "admin.viewApplicationChangeLog",
+    "Label": "admin_viewApplicationChangeLog",
+    "Url_Pattern": "/viewApplicationChangeLog"
+  },
+  {
+    "State_Name": "admin.organization_general_information",
+    "Label": "admin_organization_general_information",
+    "Url_Pattern": "/organization_general_information"
+  },
+  {
+    "State_Name": "admin.systemUsers",
+    "Label": "admin_systemUsers",
+    "Url_Pattern": "/systemUsers"
+  },
+  {
+    "State_Name": "admin.auditTrail",
+    "Label": "admin_auditTrail",
+    "Url_Pattern": "/auditTrail"
+  },
+  {
+    "State_Name": "admin.canned_reports",
+    "Label": "admin_canned_reports",
+    "Url_Pattern": "/canned_reports"
+  },
+  {
+    "State_Name": "admin.reports_catalog",
+    "Label": "admin_reports_catalog",
+    "Url_Pattern": "/reports_catalog"
+  },
+  {
+    "State_Name": "admin.user_roles",
+    "Label": "admin_user_roles",
+    "Url_Pattern": "/user_roles"
+  },
+  {
+    "State_Name": "admin.add_user_role",
+    "Label": "admin_add_user_role",
+    "Url_Pattern": "/add_user_role"
+  },
+  {
+    "State_Name": "admin.edit_user_role",
+    "Label": "admin_edit_user_role",
+    "Url_Pattern": "/edit_user_role/{id:int}"
+  },
+  {
+    "State_Name": "admin.email_subscriptions",
+    "Label": "admin_email_subscriptions",
+    "Url_Pattern": "/email_subscriptions?type"
+  },
+  {
+    "State_Name": "admin.edit_email_subscription",
+    "Label": "admin_edit_email_subscription",
+    "Url_Pattern": "/email_subscription/{id:int}"
+  },
+  {
+    "State_Name": "admin.edit_email_subscription.edit",
+    "Label": "admin_edit_email_subscription_edit",
+    "Url_Pattern": "/edit-subscriber/{subscriber:int}"
+  },
+  {
+    "State_Name": "admin.edit_email_subscription.subscribe",
+    "Label": "admin_edit_email_subscription_subscribe",
+    "Url_Pattern": "/subscribe"
+  },
+  {
+    "State_Name": "admin.default_authentication_settings",
+    "Label": "admin_default_authentication_settings",
+    "Url_Pattern": "/default_authentication_settings"
+  },
+  {
+    "State_Name": "admin.ldap_authentication",
+    "Label": "admin_ldap_authentication",
+    "Url_Pattern": "/ldap_authentication"
+  },
+  {
+    "State_Name": "admin.openIdProvider",
+    "Label": "admin_openIdProvider",
+    "Url_Pattern": "/openIdProvider"
+  },
+  {
+    "State_Name": "admin.change_user_password",
+    "Label": "admin_change_user_password",
+    "Url_Pattern": "/change_user_password"
+  },
+  {
+    "State_Name": "admin.preferences",
+    "Label": "admin_preferences",
+    "Url_Pattern": "/preferences"
+  },
+  {
+    "State_Name": "admin.view_email_templates_list",
+    "Label": "admin_view_email_templates_list",
+    "Url_Pattern": "/view_email_templates/{id:int}"
+  },
+  {
+    "State_Name": "admin.edit_email_template",
+    "Label": "admin_edit_email_template",
+    "Url_Pattern": "/edit_email_template/{id:int}/{notification_id:int}"
+  },
+  {
+    "State_Name": "admin.oauth_clients",
+    "Label": "admin_oauth_clients",
+    "Url_Pattern": "/register_oauth_client"
+  },
+  {
+    "State_Name": "leave.calendar",
+    "Label": "leave_calendar",
+    "Url_Pattern": "/calendar"
+  },
+  {
+    "State_Name": "leave.calendar_configuration",
+    "Label": "leave_calendar_configuration",
+    "Url_Pattern": "/calendar_configuration"
+  },
+  {
+    "State_Name": "leave.calendar_shortcut",
+    "Label": "leave_calendar_shortcut",
+    "Url_Pattern": "/calendar_shortcut"
+  },
+  {
+    "State_Name": "leave.define_leave_period",
+    "Label": "leave_define_leave_period",
+    "Url_Pattern": "/define_leave_period"
+  },
+  {
+    "State_Name": "leave.percentage_report",
+    "Label": "leave_percentage_report",
+    "Url_Pattern": "/percentage_report?{filters:json}"
+  },
+  {
+    "State_Name": "leave.leave_type_list",
+    "Label": "leave_leave_type_list",
+    "Url_Pattern": "/leave_type_list"
+  },
+  {
+    "State_Name": "leave.define_work_week",
+    "Label": "leave_define_work_week",
+    "Url_Pattern": "/define_work_week"
+  },
+  {
+    "State_Name": "leave.add_leave_entitlement",
+    "Label": "leave_add_leave_entitlement",
+    "Url_Pattern": "/add_leave_entitlement"
+  },
+  {
+    "State_Name": "leave.edit_leave_entitlement",
+    "Label": "leave_edit_leave_entitlement",
+    "Url_Pattern": "/edit_leave_entitlement/:id"
+  },
+  {
+    "State_Name": "leave.view_leave_entitlement",
+    "Label": "leave_view_leave_entitlement",
+    "Url_Pattern": "/view_leave_entitlement/:id/:employeeId/:leaveTypeId/:from/:to"
+  },
+  {
+    "State_Name": "leave.view_my_leave_entitlement",
+    "Label": "leave_view_my_leave_entitlement",
+    "Url_Pattern": "/view_my_leave_entitlement"
+  },
+  {
+    "State_Name": "leave.define_leave_type_rule_general",
+    "Label": "leave_define_leave_type_rule_general",
+    "Url_Pattern": "/define_leave_type_rule/{id}"
+  },
+  {
+    "State_Name": "leave.define_leave_type_rule_who_can_apply",
+    "Label": "leave_define_leave_type_rule_who_can_apply",
+    "Url_Pattern": "/define_leave_type_rule_who_can_apply/{id}"
+  },
+  {
+    "State_Name": "leave.define_leave_type_rule_apply_restriction",
+    "Label": "leave_define_leave_type_rule_apply_restriction",
+    "Url_Pattern": "/define_leave_type_rule_apply_restriction/{id}"
+  },
+  {
+    "State_Name": "leave.view_leave_list",
+    "Label": "leave_view_leave_list",
+    "Url_Pattern": "/view_leave_list/:filter"
+  },
+  {
+    "State_Name": "leave.view_my_leave_list",
+    "Label": "leave_view_my_leave_list",
+    "Url_Pattern": "/view_my_leave_list"
+  },
+  {
+    "State_Name": "leave.view_my_leave_list.detail",
+    "Label": "leave_view_my_leave_list_detail",
+    "Url_Pattern": "/detail/:id/:mode"
+  },
+  {
+    "State_Name": "leave.view_leave_list.detail",
+    "Label": "leave_view_leave_list_detail",
+    "Url_Pattern": "/detail/:id/:mode"
+  },
+  {
+    "State_Name": "leave.holidays",
+    "Label": "leave_holidays",
+    "Url_Pattern": "/holidays"
+  },
+  {
+    "State_Name": "leave.apply",
+    "Label": "leave_apply",
+    "Url_Pattern": "/apply"
+  },
+  {
+    "State_Name": "leave.assign",
+    "Label": "leave_assign",
+    "Url_Pattern": "/assign"
+  },
+  {
+    "State_Name": "leave.apply.new",
+    "Label": "leave_apply_new",
+    "Url_Pattern": "/applynew"
+  },
+  {
+    "State_Name": "leave.notifications",
+    "Label": "leave_notifications",
+    "Url_Pattern": "/notifications"
+  },
+  {
+    "State_Name": "leave.balance_report",
+    "Label": "leave_balance_report",
+    "Url_Pattern": "/balance_report"
+  },
+  {
+    "State_Name": "leave.balance_report.timeline",
+    "Label": "leave_balance_report_timeline",
+    "Url_Pattern": "/timeline/:employeeId/:leaveTypeId"
+  },
+  {
+    "State_Name": "leave.balance_report.view_leave_entitlement",
+    "Label": "leave_balance_report_view_leave_entitlement",
+    "Url_Pattern": "/view_leave_entitlement/:id/:employeeId/:leaveTypeId/:from/:to"
+  },
+  {
+    "State_Name": "leave.balance_report.view_leave_list",
+    "Label": "leave_balance_report_view_leave_list",
+    "Url_Pattern": "/view_leave_list/:filter"
+  },
+  {
+    "State_Name": "leave.balance_report.view_leave_list.detail",
+    "Label": "leave_balance_report_view_leave_list_detail",
+    "Url_Pattern": "/detail/:id/:mode"
+  },
+  {
+    "State_Name": "leave.my_balance_report",
+    "Label": "leave_my_balance_report",
+    "Url_Pattern": "/my_balance_report"
+  },
+  {
+    "State_Name": "leave.my_balance_report.timeline",
+    "Label": "leave_my_balance_report_timeline",
+    "Url_Pattern": "/timeline/:employeeId/:leaveTypeId"
+  },
+  {
+    "State_Name": "leave.my_balance_report.view_leave_entitlement",
+    "Label": "leave_my_balance_report_view_leave_entitlement",
+    "Url_Pattern": "/view_my_leave_entitlement/:id/:employeeId/:leaveTypeId/:from/:to"
+  },
+  {
+    "State_Name": "leave.my_balance_report.view_leave_list",
+    "Label": "leave_my_balance_report_view_leave_list",
+    "Url_Pattern": "/view_my_leave_list/:filter"
+  },
+  {
+    "State_Name": "leave.my_balance_report.view_leave_list.detail",
+    "Label": "leave_my_balance_report_view_leave_list_detail",
+    "Url_Pattern": "/detail/:id/:mode"
+  },
+  {
+    "State_Name": "leave.bulk_assign",
+    "Label": "leave_bulk_assign",
+    "Url_Pattern": "/bulk-assign"
+  },
+  {
+    "State_Name": "leave.bulk_assign.result",
+    "Label": "leave_bulk_assign_result",
+    "Url_Pattern": "/result"
+  },
+  {
+    "State_Name": "leave.leave-period-not-defined",
+    "Label": "leave_leave-period-not-defined",
+    "Url_Pattern": "/leave-period-not-defined"
+  },
+  {
+    "State_Name": "time.common_activities",
+    "Label": "time_common_activities",
+    "Url_Pattern": "/common_activities"
+  },
+  {
+    "State_Name": "time.detailed_timesheet",
+    "Label": "time_detailed_timesheet",
+    "Url_Pattern": "/timesheets/:timesheetId"
+  },
+  {
+    "State_Name": "time.configure_timesheet_period",
+    "Label": "time_configure_timesheet_period",
+    "Url_Pattern": "/timesheet_periods"
+  },
+  {
+    "State_Name": "performance",
+    "Label": "performance",
+    "Url_Pattern": "/performance"
+  },
+  {
+    "State_Name": "performance.view_appraisals_list",
+    "Label": "performance_view_appraisals_list",
+    "Url_Pattern": "/appraisals_list"
+  },
+  {
+    "State_Name": "performance.view_my_appraisals",
+    "Label": "performance_view_my_appraisals",
+    "Url_Pattern": "/my_appraisals"
+  },
+  {
+    "State_Name": "performance.multiple_view",
+    "Label": "performance_multiple_view",
+    "Url_Pattern": "/multiple_view"
+  },
+  {
+    "State_Name": "performance.single_view",
+    "Label": "performance_single_view",
+    "Url_Pattern": "/single_view"
+  },
+  {
+    "State_Name": "performance.export_results",
+    "Label": "performance_export_results",
+    "Url_Pattern": "/export_results/:reportId"
+  },
+  {
+    "State_Name": "dashboard",
+    "Label": "dashboard",
+    "Url_Pattern": "/dashboard"
+  }
+]

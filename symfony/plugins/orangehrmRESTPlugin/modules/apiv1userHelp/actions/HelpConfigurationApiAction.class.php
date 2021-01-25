@@ -55,9 +55,51 @@ class HelpConfigurationApiAction extends BaseUserApiAction
         $this->getValidationRule = $this->helpApi->getValidationRules();
     }
 
+
     /**
-     * @param \Orangehrm\Rest\Http\Request $request
-     * @return \Orangehrm\Rest\Http\Response
+     * @OA\Get(
+     *     path="/help/config",
+     *     summary="Get Help Configuration",
+     *     tags={"Help","User"},
+     *     @OA\Parameter(
+     *         name="query",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="Search by article name mode category name.",
+     *     ),
+     *     @OA\Parameter(
+     *         name="mode",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="If mode is 'category', will result in matching categories, otherwise matching articles.",
+     *     ),
+     *     @OA\Parameter(
+     *         name="labels",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string[]"),
+     *         description="Get the articles by article labels ( eg :- ['add_employee' , 'apply_leave'] )",
+     *     ),
+     *     @OA\Parameter(
+     *         name="categoryIds",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string[]"),
+     *         description="Articles in specified categories ( eg :- ['123456' , '654321'] )",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/HelpConfiguration"),
+     *     ),
+     * )
+     * @OA\Schema(
+     *     schema="HelpConfiguration",
+     *     type="object",
+     *     example = { "data": { "defaultRedirectUrl": "https://opensourcehelp.orangehrm.com/hc/en-us", "redirectUrls": {{"name": "Create master data for employee job information", "url": "https://opensourcehelp.orangehrm.com/hc/en-us/articles/360018594080-Create-master-data-for-employee-job-information"}, {"name": "How to Add a User Account", "url": "https://opensourcehelp.orangehrm.com/hc/en-us/articles/360018588480-How-to-Add-a-User-Account"}, {"name": "How to Approve Leave by Admin or Supervisor", "url": "https://opensourcehelp.orangehrm.com/hc/en-us/articles/360018659479-How-to-Approve-Leave-by-Admin-or-Supervisor"} } }, "rels": {} }
+     * )
      */
     protected function handleGetRequest(Request $request)
     {

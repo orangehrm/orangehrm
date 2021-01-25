@@ -1,0 +1,3352 @@
+[
+    {
+        "State_Name": "viewMyPerformanceTrackerListLegacy",
+        "Label": "performanceTracker_performanceTrackerListLegacy",
+        "Url_Pattern": "\/performanceTracker\/viewMyPerformanceTrackerList\/*"
+    },
+    {
+        "State_Name": "addPerformanceTrackerLogLegacy",
+        "Label": "performanceTracker_performanceTrackerListLegacy",
+        "Url_Pattern": "\/performanceTracker\/addPerformanceTrackerLog\/*"
+    },
+    {
+        "State_Name": "viewEmployeePerformanceTrackerListLegacy",
+        "Label": "performanceTracker_performanceTrackerListLegacy",
+        "Url_Pattern": "\/performanceTracker\/viewEmployeePerformanceTrackerList\/*"
+    },
+    {
+        "State_Name": "addPerformanceTrackerLegacy",
+        "Label": "performanceTracker_performanceManageTrackerLegacy",
+        "Url_Pattern": "\/performanceTracker\/addPerformanceTracker\/*"
+    },
+    {
+        "State_Name": "myGoalsLegacy",
+        "Label": "performance_performanceLegacy",
+        "Url_Pattern": "\/performance\/myGoals\/*"
+    },
+    {
+        "State_Name": "addEmployeeGoalLegacy",
+        "Label": "performance_performanceLegacy",
+        "Url_Pattern": "\/performance\/addEmployeeGoal\/*"
+    },
+    {
+        "State_Name": "viewEmployeeGoalListLegacy",
+        "Label": "performance_performanceLegacy",
+        "Url_Pattern": "\/performance\/viewEmployeeGoalList\/*"
+    },
+    {
+        "State_Name": "viewPerformanceProgressReportLegacy",
+        "Label": "performance_performanceLegacy",
+        "Url_Pattern": "\/performance\/viewPerformanceProgressReport\/*"
+    },
+    {
+        "State_Name": "viewEmployeePerformanceProfileLegacy",
+        "Label": "performance_performanceLegacy",
+        "Url_Pattern": "\/performance\/viewEmployeePerformanceProfile\/*"
+    },
+    {
+        "State_Name": "viewFullComparisonReportLegacy",
+        "Label": "performance_performanceLegacy",
+        "Url_Pattern": "\/performance\/viewFullComparisonReport\/*"
+    },
+    {
+        "State_Name": "viewPerformanceReportLegacy",
+        "Label": "performance_performanceLegacy",
+        "Url_Pattern": "\/performance\/viewPerformanceReport\/*"
+    },
+    {
+        "State_Name": "viewDocumentArticleAction",
+        "Label": "news_viewArticles",
+        "Url_Pattern": "\/news\/viewAnnouncementModule\/*"
+    },
+    {
+        "State_Name": "viewNewsArticlesAction",
+        "Label": "news_viewArticles",
+        "Url_Pattern": "\/news\/viewNewsArticles\/*"
+    },
+    {
+        "State_Name": "viewDocumentArticle",
+        "Label": "news_viewArticles",
+        "Url_Pattern": "\/news\/viewDocumentArticle\/*"
+    },
+    {
+        "State_Name": "mobileAssignLeave",
+        "Label": "mobileLeave_mobileAssignLeaveAdvanced",
+        "Url_Pattern": "\/mobileLeave\/mobileAssignLeave"
+    },
+    {
+        "State_Name": "mobileApplyLeave",
+        "Label": "mobileLeave_mobileApplyLeaveAdvanced",
+        "Url_Pattern": "\/mobileLeave\/mobileApplyLeave"
+    },
+    {
+        "State_Name": "employeeList",
+        "Label": "pim_viewAuthorizationEmployeeList",
+        "Url_Pattern": "\/pim\/viewEmployeeList\/*"
+    },
+    {
+        "State_Name": "systemUsers",
+        "Label": "admin_viewAuthorizationSystemUsers",
+        "Url_Pattern": "\/admin\/viewSystemUsers\/*"
+    },
+    {
+        "State_Name": "loadActiveLeaveTypesJson",
+        "Label": "leave_loadActiveLeaveTypesAdvancedJson",
+        "Url_Pattern": "\/leave\/loadActiveLeaveTypesJson\/*"
+    },
+    {
+        "State_Name": "loadDeletedLeaveTypesJson",
+        "Label": "leave_loadDeletedLeaveTypesAdvancedJson",
+        "Url_Pattern": "\/leave\/loadDeletedLeaveTypesJson\/*"
+    },
+    {
+        "State_Name": "workWeekAjax",
+        "Label": "leave_getWorkWeekAjaxCountryBased",
+        "Url_Pattern": "\/leave\/getWorkWeekAjax"
+    },
+    {
+        "State_Name": "holidayAjax",
+        "Label": "leave_getHolidayAjaxCountryBased",
+        "Url_Pattern": "\/leave\/getHolidayAjax"
+    },
+    {
+        "State_Name": "defineWorkWeek",
+        "Label": "leave_defineWorkWeekAdvanced",
+        "Url_Pattern": "\/leave\/defineWorkWeek"
+    },
+    {
+        "State_Name": "viewLeaveList",
+        "Label": "leave_viewLeaveListAdvanced",
+        "Url_Pattern": "\/leave\/viewLeaveList\/*"
+    },
+    {
+        "State_Name": "assignLeave",
+        "Label": "leave_assignLeaveAdvanced",
+        "Url_Pattern": "\/leave\/assignLeave"
+    },
+    {
+        "State_Name": "applyLeave",
+        "Label": "leave_applyLeaveAdvanced",
+        "Url_Pattern": "\/leave\/applyLeave"
+    },
+    {
+        "State_Name": "leaveTypeList",
+        "Label": "leave_leaveTypeListAdvanced",
+        "Url_Pattern": "\/leave\/leaveTypeList"
+    },
+    {
+        "State_Name": "leaveTypeDefine",
+        "Label": "leave_defineLeaveTypeAdvanced",
+        "Url_Pattern": "\/leave\/defineLeaveType"
+    },
+    {
+        "State_Name": "license_expiry_report_list",
+        "Label": "report_displayLicenseExpiryReportCriteria",
+        "Url_Pattern": "\/report\/displayLicenseExpiryReportCriteria\/*"
+    },
+    {
+        "State_Name": "training_viewCourseList",
+        "Label": "training_viewCourseList",
+        "Url_Pattern": "\/training\/viewCourseList"
+    },
+    {
+        "State_Name": "training_viewPackageList",
+        "Label": "training_viewPackageList",
+        "Url_Pattern": "\/training\/viewPackageList"
+    },
+    {
+        "State_Name": "training_viewSessionList",
+        "Label": "training_viewSessionList",
+        "Url_Pattern": "\/training\/viewSessionList"
+    },
+    {
+        "State_Name": "training_viewTrainerSessionList",
+        "Label": "training_viewTrainerSessionList",
+        "Url_Pattern": "\/training\/viewTrainerSessionList"
+    },
+    {
+        "State_Name": "training_viewMyTrainingSessionList",
+        "Label": "training_viewMyTrainingSessionList",
+        "Url_Pattern": "\/training\/viewMyTrainingSessionList"
+    },
+    {
+        "State_Name": "training_defaultTrainingModulePage",
+        "Label": "training_defaultTrainingModulePage",
+        "Url_Pattern": "\/training\/defaultTrainingModulePage"
+    },
+    {
+        "State_Name": "asset_viewAssets",
+        "Label": "asset_viewAssets",
+        "Url_Pattern": "\/asset\/viewAssets"
+    },
+    {
+        "State_Name": "asset_viewBrands",
+        "Label": "asset_viewBrands",
+        "Url_Pattern": "\/asset\/viewBrands"
+    },
+    {
+        "State_Name": "asset_viewCategories",
+        "Label": "asset_viewCategories",
+        "Url_Pattern": "\/asset\/viewCategories"
+    },
+    {
+        "State_Name": "asset_viewVendorList",
+        "Label": "asset_viewVendorList",
+        "Url_Pattern": "\/asset\/viewVendorList"
+    },
+    {
+        "State_Name": "asset_viewUserAssetList",
+        "Label": "asset_viewUserAssetList",
+        "Url_Pattern": "\/asset\/viewUserAssetList"
+    },
+    {
+        "State_Name": "bulkdata_main",
+        "Label": "bulkdata_main",
+        "Url_Pattern": "\/bulkdata\/main"
+    },
+    {
+        "State_Name": "post_photo",
+        "Label": "buzz_viewPostPhoto",
+        "Url_Pattern": "\/buzz\/photo\/:id"
+    },
+    {
+        "State_Name": "buzz_viewBuzz",
+        "Label": "buzz_viewBuzz",
+        "Url_Pattern": "\/buzz\/viewBuzz"
+    },
+    {
+        "State_Name": "buzz_image",
+        "Label": "buzz_viewBuzzImage",
+        "Url_Pattern": "\/buzz\/viewBuzzImage\/*"
+    },
+    {
+        "State_Name": "dashboard-quicklaunch-panel",
+        "Label": "dashboard_quickLaunchPanel",
+        "Url_Pattern": "\/dashboard-quicklaunch-panel"
+    },
+    {
+        "State_Name": "dashboard-tasklist-group-pending-leave-request",
+        "Label": "dashboard_pendingLeaveRequests",
+        "Url_Pattern": "\/dashboard-tasklist-group-pending-leave-request"
+    },
+    {
+        "State_Name": "dashboard-tasklist-group-pending-timesheets",
+        "Label": "dashboard_pendingTimesheets",
+        "Url_Pattern": "\/dashboard-tasklist-group-pending-timesheets"
+    },
+    {
+        "State_Name": "dashboard-tasklist-group-scheduled-interviews",
+        "Label": "dashboard_scheduledInterviews",
+        "Url_Pattern": "\/dashboard-tasklist-group-scheduled-interviews"
+    },
+    {
+        "State_Name": "dashboard-configuration",
+        "Label": "dashboard_configuration",
+        "Url_Pattern": "\/dashboard\/config"
+    },
+    {
+        "State_Name": "dashboard-configuration-panel-edit",
+        "Label": "dashboard_configuration",
+        "Url_Pattern": "\/dashboard\/config\/panel\/edit\/:panel_id"
+    },
+    {
+        "State_Name": "dashboard-configuration-panel-delete",
+        "Label": "dashboard_deletePanel",
+        "Url_Pattern": "\/dashboard\/config\/panel\/delete\/:panel_id"
+    },
+    {
+        "State_Name": "dashboard-configuration-group-edit",
+        "Label": "dashboard_configuration",
+        "Url_Pattern": "\/dashboard\/config\/group\/edit\/:group_id"
+    },
+    {
+        "State_Name": "dashboard-configuration-group-delete",
+        "Label": "dashboard_deleteGroup",
+        "Url_Pattern": "\/dashboard\/config\/group\/delete\/:group_id"
+    },
+    {
+        "State_Name": "dashboard-layout",
+        "Label": "dashboard_layout",
+        "Url_Pattern": "\/dashboard\/layout"
+    },
+    {
+        "State_Name": "dashboard-navbar",
+        "Label": "dashboard_index",
+        "Url_Pattern": "\/dashboard\/navbar"
+    },
+    {
+        "State_Name": "dashboard-preview",
+        "Label": "dashboard_index",
+        "Url_Pattern": "\/dashboard"
+    },
+    {
+        "State_Name": "discipline_defaultDisciplinaryView",
+        "Label": "discipline_defaultDisciplinaryView",
+        "Url_Pattern": "\/discipline\/defaultDisciplinaryView"
+    },
+    {
+        "State_Name": "discipline_viewDisciplinaryCases",
+        "Label": "discipline_viewDisciplinaryCases",
+        "Url_Pattern": "\/discipline\/viewDisciplinaryCases"
+    },
+    {
+        "State_Name": "discipline_viewMyActions",
+        "Label": "discipline_viewMyActions",
+        "Url_Pattern": "\/discipline\/viewMyActions"
+    },
+    {
+        "State_Name": "discipline_viewDisciplinaryDocumentTemplates",
+        "Label": "discipline_viewDisciplinaryDocumentTemplates",
+        "Url_Pattern": "\/discipline\/viewDisciplinaryDocumentTemplates"
+    },
+    {
+        "State_Name": "expense_viewExpenseModule",
+        "Label": "expense_viewExpenseModule",
+        "Url_Pattern": "\/expense\/viewExpenseModule"
+    },
+    {
+        "State_Name": "expense_viewCurrencyExchangeRate",
+        "Label": "expense_viewCurrencyExchangeRate",
+        "Url_Pattern": "\/expense\/viewCurrencyExchangeRate"
+    },
+    {
+        "State_Name": "expense_viewExpenseType",
+        "Label": "expense_viewExpenseType",
+        "Url_Pattern": "\/expense\/viewExpenseType"
+    },
+    {
+        "State_Name": "expense_viewEmployeeGroup",
+        "Label": "expense_viewEmployeeGroup",
+        "Url_Pattern": "\/expense\/viewEmployeeGroup"
+    },
+    {
+        "State_Name": "expense_viewExpenseClaims",
+        "Label": "expense_viewExpenseClaims",
+        "Url_Pattern": "\/expense\/viewExpenseClaims"
+    },
+    {
+        "State_Name": "expense_viewMyExpenseClaims",
+        "Label": "expense_viewMyExpenseClaims",
+        "Url_Pattern": "\/expense\/viewMyExpenseClaims"
+    },
+    {
+        "State_Name": "expense_viewEstimateRequest",
+        "Label": "expense_viewEstimateRequest",
+        "Url_Pattern": "\/expense\/viewEstimateRequest"
+    },
+    {
+        "State_Name": "expense_viewEmployeeEstimateRequest",
+        "Label": "expense_viewEmployeeEstimateRequest",
+        "Url_Pattern": "\/expense\/viewEmployeeEstimateRequest"
+    },
+    {
+        "State_Name": "help",
+        "Label": "help_help",
+        "Url_Pattern": "\/help\/help"
+    },
+    {
+        "State_Name": "leave_calendar",
+        "Label": "leave_showLeaveCalendar",
+        "Url_Pattern": "\/leave\/calendar\/*"
+    },
+    {
+        "State_Name": "leave_entitlements",
+        "Label": "leave_viewLeaveEntitlements",
+        "Url_Pattern": "\/leave\/viewLeaveEntitlements\/*"
+    },
+    {
+        "State_Name": "my_leave_entitlements",
+        "Label": "leave_viewMyLeaveEntitlements",
+        "Url_Pattern": "\/leave\/viewMyLeaveEntitlements\/*"
+    },
+    {
+        "State_Name": "leave_request_link",
+        "Label": "leave_viewLeaveList",
+        "Url_Pattern": "\/leave\/request\/:leave_request_ids"
+    },
+    {
+        "State_Name": "leave_bradfordFactorThreshold",
+        "Label": "leave_bradfordFactorThreshold",
+        "Url_Pattern": "\/leave\/bradfordFactorThreshold"
+    },
+    {
+        "State_Name": "leave_viewWorkingWeekendList",
+        "Label": "leave_viewWorkingWeekendList",
+        "Url_Pattern": "\/leave\/viewWorkingWeekendList"
+    },
+    {
+        "State_Name": "news_viewAnnouncementModule",
+        "Label": "news_viewAnnouncementModule",
+        "Url_Pattern": "\/news\/viewAnnouncementModule"
+    },
+    {
+        "State_Name": "news_viewNewsArticles",
+        "Label": "news_viewNewsArticles",
+        "Url_Pattern": "\/news\/viewNewsArticles"
+    },
+    {
+        "State_Name": "news_viewDocumentArticle",
+        "Label": "news_viewDocumentArticle",
+        "Url_Pattern": "\/news\/viewDocumentArticle"
+    },
+    {
+        "State_Name": "news_viewNewsList",
+        "Label": "news_viewNewsList",
+        "Url_Pattern": "\/news\/viewNewsList"
+    },
+    {
+        "State_Name": "news_viewDocumentList",
+        "Label": "news_viewDocumentList",
+        "Url_Pattern": "\/news\/viewDocumentList"
+    },
+    {
+        "State_Name": "news_viewCategoryList",
+        "Label": "news_viewCategoryList",
+        "Url_Pattern": "\/news\/viewCategoryList"
+    },
+    {
+        "State_Name": "onboarding_viewTaskTypes",
+        "Label": "onboarding_viewTaskTypes",
+        "Url_Pattern": "\/onboarding\/viewTaskTypes"
+    },
+    {
+        "State_Name": "onboarding_viewJobs",
+        "Label": "onboarding_viewJobs",
+        "Url_Pattern": "\/onboarding\/viewJobs"
+    },
+    {
+        "State_Name": "onboarding_viewMyJobs",
+        "Label": "onboarding_viewMyJobs",
+        "Url_Pattern": "\/onboarding\/viewMyJobs\/*"
+    },
+    {
+        "State_Name": "onboarding_viewEmployeeTasks",
+        "Label": "onboarding_viewEmployeeTasks",
+        "Url_Pattern": "\/onboarding\/viewEmployeeTasks"
+    },
+    {
+        "State_Name": "onboarding_viewMyTasks",
+        "Label": "onboarding_viewMyTasks",
+        "Url_Pattern": "\/onboarding\/viewMyTasks"
+    },
+    {
+        "State_Name": "onboarding_defaultMenuView",
+        "Label": "onboarding_defaultMenuView",
+        "Url_Pattern": "\/onboarding\/defaultMenuView"
+    },
+    {
+        "State_Name": "orgchart_configReportingMethod",
+        "Label": "orgChart_configReportingMethod",
+        "Url_Pattern": "\/orgChart\/configReportingMethod"
+    },
+    {
+        "State_Name": "orgchart_defineJobTitleHierarchy",
+        "Label": "orgChart_defineJobTitleHierarchy",
+        "Url_Pattern": "\/orgChart\/defineJobTitleHierarchy"
+    },
+    {
+        "State_Name": "orgchart_orgchartView",
+        "Label": "orgChart_orgchartView",
+        "Url_Pattern": "\/orgChart\/orgchartView"
+    },
+    {
+        "State_Name": "performance_competencyEmployeeGroups",
+        "Label": "performance_competencyEmployeeGroups",
+        "Url_Pattern": "\/performance\/competencyEmployeeGroups"
+    },
+    {
+        "State_Name": "performance_viewEmployeeGoalList",
+        "Label": "performance_viewEmployeeGoalList",
+        "Url_Pattern": "\/performance\/viewEmployeeGoalList"
+    },
+    {
+        "State_Name": "performance_myGoals",
+        "Label": "performance_myGoals",
+        "Url_Pattern": "\/performance\/myGoals"
+    },
+    {
+        "State_Name": "performance_viewAppraisalCycles",
+        "Label": "performance_viewAppraisalCycles",
+        "Url_Pattern": "\/performance\/viewAppraisalCycles"
+    },
+    {
+        "State_Name": "performance_defaultAppraisalConfiguration",
+        "Label": "performance_defaultAppraisalConfiguration",
+        "Url_Pattern": "\/performance\/defaultAppraisalConfiguration"
+    },
+    {
+        "State_Name": "performance_viewPerformanceReport",
+        "Label": "performance_viewPerformanceReport",
+        "Url_Pattern": "\/performance\/viewPerformanceReport"
+    },
+    {
+        "State_Name": "performance_viewFullComparisonReport",
+        "Label": "performance_viewFullComparisonReport",
+        "Url_Pattern": "\/performance\/viewFullComparisonReport"
+    },
+    {
+        "State_Name": "performance_viewEmployeePerformanceProfile",
+        "Label": "performance_viewEmployeePerformanceProfile",
+        "Url_Pattern": "\/performance\/viewEmployeePerformanceProfile"
+    },
+    {
+        "State_Name": "performance_viewPerformanceProgressReport",
+        "Label": "performance_viewPerformanceProgressReport",
+        "Url_Pattern": "\/performance\/viewPerformanceProgressReport"
+    },
+    {
+        "State_Name": "performancetracker_addPerformanceTracker",
+        "Label": "performanceTracker_addPerformanceTracker",
+        "Url_Pattern": "\/performanceTracker\/addPerformanceTracker"
+    },
+    {
+        "State_Name": "performancetracker_viewEmployeePerformanceTrackerList",
+        "Label": "performanceTracker_viewEmployeePerformanceTrackerList",
+        "Url_Pattern": "\/performanceTracker\/viewEmployeePerformanceTrackerList"
+    },
+    {
+        "State_Name": "performancetracker_viewMyPerformanceTrackerList",
+        "Label": "performanceTracker_viewMyPerformanceTrackerList",
+        "Url_Pattern": "\/performanceTracker\/viewMyPerformanceTrackerList"
+    },
+    {
+        "State_Name": "delete-employee-pim-tab",
+        "Label": "pim_deleteEmployeePimTab",
+        "Url_Pattern": "\/pim\/deleteEmployeePimTab\/empNumber\/:empNumber\/tabId\/:tabId\/sectionId\/:sectionId"
+    },
+    {
+        "State_Name": "view-employee-pim-tab",
+        "Label": "pim_viewEmployeePimTab",
+        "Url_Pattern": "\/pim\/viewEmployeePimTab\/empNumber\/:empNumber\/tabId\/:tabId\/mode\/:mode\/sequenceNumber\/:sequenceNumber"
+    },
+    {
+        "State_Name": "view_jobs",
+        "Label": "recruitmentApply_viewJobs",
+        "Url_Pattern": "\/recruitmentApply\/jobs.:extension"
+    },
+    {
+        "State_Name": "job_publish_url",
+        "Label": "recruitmentApply_viewJobs",
+        "Url_Pattern": "\/recruitmentApply\/:vacancyId\/view"
+    },
+    {
+        "State_Name": "recruitment_viewCandidates",
+        "Label": "recruitment_viewCandidates",
+        "Url_Pattern": "\/recruitment\/viewCandidates"
+    },
+    {
+        "State_Name": "recruitment_viewJobVacancy",
+        "Label": "recruitment_viewJobVacancy",
+        "Url_Pattern": "\/recruitment\/viewJobVacancy"
+    },
+    {
+        "State_Name": "recruitment_viewRecruitmentModule",
+        "Label": "recruitment_viewRecruitmentModule",
+        "Url_Pattern": "\/recruitment\/viewRecruitmentModule"
+    },
+    {
+        "State_Name": "recruitment_addQuestionsToPool",
+        "Label": "recruitment_addQuestionsToPool",
+        "Url_Pattern": "\/recruitment\/addQuestionsToPool"
+    },
+    {
+        "State_Name": "recruitment_displayVacancySuccessionReportCriteria",
+        "Label": "recruitment_displayVacancySuccessionReportCriteria",
+        "Url_Pattern": "\/recruitment\/displayVacancySuccessionReportCriteria"
+    },
+    {
+        "State_Name": "recruitment_viewCandidates_by_id",
+        "Label": "recruitment_viewCandidates",
+        "Url_Pattern": "\/recruitment\/viewCandidates\/vacancyId\/:id"
+    },
+    {
+        "State_Name": "time_viewCustomers",
+        "Label": "time_viewCustomers",
+        "Url_Pattern": "\/time\/viewCustomers"
+    },
+    {
+        "State_Name": "time_viewProjects",
+        "Label": "time_viewProjects",
+        "Url_Pattern": "\/time\/viewProjects"
+    },
+    {
+        "State_Name": "time_viewMyTimesheet",
+        "Label": "time_viewMyTimesheet",
+        "Url_Pattern": "\/time\/viewMyTimesheet"
+    },
+    {
+        "State_Name": "time_viewEmployeeTimesheet",
+        "Label": "time_viewEmployeeTimesheet",
+        "Url_Pattern": "\/time\/viewEmployeeTimesheet"
+    },
+    {
+        "State_Name": "time_displayProjectReportCriteria",
+        "Label": "time_displayProjectReportCriteria",
+        "Url_Pattern": "\/time\/displayProjectReportCriteria"
+    },
+    {
+        "State_Name": "time_displayEmployeeReportCriteria",
+        "Label": "time_displayEmployeeReportCriteria",
+        "Url_Pattern": "\/time\/displayEmployeeReportCriteria"
+    },
+    {
+        "State_Name": "time_displayAttendanceSummaryReportCriteria",
+        "Label": "time_displayAttendanceSummaryReportCriteria",
+        "Url_Pattern": "\/time\/displayAttendanceSummaryReportCriteria"
+    },
+    {
+        "State_Name": "time_viewTimeModule",
+        "Label": "time_viewTimeModule",
+        "Url_Pattern": "\/time\/viewTimeModule"
+    },
+    {
+        "State_Name": "attendance_viewMyAttendanceRecord",
+        "Label": "attendance_viewMyAttendanceRecord",
+        "Url_Pattern": "\/attendance\/viewMyAttendanceRecord"
+    },
+    {
+        "State_Name": "attendance_viewAttendanceRecord",
+        "Label": "attendance_viewAttendanceRecord",
+        "Url_Pattern": "\/attendance\/viewAttendanceRecord"
+    },
+    {
+        "State_Name": "attendance_configure",
+        "Label": "attendance_configure",
+        "Url_Pattern": "\/attendance\/configure"
+    },
+    {
+        "State_Name": "time_displayAttendanceDetailsReport",
+        "Label": "time_displayAttendanceDetailsReport",
+        "Url_Pattern": "\/time\/displayAttendanceDetailsReport"
+    },
+    {
+        "State_Name": "time_displayMyAttendanceDetailsReport",
+        "Label": "time_displayMyAttendanceDetailsReport",
+        "Url_Pattern": "\/time\/displayMyAttendanceDetailsReport"
+    },
+    {
+        "State_Name": "attendance_AttendanceFileUpload",
+        "Label": "attendance_AttendanceFileUpload",
+        "Url_Pattern": "\/attendance\/AttendanceFileUpload"
+    },
+    {
+        "State_Name": "time_viewTimesheetCsvExtract",
+        "Label": "time_viewTimesheetCsvExtract",
+        "Url_Pattern": "\/time\/viewTimesheetCsvExtract"
+    },
+    {
+        "State_Name": "attendance_viewAttendanceDataExtract",
+        "Label": "attendance_viewAttendanceDataExtract",
+        "Url_Pattern": "\/attendance\/viewAttendanceDataExtract"
+    },
+    {
+        "State_Name": "time_copy_rows",
+        "Label": "time_copyRows",
+        "Url_Pattern": "\/time\/copyRows"
+    },
+    {
+        "State_Name": "homepage",
+        "Label": "default_index",
+        "Url_Pattern": "\/"
+    },
+    {
+        "State_Name": "validate_credentials",
+        "Label": "auth_validateCredentials",
+        "Url_Pattern": "\/auth\/validateCredentials"
+    },
+    {
+        "State_Name": "location_list",
+        "Label": "admin_listCompanylocation",
+        "Url_Pattern": "\/admin\/listCompanylocation\/*"
+    },
+    {
+        "State_Name": "comproperty_list",
+        "Label": "admin_listCompanyProporty",
+        "Url_Pattern": "\/admin\/listCompanyProporty\/*"
+    },
+    {
+        "State_Name": "category_list",
+        "Label": "admin_listJobCategory",
+        "Url_Pattern": "\/admin\/listJobCategory\/*"
+    },
+    {
+        "State_Name": "salerygrade_list",
+        "Label": "admin_listSaleryGrade",
+        "Url_Pattern": "\/admin\/listSaleryGrade\/*"
+    },
+    {
+        "State_Name": "empstatus_list",
+        "Label": "admin_listEmployeeStatus",
+        "Url_Pattern": "\/admin\/listEmployeeStatus\/*"
+    },
+    {
+        "State_Name": "jobspec_list",
+        "Label": "admin_listJobSpecifications",
+        "Url_Pattern": "\/admin\/listJobSpecifications\/*"
+    },
+    {
+        "State_Name": "jobtitle_list",
+        "Label": "admin_listJobTitle",
+        "Url_Pattern": "\/admin\/listJobTitle\/*"
+    },
+    {
+        "State_Name": "license_list",
+        "Label": "admin_listLicenses",
+        "Url_Pattern": "\/admin\/listLicenses\/*"
+    },
+    {
+        "State_Name": "education_list",
+        "Label": "admin_listEducation",
+        "Url_Pattern": "\/admin\/listEducation\/*"
+    },
+    {
+        "State_Name": "skill_list",
+        "Label": "admin_listSkill",
+        "Url_Pattern": "\/admin\/listSkill\/*"
+    },
+    {
+        "State_Name": "language_list",
+        "Label": "admin_listLanguage",
+        "Url_Pattern": "\/admin\/listLanguage\/*"
+    },
+    {
+        "State_Name": "deleteMembershipType_list",
+        "Label": "admin_listMembershipType",
+        "Url_Pattern": "\/admin\/listMembershipType\/*"
+    },
+    {
+        "State_Name": "membershipType_list",
+        "Label": "admin_listMembershipType",
+        "Url_Pattern": "\/admin\/listMembershipType\/*"
+    },
+    {
+        "State_Name": "membership_list",
+        "Label": "admin_listMembership",
+        "Url_Pattern": "\/admin\/listMembership\/*"
+    },
+    {
+        "State_Name": "nationality_list",
+        "Label": "admin_listNationality",
+        "Url_Pattern": "\/admin\/listNationality\/*"
+    },
+    {
+        "State_Name": "ethnicRace_list",
+        "Label": "admin_listEthnicRace",
+        "Url_Pattern": "\/admin\/listEthnicRace\/*"
+    },
+    {
+        "State_Name": "project_list",
+        "Label": "admin_listProject",
+        "Url_Pattern": "\/admin\/listProject\/*"
+    },
+    {
+        "State_Name": "customer_list",
+        "Label": "admin_listCustomer",
+        "Url_Pattern": "\/admin\/listCustomer\/*"
+    },
+    {
+        "State_Name": "usergroup_list",
+        "Label": "admin_listUserGroup",
+        "Url_Pattern": "\/admin\/listUserGroup\/*"
+    },
+    {
+        "State_Name": "user_list",
+        "Label": "admin_listUser",
+        "Url_Pattern": "\/admin\/listUser\/*"
+    },
+    {
+        "State_Name": "performance_reviews",
+        "Label": "performance_viewReview",
+        "Url_Pattern": "\/performance\/viewReview\/*"
+    },
+    {
+        "State_Name": "kpi_list",
+        "Label": "performance_listDefineKpi",
+        "Url_Pattern": "\/performance\/listDefineKpi\/*"
+    },
+    {
+        "State_Name": "config_system_adsmin",
+        "Label": "admin_reRouteToClient",
+        "Url_Pattern": "\/admin\/configSystemAdmin"
+    },
+    {
+        "State_Name": "admin_exportConfiguration",
+        "Label": "admin_exportConfiguration",
+        "Url_Pattern": "\/admin\/exportConfiguration"
+    },
+    {
+        "State_Name": "admin_importConfiguration",
+        "Label": "admin_importConfiguration",
+        "Url_Pattern": "\/admin\/importConfiguration"
+    },
+    {
+        "State_Name": "admin_registerOAuthClient",
+        "Label": "admin_registerOAuthClient",
+        "Url_Pattern": "\/admin\/registerOAuthClient"
+    },
+    {
+        "State_Name": "admin_getEmployeeCompetencyList",
+        "Label": "admin_getEmployeeCompetencyList",
+        "Url_Pattern": "\/admin\/getEmployeeCompetencyList"
+    },
+    {
+        "State_Name": "directory_viewDirectory",
+        "Label": "directory_viewDirectory",
+        "Url_Pattern": "\/directory\/viewDirectory"
+    },
+    {
+        "State_Name": "admin_viewDirectoryConfig",
+        "Label": "admin_viewDirectoryConfig",
+        "Url_Pattern": "\/admin\/viewDirectoryConfig"
+    },
+    {
+        "State_Name": "license_addLicense",
+        "Label": "license_addLicense",
+        "Url_Pattern": "\/license\/addLicense"
+    },
+    {
+        "State_Name": "admin_themeBuilder",
+        "Label": "admin_themeBuilder",
+        "Url_Pattern": "\/admin\/themeBuilder"
+    },
+    {
+        "State_Name": "admin_imageUploader",
+        "Label": "admin_imageUploader",
+        "Url_Pattern": "\/admin\/imageUploader"
+    },
+    {
+        "State_Name": "managementtool_notship_viewCronTasks",
+        "Label": "managementtool_notship_viewCronTasks",
+        "Url_Pattern": "\/managementtool_notship\/viewCronTasks"
+    },
+    {
+        "State_Name": "managementtool_notship_execute",
+        "Label": "managementtool_notship_execute",
+        "Url_Pattern": "\/managementtool_notship\/execute"
+    },
+    {
+        "State_Name": "managementtool_notship_cron_history_default",
+        "Label": "managementtool_notship_cronHistory",
+        "Url_Pattern": "\/managementtool_notship\/cronHistory\/*"
+    },
+    {
+        "State_Name": "managementtool_notship_cron_output",
+        "Label": "managementtool_notship_cronOutput",
+        "Url_Pattern": "\/managementtool_notship\/cronOutput"
+    },
+    {
+        "State_Name": "managementtool_notship_edit_cron",
+        "Label": "managementtool_notship_editCron",
+        "Url_Pattern": "\/managementtool_notship\/editCron"
+    },
+    {
+        "State_Name": "training_sso",
+        "Label": "core_trainingSSO",
+        "Url_Pattern": "\/core\/trainingSSO"
+    },
+    {
+        "State_Name": "verify_training_sso",
+        "Label": "core_verifyTrainingSSOToken",
+        "Url_Pattern": "\/core\/verifyTrainingSSOToken\/*"
+    },
+    {
+        "State_Name": "logout",
+        "Label": "auth_logout",
+        "Url_Pattern": "\/auth\/logout"
+    },
+    {
+        "State_Name": "oauth_issue_token",
+        "Label": "oauth_issueToken",
+        "Url_Pattern": "\/oauth\/issueToken"
+    },
+    {
+        "State_Name": "open_id_auth_id_credentials",
+        "Label": "openidauth_openIdCredentials",
+        "Url_Pattern": "\/openidauth\/openIdCredentials"
+    },
+    {
+        "State_Name": "auth_regenerate_login_csrf_token",
+        "Label": "auth_regenerateLoginCsrfToken",
+        "Url_Pattern": "\/auth\/regenerateLoginCsrfToken"
+    },
+    {
+        "State_Name": "auth_login",
+        "Label": "auth_login",
+        "Url_Pattern": "\/auth\/login"
+    },
+    {
+        "State_Name": "time_view_pending_approvel_timesheet_default",
+        "Label": "time_viewPendingApprovelTimesheet",
+        "Url_Pattern": "\/time\/viewPendingApprovelTimesheet\/*"
+    },
+    {
+        "State_Name": "security_authentication_retry_login",
+        "Label": "securityAuthentication_retryLogin",
+        "Url_Pattern": "\/securityAuthentication\/retryLogin"
+    },
+    {
+        "State_Name": "navigation_navigation_log_noncore",
+        "Label": "navigation_navigationLogNoncore",
+        "Url_Pattern": "\/navigation\/navigationLogNoncore"
+    },
+    {
+        "State_Name": "dashboard_view_documents_on_dashboard",
+        "Label": "dashboard_viewDocumentsOnDashboard",
+        "Url_Pattern": "\/dashboard\/viewDocumentsOnDashboard"
+    },
+    {
+        "State_Name": "dashboard_view_news_on_dashboard",
+        "Label": "dashboard_viewNewsOnDashboard",
+        "Url_Pattern": "\/dashboard\/viewNewsOnDashboard"
+    },
+    {
+        "State_Name": "communication_beacon_about",
+        "Label": "communication_beaconAbout",
+        "Url_Pattern": "\/communication\/beaconAbout"
+    },
+    {
+        "State_Name": "admin_delete_employee_competency",
+        "Label": "admin_deleteEmployeeCompetency",
+        "Url_Pattern": "\/admin\/deleteEmployeeCompetency"
+    },
+    {
+        "State_Name": "core_save_list_configuration",
+        "Label": "core_saveListConfiguration",
+        "Url_Pattern": "\/core\/saveListConfiguration"
+    },
+    {
+        "State_Name": "admin_add_employee_competency_default",
+        "Label": "admin_addEmployeeCompetency",
+        "Url_Pattern": "\/admin\/addEmployeeCompetency\/*"
+    },
+    {
+        "State_Name": "news_archive_news",
+        "Label": "news_archiveNews",
+        "Url_Pattern": "\/news\/archiveNews"
+    },
+    {
+        "State_Name": "news_delete_news",
+        "Label": "news_deleteNews",
+        "Url_Pattern": "\/news\/deleteNews"
+    },
+    {
+        "State_Name": "news_view_news",
+        "Label": "news_viewNews",
+        "Url_Pattern": "\/news\/viewNews"
+    },
+    {
+        "State_Name": "news_view_news_list_material",
+        "Label": "news_viewNewsListMaterial",
+        "Url_Pattern": "\/news\/viewNewsListMaterial"
+    },
+    {
+        "State_Name": "news_delete_news_material",
+        "Label": "news_deleteNewsMaterial",
+        "Url_Pattern": "\/news\/deleteNewsMaterial"
+    },
+    {
+        "State_Name": "news_sort_news",
+        "Label": "news_sortNews",
+        "Url_Pattern": "\/news\/sortNews"
+    },
+    {
+        "State_Name": "news_save_news",
+        "Label": "news_saveNews",
+        "Url_Pattern": "\/news\/saveNews"
+    },
+    {
+        "State_Name": "news_save_article_attachment",
+        "Label": "news_saveArticleAttachment",
+        "Url_Pattern": "\/news\/saveArticleAttachment"
+    },
+    {
+        "State_Name": "news_delete_article_attachment",
+        "Label": "news_deleteArticleAttachment",
+        "Url_Pattern": "\/news\/deleteArticleAttachment"
+    },
+    {
+        "State_Name": "news_download_attachment",
+        "Label": "news_downloadAttachment",
+        "Url_Pattern": "\/news\/downloadAttachment"
+    },
+    {
+        "State_Name": "news_add_news_default",
+        "Label": "news_addNews",
+        "Url_Pattern": "\/news\/addNews\/*"
+    },
+    {
+        "State_Name": "news_view_documents",
+        "Label": "news_viewDocument",
+        "Url_Pattern": "\/news\/viewDocument"
+    },
+    {
+        "State_Name": "news_delete_documents",
+        "Label": "news_deleteDocuments",
+        "Url_Pattern": "\/news\/deleteDocuments"
+    },
+    {
+        "State_Name": "news_archive_documents",
+        "Label": "news_archiveDocuments",
+        "Url_Pattern": "\/news\/archiveDocuments"
+    },
+    {
+        "State_Name": "news_add_documents_default",
+        "Label": "news_addDocument",
+        "Url_Pattern": "\/news\/addDocument\/*"
+    },
+    {
+        "State_Name": "news_save_documents",
+        "Label": "news_saveDocument",
+        "Url_Pattern": "\/news\/saveDocument"
+    },
+    {
+        "State_Name": "news_undelete_category",
+        "Label": "news_undeleteCategory",
+        "Url_Pattern": "\/news\/undeleteCategory\/*"
+    },
+    {
+        "State_Name": "news_save_category",
+        "Label": "news_saveCategory",
+        "Url_Pattern": "\/news\/saveCategory"
+    },
+    {
+        "State_Name": "news_delete_categories",
+        "Label": "news_deleteCategories",
+        "Url_Pattern": "\/news\/deleteCategories"
+    },
+    {
+        "State_Name": "admin_uls",
+        "Label": "admin_uls",
+        "Url_Pattern": "\/admin\/uls"
+    },
+    {
+        "State_Name": "admin_update_directory_token_details",
+        "Label": "admin_updateDirectoryTokenDetails",
+        "Url_Pattern": "\/admin\/updateDirectoryTokenDetails"
+    },
+    {
+        "State_Name": "audittrail_download_audit_csv",
+        "Label": "audittrail_downloadAuditCsv",
+        "Url_Pattern": "\/audittrail\/downloadAuditCsv"
+    },
+    {
+        "State_Name": "pim_sample_csv_download",
+        "Label": "pim_sampleCsvDownload",
+        "Url_Pattern": "\/pim\/sampleCsvDownload"
+    },
+    {
+        "State_Name": "pim_view_photo",
+        "Label": "pim_viewPhoto",
+        "Url_Pattern": "\/pim\/viewPhoto\/*"
+    },
+    {
+        "State_Name": "pim_pim_export_document_to_pdf",
+        "Label": "pim_pimExportDocumentToPdf",
+        "Url_Pattern": "\/pim\/pimExportDocumentToPdf"
+    },
+    {
+        "State_Name": "pim_view_custom_field_attachment",
+        "Label": "pim_viewCustomFieldAttachment",
+        "Url_Pattern": "\/pim\/viewCustomFieldAttachment\/*"
+    },
+    {
+        "State_Name": "pim_view_custom_field_wizard_attachment",
+        "Label": "pim_viewEmployeeWizardAttachment",
+        "Url_Pattern": "\/pim\/viewEmployeeWizardAttachment\/*"
+    },
+    {
+        "State_Name": "pim_view_attachment_default",
+        "Label": "pim_viewAttachment",
+        "Url_Pattern": "\/pim\/viewAttachment\/*"
+    },
+    {
+        "State_Name": "leave_define_leave_type_rule_employee_groups",
+        "Label": "leave_defineLeaveTypeRuleEmployeeGroups",
+        "Url_Pattern": "\/leave\/defineLeaveTypeRuleEmployeeGroups\/*"
+    },
+    {
+        "State_Name": "leave_define_leave_type_rule_who_can_apply",
+        "Label": "leave_defineLeaveTypeRuleWhoCanApply",
+        "Url_Pattern": "\/leave\/defineLeaveTypeRuleWhoCanApply\/*"
+    },
+    {
+        "State_Name": "leave_define_leave_type_rule_apply_restriction_default",
+        "Label": "leave_defineLeaveTypeRuleApplyRestriction",
+        "Url_Pattern": "\/leave\/defineLeaveTypeRuleApplyRestriction\/*"
+    },
+    {
+        "State_Name": "leave_define_leave_type_rule_accrual_rule_default",
+        "Label": "leave_defineLeaveTypeRuleAccrualRule",
+        "Url_Pattern": "\/leave\/defineLeaveTypeRuleAccrualRule\/*"
+    },
+    {
+        "State_Name": "leave_define_leave_type_carry_forward_rule_default",
+        "Label": "leave_defineLeaveTypeCarryForwardRule",
+        "Url_Pattern": "\/leave\/defineLeaveTypeCarryForwardRule\/*"
+    },
+    {
+        "State_Name": "leave_delete_bradford_factor_thresholds",
+        "Label": "leave_deleteBradfordFactorThresholds",
+        "Url_Pattern": "\/leave\/deleteBradfordFactorThresholds"
+    },
+    {
+        "State_Name": "leave_get_bradford_factor_threshold_json_default",
+        "Label": "leave_getBradfordFactorThresholdJson",
+        "Url_Pattern": "\/leave\/getBradfordFactorThresholdJson\/*"
+    },
+    {
+        "State_Name": "leave_get_working_weekends_location_ajax_country_based",
+        "Label": "leave_getWorkingWeekendsLocationAjaxCountryBased",
+        "Url_Pattern": "\/leave\/getWorkingWeekendsLocationAjaxCountryBased"
+    },
+    {
+        "State_Name": "leave_delete_working_weekend",
+        "Label": "leave_deleteWorkingWeekend",
+        "Url_Pattern": "\/leave\/deleteWorkingWeekend"
+    },
+    {
+        "State_Name": "leave_view_photo",
+        "Label": "leave_viewPhoto",
+        "Url_Pattern": "\/leave\/viewPhoto\/*"
+    },
+    {
+        "State_Name": "time_define_timesheet_period",
+        "Label": "time_defineTimesheetPeriod",
+        "Url_Pattern": "\/time\/defineTimesheetPeriod"
+    },
+    {
+        "State_Name": "time_get_timesheet_report_result",
+        "Label": "time_getTimesheetReportResult",
+        "Url_Pattern": "\/time\/getTimesheetReportResult"
+    },
+    {
+        "State_Name": "time_view_timesheet_report",
+        "Label": "time_viewTimesheetReport",
+        "Url_Pattern": "\/time\/viewTimesheetReport\/*"
+    },
+    {
+        "State_Name": "time_view_timesheet_default",
+        "Label": "time_viewTimesheet",
+        "Url_Pattern": "\/time\/viewTimesheet\/*"
+    },
+    {
+        "State_Name": "time_validate_start_date",
+        "Label": "time_validateStartDate",
+        "Url_Pattern": "\/time\/validateStartDate"
+    },
+    {
+        "State_Name": "time_create_timesheet_default",
+        "Label": "time_createTimesheet",
+        "Url_Pattern": "\/time\/createTimesheet\/*"
+    },
+    {
+        "State_Name": "time_return_end_date",
+        "Label": "time_returnEndDate",
+        "Url_Pattern": "\/time\/returnEndDate"
+    },
+    {
+        "State_Name": "time_edit_timesheet_default",
+        "Label": "time_editTimesheet",
+        "Url_Pattern": "\/time\/editTimesheet\/*"
+    },
+    {
+        "State_Name": "time_show_timesheet_item_comment",
+        "Label": "time_showTimesheetItemComment",
+        "Url_Pattern": "\/time\/showTimesheetItemComment"
+    },
+    {
+        "State_Name": "time_add_row",
+        "Label": "time_addRow",
+        "Url_Pattern": "\/time\/addRow"
+    },
+    {
+        "State_Name": "time_update_timesheet_item_comment",
+        "Label": "time_updateTimesheetItemComment",
+        "Url_Pattern": "\/time\/updateTimesheetItemComment"
+    },
+    {
+        "State_Name": "time_get_timesheet_item_comment",
+        "Label": "time_getTimesheetItemComment",
+        "Url_Pattern": "\/time\/getTimesheetItemComment"
+    },
+    {
+        "State_Name": "time_delete_rows",
+        "Label": "time_deleteRows",
+        "Url_Pattern": "\/time\/deleteRows"
+    },
+    {
+        "State_Name": "time_get_accessible_employee_list_for_auto_complete",
+        "Label": "time_getAccessibleEmployeeListForAutoComplete",
+        "Url_Pattern": "\/time\/getAccessibleEmployeeListForAutoComplete"
+    },
+    {
+        "State_Name": "time_get_project_list_for_auto_complete",
+        "Label": "time_getProjectListForAutoComplete",
+        "Url_Pattern": "\/time\/getProjectListForAutoComplete"
+    },
+    {
+        "State_Name": "time_get_activity_list_for_auto_complete",
+        "Label": "time_getActivityListForAutoComplete",
+        "Url_Pattern": "\/time\/getActivityListForAutoComplete"
+    },
+    {
+        "State_Name": "attendance_get_related_attendance_records",
+        "Label": "attendance_getRelatedAttendanceRecords",
+        "Url_Pattern": "\/attendance\/getRelatedAttendanceRecords"
+    },
+    {
+        "State_Name": "attendance_edit_attendance_record",
+        "Label": "attendance_editAttendanceRecord",
+        "Url_Pattern": "\/attendance\/editAttendanceRecord"
+    },
+    {
+        "State_Name": "attendance_delete_attendance_records",
+        "Label": "attendance_deleteAttendanceRecords",
+        "Url_Pattern": "\/attendance\/deleteAttendanceRecords"
+    },
+    {
+        "State_Name": "attendance_download_sample_attendance_data",
+        "Label": "attendance_downloadSampleAttendanceData",
+        "Url_Pattern": "\/attendance\/downloadSampleAttendanceData"
+    },
+    {
+        "State_Name": "attendance_validate_punch_out_over_lapping_when_editing",
+        "Label": "attendance_validatePunchOutOverLappingWhenEditing",
+        "Url_Pattern": "\/attendance\/validatePunchOutOverLappingWhenEditing"
+    },
+    {
+        "State_Name": "attendance_validate_punch_out_over_lapping",
+        "Label": "attendance_validatePunchOutOverLapping",
+        "Url_Pattern": "\/attendance\/validatePunchOutOverLapping"
+    },
+    {
+        "State_Name": "attendance_validate_punch_in_over_lapping_when_editing",
+        "Label": "attendance_validatePunchInOverLappingWhenEditing",
+        "Url_Pattern": "\/attendance\/validatePunchInOverLappingWhenEditing"
+    },
+    {
+        "State_Name": "attendance_validate_punch_in_over_lapping",
+        "Label": "attendance_validatePunchInOverLapping",
+        "Url_Pattern": "\/attendance\/validatePunchInOverLapping"
+    },
+    {
+        "State_Name": "attendance_update_punch_in_out_note",
+        "Label": "attendance_updatePunchInOutNote",
+        "Url_Pattern": "\/attendance\/updatePunchInOutNote"
+    },
+    {
+        "State_Name": "attendance_get_current_time",
+        "Label": "attendance_getCurrentTime",
+        "Url_Pattern": "\/attendance\/getCurrentTime"
+    },
+    {
+        "State_Name": "time_display_project_report",
+        "Label": "time_displayProjectReport",
+        "Url_Pattern": "\/time\/displayProjectReport"
+    },
+    {
+        "State_Name": "time_display_project_activity_details_report",
+        "Label": "time_displayProjectActivityDetailsReport",
+        "Url_Pattern": "\/time\/displayProjectActivityDetailsReport"
+    },
+    {
+        "State_Name": "time_displayEmployeeReport",
+        "Label": "time_displayEmployeeReport",
+        "Url_Pattern": "\/time\/displayEmployeeReport"
+    },
+    {
+        "State_Name": "time_display_attendance_summary_report_default",
+        "Label": "time_displayAttendanceSummaryReport",
+        "Url_Pattern": "\/time\/displayAttendanceSummaryReport\/*"
+    },
+    {
+        "State_Name": "time_display_attendance_details_report_default",
+        "Label": "time_displayAttendanceDetailsReport",
+        "Url_Pattern": "\/time\/displayAttendanceDetailsReport\/*"
+    },
+    {
+        "State_Name": "admin_delete_customer",
+        "Label": "admin_deleteCustomer",
+        "Url_Pattern": "\/admin\/deleteCustomer"
+    },
+    {
+        "State_Name": "admin_add_customer",
+        "Label": "admin_addCustomer",
+        "Url_Pattern": "\/admin\/addCustomer"
+    },
+    {
+        "State_Name": "admin_delete_project",
+        "Label": "admin_deleteProject",
+        "Url_Pattern": "\/admin\/deleteProject"
+    },
+    {
+        "State_Name": "admin_save_project_default",
+        "Label": "admin_saveProject",
+        "Url_Pattern": "\/admin\/saveProject\/*"
+    },
+    {
+        "State_Name": "admin_get_project_list_json_default",
+        "Label": "admin_getProjectListJson",
+        "Url_Pattern": "\/admin\/getProjectListJson\/*"
+    },
+    {
+        "State_Name": "admin_add_project_activity",
+        "Label": "admin_addProjectActivity",
+        "Url_Pattern": "\/admin\/addProjectActivity"
+    },
+    {
+        "State_Name": "admin_undelete_customer",
+        "Label": "admin_undeleteCustomer",
+        "Url_Pattern": "\/admin\/undeleteCustomer"
+    },
+    {
+        "State_Name": "admin_copy_activity",
+        "Label": "admin_copyActivity",
+        "Url_Pattern": "\/admin\/copyActivity"
+    },
+    {
+        "State_Name": "admin_save_customer_json",
+        "Label": "admin_saveCustomerJson",
+        "Url_Pattern": "\/admin\/saveCustomerJson"
+    },
+    {
+        "State_Name": "admin_get_activity_list_jason",
+        "Label": "admin_getActivityListJason",
+        "Url_Pattern": "\/admin\/getActivityListJason"
+    },
+    {
+        "State_Name": "admin_delete_project_activity",
+        "Label": "admin_deleteProjectActivity",
+        "Url_Pattern": "\/admin\/deleteProjectActivity"
+    },
+    {
+        "State_Name": "admin_view_job_spec_default",
+        "Label": "admin_viewJobSpec",
+        "Url_Pattern": "\/admin\/viewJobSpec\/*"
+    },
+    {
+        "State_Name": "recruitment_vacancy_templates",
+        "Label": "recruitment_vacancyTemplates",
+        "Url_Pattern": "\/recruitment\/vacancyTemplates"
+    },
+    {
+        "State_Name": "recruitment_question_pool",
+        "Label": "recruitment_questionPool",
+        "Url_Pattern": "\/recruitment\/questionPool"
+    },
+    {
+        "State_Name": "recruitment_interview_templates",
+        "Label": "recruitment_interviewTemplates",
+        "Url_Pattern": "\/recruitment\/interviewTemplates"
+    },
+    {
+        "State_Name": "recruitment_test_templates",
+        "Label": "recruitment_testTemplates",
+        "Url_Pattern": "\/recruitment\/testTemplates"
+    },
+    {
+        "State_Name": "recruitment_recruitment_analytics_configuration_default",
+        "Label": "recruitment_recruitmentAnalyticsConfiguration",
+        "Url_Pattern": "\/recruitment\/recruitmentAnalyticsConfiguration\/*"
+    },
+    {
+        "State_Name": "recruitment_is_allowed_to_add_new_vacancy",
+        "Label": "recruitment_IsAllowedToAddNewVacancy",
+        "Url_Pattern": "\/recruitment\/IsAllowedToAddNewVacancy"
+    },
+    {
+        "State_Name": "recruitment_add_job_vacancy_default",
+        "Label": "recruitment_addJobVacancy",
+        "Url_Pattern": "\/recruitment\/addJobVacancy\/*"
+    },
+    {
+        "State_Name": "recruitment_get_vacancy_list_for_job_title_json_default",
+        "Label": "recruitment_getVacancyListForJobTitleJson",
+        "Url_Pattern": "\/recruitment\/getVacancyListForJobTitleJson\/*"
+    },
+    {
+        "State_Name": "recruitment_get_hiring_manager_list_json_default",
+        "Label": "recruitment_getHiringManagerListJson",
+        "Url_Pattern": "\/recruitment\/getHiringManagerListJson\/*"
+    },
+    {
+        "State_Name": "recruitment_manage_vacancy_workflow_default",
+        "Label": "recruitment_manageVacancyWorkflow",
+        "Url_Pattern": "\/recruitment\/manageVacancyWorkflow\/*"
+    },
+    {
+        "State_Name": "recruitment_candidate_pipeline_stage_comparison_default",
+        "Label": "recruitment_candidatePipelineStageComparison",
+        "Url_Pattern": "\/recruitment\/candidatePipelineStageComparison\/*"
+    },
+    {
+        "State_Name": "recruitment_delete_job_vacancy",
+        "Label": "recruitment_deleteJobVacancy",
+        "Url_Pattern": "\/recruitment\/deleteJobVacancy"
+    },
+    {
+        "State_Name": "recruitment_add_candidate_default",
+        "Label": "recruitment_addCandidate",
+        "Url_Pattern": "\/recruitment\/addCandidate\/*"
+    },
+    {
+        "State_Name": "recruitment_view_answer_attachment",
+        "Label": "recruitment_viewAnswerAttachment",
+        "Url_Pattern": "\/recruitment\/viewAnswerAttachment\/*"
+    },
+    {
+        "State_Name": "csv_export_candidate_csv_data_export",
+        "Label": "csvExport_candidateCsvDataExport",
+        "Url_Pattern": "\/csvExport\/candidateCsvDataExport"
+    },
+    {
+        "State_Name": "recruitment_candidate_profile_default",
+        "Label": "recruitment_candidateProfile",
+        "Url_Pattern": "\/recruitment\/candidateProfile\/*"
+    },
+    {
+        "State_Name": "recruitment_delete_candidate_vacancies",
+        "Label": "recruitment_deleteCandidateVacancies",
+        "Url_Pattern": "\/recruitment\/deleteCandidateVacancies"
+    },
+    {
+        "State_Name": "archived_candidates_search_archive_candidates",
+        "Label": "archivedCandidatesSearch_archiveCandidates",
+        "Url_Pattern": "\/archivedCandidatesSearch\/archiveCandidates"
+    },
+    {
+        "State_Name": "recruitment_candidate_cv_post_process",
+        "Label": "recruitment_candidateCvPostProcess",
+        "Url_Pattern": "\/recruitment\/candidateCvPostProcess"
+    },
+    {
+        "State_Name": "recruitment_view_candidate_attachment_default",
+        "Label": "recruitment_viewCandidateAttachment",
+        "Url_Pattern": "\/recruitment\/viewCandidateAttachment\/*"
+    },
+    {
+        "State_Name": "recruitment_get_vacancy_event_last_comment",
+        "Label": "recruitment_getVacancyEventLastComment",
+        "Url_Pattern": "\/recruitment\/getVacancyEventLastComment"
+    },
+    {
+        "State_Name": "recruitment_view_question_form_default",
+        "Label": "recruitment_viewQuestionForm",
+        "Url_Pattern": "\/recruitment\/viewQuestionForm\/*"
+    },
+    {
+        "State_Name": "recruitment_export_to_pdf",
+        "Label": "recruitment_exportToPdf",
+        "Url_Pattern": "\/recruitment\/exportToPdf"
+    },
+    {
+        "State_Name": "recruitment_job_posting_default",
+        "Label": "recruitment_jobPosting",
+        "Url_Pattern": "\/recruitment\/jobPosting\/*"
+    },
+    {
+        "State_Name": "recruitment_change_job_vacancy_status",
+        "Label": "recruitment_changeJobVacancyStatus",
+        "Url_Pattern": "\/recruitment\/changeJobVacancyStatus\/*"
+    },
+    {
+        "State_Name": "recruitment_delete_job_vacancy_event_default",
+        "Label": "recruitment_deleteJobVacancyEvent",
+        "Url_Pattern": "\/recruitment\/deleteJobVacancyEvent\/*"
+    },
+    {
+        "State_Name": "recruitment_job_vacancy_workflow",
+        "Label": "recruitment_jobVacancyWorkflow",
+        "Url_Pattern": "\/recruitment\/jobVacancyWorkflow"
+    },
+    {
+        "State_Name": "recruitment_vacancy_application_form",
+        "Label": "recruitment_vacancyApplicationForm",
+        "Url_Pattern": "\/recruitment\/vacancyApplicationForm\/*"
+    },
+    {
+        "State_Name": "recruitment_publish_vacancy_to_job_portals_default",
+        "Label": "recruitment_publishVacancyToJobPortals",
+        "Url_Pattern": "\/recruitment\/publishVacancyToJobPortals\/*"
+    },
+    {
+        "State_Name": "recruitment_recruitment_apply_vacancy_advanced",
+        "Label": "recruitmentApply_applyVacancyAdvanced",
+        "Url_Pattern": "\/recruitmentApply\/applyVacancyAdvanced\/*"
+    },
+    {
+        "State_Name": "recruitment_recruitment_apply_candidate_cv_post_process",
+        "Label": "recruitmentApply_candidateCvPostProcess",
+        "Url_Pattern": "\/recruitmentApply\/candidateCvPostProcess"
+    },
+    {
+        "State_Name": "recruitment_recruitment_apply_jobs_html",
+        "Label": "recruitmentApply_jobs.html",
+        "Url_Pattern": "\/recruitmentApply\/jobs.html"
+    },
+    {
+        "State_Name": "recruitment_recruitment_apply_jobs_rss",
+        "Label": "recruitmentApply_jobs.rss",
+        "Url_Pattern": "\/recruitmentApply\/jobs.rss"
+    },
+    {
+        "State_Name": "recruitment_delete_job_boards",
+        "Label": "recruitment_deleteJobBoards",
+        "Url_Pattern": "\/recruitment\/deleteJobBoards\/*"
+    },
+    {
+        "State_Name": "recruitment_add_test_template",
+        "Label": "recruitment_addTestTemplate",
+        "Url_Pattern": "\/recruitment\/addTestTemplate"
+    },
+    {
+        "State_Name": "recruitment_view_test_template_attachment_default",
+        "Label": "recruitment_viewTestTemplateAttachment",
+        "Url_Pattern": "\/recruitment\/viewTestTemplateAttachment\/*"
+    },
+    {
+        "State_Name": "recruitment_delete_analytics_model_mapping",
+        "Label": "recruitment_deleteAnalyticsModelMapping",
+        "Url_Pattern": "\/recruitment\/deleteAnalyticsModelMapping"
+    },
+    {
+        "State_Name": "recruitment_display_vacancy_succession_report_criteria_default",
+        "Label": "recruitment_displayVacancySuccessionReportCriteria",
+        "Url_Pattern": "\/recruitment\/displayVacancySuccessionReportCriteria\/*"
+    },
+    {
+        "State_Name": "recruitment_candidate_cv_post_process_default",
+        "Label": "recruitment_candidateCvPostProcess",
+        "Url_Pattern": "\/recruitment\/candidateCvPostProcess\/*"
+    },
+    {
+        "State_Name": "recruitment_proceed_to_nex_event_default",
+        "Label": "recruitment_proceedToNexEvent",
+        "Url_Pattern": "\/recruitment\/proceedToNexEvent\/*"
+    },
+    {
+        "State_Name": "recruitment_live_interview_default",
+        "Label": "recruitment_liveInterview",
+        "Url_Pattern": "\/recruitment\/liveInterview\/*"
+    },
+    {
+        "State_Name": "recruitment_schedule_candidate_event_default",
+        "Label": "recruitment_scheduleCandidateEvent",
+        "Url_Pattern": "\/recruitment\/scheduleCandidateEvent\/*"
+    },
+    {
+        "State_Name": "discipline_delete_disciplinary_cases",
+        "Label": "discipline_deleteDisciplinaryCases",
+        "Url_Pattern": "\/discipline\/deleteDisciplinaryCases"
+    },
+    {
+        "State_Name": "discipline_save_disciplinary_case_default",
+        "Label": "discipline_saveDisciplinaryCase",
+        "Url_Pattern": "\/discipline\/saveDisciplinaryCase\/*"
+    },
+    {
+        "State_Name": "core_intermidate_redirecting_action_default",
+        "Label": "core_intermidateRedirectingAction",
+        "Url_Pattern": "\/core\/intermidateRedirectingAction\/*"
+    },
+    {
+        "State_Name": "discipline_change_disciplinary_case_status",
+        "Label": "discipline_changeDisciplinaryCaseStatus",
+        "Url_Pattern": "\/discipline\/changeDisciplinaryCaseStatus"
+    },
+    {
+        "State_Name": "core_default_action_default",
+        "Label": "core_defaultAction",
+        "Url_Pattern": "\/core\/defaultAction\/*"
+    },
+    {
+        "State_Name": "discipline_disciplinary_export_document_to_pdf_default",
+        "Label": "discipline_disciplinaryExportDocumentToPdf",
+        "Url_Pattern": "\/discipline\/disciplinaryExportDocumentToPdf\/*"
+    },
+    {
+        "State_Name": "discipline_delete_disciplinary_document_templates",
+        "Label": "discipline_deleteDisciplinaryDocumentTemplates",
+        "Url_Pattern": "\/discipline\/deleteDisciplinaryDocumentTemplates"
+    },
+    {
+        "State_Name": "discipline_add_disciplinary_document_templates_default",
+        "Label": "discipline_addDisciplinaryDocumentTemplates",
+        "Url_Pattern": "\/discipline\/addDisciplinaryDocumentTemplates\/*"
+    },
+    {
+        "State_Name": "training_delete_course",
+        "Label": "training_deleteCourse",
+        "Url_Pattern": "\/training\/deleteCourse"
+    },
+    {
+        "State_Name": "training_view_session_trainer_list_default",
+        "Label": "training_viewSessionTrainerList",
+        "Url_Pattern": "\/training\/viewSessionTrainerList\/*"
+    },
+    {
+        "State_Name": "training_view_trainer_session_list_default",
+        "Label": "training_editTrainerSession",
+        "Url_Pattern": "\/training\/editTrainerSession\/*"
+    },
+    {
+        "State_Name": "core_get_access_token",
+        "Label": "core_getAccessToken",
+        "Url_Pattern": "\/core\/getAccessToken"
+    },
+    {
+        "State_Name": "training_add_course_default",
+        "Label": "training_addCourse",
+        "Url_Pattern": "\/training\/addCourse\/*"
+    },
+    {
+        "State_Name": "training_course_attachment_default",
+        "Label": "training_courseAttachment",
+        "Url_Pattern": "\/training\/courseAttachment\/*"
+    },
+    {
+        "State_Name": "training_delete_course_attachment_default",
+        "Label": "training_deleteCourseAttachment",
+        "Url_Pattern": "\/training\/deleteCourseAttachment\/*"
+    },
+    {
+        "State_Name": "training_view_course_attachment_default",
+        "Label": "training_viewCourseAttachment",
+        "Url_Pattern": "\/training\/viewCourseAttachment\/*"
+    },
+    {
+        "State_Name": "training_add_package",
+        "Label": "training_addPackage",
+        "Url_Pattern": "\/training\/addPackage\/*"
+    },
+    {
+        "State_Name": "training_add_course_to_package",
+        "Label": "training_addCoursesToPackage",
+        "Url_Pattern": "\/training\/addCoursesToPackage\/*"
+    },
+    {
+        "State_Name": "training_define_package_student",
+        "Label": "training_definePackageStudent",
+        "Url_Pattern": "\/training\/definePackageStudent\/*"
+    },
+    {
+        "State_Name": "training_view_package_session_list",
+        "Label": "training_viewPackageSessionList",
+        "Url_Pattern": "\/training\/viewPackageSessionList\/*"
+    },
+    {
+        "State_Name": "training_add_package_student",
+        "Label": "training_addPackageStudent",
+        "Url_Pattern": "\/training\/addPackageStudent\/*"
+    },
+    {
+        "State_Name": "training_delete_session",
+        "Label": "training_deleteSession",
+        "Url_Pattern": "\/training\/deleteSession"
+    },
+    {
+        "State_Name": "training_add_session_default",
+        "Label": "training_addSession",
+        "Url_Pattern": "\/training\/addSession\/*"
+    },
+    {
+        "State_Name": "training_session_attachment_default",
+        "Label": "training_sessionAttachment",
+        "Url_Pattern": "\/training\/sessionAttachment\/*"
+    },
+    {
+        "State_Name": "training_delete_session_attachment_default",
+        "Label": "training_deleteSessionAttachment",
+        "Url_Pattern": "\/training\/deleteSessionAttachment\/*"
+    },
+    {
+        "State_Name": "training_view_session_attachment_default",
+        "Label": "training_viewSessionAttachment",
+        "Url_Pattern": "\/training\/viewSessionAttachment\/*"
+    },
+    {
+        "State_Name": "training_define_session_trainer",
+        "Label": "training_defineSessionTrainer",
+        "Url_Pattern": "\/training\/defineSessionTrainer"
+    },
+    {
+        "State_Name": "training_define_session_student",
+        "Label": "training_defineSessionStudent",
+        "Url_Pattern": "\/training\/defineSessionStudent"
+    },
+    {
+        "State_Name": "training_add_session_student",
+        "Label": "training_addSessionStudent",
+        "Url_Pattern": "\/training\/addSessionStudent"
+    },
+    {
+        "State_Name": "training_add_session_trainer",
+        "Label": "training_addSessionTrainer",
+        "Url_Pattern": "\/training\/addSessionTrainer"
+    },
+    {
+        "State_Name": "training_edit_student_session_default",
+        "Label": "training_editStudentSession",
+        "Url_Pattern": "\/training\/editStudentSession\/*"
+    },
+    {
+        "State_Name": "training_view_my_training_session_list",
+        "Label": "training_viewMyTrainingSessionList",
+        "Url_Pattern": "\/training\/viewMyTrainingSessionList\/*"
+    },
+    {
+        "State_Name": "training_define_course_package_default",
+        "Label": "training_defineCoursePackage",
+        "Url_Pattern": "\/training\/defineCoursePackage\/*"
+    },
+    {
+        "State_Name": "training_delete_package_default",
+        "Label": "training_deletePackage",
+        "Url_Pattern": "\/training\/deletePackage\/*"
+    },
+    {
+        "State_Name": "training_edit_package_session_list_default",
+        "Label": "training_editPackageSessionList",
+        "Url_Pattern": "\/training\/editPackageSessionList\/*"
+    },
+    {
+        "State_Name": "performance_tracker_view_employee_performance_tracker_list_legacy",
+        "Label": "performanceTracker_viewEmployeePerformanceTrackerListLegacy",
+        "Url_Pattern": "\/performanceTracker\/viewEmployeePerformanceTrackerListLegacy\/*"
+    },
+    {
+        "State_Name": "performance_tracker_add_performance_tracker_legacy_default",
+        "Label": "performanceTracker_addPerformanceTrackerLegacy",
+        "Url_Pattern": "\/performanceTracker\/addPerformanceTrackerLegacy\/*"
+    },
+    {
+        "State_Name": "performance_tracker_add_performance_tracker_log_legacy_default",
+        "Label": "performanceTracker_addPerformanceTrackerLogLegacy",
+        "Url_Pattern": "\/performanceTracker\/addPerformanceTrackerLogLegacy\/*"
+    },
+    {
+        "State_Name": "performance_tracker_update_reviewers",
+        "Label": "performanceTracker_updateReviewers",
+        "Url_Pattern": "\/performanceTracker\/updateReviewers"
+    },
+    {
+        "State_Name": "performance_tracker_export_to_csv",
+        "Label": "performanceTracker_exportToCSV",
+        "Url_Pattern": "\/performanceTracker\/exportToCSV"
+    },
+    {
+        "State_Name": "performance_tracker_view_my_performance_tracker_list_legacy",
+        "Label": "performanceTracker_viewMyPerformanceTrackerListLegacy",
+        "Url_Pattern": "\/performanceTracker\/viewMyPerformanceTrackerListLegacy\/*"
+    },
+    {
+        "State_Name": "performance_tracker_delete_rerformance_tracker",
+        "Label": "performanceTracker_deletePerformanceTracker",
+        "Url_Pattern": "\/performanceTracker\/deletePerformanceTracker"
+    },
+    {
+        "State_Name": "admin_get_work_shift_info_json_default",
+        "Label": "admin_getWorkShiftInfoJson",
+        "Url_Pattern": "\/admin\/getWorkShiftInfoJson\/*"
+    },
+    {
+        "State_Name": "admin_get_work_shift_emp_info_json_default",
+        "Label": "admin_getWorkShiftEmpInfoJson",
+        "Url_Pattern": "\/admin\/getWorkShiftEmpInfoJson\/*"
+    },
+    {
+        "State_Name": "performance_delete_employee_competency_group",
+        "Label": "performance_deleteEmployeeCompetencyGroup",
+        "Url_Pattern": "\/performance\/deleteEmployeeCompetencyGroup"
+    },
+    {
+        "State_Name": "performance_add_employee_competency_group_default",
+        "Label": "performance_addCompetencyEmployeeGroup",
+        "Url_Pattern": "\/performance\/addCompetencyEmployeeGroup\/*"
+    },
+    {
+        "State_Name": "performance_view_employee_goal_list_legacy",
+        "Label": "performance_viewEmployeeGoalListLegacy",
+        "Url_Pattern": "\/performance\/viewEmployeeGoalListLegacy"
+    },
+    {
+        "State_Name": "performance_delete_employee_goals",
+        "Label": "performance_deleteEmployeeGoals",
+        "Url_Pattern": "\/performance\/deleteEmployeeGoals"
+    },
+    {
+        "State_Name": "performance_add_employee_goal",
+        "Label": "performance_addEmployeeGoal",
+        "Url_Pattern": "\/performance\/addEmployeeGoal"
+    },
+    {
+        "State_Name": "performance_add_my_goal_default",
+        "Label": "performance_addMyGoal",
+        "Url_Pattern": "\/performance\/addMyGoal\/*"
+    },
+    {
+        "State_Name": "performance_add_employee_appraisal_default",
+        "Label": "performance_addEmployeeAppraisal",
+        "Url_Pattern": "\/performance\/addEmployeeAppraisal\/*"
+    },
+    {
+        "State_Name": "performance_delete_appraisal_cycles",
+        "Label": "performance_deleteAppraisalCycles",
+        "Url_Pattern": "\/performance\/deleteAppraisalCycles"
+    },
+    {
+        "State_Name": "performance_add_appraisal_cycle_default",
+        "Label": "performance_addAppraisalCycle",
+        "Url_Pattern": "\/performance\/addAppraisalCycle\/*"
+    },
+    {
+        "State_Name": "performance_check_workflow_action_and_forward_default",
+        "Label": "performance_checkWorkflowActionAndForward",
+        "Url_Pattern": "\/performance\/checkWorkflowActionAndForward\/*"
+    },
+    {
+        "State_Name": "performance_main_appraisal_cycle_base_default",
+        "Label": "performance_mainAppraisalCycleBase",
+        "Url_Pattern": "\/performance\/mainAppraisalCycleBase\/*"
+    },
+    {
+        "State_Name": "performance_evaluate",
+        "Label": "performance_evaluate",
+        "Url_Pattern": "\/performance\/evaluate\/*"
+    },
+    {
+        "State_Name": "performance_main_appraisal_base",
+        "Label": "performance_mainAppraisalBase",
+        "Url_Pattern": "\/performance\/mainAppraisalBase"
+    },
+    {
+        "State_Name": "performance_manage_default",
+        "Label": "performance_manage",
+        "Url_Pattern": "\/performance\/manage\/*"
+    },
+    {
+        "State_Name": "performance_create_appraisals",
+        "Label": "performance_createappraisals",
+        "Url_Pattern": "\/performance\/createappraisals"
+    },
+    {
+        "State_Name": "performance_add_employees_to_appraisal_cycle_default",
+        "Label": "performance_addEmployeesToAppraisalCycle",
+        "Url_Pattern": "\/performance\/addEmployeesToAppraisalCycle\/*"
+    },
+    {
+        "State_Name": "performance_update_appraisal_cycle_with_employees",
+        "Label": "performance_updateAppraisalCycleWithEmployees",
+        "Url_Pattern": "\/performance\/updateAppraisalCycleWithEmployees"
+    },
+    {
+        "State_Name": "performance_delete_appraisal_cycle_employee",
+        "Label": "performance_deleteAppraisalCycleEmployee",
+        "Url_Pattern": "\/performance\/deleteAppraisalCycleEmployee"
+    },
+    {
+        "State_Name": "performance_view_all_appraisals",
+        "Label": "performance_viewAllAppraisals",
+        "Url_Pattern": "\/performance\/viewAllAppraisals"
+    },
+    {
+        "State_Name": "performance_evaluator_group_config",
+        "Label": "performance_evaluatorGroupConfig",
+        "Url_Pattern": "\/performance\/evaluatorGroupConfig"
+    },
+    {
+        "State_Name": "performance_view_question_list",
+        "Label": "performance_viewQuestionList",
+        "Url_Pattern": "\/performance\/viewQuestionList"
+    },
+    {
+        "State_Name": "performance_appraisal_format_global_conf",
+        "Label": "performance_appraisalFormatGlobalConf",
+        "Url_Pattern": "\/performance\/appraisalFormatGlobalConf"
+    },
+    {
+        "State_Name": "performance_view_appraisal_template_list",
+        "Label": "performance_viewAppraisalTemplateList",
+        "Url_Pattern": "\/performance\/viewAppraisalTemplateList"
+    },
+    {
+        "State_Name": "performance_delete_performance_question",
+        "Label": "performance_deletePerformanceQuestion",
+        "Url_Pattern": "\/performance\/deletePerformanceQuestion"
+    },
+    {
+        "State_Name": "performance_add_performance_question_default",
+        "Label": "performance_addPerformanceQuestion",
+        "Url_Pattern": "\/performance\/addPerformanceQuestion\/*"
+    },
+    {
+        "State_Name": "performance_delete_appraisal_header",
+        "Label": "performance_deleteAppraisalHeader",
+        "Url_Pattern": "\/performance\/deleteAppraisalHeader"
+    },
+    {
+        "State_Name": "performance_add_appraisal_header_default",
+        "Label": "performance_addAppraisalHeader",
+        "Url_Pattern": "\/performance\/addAppraisalHeader\/*"
+    },
+    {
+        "State_Name": "performance_view_performance_report_legacy_default",
+        "Label": "performance_viewPerformanceReportLegacy",
+        "Url_Pattern": "\/performance\/viewPerformanceReportLegacy\/*"
+    },
+    {
+        "State_Name": "performance_performance_report_csv_default",
+        "Label": "performance_performanceReportCsv",
+        "Url_Pattern": "\/performance\/performanceReportCsv\/*"
+    },
+    {
+        "State_Name": "performance_performance_report_pdf_default",
+        "Label": "performance_performanceReportPdf",
+        "Url_Pattern": "\/performance\/performanceReportPdf\/*"
+    },
+    {
+        "State_Name": "performance_performance_config_appraisal_form_section_default",
+        "Label": "performance_configAppraisalFormSection",
+        "Url_Pattern": "\/performance\/configAppraisalFormSection\/*"
+    },
+    {
+        "State_Name": "performance_config_appraisal_form_default",
+        "Label": "performance_configAppraisalForm",
+        "Url_Pattern": "\/performance\/configAppraisalForm\/*"
+    },
+    {
+        "State_Name": "performance_add_appraisal_evaluator_default",
+        "Label": "performance_addAppraisalEvaluator",
+        "Url_Pattern": "\/performance\/addAppraisalEvaluator\/*"
+    },
+    {
+        "State_Name": "performance_view_full_comparison_report_legacy",
+        "Label": "performance_viewFullComparisonReportLegacy",
+        "Url_Pattern": "\/performance\/viewFullComparisonReportLegacy\/*"
+    },
+    {
+        "State_Name": "performance_update_appraisal_section",
+        "Label": "performance_updateAppraisalSection",
+        "Url_Pattern": "\/performance\/updateAppraisalSection"
+    },
+    {
+        "State_Name": "performance_view_employee_performance_profile_legacy_default",
+        "Label": "performance_viewEmployeePerformanceProfileLegacy",
+        "Url_Pattern": "\/performance\/viewEmployeePerformanceProfileLegacy\/*"
+    },
+    {
+        "State_Name": "performance_view_performance_progress_report_legacy",
+        "Label": "performance_viewPerformanceProgressReportLegacy",
+        "Url_Pattern": "\/performance\/viewPerformanceProgressReportLegacy\/*"
+    },
+    {
+        "State_Name": "performance_close_default",
+        "Label": "performance_close",
+        "Url_Pattern": "\/performance\/close\/*"
+    },
+    {
+        "State_Name": "performance_view_my_appraisals",
+        "Label": "performance_viewMyAppraisals",
+        "Url_Pattern": "\/performance\/viewMyAppraisals"
+    },
+    {
+        "State_Name": "performance_download_default",
+        "Label": "performance_download",
+        "Url_Pattern": "\/performance\/download\/*"
+    },
+    {
+        "State_Name": "performance_search_kpi",
+        "Label": "performance_searchKpi",
+        "Url_Pattern": "\/performance\/searchKpi"
+    },
+    {
+        "State_Name": "performance_add_performance_tracker",
+        "Label": "performance_addPerformanceTracker",
+        "Url_Pattern": "\/performance\/addPerformanceTracker"
+    },
+    {
+        "State_Name": "performance_view_employee_performance_tracker_list",
+        "Label": "performance_viewEmployeePerformanceTrackerList",
+        "Url_Pattern": "\/performance\/viewEmployeePerformanceTrackerList"
+    },
+    {
+        "State_Name": "performance_approve_review_default",
+        "Label": "performance_approvereview",
+        "Url_Pattern": "\/performance\/approvereview\/*"
+    },
+    {
+        "State_Name": "onboarding_delete_task_type",
+        "Label": "onboarding_deleteTaskType",
+        "Url_Pattern": "\/onboarding\/deleteTaskType"
+    },
+    {
+        "State_Name": "onboarding_add_task_type",
+        "Label": "onboarding_addTaskType",
+        "Url_Pattern": "\/onboarding\/addTaskType"
+    },
+    {
+        "State_Name": "onboarding_view_jobs_default",
+        "Label": "onboarding_viewJobs",
+        "Url_Pattern": "\/onboarding\/viewJobs\/*"
+    },
+    {
+        "State_Name": "onboarding_actions_jobs",
+        "Label": "onboarding_actionsJobs",
+        "Url_Pattern": "\/onboarding\/actionsJobs"
+    },
+    {
+        "State_Name": "onboarding_create_job_default",
+        "Label": "onboarding_createJob",
+        "Url_Pattern": "\/onboarding\/createJob\/*"
+    },
+    {
+        "State_Name": "onboarding_add_task_to_job",
+        "Label": "onboarding_addTaskToJob",
+        "Url_Pattern": "\/onboarding\/addTaskToJob"
+    },
+    {
+        "State_Name": "onboarding_get_employee_list_by_location",
+        "Label": "onboarding_getEmployeeListByLocation",
+        "Url_Pattern": "\/onboarding\/getEmployeeListByLocation"
+    },
+    {
+        "State_Name": "onboarding_manage_bulk_operations",
+        "Label": "onboarding_manageBulkOperations",
+        "Url_Pattern": "\/onboarding\/manageBulkOperations"
+    },
+    {
+        "State_Name": "onboarding_create_onboarding_task_default",
+        "Label": "onboarding_createOnboardingTask",
+        "Url_Pattern": "\/onboarding\/createOnboardingTask\/*"
+    },
+    {
+        "State_Name": "onboarding_get_task_type_data",
+        "Label": "onboarding_getTaskTypeData",
+        "Url_Pattern": "\/onboarding\/getTaskTypeData"
+    },
+    {
+        "State_Name": "onboarding_view_employee_tasks_default",
+        "Label": "onboarding_viewEmployeeTasks",
+        "Url_Pattern": "\/onboarding\/viewEmployeeTasks\/*"
+    },
+    {
+        "State_Name": "onboarding_view_my_tasks_default",
+        "Label": "onboarding_viewMyTasks",
+        "Url_Pattern": "\/onboarding\/viewMyTasks\/*"
+    },
+    {
+        "State_Name": "onboarding_edit_my_tasks_default",
+        "Label": "onboarding_editMyTask",
+        "Url_Pattern": "\/onboarding\/editMyTask\/*"
+    },
+    {
+        "State_Name": "expense_add_currency_exchange_rate",
+        "Label": "expense_addCurrencyExchangeRate",
+        "Url_Pattern": "\/expense\/addCurrencyExchangeRate"
+    },
+    {
+        "State_Name": "expense_delete_currency_exchange_rate",
+        "Label": "expense_deleteCurrencyExchangeRate",
+        "Url_Pattern": "\/expense\/deleteCurrencyExchangeRate"
+    },
+    {
+        "State_Name": "expense_view_history_of_currency_exchange_rates_deault",
+        "Label": "expense_viewHistoryOfCurrencyExchangeRates",
+        "Url_Pattern": "\/expense\/viewHistoryOfCurrencyExchangeRates\/*"
+    },
+    {
+        "State_Name": "expense_add_employee_group",
+        "Label": "expense_addEmployeeGroup",
+        "Url_Pattern": "\/expense\/addEmployeeGroup"
+    },
+    {
+        "State_Name": "expense_delete_employee_group",
+        "Label": "expense_deleteEmployeeGroup",
+        "Url_Pattern": "\/expense\/deleteEmployeeGroup"
+    },
+    {
+        "State_Name": "expense_delete_expense_type",
+        "Label": "expense_deleteExpenseType",
+        "Url_Pattern": "\/expense\/deleteExpenseType"
+    },
+    {
+        "State_Name": "expense_add_expense_type_default",
+        "Label": "expense_addExpenseType",
+        "Url_Pattern": "\/expense\/addExpenseType\/*"
+    },
+    {
+        "State_Name": "expense_view_eligibility_default",
+        "Label": "expense_viewEligibility",
+        "Url_Pattern": "\/expense\/viewEligibility\/*"
+    },
+    {
+        "State_Name": "expense_delete_eligible_employees_from_list_default",
+        "Label": "expense_deleteEligibleEmployeesFromList",
+        "Url_Pattern": "\/expense\/deleteEligibleEmployeesFromList\/*"
+    },
+    {
+        "State_Name": "expense_delete_eligible_group_from_list_default",
+        "Label": "expense_deleteEligibleGroupFromList",
+        "Url_Pattern": "\/expense\/deleteEligibleGroupFromList\/*"
+    },
+    {
+        "State_Name": "expense_save_eligibility_groups_default",
+        "Label": "expense_saveEligibilityGroups",
+        "Url_Pattern": "\/expense\/saveEligibilityGroups\/*"
+    },
+    {
+        "State_Name": "expense_save_eligibility_employees_default",
+        "Label": "expense_saveEligibilityEmployees",
+        "Url_Pattern": "\/expense\/saveEligibilityEmployees\/*"
+    },
+    {
+        "State_Name": "expense_delete_eligible_employees_from_list_action",
+        "Label": "expense_deleteEligibleEmployeesFromListAction",
+        "Url_Pattern": "\/expense\/deleteEligibleEmployeesFromListAction"
+    },
+    {
+        "State_Name": "expense_multi_currency_default",
+        "Label": "expense_multiCurrency",
+        "Url_Pattern": "\/expense\/multiCurrency\/*"
+    },
+    {
+        "State_Name": "expense_expense_type_restrictions_default",
+        "Label": "expense_expenseTypeRestrictions",
+        "Url_Pattern": "\/expense\/expenseTypeRestrictions\/*"
+    },
+    {
+        "State_Name": "expense_save_employee_estimate_request_default",
+        "Label": "expense_saveEmployeeEstimateRequest",
+        "Url_Pattern": "\/expense\/saveEmployeeEstimateRequest\/*"
+    },
+    {
+        "State_Name": "expense_delete_estimate_request",
+        "Label": "expense_deleteEstimateRequest",
+        "Url_Pattern": "\/expense\/deleteEstimateRequest"
+    },
+    {
+        "State_Name": "expense_assign_employee_estimate_request_default",
+        "Label": "expense_assignEmployeeEstimateRequest",
+        "Url_Pattern": "\/expense\/assignEmployeeEstimateRequest\/*"
+    },
+    {
+        "State_Name": "expense_get_available_travel_request_id",
+        "Label": "expense_getAvailableTravelRequestId",
+        "Url_Pattern": "\/expense\/getAvailableTravelRequestId"
+    },
+    {
+        "State_Name": "expense_delete_transport_info_default",
+        "Label": "expense_deleteTransportInfo",
+        "Url_Pattern": "\/expense\/deleteTransportInfo\/*"
+    },
+    {
+        "State_Name": "expense_delete_estimates_in_estimate_request_default",
+        "Label": "expense_deleteEstimatesInEstimateRequest",
+        "Url_Pattern": "\/expense\/deleteEstimatesInEstimateRequest\/*"
+    },
+    {
+        "State_Name": "expense_update_expense_attachment_default",
+        "Label": "expense_updateExpenseAttachment",
+        "Url_Pattern": "\/expense\/updateExpenseAttachment\/*"
+    },
+    {
+        "State_Name": "expense_delete_attachments",
+        "Label": "expense_deleteAttachments",
+        "Url_Pattern": "\/expense\/deleteAttachments"
+    },
+    {
+        "State_Name": "expense_save_travel_information_default",
+        "Label": "expense_saveTravelInformation",
+        "Url_Pattern": "\/expense\/saveTravelInformation\/*"
+    },
+    {
+        "State_Name": "expense_save_employee_estimate_default",
+        "Label": "expense_saveEmployeeEstimate",
+        "Url_Pattern": "\/expense\/saveEmployeeEstimate\/*"
+    },
+    {
+        "State_Name": "expense_find_travel_information_default",
+        "Label": "expense_findTravelInformation",
+        "Url_Pattern": "\/expense\/findTravelInformation\/*"
+    },
+    {
+        "State_Name": "expense_delete_travel_information",
+        "Label": "expense_deleteTravelInformation",
+        "Url_Pattern": "\/expense\/deleteTravelInformation"
+    },
+    {
+        "State_Name": "expense_get_estimate_from_default",
+        "Label": "expense_getEstimateFrom",
+        "Url_Pattern": "\/expense\/getEstimateFrom\/*"
+    },
+    {
+        "State_Name": "expense_delete_estimate_in_estimate_request",
+        "Label": "expense_deleteEstimateInEstimateRequest",
+        "Url_Pattern": "\/expense\/deleteEstimateInEstimateRequest"
+    },
+    {
+        "State_Name": "expense_submit_employee_estimate_request_default",
+        "Label": "expense_submitEmployeeEstimateRequest",
+        "Url_Pattern": "\/expense\/submitEmployeeEstimateRequest\/*"
+    },
+    {
+        "State_Name": "expense_get_exchange_rate_json",
+        "Label": "expense_getExchangeRateJson",
+        "Url_Pattern": "\/expense\/getExchangeRateJson"
+    },
+    {
+        "State_Name": "expense_expense_estimate_form_to_pdf",
+        "Label": "expense_expenseEstimateFormToPdf",
+        "Url_Pattern": "\/expense\/expenseEstimateFormToPdf\/*"
+    },
+    {
+        "State_Name": "expense_assign_expense_claims_default",
+        "Label": "expense_assignExpenseClaims",
+        "Url_Pattern": "\/expense\/assignExpenseClaims\/*"
+    },
+    {
+        "State_Name": "expense_delete_claim_request",
+        "Label": "expense_deleteClaimRequest",
+        "Url_Pattern": "\/expense\/deleteClaimRequest"
+    },
+    {
+        "State_Name": "expense_get_employee_data_json",
+        "Label": "expense_getEmployeeDataJson",
+        "Url_Pattern": "\/expense\/getEmployeeDataJson"
+    },
+    {
+        "State_Name": "expense_get_claiming_option_data_url",
+        "Label": "expense_getClaimingOptionDataURL",
+        "Url_Pattern": "\/expense\/getClaimingOptionDataURL"
+    },
+    {
+        "State_Name": "expense_get_claiming_currency_json",
+        "Label": "expense_getClaimingCurrencyJson",
+        "Url_Pattern": "\/expense\/getClaimingCurrencyJson"
+    },
+    {
+        "State_Name": "expense_delete_expense_default",
+        "Label": "expense_deleteExpense",
+        "Url_Pattern": "\/expense\/deleteExpense\/*"
+    },
+    {
+        "State_Name": "expense_add_expense",
+        "Label": "expense_addExpense",
+        "Url_Pattern": "\/expense\/addExpense"
+    },
+    {
+        "State_Name": "expense_get_expense_form",
+        "Label": "expense_getExpenseForm",
+        "Url_Pattern": "\/expense\/getExpenseForm"
+    },
+    {
+        "State_Name": "expense_expense_form_to_pdf_default",
+        "Label": "expense_expenseFormToPdf",
+        "Url_Pattern": "\/expense\/expenseFormToPdf\/*"
+    },
+    {
+        "State_Name": "expense_get_expense_attachments",
+        "Label": "expense_getExpenseAttachments",
+        "Url_Pattern": "\/expense\/getExpenseAttachments"
+    },
+    {
+        "State_Name": "expense_view_attachment_default",
+        "Label": "expense_viewAttachment",
+        "Url_Pattern": "\/expense\/viewAttachment\/*"
+    },
+    {
+        "State_Name": "expense_save_expense_attachment_default",
+        "Label": "expense_saveExpenseAttachment",
+        "Url_Pattern": "\/expense\/saveExpenseAttachment\/*"
+    },
+    {
+        "State_Name": "expense_get_currency_list",
+        "Label": "expense_getCurrencyList",
+        "Url_Pattern": "\/expense\/getCurrencyList"
+    },
+    {
+        "State_Name": "expense_delete_expense_attachments",
+        "Label": "expense_deleteExpenseAttachments",
+        "Url_Pattern": "\/expense\/deleteExpenseAttachments"
+    },
+    {
+        "State_Name": "expense_change_claim_request_work_flow_default",
+        "Label": "expense_changeClaimRequestWorkFlow",
+        "Url_Pattern": "\/expense\/changeClaimRequestWorkFlow\/*"
+    },
+    {
+        "State_Name": "expense_save_my_estimate_request",
+        "Label": "expense_saveMyEstimateRequest",
+        "Url_Pattern": "\/expense\/saveMyEstimateRequest"
+    },
+    {
+        "State_Name": "expense_save_my_estimate",
+        "Label": "expense_saveMyEstimate",
+        "Url_Pattern": "\/expense\/saveMyEstimate\/*"
+    },
+    {
+        "State_Name": "expense_find_my_travel_information",
+        "Label": "expense_findMyTravelInformation",
+        "Url_Pattern": "\/expense\/findMyTravelInformation\/*"
+    },
+    {
+        "State_Name": "expense_my_estimate_request_default",
+        "Label": "expense_myEstimateRequest",
+        "Url_Pattern": "\/expense\/myEstimateRequest\/*"
+    },
+    {
+        "State_Name": "expense_delete_my_travel_information",
+        "Label": "expense_deleteMyTravelInformation",
+        "Url_Pattern": "\/expense\/deleteMyTravelInformation"
+    },
+    {
+        "State_Name": "expense_delete_my_estimate_in_estimate_request",
+        "Label": "expense_deleteMyEstimateInEstimateRequest",
+        "Url_Pattern": "\/expense\/deleteMyEstimateInEstimateRequest"
+    },
+    {
+        "State_Name": "expense_submit_my_estimate_request_default",
+        "Label": "expense_submitMyEstimateRequest",
+        "Url_Pattern": "\/expense\/submitMyEstimateRequest\/*"
+    },
+    {
+        "State_Name": "expense_get_available_my_travel_request_ids",
+        "Label": "expense_getAvailableMyTravelRequestIds",
+        "Url_Pattern": "\/expense\/getAvailableMyTravelRequestIds"
+    },
+    {
+        "State_Name": "expense_save_my_travel_information_default",
+        "Label": "expense_saveMyTravelInformation",
+        "Url_Pattern": "\/expense\/saveMyTravelInformation\/*"
+    },
+    {
+        "State_Name": "expense_apply_expense_claims_default",
+        "Label": "expense_applyExpenseClaims",
+        "Url_Pattern": "\/expense\/applyExpenseClaims\/*"
+    },
+    {
+        "State_Name": "expense_delete_my_expense_claim_request",
+        "Label": "expense_deleteMyExpenseClaimRequest",
+        "Url_Pattern": "\/expense\/deleteMyExpenseClaimRequest"
+    },
+    {
+        "State_Name": "buzz_view_photo",
+        "Label": "buzz_viewPhoto",
+        "Url_Pattern": "\/buzz\/viewPhoto"
+    },
+    {
+        "State_Name": "buzz_view_profile",
+        "Label": "buzz_viewProfile",
+        "Url_Pattern": "\/buzz\/viewProfile"
+    },
+    {
+        "State_Name": "buzz_get_loged_to_buzz",
+        "Label": "buzz_getLogedToBuzz",
+        "Url_Pattern": "\/buzz\/getLogedToBuzz"
+    },
+    {
+        "State_Name": "buzz_get_form_csrf_token",
+        "Label": "buzz_getFormCsrfToken",
+        "Url_Pattern": "\/buzz\/getFormCsrfToken"
+    },
+    {
+        "State_Name": "buzz_add_new_video",
+        "Label": "buzz_addNewVideo",
+        "Url_Pattern": "\/buzz\/addNewVideo"
+    },
+    {
+        "State_Name": "buzz_view_post",
+        "Label": "buzz_viewPost",
+        "Url_Pattern": "\/buzz\/viewPost"
+    },
+    {
+        "State_Name": "buzz_view_share",
+        "Label": "buzz_viewShare",
+        "Url_Pattern": "\/buzz\/viewShare"
+    },
+    {
+        "State_Name": "buzz_view_liked_employees",
+        "Label": "buzz_viewLikedEmployees",
+        "Url_Pattern": "\/buzz\/viewLikedEmployees"
+    },
+    {
+        "State_Name": "buzz_add_new_post",
+        "Label": "buzz_addNewPost",
+        "Url_Pattern": "\/buzz\/addNewPost"
+    },
+    {
+        "State_Name": "buzz_add_new_comment",
+        "Label": "buzz_addNewComment",
+        "Url_Pattern": "\/buzz\/addNewComment"
+    },
+    {
+        "State_Name": "buzz_like_on_share",
+        "Label": "buzz_likeOnShare",
+        "Url_Pattern": "\/buzz\/likeOnShare"
+    },
+    {
+        "State_Name": "buzz_comment_on_share",
+        "Label": "buzz_commentOnShare",
+        "Url_Pattern": "\/buzz\/commentOnShare"
+    },
+    {
+        "State_Name": "buzz_share_a_post",
+        "Label": "buzz_shareAPost",
+        "Url_Pattern": "\/buzz\/shareAPost"
+    },
+    {
+        "State_Name": "buzz_like_on_comment",
+        "Label": "buzz_likeOnComment",
+        "Url_Pattern": "\/buzz\/likeOnComment"
+    },
+    {
+        "State_Name": "buzz_delete_share",
+        "Label": "buzz_deleteShare",
+        "Url_Pattern": "\/buzz\/deleteShare"
+    },
+    {
+        "State_Name": "buzz_edit_share",
+        "Label": "buzz_editShare",
+        "Url_Pattern": "\/buzz\/editShare"
+    },
+    {
+        "State_Name": "buzz_delete_comment",
+        "Label": "buzz_deleteComment",
+        "Url_Pattern": "\/buzz\/deleteComment"
+    },
+    {
+        "State_Name": "buzz_edit_comment",
+        "Label": "buzz_editComment",
+        "Url_Pattern": "\/buzz\/editComment"
+    },
+    {
+        "State_Name": "buzz_load_next_shares",
+        "Label": "buzz_loadNextShares",
+        "Url_Pattern": "\/buzz\/loadNextShares"
+    },
+    {
+        "State_Name": "buzz_get_liked_employee_list",
+        "Label": "buzz_getLikedEmployeeList",
+        "Url_Pattern": "\/buzz\/getLikedEmployeeList"
+    },
+    {
+        "State_Name": "buzz_get_updated_posts",
+        "Label": "buzz_getUpdatedPosts",
+        "Url_Pattern": "\/buzz\/getUpdatedPosts"
+    },
+    {
+        "State_Name": "buzz_upload_image",
+        "Label": "buzz_uploadImage",
+        "Url_Pattern": "\/buzz\/uploadImage"
+    },
+    {
+        "State_Name": "buzz_view_statistics",
+        "Label": "buzz_viewStatistics",
+        "Url_Pattern": "\/buzz\/viewStatistics"
+    },
+    {
+        "State_Name": "buzz_get_shared_employee_list",
+        "Label": "buzz_getSharedEmployeeList",
+        "Url_Pattern": "\/buzz\/getSharedEmployeeList"
+    },
+    {
+        "State_Name": "buzz_log_out",
+        "Label": "buzz_logOut",
+        "Url_Pattern": "\/buzz\/logOut"
+    },
+    {
+        "State_Name": "buzz_load_more_profile",
+        "Label": "buzz_loadMoreProfile",
+        "Url_Pattern": "\/buzz\/loadMoreProfile"
+    },
+    {
+        "State_Name": "buzz_refresh_profile",
+        "Label": "buzz_refreshProfile",
+        "Url_Pattern": "\/buzz\/refreshProfile"
+    },
+    {
+        "State_Name": "org_chart_save_config_reporting_method",
+        "Label": "orgChart_saveConfigReportingMethod",
+        "Url_Pattern": "\/orgChart\/saveConfigReportingMethod"
+    },
+    {
+        "State_Name": "org_chart_save_position_hierarchy",
+        "Label": "orgChart_savePositionHierarchy",
+        "Url_Pattern": "\/orgChart\/savePositionHierarchy"
+    },
+    {
+        "State_Name": "org_chart_remove_position_hierarchy",
+        "Label": "orgChart_removePositionHierarchy",
+        "Url_Pattern": "\/orgChart\/removePositionHierarchy"
+    },
+    {
+        "State_Name": "org_chart_view_photo",
+        "Label": "orgChart_viewPhoto",
+        "Url_Pattern": "\/orgChart\/viewPhoto"
+    },
+    {
+        "State_Name": "directory_view_directory_default",
+        "Label": "directory_viewDirectory",
+        "Url_Pattern": "\/directory\/viewDirectory\/*"
+    },
+    {
+        "State_Name": "directory_viewDirectoryPhoto_default",
+        "Label": "directory_viewDirectoryPhoto",
+        "Url_Pattern": "\/directory\/viewDirectoryPhoto\/*"
+    },
+    {
+        "State_Name": "directory_viewMobileDirectoryPhoto",
+        "Label": "directory_viewMobileDirectoryPhoto",
+        "Url_Pattern": "\/directory\/viewMobileDirectoryPhoto"
+    },
+    {
+        "State_Name": "admin_change_user_password",
+        "Label": "admin_changeUserPassword",
+        "Url_Pattern": "\/admin\/changeUserPassword"
+    },
+    {
+        "State_Name": "asset_view_assets_default",
+        "Label": "asset_viewAssets",
+        "Url_Pattern": "\/asset\/viewAssets\/*"
+    },
+    {
+        "State_Name": "asset_delete_asset",
+        "Label": "asset_deleteAsset",
+        "Url_Pattern": "\/asset\/deleteAsset"
+    },
+    {
+        "State_Name": "asset_add_asset_default",
+        "Label": "asset_addAsset",
+        "Url_Pattern": "\/asset\/addAsset\/*"
+    },
+    {
+        "State_Name": "asset_export_asset_default",
+        "Label": "asset_exportAssetsCsv",
+        "Url_Pattern": "\/asset\/exportAssetsCsv\/*"
+    },
+    {
+        "State_Name": "asset_change_asset_status",
+        "Label": "asset_changeAssetStatus",
+        "Url_Pattern": "\/asset\/changeAssetStatus"
+    },
+    {
+        "State_Name": "asset_view_photograph_default",
+        "Label": "asset_viewPhotograph",
+        "Url_Pattern": "\/asset\/viewPhotograph\/*"
+    },
+    {
+        "State_Name": "asset_add_asset_picture",
+        "Label": "asset_addAssetPicture",
+        "Url_Pattern": "\/asset\/addAssetPicture"
+    },
+    {
+        "State_Name": "asset_add_asset_attachment",
+        "Label": "asset_addAssetAttachment",
+        "Url_Pattern": "\/asset\/addAssetAttachment"
+    },
+    {
+        "State_Name": "asset_delete_assignment",
+        "Label": "asset_deleteAssignment",
+        "Url_Pattern": "\/asset\/deleteAssignment"
+    },
+    {
+        "State_Name": "asset_view_attachment_default",
+        "Label": "asset_viewAttachment",
+        "Url_Pattern": "\/asset\/viewAttachment\/*"
+    },
+    {
+        "State_Name": "asset_get_asset_attachment",
+        "Label": "asset_getAssetAttachment",
+        "Url_Pattern": "\/asset\/getAssetAttachment"
+    },
+    {
+        "State_Name": "asset_delete_asset_attachment",
+        "Label": "asset_deleteAssetAttachment",
+        "Url_Pattern": "\/asset\/deleteAssetAttachment"
+    },
+    {
+        "State_Name": "asset_view_brands_default",
+        "Label": "asset_viewBrands",
+        "Url_Pattern": "\/asset\/viewBrands\/*"
+    },
+    {
+        "State_Name": "asset_add_brand",
+        "Label": "asset_addBrand",
+        "Url_Pattern": "\/asset\/addBrand"
+    },
+    {
+        "State_Name": "asset_delete_brands",
+        "Label": "asset_deleteBrands",
+        "Url_Pattern": "\/asset\/deleteBrands"
+    },
+    {
+        "State_Name": "asset_view_categories_default",
+        "Label": "asset_viewCategories",
+        "Url_Pattern": "\/asset\/viewCategories\/*"
+    },
+    {
+        "State_Name": "asset_add_category",
+        "Label": "asset_addCategory",
+        "Url_Pattern": "\/asset\/addCategory"
+    },
+    {
+        "State_Name": "asset_delete_category",
+        "Label": "asset_deleteCategory",
+        "Url_Pattern": "\/asset\/deleteCategory"
+    },
+    {
+        "State_Name": "asset_add_vendor",
+        "Label": "asset_addVendor",
+        "Url_Pattern": "\/asset\/addVendor"
+    },
+    {
+        "State_Name": "management_tool_notship_view_scheduled_cron_tasks",
+        "Label": "managementtool_notship_viewScheduledCronTasks",
+        "Url_Pattern": "\/managementtool_notship\/viewScheduledCronTasks"
+    },
+    {
+        "State_Name": "security_authentication_change_password_with_enforce_default",
+        "Label": "securityAuthentication_changePasswordWithEnforce",
+        "Url_Pattern": "\/securityAuthentication\/changePasswordWithEnforce\/*"
+    },
+    {
+        "State_Name": "security_authentication_check_password_change",
+        "Label": "securityAuthentication_checkPasswordChange",
+        "Url_Pattern": "\/securityAuthentication\/checkPasswordChange"
+    },
+    {
+        "State_Name": "security_authentication_login_with_secondary_password",
+        "Label": "securityAuthentication_loginWithSecondaryPassword",
+        "Url_Pattern": "\/securityAuthentication\/loginWithSecondaryPassword"
+    },
+    {
+        "State_Name": "security_authentication_validate_secondary_password",
+        "Label": "securityAuthentication_validateSecondaryPassword",
+        "Url_Pattern": "\/securityAuthentication\/validateSecondaryPassword"
+    },
+    {
+        "State_Name": "security_authentication_reset_password_default",
+        "Label": "securityAuthentication_resetPassword",
+        "Url_Pattern": "\/securityAuthentication\/resetPassword\/*"
+    },
+    {
+        "State_Name": "security_authentication_password_reset",
+        "Label": "securityAuthentication_passwordReset",
+        "Url_Pattern": "\/securityAuthentication\/passwordReset"
+    },
+    {
+        "State_Name": "security_authentication_blocked",
+        "Label": "securityAuthentication_blocked",
+        "Url_Pattern": "\/securityAuthentication\/blocked"
+    },
+    {
+        "State_Name": "admin_download_configuration",
+        "Label": "admin_downloadConfiguration",
+        "Url_Pattern": "\/admin\/downloadConfiguration"
+    },
+    {
+        "State_Name": "admin_open_id_provider",
+        "Label": "admin_openIdProvider",
+        "Url_Pattern": "\/admin\/openIdProvider"
+    },
+    {
+        "State_Name": "security_authentication_request_password_reset_code",
+        "Label": "securityAuthentication_requestPasswordResetCode",
+        "Url_Pattern": "\/securityAuthentication\/requestPasswordResetCode"
+    },
+    {
+        "State_Name": "security_authentication_enter_secondary_password",
+        "Label": "securityAuthentication_enterSecondaryPassword",
+        "Url_Pattern": "\/securityAuthentication\/enterSecondaryPassword"
+    },
+    {
+        "State_Name": "security_authentication_password_reset_code",
+        "Label": "securityAuthentication_passwordResetCode",
+        "Url_Pattern": "\/securityAuthentication\/passwordResetCode"
+    },
+    {
+        "State_Name": "security_authentication_confirm_password_reset",
+        "Label": "securityAuthentication_confirmPasswordReset",
+        "Url_Pattern": "\/securityAuthentication\/confirmPasswordReset"
+    },
+    {
+        "State_Name": "client_build",
+        "Label": "client_build",
+        "Url_Pattern": "\/client\/build"
+    },
+    {
+        "State_Name": "admin_locale_action",
+        "Label": "admin_locale",
+        "Url_Pattern": "\/admin\/locale"
+    },
+    {
+        "State_Name": "admin_themes_default",
+        "Label": "admin_themes",
+        "Url_Pattern": "\/admin\/themes\/*"
+    },
+    {
+        "State_Name": "admin_theme_default",
+        "Label": "admin_theme",
+        "Url_Pattern": "\/admin\/theme\/*"
+    },
+    {
+        "State_Name": "bulk_data_download_template",
+        "Label": "bulkdata_downloadTemplate",
+        "Url_Pattern": "\/bulkdata\/downloadTemplate"
+    },
+    {
+        "State_Name": "bulk_data_new_upload_process",
+        "Label": "bulkdata_newUploadProcess",
+        "Url_Pattern": "\/bulkdata\/newUploadProcess"
+    },
+    {
+        "State_Name": "bulk_data_generate_template",
+        "Label": "bulkdata_generateTemplate",
+        "Url_Pattern": "\/bulkdata\/generateTemplate"
+    },
+    {
+        "State_Name": "bulk_data_download_status",
+        "Label": "bulkdata_downloadStatus",
+        "Url_Pattern": "\/bulkdata\/downloadStatus"
+    },
+    {
+        "State_Name": "bulk_data_process_bulk_data_file",
+        "Label": "bulkdata_processBulkDataFile",
+        "Url_Pattern": "\/bulkdata\/processBulkDataFile"
+    },
+    {
+        "State_Name": "bulk_data_sheet_setup",
+        "Label": "bulkdata_sheetSetup",
+        "Url_Pattern": "\/bulkdata\/sheetSetup"
+    },
+    {
+        "State_Name": "bulk_data_update_column_mapping_per_sheet",
+        "Label": "bulkdata_updateColumnMappingPerSheet",
+        "Url_Pattern": "\/bulkdata\/updateColumnMappingPerSheet"
+    },
+    {
+        "State_Name": "bulk_data_update_custom_tab",
+        "Label": "bulkdata_updateCustomTab",
+        "Url_Pattern": "\/bulkdata\/updateCustomTab"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet",
+        "Label": "bulkdata_updateDataPerSheet",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheet"
+    },
+    {
+        "State_Name": "bulk_data_save_data_per_sheet",
+        "Label": "bulkdata_saveDataPerSheet",
+        "Url_Pattern": "\/bulkdata\/saveDataPerSheet"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_employee",
+        "Label": "bulkdata_updateDataPerSheetEmployee",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetEmployee"
+    },
+    {
+        "State_Name": "bulk_data_save_job_data",
+        "Label": "bulkdata_saveJobData",
+        "Url_Pattern": "\/bulkdata\/saveJobData"
+    },
+    {
+        "State_Name": "bulk_data_job_record_update",
+        "Label": "bulkdata_jobRecordUpdate",
+        "Url_Pattern": "\/bulkdata\/jobRecordUpdate"
+    },
+    {
+        "State_Name": "bulk_data_save_salary_component",
+        "Label": "bulkdata_saveSalaryComponent",
+        "Url_Pattern": "\/bulkdata\/saveSalaryComponent"
+    },
+    {
+        "State_Name": "bulk_data_save_salary_data",
+        "Label": "bulkdata_saveSalaryData",
+        "Url_Pattern": "\/bulkdata\/saveSalaryData"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_supervisor_reporting",
+        "Label": "bulkdata_updateDataPerSheetSupervisorReporting",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetSupervisorReporting"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_employee_education",
+        "Label": "bulkdata_updateDataPerSheetEmployeeEducation",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetEmployeeEducation"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_employee_immigration",
+        "Label": "bulkdata_updateDataPerSheetEmployeeImmigration",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetEmployeeImmigration"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_work_shift_data",
+        "Label": "bulkdata_updateDataPerSheetWorkShiftData",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetWorkShiftData"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_work_week",
+        "Label": "bulkdata_updateDataPerSheetWorkWeek",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetWorkWeek"
+    },
+    {
+        "State_Name": "bulk_data_update_custom_data_per_sheet",
+        "Label": "bulkdata_updateCustomDataPerSheet",
+        "Url_Pattern": "\/bulkdata\/updateCustomDataPerSheet"
+    },
+    {
+        "State_Name": "bulk_data_save_entitlement_data",
+        "Label": "bulkdata_saveEntitlementData",
+        "Url_Pattern": "\/bulkdata\/saveEntitlementData"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_entitlement",
+        "Label": "bulkdata_updateDataPerSheetEntitlement",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetEntitlement"
+    },
+    {
+        "State_Name": "bulk_data_save_holiday_data",
+        "Label": "bulkdata_saveHolidayData",
+        "Url_Pattern": "\/bulkdata\/saveHolidayData"
+    },
+    {
+        "State_Name": "bulk_data_save_custom_field",
+        "Label": "bulkdata_saveCustomField",
+        "Url_Pattern": "\/bulkdata\/saveCustomField"
+    },
+    {
+        "State_Name": "bulk_data_save_custom_field_section",
+        "Label": "bulkdata_saveCustomFieldSection",
+        "Url_Pattern": "\/bulkdata\/saveCustomFieldSection"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_public_holiday",
+        "Label": "bulkdata_updateDataPerSheetPublicHoliday",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetPublicHoliday"
+    },
+    {
+        "State_Name": "bulk_data_save_work_week",
+        "Label": "bulkdata_saveWorkWeek",
+        "Url_Pattern": "\/bulkdata\/saveWorkWeek"
+    },
+    {
+        "State_Name": "bulk_data_save_location_data",
+        "Label": "bulkdata_saveLocationData",
+        "Url_Pattern": "\/bulkdata\/saveLocationData"
+    },
+    {
+        "State_Name": "bulk_data_save_user_data",
+        "Label": "bulkdata_saveUserData",
+        "Url_Pattern": "\/bulkdata\/saveUserData"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_system_user",
+        "Label": "bulkdata_updateDataPerSheetSystemUser",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetSystemUser"
+    },
+    {
+        "State_Name": "bulk_data_system_user_mapping",
+        "Label": "bulkdata_systemUserMapping",
+        "Url_Pattern": "\/bulkdata\/systemUserMapping"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_employee_termination",
+        "Label": "bulkdata_updateDataPerSheetEmployeeTermination",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetEmployeeTermination"
+    },
+    {
+        "State_Name": "bulk_data_save_employee_termination_data_per_sheet",
+        "Label": "bulkdata_saveEmployeeTerminationDataPerSheet",
+        "Url_Pattern": "\/bulkdata\/saveEmployeeTerminationDataPerSheet"
+    },
+    {
+        "State_Name": "bulk_data_employee_terminate",
+        "Label": "bulkdata_employeeTerminate",
+        "Url_Pattern": "\/bulkdata\/employeeTerminate"
+    },
+    {
+        "State_Name": "bulk_data_save_work_experience_data",
+        "Label": "bulkdata_saveWorkExperienceData",
+        "Url_Pattern": "\/bulkdata\/saveWorkExperienceData"
+    },
+    {
+        "State_Name": "bulk_data_save_immigration",
+        "Label": "bulkdata_saveImmigration",
+        "Url_Pattern": "\/bulkdata\/saveImmigration"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_emergency_contact",
+        "Label": "bulkdata_updateDataPerSheetEmergencyContact",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetEmergencyContact"
+    },
+    {
+        "State_Name": "bulk_data_save_emergency_contact_data",
+        "Label": "bulkdata_saveEmergencyContactData",
+        "Url_Pattern": "\/bulkdata\/saveEmergencyContactData"
+    },
+    {
+        "State_Name": "bulk_data_save_dependent_data",
+        "Label": "bulkdata_saveDependentData",
+        "Url_Pattern": "\/bulkdata\/saveDependentData"
+    },
+    {
+        "State_Name": "bulk_data_save_data_for_supervisor_reporting",
+        "Label": "bulkdata_saveDataForSupervisorReporting",
+        "Url_Pattern": "\/bulkdata\/saveDataForSupervisorReporting"
+    },
+    {
+        "State_Name": "bulk_data_save_work_shift_data",
+        "Label": "bulkdata_saveWorkShiftData",
+        "Url_Pattern": "\/bulkdata\/saveWorkShiftData"
+    },
+    {
+        "State_Name": "bulk_data_save_employee_data",
+        "Label": "bulkdata_saveEmployeeData",
+        "Url_Pattern": "\/bulkdata\/saveEmployeeData"
+    },
+    {
+        "State_Name": "bulk_data_cancel_upload_process",
+        "Label": "bulkdata_cancelUploadProcess",
+        "Url_Pattern": "\/bulkdata\/cancelUploadProcess"
+    },
+    {
+        "State_Name": "bulk_data_skip_sheet",
+        "Label": "bulkdata_skipSheet",
+        "Url_Pattern": "\/bulkdata\/skipSheet"
+    },
+    {
+        "State_Name": "bulk_data_update_master_data_per_sheet",
+        "Label": "bulkdata_updateMasterDataPerSheet",
+        "Url_Pattern": "\/bulkdata\/updateMasterDataPerSheet"
+    },
+    {
+        "State_Name": "bulk_data_upload_to_database",
+        "Label": "bulkdata_uploadToDatabase",
+        "Url_Pattern": "\/bulkdata\/uploadToDatabase"
+    },
+    {
+        "State_Name": "bulk_data_update_data_per_sheet_job",
+        "Label": "bulkdata_updateDataPerSheetJob",
+        "Url_Pattern": "\/bulkdata\/updateDataPerSheetJob"
+    },
+    {
+        "State_Name": "admin_get_non_core_css_default",
+        "Label": "admin_getNonCoreCSS",
+        "Url_Pattern": "\/admin\/getNonCoreCSS\/*"
+    },
+    {
+        "State_Name": "admin_login_preview",
+        "Label": "admin_loginPreview",
+        "Url_Pattern": "\/admin\/loginPreview"
+    },
+    {
+        "State_Name": "pim_view_attachment_new_tab_default",
+        "Label": "pim_viewAttachmentNewTab",
+        "Url_Pattern": "\/pim\/viewAttachmentNewTab\/*"
+    },
+    {
+        "State_Name": "time_view_my_timesheet_default",
+        "Label": "time_viewMyTimesheet",
+        "Url_Pattern": "\/time\/viewMyTimesheet\/*"
+    },
+    {
+        "State_Name": "questionnaire_update_section",
+        "Label": "questionnaire_updateSection",
+        "Url_Pattern": "\/questionnaire\/updateSection"
+    },
+    {
+        "State_Name": "questionnaire_update_question_form_order_json",
+        "Label": "questionnaire_updateQuestionFormOrderJson",
+        "Url_Pattern": "\/questionnaire\/updateQuestionFormOrderJson"
+    },
+    {
+        "State_Name": "questionnaire_is_unique_question_form_section_json",
+        "Label": "questionnaire_isUniqueQuestionFormSectionJson",
+        "Url_Pattern": "\/questionnaire\/isUniqueQuestionFormSectionJson"
+    },
+    {
+        "State_Name": "performance_delete_appraisal_section",
+        "Label": "performance_deleteAppraisalSection",
+        "Url_Pattern": "\/performance\/deleteAppraisalSection"
+    },
+    {
+        "State_Name": "performance_delete_appraisal_form_question",
+        "Label": "performance_deleteAppraisalFormQuestion",
+        "Url_Pattern": "\/performance\/deleteAppraisalFormQuestion"
+    },
+    {
+        "State_Name": "performance_preview_appraisal_question_form_default",
+        "Label": "performance_previewAppraisalQuestionForm",
+        "Url_Pattern": "\/performance\/previewAppraisalQuestionForm\/*"
+    },
+    {
+        "State_Name": "performance_preview_vacancy_question_form",
+        "Label": "performance_previewVacancyQuestionForm",
+        "Url_Pattern": "\/performance\/previewVacancyQuestionForm"
+    },
+    {
+        "State_Name": "performance_view_employee_photo_default",
+        "Label": "performance_viewEmployeePhoto",
+        "Url_Pattern": "\/performance\/viewEmployeePhoto\/*"
+    },
+    {
+        "State_Name": "performance_employee_appraisal_competencies_default",
+        "Label": "performance_employeeAppraisalCompetencies",
+        "Url_Pattern": "\/performance\/employeeAppraisalCompetencies\/*"
+    },
+    {
+        "State_Name": "performance_delete_appraisal_employee_competency",
+        "Label": "performance_deleteAppraisalEmployeeCompetency",
+        "Url_Pattern": "\/performance\/deleteAppraisalEmployeeCompetency\/*"
+    },
+    {
+        "State_Name": "performance_delete_performance_appraisal_question",
+        "Label": "performance_deletePerformanceAppraisalQuestion",
+        "Url_Pattern": "\/performance\/deletePerformanceAppraisalQuestion\/*"
+    },
+    {
+        "State_Name": "performance_view_appraisal_question_list_default",
+        "Label": "performance_viewAppraisalQuestionList",
+        "Url_Pattern": "\/performance\/viewAppraisalQuestionList\/*"
+    },
+    {
+        "State_Name": "performance_add_employee_goal_legacy_default",
+        "Label": "performance_addEmployeeGoalLegacy",
+        "Url_Pattern": "\/performance\/addEmployeeGoalLegacy\/*"
+    },
+    {
+        "State_Name": "performance_default_view_default",
+        "Label": "performance_defaultView",
+        "Url_Pattern": "\/performance\/defaultView\/*"
+    },
+    {
+        "State_Name": "performance_save_default_view_default",
+        "Label": "performance_saveDefaultView",
+        "Url_Pattern": "\/performance\/saveDefaultView\/*"
+    },
+    {
+        "State_Name": "performance_reject_review_default",
+        "Label": "performance_rejectreview",
+        "Url_Pattern": "\/performance\/rejectreview\/*"
+    },
+    {
+        "State_Name": "performance_read_review",
+        "Label": "performance_readreview",
+        "Url_Pattern": "\/performance\/readreview\/*"
+    },
+    {
+        "State_Name": "performance_main_review_base",
+        "Label": "performance_mainReviewBase",
+        "Url_Pattern": "\/performance\/mainReviewBase"
+    },
+    {
+        "State_Name": "performance_save_appraisal_comment",
+        "Label": "performance_saveAppraisalComment",
+        "Url_Pattern": "\/performance\/saveAppraisalComment"
+    },
+    {
+        "State_Name": "performance_get_signed_final_review_default",
+        "Label": "performance_getSignedFinalReview",
+        "Url_Pattern": "\/performance\/getSignedFinalReview\/*"
+    },
+    {
+        "State_Name": "performance_signFinalReviewMailSender",
+        "Label": "performance_signFinalReviewMailSender",
+        "Url_Pattern": "\/performance\/signFinalReviewMailSender"
+    },
+    {
+        "State_Name": "performance_get_acknowledged_final_review_default",
+        "Label": "performance_getAcknowledgedFinalReview",
+        "Url_Pattern": "\/performance\/getAcknowledgedFinalReview\/*"
+    },
+    {
+        "State_Name": "performance_exportToPdf_",
+        "Label": "performance_exportToPdf",
+        "Url_Pattern": "\/performance\/exportToPdf"
+    },
+    {
+        "State_Name": "performance_view_my_appraisal_list",
+        "Label": "performance_viewMyAppraisalList",
+        "Url_Pattern": "\/performance\/viewMyAppraisalList"
+    },
+    {
+        "State_Name": "performance_my_goals_legacy",
+        "Label": "performance_myGoalsLegacy",
+        "Url_Pattern": "\/performance\/myGoalsLegacy"
+    },
+    {
+        "State_Name": "performance_sign_digital_signature_default",
+        "Label": "performance_signDigitalSignature",
+        "Url_Pattern": "\/performance\/signDigitalSignature\/*"
+    },
+    {
+        "State_Name": "core_save_acknowledgement_status",
+        "Label": "core_saveAcknowledgementStatus",
+        "Url_Pattern": "\/core\/saveAcknowledgementStatus"
+    },
+    {
+        "State_Name": "digital_signing_loading_ajax",
+        "Label": "digitalSigning_loading",
+        "Url_Pattern": "\/digitalSigning\/loading"
+    },
+    {
+        "State_Name": "mobile_auth_mobile_system_login_check",
+        "Label": "mobileAuth_mobileSystemLoginCheck",
+        "Url_Pattern": "\/mobileAuth\/mobileSystemLoginCheck"
+    },
+    {
+        "State_Name": "core_mobile_mobile_auth",
+        "Label": "coreMobile_mobileLogin",
+        "Url_Pattern": "\/coreMobile\/mobileLogin"
+    },
+    {
+        "State_Name": "core_mobile_validate_credentials",
+        "Label": "mobileAuth_validateCredentials",
+        "Url_Pattern": "\/coreMobile\/validateCredentials"
+    },
+    {
+        "State_Name": "mobile_dashboard_dashboard",
+        "Label": "mobileDashboard_dashboard",
+        "Url_Pattern": "\/mobileDashboard\/dashboard"
+    },
+    {
+        "State_Name": "dashboard_baseLegend",
+        "Label": "dashboard_baseLegend",
+        "Url_Pattern": "\/dashboard\/baseLegend"
+    },
+    {
+        "State_Name": "dashboard_employeeDistribution",
+        "Label": "dashboard_employeeDistribution",
+        "Url_Pattern": "\/dashboard\/employeeDistribution"
+    },
+    {
+        "State_Name": "dashboard_leaveGraph",
+        "Label": "dashboard_leaveGraph",
+        "Url_Pattern": "\/dashboard\/leaveGraph"
+    },
+    {
+        "State_Name": "mobileAttendance_punchInMobile",
+        "Label": "mobileAttendance_punchInMobile",
+        "Url_Pattern": "\/mobileAttendance\/punchInMobile"
+    },
+    {
+        "State_Name": "mobileAttendance_punchOutMobile",
+        "Label": "mobileAttendance_punchOutMobile",
+        "Url_Pattern": "\/mobileAttendance\/punchOutMobile"
+    },
+    {
+        "State_Name": "mobileAttendance_viewMobileAttendanceRecord",
+        "Label": "mobileAttendance_viewMobileAttendanceRecord",
+        "Url_Pattern": "\/mobileAttendance\/viewMobileAttendanceRecord"
+    },
+    {
+        "State_Name": "mobileAttendance_viewMobileEmployeeAttendanceRecords",
+        "Label": "mobileAttendance_viewMobileEmployeeAttendanceRecords",
+        "Url_Pattern": "\/mobileAttendance\/viewMobileEmployeeAttendanceRecords"
+    },
+    {
+        "State_Name": "mobileAuth_logout",
+        "Label": "mobileAuth_logout",
+        "Url_Pattern": "\/mobileAuth\/logout"
+    },
+    {
+        "State_Name": "mobileDashboard_dashboard",
+        "Label": "mobileDashboard_dashboard",
+        "Url_Pattern": "\/mobileDashboard\/dashboard"
+    },
+    {
+        "State_Name": "mobileDashboard_viewNewsOnMobile",
+        "Label": "mobileDashboard_viewNewsOnMobile",
+        "Url_Pattern": "\/mobileDashboard\/viewNewsOnMobile"
+    },
+    {
+        "State_Name": "mobileLeave_getEmployeeLeaveList",
+        "Label": "mobileLeave_getEmployeeLeaveList",
+        "Url_Pattern": "\/mobileLeave\/getEmployeeLeaveList"
+    },
+    {
+        "State_Name": "mobileLeave_getLeaveStatus",
+        "Label": "mobileLeave_getLeaveStatus",
+        "Url_Pattern": "\/mobileLeave\/getLeaveStatus"
+    },
+    {
+        "State_Name": "mobileLeave_mobileApplyLeave",
+        "Label": "mobileLeave_mobileApplyLeave",
+        "Url_Pattern": "\/mobileLeave\/mobileApplyLeave"
+    },
+    {
+        "State_Name": "mobileLeave_mobileAssignLeave",
+        "Label": "mobileLeave_mobileAssignLeave",
+        "Url_Pattern": "\/mobileLeave\/mobileAssignLeave"
+    },
+    {
+        "State_Name": "mobileLeave_mobileChangeLeaveRequestStatus",
+        "Label": "mobileLeave_mobileChangeLeaveRequestStatus",
+        "Url_Pattern": "\/mobileLeave\/mobileChangeLeaveRequestStatus"
+    },
+    {
+        "State_Name": "mobileLeave_mobileChangeLeaveStatus",
+        "Label": "mobileLeave_mobileChangeLeaveStatus",
+        "Url_Pattern": "\/mobileLeave\/mobileChangeLeaveStatus"
+    },
+    {
+        "State_Name": "mobileLeave_mobileViewEmployeeLeaveList",
+        "Label": "mobileLeave_mobileViewEmployeeLeaveList",
+        "Url_Pattern": "\/mobileLeave\/mobileViewEmployeeLeaveList"
+    },
+    {
+        "State_Name": "mobileLeave_mobileViewLeaveList",
+        "Label": "mobileLeave_mobileViewLeaveList",
+        "Url_Pattern": "\/mobileLeave\/mobileViewLeaveList"
+    },
+    {
+        "State_Name": "mobileLeave__update_comment_default",
+        "Label": "mobileLeave_mobileUpdateComment",
+        "Url_Pattern": "\/mobileLeave\/mobileUpdateComment\/*"
+    },
+    {
+        "State_Name": "mobileLeave_get_leave_type_country_based_ajax_default",
+        "Label": "mobileLeave_getLeaveTypeAjaxCountryBased",
+        "Url_Pattern": "\/mobileLeave\/getLeaveTypeAjaxCountryBased\/*"
+    },
+    {
+        "State_Name": "mobileLeave_get_holiday_ajax_country_based_default",
+        "Label": "mobileLeave_getHolidayAjaxCountryBased",
+        "Url_Pattern": "\/mobileLeave\/getHolidayAjaxCountryBased\/*"
+    },
+    {
+        "State_Name": "mobileLeave_get_work_week_ajax_country_based_default",
+        "Label": "mobileLeave_getWorkWeekAjaxCountryBased",
+        "Url_Pattern": "\/mobileLeave\/getWorkWeekAjaxCountryBased\/*"
+    },
+    {
+        "State_Name": "mobilePim_getEmployeeListData",
+        "Label": "mobilePim_getEmployeeListData",
+        "Url_Pattern": "\/mobilePim\/getEmployeeListData"
+    },
+    {
+        "State_Name": "mobilePim_viewMobileEmployeeList",
+        "Label": "mobilePim_viewMobileEmployeeList",
+        "Url_Pattern": "\/mobilePim\/viewMobileEmployeeList"
+    },
+    {
+        "State_Name": "mobileTime_deleteTimeSheetItems",
+        "Label": "mobileTime_deleteTimeSheetItems",
+        "Url_Pattern": "\/mobileTime\/deleteTimeSheetItems"
+    },
+    {
+        "State_Name": "mobileTime_getDailyTimeSheetItems",
+        "Label": "mobileTime_getDailyTimeSheetItems",
+        "Url_Pattern": "\/mobileTime\/getDailyTimeSheetItems"
+    },
+    {
+        "State_Name": "mobileTime_getDetailedWeeklyTimeSheet",
+        "Label": "mobileTime_getDetailedWeeklyTimeSheet",
+        "Url_Pattern": "\/mobileTime\/getDetailedWeeklyTimeSheet"
+    },
+    {
+        "State_Name": "mobileTime_getMobilePendingTimeSheets",
+        "Label": "mobileTime_getMobilePendingTimeSheets",
+        "Url_Pattern": "\/mobileTime\/getMobilePendingTimeSheets"
+    },
+    {
+        "State_Name": "mobileTime_getWeeklyTimeSheet",
+        "Label": "mobileTime_getWeeklyTimeSheet",
+        "Url_Pattern": "\/mobileTime\/getWeeklyTimeSheet"
+    },
+    {
+        "State_Name": "mobileTime_mobileChangeState",
+        "Label": "mobileTime_mobileChangeState",
+        "Url_Pattern": "\/mobileTime\/mobileChangeState"
+    },
+    {
+        "State_Name": "mobileTime_mobileSaveTimesheetItem",
+        "Label": "mobileTime_mobileSaveTimesheetItem",
+        "Url_Pattern": "\/mobileTime\/mobileSaveTimesheetItem"
+    },
+    {
+        "State_Name": "mobileTime_viewMobileEmployeeTimeSheet",
+        "Label": "mobileTime_viewMobileEmployeeTimeSheet",
+        "Url_Pattern": "\/mobileTime\/viewMobileEmployeeTimeSheet"
+    },
+    {
+        "State_Name": "mobileTime_viewMobileTimeSheet",
+        "Label": "mobileTime_viewMobileTimeSheet",
+        "Url_Pattern": "\/mobileTime\/viewMobileTimeSheet\/*"
+    },
+    {
+        "State_Name": "mobilePim_editProfilePicture",
+        "Label": "mobilePim_editProfilePicture",
+        "Url_Pattern": "\/mobilePim\/editProfilePicture\/*"
+    },
+    {
+        "State_Name": "mobilePim_mobileViewPersonDetails",
+        "Label": "mobilePim_mobileViewPersonDetails",
+        "Url_Pattern": "\/mobilePim\/mobileViewPersonDetails\/*"
+    },
+    {
+        "State_Name": "mobilePim_saveContactDetails",
+        "Label": "mobilePim_saveContactDetails",
+        "Url_Pattern": "\/mobilePim\/saveContactDetails\/*"
+    },
+    {
+        "State_Name": "mobilePim_saveJobHistory",
+        "Label": "mobilePim_saveJobHistory",
+        "Url_Pattern": "\/mobilePim\/saveJobHistory\/*"
+    },
+    {
+        "State_Name": "mobilePim_savePersonDetails",
+        "Label": "mobilePim_savePersonDetails",
+        "Url_Pattern": "\/mobilePim\/savePersonDetails\/*"
+    },
+    {
+        "State_Name": "pim_activateEmployement",
+        "Label": "pim_activateEmployement",
+        "Url_Pattern": "\/pim\/activateEmployement\/*"
+    },
+    {
+        "State_Name": "leave_view_leave_request_attachment_default",
+        "Label": "leave_viewLeaveRequestAttachment",
+        "Url_Pattern": "\/leave\/viewLeaveRequestAttachment\/*"
+    },
+    {
+        "State_Name": "client_app",
+        "Label": "client_angular",
+        "Url_Pattern": "\/client\/"
+    },
+    {
+        "State_Name": "admin_esb",
+        "Label": "admin_esb",
+        "Url_Pattern": "\/admin\/esb\/*"
+    },
+    {
+        "State_Name": "admin_rabbitMQ",
+        "Label": "admin_viewRabbitMQTask",
+        "Url_Pattern": "\/admin\/viewRabbitMQTask\/*"
+    },
+    {
+        "State_Name": "admin_employeeDataExportConfiguration",
+        "Label": "admin_employeeDataExportConfiguration",
+        "Url_Pattern": "\/admin\/employeeDataExportConfiguration\/*"
+    },
+    {
+        "State_Name": "manage_data_employee_information_report",
+        "Label": "pim_manageDataEmployeeInformationReport",
+        "Url_Pattern": "\/pim\/manageDataEmployeeInformationReport\/*"
+    },
+    {
+        "State_Name": "employee_data_export_coonfiguration",
+        "Label": "admin_employeeDataExportConfiguration",
+        "Url_Pattern": "\/admin\/employeeDataExportConfiguration\/*"
+    },
+    {
+        "State_Name": "get_logged_in_account",
+        "Label": "core_getLoggedInAccount",
+        "Url_Pattern": "\/core\/getLoggedInAccount"
+    },
+    {
+        "State_Name": "performance_multipleview_download",
+        "Label": "performance_downloadreview",
+        "Url_Pattern": "\/performance\/downloadreview\/*"
+    }
+]
