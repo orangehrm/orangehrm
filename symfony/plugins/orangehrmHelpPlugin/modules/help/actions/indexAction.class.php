@@ -27,8 +27,7 @@ class indexAction extends BaseHelpAction
     }
 
     public function execute($request) {
-        if($this->getHelpService()->isValidUrl() || true) {
-
+        if($this->getHelpService()->isValidUrl()) {
             try{
                 $label = $request->getParameter('label');
                 $redirectUrl = $this->getHelpService()->getRedirectUrl($label);
