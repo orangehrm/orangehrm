@@ -91,10 +91,13 @@ class RequestParams {
      * get post parameters
      *
      * @param string $paramName
-     * @return string
+     * @return string|null
      */
     public function getPostParam($paramName)
     {
+        if(!isset($this->postParameters[$paramName])) {
+            return null;
+        }
         return $this->postParameters[$paramName];
     }
 

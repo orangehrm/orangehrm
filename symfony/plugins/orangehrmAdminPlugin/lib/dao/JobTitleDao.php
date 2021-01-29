@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,60 +16,96 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class JobTitleDao extends BaseDao {
 
-    public function getJobTitleList($sortField='jobTitleName', $sortOrder='ASC', $activeOnly = true, $limit = null, $offset = null) {
+use OrangeHRM\Entity\JobSpecificationAttachment;
+use OrangeHRM\Entity\JobTitle;
+use OrangeHRM\ORM\Doctrine;
 
+class JobTitleDao
+{
+
+    public function getJobTitleList(
+        $sortField = 'jobTitleName',
+        $sortOrder = 'ASC',
+        $activeOnly = true,
+        $limit = null,
+        $offset = null
+    ) {
         $sortField = ($sortField == "") ? 'jobTitleName' : $sortField;
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
 
         try {
-            $q = Doctrine_Query :: create()
-                            ->from('JobTitle');
+            $q = Doctrine::getEntityManager()->getRepository(
+                JobTitle::class
+            )->createQueryBuilder(
+                'jt'
+            );
             if ($activeOnly == true) {
-                $q->addWhere('isDeleted = ?', JobTitle::ACTIVE);
+                $q->andWhere('jt.isDeleted = :isDeleted');
+                $q->setParameter('isDeleted', JobTitle::ACTIVE);
             }
-            $q->orderBy($sortField . ' ' . $sortOrder);
+            $q->addOrderBy($sortField, $sortOrder);
             if (!empty($limit)) {
-                $q->offset($offset)
-                  ->limit($limit);
+                $q->setFirstResult($offset)
+                    ->setMaxResults($limit);
             }
-            return $q->execute();
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function deleteJobTitle($toBeDeletedJobTitleIds) {
-
+    public function deleteJobTitle($toBeDeletedJobTitleIds)
+    {
         try {
-            $q = Doctrine_Query :: create()
-                            ->update('JobTitle')
-                            ->set('isDeleted', '?', JobTitle::DELETED)
-                            ->whereIn('id', $toBeDeletedJobTitleIds);
-            return $q->execute();
+            $q = Doctrine::getEntityManager()->createQueryBuilder();
+            $q->update(JobTitle::class, 'jt')
+                ->set('jt.isDeleted', JobTitle::DELETED)
+                ->add('where', $q->expr()->in('jt.id', $toBeDeletedJobTitleIds));
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function getJobTitleById($jobTitleId) {
-
+    public function getJobTitleById($jobTitleId)
+    {
         try {
-            return Doctrine::getTable('JobTitle')->find($jobTitleId);
+            return Doctrine::getEntityManager()->getRepository(JobTitle::class)->find(
+                $jobTitleId
+            );
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function getJobSpecAttachmentById($attachId) {
-
+    public function getJobSpecAttachmentById($attachId)
+    {
         try {
-            return Doctrine::getTable('JobSpecificationAttachment')->find($attachId);
+            return Doctrine::getEntityManager()->getRepository(
+                JobSpecificationAttachment::class
+            )->find(
+                $attachId
+            );
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
+    /**
+     * @param JobTitle $jobTitle
+     * @return JobTitle
+     * @throws DaoException
+     */
+    public function saveJobTitle(JobTitle $jobTitle): JobTitle
+    {
+        try {
+            Doctrine::getEntityManager()->persist($jobTitle);
+            Doctrine::getEntityManager()->flush();
+            return $jobTitle;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }
 

@@ -98,6 +98,7 @@ class Request{
      */
     public function isJsonHttpRequest()
     {
-        return $this->getActionRequest()->getContentType() === 'application/json';
+        // 'application/json', 'application/x-json'
+        return $this->getActionRequest()->getContentType() === 'json';
     }
 }

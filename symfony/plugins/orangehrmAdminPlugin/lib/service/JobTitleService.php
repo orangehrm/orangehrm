@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,22 +16,29 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class JobTitleService extends BaseService {
+
+use OrangeHRM\Entity\JobTitle;
+
+class JobTitleService
+{
 
     private $jobTitleDao;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->jobTitleDao = new JobTitleDao();
     }
 
-    public function getJobTitleDao() {
+    public function getJobTitleDao()
+    {
         if (!($this->jobTitleDao instanceof JobTitleDao)) {
             $this->jobTitleDao = new JobTitleDao();
         }
         return $this->jobTitleDao;
     }
 
-    public function setJobTitleDao(JobTitleDao $jobTitleDao) {
+    public function setJobTitleDao(JobTitleDao $jobTitleDao)
+    {
         $this->jobTitleDao = $jobTitleDao;
     }
 
@@ -42,10 +48,16 @@ class JobTitleService extends BaseService {
      *
      * @param string $sortField
      * @param string $sortOrder
-     * @param boolean $activeOnly
+     * @param bool $activeOnly
      * @return JobTitle Doctrine collection
      */
-    public function getJobTitleList($sortField='jobTitleName', $sortOrder='ASC', $activeOnly = true, $limit = null, $offset = null) {
+    public function getJobTitleList(
+        $sortField = 'jobTitleName',
+        $sortOrder = 'ASC',
+        $activeOnly = true,
+        $limit = null,
+        $offset = null
+    ) {
         return $this->getJobTitleDao()->getJobTitleList($sortField, $sortOrder, $activeOnly, $limit, $offset);
     }
 
@@ -55,7 +67,8 @@ class JobTitleService extends BaseService {
      * @param array $toBeDeletedJobTitleIds
      * @return int number of affected rows
      */
-    public function deleteJobTitle($toBeDeletedJobTitleIds) {
+    public function deleteJobTitle($toBeDeletedJobTitleIds)
+    {
         return $this->getJobTitleDao()->deleteJobTitle($toBeDeletedJobTitleIds);
     }
 
@@ -65,7 +78,8 @@ class JobTitleService extends BaseService {
      * @param int $jobTitleId
      * @return JobTitle doctrine object
      */
-    public function getJobTitleById($jobTitleId) {
+    public function getJobTitleById($jobTitleId)
+    {
         return $this->getJobTitleDao()->getJobTitleById($jobTitleId);
     }
 
@@ -75,9 +89,19 @@ class JobTitleService extends BaseService {
      * @param int $attachId
      * @return JobSpecificationAttachment doctrine object
      */
-    public function getJobSpecAttachmentById($attachId) {
+    public function getJobSpecAttachmentById($attachId)
+    {
         return $this->getJobTitleDao()->getJobSpecAttachmentById($attachId);
     }
 
+    /**
+     * @param JobTitle $jobTitle
+     * @return JobTitle
+     * @throws DaoException
+     */
+    public function saveJobTitle(JobTitle $jobTitle): JobTitle
+    {
+        return $this->getJobTitleDao()->saveJobTitle($jobTitle);
+    }
 }
 

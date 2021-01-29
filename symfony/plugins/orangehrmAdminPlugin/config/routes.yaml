@@ -1,0 +1,4 @@
+apiv1_job_title:
+  path: /api/v1/admin/job-title
+  controller: OrangeHRM\Rest\Admin\Controller\JobTitleApiAction::execute
+  methods: [ GET, POST, PUT ]
