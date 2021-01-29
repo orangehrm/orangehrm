@@ -11,7 +11,7 @@
  * @author orangehrm
  */
 
-abstract class baseOAuthAction extends sfAction {
+abstract class baseOAuthAction {
 
     protected $oauthServer = null;
     protected $oauthRequest = null;

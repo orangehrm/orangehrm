@@ -68,7 +68,7 @@ class RequestParams {
      */
     public function getQueryParam($paramName, $default = null) {
 
-        return $this->getRequest()->getActionRequest()->getParameter($paramName, $default);
+        return $this->getRequest()->getActionRequest()->get($paramName, $default);
     }
 
     /**
@@ -76,7 +76,7 @@ class RequestParams {
      */
     public function getUrlParam($paramName) {
 
-       return  $this->getRequest()->getActionRequest()->getParameter($paramName);
+       return  $this->getRequest()->getActionRequest()->get($paramName);
     }
 
     /**
@@ -110,7 +110,7 @@ class RequestParams {
     /**
      * Get JSON content
      *
-     * @return json object
+     * @return string
      */
     public function getContent()
     {
@@ -123,7 +123,7 @@ class RequestParams {
      * @param $value
      */
     public function setParam($name, $value) {
-        $this->getRequest()->getActionRequest()->setParameter($name, $value);
+        $this->getRequest()->getActionRequest()->attributes->set($name, $value);
     }
 
     /**

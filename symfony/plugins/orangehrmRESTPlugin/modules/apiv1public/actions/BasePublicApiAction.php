@@ -17,29 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\PublicApi\ApiDefinitionAPI;
-use Orangehrm\Rest\Http\Request;
+namespace Orangehrm\Rest\Modules\apiv1public\actions;
 
-class ApiDefinitionApiAction extends BasePublicApiAction
+use Orangehrm\Rest\Modules\baseapi\actions\baseRestAction;
+
+abstract class BasePublicApiAction extends baseRestAction
 {
     /**
-     * @var null|ApiDefinitionAPI
+     * Override token verification @ baseRestAction
      */
-    private $apiDefinitionAPI = null;
-
-    protected function init(Request $request)
+    public function preExecute()
     {
-        $this->apiDefinitionAPI = new ApiDefinitionAPI($request);
-    }
-
-    protected function handleGetRequest(Request $request)
-    {
-        return $this->apiDefinitionAPI->getOpenApiDefinition();
-    }
-
-    protected function handlePostRequest(Request $request)
-    {
-        throw new NotImplementedException();
     }
 }

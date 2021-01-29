@@ -6,6 +6,7 @@ symfony/log/
 symfony/web/
 symfony/apps/orangehrm/config/
 symfony/lib/vendor
+symfony/vendor
 apidoc
 symfony/test/api/tests/_output/
 installer/log.txt
