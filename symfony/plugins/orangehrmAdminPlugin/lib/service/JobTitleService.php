@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
 
 class JobTitleService
@@ -102,6 +103,16 @@ class JobTitleService
     public function saveJobTitle(JobTitle $jobTitle): JobTitle
     {
         return $this->getJobTitleDao()->saveJobTitle($jobTitle);
+    }
+
+    /**
+     * @param JobSpecificationAttachment $jobSpecificationAttachment
+     * @return JobSpecificationAttachment
+     * @throws DaoException
+     */
+    public function saveJobSpecificationAttachment(JobSpecificationAttachment $jobSpecificationAttachment
+    ): JobSpecificationAttachment {
+        return $this->getJobTitleDao()->saveJobSpecificationAttachment($jobSpecificationAttachment);
     }
 }
 

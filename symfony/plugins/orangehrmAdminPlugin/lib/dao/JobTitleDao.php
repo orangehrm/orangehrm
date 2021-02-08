@@ -107,5 +107,21 @@ class JobTitleDao
             throw new DaoException($e->getMessage());
         }
     }
+
+    /**
+     * @param JobSpecificationAttachment $jobSpecificationAttachment
+     * @return JobSpecificationAttachment
+     * @throws DaoException
+     */
+    public function saveJobSpecificationAttachment(JobSpecificationAttachment $jobSpecificationAttachment
+    ): JobSpecificationAttachment {
+        try {
+            Doctrine::getEntityManager()->persist($jobSpecificationAttachment);
+            Doctrine::getEntityManager()->flush();
+            return $jobSpecificationAttachment;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }
 

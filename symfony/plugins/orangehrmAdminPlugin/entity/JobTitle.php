@@ -56,12 +56,9 @@ class JobTitle
     private $isDeleted;
 
     /**
-     * @var Collection
+     * @var JobSpecificationAttachment
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\JobSpecificationAttachment", mappedBy="JobTitle")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="jobTitleId")
-     * })
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\JobSpecificationAttachment", mappedBy="jobTitle", cascade={"persist", "remove"})
      */
     private $jobSpecificationAttachment;
 
@@ -90,7 +87,6 @@ class JobTitle
      */
     public function __construct()
     {
-        $this->jobSpecificationAttachment = new ArrayCollection();
         $this->employees = new ArrayCollection();
         $this->kpi = new ArrayCollection();
     }
@@ -176,17 +172,17 @@ class JobTitle
     }
 
     /**
-     * @return Collection
+     * @return JobSpecificationAttachment
      */
-    public function getJobSpecificationAttachment()
+    public function getJobSpecificationAttachment(): JobSpecificationAttachment
     {
         return $this->jobSpecificationAttachment;
     }
 
     /**
-     * @param Collection $jobSpecificationAttachment
+     * @param JobSpecificationAttachment $jobSpecificationAttachment
      */
-    public function setJobSpecificationAttachment($jobSpecificationAttachment)
+    public function setJobSpecificationAttachment(JobSpecificationAttachment $jobSpecificationAttachment)
     {
         $this->jobSpecificationAttachment = $jobSpecificationAttachment;
     }
