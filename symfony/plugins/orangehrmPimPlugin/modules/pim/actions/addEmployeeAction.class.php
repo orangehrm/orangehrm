@@ -30,7 +30,7 @@ class addEmployeeAction extends basePimAction {
             $this->form = $form;
         }
     }
-    
+
      /**
      * Get ConfigService
      * @return ConfigService
@@ -43,11 +43,12 @@ class addEmployeeAction extends basePimAction {
     }
 
     public function execute($request) {
-        $allowedToAddEmployee = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
+        var_dump($request->getParameter('initialActionName'));
+        $allowedToAddEmployee = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE,
                 Employee::STATE_NOT_EXIST, PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);
-        
+
         $this->openIdEnabled = $this->getConfigService()->getOpenIdProviderAdded();
-        
+
         if ($allowedToAddEmployee) {
 
             $this->showBackButton = true;
@@ -86,7 +87,7 @@ class addEmployeeAction extends basePimAction {
                 $photoFile = $request->getFiles();
 
                 //in case if file size exceeds 1MB
-                if($photoFile['photofile']['name'] != "" && ($photoFile['photofile']['size'] == 0 || 
+                if($photoFile['photofile']['name'] != "" && ($photoFile['photofile']['size'] == 0 ||
                         $photoFile['photofile']['size'] > 1000000)) {
                     $this->getUser()->setFlash('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
                     $this->redirect('pim/addEmployee');
@@ -130,7 +131,7 @@ class addEmployeeAction extends basePimAction {
                             unset($_SESSION['addEmployeePost']);
                             $this->form->createUserAccount = $this->createUserAccount;
                             $empNumber = $this->form->save();
-                            
+
                             $this->dispatcher->notify(new sfEvent($this, EmployeeEvents::EMPLOYEE_ADDED,
                                 array('employee' => $this->form->getEmployee(), 'emp_number'=> $empNumber)));
 
@@ -146,11 +147,11 @@ class addEmployeeAction extends basePimAction {
                     $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
                 }
             }
-        } 
+        }
         else {
             $this->credentialMessage = 'Credential Required';
         }
-    } 
+    }
 
 
     private function getUserService() {
