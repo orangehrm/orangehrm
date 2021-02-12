@@ -22,9 +22,5 @@ class viewHelpComponent extends sfComponent
     public function execute($request)
     {
         $this->routeActionName = sfContext::getInstance()->getActionName();
-
-        if(!empty($request->getParameter('initialActionName'))){
-            $this->routeActionName = $request->getParameter('initialActionName');
-        }
     }
 }
