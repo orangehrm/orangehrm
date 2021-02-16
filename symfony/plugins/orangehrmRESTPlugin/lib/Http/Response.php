@@ -23,14 +23,18 @@ class Response{
 
     private $data = null;
     private $rels = null;
+    private $meta = null;
 
     /**
      * Response constructor.
      * @param array $data
+     * @param array $rels
+     * @param array $meta
      */
-    public function __construct($data = array(), $rels = array()){
+    public function __construct($data = [], $rels = [], $meta = []){
         $this->data = $data;
         $this->rels = $rels;
+        $this->meta = $meta;
     }
 
     /**
@@ -41,7 +45,7 @@ class Response{
     }
 
     public function formatData() {
-        $responseFormat = array('data'=>$this->data, 'rels'=>$this->rels);
+        $responseFormat = array('data' => $this->data, 'rels' => $this->rels, 'meta' => $this->meta);
         return json_encode($responseFormat,true);
     }
 

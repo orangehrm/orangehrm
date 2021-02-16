@@ -50,16 +50,21 @@ class JobTitleService
      * @param string $sortField
      * @param string $sortOrder
      * @param bool $activeOnly
+     * @param null $limit
+     * @param null $offset
+     * @param bool $count
      * @return JobTitle Doctrine collection
+     * @throws DaoException
      */
     public function getJobTitleList(
-        $sortField = 'jobTitleName',
+        $sortField = 'jt.jobTitleName',
         $sortOrder = 'ASC',
         $activeOnly = true,
         $limit = null,
-        $offset = null
+        $offset = null,
+        $count = false
     ) {
-        return $this->getJobTitleDao()->getJobTitleList($sortField, $sortOrder, $activeOnly, $limit, $offset);
+        return $this->getJobTitleDao()->getJobTitleList($sortField, $sortOrder, $activeOnly, $limit, $offset, $count);
     }
 
     /**

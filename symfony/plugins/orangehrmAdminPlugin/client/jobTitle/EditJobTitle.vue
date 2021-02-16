@@ -1,7 +1,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Add Job Title</oxd-text>
+      <oxd-text tag="h6">Edit Job Title</oxd-text>
 
       <oxd-divider />
 
@@ -11,7 +11,6 @@
             label="Job Title"
             v-model="jobTitle.title"
             :rules="rules.title"
-            @errors="onError"
           />
         </oxd-form-row>
 
@@ -22,7 +21,6 @@
             placeholder="Type description here"
             v-model="jobTitle.description"
             :rules="rules.description"
-            @errors="onError"
           />
         </oxd-form-row>
 
@@ -33,7 +31,6 @@
             buttonLabel="Browse"
             v-model="jobTitle.specification"
             :rules="rules.specification"
-            @errors="onError"
           />
         </oxd-form-row>
       </oxd-form>
@@ -45,7 +42,6 @@
           placeholder="Add note"
           v-model="jobTitle.note"
           :rules="rules.note"
-          @errors="onError"
         />
       </oxd-form-row>
 
@@ -107,8 +103,7 @@ export default {
             v === "" ||
             "Should be less than 400 characters"
         ]
-      },
-      errors: []
+      }
     };
   },
 
@@ -122,28 +117,56 @@ export default {
     "oxd-input-field": InputField
   },
 
-  methods: {
-    onCancel() {
-      window.location.reload();
-    },
-    onError() {},
-    onSave() {
+  props: {
+    editItem: {}
+  },
+
+  created() {
+    const id = this.editItem.id;
+    if (id) {
       const headers = new Headers();
       headers.append("Content-Type", "application/json");
       headers.append("Accept", "application/json");
-
-      fetch(`${this.global.baseUrl}/api/v1/admin/job-titles`, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(this.jobTitle)
+      fetch(`${this.global.baseUrl}/api/v1/admin/job-titles/${id}`, {
+        method: "GET",
+        headers: headers
       }).then(async res => {
         if (res.status === 200) {
-          this.jobTitle = { ...initialJobTitle };
-          window.location.reload();
+          const response = await res.json();
+          this.jobTitle = response.data;
         } else {
           console.error(res);
         }
       });
+    } else {
+      // window.location.reload();
+    }
+  },
+
+  methods: {
+    onCancel() {
+      window.location.reload();
+    },
+    onSave() {
+      const id = this.editItem.id;
+      if (id) {
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        headers.append("Accept", "application/json");
+
+        fetch(`${this.global.baseUrl}/api/v1/admin/job-titles/${id}`, {
+          method: "PUT",
+          headers: headers,
+          body: JSON.stringify(this.jobTitle)
+        }).then(async res => {
+          if (res.status === 200) {
+            this.jobTitle = { ...initialJobTitle };
+            window.location.reload();
+            // eslint-disable-next-line no-empty
+          } else {
+          }
+        });
+      }
     }
   }
 };

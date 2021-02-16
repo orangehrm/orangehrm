@@ -25,7 +25,7 @@ use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Modules\baseapi\actions\baseRestAction;
 
-class JobTitleApiAction extends baseRestAction
+class JobTitlesApiAction extends baseRestAction
 {
     /**
      * @var null|JobTitleAPI
@@ -46,7 +46,7 @@ class JobTitleApiAction extends baseRestAction
      */
     protected function handleGetRequest(Request $request)
     {
-        return $this->jobTitleAPI->getJobTitle();
+        return $this->jobTitleAPI->getJobTitles();
     }
 
     /**
@@ -55,11 +55,11 @@ class JobTitleApiAction extends baseRestAction
      */
     protected function handlePostRequest(Request $request)
     {
-        throw new NotImplementedException();
+        return $this->jobTitleAPI->saveJobTitle();
     }
 
-    protected function handlePutRequest(Request $request)
+    protected function handleDeleteRequest(Request $request)
     {
-        return $this->jobTitleAPI->saveJobTitle();
+        return $this->jobTitleAPI->deleteJobTitles();
     }
 }

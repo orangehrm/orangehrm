@@ -49,9 +49,9 @@ class JobTitle
     private $note;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="is_deleted", type="integer", length=1)
+     * @ORM\Column(name="is_deleted", type="boolean", nullable=false, options={"default":0})
      */
     private $isDeleted;
 
@@ -156,17 +156,17 @@ class JobTitle
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getIsDeleted(): int
+    public function getIsDeleted(): bool
     {
         return $this->isDeleted;
     }
 
     /**
-     * @param int $isDeleted
+     * @param bool $isDeleted
      */
-    public function setIsDeleted(int $isDeleted)
+    public function setIsDeleted(bool $isDeleted)
     {
         $this->isDeleted = $isDeleted;
     }

@@ -35,10 +35,17 @@ class JobTitleAPI extends EndPoint
     protected $jobTitleService = null;
 
     const PARAMETER_ID = 'id';
+    const PARAMETER_IDS = 'ids';
     const PARAMETER_TITLE = 'title';
     const PARAMETER_DESCRIPTION = 'description';
     const PARAMETER_NOTE = 'note';
     const PARAMETER_SPECIFICATION = 'specification';
+    const PARAMETER_ACTIVE_ONLY = 'activeOnly';
+
+    const PARAMETER_SORT_FIELD = 'sortField';
+    const PARAMETER_SORT_ORDER = 'sortOrder';
+    const PARAMETER_OFFSET = 'offset';
+    const PARAMETER_LIMIT = 'limit';
 
     /**
      * @param JobTitleService $jobTitleService
@@ -61,7 +68,7 @@ class JobTitleAPI extends EndPoint
 
     public function getJobTitle()
     {
-        $id = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         $jobTitle = $this->getJobTitleService()->getJobTitleById($id);
         if (!$jobTitle instanceof JobTitle) {
             throw new RecordNotFoundException('No Record Found');
@@ -69,6 +76,38 @@ class JobTitleAPI extends EndPoint
         return new Response(
             (new JobTitleModel($jobTitle))->toArray()
         );
+    }
+
+    /**
+     * @return Response
+     * @throws RecordNotFoundException
+     */
+    public function getJobTitles()
+    {
+        $sortField = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD, 'jt.jobTitleName');
+        $sortOrder = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_ORDER, 'ASC');
+        $activeOnly = $this->getRequestParams()->getQueryParam(self::PARAMETER_ACTIVE_ONLY, true);
+        $limit = $this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT, 50);
+        $offset = $this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET, 0);
+
+        $count = $this->getJobTitleService()->getJobTitleList(
+            $sortField,
+            $sortOrder,
+            $activeOnly,
+            $limit,
+            $offset,
+            true
+        );
+        if (!($count > 0)) {
+            throw new RecordNotFoundException('No Records Found');
+        }
+
+        $result = [];
+        $jobTitles = $this->getJobTitleService()->getJobTitleList($sortField, $sortOrder, $activeOnly, $limit, $offset);
+        foreach ($jobTitles as $jobTitle) {
+            array_push($result, (new JobTitleModel($jobTitle))->toArray());
+        }
+        return new Response($result, [], ['total' => $count]);
     }
 
     public function saveJobTitle()
@@ -79,6 +118,7 @@ class JobTitleAPI extends EndPoint
             $jobTitleObj = $this->getJobTitleService()->getJobTitleById($params[self::PARAMETER_ID]);
         } else {
             $jobTitleObj = new JobTitle();
+            $jobTitleObj->setIsDeleted(false);
         }
 
         $jobTitleObj->setJobTitleName($params[self::PARAMETER_TITLE]);
@@ -106,6 +146,13 @@ class JobTitleAPI extends EndPoint
         return new Response(
             (new JobTitleModel($jobTitleObj))->toArray()
         );
+    }
+
+    public function deleteJobTitles()
+    {
+        $ids = $this->getRequestParams()->getPostParam(self::PARAMETER_IDS);
+        $this->getJobTitleService()->deleteJobTitle($ids);
+        return new Response($ids);
     }
 
     /**

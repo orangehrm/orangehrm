@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\ORM\Doctrine;
@@ -25,11 +26,12 @@ class JobTitleDao
 {
 
     public function getJobTitleList(
-        $sortField = 'jobTitleName',
+        $sortField = 'jt.jobTitleName',
         $sortOrder = 'ASC',
         $activeOnly = true,
         $limit = null,
-        $offset = null
+        $offset = null,
+        $count = false
     ) {
         $sortField = ($sortField == "") ? 'jobTitleName' : $sortField;
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
@@ -48,6 +50,11 @@ class JobTitleDao
             if (!empty($limit)) {
                 $q->setFirstResult($offset)
                     ->setMaxResults($limit);
+            }
+
+            if ($count) {
+                $paginator = new Paginator($q, true);
+                return count($paginator);
             }
             return $q->getQuery()->execute();
         } catch (Exception $e) {
