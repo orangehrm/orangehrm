@@ -28,17 +28,17 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
         <div class="inner help-inner-row">
             <div class="help-header">
                 <div class="help-column help-header-icon">
-                    <i style="color: black" class="fas fa-archive help-header-icon"></i>
+                    <i style="color: black" class="fas fa-window-maximize help-header-icon"></i>
                 </div>
                 <h2><?php echo __('Getting Started with OrangeHRM'); ?></h2>
             </div>
             <div class="box">
                 <p><?php echo __(
-                        'Learning to get used to a new application can be challenge. Fear not! We at OrangeHRM are committed to help you learn how to use the applications and start managing your HR process as fast as you can.'
+                        'Learning how to use a new application can be challenging. At OrangeHRM, we are committed to providing you with the necessary knowledge and skills required to fully utilize the application thereby allowing you to quickly and efficiently manage your HR processes.'
                     ); ?></p>
                 <br>
                 <p><?php echo __(
-                        'There are plenty of of services available that helps you learn the application.'
+                        'The following information repositories are available to help you understand the application:'
                     ); ?></p>
                 <br>
                 <div style="display: flex;flex-direction: row;justify-content: space-between; margin-top: 20px">
@@ -52,7 +52,7 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                                 ); ?></p>
 
                             <p><?php echo __(
-                                    'OrangeHRM Open Source Help portal comes with articles and tutorials videos allowing you to master the application in no time. Wanna know how to apply for leave or how to submit a timesheet? Simply search in our help portal and you will see all you need to know.'
+                                    'OrangeHRM Open Source Help portal contains helpful articles and tutorial videos allowing you to quickly master the application. Should you wish to know how to apply for leave or how to submit a timesheet? Simply search in our help portal and the relevant articles relating to your search will appear.'
                                 ); ?></p>
                         </div>
                     </div>
@@ -73,7 +73,7 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                                 ); ?></p>
 
                             <p><?php echo __(
-                                    'Need our help to show you around? You can schedule for a demo absolutely free of charge and our support team will personally get in touch with you to help you understand how the application works.'
+                                    'If you require direct help in navigating the system, you can schedule a demo free of charge and our team will personally get in touch with you to help  you understand how the application works.'
                                 ); ?></p>
                         </div>
                     </div>
@@ -94,7 +94,7 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                                 ); ?></p>
 
                             <p><?php echo __(
-                                    'OrangeHRM also offers cloud hosting services for your opensource system. Subscribe to free hosting of your instance and to ensure that your employee information stays secured and always within your range at all times.'
+                                    'Additionally, OrangeHRM can host your Opensource system on our Cloud servers. If you are interested, you may subscribe to free cloud hosting of your instance to ensure that your employee information stays secure and is readily available at all times.'
                                 ); ?></p>
                         </div>
                     </div>
@@ -115,11 +115,11 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                                 ); ?></p>
                             <div style="display: flex">
                             <p><?php echo __(
-                                    'If you experience any issues, please do not hesitate to contact us on'
+                                    'Should you experience any issues, please do not hesitate to contact us on'
                                 ); ?></p>
                                 <p style="color: orange;margin-left: 4px"> ossuport@orangehrm.com</p>
                                 <p style="margin-left: 4px"><?php echo __(
-                                        'We are happy to help you out'
+                                        'We will be delighted to help'
                                     ); ?></p>
 
                             </div>
@@ -137,7 +137,7 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                                 ); ?></p>
                             <div>
                                 <p><?php echo __(
-                                        "Don't forget to check out our mobile app for android and iOS to merge OrangeHRM on the go. To download the app, scan theQR code or click the links to go to Google Playstore or Appstore."
+                                        "We would also like to remind you to check out our mobile app which supports  Android and iOS and enables you to manage your HR needs quickly and securely via your mobile device."
                                     ); ?></p>
                             </div>
                             <div style="margin-left: -8px">
