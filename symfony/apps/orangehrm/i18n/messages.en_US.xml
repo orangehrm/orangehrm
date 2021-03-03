@@ -8148,6 +8148,98 @@
         <source>Failed to Export</source>
         <target>Failed to Export</target>
       </trans-unit>
+      <trans-unit id="2037">
+        <source>Support</source>
+        <target>Support</target>
+      </trans-unit>
+      <trans-unit id="2038">
+        <source>Getting Started with OrangeHRM</source>
+        <target>Getting Started with OrangeHRM</target>
+      </trans-unit>
+      <trans-unit id="2039">
+        <source>Learning to get used to a new application can be challenge. Fear not! We at OrangeHRM are committed to help you learn how to use the applications and start managing your HR process as fast as you can.</source>
+        <target>Learning to get used to a new application can be challenge. Fear not! We at OrangeHRM are committed to help you learn how to use the applications and start managing your HR process as fast as you can.</target>
+      </trans-unit>
+      <trans-unit id="2040">
+        <source>There are plenty of of services available that helps you learn the application.</source>
+        <target>There are plenty of of services available that helps you learn the application.</target>
+      </trans-unit>
+      <trans-unit id="2041">
+        <source>Help Portal</source>
+        <target>Help Portal</target>
+      </trans-unit>
+      <trans-unit id="2042">
+        <source>OrangeHRM Open Source Help portal comes with articles and tutorials videos allowing you to master the application in no time. Wanna know how to apply for leave or how to submit a timesheet? Simply search in our help portal and you will see all you need to know.</source>
+        <target>OrangeHRM Open Source Help portal comes with articles and tutorials videos allowing you to master the application in no time. Wanna know how to apply for leave or how to submit a timesheet? Simply search in our help portal and you will see all you need to know.</target>
+      </trans-unit>
+      <trans-unit id="2043">
+        <source>Free Demo</source>
+        <target>Free Demo</target>
+      </trans-unit>
+      <trans-unit id="2044">
+        <source>Need our help to show you around? You can schedule for a demo absolutely free of charge and our support team will personally get in touch with you to help you understand how the application works.</source>
+        <target>Need our help to show you around? You can schedule for a demo absolutely free of charge and our support team will personally get in touch with you to help you understand how the application works.</target>
+      </trans-unit>
+      <trans-unit id="2045">
+        <source>Free Cloud Hosting</source>
+        <target>Free Cloud Hosting</target>
+      </trans-unit>
+      <trans-unit id="2046">
+        <source>OrangeHRM also offers cloud hosting services for your opensource system. Subscribe to free hosting of your instance and to ensure that your employee information stays secured and always within your range at all times.</source>
+        <target>OrangeHRM also offers cloud hosting services for your opensource system. Subscribe to free hosting of your instance and to ensure that your employee information stays secured and always within your range at all times.</target>
+      </trans-unit>
+      <trans-unit id="2047">
+        <source>Customer Support</source>
+        <target>Customer Support</target>
+      </trans-unit>
+      <trans-unit id="2048">
+        <source>If you experience any issues, please do not hesitate to contact us on</source>
+        <target>If you experience any issues, please do not hesitate to contact us on</target>
+      </trans-unit>
+      <trans-unit id="2049">
+        <source>We are happy to help you out</source>
+        <target>We are happy to help you out</target>
+      </trans-unit>
+      <trans-unit id="2050">
+        <source>Mobile Application</source>
+        <target>Mobile Application</target>
+      </trans-unit>
+      <trans-unit id="2051">
+        <source>Don't forget to check out our mobile app for android and iOS to merge OrangeHRM on the go. To download the app, scan theQR code or click the links to go to Google Playstore or Appstore.</source>
+        <target>Don't forget to check out our mobile app for android and iOS to merge OrangeHRM on the go. To download the app, scan theQR code or click the links to go to Google Playstore or Appstore.</target>
+      </trans-unit>
+      <trans-unit id="2052">
+        <source>Subscribe For Free Hosting</source>
+        <target>FR_Subscribe For Free Hosting</target>
+      </trans-unit>
+      <trans-unit id="2053">
+        <source>System Url</source>
+        <target>FR_System Url</target>
+      </trans-unit>
+      <trans-unit id="2054">
+        <source>Company Name</source>
+        <target>FR_Company Name</target>
+      </trans-unit>
+      <trans-unit id="2055">
+        <source>No. of Employees</source>
+        <target>FR_No. of Employees</target>
+      </trans-unit>
+      <trans-unit id="2056">
+        <source>Contact Person Name</source>
+        <target>FR_Contact Person Name</target>
+      </trans-unit>
+      <trans-unit id="2057">
+        <source>Your Free-Trial expires Today! To subscribe for free hosting,</source>
+        <target>FR_Your Free-Trial expires Today! To subscribe for free hosting,</target>
+      </trans-unit>
+      <trans-unit id="2058">
+        <source>left in your free-trial. To subscribe for free hosting</source>
+        <target>FR_left in your free-trial. To subscribe for free hosting</target>
+      </trans-unit>
+      <trans-unit id="2059">
+        <source>click here</source>
+        <target>FR_click here</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

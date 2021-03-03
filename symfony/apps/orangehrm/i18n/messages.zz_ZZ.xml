@@ -9976,6 +9976,98 @@
         <source>Failed to Export</source>
         <target>FR_Failed to Export</target>
       </trans-unit>
+      <trans-unit id="2037" group="help" version="4.8">
+        <source>Support</source>
+        <target>FR_Support</target>
+      </trans-unit>
+      <trans-unit id="2038" group="help" version="4.8">
+        <source>Getting Started with OrangeHRM</source>
+        <target>FR_Getting Started with OrangeHRM</target>
+      </trans-unit>
+      <trans-unit id="2039" group="help" version="4.8">
+        <source>Learning to get used to a new application can be challenge. Fear not! We at OrangeHRM are committed to help you learn how to use the applications and start managing your HR process as fast as you can.</source>
+        <target>FR_Learning to get used to a new application can be challenge. Fear not! We at OrangeHRM are committed to help you learn how to use the applications and start managing your HR process as fast as you can.</target>
+      </trans-unit>
+      <trans-unit id="2040" group="help" version="4.8">
+        <source>There are plenty of of services available that helps you learn the application.</source>
+        <target>FR_There are plenty of of services available that helps you learn the application.</target>
+      </trans-unit>
+      <trans-unit id="2041" group="help" version="4.8">
+        <source>Help Portal</source>
+        <target>FR_Help Portal</target>
+      </trans-unit>
+      <trans-unit id="2042" group="help" version="4.8">
+        <source>OrangeHRM Open Source Help portal comes with articles and tutorials videos allowing you to master the application in no time. Wanna know how to apply for leave or how to submit a timesheet? Simply search in our help portal and you will see all you need to know.</source>
+        <target>FR_OrangeHRM Open Source Help portal comes with articles and tutorials videos allowing you to master the application in no time. Wanna know how to apply for leave or how to submit a timesheet? Simply search in our help portal and you will see all you need to know.</target>
+      </trans-unit>
+      <trans-unit id="2043" group="help" version="4.8">
+        <source>Free Demo</source>
+        <target>FR_Free Demo</target>
+      </trans-unit>
+      <trans-unit id="2044" group="help" version="4.8">
+        <source>Need our help to show you around? You can schedule for a demo absolutely free of charge and our support team will personally get in touch with you to help you understand how the application works.</source>
+        <target>FR_Need our help to show you around? You can schedule for a demo absolutely free of charge and our support team will personally get in touch with you to help you understand how the application works.</target>
+      </trans-unit>
+      <trans-unit id="2045" group="help" version="4.8">
+        <source>Free Cloud Hosting</source>
+        <target>FR_Free Cloud Hosting</target>
+      </trans-unit>
+      <trans-unit id="2046" group="help" version="4.8">
+        <source>OrangeHRM also offers cloud hosting services for your opensource system. Subscribe to free hosting of your instance and to ensure that your employee information stays secured and always within your range at all times.</source>
+        <target>FR_OrangeHRM also offers cloud hosting services for your opensource system. Subscribe to free hosting of your instance and to ensure that your employee information stays secured and always within your range at all times.</target>
+      </trans-unit>
+      <trans-unit id="2047" group="help" version="4.8">
+        <source>Customer Support</source>
+        <target>FR_Customer Support</target>
+      </trans-unit>
+      <trans-unit id="2048" group="help" version="4.8">
+        <source>If you experience any issues, please do not hesitate to contact us on</source>
+        <target>FR_If you experience any issues, please do not hesitate to contact us on</target>
+      </trans-unit>
+      <trans-unit id="2049" group="help" version="4.8">
+        <source>We are happy to help you out</source>
+        <target>FR_We are happy to help you out</target>
+      </trans-unit>
+      <trans-unit id="2050" group="help" version="4.8">
+        <source>Mobile Application</source>
+        <target>FR_Mobile Application</target>
+      </trans-unit>
+      <trans-unit id="2051" group="help" version="4.8">
+        <source>Don't forget to check out our mobile app for android and iOS to merge OrangeHRM on the go. To download the app, scan theQR code or click the links to go to Google Playstore or Appstore.</source>
+        <target>FR_Don't forget to check out our mobile app for android and iOS to merge OrangeHRM on the go. To download the app, scan theQR code or click the links to go to Google Playstore or Appstore.</target>
+      </trans-unit>
+      <trans-unit id="2052" group="help" version="4.8">
+        <source>Subscribe For Free Hosting</source>
+        <target>FR_Subscribe For Free Hosting</target>
+      </trans-unit>
+      <trans-unit id="2053" group="help" version="4.8">
+        <source>System Url</source>
+        <target>FR_System Url</target>
+      </trans-unit>
+      <trans-unit id="2054" group="help" version="4.8">
+        <source>Company Name</source>
+        <target>FR_Company Name</target>
+      </trans-unit>
+      <trans-unit id="2055" group="help" version="4.8">
+        <source>No. of Employees</source>
+        <target>FR_No. of Employees</target>
+      </trans-unit>
+      <trans-unit id="2056" group="help" version="4.8">
+        <source>Contact Person Name</source>
+        <target>FR_Contact Person Name</target>
+      </trans-unit>
+      <trans-unit id="2057" group="help" version="4.8">
+        <source>Your Free-Trial expires Today! To subscribe for free hosting,</source>
+        <target>FR_Your Free-Trial expires Today! To subscribe for free hosting,</target>
+      </trans-unit>
+      <trans-unit id="2058" group="help" version="4.8">
+        <source>left in your free-trial. To subscribe for free hosting</source>
+        <target>FR_left in your free-trial. To subscribe for free hosting</target>
+      </trans-unit>
+      <trans-unit id="2059" group="help" version="4.8">
+        <source>click here</source>
+        <target>FR_click here</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

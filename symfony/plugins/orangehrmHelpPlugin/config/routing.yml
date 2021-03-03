@@ -1,3 +1,7 @@
 help:
   url: /help/help
   param: {module:help, action: index}
+
+support:
+  url: /support/index
+  param: {module:support, action: support}

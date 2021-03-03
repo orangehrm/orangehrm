@@ -3534,4 +3534,5 @@ INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES
 
 INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.url',  'https://opensourcehelp.orangehrm.com');
 INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.processorClass',  'ZendeskHelpProcessor');
+INSERT INTO `ohrm_i18n_group` (`name`,`title`) VALUES ('help','Help');
 

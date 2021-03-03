@@ -1,5 +1,6 @@
 <?php
-/**
+/*
+ *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -15,15 +16,14 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ *
  */
 
-class orangehrmHelpPluginConfiguration extends sfPluginConfiguration
+class indexAction extends sfAction
 {
-    public function initialize()
-    {
-        $enabledModules = sfConfig::get('sf_enabled_modules');
-        if (is_array($enabledModules)) {
-            sfConfig::set('sf_enabled_modules', array_merge(sfConfig::get('sf_enabled_modules'), ['help','support']));
-        }
+    public function execute($request) {
+        $this->setTemplate("index");
     }
+
+
 }
