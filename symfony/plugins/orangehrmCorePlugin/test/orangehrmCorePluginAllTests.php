@@ -93,6 +93,7 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/authorization/service/MenuServiceTest.php');
 
         $suite->addTestFile(dirname(__FILE__) . '/utility/Base64UrlTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/utility/NumberUtilityTest.php');
 
         return $suite;
     }

@@ -60,7 +60,8 @@ class LeaveRequestDao extends BaseDao {
                         $le = new LeaveLeaveEntitlement();
                         $le->setLeaveId($leaveId);
                         $le->setEntitlementId($entitlementId);
-                        $le->setLengthDays($length);
+                        $lengthDays = NumberUtility::getPositiveDecimal($length, 4);
+                        $le->setLengthDays($lengthDays);
                         $le->save();
 
                         Doctrine_Query::create()
@@ -89,7 +90,8 @@ class LeaveRequestDao extends BaseDao {
                         $le = new LeaveLeaveEntitlement();
                         $le->setLeaveId($leaveId);
                         $le->setEntitlementId($entitlementId);
-                        $le->setLengthDays($length);
+                        $lengthDays = NumberUtility::getPositiveDecimal($length, 4);
+                        $le->setLengthDays($lengthDays);
                         $le->save();
                     }
                 }
@@ -231,10 +233,11 @@ class LeaveRequestDao extends BaseDao {
                             $entitlementAssignment = new LeaveLeaveEntitlement();
                             $entitlementAssignment->setLeaveId($leaveId);
                             $entitlementAssignment->setEntitlementId($entitlementId);
-                            $entitlementAssignment->setLengthDays($length);
+                            $lengthDays = NumberUtility::getPositiveDecimal($length, 4);
                         } else {
-                            $entitlementAssignment->setLengthDays($entitlementAssignment->getLengthDays() + $length);
+                            $lengthDays = NumberUtility::getPositiveDecimal($entitlementAssignment->getLengthDays() + $length, 4);
                         }
+                        $entitlementAssignment->setLengthDays($lengthDays);
                         $entitlementAssignment->save();
                     }
 
@@ -869,13 +872,7 @@ class LeaveRequestDao extends BaseDao {
         $q = $this->getSearchBaseQuery($searchParameters);
 
         $q->select('lr.date_applied, lt.name, lr.comments, sum(l.length_hours) leave_length_hours_total, sum(l.length_days) as total_leave_length_days,em.firstName, em.middleName, em.lastName' .
-                        ',
-                         
-                         
-                         
-                         
-                         
-                         sum(IF(l.status = 2, l.length_days, 0)) as scheduled, ' .
+                        ', sum(IF(l.status = 2, l.length_days, 0)) as scheduled, ' .
                         ', sum(IF(l.status = 0, l.length_days, 0)) as cancelled, ' .
                         ', sum(IF(l.status = 3, l.length_days, 0)) as taken, ' .
                         ', sum(IF(l.status = -1, l.length_days, 0)) as rejected, ' .

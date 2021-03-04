@@ -284,10 +284,11 @@ class LeaveEntitlementDao extends BaseDao {
                         $entitlementAssignment = new LeaveLeaveEntitlement();
                         $entitlementAssignment->setLeaveId($leaveId);
                         $entitlementAssignment->setEntitlementId($entitlementId);
-                        $entitlementAssignment->setLengthDays($daysToAssign);
+                        $lengthDays = NumberUtility::getPositiveDecimal($daysToAssign, 4);
                     } else {
-                        $entitlementAssignment->setLengthDays($entitlementAssignment->getLengthDays() + $daysToAssign);
+                        $lengthDays = NumberUtility::getPositiveDecimal($entitlementAssignment->getLengthDays() + $daysToAssign, 4);
                     }
+                    $entitlementAssignment->setLengthDays($lengthDays);
                     $entitlementAssignment->save();
                     $entitlementAssignment->free();
 
@@ -329,10 +330,11 @@ class LeaveEntitlementDao extends BaseDao {
                     $entitlementAssignment = new LeaveLeaveEntitlement();
                     $entitlementAssignment->setLeaveId($leaveId);
                     $entitlementAssignment->setEntitlementId($entitlementId);
-                    $entitlementAssignment->setLengthDays($daysToAssign);
+                    $lengthDays = NumberUtility::getPositiveDecimal($daysToAssign, 4);
                 } else {
-                    $entitlementAssignment->setLengthDays($entitlementAssignment->getLengthDays() + $daysToAssign);
+                    $lengthDays = NumberUtility::getPositiveDecimal($entitlementAssignment->getLengthDays() + $daysToAssign, 4);
                 }
+                $entitlementAssignment->setLengthDays($lengthDays);
                 $entitlementAssignment->save();
                 $entitlementAssignment->free();
 
