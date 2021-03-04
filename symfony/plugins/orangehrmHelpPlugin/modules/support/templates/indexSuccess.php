@@ -99,7 +99,7 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                         </div>
                     </div>
                     <div class="button-container">
-                        <a href="<?php echo url_for('trial/subscribeFreeHosting')?>">
+                        <a href="https://www.orangehrm.com/open-source/open-source-on-demand" target="_blank">
                             <input class="action-button" type="button" name="button"  value="<?php echo __('Free Cloud Hosting'); ?>" />
                         </a>
                     </div>
