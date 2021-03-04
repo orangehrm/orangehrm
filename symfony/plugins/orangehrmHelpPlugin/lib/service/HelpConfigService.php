@@ -17,12 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-class indexAction extends BaseHelpAction
-{
-    public function execute($request)
-    {
-        $request = sfContext::getInstance()->getRequest();
-        $this->isHttps = $request->isSecure();
-        $this->url = rtrim(public_path('', true), "/");
+class HelpConfigService extends ConfigService {
+
+    const HELP_PROCESSOR_CLASS = 'help.processorClass';
+    const HELP_URL = 'help.url';
+
+
+    /**
+     * Gets Help Processor Class
+     *
+     * @return String
+     */
+    public function getHelpProcessorClass() {
+        return $this->_getConfigValue(self::HELP_PROCESSOR_CLASS);
+    }
+
+    /**
+     * Gets Help Base Url
+     *
+     * @return String
+     */
+    public function getBaseHelpUrl() {
+        return $this->_getConfigValue(self::HELP_URL);
     }
 }

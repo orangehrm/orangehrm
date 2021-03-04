@@ -14,14 +14,18 @@
  *
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA
+ * Boston, MA  02110-1301, USA
  */
 
-class viewHelpComponent extends sfComponent
-{
-    public function execute($request)
-    {
-        $this->routeActionName = sfContext::getInstance()->getActionName();
-        $this->routeModuleName = sfContext::getInstance()->getModuleName();
-    }
+interface HelpProcessor {
+
+    public function getBaseUrl();
+
+    public function getSearchUrl($label);
+
+    public function getRedirectUrl($label);
+
+    public function getDefaultRedirectUrl();
+
+    public function getRedirectUrlList($query,$labels,$categories);
 }

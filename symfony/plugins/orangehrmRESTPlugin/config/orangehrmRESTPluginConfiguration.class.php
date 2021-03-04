@@ -12,8 +12,8 @@ require_once __DIR__ . '/../../../lib/vendor/autoload.php';
  */
 class orangehrmRESTPluginConfiguration extends sfPluginConfiguration {
     public function initialize() {
-        $enabledModules = sfConfig::get('sf_enabled_modules');  
-        if (is_array($enabledModules)) {  
+        $enabledModules = sfConfig::get('sf_enabled_modules');
+        if (is_array($enabledModules)) {
             sfConfig::set('sf_enabled_modules',
                           array_merge(
                               sfConfig::get('sf_enabled_modules'),
@@ -31,10 +31,11 @@ class orangehrmRESTPluginConfiguration extends sfPluginConfiguration {
                                   'apiv1userLeave',
                                   'apiv1userAttendance',
                                   'apiv1userTime',
+                                  'apiv1userHelp'
                               )
                           )
             );
-        }  
+        }
     }
 }
 

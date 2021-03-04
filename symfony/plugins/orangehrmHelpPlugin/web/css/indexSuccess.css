@@ -1,7 +1,3 @@
-svg.help-icon > path {
-    fill: #f28c38 !important;
-}
-
 .play-store-img {
     height: 54px;
 }
@@ -59,4 +55,58 @@ span.instance-warning {
 p.instance-warning {
     margin-top: 12px;
     margin-bottom: 8px;
+}
+
+.main-info-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.main-help {
+    margin-top: 20px
+}
+
+.main-block{
+    margin-top: 25px
+}
+
+.button-container {
+    margin-left: 15px
+}
+.help-button-container {
+    margin-left: 30px
+}
+
+.action-button {
+    width: 170px
+}
+
+.main-inner-container {
+    margin-left: 20px
+}
+
+.info-header {
+    font-weight: bold
+}
+
+.text-gap {
+    margin-left: 4px
+}
+
+.support-link{
+    color: #E9801F
+}
+
+.store-icon-container {
+    margin-left: -8px
+}
+
+.customer-support-inner {
+    display: flex
 }

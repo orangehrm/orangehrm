@@ -35,6 +35,7 @@ $subscribed = $sf_user->isSubscribed();
                 <div id="welcome-menu" class="panelContainer">
                     <ul>
                         <li><?php include_component('communication', 'beaconAbout'); ?></li>
+                        <li><a href="<?php echo url_for('support/index'); ?>"><?php echo __('Support'); ?></a></li>
                         <li><a href="<?php echo url_for('admin/changeUserPassword'); ?>"><?php echo __('Change Password'); ?></a></li>
                         <li><a href="<?php echo url_for('auth/logout'); ?>"><?php echo __('Logout'); ?></a></li>
                     </ul>

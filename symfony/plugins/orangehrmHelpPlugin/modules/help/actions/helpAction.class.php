@@ -17,13 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-class orangehrmHelpPluginConfiguration extends sfPluginConfiguration
+class helpAction extends ohrmBaseAction
 {
-    public function initialize()
-    {
-        $enabledModules = sfConfig::get('sf_enabled_modules');
-        if (is_array($enabledModules)) {
-            sfConfig::set('sf_enabled_modules', array_merge(sfConfig::get('sf_enabled_modules'), ['help','support']));
+    public function getHelpService() {
+        if (!$this->helpService instanceof HelpService) {
+            $this->helpService = new HelpService();
+        }
+        return $this->helpService;
+    }
+
+    public function execute($request) {
+        if($this->getHelpService()->isValidUrl()) {
+            try{
+                $label = $request->getParameter('label');
+                $redirectUrl = $this->getHelpService()->getRedirectUrl($label);
+                $this->redirect($redirectUrl);
+            } catch (Exception $e) {
+                $defaultRedirectUrl = $this->getHelpService()->getDefaultRedirectUrl();
+                $this->redirect($defaultRedirectUrl);
+            }
+        } else {
+            $this->getResponse()->setContent('Unauthorized');
+            $this->getResponse()->setStatusCode(HttpResponseCode::HTTP_FORBIDDEN);
         }
     }
 }

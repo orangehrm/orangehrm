@@ -1667,6 +1667,66 @@
                     }
                 }
             }
+        },
+        "/help/config": {
+            "get": {
+                "tags": [
+                    "Help",
+                    "User"
+                ],
+                "summary": "Get Help Configuration",
+                "operationId": "HelpConfigurationApiAction::handleGetRequest",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Search by article name mode category name.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "If mode is 'category', will result in matching categories, otherwise matching articles.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "labels",
+                        "in": "query",
+                        "description": "Get the articles by article labels ( eg :- ['add_employee' , 'apply_leave'] )",
+                        "required": false,
+                        "schema": {
+                            "type": "string[]"
+                        }
+                    },
+                    {
+                        "name": "categoryIds",
+                        "in": "query",
+                        "description": "Articles in specified categories ( eg :- ['123456' , '654321'] )",
+                        "required": false,
+                        "schema": {
+                            "type": "string[]"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HelpConfiguration"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1963,6 +2023,29 @@
                         "dateTimeEditable": true,
                         "currentUtcDateTime": "2020-11-12 05:25",
                         "punchState": "PUNCHED IN"
+                    },
+                    "rels": []
+                }
+            },
+            "HelpConfiguration": {
+                "type": "object",
+                "example": {
+                    "data": {
+                        "defaultRedirectUrl": "https://opensourcehelp.orangehrm.com/hc/en-us",
+                        "redirectUrls": [
+                            {
+                                "name": "Create master data for employee job information",
+                                "url": "https://opensourcehelp.orangehrm.com/hc/en-us/articles/360018594080-Create-master-data-for-employee-job-information"
+                            },
+                            {
+                                "name": "How to Add a User Account",
+                                "url": "https://opensourcehelp.orangehrm.com/hc/en-us/articles/360018588480-How-to-Add-a-User-Account"
+                            },
+                            {
+                                "name": "How to Approve Leave by Admin or Supervisor",
+                                "url": "https://opensourcehelp.orangehrm.com/hc/en-us/articles/360018659479-How-to-Approve-Leave-by-Admin-or-Supervisor"
+                            }
+                        ]
                     },
                     "rels": []
                 }
