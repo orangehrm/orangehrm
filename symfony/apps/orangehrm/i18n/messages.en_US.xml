@@ -8240,6 +8240,14 @@
         <source>click here</source>
         <target>click here</target>
       </trans-unit>
+      <trans-unit id="2060">
+        <source> Days </source>
+        <target> Days </target>
+      </trans-unit>
+      <trans-unit id="2061">
+        <source> Day </source>
+        <target> Day </target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

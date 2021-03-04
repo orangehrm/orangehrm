@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-class indexAction extends BaseHelpAction
+class indexAction extends ohrmBaseAction
 {
     public function getHelpService() {
         if (!$this->helpService instanceof HelpService) {

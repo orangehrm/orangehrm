@@ -28,7 +28,7 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
         <div class="inner help-inner-row">
             <div class="help-header">
                 <div class="help-column help-header-icon">
-                    <i style="color: black" class="fas fa-window-maximize help-header-icon"></i>
+                    <i class="fas fa-window-maximize help-header-icon"></i>
                 </div>
                 <h2><?php echo __('Getting Started with OrangeHRM'); ?></h2>
             </div>
@@ -41,13 +41,13 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                         'The following information repositories are available to help you understand the application:'
                     ); ?></p>
                 <br>
-                <div style="display: flex;flex-direction: row;justify-content: space-between; margin-top: 20px">
-                    <div style="display: flex;flex-direction: row;">
+                <div class="main-info-container main-help">
+                    <div class="info-container">
                         <div>
                             <img src="<?php echo theme_path('images/help.png')?>" alt="Help-Portal" width="40px">
                         </div>
-                        <div style="margin-left: 20px">
-                            <p style="font-weight: bold"><?php echo __(
+                        <div class="main-inner-container">
+                            <p class="info-header"><?php echo __(
                                     'Help Portal'
                                 ); ?></p>
 
@@ -56,19 +56,19 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                                 ); ?></p>
                         </div>
                     </div>
-                    <div style="margin-left: 30px">
+                    <div class="help-button-container">
                         <a href="https://opensourcehelp.orangehrm.com" target="_blank">
-                            <input style="width: 170px" type="button" name="button" class="cancelButton" id="btnPunch" value="<?php echo __('Help Portal'); ?>" />
+                            <input class="action-button" type="button" name="button"  value="<?php echo __('Help Portal'); ?>" />
                         </a>
                     </div>
                 </div>
-                <div style="display: flex;flex-direction: row;justify-content: space-between; margin-top: 25px">
-                    <div style="display: flex;flex-direction: row;">
+                <div class="main-info-container main-block">
+                    <div class="info-container">
                         <div>
                             <img src="<?php echo theme_path('images/free-demo.png')?>" alt="Help-Portal" width="40px">
                         </div>
-                        <div style="margin-left: 20px">
-                            <p style="font-weight: bold"><?php echo __(
+                        <div class="main-inner-container" >
+                            <p class="info-header"><?php echo __(
                                     'Free Demo'
                                 ); ?></p>
 
@@ -77,19 +77,19 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                                 ); ?></p>
                         </div>
                     </div>
-                    <div style="margin-left: 15px">
+                    <div class="button-container">
                         <a href="https://www.orangehrm.com/open-source/demo" target="_blank">
-                            <input style="width: 170px" type="button" name="button" class="cancelButton" id="btnPunch" value="<?php echo __('Free Demo'); ?>" />
+                            <input class="action-button" type="button" name="button"  value="<?php echo __('Free Demo'); ?>" />
                         </a>
                     </div>
                 </div>
-                <div style="display: flex;flex-direction: row;justify-content: space-between; margin-top: 25px">
-                    <div style="display: flex;flex-direction: row;">
+                <div class="main-info-container main-block">
+                    <div class="info-container">
                         <div>
                             <img src="<?php echo theme_path('images/cloud.png')?>" alt="Help-Portal" width="40px">
                         </div>
-                        <div style="margin-left: 20px">
-                            <p style="font-weight: bold"><?php echo __(
+                        <div class="main-inner-container">
+                            <p class="info-header"><?php echo __(
                                     'Free Cloud Hosting'
                                 ); ?></p>
 
@@ -98,27 +98,27 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                                 ); ?></p>
                         </div>
                     </div>
-                    <div style="margin-left: 15px">
+                    <div class="button-container">
                         <a href="<?php echo url_for('trial/subscribeFreeHosting')?>">
-                            <input style="width: 170px" type="button" name="button" class="cancelButton" id="btnPunch" value="<?php echo __('Free Cloud Hosting'); ?>" />
+                            <input class="action-button" type="button" name="button"  value="<?php echo __('Free Cloud Hosting'); ?>" />
                         </a>
                     </div>
                 </div>
-                <div style="display: flex;flex-direction: row;justify-content: space-between; margin-top: 25px">
-                    <div style="display: flex;flex-direction: row;">
+                <div class="main-info-container main-block">
+                    <div class="info-container">
                         <div>
                             <img src="<?php echo theme_path('images/customer-support.png')?>" alt="Help-Portal" width="40px">
                         </div>
-                        <div style="margin-left: 20px">
-                            <p style="font-weight: bold"><?php echo __(
+                        <div class="main-inner-container">
+                            <p class="info-header"><?php echo __(
                                     'Customer Support'
                                 ); ?></p>
-                            <div style="display: flex">
+                            <div class="customer-support-inner">
                             <p><?php echo __(
                                     'Should you experience any issues, please do not hesitate to contact us on'
                                 ); ?></p>
-                                <p style="color: orange;margin-left: 4px"> ossuport@orangehrm.com</p>
-                                <p style="margin-left: 4px"><?php echo __(
+                                <p class="text-gap support-link"> ossuport@orangehrm.com</p>
+                                <p class="text-gap"><?php echo __(
                                         'We will be delighted to help'
                                     ); ?></p>
 
@@ -126,13 +126,13 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                         </div>
                     </div>
                 </div>
-                <div style="display: flex;flex-direction: row;justify-content: space-between; margin-top: 25px">
-                    <div style="display: flex;flex-direction: row;">
+                <div class="main-info-container main-block">
+                    <div class="info-container">
                         <div>
                             <img src="<?php echo theme_path('images/mobile.png')?>" alt="Help-Portal" width="40px">
                         </div>
-                        <div style="margin-left: 20px">
-                            <p style="font-weight: bold"><?php echo __(
+                        <div class="main-inner-container">
+                            <p class="info-header"><?php echo __(
                                     'Mobile Application'
                                 ); ?></p>
                             <div>
@@ -140,7 +140,7 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                                         "We would also like to remind you to check out our mobile app which supports  Android and iOS and enables you to manage your HR needs quickly and securely via your mobile device."
                                     ); ?></p>
                             </div>
-                            <div style="margin-left: -8px">
+                            <div class="store-icon-container">
                                 <div class="help-column">
                                     <a target="_blank"
                                        href='https://play.google.com/store/apps/details?id=com.orangehrm.opensource'>
@@ -157,7 +157,7 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                             </div>
                         </div>
                     </div>
-                    <div style="margin-left: 15px">
+                    <div class="button-container">
                         <p>
                             <img alt='Mobile app QR code'
                                  src='<?php echo theme_path('images/mobile_app_qr.png') ?>'/>

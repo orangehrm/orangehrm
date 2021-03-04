@@ -10068,6 +10068,14 @@
         <source>click here</source>
         <target>FR_click here</target>
       </trans-unit>
+      <trans-unit id="2060" group="help" version="4.8">
+        <source> Days </source>
+        <target> FR_Days </target>
+      </trans-unit>
+      <trans-unit id="2061" group="help" version="4.8">
+        <source> Day </source>
+        <target> FR_Day </target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -20,7 +20,8 @@
 class ZendeskHelpProcessor implements HelpProcessor {
 
     const DEFAULT_CONTENT_TYPE = "application/json";
-
+    const ZENDESK_SEARCH_DIRECTORY_URL = '/api/v2/help_center/articles/search.json?';
+    const ZENDESK_CATEGORY_DIRECTORY_URL = '/api/v2/help_center/categories';
     protected $helpConfigService;
 
     /**
@@ -45,7 +46,7 @@ class ZendeskHelpProcessor implements HelpProcessor {
     }
 
     public function getSearchUrlFromQuery($query=null,$labels=[],$categorieIds=[]) {
-        $mainUrl=$this->getBaseUrl().'/api/v2/help_center/articles/search.json?';
+        $mainUrl=$this->getBaseUrl().self::ZENDESK_SEARCH_DIRECTORY_URL;
         if($query!=null){
             $mainUrl.='query='.$query;
         }
@@ -73,7 +74,7 @@ class ZendeskHelpProcessor implements HelpProcessor {
     }
 
     public function getSearchUrl($label) {
-        return $this->getBaseUrl().'/api/v2/help_center/articles/search.json?label_names='.$label;
+        return $this->getBaseUrl().self::ZENDESK_SEARCH_DIRECTORY_URL.'label_names='.$label;
     }
 
     public function getRedirectUrl($label) {
@@ -95,9 +96,7 @@ class ZendeskHelpProcessor implements HelpProcessor {
     protected function sendQuery($url, $contentType = self::DEFAULT_CONTENT_TYPE) {
         $headerOptions = array();
 
-        $headerOptions[GuzzleHttp\RequestOptions::ALLOW_REDIRECTS]=true;
         $headerOptions[GuzzleHttp\RequestOptions::TIMEOUT]=30;
-        $headerOptions[GuzzleHttp\RequestOptions::VERSION]='1.1';
         $headerOptions[GuzzleHttp\RequestOptions::HEADERS]=[
             'Content-Type' => $contentType
         ];
@@ -143,7 +142,7 @@ class ZendeskHelpProcessor implements HelpProcessor {
     }
 
     public function getCategoryRedirectUrl($category){
-        $url = $this->getBaseUrl().'/api/v2/help_center/categories/'.$category;
+        $url = $this->getBaseUrl().self::ZENDESK_CATEGORY_DIRECTORY_URL.'/'.$category;
         $results = $this->sendQuery($url);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
@@ -157,7 +156,7 @@ class ZendeskHelpProcessor implements HelpProcessor {
     }
 
     public function getCategoriesFromSearchQuery($query=null){
-        $url = $this->getBaseUrl().'/api/v2/help_center/categories';
+        $url = $this->getBaseUrl().self::ZENDESK_CATEGORY_DIRECTORY_URL;
         $results = $this->sendQuery($url);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
