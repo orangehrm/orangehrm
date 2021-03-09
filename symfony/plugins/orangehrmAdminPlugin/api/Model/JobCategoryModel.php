@@ -17,39 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Http;
+namespace OrangeHRM\Rest\Admin\Model;
 
-class Response{
+use OrangeHRM\Entity\JobCategory;
+use Orangehrm\Rest\Api\Entity\Serializable;
+use Orangehrm\Rest\Api\Model\ModelTrait;
 
-    private $data = null;
-    private $rels = null;
-    private $meta = null;
+class JobCategoryModel implements Serializable
+{
+    use ModelTrait;
 
-    /**
-     * Response constructor.
-     * @param array $data
-     * @param array $rels
-     * @param array $meta
-     */
-    public function __construct($data = [], $rels = [], $meta = []){
-        $this->data = $data;
-        $this->rels = $rels;
-        $this->meta = $meta;
-    }
-
-    /**
-     * @return string
-     */
-    public function format() {
-        return json_encode($this->data,true);
-    }
-
-    public function formatData() {
-        $responseFormat = array('data' => $this->data, 'rels' => $this->rels, 'meta' => $this->meta);
-        return json_encode($responseFormat,true);
-    }
-
-    public static function formatError($error) {
-        return json_encode($error,true);
+    public function __construct(JobCategory $jobCategory)
+    {
+        $this->setEntity($jobCategory);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+            ]
+        );
     }
 }

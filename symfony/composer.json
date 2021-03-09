@@ -1,0 +1,43 @@
+{
+    "name": "orangehrm/orangehrm",
+    "description": "OrangeHRM open source",
+    "require": {
+        "php": "^7.3",
+        "ext-pdo": "*",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-zip": "*",
+        "ext-dom": "*",
+        "ext-xml": "*",
+        "symfony/http-foundation": "4.4.19",
+        "symfony/routing": "4.4.19",
+        "symfony/http-kernel": "4.4.19",
+        "symfony/event-dispatcher": "4.4.19",
+        "respect/validation": "1.1.11",
+        "symfony/monolog-bundle": "^3.6",
+        "bshaffer/oauth2-server-php": "^1.11",
+        "doctrine/orm": "2.8.1",
+        "symfony/yaml": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Orangehrm\\Rest\\": "./plugins/orangehrmRESTPlugin/lib",
+            "Orangehrm\\Rest\\Modules\\": "./plugins/orangehrmRESTPlugin/modules",
+            "OrangeHRM\\ORM\\": "./lib/orm",
+            "OrangeHRM\\Framework\\": "./lib/framework",
+            "OrangeHRM\\Rest\\Admin\\": "./plugins/orangehrmAdminPlugin/api",
+            "OrangeHRM\\Entity\\": [
+                "./plugins/orangehrmAdminPlugin/entity",
+                "./plugins/orangehrmPerformancePlugin/entity",
+                "./plugins/orangehrmPimPlugin/entity"
+            ],
+            "": [
+                "./plugins/orangehrmCoreOAuthPlugin/modules/oauth/actions",
+                "./plugins/orangehrmAdminPlugin/lib/service",
+                "./plugins/orangehrmAdminPlugin/lib/dao",
+                "./apps/orangehrm/lib/model/exception"
+            ]
+        }
+    }
+}

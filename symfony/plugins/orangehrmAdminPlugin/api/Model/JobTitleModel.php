@@ -17,29 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\PublicApi\ApiDefinitionAPI;
-use Orangehrm\Rest\Http\Request;
+namespace OrangeHRM\Rest\Admin\Model;
 
-class ApiDefinitionApiAction extends BasePublicApiAction
+use OrangeHRM\Entity\JobTitle;
+use Orangehrm\Rest\Api\Entity\Serializable;
+use Orangehrm\Rest\Api\Model\ModelTrait;
+
+class JobTitleModel implements Serializable
 {
-    /**
-     * @var null|ApiDefinitionAPI
-     */
-    private $apiDefinitionAPI = null;
+    use ModelTrait;
 
-    protected function init(Request $request)
+    public function __construct(JobTitle $jobTitle)
     {
-        $this->apiDefinitionAPI = new ApiDefinitionAPI($request);
-    }
-
-    protected function handleGetRequest(Request $request)
-    {
-        return $this->apiDefinitionAPI->getOpenApiDefinition();
-    }
-
-    protected function handlePostRequest(Request $request)
-    {
-        throw new NotImplementedException();
+        $this->setEntity($jobTitle);
+        $this->setFilters(
+            [
+                'id',
+                'jobTitleName',
+                'jobDescription',
+                'note',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'title',
+                'description',
+                'note',
+            ]
+        );
     }
 }

@@ -24,14 +24,14 @@ class Request{
     protected $actionRequest;
 
     /**
-     * @param \sfWebRequest $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      */
     public function __construct($request){
         $this->actionRequest = $request;
     }
 
     /**
-     * @return \sfWebRequest
+     * @return \Symfony\Component\HttpFoundation\Request
      */
     public function getActionRequest()
     {
@@ -39,7 +39,7 @@ class Request{
     }
 
     /**
-     * @param \sfWebRequest $actionRequest
+     * @param \Symfony\Component\HttpFoundation\Request $actionRequest
      */
     public function setActionRequest($actionRequest)
     {
@@ -61,8 +61,8 @@ class Request{
         if ($this->isJsonHttpRequest()) {
             return json_decode($this->getActionRequest()->getContent(), true);
         } else {
-            // `application/x-www-form-urlencoded` already handled in sfWebRequest
-            return $this->getActionRequest()->getPostParameters();
+            // `application/x-www-form-urlencoded` already handled in Symfony\Component\HttpFoundation\Request
+            return $this->getActionRequest()->request->all();
         }
     }
 
@@ -73,9 +73,10 @@ class Request{
     {
         $postParameters = $this->getPostParameters();
         return array_merge(
-            $this->getActionRequest()->getGetParameters(),
+            $this->getActionRequest()->attributes->all(),
+            $this->getActionRequest()->query->all(),
             is_array($postParameters) ? $postParameters : [],
-            array('id' => $this->getActionRequest()->getParameter('id'))
+            ['id'=>$this->getActionRequest()->get('id')]
         );
     }
 
@@ -97,6 +98,7 @@ class Request{
      */
     public function isJsonHttpRequest()
     {
-        return $this->getActionRequest()->getContentType() === 'application/json';
+        // 'application/json', 'application/x-json'
+        return $this->getActionRequest()->getContentType() === 'json';
     }
 }

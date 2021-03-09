@@ -17,39 +17,31 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Http;
+namespace Orangehrm\Rest\Modules\apiv1public\actions;
 
-class Response{
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\PublicApi\ApiDefinitionAPI;
+use Orangehrm\Rest\Http\Request;
 
-    private $data = null;
-    private $rels = null;
-    private $meta = null;
-
+class ApiDefinitionApiAction extends BasePublicApiAction
+{
     /**
-     * Response constructor.
-     * @param array $data
-     * @param array $rels
-     * @param array $meta
+     * @var null|ApiDefinitionAPI
      */
-    public function __construct($data = [], $rels = [], $meta = []){
-        $this->data = $data;
-        $this->rels = $rels;
-        $this->meta = $meta;
+    private $apiDefinitionAPI = null;
+
+    protected function init(Request $request)
+    {
+        $this->apiDefinitionAPI = new ApiDefinitionAPI($request);
     }
 
-    /**
-     * @return string
-     */
-    public function format() {
-        return json_encode($this->data,true);
+    protected function handleGetRequest(Request $request)
+    {
+        return $this->apiDefinitionAPI->getOpenApiDefinition();
     }
 
-    public function formatData() {
-        $responseFormat = array('data' => $this->data, 'rels' => $this->rels, 'meta' => $this->meta);
-        return json_encode($responseFormat,true);
-    }
-
-    public static function formatError($error) {
-        return json_encode($error,true);
+    protected function handlePostRequest(Request $request)
+    {
+        throw new NotImplementedException();
     }
 }

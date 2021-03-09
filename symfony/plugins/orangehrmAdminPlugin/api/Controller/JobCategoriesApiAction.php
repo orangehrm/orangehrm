@@ -17,39 +17,48 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Http;
+namespace OrangeHRM\Rest\Admin\Controller;
 
-class Response{
+use OrangeHRM\Rest\Admin\JobCategoryAPI;
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Modules\baseapi\actions\baseRestAction;
 
-    private $data = null;
-    private $rels = null;
-    private $meta = null;
+class JobCategoriesApiAction extends baseRestAction
+{
+    /**
+     * @var null|JobCategoryAPI
+     */
+    private $jobCategoryAPI = null;
 
     /**
-     * Response constructor.
-     * @param array $data
-     * @param array $rels
-     * @param array $meta
+     * @param Request $request
      */
-    public function __construct($data = [], $rels = [], $meta = []){
-        $this->data = $data;
-        $this->rels = $rels;
-        $this->meta = $meta;
+    protected function init(Request $request)
+    {
+        $this->jobCategoryAPI = new JobCategoryAPI($request);
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public function format() {
-        return json_encode($this->data,true);
+    protected function handleGetRequest(Request $request)
+    {
+        return $this->jobCategoryAPI->getJobCategories();
     }
 
-    public function formatData() {
-        $responseFormat = array('data' => $this->data, 'rels' => $this->rels, 'meta' => $this->meta);
-        return json_encode($responseFormat,true);
+    /**
+     * @inheritDoc
+     */
+    protected function handlePostRequest(Request $request)
+    {
+        return $this->jobCategoryAPI->saveJobCategory();
     }
 
-    public static function formatError($error) {
-        return json_encode($error,true);
+    /**
+     * @inheritDoc
+     */
+    protected function handleDeleteRequest(Request $request)
+    {
+        return $this->jobCategoryAPI->deleteJobCategories();
     }
 }

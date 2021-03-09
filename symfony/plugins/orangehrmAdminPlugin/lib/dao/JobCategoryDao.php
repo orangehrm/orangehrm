@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,32 +16,94 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class JobCategoryDao extends BaseDao {
-	
-	/**
-	 *
-	 * @return type 
-	 */
-	public function getJobCategoryList() {
 
-		try {
-			$q = Doctrine_Query :: create()
-				->from('JobCategory')
-				->orderBy('name ASC');
-			return $q->execute();
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
-	
-	public function getJobCategoryById($jobCatId){
-		
-		try {
-			return Doctrine :: getTable('JobCategory')->find($jobCatId);
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use OrangeHRM\Entity\JobCategory;
+use OrangeHRM\ORM\Doctrine;
+
+class JobCategoryDao
+{
+    /**
+     * @param string $sortField
+     * @param string $sortOrder
+     * @param null $limit
+     * @param null $offset
+     * @param false $count
+     * @return int|mixed|string
+     * @throws DaoException
+     */
+    public function getJobCategoryList(
+        $sortField = 'jc.name',
+        $sortOrder = 'ASC',
+        $limit = null,
+        $offset = null,
+        $count = false
+    ) {
+        $sortField = ($sortField == "") ? 'jc.name' : $sortField;
+        $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
+
+        try {
+            $q = Doctrine::getEntityManager()->getRepository(JobCategory::class)->createQueryBuilder('jc');
+            $q->addOrderBy($sortField, $sortOrder);
+            if (!empty($limit)) {
+                $q->setFirstResult($offset)
+                    ->setMaxResults($limit);
+            }
+
+            if ($count) {
+                $paginator = new Paginator($q, true);
+                return count($paginator);
+            }
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param int $jobCatId
+     * @return object|null
+     * @throws DaoException
+     */
+    public function getJobCategoryById(int $jobCatId)
+    {
+        try {
+            return Doctrine::getEntityManager()->getRepository(JobCategory::class)->find($jobCatId);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param JobCategory $jobCategory
+     * @return JobCategory
+     * @throws DaoException
+     */
+    public function saveJobCategory(JobCategory $jobCategory): JobCategory
+    {
+        try {
+            Doctrine::getEntityManager()->persist($jobCategory);
+            Doctrine::getEntityManager()->flush();
+            return $jobCategory;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param array $toBeDeletedJobCategoryIds
+     * @return int|mixed|string
+     * @throws DaoException
+     */
+    public function deleteJobCategory(array $toBeDeletedJobCategoryIds)
+    {
+        try {
+            $q = Doctrine::getEntityManager()->createQueryBuilder();
+            $q->delete(JobCategory::class, 'jc')
+                ->where($q->expr()->in('jc.id', $toBeDeletedJobCategoryIds));
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }
-
-?>
