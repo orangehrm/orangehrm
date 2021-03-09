@@ -24,7 +24,16 @@ use OrangeHRM\ORM\Doctrine;
 
 class JobTitleDao
 {
-
+    /**
+     * @param string $sortField
+     * @param string $sortOrder
+     * @param bool $activeOnly
+     * @param null $limit
+     * @param null $offset
+     * @param false $count
+     * @return int|mixed|string
+     * @throws DaoException
+     */
     public function getJobTitleList(
         $sortField = 'jt.jobTitleName',
         $sortOrder = 'ASC',
@@ -33,7 +42,7 @@ class JobTitleDao
         $offset = null,
         $count = false
     ) {
-        $sortField = ($sortField == "") ? 'jobTitleName' : $sortField;
+        $sortField = ($sortField == "") ? 'jt.jobTitleName' : $sortField;
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
 
         try {
@@ -62,6 +71,11 @@ class JobTitleDao
         }
     }
 
+    /**
+     * @param $toBeDeletedJobTitleIds
+     * @return int|mixed|string
+     * @throws DaoException
+     */
     public function deleteJobTitle($toBeDeletedJobTitleIds)
     {
         try {
@@ -75,6 +89,11 @@ class JobTitleDao
         }
     }
 
+    /**
+     * @param $jobTitleId
+     * @return object|null
+     * @throws DaoException
+     */
     public function getJobTitleById($jobTitleId)
     {
         try {
@@ -86,6 +105,11 @@ class JobTitleDao
         }
     }
 
+    /**
+     * @param $attachId
+     * @return object|null
+     * @throws DaoException
+     */
     public function getJobSpecAttachmentById($attachId)
     {
         try {
@@ -131,4 +155,3 @@ class JobTitleDao
         }
     }
 }
-

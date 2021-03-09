@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,40 +16,86 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class JobCategoryService extends BaseService {
 
-	private $jobCatDao;
+use OrangeHRM\Entity\JobCategory;
 
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		$this->jobCatDao = new JobCategoryDao();
-	}
+class JobCategoryService
+{
+    /**
+     * @var JobCategoryDao
+     */
+    private $jobCatDao;
 
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getJobCategoryDao() {
-		return $this->jobCatDao;
-	}
+    /**
+     * Construct
+     */
+    public function __construct()
+    {
+        $this->jobCatDao = new JobCategoryDao();
+    }
 
-	/**
-	 * @param JobCategoryDao $jobCategoryDao 
-	 */
-	public function setJobCategoryDao(JobCategoryDao $jobCategoryDao) {
-		$this->jobCatDao = $jobCategoryDao;
-	}
-	
-	public function getJobCategoryList(){
-		return $this->jobCatDao->getJobCategoryList();
-	}
-	
-	public function getJobCategoryById($jobCatId){
-		return $this->jobCatDao->getJobCategoryById($jobCatId);
-	}
-	
+    /**
+     * @return JobCategoryDao
+     */
+    public function getJobCategoryDao()
+    {
+        return $this->jobCatDao;
+    }
+
+    /**
+     * @param JobCategoryDao $jobCategoryDao
+     */
+    public function setJobCategoryDao(JobCategoryDao $jobCategoryDao)
+    {
+        $this->jobCatDao = $jobCategoryDao;
+    }
+
+    /**
+     * @param string $sortField
+     * @param string $sortOrder
+     * @param null $limit
+     * @param null $offset
+     * @param false $count
+     * @return int|mixed|string
+     * @throws DaoException
+     */
+    public function getJobCategoryList(
+        $sortField = 'jc.name',
+        $sortOrder = 'ASC',
+        $limit = null,
+        $offset = null,
+        $count = false
+    ) {
+        return $this->jobCatDao->getJobCategoryList($sortField, $sortOrder, $limit, $offset, $count);
+    }
+
+    /**
+     * @param int $jobCatId
+     * @return object|JobCategory|null
+     * @throws DaoException
+     */
+    public function getJobCategoryById(int $jobCatId)
+    {
+        return $this->jobCatDao->getJobCategoryById($jobCatId);
+    }
+
+    /**
+     * @param JobCategory $jobCategory
+     * @return JobCategory
+     * @throws DaoException
+     */
+    public function saveJobCategory(JobCategory $jobCategory): JobCategory
+    {
+        return $this->jobCatDao->saveJobCategory($jobCategory);
+    }
+
+    /**
+     * @param array $toBeDeletedJobCategoryIds
+     * @return int|mixed|string
+     * @throws DaoException
+     */
+    public function deleteJobCategory(array $toBeDeletedJobCategoryIds)
+    {
+        return $this->jobCatDao->deleteJobCategory($toBeDeletedJobCategoryIds);
+    }
 }
-
-?>

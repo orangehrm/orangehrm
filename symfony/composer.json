@@ -1,4 +1,6 @@
 {
+    "name": "orangehrm/orangehrm",
+    "description": "OrangeHRM open source",
     "require": {
         "php": "^7.3",
         "ext-pdo": "*",

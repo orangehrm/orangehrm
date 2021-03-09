@@ -34,7 +34,7 @@ trait ModelTrait
     private $attributeNames = [];
 
     /**
-     * @var null|Serializable|\Serializable
+     * @var null|Serializable|object
      */
     private $entity = null;
 
@@ -58,7 +58,7 @@ trait ModelTrait
 
     /**
      * Set Api entity class
-     * @param Serializable|\Serializable $entity
+     * @param Serializable|object $entity
      */
     public function setEntity($entity)
     {
