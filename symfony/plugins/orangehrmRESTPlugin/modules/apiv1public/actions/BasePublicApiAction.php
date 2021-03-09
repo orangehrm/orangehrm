@@ -17,6 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace Orangehrm\Rest\Modules\apiv1public\actions;
+
+use Orangehrm\Rest\Modules\baseapi\actions\baseRestAction;
+
 abstract class BasePublicApiAction extends baseRestAction
 {
     /**
