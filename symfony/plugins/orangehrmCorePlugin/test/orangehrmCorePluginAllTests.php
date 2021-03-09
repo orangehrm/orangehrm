@@ -95,6 +95,9 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/utility/Base64UrlTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/utility/NumberUtilityTest.php');
 
+        /* ohrmWidgets */
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetProjectListTest.php');
+
         return $suite;
     }
 

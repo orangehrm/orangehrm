@@ -18,6 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget {
+    use ohrmWidgetTrait;
 
     private $whereClauseCondition;
 
@@ -149,9 +150,7 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
      * @return string
      */
     public function generateWhereClausePart($fieldName, $value) {
-
-        $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value;
-
+        $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $this->getEscapedString($value);
         return $whereClausePart;
     }
 
