@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace Orangehrm\Rest\Modules\baseapi\actions;
+
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
@@ -26,6 +28,8 @@ use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Service\ApiUsageService;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 /**
  * @OA\OpenApi(openapi="3.0.3")
@@ -63,7 +67,7 @@ use OpenApi\Annotations as OA;
  *     example={"error":{"status":"404","text":"No Records Found"}}
  * )
  */
-abstract class baseRestAction extends baseOAuthAction {
+abstract class baseRestAction extends \baseOAuthAction {
 
     protected $getValidationRule = array();
     protected $postValidationRule = array();
@@ -133,14 +137,14 @@ abstract class baseRestAction extends baseOAuthAction {
     }
 
     /**
-     * @param sfWebRequest $request
+     * @param HttpRequest $request
      * @return string
      */
-    public function execute($request) {
+    public function execute(HttpRequest $request) {
         $httpRequest = new Request($request);
         $this->init($httpRequest);
-        $response = $this->getResponse();
-        $response->setHttpHeader('Content-type', 'application/json');
+        $response = new HttpResponse();
+        $response->headers->set('Content-type', 'application/json');
         try{
 
             if(!empty($this->getValidationRule($request))) {
@@ -191,8 +195,7 @@ abstract class baseRestAction extends baseOAuthAction {
             $response->setStatusCode(500);
         }
 
-
-        return sfView::NONE;
+        return $response;
     }
 
     /**

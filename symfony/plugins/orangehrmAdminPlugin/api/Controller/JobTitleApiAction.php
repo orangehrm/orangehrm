@@ -17,39 +17,49 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace Orangehrm\Rest\Http;
+namespace OrangeHRM\Rest\Admin\Controller;
 
-class Response{
+use OrangeHRM\Rest\Admin\JobTitleAPI;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Http\Response;
+use Orangehrm\Rest\Modules\baseapi\actions\baseRestAction;
 
-    private $data = null;
-    private $rels = null;
-    private $meta = null;
+class JobTitleApiAction extends baseRestAction
+{
+    /**
+     * @var null|JobTitleAPI
+     */
+    private $jobTitleAPI = null;
 
     /**
-     * Response constructor.
-     * @param array $data
-     * @param array $rels
-     * @param array $meta
+     * @param Request $request
      */
-    public function __construct($data = [], $rels = [], $meta = []){
-        $this->data = $data;
-        $this->rels = $rels;
-        $this->meta = $meta;
+    protected function init(Request $request)
+    {
+        $this->jobTitleAPI = new JobTitleAPI($request);
     }
 
     /**
-     * @return string
+     * @param Request $request
+     * @return Response
      */
-    public function format() {
-        return json_encode($this->data,true);
+    protected function handleGetRequest(Request $request)
+    {
+        return $this->jobTitleAPI->getJobTitle();
     }
 
-    public function formatData() {
-        $responseFormat = array('data' => $this->data, 'rels' => $this->rels, 'meta' => $this->meta);
-        return json_encode($responseFormat,true);
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    protected function handlePostRequest(Request $request)
+    {
+        throw new NotImplementedException();
     }
 
-    public static function formatError($error) {
-        return json_encode($error,true);
+    protected function handlePutRequest(Request $request)
+    {
+        return $this->jobTitleAPI->saveJobTitle();
     }
 }

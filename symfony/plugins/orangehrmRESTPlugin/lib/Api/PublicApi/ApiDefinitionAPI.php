@@ -37,9 +37,7 @@ class ApiDefinitionAPI extends EndPoint
             $jsonFileName = 'orangehrm-v1.json';
         }
 
-        $pathToJsonFile = sfConfig::get(
-                'sf_plugins_dir'
-            ) . DIRECTORY_SEPARATOR . 'orangehrmRESTPlugin' . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'openApi' . DIRECTORY_SEPARATOR . $jsonFileName;
+        $pathToJsonFile = realpath(__DIR__.'/../../..') . DIRECTORY_SEPARATOR . 'doc' . DIRECTORY_SEPARATOR . 'openApi' . DIRECTORY_SEPARATOR . $jsonFileName;
         return new JsonResponse(file_get_contents($pathToJsonFile));
     }
 
