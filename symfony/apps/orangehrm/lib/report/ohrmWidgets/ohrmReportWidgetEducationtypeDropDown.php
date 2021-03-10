@@ -18,6 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class ohrmReportWidgetEducationtypeDropDown extends sfWidgetForm implements ohrmEnhancedEmbeddableWidget {
+    use ohrmWidgetTrait;
 
     private $whereClauseCondition;
 
@@ -128,7 +129,7 @@ class ohrmReportWidgetEducationtypeDropDown extends sfWidgetForm implements ohrm
         if ($value == '') {
             $whereClausePart = null;
         } else {
-            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value;
+            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $this->getEscapedString($value);
         }
 
         return $whereClausePart;

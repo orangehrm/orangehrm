@@ -96,7 +96,13 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/utility/NumberUtilityTest.php');
 
         /* ohrmWidgets */
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetTraitTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetProjectListTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetAgeGroupTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetEducationtypeDropDownTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetEmployeeListAutoFillTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetJoinedDateTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetLanguageDropDownTest.php');
 
         return $suite;
     }

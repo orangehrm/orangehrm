@@ -28,7 +28,7 @@ trait ohrmWidgetTrait
      * @return PDO
      * @throws Doctrine_Manager_Exception
      */
-    public function getDbHandler()
+    protected function getDbHandler()
     {
         if (is_null($this->dbh)) {
             $this->dbh = Doctrine_Manager::connection()->getDbh();
@@ -36,7 +36,7 @@ trait ohrmWidgetTrait
         return $this->dbh;
     }
 
-    /**1
+    /**
      * @param $string
      * @return false|string
      * @throws Doctrine_Manager_Exception
@@ -46,4 +46,18 @@ trait ohrmWidgetTrait
         return $this->getDbHandler()->quote($string, PDO::PARAM_STR);
     }
 
+    /**
+     * @param $string
+     * @return false|string
+     * @throws Doctrine_Manager_Exception
+     */
+    protected function getEscapedCommaSeparated($string)
+    {
+        $items = explode(',', $string);
+        $escapedItems = [];
+        foreach ($items as $item) {
+            $escapedItems[] = $this->getDbHandler()->quote($item);
+        }
+        return implode(',', $escapedItems);
+    }
 }
