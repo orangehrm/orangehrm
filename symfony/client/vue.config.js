@@ -26,5 +26,11 @@ module.exports = {
       filename: 'admin_saveJobTitle.php',
       title: 'orangehrm',
     },
+    jobCategory: {
+      entry: '../plugins/orangehrmAdminPlugin/client/jobCategory/index.js',
+      template: 'public/index.html',
+      filename: 'admin_jobCategory.php',
+      title: 'Job Category',
+    },
   },
 };
