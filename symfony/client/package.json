@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "vue": "3.0.5",
     "vue-class-component": "^8.0.0-0"
