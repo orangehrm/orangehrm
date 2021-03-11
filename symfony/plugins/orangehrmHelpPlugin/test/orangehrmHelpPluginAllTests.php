@@ -22,26 +22,19 @@
 class orangehrmHelpPluginAllTests {
 
     protected function setUp() {
-
     }
+
     public static function suite() {
-
         $suite = new PHPUnit_Framework_TestSuite('orangehrmHelpPluginAllTest');
-
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/HelpServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/processor/ZendeskHelpProcessorTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/HelpConfigServiceTest.php');
-
-
         return $suite;
-
     }
 
     public static function main() {
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
-
-
 }
 

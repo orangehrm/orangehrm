@@ -40,7 +40,6 @@ class HelpServiceTest extends PHPUnit_Framework_TestCase
         $this->helpService = new HelpService();
     }
 
-
     public function testGetHelpProcessorClass() {
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getHelpProcessorClass'])
@@ -104,5 +103,4 @@ class HelpServiceTest extends PHPUnit_Framework_TestCase
         $actual = $this->helpService->getRedirectUrl('employees');
         $this->assertEquals($expected,$actual);
     }
-
 }
