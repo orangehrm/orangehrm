@@ -30,6 +30,7 @@ FilterField:
   4: {filter_field_id: 5, report_group_id: 2, name: 'salary', where_clause_part: 'hs_hr_emp_basicsalary.ebsal_basic_salary', filter_field_widget: 'ohrmWidgetProjectList', condition_no: 1, required: 'false'}
   5: {filter_field_id: 6, report_group_id: 2, name: 'city', where_clause_part: 'hs_hr_employee.city_code', filter_field_widget: 'ohrmWidgetProjectList', condition_no: 2, required: 'false'}
   6: {filter_field_id: 7, report_group_id: 2, name: 'mobile', where_clause_part: 'hs_hr_emp_emergency_contacts.eec_mobile_no', filter_field_widget: 'ohrmWidgetProjectList', condition_no: 1, required: 'false'}
+  7: {filter_field_id: 8, report_group_id: 2, name: 'location', where_clause_part: 'ohrm_location.id', filter_field_widget: 'ohrmReportWidgetOperationalCountryLocationDropDown', condition_no: 1, required: 'false'}
 
 SelectedFilterField:
   0: {report_id: 1, filter_field_id: 1, filter_field_order: 1, value1: null, value2: null, where_condition: null, type: 'Runtime'}
@@ -42,6 +43,7 @@ SelectedFilterField:
   7: {report_id: 3, filter_field_id: 5, filter_field_order: 2, value1: '12000', value2: '25000', where_condition: 'BETWEEN', type: 'Predefined'}
   8: {report_id: 3, filter_field_id: 6, filter_field_order: 3, value1: 'C123', value2: null, where_condition: '=', type: 'Predefined'}
   9: {report_id: 3, filter_field_id: 7, filter_field_order: 4, value1: '0777123456', value2: null, where_condition: '=', type: 'Predefined'}
+  10: {report_id: 3, filter_field_id: 8, filter_field_order: 4, value1: '1,-1', value2: null, where_condition: 'IN', type: 'Predefined'}
 
 DisplayField:
   0: {display_field_id: 1, report_group_id: 1, name: 'ohrm_project.name', label: 'Project Name', field_alias: 'projectname', is_sortable: 'true', sort_order: 'ASC', sort_field: 'projectname', element_type: 'label', element_property: '<xml><getter>projectname</getter></xml>', width: 200, is_exportable: 0, text_alignment_style: false, is_value_list: 0, default_value: '', is_encrypted: 0}

@@ -18,6 +18,8 @@
  * Boston, MA  02110-1301, USA
  */
 class ReportGeneratorService extends BaseService {
+    use ohrmWidgetTrait;
+
     const LIST_SEPARATOR = "|\n|";
 
     // ReportableService Data Access Object
@@ -1050,7 +1052,7 @@ class ReportGeneratorService extends BaseService {
     public function constructWhereStatementForUneryOperator($selectedFilterField, $whereCondition) {
         $whereClausePart = $selectedFilterField->getFilterField()->getWhereClausePart();
         $value1 = $selectedFilterField->getValue1();
-        $whereClause = $whereClausePart . " " . $whereCondition . " '" . $value1 . "'";
+        $whereClause = $whereClausePart . " " . $whereCondition . " " . $this->getEscapedString($value1);
         return $whereClause;
     }
 
@@ -1058,14 +1060,14 @@ class ReportGeneratorService extends BaseService {
         $whereClausePart = $selectedFilterField->getFilterField()->getWhereClausePart();
         $value1 = $selectedFilterField->getValue1();
         $value2 = $selectedFilterField->getValue2();
-        $whereClause = $whereClausePart . " BETWEEN '" . $value1 . "' AND '" . $value2 . "'";
+        $whereClause = $whereClausePart . " BETWEEN " . $this->getEscapedString($value1) . " AND " . $this->getEscapedString($value2);
         return $whereClause;
     }
 
     public function constructWhereStatementForInOperator($selectedFilterField, $whereCondition){
         $whereClausePart = $selectedFilterField->getFilterField()->getWhereClausePart();
         $value1 = $selectedFilterField->getValue1();
-        $whereClause = $whereClausePart . " " . $whereCondition . " " . "(" . $value1 . ")";
+        $whereClause = $whereClausePart . " " . $whereCondition . " " . "(" . $this->getEscapedCommaSeparated($value1) . ")";
         return $whereClause;
     }
 
