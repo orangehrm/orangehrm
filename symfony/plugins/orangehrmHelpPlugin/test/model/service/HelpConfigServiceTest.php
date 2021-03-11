@@ -22,13 +22,15 @@
  *
  * Class HelpConfigServiceTest
  */
-class HelpConfigServiceTest extends PHPUnit\Framework\TestCase {
+class HelpConfigServiceTest extends PHPUnit\Framework\TestCase
+{
 
-
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
     }
 
-    public function testGetHelpProcessorClass() {
+    public function testGetHelpProcessorClass()
+    {
         $mockHelpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['_getConfigValue'])
             ->getMock();
@@ -42,8 +44,9 @@ class HelpConfigServiceTest extends PHPUnit\Framework\TestCase {
         $this->assertEquals($expected, $config);
     }
 
-    public function testGetBaseHelpUrl() {
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetBaseHelpUrl()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $mockHelpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['_getConfigValue'])
             ->getMock();

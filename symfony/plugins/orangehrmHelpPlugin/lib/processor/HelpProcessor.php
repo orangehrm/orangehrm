@@ -17,7 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-interface HelpProcessor {
+interface HelpProcessor
+{
 
     public function getBaseUrl();
 
@@ -27,5 +28,5 @@ interface HelpProcessor {
 
     public function getDefaultRedirectUrl();
 
-    public function getRedirectUrlList($query,$labels,$categories);
+    public function getRedirectUrlList($query, $labels, $categories);
 }

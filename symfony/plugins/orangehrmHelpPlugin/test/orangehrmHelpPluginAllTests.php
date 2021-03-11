@@ -16,15 +16,19 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-/**
- *  @group Attendance
- */
-class orangehrmHelpPluginAllTests {
 
-    protected function setUp() {
+/**
+ * @group Attendance
+ */
+class orangehrmHelpPluginAllTests
+{
+
+    protected function setUp()
+    {
     }
 
-    public static function suite() {
+    public static function suite()
+    {
         $suite = new PHPUnit_Framework_TestSuite('orangehrmHelpPluginAllTest');
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/HelpServiceTest.php');
@@ -33,7 +37,8 @@ class orangehrmHelpPluginAllTests {
         return $suite;
     }
 
-    public static function main() {
+    public static function main()
+    {
         PHPUnit_TextUI_TestRunner::run(self::suite());
     }
 }

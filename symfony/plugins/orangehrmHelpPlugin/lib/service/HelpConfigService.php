@@ -17,7 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-class HelpConfigService extends ConfigService {
+class HelpConfigService extends ConfigService
+{
 
     const HELP_PROCESSOR_CLASS = 'help.processorClass';
     const HELP_URL = 'help.url';
@@ -28,7 +29,8 @@ class HelpConfigService extends ConfigService {
      *
      * @return String
      */
-    public function getHelpProcessorClass() {
+    public function getHelpProcessorClass()
+    {
         return $this->_getConfigValue(self::HELP_PROCESSOR_CLASS);
     }
 
@@ -37,7 +39,8 @@ class HelpConfigService extends ConfigService {
      *
      * @return String
      */
-    public function getBaseHelpUrl() {
+    public function getBaseHelpUrl()
+    {
         return $this->_getConfigValue(self::HELP_URL);
     }
 }

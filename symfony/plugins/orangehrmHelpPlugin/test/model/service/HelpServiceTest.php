@@ -26,6 +26,7 @@
 
 
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
+
 //use Orangehrm\Help\
 
 class HelpServiceTest extends PHPUnit_Framework_TestCase
@@ -40,7 +41,8 @@ class HelpServiceTest extends PHPUnit_Framework_TestCase
         $this->helpService = new HelpService();
     }
 
-    public function testGetHelpProcessorClass() {
+    public function testGetHelpProcessorClass()
+    {
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getHelpProcessorClass'])
             ->getMock();
@@ -51,31 +53,35 @@ class HelpServiceTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->helpService->getHelpProcessorClass() instanceof ZendeskHelpProcessor);
     }
 
-    public function testSetHelpProcessorClass() {
+    public function testSetHelpProcessorClass()
+    {
         $helpService = new HelpService();
         $helpService->setHelpProcessorClass(new ZendeskHelpProcessor());
         $this->assertTrue($helpService->getHelpProcessorClass() instanceof HelpProcessor);
     }
 
-    public function testGetHelpConfigService() {
+    public function testGetHelpConfigService()
+    {
         $this->assertTrue($this->helpService->getHelpConfigService() instanceof HelpConfigService);
     }
 
-    public function testSetHelpConfigService() {
+    public function testSetHelpConfigService()
+    {
         $helpService = new HelpService();
         $helpService->setHelpConfigService(new HelpConfigService());
         $this->assertTrue($helpService->getHelpConfigService() instanceof HelpConfigService);
     }
 
-    public function testGetDefaultRedirectUrl(){
+    public function testGetDefaultRedirectUrl()
+    {
         $articleResult = array(
             array(
-                "name"=> "Admin User Guide",
-                "url"=> "https://opensourcehelp.orangehrm.com/hc/en-us/categories/360002945799-Admin-User-Guide"
+                "name" => "Admin User Guide",
+                "url" => "https://opensourcehelp.orangehrm.com/hc/en-us/categories/360002945799-Admin-User-Guide"
             ),
             array(
-                "name"=> "Employee User Guide",
-                "url"=> "https://opensourcehelp.orangehrm.com/hc/en-us/categories/360002926580-Employee-User-Guide"
+                "name" => "Employee User Guide",
+                "url" => "https://opensourcehelp.orangehrm.com/hc/en-us/categories/360002926580-Employee-User-Guide"
             )
         );
         $helpProcessor = $this->getMockBuilder('ZendeskHelpProcessor')
@@ -87,20 +93,21 @@ class HelpServiceTest extends PHPUnit_Framework_TestCase
         $this->helpService->setHelpProcessorClass($helpProcessor);
         $expected = $articleResult;
         $actual = $this->helpService->getCategoriesFromSearchQuery();
-        $this->assertEquals($expected,$actual);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function testGetRedirectUrl(){
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetRedirectUrl()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpProcessor = $this->getMockBuilder('ZendeskHelpProcessor')
             ->setMethods(['getRedirectUrl'])
             ->getMock();
         $helpProcessor->expects($this->once())
             ->method('getRedirectUrl')
-            ->will($this->returnValue($baseUrl.'/api/v2/help_center/articles/employees'));
+            ->will($this->returnValue($baseUrl . '/api/v2/help_center/articles/employees'));
         $this->helpService->setHelpProcessorClass($helpProcessor);
-        $expected = $baseUrl.'/api/v2/help_center/articles/employees';
+        $expected = $baseUrl . '/api/v2/help_center/articles/employees';
         $actual = $this->helpService->getRedirectUrl('employees');
-        $this->assertEquals($expected,$actual);
+        $this->assertEquals($expected, $actual);
     }
 }
