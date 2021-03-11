@@ -20,9 +20,9 @@
 class ZendeskHelpProcessor implements HelpProcessor {
 
     const DEFAULT_CONTENT_TYPE = "application/json";
-    const ZENDESK_SEARCH_DIRECTORY_URL = '/api/v2/help_center/articles/search.json?';
-    const ZENDESK_CATEGORY_DIRECTORY_URL = '/api/v2/help_center/categories';
-    const ZENDESK_DEFAULT_REDIRECT_DIRECTORY = '/hc/en-us';
+    const ZENDESK_SEARCH_URL = '/api/v2/help_center/articles/search.json?';
+    const ZENDESK_CATEGORY_URL = '/api/v2/help_center/categories';
+    const ZENDESK_DEFAULT_URL_PATH = '/hc/en-us';
     protected $helpConfigService;
 
     /**
@@ -52,11 +52,11 @@ class ZendeskHelpProcessor implements HelpProcessor {
     /**
      * @param null $query
      * @param array $labels
-     * @param array $categorieIds
+     * @param array $categoryIds
      * @return false|string
      */
-    public function getSearchUrlFromQuery($query=null,$labels=[],$categorieIds=[]) {
-        $mainUrl=$this->getBaseUrl().self::ZENDESK_SEARCH_DIRECTORY_URL;
+    public function getSearchUrlFromQuery($query=null,$labels=[],$categoryIds=[]) {
+        $mainUrl=$this->getBaseUrl().self::ZENDESK_SEARCH_URL;
         if($query!=null){
             $mainUrl.='query='.$query;
         }
@@ -70,12 +70,12 @@ class ZendeskHelpProcessor implements HelpProcessor {
             }
             $mainUrl= substr($mainUrl,0,-1);
         }
-        if(count($categorieIds)>0){
+        if(count($categoryIds)>0){
             if(substr($mainUrl, -1)!='?'){
                 $mainUrl.='&';
             }
             $mainUrl.='category=';
-            foreach($categorieIds as $categoryId){
+            foreach($categoryIds as $categoryId){
                 $mainUrl.=$categoryId.',';
             }
             $mainUrl= substr($mainUrl,0,-1);
@@ -88,7 +88,7 @@ class ZendeskHelpProcessor implements HelpProcessor {
      * @return string
      */
     public function getSearchUrl($label) {
-        return $this->getBaseUrl().self::ZENDESK_SEARCH_DIRECTORY_URL.'label_names='.$label;
+        return $this->getBaseUrl().self::ZENDESK_SEARCH_URL.'label_names='.$label;
     }
 
     /**
@@ -142,20 +142,20 @@ class ZendeskHelpProcessor implements HelpProcessor {
      * @return string
      */
     public function getDefaultRedirectUrl() {
-        return $this->getBaseUrl().self::ZENDESK_DEFAULT_REDIRECT_DIRECTORY;
+        return $this->getBaseUrl().self::ZENDESK_DEFAULT_URL_PATH;
     }
 
     /**
      * @param null $query
      * @param array $labels
-     * @param array $categorieIds
+     * @param array $categoryIds
      * @return array
      */
-    public function getRedirectUrlList($query=null,$labels=[],$categorieIds=[]) {
-        if($query==null && $labels==[] && $categorieIds==[]){
+    public function getRedirectUrlList($query=null,$labels=[],$categoryIds=[]) {
+        if($query==null && $labels==[] && $categoryIds==[]){
             return [];
         }
-        $searchUrl = $this->getSearchUrlFromQuery($query,$labels,$categorieIds);
+        $searchUrl = $this->getSearchUrlFromQuery($query,$labels,$categoryIds);
         $results = $this->sendQuery($searchUrl);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
@@ -179,7 +179,7 @@ class ZendeskHelpProcessor implements HelpProcessor {
      * @return mixed|string
      */
     public function getCategoryRedirectUrl($category){
-        $url = $this->getBaseUrl().self::ZENDESK_CATEGORY_DIRECTORY_URL.'/'.$category;
+        $url = $this->getBaseUrl().self::ZENDESK_CATEGORY_URL.'/'.$category;
         $results = $this->sendQuery($url);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
@@ -197,7 +197,7 @@ class ZendeskHelpProcessor implements HelpProcessor {
      * @return array
      */
     public function getCategoriesFromSearchQuery($query=null){
-        $url = $this->getBaseUrl().self::ZENDESK_CATEGORY_DIRECTORY_URL;
+        $url = $this->getBaseUrl().self::ZENDESK_CATEGORY_URL;
         $results = $this->sendQuery($url);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
