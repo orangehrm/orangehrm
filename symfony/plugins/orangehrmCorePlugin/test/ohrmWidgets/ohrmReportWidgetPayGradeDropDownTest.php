@@ -20,39 +20,37 @@
 /**
  * @group ohrmWidget
  */
-class ohrmReportWidgetEducationtypeDropDownTest extends PHPUnit\Framework\TestCase
+class ohrmReportWidgetPayGradeDropDownTest extends PHPUnit\Framework\TestCase
 {
     /**
-     * @var ohrmReportWidgetEducationtypeDropDown
+     * @var ohrmReportWidgetPayGradeDropDown
      */
-    private $ohrmReportWidgetEducationtypeDropDown = null;
+    private $ohrmReportWidgetPayGradeDropDown = null;
 
     protected function setUp(): void
     {
-        $this->ohrmReportWidgetEducationtypeDropDown = $this->getMockBuilder(
-            ohrmReportWidgetEducationtypeDropDown::class
-        )
+        $this->ohrmReportWidgetPayGradeDropDown = $this->getMockBuilder(ohrmReportWidgetPayGradeDropDown::class)
             ->setMethods(['configure'])
             ->getMock();
     }
 
     public function testGenerateWhereClausePart()
     {
-        $returnValue = $this->ohrmReportWidgetEducationtypeDropDown->generateWhereClausePart(
-            'ohrm_emp_education.education_id',
+        $returnValue = $this->ohrmReportWidgetPayGradeDropDown->generateWhereClausePart(
+            'hs_hr_emp_basicsalary.sal_grd_code',
             '1'
         );
-        $this->assertEquals("ohrm_emp_education.education_id = '1'", $returnValue);
+        $this->assertEquals("hs_hr_emp_basicsalary.sal_grd_code = '1'", $returnValue);
     }
 
     public function testGenerateWhereClausePartWithSql()
     {
-        $returnValue = $this->ohrmReportWidgetEducationtypeDropDown->generateWhereClausePart(
-            'ohrm_emp_education.education_id',
-            '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 1;'
+        $returnValue = $this->ohrmReportWidgetPayGradeDropDown->generateWhereClausePart(
+            'hs_hr_emp_basicsalary.sal_grd_code',
+            '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";'
         );
         $this->assertEquals(
-            "ohrm_emp_education.education_id = '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 1;'",
+            'hs_hr_emp_basicsalary.sal_grd_code = \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
             $returnValue
         );
     }

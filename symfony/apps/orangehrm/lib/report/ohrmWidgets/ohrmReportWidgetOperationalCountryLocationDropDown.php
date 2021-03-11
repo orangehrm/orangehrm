@@ -24,6 +24,7 @@
  *
  */
 class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelectableGroupDropDown implements ohrmEnhancedEmbeddableWidget {
+    use ohrmWidgetTrait;
 
     private $operationalCountryService;
     private $choices = null;
@@ -181,7 +182,7 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
         if ($value == '-1') {
             $whereClausePart = null;
         } else {
-            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value;
+            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " (" . $this->getEscapedCommaSeparated($value) . ")";
         }
 
         return $whereClausePart;

@@ -37,26 +37,26 @@ class ohrmReportWidgetEmployeeListAutoFillTest extends PHPUnit\Framework\TestCas
     public function testGenerateWhereClausePart()
     {
         $returnValue = $this->ohrmReportWidgetEmployeeListAutoFill->generateWhereClausePart(
-            'fieldName',
+            'hs_hr_employee.emp_number',
             [
                 'empId' => '1',
                 'empName' => 'Employee Name'
             ]
         );
-        $this->assertEquals("fieldName = '1'", $returnValue);
+        $this->assertEquals("hs_hr_employee.emp_number = '1'", $returnValue);
     }
 
     public function testGenerateWhereClausePartWithSql()
     {
         $returnValue = $this->ohrmReportWidgetEmployeeListAutoFill->generateWhereClausePart(
-            'fieldName',
+            'hs_hr_employee.emp_number',
             [
                 'empId' => '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";',
                 'empName' => 'Employee Name'
             ]
         );
         $this->assertEquals(
-            'fieldName = \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
+            'hs_hr_employee.emp_number = \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
             $returnValue
         );
     }

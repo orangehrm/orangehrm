@@ -20,39 +20,34 @@
 /**
  * @group ohrmWidget
  */
-class ohrmReportWidgetEducationtypeDropDownTest extends PHPUnit\Framework\TestCase
+class ohrmReportWidgetLocationDropDownTest extends PHPUnit\Framework\TestCase
 {
     /**
-     * @var ohrmReportWidgetEducationtypeDropDown
+     * @var ohrmReportWidgetLocationDropDown
      */
-    private $ohrmReportWidgetEducationtypeDropDown = null;
+    private $ohrmReportWidgetLocationDropDown = null;
 
     protected function setUp(): void
     {
-        $this->ohrmReportWidgetEducationtypeDropDown = $this->getMockBuilder(
-            ohrmReportWidgetEducationtypeDropDown::class
-        )
+        $this->ohrmReportWidgetLocationDropDown = $this->getMockBuilder(ohrmReportWidgetLocationDropDown::class)
             ->setMethods(['configure'])
             ->getMock();
     }
 
     public function testGenerateWhereClausePart()
     {
-        $returnValue = $this->ohrmReportWidgetEducationtypeDropDown->generateWhereClausePart(
-            'ohrm_emp_education.education_id',
-            '1'
-        );
-        $this->assertEquals("ohrm_emp_education.education_id = '1'", $returnValue);
+        $returnValue = $this->ohrmReportWidgetLocationDropDown->generateWhereClausePart('fieldName', '1');
+        $this->assertEquals("fieldName = '1'", $returnValue);
     }
 
     public function testGenerateWhereClausePartWithSql()
     {
-        $returnValue = $this->ohrmReportWidgetEducationtypeDropDown->generateWhereClausePart(
-            'ohrm_emp_education.education_id',
-            '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 1;'
+        $returnValue = $this->ohrmReportWidgetLocationDropDown->generateWhereClausePart(
+            'fieldName',
+            '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";'
         );
         $this->assertEquals(
-            "ohrm_emp_education.education_id = '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 1;'",
+            'fieldName = \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
             $returnValue
         );
     }

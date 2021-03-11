@@ -103,6 +103,11 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetEmployeeListAutoFillTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetJoinedDateTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetLanguageDropDownTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetLocationDropDownTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetOperationalCountryLocationDropDownTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetPayGradeDropDownTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetServicePeriodTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetSkillDropDownTest.php');
 
         return $suite;
     }

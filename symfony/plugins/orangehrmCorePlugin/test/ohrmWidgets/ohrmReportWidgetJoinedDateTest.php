@@ -40,7 +40,7 @@ class ohrmReportWidgetJoinedDateTest extends PHPUnit\Framework\TestCase
     public function testGenerateWhereClausePart($value, $expected)
     {
         $this->ohrmReportWidgetJoinedDate->setWhereClauseCondition($value['comparision']);
-        $returnValue = $this->ohrmReportWidgetJoinedDate->generateWhereClausePart('fieldName', $value);
+        $returnValue = $this->ohrmReportWidgetJoinedDate->generateWhereClausePart('hs_hr_employee.joined_date', $value);
         $this->assertEquals($expected, $returnValue);
     }
 
@@ -56,7 +56,7 @@ class ohrmReportWidgetJoinedDateTest extends PHPUnit\Framework\TestCase
                 'value1' => '2021-03-10',
                 'value2' => ''
             ],
-            "fieldName > '2021-03-10'"
+            "hs_hr_employee.joined_date > '2021-03-10'"
         ];
 
         // <
@@ -66,7 +66,7 @@ class ohrmReportWidgetJoinedDateTest extends PHPUnit\Framework\TestCase
                 'value1' => '2021-03-10',
                 'value2' => ''
             ],
-            "fieldName < '2021-03-10'"
+            "hs_hr_employee.joined_date < '2021-03-10'"
         ];
 
         // BETWEEN
@@ -76,7 +76,7 @@ class ohrmReportWidgetJoinedDateTest extends PHPUnit\Framework\TestCase
                 'value1' => '2021-03-10',
                 'value2' => '2021-03-20'
             ],
-            "( fieldName BETWEEN '2021-03-10' AND '2021-03-20' )"
+            "( hs_hr_employee.joined_date BETWEEN '2021-03-10' AND '2021-03-20' )"
         ];
     }
 
@@ -88,7 +88,7 @@ class ohrmReportWidgetJoinedDateTest extends PHPUnit\Framework\TestCase
     public function testGenerateWhereClausePartWithSql($value, $expected)
     {
         $this->ohrmReportWidgetJoinedDate->setWhereClauseCondition($value['comparision']);
-        $returnValue = $this->ohrmReportWidgetJoinedDate->generateWhereClausePart('fieldName', $value);
+        $returnValue = $this->ohrmReportWidgetJoinedDate->generateWhereClausePart('hs_hr_employee.joined_date', $value);
         $this->assertEquals($expected, $returnValue);
     }
 
@@ -104,7 +104,7 @@ class ohrmReportWidgetJoinedDateTest extends PHPUnit\Framework\TestCase
                 'value1' => '2021-03-10;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";',
                 'value2' => ''
             ],
-            'fieldName > \'2021-03-10;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
+            'hs_hr_employee.joined_date > \'2021-03-10;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
         ];
 
         // <
@@ -114,7 +114,7 @@ class ohrmReportWidgetJoinedDateTest extends PHPUnit\Framework\TestCase
                 'value1' => '2021-03-10;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";',
                 'value2' => ''
             ],
-            'fieldName < \'2021-03-10;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
+            'hs_hr_employee.joined_date < \'2021-03-10;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
         ];
 
         // BETWEEN
@@ -124,7 +124,7 @@ class ohrmReportWidgetJoinedDateTest extends PHPUnit\Framework\TestCase
                 'value1' => '2021-03-10;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";',
                 'value2' => '2021-03-20'
             ],
-            '( fieldName BETWEEN \'2021-03-10;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\' AND \'2021-03-20\' )'
+            '( hs_hr_employee.joined_date BETWEEN \'2021-03-10;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\' AND \'2021-03-20\' )'
         ];
     }
 }

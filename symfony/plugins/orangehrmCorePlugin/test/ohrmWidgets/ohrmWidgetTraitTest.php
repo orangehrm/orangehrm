@@ -91,6 +91,12 @@ class ohrmWidgetTraitTest extends PHPUnit\Framework\TestCase
         $escapedString = $getEscapedString->invokeArgs($this->ohrmWidgetTestWidget, ['1,2,3']);
         $this->assertEquals("'1','2','3'", $escapedString);
 
+        $escapedString = $getEscapedString->invokeArgs($this->ohrmWidgetTestWidget, ['1']);
+        $this->assertEquals("'1'", $escapedString);
+
+        $escapedString = $getEscapedString->invokeArgs($this->ohrmWidgetTestWidget, ['1,-1']);
+        $this->assertEquals("'1','-1'", $escapedString);
+
         // if we get this kind of comma within the string it also will split
         $escapedString = $getEscapedString->invokeArgs($this->ohrmWidgetTestWidget, ["'1,4',2,3"]);
         $this->assertEquals("'\'1','4\'','2','3'", $escapedString);

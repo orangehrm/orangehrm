@@ -20,17 +20,17 @@
 /**
  * @group ohrmWidget
  */
-class ohrmReportWidgetEducationtypeDropDownTest extends PHPUnit\Framework\TestCase
+class ohrmReportWidgetOperationalCountryLocationDropDownTest extends PHPUnit\Framework\TestCase
 {
     /**
-     * @var ohrmReportWidgetEducationtypeDropDown
+     * @var ohrmReportWidgetOperationalCountryLocationDropDown
      */
-    private $ohrmReportWidgetEducationtypeDropDown = null;
+    private $ohrmReportWidgetOperationalCountryLocationDropDown = null;
 
     protected function setUp(): void
     {
-        $this->ohrmReportWidgetEducationtypeDropDown = $this->getMockBuilder(
-            ohrmReportWidgetEducationtypeDropDown::class
+        $this->ohrmReportWidgetOperationalCountryLocationDropDown = $this->getMockBuilder(
+            ohrmReportWidgetOperationalCountryLocationDropDown::class
         )
             ->setMethods(['configure'])
             ->getMock();
@@ -38,21 +38,27 @@ class ohrmReportWidgetEducationtypeDropDownTest extends PHPUnit\Framework\TestCa
 
     public function testGenerateWhereClausePart()
     {
-        $returnValue = $this->ohrmReportWidgetEducationtypeDropDown->generateWhereClausePart(
-            'ohrm_emp_education.education_id',
+        $returnValue = $this->ohrmReportWidgetOperationalCountryLocationDropDown->generateWhereClausePart(
+            'ohrm_location.id',
             '1'
         );
-        $this->assertEquals("ohrm_emp_education.education_id = '1'", $returnValue);
+        $this->assertEquals("ohrm_location.id IN ('1')", $returnValue);
+
+        $returnValue = $this->ohrmReportWidgetOperationalCountryLocationDropDown->generateWhereClausePart(
+            'ohrm_location.id',
+            '1,-1'
+        );
+        $this->assertEquals("ohrm_location.id IN ('1','-1')", $returnValue);
     }
 
     public function testGenerateWhereClausePartWithSql()
     {
-        $returnValue = $this->ohrmReportWidgetEducationtypeDropDown->generateWhereClausePart(
-            'ohrm_emp_education.education_id',
-            '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 1;'
+        $returnValue = $this->ohrmReportWidgetOperationalCountryLocationDropDown->generateWhereClausePart(
+            'ohrm_location.id',
+            '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";'
         );
         $this->assertEquals(
-            "ohrm_emp_education.education_id = '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 1;'",
+            'ohrm_location.id IN (\'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\')',
             $returnValue
         );
     }

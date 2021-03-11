@@ -20,39 +20,34 @@
 /**
  * @group ohrmWidget
  */
-class ohrmReportWidgetEducationtypeDropDownTest extends PHPUnit\Framework\TestCase
+class ohrmReportWidgetSkillDropDownTest extends PHPUnit\Framework\TestCase
 {
     /**
-     * @var ohrmReportWidgetEducationtypeDropDown
+     * @var ohrmReportWidgetSkillDropDown
      */
-    private $ohrmReportWidgetEducationtypeDropDown = null;
+    private $ohrmReportWidgetSkillDropDown = null;
 
     protected function setUp(): void
     {
-        $this->ohrmReportWidgetEducationtypeDropDown = $this->getMockBuilder(
-            ohrmReportWidgetEducationtypeDropDown::class
-        )
+        $this->ohrmReportWidgetSkillDropDown = $this->getMockBuilder(ohrmReportWidgetSkillDropDown::class)
             ->setMethods(['configure'])
             ->getMock();
     }
 
     public function testGenerateWhereClausePart()
     {
-        $returnValue = $this->ohrmReportWidgetEducationtypeDropDown->generateWhereClausePart(
-            'ohrm_emp_education.education_id',
-            '1'
-        );
-        $this->assertEquals("ohrm_emp_education.education_id = '1'", $returnValue);
+        $returnValue = $this->ohrmReportWidgetSkillDropDown->generateWhereClausePart('hs_hr_emp_skill.skill_id', '1');
+        $this->assertEquals("hs_hr_emp_skill.skill_id = '1'", $returnValue);
     }
 
     public function testGenerateWhereClausePartWithSql()
     {
-        $returnValue = $this->ohrmReportWidgetEducationtypeDropDown->generateWhereClausePart(
-            'ohrm_emp_education.education_id',
-            '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 1;'
+        $returnValue = $this->ohrmReportWidgetSkillDropDown->generateWhereClausePart(
+            'hs_hr_emp_skill.skill_id',
+            '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";'
         );
         $this->assertEquals(
-            "ohrm_emp_education.education_id = '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = 1;'",
+            'hs_hr_emp_skill.skill_id = \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
             $returnValue
         );
     }

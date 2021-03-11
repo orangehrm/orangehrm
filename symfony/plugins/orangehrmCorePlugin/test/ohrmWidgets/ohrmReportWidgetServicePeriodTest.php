@@ -20,16 +20,16 @@
 /**
  * @group ohrmWidget
  */
-class ohrmReportWidgetAgeGroupTest extends PHPUnit\Framework\TestCase
+class ohrmReportWidgetServicePeriodTest extends PHPUnit\Framework\TestCase
 {
     /**
-     * @var ohrmReportWidgetAgeGroup
+     * @var ohrmReportWidgetServicePeriod
      */
-    private $ohrmReportWidgetAgeGroup = null;
+    private $ohrmReportWidgetServicePeriod = null;
 
     protected function setUp(): void
     {
-        $this->ohrmReportWidgetAgeGroup = $this->getMockBuilder(ohrmReportWidgetAgeGroup::class)
+        $this->ohrmReportWidgetServicePeriod = $this->getMockBuilder(ohrmReportWidgetServicePeriod::class)
             ->setMethods(['configure'])
             ->getMock();
     }
@@ -41,9 +41,9 @@ class ohrmReportWidgetAgeGroupTest extends PHPUnit\Framework\TestCase
      */
     public function testGenerateWhereClausePart($value, $expected)
     {
-        $this->ohrmReportWidgetAgeGroup->setWhereClauseCondition($value['comparision']);
-        $returnValue = $this->ohrmReportWidgetAgeGroup->generateWhereClausePart(
-            'datediff(current_date(), hs_hr_employee.emp_birthday)/365',
+        $this->ohrmReportWidgetServicePeriod->setWhereClauseCondition($value['comparision']);
+        $returnValue = $this->ohrmReportWidgetServicePeriod->generateWhereClausePart(
+            'datediff(current_date(), hs_hr_employee.joined_date)/365',
             $value
         );
         $this->assertEquals($expected, $returnValue);
@@ -61,7 +61,7 @@ class ohrmReportWidgetAgeGroupTest extends PHPUnit\Framework\TestCase
                 'value1' => '20',
                 'value2' => ''
             ],
-            "datediff(current_date(), hs_hr_employee.emp_birthday)/365 < '20'"
+            "datediff(current_date(), hs_hr_employee.joined_date)/365 < '20'"
         ];
 
         // >
@@ -71,7 +71,7 @@ class ohrmReportWidgetAgeGroupTest extends PHPUnit\Framework\TestCase
                 'value1' => '30',
                 'value2' => ''
             ],
-            "datediff(current_date(), hs_hr_employee.emp_birthday)/365 > '30'"
+            "datediff(current_date(), hs_hr_employee.joined_date)/365 > '30'"
         ];
 
         // BETWEEN
@@ -81,14 +81,14 @@ class ohrmReportWidgetAgeGroupTest extends PHPUnit\Framework\TestCase
                 'value1' => '20',
                 'value2' => '30'
             ],
-            "( datediff(current_date(), hs_hr_employee.emp_birthday)/365 BETWEEN '20' AND '30' )"
+            "( datediff(current_date(), hs_hr_employee.joined_date)/365 BETWEEN '20' AND '30' )"
         ];
     }
 
     public function testGenerateWhereClausePartWithoutSetWhereClauseCondition()
     {
-        $returnValue = $this->ohrmReportWidgetAgeGroup->generateWhereClausePart(
-            'datediff(current_date(), hs_hr_employee.emp_birthday)/365',
+        $returnValue = $this->ohrmReportWidgetServicePeriod->generateWhereClausePart(
+            'datediff(current_date(), hs_hr_employee.joined_date)/365',
             [
                 'comparision' => '1',
                 'value1' => '20',
@@ -105,9 +105,9 @@ class ohrmReportWidgetAgeGroupTest extends PHPUnit\Framework\TestCase
      */
     public function testGenerateWhereClausePartWithSql($value, $expected)
     {
-        $this->ohrmReportWidgetAgeGroup->setWhereClauseCondition($value['comparision']);
-        $returnValue = $this->ohrmReportWidgetAgeGroup->generateWhereClausePart(
-            'datediff(current_date(), hs_hr_employee.emp_birthday)/365',
+        $this->ohrmReportWidgetServicePeriod->setWhereClauseCondition($value['comparision']);
+        $returnValue = $this->ohrmReportWidgetServicePeriod->generateWhereClausePart(
+            'datediff(current_date(), hs_hr_employee.joined_date)/365',
             $value
         );
         $this->assertEquals($expected, $returnValue);
@@ -125,7 +125,7 @@ class ohrmReportWidgetAgeGroupTest extends PHPUnit\Framework\TestCase
                 'value1' => '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";',
                 'value2' => ''
             ],
-            'datediff(current_date(), hs_hr_employee.emp_birthday)/365 < \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
+            'datediff(current_date(), hs_hr_employee.joined_date)/365 < \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
         ];
 
         // >
@@ -135,7 +135,7 @@ class ohrmReportWidgetAgeGroupTest extends PHPUnit\Framework\TestCase
                 'value1' => '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";',
                 'value2' => ''
             ],
-            'datediff(current_date(), hs_hr_employee.emp_birthday)/365 > \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
+            'datediff(current_date(), hs_hr_employee.joined_date)/365 > \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
         ];
 
         // BETWEEN
@@ -145,7 +145,7 @@ class ohrmReportWidgetAgeGroupTest extends PHPUnit\Framework\TestCase
                 'value1' => '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";',
                 'value2' => '30'
             ],
-            '( datediff(current_date(), hs_hr_employee.emp_birthday)/365 BETWEEN \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\' AND \'30\' )'
+            '( datediff(current_date(), hs_hr_employee.joined_date)/365 BETWEEN \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\' AND \'30\' )'
         ];
     }
 }

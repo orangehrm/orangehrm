@@ -36,18 +36,21 @@ class ohrmReportWidgetLanguageDropDownTest extends PHPUnit\Framework\TestCase
 
     public function testGenerateWhereClausePart()
     {
-        $returnValue = $this->ohrmReportWidgetLanguageDropDown->generateWhereClausePart('fieldName', '1');
-        $this->assertEquals("fieldName = '1'", $returnValue);
+        $returnValue = $this->ohrmReportWidgetLanguageDropDown->generateWhereClausePart(
+            'hs_hr_emp_language.lang_id',
+            '1'
+        );
+        $this->assertEquals("hs_hr_emp_language.lang_id = '1'", $returnValue);
     }
 
     public function testGenerateWhereClausePartWithSql()
     {
         $returnValue = $this->ohrmReportWidgetLanguageDropDown->generateWhereClausePart(
-            'fieldName',
+            'hs_hr_emp_language.lang_id',
             '1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = "1";'
         );
         $this->assertEquals(
-            'fieldName = \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
+            'hs_hr_emp_language.lang_id = \'1;DELETE FROM `hs_hr_employee` WHERE `hs_hr_employee`.`emp_number` = \"1\";\'',
             $returnValue
         );
     }
