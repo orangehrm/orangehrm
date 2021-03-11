@@ -126,7 +126,9 @@ export default {
     onCancel() {
       window.location.reload();
     },
-    onError() {},
+    onError() {
+      console.log('log')
+    },
     onSave() {
       const headers = new Headers();
       headers.append("Content-Type", "application/json");

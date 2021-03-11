@@ -50,7 +50,7 @@
 
 <script>
 import CardTable from "@orangehrm/oxd/core/components/CardTable/CardTable";
-import Button from "@orangehrm/oxd/src/core/components/Button/Button";
+import Button from "@orangehrm/oxd/core/components/Button/Button";
 import Pagination from "@orangehrm/oxd/core/components/Pagination/Pagination";
 import Divider from "@orangehrm/oxd/core/components/Divider/Divider";
 import Text from "@orangehrm/oxd/core/components/Text/Text";
