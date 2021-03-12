@@ -18,6 +18,8 @@
  * Boston, MA  02110-1301, USA
  */
 class ohrmWidgetDateInterval extends ohrmWidgetDateRange {
+    use ohrmWidgetTrait;
+
         /**
      * This method generates the where clause part.
      * @param string $fieldNames
@@ -27,7 +29,7 @@ class ohrmWidgetDateInterval extends ohrmWidgetDateRange {
     public function generateWhereClausePart($fieldNames, $dateRanges) {
 
         $fromDate = "1970-01-01";
-        $toDate = date("Y-m-d");
+        $toDate = $this->getTodayDate();
 
         $fieldArray = explode(",", $fieldNames);
         $field1 = $fieldArray[0];
@@ -42,21 +44,23 @@ class ohrmWidgetDateInterval extends ohrmWidgetDateRange {
             $fromDate = $dateRanges["from"];
         }
 
+        $fromDate = $this->getEscapedString($fromDate);
+        $toDate = $this->getEscapedString($toDate);
 //        Case 1
-        $sqlPartForField1 = "( " . $field1. " " . $this->getWhereClauseCondition() . " '" . $fromDate . "' AND '" . $toDate . "' )";
-        $sqlPartForField2 = "( " . $field2. " " . $this->getWhereClauseCondition() . " '" . $fromDate . "' AND '" . $toDate . "' )";
+        $sqlPartForField1 = "( " . $field1. " " . $this->getWhereClauseCondition() . " " . $fromDate . " AND " . $toDate . " )";
+        $sqlPartForField2 = "( " . $field2. " " . $this->getWhereClauseCondition() . " " . $fromDate . " AND " . $toDate . " )";
 
         $sqlForCase1 = " ( " . $sqlPartForField1 . " AND " . $sqlPartForField2 . " ) ";
 
 //        Case 2
-        $sqlPartForField1 = " ( " . $field1 . " > '" . $fromDate . "' AND " . $field1 . " < '" . $toDate . "' ) " ;
+        $sqlPartForField1 = " ( " . $field1 . " > " . $fromDate . " AND " . $field1 . " < " . $toDate . " ) " ;
         $sqlPartForField2 = " ( ".$field2 . " > '" . $toDate . "' ) ";
 
         $sqlForCase2 = " ( " .$sqlPartForField1 . " AND " . $sqlPartForField2 . " ) ";
 
 //        Case 3
-        $sqlPartForField1 = " ( " . $field1 . " < '" . $fromDate . "' ) ";
-        $sqlPartForField2 = " ( " . $field2 . " > '" . $fromDate . "' AND " . $field2 . " < '" . $toDate . "' ) " ;
+        $sqlPartForField1 = " ( " . $field1 . " < " . $fromDate . " ) ";
+        $sqlPartForField2 = " ( " . $field2 . " > " . $fromDate . " AND " . $field2 . " < " . $toDate . " ) " ;
 
         $sqlForCase3 = " ( " .$sqlPartForField1 . " AND " . $sqlPartForField2 . " ) ";
 

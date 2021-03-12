@@ -18,6 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEnhancedEmbeddableWidget {
+    use ohrmWidgetTrait;
 
     private $whereClauseCondition;
     private $subDivisionList;
@@ -150,7 +151,7 @@ class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEnhancedEmbe
         if ($value == 0) {
             return null;
         } else {
-            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . "(" . $value . ")";
+            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . "(" . $this->getEscapedCommaSeparated($value) . ")";
             return $whereClausePart;
         }
     }

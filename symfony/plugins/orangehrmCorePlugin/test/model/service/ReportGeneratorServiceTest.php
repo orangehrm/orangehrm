@@ -191,7 +191,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $conditionArray = $this->reportGeneratorService->generateRuntimeWhereClauseConditions($selectedRuntimeFilterFields, $values);
 
         $this->assertEquals(2, count($conditionArray));
-        $this->assertEquals("ohrm_project.project_id = 2 AND ohrm_project_activity.is_deleted = 0", $conditionArray[2]);
+        $this->assertEquals("ohrm_project.project_id = '2' AND ohrm_project_activity.is_deleted = 0", $conditionArray[2]);
         $this->assertEquals("( date BETWEEN '1989' AND '1982' )", $conditionArray[1]);
     }
 
@@ -399,6 +399,16 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $whereClause = $this->reportGeneratorService->constructWhereStatementForBetweenOperator($selectedFilterField, $whereCondition);
         
         $this->assertEquals("hs_hr_emp_basicsalary.ebsal_basic_salary BETWEEN '12000' AND '25000'", $whereClause);
+    }
+
+    public function testConstructWhereStatementForInOperator() {
+        $selectedFilterField = TestDataService::fetchObject('SelectedFilterField', array(3, 8));
+        $whereCondition = 'IN';
+        $whereClause = $this->reportGeneratorService->constructWhereStatementForInOperator(
+            $selectedFilterField,
+            $whereCondition
+        );
+        $this->assertEquals("ohrm_location.id IN ('1','-1')", $whereClause);
     }
 
     public function testGenerateWhereClauseForPredefinedReport(){

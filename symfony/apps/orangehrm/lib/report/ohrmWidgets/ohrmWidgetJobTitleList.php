@@ -18,6 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class ohrmWidgetJobTitleList extends sfWidgetForm implements ohrmEnhancedEmbeddableWidget {
+    use ohrmWidgetTrait;
 
     private $whereClauseCondition;
     private $jobTitleList;
@@ -138,7 +139,7 @@ class ohrmWidgetJobTitleList extends sfWidgetForm implements ohrmEnhancedEmbedda
         if ($value == '0') {
             return null;
         } else {
-            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . "'" . $value . "'";
+            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $this->getEscapedString($value);
             return $whereClausePart;
         }
     }

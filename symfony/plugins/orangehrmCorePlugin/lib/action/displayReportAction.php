@@ -77,7 +77,8 @@ abstract class displayReportAction extends basePimReportAction {
 
         $reportableGeneratorService = new ReportGeneratorService();
 
-        $sql = $request->getParameter("sql");
+        $sql = $this->getUser()->getAttribute("sql");
+        $this->getUser()->getAttributeHolder()->remove("sql");
 
         $reportableService = new ReportableService();
         $this->report = $reportableService->getReport($reportId);

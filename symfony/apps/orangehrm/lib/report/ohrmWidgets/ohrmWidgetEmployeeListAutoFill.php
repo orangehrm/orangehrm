@@ -18,6 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class ohrmWidgetEmployeeListAutoFill extends sfWidgetFormInput implements ohrmEnhancedEmbeddableWidget {
+    use ohrmWidgetTrait;
 
     private $whereClauseCondition;
 
@@ -220,7 +221,7 @@ EOF
      */
     public function generateWhereClausePart($fieldName, $value) {
 
-        $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value;
+        $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $this->getEscapedString($value);
 
         return $whereClausePart;
     }

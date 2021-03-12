@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class ohrmWidgetProjectListWithAllOption extends sfWidgetForm implements ohrmEmbeddableWidget {
-
+    use ohrmWidgetTrait;
     private $whereClauseCondition;
 
     public function configure($options = array(), $attributes = array()) {
@@ -126,7 +126,7 @@ class ohrmWidgetProjectListWithAllOption extends sfWidgetForm implements ohrmEmb
         if ($value == -1) {
             return null;
         } else {
-            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value;
+            $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $this->getEscapedString($value);
             return $whereClausePart;
         }
     }

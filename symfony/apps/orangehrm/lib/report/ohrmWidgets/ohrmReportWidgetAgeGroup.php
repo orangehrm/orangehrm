@@ -18,6 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class ohrmReportWidgetAgeGroup extends sfWidgetForm implements ohrmEnhancedEmbeddableWidget {
+    use ohrmWidgetTrait;
 
     private $whereClauseCondition;
     private $id;
@@ -154,11 +155,11 @@ EOF
         $condition = $this->getWhereClauseCondition();
 
         if($condition == '<'){
-            return $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value['value1'];
+            return $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $this->getEscapedString($value['value1']);
         }else if($condition == '>'){
-            return $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $value['value1'];
+            return $whereClausePart = $fieldName . " " . $this->getWhereClauseCondition() . " " . $this->getEscapedString($value['value1']);
         }else if($condition == 'BETWEEN'){
-            return "( " . $fieldName . " " . $this->getWhereClauseCondition() . " '" . $value['value1'] . "' AND '" . $value['value2'] . "' )";
+            return "( " . $fieldName . " " . $this->getWhereClauseCondition() . " " . $this->getEscapedString($value['value1']) . " AND " . $this->getEscapedString($value['value2']) . " )";
         }
 
         return null;
