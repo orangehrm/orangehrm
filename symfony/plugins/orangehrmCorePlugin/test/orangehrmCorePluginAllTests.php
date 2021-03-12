@@ -108,6 +108,15 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetPayGradeDropDownTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetServicePeriodTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmReportWidgetSkillDropDownTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetJobTitleListTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetProjectListWithAllOptionTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetProjectActivityListTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetEmploymentStatusListTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetSubDivisionListTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetDateRangeTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetDateIntervalTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetEmployeeListAutoFillTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/ohrmWidgets/ohrmWidgetEmployeeListTest.php');
 
         return $suite;
     }

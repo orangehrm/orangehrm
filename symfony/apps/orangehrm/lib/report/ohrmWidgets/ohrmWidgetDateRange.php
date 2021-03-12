@@ -18,6 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
+    use ohrmWidgetTrait;
 
     private $whereClauseCondition;
     private $id;
@@ -90,9 +91,8 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
     public function generateWhereClausePart($fieldName, $dateRanges) {
 
         $fromDate = "1970-01-01";
-        $toDate = date("Y-m-d");
-        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
-        $datepickerDateFormat = get_datepicker_date_format($inputDatePattern);
+        $toDate = $this->getTodayDate();
+        $datepickerDateFormat = $this->getDatePickerDateFormat();
 
         if (($dateRanges["from"] != $datepickerDateFormat) && ($dateRanges["to"] != $datepickerDateFormat)) {
 
@@ -112,8 +112,16 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
             }
         }
 
+        return "( " .$fieldName. " " .$this->getWhereClauseCondition(). " '" . $fromDate . "' AND '" . $toDate . "' )";
+    }
 
-        return "( " . $fieldName . " " . $this->getWhereClauseCondition() . " '" . $fromDate . "' AND '" . $toDate . "' )";
+    public function getTodayDate(){
+        return date("Y-m-d");
+    }
+
+    public function getDatePickerDateFormat(){
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        return get_datepicker_date_format($inputDatePattern);
     }
     
     public function getJavaScripts() {
