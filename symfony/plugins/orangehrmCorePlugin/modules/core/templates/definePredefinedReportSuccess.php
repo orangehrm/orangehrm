@@ -252,6 +252,9 @@ use_javascript('orangehrm.datepicker.js');
             width: 192px;
         }
 
+        .ac_results {
+            min-width: 237px !important;
+        }
     </style>
     <script type="text/javascript">
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
