@@ -4,7 +4,7 @@
       <div class="orangehrm-header-container">
         <oxd-text tag="h6">Job Category List</oxd-text>
         <div>
-          <oxd-button label="Add" type="secondary" @click="onClickAdd" />
+          <oxd-button label="Add" displayType="secondary" @click="onClickAdd" />
         </div>
       </div>
       <oxd-divider class="orangehrm-horizontal-margin" />
@@ -16,7 +16,7 @@
             </oxd-text>
             <oxd-button
               label="Delete Selected"
-              type="label-danger"
+              displayType="label-danger"
               @click="onClickDeleteSelected"
               class="orangehrm-horizontal-margin"
             />
@@ -105,10 +105,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      this.$emit("onAddItem");
+      this.$emit("onAddItem", { viewId:2, payload: null });
     },
     onClickEdit(item) {
-      this.$emit("onEditItem", item);
+      this.$emit("onEditItem", { viewId:3, payload: item });
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map((index) => {

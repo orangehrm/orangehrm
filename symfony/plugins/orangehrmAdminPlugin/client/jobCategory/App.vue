@@ -1,8 +1,9 @@
 <template>
   <!-- TODO: Extend from base layout -->
   <div class="container">
-    <job-category-list @on-add-item="showAddView" @on-edit-item="showEditView" v-if="activeView==1"></job-category-list>
-    <job-category-single v-if="activeView==2" title="New Job Category" :jobCategory="{}"></job-category-single>
+   <job-category-list v-if="activeView==1" @on-add-item="changeView" @on-edit-item="changeView"></job-category-list>
+   <job-category-single v-if="activeView==2" @on-cancel="changeView" title="Add Job Category" action="Add" :jobCategory="null"></job-category-single>
+   <job-category-single v-if="activeView==3" @on-cancel="changeView" title="Edit Job Category" action="Update" :jobCategory="payload"></job-category-single>
   </div>
 </template>
 
@@ -18,16 +19,14 @@ export default {
   data() {
     return {
       activeView: 1,
+      payload: null
     };
   },
   methods: {
-    showAddView() {
-      this.activeView = 2;
+    changeView({ viewId, payload }) {
+      this.activeView = viewId;
+      this.payload = payload ? payload : null;
     },
-    // TODO: Edit view
-    showEditView(item) {
-      console.log(item);
-    }
   },
 };
 </script>

@@ -5,23 +5,32 @@
 
       <oxd-divider />
 
-      <oxd-form novalidate="true">
+      <oxd-form @submitValid="onSave">
         <oxd-form-row>
-          <oxd-input-field label="Job Title" />
+          <oxd-input-field
+            label="Job Category Name"
+            v-model="category.name"
+            :rules="rules.name"
+          />
         </oxd-form-row>
+
+        <oxd-divider />
+
+        <oxd-form-actions>
+          <oxd-button
+            type="button"
+            displayType="ghost"
+            label="Cancel"
+            @click="onCancel"
+          />
+          <oxd-button
+            class="orangehrm-left-space"
+            displayType="secondary"
+            :label="action"
+            type="submit"
+          />
+        </oxd-form-actions>
       </oxd-form>
-
-      <oxd-divider />
-
-      <oxd-form-actions>
-        <oxd-button type="ghost" label="Cancel" @click="onCancel" />
-        <oxd-button
-          class="orangehrm-left-space"
-          type="secondary"
-          label="Save"
-          @click="onSave"
-        />
-      </oxd-form-actions>
     </div>
   </div>
 </template>
@@ -29,17 +38,77 @@
 <script>
 // TODO: Component logic
 export default {
-  props: ["title", "jobCategory"],
+  props: ["title", "action", "jobCategory"],
   data() {
-    return {};
+    return {
+      category: {
+        id: "",
+        name: "",
+      },
+      rules: {
+        name: [],
+      },
+      errors: [],
+    };
   },
   methods: {
     onSave() {
-      console.log("do save");
+      // TODO: Loading
+      if (this.action == "Update") {
+        this.$http
+          .put(`api/v1/admin/job-categories/${this.category.id}`, {
+            name: this.category.name,
+          })
+          .then(() => {
+            // go back
+            this.onCancel();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        this.$http
+          .post(`api/v1/admin/job-categories`, {
+            name: this.category.name,
+          })
+          .then(() => {
+            // go back
+            this.onCancel();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     },
     onCancel() {
-      console.log("go back");
+      this.$emit("onCancel", { viewId: 1, payload: null });
     },
+  },
+  created() {
+    if (this.jobCategory) {
+      this.category.id = this.jobCategory.id ? this.jobCategory.id : "";
+      this.category.name = this.jobCategory.name ? this.jobCategory.name : "";
+    }
+
+    // Fetch list data for unique test
+    this.$http.get(`api/v1/admin/job-categories`).then((response) => {
+      const { data } = response.data;
+      this.rules.name.push((v) => {
+        return (!!v && v.trim() !== "") || "Required";
+      });
+      this.rules.name.push((v) => {
+        return (v && v.length <= 100) || "Should be less than 50 characters";
+      });
+      this.rules.name.push((v) => {
+        const index = data.findIndex((item) => item.name == v);
+        if (index > -1) {
+          const { id } = data[index];
+          return id != this.category.id ? "Job category name should be unique" : true;
+        } else {
+          return true;
+        }
+      });
+    });
   },
 };
 </script>
