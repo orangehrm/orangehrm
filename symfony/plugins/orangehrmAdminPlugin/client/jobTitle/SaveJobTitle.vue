@@ -5,7 +5,7 @@
 
       <oxd-divider />
 
-      <oxd-form novalidate="true">
+      <oxd-form @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
             label="Job Title"
@@ -36,30 +36,30 @@
             @errors="onError"
           />
         </oxd-form-row>
+
+        <oxd-form-row>
+          <oxd-input-field
+            type="textarea"
+            label="Note"
+            placeholder="Add note"
+            v-model="jobTitle.note"
+            :rules="rules.note"
+            @errors="onError"
+          />
+        </oxd-form-row>
+
+        <oxd-divider />
+
+        <oxd-form-actions>
+          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            class="orangehrm-left-space"
+            displayType="secondary"
+            label="Add"
+            type="submit"
+          />
+        </oxd-form-actions>
       </oxd-form>
-
-      <oxd-form-row>
-        <oxd-input-field
-          type="textarea"
-          label="Note"
-          placeholder="Add note"
-          v-model="jobTitle.note"
-          :rules="rules.note"
-          @errors="onError"
-        />
-      </oxd-form-row>
-
-      <oxd-divider />
-
-      <oxd-form-actions>
-        <oxd-button type="ghost" label="Cancel" @click="onCancel" />
-        <oxd-button
-          class="orangehrm-left-space"
-          type="secondary"
-          label="Save"
-          @click="onSave"
-        />
-      </oxd-form-actions>
     </div>
   </div>
 </template>

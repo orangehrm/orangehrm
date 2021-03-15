@@ -12,14 +12,14 @@
     <div class="orangehrm-modal-footer">
       <oxd-button
         label="No, Cancel"
-        type="text"
+        displayType="text"
         class="orangehrm-button-margin"
         @click="onCancel"
       />
       <oxd-button
         label="Yes, Delete"
         iconName="trash"
-        type="label-danger"
+        displayType="label-danger"
         class="orangehrm-button-margin"
         @click="onDelete"
       />

@@ -4,7 +4,7 @@
       <div class="orangehrm-header-container">
         <oxd-text tag="h6">Job Title List</oxd-text>
         <div>
-          <oxd-button label="Add" type="secondary" @click="onClickAdd" />
+          <oxd-button label="Add" displayType="secondary" @click="onClickAdd" />
         </div>
       </div>
       <oxd-divider class="orangehrm-horizontal-margin" />
@@ -16,7 +16,7 @@
             </oxd-text>
             <oxd-button
               label="Delete Selected"
-              type="label-error"
+              displayType="label-error"
               @click="onClickDeleteSelected"
               class="orangehrm-horizontal-margin"
             />
