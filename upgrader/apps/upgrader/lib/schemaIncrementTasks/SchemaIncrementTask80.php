@@ -34,29 +34,7 @@ class SchemaIncrementTask80 extends SchemaIncrementTask
         $sql[] = "UPDATE `hs_hr_config` SET `value` = '" . $this->incrementNumber . "' WHERE `hs_hr_config`.`key` = 'instance.increment_number';";
 
         $sql[] = "INSERT INTO `ohrm_i18n_group` (`name`,`title`) VALUES ('help','Help')";
-
-        $sql[] =  "INSERT INTO `ohrm_screen` (`name`, `module_id`, `action_url`) VALUES
-                        ('Save Subscriber', 2, 'saveSubscriber'),
-                        ('Employee', 3, 'viewEmployee'),
-                        ('Personal Details', 3, 'viewPersonalDetails'),
-                        ('Contact Details', 3, 'contactDetails'),
-                        ('Emergency Contacts', 3, 'viewEmergencyContacts'),
-                        ('Dependents', 3, 'viewDependents'),
-                        ('Immigration', 3, 'viewImmigration'),
-                        ('Job Details', 3, 'viewJobDetails'),
-                        ('Salary List', 3, 'viewSalaryList'),
-                        ('Us Tax Exemptions', 3, 'viewUsTaxExemptions'),
-                        ('Report To Details', 3, 'viewReportToDetails'),
-                        ('Qualifications', 3, 'viewQualifications'),
-                        ('Memberships', 3, 'viewMemberships'),
-                        ('Timesheet', 5, 'viewTimesheet'),
-                        ('Punch Out', 6, 'punchOut'),
-                        ('Edit Attendance Record', 6, 'editAttendanceRecord'),
-                        ('proxy PunchIn PunchOut', 6, 'proxyPunchInPunchOut'),
-                        ('Change Candidate Vacancy Status', 7, 'changeCandidateVacancyStatus'),
-                        ('Subscriber', 3, 'subscriber'),
-                        ('Subscriber', 5, 'editTimesheet'),
-                        ('Subscriber', 2, 'changeUserPassword');";
+        
         $this->sql = $sql;
     }
 
