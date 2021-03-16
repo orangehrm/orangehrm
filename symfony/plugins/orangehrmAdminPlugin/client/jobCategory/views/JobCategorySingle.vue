@@ -113,19 +113,19 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .orangehrm-left-space {
   margin-left: 10px;
 }
 
 .orangehrm-card-container {
-  background-color: white;
-  border-radius: 1.2rem;
+  background-color: $oxd-white-color;
+  border-radius: $oxd-border-radius;
   padding: 1.2rem;
 }
 
 .orangehrm-background-container {
-  background-color: #f6f5fb;
+  background-color: $oxd-background-pastel-white-color;
   padding: 2rem;
   flex: 1;
 }

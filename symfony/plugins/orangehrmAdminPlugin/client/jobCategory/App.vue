@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .container {
   width: 100vw;
   display: flex;
@@ -39,7 +39,7 @@ export default {
 
 body {
   margin: 0;
-  background-color: #f6f5fb;
+  background-color: $oxd-background-pastel-white-color;
 }
 
 .orangehrm-header-container {
@@ -51,14 +51,13 @@ body {
 }
 
 .orangehrm-container {
-  background-color: #e8eaef;
-  /*border-radius: 1.2rem;*/
+  background-color: $oxd-interface-gray-lighten-2-color;
   padding: 0.5rem;
 }
 
 .orangehrm-paper-container {
-  background-color: white;
-  border-radius: 1.2rem;
+  background-color: $oxd-white-color;
+  border-radius: $oxd-border-radius;
 }
 
 .orangehrm-horizontal-padding {
@@ -77,7 +76,7 @@ body {
 }
 
 .orangehrm-background-container {
-  background-color: #f6f5fb;
+  background-color: $oxd-background-pastel-white-color;
   padding: 2rem;
   flex: 1;
 }
