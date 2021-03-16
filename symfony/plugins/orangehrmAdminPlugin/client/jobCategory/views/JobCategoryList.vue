@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import DeleteConfirmationDialog from "../components/dialogs/DeleteConfirmationDialog";
+import DeleteConfirmationDialog from "@orangehrm/components/dialogs/DeleteConfirmationDialog";
 
 export default {
   data() {
