@@ -36,9 +36,12 @@
 </template>
 
 <script>
-// TODO: Component logic
 export default {
-  props: ["title", "action", "jobCategory"],
+  props: {
+    title: String,
+    action: String,
+    jobCategory: Object,
+  },
   data() {
     return {
       category: {
@@ -103,7 +106,9 @@ export default {
         const index = data.findIndex((item) => item.name == v);
         if (index > -1) {
           const { id } = data[index];
-          return id != this.category.id ? "Job category name should be unique" : true;
+          return id != this.category.id
+            ? "Job category name should be unique"
+            : true;
         } else {
           return true;
         }
