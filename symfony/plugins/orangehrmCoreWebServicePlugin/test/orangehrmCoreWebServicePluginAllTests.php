@@ -1,14 +1,9 @@
 <?php
 
 class orangehrmCoreWebServicePluginAllTests {
-
-    protected function setUp() {
-
-    }
-
     public static function suite() {
 
-        $suite = new PHPUnit_Framework_TestSuite('orangehrmCoreWebServicePluginAllTest');
+        $suite = new PHPUnit\Framework\TestSuite('orangehrmCoreWebServicePluginAllTest');
 
         /* Utility Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/lib/utility/WSHelperTest.php');
@@ -24,11 +19,6 @@ class orangehrmCoreWebServicePluginAllTests {
         return $suite;
 
     }
-
-    public static function main() {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-
 }
 
 

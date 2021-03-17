@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,12 +16,13 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
+
+use OrangeHRM\Config\Config;
 
 /**
  * @group Admin
  */
-class JobTitleServiceTest extends PHPUnit_Framework_TestCase {
+class JobTitleServiceTest extends PHPUnit\Framework\TestCase {
 
     private $JobTitleService;
     protected $fixture;
@@ -31,9 +30,9 @@ class JobTitleServiceTest extends PHPUnit_Framework_TestCase {
     /**
      * Set up method
      */
-    protected function setUp() {
+    protected function setUp():void {
         $this->JobTitleService = new JobTitleService();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobTitleDao.yml';
+        $this->fixture = Config::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobTitleDao.yml';
         TestDataService::populate($this->fixture);
     }
 
