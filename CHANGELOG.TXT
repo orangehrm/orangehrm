@@ -1,3 +1,12 @@
+New & Changed Features for OrangeHRM ver 4.8
+    New Feature
+    -----------
+    Help portal integration: Employees and admin can access the user guide via the system.
+
+    Bug Fixes
+    ---------
+    Security fix [CVE-2021-28051]
+
 New & Changed Features for OrangeHRM ver 4.7
     New Features
     ------------
