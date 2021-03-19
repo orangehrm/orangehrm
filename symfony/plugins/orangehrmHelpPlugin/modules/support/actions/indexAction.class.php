@@ -21,9 +21,11 @@
 
 class indexAction extends sfAction
 {
-    public function execute($request) {
+    public function execute($request)
+    {
+        $request = sfContext::getInstance()->getRequest();
+        $this->isHttps = $request->isSecure();
+        $this->url = rtrim(public_path('', true), "/");
         $this->setTemplate("index");
     }
-
-
 }

@@ -112,7 +112,7 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
             }
         }
 
-        return "( " .$fieldName. " " .$this->getWhereClauseCondition(). " '" . $fromDate . "' AND '" . $toDate . "' )";
+        return "( " .$fieldName. " " .$this->getWhereClauseCondition(). " " . $this->getEscapedString($fromDate) . " AND " . $this->getEscapedString($toDate) . " )";
     }
 
     public function getTodayDate(){

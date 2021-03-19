@@ -65,6 +65,9 @@ class HelpConfigurationAPI extends EndPoint
         }
     }
 
+    /**
+     * @return array
+     */
     public function getParameters()
     {
         $params = array();
@@ -75,7 +78,9 @@ class HelpConfigurationAPI extends EndPoint
         return $params;
     }
 
-
+    /**
+     * @return HelpService
+     */
     public function getHelpService() {
         if (!$this->helpService instanceof HelpService) {
             $this->helpService = new HelpService();
@@ -90,7 +95,6 @@ class HelpConfigurationAPI extends EndPoint
     {
         $this->helpService = $helpService;
     }
-
 
     /**
      * @return array

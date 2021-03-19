@@ -113,12 +113,12 @@ use_stylesheet(plugin_web_path('orangehrmHelpPlugin', 'css/indexSuccess'));
                             <p class="info-header"><?php echo __(
                                     'Customer Support'
                                 ); ?></p>
-                            <div class="customer-support-inner">
-                            <p><?php echo __(
+                            <div>
+                            <p class="customer-support-inner-text"><?php echo __(
                                     'Should you experience any issues, please do not hesitate to contact us on'
                                 ); ?></p>
-                                <p class="text-gap support-link"> ossuport@orangehrm.com</p>
-                                <p class="text-gap"><?php echo __(
+                                <p class="text-gap customer-support-inner-text"><a href="mailto:ossuport@orangehrm.com" class="support-link"> ossuport@orangehrm.com</a></p>
+                                <p class="text-gap customer-support-inner-text"><?php echo __(
                                         'We will be delighted to help'
                                     ); ?></p>
 

@@ -19,16 +19,18 @@
 
 class helpAction extends ohrmBaseAction
 {
-    public function getHelpService() {
+    public function getHelpService()
+    {
         if (!$this->helpService instanceof HelpService) {
             $this->helpService = new HelpService();
         }
         return $this->helpService;
     }
 
-    public function execute($request) {
-        if($this->getHelpService()->isValidUrl()) {
-            try{
+    public function execute($request)
+    {
+        if ($this->getHelpService()->isValidUrl()) {
+            try {
                 $label = $request->getParameter('label');
                 $redirectUrl = $this->getHelpService()->getRedirectUrl($label);
                 $this->redirect($redirectUrl);

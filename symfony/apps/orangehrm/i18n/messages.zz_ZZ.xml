@@ -10056,26 +10056,6 @@
         <source>Contact Person Name</source>
         <target>FR_Contact Person Name</target>
       </trans-unit>
-      <trans-unit id="2057" group="help" version="4.8">
-        <source>Your Free-Trial expires Today! To subscribe for free hosting,</source>
-        <target>FR_Your Free-Trial expires Today! To subscribe for free hosting,</target>
-      </trans-unit>
-      <trans-unit id="2058" group="help" version="4.8">
-        <source>left in your free-trial. To subscribe for free hosting</source>
-        <target>FR_left in your free-trial. To subscribe for free hosting</target>
-      </trans-unit>
-      <trans-unit id="2059" group="help" version="4.8">
-        <source>click here</source>
-        <target>FR_click here</target>
-      </trans-unit>
-      <trans-unit id="2060" group="help" version="4.8">
-        <source> Days </source>
-        <target> FR_Days </target>
-      </trans-unit>
-      <trans-unit id="2061" group="help" version="4.8">
-        <source> Day </source>
-        <target> FR_Day </target>
-      </trans-unit>
     </body>
   </file>
 </xliff>

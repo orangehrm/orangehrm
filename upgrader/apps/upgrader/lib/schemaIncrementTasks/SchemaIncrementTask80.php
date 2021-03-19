@@ -34,7 +34,7 @@ class SchemaIncrementTask80 extends SchemaIncrementTask
         $sql[] = "UPDATE `hs_hr_config` SET `value` = '" . $this->incrementNumber . "' WHERE `hs_hr_config`.`key` = 'instance.increment_number';";
 
         $sql[] = "INSERT INTO `ohrm_i18n_group` (`name`,`title`) VALUES ('help','Help')";
-
+        
         $this->sql = $sql;
     }
 

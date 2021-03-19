@@ -8228,26 +8228,6 @@
         <source>Contact Person Name</source>
         <target>Contact Person Name</target>
       </trans-unit>
-      <trans-unit id="2057">
-        <source>Your Free-Trial expires Today! To subscribe for free hosting,</source>
-        <target>Your Free-Trial expires Today! To subscribe for free hosting,</target>
-      </trans-unit>
-      <trans-unit id="2058">
-        <source>left in your free-trial. To subscribe for free hosting</source>
-        <target>left in your free-trial. To subscribe for free hosting</target>
-      </trans-unit>
-      <trans-unit id="2059">
-        <source>click here</source>
-        <target>click here</target>
-      </trans-unit>
-      <trans-unit id="2060">
-        <source> Days </source>
-        <target> Days </target>
-      </trans-unit>
-      <trans-unit id="2061">
-        <source> Day </source>
-        <target> Day </target>
-      </trans-unit>
     </body>
   </file>
 </xliff>

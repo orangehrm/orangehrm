@@ -17,17 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-class ZendeskHelpProcessor implements HelpProcessor {
+class ZendeskHelpProcessor implements HelpProcessor
+{
 
     const DEFAULT_CONTENT_TYPE = "application/json";
-    const ZENDESK_SEARCH_DIRECTORY_URL = '/api/v2/help_center/articles/search.json?';
-    const ZENDESK_CATEGORY_DIRECTORY_URL = '/api/v2/help_center/categories';
+    const ZENDESK_SEARCH_URL = '/api/v2/help_center/articles/search.json?';
+    const ZENDESK_CATEGORY_URL = '/api/v2/help_center/categories';
+    const ZENDESK_DEFAULT_URL_PATH = '/hc/en-us';
     protected $helpConfigService;
 
     /**
      * @return mixed
      */
-    public function getHelpConfigService() {
+    public function getHelpConfigService()
+    {
         if (!$this->helpConfigService instanceof HelpConfigService) {
             $this->helpConfigService = new HelpConfigService();
         }
@@ -37,48 +40,69 @@ class ZendeskHelpProcessor implements HelpProcessor {
     /**
      * @param mixed $helpConfigService
      */
-    public function setHelpConfigService($helpConfigService) {
+    public function setHelpConfigService($helpConfigService)
+    {
         $this->helpConfigService = $helpConfigService;
     }
 
-    public function getBaseUrl() {
+    /**
+     * @return String
+     */
+    public function getBaseUrl()
+    {
         return $this->getHelpConfigService()->getBaseHelpUrl();
     }
 
-    public function getSearchUrlFromQuery($query=null,$labels=[],$categorieIds=[]) {
-        $mainUrl=$this->getBaseUrl().self::ZENDESK_SEARCH_DIRECTORY_URL;
-        if($query!=null){
-            $mainUrl.='query='.$query;
+    /**
+     * @param null $query
+     * @param array $labels
+     * @param array $categoryIds
+     * @return false|string
+     */
+    public function getSearchUrlFromQuery($query = null, $labels = [], $categoryIds = [])
+    {
+        $mainUrl = $this->getBaseUrl() . self::ZENDESK_SEARCH_URL;
+        if ($query != null) {
+            $mainUrl .= 'query=' . $query;
         }
-        if(count($labels)>0){
-            if(substr($mainUrl, -1)!='?'){
-                $mainUrl.='&';
+        if (count($labels) > 0) {
+            if (substr($mainUrl, -1) != '?') {
+                $mainUrl .= '&';
             }
-            $mainUrl.='label_names=';
-            foreach($labels as $label){
-                $mainUrl.=$label.',';
+            $mainUrl .= 'label_names=';
+            foreach ($labels as $label) {
+                $mainUrl .= $label . ',';
             }
-            $mainUrl= substr($mainUrl,0,-1);
+            $mainUrl = substr($mainUrl, 0, -1);
         }
-        if(count($categorieIds)>0){
-            if(substr($mainUrl, -1)!='?'){
-                $mainUrl.='&';
+        if (count($categoryIds) > 0) {
+            if (substr($mainUrl, -1) != '?') {
+                $mainUrl .= '&';
             }
-            $mainUrl.='category=';
-            foreach($categorieIds as $categoryId){
-                $mainUrl.=$categoryId.',';
+            $mainUrl .= 'category=';
+            foreach ($categoryIds as $categoryId) {
+                $mainUrl .= $categoryId . ',';
             }
-            $mainUrl= substr($mainUrl,0,-1);
+            $mainUrl = substr($mainUrl, 0, -1);
         }
         return $mainUrl;
     }
 
-    public function getSearchUrl($label) {
-        return $this->getBaseUrl().self::ZENDESK_SEARCH_DIRECTORY_URL.'label_names='.$label;
+    /**
+     * @param $label
+     * @return string
+     */
+    public function getSearchUrl($label)
+    {
+        return $this->getBaseUrl() . self::ZENDESK_SEARCH_URL . 'label_names=' . $label;
     }
 
-    public function getRedirectUrl($label) {
-
+    /**
+     * @param $label
+     * @return mixed|string
+     */
+    public function getRedirectUrl($label)
+    {
         $searchUrl = $this->getSearchUrl($label);
 
         $results = $this->sendQuery($searchUrl);
@@ -93,17 +117,24 @@ class ZendeskHelpProcessor implements HelpProcessor {
         }
         return $redirectUrl;
     }
-    protected function sendQuery($url, $contentType = self::DEFAULT_CONTENT_TYPE) {
+
+    /**
+     * @param $url
+     * @param string $contentType
+     * @return array|null
+     */
+    protected function sendQuery($url, $contentType = self::DEFAULT_CONTENT_TYPE)
+    {
         $headerOptions = array();
 
-        $headerOptions[GuzzleHttp\RequestOptions::TIMEOUT]=30;
-        $headerOptions[GuzzleHttp\RequestOptions::HEADERS]=[
+        $headerOptions[GuzzleHttp\RequestOptions::TIMEOUT] = 30;
+        $headerOptions[GuzzleHttp\RequestOptions::HEADERS] = [
             'Content-Type' => $contentType
         ];
         $client = new GuzzleHttp\Client();
         try {
             $response = $client->get($url, $headerOptions);
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return null;
         }
         $body = $response->getBody();
@@ -114,26 +145,37 @@ class ZendeskHelpProcessor implements HelpProcessor {
         );
     }
 
-    public function getDefaultRedirectUrl() {
-        return $this->getBaseUrl().'/hc/en-us';
+    /**
+     * @return string
+     */
+    public function getDefaultRedirectUrl()
+    {
+        return $this->getBaseUrl() . self::ZENDESK_DEFAULT_URL_PATH;
     }
 
-    public function getRedirectUrlList($query=null,$labels=[],$categorieIds=[]) {
-        if($query==null && $labels==[] && $categorieIds==[]){
+    /**
+     * @param null $query
+     * @param array $labels
+     * @param array $categoryIds
+     * @return array
+     */
+    public function getRedirectUrlList($query = null, $labels = [], $categoryIds = [])
+    {
+        if ($query == null && $labels == [] && $categoryIds == []) {
             return [];
         }
-        $searchUrl = $this->getSearchUrlFromQuery($query,$labels,$categorieIds);
+        $searchUrl = $this->getSearchUrlFromQuery($query, $labels, $categoryIds);
         $results = $this->sendQuery($searchUrl);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
         }
-        $redirectUrls=array();
+        $redirectUrls = array();
         $count = $response['count'];
         if (($count >= 1) && ($results['responseCode'] == 200)) {
-            foreach ($response['results'] as $result){
+            foreach ($response['results'] as $result) {
                 $redirectUrl = $result['html_url'];
-                $name=$result['name'];
-                array_push($redirectUrls,array('name'=>$name,'url'=>$redirectUrl));
+                $name = $result['name'];
+                array_push($redirectUrls, array('name' => $name, 'url' => $redirectUrl));
             }
             return $redirectUrls;
         } else {
@@ -141,8 +183,13 @@ class ZendeskHelpProcessor implements HelpProcessor {
         }
     }
 
-    public function getCategoryRedirectUrl($category){
-        $url = $this->getBaseUrl().self::ZENDESK_CATEGORY_DIRECTORY_URL.'/'.$category;
+    /**
+     * @param $category
+     * @return mixed|string
+     */
+    public function getCategoryRedirectUrl($category)
+    {
+        $url = $this->getBaseUrl() . self::ZENDESK_CATEGORY_URL . '/' . $category;
         $results = $this->sendQuery($url);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
@@ -155,26 +202,31 @@ class ZendeskHelpProcessor implements HelpProcessor {
         return $redirectUrl;
     }
 
-    public function getCategoriesFromSearchQuery($query=null){
-        $url = $this->getBaseUrl().self::ZENDESK_CATEGORY_DIRECTORY_URL;
+    /**
+     * @param null $query
+     * @return array
+     */
+    public function getCategoriesFromSearchQuery($query = null)
+    {
+        $url = $this->getBaseUrl() . self::ZENDESK_CATEGORY_URL;
         $results = $this->sendQuery($url);
         if ($results['response']) {
             $response = json_decode($results['response'], true);
         }
-        $final = array();
+        $categories = array();
         if (($results['responseCode'] == 200)) {
-            foreach ($response['categories'] as $category){
+            foreach ($response['categories'] as $category) {
                 $redirectUrl = $category['html_url'];
-                $name =$category['name'];
-                if($query!=null) {
-                    if (strpos($name, $query)!==false) {
-                        array_push($final, array('name' => $name, 'url' => $redirectUrl));
+                $name = $category['name'];
+                if ($query != null) {
+                    if (strpos($name, $query) !== false) {
+                        array_push($categories, array('name' => $name, 'url' => $redirectUrl));
                     }
                 } else {
-                    array_push($final, array('name' => $name, 'url' => $redirectUrl));
+                    array_push($categories, array('name' => $name, 'url' => $redirectUrl));
                 }
             }
         }
-        return $final;
+        return $categories;
     }
 }

@@ -23,8 +23,6 @@
  *
  * @group
  */
-
-
 class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
 {
     private $helpProcessor;
@@ -37,8 +35,9 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
         $this->helpProcessor = new ZendeskHelpProcessor();
     }
 
-    public function testGetSearchUrlFromQueryOnlyWithSearchQuery(){
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetSearchUrlFromQueryOnlyWithSearchQuery()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -47,13 +46,14 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseUrl));
 
         $this->helpProcessor->setHelpConfigService($helpConfigService);
-        $expected = $baseUrl.'/api/v2/help_center/articles/search.json?query=Admin';
+        $expected = $baseUrl . '/api/v2/help_center/articles/search.json?query=Admin';
         $actual = $this->helpProcessor->getSearchUrlFromQuery('Admin');
-        $this->assertEquals($expected,$actual);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function testGetSearchUrlFromQueryOnlyWithLabels(){
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetSearchUrlFromQueryOnlyWithLabels()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -62,13 +62,14 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseUrl));
 
         $this->helpProcessor->setHelpConfigService($helpConfigService);
-        $expected = $baseUrl.'/api/v2/help_center/articles/search.json?label_names=add_employee,apply_leave';
-        $actual = $this->helpProcessor->getSearchUrlFromQuery(null,['add_employee','apply_leave']);
-        $this->assertEquals($expected,$actual);
+        $expected = $baseUrl . '/api/v2/help_center/articles/search.json?label_names=add_employee,apply_leave';
+        $actual = $this->helpProcessor->getSearchUrlFromQuery(null, ['add_employee', 'apply_leave']);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function testGetSearchUrlFromQueryOnlyWithOneLabel(){
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetSearchUrlFromQueryOnlyWithOneLabel()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -77,13 +78,14 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseUrl));
 
         $this->helpProcessor->setHelpConfigService($helpConfigService);
-        $expected = $baseUrl.'/api/v2/help_center/articles/search.json?label_names=add_employee';
-        $actual = $this->helpProcessor->getSearchUrlFromQuery(null,['add_employee']);
-        $this->assertEquals($expected,$actual);
+        $expected = $baseUrl . '/api/v2/help_center/articles/search.json?label_names=add_employee';
+        $actual = $this->helpProcessor->getSearchUrlFromQuery(null, ['add_employee']);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function testGetSearchUrlFromQueryOnlyWithCategories(){
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetSearchUrlFromQueryOnlyWithCategories()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -92,13 +94,14 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseUrl));
 
         $this->helpProcessor->setHelpConfigService($helpConfigService);
-        $expected = $baseUrl.'/api/v2/help_center/articles/search.json?category=0123456,987654321';
-        $actual = $this->helpProcessor->getSearchUrlFromQuery(null,[],['0123456','987654321']);
-        $this->assertEquals($expected,$actual);
+        $expected = $baseUrl . '/api/v2/help_center/articles/search.json?category=0123456,987654321';
+        $actual = $this->helpProcessor->getSearchUrlFromQuery(null, [], ['0123456', '987654321']);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function testGetSearchUrlFromQueryOnlyWithOneCategory(){
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetSearchUrlFromQueryOnlyWithOneCategory()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -107,13 +110,14 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseUrl));
 
         $this->helpProcessor->setHelpConfigService($helpConfigService);
-        $expected = $baseUrl.'/api/v2/help_center/articles/search.json?category=0123456';
-        $actual = $this->helpProcessor->getSearchUrlFromQuery(null,[],['0123456']);
-        $this->assertEquals($expected,$actual);
+        $expected = $baseUrl . '/api/v2/help_center/articles/search.json?category=0123456';
+        $actual = $this->helpProcessor->getSearchUrlFromQuery(null, [], ['0123456']);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function testGetSearchUrlFromQueryWithQueryOnlyWithOneCategory(){
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetSearchUrlFromQueryWithQueryOnlyWithOneCategory()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -122,13 +126,14 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseUrl));
 
         $this->helpProcessor->setHelpConfigService($helpConfigService);
-        $expected = $baseUrl.'/api/v2/help_center/articles/search.json?query=Admin&category=0123456';
-        $actual = $this->helpProcessor->getSearchUrlFromQuery('Admin',[],['0123456']);
-        $this->assertEquals($expected,$actual);
+        $expected = $baseUrl . '/api/v2/help_center/articles/search.json?query=Admin&category=0123456';
+        $actual = $this->helpProcessor->getSearchUrlFromQuery('Admin', [], ['0123456']);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function testGetSearchUrlFromQueryWithQueryOnlyWithLabels(){
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetSearchUrlFromQueryWithQueryOnlyWithLabels()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -137,18 +142,19 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseUrl));
 
         $this->helpProcessor->setHelpConfigService($helpConfigService);
-        $expected = $baseUrl.'/api/v2/help_center/articles/search.json?query=Admin&label_names=add_employee,apply_leave';
-        $actual = $this->helpProcessor->getSearchUrlFromQuery('Admin',['add_employee','apply_leave']);
-        $this->assertEquals($expected,$actual);
+        $expected = $baseUrl . '/api/v2/help_center/articles/search.json?query=Admin&label_names=add_employee,apply_leave';
+        $actual = $this->helpProcessor->getSearchUrlFromQuery('Admin', ['add_employee', 'apply_leave']);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function testGetRedirectUrlOneResult() {
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetRedirectUrlOneResult()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $results = array();
         $results['count'] = 1;
         $results['results'] = array(
             array(
-                'html_url' => $baseUrl.'/api/v2/help_center/articles/employees'
+                'html_url' => $baseUrl . '/api/v2/help_center/articles/employees'
             )
         );
         $response = array(
@@ -168,16 +174,17 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $mockHelpProcessorClass->expects($this->once())
             ->method('sendQuery')
-            ->with($baseUrl.'/api/v2/help_center/articles/search.json?label_names=employees')
+            ->with($baseUrl . '/api/v2/help_center/articles/search.json?label_names=employees')
             ->will($this->returnValue($response));
         $mockHelpProcessorClass->setHelpConfigService($helpConfigService);
         $this->assertEquals(
-            $baseUrl.'/api/v2/help_center/articles/employees',
+            $baseUrl . '/api/v2/help_center/articles/employees',
             $mockHelpProcessorClass->getRedirectUrl('employees')
         );
     }
 
-    public function testGetRedirectUrlNoResult() {
+    public function testGetRedirectUrlNoResult()
+    {
         $results = array();
         $results['count'] = 0;
         $results['results'] = array();
@@ -185,7 +192,7 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             'response' => json_encode($results),
             'responseCode' => 200
         );
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -197,18 +204,19 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $mockHelpProcessorClass->expects($this->once())
             ->method('sendQuery')
-            ->with($baseUrl.'/api/v2/help_center/articles/search.json?label_names=employees')
+            ->with($baseUrl . '/api/v2/help_center/articles/search.json?label_names=employees')
             ->will($this->returnValue($response));
         $mockHelpProcessorClass->setHelpConfigService($helpConfigService);
         $this->assertEquals(
-            $baseUrl.'/hc/en-us',
+            $baseUrl . '/hc/en-us',
             $mockHelpProcessorClass->getRedirectUrl('employees')
         );
     }
 
-    public function testGetRedirectUrlManyResults() {
+    public function testGetRedirectUrlManyResults()
+    {
         $results = array();
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -238,7 +246,7 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
         $mockHelpProcessorClass->setHelpConfigService($helpConfigService);
         $mockHelpProcessorClass->expects($this->once())
             ->method('sendQuery')
-            ->with($baseUrl.'/api/v2/help_center/articles/search.json?label_names=employees')
+            ->with($baseUrl . '/api/v2/help_center/articles/search.json?label_names=employees')
             ->will($this->returnValue($response));
 
         $this->assertEquals(
@@ -247,18 +255,21 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetHelpConfigService() {
+    public function testGetHelpConfigService()
+    {
         $this->assertTrue($this->helpProcessor->getHelpConfigService() instanceof HelpConfigService);
     }
 
-    public function testSetHelpConfigService() {
+    public function testSetHelpConfigService()
+    {
         $processor = new ZendeskHelpProcessor();
         $processor->setHelpConfigService(new HelpConfigService());
         $this->assertTrue($processor->getHelpConfigService() instanceof HelpConfigService);
     }
 
-    public function testGetBaseUrl() {
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetBaseUrl()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -269,8 +280,9 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($baseUrl, $this->helpProcessor->getBaseUrl());
     }
 
-    public function testGetSearchUrl() {
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetSearchUrl()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -279,13 +291,14 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseUrl));
         $this->helpProcessor->setHelpConfigService($helpConfigService);
         $this->assertEquals(
-            $baseUrl.'/api/v2/help_center/articles/search.json?label_names=employees',
+            $baseUrl . '/api/v2/help_center/articles/search.json?label_names=employees',
             $this->helpProcessor->getSearchUrl('employees')
         );
     }
 
-    public function testGetDefaultRedirectUrl() {
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+    public function testGetDefaultRedirectUrl()
+    {
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
@@ -294,34 +307,34 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseUrl));
         $this->helpProcessor->setHelpConfigService($helpConfigService);
         $this->assertEquals(
-            $baseUrl.'/hc/en-us',
+            $baseUrl . '/hc/en-us',
             $this->helpProcessor->getDefaultRedirectUrl()
         );
     }
 
-    public function testGetRedirectUrlList() {
+    public function testGetRedirectUrlList()
+    {
         $results = array();
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $helpConfigService = $this->getMockBuilder('HelpConfigService')
             ->setMethods(['getBaseHelpUrl'])
             ->getMock();
         $helpConfigService
             ->method('getBaseHelpUrl')
-            ->will($this->returnValue($baseUrl));
-        ;
+            ->will($this->returnValue($baseUrl));;
         $results['count'] = 3;
         $results['results'] = array(
             array(
                 'html_url' => 'https://orangehrm.zendesk.com/api/v2/help_center/articles/admins',
-                'name'=>'Admin'
+                'name' => 'Admin'
             ),
             array(
                 'html_url' => 'https://orangehrm.zendesk.com/api/v2/help_center/articles/supervisors',
-                'name'=>'Supervisors'
+                'name' => 'Supervisors'
             ),
             array(
                 'html_url' => 'https://orangehrm.zendesk.com/api/v2/help_center/articles/employees',
-                'name'=>'Employees'
+                'name' => 'Employees'
             )
         );
         $response = array(
@@ -334,20 +347,20 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
         $mockHelpProcessorClass->setHelpConfigService($helpConfigService);
         $mockHelpProcessorClass->expects($this->once())
             ->method('sendQuery')
-            ->with($baseUrl.'/api/v2/help_center/articles/search.json?query=employees')
+            ->with($baseUrl . '/api/v2/help_center/articles/search.json?query=employees')
             ->will($this->returnValue($response));
-        $expected=array(
+        $expected = array(
             array(
                 'url' => 'https://orangehrm.zendesk.com/api/v2/help_center/articles/admins',
-                'name'=>'Admin'
+                'name' => 'Admin'
             ),
             array(
                 'url' => 'https://orangehrm.zendesk.com/api/v2/help_center/articles/supervisors',
-                'name'=>'Supervisors'
+                'name' => 'Supervisors'
             ),
             array(
                 'url' => 'https://orangehrm.zendesk.com/api/v2/help_center/articles/employees',
-                'name'=>'Employees'
+                'name' => 'Employees'
             )
         );
         $this->assertEquals(
@@ -356,11 +369,12 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetCategoryRedirectUrl() {
+    public function testGetCategoryRedirectUrl()
+    {
         $results = array();
-        $baseUrl='https://opensourcehelp.orangehrm.com';
+        $baseUrl = 'https://opensourcehelp.orangehrm.com';
         $results['category'] = array(
-                'html_url' => $baseUrl.'/api/v2/help_center/categories/123456'
+            'html_url' => $baseUrl . '/api/v2/help_center/categories/123456'
         );
 
         $response = array(
@@ -378,12 +392,12 @@ class ZendeskHelpProcessorTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $mockHelpProcessorClass->setHelpConfigService($helpConfigService);
         $mockHelpProcessorClass->expects($this->once())
-        ->method('sendQuery')
-            ->with($baseUrl.'/api/v2/help_center/categories/123456')
+            ->method('sendQuery')
+            ->with($baseUrl . '/api/v2/help_center/categories/123456')
             ->will($this->returnValue($response));
 
         $this->assertEquals(
-             $baseUrl.'/api/v2/help_center/categories/123456',
+            $baseUrl . '/api/v2/help_center/categories/123456',
             $mockHelpProcessorClass->getCategoryRedirectUrl('123456')
         );
     }
