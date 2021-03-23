@@ -1,16 +1,10 @@
 <?php
 
 class orangehrmBeaconPluginAllTests {
-
-
-    protected function setUp() {
-
-    }
-
     public static function suite() {
 
 
-        $suite = new PHPUnit_Framework_TestSuite('orangehrmBeaconPluginAllTest');
+        $suite = new PHPUnit\Framework\TestSuite('orangehrmBeaconPluginAllTest');
 
         //$suite->addTestFile(dirname(__FILE__) . '';
         
@@ -31,15 +25,6 @@ class orangehrmBeaconPluginAllTests {
         return $suite;
 
     }
-
-
-    public static function main() {
-
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-
-    }
-
-
 }
 
 

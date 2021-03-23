@@ -47,7 +47,7 @@ class InstallUtilTest extends PHPUnit_Framework_TestCase {
     public static function main() {
         require_once "PHPUnit/TextUI/TestRunner.php";
 
-        $suite  = new PHPUnit_Framework_TestSuite("InstallUtilTest");
+        $suite  = new PHPUnit\Framework\TestSuite("InstallUtilTest");
         $result = PHPUnit_TextUI_TestRunner::run($suite);
     }
 
