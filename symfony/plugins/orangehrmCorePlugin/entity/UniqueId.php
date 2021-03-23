@@ -1,0 +1,125 @@
+<?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
+namespace OrangeHRM\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * UniqueId
+ *
+ * @ORM\Table(name="hs_hr_unique_id")
+ * @ORM\Entity
+ */
+class UniqueId
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", length=4)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="last_id", type="integer", length=4)
+     */
+    private $lastId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="table_name", type="string", length=50)
+     */
+    private $dbTable;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="field_name", type="string", length=50)
+     */
+    private $fieldName;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLastId(): int
+    {
+        return $this->lastId;
+    }
+
+    /**
+     * @param int $lastId
+     */
+    public function setLastId(int $lastId): void
+    {
+        $this->lastId = $lastId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbTable(): string
+    {
+        return $this->dbTable;
+    }
+
+    /**
+     * @param string $dbTable
+     */
+    public function setDbTable(string $dbTable): void
+    {
+        $this->dbTable = $dbTable;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldName(): string
+    {
+        return $this->fieldName;
+    }
+
+    /**
+     * @param string $fieldName
+     */
+    public function setFieldName(string $fieldName): void
+    {
+        $this->fieldName = $fieldName;
+    }
+}

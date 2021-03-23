@@ -2,13 +2,9 @@
 
 class orangehrmPimPluginAllTests {
 
-    protected function setUp() {
-        
-    }
-
     public static function suite() {
 
-        $suite = new PHPUnit_Framework_TestSuite('orangehrmPimPluginAllTest');
+        $suite = new PHPUnit\Framework\TestSuite('orangehrmPimPluginAllTest');
 
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmployeeDaoTest.php');
@@ -27,10 +23,5 @@ class orangehrmPimPluginAllTests {
 
         return $suite;
     }
-
-    public static function main() {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-
 }
 

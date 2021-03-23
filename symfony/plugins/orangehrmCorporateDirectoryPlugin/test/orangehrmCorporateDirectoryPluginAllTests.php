@@ -6,14 +6,9 @@
  */
 
 class orangehrmCorporateDirectoryPluginAllTests {
-
-    protected function setUp() {
-        
-    }
-
     public static function suite() {
 
-        $suite = new PHPUnit_Framework_TestSuite('orangehrmCorporateDirectoryPlugin');
+        $suite = new PHPUnit\Framework\TestSuite('orangehrmCorporateDirectoryPlugin');
 
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmployeeDirectoryDaoTest.php');
@@ -26,10 +21,5 @@ class orangehrmCorporateDirectoryPluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/wrapper/CorporateDirectoryWebServiceWrapperTest.php');
         return $suite;
     }
-
-    public static function main() {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-    
 }
 

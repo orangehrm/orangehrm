@@ -23,11 +23,11 @@
 class orangehrmMarketPlacePluginAllTests
 {
     /**
-     * @return PHPUnit_Framework_TestSuite
+     * @return PHPUnit\Framework\TestSuite
      */
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('orangehrmMaintenancePluginAllTest');
+        $suite = new PHPUnit\Framework\TestSuite('orangehrmMaintenancePluginAllTest');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/APIManagerServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/MarketplaceDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/MarketplaceServiceTest.php');
