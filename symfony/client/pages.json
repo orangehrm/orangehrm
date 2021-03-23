@@ -1,0 +1,5 @@
+{
+    "jobCategory": {
+        "entry": "../plugins/orangehrmAdminPlugin/client/jobCategory/index.js"
+    }
+}
