@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        colours = "true"
-        convertErrorsToExceptions   = "true"
-        convertNoticesToExceptions  = "true"
-        convertWarningsToExceptions = "true"
-        strict = "true"
-    >
-
-    <filter>
-        <whitelist>
-            <directory suffix=".php">symfony</directory>
-            <exclude>
-                <directory>symfony/apps</directory>
-                <directory>symfony/cache</directory>
-                <directory>symfony/config</directory>
-                <directory>symfony/data</directory>
-                <directory>symfony/lib</directory>
-                <directory>symfony/web</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-
-    <testsuites>
-        <testsuite name="All Tests">
-            <file>symfony/test/PluginAllTests.php</file>
-        </testsuite>
-    </testsuites>
-
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="symfony/test/util/bootstrap.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" beStrictAboutOutputDuringTests="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">symfony</directory>
+    </include>
+    <exclude>
+      <directory>symfony/apps</directory>
+      <directory>symfony/cache</directory>
+      <directory>symfony/config</directory>
+      <directory>symfony/data</directory>
+      <directory>symfony/lib</directory>
+      <directory>symfony/web</directory>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="All Tests">
+      <!--            <file>symfony/test/PluginAllTests.php</file>-->
+      <file>symfony/plugins/orangehrmAdminPlugin/test/model/service/JobTitleServiceTest.php</file>
+      <file>symfony/plugins/orangehrmAdminPlugin/test/model/service/JobCategoryServiceTest.php</file>
+    </testsuite>
+  </testsuites>
 </phpunit>

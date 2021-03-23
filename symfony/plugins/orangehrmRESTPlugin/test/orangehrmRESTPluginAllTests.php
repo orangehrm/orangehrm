@@ -19,11 +19,6 @@
  */
 class orangehrmRESTPluginAllTests
 {
-
-    protected function setUp() {
-
-    }
-
     public static function suite() {
         $suite = new PHPUnit\Framework\TestSuite('orangehrmRESTPluginAllTest');
 

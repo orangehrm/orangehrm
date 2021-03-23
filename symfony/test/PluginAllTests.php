@@ -49,12 +49,13 @@ class PluginAllTests
 
 
     public static function suite() {
-        $suite = new PHPUnit_Framework_TestSuite('PluginAllTest');
+        $suite = new PHPUnit\Framework\TestSuite('PluginAllTest');
         $config = new ProjectConfiguration();
         
         // Add the apps/orangehrm unit tests
         require_once(dirname(__FILE__) . '/AppsOrangeHRMAllTests.php');
         $suite->addTestSuite('AppsOrangeHRMAllTests');
+
         
         $enabledPlugins = $config->getPlugins();
         $pluginDirs     = new DirectoryIterator( dirname(__FILE__). '/../plugins' );
@@ -82,6 +83,7 @@ class PluginAllTests
 
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        $runner = new PHPUnit\TextUI\TestRunner();
+        $runner->run(self::suite());
     }
 }

@@ -11,3 +11,4 @@ apidoc
 symfony/test/api/tests/_output/
 installer/log.txt
 logInsatall.log
+.phpunit.result.cache

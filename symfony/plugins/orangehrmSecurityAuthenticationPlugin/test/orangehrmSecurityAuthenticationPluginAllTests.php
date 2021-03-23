@@ -6,7 +6,7 @@ class orangehrmSecurityAuthenticationPluginAllTests {
 
     public static function suite() {
 
-        $suite = new PHPUnit_Framework_TestSuite('orangehrmSecurityAuthenticationPluginAllTest');
+        $suite = new PHPUnit\Framework\TestSuite('orangehrmSecurityAuthenticationPluginAllTest');
 
         $basePath = dirname(__FILE__);
 
@@ -15,10 +15,6 @@ class orangehrmSecurityAuthenticationPluginAllTests {
         $suite->addTestFile($basePath . '/model/dao/PasswordResetDaoTest.php');
         $suite->addTestFile($basePath . '/model/service/PasswordResetServiceTest.php');
         return $suite;
-    }
-
-    public static function main() {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
     }
 }
 
