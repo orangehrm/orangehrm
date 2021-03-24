@@ -20,7 +20,8 @@
         "doctrine/orm": "~2.8.2",
         "symfony/yaml": "^5.2",
         "twig/twig": "^3.0",
-        "symfony/error-handler": "4.4.20"
+        "symfony/error-handler": "4.4.20",
+        "symfony/dependency-injection": "^5.2"
     },
     "autoload": {
         "psr-4": {

@@ -2,6 +2,7 @@
 
 namespace OrangeHRM\ORM;
 
+use Conf;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
@@ -42,7 +43,7 @@ class Doctrine
 
         //TODO
         require_once realpath(__DIR__ . '/../../../lib/confs/Conf.php');
-        $conf = new \Conf();
+        $conf = new Conf();
         $conn = [
             'driver' => 'pdo_mysql',
             'url' => "mysql://{$conf->dbuser}:{$conf->dbpass}@{$conf->dbhost}:{$conf->dbport}/{$conf->dbname}",
@@ -55,7 +56,7 @@ class Doctrine
     /**
      * @return Doctrine
      */
-    public static function getInstance()
+    protected static function getInstance(): self
     {
         if (is_null(self::$instance)) {
             self::$instance = new self();
@@ -66,7 +67,7 @@ class Doctrine
     /**
      * @return EntityManager
      */
-    public static function getEntityManager()
+    public static function getEntityManager(): EntityManager
     {
         self::getInstance();
         return self::$entityManager;
