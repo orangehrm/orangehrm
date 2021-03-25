@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Framework;
 
+use OrangeHRM\Config\Config;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -56,8 +57,6 @@ class Framework extends HttpKernel
         /** @var ArgumentResolver $argumentResolver */
         $argumentResolver = ServiceContainer::getContainer()->get(Services::ARGUMENT_RESOLVER);
 
-        ServiceContainer::getContainer()->set(Services::HTTP_KERNEL, $this);
-
         parent::__construct($dispatcher, $resolver, $requestStack, $argumentResolver);
     }
 
@@ -68,12 +67,10 @@ class Framework extends HttpKernel
         ServiceContainer::getContainer()->register(Services::EVENT_DISPATCHER, EventDispatcher::class);
         ServiceContainer::getContainer()->register(Services::CONTROLLER_RESOLVER, ControllerResolver::class);
         ServiceContainer::getContainer()->register(Services::ARGUMENT_RESOLVER, ArgumentResolver::class);
+        ServiceContainer::getContainer()->set(Services::HTTP_KERNEL, $this);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    protected function configureRouter(Request $request): void
     {
         /** @var RequestContext $context */
         $context = ServiceContainer::getContainer()->get(Services::ROUTER_REQUEST_CONTEXT);
@@ -91,7 +88,43 @@ class Framework extends HttpKernel
         /** @var EventDispatcher $dispatcher */
         $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
         $dispatcher->addSubscriber(new RouterListener($matcher, $requestStack));
+    }
+
+    protected function configurePlugins(): void
+    {
+        $pluginConfigs = Config::get('ohrm_plugin_configs');
+        foreach (array_values($pluginConfigs) as $pluginConfig) {
+            require_once $pluginConfig['filepath'];
+            /** @var PluginConfigurationInterface $configClass */
+            $configClass = new $pluginConfig['classname']();
+            $configClass->initialize();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    {
+        $this->configureRouter($request);
+        $this->configurePlugins();
 
         return parent::handle($request, $type, $catch);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnvironment(): string
+    {
+        return $this->environment;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDebug(): bool
+    {
+        return $this->debug;
     }
 }
