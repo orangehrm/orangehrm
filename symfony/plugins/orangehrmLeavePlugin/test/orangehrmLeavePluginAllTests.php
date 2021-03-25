@@ -1,14 +1,9 @@
 <?php
 
 class orangehrmLeavePluginAllTests {
-
-    protected function setUp() {
-
-    }
-
     public static function suite() {
 
-        $suite = new PHPUnit_Framework_TestSuite('orangehrmLeavePluginAllTest');
+        $suite = new PHPUnit\Framework\TestSuite('orangehrmLeavePluginAllTest');
 
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/LeaveEntitlementDaoTest.php'); 
@@ -44,10 +39,5 @@ class orangehrmLeavePluginAllTests {
         return $suite;
 
     }
-
-    public static function main() {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-
 }
 

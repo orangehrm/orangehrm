@@ -1,10 +1,10 @@
+const pages = require('./pages.json')
+
 module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        prependData: `
-              @import "@/styles/_variables.scss";
-            `,
+        prependData: `@import "@/styles/_variables.scss";`,
       },
     },
   },
@@ -15,22 +15,8 @@ module.exports = {
         '@orangehrm/util': '@/util',
         '@orangehrm/components': '@/components',
       },
-      modules: ['../plugins/orangehrmAdminPlugin/client'],
     },
   },
   publicPath: '.',
-  pages: {
-    jobTitle: {
-      entry: '../plugins/orangehrmAdminPlugin/client/jobTitle/index.js',
-      template: 'public/index.html',
-      filename: 'admin_saveJobTitle.php',
-      title: 'orangehrm',
-    },
-    jobCategory: {
-      entry: '../plugins/orangehrmAdminPlugin/client/jobCategory/index.js',
-      template: 'public/index.html',
-      filename: 'admin_jobCategory.php',
-      title: 'Job Category',
-    },
-  },
+  pages
 };

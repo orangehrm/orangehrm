@@ -20,6 +20,10 @@
  *
  */
 
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\MappingException;
+use Symfony\Component\Yaml\Yaml;
+
 class TestDataService {
 
     /** Encrypted fields in the format 
@@ -131,14 +135,13 @@ class TestDataService {
 
     public static function _generateMultipleInsertQueryArray($tableAlias, $tableData) {
 
-        $tableObject = self::_getTableObject($tableAlias);
-        $tableName = $tableObject->getTableName();
+        $tableName = self::_getTableName($tableAlias);
         $queryArray = array();
 
         if (!empty($tableData)) {
             foreach ($tableData as $item) {
 
-                $columnString = self::_generateInsetQueryColumnString($item, $tableObject);
+                $columnString = self::_generateInsetQueryColumnString($item, $tableAlias);
                 $queryArray[] = "INSERT INTO `$tableName` $columnString VALUES ('" . implode("', '", $item) . "')";
             }
         }
@@ -148,7 +151,7 @@ class TestDataService {
         return $queryArray;
     }
 
-    private static function _generateInsetQueryColumnString($dataArray, $tableObject) {
+    private static function _generateInsetQueryColumnString($dataArray, $tableAlias) {
 
         $columnString = "(";
 
@@ -157,7 +160,7 @@ class TestDataService {
 
         foreach ($dataArray as $key => $value) {
 
-            $columnName = $tableObject->getColumnName($key);
+            $columnName = self::_getClassMetadata($tableAlias)->getColumnName($key);
 
             /* Had to remove backtick (`) since hs_hr_config's "key" column contains them */
             if ($i < $count) {
@@ -174,34 +177,49 @@ class TestDataService {
         return $columnString;
     }
 
-    private static function _getTableObject($tableAlias) {
+    /**
+     * @param string $tableAlias
+     * @return string
+     */
+    private static function _getTableName(string $tableAlias): string
+    {
+        return self::_getClassMetadata($tableAlias)->getTableName();
+    }
 
-        $ormObject = new $tableAlias;
-        return $ormObject->getTable();
+    /**
+     * @param string $tableAlias
+     * @return ClassMetadata
+     */
+    private static function _getClassMetadata(string $tableAlias): ClassMetadata
+    {
+        $entityName = self::getFQEntityName($tableAlias);
+        return \OrangeHRM\ORM\Doctrine::getEntityManager()->getClassMetadata($entityName);
     }
 
     public static function adjustUniqueId($tableName, $count, $isAlias = false) {
 
         if ($isAlias) {
-            $tableName = Doctrine::getTable($tableName)->getTableName();
+            $tableName = self::_getTableName($tableName);
         }
 
-        $q = Doctrine_Query::create()
-                ->from('UniqueId ui')
-                ->where('ui.table_name = ?', $tableName);
+        $q = \OrangeHRM\ORM\Doctrine::getEntityManager()->createQueryBuilder();
+        $q->from($tableName,'ui');
+        $q->where('ui.table_name = :table_name');
+        $q->setParameter('table_name',$tableName);
 
-        $uniqueIdObject = $q->fetchOne();
+        $uniqueIdObject = $q->getQuery()->getOneOrNullResult();
 
-        if ($uniqueIdObject instanceof UniqueId) {
+        if ($uniqueIdObject instanceof \OrangeHRM\Entity\UniqueId) {
 
             $uniqueIdObject->setLastId($count);
-            $uniqueIdObject->save();
+            \OrangeHRM\ORM\Doctrine::getEntityManager()->persist($uniqueIdObject);
+            \OrangeHRM\ORM\Doctrine::getEntityManager()->flush();
         }
     }
 
     private static function _setData($fixture) {
 
-        self::$data = sfYaml::load($fixture);
+        self::$data = Yaml::parseFile($fixture);
         
         self::_encryptFieldsInFixture();
         
@@ -225,16 +243,23 @@ class TestDataService {
         }
     }
 
-    private static function _setTableNames() {
+    /**
+     * @param string $className
+     * @return string fully-qualified class name without a leading backslash
+     */
+    private static function getFQEntityName(string $className): string
+    {
+        return "OrangeHRM\Entity\\" . $className;
+    }
 
+    private static function _setTableNames(): void
+    {
         foreach (self::$data as $key => $value) {
-
-            $table = Doctrine::getTable($key)->getTableName();
-            if (!empty($table)) {
-                self::$tableNames[] = $table;
-            } else {
-                echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $alias .
-                "\n" . "Fixture: " . self::$lastFixture . "\n\n";
+            try {
+                self::$tableNames[] = self::_getTableName($key);
+            } catch (MappingException $e) {
+                echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $key .
+                    "\n" . "Fixture: " . self::$lastFixture . "\n\n";
             }
         }
     }
@@ -286,11 +311,7 @@ class TestDataService {
             // Clear table cache
             if (is_array(self::$data)) {
                 foreach (self::$data as $alias => $values) {
-
-                    $table = Doctrine::getTable($alias);
-                    if (!empty($table)) {
-                        $table->clear();
-                    }
+                    \OrangeHRM\ORM\Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
                 }            
             }
             
@@ -306,9 +327,7 @@ class TestDataService {
 
         if (empty(self::$dbConnection)) {
 
-            self::$dbConnection = Doctrine_Manager::getInstance()
-                    ->getCurrentConnection()
-                    ->getDbh();
+            self::$dbConnection = \OrangeHRM\ORM\Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
 
             return self::$dbConnection;
         } else {
@@ -320,10 +339,9 @@ class TestDataService {
     public static function truncateTables($aliasArray) {
 
         foreach ($aliasArray as $alias) {
-            $table = Doctrine::getTable($alias)->getTableName();
-            if (!empty($table)) {
-                self::$tableNames[] = $table;
-            } else {
+            try {
+                self::$tableNames[] = self::_getTableName($alias);
+            } catch (MappingException $e) {
                 echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $alias . "\n";
             }
         }
@@ -334,13 +352,12 @@ class TestDataService {
     public static function truncateSpecificTables($aliasArray) {
 
         $tableNames = array();
-        
+
         foreach ($aliasArray as $alias) {
-            $table = Doctrine::getTable($alias);
-            if (!empty($table)) {
-                $tableNames[] = $table->getTableName();
-                $table->clear();
-            } else {
+            try {
+                self::$tableNames[] = self::_getTableName($alias);
+                \OrangeHRM\ORM\Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
+            } catch (MappingException $e) {
                 echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $alias . "\n";
             }
         }
@@ -350,37 +367,36 @@ class TestDataService {
 
     public static function fetchLastInsertedRecords($alias, $count) {
 
-        $wholeCount = Doctrine::getTable($alias)->findAll()->count();
+        $entityName = self::getFQEntityName($alias);
+        $wholeCount = \OrangeHRM\ORM\Doctrine::getEntityManager()->getRepository($entityName)->count([]);
         $offset = $wholeCount - $count;
 
-        $q = Doctrine_Query::create()
-                ->from("$alias a")
-                ->offset($offset)
-                ->limit($count);
+        $q = \OrangeHRM\ORM\Doctrine::getEntityManager()->createQueryBuilder();
+        $q->from($entityName,'a');
+        $q->setFirstResult($offset);
+        $q->setMaxResults($count);
 
-        return $q->execute();
+        return $q->getQuery()->execute();
     }
 
     public static function fetchLastInsertedRecord($alias, $orderBy) {
+        $entityName = self::getFQEntityName($alias);
+        $q = \OrangeHRM\ORM\Doctrine::getEntityManager()->createQueryBuilder();
+        $q->from($entityName,'a');
+        $q->orderBy($orderBy,'DESC');
 
-        $q = Doctrine_Query::create()
-                ->from("$alias a")
-                ->orderBy("$orderBy DESC");
-
-        return $q->fetchOne();
+        return $q->getQuery()->getOneOrNullResult();
     }
 
     public static function fetchObject($alias, $primaryKey) {
 
-        $table = Doctrine::getTable($alias);
-        $table->clear();
-        $result = $table->find($primaryKey);
-        
-        return $result;
+        $entityName = self::getFQEntityName($alias);
+        \OrangeHRM\ORM\Doctrine::getEntityManager()->clear($entityName);
+        return \OrangeHRM\ORM\Doctrine::getEntityManager()->find($entityName,$primaryKey);
     }
 
     public static function loadObjectList($alias, $fixture, $key) {
-        $data = sfYaml::load($fixture);
+        $data = Yaml::parseFile($fixture);
         
         return self::loadObjectListFromArray($alias, $data[$key]);
     }
@@ -390,8 +406,14 @@ class TestDataService {
         $objectList = array();
 
         foreach ($data as $row) {
-            $object = new $alias;
-            $object->fromArray($row);
+            $entityName = self::getFQEntityName($alias);
+            $object = new $entityName();
+
+            foreach ($row as $attribute => $value) {
+                $setMethodName = "set" . ucfirst($attribute);
+                $object->$setMethodName($value);
+            }
+
             $objectList[] = $object;
         }
 

@@ -3,7 +3,9 @@
   "version": "5.0.0",
   "private": true,
   "scripts": {
+    "pages": "node pages",
     "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service build --watch --mode development",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"

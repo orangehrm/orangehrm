@@ -16,23 +16,6 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-/**
- *  @group Attendance
- */
-class orangehrmAttendancePluginAllTests {
-     public static function suite() {
 
-        $suite = new PHPUnit\Framework\TestSuite('orangehrmAttendancePluginAllTest');
-
-        /* Dao Test Cases */
-       $suite->addTestFile(dirname(__FILE__) . '/model/dao/AttendanceDaoTest.php');
-
-        /* Service Test Cases */
-        $suite->addTestFile(dirname(__FILE__) . '/model/service/AttendanceServiceTest.php');
-
-
-        return $suite;
-
-    }
-}
-
+require realpath(__DIR__ . '/../../vendor/autoload.php');
+require_once 'TestDataService.php';
