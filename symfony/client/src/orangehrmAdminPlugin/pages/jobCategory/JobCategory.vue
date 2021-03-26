@@ -48,7 +48,7 @@
         <oxd-card-table
           ref="dTable"
           :headers="headers"
-          :items="items"
+          :items="items?.data"
           :selectable="true"
           v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import usePaginate from '@/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 
 export default {
@@ -97,12 +98,6 @@ export default {
           },
         },
       ],
-      items: [],
-      total: 0,
-      pages: 1,
-      currentPage: 1,
-      pageSize: 5,
-      showPaginator: false,
       editItem: null,
       checkedItems: [],
     };
@@ -112,27 +107,41 @@ export default {
     'delete-confirmation': DeleteConfirmationDialog,
   },
 
-  watch: {
-    currentPage() {
-      this.resetDataTable();
-      this.fetchData();
-    },
-  },
-
-  created() {
-    this.fetchData();
+  setup() {
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate('api/v1/admin/job-categories');
+    return {
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+    };
   },
 
   methods: {
     onClickAdd() {
-      this.$emit('onAddItem', {viewId: 2, payload: null});
+      // TODO: Redirect to page
+      console.log('goto add');
     },
     onClickEdit(item) {
-      this.$emit('onEditItem', {viewId: 3, payload: item});
+      // TODO: Redirect to page
+      console.log('goto edit', item);
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
-        return this.items[index].id;
+        return this.items?.data[index].id;
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -147,30 +156,6 @@ export default {
         }
       });
     },
-
-    fetchData() {
-      // TODO: Loading
-      let query = `limit=${this.pageSize}`;
-      const offset = this.pageSize * (this.currentPage - 1);
-      query = query + `&offset=${offset}`;
-      this.$http
-        .get(`api/v1/admin/job-categories?${query}`)
-        .then(response => {
-          const {data, meta} = response.data;
-          this.items = data;
-          this.total = meta.total;
-
-          if (this.total > this.pageSize) {
-            this.showPaginator = true;
-            this.pages = Math.floor(this.total / this.pageSize) + 1;
-          } else {
-            this.showPaginator = false;
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
     deleteItems(items) {
       // TODO: Loading
       if (items instanceof Array) {
@@ -180,15 +165,15 @@ export default {
           })
           .then(() => {
             this.resetDataTable();
-            this.fetchData();
           })
           .catch(error => {
             console.log(error);
           });
       }
     },
-    resetDataTable() {
+    async resetDataTable() {
       this.$refs.dTable.checkedItems = [];
+      await this.execQuery();
     },
   },
 };

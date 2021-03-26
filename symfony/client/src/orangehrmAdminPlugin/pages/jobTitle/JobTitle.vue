@@ -36,7 +36,7 @@
             </oxd-text>
             <oxd-button
               label="Delete Selected"
-              displayType="label-error"
+              displayType="label-danger"
               @click="onClickDeleteSelected"
               class="orangehrm-horizontal-margin"
             />
@@ -47,7 +47,7 @@
       <div class="orangehrm-container">
         <oxd-card-table
           :headers="headers"
-          :items="items"
+          :items="items?.data"
           :selectable="true"
           v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import usePaginate from '@/core/util/composable/usePaginate';
+
 export default {
   data() {
     return {
@@ -93,25 +95,32 @@ export default {
           },
         },
       ],
-      items: [],
-      total: 0,
-      pages: 1,
-      currentPage: 1,
-      pageSize: 5,
-      showPaginator: false,
       editItem: null,
       checkedItems: [],
     };
   },
 
-  watch: {
-    currentPage() {
-      this.fetchData();
-    },
-  },
-
-  created() {
-    this.fetchData();
+  setup() {
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate('api/v1/admin/job-titles');
+    return {
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+    };
   },
 
   methods: {
@@ -122,7 +131,7 @@ export default {
     onClickDeleteSelected() {
       const ids = [];
       this.checkedItems.forEach(index => {
-        ids.push(this.items[index].id);
+        ids.push(this.items?.data[index].id);
       });
       this.callDelete(ids);
     },
@@ -155,35 +164,6 @@ export default {
     onClickEdit(item) {
       //TODO: Add path
       console.log(item);
-    },
-    fetchData() {
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('Accept', 'application/json');
-
-      let query = `limit=${this.pageSize}`;
-      const offset = this.pageSize * (this.currentPage - 1);
-      query = query + `&offset=${offset}`;
-
-      fetch(`${this.global.baseUrl}/api/v1/admin/job-titles?${query}`, {
-        method: 'GET',
-        headers: headers,
-      }).then(async res => {
-        if (res.status === 200) {
-          const response = await res.json();
-          this.items = response.data;
-          this.total = response.meta.total;
-
-          if (this.total > this.pageSize) {
-            this.showPaginator = true;
-            this.pages = Math.floor(this.total / this.pageSize) + 1;
-          } else {
-            this.showPaginator = false;
-          }
-        } else {
-          console.error(res);
-        }
-      });
     },
   },
 };

@@ -29,16 +29,12 @@ const app = createApp({
 // Global Register Components
 app.use(components);
 
-const regex = /symfony\/client\/dist\/.+/i;
-const url = window.location.href;
-const baseUrl = url.replace(regex, 'symfony/web/index-new.php');
-
 app.config.globalProperties.global = {
-  baseUrl: baseUrl,
+  baseUrl: process.env.VUE_APP_API_ENDPOINT,
 };
 
 app.config.globalProperties.$http = axios.create({
-  baseURL: baseUrl,
+  baseURL: process.env.VUE_APP_API_ENDPOINT,
   timeout: 3000,
 });
 
