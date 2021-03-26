@@ -1,3 +1,23 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
@@ -65,61 +85,43 @@
 </template>
 
 <script>
-import Form from "@orangehrm/oxd/core/components/Form/Form";
-import FormRow from "@orangehrm/oxd/core/components/Form/FormRow";
-import FormActions from "@orangehrm/oxd/core/components/Form/FormActions";
-import Divider from "@orangehrm/oxd/core/components/Divider/Divider";
-import Button from "@orangehrm/oxd/core/components/Button/Button";
-import Text from "@orangehrm/oxd/core/components/Text/Text";
-import InputField from "@orangehrm/oxd/core/components/InputField/InputField";
-
 const initialJobTitle = {
-  title: "",
-  description: "",
+  title: '',
+  description: '',
   specification: null,
-  note: ""
+  note: '',
 };
 
 export default {
   data() {
     return {
-      jobTitle: { ...initialJobTitle },
+      jobTitle: {...initialJobTitle},
       rules: {
         title: [
-          v => (!!v && v.trim() !== "") || "Required",
-          v => (v && v.length <= 100) || "Should be less than 100 characters"
+          v => (!!v && v.trim() !== '') || 'Required',
+          v => (v && v.length <= 100) || 'Should be less than 100 characters',
         ],
         description: [
           v =>
             (v && v.length <= 400) ||
-            v === "" ||
-            "Should be less than 400 characters"
+            v === '' ||
+            'Should be less than 400 characters',
         ],
         specification: [
           v =>
             v === null ||
             (v && v.size && v.size <= 1024 * 1024) ||
-            "Attachment size exceeded"
+            'Attachment size exceeded',
         ],
         note: [
           v =>
             (v && v.length <= 400) ||
-            v === "" ||
-            "Should be less than 400 characters"
-        ]
+            v === '' ||
+            'Should be less than 400 characters',
+        ],
       },
-      errors: []
+      errors: [],
     };
-  },
-
-  components: {
-    "oxd-form": Form,
-    "oxd-form-row": FormRow,
-    "oxd-form-actions": FormActions,
-    "oxd-divider": Divider,
-    "oxd-button": Button,
-    "oxd-text": Text,
-    "oxd-input-field": InputField
   },
 
   methods: {
@@ -127,53 +129,26 @@ export default {
       window.location.reload();
     },
     onError() {
-      console.log('log')
+      console.log('log');
     },
     onSave() {
       const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("Accept", "application/json");
+      headers.append('Content-Type', 'application/json');
+      headers.append('Accept', 'application/json');
 
       fetch(`${this.global.baseUrl}/api/v1/admin/job-titles`, {
-        method: "POST",
+        method: 'POST',
         headers: headers,
-        body: JSON.stringify(this.jobTitle)
+        body: JSON.stringify(this.jobTitle),
       }).then(async res => {
         if (res.status === 200) {
-          this.jobTitle = { ...initialJobTitle };
+          this.jobTitle = {...initialJobTitle};
           window.location.reload();
         } else {
           console.error(res);
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style lang="scss">
-.orangehrm-left-space {
-  margin-left: 10px;
-}
-
-.orangehrm-card-container {
-  background-color: white;
-  border-radius: 1.2rem;
-  padding: 1.2rem;
-}
-
-.orangehrm-background-container {
-  background-color: #f6f5fb;
-  padding: 2rem;
-  flex: 1;
-}
-
-body {
-  margin: 0;
-  background-color: #f6f5fb;
-}
-
-#app {
-  display: flex;
-}
-</style>

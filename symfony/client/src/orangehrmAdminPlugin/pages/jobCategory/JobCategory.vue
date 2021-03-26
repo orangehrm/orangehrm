@@ -1,3 +1,23 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
@@ -48,30 +68,30 @@
 </template>
 
 <script>
-import DeleteConfirmationDialog from "@orangehrm/components/dialogs/DeleteConfirmationDialog";
+import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 
 export default {
   data() {
     return {
       headers: [
-        { name: "name", title: "Job Category", style: { "flex-basis": "80%" } },
+        {name: 'name', title: 'Job Category', style: {'flex-basis': '80%'}},
         {
-          name: "actions",
-          title: "Actions",
-          style: { "flex-shrink": 1 },
-          cellType: "oxd-table-cell-actions",
+          name: 'actions',
+          title: 'Actions',
+          style: {'flex-shrink': 1},
+          cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {
               onClick: this.onClickDelete,
-              component: "oxd-icon-button",
+              component: 'oxd-icon-button',
               props: {
-                name: "trash",
+                name: 'trash',
               },
             },
             edit: {
               onClick: this.onClickEdit,
               props: {
-                name: "pencil-fill",
+                name: 'pencil-fill',
               },
             },
           },
@@ -89,7 +109,7 @@ export default {
   },
 
   components: {
-    "delete-confirmation": DeleteConfirmationDialog,
+    'delete-confirmation': DeleteConfirmationDialog,
   },
 
   watch: {
@@ -105,24 +125,24 @@ export default {
 
   methods: {
     onClickAdd() {
-      this.$emit("onAddItem", { viewId:2, payload: null });
+      this.$emit('onAddItem', {viewId: 2, payload: null});
     },
     onClickEdit(item) {
-      this.$emit("onEditItem", { viewId:3, payload: item });
+      this.$emit('onEditItem', {viewId: 3, payload: item});
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map((index) => {
+      const ids = this.checkedItems.map(index => {
         return this.items[index].id;
       });
-      this.$refs.deleteDialog.showDialog().then((confirmation) => {
-        if (confirmation === "ok") {
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
           this.deleteItems(ids);
         }
       });
     },
     onClickDelete(item) {
-      this.$refs.deleteDialog.showDialog().then((confirmation) => {
-        if (confirmation === "ok") {
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
           this.deleteItems([item.id]);
         }
       });
@@ -135,8 +155,8 @@ export default {
       query = query + `&offset=${offset}`;
       this.$http
         .get(`api/v1/admin/job-categories?${query}`)
-        .then((response) => {
-          const { data, meta } = response.data;
+        .then(response => {
+          const {data, meta} = response.data;
           this.items = data;
           this.total = meta.total;
 
@@ -147,7 +167,7 @@ export default {
             this.showPaginator = false;
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     },
@@ -155,14 +175,14 @@ export default {
       // TODO: Loading
       if (items instanceof Array) {
         this.$http
-          .delete("api/v1/admin/job-categories", {
-            data: { ids: items },
+          .delete('api/v1/admin/job-categories', {
+            data: {ids: items},
           })
           .then(() => {
             this.resetDataTable();
             this.fetchData();
           })
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
           });
       }

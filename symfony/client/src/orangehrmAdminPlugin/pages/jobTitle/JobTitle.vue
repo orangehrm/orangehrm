@@ -1,5 +1,25 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
 <template>
-  <div class="orangehrm-background-container" v-if="currentScreen === 'list'">
+  <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6">Job Title List</oxd-text>
@@ -42,48 +62,36 @@
       </div>
     </div>
   </div>
-
-  <SaveJobTitle v-if="currentScreen === 'add'" />
-
-  <EditJobTitle v-if="currentScreen === 'edit'" :editItem="editItem" />
 </template>
 
 <script>
-import CardTable from "@orangehrm/oxd/core/components/CardTable/CardTable";
-import Button from "@orangehrm/oxd/core/components/Button/Button";
-import Pagination from "@orangehrm/oxd/core/components/Pagination/Pagination";
-import Divider from "@orangehrm/oxd/core/components/Divider/Divider";
-import Text from "@orangehrm/oxd/core/components/Text/Text";
-import SaveJobTitle from "./SaveJobTitle.vue";
-import EditJobTitle from "./EditJobTitle.vue";
-
 export default {
   data() {
     return {
       headers: [
-        { name: "title", title: "Job Title", style: { flex: 2 } },
-        { name: "description", title: "Description", style: { flex: 4 } },
+        {name: 'title', title: 'Job Title', style: {flex: 2}},
+        {name: 'description', title: 'Description', style: {flex: 4}},
         {
-          name: "actions",
-          title: "Actions",
-          style: { flex: 1 },
-          cellType: "oxd-table-cell-actions",
+          name: 'actions',
+          title: 'Actions',
+          style: {flex: 1},
+          cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {
               onClick: this.onClickDelete,
-              component: "oxd-icon-button",
+              component: 'oxd-icon-button',
               props: {
-                name: "trash"
-              }
+                name: 'trash',
+              },
             },
             edit: {
               onClick: this.onClickEdit,
               props: {
-                name: "pencil-fill"
-              }
-            }
-          }
-        }
+                name: 'pencil-fill',
+              },
+            },
+          },
+        },
       ],
       items: [],
       total: 0,
@@ -91,26 +99,15 @@ export default {
       currentPage: 1,
       pageSize: 5,
       showPaginator: false,
-      currentScreen: "list",
       editItem: null,
-      checkedItems: []
+      checkedItems: [],
     };
   },
 
   watch: {
     currentPage() {
       this.fetchData();
-    }
-  },
-
-  components: {
-    "oxd-card-table": CardTable,
-    "oxd-button": Button,
-    "oxd-pagination": Pagination,
-    "oxd-divider": Divider,
-    "oxd-text": Text,
-    SaveJobTitle,
-    EditJobTitle
+    },
   },
 
   created() {
@@ -119,7 +116,8 @@ export default {
 
   methods: {
     onClickAdd() {
-      this.currentScreen = "add";
+      // TODO: Add url
+      console.log('go to add screen');
     },
     onClickDeleteSelected() {
       const ids = [];
@@ -134,15 +132,15 @@ export default {
     },
     callDelete(ids) {
       const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("Accept", "application/json");
+      headers.append('Content-Type', 'application/json');
+      headers.append('Accept', 'application/json');
 
       fetch(`${this.global.baseUrl}/api/v1/admin/job-titles`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: headers,
         body: JSON.stringify({
-          ids: ids
-        })
+          ids: ids,
+        }),
       }).then(async res => {
         if (res.status === 200) {
           window.location.reload();
@@ -155,24 +153,21 @@ export default {
       });
     },
     onClickEdit(item) {
-      this.editItem = item;
+      //TODO: Add path
       console.log(item);
-      console.log(this.editItem);
-      this.$nextTick();
-      this.currentScreen = "edit";
     },
     fetchData() {
       const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("Accept", "application/json");
+      headers.append('Content-Type', 'application/json');
+      headers.append('Accept', 'application/json');
 
       let query = `limit=${this.pageSize}`;
       const offset = this.pageSize * (this.currentPage - 1);
       query = query + `&offset=${offset}`;
 
       fetch(`${this.global.baseUrl}/api/v1/admin/job-titles?${query}`, {
-        method: "GET",
-        headers: headers
+        method: 'GET',
+        headers: headers,
       }).then(async res => {
         if (res.status === 200) {
           const response = await res.json();
@@ -189,66 +184,7 @@ export default {
           console.error(res);
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style>
-.orangehrm-header-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 1.2rem;
-}
-
-.orangehrm-container {
-  background-color: #e8eaef;
-  /*border-radius: 1.2rem;*/
-  padding: 0.5rem;
-}
-
-.orangehrm-paper-container {
-  background-color: white;
-  border-radius: 1.2rem;
-}
-
-.orangehrm-horizontal-padding {
-  padding-left: 1.2rem;
-  padding-right: 1.2rem;
-}
-
-.orangehrm-vertical-padding {
-  padding-top: 1.2rem;
-  padding-bottom: 1.2rem;
-}
-
-.orangehrm-horizontal-margin {
-  margin-left: 1.2rem;
-  margin-right: 1.2rem;
-}
-
-.orangehrm-background-container {
-  background-color: #f6f5fb;
-  padding: 2rem;
-  flex: 1;
-}
-
-.orangehrm-bottom-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: right;
-  padding: 1.2rem;
-}
-
-body {
-  margin: 0;
-  background-color: #f6f5fb;
-}
-
-#app {
-  display: flex;
-}
-</style>
