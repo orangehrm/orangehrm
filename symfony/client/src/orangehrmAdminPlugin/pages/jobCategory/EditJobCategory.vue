@@ -57,7 +57,12 @@
 
 <script>
 export default {
-  props: ['job'],
+  props: {
+    jobCategoryId: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       category: {
@@ -86,12 +91,12 @@ export default {
         });
     },
     onCancel() {
-      this.$emit('onCancel', {viewId: 1, payload: null});
+      history.go(-1);
     },
   },
   created() {
     this.$http
-      .get(`api/v1/admin/job-categories/${this.job}`)
+      .get(`api/v1/admin/job-categories/${this.jobCategoryId}`)
       .then(response => {
         const {data} = response.data;
         this.category.id = data.id;

@@ -46,6 +46,7 @@
       </div>
       <div class="orangehrm-container">
         <oxd-card-table
+          ref="dTable"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
@@ -128,42 +129,39 @@ export default {
       // TODO: Add url
       console.log('go to add screen');
     },
+    onClickEdit(item) {
+      //TODO: Add path
+      console.log(item);
+    },
     onClickDeleteSelected() {
       const ids = [];
       this.checkedItems.forEach(index => {
         ids.push(this.items?.data[index].id);
       });
-      this.callDelete(ids);
+      this.deleteItems(ids);
     },
     onClickDelete(item) {
       const id = item.id;
-      this.callDelete([id]);
+      this.deleteItems([id]);
     },
-    callDelete(ids) {
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('Accept', 'application/json');
-
-      fetch(`${this.global.baseUrl}/api/v1/admin/job-titles`, {
-        method: 'DELETE',
-        headers: headers,
-        body: JSON.stringify({
-          ids: ids,
-        }),
-      }).then(async res => {
-        if (res.status === 200) {
-          window.location.reload();
-          // this.currentPage = 1;
-          // this.checkedItems = [];
-          // this.fetchData();
-        } else {
-          console.error(res);
-        }
-      });
+    deleteItems(items) {
+      // TODO: Loading
+      if (items instanceof Array) {
+        this.$http
+          .delete('api/v1/admin/job-titles', {
+            data: {ids: items},
+          })
+          .then(() => {
+            this.resetDataTable();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
-    onClickEdit(item) {
-      //TODO: Add path
-      console.log(item);
+    async resetDataTable() {
+      this.$refs.dTable.checkedItems = [];
+      await this.execQuery();
     },
   },
 };

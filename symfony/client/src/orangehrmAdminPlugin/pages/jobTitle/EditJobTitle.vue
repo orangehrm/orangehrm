@@ -89,6 +89,13 @@ const initialJobTitle = {
 };
 
 export default {
+  props: {
+    jobTitleId: {
+      type: Number,
+      required: true,
+    },
+  },
+
   data() {
     return {
       jobTitle: {...initialJobTitle},
@@ -119,54 +126,35 @@ export default {
     };
   },
 
-  props: ['job'],
-
   created() {
-    const id = this.job;
-    if (id) {
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('Accept', 'application/json');
-      fetch(`${this.global.baseUrl}/api/v1/admin/job-titles/${id}`, {
-        method: 'GET',
-        headers: headers,
-      }).then(async res => {
-        if (res.status === 200) {
-          const response = await res.json();
-          this.jobTitle = response.data;
-        } else {
-          console.error(res);
-        }
+    this.$http
+      .get(`api/v1/admin/job-titles/${this.jobTitleId}`)
+      .then(response => {
+        const {data} = response.data;
+        this.jobTitle = data;
+      })
+      .catch(error => {
+        console.log(error);
       });
-    } else {
-      // window.location.reload();
-    }
   },
 
   methods: {
     onCancel() {
-      window.location.reload();
+      window.history.go(-1);
     },
     onSave() {
-      const id = this.job;
-      if (id) {
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Accept', 'application/json');
-
-        fetch(`${this.global.baseUrl}/api/v1/admin/job-titles/${id}`, {
-          method: 'PUT',
-          headers: headers,
-          body: JSON.stringify(this.jobTitle),
-        }).then(async res => {
-          if (res.status === 200) {
-            this.jobTitle = {...initialJobTitle};
-            window.location.reload();
-            // eslint-disable-next-line no-empty
-          } else {
-          }
+      // TODO: Loading
+      this.$http
+        .put(`api/v1/admin/job-titles/${this.jobTitleId}`, {
+          ...this.jobTitle,
+        })
+        .then(() => {
+          // go back
+          this.onCancel();
+        })
+        .catch(error => {
+          console.log(error);
         });
-      }
     },
   },
 };

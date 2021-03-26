@@ -31,7 +31,6 @@
             label="Job Title"
             v-model="jobTitle.title"
             :rules="rules.title"
-            @errors="onError"
           />
         </oxd-form-row>
 
@@ -42,7 +41,6 @@
             placeholder="Type description here"
             v-model="jobTitle.description"
             :rules="rules.description"
-            @errors="onError"
           />
         </oxd-form-row>
 
@@ -53,7 +51,6 @@
             buttonLabel="Browse"
             v-model="jobTitle.specification"
             :rules="rules.specification"
-            @errors="onError"
           />
         </oxd-form-row>
 
@@ -64,7 +61,6 @@
             placeholder="Add note"
             v-model="jobTitle.note"
             :rules="rules.note"
-            @errors="onError"
           />
         </oxd-form-row>
 
@@ -126,28 +122,21 @@ export default {
 
   methods: {
     onCancel() {
-      window.location.reload();
-    },
-    onError() {
-      console.log('log');
+      window.history.go(-1);
     },
     onSave() {
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('Accept', 'application/json');
-
-      fetch(`${this.global.baseUrl}/api/v1/admin/job-titles`, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(this.jobTitle),
-      }).then(async res => {
-        if (res.status === 200) {
-          this.jobTitle = {...initialJobTitle};
-          window.location.reload();
-        } else {
-          console.error(res);
-        }
-      });
+      // TODO: Loading
+      this.$http
+        .post(`api/v1/admin/job-titles`, {
+          ...this.jobTitle,
+        })
+        .then(() => {
+          // go back
+          this.onCancel();
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
   },
 };

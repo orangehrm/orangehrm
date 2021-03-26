@@ -57,7 +57,6 @@
 
 <script>
 export default {
-  props: ['job'],
   data() {
     return {
       category: {
@@ -86,7 +85,7 @@ export default {
         });
     },
     onCancel() {
-      this.$emit('onCancel', {viewId: 1, payload: null});
+      window.history.go(-1);
     },
   },
   created() {
