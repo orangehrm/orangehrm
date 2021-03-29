@@ -29,7 +29,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 
-abstract class AbstractVueController
+abstract class AbstractVueController extends AbstractViewController
 {
     /**
      * @var Environment|null

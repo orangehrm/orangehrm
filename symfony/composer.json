@@ -23,6 +23,9 @@
         "symfony/error-handler": "4.4.20",
         "symfony/dependency-injection": "^5.2"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
     "autoload": {
         "psr-4": {
             "Orangehrm\\Rest\\": "./plugins/orangehrmRESTPlugin/lib",
@@ -46,8 +49,5 @@
                 "./apps/orangehrm/lib/model/exception"
             ]
         }
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9"
     }
 }
