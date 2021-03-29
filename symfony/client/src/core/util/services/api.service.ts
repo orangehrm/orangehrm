@@ -36,14 +36,14 @@ export class APIService {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     };
-    return this._http.post(this._apiSection, {headers, data});
+    return this._http.post(this._apiSection, data, {headers});
   }
 
   update(id: number, data: any): Promise<AxiosResponse> {
     const headers = {
       'Content-Type': 'application/json',
     };
-    return this._http.put(`${this._apiSection}/${id}`, {headers, data});
+    return this._http.put(`${this._apiSection}/${id}`, data, {headers});
   }
 
   delete(id: number): Promise<AxiosResponse> {
