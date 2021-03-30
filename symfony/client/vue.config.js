@@ -5,6 +5,7 @@ module.exports = {
         prependData: `@import "@/core/styles/_variables.scss";`,
       },
     },
+    extract: true,
   },
   configureWebpack: {
     resolve: {
