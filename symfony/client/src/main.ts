@@ -16,9 +16,26 @@
  * Boston, MA  02110-1301, USA
  */
 
-/* eslint-disable */
-declare module '*.vue' {
-  import type { DefineComponent } from 'vue'
-  const component: DefineComponent<{}, {}, any>
-  export default component
-}
+import {createApp} from 'vue';
+import axios from 'axios';
+import components from './components';
+import pages from './pages';
+
+const app = createApp({
+  name: 'App',
+  components: pages,
+});
+
+// Global Register Components
+app.use(components);
+
+app.config.globalProperties.global = {
+  baseUrl: process.env.VUE_APP_API_ENDPOINT,
+};
+
+app.config.globalProperties.$http = axios.create({
+  baseURL: process.env.VUE_APP_API_ENDPOINT,
+  timeout: 3000,
+});
+
+app.mount('#app');

@@ -1,0 +1,61 @@
+.orangehrm-header-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1.2rem;
+}
+
+.orangehrm-left-space {
+  margin-left: 10px;
+}
+
+.orangehrm-card-container {
+  background-color: $oxd-white-color;
+  border-radius: 1.2rem;
+  padding: 1.2rem;
+}
+
+.orangehrm-container {
+  background-color: $oxd-interface-gray-lighten-2-color;
+  /*border-radius: 1.2rem;*/
+  padding: 0.5rem;
+}
+
+.orangehrm-paper-container {
+  background-color: $oxd-white-color;
+  border-radius: 1.2rem;
+}
+
+.orangehrm-horizontal-padding {
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}
+
+.orangehrm-vertical-padding {
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+}
+
+.orangehrm-horizontal-margin {
+  margin-left: 1.2rem;
+  margin-right: 1.2rem;
+}
+
+.orangehrm-bottom-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: right;
+  padding: 1.2rem;
+}
+
+.orangehrm-background-container {
+  padding: 1.5rem 0;
+  flex: 1;
+}
+
+body {
+  display: block;
+  margin: 0;
+}

@@ -3119,6 +3119,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^0.21.1":
+  version: 0.21.1
+  resolution: "axios@npm:0.21.1"
+  dependencies:
+    follow-redirects: ^1.10.0
+  checksum: 864fb7b5d077d236737f10adca53bf451a93f35a15271f56fba8da07265a02d26b7d881b935a6697dc6adb0549ea3e56d2eecb403edaa3bb78f6479901c10f69
+  languageName: node
+  linkType: hard
+
 "babel-code-frame@npm:^6.22.0, babel-code-frame@npm:^6.26.0":
   version: 6.26.0
   resolution: "babel-code-frame@npm:6.26.0"
@@ -3456,6 +3465,13 @@ __metadata:
   version: 1.0.0
   resolution: "boolbase@npm:1.0.0"
   checksum: e827963c416fdb1dbcd57e066a43c40829518f4dcdc9f58ed04519daeebb610adacbb6cf102518bda9f08be593c5b1b49a83e36bf6b7d91b3403f7e35510eeae
+  languageName: node
+  linkType: hard
+
+"bootstrap-icons@npm:^1.3.0":
+  version: 1.4.0
+  resolution: "bootstrap-icons@npm:1.4.0"
+  checksum: 74d29337f24ef4563867a3d7cbe91eb0238cc6a13e21b837d503c21d6ceed8eac1a00e45936fa9992e73091ed4fde6ec914c5fa97a85ce092e149de489a40204
   languageName: node
   linkType: hard
 
@@ -6312,6 +6328,16 @@ __metadata:
     debug:
       optional: true
   checksum: c7c6c905876b939af04a1b27afa70e9c0ab5015d96f5ee49dd80db6952dc8c960b96a229647504468615d8a1a400da9bec9449e2aea9f9c6da6fdca0ba17d4c2
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.10.0":
+  version: 1.13.3
+  resolution: "follow-redirects@npm:1.13.3"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 9ad74c3b66ad5c32d8c009a2afb4e5c1b9e5dbe1f631419296c21f8e4f9976ed2c52f9a676c4acdd1d7f41a8f17a03dfaa3704993b25b5965eb11bc9dc9a8ef5
   languageName: node
   linkType: hard
 
@@ -9994,6 +10020,7 @@ fsevents@~2.3.1:
     "@vue/eslint-config-prettier": ^6.0.0
     "@vue/eslint-config-typescript": ^5.0.2
     "@vue/test-utils": ^2.0.0-0
+    axios: ^0.21.1
     core-js: ^3.6.5
     eslint: ^6.7.2
     eslint-plugin-prettier: ^3.1.3
