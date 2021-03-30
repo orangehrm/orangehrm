@@ -1,10 +1,8 @@
-const pages = require('./pages.json')
-
 module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        prependData: `@import "@/styles/_variables.scss";`,
+        prependData: `@import "@/core/styles/_variables.scss";`,
       },
     },
   },
@@ -12,11 +10,18 @@ module.exports = {
     resolve: {
       alias: {
         '@orangehrm/oxd': '@orangehrm/oxd/src',
-        '@orangehrm/util': '@/util',
-        '@orangehrm/components': '@/components',
+        '@orangehrm/util': '@/core/util',
+        '@orangehrm/components': '@/core/components',
+        assets: '@orangehrm/oxd/src/assets',
       },
     },
   },
+  chainWebpack: config => {
+    config.plugins.delete('html');
+    config.plugins.delete('preload');
+    config.plugins.delete('prefetch');
+  },
   publicPath: '.',
-  pages,
+  filenameHashing: false,
+  runtimeCompiler: true,
 };
