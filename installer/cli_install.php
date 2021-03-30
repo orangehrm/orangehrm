@@ -127,6 +127,9 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			$_SESSION['defUser']['AdminPassword'] = $detailsHandler->getAdminPassword();
 			$_SESSION['defUser']['randomNumber'] = rand(1,100);
 			$_SESSION['defUser']['type'] = 0;
+            $_SESSION['defUser']['country'] = $detailsHandler->getCountry();
+            $_SESSION['defUser']['language'] = $detailsHandler->getlanguage();
+			$_SESSION['defUser']['timezone'] = $detailsHandler->getTimezone();
 
 			$_SESSION['dbHostName'] = $detailsHandler->getHost();
 			$_SESSION['dbUserName'] = $detailsHandler->getOrangehrmDatabaseUser();

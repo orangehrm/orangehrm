@@ -490,6 +490,48 @@ class DetailsHandler
         return trim($line);
     }
 
+    /**
+     * @return string
+     */
+    public function getCountry()
+    {
+        if ($_SESSION['defUser']['country']) {
+            return $_SESSION['defUser']['country'];
+        }
+
+        $configurationDataSet = $this->getConfigIni();
+
+        return $configurationDataSet["country"];
+    }
+
+    /**
+     * @return string
+     */
+    public function getlanguage()
+    {
+        if ($_SESSION['defUser']['language']) {
+            return $_SESSION['defUser']['language'];
+        }
+
+        $configurationDataSet = $this->getConfigIni();
+
+        return $configurationDataSet["language"];
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimezone()
+    {
+        if ($_SESSION['defUser']['timezone']) {
+            return $_SESSION['defUser']['timezone'];
+        }
+
+        $configurationDataSet = $this->getConfigIni();
+
+        return $configurationDataSet["timezone"];
+    }
+
 }
 
 ?>
