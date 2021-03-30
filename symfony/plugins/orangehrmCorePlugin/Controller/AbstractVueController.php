@@ -46,7 +46,7 @@ abstract class AbstractVueController extends AbstractViewController
 
     public function __construct()
     {
-        $loader = new FilesystemLoader(Config::get('app_template_dir'));
+        $loader = new FilesystemLoader(Config::get('ohrm_app_template_dir'));
         $this->twig = new Environment($loader, ['cache' => false]);
         $this->init();
     }
