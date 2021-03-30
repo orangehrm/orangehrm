@@ -7,3 +7,13 @@ apiv1_job_titles:
   path: /api/v1/admin/job-titles
   controller: OrangeHRM\Rest\Admin\Controller\JobTitlesApiAction::execute
   methods: [ GET, POST, PUT, DELETE ]
+
+apiv1_job_category:
+  path: /api/v1/admin/job-categories/{id}
+  controller: OrangeHRM\Rest\Admin\Controller\JobCategoryApiAction::execute
+  methods: [ GET, PUT ]
+
+apiv1_job_categories:
+  path: /api/v1/admin/job-categories
+  controller: OrangeHRM\Rest\Admin\Controller\JobCategoriesApiAction::execute
+  methods: [ GET, POST, DELETE ]
