@@ -20,7 +20,5 @@ apiv1_job_categories:
 
 save_job_title:
   path: /admin/saveJobTitle
-  controller: OrangeHRM\Core\Controller\GenericVueController::index
+  controller: OrangeHRM\Admin\Controller\JobTitleController::handle
   methods: [ GET ]
-  defaults:
-    component: "span"
