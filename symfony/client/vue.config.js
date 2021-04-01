@@ -13,6 +13,7 @@ module.exports = {
         '@orangehrm/oxd': '@orangehrm/oxd/src',
         '@orangehrm/util': '@/core/util',
         '@orangehrm/components': '@/core/components',
+        '@orangehrm/core': '@/core',
         assets: '@orangehrm/oxd/src/assets',
       },
     },

@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,27 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {createApp} from 'vue';
-import axios from 'axios';
-import components from './components';
-import pages from './pages';
+namespace OrangeHRM\Admin\Controller;
 
-const app = createApp({
-  name: 'App',
-  components: pages,
-});
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 
-// Global Register Components
-app.use(components);
-
-// TODO:: Remove globalProperties if not using
-app.config.globalProperties.global = {
-  baseUrl: process.env.VUE_APP_API_ENDPOINT,
-};
-
-app.config.globalProperties.$http = axios.create({
-  baseURL: process.env.VUE_APP_API_ENDPOINT,
-  timeout: 3000,
-});
-
-app.mount('#app');
+class JobCategoryController extends AbstractVueController
+{
+    public function init(): void
+    {
+        $component = new Component('job-category-list');
+        $this->setComponent($component);
+    }
+}

@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+
 export default {
   data() {
     return {
@@ -85,7 +87,7 @@ export default {
         });
     },
     onCancel() {
-      window.history.go(-1);
+      navigate('/admin/jobCategory');
     },
   },
   created() {
