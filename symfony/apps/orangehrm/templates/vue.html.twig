@@ -26,7 +26,8 @@
         context-title="Personal Information Manager"
         :sidepanel-menu-items="[{name:'Home',url:'#',icon:'icon-home',active:true,},{name:'PIM',url:'#',icon:'icon-pim',active:false,},{name:'Time',url:'#',icon:'icon-time',active:false,},{name:'Recruitment',url:'#',icon:'icon-recruitment',active:false,},{name:'Leave',url:'#',icon:'icon-leave',active:false,},{name:'Disciplines',url:'#',icon:'icon-discipline',active:false,},{name:'Training',url:'#',icon:'icon-training',active:false,},{name:'S & D',url:'#',icon:'icon-development',active:false,},{name:'On-boarding',url:'#',icon:'icon-onboarding',active:false,},{name:'Expense',url:'#',icon:'icon-expences',active:false,},{name:'Reports',url:'#',icon:'icon-report',active:false,},{name:'All Settings',url:'#',icon:'icon-admin',active:false}]"
         :topbar-menu-items="[{name:'Employee List',url:'#',active:false,children:[],},{name:'Manage Data',url:'',active:false,children:[{name:'Job Titles',url:'#',},{name:'User Management',url:'#',},{name:'Job Categories',url:'#',},],},{name:'Reports',url:'',active:false,children:[{name:'Job Titles',url:'#',},{name:'User Management',url:'#',},{name:'Job Categories',url:'#',},],},]"
-        :user="{firstName:'Jeff',lastName:'Winger',profImgSrc:''}"
+        :user="{firstName:'Jeff',lastName:'Winger',profImgSrc:'{{ publicPath }}/dist/img/user-default-400.png'}"
+        brand-image-src="{{ publicPath }}/images/orange.png"
     >
       <{{ componentName }}
       {% for prop in componentProps %}
@@ -39,6 +40,11 @@
 {% endblock %}
 
 {% block javascripts %}
+  <script type="text/javascript">
+      window.appGlobal = {
+          baseUrl: "{{ baseUrl }}",
+      }
+  </script>
   <script src="{{ publicPath }}/dist/js/chunk-vendors.js"></script>
   <script src="{{ publicPath }}/dist/js/app.js"></script>
 {% endblock %}

@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+
 export default {
   props: {
     jobCategoryId: {
@@ -91,7 +93,7 @@ export default {
         });
     },
     onCancel() {
-      history.go(-1);
+      navigate('/admin/jobCategory');
     },
   },
   created() {

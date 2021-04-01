@@ -66,7 +66,8 @@
 </template>
 
 <script>
-import usePaginate from '@/core/util/composable/usePaginate';
+import usePaginate from '@orangehrm/core/util/composable/usePaginate';
+import {navigate} from '@orangehrm/core/util/helper/navigation';
 
 export default {
   data() {
@@ -126,12 +127,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      // TODO: Add url
-      console.log('go to add screen');
+      navigate('/admin/saveJobTitle');
     },
     onClickEdit(item) {
-      //TODO: Add path
-      console.log(item);
+      navigate('/admin/saveJobTitle/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = [];

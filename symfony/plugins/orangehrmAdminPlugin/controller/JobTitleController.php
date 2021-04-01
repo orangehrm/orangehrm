@@ -20,19 +20,13 @@
 namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Lib\Vue\Component;
-use OrangeHRM\Core\Lib\Vue\Prop;
+use OrangeHRM\Core\Vue\Component;
 
 class JobTitleController extends AbstractVueController
 {
     public function init(): void
     {
-        $component = new Component(
-            'job-title-list',
-            [
-                new Prop('title', Prop::TYPE_STRING, 'Job Title List'),
-            ]
-        );
+        $component = new Component('job-title-list');
         $this->setComponent($component);
     }
 }

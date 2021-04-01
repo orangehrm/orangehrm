@@ -68,8 +68,9 @@
 </template>
 
 <script>
-import usePaginate from '@/core/util/composable/usePaginate';
+import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
+import {navigate} from '@orangehrm/core/util/helper/navigation';
 
 export default {
   data() {
@@ -132,12 +133,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      // TODO: Redirect to page
-      console.log('goto add');
+      navigate('/admin/saveJobCategory');
     },
     onClickEdit(item) {
-      // TODO: Redirect to page
-      console.log('goto edit', item);
+      navigate('/admin/saveJobCategory/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
