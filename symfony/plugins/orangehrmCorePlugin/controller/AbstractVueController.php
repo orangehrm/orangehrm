@@ -124,7 +124,8 @@ abstract class AbstractVueController
             [
                 'componentName' => $this->getComponent()->getName(),
                 'componentProps' => $this->getComponent()->getProps(),
-                'publicPath' => $request->getBasePath()
+                'publicPath' => $request->getBasePath(),
+                'baseUrl' => $request->getBaseUrl(),
             ]
         );
     }

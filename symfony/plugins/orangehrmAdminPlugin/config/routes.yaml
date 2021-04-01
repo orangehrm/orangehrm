@@ -18,7 +18,32 @@ apiv1_job_categories:
   controller: OrangeHRM\Rest\Admin\Controller\JobCategoriesApiAction::execute
   methods: [ GET, POST, DELETE ]
 
+view_job_title:
+  path: /admin/viewJobTitleList
+  controller: OrangeHRM\Admin\Controller\JobTitleController::handle
+  methods: [ GET ]
+
 save_job_title:
   path: /admin/saveJobTitle
-  controller: OrangeHRM\Admin\Controller\JobTitleController::handle
+  controller: OrangeHRM\Admin\Controller\SaveJobTitleController::handle
+  methods: [ GET ]
+
+edit_job_title:
+  path: /admin/saveJobTitle/{id}
+  controller: OrangeHRM\Admin\Controller\SaveJobTitleController::handle
+  methods: [ GET ]
+
+view_job_category:
+  path: /admin/jobCategory
+  controller: OrangeHRM\Admin\Controller\JobCategoryController::handle
+  methods: [ GET ]
+
+save_job_category:
+  path: /admin/saveJobCategory
+  controller: OrangeHRM\Admin\Controller\SaveJobCategoryController::handle
+  methods: [ GET ]
+
+edit_job_category:
+  path: /admin/saveJobCategory/{id}
+  controller: OrangeHRM\Admin\Controller\SaveJobCategoryController::handle
   methods: [ GET ]

@@ -29,6 +29,7 @@ const app = createApp({
 // Global Register Components
 app.use(components);
 
+// TODO:: Remove globalProperties if not using
 app.config.globalProperties.global = {
   baseUrl: process.env.VUE_APP_API_ENDPOINT,
 };

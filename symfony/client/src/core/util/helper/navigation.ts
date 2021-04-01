@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,16 +16,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Controller;
+import {urlFor} from '@/core/util/helper/url';
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Lib\Vue\Component;
-
-class JobTitleController extends AbstractVueController
-{
-    public function init(): void
-    {
-        $component = new Component('job-title-list');
-        $this->setComponent($component);
-    }
-}
+/**
+ * @param path
+ * @param params
+ * @param query
+ */
+export const navigate = function(
+  path: string,
+  params: {[key: string]: string | number} = {},
+  query: {[key: string]: string | number | boolean | string[]} = {},
+): void {
+  window.location.href = urlFor(path, params, query);
+};

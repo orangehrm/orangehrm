@@ -21,12 +21,20 @@ namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Lib\Vue\Component;
+use OrangeHRM\Core\Lib\Vue\Prop;
+use Symfony\Component\HttpFoundation\Request;
 
-class JobTitleController extends AbstractVueController
+class SaveJobTitleController extends AbstractVueController
 {
-    public function init(): void
+    public function preRender(Request $request): void
     {
-        $component = new Component('job-title-list');
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component('job-title-edit');
+            $component->addProp(new Prop('job-title-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('job-title-save');
+        }
         $this->setComponent($component);
     }
 }
