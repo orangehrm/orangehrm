@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+
 const initialJobTitle = {
   title: '',
   description: '',
@@ -122,7 +124,7 @@ export default {
 
   methods: {
     onCancel() {
-      window.history.go(-1);
+      navigate('/admin/viewJobTitleList');
     },
     onSave() {
       // TODO: Loading

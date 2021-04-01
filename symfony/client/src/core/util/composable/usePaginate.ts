@@ -65,7 +65,8 @@ function getPageParams(pageSize: number, currentPage: number) {
 }
 
 export default function usePaginate(apiPath: string) {
-  const http: APIService = new APIService(process.env.VUE_APP_API_ENDPOINT, apiPath);
+  // @ts-expect-error
+  const http: APIService = new APIService(window.appGlobal.baseUrl, apiPath);
 
   const state = reactive<State>({
     showPaginator: false,

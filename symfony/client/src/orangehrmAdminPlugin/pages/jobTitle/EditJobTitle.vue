@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+
 const initialJobTitle = {
   title: '',
   description: '',
@@ -128,7 +130,7 @@ export default {
 
   created() {
     this.$http
-      .get(`api/v1/admin/job-titles/${this.jobTitleId}`)
+      .get(`/api/v1/admin/job-titles/${this.jobTitleId}`)
       .then(response => {
         const {data} = response.data;
         this.jobTitle = data;
@@ -140,12 +142,12 @@ export default {
 
   methods: {
     onCancel() {
-      window.history.go(-1);
+      navigate('/admin/viewJobTitleList');
     },
     onSave() {
       // TODO: Loading
       this.$http
-        .put(`api/v1/admin/job-titles/${this.jobTitleId}`, {
+        .put(`/api/v1/admin/job-titles/${this.jobTitleId}`, {
           ...this.jobTitle,
         })
         .then(() => {

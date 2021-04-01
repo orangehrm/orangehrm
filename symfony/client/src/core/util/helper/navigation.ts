@@ -16,27 +16,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {createApp} from 'vue';
-import axios from 'axios';
-import components from './components';
-import pages from './pages';
+import {urlFor} from '@orangehrm/core/util/helper/url';
 
-const app = createApp({
-  name: 'App',
-  components: pages,
-});
-
-// Global Register Components
-app.use(components);
-
-// TODO:: Remove globalProperties if not using
-app.config.globalProperties.global = {
-  baseUrl: process.env.VUE_APP_API_ENDPOINT,
+/**
+ * @param path
+ * @param params
+ * @param query
+ */
+export const navigate = function(
+  path: string,
+  params: {[key: string]: string | number} = {},
+  query: {[key: string]: string | number | boolean | string[]} = {},
+): void {
+  window.location.href = urlFor(path, params, query);
 };
-
-app.config.globalProperties.$http = axios.create({
-  baseURL: process.env.VUE_APP_API_ENDPOINT,
-  timeout: 3000,
-});
-
-app.mount('#app');
