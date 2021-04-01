@@ -20,8 +20,8 @@
 namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Lib\Vue\Component;
-use OrangeHRM\Core\Lib\Vue\Prop;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 
 class JobCategoryController extends AbstractVueController
 {

@@ -20,7 +20,7 @@
 namespace OrangeHRM\Core\Controller;
 
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Lib\Vue\Component;
+use OrangeHRM\Core\Vue\Component;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
