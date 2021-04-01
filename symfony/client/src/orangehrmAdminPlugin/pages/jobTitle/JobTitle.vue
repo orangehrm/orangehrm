@@ -66,8 +66,8 @@
 </template>
 
 <script>
-import usePaginate from '@/core/util/composable/usePaginate';
-import {navigate} from '@/core/util/helper/navigation';
+import usePaginate from '@orangehrm/core/util/composable/usePaginate';
+import {navigate} from '@orangehrm/core/util/helper/navigation';
 
 export default {
   data() {

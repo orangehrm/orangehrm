@@ -37,6 +37,7 @@ export const prepare = function(
       }
       preparedEndpoint = preparedEndpoint.replace(paramPlaceholder, paramValue);
     } else {
+      // eslint-disable-next-line no-console
       console.error('Invalid parameter.');
     }
   });

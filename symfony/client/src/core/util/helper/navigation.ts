@@ -16,7 +16,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {urlFor} from '@/core/util/helper/url';
+import {urlFor} from '@orangehrm/core/util/helper/url';
 
 /**
  * @param path

@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import {navigate} from '@/core/util/helper/navigation';
+import {navigate} from '@orangehrm/core/util/helper/navigation';
 
 const initialJobTitle = {
   title: '',
