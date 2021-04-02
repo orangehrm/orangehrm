@@ -30,8 +30,7 @@
             "OrangeHRM\\Framework\\": "./lib/framework",
             "OrangeHRM\\Config\\": "./lib/config",
             "OrangeHRM\\Rest\\Admin\\": "./plugins/orangehrmAdminPlugin/api",
-            "OrangeHRM\\Admin\\Controller\\": "./plugins/orangehrmAdminPlugin/controller",
-            "OrangeHRM\\Core\\Controller\\": "./plugins/orangehrmCorePlugin/controller",
+            "OrangeHRM\\Admin\\": "./plugins/orangehrmAdminPlugin",
             "OrangeHRM\\Core\\": "./plugins/orangehrmCorePlugin",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
