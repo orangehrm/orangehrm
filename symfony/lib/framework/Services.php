@@ -55,4 +55,29 @@ final class Services
      * Symfony\Component\HttpKernel\HttpKernel
      */
     public const HTTP_KERNEL = 'http_kernel';
+
+    /**
+     * Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage
+     */
+    public const SESSION_STORAGE = 'session_storage';
+
+    /**
+     * Symfony\Component\HttpFoundation\Session\Session
+     */
+    public const SESSION = 'session';
+
+    /**
+     * Monolog\Logger
+     */
+    public const LOGGER = 'logger';
+
+    /**
+     * Symfony\Component\Routing\Generator\UrlGenerator
+     */
+    public const URL_GENERATOR = 'url_generator';
+
+    /**
+     * Symfony\Component\HttpFoundation\UrlHelper
+     */
+    public const URL_HELPER = 'url_helper';
 }

@@ -17,47 +17,43 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\SecurityAuthentication\Api\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use OrangeHRM\Core\Controller\AbstractRestController;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Http\Response;
+use OrangeHRM\SecurityAuthentication\Api\LoginAPI;
 
-class ServiceContainer
+class LoginApiController extends AbstractRestController implements PublicControllerInterface
 {
     /**
-     * @var self|null
+     * @var null|LoginAPI
      */
-    private static ?ServiceContainer $instance = null;
+    private ?LoginAPI $loginApi = null;
 
     /**
-     * @var ContainerBuilder|null
+     * @inheritDoc
      */
-    private static ?ContainerBuilder $containerBuilder = null;
-
-    /**
-     * @param ContainerBuilder|null $containerBuilder
-     */
-    private function __construct(ContainerBuilder $containerBuilder = null)
+    protected function init(Request $request)
     {
-        self::$containerBuilder = $containerBuilder ?? new ContainerBuilder();
+        $this->loginApi = new LoginAPI($request);
     }
 
     /**
-     * @return static
+     * @inheritDoc
      */
-    protected static function getInstance(): self
+    protected function handleGetRequest(Request $request): Response
     {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
+        throw new NotImplementedException();
     }
 
     /**
-     * @return ContainerBuilder
+     * @inheritDoc
      */
-    public static function getContainer(): ContainerBuilder
+    protected function handlePostRequest(Request $request): Response
     {
-        self::getInstance();
-        return self::$containerBuilder;
+        return $this->loginApi->login();
     }
 }

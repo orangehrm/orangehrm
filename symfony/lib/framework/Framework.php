@@ -19,15 +19,19 @@
 
 namespace OrangeHRM\Framework;
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use OrangeHRM\Config\Config;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 
@@ -36,17 +40,18 @@ class Framework extends HttpKernel
     /**
      * @var null|string
      */
-    protected $environment = null;
+    protected ?string $environment = null;
     /**
      * @var null|bool
      */
-    protected $debug = null;
+    protected ?bool $debug = null;
 
     public function __construct(string $environment, bool $debug)
     {
         $this->environment = $environment;
         $this->debug = $debug;
         $this->configureContainer();
+        $this->configureLogger();
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
@@ -70,14 +75,24 @@ class Framework extends HttpKernel
         ServiceContainer::getContainer()->set(Services::HTTP_KERNEL, $this);
     }
 
+    protected function configureLogger(): void
+    {
+        $logger = new Logger('orangehrm');
+        $logger->pushHandler(
+            new StreamHandler(Config::get('ohrm_log_dir') . DIRECTORY_SEPARATOR . 'orangehrm.log', Logger::WARNING)
+        );
+        ServiceContainer::getContainer()->set(Services::LOGGER, $logger);
+    }
+
     protected function configureRouter(Request $request): void
     {
         /** @var RequestContext $context */
         $context = ServiceContainer::getContainer()->get(Services::ROUTER_REQUEST_CONTEXT);
         $context->fromRequest($request);
 
+        $routes = RouteManager::getRoutes();
         ServiceContainer::getContainer()->register(Services::ROUTER, UrlMatcher::class)
-            ->addArgument(RouteManager::getRoutes())
+            ->addArgument($routes)
             ->addArgument($context);
 
         /** @var UrlMatcher $matcher */
@@ -88,6 +103,14 @@ class Framework extends HttpKernel
         /** @var EventDispatcher $dispatcher */
         $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
         $dispatcher->addSubscriber(new RouterListener($matcher, $requestStack));
+
+        /** @var Logger $logger */
+        $logger = ServiceContainer::getContainer()->get(Services::LOGGER);
+        $urlGenerator = new UrlGenerator($routes, $context, $logger);
+        ServiceContainer::getContainer()->set(Services::URL_GENERATOR, $urlGenerator);
+
+        $urlHelper = new UrlHelper($requestStack, $context);
+        ServiceContainer::getContainer()->set(Services::URL_HELPER, $urlHelper);
     }
 
     protected function configurePlugins(): void

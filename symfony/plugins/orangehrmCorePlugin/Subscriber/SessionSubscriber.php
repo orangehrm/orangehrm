@@ -17,47 +17,38 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Core\Subscriber;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-class ServiceContainer
+class SessionSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var self|null
+     * @inheritDoc
      */
-    private static ?ServiceContainer $instance = null;
-
-    /**
-     * @var ContainerBuilder|null
-     */
-    private static ?ContainerBuilder $containerBuilder = null;
-
-    /**
-     * @param ContainerBuilder|null $containerBuilder
-     */
-    private function __construct(ContainerBuilder $containerBuilder = null)
+    public static function getSubscribedEvents()
     {
-        self::$containerBuilder = $containerBuilder ?? new ContainerBuilder();
+        return [
+            KernelEvents::CONTROLLER => [
+                ['onControllerEvent', 100000],
+            ],
+        ];
     }
 
-    /**
-     * @return static
-     */
-    protected static function getInstance(): self
+    public function onControllerEvent(ControllerEvent $event)
     {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
+        /** @var Session $session */
+        $session = ServiceContainer::getContainer()->get(Services::SESSION);
+
+        // TODO:: move to config
+        $maxIdleTime = 1800;
+        if (time() - $session->getMetadataBag()->getLastUsed() > $maxIdleTime) {
+            $session->invalidate();
         }
-        return self::$instance;
-    }
-
-    /**
-     * @return ContainerBuilder
-     */
-    public static function getContainer(): ContainerBuilder
-    {
-        self::getInstance();
-        return self::$containerBuilder;
     }
 }

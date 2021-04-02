@@ -18,23 +18,27 @@
  *
  */
 
+namespace OrangeHRM\Core\Utility;
+
 /**
  * A simple wrapper around the php password_hash and password_verify functions
  */
-class PasswordHash {
+class PasswordHash
+{
 
-    const ALGORITHM = PASSWORD_BCRYPT;
+    public const ALGORITHM = PASSWORD_BCRYPT;
 
     // 2^12 iterations
-    const COST = 12;
+    public const COST = 12;
 
     /**
      * Create password hash
      *
      * @param string $password Password
-     * @return string
+     * @return false|string|null
      */
-    public function hash($password) {
+    public function hash(string $password)
+    {
         $options = [
             'cost' => self::COST
         ];
@@ -46,9 +50,10 @@ class PasswordHash {
      *
      * @param string $password Password
      * @param string $hash Hash
-     * @return boolean
+     * @return bool
      */
-    public function verify($password, $hash) {
+    public function verify(string $password, string $hash): bool
+    {
         return password_verify($password, $hash);
     }
 

@@ -17,47 +17,38 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Core\Subscriber;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Exception;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-class ServiceContainer
+class LoggerSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var self|null
+     * @inheritDoc
      */
-    private static ?ServiceContainer $instance = null;
-
-    /**
-     * @var ContainerBuilder|null
-     */
-    private static ?ContainerBuilder $containerBuilder = null;
-
-    /**
-     * @param ContainerBuilder|null $containerBuilder
-     */
-    private function __construct(ContainerBuilder $containerBuilder = null)
+    public static function getSubscribedEvents()
     {
-        self::$containerBuilder = $containerBuilder ?? new ContainerBuilder();
+        return [
+            KernelEvents::EXCEPTION => [
+                ['onExceptionEvent', -64],
+            ],
+        ];
     }
 
     /**
-     * @return static
+     * @param ExceptionEvent $event
+     * @throws Exception
      */
-    protected static function getInstance(): self
+    public function onExceptionEvent(ExceptionEvent $event)
     {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
-    /**
-     * @return ContainerBuilder
-     */
-    public static function getContainer(): ContainerBuilder
-    {
-        self::getInstance();
-        return self::$containerBuilder;
+        $exception = $event->getThrowable();
+        $logger = ServiceContainer::getContainer()->get(Services::LOGGER);
+        $logger->error($exception->getMessage());
+        $logger->error($exception->getTraceAsString());
     }
 }

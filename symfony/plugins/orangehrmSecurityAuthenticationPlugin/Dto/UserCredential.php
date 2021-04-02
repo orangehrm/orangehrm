@@ -17,47 +17,52 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\SecurityAuthentication\Dto;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-class ServiceContainer
+class UserCredential
 {
-    /**
-     * @var self|null
-     */
-    private static ?ServiceContainer $instance = null;
+    private ?string $username = null;
+    private ?string $password = null;
 
     /**
-     * @var ContainerBuilder|null
+     * @param string|null $username
+     * @param string|null $password
      */
-    private static ?ContainerBuilder $containerBuilder = null;
-
-    /**
-     * @param ContainerBuilder|null $containerBuilder
-     */
-    private function __construct(ContainerBuilder $containerBuilder = null)
+    public function __construct(?string $username = null, ?string $password = null)
     {
-        self::$containerBuilder = $containerBuilder ?? new ContainerBuilder();
+        $this->username = $username;
+        $this->password = $password;
     }
 
     /**
-     * @return static
+     * @return string|null
      */
-    protected static function getInstance(): self
+    public function getUsername(): ?string
     {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
+        return $this->username;
     }
 
     /**
-     * @return ContainerBuilder
+     * @param string|null $username
      */
-    public static function getContainer(): ContainerBuilder
+    public function setUsername(?string $username): void
     {
-        self::getInstance();
-        return self::$containerBuilder;
+        $this->username = $username;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string|null $password
+     */
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
     }
 }

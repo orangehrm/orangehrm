@@ -17,47 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\SecurityAuthentication\Subscriber\AuthenticationSubscriber;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-class ServiceContainer
+class SecurityAuthenticationPluginConfiguration implements PluginConfigurationInterface
 {
     /**
-     * @var self|null
+     * @inheritDoc
      */
-    private static ?ServiceContainer $instance = null;
-
-    /**
-     * @var ContainerBuilder|null
-     */
-    private static ?ContainerBuilder $containerBuilder = null;
-
-    /**
-     * @param ContainerBuilder|null $containerBuilder
-     */
-    private function __construct(ContainerBuilder $containerBuilder = null)
+    public function initialize(): void
     {
-        self::$containerBuilder = $containerBuilder ?? new ContainerBuilder();
-    }
-
-    /**
-     * @return static
-     */
-    protected static function getInstance(): self
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
-    /**
-     * @return ContainerBuilder
-     */
-    public static function getContainer(): ContainerBuilder
-    {
-        self::getInstance();
-        return self::$containerBuilder;
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
+        $dispatcher->addSubscriber(new AuthenticationSubscriber());
     }
 }

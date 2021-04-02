@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,36 +16,56 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class SystemUserService extends BaseService{
-    
-    protected $systemUserDao = null;
+
+namespace OrangeHRM\Admin\Service;
+
+use OrangeHRM\Admin\Dao\SystemUserDao;
+use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Utility\PasswordHash;
+use OrangeHRM\Entity\SystemUser;
+use OrangeHRM\SecurityAuthentication\Dto\UserCredential;
+
+class SystemUserService {
+    /**
+     * @var SystemUserDao|null
+     */
+    protected ?SystemUserDao $systemUserDao = null;
     
     /** @property PasswordHash $passwordHasher */
-    private $passwordHasher;    
+    private ?PasswordHash $passwordHasher = null;
 
     /**
-     *
      * @return SystemUserDao
      */
-    public function getSystemUserDao() {
+    public function getSystemUserDao(): ?SystemUserDao
+    {
         if (empty($this->systemUserDao)) {
             $this->systemUserDao = new SystemUserDao();
         }
         return $this->systemUserDao;
     }
 
-    public function setSystemUserDao($systemUserDao) {
+    /**
+     * @param SystemUserDao $systemUserDao
+     */
+    public function setSystemUserDao(SystemUserDao $systemUserDao): void
+    {
         $this->systemUserDao = $systemUserDao;
     }
-    
-    public function getPasswordHasher() {
+
+    /**
+     * @return PasswordHash
+     */
+    public function getPasswordHasher(): PasswordHash
+    {
         if (empty($this->passwordHasher)) {
             $this->passwordHasher = new PasswordHash();
         }        
         return $this->passwordHasher;
     }
 
-    public function setPasswordHasher($passwordHasher) {
+    public function setPasswordHasher(PasswordHash $passwordHasher): void
+    {
         $this->passwordHasher = $passwordHasher;
     }
 
@@ -55,7 +73,7 @@ class SystemUserService extends BaseService{
     /**
      * Save System User
      * 
-     * @param SystemUser $systemUser 
+     * @param SystemUser $systemUser
      * @return void
      */
     public function saveSystemUser(SystemUser $systemUser,$changePassword = false){
@@ -67,7 +85,7 @@ class SystemUserService extends BaseService{
 
             return $this->getSystemUserDao()->saveSystemUser($systemUser);
             
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
         
@@ -83,7 +101,7 @@ class SystemUserService extends BaseService{
     public function isExistingSystemUser( $userName , $userId){
         try {
            return  $this->getSystemUserDao()->isExistingSystemUser( $userName , $userId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
@@ -97,7 +115,7 @@ class SystemUserService extends BaseService{
     public function getSystemUser( $userId ){
         try {
             return $this->getSystemUserDao()->getSystemUser( $userId );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
@@ -110,7 +128,7 @@ class SystemUserService extends BaseService{
     public function getSystemUsers(){
         try {
             return $this->getSystemUserDao()->getSystemUsers();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
@@ -144,7 +162,7 @@ class SystemUserService extends BaseService{
     public function deleteSystemUsers( array $deletedIds){
         try {
             $this->getSystemUserDao()->deleteSystemUsers($deletedIds);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
@@ -157,7 +175,7 @@ class SystemUserService extends BaseService{
     public function getAssignableUserRoles(){
         try {
            return $this->getSystemUserDao()->getAssignableUserRoles();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
@@ -171,7 +189,7 @@ class SystemUserService extends BaseService{
     public function getUserRole($roleName){
         try {
            return $this->getSystemUserDao()->getUserRole($roleName);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }    
@@ -189,7 +207,7 @@ class SystemUserService extends BaseService{
     public function getSearchSystemUsersCount( $searchClues ){
         try {
            return $this->getSystemUserDao()->getSearchSystemUsersCount( $searchClues );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
@@ -203,7 +221,7 @@ class SystemUserService extends BaseService{
      public function searchSystemUsers( $searchClues){
          try {
            return $this->getSystemUserDao()->searchSystemUsers( $searchClues );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
      }
@@ -241,18 +259,23 @@ class SystemUserService extends BaseService{
      public function getEmployeesByUserRole($roleName, $includeInactive = false, $includeTerminated = false) {
          return $this->getSystemUserDao()->getEmployeesByUserRole($roleName);
      }
-     
-     
-     public function getCredentials($userName, $password) {
-         $user = $this->getSystemUserDao()->isExistingSystemUser($userName);
-         if ($user) {
+
+    /**
+     * @param UserCredential $credentials
+     * @return false|SystemUser|void
+     * @throws ServiceException
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
+     public function getCredentials(UserCredential $credentials) {
+         $user = $this->getSystemUserDao()->isExistingSystemUser($credentials);
+         if ($user instanceof SystemUser) {
             $hash = $user->getUserPassword();
-            if ($this->checkPasswordHash($password, $hash)) {       
+            if ($this->checkPasswordHash($credentials->getPassword(), $hash)) {
                 return $user;
-            } else if ($this->checkForOldHash($password, $hash)) {
+            } else if ($this->checkForOldHash($credentials->getPassword(), $hash)) {
                 
                 // password matches, but in old format. Need to update hash
-                $user->setUserPassword($password);
+                $user->setUserPassword($credentials->getPassword());
                 return $this->saveSystemUser($user, true);
             }
          }
