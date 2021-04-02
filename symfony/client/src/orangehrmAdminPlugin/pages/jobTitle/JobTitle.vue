@@ -64,6 +64,7 @@
     </div>
 
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
+    <toast-container ref="toastContainer"></toast-container>
   </div>
 </template>
 
@@ -71,6 +72,8 @@
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
+import ToastContainer from '@orangehrm/components/ToastContainer.vue';
+import {TYPE_SUCCESS} from '@orangehrm/oxd/src/core/components/Toast/types';
 
 export default {
   data() {
@@ -107,6 +110,7 @@ export default {
 
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
+    'toast-container': ToastContainer,
   },
 
   setup() {
@@ -166,6 +170,11 @@ export default {
           })
           .then(() => {
             this.resetDataTable();
+            this.$refs.toastContainer.push({
+              type: TYPE_SUCCESS,
+              title: 'Success',
+              message: 'Successfully Deleted',
+            });
           })
           .catch(error => {
             console.log(error);
