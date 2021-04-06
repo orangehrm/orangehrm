@@ -26,43 +26,47 @@
       <oxd-divider />
 
       <oxd-form novalidate="true" @submitValid="onSave">
-        <oxd-form-row>
-          <oxd-input-field
-            label="Job Title"
-            v-model="jobTitle.title"
-            :rules="rules.title"
-          />
-        </oxd-form-row>
+        <oxd-grid :cols="2">
+          <div>
+            <oxd-form-row>
+              <oxd-input-field
+                label="Job Title"
+                v-model="jobTitle.title"
+                :rules="rules.title"
+              />
+            </oxd-form-row>
 
-        <oxd-form-row>
-          <oxd-input-field
-            type="textarea"
-            label="Job Description"
-            placeholder="Type description here"
-            v-model="jobTitle.description"
-            :rules="rules.description"
-          />
-        </oxd-form-row>
+            <oxd-form-row>
+              <oxd-input-field
+                type="textarea"
+                label="Job Description"
+                placeholder="Type description here"
+                v-model="jobTitle.description"
+                :rules="rules.description"
+              />
+            </oxd-form-row>
 
-        <oxd-form-row>
-          <oxd-input-field
-            type="file"
-            label="Job Specification"
-            buttonLabel="Browse"
-            v-model="jobTitle.specification"
-            :rules="rules.specification"
-          />
-        </oxd-form-row>
+            <oxd-form-row>
+              <oxd-input-field
+                type="file"
+                label="Job Specification"
+                buttonLabel="Browse"
+                v-model="jobTitle.specification"
+                :rules="rules.specification"
+              />
+            </oxd-form-row>
 
-        <oxd-form-row>
-          <oxd-input-field
-            type="textarea"
-            label="Note"
-            placeholder="Add note"
-            v-model="jobTitle.note"
-            :rules="rules.note"
-          />
-        </oxd-form-row>
+            <oxd-form-row>
+              <oxd-input-field
+                type="textarea"
+                label="Note"
+                placeholder="Add note"
+                v-model="jobTitle.note"
+                :rules="rules.note"
+              />
+            </oxd-form-row>
+          </div>
+        </oxd-grid>
 
         <oxd-divider />
 
