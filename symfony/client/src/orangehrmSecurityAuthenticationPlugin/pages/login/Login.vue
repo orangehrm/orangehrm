@@ -63,7 +63,7 @@ export default defineComponent({
         .then(() => {
           console.log('success');
         })
-        .catch(error => {
+        .catch((error: Error) => {
           console.log(error);
         });
     },

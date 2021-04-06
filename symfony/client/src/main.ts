@@ -17,7 +17,7 @@
  */
 
 import {createApp} from 'vue';
-import axios from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import components from './components';
 import pages from './pages';
 
@@ -31,6 +31,13 @@ app.use(components);
 
 // @ts-expect-error
 const baseUrl = window.appGlobal.baseUrl;
+
+// https://github.com/vuejs/vue-next/pull/982
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $http: AxiosInstance;
+  }
+}
 
 // TODO:: Remove globalProperties if not using
 app.config.globalProperties.global = {

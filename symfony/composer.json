@@ -34,8 +34,6 @@
             "OrangeHRM\\Framework\\": "./lib/framework",
             "OrangeHRM\\Config\\": "./lib/config",
             "OrangeHRM\\Admin\\": "./plugins/orangehrmAdminPlugin",
-            "OrangeHRM\\Admin\\Controller\\": "./plugins/orangehrmAdminPlugin/controller",
-            "OrangeHRM\\Core\\Controller\\": "./plugins/orangehrmCorePlugin/controller",
             "OrangeHRM\\Core\\": "./plugins/orangehrmCorePlugin",
             "OrangeHRM\\SecurityAuthentication\\": "./plugins/orangehrmSecurityAuthenticationPlugin",
             "OrangeHRM\\Entity\\": [
