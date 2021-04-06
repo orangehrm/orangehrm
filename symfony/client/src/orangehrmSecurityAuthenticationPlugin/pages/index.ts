@@ -16,20 +16,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-import JobTitle from '@/orangehrmAdminPlugin/pages/jobTitle/JobTitle.vue';
-import EditJobTitle from '@/orangehrmAdminPlugin/pages/jobTitle/EditJobTitle.vue';
-import SaveJobTitle from '@/orangehrmAdminPlugin/pages/jobTitle/SaveJobTitle.vue';
-import JobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/JobCategory.vue';
-import EditJobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/EditJobCategory.vue';
-import SaveJobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/SaveJobCategory.vue';
-import securityAuthenticationPages from './orangehrmSecurityAuthenticationPlugin/pages';
+import Login from './login/Login.vue';
 
 export default {
-  'job-title-list': JobTitle,
-  'job-title-edit': EditJobTitle,
-  'job-title-save': SaveJobTitle,
-  'job-category-list': JobCategory,
-  'job-category-edit': EditJobCategory,
-  'job-category-save': SaveJobCategory,
-  ...securityAuthenticationPages,
+  'auth-login': Login,
 };
