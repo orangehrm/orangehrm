@@ -38,7 +38,7 @@ class EmployeeMembership
     /**
      * @var string
      *
-     * @ORM\Column(name="ememb_subscript_amount", type="decimal", length=15, scale=)
+     * @ORM\Column(name="ememb_subscript_amount", type="decimal", length=15)
      */
     private $subscriptionFee;
 
