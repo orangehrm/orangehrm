@@ -6,6 +6,7 @@ use Conf;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
+use OrangeHRM\Config\Config;
 
 class Doctrine
 {
@@ -27,12 +28,7 @@ class Doctrine
         $proxyDir = null;
         $cache = null;
         $useSimpleAnnotationReader = false;
-        //TODO
-        $paths = [
-            realpath(__DIR__ . '/../../plugins/orangehrmAdminPlugin/entity'),
-            realpath(__DIR__ . '/../../plugins/orangehrmPerformancePlugin/entity'),
-            realpath(__DIR__ . '/../../plugins/orangehrmPimPlugin/entity')
-        ];
+        $paths = $this->getPaths();
         $config = Setup::createAnnotationMetadataConfiguration(
             $paths,
             $isDevMode,
@@ -51,6 +47,22 @@ class Doctrine
         ];
 
         self::$entityManager = EntityManager::create($conn, $config);
+    }
+
+    /**
+     * @return array
+     */
+    private function getPaths(): array
+    {
+        $paths = [];
+        $pluginPaths = Config::get('ohrm_plugin_paths');
+        foreach ($pluginPaths as $pluginPath) {
+            $entityPath = realpath($pluginPath . '/entity');
+            if ($entityPath) {
+                $paths[] = $entityPath;
+            }
+        }
+        return $paths;
     }
 
     /**

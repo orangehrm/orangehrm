@@ -19,47 +19,47 @@
 
 namespace OrangeHRM\Rest\Admin\Controller;
 
-use OrangeHRM\Rest\Admin\JobTitleAPI;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use OrangeHRM\Core\Controller\AbstractRestController;
+use OrangeHRM\Rest\Admin\JobCategoryAPI;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Modules\baseapi\actions\baseRestAction;
 
-class JobTitlesApiAction extends baseRestAction
+class JobCategoriesApiController extends AbstractRestController
 {
     /**
-     * @var null|JobTitleAPI
+     * @var null|JobCategoryAPI
      */
-    private $jobTitleAPI = null;
+    private ?JobCategoryAPI $jobCategoryAPI = null;
 
     /**
-     * @param Request $request
+     * @inheritDoc
      */
     protected function init(Request $request)
     {
-        $this->jobTitleAPI = new JobTitleAPI($request);
+        $this->jobCategoryAPI = new JobCategoryAPI($request);
     }
 
     /**
-     * @param Request $request
-     * @return Response
+     * @inheritDoc
      */
-    protected function handleGetRequest(Request $request)
+    protected function handleGetRequest(Request $request): Response
     {
-        return $this->jobTitleAPI->getJobTitles();
+        return $this->jobCategoryAPI->getJobCategories();
     }
 
     /**
-     * @param Request $request
-     * @return Response
+     * @inheritDoc
      */
-    protected function handlePostRequest(Request $request)
+    protected function handlePostRequest(Request $request): Response
     {
-        return $this->jobTitleAPI->saveJobTitle();
+        return $this->jobCategoryAPI->saveJobCategory();
     }
 
-    protected function handleDeleteRequest(Request $request)
+    /**
+     * @inheritDoc
+     */
+    protected function handleDeleteRequest(Request $request): Response
     {
-        return $this->jobTitleAPI->deleteJobTitles();
+        return $this->jobCategoryAPI->deleteJobCategories();
     }
 }

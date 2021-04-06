@@ -19,7 +19,155 @@
 
 namespace OrangeHRM\Core\Controller;
 
+use Exception;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
+use Orangehrm\Rest\Api\Validator;
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Http\Response;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
+
 abstract class AbstractRestController extends AbstractController
 {
+    protected array $getValidationRule = [];
+    protected array $postValidationRule = [];
+    protected array $putValidationRule = [];
+    protected array $deleteValidationRule = [];
 
+    protected function init(Request $request)
+    {
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    abstract protected function handleGetRequest(Request $request): Response;
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    abstract protected function handlePostRequest(Request $request): Response;
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws NotImplementedException
+     */
+    protected function handlePutRequest(Request $request): Response
+    {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws NotImplementedException
+     */
+    protected function handleDeleteRequest(Request $request): Response
+    {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * @param HttpRequest $request
+     * @return array
+     */
+    protected function getValidationRule(HttpRequest $request): array
+    {
+        switch ($request->getMethod()) {
+            case 'GET';
+                return $this->getValidationRule;
+
+            case 'POST':
+                return $this->postValidationRule;
+
+            case 'PUT':
+                return $this->putValidationRule;
+
+            case 'DELETE':
+                return $this->deleteValidationRule;
+
+            default:
+                return [];
+        }
+    }
+
+    /**
+     * @param HttpRequest $request
+     * @return string
+     */
+    public function execute(HttpRequest $request)
+    {
+        $httpRequest = new Request($request);
+        $this->init($httpRequest);
+        $response = new HttpResponse();
+        $response->headers->set('Content-type', 'application/json');
+        try {
+            if (!empty($this->getValidationRule($request))) {
+                Validator::validate($httpRequest->getAllParameters(), $this->getValidationRule($request));
+            }
+            switch ($request->getMethod()) {
+                case 'GET';
+                    $response->setContent($this->handleGetRequest($httpRequest)->formatData());
+                    break;
+
+                case 'POST':
+                    $response->setContent($this->handlePostRequest($httpRequest)->format());
+                    break;
+
+                case 'PUT':
+                    $response->setContent($this->handlePutRequest($httpRequest)->format());
+                    break;
+
+                case 'DELETE':
+                    $response->setContent($this->handleDeleteRequest($httpRequest)->format());
+                    break;
+
+                default:
+                    throw new NotImplementedException();
+            }
+        } catch (RecordNotFoundException $e) {
+            $response->setContent(
+                Response::formatError(
+                    ['error' => ['status' => '404', 'text' => $e->getMessage()]]
+                )
+            );
+            $response->setStatusCode(404);
+        } catch (InvalidParamException $e) {
+            $response->setContent(
+                Response::formatError(
+                    ['error' => ['status' => '202', 'text' => $e->getMessage()]]
+                )
+            );
+            $response->setStatusCode(202);
+        } catch (NotImplementedException $e) {
+            $response->setContent(
+                Response::formatError(
+                    ['error' => ['status' => '501', 'text' => 'Not Implemented']]
+                )
+            );
+            $response->setStatusCode(501);
+        } catch (BadRequestException $e) {
+            $response->setContent(
+                Response::formatError(
+                    ['error' => [$e->getMessage()]]
+                )
+            );
+            $response->setStatusCode(400);
+        } catch (Exception $e) {
+            $response->setContent(
+                Response::formatError(
+                    ['error' => ['Unexpected Error Occurred']]
+                )
+            );
+            $response->setStatusCode(500);
+        }
+
+        return $response;
+    }
 }

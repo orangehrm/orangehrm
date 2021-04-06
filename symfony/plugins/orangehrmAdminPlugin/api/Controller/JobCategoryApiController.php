@@ -19,17 +19,18 @@
 
 namespace OrangeHRM\Rest\Admin\Controller;
 
+use OrangeHRM\Core\Controller\AbstractRestController;
 use OrangeHRM\Rest\Admin\JobCategoryAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Modules\baseapi\actions\baseRestAction;
+use Orangehrm\Rest\Http\Response;
 
-class JobCategoryApiAction extends baseRestAction
+class JobCategoryApiController extends AbstractRestController
 {
     /**
      * @var null|JobCategoryAPI
      */
-    private $jobCategoryAPI = null;
+    private ?JobCategoryAPI $jobCategoryAPI = null;
 
     /**
      * @param Request $request
@@ -42,7 +43,7 @@ class JobCategoryApiAction extends baseRestAction
     /**
      * @inheritDoc
      */
-    protected function handleGetRequest(Request $request)
+    protected function handleGetRequest(Request $request):Response
     {
         return $this->jobCategoryAPI->getJobCategory();
     }
@@ -50,7 +51,7 @@ class JobCategoryApiAction extends baseRestAction
     /**
      * @inheritDoc
      */
-    protected function handlePostRequest(Request $request)
+    protected function handlePostRequest(Request $request):Response
     {
         throw new NotImplementedException();
     }
@@ -58,7 +59,7 @@ class JobCategoryApiAction extends baseRestAction
     /**
      * @inheritDoc
      */
-    protected function handlePutRequest(Request $request)
+    protected function handlePutRequest(Request $request):Response
     {
         return $this->jobCategoryAPI->saveJobCategory();
     }

@@ -19,21 +19,21 @@
 
 namespace OrangeHRM\Rest\Admin\Controller;
 
+use OrangeHRM\Core\Controller\AbstractRestController;
 use OrangeHRM\Rest\Admin\JobTitleAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Modules\baseapi\actions\baseRestAction;
 
-class JobTitleApiAction extends baseRestAction
+class JobTitleApiController extends AbstractRestController
 {
     /**
      * @var null|JobTitleAPI
      */
-    private $jobTitleAPI = null;
+    private ?JobTitleAPI $jobTitleAPI = null;
 
     /**
-     * @param Request $request
+     * @inheritDoc
      */
     protected function init(Request $request)
     {
@@ -41,24 +41,25 @@ class JobTitleApiAction extends baseRestAction
     }
 
     /**
-     * @param Request $request
-     * @return Response
+     * @inheritDoc
      */
-    protected function handleGetRequest(Request $request)
+    protected function handleGetRequest(Request $request): Response
     {
         return $this->jobTitleAPI->getJobTitle();
     }
 
     /**
-     * @param Request $request
-     * @return Response
+     * @inheritDoc
      */
-    protected function handlePostRequest(Request $request)
+    protected function handlePostRequest(Request $request): Response
     {
         throw new NotImplementedException();
     }
 
-    protected function handlePutRequest(Request $request)
+    /**
+     * @inheritDoc
+     */
+    protected function handlePutRequest(Request $request): Response
     {
         return $this->jobTitleAPI->saveJobTitle();
     }

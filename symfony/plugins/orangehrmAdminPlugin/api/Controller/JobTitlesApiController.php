@@ -19,46 +19,48 @@
 
 namespace OrangeHRM\Rest\Admin\Controller;
 
-use OrangeHRM\Rest\Admin\JobCategoryAPI;
+use OrangeHRM\Core\Controller\AbstractRestController;
+use OrangeHRM\Rest\Admin\JobTitleAPI;
 use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Modules\baseapi\actions\baseRestAction;
 
-class JobCategoriesApiAction extends baseRestAction
+class JobTitlesApiController extends AbstractRestController
 {
     /**
-     * @var null|JobCategoryAPI
+     * @var null|JobTitleAPI
      */
-    private $jobCategoryAPI = null;
+    private ?JobTitleAPI $jobTitleAPI = null;
 
     /**
      * @param Request $request
      */
     protected function init(Request $request)
     {
-        $this->jobCategoryAPI = new JobCategoryAPI($request);
+        $this->jobTitleAPI = new JobTitleAPI($request);
     }
 
     /**
      * @inheritDoc
      */
-    protected function handleGetRequest(Request $request)
+    protected function handleGetRequest(Request $request): Response
     {
-        return $this->jobCategoryAPI->getJobCategories();
+        return $this->jobTitleAPI->getJobTitles();
     }
 
     /**
      * @inheritDoc
      */
-    protected function handlePostRequest(Request $request)
+    protected function handlePostRequest(Request $request): Response
     {
-        return $this->jobCategoryAPI->saveJobCategory();
+        return $this->jobTitleAPI->saveJobTitle();
     }
 
     /**
      * @inheritDoc
      */
-    protected function handleDeleteRequest(Request $request)
+    protected function handleDeleteRequest(Request $request): Response
     {
-        return $this->jobCategoryAPI->deleteJobCategories();
+        return $this->jobTitleAPI->deleteJobTitles();
     }
 }
