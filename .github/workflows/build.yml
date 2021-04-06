@@ -1,0 +1,60 @@
+name: Build
+
+on:
+  push:
+    branches: [ '5.0' ]
+  pull_request:
+    branches: [ '5.0' ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use composer v1
+        run: sudo composer self-update --1
+
+#      - name: Validate composer.json and composer.lock
+#        run: |
+#          cd symfony
+#          composer validate --strict
+
+      - name: Parse Git short hash
+        run: echo "git_short_hash=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_ENV
+
+      - name: Install depandancies
+        run: |
+          cd symfony
+          php7.3 -f /usr/bin/composer install
+          php7.3 -f /usr/bin/composer dump-autoload -o
+          cd lib
+          php7.3 -f /usr/bin/composer install
+          php7.3 -f /usr/bin/composer dump-autoload -o
+          cd ..
+          cd client
+          yarn install
+
+      - name: Run build
+        run: |
+          cd symfony
+          php7.3 symfony o:publish-assets
+          cd client
+          yarn build
+          cd ../..
+          cd build
+          wget https://www.phing.info/get/phing-latest.phar
+          php phing-latest.phar dist
+
+      - name: Find build file
+        run: |
+          cd build
+          echo "file_path=$(find dist/ -maxdepth 1 -name '*.zip')" >> $GITHUB_ENV
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: orangehrm-${{ env.git_short_hash }}
+          path: build/${{ env.file_path }}

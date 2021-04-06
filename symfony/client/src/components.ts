@@ -28,6 +28,8 @@ import Form from '@orangehrm/oxd/src/core/components/Form/Form.vue';
 import FormRow from '@orangehrm/oxd/src/core/components/Form/FormRow.vue';
 import FormActions from '@orangehrm/oxd/src/core/components/Form/FormActions.vue';
 import InputField from '@orangehrm/oxd/src/core/components/InputField/InputField.vue';
+import Grid from '@orangehrm/oxd/src/core/components/Grid/Grid.vue';
+import GridItem from '@orangehrm/oxd/src/core/components/Grid/GridItem.vue';
 
 export default {
   install: (app: App) => {
@@ -42,5 +44,7 @@ export default {
     app.component('oxd-form-row', FormRow);
     app.component('oxd-form-actions', FormActions);
     app.component('oxd-input-field', InputField);
+    app.component('oxd-grid', Grid);
+    app.component('oxd-grid-item', GridItem);
   },
 };

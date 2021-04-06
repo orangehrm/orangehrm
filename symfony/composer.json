@@ -2,7 +2,7 @@
     "name": "orangehrm/orangehrm",
     "description": "OrangeHRM open source",
     "require": {
-        "php": "^7.3",
+        "php": "^7.3|^8.0",
         "ext-pdo": "*",
         "ext-curl": "*",
         "ext-json": "*",
@@ -30,8 +30,7 @@
             "OrangeHRM\\Framework\\": "./lib/framework",
             "OrangeHRM\\Config\\": "./lib/config",
             "OrangeHRM\\Rest\\Admin\\": "./plugins/orangehrmAdminPlugin/api",
-            "OrangeHRM\\Admin\\Controller\\": "./plugins/orangehrmAdminPlugin/controller",
-            "OrangeHRM\\Core\\Controller\\": "./plugins/orangehrmCorePlugin/controller",
+            "OrangeHRM\\Admin\\": "./plugins/orangehrmAdminPlugin",
             "OrangeHRM\\Core\\": "./plugins/orangehrmCorePlugin",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
