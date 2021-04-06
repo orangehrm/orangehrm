@@ -62,12 +62,18 @@
         />
       </div>
     </div>
+
+    <delete-confirmation ref="deleteDialog"></delete-confirmation>
+    <toast-container ref="toastContainer"></toast-container>
   </div>
 </template>
 
 <script>
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
+import ToastContainer from '@orangehrm/components/ToastContainer.vue';
+import {TYPE_SUCCESS} from '@orangehrm/oxd/src/core/components/Toast/types';
 
 export default {
   data() {
@@ -100,6 +106,11 @@ export default {
       editItem: null,
       checkedItems: [],
     };
+  },
+
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+    'toast-container': ToastContainer,
   },
 
   setup() {
@@ -137,11 +148,18 @@ export default {
       this.checkedItems.forEach(index => {
         ids.push(this.items?.data[index].id);
       });
-      this.deleteItems(ids);
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems(ids);
+        }
+      });
     },
     onClickDelete(item) {
-      const id = item.id;
-      this.deleteItems([id]);
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems([item.id]);
+        }
+      });
     },
     deleteItems(items) {
       // TODO: Loading
@@ -152,6 +170,11 @@ export default {
           })
           .then(() => {
             this.resetDataTable();
+            this.$refs.toastContainer.push({
+              type: TYPE_SUCCESS,
+              title: 'Success',
+              message: 'Successfully Deleted',
+            });
           })
           .catch(error => {
             console.log(error);
