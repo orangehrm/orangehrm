@@ -17,10 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\PluginConfigurationInterface;
-
-use Composer\Autoload\ClassLoader;
 
 class AdminPluginConfiguration implements PluginConfigurationInterface
 {
@@ -29,13 +26,5 @@ class AdminPluginConfiguration implements PluginConfigurationInterface
      */
     public function initialize(): void
     {
-        $loader = new ClassLoader();
-        $loader->addPsr4(
-            'OrangeHRM\\Rest\\Admin\\',
-            [
-                realpath(Config::get('ohrm_plugins_dir') . "/orangehrmAdminPlugin/api")
-            ]
-        );
-        $loader->register();
     }
 }

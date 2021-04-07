@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Rest\Admin\Model;
+namespace OrangeHRM\Admin\Api\Model;
 
 use OrangeHRM\Entity\JobCategory;
 use Orangehrm\Rest\Api\Entity\Serializable;

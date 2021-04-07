@@ -17,14 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Rest\Admin;
+namespace OrangeHRM\Admin\Api;
 
 use JobTitleService;
+use OrangeHRM\Admin\Api\Model\JobTitleModel;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-use OrangeHRM\Rest\Admin\Model\JobTitleModel;
 use Orangehrm\Rest\Http\Response;
 
 class JobTitleAPI extends EndPoint

@@ -17,15 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Rest\Admin\Controller;
+namespace OrangeHRM\Admin\Api\Controller;
 
+use OrangeHRM\Admin\Api\JobCategoryAPI;
 use OrangeHRM\Core\Controller\AbstractRestController;
-use OrangeHRM\Rest\Admin\JobCategoryAPI;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 
-class JobCategoryApiController extends AbstractRestController
+class JobCategoriesApiController extends AbstractRestController
 {
     /**
      * @var null|JobCategoryAPI
@@ -33,7 +32,7 @@ class JobCategoryApiController extends AbstractRestController
     private ?JobCategoryAPI $jobCategoryAPI = null;
 
     /**
-     * @param Request $request
+     * @inheritDoc
      */
     protected function init(Request $request)
     {
@@ -43,24 +42,24 @@ class JobCategoryApiController extends AbstractRestController
     /**
      * @inheritDoc
      */
-    protected function handleGetRequest(Request $request):Response
+    protected function handleGetRequest(Request $request): Response
     {
-        return $this->jobCategoryAPI->getJobCategory();
+        return $this->jobCategoryAPI->getJobCategories();
     }
 
     /**
      * @inheritDoc
      */
-    protected function handlePostRequest(Request $request):Response
-    {
-        throw new NotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function handlePutRequest(Request $request):Response
+    protected function handlePostRequest(Request $request): Response
     {
         return $this->jobCategoryAPI->saveJobCategory();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function handleDeleteRequest(Request $request): Response
+    {
+        return $this->jobCategoryAPI->deleteJobCategories();
     }
 }

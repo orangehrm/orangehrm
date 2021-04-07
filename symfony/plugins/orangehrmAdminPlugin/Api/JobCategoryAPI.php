@@ -17,12 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Rest\Admin;
+namespace OrangeHRM\Admin\Api;
 
 use DaoException;
 use JobCategoryService;
+use OrangeHRM\Admin\Api\Model\JobCategoryModel;
 use OrangeHRM\Entity\JobCategory;
-use OrangeHRM\Rest\Admin\Model\JobCategoryModel;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
