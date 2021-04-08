@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\SecurityAuthentication\Subscriber;
+namespace OrangeHRM\Authentication\Subscriber;
 
 use Exception;
 use OrangeHRM\Core\Controller\AbstractRestController;
@@ -25,8 +25,8 @@ use OrangeHRM\Core\Controller\AbstractViewController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\SecurityAuthentication\Auth\User;
-use OrangeHRM\SecurityAuthentication\Exception\SessionExpiredException;
+use OrangeHRM\Authentication\Auth\User;
+use OrangeHRM\Authentication\Exception\SessionExpiredException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;

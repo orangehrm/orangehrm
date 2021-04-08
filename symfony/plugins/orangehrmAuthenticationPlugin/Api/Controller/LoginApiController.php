@@ -17,14 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\SecurityAuthentication\Api\Controller;
+namespace OrangeHRM\Authentication\Api\Controller;
 
 use OrangeHRM\Core\Controller\AbstractRestController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
-use OrangeHRM\SecurityAuthentication\Api\LoginAPI;
+use OrangeHRM\Authentication\Api\LoginAPI;
 
 class LoginApiController extends AbstractRestController implements PublicControllerInterface
 {

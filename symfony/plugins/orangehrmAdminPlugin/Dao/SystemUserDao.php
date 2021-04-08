@@ -28,7 +28,7 @@ use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\DoctrineQuery;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\SecurityAuthentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Dto\UserCredential;
 
 class SystemUserDao
 {

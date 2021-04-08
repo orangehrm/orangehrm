@@ -35,7 +35,7 @@
             "OrangeHRM\\Config\\": "./lib/config",
             "OrangeHRM\\Admin\\": "./plugins/orangehrmAdminPlugin",
             "OrangeHRM\\Core\\": "./plugins/orangehrmCorePlugin",
-            "OrangeHRM\\SecurityAuthentication\\": "./plugins/orangehrmSecurityAuthenticationPlugin",
+            "OrangeHRM\\Authentication\\": "./plugins/orangehrmAuthenticationPlugin",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
                 "./plugins/orangehrmPerformancePlugin/entity",

@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\SecurityAuthentication\Exception;
+namespace OrangeHRM\Authentication\Exception;
 
 use Exception;
 

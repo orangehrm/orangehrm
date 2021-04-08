@@ -1,9 +1,9 @@
 login:
   path: /auth/login
-  controller: OrangeHRM\SecurityAuthentication\Controller\LoginController::handle
+  controller: OrangeHRM\Authentication\Controller\LoginController::handle
   methods: [ GET ]
 
 api_v1_login:
   path: /api/v1/auth/login
-  controller: OrangeHRM\SecurityAuthentication\Api\Controller\LoginApiController::handle
+  controller: OrangeHRM\Authentication\Api\Controller\LoginApiController::handle
   methods: [ POST ]

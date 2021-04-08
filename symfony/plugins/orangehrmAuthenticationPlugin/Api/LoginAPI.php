@@ -17,14 +17,14 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\SecurityAuthentication\Api;
+namespace OrangeHRM\Authentication\Api;
 
 use LoginService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Http\Response;
-use OrangeHRM\SecurityAuthentication\Auth\User;
-use OrangeHRM\SecurityAuthentication\Dto\UserCredential;
-use OrangeHRM\SecurityAuthentication\Service\AuthenticationService;
+use OrangeHRM\Authentication\Auth\User;
+use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Service\AuthenticationService;
 
 class LoginAPI extends EndPoint
 {

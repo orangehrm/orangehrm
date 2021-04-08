@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\SecurityAuthentication\Auth;
+namespace OrangeHRM\Authentication\Auth;
 
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;

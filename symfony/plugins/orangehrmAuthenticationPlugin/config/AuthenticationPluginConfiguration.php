@@ -20,10 +20,10 @@
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\SecurityAuthentication\Subscriber\AuthenticationSubscriber;
+use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class SecurityAuthenticationPluginConfiguration implements PluginConfigurationInterface
+class AuthenticationPluginConfiguration implements PluginConfigurationInterface
 {
     /**
      * @inheritDoc

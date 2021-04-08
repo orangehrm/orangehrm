@@ -27,7 +27,7 @@ use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\SystemUser;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\ArrayCollection;
-use OrangeHRM\SecurityAuthentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Dto\UserCredential;
 
 class SystemUserService
 {

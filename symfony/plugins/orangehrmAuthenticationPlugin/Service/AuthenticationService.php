@@ -17,13 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\SecurityAuthentication\Service;
+namespace OrangeHRM\Authentication\Service;
 
 use OrangeHRM\Admin\Service\SystemUserService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\SystemUser;
-use OrangeHRM\SecurityAuthentication\Dto\UserCredential;
-use OrangeHRM\SecurityAuthentication\Exception\AuthenticationServiceException;
+use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Exception\AuthenticationServiceException;
 
 class AuthenticationService
 {
