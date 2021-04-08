@@ -30,70 +30,70 @@ class SystemUser
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="user_name", type="string", length=40)
      */
-    private $userName;
+    private string $userName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="user_password", type="string", length=255)
      */
-    private $userPassword;
+    private string $userPassword;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="deleted", type="integer", length=1)
+     * @ORM\Column(name="deleted", type="boolean")
      */
-    private $deleted;
+    private bool $deleted;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="status", type="integer", length=1)
+     * @ORM\Column(name="status", type="boolean")
      */
-    private $status;
+    private bool $status;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
-     * @ORM\Column(name="date_entered", type="datetime", length=25)
+     * @ORM\Column(name="date_entered", type="datetime", length=25, nullable=true)
      */
-    private $dateEntered;
+    private ?DateTime $dateEntered;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
-     * @ORM\Column(name="date_modified", type="datetime", length=25)
+     * @ORM\Column(name="date_modified", type="datetime", length=25, nullable=true)
      */
-    private $dateModified;
+    private ?DateTime $dateModified;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="modified_user_id", type="integer")
+     * @ORM\Column(name="modified_user_id", type="integer", nullable=true)
      */
-    private $modifiedUserId;
+    private ?int $modifiedUserId;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="created_by", type="integer")
+     * @ORM\Column(name="created_by", type="integer", nullable=true)
      */
-    private $createdBy;
+    private ?int $createdBy;
 
     /**
      * @var Employee|null
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="systemUsers")
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
-    private $employee;
+    private ?Employee $employee;
 
     /**
      * @var UserRole
@@ -101,7 +101,12 @@ class SystemUser
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\UserRole")
      * @ORM\JoinColumn(name="user_role_id", referencedColumnName="id", nullable=false)
      */
-    private $userRole;
+    private UserRole $userRole;
+
+    public function __construct()
+    {
+        $this->deleted = false;
+    }
 
     /**
      * @return int
@@ -152,97 +157,97 @@ class SystemUser
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getDeleted(): int
+    public function isDeleted(): bool
     {
         return $this->deleted;
     }
 
     /**
-     * @param int $deleted
+     * @param bool $deleted
      */
-    public function setDeleted(int $deleted): void
+    public function setDeleted(bool $deleted): void
     {
         $this->deleted = $deleted;
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getStatus(): int
+    public function getStatus(): bool
     {
         return $this->status;
     }
 
     /**
-     * @param int $status
+     * @param bool $status
      */
-    public function setStatus(int $status): void
+    public function setStatus(bool $status): void
     {
         $this->status = $status;
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getDateEntered(): DateTime
+    public function getDateEntered(): ?DateTime
     {
         return $this->dateEntered;
     }
 
     /**
-     * @param DateTime $dateEntered
+     * @param DateTime|null $dateEntered
      */
-    public function setDateEntered(DateTime $dateEntered): void
+    public function setDateEntered(?DateTime $dateEntered): void
     {
         $this->dateEntered = $dateEntered;
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getDateModified(): DateTime
+    public function getDateModified(): ?DateTime
     {
         return $this->dateModified;
     }
 
     /**
-     * @param DateTime $dateModified
+     * @param DateTime|null $dateModified
      */
-    public function setDateModified(DateTime $dateModified): void
+    public function setDateModified(?DateTime $dateModified): void
     {
         $this->dateModified = $dateModified;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getModifiedUserId(): int
+    public function getModifiedUserId(): ?int
     {
         return $this->modifiedUserId;
     }
 
     /**
-     * @param int $modifiedUserId
+     * @param int|null $modifiedUserId
      */
-    public function setModifiedUserId(int $modifiedUserId): void
+    public function setModifiedUserId(?int $modifiedUserId): void
     {
         $this->modifiedUserId = $modifiedUserId;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getCreatedBy(): int
+    public function getCreatedBy(): ?int
     {
         return $this->createdBy;
     }
 
     /**
-     * @param int $createdBy
+     * @param int|null $createdBy
      */
-    public function setCreatedBy(int $createdBy): void
+    public function setCreatedBy(?int $createdBy): void
     {
         $this->createdBy = $createdBy;
     }
@@ -280,12 +285,12 @@ class SystemUser
     }
 
     /**
-     * @since 4.x
      * @return string
+     * @since 4.x
      */
     public function getTextStatus()
     {
-        if ($this->getStatus() == '1') {
+        if ($this->getStatus()) {
             return 'Enabled';
         } else {
             return 'Disabled';
@@ -293,8 +298,8 @@ class SystemUser
     }
 
     /**
-     * @since 4.x
      * @return string
+     * @since 4.x
      */
     public function getIsAdmin()
     {
@@ -306,8 +311,8 @@ class SystemUser
     }
 
     /**
-     * @since 4.x
      * @return string|null
+     * @since 4.x
      */
     public function getUsergId()
     {
@@ -319,8 +324,8 @@ class SystemUser
     }
 
     /**
-     * @since 4.x
      * @return string|null
+     * @since 4.x
      */
     public function getName()
     {

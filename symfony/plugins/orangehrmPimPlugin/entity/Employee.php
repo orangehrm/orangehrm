@@ -130,9 +130,9 @@ class Employee
     private $province;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="employee_id", type="string", length=50)
+     * @ORM\Column(name="employee_id", type="string", length=50, nullable=true)
      */
     private $employeeId;
 
@@ -613,17 +613,17 @@ class Employee
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEmployeeId(): string
+    public function getEmployeeId(): ?string
     {
         return $this->employeeId;
     }
 
     /**
-     * @param string $employeeId
+     * @param string|null $employeeId
      */
-    public function setEmployeeId(string $employeeId): void
+    public function setEmployeeId(?string $employeeId): void
     {
         $this->employeeId = $employeeId;
     }

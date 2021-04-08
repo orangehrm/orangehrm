@@ -1,0 +1,109 @@
+<?php
+
+namespace OrangeHRM\Admin\Api;
+
+use OrangeHRM\Admin\Api\Model\SystemUserModel;
+use OrangeHRM\Admin\Service\SystemUserService;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\SystemUser;
+use OrangeHRM\ORM\Doctrine;
+use Orangehrm\Rest\Api\EndPoint;
+use Orangehrm\Rest\Http\Response;
+
+class SystemUserAPI extends EndPoint
+{
+    public const PARAMETER_ID = 'id';
+    public const PARAMETER_IDS = 'ids';
+    public const PARAMETER_USERNAME = 'username';
+    public const PARAMETER_PASSWORD = 'password';
+    public const PARAMETER_USER_ROLE_ID = 'userRoleId';
+    public const PARAMETER_EMPLOYEE_NUMBER = 'empNumber';
+    public const PARAMETER_STATUS = 'status';
+    public const PARAMETER_CHANGE_PASSWORD = 'changePassword';
+
+    public const PARAMETER_SORT_FIELD = 'sortField';
+    public const PARAMETER_SORT_ORDER = 'sortOrder';
+    public const PARAMETER_OFFSET = 'offset';
+    public const PARAMETER_LIMIT = 'limit';
+
+    /**
+     * @var null|SystemUserService
+     */
+    protected ?SystemUserService $systemUserService = null;
+
+    /**
+     * @return SystemUserService|null
+     */
+    public function getSystemUserService(): ?SystemUserService
+    {
+        if (is_null($this->systemUserService)) {
+            $this->systemUserService = new SystemUserService();
+        }
+        return $this->systemUserService;
+    }
+
+    /**
+     * @param SystemUserService|null $systemUserService
+     */
+    public function setSystemUserService(?SystemUserService $systemUserService): void
+    {
+        $this->systemUserService = $systemUserService;
+    }
+
+    public function getOne(): Response
+    {
+        return new Response([]);
+    }
+
+    public function getList(): Response
+    {
+        $searchClues['offset'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET);
+        $searchClues['limit'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT);
+        $searchClues['sortField'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD);
+        $searchClues['sortOrder'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_ORDER);
+
+        $users = [];
+        $systemUsers = $this->getSystemUserService()->searchSystemUsers($searchClues);
+        foreach ($systemUsers as $user) {
+            $users[] = (new SystemUserModel($user))->toArray();
+        }
+        return new Response(
+            $users,
+            [],
+            ['total' => $this->getSystemUserService()->getSearchSystemUsersCount($searchClues)]
+        );
+    }
+
+    public function create(): Response
+    {
+        $username = $this->getRequestParams()->getPostParam(self::PARAMETER_USERNAME);
+        $password = $this->getRequestParams()->getPostParam(self::PARAMETER_PASSWORD);
+        $userRoleId = $this->getRequestParams()->getPostParam(self::PARAMETER_USER_ROLE_ID);
+        $empNumber = $this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_NUMBER);
+        $status = $this->getRequestParams()->getPostParam(self::PARAMETER_STATUS);
+
+        $employee = Doctrine::getEntityManager()->getReference(Employee::class, $empNumber);
+
+        $userRole = $this->getSystemUserService()->getUserRoleById($userRoleId);
+        $systemUser = new SystemUser();
+        $systemUser->setUserName($username);
+        $systemUser->setUserPassword($password);
+        $systemUser->setStatus($status);
+        $systemUser->setUserRole($userRole);
+        $systemUser->setEmployee($employee);
+        $systemUser = $this->getSystemUserService()->saveSystemUser($systemUser, true);
+        return new Response((new SystemUserModel($systemUser))->toArray());
+    }
+
+    public function update(): Response
+    {
+        return new Response([]);
+    }
+
+    public function delete(): Response
+    {
+        $ids = $this->getRequestParams()->getPostParam(self::PARAMETER_IDS);
+        $this->getSystemUserService()->deleteSystemUsers($ids);
+        return new Response($ids);
+    }
+}

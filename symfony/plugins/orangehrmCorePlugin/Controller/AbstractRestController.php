@@ -101,7 +101,7 @@ abstract class AbstractRestController extends AbstractController
      * @param HttpRequest $request
      * @return string
      */
-    public function execute(HttpRequest $request)
+    public function handle(HttpRequest $request)
     {
         $httpRequest = new Request($request);
         $this->init($httpRequest);

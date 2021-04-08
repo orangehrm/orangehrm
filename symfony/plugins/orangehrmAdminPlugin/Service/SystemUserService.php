@@ -19,18 +19,23 @@
 
 namespace OrangeHRM\Admin\Service;
 
+use Exception;
 use OrangeHRM\Admin\Dao\SystemUserDao;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\SystemUser;
+use OrangeHRM\Entity\UserRole;
+use OrangeHRM\ORM\ArrayCollection;
 use OrangeHRM\SecurityAuthentication\Dto\UserCredential;
 
-class SystemUserService {
+class SystemUserService
+{
     /**
      * @var SystemUserDao|null
      */
     protected ?SystemUserDao $systemUserDao = null;
-    
+
     /** @property PasswordHash $passwordHasher */
     private ?PasswordHash $passwordHasher = null;
 
@@ -60,7 +65,7 @@ class SystemUserService {
     {
         if (empty($this->passwordHasher)) {
             $this->passwordHasher = new PasswordHash();
-        }        
+        }
         return $this->passwordHasher;
     }
 
@@ -69,254 +74,279 @@ class SystemUserService {
         $this->passwordHasher = $passwordHasher;
     }
 
-    
+
     /**
      * Save System User
-     * 
+     *
      * @param SystemUser $systemUser
-     * @return void
+     * @return SystemUser|null
      */
-    public function saveSystemUser(SystemUser $systemUser,$changePassword = false){
-        
+    public function saveSystemUser(SystemUser $systemUser, $changePassword = false): ?SystemUser
+    {
         try {
             if ($changePassword) {
                 $systemUser->setUserPassword($this->hashPassword($systemUser->getUserPassword()));
             }
 
             return $this->getSystemUserDao()->saveSystemUser($systemUser);
-            
-        } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
-        
     }
-    
+
     /**
      * Check is existing user according to user name
-     * 
-     * @param type $userName 
+     * @param string $userName
      * @param int $userId
-     * @return mixed , false if user not exist  , otherwise it returns SystemUser object
+     * @return SystemUser|null
+     * @throws ServiceException
      */
-    public function isExistingSystemUser( $userName , $userId){
+    public function isExistingSystemUser(string $userName, int $userId): ?SystemUser
+    {
         try {
-           return  $this->getSystemUserDao()->isExistingSystemUser( $userName , $userId);
-        } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
+            $credentials = new UserCredential($userName);
+            return $this->getSystemUserDao()->isExistingSystemUser($credentials, $userId);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
+
     /**
      * Get System User for given User Id
-     * 
-     * @param type $userId
-     * @return SystemUser  
+     * @param int $userId
+     * @return SystemUser|null
+     * @throws ServiceException
      */
-    public function getSystemUser( $userId ){
+    public function getSystemUser(int $userId): ?SystemUser
+    {
         try {
-            return $this->getSystemUserDao()->getSystemUser( $userId );
-        } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
+            return $this->getSystemUserDao()->getSystemUser($userId);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
+
     /**
      * Get System Users
-     * 
-     * @return Doctrine_Collection 
+     * @return SystemUser[]
+     * @throws ServiceException
      */
-    public function getSystemUsers(){
+    public function getSystemUsers(): array
+    {
         try {
             return $this->getSystemUserDao()->getSystemUsers();
-        } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
+
     /**
      * Return an array of System User Ids
-     * 
+     *
      * <pre>
-     * 
+     *
      * The output will be an array like below.
-     * 
+     *
      * array(
      *          0 => 1,
      *          1 => 2,
      *          2 => 3
      * )
      * </pre>
-     * 
-     * @version 2.7.1
+     *
      * @return Array of System User Ids
+     * @version 2.7.1
      */
-    public function getSystemUserIdList(){
+    public function getSystemUserIdList()
+    {
         return $this->getSystemUserDao()->getSystemUserIdList();
     }
-    
-   /**
-     * Delete System Users
-     * @param array $deletedIds 
-     * 
+
+    /**
+     * Soft Delete System Users
+     * @param array $deletedIds
+     * @return int
+     * @throws DaoException
      */
-    public function deleteSystemUsers( array $deletedIds){
-        try {
-            $this->getSystemUserDao()->deleteSystemUsers($deletedIds);
-        } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
-        }
+    public function deleteSystemUsers(array $deletedIds): int
+    {
+        return $this->getSystemUserDao()->deleteSystemUsers($deletedIds);
     }
-    
+
     /**
      * Get Pre Defined User Roles
-     * 
-     * @return Doctrine_Collection UserRoles 
+     *
+     * @return SystemUser[]
+     * @throws ServiceException
      */
-    public function getAssignableUserRoles(){
+    public function getAssignableUserRoles(): array
+    {
         try {
-           return $this->getSystemUserDao()->getAssignableUserRoles();
-        } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
+            return $this->getSystemUserDao()->getAssignableUserRoles();
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
+
     /**
      * Get User role with given name
-     * 
-     * @param String $roleName Role Name
-     * @return Doctrine_Collection UserRoles 
+     * @param $roleName
+     * @return UserRole|null
+     * @throws ServiceException
      */
-    public function getUserRole($roleName){
+    public function getUserRole(string $roleName): ?UserRole
+    {
         try {
-           return $this->getSystemUserDao()->getUserRole($roleName);
-        } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
-        }
-    }    
-    
-    public function getNonPredefinedUserRoles(){
-        return$this->getSystemUserDao()->getNonPredefinedUserRoles();
-    }    
-    
-   /**
-     * Get Count of Search Query 
-     * 
-     * @param type $searchClues
-     * @return int 
-     */
-    public function getSearchSystemUsersCount( $searchClues ){
-        try {
-           return $this->getSystemUserDao()->getSearchSystemUsersCount( $searchClues );
-        } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
+            return $this->getSystemUserDao()->getUserRole($roleName);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
+
     /**
-     * Search System Users 
-     * 
-     * @param type $searchClues
-     * @return type 
+     * @param int $id
+     * @return UserRole|null
+     * @throws DaoException
      */
-     public function searchSystemUsers( $searchClues){
-         try {
-           return $this->getSystemUserDao()->searchSystemUsers( $searchClues );
-        } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
+    public function getUserRoleById(int $id): ?UserRole
+    {
+        return $this->getSystemUserDao()->getUserRoleById($id);
+    }
+
+    /**
+     * @return UserRole[]
+     * @throws DaoException
+     */
+    public function getNonPredefinedUserRoles(): array
+    {
+        return $this->getSystemUserDao()->getNonPredefinedUserRoles();
+    }
+
+    /**
+     * @param array $searchClues
+     * @return int
+     * @throws ServiceException
+     */
+    public function getSearchSystemUsersCount(array $searchClues): int
+    {
+        try {
+            return $this->getSystemUserDao()->getSearchSystemUsersCount($searchClues);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
-     }
-     
-     public function isCurrentPassword($userId, $password) {
-         
-         $systemUser = $this->getSystemUserDao()->getSystemUser($userId);
-         
-         if (!($systemUser instanceof SystemUser)) {
-             return false;
-         }
-         
-         $hash = $systemUser->getUserPassword();
-         if ($this->checkPasswordHash($password, $hash)) {       
-             return true;
-         } else if ($this->checkForOldHash($password, $hash)) {
-             return true;
-         }
-         
-         return false;
-         
-     }
-     
-     /**
-      * Updates the password of given user
-      * 
-      * @param int $userId User ID of the user
-      * @param string $password Non-encrypted password
-      * @return int 
-      */     
-     public function updatePassword($userId, $password) {
-         return $this->getSystemUserDao()->updatePassword($userId, $this->hashPassword($password));
-     }
-     
-     public function getEmployeesByUserRole($roleName, $includeInactive = false, $includeTerminated = false) {
-         return $this->getSystemUserDao()->getEmployeesByUserRole($roleName);
-     }
+    }
+
+    /**
+     * @param array $searchClues
+     * @return array
+     * @throws ServiceException
+     */
+    public function searchSystemUsers(array $searchClues): array
+    {
+        try {
+            return $this->getSystemUserDao()->searchSystemUsers($searchClues);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function isCurrentPassword($userId, $password)
+    {
+        $systemUser = $this->getSystemUserDao()->getSystemUser($userId);
+
+        if (!($systemUser instanceof SystemUser)) {
+            return false;
+        }
+
+        $hash = $systemUser->getUserPassword();
+        if ($this->checkPasswordHash($password, $hash)) {
+            return true;
+        } else {
+            if ($this->checkForOldHash($password, $hash)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Updates the password of given user
+     *
+     * @param int $userId User ID of the user
+     * @param string $password Non-encrypted password
+     * @return int
+     */
+    public function updatePassword($userId, $password)
+    {
+        return $this->getSystemUserDao()->updatePassword($userId, $this->hashPassword($password));
+    }
+
+    public function getEmployeesByUserRole($roleName, $includeInactive = false, $includeTerminated = false)
+    {
+        return $this->getSystemUserDao()->getEmployeesByUserRole($roleName);
+    }
 
     /**
      * @param UserCredential $credentials
-     * @return false|SystemUser|void
+     * @return SystemUser|null
+     * @throws DaoException
      * @throws ServiceException
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
-     public function getCredentials(UserCredential $credentials) {
-         $user = $this->getSystemUserDao()->isExistingSystemUser($credentials);
-         if ($user instanceof SystemUser) {
+    public function getCredentials(UserCredential $credentials): ?SystemUser
+    {
+        $user = $this->getSystemUserDao()->isExistingSystemUser($credentials);
+        if ($user instanceof SystemUser) {
             $hash = $user->getUserPassword();
             if ($this->checkPasswordHash($credentials->getPassword(), $hash)) {
                 return $user;
-            } else if ($this->checkForOldHash($credentials->getPassword(), $hash)) {
-                
+            } elseif ($this->checkForOldHash($credentials->getPassword(), $hash)) {
                 // password matches, but in old format. Need to update hash
                 $user->setUserPassword($credentials->getPassword());
                 return $this->saveSystemUser($user, true);
             }
-         }
-         
-         return false;
-     }
-     
+        }
+
+        return null;
+    }
+
     /**
-    * Hash password for storage 
-    * @param string $password
-    * @return hashed password
-    */
-    public function hashPassword($password) {
+     * Hash password for storage
+     * @param string $password
+     * @return hashed password
+     */
+    public function hashPassword($password)
+    {
         return $this->getPasswordHasher()->hash($password);
     }
-    
+
     /**
      * Checks if the password hash matches the password.
      * @param string $password
      * @param string $hash
-     * @return boolean
+     * @return bool
      */
-    public function checkPasswordHash($password, $hash) {
+    public function checkPasswordHash($password, $hash)
+    {
         return $this->getPasswordHasher()->verify($password, $hash);
     }
-    
+
     /**
      * Check if password matches hash for hashes stored using older hash methods.
-     * 
+     *
      * @param string $password
      * @param string $hash
-     * @return boolean
+     * @return bool
      */
-    public function checkForOldHash($password, $hash) {
+    public function checkForOldHash($password, $hash)
+    {
         $valid = false;
-        
+
         if ($hash == md5($password)) {
             $valid = true;
         }
-        
+
         return $valid;
-    }    
-    
+    }
+
 }

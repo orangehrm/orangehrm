@@ -32,20 +32,20 @@ class JobTitleAPI extends EndPoint
     /**
      * @var null|JobTitleService
      */
-    protected $jobTitleService = null;
+    protected ?JobTitleService $jobTitleService = null;
 
-    const PARAMETER_ID = 'id';
-    const PARAMETER_IDS = 'ids';
-    const PARAMETER_TITLE = 'title';
-    const PARAMETER_DESCRIPTION = 'description';
-    const PARAMETER_NOTE = 'note';
-    const PARAMETER_SPECIFICATION = 'specification';
-    const PARAMETER_ACTIVE_ONLY = 'activeOnly';
+    public const PARAMETER_ID = 'id';
+    public const PARAMETER_IDS = 'ids';
+    public const PARAMETER_TITLE = 'title';
+    public const PARAMETER_DESCRIPTION = 'description';
+    public const PARAMETER_NOTE = 'note';
+    public const PARAMETER_SPECIFICATION = 'specification';
+    public const PARAMETER_ACTIVE_ONLY = 'activeOnly';
 
-    const PARAMETER_SORT_FIELD = 'sortField';
-    const PARAMETER_SORT_ORDER = 'sortOrder';
-    const PARAMETER_OFFSET = 'offset';
-    const PARAMETER_LIMIT = 'limit';
+    public const PARAMETER_SORT_FIELD = 'sortField';
+    public const PARAMETER_SORT_ORDER = 'sortOrder';
+    public const PARAMETER_OFFSET = 'offset';
+    public const PARAMETER_LIMIT = 'limit';
 
     /**
      * @param JobTitleService $jobTitleService
