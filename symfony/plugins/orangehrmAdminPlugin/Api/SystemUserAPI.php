@@ -52,7 +52,9 @@ class SystemUserAPI extends EndPoint
 
     public function getOne(): Response
     {
-        return new Response([]);
+        $userId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $systemUser = $this->getSystemUserService()->getSystemUser($userId);
+        return new Response((new SystemUserModel($systemUser))->toArray());
     }
 
     public function getList(): Response
@@ -97,7 +99,29 @@ class SystemUserAPI extends EndPoint
 
     public function update(): Response
     {
-        return new Response([]);
+        $userId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $username = $this->getRequestParams()->getPostParam(self::PARAMETER_USERNAME);
+        $userRoleId = $this->getRequestParams()->getPostParam(self::PARAMETER_USER_ROLE_ID);
+        $empNumber = $this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_NUMBER);
+        $status = $this->getRequestParams()->getPostParam(self::PARAMETER_STATUS);
+        $changePassword = $this->getRequestParams()->getPostParam(self::PARAMETER_CHANGE_PASSWORD);
+
+        $employee = Doctrine::getEntityManager()->getReference(Employee::class, $empNumber);
+
+        $userRole = $this->getSystemUserService()->getUserRoleById($userRoleId);
+
+        $systemUser = $this->getSystemUserService()->getSystemUser($userId);
+        $systemUser->setUserName($username);
+        $systemUser->setStatus($status);
+        $systemUser->setUserRole($userRole);
+        $systemUser->setEmployee($employee);
+
+        if ($changePassword) {
+            $password = $this->getRequestParams()->getPostParam(self::PARAMETER_PASSWORD);
+            $systemUser->setUserPassword($password);
+        }
+        $systemUser = $this->getSystemUserService()->saveSystemUser($systemUser, $changePassword);
+        return new Response((new SystemUserModel($systemUser))->toArray());
     }
 
     public function delete(): Response
