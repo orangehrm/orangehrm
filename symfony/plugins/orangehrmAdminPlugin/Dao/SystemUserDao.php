@@ -22,6 +22,7 @@ namespace OrangeHRM\Admin\Dao;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\SystemUser;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\Doctrine;
@@ -254,7 +255,7 @@ class SystemUserDao
     {
         try {
             $q = $this->_buildSearchQuery($searchClues);
-            $paginator = new Paginator($q, true);
+            $paginator = new Paginator($q);
             return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -342,57 +343,84 @@ class SystemUserDao
         return $q;
     }
 
-    public function getAdminUserCount($enabledOnly = true, $undeletedOnly = true)
+    /**
+     * @param bool $enabledOnly
+     * @param bool $undeletedOnly
+     * @return int
+     */
+    public function getAdminUserCount(bool $enabledOnly = true, bool $undeletedOnly = true): int
     {
-        $q = Doctrine_Query::create()->from('SystemUser')
-            ->where('user_role_id = ?', SystemUser::ADMIN_USER_ROLE_ID);
-
+        $q = Doctrine::getEntityManager()->getRepository(
+            SystemUser::class
+        )->createQueryBuilder('u');
+        $q->andWhere('u.userRoleId = :userRoleId');
+        $q->setParameter('userRoleId', SystemUser::ADMIN_USER_ROLE_ID);
         if ($enabledOnly) {
-            $q->addWhere('status = ?', SystemUser::ENABLED);
+            $q->andWhere('status = :status');
+            $q->setParameter('status', SystemUser::ENABLED);
         }
-
         if ($undeletedOnly) {
-            $q->addWhere('deleted = ?', SystemUser::UNDELETED);
+            $q->andWhere('deleted = :deleted');
+            $q->setParameter('deleted', SystemUser::UNDELETED);
         }
 
-        return $q->count();
+        $paginator = new Paginator($q);
+        return $paginator->count();
     }
 
-    public function updatePassword($userId, $password)
+    /**
+     * @param int $userId
+     * @param string $password
+     * @return int
+     * @throws DaoException
+     */
+    public function updatePassword(int $userId, string $password): int
     {
         try {
-            $q = Doctrine_Query::create()
-                ->update('SystemUser')
-                ->set('user_password', '?', $password)
-                ->where('id = ?', $userId);
-
-            return $q->execute();
+            $q = Doctrine::getEntityManager()->createQueryBuilder();
+            $q->update(SystemUser::class, 'u')
+                ->set('u.userPassword', $password)
+                ->where('id = :id')
+                ->setParameter('id', $userId);
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
-    public function getEmployeesByUserRole($roleName, $includeInactive = false, $includeTerminated = false)
-    {
+    /**
+     * @param string $roleName
+     * @param bool $includeInactive
+     * @param bool $includeTerminated
+     * @return Employee[]
+     * @throws DaoException
+     */
+    public function getEmployeesByUserRole(
+        string $roleName,
+        bool $includeInactive = false,
+        bool $includeTerminated = false
+    ): array {
         try {
-            $query = Doctrine_Query::create()
-                ->from('Employee e')
-                ->innerJoin('e.SystemUser s')
-                ->leftJoin('s.UserRole r')
-                ->where('r.name = ?', $roleName);
+            $q = Doctrine::getEntityManager()->getRepository(
+                Employee::class
+            )->createQueryBuilder('e');
+            $q->innerJoin('e.systemUser', 'u');
+            $q->leftJoin('u.userRole', 'r');
+            $q->andWhere('r.name = :roleName');
+            $q->setParameter('roleName', $roleName);
 
             if (!$includeInactive) {
-                $query->andWhere('s.deleted = 0');
+                $q->andWhere('s.deleted = :deleted');
+                $q->setParameter('deleted', false);
             }
 
             if (!$includeTerminated) {
-                $query->andWhere('e.termination_id IS NULL');
+                $q->add('where', $q->expr()->isNull('e.terminationId'));
             }
 
-            return $query->execute();
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-
 }

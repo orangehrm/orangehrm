@@ -24,6 +24,7 @@ use OrangeHRM\Admin\Dao\SystemUserDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Utility\PasswordHash;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\SystemUser;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Authentication\Dto\UserCredential;
@@ -68,11 +69,13 @@ class SystemUserService
         return $this->passwordHasher;
     }
 
+    /**
+     * @param PasswordHash $passwordHasher
+     */
     public function setPasswordHasher(PasswordHash $passwordHasher): void
     {
         $this->passwordHasher = $passwordHasher;
     }
-
 
     /**
      * Save System User
@@ -155,10 +158,10 @@ class SystemUserService
      * )
      * </pre>
      *
-     * @return Array of System User Ids
-     * @version 2.7.1
+     * @return array
+     * @throws DaoException
      */
-    public function getSystemUserIdList()
+    public function getSystemUserIdList(): array
     {
         return $this->getSystemUserDao()->getSystemUserIdList();
     }
@@ -251,7 +254,13 @@ class SystemUserService
         }
     }
 
-    public function isCurrentPassword($userId, $password)
+    /**
+     * @param int $userId
+     * @param string $password
+     * @return bool
+     * @throws DaoException
+     */
+    public function isCurrentPassword(int $userId, string $password): bool
     {
         $systemUser = $this->getSystemUserDao()->getSystemUser($userId);
 
@@ -277,15 +286,26 @@ class SystemUserService
      * @param int $userId User ID of the user
      * @param string $password Non-encrypted password
      * @return int
+     * @throws DaoException
      */
-    public function updatePassword($userId, $password)
+    public function updatePassword(int $userId, string $password): int
     {
         return $this->getSystemUserDao()->updatePassword($userId, $this->hashPassword($password));
     }
 
-    public function getEmployeesByUserRole($roleName, $includeInactive = false, $includeTerminated = false)
-    {
-        return $this->getSystemUserDao()->getEmployeesByUserRole($roleName);
+    /**
+     * @param string $roleName
+     * @param bool $includeInactive
+     * @param bool $includeTerminated
+     * @return Employee[]
+     * @throws DaoException
+     */
+    public function getEmployeesByUserRole(
+        string $roleName,
+        bool $includeInactive = false,
+        bool $includeTerminated = false
+    ): array {
+        return $this->getSystemUserDao()->getEmployeesByUserRole($roleName, $includeInactive, $includeTerminated);
     }
 
     /**
@@ -314,9 +334,9 @@ class SystemUserService
     /**
      * Hash password for storage
      * @param string $password
-     * @return hashed password
+     * @return string hashed password
      */
-    public function hashPassword($password)
+    public function hashPassword(string $password): string
     {
         return $this->getPasswordHasher()->hash($password);
     }
@@ -327,7 +347,7 @@ class SystemUserService
      * @param string $hash
      * @return bool
      */
-    public function checkPasswordHash($password, $hash)
+    public function checkPasswordHash(string $password, string $hash): bool
     {
         return $this->getPasswordHasher()->verify($password, $hash);
     }
@@ -339,7 +359,7 @@ class SystemUserService
      * @param string $hash
      * @return bool
      */
-    public function checkForOldHash($password, $hash)
+    public function checkForOldHash(string $password, string $hash): bool
     {
         $valid = false;
 
@@ -349,5 +369,4 @@ class SystemUserService
 
         return $valid;
     }
-
 }
