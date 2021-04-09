@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block links %}
-    <link rel="icon" href="{{ publicPath }}/dist/favicon.ico">
-    <link href="{{ publicPath }}/dist/css/chunk-vendors.css" rel="preload" as="style">
-    <link href="{{ publicPath }}/dist/css/app.css" rel="preload" as="style">
-    <link href="{{ publicPath }}/dist/js/chunk-vendors.js" rel="preload" as="script">
-    <link href="{{ publicPath }}/dist/js/app.js" rel="preload" as="script">
+    <link rel="icon" href="{{ publicPath }}/dist/favicon.ico?{{ assetsVersion }}">
+    <link href="{{ publicPath }}/dist/css/chunk-vendors.css?{{ assetsVersion }}" rel="preload" as="style">
+    <link href="{{ publicPath }}/dist/css/app.css?{{ assetsVersion }}" rel="preload" as="style">
+    <link href="{{ publicPath }}/dist/js/chunk-vendors.js?{{ assetsVersion }}" rel="preload" as="script">
+    <link href="{{ publicPath }}/dist/js/app.js?{{ assetsVersion }}" rel="preload" as="script">
 {% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ publicPath }}/dist/css/chunk-vendors.css" rel="stylesheet"/>
-    <link href="{{ publicPath }}/dist/css/app.css" rel="stylesheet"/>
+    <link href="{{ publicPath }}/dist/css/chunk-vendors.css?{{ assetsVersion }}" rel="stylesheet"/>
+    <link href="{{ publicPath }}/dist/css/app.css?{{ assetsVersion }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
@@ -36,6 +36,6 @@
             baseUrl: "{{ baseUrl }}",
         }
     </script>
-    <script src="{{ publicPath }}/dist/js/chunk-vendors.js"></script>
-    <script src="{{ publicPath }}/dist/js/app.js"></script>
+    <script src="{{ publicPath }}/dist/js/chunk-vendors.js?{{ assetsVersion }}"></script>
+    <script src="{{ publicPath }}/dist/js/app.js?{{ assetsVersion }}"></script>
 {% endblock %}
