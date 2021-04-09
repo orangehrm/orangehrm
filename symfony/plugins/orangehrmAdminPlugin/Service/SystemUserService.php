@@ -26,7 +26,6 @@ use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\SystemUser;
 use OrangeHRM\Entity\UserRole;
-use OrangeHRM\ORM\ArrayCollection;
 use OrangeHRM\Authentication\Dto\UserCredential;
 
 class SystemUserService
@@ -79,9 +78,11 @@ class SystemUserService
      * Save System User
      *
      * @param SystemUser $systemUser
+     * @param bool $changePassword
      * @return SystemUser|null
+     * @throws ServiceException
      */
-    public function saveSystemUser(SystemUser $systemUser, $changePassword = false): ?SystemUser
+    public function saveSystemUser(SystemUser $systemUser, bool $changePassword = false): ?SystemUser
     {
         try {
             if ($changePassword) {
