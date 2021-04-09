@@ -29,8 +29,6 @@ use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Authentication\Exception\SessionExpiredException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -77,7 +75,7 @@ class AuthenticationSubscriber implements EventSubscriberInterface
         }
 
         if ($this->getControllerInstance($event) instanceof AbstractRestController) {
-            throw new UnauthorizedHttpException($urlGenerator->generate('login'), 'Session expired');
+            throw new UnauthorizedHttpException($urlGenerator->generate('auth_login'), 'Session expired');
         }
     }
 
@@ -92,7 +90,7 @@ class AuthenticationSubscriber implements EventSubscriberInterface
             /** @var UrlGenerator $urlGenerator */
             $urlGenerator = ServiceContainer::getContainer()->get(Services::URL_GENERATOR);
 
-            $loginUrl = $urlGenerator->generate('login', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            $loginUrl = $urlGenerator->generate('auth_login', [], UrlGeneratorInterface::ABSOLUTE_URL);
             $response = new RedirectResponse($loginUrl);
 
             $event->setResponse($response);

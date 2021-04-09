@@ -29,6 +29,6 @@ class LoginController extends AbstractVueController implements PublicControllerI
     {
         $component = new Component('auth-login');
         $this->setComponent($component);
-        $this->setTemplate('basic.html.twig');
+        $this->setTemplate('no_header.html.twig');
     }
 }

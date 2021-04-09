@@ -25,13 +25,22 @@
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSubmit">
+      <oxd-form @submitValid="onSubmit($event)" method="post">
         <oxd-form-row>
-          <oxd-input-field label="Username" v-model="username" />
+          <oxd-input-field
+            label="Username"
+            v-model="username"
+            :rules="rules.username"
+          />
         </oxd-form-row>
 
         <oxd-form-row>
-          <oxd-input-field label="Password" v-model="password" />
+          <oxd-input-field
+            label="Password"
+            v-model="password"
+            type="password"
+            :rules="rules.password"
+          />
         </oxd-form-row>
 
         <oxd-divider />
@@ -50,6 +59,10 @@ export default defineComponent({
     return {
       username: '',
       password: '',
+      rules: {
+        username: [(v: string) => (!!v && v.trim() !== '') || 'Required'],
+        password: [(v: string) => (!!v && v.trim() !== '') || 'Required'],
+      },
     };
   },
 

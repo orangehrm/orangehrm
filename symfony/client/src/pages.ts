@@ -22,7 +22,7 @@ import SaveJobTitle from '@/orangehrmAdminPlugin/pages/jobTitle/SaveJobTitle.vue
 import JobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/JobCategory.vue';
 import EditJobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/EditJobCategory.vue';
 import SaveJobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/SaveJobCategory.vue';
-import securityAuthenticationPages from './orangehrmSecurityAuthenticationPlugin/pages';
+import authenticationPages from './orangehrmAuthenticationPlugin/pages';
 
 export default {
   'job-title-list': JobTitle,
@@ -31,5 +31,5 @@ export default {
   'job-category-list': JobCategory,
   'job-category-edit': EditJobCategory,
   'job-category-save': SaveJobCategory,
-  ...securityAuthenticationPages,
+  ...authenticationPages,
 };
