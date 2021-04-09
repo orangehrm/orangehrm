@@ -29,7 +29,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 
-abstract class AbstractVueController
+abstract class AbstractVueController extends AbstractViewController
 {
     /**
      * @var Environment|null
@@ -46,7 +46,7 @@ abstract class AbstractVueController
 
     public function __construct()
     {
-        $loader = new FilesystemLoader(Config::get('app_template_dir'));
+        $loader = new FilesystemLoader(Config::get('ohrm_app_template_dir'));
         $this->twig = new Environment($loader, ['cache' => false]);
         $this->init();
     }

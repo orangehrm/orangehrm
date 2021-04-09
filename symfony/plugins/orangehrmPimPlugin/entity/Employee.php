@@ -2,6 +2,9 @@
 
 namespace OrangeHRM\Entity;
 
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -127,9 +130,9 @@ class Employee
     private $province;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="employee_id", type="string", length=50)
+     * @ORM\Column(name="employee_id", type="string", length=50, nullable=true)
      */
     private $employeeId;
 
@@ -141,7 +144,7 @@ class Employee
     private $ethnic_race_code;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="emp_birthday", type="date", length=25)
      */
@@ -169,7 +172,7 @@ class Employee
     private $emp_marital_status;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="emp_dri_lice_exp_date", type="date", length=25)
      */
@@ -181,13 +184,6 @@ class Employee
      * @ORM\Column(name="emp_status", type="integer", length=13)
      */
     private $emp_status;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="job_title_code", type="integer", length=6)
-     */
-    private $job_title_code;
 
     /**
      * @var int
@@ -246,7 +242,7 @@ class Employee
     private $sal_grd_code;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="joined_date", type="date", length=25)
      */
@@ -258,13 +254,6 @@ class Employee
      * @ORM\Column(name="emp_oth_email", type="string", length=50)
      */
     private $emp_oth_email;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="termination_id", type="integer", length=4)
-     */
-    private $termination_id;
 
     /**
      * @var string
@@ -337,14 +326,14 @@ class Employee
     private $custom10;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="purged_at", type="datetime")
      */
     private $purged_at;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Subunit", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -354,9 +343,9 @@ class Employee
     private $subDivision;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\JobTitle", mappedBy="Employee")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\JobTitle", mappedBy="employee")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="job_title_code", referencedColumnName="id")
      * })
@@ -364,7 +353,7 @@ class Employee
     private $jobTitle;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmploymentStatus", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -374,21 +363,21 @@ class Employee
     private $employeeStatus;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="subordinates")
      */
     private $supervisors;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Location", mappedBy="employees")
      */
     private $locations;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpDependent", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -398,7 +387,7 @@ class Employee
     private $dependents;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpEmergencyContact", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -408,7 +397,7 @@ class Employee
     private $emergencyContacts;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeImmigrationRecord", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -418,7 +407,7 @@ class Employee
     private $immigrationDocuments;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpWorkExperience", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -427,18 +416,16 @@ class Employee
      */
     private $workExperience;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeEducation", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
-     */
-    private $education;
+//    /**
+//     * @var Collection
+//     *
+//     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeEducation", mappedBy="employee")
+//     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
+//     */
+//    private $education;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -447,28 +434,28 @@ class Employee
      */
     private $skills;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeLanguage", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
-     */
-    private $languages;
+//    /**
+//     * @var Collection
+//     *
+//     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeLanguage", mappedBy="Employee")
+//     * @ORM\JoinColumns({
+//     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
+//     * })
+//     */
+//    private $languages;
+
+//    /**
+//     * @var Collection
+//     *
+//     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeLicense", mappedBy="Employee")
+//     * @ORM\JoinColumns({
+//     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
+//     * })
+//     */
+//    private $licenses;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeLicense", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
-     */
-    private $licenses;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeMembership", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -478,7 +465,7 @@ class Employee
     private $memberships;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeSalary", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -488,7 +475,7 @@ class Employee
     private $salary;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpContract", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -498,7 +485,7 @@ class Employee
     private $contracts;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeAttachment", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -508,7 +495,7 @@ class Employee
     private $attachments;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\ProjectAdmin", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -518,17 +505,15 @@ class Employee
     private $projectAdmin;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var EmployeeTerminationRecord|null
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="empNumber", referencedColumnName="empNumber")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord")
+     * @ORM\JoinColumn(name="termination_id", referencedColumnName="id")
      */
-    private $EmployeeTerminationRecord;
+    private $employeeTerminationRecord;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Country", mappedBy="Employee")
      * @ORM\JoinColumns({
@@ -542,26 +527,120 @@ class Employee
      */
     public function __construct()
     {
-        $this->subDivision = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->jobTitle = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->employeeStatus = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->supervisors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->locations = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->dependents = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->emergencyContacts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->immigrationDocuments = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->workExperience = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->education = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->skills = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->languages = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->licenses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->memberships = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->salary = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->contracts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->projectAdmin = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->EmployeeTerminationRecord = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->EmployeeCountry = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subDivision = new ArrayCollection();
+        $this->jobTitle = new ArrayCollection();
+        $this->employeeStatus = new ArrayCollection();
+        $this->supervisors = new ArrayCollection();
+        $this->locations = new ArrayCollection();
+        $this->dependents = new ArrayCollection();
+        $this->emergencyContacts = new ArrayCollection();
+        $this->immigrationDocuments = new ArrayCollection();
+        $this->workExperience = new ArrayCollection();
+        $this->education = new ArrayCollection();
+        $this->skills = new ArrayCollection();
+        $this->languages = new ArrayCollection();
+        $this->licenses = new ArrayCollection();
+        $this->memberships = new ArrayCollection();
+        $this->salary = new ArrayCollection();
+        $this->contracts = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
+        $this->projectAdmin = new ArrayCollection();
+        $this->EmployeeCountry = new ArrayCollection();
     }
 
+    /**
+     * @return int
+     */
+    public function getEmpNumber(): int
+    {
+        return $this->empNumber;
+    }
+
+    /**
+     * @param int $empNumber
+     */
+    public function setEmpNumber(int $empNumber): void
+    {
+        $this->empNumber = $empNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     */
+    public function setLastName(string $lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName(string $firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMiddleName(): string
+    {
+        return $this->middleName;
+    }
+
+    /**
+     * @param string $middleName
+     */
+    public function setMiddleName(string $middleName): void
+    {
+        $this->middleName = $middleName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmployeeId(): ?string
+    {
+        return $this->employeeId;
+    }
+
+    /**
+     * @param string|null $employeeId
+     */
+    public function setEmployeeId(?string $employeeId): void
+    {
+        $this->employeeId = $employeeId;
+    }
+
+    /**
+     * @return EmployeeTerminationRecord|null
+     */
+    public function getEmployeeTerminationRecord(): ?EmployeeTerminationRecord
+    {
+        return $this->employeeTerminationRecord;
+    }
+
+    /**
+     * @param EmployeeTerminationRecord|null $employeeTerminationRecord
+     */
+    public function setEmployeeTerminationRecord(?EmployeeTerminationRecord $employeeTerminationRecord): void
+    {
+        $this->employeeTerminationRecord = $employeeTerminationRecord;
+    }
 }

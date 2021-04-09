@@ -1,21 +1,31 @@
 apiv1_job_title:
   path: /api/v1/admin/job-titles/{id}
-  controller: OrangeHRM\Rest\Admin\Controller\JobTitleApiAction::execute
+  controller: OrangeHRM\Admin\Api\Controller\JobTitleApiController::handle
   methods: [ GET, PUT ]
 
 apiv1_job_titles:
   path: /api/v1/admin/job-titles
-  controller: OrangeHRM\Rest\Admin\Controller\JobTitlesApiAction::execute
+  controller: OrangeHRM\Admin\Api\Controller\JobTitlesApiController::handle
   methods: [ GET, POST, DELETE ]
 
 apiv1_job_category:
   path: /api/v1/admin/job-categories/{id}
-  controller: OrangeHRM\Rest\Admin\Controller\JobCategoryApiAction::execute
+  controller: OrangeHRM\Admin\Api\Controller\JobCategoryApiController::handle
   methods: [ GET, PUT ]
 
 apiv1_job_categories:
   path: /api/v1/admin/job-categories
-  controller: OrangeHRM\Rest\Admin\Controller\JobCategoriesApiAction::execute
+  controller: OrangeHRM\Admin\Api\Controller\JobCategoriesApiController::handle
+  methods: [ GET, POST, DELETE ]
+
+apiv1_system_user:
+  path: /api/v1/admin/users/{id}
+  controller: OrangeHRM\Admin\Api\Controller\UserApiController::handle
+  methods: [ GET, PUT ]
+
+apiv1_system_users:
+  path: /api/v1/admin/users
+  controller: OrangeHRM\Admin\Api\Controller\UsersApiController::handle
   methods: [ GET, POST, DELETE ]
 
 view_job_title:

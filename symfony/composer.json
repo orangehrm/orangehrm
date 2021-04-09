@@ -2,7 +2,7 @@
     "name": "orangehrm/orangehrm",
     "description": "OrangeHRM open source",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^7.4|^8.0",
         "ext-pdo": "*",
         "ext-curl": "*",
         "ext-json": "*",
@@ -20,7 +20,11 @@
         "doctrine/orm": "~2.8.2",
         "symfony/yaml": "^5.2",
         "twig/twig": "^3.0",
-        "symfony/error-handler": "4.4.20"
+        "symfony/error-handler": "4.4.20",
+        "symfony/dependency-injection": "^5.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
@@ -29,9 +33,9 @@
             "OrangeHRM\\ORM\\": "./lib/orm",
             "OrangeHRM\\Framework\\": "./lib/framework",
             "OrangeHRM\\Config\\": "./lib/config",
-            "OrangeHRM\\Rest\\Admin\\": "./plugins/orangehrmAdminPlugin/api",
             "OrangeHRM\\Admin\\": "./plugins/orangehrmAdminPlugin",
             "OrangeHRM\\Core\\": "./plugins/orangehrmCorePlugin",
+            "OrangeHRM\\Authentication\\": "./plugins/orangehrmAuthenticationPlugin",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
                 "./plugins/orangehrmPerformancePlugin/entity",
@@ -45,8 +49,5 @@
                 "./apps/orangehrm/lib/model/exception"
             ]
         }
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9"
     }
 }

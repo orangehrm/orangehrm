@@ -28,67 +28,64 @@ class Config
     {
     }
 
-    private static function init()
+    private static function init(): void
     {
         if (!self::$initialized) {
-            $pathToProjectBase = realpath(__DIR__ . '/../../../');
-            $pathToSymfonyDir = realpath($pathToProjectBase . '/symfony/');
-            self::add(
-                [
-                    'sf_root_dir' => $pathToSymfonyDir,
-                    'sf_apps_dir' => realpath($pathToSymfonyDir . '/apps'),
-                    'sf_lib_dir' => realpath($pathToSymfonyDir . '/lib'),
-                    'sf_log_dir' => realpath($pathToSymfonyDir . '/log'),
-                    'sf_data_dir' => realpath($pathToSymfonyDir . '/data'),
-                    'sf_config_dir' => realpath($pathToSymfonyDir . '/config'),
-                    'sf_plugins_dir' => realpath($pathToSymfonyDir . '/plugins'),
-                    'sf_web_dir' => realpath($pathToSymfonyDir . '/web'),
-                    'sf_cache_dir' => realpath($pathToSymfonyDir . '/cache'),
-                    'sf_app_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm'),
-                    'sf_app_config_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/config'),
-                    'sf_app_lib_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/lib'),
-                    'sf_app_i18n_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/i18n'),
-
-                    'sf_test_dir' => realpath($pathToProjectBase . '/tests'),
-
-                    'client_dir' => realpath($pathToSymfonyDir . '/client'),
-                    'app_template_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/templates'),
-                ]
-            );
+            $configHelper = new ConfigHelper();
+            self::add($configHelper->getConfigs());
 
             self::$initialized = true;
         }
     }
 
+    /**
+     * @param string $name
+     * @param null $default
+     * @return mixed|null
+     */
     public static function get(string $name, $default = null)
     {
         self::init();
         return isset(self::$configs[$name]) ? self::$configs[$name] : $default;
     }
 
+    /**
+     * @param string $name
+     * @return bool
+     */
     public static function has(string $name): bool
     {
         self::init();
         return array_key_exists($name, self::$configs);
     }
 
+    /**
+     * @param string $name
+     * @param $value
+     */
     public static function set(string $name, $value)
     {
         self::$configs[$name] = $value;
     }
 
+    /**
+     * @param array $parameters
+     */
     public static function add(array $parameters = [])
     {
         self::$configs = array_merge(self::$configs, $parameters);
     }
 
+    /**
+     * @return array
+     */
     public static function getAll(): array
     {
         self::init();
         return self::$configs;
     }
 
-    public static function clear()
+    public static function clear(): void
     {
         self::$configs = [];
     }
