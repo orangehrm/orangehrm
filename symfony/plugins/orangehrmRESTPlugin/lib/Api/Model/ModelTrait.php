@@ -88,11 +88,31 @@ trait ModelTrait
                 $key = empty($this->attributeNames[$index]) ? $attribute :
                     $this->attributeNames[$index];
                 if (is_array($key)) {
-                    $key = implode("_", $key);
+                    $array = array_merge_recursive($array, $this->makeNestedArray($key, $value));
+                } else {
+                    $array[$key] = $value;
                 }
-                $array[$key] = $value;
             }
         }
+        return $array;
+    }
+
+    /**
+     * @param array $keys
+     * @param $value
+     * @return array
+     */
+    private function makeNestedArray(array $keys, $value): array
+    {
+        $array = [];
+        $key = array_shift($keys);
+
+        if (!isset($keys[0])) {
+            $array[$key] = $value;
+        } else {
+            $array[$key] = $this->makeNestedArray($keys, $value);
+        }
+
         return $array;
     }
 }

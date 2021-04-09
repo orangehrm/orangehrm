@@ -82,7 +82,7 @@ class JobTitle
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="JobTitle")
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="jobTitle")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id", referencedColumnName="job_title_code")
      * })

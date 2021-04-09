@@ -1,6 +1,6 @@
 phpversion:
-    min: '7.0'
-    max: '7.3'
+    min: '7.4'
+    max: '8.0'
     excludeRange: []
 
 mysqlversion:
