@@ -21,18 +21,18 @@ namespace Orangehrm\Rest\Http;
 
 class RequestParams {
 
-    const PARAM_NAME_SEARCH = 'search' ;
+    public const PARAM_NAME_SEARCH = 'search';
 
     /**
      * @var Request
      */
-    private $request = null;
+    private ?Request $request = null;
 
     /**
      * Support `application/json` as post parameters
      * @var array|null
      */
-    private $postParameters = null;
+    private ?array $postParameters = null;
 
     /**
      * RequestParams constructor.
@@ -46,43 +46,45 @@ class RequestParams {
     /**
      * @return Request
      */
-    public function getRequest()
+    public function getRequest():Request
     {
         return $this->request;
     }
 
     /**
      * @param Request $request
-     * @return $this;
+     * @return RequestParams
      */
-    private function setRequest($request)
+    private function setRequest(Request $request): RequestParams
     {
         $this->request = $request;
         return $this;
     }
 
     /**
-     * @param $paramName
+     * @param string $paramName
      * @param mixed $default
      * @return mixed
      */
-    public function getQueryParam($paramName, $default = null) {
+    public function getQueryParam(string $paramName, $default = null) {
 
         return $this->getRequest()->getActionRequest()->get($paramName, $default);
     }
 
     /**
      * @param $paramName
+     * @return mixed
      */
-    public function getUrlParam($paramName) {
+    public function getUrlParam(string $paramName) {
 
        return  $this->getRequest()->getActionRequest()->get($paramName);
     }
 
     /**
      * get sf request URI
+     * @return string
      */
-    public function getRequestUri() {
+    public function getRequestUri():string {
 
         return $this->getRequest()->getActionRequest()->getUri();
     }
@@ -91,9 +93,9 @@ class RequestParams {
      * get post parameters
      *
      * @param string $paramName
-     * @return string|null
+     * @return mixed
      */
-    public function getPostParam($paramName)
+    public function getPostParam(string $paramName)
     {
         if(!isset($this->postParameters[$paramName])) {
             return null;
@@ -105,7 +107,7 @@ class RequestParams {
      * Get all post parameters
      * @return array|null
      */
-    public function getPostParams()
+    public function getPostParams(): ?array
     {
         return $this->postParameters;
     }
@@ -115,26 +117,26 @@ class RequestParams {
      *
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->getRequest()->getActionRequest()->getContent();
     }
 
     /**
      * Override query or URI parameter
-     * @param $name
+     * @param string $name
      * @param $value
      */
-    public function setParam($name, $value) {
+    public function setParam(string $name, $value) {
         $this->getRequest()->getActionRequest()->attributes->set($name, $value);
     }
 
     /**
      * Override post parameter
-     * @param $paramName
+     * @param string $paramName
      * @param $value
      */
-    public function setPostParam($paramName, $value) {
+    public function setPostParam(string $paramName, $value) {
         $this->postParameters[$paramName] = $value;
     }
 }

@@ -80,12 +80,10 @@ class EmployeeEducation
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmployeeEducation")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="empNumber", referencedColumnName="empNumber")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="education")
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
-    private $Employee;
+    private $employee;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -102,7 +100,7 @@ class EmployeeEducation
      */
     public function __construct()
     {
-        $this->Employee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->employee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->Education = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

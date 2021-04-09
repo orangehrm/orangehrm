@@ -62,12 +62,10 @@ class EmployeeTerminationRecord
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmployeeTerminationRecord")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="empNumber", referencedColumnName="empNumber")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
-    private $Employee;
+    private $employee;
 
     /**
      * Constructor
@@ -75,7 +73,7 @@ class EmployeeTerminationRecord
     public function __construct()
     {
         $this->TerminationReason = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->Employee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->employee = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 }
