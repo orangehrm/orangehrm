@@ -25,9 +25,15 @@
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSubmit($event)" method="post">
+      <oxd-form
+        @submitValid="onSubmit"
+        method="post"
+        ref="loginForm"
+        :action="submitUrl"
+      >
         <oxd-form-row>
           <oxd-input-field
+            name="username"
             label="Username"
             v-model="username"
             :rules="rules.username"
@@ -36,6 +42,7 @@
 
         <oxd-form-row>
           <oxd-input-field
+            name="password"
             label="Password"
             v-model="password"
             type="password"
@@ -51,42 +58,44 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue';
+<script>
+import {urlFor} from '@orangehrm/core/util/helper/url';
 
-export default defineComponent({
+export default {
   data() {
     return {
       username: '',
       password: '',
       rules: {
-        username: [(v: string) => (!!v && v.trim() !== '') || 'Required'],
-        password: [(v: string) => (!!v && v.trim() !== '') || 'Required'],
+        username: [v => (!!v && v.trim() !== '') || 'Required'],
+        password: [v => (!!v && v.trim() !== '') || 'Required'],
       },
     };
   },
 
-  methods: {
-    onSubmit() {
-      this.$http
-        .post(`/api/v1/auth/login`, {
-          username: this.username,
-          password: this.password,
-        })
-        .then(() => {
-          console.log('success');
-        })
-        .catch((error: Error) => {
-          console.log(error);
-        });
+  computed: {
+    submitUrl() {
+      return urlFor('/auth/validate');
     },
   },
-});
+
+  methods: {
+    onSubmit() {
+      this.$refs.loginForm.$el.submit();
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 .orangehrm-background-container {
   background-color: $oxd-background-light-gray-color;
   padding: 1.2rem;
+}
+</style>
+
+<style lang="scss">
+body {
+  background-color: $oxd-background-light-gray-color;
 }
 </style>
