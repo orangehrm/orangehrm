@@ -20,40 +20,40 @@
 namespace OrangeHRM\Admin\Service;
 
 use Exception;
-use OrangeHRM\Admin\Dao\SystemUserDao;
+use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\SystemUser;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Authentication\Dto\UserCredential;
 
-class SystemUserService
+class UserService
 {
     /**
-     * @var SystemUserDao|null
+     * @var UserDao|null
      */
-    protected ?SystemUserDao $systemUserDao = null;
+    protected ?UserDao $systemUserDao = null;
 
     /** @property PasswordHash $passwordHasher */
     private ?PasswordHash $passwordHasher = null;
 
     /**
-     * @return SystemUserDao
+     * @return UserDao
      */
-    public function getSystemUserDao(): ?SystemUserDao
+    public function getSystemUserDao(): ?UserDao
     {
         if (empty($this->systemUserDao)) {
-            $this->systemUserDao = new SystemUserDao();
+            $this->systemUserDao = new UserDao();
         }
         return $this->systemUserDao;
     }
 
     /**
-     * @param SystemUserDao $systemUserDao
+     * @param UserDao $systemUserDao
      */
-    public function setSystemUserDao(SystemUserDao $systemUserDao): void
+    public function setSystemUserDao(UserDao $systemUserDao): void
     {
         $this->systemUserDao = $systemUserDao;
     }
@@ -80,12 +80,12 @@ class SystemUserService
     /**
      * Save System User
      *
-     * @param SystemUser $systemUser
+     * @param User $systemUser
      * @param bool $changePassword
-     * @return SystemUser|null
+     * @return User|null
      * @throws ServiceException
      */
-    public function saveSystemUser(SystemUser $systemUser, bool $changePassword = false): ?SystemUser
+    public function saveSystemUser(User $systemUser, bool $changePassword = false): ?User
     {
         try {
             if ($changePassword) {
@@ -102,10 +102,10 @@ class SystemUserService
      * Check is existing user according to user name
      * @param string $userName
      * @param int $userId
-     * @return SystemUser|null
+     * @return User|null
      * @throws ServiceException
      */
-    public function isExistingSystemUser(string $userName, int $userId): ?SystemUser
+    public function isExistingSystemUser(string $userName, int $userId): ?User
     {
         try {
             $credentials = new UserCredential($userName);
@@ -118,10 +118,10 @@ class SystemUserService
     /**
      * Get System User for given User Id
      * @param int $userId
-     * @return SystemUser|null
+     * @return User|null
      * @throws ServiceException
      */
-    public function getSystemUser(int $userId): ?SystemUser
+    public function getSystemUser(int $userId): ?User
     {
         try {
             return $this->getSystemUserDao()->getSystemUser($userId);
@@ -132,7 +132,7 @@ class SystemUserService
 
     /**
      * Get System Users
-     * @return SystemUser[]
+     * @return User[]
      * @throws ServiceException
      */
     public function getSystemUsers(): array
@@ -180,7 +180,7 @@ class SystemUserService
     /**
      * Get Pre Defined User Roles
      *
-     * @return SystemUser[]
+     * @return User[]
      * @throws ServiceException
      */
     public function getAssignableUserRoles(): array
@@ -264,7 +264,7 @@ class SystemUserService
     {
         $systemUser = $this->getSystemUserDao()->getSystemUser($userId);
 
-        if (!($systemUser instanceof SystemUser)) {
+        if (!($systemUser instanceof User)) {
             return false;
         }
 
@@ -310,14 +310,14 @@ class SystemUserService
 
     /**
      * @param UserCredential $credentials
-     * @return SystemUser|null
+     * @return User|null
      * @throws DaoException
      * @throws ServiceException
      */
-    public function getCredentials(UserCredential $credentials): ?SystemUser
+    public function getCredentials(UserCredential $credentials): ?User
     {
         $user = $this->getSystemUserDao()->isExistingSystemUser($credentials);
-        if ($user instanceof SystemUser) {
+        if ($user instanceof User) {
             $hash = $user->getUserPassword();
             if ($this->checkPasswordHash($credentials->getPassword(), $hash)) {
                 return $user;

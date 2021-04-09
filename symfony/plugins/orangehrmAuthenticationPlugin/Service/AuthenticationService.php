@@ -19,47 +19,47 @@
 
 namespace OrangeHRM\Authentication\Service;
 
-use OrangeHRM\Admin\Service\SystemUserService;
+use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\SystemUser;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationServiceException;
 
 class AuthenticationService
 {
     /**
-     * @var null|SystemUserService
+     * @var null|UserService
      */
-    private ?SystemUserService $systemUserService = null;
+    private ?UserService $systemUserService = null;
 
     /**
-     * @param SystemUserService $service
+     * @param UserService $service
      */
-    public function setSystemUserService(SystemUserService $service)
+    public function setSystemUserService(UserService $service)
     {
         $this->systemUserService = $service;
     }
 
     /**
-     * @return SystemUserService
+     * @return UserService
      */
-    public function getSystemUserService(): SystemUserService
+    public function getSystemUserService(): UserService
     {
         if (!isset($this->systemUserService)) {
-            $this->systemUserService = new SystemUserService();
+            $this->systemUserService = new UserService();
         }
         return $this->systemUserService;
     }
 
     /**
-     * @param SystemUser|null $user
+     * @param User|null $user
      * @param array $additionalData
      * @return bool
      * @throws AuthenticationServiceException
      */
-    public function setCredentialsForUser(?SystemUser $user, array $additionalData):bool
+    public function setCredentialsForUser(?User $user, array $additionalData):bool
     {
-        if (!$user instanceof SystemUser) {
+        if (!$user instanceof User) {
             return false;
         } else {
             if ($user->getIsAdmin() == 'No' &&

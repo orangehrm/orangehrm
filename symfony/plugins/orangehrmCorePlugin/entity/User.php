@@ -6,12 +6,12 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SystemUser
+ * User
  *
  * @ORM\Table(name="ohrm_user")
  * @ORM\Entity
  */
-class SystemUser
+class User
 {
     public const NO_OF_RECORDS_PER_PAGE = 50;
     public const ADMIN_USER_ROLE_ID = 1;
@@ -303,7 +303,7 @@ class SystemUser
      */
     public function getIsAdmin()
     {
-        if ($this->getUserRole()->getId() == SystemUser::ADMIN_USER_ROLE_ID) {
+        if ($this->getUserRole()->getId() == User::ADMIN_USER_ROLE_ID) {
             return 'Yes';
         } else {
             return 'No';
@@ -316,7 +316,7 @@ class SystemUser
      */
     public function getUsergId()
     {
-        if ($this->getUserRole()->getId() == SystemUser::ADMIN_USER_ROLE_ID) {
+        if ($this->getUserRole()->getId() == User::ADMIN_USER_ROLE_ID) {
             return 'USG001';
         } else {
             return null;

@@ -23,7 +23,7 @@ use Doctrine\ORM\QueryBuilder;
 use Exception;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\SystemUser;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\DoctrineQuery;
@@ -31,17 +31,17 @@ use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Authentication\Dto\UserCredential;
 
-class SystemUserDao
+class UserDao
 {
 
     /**
      * Save System User
      *
-     * @param SystemUser $systemUser
-     * @return SystemUser
+     * @param User $systemUser
+     * @return User
      * @throws \DaoException
      */
-    public function saveSystemUser(SystemUser $systemUser): SystemUser
+    public function saveSystemUser(User $systemUser): User
     {
         try {
             Doctrine::getEntityManager()->persist($systemUser);
@@ -57,14 +57,14 @@ class SystemUserDao
      *
      * @param UserCredential $credentials
      * @param int|null $userId
-     * @return SystemUser|null
+     * @return User|null
      * @throws DaoException
      */
-    public function isExistingSystemUser(UserCredential $credentials, ?int $userId = null): ?SystemUser
+    public function isExistingSystemUser(UserCredential $credentials, ?int $userId = null): ?User
     {
         try {
             $query = Doctrine::getEntityManager()->getRepository(
-                SystemUser::class
+                User::class
             )->createQueryBuilder('u');
             $query->andWhere('u.userName = :username');
             $query->setParameter('username', $credentials->getUsername());
@@ -82,14 +82,14 @@ class SystemUserDao
     /**
      * Get System User for given User Id
      * @param int $userId
-     * @return SystemUser|null
+     * @return User|null
      * @throws DaoException
      */
-    public function getSystemUser(int $userId): ?SystemUser
+    public function getSystemUser(int $userId): ?User
     {
         try {
-            $user = Doctrine::getEntityManager()->getRepository(SystemUser::class)->find($userId);
-            if ($user instanceof SystemUser) {
+            $user = Doctrine::getEntityManager()->getRepository(User::class)->find($userId);
+            if ($user instanceof User) {
                 return $user;
             }
             return null;
@@ -101,14 +101,14 @@ class SystemUserDao
     /**
      * Get System Users
      *
-     * @return SystemUser[]
+     * @return User[]
      * @throws DaoException
      */
     public function getSystemUsers(): array
     {
         try {
             $query = Doctrine::getEntityManager()->getRepository(
-                SystemUser::class
+                User::class
             )->createQueryBuilder('u');
             $query->andWhere('u.deleted = :deleted');
             $query->setParameter('deleted', false);
@@ -128,7 +128,7 @@ class SystemUserDao
     {
         try {
             $query = Doctrine::getEntityManager()->getRepository(
-                SystemUser::class
+                User::class
             )->createQueryBuilder('u');
             $query->select('u.id');
             $query->andWhere('u.deleted = :deleted');
@@ -156,7 +156,7 @@ class SystemUserDao
     {
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
-            $q->update(SystemUser::class, 'u')
+            $q->update(User::class, 'u')
                 ->set('u.deleted', true)
                 ->add('where', $q->expr()->in('u.id', $deletedIds));
             return $q->getQuery()->execute();
@@ -302,7 +302,7 @@ class SystemUserDao
     private function _buildSearchQuery(array $searchClues): QueryBuilder
     {
         $q = Doctrine::getEntityManager()->getRepository(
-            SystemUser::class
+            User::class
         )->createQueryBuilder('u');
         $q->leftJoin('u.userRole', 'r');
 
@@ -351,17 +351,17 @@ class SystemUserDao
     public function getAdminUserCount(bool $enabledOnly = true, bool $undeletedOnly = true): int
     {
         $q = Doctrine::getEntityManager()->getRepository(
-            SystemUser::class
+            User::class
         )->createQueryBuilder('u');
         $q->andWhere('u.userRoleId = :userRoleId');
-        $q->setParameter('userRoleId', SystemUser::ADMIN_USER_ROLE_ID);
+        $q->setParameter('userRoleId', User::ADMIN_USER_ROLE_ID);
         if ($enabledOnly) {
             $q->andWhere('status = :status');
-            $q->setParameter('status', SystemUser::ENABLED);
+            $q->setParameter('status', User::ENABLED);
         }
         if ($undeletedOnly) {
             $q->andWhere('deleted = :deleted');
-            $q->setParameter('deleted', SystemUser::UNDELETED);
+            $q->setParameter('deleted', User::UNDELETED);
         }
 
         $paginator = new Paginator($q);
@@ -378,7 +378,7 @@ class SystemUserDao
     {
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
-            $q->update(SystemUser::class, 'u')
+            $q->update(User::class, 'u')
                 ->set('u.userPassword', $password)
                 ->where('id = :id')
                 ->setParameter('id', $userId);

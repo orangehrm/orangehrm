@@ -19,13 +19,13 @@ apiv1_job_categories:
   methods: [ GET, POST, DELETE ]
 
 apiv1_system_user:
-  path: /api/v1/admin/user/{id}
-  controller: OrangeHRM\Admin\Api\Controller\SystemUserApiController::handle
+  path: /api/v1/admin/users/{id}
+  controller: OrangeHRM\Admin\Api\Controller\UserApiController::handle
   methods: [ GET, PUT ]
 
 apiv1_system_users:
   path: /api/v1/admin/users
-  controller: OrangeHRM\Admin\Api\Controller\SystemUsersApiController::handle
+  controller: OrangeHRM\Admin\Api\Controller\UsersApiController::handle
   methods: [ GET, POST, DELETE ]
 
 view_job_title:

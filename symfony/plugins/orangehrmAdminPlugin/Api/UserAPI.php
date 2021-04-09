@@ -2,15 +2,15 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use OrangeHRM\Admin\Api\Model\SystemUserModel;
-use OrangeHRM\Admin\Service\SystemUserService;
+use OrangeHRM\Admin\Api\Model\UserModel;
+use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\SystemUser;
+use OrangeHRM\Entity\User;
 use OrangeHRM\ORM\Doctrine;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Http\Response;
 
-class SystemUserAPI extends EndPoint
+class UserAPI extends EndPoint
 {
     public const PARAMETER_ID = 'id';
     public const PARAMETER_IDS = 'ids';
@@ -27,25 +27,25 @@ class SystemUserAPI extends EndPoint
     public const PARAMETER_LIMIT = 'limit';
 
     /**
-     * @var null|SystemUserService
+     * @var null|UserService
      */
-    protected ?SystemUserService $systemUserService = null;
+    protected ?UserService $systemUserService = null;
 
     /**
-     * @return SystemUserService|null
+     * @return UserService|null
      */
-    public function getSystemUserService(): ?SystemUserService
+    public function getSystemUserService(): ?UserService
     {
         if (is_null($this->systemUserService)) {
-            $this->systemUserService = new SystemUserService();
+            $this->systemUserService = new UserService();
         }
         return $this->systemUserService;
     }
 
     /**
-     * @param SystemUserService|null $systemUserService
+     * @param UserService|null $systemUserService
      */
-    public function setSystemUserService(?SystemUserService $systemUserService): void
+    public function setSystemUserService(?UserService $systemUserService): void
     {
         $this->systemUserService = $systemUserService;
     }
@@ -54,7 +54,7 @@ class SystemUserAPI extends EndPoint
     {
         $userId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         $systemUser = $this->getSystemUserService()->getSystemUser($userId);
-        return new Response((new SystemUserModel($systemUser))->toArray());
+        return new Response((new UserModel($systemUser))->toArray());
     }
 
     public function getList(): Response
@@ -67,7 +67,7 @@ class SystemUserAPI extends EndPoint
         $users = [];
         $systemUsers = $this->getSystemUserService()->searchSystemUsers($searchClues);
         foreach ($systemUsers as $user) {
-            $users[] = (new SystemUserModel($user))->toArray();
+            $users[] = (new UserModel($user))->toArray();
         }
         return new Response(
             $users,
@@ -87,14 +87,14 @@ class SystemUserAPI extends EndPoint
         $employee = Doctrine::getEntityManager()->getReference(Employee::class, $empNumber);
 
         $userRole = $this->getSystemUserService()->getUserRoleById($userRoleId);
-        $systemUser = new SystemUser();
+        $systemUser = new User();
         $systemUser->setUserName($username);
         $systemUser->setUserPassword($password);
         $systemUser->setStatus($status);
         $systemUser->setUserRole($userRole);
         $systemUser->setEmployee($employee);
         $systemUser = $this->getSystemUserService()->saveSystemUser($systemUser, true);
-        return new Response((new SystemUserModel($systemUser))->toArray());
+        return new Response((new UserModel($systemUser))->toArray());
     }
 
     public function update(): Response
@@ -121,7 +121,7 @@ class SystemUserAPI extends EndPoint
             $systemUser->setUserPassword($password);
         }
         $systemUser = $this->getSystemUserService()->saveSystemUser($systemUser, $changePassword);
-        return new Response((new SystemUserModel($systemUser))->toArray());
+        return new Response((new UserModel($systemUser))->toArray());
     }
 
     public function delete(): Response

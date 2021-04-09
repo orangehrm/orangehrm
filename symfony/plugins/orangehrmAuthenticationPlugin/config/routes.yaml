@@ -1,4 +1,4 @@
-login:
+auth_login:
   path: /auth/login
   controller: OrangeHRM\Authentication\Controller\LoginController::handle
   methods: [ GET ]

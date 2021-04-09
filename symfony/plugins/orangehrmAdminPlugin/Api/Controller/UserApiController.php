@@ -19,25 +19,25 @@
 
 namespace OrangeHRM\Admin\Api\Controller;
 
-use OrangeHRM\Admin\Api\SystemUserAPI;
+use OrangeHRM\Admin\Api\UserAPI;
 use OrangeHRM\Core\Controller\AbstractRestController;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 
-class SystemUserApiController extends AbstractRestController
+class UserApiController extends AbstractRestController
 {
     /**
-     * @var null|SystemUserAPI
+     * @var null|UserAPI
      */
-    private ?SystemUserAPI $systemUserAPI = null;
+    private ?UserAPI $systemUserAPI = null;
 
     /**
      * @param Request $request
      */
     protected function init(Request $request)
     {
-        $this->systemUserAPI = new SystemUserAPI($request);
+        $this->systemUserAPI = new UserAPI($request);
     }
 
     /**

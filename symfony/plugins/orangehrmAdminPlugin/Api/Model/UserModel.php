@@ -19,18 +19,18 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
-use OrangeHRM\Entity\SystemUser;
+use OrangeHRM\Entity\User;
 use Orangehrm\Rest\Api\Entity\Serializable;
 use Orangehrm\Rest\Api\Model\ModelTrait;
 
-class SystemUserModel implements Serializable
+class UserModel implements Serializable
 {
     use ModelTrait;
 
     /**
-     * @param SystemUser $systemUser
+     * @param User $systemUser
      */
-    public function __construct(SystemUser $systemUser)
+    public function __construct(User $systemUser)
     {
         $this->setEntity($systemUser);
         $this->setFilters(

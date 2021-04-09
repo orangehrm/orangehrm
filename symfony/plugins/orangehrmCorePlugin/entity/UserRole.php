@@ -36,35 +36,35 @@ class UserRole
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="display_name", type="string", length=255)
      */
-    private $displayName;
+    private string $displayName;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="is_assignable", type="boolean", options={"default" : 0})
      */
-    private $isAssignable;
+    private bool $isAssignable;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="is_predefined", type="boolean", options={"default" : 0})
      */
-    private $isPredefined;
+    private bool $isPredefined;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
