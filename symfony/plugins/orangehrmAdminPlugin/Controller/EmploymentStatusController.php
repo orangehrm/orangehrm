@@ -1,6 +1,6 @@
 <?php
-
-/**
+/*
+ *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,41 +16,26 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ *
  */
-class EmploymentStatusService extends BaseService {
 
-	private $empStatusDao;
+namespace OrangeHRM\Admin\Controller;
 
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		$this->empStatusDao = new EmploymentStatusDao();
-	}
 
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getEmploymentStatusDao() {
-		return $this->empStatusDao;
-	}
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 
-	/**
-	 *
-	 * @param EmploymentStatusDao $employmentStatusDao 
-	 */
-	public function setEmploymentStatusDao(EmploymentStatusDao $employmentStatusDao) {
-		$this->empStatusDao = $employmentStatusDao;
-	}
-	
-	public function getEmploymentStatusList(){
-		return $this->empStatusDao->getEmploymentStatusList();
-	}
-	
-	public function getEmploymentStatusById($id){
-		return $this->empStatusDao->getEmploymentStatusById($id);
-	}
-	
-	
+class EmploymentStatusController extends AbstractVueController
+{
+    public function init(): void
+    {
+        $component = new Component(
+            'employment-status-list',
+            [
+                new Prop('title', Prop::TYPE_STRING, 'Employment Status List'),
+            ]
+        );
+        $this->setComponent($component);
+    }
 }

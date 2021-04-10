@@ -178,10 +178,16 @@ class Employee
      */
     private $emp_dri_lice_exp_date;
 
+//    /**
+//     * @var int
+//     *
+//     * @ManyToOne(targetEntity="EmploymentStatus", inversedBy="Employee")
+//     * @JoinColumn(name="emp_status", referencedColumnName="id", type="integer", length=13)
+//     */
     /**
      * @var int
      *
-     * @ORM\Column(name="emp_status", type="integer", length=13)
+     * @ORM\Column(name="emp_status", type="integer")
      */
     private $emp_status;
 

@@ -44,6 +44,15 @@ view_job_title:
   path: /admin/viewJobTitleList
   controller: OrangeHRM\Admin\Controller\JobTitleController::handle
   methods: [ GET ]
+apiv1_employment_status:
+  path: /api/v1/admin/employment-statuses/{id}
+  controller: OrangeHRM\Admin\Api\Controller\EmploymentStatusApiController::handle
+  methods: [ GET, PUT ]
+
+apiv1_employment_statuses:
+  path: /api/v1/admin/employment-statuses
+  controller: OrangeHRM\Admin\Api\Controller\EmploymentStatusesApiController::handle
+  methods: [ GET, POST, DELETE ]
 
 save_job_title:
   path: /admin/saveJobTitle
@@ -83,4 +92,19 @@ save_system_users:
 edit_system_users:
   path: /admin/saveSystemUser/{id}
   controller: OrangeHRM\Admin\Controller\SaveSystemUserController::handle
+  methods: [ GET ]
+
+view_employment_status:
+  path: /admin/employmentStatus
+  controller: OrangeHRM\Admin\Controller\EmploymentStatusController::handle
+  methods: [ GET ]
+
+save_employment_status:
+  path: /admin/saveEmploymentStatus
+  controller: OrangeHRM\Admin\Controller\SaveEmploymentStatusController::handle
+  methods: [ GET ]
+
+edit_employment_status:
+  path: /admin/saveEmploymentStatus/{id}
+  controller: OrangeHRM\Admin\Controller\SaveEmploymentStatusController::handle
   methods: [ GET ]
