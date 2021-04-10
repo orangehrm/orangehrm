@@ -1,7 +1,0 @@
-<project name="orangehrm" default="build">
-    <target name="build">
-        <exec dir="${basedir}" executable="phing" failonerror="true">
-            <arg line="build-ci"/>
-        </exec>
-    </target>
-</project>
