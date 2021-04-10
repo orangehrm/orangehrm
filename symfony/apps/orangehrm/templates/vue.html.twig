@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block links %}
-  <link rel="icon" href="{{ publicPath }}/dist/favicon.ico">
-  <link href="{{ publicPath }}/dist/css/chunk-vendors.css" rel="preload" as="style">
-  <link href="{{ publicPath }}/dist/css/app.css" rel="preload" as="style">
-  <link href="{{ publicPath }}/dist/js/chunk-vendors.js" rel="preload" as="script">
-  <link href="{{ publicPath }}/dist/js/app.js" rel="preload" as="script">
+  <link rel="icon" href="{{ publicPath }}/dist/favicon.ico?{{ assetsVersion }}">
+  <link href="{{ publicPath }}/dist/css/chunk-vendors.css?{{ assetsVersion }}" rel="preload" as="style">
+  <link href="{{ publicPath }}/dist/css/app.css?{{ assetsVersion }}" rel="preload" as="style">
+  <link href="{{ publicPath }}/dist/js/chunk-vendors.js?{{ assetsVersion }}" rel="preload" as="script">
+  <link href="{{ publicPath }}/dist/js/app.js?{{ assetsVersion }}" rel="preload" as="script">
 {% endblock %}
 
 {% block stylesheets %}
-  <link href="{{ publicPath }}/dist/css/chunk-vendors.css" rel="stylesheet"/>
-  <link href="{{ publicPath }}/dist/css/app.css" rel="stylesheet"/>
+  <link href="{{ publicPath }}/dist/css/chunk-vendors.css?{{ assetsVersion }}" rel="stylesheet"/>
+  <link href="{{ publicPath }}/dist/css/app.css?{{ assetsVersion }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
@@ -26,8 +26,8 @@
         context-title="Personal Information Manager"
         :sidepanel-menu-items="[{name:'Home',url:'#',icon:'icon-home',active:true,},{name:'PIM',url:'#',icon:'icon-pim',active:false,},{name:'Time',url:'#',icon:'icon-time',active:false,},{name:'Recruitment',url:'#',icon:'icon-recruitment',active:false,},{name:'Leave',url:'#',icon:'icon-leave',active:false,},{name:'Disciplines',url:'#',icon:'icon-discipline',active:false,},{name:'Training',url:'#',icon:'icon-training',active:false,},{name:'S & D',url:'#',icon:'icon-development',active:false,},{name:'On-boarding',url:'#',icon:'icon-onboarding',active:false,},{name:'Expense',url:'#',icon:'icon-expences',active:false,},{name:'Reports',url:'#',icon:'icon-report',active:false,},{name:'All Settings',url:'#',icon:'icon-admin',active:false}]"
         :topbar-menu-items="[{name:'Employee List',url:'#',active:false,children:[],},{name:'Manage Data',url:'',active:false,children:[{name:'Job Titles',url:'#',},{name:'User Management',url:'#',},{name:'Job Categories',url:'#',},],},{name:'Reports',url:'',active:false,children:[{name:'Job Titles',url:'#',},{name:'User Management',url:'#',},{name:'Job Categories',url:'#',},],},]"
-        :user="{firstName:'Jeff',lastName:'Winger',profImgSrc:'{{ publicPath }}/dist/img/user-default-400.png'}"
-        brand-image-src="{{ publicPath }}/images/orange.png"
+        :user="{firstName:'Jeff',lastName:'Winger',profImgSrc:'{{ publicPath }}/dist/img/user-default-400.png?{{ assetsVersion }}'}"
+        brand-image-src="{{ publicPath }}/images/orange.png?{{ assetsVersion }}"
     >
       <{{ componentName }}
       {% for prop in componentProps %}
@@ -45,6 +45,6 @@
           baseUrl: "{{ baseUrl }}",
       }
   </script>
-  <script src="{{ publicPath }}/dist/js/chunk-vendors.js"></script>
-  <script src="{{ publicPath }}/dist/js/app.js"></script>
+  <script src="{{ publicPath }}/dist/js/chunk-vendors.js?{{ assetsVersion }}"></script>
+  <script src="{{ publicPath }}/dist/js/app.js?{{ assetsVersion }}"></script>
 {% endblock %}

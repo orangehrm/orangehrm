@@ -23,7 +23,8 @@ use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpFoundation\UrlHelper;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class SessionSubscriber implements EventSubscriberInterface
@@ -34,13 +35,13 @@ class SessionSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::CONTROLLER => [
-                ['onControllerEvent', 100000],
+            KernelEvents::REQUEST => [
+                ['onRequestEvent', 100000],
             ],
         ];
     }
 
-    public function onControllerEvent(ControllerEvent $event)
+    public function onRequestEvent(RequestEvent $event)
     {
         /** @var Session $session */
         $session = ServiceContainer::getContainer()->get(Services::SESSION);
@@ -48,7 +49,18 @@ class SessionSubscriber implements EventSubscriberInterface
         // TODO:: move to config
         $maxIdleTime = 1800;
         if (time() - $session->getMetadataBag()->getLastUsed() > $maxIdleTime) {
+            $hasRedirectUri = $session->has('redirect_uri');
+            $redirectUri = $session->get('redirect_uri');
             $session->invalidate();
+
+
+            if (!$hasRedirectUri) {
+                /** @var UrlHelper $urlHelper */
+                $urlHelper = ServiceContainer::getContainer()->get(Services::URL_HELPER);
+                $requestUri = $event->getRequest()->getRequestUri();
+                $redirectUri = $urlHelper->getAbsoluteUrl($requestUri);
+            }
+            $session->set('redirect_uri', $redirectUri);
         }
     }
 }
