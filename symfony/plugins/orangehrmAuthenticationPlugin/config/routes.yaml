@@ -3,6 +3,11 @@ auth_login:
   controller: OrangeHRM\Authentication\Controller\LoginController::handle
   methods: [ GET ]
 
+auth_validate:
+  path: /auth/validate
+  controller: OrangeHRM\Authentication\Controller\ValidateController::handle
+  methods: [ POST ]
+
 api_v1_login:
   path: /api/v1/auth/login
   controller: OrangeHRM\Authentication\Api\Controller\LoginApiController::handle

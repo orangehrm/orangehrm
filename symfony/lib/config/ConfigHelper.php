@@ -50,6 +50,7 @@ class ConfigHelper
 
             'ohrm_client_dir' => realpath($pathToSymfonyDir . '/client'),
             'ohrm_app_template_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/templates'),
+            'ohrm_vue_build_dir' => realpath($pathToSymfonyDir . '/web/dist'),
         ];
     }
 
@@ -154,6 +155,14 @@ class ConfigHelper
         return null;
     }
 
+    public function getClientConfigs(): array
+    {
+        $pathToBuildTimestampFile = realpath($this->get('ohrm_vue_build_dir') . '/build');
+        return [
+            'ohrm_vue_build_timestamp' => $pathToBuildTimestampFile ? file_get_contents($pathToBuildTimestampFile) : '',
+        ];
+    }
+
     /**
      * @return array
      */
@@ -163,6 +172,7 @@ class ConfigHelper
         $this->add($this->getLegacyPathConfigs());
         $this->add($this->getModuleConfigs());
         $this->add($this->getPluginConfigs());
+        $this->add($this->getClientConfigs());
         return $this->getAll();
     }
 
