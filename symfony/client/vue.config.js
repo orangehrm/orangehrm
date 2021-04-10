@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const DumpBuildTimestampPlugin = require('./scripts/plugins/DumpBuildTimestampPlugin');
+
 module.exports = {
   css: {
     loaderOptions: {
@@ -17,6 +20,7 @@ module.exports = {
         assets: '@orangehrm/oxd/src/assets',
       },
     },
+    plugins: [new DumpBuildTimestampPlugin()],
   },
   chainWebpack: config => {
     config.plugins.delete('html');

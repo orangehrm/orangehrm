@@ -126,6 +126,7 @@ abstract class AbstractVueController extends AbstractViewController
                 'componentProps' => $this->getComponent()->getProps(),
                 'publicPath' => $request->getBasePath(),
                 'baseUrl' => $request->getBaseUrl(),
+                'assetsVersion' => Config::get('ohrm_vue_build_timestamp'),
             ]
         );
     }
