@@ -159,15 +159,14 @@ abstract class AbstractRestController extends AbstractController
                 )
             );
             $response->setStatusCode(400);
+        } catch (Exception $e) {
+            $response->setContent(
+                Response::formatError(
+                    ['error' => ['Unexpected Error Occurred']]
+                )
+            );
+            $response->setStatusCode(500);
         }
-//        catch (Exception $e) {
-//            $response->setContent(
-//                Response::formatError(
-//                    ['error' => ['Unexpected Error Occurred']]
-//                )
-//            );
-//            $response->setStatusCode(500);
-//        }
 
         return $response;
     }
