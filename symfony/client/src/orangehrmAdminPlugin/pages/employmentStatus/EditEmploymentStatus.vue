@@ -109,7 +109,7 @@ export default {
             });
             this.rules.name.push(v => {
               return (
-                  (v && v.length <= 100) || 'Should be less than 50 characters'
+                  (v && v.length <= 50) || 'Should be less than 50 characters'
               );
             });
             this.rules.name.push(v => {
