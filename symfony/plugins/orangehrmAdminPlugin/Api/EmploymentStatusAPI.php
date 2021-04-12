@@ -21,20 +21,16 @@
 
 namespace OrangeHRM\Admin\Api;
 
-
-use Cassandra\Exception\UnauthorizedException;
 use OrangeHRM\Entity\EmploymentStatus;
 use OrangeHRM\Admin\Service\EmploymentStatusService;
 use OrangeHRM\Admin\Api\Model\EmploymentStatusModel;
 use Orangehrm\Rest\Api\EndPoint;
-use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
 use \DaoException;
 
 class EmploymentStatusAPI extends EndPoint
 {
-
     const PARAMETER_ID = 'id';
     const PARAMETER_IDS = 'ids';
     const PARAMETER_NAME = 'name';
@@ -70,7 +66,6 @@ class EmploymentStatusAPI extends EndPoint
 
     public function getEmploymentStatus(): Response
     {
-
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
@@ -85,7 +80,8 @@ class EmploymentStatusAPI extends EndPoint
         );
     }
 
-    public function getEmploymentStatusList(){
+    public function getEmploymentStatusList()
+    {
         // TODO:: Check data group permission
         $sortField = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD, 'es.name');
         $sortOrder = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_ORDER, 'ASC');
@@ -100,10 +96,16 @@ class EmploymentStatusAPI extends EndPoint
             true
         );
         if (!($count > 0)) {
-            return new Response([], [], ['total' => 0]);        }
+            return new Response([], [], ['total' => 0]);
+        }
 
         $result = [];
-        $employmentStatusList = $this->getEmploymentStatusService()->getEmploymentStatusList($sortField, $sortOrder, $limit, $offset);
+        $employmentStatusList = $this->getEmploymentStatusService()->getEmploymentStatusList(
+            $sortField,
+            $sortOrder,
+            $limit,
+            $offset
+        );
         foreach ($employmentStatusList as $employmentStatus) {
             array_push($result, (new EmploymentStatusModel($employmentStatus))->toArray());
         }
@@ -121,7 +123,7 @@ class EmploymentStatusAPI extends EndPoint
         $name = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
         if (!empty($id)) {
             $employeeStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
-            if($employeeStatus==null){
+            if ($employeeStatus == null) {
                 throw new RecordNotFoundException('No Record Found');
             }
         } else {
