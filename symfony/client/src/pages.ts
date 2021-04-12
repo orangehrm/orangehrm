@@ -37,5 +37,5 @@ export default {
   ...authenticationPages,
   'system-user-list': SystemUser,
   'system-user-edit': EditSystemUser,
-  'system-user-save': SaveSystemUser
+  'system-user-save': SaveSystemUser,
 };

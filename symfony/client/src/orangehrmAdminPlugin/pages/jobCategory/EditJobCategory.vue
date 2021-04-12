@@ -25,12 +25,13 @@
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
             label="Job Category Name"
             v-model="category.name"
             :rules="rules.name"
+            required
           />
         </oxd-form-row>
 
@@ -57,6 +58,7 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 
 export default {
   props: {
@@ -65,8 +67,20 @@ export default {
       required: true,
     },
   },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v1/admin/job-categories',
+    );
+    return {
+      http,
+    };
+  },
+
   data() {
     return {
+      isLoading: false,
       category: {
         id: '',
         name: '',
@@ -77,15 +91,16 @@ export default {
       errors: [],
     };
   },
+
   methods: {
     onSave() {
-      // TODO: Loading
-      this.$http
-        .put(`api/v1/admin/job-categories/${this.category.id}`, {
+      this.isLoading = true;
+      this.http
+        .update(this.jobCategoryId, {
           name: this.category.name,
         })
         .then(() => {
-          // go back
+          this.isLoading = false;
           this.onCancel();
         })
         .catch(error => {
@@ -97,35 +112,36 @@ export default {
     },
   },
   created() {
-    this.$http
-      .get(`api/v1/admin/job-categories/${this.jobCategoryId}`)
+    this.isLoading = true;
+    this.http
+      .get(this.jobCategoryId)
       .then(response => {
         const {data} = response.data;
         this.category.id = data.id;
         this.category.name = data.name;
         // Fetch list data for unique test
-        this.$http.get(`api/v1/admin/job-categories`).then(response => {
-          const {data} = response.data;
-          this.rules.name.push(v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          });
-          this.rules.name.push(v => {
-            return (
-              (v && v.length <= 100) || 'Should be less than 50 characters'
-            );
-          });
-          this.rules.name.push(v => {
-            const index = data.findIndex(item => item.name == v);
-            if (index > -1) {
-              const {id} = data[index];
-              return id != this.category.id
-                ? 'Job category name should be unique'
-                : true;
-            } else {
-              return true;
-            }
-          });
+        return this.http.getAll();
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          return (!!v && v.trim() !== '') || 'Required';
         });
+        this.rules.name.push(v => {
+          return (v && v.length < 50) || 'Should be less than 50 characters';
+        });
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          if (index > -1) {
+            const {id} = data[index];
+            return id != this.category.id
+              ? 'Job category name should be unique'
+              : true;
+          } else {
+            return true;
+          }
+        });
+        this.isLoading = false;
       })
       .catch(error => {
         console.log(error);
