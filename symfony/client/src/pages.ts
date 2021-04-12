@@ -23,6 +23,9 @@ import JobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/JobCategory.vu
 import EditJobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/EditJobCategory.vue';
 import SaveJobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/SaveJobCategory.vue';
 import authenticationPages from './orangehrmAuthenticationPlugin/pages';
+import QualificationSkill from '@/orangehrmAdminPlugin/pages/qualificationSkill/QualificationSkill.vue';
+import EditQualificationSkill from '@/orangehrmAdminPlugin/pages/qualificationSkill/EditQualificationSkill.vue';
+import SaveQualificationSkill from '@/orangehrmAdminPlugin/pages/qualificationSkill/SaveQualificationSkill.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -32,4 +35,7 @@ export default {
   'job-category-edit': EditJobCategory,
   'job-category-save': SaveJobCategory,
   ...authenticationPages,
+  'qualification-skill-list': QualificationSkill,
+  'qualification-skill-edit': EditQualificationSkill,
+  'qualification-skill-save': SaveQualificationSkill,
 };

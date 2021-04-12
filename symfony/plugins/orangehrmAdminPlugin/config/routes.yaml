@@ -57,3 +57,18 @@ edit_job_category:
   path: /admin/saveJobCategory/{id}
   controller: OrangeHRM\Admin\Controller\SaveJobCategoryController::handle
   methods: [ GET ]
+
+view_qualification_skills:
+  path: /admin/qualificationSkill
+  controller: OrangeHRM\Admin\Controller\QualificationSkillController::handle
+  methods: [ GET ]
+
+save_qualification_skills:
+  path: /admin/saveQualificationSkill
+  controller: OrangeHRM\Admin\Controller\SaveQualificationSkillController::handle
+  methods: [ GET ]
+
+edit_qualification_skills:
+  path: /admin/saveQualificationSkill/{id}
+  controller: OrangeHRM\Admin\Controller\SaveQualificationSkillController::handle
+  methods: [ GET ]
