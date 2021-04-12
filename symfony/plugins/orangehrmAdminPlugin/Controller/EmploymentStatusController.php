@@ -30,12 +30,7 @@ class EmploymentStatusController extends AbstractVueController
 {
     public function init(): void
     {
-        $component = new Component(
-            'employment-status-list',
-            [
-                new Prop('title', Prop::TYPE_STRING, 'Employment Status List'),
-            ]
-        );
+        $component = new Component('employment-status-list');
         $this->setComponent($component);
     }
 }
