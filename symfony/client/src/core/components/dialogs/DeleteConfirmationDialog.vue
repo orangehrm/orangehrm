@@ -19,32 +19,34 @@
  -->
 
 <template>
-  <oxd-dialog v-model:show="show" :style="{maxWidth: '450px'}">
-    <div class="orangehrm-modal-header">
-      <oxd-text type="card-title">Are you sure?</oxd-text>
-    </div>
-    <div class="orangehrm-text-center-align">
-      <oxd-text type="subtitle-2">
-        The selected item will be permanently deleted. Are you sure you want to
-        continue?
-      </oxd-text>
-    </div>
-    <div class="orangehrm-modal-footer">
-      <oxd-button
-        label="No, Cancel"
-        displayType="text"
-        class="orangehrm-button-margin"
-        @click="onCancel"
-      />
-      <oxd-button
-        label="Yes, Delete"
-        iconName="trash"
-        displayType="label-danger"
-        class="orangehrm-button-margin"
-        @click="onDelete"
-      />
-    </div>
-  </oxd-dialog>
+  <teleport to="#app">
+    <oxd-dialog v-model:show="show" :style="{maxWidth: '450px'}">
+      <div class="orangehrm-modal-header">
+        <oxd-text type="card-title">Are you sure?</oxd-text>
+      </div>
+      <div class="orangehrm-text-center-align">
+        <oxd-text type="subtitle-2">
+          The selected item will be permanently deleted. Are you sure you want
+          to continue?
+        </oxd-text>
+      </div>
+      <div class="orangehrm-modal-footer">
+        <oxd-button
+          label="No, Cancel"
+          displayType="text"
+          class="orangehrm-button-margin"
+          @click="onCancel"
+        />
+        <oxd-button
+          label="Yes, Delete"
+          iconName="trash"
+          displayType="label-danger"
+          class="orangehrm-button-margin"
+          @click="onDelete"
+        />
+      </div>
+    </oxd-dialog>
+  </teleport>
 </template>
 
 <script>
@@ -81,7 +83,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.oxd-overlay {
+  z-index: 1100 !important;
+}
 .orangehrm-modal-header {
   margin-bottom: 1.2rem;
   display: flex;

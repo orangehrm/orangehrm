@@ -37,6 +37,10 @@ interface State {
   currentPage: number;
 }
 
+interface DTO {
+  [key: string]: any;
+}
+
 async function fetchData(
   http: APIService,
   params: object,
@@ -64,7 +68,15 @@ function getPageParams(pageSize: number, currentPage: number) {
   };
 }
 
-export default function usePaginate(apiPath: string) {
+/* Override to mutate fields after fetching */
+function defaultNormalizer(data: DTO[]): DTO[] {
+  return data;
+}
+
+export default function usePaginate(
+  apiPath: string,
+  normalizer = defaultNormalizer,
+) {
   // @ts-expect-error
   const http: APIService = new APIService(window.appGlobal.baseUrl, apiPath);
 
@@ -82,6 +94,11 @@ export default function usePaginate(apiPath: string) {
     state.isLoading = true;
     const params = getPageParams(state.pageSize, state.currentPage);
     state.response = await fetchData(http, params);
+    if (!state.response.error) {
+      const {data, ...rest} = state.response;
+      const formattedData = normalizer(data);
+      state.response = {data: formattedData, ...rest};
+    }
     if (state.response.meta) {
       state.total = state.response.meta.total;
       if (state.total > state.pageSize) {
