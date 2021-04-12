@@ -41,7 +41,7 @@
               class="orangehrm-horizontal-margin"
             />
           </div>
-          <oxd-text tag="span" v-else> {{ total }} Job Category Found</oxd-text>
+          <oxd-text tag="span" v-else>{{itemsCountText}}</oxd-text>
         </div>
       </div>
       <div class="orangehrm-container">
@@ -129,6 +129,14 @@ export default {
       execQuery,
       items: response,
     };
+  },
+
+  computed: {
+    itemsCountText() {
+      return this.total === 0
+        ? 'No Records Found'
+        : `${this.total} Job Category Found`;
+    },
   },
 
   methods: {
