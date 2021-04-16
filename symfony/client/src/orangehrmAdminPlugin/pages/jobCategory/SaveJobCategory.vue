@@ -125,6 +125,7 @@ export default {
         this.isLoading = false;
       })
       .catch(error => {
+        this.isLoading = false;
         console.log(error);
       });
   },
