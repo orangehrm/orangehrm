@@ -23,23 +23,24 @@ namespace OrangeHRM\Admin\Api\Controller;
 
 
 use OrangeHRM\Core\Controller\AbstractRestController;
-use OrangeHRM\Admin\Api\EmploymentStatusAPI;
+use OrangeHRM\Admin\Api\SkillAPI;
 use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Http\Response;
 
-class EmploymentStatusesApiController extends AbstractRestController
+class SkillApiController extends AbstractRestController
 {
     /**
-     * @var null|EmploymentStatusAPI
+     * @var null|SkillAPI
      */
-    private $employmentStatusAPI = null;
+    private $skillAPI = null;
 
     /**
      * @param Request $request
      */
     protected function init(Request $request)
     {
-        $this->employmentStatusAPI = new EmploymentStatusAPI($request);
+        $this->skillAPI = new SkillAPI($request);
     }
 
     /**
@@ -47,7 +48,7 @@ class EmploymentStatusesApiController extends AbstractRestController
      */
     protected function handleGetRequest(Request $request): Response
     {
-        return $this->employmentStatusAPI->getEmploymentStatusList();
+        return $this->skillAPI->getSkill();
     }
 
     /**
@@ -55,14 +56,14 @@ class EmploymentStatusesApiController extends AbstractRestController
      */
     protected function handlePostRequest(Request $request): Response
     {
-        return $this->employmentStatusAPI->saveEmploymentStatus();
+        throw new NotImplementedException();
     }
 
     /**
      * @inheritDoc
      */
-    protected function handleDeleteRequest(Request $request): Response
+    protected function handlePutRequest(Request $request): Response
     {
-        return $this->employmentStatusAPI->deleteEmploymentStatuses();
+        return $this->skillAPI->saveSkill();
     }
 }

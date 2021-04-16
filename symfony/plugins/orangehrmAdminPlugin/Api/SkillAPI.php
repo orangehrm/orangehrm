@@ -21,19 +21,20 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use OrangeHRM\Entity\EmploymentStatus;
-use OrangeHRM\Admin\Service\EmploymentStatusService;
-use OrangeHRM\Admin\Api\Model\EmploymentStatusModel;
+use OrangeHRM\Entity\Skill;
+use OrangeHRM\Admin\Service\SkillService;
+use OrangeHRM\Admin\Api\Model\SkillModel;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
 use \DaoException;
 
-class EmploymentStatusAPI extends EndPoint
+class SkillAPI extends EndPoint
 {
     const PARAMETER_ID = 'id';
     const PARAMETER_IDS = 'ids';
     const PARAMETER_NAME = 'name';
+    const PARAMETER_DESCRIPTION = 'description';
 
     const PARAMETER_SORT_FIELD = 'sortField';
     const PARAMETER_SORT_ORDER = 'sortOrder';
@@ -41,63 +42,53 @@ class EmploymentStatusAPI extends EndPoint
     const PARAMETER_LIMIT = 'limit';
 
     /**
-     * @var null|EmploymentStatusService
+     * @var null|SkillService
      */
-    protected $employmentStatusService = null;
+    protected $skillService = null;
 
     /**
-     * @return EmploymentStatusService
+     * @return SkillService
      */
-    public function getEmploymentStatusService(): EmploymentStatusService
+    public function getSkillService(): SkillService
     {
-        if (is_null($this->employmentStatusService)) {
-            $this->employmentStatusService = new EmploymentStatusService();
+        if (is_null($this->skillService)) {
+            $this->skillService = new SkillService();
         }
-        return $this->employmentStatusService;
+        return $this->skillService;
     }
 
     /**
-     * @param EmploymentStatusService $employmentStatusService
+     * @param SkillService $skillService
      */
-    public function setEmploymentStatusService(EmploymentStatusService $employmentStatusService)
+    public function setSkillService(SkillService $skillService)
     {
-        $this->employmentStatusService = $employmentStatusService;
+        $this->skillService = $skillService;
     }
 
-    /**
-     * @return Response
-     * @throws DaoException
-     * @throws RecordNotFoundException
-     */
-    public function getEmploymentStatus(): Response
+    public function getSkill(): Response
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $skill = $this->getSkillService()->getSkillById($id);
 
-        $employmentStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
-
-        if (!$employmentStatus instanceof EmploymentStatus) {
+        if (!$skill instanceof Skill) {
             throw new RecordNotFoundException('No Record Found');
         }
 
         return new Response(
-            (new EmploymentStatusModel($employmentStatus))->toArray()
+            (new SkillModel($skill))->toArray()
         );
     }
 
-    /**
-     * @return Response
-     * @throws DaoException
-     */
-    public function getEmploymentStatusList(): Response
+    public function getSkillList(): Response
     {
         // TODO:: Check data group permission
-        $sortField = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD, 'es.name');
+        $sortField = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD, 's.name');
         $sortOrder = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_ORDER, 'ASC');
         $limit = $this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT, 50);
         $offset = $this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET, 0);
 
-        $count = $this->getEmploymentStatusService()->getEmploymentStatusList(
+        $count = $this->getSkillService()->getSkillList(
             $sortField,
             $sortOrder,
             $limit,
@@ -109,14 +100,14 @@ class EmploymentStatusAPI extends EndPoint
         }
 
         $result = [];
-        $employmentStatusList = $this->getEmploymentStatusService()->getEmploymentStatusList(
+        $skillList = $this->getSkillService()->getSkillList(
             $sortField,
             $sortOrder,
             $limit,
             $offset
         );
-        foreach ($employmentStatusList as $employmentStatus) {
-            array_push($result, (new EmploymentStatusModel($employmentStatus))->toArray());
+        foreach ($skillList as $skill) {
+            array_push($result, (new SkillModel($skill))->toArray());
         }
         return new Response($result, [], ['total' => $count]);
     }
@@ -124,27 +115,28 @@ class EmploymentStatusAPI extends EndPoint
     /**
      * @return Response
      * @throws DaoException
-     * @throws RecordNotFoundException
      */
-    public function saveEmploymentStatus(): Response
+    public function saveSkill(): Response
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         $name = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
+        $description = $this->getRequestParams()->getPostParam(self::PARAMETER_DESCRIPTION);
         if (!empty($id)) {
-            $employeeStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
-            if ($employeeStatus == null) {
+            $skill = $this->getSkillService()->getSkillById($id);
+            if ($skill == null) {
                 throw new RecordNotFoundException('No Record Found');
             }
         } else {
-            $employeeStatus = new EmploymentStatus();
+            $skill = new Skill();
         }
 
-        $employeeStatus->setName($name);
-        $employeeStatus = $this->getEmploymentStatusService()->saveEmploymentStatus($employeeStatus);
+        $skill->setName($name);
+        $skill->setDescription($description);
+        $skill = $this->getSkillService()->saveSkill($skill);
 
         return new Response(
-            (new EmploymentStatusModel($employeeStatus))->toArray()
+            (new SkillModel($skill))->toArray()
         );
     }
 
@@ -152,11 +144,11 @@ class EmploymentStatusAPI extends EndPoint
      * @return Response
      * @throws DaoException
      */
-    public function deleteEmploymentStatuses(): Response
+    public function deleteSkills(): Response
     {
         // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getPostParam(self::PARAMETER_IDS);
-        $this->getEmploymentStatusService()->deleteEmploymentStatus($ids);
+        $this->getSkillService()->deleteSkills($ids);
         return new Response($ids);
     }
 }

@@ -44,6 +44,7 @@ view_job_title:
   path: /admin/viewJobTitleList
   controller: OrangeHRM\Admin\Controller\JobTitleController::handle
   methods: [ GET ]
+
 apiv1_employment_status:
   path: /api/v1/admin/employment-statuses/{id}
   controller: OrangeHRM\Admin\Api\Controller\EmploymentStatusApiController::handle
@@ -52,6 +53,16 @@ apiv1_employment_status:
 apiv1_employment_statuses:
   path: /api/v1/admin/employment-statuses
   controller: OrangeHRM\Admin\Api\Controller\EmploymentStatusesApiController::handle
+  methods: [ GET, POST, DELETE ]
+
+apiv1_skill:
+  path: /api/v1/admin/skills/{id}
+  controller: OrangeHRM\Admin\Api\Controller\SkillApiController::handle
+  methods: [ GET, PUT ]
+
+apiv1_skills:
+  path: /api/v1/admin/skills
+  controller: OrangeHRM\Admin\Api\Controller\SkillsApiController::handle
   methods: [ GET, POST, DELETE ]
 
 save_job_title:

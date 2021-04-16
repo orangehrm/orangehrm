@@ -21,61 +21,62 @@ namespace OrangeHRM\Admin\Dao;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use OrangeHRM\Entity\EmploymentStatus;
-use OrangeHRM\Entity\JobCategory;
 use OrangeHRM\ORM\Doctrine;
 use \DaoException;
 use \Exception;
 
-class EmploymentStatusDao{// extends \BaseDao {
+class EmploymentStatusDao
+{
 
-        /**
-         * @param string $sortField
-         * @param string $sortOrder
-         * @param null $limit
-         * @param null $offset
-         * @param false $count
-         * @return int|mixed|string
-         * @throws DaoException
-         */
-        public function getEmploymentStatusList(
-            $sortField = 'es.name',
-            $sortOrder = 'ASC',
-            $limit = null,
-            $offset = null,
-            $count = false
-        ) {
-            $sortField = ($sortField == "") ? 'es.name' : $sortField;
-            $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
+    /**
+     * @param string $sortField
+     * @param string $sortOrder
+     * @param null $limit
+     * @param null $offset
+     * @param false $count
+     * @return int|mixed|string|array
+     * @throws DaoException
+     */
+    public function getEmploymentStatusList(
+        string $sortField = 'es.name',
+        string $sortOrder = 'ASC',
+        int $limit = null,
+        int $offset = null,
+        $count = false
+    ) {
+        $sortField = ($sortField == "") ? 'es.name' : $sortField;
+        $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
 
-            try {
-                $q = Doctrine::getEntityManager()->getRepository(EmploymentStatus::class)->createQueryBuilder('es');
-                $q->addOrderBy($sortField, $sortOrder);
-                if (!empty($limit)) {
-                    $q->setFirstResult($offset)
-                        ->setMaxResults($limit);
-                }
-                if ($count) {
-                    $paginator = new Paginator($q, true);
-                    return count($paginator);
-                }
-                return $q->getQuery()->execute();
-            } catch (Exception $e) {
-                throw new DaoException($e->getMessage());
+        try {
+            $q = Doctrine::getEntityManager()->getRepository(EmploymentStatus::class)->createQueryBuilder('es');
+            $q->addOrderBy($sortField, $sortOrder);
+            if (!empty($limit)) {
+                $q->setFirstResult($offset)
+                    ->setMaxResults($limit);
             }
+            if ($count) {
+                $paginator = new Paginator($q, true);
+                return count($paginator);
+            }
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
+    }
 
     /**
      * @param $id
      * @return object|null
      * @throws DaoException
      */
-	public function getEmploymentStatusById($id) {
+    public function getEmploymentStatusById(int $id): EmploymentStatus
+    {
         try {
             return Doctrine::getEntityManager()->getRepository(EmploymentStatus::class)->find($id);
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
-	}
+    }
 
     /**
      * @param EmploymentStatus $employmentStatus
@@ -95,10 +96,10 @@ class EmploymentStatusDao{// extends \BaseDao {
 
     /**
      * @param array $toBeDeletedEmploymentStatusIds
-     * @return int|mixed|string
+     * @return int
      * @throws DaoException
      */
-    public function deleteEmploymentStatus(array $toBeDeletedEmploymentStatusIds)
+    public function deleteEmploymentStatus(array $toBeDeletedEmploymentStatusIds): int
     {
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();

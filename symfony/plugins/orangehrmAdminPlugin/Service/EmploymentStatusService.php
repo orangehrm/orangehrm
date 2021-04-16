@@ -20,59 +20,71 @@
 
 namespace OrangeHRM\Admin\Service;
 
-use \BaseService;
 use OrangeHRM\Admin\Dao\EmploymentStatusDao;
 use \DaoException;
 use OrangeHRM\Entity\EmploymentStatus;
 
-class EmploymentStatusService {//extends \BaseService {
+class EmploymentStatusService
+{
 
-	private $empStatusDao;
+    /**
+     * @var EmploymentStatusDao|null
+     */
+    private ?EmploymentStatusDao $empStatusDao = null;
 
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		$this->empStatusDao = new EmploymentStatusDao();
-	}
+    /**
+     *
+     * @return EmploymentStatusDao
+     */
+    public function getEmploymentStatusDao(): EmploymentStatusDao
+    {
+        if (empty($this->empStatusDao)) {
+            $this->empStatusDao = new EmploymentStatusDao();
+        }
+        return $this->empStatusDao;
+    }
 
-	/**
-	 *
-	 * @return EmploymentStatusDao
-	 */
-	public function getEmploymentStatusDao() {
-		return $this->empStatusDao;
-	}
+    /**
+     * @param EmploymentStatusDao $employmentStatusDao
+     */
+    public function setEmploymentStatusDao(EmploymentStatusDao $employmentStatusDao): void
+    {
+        $this->empStatusDao = $employmentStatusDao;
+    }
 
-	/**
-	 *
-	 * @param EmploymentStatusDao $employmentStatusDao
-	 */
-	public function setEmploymentStatusDao(EmploymentStatusDao $employmentStatusDao) {
-		$this->empStatusDao = $employmentStatusDao;
-	}
-
-	public function getEmploymentStatusById($id){
-		return $this->empStatusDao->getEmploymentStatusById($id);
-	}
+    /**
+     * @param int $id
+     * @return EmploymentStatus
+     * @throws DaoException
+     */
+    public function getEmploymentStatusById(int $id): EmploymentStatus
+    {
+        return $this->getEmploymentStatusDao()->getEmploymentStatusById($id);
+    }
 
     /**
      * @param string $sortField
      * @param string $sortOrder
-     * @param null $limit
-     * @param null $offset
+     * @param int|null $limit
+     * @param int|null $offset
      * @param false $count
-     * @return int|mixed|string
+     * @return array|int|mixed|string
      * @throws DaoException
      */
     public function getEmploymentStatusList(
-        $sortField = 'es.name',
-        $sortOrder = 'ASC',
-        $limit = null,
-        $offset = null,
+        string $sortField = 'es.name',
+        string $sortOrder = 'ASC',
+        int $limit = null,
+        int $offset = null,
         $count = false
     ) {
-        return $this->getEmploymentStatusDao()->getEmploymentStatusList($sortField, $sortOrder, $limit, $offset, $count);
+        return $this->getEmploymentStatusDao()->getEmploymentStatusList(
+            $sortField,
+            $sortOrder,
+            $limit,
+            $offset,
+            $count
+        );
     }
 
     /**
@@ -85,7 +97,12 @@ class EmploymentStatusService {//extends \BaseService {
         return $this->getEmploymentStatusDao()->saveEmploymentStatus($employmentStatus);
     }
 
-    public function deleteEmploymentStatus(array $toBeDeletedEmploymentStatusIds)
+    /**
+     * @param array $toBeDeletedEmploymentStatusIds
+     * @return int
+     * @throws DaoException
+     */
+    public function deleteEmploymentStatus(array $toBeDeletedEmploymentStatusIds): int
     {
         return $this->getEmploymentStatusDao()->deleteEmploymentStatus($toBeDeletedEmploymentStatusIds);
     }
