@@ -17,14 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Core\Api\V2;
 
-use Symfony\Component\HttpFoundation\Request;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 
-interface PluginConfigurationInterface
+interface CollectionEndpointInterface
 {
     /**
-     * Initialize plugin
+     * Get collection of resources
+     * @return EndpointGetAllResult
      */
-    public function initialize(Request $request): void;
+    public function getAll(): EndpointGetAllResult;
+
+    /**
+     * Create a new resource
+     * @return EndpointCreateResult
+     */
+    public function create(): EndpointCreateResult;
+
+    /**
+     * Delete list of resources
+     * @return EndpointDeleteResult
+     */
+    public function delete(): EndpointDeleteResult;
 }

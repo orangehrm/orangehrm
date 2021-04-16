@@ -17,49 +17,49 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Api\Controller;
+namespace OrangeHRM\Core\Api\V2;
 
-use OrangeHRM\Admin\Api\JobCategoryAPI;
-use OrangeHRM\Core\Controller\AbstractRestController;
-use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-
-class JobCategoriesApiController extends AbstractRestController
+abstract class Endpoint
 {
     /**
-     * @var null|JobCategoryAPI
+     * @var Request
      */
-    private ?JobCategoryAPI $jobCategoryAPI = null;
+    private Request $request;
+    /**
+     * @var RequestParams
+     */
+    private RequestParams $requestParams;
 
     /**
-     * @inheritDoc
+     * @param Request $request
      */
-    protected function init(Request $request)
+    public function __construct(Request $request)
     {
-        $this->jobCategoryAPI = new JobCategoryAPI($request);
+        $this->request = $request;
+        $this->requestParams = new RequestParams($request);
     }
 
     /**
-     * @inheritDoc
+     * @return Request
      */
-    protected function handleGetRequest(Request $request): Response
+    protected function getRequest(): Request
     {
-        return $this->jobCategoryAPI->getJobCategories();
+        return $this->request;
     }
 
     /**
-     * @inheritDoc
+     * @return RequestParams
      */
-    protected function handlePostRequest(Request $request): Response
+    protected function getRequestParams(): RequestParams
     {
-        return $this->jobCategoryAPI->saveJobCategory();
+        return $this->requestParams;
     }
 
     /**
-     * @inheritDoc
+     * @param RequestParams $requestParams
      */
-    protected function handleDeleteRequest(Request $request): Response
+    protected function setRequestParams(RequestParams $requestParams): void
     {
-        return $this->jobCategoryAPI->deleteJobCategories();
+        $this->requestParams = $requestParams;
     }
 }

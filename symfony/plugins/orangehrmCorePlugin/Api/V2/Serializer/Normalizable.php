@@ -17,14 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Core\Api\V2\Serializer;
 
-use Symfony\Component\HttpFoundation\Request;
-
-interface PluginConfigurationInterface
+interface Normalizable
 {
     /**
-     * Initialize plugin
+     * Object normalize to an array
+     * @return array
      */
-    public function initialize(Request $request): void;
+    public function toArray(): array;
 }

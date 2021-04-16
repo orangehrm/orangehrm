@@ -17,14 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Core\Api\V2;
 
-use Symfony\Component\HttpFoundation\Request;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 
-interface PluginConfigurationInterface
+interface ResourceEndpointInterface
 {
     /**
-     * Initialize plugin
+     * Get one resource
+     * @return EndpointGetOneResult
      */
-    public function initialize(Request $request): void;
+    public function getOne(): EndpointGetOneResult;
+
+    /**
+     * Update one resource
+     * @return EndpointUpdateResult
+     */
+    public function update(): EndpointUpdateResult;
 }

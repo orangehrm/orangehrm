@@ -17,14 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Core\Api\V2\Model;
 
-use Symfony\Component\HttpFoundation\Request;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
-interface PluginConfigurationInterface
+class ArrayModel implements Normalizable
 {
     /**
-     * Initialize plugin
+     * @var array
      */
-    public function initialize(Request $request): void;
+    protected array $data;
+
+    /**
+     * @param array $data
+     */
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->data;
+    }
 }

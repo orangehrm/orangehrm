@@ -17,50 +17,64 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Api\Controller;
+namespace OrangeHRM\Core\Api\V2;
 
-use OrangeHRM\Admin\Api\JobCategoryAPI;
-use OrangeHRM\Core\Controller\AbstractRestController;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-
-class JobCategoryApiController extends AbstractRestController
+class Response
 {
     /**
-     * @var null|JobCategoryAPI
+     * @var array
      */
-    private ?JobCategoryAPI $jobCategoryAPI = null;
+    protected array $data;
 
     /**
-     * @param Request $request
+     * @var array
      */
-    protected function init(Request $request)
+    protected array $rels;
+
+    /**
+     * @var array
+     */
+    protected array $meta;
+
+    /**
+     * @param array $data
+     * @param array $meta
+     * @param array $rels
+     */
+    public function __construct($data = [], $meta = [], $rels = [])
     {
-        $this->jobCategoryAPI = new JobCategoryAPI($request);
+        $this->data = $data;
+        $this->meta = $meta;
+        $this->rels = $rels;
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
-    protected function handleGetRequest(Request $request):Response
+    public function format(): string
     {
-        return $this->jobCategoryAPI->getJobCategory();
+        return json_encode($this->data, true);
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
-    protected function handlePostRequest(Request $request):Response
+    public function formatData(): string
     {
-        throw new NotImplementedException();
+        $responseFormat = [
+            'data' => $this->data,
+            'meta' => $this->meta,
+            'rels' => $this->rels,
+        ];
+        return json_encode($responseFormat, true);
     }
 
     /**
-     * @inheritDoc
+     * @param $error
+     * @return string
      */
-    protected function handlePutRequest(Request $request):Response
+    public static function formatError($error): string
     {
-        return $this->jobCategoryAPI->saveJobCategory();
+        return json_encode($error, true);
     }
 }

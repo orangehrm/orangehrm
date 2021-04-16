@@ -17,14 +17,18 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Core\Api\V2\Serializer;
 
-use Symfony\Component\HttpFoundation\Request;
+use Exception;
 
-interface PluginConfigurationInterface
+class EndpointDeleteResult extends AbstractEndpointResult
 {
     /**
-     * Initialize plugin
+     * @inheritDoc
+     * @throws Exception
      */
-    public function initialize(Request $request): void;
+    public function normalize(): array
+    {
+        return $this->_normalize();
+    }
 }

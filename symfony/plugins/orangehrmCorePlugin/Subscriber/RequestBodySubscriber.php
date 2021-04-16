@@ -17,14 +17,38 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Core\Subscriber;
 
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-interface PluginConfigurationInterface
+class RequestBodySubscriber implements EventSubscriberInterface
 {
     /**
-     * Initialize plugin
+     * @inheritDoc
      */
-    public function initialize(Request $request): void;
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::REQUEST => [
+                ['onRequestEvent', 50000],
+            ],
+        ];
+    }
+
+    public function onRequestEvent(RequestEvent $event)
+    {
+        $request = $event->getRequest();
+
+        // 'application/json', 'application/x-json'
+        if ($request->getContentType() === 'json') {
+            if ($request->getContent() !== '') {
+                $data = json_decode($request->getContent(), true);
+                if (is_array($data)) {
+                    $request->request->add($data);
+                }
+            }
+        }
+    }
 }
