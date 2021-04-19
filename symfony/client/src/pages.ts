@@ -31,6 +31,11 @@ import EditEmploymentStatus from '@/orangehrmAdminPlugin/pages/employmentStatus/
 import EmploymentStatus from '@/orangehrmAdminPlugin/pages/employmentStatus/EmploymentStatus.vue';
 import SaveEmploymentStatus from '@/orangehrmAdminPlugin/pages/employmentStatus/SaveEmploymentStatus.vue';
 
+// add path
+import Education from '@/orangehrmAdminPlugin/pages/education/Education.vue';
+import EditEducation from '@/orangehrmAdminPlugin/pages/education/EditEducation.vue';
+import SaveEducation from '@/orangehrmAdminPlugin/pages/education/SaveEducation.vue';
+
 export default {
   'job-title-list': JobTitle,
   'job-title-edit': EditJobTitle,
@@ -38,6 +43,9 @@ export default {
   'job-category-list': JobCategory,
   'job-category-edit': EditJobCategory,
   'job-category-save': SaveJobCategory,
+  'education-list' : Education,
+  'education-edit': EditEducation,
+  'education-save': SaveEducation,
   ...authenticationPages,
   'system-user-list': SystemUser,
   'system-user-edit': EditSystemUser,
