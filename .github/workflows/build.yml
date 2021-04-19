@@ -17,10 +17,10 @@ jobs:
       - name: Use composer v1
         run: sudo composer self-update --1
 
-#      - name: Validate composer.json and composer.lock
-#        run: |
-#          cd symfony
-#          composer validate --strict
+      - name: Validate composer.json and composer.lock
+        run: |
+          cd symfony
+          composer validate --strict
 
       - name: Parse Git short hash
         run: echo "git_short_hash=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_ENV
@@ -28,8 +28,8 @@ jobs:
       - name: Install depandancies
         run: |
           cd symfony
-          php7.3 -f /usr/bin/composer install
-          php7.3 -f /usr/bin/composer dump-autoload -o
+          php7.4 -f /usr/bin/composer install
+          php7.4 -f /usr/bin/composer dump-autoload -o
           cd lib
           php7.3 -f /usr/bin/composer install
           php7.3 -f /usr/bin/composer dump-autoload -o
