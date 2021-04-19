@@ -17,5 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
+define('ENVIRNOMENT', 'test');
+
 require realpath(__DIR__ . '/../../vendor/autoload.php');
-require_once 'TestDataService.php';

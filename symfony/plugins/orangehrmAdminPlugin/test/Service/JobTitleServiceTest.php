@@ -17,14 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Admin\Tests\Service;
+
 use OrangeHRM\Admin\Dao\JobTitleDao;
 use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
  */
-class JobTitleServiceTest extends PHPUnit\Framework\TestCase {
+class JobTitleServiceTest extends TestCase
+{
 
     private $JobTitleService;
     protected $fixture;
@@ -32,53 +37,54 @@ class JobTitleServiceTest extends PHPUnit\Framework\TestCase {
     /**
      * Set up method
      */
-    protected function setUp():void {
+    protected function setUp(): void
+    {
         $this->JobTitleService = new JobTitleService();
         $this->fixture = Config::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobTitleDao.yml';
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetJobTitleList() {
-        
+    public function testGetJobTitleList()
+    {
         $jobTitleList = TestDataService::loadObjectList('JobTitle', $this->fixture, 'JobTitle');
 
         $jobTitleDao = $this->getMockBuilder(JobTitleDao::class)->getMock();
 
         $jobTitleDao->expects($this->once())
-                ->method('getJobTitleList')
-                ->with("", "", "")
-                ->will($this->returnValue($jobTitleList));
+            ->method('getJobTitleList')
+            ->with("", "", "")
+            ->will($this->returnValue($jobTitleList));
 
         $this->JobTitleService->setJobTitleDao($jobTitleDao);
         $result = $this->JobTitleService->getJobTitleList("", "", "");
         $this->assertEquals($jobTitleList, $result);
     }
 
-    public function testDeleteJobTitle() {
-
+    public function testDeleteJobTitle()
+    {
         $toBeDeletedJobTitleIds = array(1, 2);
 
         $jobTitleDao = $this->getMockBuilder(JobTitleDao::class)->getMock();
 
         $jobTitleDao->expects($this->once())
-                ->method('deleteJobTitle')
-                ->with($toBeDeletedJobTitleIds)
-                ->will($this->returnValue(2));
+            ->method('deleteJobTitle')
+            ->with($toBeDeletedJobTitleIds)
+            ->will($this->returnValue(2));
 
         $this->JobTitleService->setJobTitleDao($jobTitleDao);
         $result = $this->JobTitleService->deleteJobTitle($toBeDeletedJobTitleIds);
         $this->assertEquals(2, $result);
     }
 
-    public function testGetJobTitleById() {
-
+    public function testGetJobTitleById()
+    {
         $jobTitleList = TestDataService::loadObjectList('JobTitle', $this->fixture, 'JobTitle');
         $jobTitleDao = $this->getMockBuilder(JobTitleDao::class)->getMock();
 
         $jobTitleDao->expects($this->once())
-                ->method('getJobTitleById')
-                ->with(1)
-                ->will($this->returnValue($jobTitleList[0]));
+            ->method('getJobTitleById')
+            ->with(1)
+            ->will($this->returnValue($jobTitleList[0]));
 
         $this->JobTitleService->setJobTitleDao($jobTitleDao);
         $result = $this->JobTitleService->getJobTitleById(1);

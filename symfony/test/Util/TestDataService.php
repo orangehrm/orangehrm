@@ -1,7 +1,5 @@
 <?php
-
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,11 +15,14 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
+
+namespace OrangeHRM\Tests\Util;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\MappingException;
+use OrangeHRM\Entity\UniqueId;
+use OrangeHRM\ORM\Doctrine;
 use Symfony\Component\Yaml\Yaml;
 
 class TestDataService {
@@ -93,7 +94,7 @@ class TestDataService {
         $query = "";
         try {
 
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             $pdo->beginTransaction();
 
             if ($useCache) {
@@ -115,7 +116,7 @@ class TestDataService {
             }
 
             $pdo->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             $pdo->rollBack();
             echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
@@ -193,7 +194,7 @@ class TestDataService {
     private static function _getClassMetadata(string $tableAlias): ClassMetadata
     {
         $entityName = self::getFQEntityName($tableAlias);
-        return \OrangeHRM\ORM\Doctrine::getEntityManager()->getClassMetadata($entityName);
+        return Doctrine::getEntityManager()->getClassMetadata($entityName);
     }
 
     public static function adjustUniqueId($tableName, $count, $isAlias = false) {
@@ -202,18 +203,18 @@ class TestDataService {
             $tableName = self::_getTableName($tableName);
         }
 
-        $q = \OrangeHRM\ORM\Doctrine::getEntityManager()->createQueryBuilder();
+        $q = Doctrine::getEntityManager()->createQueryBuilder();
         $q->from($tableName,'ui');
         $q->where('ui.table_name = :table_name');
         $q->setParameter('table_name',$tableName);
 
         $uniqueIdObject = $q->getQuery()->getOneOrNullResult();
 
-        if ($uniqueIdObject instanceof \OrangeHRM\Entity\UniqueId) {
+        if ($uniqueIdObject instanceof UniqueId) {
 
             $uniqueIdObject->setLastId($count);
-            \OrangeHRM\ORM\Doctrine::getEntityManager()->persist($uniqueIdObject);
-            \OrangeHRM\ORM\Doctrine::getEntityManager()->flush();
+            Doctrine::getEntityManager()->persist($uniqueIdObject);
+            Doctrine::getEntityManager()->flush();
         }
     }
 
@@ -232,11 +233,11 @@ class TestDataService {
     private static function _encryptFieldsInFixture() {
         
         foreach (self::$encryptedModels as $model => $fields) {
-            if (isset(self::$data[$model]) && KeyHandler::keyExists()) {
+            if (isset(self::$data[$model]) && \KeyHandler::keyExists()) {
                 foreach (self::$data[$model] as $id => $row) {
                     
                     foreach ($fields as $field) {
-                        self::$data[$model][$id][$field] = Cryptographer::encrypt($row[$field]);
+                        self::$data[$model][$id][$field] = \Cryptographer::encrypt($row[$field]);
                     }
                 }            
             }
@@ -289,7 +290,7 @@ class TestDataService {
 
             try {
 
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                 $pdo->beginTransaction();
 
                 foreach ($tableNames as $tableName) {
@@ -302,7 +303,7 @@ class TestDataService {
                 $pdo->exec($query);
 
                 $pdo->commit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $pdo->rollBack();
                 echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
                 "\nQuery: [" . $query . "]\n" . "Fixture: " . self::$lastFixture . "\n\n";
@@ -311,7 +312,7 @@ class TestDataService {
             // Clear table cache
             if (is_array(self::$data)) {
                 foreach (self::$data as $alias => $values) {
-                    \OrangeHRM\ORM\Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
+                    Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
                 }            
             }
             
@@ -321,13 +322,13 @@ class TestDataService {
 
     /**
      *
-     * @return PDO 
+     * @return \PDO
      */
     private static function _getDbConnection() {
 
         if (empty(self::$dbConnection)) {
 
-            self::$dbConnection = \OrangeHRM\ORM\Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
+            self::$dbConnection = Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
 
             return self::$dbConnection;
         } else {
@@ -356,7 +357,7 @@ class TestDataService {
         foreach ($aliasArray as $alias) {
             try {
                 self::$tableNames[] = self::_getTableName($alias);
-                \OrangeHRM\ORM\Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
+                Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
             } catch (MappingException $e) {
                 echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $alias . "\n";
             }
@@ -368,10 +369,10 @@ class TestDataService {
     public static function fetchLastInsertedRecords($alias, $count) {
 
         $entityName = self::getFQEntityName($alias);
-        $wholeCount = \OrangeHRM\ORM\Doctrine::getEntityManager()->getRepository($entityName)->count([]);
+        $wholeCount = Doctrine::getEntityManager()->getRepository($entityName)->count([]);
         $offset = $wholeCount - $count;
 
-        $q = \OrangeHRM\ORM\Doctrine::getEntityManager()->createQueryBuilder();
+        $q = Doctrine::getEntityManager()->createQueryBuilder();
         $q->from($entityName,'a');
         $q->setFirstResult($offset);
         $q->setMaxResults($count);
@@ -381,7 +382,7 @@ class TestDataService {
 
     public static function fetchLastInsertedRecord($alias, $orderBy) {
         $entityName = self::getFQEntityName($alias);
-        $q = \OrangeHRM\ORM\Doctrine::getEntityManager()->createQueryBuilder();
+        $q = Doctrine::getEntityManager()->createQueryBuilder();
         $q->from($entityName,'a');
         $q->orderBy($orderBy,'DESC');
 
@@ -391,8 +392,8 @@ class TestDataService {
     public static function fetchObject($alias, $primaryKey) {
 
         $entityName = self::getFQEntityName($alias);
-        \OrangeHRM\ORM\Doctrine::getEntityManager()->clear($entityName);
-        return \OrangeHRM\ORM\Doctrine::getEntityManager()->find($entityName,$primaryKey);
+        Doctrine::getEntityManager()->clear($entityName);
+        return Doctrine::getEntityManager()->find($entityName,$primaryKey);
     }
 
     public static function loadObjectList($alias, $fixture, $key) {
@@ -421,7 +422,7 @@ class TestDataService {
     }   
     
     public static function getRecords($query) {
-        return self::_getDbConnection()->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        return self::_getDbConnection()->query($query)->fetchAll(\PDO::FETCH_ASSOC);
     }
 
 }

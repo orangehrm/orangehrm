@@ -1,6 +1,9 @@
 {
     "name": "orangehrm/orangehrm",
     "description": "OrangeHRM open source",
+    "keywords": ["orangehrm"],
+    "type": "project",
+    "license": "GPL-2.0-only",
     "require": {
         "php": "^7.4|^8.0",
         "ext-pdo": "*",
@@ -14,13 +17,13 @@
         "symfony/routing": "~4.4.19",
         "symfony/http-kernel": "~4.4.19",
         "symfony/event-dispatcher": "~4.4.19",
-        "respect/validation": "1.1.11",
+        "respect/validation": "^2.2",
         "symfony/monolog-bundle": "^3.6",
         "bshaffer/oauth2-server-php": "^1.11",
         "doctrine/orm": "~2.8.2",
         "symfony/yaml": "^5.2",
         "twig/twig": "^3.0",
-        "symfony/error-handler": "4.4.20",
+        "symfony/error-handler": "^4.4",
         "symfony/dependency-injection": "^5.2"
     },
     "require-dev": {
@@ -57,6 +60,13 @@
                 "./plugins/orangehrmPimPlugin/entity",
                 "./plugins/orangehrmCorePlugin/entity"
             ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OrangeHRM\\Tests\\": "./test",
+            "OrangeHRM\\Admin\\Tests\\": "./plugins/orangehrmAdminPlugin/test",
+            "OrangeHRM\\Pim\\Tests\\": "./plugins/orangehrmPimPlugin/test"
         }
     }
 }

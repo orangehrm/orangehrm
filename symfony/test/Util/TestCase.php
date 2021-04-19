@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,35 +16,12 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
-/**
- * @group Admin
- */
-class JobCategoryDaoTest extends PHPUnit_Framework_TestCase {
-	
-	private $jobCatDao;
-	protected $fixture;
+namespace OrangeHRM\Tests\Util;
 
-	/**
-	 * Set up method
-	 */
-	protected function setUp() {
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-		$this->jobCatDao = new JobCategoryDao();
-		$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobCategoryDao.yml';
-		TestDataService::populate($this->fixture);
-	}
-	
-	public function testGetJobCategoryList(){
-		$result = $this->jobCatDao->getJobCategoryList();
-		$this->assertEquals(count($result), 3);
-	}
-	
-	public function testGetJobCategoryById(){
-		$result = $this->jobCatDao->getJobCategoryById(1);
-		$this->assertEquals($result->getName(), 'Job Category 1');
-	}
+class TestCase extends PHPUnitTestCase
+{
+
 }
-
-?>
