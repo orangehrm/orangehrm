@@ -17,20 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Admin\Service;
+
+use OrangeHRM\Admin\Dao\JobTitleDao;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
 
 class JobTitleService
 {
-
-    private $jobTitleDao;
+    /**
+     * @var JobTitleDao
+     */
+    private JobTitleDao $jobTitleDao;
 
     public function __construct()
     {
         $this->jobTitleDao = new JobTitleDao();
     }
 
-    public function getJobTitleDao()
+    /**
+     * @return JobTitleDao
+     */
+    public function getJobTitleDao(): JobTitleDao
     {
         if (!($this->jobTitleDao instanceof JobTitleDao)) {
             $this->jobTitleDao = new JobTitleDao();
@@ -38,7 +47,10 @@ class JobTitleService
         return $this->jobTitleDao;
     }
 
-    public function setJobTitleDao(JobTitleDao $jobTitleDao)
+    /**
+     * @param JobTitleDao $jobTitleDao
+     */
+    public function setJobTitleDao(JobTitleDao $jobTitleDao): void
     {
         $this->jobTitleDao = $jobTitleDao;
     }
@@ -50,19 +62,19 @@ class JobTitleService
      * @param string $sortField
      * @param string $sortOrder
      * @param bool $activeOnly
-     * @param null $limit
-     * @param null $offset
+     * @param int|null $limit
+     * @param int|null $offset
      * @param bool $count
-     * @return JobTitle Doctrine collection
+     * @return int|JobTitle[]
      * @throws DaoException
      */
     public function getJobTitleList(
-        $sortField = 'jt.jobTitleName',
-        $sortOrder = 'ASC',
-        $activeOnly = true,
-        $limit = null,
-        $offset = null,
-        $count = false
+        string $sortField = 'jt.jobTitleName',
+        string $sortOrder = 'ASC',
+        bool $activeOnly = true,
+        ?int $limit = null,
+        ?int $offset = null,
+        bool $count = false
     ) {
         return $this->getJobTitleDao()->getJobTitleList($sortField, $sortOrder, $activeOnly, $limit, $offset, $count);
     }
@@ -72,8 +84,9 @@ class JobTitleService
      *
      * @param array $toBeDeletedJobTitleIds
      * @return int number of affected rows
+     * @throws DaoException
      */
-    public function deleteJobTitle($toBeDeletedJobTitleIds)
+    public function deleteJobTitle(array $toBeDeletedJobTitleIds): int
     {
         return $this->getJobTitleDao()->deleteJobTitle($toBeDeletedJobTitleIds);
     }
@@ -82,9 +95,10 @@ class JobTitleService
      * Will return the JobTitle doctrine object for a purticular id
      *
      * @param int $jobTitleId
-     * @return JobTitle doctrine object
+     * @return JobTitle|null
+     * @throws DaoException
      */
-    public function getJobTitleById($jobTitleId)
+    public function getJobTitleById(int $jobTitleId): ?JobTitle
     {
         return $this->getJobTitleDao()->getJobTitleById($jobTitleId);
     }
@@ -93,9 +107,10 @@ class JobTitleService
      * Will return the JobSpecificationAttachment doctrine object for a purticular id
      *
      * @param int $attachId
-     * @return JobSpecificationAttachment doctrine object
+     * @return JobSpecificationAttachment|null
+     * @throws DaoException
      */
-    public function getJobSpecAttachmentById($attachId)
+    public function getJobSpecAttachmentById($attachId): ?JobSpecificationAttachment
     {
         return $this->getJobTitleDao()->getJobSpecAttachmentById($attachId);
     }
@@ -115,9 +130,21 @@ class JobTitleService
      * @return JobSpecificationAttachment
      * @throws DaoException
      */
-    public function saveJobSpecificationAttachment(JobSpecificationAttachment $jobSpecificationAttachment
+    public function saveJobSpecificationAttachment(
+        JobSpecificationAttachment $jobSpecificationAttachment
     ): JobSpecificationAttachment {
         return $this->getJobTitleDao()->saveJobSpecificationAttachment($jobSpecificationAttachment);
+    }
+
+    /**
+     * @param JobSpecificationAttachment $jobSpecificationAttachment
+     * @return JobSpecificationAttachment
+     * @throws DaoException
+     */
+    public function deleteJobSpecificationAttachment(
+        JobSpecificationAttachment $jobSpecificationAttachment
+    ): JobSpecificationAttachment {
+        return $this->getJobTitleDao()->deleteJobSpecificationAttachment($jobSpecificationAttachment);
     }
 }
 

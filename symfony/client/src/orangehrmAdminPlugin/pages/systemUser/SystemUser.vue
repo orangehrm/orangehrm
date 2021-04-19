@@ -214,7 +214,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate('api/v1/admin/users', userdataNormalizer);
+    } = usePaginate('api/v2/admin/users', userdataNormalizer);
     return {
       showPaginator,
       currentPage,

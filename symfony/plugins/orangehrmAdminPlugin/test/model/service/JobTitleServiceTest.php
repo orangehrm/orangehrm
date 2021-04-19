@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Admin\Dao\JobTitleDao;
+use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Config\Config;
 
 /**
@@ -40,7 +42,7 @@ class JobTitleServiceTest extends PHPUnit\Framework\TestCase {
         
         $jobTitleList = TestDataService::loadObjectList('JobTitle', $this->fixture, 'JobTitle');
 
-        $jobTitleDao = $this->getMockBuilder('JobTitleDao')->getMock();
+        $jobTitleDao = $this->getMockBuilder(JobTitleDao::class)->getMock();
 
         $jobTitleDao->expects($this->once())
                 ->method('getJobTitleList')
@@ -56,7 +58,7 @@ class JobTitleServiceTest extends PHPUnit\Framework\TestCase {
 
         $toBeDeletedJobTitleIds = array(1, 2);
 
-        $jobTitleDao = $this->getMockBuilder('JobTitleDao')->getMock();
+        $jobTitleDao = $this->getMockBuilder(JobTitleDao::class)->getMock();
 
         $jobTitleDao->expects($this->once())
                 ->method('deleteJobTitle')
@@ -71,7 +73,7 @@ class JobTitleServiceTest extends PHPUnit\Framework\TestCase {
     public function testGetJobTitleById() {
 
         $jobTitleList = TestDataService::loadObjectList('JobTitle', $this->fixture, 'JobTitle');
-        $jobTitleDao = $this->getMockBuilder('JobTitleDao')->getMock();
+        $jobTitleDao = $this->getMockBuilder(JobTitleDao::class)->getMock();
 
         $jobTitleDao->expects($this->once())
                 ->method('getJobTitleById')

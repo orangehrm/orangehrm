@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Admin\Dao\JobCategoryDao;
+use OrangeHRM\Admin\Service\JobCategoryService;
 use OrangeHRM\Config\Config;
 
 /**
@@ -40,7 +42,7 @@ class JobCategoryServiceTest extends PHPUnit\Framework\TestCase {
 
 		$jobCatList = TestDataService::loadObjectList('JobCategory', $this->fixture, 'JobCategory');
 
-		$jobCatDao = $this->getMockBuilder('JobCategoryDao')->getMock();
+		$jobCatDao = $this->getMockBuilder(JobCategoryDao::class)->getMock();
 		$jobCatDao->expects($this->once())
 			->method('getJobCategoryList')
 			->will($this->returnValue($jobCatList));
@@ -55,7 +57,7 @@ class JobCategoryServiceTest extends PHPUnit\Framework\TestCase {
 
 		$jobCatList = TestDataService::loadObjectList('JobCategory', $this->fixture, 'JobCategory');
 
-		$jobCatDao = $this->getMockBuilder('JobCategoryDao')->getMock();
+		$jobCatDao = $this->getMockBuilder(JobCategoryDao::class)->getMock();
 		$jobCatDao->expects($this->once())
 			->method('getJobCategoryById')
 			->with(1)

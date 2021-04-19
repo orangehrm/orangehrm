@@ -17,7 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Admin\Dao;
+
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Exception;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\ORM\Doctrine;
@@ -28,19 +32,19 @@ class JobTitleDao
      * @param string $sortField
      * @param string $sortOrder
      * @param bool $activeOnly
-     * @param null $limit
-     * @param null $offset
+     * @param int|null $limit
+     * @param int|null $offset
      * @param false $count
-     * @return int|mixed|string
+     * @return int|JobTitle[]
      * @throws DaoException
      */
     public function getJobTitleList(
-        $sortField = 'jt.jobTitleName',
-        $sortOrder = 'ASC',
-        $activeOnly = true,
-        $limit = null,
-        $offset = null,
-        $count = false
+        string $sortField = 'jt.jobTitleName',
+        string $sortOrder = 'ASC',
+        bool $activeOnly = true,
+        ?int $limit = null,
+        ?int $offset = null,
+        bool $count = false
     ) {
         $sortField = ($sortField == "") ? 'jt.jobTitleName' : $sortField;
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
@@ -72,11 +76,11 @@ class JobTitleDao
     }
 
     /**
-     * @param $toBeDeletedJobTitleIds
-     * @return int|mixed|string
+     * @param array $toBeDeletedJobTitleIds
+     * @return int
      * @throws DaoException
      */
-    public function deleteJobTitle($toBeDeletedJobTitleIds)
+    public function deleteJobTitle(array $toBeDeletedJobTitleIds): int
     {
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
@@ -90,34 +94,40 @@ class JobTitleDao
     }
 
     /**
-     * @param $jobTitleId
-     * @return object|null
+     * @param int $jobTitleId
+     * @return JobTitle|null
      * @throws DaoException
      */
-    public function getJobTitleById($jobTitleId)
+    public function getJobTitleById(int $jobTitleId): ?JobTitle
     {
         try {
-            return Doctrine::getEntityManager()->getRepository(JobTitle::class)->find(
+            $jobTitle = Doctrine::getEntityManager()->getRepository(JobTitle::class)->find(
                 $jobTitleId
             );
+            if ($jobTitle instanceof JobTitle) {
+                return $jobTitle;
+            }
+            return null;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
     /**
-     * @param $attachId
-     * @return object|null
+     * @param int $attachId
+     * @return JobSpecificationAttachment|null
      * @throws DaoException
      */
-    public function getJobSpecAttachmentById($attachId)
+    public function getJobSpecAttachmentById(int $attachId): ?JobSpecificationAttachment
     {
         try {
-            return Doctrine::getEntityManager()->getRepository(
+            $jobSpecificationAttachment = Doctrine::getEntityManager()->getRepository(
                 JobSpecificationAttachment::class
-            )->find(
-                $attachId
-            );
+            )->find($attachId);
+            if ($jobSpecificationAttachment instanceof JobSpecificationAttachment) {
+                return $jobSpecificationAttachment;
+            }
+            return null;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -144,10 +154,28 @@ class JobTitleDao
      * @return JobSpecificationAttachment
      * @throws DaoException
      */
-    public function saveJobSpecificationAttachment(JobSpecificationAttachment $jobSpecificationAttachment
+    public function saveJobSpecificationAttachment(
+        JobSpecificationAttachment $jobSpecificationAttachment
     ): JobSpecificationAttachment {
         try {
             Doctrine::getEntityManager()->persist($jobSpecificationAttachment);
+            Doctrine::getEntityManager()->flush();
+            return $jobSpecificationAttachment;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param JobSpecificationAttachment $jobSpecificationAttachment
+     * @return JobSpecificationAttachment
+     * @throws DaoException
+     */
+    public function deleteJobSpecificationAttachment(
+        JobSpecificationAttachment $jobSpecificationAttachment
+    ): JobSpecificationAttachment {
+        try {
+            Doctrine::getEntityManager()->remove($jobSpecificationAttachment);
             Doctrine::getEntityManager()->flush();
             return $jobSpecificationAttachment;
         } catch (Exception $e) {

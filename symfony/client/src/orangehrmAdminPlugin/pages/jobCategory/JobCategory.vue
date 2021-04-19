@@ -118,7 +118,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate('api/v1/admin/job-categories');
+    } = usePaginate('api/v2/admin/job-categories');
     return {
       showPaginator,
       currentPage,
@@ -167,7 +167,7 @@ export default {
       // TODO: Loading
       if (items instanceof Array) {
         this.$http
-          .delete('api/v1/admin/job-categories', {
+          .delete('api/v2/admin/job-categories', {
             data: {ids: items},
           })
           .then(() => {

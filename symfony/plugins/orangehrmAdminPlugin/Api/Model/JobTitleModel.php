@@ -19,11 +19,11 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\JobTitle;
-use Orangehrm\Rest\Api\Entity\Serializable;
-use Orangehrm\Rest\Api\Model\ModelTrait;
 
-class JobTitleModel implements Serializable
+class JobTitleModel implements Normalizable
 {
     use ModelTrait;
 

@@ -17,6 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Admin\Service;
+
+use OrangeHRM\Admin\Dao\JobCategoryDao;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobCategory;
 
 class JobCategoryService
@@ -24,7 +28,7 @@ class JobCategoryService
     /**
      * @var JobCategoryDao
      */
-    private $jobCatDao;
+    private JobCategoryDao $jobCatDao;
 
     /**
      * Construct
@@ -37,7 +41,7 @@ class JobCategoryService
     /**
      * @return JobCategoryDao
      */
-    public function getJobCategoryDao()
+    public function getJobCategoryDao(): JobCategoryDao
     {
         return $this->jobCatDao;
     }
@@ -45,7 +49,7 @@ class JobCategoryService
     /**
      * @param JobCategoryDao $jobCategoryDao
      */
-    public function setJobCategoryDao(JobCategoryDao $jobCategoryDao)
+    public function setJobCategoryDao(JobCategoryDao $jobCategoryDao): void
     {
         $this->jobCatDao = $jobCategoryDao;
     }
@@ -53,18 +57,18 @@ class JobCategoryService
     /**
      * @param string $sortField
      * @param string $sortOrder
-     * @param null $limit
-     * @param null $offset
+     * @param int|null $limit
+     * @param int|null $offset
      * @param false $count
-     * @return int|mixed|string
+     * @return int|JobCategory[]
      * @throws DaoException
      */
     public function getJobCategoryList(
-        $sortField = 'jc.name',
-        $sortOrder = 'ASC',
-        $limit = null,
-        $offset = null,
-        $count = false
+        string $sortField = 'jc.name',
+        string $sortOrder = 'ASC',
+        ?int $limit = null,
+        ?int $offset = null,
+        bool $count = false
     ) {
         return $this->jobCatDao->getJobCategoryList($sortField, $sortOrder, $limit, $offset, $count);
     }
@@ -74,7 +78,7 @@ class JobCategoryService
      * @return object|JobCategory|null
      * @throws DaoException
      */
-    public function getJobCategoryById(int $jobCatId)
+    public function getJobCategoryById(int $jobCatId): ?JobCategory
     {
         return $this->jobCatDao->getJobCategoryById($jobCatId);
     }
@@ -91,10 +95,10 @@ class JobCategoryService
 
     /**
      * @param array $toBeDeletedJobCategoryIds
-     * @return int|mixed|string
+     * @return int
      * @throws DaoException
      */
-    public function deleteJobCategory(array $toBeDeletedJobCategoryIds)
+    public function deleteJobCategory(array $toBeDeletedJobCategoryIds): int
     {
         return $this->jobCatDao->deleteJobCategory($toBeDeletedJobCategoryIds);
     }

@@ -21,8 +21,8 @@ namespace OrangeHRM\Admin\Api;
 
 use DaoException;
 use Exception;
-use JobCategoryService;
 use OrangeHRM\Admin\Api\Model\JobCategoryModel;
+use OrangeHRM\Admin\Service\JobCategoryService;
 use OrangeHRM\Core\Api\V2\CollectionEndpointInterface;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;

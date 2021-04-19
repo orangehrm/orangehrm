@@ -17,43 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Api\Controller;
+namespace OrangeHRM\Core\Api\V2\Exception;
 
-use OrangeHRM\Core\Controller\AbstractRestController;
-use OrangeHRM\Core\Controller\PublicControllerInterface;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-use OrangeHRM\Authentication\Api\LoginAPI;
+use Exception;
+use Throwable;
 
-class LoginApiController extends AbstractRestController implements PublicControllerInterface
+class NotImplementedException extends Exception
 {
-    /**
-     * @var null|LoginAPI
-     */
-    private ?LoginAPI $loginApi = null;
+    public const DEFAULT_ERROR_MESSAGE = "Not Implemented";
 
-    /**
-     * @inheritDoc
-     */
-    protected function init(Request $request)
+    public function __construct($message = self::DEFAULT_ERROR_MESSAGE, $code = 0, Throwable $previous = null)
     {
-        $this->loginApi = new LoginAPI($request);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function handleGetRequest(Request $request): Response
-    {
-        throw new NotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function handlePostRequest(Request $request): Response
-    {
-        return $this->loginApi->login();
+        parent::__construct($message, $code, $previous);
     }
 }

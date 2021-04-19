@@ -17,7 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Admin\Dao;
+
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Exception;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobCategory;
 use OrangeHRM\ORM\Doctrine;
 
@@ -26,18 +30,18 @@ class JobCategoryDao
     /**
      * @param string $sortField
      * @param string $sortOrder
-     * @param null $limit
-     * @param null $offset
+     * @param int|null $limit
+     * @param int|null $offset
      * @param false $count
-     * @return int|mixed|string
+     * @return int|JobCategory[]
      * @throws DaoException
      */
     public function getJobCategoryList(
-        $sortField = 'jc.name',
-        $sortOrder = 'ASC',
-        $limit = null,
-        $offset = null,
-        $count = false
+        string $sortField = 'jc.name',
+        string $sortOrder = 'ASC',
+        ?int $limit = null,
+        ?int $offset = null,
+        bool $count = false
     ) {
         $sortField = ($sortField == "") ? 'jc.name' : $sortField;
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
@@ -62,13 +66,17 @@ class JobCategoryDao
 
     /**
      * @param int $jobCatId
-     * @return object|null
+     * @return JobCategory|null
      * @throws DaoException
      */
-    public function getJobCategoryById(int $jobCatId)
+    public function getJobCategoryById(int $jobCatId): ?JobCategory
     {
         try {
-            return Doctrine::getEntityManager()->getRepository(JobCategory::class)->find($jobCatId);
+            $jobCategory = Doctrine::getEntityManager()->getRepository(JobCategory::class)->find($jobCatId);
+            if ($jobCategory instanceof JobCategory) {
+                return $jobCategory;
+            }
+            return null;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -92,10 +100,10 @@ class JobCategoryDao
 
     /**
      * @param array $toBeDeletedJobCategoryIds
-     * @return int|mixed|string
+     * @return int
      * @throws DaoException
      */
-    public function deleteJobCategory(array $toBeDeletedJobCategoryIds)
+    public function deleteJobCategory(array $toBeDeletedJobCategoryIds): int
     {
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();

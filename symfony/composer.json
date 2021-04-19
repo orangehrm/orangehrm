@@ -34,19 +34,28 @@
             "OrangeHRM\\Framework\\": "./lib/framework",
             "OrangeHRM\\Config\\": "./lib/config",
             "OrangeHRM\\Admin\\": "./plugins/orangehrmAdminPlugin",
-            "OrangeHRM\\Core\\": "./plugins/orangehrmCorePlugin",
+            "OrangeHRM\\Attendance\\": "./plugins/orangehrmAttendancePlugin",
             "OrangeHRM\\Authentication\\": "./plugins/orangehrmAuthenticationPlugin",
+            "OrangeHRM\\Buzz\\": "./plugins/orangehrmBuzzPlugin",
+            "OrangeHRM\\OAuth\\": "./plugins/orangehrmCoreOAuthPlugin",
+            "OrangeHRM\\Core\\": "./plugins/orangehrmCorePlugin",
+            "OrangeHRM\\CorporateDirectory\\": "./plugins/orangehrmCorporateDirectoryPlugin",
+            "OrangeHRM\\Dashboard\\": "./plugins/orangehrmDashboardPlugin",
+            "OrangeHRM\\Help\\": "./plugins/orangehrmHelpPlugin",
+            "OrangeHRM\\Leave\\": "./plugins/orangehrmLeavePlugin",
+            "OrangeHRM\\Maintenance\\": "./plugins/orangehrmMaintenancePlugin",
+            "OrangeHRM\\MarketPlace\\": "./plugins/orangehrmMarketPlacePlugin",
+            "OrangeHRM\\OpenidAuthentication\\": "./plugins/orangehrmOpenidAuthenticationPlugin",
+            "OrangeHRM\\Performance\\": "./plugins/orangehrmPerformancePlugin",
+            "OrangeHRM\\PerformanceTracker\\": "./plugins/orangehrmPerformanceTrackerPlugin",
+            "OrangeHRM\\Pim\\": "./plugins/orangehrmPimPlugin",
+            "OrangeHRM\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin",
+            "OrangeHRM\\Time\\": "./plugins/orangehrmTimePlugin",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
                 "./plugins/orangehrmPerformancePlugin/entity",
                 "./plugins/orangehrmPimPlugin/entity",
                 "./plugins/orangehrmCorePlugin/entity"
-            ],
-            "": [
-                "./plugins/orangehrmCoreOAuthPlugin/modules/oauth/actions",
-                "./plugins/orangehrmAdminPlugin/lib/service",
-                "./plugins/orangehrmAdminPlugin/lib/dao",
-                "./apps/orangehrm/lib/model/exception"
             ]
         }
     }

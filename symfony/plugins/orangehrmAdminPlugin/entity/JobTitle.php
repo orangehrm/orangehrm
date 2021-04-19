@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,71 +40,42 @@ class JobTitle
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="job_title", type="string", length=100)
      */
-    private $jobTitleName;
+    private string $jobTitleName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="job_description", type="string", length=400)
      */
-    private $jobDescription;
+    private string $jobDescription;
 
     /**
      * @var string
      *
      * @ORM\Column(name="note", type="string", length=400)
      */
-    private $note;
+    private string $note;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="is_deleted", type="boolean", nullable=false, options={"default":0})
      */
-    private $isDeleted;
+    private bool $isDeleted;
 
     /**
-     * @var JobSpecificationAttachment
+     * @var JobSpecificationAttachment|null
      *
      * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\JobSpecificationAttachment", mappedBy="jobTitle", cascade={"persist", "remove"})
      */
-    private $jobSpecificationAttachment;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="jobTitle")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="job_title_code")
-     * })
-     */
-    private $employees;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Kpi", mappedBy="JobTitle")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="job_title_code")
-     * })
-     */
-    private $kpi;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->employees = new ArrayCollection();
-        $this->kpi = new ArrayCollection();
-    }
+    private ?JobSpecificationAttachment $jobSpecificationAttachment;
 
     /**
      * @return int
@@ -189,50 +158,18 @@ class JobTitle
     }
 
     /**
-     * @return JobSpecificationAttachment
+     * @return JobSpecificationAttachment|null
      */
-    public function getJobSpecificationAttachment(): JobSpecificationAttachment
+    public function getJobSpecificationAttachment(): ?JobSpecificationAttachment
     {
         return $this->jobSpecificationAttachment;
     }
 
     /**
-     * @param JobSpecificationAttachment $jobSpecificationAttachment
+     * @param JobSpecificationAttachment|null $jobSpecificationAttachment
      */
-    public function setJobSpecificationAttachment(JobSpecificationAttachment $jobSpecificationAttachment)
+    public function setJobSpecificationAttachment(?JobSpecificationAttachment $jobSpecificationAttachment)
     {
         $this->jobSpecificationAttachment = $jobSpecificationAttachment;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getEmployees()
-    {
-        return $this->employees;
-    }
-
-    /**
-     * @param Collection $employees
-     */
-    public function setEmployees($employees)
-    {
-        $this->employees = $employees;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getKpi()
-    {
-        return $this->kpi;
-    }
-
-    /**
-     * @param Collection $kpi
-     */
-    public function setKpi($kpi)
-    {
-        $this->kpi = $kpi;
     }
 }
