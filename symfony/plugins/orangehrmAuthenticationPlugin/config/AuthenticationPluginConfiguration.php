@@ -22,13 +22,14 @@ use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\Request;
 
 class AuthenticationPluginConfiguration implements PluginConfigurationInterface
 {
     /**
      * @inheritDoc
      */
-    public function initialize(): void
+    public function initialize(Request $request): void
     {
         /** @var EventDispatcher $dispatcher */
         $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);

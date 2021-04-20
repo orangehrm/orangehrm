@@ -1,32 +1,44 @@
-apiv1_job_title:
-  path: /api/v1/admin/job-titles/{id}
-  controller: OrangeHRM\Admin\Api\Controller\JobTitleApiController::handle
+apiv2_admin_job_title:
+  path: /api/v2/admin/job-titles/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\JobTitleAPI
 
-apiv1_job_titles:
-  path: /api/v1/admin/job-titles
-  controller: OrangeHRM\Admin\Api\Controller\JobTitlesApiController::handle
+apiv2_admin_job_titles:
+  path: /api/v2/admin/job-titles
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\JobTitleAPI
 
-apiv1_job_category:
-  path: /api/v1/admin/job-categories/{id}
-  controller: OrangeHRM\Admin\Api\Controller\JobCategoryApiController::handle
+apiv2_admin_job_category:
+  path: /api/v2/admin/job-categories/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\JobCategoryAPI
 
-apiv1_job_categories:
-  path: /api/v1/admin/job-categories
-  controller: OrangeHRM\Admin\Api\Controller\JobCategoriesApiController::handle
+apiv2_admin_job_categories:
+  path: /api/v2/admin/job-categories
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\JobCategoryAPI
 
-apiv1_system_user:
-  path: /api/v1/admin/users/{id}
-  controller: OrangeHRM\Admin\Api\Controller\UserApiController::handle
+apiv2_admin_user:
+  path: /api/v2/admin/users/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\UserAPI
 
-apiv1_system_users:
-  path: /api/v1/admin/users
-  controller: OrangeHRM\Admin\Api\Controller\UsersApiController::handle
+apiv2_admin_users:
+  path: /api/v2/admin/users
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\UserAPI
 
 view_job_title:
   path: /admin/viewJobTitleList

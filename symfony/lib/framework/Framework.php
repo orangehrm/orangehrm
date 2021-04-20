@@ -113,14 +113,14 @@ class Framework extends HttpKernel
         ServiceContainer::getContainer()->set(Services::URL_HELPER, $urlHelper);
     }
 
-    protected function configurePlugins(): void
+    protected function configurePlugins(Request $request): void
     {
         $pluginConfigs = Config::get('ohrm_plugin_configs');
         foreach (array_values($pluginConfigs) as $pluginConfig) {
             require_once $pluginConfig['filepath'];
             /** @var PluginConfigurationInterface $configClass */
             $configClass = new $pluginConfig['classname']();
-            $configClass->initialize();
+            $configClass->initialize($request);
         }
     }
 
@@ -130,7 +130,7 @@ class Framework extends HttpKernel
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
     {
         $this->configureRouter($request);
-        $this->configurePlugins();
+        $this->configurePlugins($request);
 
         return parent::handle($request, $type, $catch);
     }
