@@ -19,15 +19,23 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use JobTitleService;
 use OrangeHRM\Admin\Api\Model\JobTitleModel;
+use OrangeHRM\Admin\Service\JobTitleService;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
-use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-use Orangehrm\Rest\Http\Response;
 
-class JobTitleAPI extends EndPoint
+class JobTitleAPI extends Endpoint implements CrudEndpoint
 {
     /**
      * @var null|JobTitleService
@@ -41,11 +49,16 @@ class JobTitleAPI extends EndPoint
     public const PARAMETER_NOTE = 'note';
     public const PARAMETER_SPECIFICATION = 'specification';
     public const PARAMETER_ACTIVE_ONLY = 'activeOnly';
+    public const PARAMETER_CURRENT_JOB_SPECIFICATION = 'currentJobSpecification';
 
     public const PARAMETER_SORT_FIELD = 'sortField';
     public const PARAMETER_SORT_ORDER = 'sortOrder';
     public const PARAMETER_OFFSET = 'offset';
     public const PARAMETER_LIMIT = 'limit';
+
+    public const JOB_SPECIFICATION_KEEP_CURRENT = 'keepCurrent';
+    public const JOB_SPECIFICATION_DELETE_CURRENT = 'deleteCurrent';
+    public const JOB_SPECIFICATION_REPLACE_CURRENT = 'replaceCurrent';
 
     /**
      * @param JobTitleService $jobTitleService
@@ -66,29 +79,42 @@ class JobTitleAPI extends EndPoint
         return $this->jobTitleService;
     }
 
-    public function getJobTitle()
+    /**
+     * @inheritDoc
+     */
+    public function getOne(): EndpointGetOneResult
     {
-        $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $jobTitle = $this->getJobTitleService()->getJobTitleById($id);
         if (!$jobTitle instanceof JobTitle) {
             throw new RecordNotFoundException('No Record Found');
         }
-        return new Response(
-            (new JobTitleModel($jobTitle))->toArray()
-        );
+
+        return new EndpointGetOneResult(JobTitleModel::class, $jobTitle);
     }
 
     /**
-     * @return Response
-     * @throws RecordNotFoundException
+     * @inheritDoc
      */
-    public function getJobTitles()
+    public function getAll(): EndpointGetAllResult
     {
-        $sortField = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD, 'jt.jobTitleName');
-        $sortOrder = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_ORDER, 'ASC');
-        $activeOnly = $this->getRequestParams()->getQueryParam(self::PARAMETER_ACTIVE_ONLY, true);
-        $limit = $this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT, 50);
-        $offset = $this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET, 0);
+        $sortField = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_SORT_FIELD,
+            'jt.jobTitleName'
+        );
+        $sortOrder = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_SORT_ORDER,
+            'ASC'
+        );
+        $activeOnly = $this->getRequestParams()->getBoolean(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_ACTIVE_ONLY,
+            true
+        );
+        $limit = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_LIMIT, 50);
+        $offset = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_OFFSET, 0);
 
         $count = $this->getJobTitleService()->getJobTitleList(
             $sortField,
@@ -98,61 +124,90 @@ class JobTitleAPI extends EndPoint
             $offset,
             true
         );
-        if (!($count > 0)) {
-            throw new RecordNotFoundException('No Records Found');
-        }
 
-        $result = [];
         $jobTitles = $this->getJobTitleService()->getJobTitleList($sortField, $sortOrder, $activeOnly, $limit, $offset);
-        foreach ($jobTitles as $jobTitle) {
-            array_push($result, (new JobTitleModel($jobTitle))->toArray());
-        }
-        return new Response($result, [], ['total' => $count]);
+        return new EndpointGetAllResult(JobTitleModel::class, $jobTitles, new ParameterBag(['total' => $count]));
     }
 
-    public function saveJobTitle()
+    /**
+     * @inheritDoc
+     */
+    public function create(): EndpointCreateResult
     {
         // TODO:: Check data group permission
         $params = $this->getPostParameters();
-        if (!empty($params[self::PARAMETER_ID])) {
-            $jobTitleObj = $this->getJobTitleService()->getJobTitleById($params[self::PARAMETER_ID]);
-        } else {
-            $jobTitleObj = new JobTitle();
-            $jobTitleObj->setIsDeleted(false);
-        }
-
+        $jobTitleObj = new JobTitle();
+        $jobTitleObj->setIsDeleted(false);
         $jobTitleObj->setJobTitleName($params[self::PARAMETER_TITLE]);
         $jobTitleObj->setJobDescription($params[self::PARAMETER_DESCRIPTION]);
         $jobTitleObj->setNote($params[self::PARAMETER_NOTE]);
 
-        if ($params[self::PARAMETER_SPECIFICATION]) {
+        $jobSpecification = $params[self::PARAMETER_SPECIFICATION];
+        if ($jobSpecification) {
             // TODO:: validate file type and size
-            $jobSpecification = $params[self::PARAMETER_SPECIFICATION];
             $jobSpecAttachment = new JobSpecificationAttachment();
             $jobSpecAttachment->setFileName($jobSpecification['name']);
             $jobSpecAttachment->setFileType($jobSpecification['type']);
             $jobSpecAttachment->setFileSize($jobSpecification['size']);
-
             $fileContent = base64_decode($jobSpecification['base64']);
             $jobSpecAttachment->setFileContent($fileContent);
+            $jobTitleObj->setJobSpecificationAttachment($jobSpecAttachment);
             $jobSpecAttachment->setJobTitle($jobTitleObj);
-            $jobSpecificationAttachment = $this->getJobTitleService()
-                ->saveJobSpecificationAttachment($jobSpecAttachment);
-            $jobTitleObj = $jobSpecificationAttachment->getJobTitle();
-        } else {
-            $jobTitleObj = $this->getJobTitleService()->saveJobTitle($jobTitleObj);
         }
 
-        return new Response(
-            (new JobTitleModel($jobTitleObj))->toArray()
-        );
+        $jobTitleObj = $this->getJobTitleService()->saveJobTitle($jobTitleObj);
+
+        return new EndpointCreateResult(JobTitleModel::class, $jobTitleObj);
     }
 
-    public function deleteJobTitles()
+    /**
+     * @inheritDoc
+     */
+    public function update(): EndpointUpdateResult
     {
-        $ids = $this->getRequestParams()->getPostParam(self::PARAMETER_IDS);
+        // TODO:: Check data group permission
+        $params = $this->getPostParameters();
+        $jobTitleObj = $this->getJobTitleService()->getJobTitleById($params[self::PARAMETER_ID]);
+        $jobTitleObj->setJobTitleName($params[self::PARAMETER_TITLE]);
+        $jobTitleObj->setJobDescription($params[self::PARAMETER_DESCRIPTION]);
+        $jobTitleObj->setNote($params[self::PARAMETER_NOTE]);
+
+        if ($params[self::PARAMETER_CURRENT_JOB_SPECIFICATION] === self::JOB_SPECIFICATION_DELETE_CURRENT) {
+            $jobSpecAttachment = $jobTitleObj->getJobSpecificationAttachment();
+            if ($jobSpecAttachment instanceof JobSpecificationAttachment) {
+                $this->getJobTitleService()->deleteJobSpecificationAttachment($jobSpecAttachment);
+            }
+            $jobTitleObj->setJobSpecificationAttachment(null);
+        } elseif ($params[self::PARAMETER_CURRENT_JOB_SPECIFICATION] === self::JOB_SPECIFICATION_REPLACE_CURRENT) {
+            if ($params[self::PARAMETER_SPECIFICATION]) {
+                $jobSpecification = $params[self::PARAMETER_SPECIFICATION];
+                $jobSpecAttachment = $jobTitleObj->getJobSpecificationAttachment();
+                if (!$jobSpecAttachment instanceof JobSpecificationAttachment) {
+                    $jobSpecAttachment = new JobSpecificationAttachment();
+                }
+                $jobSpecAttachment->setFileName($jobSpecification['name']);
+                $jobSpecAttachment->setFileType($jobSpecification['type']);
+                $jobSpecAttachment->setFileSize($jobSpecification['size']);
+                $fileContent = base64_decode($jobSpecification['base64']);
+                $jobSpecAttachment->setFileContent($fileContent);
+                $this->getJobTitleService()->saveJobSpecificationAttachment($jobSpecAttachment);
+            }
+            $jobTitleObj->setJobSpecificationAttachment($jobSpecAttachment);
+        }
+        $jobTitleObj->setId($jobTitleObj->getId());
+        $jobTitleObj = $this->getJobTitleService()->saveJobTitle($jobTitleObj);
+
+        return new EndpointUpdateResult(JobTitleModel::class, $jobTitleObj);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(): EndpointDeleteResult
+    {
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
         $this->getJobTitleService()->deleteJobTitle($ids);
-        return new Response($ids);
+        return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -161,11 +216,30 @@ class JobTitleAPI extends EndPoint
     public function getPostParameters(): array
     {
         $params = [];
-        $params[self::PARAMETER_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_ID);
-        $params[self::PARAMETER_TITLE] = $this->getRequestParams()->getPostParam(self::PARAMETER_TITLE);
-        $params[self::PARAMETER_DESCRIPTION] = $this->getRequestParams()->getPostParam(self::PARAMETER_DESCRIPTION);
-        $params[self::PARAMETER_NOTE] = $this->getRequestParams()->getPostParam(self::PARAMETER_NOTE);
-        $params[self::PARAMETER_SPECIFICATION] = $this->getRequestParams()->getPostParam(self::PARAMETER_SPECIFICATION);
+        $params[self::PARAMETER_ID] = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_ID
+        );
+        $params[self::PARAMETER_TITLE] = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_TITLE
+        );
+        $params[self::PARAMETER_DESCRIPTION] = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_DESCRIPTION
+        );
+        $params[self::PARAMETER_NOTE] = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_NOTE
+        );
+        $params[self::PARAMETER_SPECIFICATION] = $this->getRequestParams()->getArrayOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_SPECIFICATION
+        );
+        $params[self::PARAMETER_CURRENT_JOB_SPECIFICATION] = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_CURRENT_JOB_SPECIFICATION
+        );
         return $params;
     }
 }

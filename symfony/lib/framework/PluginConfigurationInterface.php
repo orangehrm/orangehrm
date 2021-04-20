@@ -19,10 +19,12 @@
 
 namespace OrangeHRM\Framework;
 
+use Symfony\Component\HttpFoundation\Request;
+
 interface PluginConfigurationInterface
 {
     /**
      * Initialize plugin
      */
-    public function initialize(): void;
+    public function initialize(Request $request): void;
 }

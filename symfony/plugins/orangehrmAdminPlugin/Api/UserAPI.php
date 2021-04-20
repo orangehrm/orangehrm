@@ -1,16 +1,41 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\UserModel;
 use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\ORM\Doctrine;
-use Orangehrm\Rest\Api\EndPoint;
-use Orangehrm\Rest\Http\Response;
 
-class UserAPI extends EndPoint
+class UserAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_ID = 'id';
     public const PARAMETER_IDS = 'ids';
@@ -50,39 +75,65 @@ class UserAPI extends EndPoint
         $this->systemUserService = $systemUserService;
     }
 
-    public function getOne(): Response
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function getOne(): EndpointGetOneResult
     {
-        $userId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        $systemUser = $this->getSystemUserService()->getSystemUser($userId);
-        return new Response((new UserModel($systemUser))->toArray());
+        $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $user = $this->getSystemUserService()->getSystemUser($userId);
+        return new EndpointGetOneResult(UserModel::class, $user);
     }
 
-    public function getList(): Response
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function getAll(): EndpointGetAllResult
     {
-        $searchClues['offset'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET);
-        $searchClues['limit'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT);
-        $searchClues['sortField'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD);
-        $searchClues['sortOrder'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_ORDER);
+        $searchClues['offset'] = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_OFFSET
+        );
+        $searchClues['limit'] = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_LIMIT
+        );
+        $searchClues['sortField'] = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_SORT_FIELD
+        );
+        $searchClues['sortOrder'] = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_SORT_ORDER
+        );
 
-        $users = [];
-        $systemUsers = $this->getSystemUserService()->searchSystemUsers($searchClues);
-        foreach ($systemUsers as $user) {
-            $users[] = (new UserModel($user))->toArray();
-        }
-        return new Response(
+        $users = $this->getSystemUserService()->searchSystemUsers($searchClues);
+        return new EndpointGetAllResult(
+            UserModel::class,
             $users,
-            [],
-            ['total' => $this->getSystemUserService()->getSearchSystemUsersCount($searchClues)]
+            new ParameterBag(
+                [
+                    'total' => $this->getSystemUserService()->getSearchSystemUsersCount(
+                        $searchClues
+                    )
+                ]
+            )
         );
     }
 
-    public function create(): Response
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function create(): EndpointCreateResult
     {
-        $username = $this->getRequestParams()->getPostParam(self::PARAMETER_USERNAME);
-        $password = $this->getRequestParams()->getPostParam(self::PARAMETER_PASSWORD);
-        $userRoleId = $this->getRequestParams()->getPostParam(self::PARAMETER_USER_ROLE_ID);
-        $empNumber = $this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_NUMBER);
-        $status = $this->getRequestParams()->getPostParam(self::PARAMETER_STATUS);
+        $username = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USERNAME);
+        $password = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PASSWORD);
+        $userRoleId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USER_ROLE_ID);
+        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMPLOYEE_NUMBER);
+        $status = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS);
 
         $employee = Doctrine::getEntityManager()->getReference(Employee::class, $empNumber);
 
@@ -94,17 +145,24 @@ class UserAPI extends EndPoint
         $systemUser->setUserRole($userRole);
         $systemUser->setEmployee($employee);
         $systemUser = $this->getSystemUserService()->saveSystemUser($systemUser, true);
-        return new Response((new UserModel($systemUser))->toArray());
+        return new EndpointCreateResult(UserModel::class, $systemUser);
     }
 
-    public function update(): Response
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function update(): EndpointUpdateResult
     {
-        $userId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        $username = $this->getRequestParams()->getPostParam(self::PARAMETER_USERNAME);
-        $userRoleId = $this->getRequestParams()->getPostParam(self::PARAMETER_USER_ROLE_ID);
-        $empNumber = $this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_NUMBER);
-        $status = $this->getRequestParams()->getPostParam(self::PARAMETER_STATUS);
-        $changePassword = $this->getRequestParams()->getPostParam(self::PARAMETER_CHANGE_PASSWORD);
+        $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $username = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USERNAME);
+        $userRoleId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USER_ROLE_ID);
+        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMPLOYEE_NUMBER);
+        $status = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS);
+        $changePassword = $this->getRequestParams()->getBoolean(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_CHANGE_PASSWORD
+        );
 
         $employee = Doctrine::getEntityManager()->getReference(Employee::class, $empNumber);
 
@@ -117,17 +175,21 @@ class UserAPI extends EndPoint
         $systemUser->setEmployee($employee);
 
         if ($changePassword) {
-            $password = $this->getRequestParams()->getPostParam(self::PARAMETER_PASSWORD);
+            $password = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PASSWORD);
             $systemUser->setUserPassword($password);
         }
         $systemUser = $this->getSystemUserService()->saveSystemUser($systemUser, $changePassword);
-        return new Response((new UserModel($systemUser))->toArray());
+        return new EndpointUpdateResult(UserModel::class, $systemUser);
     }
 
-    public function delete(): Response
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function delete(): EndpointDeleteResult
     {
-        $ids = $this->getRequestParams()->getPostParam(self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
         $this->getSystemUserService()->deleteSystemUsers($ids);
-        return new Response($ids);
+        return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
 }
