@@ -3,10 +3,10 @@
 namespace OrangeHRM\Core\Controller\Rest\V2;
 
 use Exception;
-use OrangeHRM\Core\Api\V2\CollectionEndpointInterface;
+use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Request;
-use OrangeHRM\Core\Api\V2\ResourceEndpointInterface;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Response;
 
 
@@ -40,9 +40,9 @@ class GenericRestController extends AbstractRestController
 
         $this->apiEndpoint = new $apiEndpoint($request);
 
-        if (!$this->apiEndpoint instanceof ResourceEndpointInterface && !$this->apiEndpoint instanceof CollectionEndpointInterface) {
+        if (!$this->apiEndpoint instanceof ResourceEndpoint && !$this->apiEndpoint instanceof CollectionEndpoint) {
             throw $this->getNotInstanceOfException(
-                ResourceEndpointInterface::class . '` or `' . CollectionEndpointInterface::class
+                ResourceEndpoint::class . '` or `' . CollectionEndpoint::class
             );
         }
     }
@@ -55,16 +55,16 @@ class GenericRestController extends AbstractRestController
     {
         $idAttribute = $request->getAttributes()->get('_key', 'id');
         if (is_null($request->getAttributes()->get($idAttribute))) {
-            if ($this->apiEndpoint instanceof CollectionEndpointInterface) {
+            if ($this->apiEndpoint instanceof CollectionEndpoint) {
                 $result = $this->apiEndpoint->getAll();
             } else {
-                throw $this->getNotInstanceOfException(CollectionEndpointInterface::class);
+                throw $this->getNotInstanceOfException(CollectionEndpoint::class);
             }
         } else {
-            if ($this->apiEndpoint instanceof ResourceEndpointInterface) {
+            if ($this->apiEndpoint instanceof ResourceEndpoint) {
                 $result = $this->apiEndpoint->getOne();
             } else {
-                throw $this->getNotInstanceOfException(ResourceEndpointInterface::class);
+                throw $this->getNotInstanceOfException(ResourceEndpoint::class);
             }
         }
         $meta = $result->getMeta();
@@ -82,11 +82,11 @@ class GenericRestController extends AbstractRestController
      */
     protected function handlePostRequest(Request $request): Response
     {
-        if ($this->apiEndpoint instanceof CollectionEndpointInterface) {
+        if ($this->apiEndpoint instanceof CollectionEndpoint) {
             $result = $this->apiEndpoint->create();
             return new Response($result->normalize());
         } else {
-            throw $this->getNotInstanceOfException(CollectionEndpointInterface::class);
+            throw $this->getNotInstanceOfException(CollectionEndpoint::class);
         }
     }
 
@@ -96,11 +96,11 @@ class GenericRestController extends AbstractRestController
      */
     protected function handlePutRequest(Request $request): Response
     {
-        if ($this->apiEndpoint instanceof ResourceEndpointInterface) {
+        if ($this->apiEndpoint instanceof ResourceEndpoint) {
             $result = $this->apiEndpoint->update();
             return new Response($result->normalize());
         } else {
-            throw $this->getNotInstanceOfException(ResourceEndpointInterface::class);
+            throw $this->getNotInstanceOfException(ResourceEndpoint::class);
         }
     }
 
@@ -110,11 +110,11 @@ class GenericRestController extends AbstractRestController
      */
     protected function handleDeleteRequest(Request $request): Response
     {
-        if ($this->apiEndpoint instanceof CollectionEndpointInterface) {
+        if ($this->apiEndpoint instanceof CollectionEndpoint) {
             $result = $this->apiEndpoint->delete();
             return new Response($result->normalize());
         } else {
-            throw $this->getNotInstanceOfException(CollectionEndpointInterface::class);
+            throw $this->getNotInstanceOfException(CollectionEndpoint::class);
         }
     }
 

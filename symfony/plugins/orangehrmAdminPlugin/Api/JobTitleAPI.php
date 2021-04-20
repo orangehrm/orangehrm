@@ -143,36 +143,19 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
         $jobTitleObj->setNote($params[self::PARAMETER_NOTE]);
 
         $jobSpecification = $params[self::PARAMETER_SPECIFICATION];
-        $jobSpecAttachment = new JobSpecificationAttachment();
-        $jobSpecAttachment->setFileName($jobSpecification['name']);
-        $jobSpecAttachment->setFileType($jobSpecification['type']);
-        $jobSpecAttachment->setFileSize($jobSpecification['size']);
-
-        $fileContent = base64_decode($jobSpecification['base64']);
-        $jobSpecAttachment->setFileContent($fileContent);
-        $jobTitleObj->setJobSpecificationAttachment($jobSpecAttachment);
-
-        $jobSpecAttachment->setJobTitle($jobTitleObj);
-
-        $jobTitleObj = $this->getJobTitleService()->saveJobTitle($jobTitleObj);
-
-        if ($params[self::PARAMETER_SPECIFICATION]) {
+        if ($jobSpecification) {
             // TODO:: validate file type and size
-            $jobSpecification = $params[self::PARAMETER_SPECIFICATION];
             $jobSpecAttachment = new JobSpecificationAttachment();
             $jobSpecAttachment->setFileName($jobSpecification['name']);
             $jobSpecAttachment->setFileType($jobSpecification['type']);
             $jobSpecAttachment->setFileSize($jobSpecification['size']);
-
             $fileContent = base64_decode($jobSpecification['base64']);
             $jobSpecAttachment->setFileContent($fileContent);
+            $jobTitleObj->setJobSpecificationAttachment($jobSpecAttachment);
             $jobSpecAttachment->setJobTitle($jobTitleObj);
-            $jobSpecificationAttachment = $this->getJobTitleService()
-                ->saveJobSpecificationAttachment($jobSpecAttachment);
-            $jobTitleObj = $jobSpecificationAttachment->getJobTitle();
-        } else {
-            $jobTitleObj = $this->getJobTitleService()->saveJobTitle($jobTitleObj);
         }
+
+        $jobTitleObj = $this->getJobTitleService()->saveJobTitle($jobTitleObj);
 
         return new EndpointCreateResult(JobTitleModel::class, $jobTitleObj);
     }
@@ -249,7 +232,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_NOTE
         );
-        $params[self::PARAMETER_SPECIFICATION] = $this->getRequestParams()->getArray(
+        $params[self::PARAMETER_SPECIFICATION] = $this->getRequestParams()->getArrayOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SPECIFICATION
         );

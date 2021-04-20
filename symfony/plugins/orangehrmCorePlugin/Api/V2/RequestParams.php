@@ -93,4 +93,15 @@ class RequestParams
     {
         return $this->$type->get($key, $default);
     }
+
+    /**
+     * @param string $type
+     * @param string $key
+     * @param array $default
+     * @return array|null
+     */
+    public function getArrayOrNull(string $type, string $key, array $default = []): ?array
+    {
+        return $this->$type->get($key, $default);
+    }
 }

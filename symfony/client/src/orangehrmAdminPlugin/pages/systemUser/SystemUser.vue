@@ -264,7 +264,7 @@ export default {
       // TODO: Loading
       if (items instanceof Array) {
         this.$http
-          .delete('api/v1/admin/users', {
+          .delete('api/v2/admin/users', {
             data: {ids: items},
           })
           .then(() => {
