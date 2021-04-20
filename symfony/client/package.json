@@ -10,7 +10,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=b3ac427a0cbfd7b3084315baca4274bcc92bee69",
+    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=0883de2e57fc8f2927a96079094df6262d17697a",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "vue": "3.0.5",
