@@ -25,7 +25,7 @@
 
       <oxd-divider />
 
-      <oxd-form novalidate="true" @submitValid="onSave">
+      <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
         <oxd-grid :cols="2">
           <div>
             <oxd-form-row>
@@ -33,6 +33,7 @@
                 label="Job Title"
                 v-model="jobTitle.title"
                 :rules="rules.title"
+                required
               />
             </oxd-form-row>
 
@@ -54,6 +55,7 @@
                 v-model="jobTitle.specification"
                 :rules="rules.specification"
               />
+              <oxd-text class="orangehrm-input-hint" tag="p">Accepts up to 1MB</oxd-text>
             </oxd-form-row>
 
             <oxd-form-row>
@@ -86,6 +88,7 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 
 const initialJobTitle = {
   title: '',
@@ -102,14 +105,22 @@ export default {
     },
   },
 
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v1/admin/job-titles',
+    );
+    return {
+      http,
+    };
+  },
+
   data() {
     return {
+      isLoading: false,
       jobTitle: {...initialJobTitle},
       rules: {
-        title: [
-          v => (!!v && v.trim() !== '') || 'Required',
-          v => (v && v.length <= 100) || 'Should be less than 100 characters',
-        ],
+        title: [],
         description: [
           v =>
             (v && v.length <= 400) ||
@@ -118,7 +129,7 @@ export default {
         ],
         specification: [
           v =>
-            v === null ||
+            v == null ||
             (v && v.size && v.size <= 1024 * 1024) ||
             'Attachment size exceeded',
         ],
@@ -133,11 +144,33 @@ export default {
   },
 
   created() {
-    this.$http
-      .get(`/api/v1/admin/job-titles/${this.jobTitleId}`)
+    this.isLoading = true;
+    this.http
+      .get(this.jobTitleId)
       .then(response => {
         const {data} = response.data;
         this.jobTitle = data;
+        // Fetch list data for unique test
+        return this.http.getAll();
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.title.push(v => {
+          return (!!v && v.trim() !== '') || 'Required';
+        });
+        this.rules.title.push(v => {
+          return (v && v.length < 100) || 'Should be less than 100 characters';
+        });
+        this.rules.title.push(v => {
+          const index = data.findIndex(item => item.title == v);
+          if (index > -1) {
+            const {id} = data[index];
+            return id != this.jobTitle.id ? 'Job title should be unique' : true;
+          } else {
+            return true;
+          }
+        });
+        this.isLoading = false;
       })
       .catch(error => {
         console.log(error);
@@ -149,13 +182,14 @@ export default {
       navigate('/admin/viewJobTitleList');
     },
     onSave() {
-      // TODO: Loading
-      this.$http
-        .put(`/api/v1/admin/job-titles/${this.jobTitleId}`, {
+      this.isLoading = true;
+      this.http
+        .update(this.jobTitleId, {
           ...this.jobTitle,
         })
         .then(() => {
           // go back
+          this.isLoading = false;
           this.onCancel();
         })
         .catch(error => {

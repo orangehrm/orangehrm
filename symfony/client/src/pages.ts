@@ -23,6 +23,9 @@ import JobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/JobCategory.vu
 import EditJobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/EditJobCategory.vue';
 import SaveJobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/SaveJobCategory.vue';
 import authenticationPages from './orangehrmAuthenticationPlugin/pages';
+import SystemUser from '@/orangehrmAdminPlugin/pages/systemUser/SystemUser.vue';
+import SaveSystemUser from '@/orangehrmAdminPlugin/pages/systemUser/SaveSystemUser.vue';
+import EditSystemUser from '@/orangehrmAdminPlugin/pages/systemUser/EditSystemUser.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -32,4 +35,7 @@ export default {
   'job-category-edit': EditJobCategory,
   'job-category-save': SaveJobCategory,
   ...authenticationPages,
+  'system-user-list': SystemUser,
+  'system-user-edit': EditSystemUser,
+  'system-user-save': SaveSystemUser,
 };

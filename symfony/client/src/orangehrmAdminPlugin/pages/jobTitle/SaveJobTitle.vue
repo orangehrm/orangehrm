@@ -25,7 +25,7 @@
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-grid :cols="2">
           <div>
             <oxd-form-row>
@@ -33,6 +33,7 @@
                 label="Job Title"
                 v-model="jobTitle.title"
                 :rules="rules.title"
+                required
               />
             </oxd-form-row>
 
@@ -54,6 +55,7 @@
                 v-model="jobTitle.specification"
                 :rules="rules.specification"
               />
+              <oxd-text class="orangehrm-input-hint" tag="p">Accepts up to 1MB</oxd-text>
             </oxd-form-row>
 
             <oxd-form-row>
@@ -86,6 +88,7 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 
 const initialJobTitle = {
   title: '',
@@ -95,14 +98,22 @@ const initialJobTitle = {
 };
 
 export default {
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v1/admin/job-titles',
+    );
+    return {
+      http,
+    };
+  },
+
   data() {
     return {
+      isLoading: false,
       jobTitle: {...initialJobTitle},
       rules: {
-        title: [
-          v => (!!v && v.trim() !== '') || 'Required',
-          v => (v && v.length <= 100) || 'Should be less than 100 characters',
-        ],
+        title: [],
         description: [
           v =>
             (v && v.length <= 400) ||
@@ -122,7 +133,6 @@ export default {
             'Should be less than 400 characters',
         ],
       },
-      errors: [],
     };
   },
 
@@ -131,19 +141,45 @@ export default {
       navigate('/admin/viewJobTitleList');
     },
     onSave() {
-      // TODO: Loading
-      this.$http
-        .post(`api/v1/admin/job-titles`, {
+      this.isLoading = true;
+      this.http
+        .create({
           ...this.jobTitle,
         })
         .then(() => {
           // go back
+          this.jobTitle = {...initialJobTitle};
+          this.isLoading = false;
           this.onCancel();
         })
         .catch(error => {
           console.log(error);
         });
     },
+  },
+
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.title.push(v => {
+          return (!!v && v.trim() !== '') || 'Required';
+        });
+        this.rules.title.push(v => {
+          return (v && v.length < 100) || 'Should be less than 100 characters';
+        });
+        this.rules.title.push(v => {
+          const index = data.findIndex(item => item.title == v);
+          return index === -1 || 'Job title should be unique';
+        });
+        this.isLoading = false;
+      })
+      .catch(error => {
+        this.isLoading = false;
+        console.log(error);
+      });
   },
 };
 </script>
