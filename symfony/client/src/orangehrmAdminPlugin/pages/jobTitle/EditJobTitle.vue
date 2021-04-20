@@ -108,7 +108,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v1/admin/job-titles',
+      'api/v2/admin/job-titles',
     );
     return {
       http,
@@ -149,7 +149,7 @@ export default {
       .get(this.jobTitleId)
       .then(response => {
         const {data} = response.data;
-        this.jobTitle = data;
+        this.jobTitle = {...initialJobTitle, ...data};
         // Fetch list data for unique test
         return this.http.getAll();
       })

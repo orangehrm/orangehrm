@@ -146,7 +146,7 @@ export default {
   },
 
   setup() {
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v1/admin/users');
+    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/admin/users');
     return {
       http,
     };

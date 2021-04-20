@@ -36,31 +36,31 @@ class JobSpecificationAttachment
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="file_name", type="string", length=255)
      */
-    private $fileName;
+    private string $fileName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="file_type", type="string", length=255)
      */
-    private $fileType;
+    private string $fileType;
 
     /**
      * @var int
      *
      * @ORM\Column(name="file_size", type="integer", length=30)
      */
-    private $fileSize;
+    private int $fileSize;
 
     /**
-     * @var string
+     * @var resource
      *
      * @ORM\Column(name="file_content", type="blob", length=2147483647)
      */
@@ -72,7 +72,7 @@ class JobSpecificationAttachment
      * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\JobTitle", inversedBy="jobSpecificationAttachment", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="job_title_id", nullable=false)
      */
-    private $jobTitle;
+    private JobTitle $jobTitle;
 
     /**
      * @return int

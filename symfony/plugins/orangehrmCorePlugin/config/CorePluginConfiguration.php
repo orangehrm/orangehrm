@@ -19,11 +19,13 @@
 
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\LoggerSubscriber;
+use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
@@ -34,14 +36,14 @@ class CorePluginConfiguration implements PluginConfigurationInterface
     /**
      * @inheritDoc
      */
-    public function initialize(): void
+    public function initialize(Request $request): void
     {
         $this->registerCoreSubscribers();
 
+        $isSecure = $request->isSecure();
         $options = [
-            'name' => '_orangehrm',
-            // TODO:: enable this depend on request
-            //'cookie_secure' => true,
+            'name' => $isSecure ? 'orangehrm' : '_orangehrm',
+            'cookie_secure' => $isSecure,
             'cookie_httponly' => true,
             'cache_limiter' => 'nocache',
         ];
@@ -69,5 +71,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface
             ]
         );
         $dispatcher->addSubscriber(new SessionSubscriber());
+        $dispatcher->addSubscriber(new RequestBodySubscriber());
     }
 }
