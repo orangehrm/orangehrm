@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,40 +16,19 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-import {createApp} from 'vue';
-import components from './components';
-import pages from './pages';
-import toaster, {ToasterAPI} from './core/plugins/toaster/toaster';
-import './core/plugins/toaster/toaster.scss';
+<template>
+  <oxd-button
+    class="orangehrm-left-space"
+    displayType="secondary"
+    label="Save"
+    type="submit"
+  />
+</template>
 
-const app = createApp({
-  name: 'App',
-  components: pages,
-});
-
-// Global Register Components
-app.use(components);
-
-app.use(toaster, {
-  duration: 2500,
-  persist: false,
-  animation: 'oxd-toast-list',
-  position: 'bottom',
-});
-
-// @ts-expect-error
-const baseUrl = window.appGlobal.baseUrl;
-
-// https://github.com/vuejs/vue-next/pull/982
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $toast: ToasterAPI;
-  }
-}
-
-app.config.globalProperties.global = {
-  baseUrl,
+<script>
+export default {
+  name: 'submit-button',
 };
-
-app.mount('#app');
+</script>

@@ -26,7 +26,7 @@
       <oxd-divider />
 
       <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
-        <oxd-grid :cols="2">
+        <oxd-grid :cols="1">
           <div>
             <oxd-form-row>
               <oxd-input-field
@@ -55,7 +55,9 @@
                 v-model="jobTitle.specification"
                 :rules="rules.specification"
               />
-              <oxd-text class="orangehrm-input-hint" tag="p">Accepts up to 1MB</oxd-text>
+              <oxd-text class="orangehrm-input-hint" tag="p"
+                >Accepts up to 1MB</oxd-text
+              >
             </oxd-form-row>
 
             <oxd-form-row>
@@ -65,6 +67,7 @@
                 placeholder="Add note"
                 v-model="jobTitle.note"
                 :rules="rules.note"
+                labelIcon="pencil-square"
               />
             </oxd-form-row>
           </div>
@@ -74,12 +77,7 @@
 
         <oxd-form-actions>
           <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
-          <oxd-button
-            type="submit"
-            class="orangehrm-left-space"
-            displayType="secondary"
-            label="Save"
-          />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -125,7 +123,7 @@ export default {
           v =>
             (v && v.length <= 400) ||
             v === '' ||
-            'Should be less than 400 characters',
+            'Should not exceed 400 characters',
         ],
         specification: [
           v =>
@@ -137,10 +135,34 @@ export default {
           v =>
             (v && v.length <= 400) ||
             v === '' ||
-            'Should be less than 400 characters',
+            'Should not exceed 400 characters',
         ],
       },
     };
+  },
+
+  methods: {
+    onCancel() {
+      navigate('/admin/viewJobTitleList');
+    },
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .update(this.jobTitleId, {
+          ...this.jobTitle,
+        })
+        .then(() => {
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Job title updated successfully!',
+          });
+        })
+        .then(() => {
+          // go back
+          this.isLoading = false;
+          this.onCancel();
+        });
+    },
   },
 
   created() {
@@ -159,7 +181,7 @@ export default {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.title.push(v => {
-          return (v && v.length < 100) || 'Should be less than 100 characters';
+          return (v && v.length <= 100) || 'Should not exceed 100 characters';
         });
         this.rules.title.push(v => {
           const index = data.findIndex(item => item.title == v);
@@ -170,32 +192,10 @@ export default {
             return true;
           }
         });
-        this.isLoading = false;
       })
-      .catch(error => {
-        console.log(error);
+      .finally(() => {
+        this.isLoading = false;
       });
-  },
-
-  methods: {
-    onCancel() {
-      navigate('/admin/viewJobTitleList');
-    },
-    onSave() {
-      this.isLoading = true;
-      this.http
-        .update(this.jobTitleId, {
-          ...this.jobTitle,
-        })
-        .then(() => {
-          // go back
-          this.isLoading = false;
-          this.onCancel();
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
   },
 };
 </script>

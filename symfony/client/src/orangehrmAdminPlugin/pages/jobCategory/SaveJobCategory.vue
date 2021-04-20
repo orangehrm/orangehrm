@@ -44,12 +44,7 @@
             label="Cancel"
             @click="onCancel"
           />
-          <oxd-button
-            class="orangehrm-left-space"
-            displayType="secondary"
-            label="Submit"
-            type="submit"
-          />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -93,12 +88,15 @@ export default {
           name: this.category.name,
         })
         .then(() => {
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Job category added successfully!',
+          });
+        })
+        .then(() => {
           this.category.name = '';
           this.isLoading = false;
           this.onCancel();
-        })
-        .catch(error => {
-          console.log(error);
         });
     },
     onCancel() {
@@ -116,7 +114,7 @@ export default {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.name.push(v => {
-          return (v && v.length < 50) || 'Should be less than 50 characters';
+          return (v && v.length <= 50) || 'Should not exceed 50 characters';
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
@@ -124,9 +122,8 @@ export default {
         });
         this.isLoading = false;
       })
-      .catch(error => {
+      .finally(() => {
         this.isLoading = false;
-        console.log(error);
       });
   },
 };

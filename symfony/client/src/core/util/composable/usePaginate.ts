@@ -74,12 +74,9 @@ function defaultNormalizer(data: DTO[]): DTO[] {
 }
 
 export default function usePaginate(
-  apiPath: string,
+  http: APIService,
   normalizer = defaultNormalizer,
 ) {
-  // @ts-expect-error
-  const http: APIService = new APIService(window.appGlobal.baseUrl, apiPath);
-
   const state = reactive<State>({
     showPaginator: false,
     isLoading: false,
