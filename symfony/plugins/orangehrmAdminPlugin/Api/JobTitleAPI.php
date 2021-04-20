@@ -21,12 +21,11 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\JobTitleModel;
 use OrangeHRM\Admin\Service\JobTitleService;
-use OrangeHRM\Core\Api\V2\CollectionEndpointInterface;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\ResourceEndpointInterface;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
@@ -36,7 +35,7 @@ use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 
-class JobTitleAPI extends Endpoint implements CollectionEndpointInterface, ResourceEndpointInterface
+class JobTitleAPI extends Endpoint implements CrudEndpoint
 {
     /**
      * @var null|JobTitleService

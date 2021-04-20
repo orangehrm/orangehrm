@@ -19,27 +19,20 @@
 
 namespace OrangeHRM\Core\Api\V2;
 
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 
-interface CollectionEndpointInterface
+interface ResourceEndpoint
 {
     /**
-     * Get collection of resources
-     * @return EndpointGetAllResult
+     * Get one resource
+     * @return EndpointGetOneResult
      */
-    public function getAll(): EndpointGetAllResult;
+    public function getOne(): EndpointGetOneResult;
 
     /**
-     * Create a new resource
-     * @return EndpointCreateResult
+     * Update one resource
+     * @return EndpointUpdateResult
      */
-    public function create(): EndpointCreateResult;
-
-    /**
-     * Delete list of resources
-     * @return EndpointDeleteResult
-     */
-    public function delete(): EndpointDeleteResult;
+    public function update(): EndpointUpdateResult;
 }

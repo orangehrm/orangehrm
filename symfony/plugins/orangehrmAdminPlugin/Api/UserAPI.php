@@ -21,12 +21,11 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\UserModel;
 use OrangeHRM\Admin\Service\UserService;
-use OrangeHRM\Core\Api\V2\CollectionEndpointInterface;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\ResourceEndpointInterface;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
@@ -36,7 +35,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\ORM\Doctrine;
 
-class UserAPI extends Endpoint implements CollectionEndpointInterface, ResourceEndpointInterface
+class UserAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_ID = 'id';
     public const PARAMETER_IDS = 'ids';
@@ -76,6 +75,10 @@ class UserAPI extends Endpoint implements CollectionEndpointInterface, ResourceE
         $this->systemUserService = $systemUserService;
     }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
     public function getOne(): EndpointGetOneResult
     {
         $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
@@ -83,6 +86,10 @@ class UserAPI extends Endpoint implements CollectionEndpointInterface, ResourceE
         return new EndpointGetOneResult(UserModel::class, $user);
     }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
     public function getAll(): EndpointGetAllResult
     {
         $searchClues['offset'] = $this->getRequestParams()->getString(
@@ -116,6 +123,10 @@ class UserAPI extends Endpoint implements CollectionEndpointInterface, ResourceE
         );
     }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
     public function create(): EndpointCreateResult
     {
         $username = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USERNAME);
@@ -137,6 +148,10 @@ class UserAPI extends Endpoint implements CollectionEndpointInterface, ResourceE
         return new EndpointCreateResult(UserModel::class, $systemUser);
     }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
     public function update(): EndpointUpdateResult
     {
         $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
@@ -167,6 +182,10 @@ class UserAPI extends Endpoint implements CollectionEndpointInterface, ResourceE
         return new EndpointUpdateResult(UserModel::class, $systemUser);
     }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
     public function delete(): EndpointDeleteResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);

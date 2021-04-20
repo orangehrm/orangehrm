@@ -23,12 +23,11 @@ use DaoException;
 use Exception;
 use OrangeHRM\Admin\Api\Model\JobCategoryModel;
 use OrangeHRM\Admin\Service\JobCategoryService;
-use OrangeHRM\Core\Api\V2\CollectionEndpointInterface;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\ResourceEndpointInterface;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
@@ -37,21 +36,21 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Entity\JobCategory;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 
-class JobCategoryAPI extends Endpoint implements CollectionEndpointInterface, ResourceEndpointInterface
+class JobCategoryAPI extends Endpoint implements CrudEndpoint
 {
     /**
      * @var null|JobCategoryService
      */
     protected ?JobCategoryService $jobCategoryService = null;
 
-    const PARAMETER_ID = 'id';
-    const PARAMETER_IDS = 'ids';
-    const PARAMETER_NAME = 'name';
+    public const PARAMETER_ID = 'id';
+    public const PARAMETER_IDS = 'ids';
+    public const PARAMETER_NAME = 'name';
 
-    const PARAMETER_SORT_FIELD = 'sortField';
-    const PARAMETER_SORT_ORDER = 'sortOrder';
-    const PARAMETER_OFFSET = 'offset';
-    const PARAMETER_LIMIT = 'limit';
+    public const PARAMETER_SORT_FIELD = 'sortField';
+    public const PARAMETER_SORT_ORDER = 'sortOrder';
+    public const PARAMETER_OFFSET = 'offset';
+    public const PARAMETER_LIMIT = 'limit';
 
     /**
      * @return JobCategoryService
