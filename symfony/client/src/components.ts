@@ -32,6 +32,8 @@ import TableFilter from '@orangehrm/oxd/core/components/TableFilter/TableFilter.
 import Grid from '@orangehrm/oxd/core/components/Grid/Grid.vue';
 import GridItem from '@orangehrm/oxd/core/components/Grid/GridItem.vue';
 
+import SubmitButton from '@orangehrm/components/buttons/SubmitButton.vue';
+
 export default {
   install: (app: App) => {
     app.component('oxd-layout', Layout);
@@ -48,5 +50,6 @@ export default {
     app.component('oxd-grid', Grid);
     app.component('oxd-grid-item', GridItem);
     app.component('oxd-table-filter', TableFilter);
+    app.component('submit-button', SubmitButton);
   },
 };

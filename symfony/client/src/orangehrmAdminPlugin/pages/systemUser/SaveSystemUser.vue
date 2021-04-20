@@ -110,12 +110,7 @@
         <oxd-divider />
         <oxd-form-actions>
           <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
-          <oxd-button
-            class="orangehrm-left-space"
-            displayType="secondary"
-            label="Save"
-            type="submit"
-          />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -159,17 +154,18 @@ export default {
       rules: {
         username: [
           v => (!!v && v.trim() !== '') || 'Required',
-          v => (v && v.length < 100) || 'Should be less than 100 characters',
+          v => (v && v.length <= 40) || 'Should not exceed 40 characters',
         ],
         role: [v => (!!v && v.length != 0) || 'Required'],
         employee: [v => (!!v && v.length != 0) || 'Required'],
         status: [v => (!!v && v.length != 0) || 'Required'],
         password: [
           v => (!!v && v.trim() !== '') || 'Required',
-          v => (v && v.length < 100) || 'Should be less than 100 characters',
+          v => (v && v.length <= 64) || 'Should not exceed 64 characters',
           v => checkPassword(v),
         ],
         passwordConfirm: [
+          v => (!!v && v.trim() !== '') || 'Required',
           v => (!!v && v === this.user.password) || 'Passwords do not match',
         ],
       },
@@ -200,13 +196,16 @@ export default {
           empNumber: 1,
         })
         .then(() => {
+          return this.$toast.success({
+            title: 'Success',
+            message: 'System user added successfully!',
+          });
+        })
+        .then(() => {
           // go back
           this.isLoading = false;
           this.user = {...userModel};
           this.onCancel();
-        })
-        .catch(error => {
-          console.log(error);
         });
     },
     async loadEmployees() {
@@ -274,10 +273,9 @@ export default {
             return true;
           }
         });
-        this.isLoading = false;
       })
-      .catch(error => {
-        console.log(error);
+      .finally(() => {
+        this.isLoading = false;
       });
   },
 };

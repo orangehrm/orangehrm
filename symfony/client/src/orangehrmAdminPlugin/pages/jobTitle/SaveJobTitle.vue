@@ -26,7 +26,7 @@
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
-        <oxd-grid :cols="2">
+        <oxd-grid :cols="1">
           <div>
             <oxd-form-row>
               <oxd-input-field
@@ -55,7 +55,9 @@
                 v-model="jobTitle.specification"
                 :rules="rules.specification"
               />
-              <oxd-text class="orangehrm-input-hint" tag="p">Accepts up to 1MB</oxd-text>
+              <oxd-text class="orangehrm-input-hint" tag="p"
+                >Accepts up to 1MB</oxd-text
+              >
             </oxd-form-row>
 
             <oxd-form-row>
@@ -64,6 +66,7 @@
                 label="Note"
                 placeholder="Add note"
                 v-model="jobTitle.note"
+                labelIcon="pencil-square"
                 :rules="rules.note"
               />
             </oxd-form-row>
@@ -74,12 +77,7 @@
 
         <oxd-form-actions>
           <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
-          <oxd-button
-            class="orangehrm-left-space"
-            displayType="secondary"
-            label="Save"
-            type="submit"
-          />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -118,7 +116,7 @@ export default {
           v =>
             (v && v.length <= 400) ||
             v === '' ||
-            'Should be less than 400 characters',
+            'Should not exceed 400 characters',
         ],
         specification: [
           v =>
@@ -130,7 +128,7 @@ export default {
           v =>
             (v && v.length <= 400) ||
             v === '' ||
-            'Should be less than 400 characters',
+            'Should not exceed 400 characters',
         ],
       },
     };
@@ -147,13 +145,15 @@ export default {
           ...this.jobTitle,
         })
         .then(() => {
-          // go back
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Job title added successfully!',
+          });
+        })
+        .then(() => {
           this.jobTitle = {...initialJobTitle};
           this.isLoading = false;
           this.onCancel();
-        })
-        .catch(error => {
-          console.log(error);
         });
     },
   },
@@ -168,17 +168,15 @@ export default {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.title.push(v => {
-          return (v && v.length < 100) || 'Should be less than 100 characters';
+          return (v && v.length <= 100) || 'Should not exceed 100 characters';
         });
         this.rules.title.push(v => {
           const index = data.findIndex(item => item.title == v);
           return index === -1 || 'Job title should be unique';
         });
-        this.isLoading = false;
       })
-      .catch(error => {
+      .finally(() => {
         this.isLoading = false;
-        console.log(error);
       });
   },
 };
