@@ -20,19 +20,66 @@
 
 <template>
   <div class="orangehrm-background-container">
+    <oxd-table-filter filter-title="System Users">
+      <oxd-form @submitValid="filterItems">
+        <oxd-form-row>
+          <oxd-grid :cols="4" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field label="Username" v-model="filters.username" />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                type="dropdown"
+                label="User Role"
+                v-model="filters.role"
+                :clear="false"
+                :options="userRoles"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                type="dropdown"
+                label="Employee Name"
+                v-model="filters.empName"
+                :create-options="loadEmployees"
+                :lazyLoad="true"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                type="dropdown"
+                label="Status"
+                v-model="filters.status"
+                :clear="false"
+                :options="userStatuses"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-divider />
+
+        <oxd-form-actions>
+          <oxd-button displayType="secondary" label="Search" type="submit" />
+          <oxd-button
+            class="orangehrm-left-space"
+            displayType="ghost"
+            label="Reset"
+          />
+        </oxd-form-actions>
+      </oxd-form>
+    </oxd-table-filter>
+    <br />
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Job Title List</oxd-text>
-        <div>
-          <oxd-button label="Add" displayType="secondary" @click="onClickAdd" />
-        </div>
+        <oxd-button label="Add" displayType="secondary" @click="onClickAdd" />
       </div>
       <oxd-divider class="orangehrm-horizontal-margin" />
       <div>
         <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
           <div v-if="checkedItems.length > 0">
             <oxd-text tag="span">
-              {{ checkedItems.length }} Job Title Selected
+              {{ checkedItems.length }} System Users Selected
             </oxd-text>
             <oxd-button
               label="Delete Selected"
@@ -41,7 +88,7 @@
               class="orangehrm-horizontal-margin"
             />
           </div>
-          <oxd-text tag="span" v-else>{{itemsCountText}}</oxd-text>
+          <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
         </div>
       </div>
       <div class="orangehrm-container">
@@ -52,6 +99,7 @@
           :selectable="true"
           v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
+          :order="order"
         />
       </div>
       <div class="orangehrm-bottom-container">
@@ -62,25 +110,39 @@
         />
       </div>
     </div>
-
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
-    <toast-container ref="toastContainer"></toast-container>
   </div>
 </template>
 
 <script>
+import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
-import ToastContainer from '@orangehrm/components/ToastContainer.vue';
-import {TYPE_SUCCESS} from '@orangehrm/oxd/src/core/components/Toast/types';
+
+const userdataNormalizer = data => {
+  return data.map(item => {
+    return {
+      id: item.id,
+      userName: item.userName,
+      role: item.userRole?.displayName,
+      empName: `${item.employee?.firstName} ${item.employee?.lastName}`,
+      status: item.status ? 'Enabled' : 'Disabled',
+    };
+  });
+};
 
 export default {
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
+
   data() {
     return {
       headers: [
-        {name: 'title', title: 'Job Title', style: {flex: 2}},
-        {name: 'description', title: 'Description', style: {flex: 4}},
+        {name: 'userName', title: 'Username', style: {flex: 1}},
+        {name: 'role', title: 'User Role', style: {flex: 1}},
+        {name: 'empName', title: 'Employee Name', style: {flex: 1}},
+        {name: 'status', title: 'Status', style: {flex: 1}},
         {
           name: 'actions',
           title: 'Actions',
@@ -103,14 +165,43 @@ export default {
           },
         },
       ],
+      filters: {
+        username: '',
+        role: [{id: 0, label: 'All'}],
+        empName: [],
+        status: [{id: 0, label: 'All'}],
+      },
+      userRoles: [
+        {id: 0, label: 'All'},
+        {id: 1, label: 'Admin'},
+        {id: 2, label: 'ESS'},
+      ],
+      userStatuses: [
+        {id: 0, label: 'All'},
+        {id: 1, label: 'Enabled'},
+        {id: 2, label: 'Disabled'},
+      ],
       editItem: null,
       checkedItems: [],
+      order: [
+        {
+          id: 0,
+          default: 'desc',
+        },
+        {
+          id: 1,
+          default: '',
+        },
+        {
+          id: 2,
+          default: '',
+        },
+        {
+          id: 3,
+          default: '',
+        },
+      ],
     };
-  },
-
-  components: {
-    'delete-confirmation': DeleteConfirmationDialog,
-    'toast-container': ToastContainer,
   },
 
   setup() {
@@ -123,7 +214,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate('api/v1/admin/job-titles');
+    } = usePaginate('api/v1/admin/users', userdataNormalizer);
     return {
       showPaginator,
       currentPage,
@@ -140,21 +231,21 @@ export default {
     itemsCountText() {
       return this.total === 0
         ? 'No Records Found'
-        : `${this.total} Job Title Found`;
+        : `${this.total} System User Found`;
     },
   },
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveJobTitle');
+      navigate('/admin/saveSystemUser');
     },
     onClickEdit(item) {
-      navigate('/admin/saveJobTitle/{id}', {id: item.id});
+      navigate('/admin/saveSystemUser/{id}', {id: item.id});
     },
+
     onClickDeleteSelected() {
-      const ids = [];
-      this.checkedItems.forEach(index => {
-        ids.push(this.items?.data[index].id);
+      const ids = this.checkedItems.map(index => {
+        return this.items?.data[index].id;
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -173,16 +264,11 @@ export default {
       // TODO: Loading
       if (items instanceof Array) {
         this.$http
-          .delete('api/v1/admin/job-titles', {
+          .delete('api/v1/admin/users', {
             data: {ids: items},
           })
           .then(() => {
             this.resetDataTable();
-            this.$refs.toastContainer.push({
-              type: TYPE_SUCCESS,
-              title: 'Success',
-              message: 'Successfully Deleted',
-            });
           })
           .catch(error => {
             console.log(error);
@@ -192,6 +278,29 @@ export default {
     async resetDataTable() {
       this.$refs.dTable.checkedItems = [];
       await this.execQuery();
+    },
+    filterItems() {
+      console.log(this.filters);
+    },
+    async loadEmployees() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve([
+            {
+              id: 1,
+              label: 'James Fox',
+            },
+            {
+              id: 2,
+              label: 'Darth Vader',
+            },
+            {
+              id: 3,
+              label: 'J Jhona Jamerson Jr.',
+            },
+          ]);
+        }, 5000);
+      });
     },
   },
 };

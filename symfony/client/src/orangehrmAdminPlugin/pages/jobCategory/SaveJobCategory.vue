@@ -25,12 +25,13 @@
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
             label="Job Category Name"
             v-model="category.name"
             :rules="rules.name"
+            required
           />
         </oxd-form-row>
 
@@ -57,10 +58,12 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 
 export default {
   data() {
     return {
+      isLoading: false,
       category: {
         id: '',
         name: '',
@@ -71,15 +74,27 @@ export default {
       errors: [],
     };
   },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v1/admin/job-categories',
+    );
+    return {
+      http,
+    };
+  },
+
   methods: {
     onSave() {
-      // TODO: Loading
-      this.$http
-        .post(`api/v1/admin/job-categories`, {
+      this.isLoading = true;
+      this.http
+        .create({
           name: this.category.name,
         })
         .then(() => {
-          // go back
+          this.category.name = '';
+          this.isLoading = false;
           this.onCancel();
         })
         .catch(error => {
@@ -90,23 +105,27 @@ export default {
       navigate('/admin/jobCategory');
     },
   },
+
   created() {
-    this.$http
-      .get(`api/v1/admin/job-categories`)
+    this.isLoading = true;
+    this.http
+      .getAll()
       .then(response => {
         const {data} = response.data;
         this.rules.name.push(v => {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.name.push(v => {
-          return (v && v.length <= 100) || 'Should be less than 50 characters';
+          return (v && v.length < 50) || 'Should be less than 50 characters';
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
           return index === -1 || 'Job category name should be unique';
         });
+        this.isLoading = false;
       })
       .catch(error => {
+        this.isLoading = false;
         console.log(error);
       });
   },

@@ -57,3 +57,18 @@ edit_job_category:
   path: /admin/saveJobCategory/{id}
   controller: OrangeHRM\Admin\Controller\SaveJobCategoryController::handle
   methods: [ GET ]
+
+view_system_users:
+  path: /admin/systemUser
+  controller: OrangeHRM\Admin\Controller\SystemUserController::handle
+  methods: [ GET ]
+
+save_system_users:
+  path: /admin/saveSystemUser
+  controller: OrangeHRM\Admin\Controller\SaveSystemUserController::handle
+  methods: [ GET ]
+
+edit_system_users:
+  path: /admin/saveSystemUser/{id}
+  controller: OrangeHRM\Admin\Controller\SaveSystemUserController::handle
+  methods: [ GET ]
