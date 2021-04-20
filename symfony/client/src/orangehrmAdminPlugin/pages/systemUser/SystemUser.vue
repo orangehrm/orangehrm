@@ -103,6 +103,7 @@
           :headers="headers"
           :items="items?.data"
           :selectable="true"
+          :clickable="false"
           v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
           :order="order"
@@ -212,7 +213,7 @@ export default {
   },
 
   setup() {
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v1/admin/users');
+    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/admin/users');
     const {
       showPaginator,
       currentPage,

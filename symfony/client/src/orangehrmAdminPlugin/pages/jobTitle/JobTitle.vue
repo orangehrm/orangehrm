@@ -56,6 +56,7 @@
           :headers="headers"
           :items="items?.data"
           :selectable="true"
+          :clickable="false"
           v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
         />
@@ -119,7 +120,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v1/admin/job-titles',
+      'api/v2/admin/job-titles',
     );
     const {
       showPaginator,
