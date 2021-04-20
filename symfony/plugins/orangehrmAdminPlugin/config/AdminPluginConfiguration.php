@@ -18,13 +18,14 @@
  */
 
 use OrangeHRM\Framework\PluginConfigurationInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminPluginConfiguration implements PluginConfigurationInterface
 {
     /**
      * @inheritDoc
      */
-    public function initialize(): void
+    public function initialize(Request $request): void
     {
     }
 }

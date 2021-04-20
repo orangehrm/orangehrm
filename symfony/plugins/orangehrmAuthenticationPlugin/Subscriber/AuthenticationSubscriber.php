@@ -20,9 +20,9 @@
 namespace OrangeHRM\Authentication\Subscriber;
 
 use Exception;
-use OrangeHRM\Core\Controller\AbstractRestController;
 use OrangeHRM\Core\Controller\AbstractViewController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Authentication\Auth\User;

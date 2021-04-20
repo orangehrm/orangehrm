@@ -68,6 +68,7 @@ final class Services
 
     /**
      * Monolog\Logger
+     * Psr\Log\LoggerInterface
      */
     public const LOGGER = 'logger';
 
