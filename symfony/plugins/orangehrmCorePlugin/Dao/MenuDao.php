@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,89 +17,103 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Menu Dao
- */
-class MenuDao {
+namespace OrangeHRM\Core\Dao;
 
-    public function getMenuItemList($userRoleList) {
+use Exception;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\MenuItem;
+use OrangeHRM\Entity\Module;
+use OrangeHRM\Entity\UserRole;
+use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\ORM\ListSorter;
 
+class MenuDao
+{
+    /**
+     * @param UserRole[]|string[] $userRoleList
+     * @return MenuItem[]
+     * @throws DaoException
+     */
+    public function getMenuItemList(array $userRoleList): array
+    {
         try {
-
             if (count($userRoleList) == 0) {
-                return new Doctrine_Collection('MenuItem');
+                return [];
             }
 
-            $roleNames = array();
+            $roleNames = [];
 
-            foreach($userRoleList as $role) {
-
+            foreach ($userRoleList as $role) {
                 if ($role instanceof UserRole) {
                     $roleNames[] = $role->getName();
-                } else if (is_string($role)) {
+                } elseif (is_string($role)) {
                     $roleNames[] = $role;
                 }
-
             }
 
-            $query = Doctrine_Query::create()
-                ->from('MenuItem mi')
-                ->leftJoin('mi.Screen sc')
-                ->leftJoin('sc.Module mo')
-                ->leftJoin('sc.ScreenPermission sp')
-                ->leftJoin('sp.UserRole ur')
-                ->andWhere('mo.status = ?', Module::ENABLED)
-                ->andWhere('mi.status = ?', MenuItem::STATUS_ENABLED)
-                ->andWhere('sp.can_read = 1')
-                ->whereIn('ur.name', $roleNames)
-                ->orWhere('mi.screenId IS NULL')
-                ->orderBy('mi.orderHint ASC, mi.id ASC');
+            $q = Doctrine::getEntityManager()->getRepository(MenuItem::class)->createQueryBuilder('mi');
+            $q->leftJoin('mi.screen', 'sc');
+            $q->leftJoin('sc.module', 'mo');
+            $q->leftJoin('sc.screenPermissions', 'sp');
+            $q->leftJoin('sp.userRole', 'ur');
 
-            return $query->execute();
+            $q->andWhere('mo.status = :moduleStatus');
+            $q->setParameter('moduleStatus', Module::ENABLED);
 
-            // @codeCoverageIgnoreStart
+            $q->andWhere('mi.status = :menuItemStatus');
+            $q->setParameter('menuItemStatus', MenuItem::STATUS_ENABLED);
+
+            $q->andWhere('sp.canRead = :screenPermission');
+            $q->setParameter('screenPermission', true);
+
+            $q->andWhere($q->expr()->in('ur.name', $roleNames));
+            $q->orWhere($q->expr()->isNull('mi.screen'));
+            $q->addOrderBy('mi.orderHint', ListSorter::ASCENDING);
+            $q->addOrderBy('mi.id', ListSorter::ASCENDING);
+
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        // @codeCoverageIgnoreEnd
-
     }
 
-    public function enableModuleMenuItems($moduleName, $menuTitles = array()) {
-
+    /**
+     * @param string $moduleName
+     * @param array $menuTitles
+     * @return int
+     * @throws DaoException
+     */
+    public function enableModuleMenuItems(string $moduleName, array $menuTitles = []):int
+    {
         try {
+            $q = Doctrine::getEntityManager()->getRepository(MenuItem::class)->createQueryBuilder('mi');
+            $q->leftJoin('mi.screen', 'sc');
+            $q->leftJoin('sc.module', 'mo');
 
-            $query = Doctrine_Query::create()
-                ->from('MenuItem mi')
-                ->leftJoin('mi.Screen sc')
-                ->leftJoin('sc.Module mo')
-                ->andWhere('mo.name = ?', $moduleName)
-                ->andWhere('mi.status = ?', MenuItem::STATUS_DISABLED);
+            $q->andWhere('mo.name = :moduleName');
+            $q->setParameter('moduleName', $moduleName);
+
+            $q->andWhere('mi.status = :menuItemStatus');
+            $q->setParameter('menuItemStatus', MenuItem::STATUS_DISABLED);
+
             if (!empty($menuTitles)) {
-                $query->andWhereIn('mi.menu_title', $menuTitles);
+                $q->andWhere($q->expr()->in('mi.menuTitle', $menuTitles));
             }
-            $menuItemList = $query->execute();
+            $menuItemList = $q->getQuery()->execute();
             $i = 0;
 
             foreach ($menuItemList as $menuItem) {
-
-                $menuItem->setStatus(MenuItem::STATUS_ENABLED);
-                $menuItem->save();
+                if ($menuItem instanceof MenuItem) {
+                    $menuItem->setStatus(MenuItem::STATUS_ENABLED);
+                    Doctrine::getEntityManager()->persist($menuItem);
+                }
                 $i++;
-
             }
+            Doctrine::getEntityManager()->flush();
 
             return $i;
-
-            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        // @codeCoverageIgnoreEnd
-
-
-
-
     }
-
 }
