@@ -64,6 +64,17 @@ class RequestParams
     /**
      * @param string $type
      * @param string $key
+     * @param string|null $default
+     * @return string|null
+     */
+    public function getStringOrNull(string $type, string $key, ?string $default = null): ?string
+    {
+        return $this->$type->get($key, $default);
+    }
+
+    /**
+     * @param string $type
+     * @param string $key
      * @param int $default
      * @return int
      */
@@ -80,7 +91,7 @@ class RequestParams
      */
     public function getBoolean(string $type, string $key, bool $default = false): bool
     {
-        return $this->$type->getInt($key, $default);
+        return $this->$type->getBoolean($key, $default);
     }
 
     /**
@@ -97,10 +108,10 @@ class RequestParams
     /**
      * @param string $type
      * @param string $key
-     * @param array $default
+     * @param array|null $default
      * @return array|null
      */
-    public function getArrayOrNull(string $type, string $key, array $default = []): ?array
+    public function getArrayOrNull(string $type, string $key, ?array $default = null): ?array
     {
         return $this->$type->get($key, $default);
     }

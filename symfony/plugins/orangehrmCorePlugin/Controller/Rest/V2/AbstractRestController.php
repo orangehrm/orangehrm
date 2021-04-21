@@ -20,12 +20,12 @@
 namespace OrangeHRM\Core\Controller\Rest\V2;
 
 use Exception;
+use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Validator;
 use OrangeHRM\Core\Api\V2\Request;
@@ -133,28 +133,28 @@ abstract class AbstractRestController extends AbstractController
         } catch (RecordNotFoundException $e) {
             $response->setContent(
                 Response::formatError(
-                    ['error' => ['status' => '404', 'text' => $e->getMessage()]]
+                    ['error' => ['status' => '404', 'message' => $e->getMessage()]]
                 )
             );
             $response->setStatusCode(404);
         } catch (InvalidParamException $e) {
             $response->setContent(
                 Response::formatError(
-                    ['error' => ['status' => '202', 'text' => $e->getMessage()]]
+                    ['error' => ['status' => '202', 'message' => $e->getMessage()]]
                 )
             );
             $response->setStatusCode(202);
         } catch (NotImplementedException $e) {
             $response->setContent(
                 Response::formatError(
-                    ['error' => ['status' => '501', 'text' => 'Not Implemented']]
+                    ['error' => ['status' => '501', 'message' => 'Not Implemented']]
                 )
             );
             $response->setStatusCode(501);
         } catch (BadRequestException $e) {
             $response->setContent(
                 Response::formatError(
-                    ['error' => ['status' => '400', 'text' => 'Bad Request']]
+                    ['error' => ['status' => '400', 'message' => 'Bad Request']]
                 )
             );
             $response->setStatusCode(400);
@@ -166,7 +166,7 @@ abstract class AbstractRestController extends AbstractController
 
             $response->setContent(
                 Response::formatError(
-                    ['error' => ['Unexpected Error Occurred']]
+                    ['error' => ['status' => '500', 'message' => 'Unexpected Error Occurred']]
                 )
             );
             $response->setStatusCode(500);
