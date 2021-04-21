@@ -21,5 +21,9 @@
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Dao</directory>
     </testsuite>
+    <testsuite name="Core Tests">
+      <directory>symfony/plugins/orangehrmCorePlugin/test/Service</directory>
+      <directory>symfony/plugins/orangehrmCorePlugin/test/Dao</directory>
+    </testsuite>
   </testsuites>
 </phpunit>

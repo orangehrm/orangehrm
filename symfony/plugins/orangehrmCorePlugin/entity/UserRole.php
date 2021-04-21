@@ -67,21 +67,12 @@ class UserRole
     private bool $isPredefined;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\DataGroupPermission", mappedBy="userRole")
-     * @ORM\JoinColumn(name="id", referencedColumnName="user_role_id")
-     */
-    private $dataGroupPermissions;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->isAssignable = false;
         $this->isPredefined = false;
-        $this->dataGroupPermissions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

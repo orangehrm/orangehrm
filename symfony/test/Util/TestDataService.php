@@ -43,8 +43,11 @@ class TestDataService {
     private static $insertQueryCache = null;
     
     public static function populate($fixture) {
-
-        self::_populateUsingPdoTransaction($fixture);
+        $pathToFixtures = realpath($fixture);
+        if (!$pathToFixtures) {
+            throw new \Exception(sprintf("Couldn't find fixture file in %s", $fixture));
+        }
+        self::_populateUsingPdoTransaction($pathToFixtures);
         //self::_populateUsingDoctrineObjects($fixture);
     }
 
@@ -224,25 +227,25 @@ class TestDataService {
     private static function _setData($fixture) {
 
         self::$data = Yaml::parseFile($fixture);
-        
+
         self::_encryptFieldsInFixture();
-        
+
         self::_setTableNames();
     }
-    
+
     /**
-     * If configured to encrypt data, encrypt fields in fixture. 
+     * If configured to encrypt data, encrypt fields in fixture.
      */
     private static function _encryptFieldsInFixture() {
-        
+
         foreach (self::$encryptedModels as $model => $fields) {
             if (isset(self::$data[$model]) && \KeyHandler::keyExists()) {
                 foreach (self::$data[$model] as $id => $row) {
-                    
+
                     foreach ($fields as $field) {
                         self::$data[$model][$id][$field] = \Cryptographer::encrypt($row[$field]);
                     }
-                }            
+                }
             }
         }
     }
@@ -288,7 +291,7 @@ class TestDataService {
         if (is_null($tableNames)) {
             $tableNames = self::$tableNames;
         }
-        
+
         if (count($tableNames) > 0) {
             $pdo = self::_getDbConnection();
             self::_disableConstraints();
@@ -319,9 +322,9 @@ class TestDataService {
             if (is_array(self::$data)) {
                 foreach (self::$data as $alias => $values) {
                     Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
-                }            
+                }
             }
-            
+
             self::_enableConstraints();
         }
     }
@@ -355,7 +358,7 @@ class TestDataService {
 
         self::_truncateTables();
     }
-    
+
     public static function truncateSpecificTables($aliasArray) {
 
         $tableNames = array();
@@ -403,7 +406,7 @@ class TestDataService {
 
     public static function loadObjectList($alias, $fixture, $key) {
         $data = Yaml::parseFile($fixture);
-        
+
         return self::loadObjectListFromArray($alias, $data[$key]);
     }
 
@@ -424,8 +427,8 @@ class TestDataService {
         }
 
         return $objectList;
-    }   
-    
+    }
+
     public static function getRecords($query) {
         return self::_getDbConnection()->query($query)->fetchAll(\PDO::FETCH_ASSOC);
     }

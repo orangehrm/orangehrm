@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity;
 
@@ -19,77 +36,161 @@ class ScreenPermission
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="user_role_id", type="integer")
-     */
-    private $userRoleId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="screen_id", type="integer")
-     */
-    private $screenId;
+    private int $id;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="can_read", type="boolean")
      */
-    private $canRead;
+    private bool $canRead;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="can_create", type="boolean")
      */
-    private $canCreate;
+    private bool $canCreate;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="can_update", type="boolean")
      */
-    private $canUpdate;
+    private bool $canUpdate;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="can_delete", type="boolean")
      */
-    private $canDelete;
+    private bool $canDelete;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var UserRole
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\UserRole", mappedBy="ScreenPermission")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_role_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\UserRole")
+     * @ORM\JoinColumn(name="user_role_id", referencedColumnName="id")
      */
-    private $userRole;
+    private UserRole $userRole;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Screen
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Screen", mappedBy="ScreenPermission")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="screen_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Screen", inversedBy="screenPermissions")
+     * @ORM\JoinColumn(name="screen_id", referencedColumnName="id")
      */
-    private $screen;
+    private Screen $screen;
 
     /**
-     * Constructor
+     * @return int
      */
-    public function __construct()
+    public function getId(): int
     {
-        $this->userRole = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->screen = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->id;
     }
 
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canRead(): bool
+    {
+        return $this->canRead;
+    }
+
+    /**
+     * @param bool $canRead
+     */
+    public function setCanRead(bool $canRead): void
+    {
+        $this->canRead = $canRead;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canCreate(): bool
+    {
+        return $this->canCreate;
+    }
+
+    /**
+     * @param bool $canCreate
+     */
+    public function setCanCreate(bool $canCreate): void
+    {
+        $this->canCreate = $canCreate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canUpdate(): bool
+    {
+        return $this->canUpdate;
+    }
+
+    /**
+     * @param bool $canUpdate
+     */
+    public function setCanUpdate(bool $canUpdate): void
+    {
+        $this->canUpdate = $canUpdate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canDelete(): bool
+    {
+        return $this->canDelete;
+    }
+
+    /**
+     * @param bool $canDelete
+     */
+    public function setCanDelete(bool $canDelete): void
+    {
+        $this->canDelete = $canDelete;
+    }
+
+    /**
+     * @return UserRole
+     */
+    public function getUserRole(): UserRole
+    {
+        return $this->userRole;
+    }
+
+    /**
+     * @param UserRole $userRole
+     */
+    public function setUserRole(UserRole $userRole): void
+    {
+        $this->userRole = $userRole;
+    }
+
+    /**
+     * @return Screen
+     */
+    public function getScreen(): Screen
+    {
+        return $this->screen;
+    }
+
+    /**
+     * @param Screen $screen
+     */
+    public function setScreen(Screen $screen): void
+    {
+        $this->screen = $screen;
+    }
 }
