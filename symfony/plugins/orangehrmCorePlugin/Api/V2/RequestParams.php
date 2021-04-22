@@ -69,7 +69,8 @@ class RequestParams
      */
     public function getStringOrNull(string $type, string $key, ?string $default = null): ?string
     {
-        return $this->$type->get($key, $default);
+        $param = $this->$type->get($key, $default);
+        return $this->isEmptyString($param) && is_null($default) ? null : $param;
     }
 
     /**
@@ -86,11 +87,38 @@ class RequestParams
     /**
      * @param string $type
      * @param string $key
+     * @param int|null $default
+     * @return int|null
+     */
+    public function getIntOrNull(string $type, string $key, ?int $default = null): ?int
+    {
+        $param = $this->$type->get($key, $default);
+        return $this->isEmptyString($param) ? null : $param;
+    }
+
+    /**
+     * @param string $type
+     * @param string $key
      * @param bool $default
      * @return bool
      */
     public function getBoolean(string $type, string $key, bool $default = false): bool
     {
+        return $this->$type->getBoolean($key, $default);
+    }
+
+    /**
+     * @param string $type
+     * @param string $key
+     * @param bool|null $default
+     * @return bool|null
+     */
+    public function getBooleanOrNull(string $type, string $key, ?bool $default = null): ?bool
+    {
+        $param = $this->$type->get($key, $default);
+        if (is_null($param)) {
+            return null;
+        }
         return $this->$type->getBoolean($key, $default);
     }
 
@@ -114,5 +142,14 @@ class RequestParams
     public function getArrayOrNull(string $type, string $key, ?array $default = null): ?array
     {
         return $this->$type->get($key, $default);
+    }
+
+    /**
+     * @param string|int|bool|null $param
+     * @return bool
+     */
+    private function isEmptyString($param): bool
+    {
+        return is_string($param) && empty($param);
     }
 }

@@ -15,7 +15,7 @@ UserRole:
   6: {id: 7, name: 'UserRole3', display_name: 'UserRole3', is_assignable: 1, is_predefined: 0}
   7: {id: 8, name: 'Admin2', display_name: 'Admin2', is_assignable: 1, is_predefined: 0}  
   
-SystemUser:
+User:
   0: {id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha'}
   1: {id: 2, user_role_id: 2, emp_number: 2, user_name: 'yashika', user_password: 'yashika'}
   2: {id: 3, user_role_id: 1, emp_number: 3, user_name: 'Renukshan', user_password: 'Renukshan', status: 0}

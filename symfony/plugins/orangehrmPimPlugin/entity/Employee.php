@@ -523,6 +523,13 @@ class Employee
     private $EmployeeCountry;
 
     /**
+     * @var User[]|Collection
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\User", mappedBy="employee")
+     */
+    private $users;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -546,6 +553,7 @@ class Employee
         $this->attachments = new ArrayCollection();
         $this->projectAdmin = new ArrayCollection();
         $this->EmployeeCountry = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -658,5 +666,21 @@ class Employee
     public function setPurgedAt(?DateTime $purgedAt): void
     {
         $this->purgedAt = $purgedAt;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param Collection|User[] $users
+     */
+    public function setUsers($users): void
+    {
+        $this->users = $users;
     }
 }
