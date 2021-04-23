@@ -114,7 +114,7 @@ export default {
     },
     onCancel() {
       this.$emit('close', true);
-    }
+    },
   },
 };
 </script>
