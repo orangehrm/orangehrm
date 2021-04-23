@@ -21,12 +21,12 @@ namespace OrangeHRM\Admin\Dao;
 
 use Doctrine\ORM\QueryBuilder;
 use Exception;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\ORM\DoctrineQuery;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Authentication\Dto\UserCredential;
@@ -39,7 +39,7 @@ class UserDao
      *
      * @param User $systemUser
      * @return User
-     * @throws \DaoException
+     * @throws DaoException
      */
     public function saveSystemUser(User $systemUser): User
     {
@@ -48,7 +48,7 @@ class UserDao
             Doctrine::getEntityManager()->flush();
             return $systemUser;
         } catch (Exception $e) {
-            throw new \DaoException($e->getMessage(), $e->getCode(), $e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -134,13 +134,9 @@ class UserDao
             $query->andWhere('u.deleted = :deleted');
             $query->setParameter('deleted', false);
 
-            $result = $query->getQuery()->execute(null, DoctrineQuery::HYDRATE_SINGLE_SCALAR);
 
-            if (is_string($result)) {
-                $result = [$result];
-            }
-
-            return $result;
+            $result = $query->getQuery()->getScalarResult();
+            return array_column($result, 'id');
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
@@ -157,8 +153,10 @@ class UserDao
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
             $q->update(User::class, 'u')
-                ->set('u.deleted', true)
-                ->add('where', $q->expr()->in('u.id', $deletedIds));
+                ->set('u.deleted', ':deleted')
+                ->setParameter('deleted', true)
+                ->where($q->expr()->in('u.id', ':ids'))
+                ->setParameter('ids', $deletedIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -177,8 +175,7 @@ class UserDao
             $query = Doctrine::getEntityManager()->getRepository(
                 UserRole::class
             )->createQueryBuilder('ur');
-            $query->andWhere('ur.isAssignable = :isAssignable');
-            $query->setParameter('isAssignable', false);
+            $query->andWhere($query->expr()->in('ur.isAssignable', 1));
             $query->addOrderBy('ur.name', ListSorter::ASCENDING);
 
             return $query->getQuery()->execute();
@@ -247,14 +244,14 @@ class UserDao
     /**
      * Get Count of Search Query
      *
-     * @param array $searchClues
+     * @param UserSearchFilterParams $userSearchParamHolder
      * @return int
      * @throws DaoException
      */
-    public function getSearchSystemUsersCount(array $searchClues): int
+    public function getSearchSystemUsersCount(UserSearchFilterParams $userSearchParamHolder): int
     {
         try {
-            $q = $this->_buildSearchQuery($searchClues);
+            $q = $this->_buildSearchQuery($userSearchParamHolder);
             $paginator = new Paginator($q);
             return $paginator->count();
         } catch (Exception $e) {
@@ -265,30 +262,14 @@ class UserDao
     /**
      * Search System Users
      *
-     * @param array $searchClues
+     * @param UserSearchFilterParams $userSearchParamHolder
      * @return array
      * @throws DaoException
      */
-    public function searchSystemUsers(array $searchClues): array
+    public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
         try {
-            // Set defaults to sort order and limits
-            $sortField = empty($searchClues['sortField']) ? 'u.userName' : $searchClues['sortField'];
-            $sortOrder = strcasecmp(
-                $searchClues['sortOrder'],
-                ListSorter::DESCENDING
-            ) === 0 ? ListSorter::DESCENDING : ListSorter::ASCENDING;
-            $offset = empty($searchClues['offset']) ? null : $searchClues['offset'];
-            $limit = empty($searchClues['limit']) ? null : $searchClues['limit'];
-
-            $q = $this->_buildSearchQuery($searchClues);
-            $q->addOrderBy($sortField, $sortOrder);
-
-            if ($limit) {
-                $q->setFirstResult($offset)
-                    ->setMaxResults($limit);
-            }
-
+            $q = $this->_buildSearchQuery($userSearchParamHolder);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -296,45 +277,40 @@ class UserDao
     }
 
     /**
-     * @param array $searchClues
+     * @param UserSearchFilterParams $userSearchParamHolder
      * @return QueryBuilder
      */
-    private function _buildSearchQuery(array $searchClues): QueryBuilder
+    private function _buildSearchQuery(UserSearchFilterParams $userSearchParamHolder): QueryBuilder
     {
         $q = Doctrine::getEntityManager()->getRepository(
             User::class
         )->createQueryBuilder('u');
         $q->leftJoin('u.userRole', 'r');
+        $q->leftJoin('u.employee', 'e');
 
-        if (!empty($searchClues['userName'])) {
+        if (!is_null($userSearchParamHolder->getSortField())) {
+            $q->addOrderBy($userSearchParamHolder->getSortField(), $userSearchParamHolder->getSortOrder());
+        }
+        if (!empty($userSearchParamHolder->getLimit())) {
+            $q->setFirstResult($userSearchParamHolder->getOffset())
+                ->setMaxResults($userSearchParamHolder->getLimit());
+        }
+
+        if (!empty($userSearchParamHolder->getUsername())) {
             $q->andWhere('u.userName = :userName');
-            $q->setParameter('userName', $searchClues['userName']);
+            $q->setParameter('userName', $userSearchParamHolder->getUsername());
         }
-        if (!empty($searchClues['userType'])) {
-            if (is_array($searchClues['userType'])) {
-                $q->add('where', $q->expr()->in('r.id', $searchClues['userType']));
-            } else {
-                $q->andWhere('r.id = :userRoleId');
-                $q->setParameter('userRoleId', $searchClues['userType']);
-            }
+        if (!is_null($userSearchParamHolder->getUserRoleId())) {
+            $q->andWhere('r.id = :userRoleId');
+            $q->setParameter('userRoleId', $userSearchParamHolder->getUserRoleId());
         }
-        if (!empty($searchClues['empNumber'])) {
-            $q->andWhere('u.empNumber = :empNumber');
-            $q->setParameter('empNumber', $searchClues['empNumber']);
+        if (!is_null($userSearchParamHolder->getEmpNumber())) {
+            $q->andWhere('e.empNumber = :empNumber');
+            $q->setParameter('empNumber', $userSearchParamHolder->getEmpNumber());
         }
-        if (isset($searchClues['status']) && $searchClues['status'] != '') {
+        if (!is_null($userSearchParamHolder->getStatus())) {
             $q->andWhere('u.status = :status');
-            $q->setParameter('status', $searchClues['status']);
-        }
-
-        if (isset($searchClues['location']) && $searchClues['location'] && $searchClues['location'] != '-1') {
-            $q->leftJoin('u.Employee', 'e');
-            $q->leftJoin('e.EmpLocations', 'l');
-            $q->add('where', $q->expr()->in('l.locationId', explode(',', $searchClues['location'])));
-        }
-
-        if (isset($searchClues['user_ids']) && is_array($searchClues['user_ids'])) {
-            $q->add('where', $q->expr()->in('u.id', $searchClues['user_ids']));
+            $q->setParameter('status', $userSearchParamHolder->getStatus());
         }
 
         $q->andWhere('u.deleted = :deleted');
@@ -353,14 +329,15 @@ class UserDao
         $q = Doctrine::getEntityManager()->getRepository(
             User::class
         )->createQueryBuilder('u');
-        $q->andWhere('u.userRoleId = :userRoleId');
+        $q->leftJoin('u.userRole', 'ur');
+        $q->andWhere('ur.id = :userRoleId');
         $q->setParameter('userRoleId', User::ADMIN_USER_ROLE_ID);
         if ($enabledOnly) {
-            $q->andWhere('status = :status');
+            $q->andWhere('u.status = :status');
             $q->setParameter('status', User::ENABLED);
         }
         if ($undeletedOnly) {
-            $q->andWhere('deleted = :deleted');
+            $q->andWhere('u.deleted = :deleted');
             $q->setParameter('deleted', User::UNDELETED);
         }
 
@@ -371,18 +348,20 @@ class UserDao
     /**
      * @param int $userId
      * @param string $password
-     * @return int
+     * @return bool
      * @throws DaoException
      */
-    public function updatePassword(int $userId, string $password): int
+    public function updatePassword(int $userId, string $password): bool
     {
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
             $q->update(User::class, 'u')
-                ->set('u.userPassword', $password)
-                ->where('id = :id')
+                ->set('u.userPassword', ':userPassword')
+                ->setParameter('userPassword', $password)
+                ->where('u.id = :id')
                 ->setParameter('id', $userId);
-            return $q->getQuery()->execute();
+            $result = $q->getQuery()->execute();
+            return !($result < 1);
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
@@ -404,18 +383,18 @@ class UserDao
             $q = Doctrine::getEntityManager()->getRepository(
                 Employee::class
             )->createQueryBuilder('e');
-            $q->innerJoin('e.systemUser', 'u');
+            $q->innerJoin('e.users', 'u');
             $q->leftJoin('u.userRole', 'r');
             $q->andWhere('r.name = :roleName');
             $q->setParameter('roleName', $roleName);
 
             if (!$includeInactive) {
-                $q->andWhere('s.deleted = :deleted');
+                $q->andWhere('u.deleted = :deleted');
                 $q->setParameter('deleted', false);
             }
 
             if (!$includeTerminated) {
-                $q->add('where', $q->expr()->isNull('e.terminationId'));
+                $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
             }
 
             return $q->getQuery()->execute();

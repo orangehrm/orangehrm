@@ -90,7 +90,7 @@ class User
 
     /**
      * @var Employee|null
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="systemUsers")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="users")
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
     private ?Employee $employee;
@@ -105,6 +105,7 @@ class User
 
     public function __construct()
     {
+        $this->status = true;
         $this->deleted = false;
     }
 

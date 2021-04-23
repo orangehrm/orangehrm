@@ -17,41 +17,15 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Tests\Dao;
+use OrangeHRM\Framework\PluginConfigurationInterface;
+use Symfony\Component\HttpFoundation\Request;
 
-use OrangeHRM\Admin\Dao\JobCategoryDao;
-use OrangeHRM\Config\Config;
-use OrangeHRM\Tests\Util\TestCase;
-use OrangeHRM\Tests\Util\TestDataService;
-
-/**
- * @group Admin
- */
-class JobCategoryDaoTest extends TestCase
+class PimPluginConfiguration implements PluginConfigurationInterface
 {
-
-    private $jobCatDao;
-    protected $fixture;
-
     /**
-     * Set up method
+     * @inheritDoc
      */
-    protected function setUp(): void
+    public function initialize(Request $request): void
     {
-        $this->jobCatDao = new JobCategoryDao();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobCategoryDao.yml';
-        TestDataService::populate($this->fixture);
-    }
-
-    public function testGetJobCategoryList(): void
-    {
-        $result = $this->jobCatDao->getJobCategoryList();
-        $this->assertEquals(count($result), 3);
-    }
-
-    public function testGetJobCategoryById(): void
-    {
-        $result = $this->jobCatDao->getJobCategoryById(1);
-        $this->assertEquals($result->getName(), 'Job Category 1');
     }
 }

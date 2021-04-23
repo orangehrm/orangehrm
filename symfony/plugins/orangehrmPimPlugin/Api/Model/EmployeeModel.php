@@ -17,41 +17,41 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Tests\Dao;
+namespace OrangeHRM\Pim\Api\Model;
 
-use OrangeHRM\Admin\Dao\JobCategoryDao;
-use OrangeHRM\Config\Config;
-use OrangeHRM\Tests\Util\TestCase;
-use OrangeHRM\Tests\Util\TestDataService;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Employee;
 
-/**
- * @group Admin
- */
-class JobCategoryDaoTest extends TestCase
+class EmployeeModel implements Normalizable
 {
-
-    private $jobCatDao;
-    protected $fixture;
+    use ModelTrait;
 
     /**
-     * Set up method
+     * @param Employee $employee
      */
-    protected function setUp(): void
+    public function __construct(Employee $employee)
     {
-        $this->jobCatDao = new JobCategoryDao();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobCategoryDao.yml';
-        TestDataService::populate($this->fixture);
-    }
-
-    public function testGetJobCategoryList(): void
-    {
-        $result = $this->jobCatDao->getJobCategoryList();
-        $this->assertEquals(count($result), 3);
-    }
-
-    public function testGetJobCategoryById(): void
-    {
-        $result = $this->jobCatDao->getJobCategoryById(1);
-        $this->assertEquals($result->getName(), 'Job Category 1');
+        $this->setEntity($employee);
+        $this->setFilters(
+            [
+                'empNumber',
+                'lastName',
+                'firstName',
+                'middleName',
+                'employeeId',
+                ['getEmployeeTerminationRecord', 'getId'],
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'empNumber',
+                'lastName',
+                'firstName',
+                'middleName',
+                'employeeId',
+                'terminationId',
+            ]
+        );
     }
 }
