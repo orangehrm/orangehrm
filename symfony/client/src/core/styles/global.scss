@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 1.2rem;
+  align-items: center;
 }
 
 .orangehrm-left-space {
@@ -63,4 +64,9 @@
   font-size: 0.75rem;
   margin-top: -15px;
   padding-bottom: 1rem;
+}
+
+.orangehrm-clear-margins {
+  margin-top: 0;
+  margin-bottom: 0;
 }
