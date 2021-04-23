@@ -26,6 +26,7 @@ import authenticationPages from './orangehrmAuthenticationPlugin/pages';
 import SystemUser from '@/orangehrmAdminPlugin/pages/systemUser/SystemUser.vue';
 import SaveSystemUser from '@/orangehrmAdminPlugin/pages/systemUser/SaveSystemUser.vue';
 import EditSystemUser from '@/orangehrmAdminPlugin/pages/systemUser/EditSystemUser.vue';
+import OrgStructure from '@/orangehrmAdminPlugin/pages/orgStructure/OrgStructure.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -38,4 +39,5 @@ export default {
   'system-user-list': SystemUser,
   'system-user-edit': EditSystemUser,
   'system-user-save': SaveSystemUser,
+  'organization-structure': OrgStructure,
 };
