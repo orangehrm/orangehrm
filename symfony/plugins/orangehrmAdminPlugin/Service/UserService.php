@@ -21,6 +21,7 @@ namespace OrangeHRM\Admin\Service;
 
 use Exception;
 use OrangeHRM\Admin\Dao\UserDao;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Utility\PasswordHash;
@@ -227,28 +228,28 @@ class UserService
     }
 
     /**
-     * @param array $searchClues
+     * @param UserSearchFilterParams $userSearchParamHolder
      * @return int
      * @throws ServiceException
      */
-    public function getSearchSystemUsersCount(array $searchClues): int
+    public function getSearchSystemUsersCount(UserSearchFilterParams $userSearchParamHolder): int
     {
         try {
-            return $this->getSystemUserDao()->getSearchSystemUsersCount($searchClues);
+            return $this->getSystemUserDao()->getSearchSystemUsersCount($userSearchParamHolder);
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
     /**
-     * @param array $searchClues
+     * @param UserSearchFilterParams $userSearchParamHolder
      * @return array
      * @throws ServiceException
      */
-    public function searchSystemUsers(array $searchClues): array
+    public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
         try {
-            return $this->getSystemUserDao()->searchSystemUsers($searchClues);
+            return $this->getSystemUserDao()->searchSystemUsers($userSearchParamHolder);
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
@@ -285,10 +286,10 @@ class UserService
      *
      * @param int $userId User ID of the user
      * @param string $password Non-encrypted password
-     * @return int
+     * @return bool
      * @throws DaoException
      */
-    public function updatePassword(int $userId, string $password): int
+    public function updatePassword(int $userId, string $password): bool
     {
         return $this->getSystemUserDao()->updatePassword($userId, $this->hashPassword($password));
     }

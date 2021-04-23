@@ -1,7 +1,25 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,61 +37,115 @@ class EmployeeTerminationRecord
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="emp_number", type="integer", length=4)
-     */
-    private $empNumber;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="reason_id", type="integer", length=4)
-     */
-    private $reasonId;
-
-    /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="termination_date", type="date", length=25)
      */
-    private $date;
+    private DateTime $date;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="note", type="string", length=255)
+     * @ORM\Column(name="note", type="string", length=255, nullable=true)
      */
-    private $note;
+    private ?string $note;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var TerminationReason|null
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\TerminationReason", mappedBy="EmployeeTerminationRecord")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="reasonId", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\TerminationReason", inversedBy="employeeTerminationRecord")
+     * @ORM\JoinColumn(name="reason_id", referencedColumnName="id", nullable=true)
      */
-    private $TerminationReason;
+    private ?TerminationReason $terminationReason;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Employee
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\Employee")
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
-    private $employee;
+    private Employee $employee;
 
     /**
-     * Constructor
+     * @return int
      */
-    public function __construct()
+    public function getId(): int
     {
-        $this->TerminationReason = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->employee = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->id;
     }
 
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDate(): DateTime
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param DateTime $date
+     */
+    public function setDate(DateTime $date): void
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    /**
+     * @param string|null $note
+     */
+    public function setNote(?string $note): void
+    {
+        $this->note = $note;
+    }
+
+    /**
+     * @return TerminationReason|null
+     */
+    public function getTerminationReason(): ?TerminationReason
+    {
+        return $this->terminationReason;
+    }
+
+    /**
+     * @param TerminationReason|null $terminationReason
+     */
+    public function setTerminationReason(?TerminationReason $terminationReason): void
+    {
+        $this->terminationReason = $terminationReason;
+    }
+
+    /**
+     * @return Employee
+     */
+    public function getEmployee(): Employee
+    {
+        return $this->employee;
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    public function setEmployee(Employee $employee): void
+    {
+        $this->employee = $employee;
+    }
 }

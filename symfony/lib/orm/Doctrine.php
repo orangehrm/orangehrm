@@ -41,7 +41,8 @@ class Doctrine
      */
     private function __construct()
     {
-        $isDevMode = true;
+        // TODO::fine tune doctrine with cache
+        $isDevMode = false;
         $proxyDir = null;
         $cache = null;
         $useSimpleAnnotationReader = false;
@@ -53,6 +54,7 @@ class Doctrine
             $cache,
             $useSimpleAnnotationReader
         );
+        $config->setAutoGenerateProxyClasses(true);
 
         //TODO
         require_once realpath(__DIR__ . '/../../../lib/confs/Conf.php');
