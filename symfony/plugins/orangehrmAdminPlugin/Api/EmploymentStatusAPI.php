@@ -154,63 +154,6 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
         return new EndpointUpdateResult(EmploymentStatusModel::class, $employmentStatus);
     }
 
-//    /**
-//     * @return Response
-//     * @throws DaoException
-//     * @throws RecordNotFoundException
-//     */
-//    public function getEmploymentStatus(): Response
-//    {
-//        // TODO:: Check data group permission
-//        $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-//
-//        $employmentStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
-//
-//        if (!$employmentStatus instanceof EmploymentStatus) {
-//            throw new RecordNotFoundException('No Record Found');
-//        }
-//
-//        return new Response(
-//            (new EmploymentStatusModel($employmentStatus))->toArray()
-//        );
-//    }
-
-    /**
-     * @return Response
-     * @throws DaoException
-     */
-//    public function getEmploymentStatusList(): Response
-//    {
-//        // TODO:: Check data group permission
-//        $sortField = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD, 'es.name');
-//        $sortOrder = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_ORDER, 'ASC');
-//        $limit = $this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT, 50);
-//        $offset = $this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET, 0);
-//
-//        $count = $this->getEmploymentStatusService()->getEmploymentStatusList(
-//            $sortField,
-//            $sortOrder,
-//            $limit,
-//            $offset,
-//            true
-//        );
-//        if (!($count > 0)) {
-//            return new Response([], [], ['total' => 0]);
-//        }
-//
-//        $result = [];
-//        $employmentStatusList = $this->getEmploymentStatusService()->getEmploymentStatusList(
-//            $sortField,
-//            $sortOrder,
-//            $limit,
-//            $offset
-//        );
-//        foreach ($employmentStatusList as $employmentStatus) {
-//            array_push($result, (new EmploymentStatusModel($employmentStatus))->toArray());
-//        }
-//        return new Response($result, [], ['total' => $count]);
-//    }
-
     /**
      * @return EmploymentStatus
      * @throws DaoException
@@ -246,16 +189,4 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
         $this->getEmploymentStatusService()->deleteEmploymentStatus($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
-
-//    /**
-//     * @return Response
-//     * @throws DaoException
-//     */
-//    public function deleteEmploymentStatuses(): Response
-//    {
-//        // TODO:: Check data group permission
-//        $ids = $this->getRequestParams()->getPostParam(self::PARAMETER_IDS);
-//        $this->getEmploymentStatusService()->deleteEmploymentStatus($ids);
-//        return new Response($ids);
-//    }
 }

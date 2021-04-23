@@ -29,15 +29,6 @@ class EmploymentStatus
      */
     private $name;
 
-//    /**
-//     * @var \Doctrine\Common\Collections\Collection
-//     *
-//     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmploymentStatus")
-//     * @ORM\JoinColumns({
-//     *   @ORM\JoinColumn(name="id", referencedColumnName="emp_status")
-//     * })
-//     */
-//
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
