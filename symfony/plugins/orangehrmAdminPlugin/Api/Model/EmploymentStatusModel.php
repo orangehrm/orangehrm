@@ -21,11 +21,11 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
-
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmploymentStatus;
-use Orangehrm\Rest\Api\Model\ModelTrait;
 
-class EmploymentStatusModel
+class EmploymentStatusModel implements Normalizable
 {
     use ModelTrait;
 

@@ -35,30 +35,32 @@
               {{ checkedItems.length }} Employment Status Selected
             </oxd-text>
             <oxd-button
-                label="Delete Selected"
-                displayType="label-danger"
-                @click="onClickDeleteSelected"
-                class="orangehrm-horizontal-margin"
+              label="Delete Selected"
+              iconName="trash-fill"
+              displayType="label-danger"
+              @click="onClickDeleteSelected"
+              class="orangehrm-horizontal-margin"
             />
           </div>
-          <oxd-text tag="span" v-else> {{ total }} Employment Status Found</oxd-text>
+          <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
         </div>
       </div>
       <div class="orangehrm-container">
         <oxd-card-table
-            ref="dTable"
-            :headers="headers"
-            :items="items?.data"
-            :selectable="true"
-            v-model:selected="checkedItems"
-            rowDecorator="oxd-table-decorator-card"
+          ref="dTable"
+          :headers="headers"
+          :items="items?.data"
+          :selectable="true"
+          :clickable="false"
+          v-model:selected="checkedItems"
+          rowDecorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
-            v-if="showPaginator"
-            :length="pages"
-            v-model:current="currentPage"
+          v-if="showPaginator"
+          :length="pages"
+          v-model:current="currentPage"
         />
       </div>
     </div>
@@ -70,7 +72,8 @@
 <script>
 import usePaginate from '@/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
-import {navigate} from "@/core/util/helper/navigation";
+import {navigate} from '@/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 
 export default {
   data() {
@@ -109,6 +112,10 @@ export default {
   },
 
   setup() {
+    const http = new APIService(
+        window.appGlobal.baseUrl,
+        'api/v2/admin/employment-statuses',
+    );
     const {
       showPaginator,
       currentPage,
@@ -118,8 +125,9 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate('api/v1/admin/employment-statuses');
+    } = usePaginate(http);
     return {
+      http,
       showPaginator,
       currentPage,
       isLoading,
@@ -129,6 +137,14 @@ export default {
       execQuery,
       items: response,
     };
+  },
+
+  computed: {
+    itemsCountText() {
+      return this.total === 0
+        ? 'No Records Found'
+        : `${this.total} Employment Status Found`;
+    },
   },
 
   methods: {
@@ -156,18 +172,22 @@ export default {
       });
     },
     deleteItems(items) {
-      // TODO: Loading
       if (items instanceof Array) {
-        this.$http
-            .delete('api/v1/admin/employment-statuses', {
-              data: {ids: items},
-            })
-            .then(() => {
-              this.resetDataTable();
-            })
-            .catch(error => {
-              console.log(error);
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.success({
+              title: 'Success',
+              message: 'Employment Status deleted successfully!',
             });
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
       }
     },
     async resetDataTable() {

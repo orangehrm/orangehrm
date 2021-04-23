@@ -25,12 +25,13 @@
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSave">
+      <oxd-form @submitValid="onSave" :loading="isLoading">
         <oxd-form-row>
           <oxd-input-field
-              label="Employment Status Name"
-              v-model="employmentStatus.name"
-              :rules="rules.name"
+            label="Employment Status Name"
+            v-model="employmentStatus.name"
+            :rules="rules.name"
+            required
           />
         </oxd-form-row>
 
@@ -38,17 +39,12 @@
 
         <oxd-form-actions>
           <oxd-button
-              type="button"
-              displayType="ghost"
-              label="Cancel"
-              @click="onCancel"
+            type="button"
+            displayType="ghost"
+            label="Cancel"
+            @click="onCancel"
           />
-          <oxd-button
-              class="orangehrm-left-space"
-              displayType="secondary"
-              label="Update"
-              type="submit"
-          />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -57,6 +53,7 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 
 export default {
   props: {
@@ -65,6 +62,17 @@ export default {
       required: true,
     },
   },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/admin/employment-statuses',
+    );
+    return {
+      http,
+    };
+  },
+
   data() {
     return {
       employmentStatus: {
@@ -79,57 +87,62 @@ export default {
   },
   methods: {
     onSave() {
-      // TODO: Loading
-      this.$http
-          .put(`api/v1/admin/employment-statuses/${this.employmentStatus.id}`, {
-            name: this.employmentStatus.name,
-          })
-          .then(() => {
-            // go back
-            this.onCancel();
-          })
-          .catch(error => {
-            console.log(error);
+      this.isLoading = true;
+      this.http
+        .update(this.employmentStatusId, {
+          name: this.employmentStatus.name,
+        })
+        .then(() => {
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Employment Status updated successfully!',
           });
+        })
+        .then(() => {
+          this.onCancel();
+          this.isLoading = false;
+        });
     },
     onCancel() {
       navigate('/admin/employmentStatus');
     },
   },
   created() {
-    this.$http
-        .get(`api/v1/admin/employment-statuses/${this.employmentStatusId}`)
-        .then(response => {
-          const {data} = response.data;
-          this.employmentStatus.id = data.id;
-          this.employmentStatus.name = data.name;
-          // Fetch list data for unique test
-          this.$http.get(`api/v1/admin/employment-statuses`).then(response => {
-            const {data} = response.data;
-            this.rules.name.push(v => {
-              return (!!v && v.trim() !== '') || 'Required';
-            });
-            this.rules.name.push(v => {
-              return (
-                  (v && v.length <= 50) || 'Should be less than 50 characters'
-              );
-            });
-            this.rules.name.push(v => {
-              const index = data.findIndex(item => item.name == v);
-              if (index > -1) {
-                const {id} = data[index];
-                return id != this.employmentStatus.id
-                    ? 'Employee Status should be unique'
-                    : true;
-              } else {
-                return true;
-              }
-            });
-          });
-        })
-        .catch(error => {
-          console.log(error);
+    this.http
+      .get(this.employmentStatusId)
+      .then(response => {
+        const {data} = response.data;
+        this.employmentStatus.id = data.id;
+        this.employmentStatus.name = data.name;
+        // Fetch list data for unique test
+        return this.http.getAll();
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          return (!!v && v.trim() !== '') || 'Required';
         });
+        this.rules.name.push(v => {
+          return (
+              (v && v.length <= 50) || 'Should not exceed 50 characters'
+          );
+        });
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          if (index > -1) {
+            const {id} = data[index];
+            return id != this.employmentStatus.id
+              ? 'Employee Status should be unique'
+              : true;
+          } else {
+            return true;
+          }
+        });
+        this.isLoading = false;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

@@ -38,18 +38,10 @@ class EmploymentStatus
 //     * })
 //     */
 //
-//    /**
-//     * @var \Doctrine\Common\Collections\Collection
-//     *
-//     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmploymentStatus")
-//     */
     /**
-     * @var Collection
+     * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmploymentStatus")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="emp_status")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="emp_status")
      */
     private $employees;
 

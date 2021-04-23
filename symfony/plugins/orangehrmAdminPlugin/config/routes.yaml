@@ -40,30 +40,38 @@ apiv2_admin_users:
   defaults:
     _api: OrangeHRM\Admin\Api\UserAPI
 
+apiv2_admin_employment_status:
+  path: /api/v2/admin/employment-statuses/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\EmploymentStatusAPI
+
+apiv2_admin_employment_statuses:
+  path: /api/v2/admin/employment-statuses
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\EmploymentStatusAPI
+
+apiv2_admin_skill:
+  path: /api/v2/admin/skills/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\UserAPI
+
+apiv2_admin_skills:
+  path: /api/v2/admin/skills
+  controller: OrangeHRM\Admin\Api\Controller\SkillsApiController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\UserAPI
+
 view_job_title:
   path: /admin/viewJobTitleList
   controller: OrangeHRM\Admin\Controller\JobTitleController::handle
   methods: [ GET ]
-
-apiv1_employment_status:
-  path: /api/v1/admin/employment-statuses/{id}
-  controller: OrangeHRM\Admin\Api\Controller\EmploymentStatusApiController::handle
-  methods: [ GET, PUT ]
-
-apiv1_employment_statuses:
-  path: /api/v1/admin/employment-statuses
-  controller: OrangeHRM\Admin\Api\Controller\EmploymentStatusesApiController::handle
-  methods: [ GET, POST, DELETE ]
-
-apiv1_skill:
-  path: /api/v1/admin/skills/{id}
-  controller: OrangeHRM\Admin\Api\Controller\SkillApiController::handle
-  methods: [ GET, PUT ]
-
-apiv1_skills:
-  path: /api/v1/admin/skills
-  controller: OrangeHRM\Admin\Api\Controller\SkillsApiController::handle
-  methods: [ GET, POST, DELETE ]
 
 save_job_title:
   path: /admin/saveJobTitle
@@ -118,4 +126,18 @@ save_employment_status:
 edit_employment_status:
   path: /admin/saveEmploymentStatus/{id}
   controller: OrangeHRM\Admin\Controller\SaveEmploymentStatusController::handle
+
+view_system_users:
+  path: /admin/systemUser
+  controller: OrangeHRM\Admin\Controller\SystemUserController::handle
+  methods: [ GET ]
+
+save_system_users:
+  path: /admin/saveSystemUser
+  controller: OrangeHRM\Admin\Controller\SaveSystemUserController::handle
+  methods: [ GET ]
+
+edit_system_users:
+  path: /admin/saveSystemUser/{id}
+  controller: OrangeHRM\Admin\Controller\SaveSystemUserController::handle
   methods: [ GET ]

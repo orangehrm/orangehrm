@@ -21,15 +21,25 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
+use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Entity\EmploymentStatus;
 use OrangeHRM\Admin\Service\EmploymentStatusService;
 use OrangeHRM\Admin\Api\Model\EmploymentStatusModel;
-use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
 use \DaoException;
+use Exception;
 
-class EmploymentStatusAPI extends EndPoint
+class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
 {
     const PARAMETER_ID = 'id';
     const PARAMETER_IDS = 'ids';
@@ -43,7 +53,7 @@ class EmploymentStatusAPI extends EndPoint
     /**
      * @var null|EmploymentStatusService
      */
-    protected $employmentStatusService = null;
+    protected ?EmploymentStatusService $employmentStatusService = null;
 
     /**
      * @return EmploymentStatusService
@@ -65,37 +75,44 @@ class EmploymentStatusAPI extends EndPoint
     }
 
     /**
-     * @return Response
-     * @throws DaoException
+     * @return EndpointGetOneResult
      * @throws RecordNotFoundException
+     * @throws DaoException
+     * @throws Exception
      */
-    public function getEmploymentStatus(): Response
+    public function getOne(): EndpointGetOneResult
     {
         // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $employmentStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
-
         if (!$employmentStatus instanceof EmploymentStatus) {
             throw new RecordNotFoundException('No Record Found');
         }
 
-        return new Response(
-            (new EmploymentStatusModel($employmentStatus))->toArray()
-        );
+        return new EndpointGetOneResult(EmploymentStatusModel::class, $employmentStatus);
     }
 
     /**
-     * @return Response
+     * @return EndpointGetAllResult
      * @throws DaoException
+     * @throws RecordNotFoundException
+     * @throws Exception
      */
-    public function getEmploymentStatusList(): Response
+    public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission
-        $sortField = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD, 'es.name');
-        $sortOrder = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_ORDER, 'ASC');
-        $limit = $this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT, 50);
-        $offset = $this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET, 0);
+        $sortField = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_SORT_FIELD,
+            'es.name'
+        );
+        $sortOrder = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_SORT_ORDER,
+            'ASC'
+        );
+        $limit = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_LIMIT, 50);
+        $offset = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_OFFSET, 0);
 
         $count = $this->getEmploymentStatusService()->getEmploymentStatusList(
             $sortField,
@@ -104,33 +121,106 @@ class EmploymentStatusAPI extends EndPoint
             $offset,
             true
         );
-        if (!($count > 0)) {
-            return new Response([], [], ['total' => 0]);
-        }
 
-        $result = [];
-        $employmentStatusList = $this->getEmploymentStatusService()->getEmploymentStatusList(
-            $sortField,
-            $sortOrder,
-            $limit,
-            $offset
+        $employmentStatusList = $this->getEmploymentStatusService()->getEmploymentStatusList($sortField, $sortOrder, $limit, $offset);
+
+        return new EndpointGetAllResult(
+            EmploymentStatusModel::class, $employmentStatusList,
+            new ParameterBag(['total' => $count])
         );
-        foreach ($employmentStatusList as $employmentStatus) {
-            array_push($result, (new EmploymentStatusModel($employmentStatus))->toArray());
-        }
-        return new Response($result, [], ['total' => $count]);
     }
+
+    /**
+     * @inheritDoc
+     * @throws Exception
+     */
+    public function create(): EndpointCreateResult
+    {
+        // TODO:: Check data group permission
+        $employmentStatus = $this->saveEmploymentStatus();
+
+        return new EndpointCreateResult(EmploymentStatusModel::class, $employmentStatus);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws Exception
+     */
+    public function update(): EndpointUpdateResult
+    {
+        // TODO:: Check data group permission
+        $employmentStatus = $this->saveEmploymentStatus();
+
+        return new EndpointUpdateResult(EmploymentStatusModel::class, $employmentStatus);
+    }
+
+//    /**
+//     * @return Response
+//     * @throws DaoException
+//     * @throws RecordNotFoundException
+//     */
+//    public function getEmploymentStatus(): Response
+//    {
+//        // TODO:: Check data group permission
+//        $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+//
+//        $employmentStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
+//
+//        if (!$employmentStatus instanceof EmploymentStatus) {
+//            throw new RecordNotFoundException('No Record Found');
+//        }
+//
+//        return new Response(
+//            (new EmploymentStatusModel($employmentStatus))->toArray()
+//        );
+//    }
 
     /**
      * @return Response
      * @throws DaoException
+     */
+//    public function getEmploymentStatusList(): Response
+//    {
+//        // TODO:: Check data group permission
+//        $sortField = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD, 'es.name');
+//        $sortOrder = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_ORDER, 'ASC');
+//        $limit = $this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT, 50);
+//        $offset = $this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET, 0);
+//
+//        $count = $this->getEmploymentStatusService()->getEmploymentStatusList(
+//            $sortField,
+//            $sortOrder,
+//            $limit,
+//            $offset,
+//            true
+//        );
+//        if (!($count > 0)) {
+//            return new Response([], [], ['total' => 0]);
+//        }
+//
+//        $result = [];
+//        $employmentStatusList = $this->getEmploymentStatusService()->getEmploymentStatusList(
+//            $sortField,
+//            $sortOrder,
+//            $limit,
+//            $offset
+//        );
+//        foreach ($employmentStatusList as $employmentStatus) {
+//            array_push($result, (new EmploymentStatusModel($employmentStatus))->toArray());
+//        }
+//        return new Response($result, [], ['total' => $count]);
+//    }
+
+    /**
+     * @return EmploymentStatus
+     * @throws DaoException
      * @throws RecordNotFoundException
      */
-    public function saveEmploymentStatus(): Response
+    public function saveEmploymentStatus(): EmploymentStatus
     {
         // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        $name = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
             $employeeStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
             if ($employeeStatus == null) {
@@ -141,22 +231,31 @@ class EmploymentStatusAPI extends EndPoint
         }
 
         $employeeStatus->setName($name);
-        $employeeStatus = $this->getEmploymentStatusService()->saveEmploymentStatus($employeeStatus);
-
-        return new Response(
-            (new EmploymentStatusModel($employeeStatus))->toArray()
-        );
+        return $this->getEmploymentStatusService()->saveEmploymentStatus($employeeStatus);
     }
 
     /**
-     * @return Response
+     * @inheritDoc
      * @throws DaoException
+     * @throws Exception
      */
-    public function deleteEmploymentStatuses(): Response
+    public function delete(): EndpointDeleteResult
     {
         // TODO:: Check data group permission
-        $ids = $this->getRequestParams()->getPostParam(self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
         $this->getEmploymentStatusService()->deleteEmploymentStatus($ids);
-        return new Response($ids);
+        return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
+
+//    /**
+//     * @return Response
+//     * @throws DaoException
+//     */
+//    public function deleteEmploymentStatuses(): Response
+//    {
+//        // TODO:: Check data group permission
+//        $ids = $this->getRequestParams()->getPostParam(self::PARAMETER_IDS);
+//        $this->getEmploymentStatusService()->deleteEmploymentStatus($ids);
+//        return new Response($ids);
+//    }
 }

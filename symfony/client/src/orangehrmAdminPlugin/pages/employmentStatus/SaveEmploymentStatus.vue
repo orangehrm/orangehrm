@@ -25,12 +25,13 @@
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSave">
+      <oxd-form @submitValid="onSave" :loading="isLoading">
         <oxd-form-row>
           <oxd-input-field
-              label="Employment Status Name"
-              v-model="employmentStatus.name"
-              :rules="rules.name"
+            label="Employment Status Name"
+            v-model="employmentStatus.name"
+            :rules="rules.name"
+            required
           />
         </oxd-form-row>
 
@@ -38,17 +39,12 @@
 
         <oxd-form-actions>
           <oxd-button
-              type="button"
-              displayType="ghost"
-              label="Cancel"
-              @click="onCancel"
+            type="button"
+            displayType="ghost"
+            label="Cancel"
+            @click="onCancel"
           />
-          <oxd-button
-              class="orangehrm-left-space"
-              displayType="secondary"
-              label="Submit"
-              type="submit"
-          />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -57,10 +53,12 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 
 export default {
   data() {
     return {
+      isLoading: false,
       employmentStatus: {
         id: '',
         name: '',
@@ -71,44 +69,62 @@ export default {
       errors: [],
     };
   },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/admin/employment-statuses',
+    );
+    return {
+      http,
+    };
+  },
+
   methods: {
     onSave() {
-      // TODO: Loading
-      this.$http
-          .post(`api/v1/admin/employment-statuses`, {
-            name: this.employmentStatus.name,
-          })
-          .then(() => {
-            // go back
-            this.onCancel();
-          })
-          .catch(error => {
-            console.log(error);
+      this.isLoading = true;
+      this.http
+        .create({
+          name: this.employmentStatus.name,
+        })
+        .then(() => {
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Employment Status added successfully!',
           });
+        })
+        .then(() => {
+          this.employmentStatus.name = '';
+          this.isLoading = false;
+          this.onCancel();
+        });
     },
     onCancel() {
       navigate('/admin/employmentStatus');
     },
   },
+
   created() {
-    this.$http
-        .get(`api/v1/admin/employment-statuses`)
-        .then(response => {
-          const {data} = response.data;
-          this.rules.name.push(v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          });
-          this.rules.name.push(v => {
-            return (v && v.length <= 50) || 'Should be less than 50 characters';
-          });
-          this.rules.name.push(v => {
-            const index = data.findIndex(item => item.name == v);
-            return index === -1 || 'Employment Status should be unique';
-          });
-        })
-        .catch(error => {
-          console.log(error);
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          return (!!v && v.trim() !== '') || 'Required';
         });
+        this.rules.name.push(v => {
+          return (v && v.length <= 50) || 'Should not exceed 50 characters';
+        });
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          return index === -1 || 'Employment Status should be unique';
+        });
+        this.isLoading = false;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

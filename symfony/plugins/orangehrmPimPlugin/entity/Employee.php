@@ -187,7 +187,7 @@ class Employee
     /**
      * @var int
      *
-     * @ORM\Column(name="emp_status", type="integer")
+     * @ORM\Column(name="emp_status", type="integer", length=13)
      */
     private $emp_status;
 
