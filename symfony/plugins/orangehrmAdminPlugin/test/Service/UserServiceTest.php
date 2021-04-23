@@ -60,7 +60,7 @@ class UserServiceTest extends TestCase
     /**
      * @covers UserService::getNonPredefinedUserRoles
      */
-    public function testGetNonPredefinedUserRoles()
+    public function testGetNonPredefinedUserRoles(): void
     {
         $userRoles = [];
 
@@ -85,7 +85,7 @@ class UserServiceTest extends TestCase
         $this->assertEquals($userRoles, $result);
     }
 
-    public function testSaveSystemUserNoPasswordChange()
+    public function testSaveSystemUserNoPasswordChange(): void
     {
         $password = 'y28#$!!';
 
@@ -107,7 +107,7 @@ class UserServiceTest extends TestCase
         $this->assertEquals($user, $result);
     }
 
-    public function testSaveSystemUserWithPasswordChange()
+    public function testSaveSystemUserWithPasswordChange(): void
     {
         $password = 'y28#$!!';
 
@@ -136,7 +136,7 @@ class UserServiceTest extends TestCase
         $this->assertTrue($hasher->verify($password, $hashedPassword));
     }
 
-    public function testIsCurrentPasswordUserNotFound()
+    public function testIsCurrentPasswordUserNotFound(): void
     {
         $userId = 5;
         $password = 'sadffas';
@@ -155,7 +155,7 @@ class UserServiceTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testIsCurrentPasswordTrue()
+    public function testIsCurrentPasswordTrue(): void
     {
         $userId = 5;
         $password = 'y28#$!!';
@@ -184,7 +184,7 @@ class UserServiceTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testIsCurrentPasswordOldHash()
+    public function testIsCurrentPasswordOldHash(): void
     {
         $userId = 5;
         $password = 'y28#$!!';
@@ -212,7 +212,7 @@ class UserServiceTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testIsCurrentPasswordFalse()
+    public function testIsCurrentPasswordFalse(): void
     {
         $userId = 5;
         $password = 'y28#$!!';
@@ -240,7 +240,7 @@ class UserServiceTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testUpdatePassword()
+    public function testUpdatePassword(): void
     {
         $userId = 3;
         $password = 'sadf&^#@!';
@@ -270,7 +270,7 @@ class UserServiceTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testGetCredentialsUserNotFound()
+    public function testGetCredentialsUserNotFound(): void
     {
         $userName = 'adminUser1';
         $password = 'isd#@!';
@@ -289,7 +289,7 @@ class UserServiceTest extends TestCase
         $this->assertNull($result);
     }
 
-    public function testGetCredentialsValidPassword()
+    public function testGetCredentialsValidPassword(): void
     {
         $userId = 3838;
         $userName = 'adminUser1';
@@ -329,7 +329,7 @@ class UserServiceTest extends TestCase
         $this->assertEquals($user, $result);
     }
 
-    public function testGetCredentialsOldHash()
+    public function testGetCredentialsOldHash(): void
     {
         $userId = 3838;
         $userName = 'adminUser1';
@@ -367,7 +367,7 @@ class UserServiceTest extends TestCase
         $this->assertTrue($hasher->verify($password, $result->getUserPassword()));
     }
 
-    public function testGetCredentialsInvalidPassword()
+    public function testGetCredentialsInvalidPassword(): void
     {
         $userId = 3838;
         $userName = 'adminUser1';
@@ -397,7 +397,7 @@ class UserServiceTest extends TestCase
         $this->assertNull($result);
     }
 
-    public function testHashPassword()
+    public function testHashPassword(): void
     {
         $password = 'sadf&^#@!';
         $hashedPassword = '939adfiasdfasdfas';

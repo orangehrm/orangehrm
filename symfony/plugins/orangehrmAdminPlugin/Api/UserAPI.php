@@ -19,8 +19,9 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use Exception;
 use OrangeHRM\Admin\Api\Model\UserModel;
-use OrangeHRM\Admin\Dto\UserSearchParamHolder;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -78,7 +79,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
     {
@@ -89,29 +90,37 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission
-        $userSearchParamHolder = new UserSearchParamHolder();
+        $userSearchParamHolder = new UserSearchFilterParams();
         $this->setSortingAndPaginationParams($userSearchParamHolder);
-        $userSearchParamHolder->setStatus($this->getRequestParams()->getBooleanOrNull(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::FILTER_STATUS
-        ));
-        $userSearchParamHolder->setUsername($this->getRequestParams()->getStringOrNull(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::FILTER_USERNAME
-        ));
-        $userSearchParamHolder->setEmpNumber($this->getRequestParams()->getIntOrNull(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::FILTER_EMPLOYEE_NUMBER
-        ));
-        $userSearchParamHolder->setUserRoleId($this->getRequestParams()->getIntOrNull(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::FILTER_USER_ROLE_ID
-        ));
+        $userSearchParamHolder->setStatus(
+            $this->getRequestParams()->getBooleanOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_STATUS
+            )
+        );
+        $userSearchParamHolder->setUsername(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_USERNAME
+            )
+        );
+        $userSearchParamHolder->setEmpNumber(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_EMPLOYEE_NUMBER
+            )
+        );
+        $userSearchParamHolder->setUserRoleId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_USER_ROLE_ID
+            )
+        );
 
         $users = $this->getSystemUserService()->searchSystemUsers($userSearchParamHolder);
         return new EndpointGetAllResult(
@@ -129,7 +138,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function create(): EndpointCreateResult
     {
@@ -154,7 +163,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function update(): EndpointUpdateResult
     {
@@ -188,7 +197,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): EndpointDeleteResult
     {

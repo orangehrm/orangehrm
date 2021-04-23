@@ -21,7 +21,7 @@ namespace OrangeHRM\Admin\Service;
 
 use Exception;
 use OrangeHRM\Admin\Dao\UserDao;
-use OrangeHRM\Admin\Dto\UserSearchParamHolder;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Utility\PasswordHash;
@@ -228,11 +228,11 @@ class UserService
     }
 
     /**
-     * @param UserSearchParamHolder $userSearchParamHolder
+     * @param UserSearchFilterParams $userSearchParamHolder
      * @return int
      * @throws ServiceException
      */
-    public function getSearchSystemUsersCount(UserSearchParamHolder $userSearchParamHolder): int
+    public function getSearchSystemUsersCount(UserSearchFilterParams $userSearchParamHolder): int
     {
         try {
             return $this->getSystemUserDao()->getSearchSystemUsersCount($userSearchParamHolder);
@@ -242,11 +242,11 @@ class UserService
     }
 
     /**
-     * @param UserSearchParamHolder $userSearchParamHolder
+     * @param UserSearchFilterParams $userSearchParamHolder
      * @return array
      * @throws ServiceException
      */
-    public function searchSystemUsers(UserSearchParamHolder $userSearchParamHolder): array
+    public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
         try {
             return $this->getSystemUserDao()->searchSystemUsers($userSearchParamHolder);

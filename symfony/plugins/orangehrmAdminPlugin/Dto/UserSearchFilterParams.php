@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Admin\Dto;
 
-use OrangeHRM\Core\Dto\SearchParamHolder;
+use OrangeHRM\Core\Dto\FilterParams;
 
-class UserSearchParamHolder extends SearchParamHolder
+class UserSearchFilterParams extends FilterParams
 {
     /**
      * @var bool|null

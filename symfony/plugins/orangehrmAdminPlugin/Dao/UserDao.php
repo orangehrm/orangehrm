@@ -21,7 +21,7 @@ namespace OrangeHRM\Admin\Dao;
 
 use Doctrine\ORM\QueryBuilder;
 use Exception;
-use OrangeHRM\Admin\Dto\UserSearchParamHolder;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
@@ -155,7 +155,8 @@ class UserDao
             $q->update(User::class, 'u')
                 ->set('u.deleted', ':deleted')
                 ->setParameter('deleted', true)
-                ->where($q->expr()->in('u.id', $deletedIds));
+                ->where($q->expr()->in('u.id', ':ids'))
+                ->setParameter('ids', $deletedIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -243,11 +244,11 @@ class UserDao
     /**
      * Get Count of Search Query
      *
-     * @param UserSearchParamHolder $userSearchParamHolder
+     * @param UserSearchFilterParams $userSearchParamHolder
      * @return int
      * @throws DaoException
      */
-    public function getSearchSystemUsersCount(UserSearchParamHolder $userSearchParamHolder): int
+    public function getSearchSystemUsersCount(UserSearchFilterParams $userSearchParamHolder): int
     {
         try {
             $q = $this->_buildSearchQuery($userSearchParamHolder);
@@ -261,11 +262,11 @@ class UserDao
     /**
      * Search System Users
      *
-     * @param UserSearchParamHolder $userSearchParamHolder
+     * @param UserSearchFilterParams $userSearchParamHolder
      * @return array
      * @throws DaoException
      */
-    public function searchSystemUsers(UserSearchParamHolder $userSearchParamHolder): array
+    public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
         try {
             $q = $this->_buildSearchQuery($userSearchParamHolder);
@@ -276,10 +277,10 @@ class UserDao
     }
 
     /**
-     * @param UserSearchParamHolder $userSearchParamHolder
+     * @param UserSearchFilterParams $userSearchParamHolder
      * @return QueryBuilder
      */
-    private function _buildSearchQuery(UserSearchParamHolder $userSearchParamHolder): QueryBuilder
+    private function _buildSearchQuery(UserSearchFilterParams $userSearchParamHolder): QueryBuilder
     {
         $q = Doctrine::getEntityManager()->getRepository(
             User::class

@@ -22,7 +22,7 @@ namespace OrangeHRM\Core\Dto;
 use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\ORM\ListSorter;
 
-class SearchParamHolder
+class FilterParams
 {
     public const DEFAULT_LIMIT = 50;
     public const DEFAULT_OFFSET = 0;

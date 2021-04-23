@@ -52,6 +52,7 @@ class UserDaoTest extends TestCase
     }
 
     /**
+     * @param int $id
      * @return UserRole
      */
     private function getUserRole($id = 1): UserRole
@@ -68,7 +69,7 @@ class UserDaoTest extends TestCase
         return Doctrine::getEntityManager()->getRepository(Employee::class)->find($empNumber);
     }
 
-    public function testSaveSystemUser()
+    public function testSaveSystemUser(): void
     {
         $systemUser = new User();
         $systemUser->setUserRole($this->getUserRole());
@@ -83,33 +84,19 @@ class UserDaoTest extends TestCase
         $this->assertEquals($saveUser->getUserPassword(), 'orangehrm');
     }
 
-    // cause to break the doctrine connection
-//    public function testSaveSystemUserWithExistingUserName()
-//    {
-//        $this->expectException(DaoException::class);
-//
-//        $systemUser = new User();
-//        $systemUser->setUserRole($this->getUserRole());
-//        $systemUser->setEmployee($this->getEmployee(2));
-//        $systemUser->setUserName('samantha');
-//        $systemUser->setUserPassword('orangehrm');
-//
-//        $this->systemUserDao->saveSystemUser($systemUser);
-//    }
-
-    public function testIsExistingSystemUserForNonEsistingUser()
+    public function testIsExistingSystemUserForNonEsistingUser(): void
     {
         $result = $this->systemUserDao->isExistingSystemUser(new UserCredential('google'));
         $this->assertNull($result);
     }
 
-    public function testIsExistingSystemUserForEsistingUser()
+    public function testIsExistingSystemUserForEsistingUser(): void
     {
         $result = $this->systemUserDao->isExistingSystemUser(new UserCredential('Samantha'));
         $this->assertTrue($result instanceof User);
     }
 
-    public function testGetSystemUser()
+    public function testGetSystemUser(): void
     {
         $result = $this->systemUserDao->getSystemUser(1);
 
@@ -117,26 +104,26 @@ class UserDaoTest extends TestCase
         $this->assertEquals($result->getUserPassword(), 'samantha');
     }
 
-    public function testGetSystemUserForNonExistingId()
+    public function testGetSystemUserForNonExistingId(): void
     {
         $result = $this->systemUserDao->getSystemUser(100);
         $this->assertNull($result);
     }
 
-    public function testGetSystemUsers()
+    public function testGetSystemUsers(): void
     {
         $result = $this->systemUserDao->getSystemUsers();
         $this->assertEquals(3, count($result));
     }
 
-    public function testDeleteSystemUsers()
+    public function testDeleteSystemUsers(): void
     {
         $this->systemUserDao->deleteSystemUsers(array(1, 2, 3));
         $result = $this->systemUserDao->getSystemUsers();
         $this->assertEquals(0, count($result));
     }
 
-    public function testGetAssignableUserRoles()
+    public function testGetAssignableUserRoles(): void
     {
         $result = $this->systemUserDao->getAssignableUserRoles();
         $this->assertEquals($result[0]->getName(), 'Admin');
@@ -144,7 +131,7 @@ class UserDaoTest extends TestCase
         $this->assertEquals(7, count($result));
     }
 
-    public function testGetAdminUserCount()
+    public function testGetAdminUserCount(): void
     {
         $this->assertEquals(1, $this->systemUserDao->getAdminUserCount());
         $this->assertEquals(2, $this->systemUserDao->getAdminUserCount(false));
@@ -152,7 +139,7 @@ class UserDaoTest extends TestCase
         $this->assertEquals(3, $this->systemUserDao->getAdminUserCount(false, false));
     }
 
-    public function testUpdatePassword()
+    public function testUpdatePassword(): void
     {
         $this->assertEquals(1, $this->systemUserDao->updatePassword(1, 'samantha2'));
 
@@ -161,7 +148,7 @@ class UserDaoTest extends TestCase
         $this->assertEquals('samantha2', $userObject->getUserPassword());
     }
 
-    public function testGetSystemUserIdList()
+    public function testGetSystemUserIdList(): void
     {
         $result = $this->systemUserDao->getSystemUserIdList();
 
@@ -169,13 +156,14 @@ class UserDaoTest extends TestCase
         $this->assertEquals(array(1, 2, 3), $result);
     }
 
-    public function testGetSystemUserIdListForOneActiveUser()
+    public function testGetSystemUserIdListForOneActiveUser(): void
     {
         $q = Doctrine::getEntityManager()->createQueryBuilder();
         $q->update(User::class, 'u')
             ->set('u.deleted', ':deleted')
             ->setParameter('deleted', true)
-            ->where($q->expr()->in('u.id', [2, 3]));
+            ->where($q->expr()->in('u.id', ':ids'))
+            ->setParameter('ids', [2, 3]);
         $q->getQuery()->execute();
 
         $result = $this->systemUserDao->getSystemUserIdList();
@@ -189,7 +177,7 @@ class UserDaoTest extends TestCase
      *
      * @covers UserDao::getNonPredefinedUserRoles
      */
-    public function testGetNonPredefinedUserRoles()
+    public function testGetNonPredefinedUserRoles(): void
     {
         $userRoleNames = array('Admin2', 'TestAdmin', 'UserRole1', 'UserRole2', 'UserRole3');
 
@@ -202,7 +190,7 @@ class UserDaoTest extends TestCase
         }
     }
 
-    public function testGetEmployeesByUserRole()
+    public function testGetEmployeesByUserRole(): void
     {
         // default
         $employees = $this->systemUserDao->getEmployeesByUserRole('Admin');

@@ -31,7 +31,7 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
-use OrangeHRM\Pim\Dto\EmployeeSearchParamHolder;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeService;
 
 class EmployeeAPI extends Endpoint implements CrudEndpoint
@@ -83,7 +83,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission & get employees using UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties
-        $employeeParamHolder = new EmployeeSearchParamHolder();
+        $employeeParamHolder = new EmployeeSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeParamHolder);
 
         $employeeParamHolder->setIncludeTerminated(

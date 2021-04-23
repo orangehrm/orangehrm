@@ -24,16 +24,16 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Pim\Dto\EmployeeSearchParamHolder;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 
 class EmployeeDao
 {
     /**
-     * @param EmployeeSearchParamHolder $employeeSearchParamHolder
+     * @param EmployeeSearchFilterParams $employeeSearchParamHolder
      * @return array
      * @throws DaoException
      */
-    public function getEmployeeList(EmployeeSearchParamHolder $employeeSearchParamHolder): array
+    public function getEmployeeList(EmployeeSearchFilterParams $employeeSearchParamHolder): array
     {
         try {
             $paginator = $this->getEmployeeListPaginator($employeeSearchParamHolder);
@@ -44,11 +44,11 @@ class EmployeeDao
     }
 
     /**
-     * @param EmployeeSearchParamHolder $employeeSearchParamHolder
+     * @param EmployeeSearchFilterParams $employeeSearchParamHolder
      * @return int
      * @throws DaoException
      */
-    public function getEmployeeCount(EmployeeSearchParamHolder $employeeSearchParamHolder): int
+    public function getEmployeeCount(EmployeeSearchFilterParams $employeeSearchParamHolder): int
     {
         try {
             $paginator = $this->getEmployeeListPaginator($employeeSearchParamHolder);
@@ -59,10 +59,10 @@ class EmployeeDao
     }
 
     /**
-     * @param EmployeeSearchParamHolder $employeeSearchParamHolder
+     * @param EmployeeSearchFilterParams $employeeSearchParamHolder
      * @return Paginator
      */
-    public function getEmployeeListPaginator(EmployeeSearchParamHolder $employeeSearchParamHolder): Paginator
+    public function getEmployeeListPaginator(EmployeeSearchFilterParams $employeeSearchParamHolder): Paginator
     {
         $q = Doctrine::getEntityManager()->getRepository(Employee::class)->createQueryBuilder('e');
         if (!is_null($employeeSearchParamHolder->getSortField())) {

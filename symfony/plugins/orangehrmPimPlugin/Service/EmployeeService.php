@@ -22,7 +22,7 @@ namespace OrangeHRM\Pim\Service;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Dao\EmployeeDao;
-use OrangeHRM\Pim\Dto\EmployeeSearchParamHolder;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 
 class EmployeeService
 {
@@ -51,21 +51,21 @@ class EmployeeService
     }
 
     /**
-     * @param EmployeeSearchParamHolder $employeeSearchParamHolder
+     * @param EmployeeSearchFilterParams $employeeSearchParamHolder
      * @return array
      * @throws DaoException
      */
-    public function getEmployeeList(EmployeeSearchParamHolder $employeeSearchParamHolder)
+    public function getEmployeeList(EmployeeSearchFilterParams $employeeSearchParamHolder)
     {
         return $this->getEmployeeDao()->getEmployeeList($employeeSearchParamHolder);
     }
 
     /**
-     * @param EmployeeSearchParamHolder $employeeSearchParamHolder
+     * @param EmployeeSearchFilterParams $employeeSearchParamHolder
      * @return int
      * @throws DaoException
      */
-    public function getEmployeeCount(EmployeeSearchParamHolder $employeeSearchParamHolder): int
+    public function getEmployeeCount(EmployeeSearchFilterParams $employeeSearchParamHolder): int
     {
         return $this->getEmployeeDao()->getEmployeeCount($employeeSearchParamHolder);
     }

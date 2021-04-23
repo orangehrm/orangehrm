@@ -44,7 +44,7 @@ class JobCategoryServiceTest extends TestCase
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetJobCategoryList()
+    public function testGetJobCategoryList(): void
     {
         $jobCatList = TestDataService::loadObjectList('JobCategory', $this->fixture, 'JobCategory');
 
@@ -59,7 +59,7 @@ class JobCategoryServiceTest extends TestCase
         $this->assertEquals($result, $jobCatList);
     }
 
-    public function testGtJobCategoryById()
+    public function testGtJobCategoryById(): void
     {
         $jobCatList = TestDataService::loadObjectList('JobCategory', $this->fixture, 'JobCategory');
 

@@ -20,7 +20,7 @@
 namespace OrangeHRM\Core\Api\V2;
 
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Dto\SearchParamHolder;
+use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\ORM\ListSorter;
 
@@ -69,15 +69,15 @@ abstract class Endpoint
     }
 
     /**
-     * @param SearchParamHolder $searchParamHolder
+     * @param FilterParams $searchParamHolder
      * @param string|null $defaultSortField
-     * @return SearchParamHolder
+     * @return FilterParams
      * @throws SearchParamException
      */
     protected function setSortingAndPaginationParams(
-        SearchParamHolder $searchParamHolder,
+        FilterParams $searchParamHolder,
         ?string $defaultSortField = null
-    ): SearchParamHolder {
+    ): FilterParams {
         $searchParamHolder->setSortField(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
@@ -96,14 +96,14 @@ abstract class Endpoint
             $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_QUERY,
                 CommonParams::PARAMETER_LIMIT,
-                SearchParamHolder::DEFAULT_LIMIT
+                FilterParams::DEFAULT_LIMIT
             )
         );
         $searchParamHolder->setOffset(
             $this->getRequestParams()->getInt(
                 RequestParams::PARAM_TYPE_QUERY,
                 CommonParams::PARAMETER_OFFSET,
-                SearchParamHolder::DEFAULT_OFFSET
+                FilterParams::DEFAULT_OFFSET
             )
         );
         return $searchParamHolder;

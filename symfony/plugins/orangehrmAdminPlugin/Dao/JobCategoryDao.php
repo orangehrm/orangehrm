@@ -108,7 +108,8 @@ class JobCategoryDao
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
             $q->delete(JobCategory::class, 'jc')
-                ->where($q->expr()->in('jc.id', $toBeDeletedJobCategoryIds));
+                ->where($q->expr()->in('jc.id', ':ids'))
+                ->setParameter('ids', $toBeDeletedJobCategoryIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

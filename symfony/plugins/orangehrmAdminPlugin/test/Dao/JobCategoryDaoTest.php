@@ -43,13 +43,13 @@ class JobCategoryDaoTest extends TestCase
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetJobCategoryList()
+    public function testGetJobCategoryList(): void
     {
         $result = $this->jobCatDao->getJobCategoryList();
         $this->assertEquals(count($result), 3);
     }
 
-    public function testGetJobCategoryById()
+    public function testGetJobCategoryById(): void
     {
         $result = $this->jobCatDao->getJobCategoryById(1);
         $this->assertEquals($result->getName(), 'Job Category 1');

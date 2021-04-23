@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Pim\Dto;
 
-use OrangeHRM\Core\Dto\SearchParamHolder;
+use OrangeHRM\Core\Dto\FilterParams;
 
-class EmployeeSearchParamHolder extends SearchParamHolder
+class EmployeeSearchFilterParams extends FilterParams
 {
     protected bool $includeTerminated = false;
     protected ?string $name = null;

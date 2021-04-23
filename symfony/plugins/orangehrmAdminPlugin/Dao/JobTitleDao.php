@@ -87,7 +87,8 @@ class JobTitleDao
             $q->update(JobTitle::class, 'jt')
                 ->set('jt.isDeleted', ':isDeleted')
                 ->setParameter('isDeleted', JobTitle::DELETED)
-                ->where($q->expr()->in('jt.id', $toBeDeletedJobTitleIds));
+                ->where($q->expr()->in('jt.id', ':ids'))
+                ->setParameter('ids', $toBeDeletedJobTitleIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
