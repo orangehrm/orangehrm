@@ -22,35 +22,35 @@ class Employee
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $empNumber;
+    private int $empNumber;
 
     /**
      * @var string
      *
      * @ORM\Column(name="emp_lastname", type="string", length=100)
      */
-    private $lastName;
+    private string $lastName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="emp_firstname", type="string", length=100)
      */
-    private $firstName;
+    private string $firstName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="emp_middle_name", type="string", length=100)
      */
-    private $middleName;
+    private string $middleName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="emp_nick_name", type="string", length=100)
      */
-    private $nickName;
+    private string $nickName;
 
     /**
      * @var int
@@ -134,7 +134,7 @@ class Employee
      *
      * @ORM\Column(name="employee_id", type="string", length=50, nullable=true)
      */
-    private $employeeId;
+    private ?string $employeeId;
 
     /**
      * @var string
@@ -326,11 +326,11 @@ class Employee
     private $custom10;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
-     * @ORM\Column(name="purged_at", type="datetime")
+     * @ORM\Column(name="purged_at", type="datetime", nullable=true)
      */
-    private $purged_at;
+    private ?DateTime $purgedAt;
 
     /**
      * @var Collection
@@ -510,7 +510,7 @@ class Employee
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord")
      * @ORM\JoinColumn(name="termination_id", referencedColumnName="id")
      */
-    private $employeeTerminationRecord;
+    private ?EmployeeTerminationRecord $employeeTerminationRecord;
 
     /**
      * @var Collection
@@ -521,6 +521,13 @@ class Employee
      * })
      */
     private $EmployeeCountry;
+
+    /**
+     * @var User[]|Collection
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\User", mappedBy="employee")
+     */
+    private $users;
 
     /**
      * Constructor
@@ -546,6 +553,7 @@ class Employee
         $this->attachments = new ArrayCollection();
         $this->projectAdmin = new ArrayCollection();
         $this->EmployeeCountry = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -642,5 +650,37 @@ class Employee
     public function setEmployeeTerminationRecord(?EmployeeTerminationRecord $employeeTerminationRecord): void
     {
         $this->employeeTerminationRecord = $employeeTerminationRecord;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getPurgedAt(): ?DateTime
+    {
+        return $this->purgedAt;
+    }
+
+    /**
+     * @param DateTime|null $purgedAt
+     */
+    public function setPurgedAt(?DateTime $purgedAt): void
+    {
+        $this->purgedAt = $purgedAt;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param Collection|User[] $users
+     */
+    public function setUsers($users): void
+    {
+        $this->users = $users;
     }
 }

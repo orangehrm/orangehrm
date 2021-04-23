@@ -4,5 +4,5 @@ JobTitle:
   2: {id: 3, jobTitleName: 'Quality Assuarance', isDeleted: 0}
   3: {id: 4, jobTitleName: 'Sales Person', isDeleted: 1}
 
-#JobSpecificationAttachment:
-#  0: {id: 1, jobTitleId: 1, fileName: 'Software architect spec', fileType: '.txt', fileSize: 10, fileContent: ''}
+JobSpecificationAttachment:
+  0: {id: 1, job_title_id: 1, file_name: 'Software architect spec', file_type: '.txt', file_size: 10, file_content: ''}
