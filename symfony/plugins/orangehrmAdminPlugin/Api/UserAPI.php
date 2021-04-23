@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use Exception;
 use OrangeHRM\Admin\Api\Model\UserModel;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Service\UserService;
@@ -33,6 +32,8 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\ORM\Doctrine;
@@ -79,7 +80,6 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
     {
@@ -90,7 +90,14 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
+    }
+
+    /**
+     * @inheritDoc
      */
     public function getAll(): EndpointGetAllResult
     {
@@ -138,7 +145,20 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(self::FILTER_USER_ROLE_ID),
+            new ParamRule(self::FILTER_USERNAME),
+            new ParamRule(self::FILTER_EMPLOYEE_NUMBER),
+            new ParamRule(self::FILTER_STATUS),
+            ...$this->getSortingAndPaginationParamsRules(['u.userName'])
+        );
+    }
+
+    /**
+     * @inheritDoc
      */
     public function create(): EndpointCreateResult
     {
@@ -163,7 +183,14 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
+    }
+
+    /**
+     * @inheritDoc
      */
     public function update(): EndpointUpdateResult
     {
@@ -197,12 +224,27 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
+    }
+
+    /**
+     * @inheritDoc
      */
     public function delete(): EndpointDeleteResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
         $this->getSystemUserService()->deleteSystemUsers($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
     }
 }

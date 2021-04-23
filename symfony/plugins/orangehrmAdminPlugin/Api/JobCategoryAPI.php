@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use DaoException;
-use Exception;
 use OrangeHRM\Admin\Api\Model\JobCategoryModel;
 use OrangeHRM\Admin\Service\JobCategoryService;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
@@ -34,6 +32,8 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobCategory;
 
 class JobCategoryAPI extends Endpoint implements CrudEndpoint
@@ -72,9 +72,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetOneResult
-     * @throws RecordNotFoundException
-     * @throws Exception
+     * @inheritDoc
      */
     public function getOne(): EndpointGetOneResult
     {
@@ -89,8 +87,15 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
-     * @throws Exception
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
+    }
+
+    /**
+     * @inheritDoc
      */
     public function getAll(): EndpointGetAllResult
     {
@@ -126,7 +131,14 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
+    }
+
+    /**
+     * @inheritDoc
      */
     public function create(): EndpointCreateResult
     {
@@ -138,7 +150,14 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
+    }
+
+    /**
+     * @inheritDoc
      */
     public function update(): EndpointUpdateResult
     {
@@ -146,6 +165,14 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
         $jobCategory = $this->saveJobCategory();
 
         return new EndpointUpdateResult(JobCategoryModel::class, $jobCategory);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
     }
 
     /**
@@ -169,7 +196,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      * @throws DaoException
-     * @throws Exception
      */
     public function delete(): EndpointDeleteResult
     {
@@ -177,5 +203,13 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
         $this->getJobCategoryService()->deleteJobCategory($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        return new ParamRuleCollection();
     }
 }

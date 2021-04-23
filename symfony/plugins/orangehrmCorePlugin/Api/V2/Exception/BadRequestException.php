@@ -17,16 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Serializer;
+namespace OrangeHRM\Core\Api\V2\Exception;
 
-class EndpointGetOneResult extends AbstractEndpointResult
+use Exception;
+use Throwable;
+
+class BadRequestException extends Exception
 {
-    /**
-     * @inheritDoc
-     * @throws NormalizeException
-     */
-    public function normalize(): array
+    public const DEFAULT_ERROR_MESSAGE = "Bad Request";
+
+    public function __construct($message = self::DEFAULT_ERROR_MESSAGE, $code = 0, Throwable $previous = null)
     {
-        return $this->_normalize();
+        parent::__construct($message, $code, $previous);
     }
 }

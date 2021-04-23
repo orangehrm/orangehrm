@@ -20,6 +20,9 @@
 namespace OrangeHRM\Core\Api\V2;
 
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\ORM\ListSorter;
@@ -107,5 +110,37 @@ abstract class Endpoint
             )
         );
         return $searchParamHolder;
+    }
+
+    /**
+     * @param array $allowedSortFields
+     * @param bool $excludeSortField
+     * @return ParamRule[]
+     */
+    protected function getSortingAndPaginationParamsRules(
+        array $allowedSortFields = [],
+        bool $excludeSortField = false
+    ): array {
+        $rules = [
+            new ParamRule(
+                CommonParams::PARAMETER_SORT_ORDER,
+                new Rule(Rules::IN, [[ListSorter::ASCENDING, ListSorter::DESCENDING]])
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_LIMIT,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_OFFSET,
+                new Rule(Rules::NUMBER)
+            ),
+        ];
+        if (!$excludeSortField) {
+            $rules[] = new ParamRule(
+                CommonParams::PARAMETER_SORT_FIELD,
+                new Rule(Rules::IN, [$allowedSortFields])
+            );
+        }
+        return $rules;
     }
 }

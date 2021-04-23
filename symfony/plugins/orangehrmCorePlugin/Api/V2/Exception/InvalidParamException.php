@@ -17,16 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Serializer;
+namespace OrangeHRM\Core\Api\V2\Exception;
 
-class EndpointGetOneResult extends AbstractEndpointResult
+use Exception;
+use Throwable;
+
+class InvalidParamException extends Exception
 {
-    /**
-     * @inheritDoc
-     * @throws NormalizeException
-     */
-    public function normalize(): array
-    {
-        return $this->_normalize();
+    public const DEFAULT_ERROR_MESSAGE = "Invalid Parameter";
+
+    protected $errorBag = null;
+
+    public function __construct(
+        $errorBag = null,
+        $message = self::DEFAULT_ERROR_MESSAGE,
+        $code = 0,
+        Throwable $previous = null
+    ) {
+        parent::__construct($message, $code, $previous);
     }
 }
