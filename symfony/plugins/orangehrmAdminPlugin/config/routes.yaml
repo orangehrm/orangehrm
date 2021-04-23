@@ -54,20 +54,6 @@ apiv2_admin_employment_statuses:
   defaults:
     _api: OrangeHRM\Admin\Api\EmploymentStatusAPI
 
-apiv2_admin_skill:
-  path: /api/v2/admin/skills/{id}
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, PUT ]
-  defaults:
-    _api: OrangeHRM\Admin\Api\UserAPI
-
-apiv2_admin_skills:
-  path: /api/v2/admin/skills
-  controller: OrangeHRM\Admin\Api\Controller\SkillsApiController::handle
-  methods: [ GET, POST, DELETE ]
-  defaults:
-    _api: OrangeHRM\Admin\Api\UserAPI
-
 view_job_title:
   path: /admin/viewJobTitleList
   controller: OrangeHRM\Admin\Controller\JobTitleController::handle
