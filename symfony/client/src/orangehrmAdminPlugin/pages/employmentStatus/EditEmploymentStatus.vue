@@ -82,7 +82,6 @@ export default {
       rules: {
         name: [],
       },
-      errors: [],
     };
   },
   methods: {
@@ -138,7 +137,6 @@ export default {
             return true;
           }
         });
-        this.isLoading = false;
       })
       .finally(() => {
         this.isLoading = false;

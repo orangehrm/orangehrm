@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Entity\EmploymentStatus;
 use OrangeHRM\ORM\Doctrine;
 use \DaoException;
@@ -27,43 +29,6 @@ use \Exception;
 
 class EmploymentStatusDao
 {
-
-    /**
-     * @param string $sortField
-     * @param string $sortOrder
-     * @param null $limit
-     * @param null $offset
-     * @param false $count
-     * @return int|mixed|string|array
-     * @throws DaoException
-     */
-    public function getEmploymentStatusList(
-        string $sortField = 'es.name',
-        string $sortOrder = 'ASC',
-        int $limit = null,
-        int $offset = null,
-        $count = false
-    ) {
-        $sortField = ($sortField == "") ? 'es.name' : $sortField;
-        $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
-
-        try {
-            $q = Doctrine::getEntityManager()->getRepository(EmploymentStatus::class)->createQueryBuilder('es');
-            $q->addOrderBy($sortField, $sortOrder);
-            if (!empty($limit)) {
-                $q->setFirstResult($offset)
-                    ->setMaxResults($limit);
-            }
-            if ($count) {
-                $paginator = new Paginator($q, true);
-                return count($paginator);
-            }
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
     /**
      * @param $id
      * @return object|null
@@ -103,12 +68,91 @@ class EmploymentStatusDao
     {
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
-            $q->delete(EmploymentStatus::class, 'jc')
-                ->where($q->expr()->in('jc.id', $toBeDeletedEmploymentStatusIds));
+            $q->delete(EmploymentStatus::class, 'es')
+                ->where($q->expr()->in('es.id', ':ids'))
+                ->setParameter('ids', $toBeDeletedEmploymentStatusIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
+
+    /**
+     * Search Employment Statuses
+     *
+     * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+     * @return array
+     * @throws DaoException
+     */
+    public function searchEmploymentStatus(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): array
+    {
+        try {
+            $q = $this->_buildSearchQuery($employmentStatusSearchParams);
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+     * @return QueryBuilder
+     */
+    private function _buildSearchQuery(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): QueryBuilder
+    {
+        $q = Doctrine::getEntityManager()->getRepository(
+            EmploymentStatus::class
+        )->createQueryBuilder('es');
+
+        if (!is_null($employmentStatusSearchParams->getSortField())) {
+            $q->addOrderBy($employmentStatusSearchParams->getSortField(), $employmentStatusSearchParams->getSortOrder());
+        }
+        if (!empty($employmentStatusSearchParams->getLimit())) {
+            $q->setFirstResult($employmentStatusSearchParams->getOffset())
+                ->setMaxResults($employmentStatusSearchParams->getLimit());
+        }
+
+        if (!empty($employmentStatusSearchParams->getName())) {
+            $q->andWhere('es.name = :name');
+            $q->setParameter('name', $employmentStatusSearchParams->getName());
+        }
+        return $q;
+    }
+
+    /**
+     * Get Employment Statuses
+     *
+     * @return EmploymentStatus[]
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
+    public function getEmploymentStatuses(): array
+    {
+        try {
+            return Doctrine::getEntityManager()->getRepository(
+                EmploymentStatus::class
+            )->findAll();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * Get Count of Search Query
+     *
+     * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): int
+    {
+        try {
+            $q = $this->_buildSearchQuery($employmentStatusSearchParams);
+            $paginator = new \OrangeHRM\ORM\Paginator($q);
+            return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
 }
 

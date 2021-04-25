@@ -66,7 +66,6 @@ export default {
       rules: {
         name: [],
       },
-      errors: [],
     };
   },
 
@@ -120,7 +119,6 @@ export default {
           const index = data.findIndex(item => item.name == v);
           return index === -1 || 'Employment Status should be unique';
         });
-        this.isLoading = false;
       })
       .finally(() => {
         this.isLoading = false;

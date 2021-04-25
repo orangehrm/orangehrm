@@ -1,6 +1,5 @@
 <?php
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,11 +15,12 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
+
 
 namespace OrangeHRM\Admin\Api;
 
+use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
@@ -50,6 +50,8 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     const PARAMETER_OFFSET = 'offset';
     const PARAMETER_LIMIT = 'limit';
 
+    const FILTER_NAME = 'name';
+
     /**
      * @var null|EmploymentStatusService
      */
@@ -69,7 +71,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     /**
      * @param EmploymentStatusService $employmentStatusService
      */
-    public function setEmploymentStatusService(EmploymentStatusService $employmentStatusService)
+    public function setEmploymentStatusService(EmploymentStatusService $employmentStatusService): void
     {
         $this->employmentStatusService = $employmentStatusService;
     }
@@ -101,32 +103,25 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission
-        $sortField = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_SORT_FIELD,
-            'es.name'
+        $employmentStatusSearchParams = new EmploymentStatusSearchFilterParams();
+        $this->setSortingAndPaginationParams($employmentStatusSearchParams);
+        $employmentStatusSearchParams->setName(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_NAME
+            )
         );
-        $sortOrder = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_SORT_ORDER,
-            'ASC'
-        );
-        $limit = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_LIMIT, 50);
-        $offset = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_OFFSET, 0);
-
-        $count = $this->getEmploymentStatusService()->getEmploymentStatusList(
-            $sortField,
-            $sortOrder,
-            $limit,
-            $offset,
-            true
-        );
-
-        $employmentStatusList = $this->getEmploymentStatusService()->getEmploymentStatusList($sortField, $sortOrder, $limit, $offset);
-
+        $employmentStatuses = $this->getEmploymentStatusService()->searchEmploymentStatus($employmentStatusSearchParams);
         return new EndpointGetAllResult(
-            EmploymentStatusModel::class, $employmentStatusList,
-            new ParameterBag(['total' => $count])
+            EmploymentStatusModel::class,
+            $employmentStatuses,
+            new ParameterBag(
+                [
+                    'total' => $this->getEmploymentStatusService()->getSearchEmploymentStatusesCount(
+                        $employmentStatusSearchParams
+                    )
+                ]
+            )
         );
     }
 

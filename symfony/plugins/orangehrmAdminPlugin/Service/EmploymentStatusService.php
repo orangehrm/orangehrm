@@ -20,8 +20,11 @@
 
 namespace OrangeHRM\Admin\Service;
 
+use \Exception;
 use OrangeHRM\Admin\Dao\EmploymentStatusDao;
 use \DaoException;
+use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
+use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\EmploymentStatus;
 
 class EmploymentStatusService
@@ -105,5 +108,33 @@ class EmploymentStatusService
     public function deleteEmploymentStatus(array $toBeDeletedEmploymentStatusIds): int
     {
         return $this->getEmploymentStatusDao()->deleteEmploymentStatus($toBeDeletedEmploymentStatusIds);
+    }
+
+    /**
+     * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+     * @return array
+     * @throws ServiceException
+     */
+    public function searchEmploymentStatus(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): array
+    {
+        try {
+            return $this->getEmploymentStatusDao()->searchEmploymentStatus($employmentStatusSearchParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+     * @return int
+     * @throws ServiceException
+     */
+    public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): int
+    {
+        try {
+            return $this->getEmploymentStatusDao()->getSearchEmploymentStatusesCount($employmentStatusSearchParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }
