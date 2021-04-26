@@ -17,7 +17,6 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
