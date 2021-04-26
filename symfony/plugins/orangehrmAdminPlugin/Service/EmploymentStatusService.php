@@ -66,31 +66,6 @@ class EmploymentStatusService
     }
 
     /**
-     * @param string $sortField
-     * @param string $sortOrder
-     * @param int|null $limit
-     * @param int|null $offset
-     * @param false $count
-     * @return array|int|mixed|string
-     * @throws DaoException
-     */
-    public function getEmploymentStatusList(
-        string $sortField = 'es.name',
-        string $sortOrder = 'ASC',
-        int $limit = null,
-        int $offset = null,
-        $count = false
-    ) {
-        return $this->getEmploymentStatusDao()->getEmploymentStatusList(
-            $sortField,
-            $sortOrder,
-            $limit,
-            $offset,
-            $count
-        );
-    }
-
-    /**
      * @param EmploymentStatus $employmentStatus
      * @return EmploymentStatus
      * @throws DaoException
