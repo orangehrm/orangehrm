@@ -31,7 +31,7 @@
               <oxd-input-field
                 type="dropdown"
                 label="User Role"
-                v-model="filters.role"
+                v-model="filters.userRoleId"
                 :clear="false"
                 :options="userRoles"
               />
@@ -40,7 +40,7 @@
               <oxd-input-field
                 type="dropdown"
                 label="Employee Name"
-                v-model="filters.empName"
+                v-model="filters.empNumber"
                 :create-options="loadEmployees"
                 :lazyLoad="true"
               />
@@ -65,6 +65,7 @@
             class="orangehrm-left-space"
             displayType="ghost"
             label="Reset"
+            @click="onClickReset"
           />
         </oxd-form-actions>
       </oxd-form>
@@ -122,6 +123,7 @@
 </template>
 
 <script>
+import {ref} from 'vue';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
@@ -137,6 +139,13 @@ const userdataNormalizer = data => {
       status: item.status ? 'Enabled' : 'Disabled',
     };
   });
+};
+
+const defaultFilters = {
+  username: '',
+  userRoleId: [{id: 0, label: 'All'}],
+  empNumber: [],
+  status: [{id: 0, label: 'All'}],
 };
 
 export default {
@@ -173,12 +182,6 @@ export default {
           },
         },
       ],
-      filters: {
-        username: '',
-        role: [{id: 0, label: 'All'}],
-        empName: [],
-        status: [{id: 0, label: 'All'}],
-      },
       userRoles: [
         {id: 0, label: 'All'},
         {id: 1, label: 'Admin'},
@@ -213,6 +216,7 @@ export default {
   },
 
   setup() {
+    const filters = ref({...defaultFilters});
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/admin/users');
     const {
       showPaginator,
@@ -223,7 +227,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, userdataNormalizer);
+    } = usePaginate(http, filters, userdataNormalizer);
     return {
       http,
       showPaginator,
@@ -234,6 +238,7 @@ export default {
       pageSize,
       execQuery,
       items: response,
+      filters,
     };
   },
 
@@ -293,27 +298,33 @@ export default {
       this.$refs.dTable.checkedItems = [];
       await this.execQuery();
     },
-    filterItems() {
-      console.log(this.filters);
+    async filterItems() {
+      await this.execQuery();
     },
-    async loadEmployees() {
+    onClickReset() {
+      this.filters = {...defaultFilters};
+      this.filterItems();
+    },
+    async loadEmployees(serachParam) {
       return new Promise(resolve => {
-        setTimeout(() => {
-          resolve([
-            {
-              id: 1,
-              label: 'James Fox',
-            },
-            {
-              id: 2,
-              label: 'Darth Vader',
-            },
-            {
-              id: 3,
-              label: 'J Jhona Jamerson Jr.',
-            },
-          ]);
-        }, 5000);
+        if (serachParam.trim()) {
+          this.http
+            .getAll({
+              nameOrId: serachParam,
+            })
+            .then(({data}) => {
+              resolve(
+                data.data.map(user => {
+                  return {
+                    id: user.employee.empNumber,
+                    label: `${user.employee.firstName} ${user.employee.lastName}`,
+                  };
+                }),
+              );
+            });
+        } else {
+          resolve([]);
+        }
       });
     },
   },

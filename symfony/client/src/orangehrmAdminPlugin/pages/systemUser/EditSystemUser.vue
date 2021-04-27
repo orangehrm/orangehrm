@@ -228,24 +228,26 @@ export default {
           this.onCancel();
         });
     },
-    async loadEmployees() {
+    async loadEmployees(serachParam) {
       return new Promise(resolve => {
-        setTimeout(() => {
-          resolve([
-            {
-              id: 1,
-              label: 'James Fox',
-            },
-            {
-              id: 2,
-              label: 'Darth Vader',
-            },
-            {
-              id: 3,
-              label: 'J Jhona Jamerson Jr.',
-            },
-          ]);
-        }, 200);
+        if (serachParam.trim()) {
+          this.http
+            .getAll({
+              nameOrId: serachParam,
+            })
+            .then(({data}) => {
+              resolve(
+                data.data.map(user => {
+                  return {
+                    id: user.employee.empNumber,
+                    label: `${user.employee.firstName} ${user.employee.lastName}`,
+                  };
+                }),
+              );
+            });
+        } else {
+          resolve([]);
+        }
       });
     },
   },
