@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Save Qualifications</oxd-text>
+      <oxd-text tag="h6">Save Education</oxd-text>
 
       <oxd-divider />
 
@@ -76,7 +76,7 @@ export default {
     onSave() {
       // TODO: Loading
       this.$http
-        .post(`api/v1/admin/job-categories`, {
+        .post(`/api/v1/admin/educations`, {
           name: this.qualification.name,
         })
         .then(() => {
@@ -93,7 +93,7 @@ export default {
   },
   created() {
     this.$http
-      .get(`api/v1/admin/job-categories`)
+      .get(`/api/v1/admin/educations`)
       .then(response => {
         const {data} = response.data;
         this.rules.name.push(v => {
@@ -104,7 +104,7 @@ export default {
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Qualification name should be unique';
+          return index === -1 || 'Education name should be unique';
         });
       })
       .catch(error => {

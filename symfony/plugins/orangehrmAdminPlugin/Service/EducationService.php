@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,84 +18,116 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class EducationService extends BaseService {
-    
-    private $educationDao;
-    
+
+namespace OrangeHRM\Admin\Service;
+
+use OrangeHRM\Admin\Dao\EducationDao;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Education;
+
+class EducationService
+{
     /**
-     * @ignore
+     * @var EducationDao|null
      */
-    public function getEducationDao() {
-        
+
+    private ?EducationDao $educationDao = null;
+    // define return types
+
+    /**
+     * @return EducationDao
+     *
+     */
+    public function getEducationDao(): EducationDao
+    {  //added the return type
+
         if (!($this->educationDao instanceof EducationDao)) {
             $this->educationDao = new EducationDao();
         }
-        
+
         return $this->educationDao;
+    }
+    //define parameter types
+
+    /**
+     * @param $educationDao
+     */
+    public function setEducationDao($educationDao)
+    {
+        $this->educationDao = $educationDao;
     }
 
     /**
-     * @ignore
-     */
-    public function setEducationDao($educationDao) {
-        $this->educationDao = $educationDao;
-    }
-    
-    /**
      * Saves an education object
-     * 
+     *
      * Can be used for a new record or updating.
-     * 
-     * @version 2.6.12 
-     * @param Education $education 
+     *
+     * @param Education $education
      * @return NULL Doesn't return a value
+     * @version 2.6.12
      */
-    public function saveEducation(Education $education) {        
-        $this->getEducationDao()->saveEducation($education);        
+    public function saveEducation(Education $education)
+    {
+        $this->getEducationDao()->saveEducation($education);
     }
-    
+
     /**
      * Retrieves an education object by ID
-     * 
-     * @version 2.6.12 
-     * @param int $id 
+     *
+     * @param int $id
      * @return Education An instance of Education or NULL
-     */    
-    public function getEducationById($id) {
+     * @version 2.6.12
+     */
+    public function getEducationById(int $id): ?Education
+    {
         return $this->getEducationDao()->getEducationById($id);
     }
-    
+
     /**
      * Retrieves an education object by name
-     * 
+     *
      * Case insensitive
-     * 
-     * @version 2.6.12 
-     * @param string $name 
+     *
+     * @param string $name
      * @return Education An instance of Education or false
-     */    
-    public function getEducationByName($name) {
+     * @version 2.6.12
+     */
+    public function getEducationByName(string $name): ?Education
+    {
         return $this->getEducationDao()->getEducationByName($name);
-    }    
-  
+    }
+
     /**
      * Retrieves all education records ordered by name
-     * 
-     * @version 2.6.12 
-     * @return Doctrine_Collection A doctrine collection of Education objects 
-     */        
-    public function getEducationList() {
-        return $this->getEducationDao()->getEducationList();
+     * @param string $sortField //change to the code base
+     * @param string $sortOrder
+     * @param null $limit
+     * @param null $offset
+     * @param false $count
+     * @return int|mixed|string
+     * @throws DaoException
+     *
+     */
+    public function getEducationList(
+        $sortField = 'jc.name', //change start here
+        $sortOrder = 'ASC',
+        $limit = null,
+        $offset = null,
+        $count = false //end here
+    )
+    {
+        return $this->getEducationDao()->getEducationList($sortField, $sortOrder, $limit, $offset, $count);
     }
-    
+
     /**
      * Deletes education records
-     * 
-     * @version 2.6.12 
+     *
      * @param array $toDeleteIds An array of IDs to be deleted
      * @return int Number of records deleted
-     */    
-    public function deleteEducations($toDeleteIds) {
+     * @version 2.6.12
+     */
+    public function deleteEducations(array $toDeleteIds): array
+    {
         return $this->getEducationDao()->deleteEducations($toDeleteIds);
     }
 
@@ -103,12 +136,13 @@ class EducationService extends BaseService {
      *
      * Case insensitive
      *
-     * @version 2.6.12
      * @param string $educationName Education name that needs to be checked
-     * @return boolean
+     * @return bool
+     * @version 2.6.12
      */
-    public function isExistingEducationName($educationName) {
+    public function isExistingEducationName( string $educationName)
+    {
         return $this->getEducationDao()->isExistingEducationName($educationName);
     }
-    
+
 }

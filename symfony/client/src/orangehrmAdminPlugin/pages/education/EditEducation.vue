@@ -21,14 +21,14 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit Qualification</oxd-text>
+      <oxd-text tag="h6">Edit education</oxd-text>
 
       <oxd-divider />
 
       <oxd-form @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Qualification Name"
+            label="Education"
             v-model="qualification.name"
             :rules="rules.name"
           />
@@ -81,7 +81,7 @@ export default {
     onSave() {
       // TODO: Loading
       this.$http
-        .put(`api/v1/admin/job-categories/${this.qualification.id}`, {
+        .put(`/api/v1/admin/educations/${this.qualification.id}`, {
           name: this.qualification.name,
         })
         .then(() => {
@@ -98,13 +98,13 @@ export default {
   },
   created() {
     this.$http
-      .get(`api/v1/admin/job-categories/${this.educationId}`)
+      .get(`/api/v1/admin/educations/${this.educationId}`)
       .then(response => {
         const {data} = response.data;
         this.qualification.id = data.id;
         this.qualification.name = data.name;
         // Fetch list data for unique test
-        this.$http.get(`api/v1/admin/job-categories`).then(response => {
+        this.$http.get(`/api/v1/admin/educations`).then(response => {
           const {data} = response.data;
           this.rules.name.push(v => {
             return (!!v && v.trim() !== '') || 'Required';
