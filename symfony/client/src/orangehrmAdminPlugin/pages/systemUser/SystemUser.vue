@@ -37,13 +37,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                type="dropdown"
-                label="Employee Name"
-                v-model="filters.empNumber"
-                :create-options="loadEmployees"
-                :lazyLoad="true"
-              />
+              <employee-dropdown v-model="filters.empNumber" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -128,6 +122,7 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
+import EmployeeDropdown from '@/orangehrmAdminPlugin/components/EmployeeDropdown';
 
 const userdataNormalizer = data => {
   return data.map(item => {
@@ -151,6 +146,7 @@ const defaultFilters = {
 export default {
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
+    'employee-dropdown': EmployeeDropdown,
   },
 
   data() {
@@ -257,7 +253,6 @@ export default {
     onClickEdit(item) {
       navigate('/admin/saveSystemUser/{id}', {id: item.id});
     },
-
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
         return this.items?.data[index].id;
@@ -304,28 +299,6 @@ export default {
     onClickReset() {
       this.filters = {...defaultFilters};
       this.filterItems();
-    },
-    async loadEmployees(serachParam) {
-      return new Promise(resolve => {
-        if (serachParam.trim()) {
-          this.http
-            .getAll({
-              nameOrId: serachParam,
-            })
-            .then(({data}) => {
-              resolve(
-                data.data.map(user => {
-                  return {
-                    id: user.employee.empNumber,
-                    label: `${user.employee.firstName} ${user.employee.lastName}`,
-                  };
-                }),
-              );
-            });
-        } else {
-          resolve([]);
-        }
-      });
     },
   },
 };

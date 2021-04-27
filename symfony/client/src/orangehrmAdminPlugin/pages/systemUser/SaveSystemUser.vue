@@ -39,13 +39,9 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                type="dropdown"
-                label="Employee Name"
+              <employee-dropdown
                 v-model="user.employee"
                 :rules="rules.employee"
-                :create-options="loadEmployees"
-                :lazyLoad="true"
                 required
               />
             </oxd-grid-item>
@@ -125,6 +121,7 @@ import {
   getPassLevel,
 } from '@orangehrm/core/util/helper/password';
 import {APIService} from '@/core/util/services/api.service';
+import EmployeeDropdown from '@/orangehrmAdminPlugin/components/EmployeeDropdown';
 
 const userModel = {
   username: '',
@@ -138,6 +135,7 @@ const userModel = {
 export default {
   components: {
     'oxd-chip': Chip,
+    'employee-dropdown': EmployeeDropdown,
   },
 
   setup() {
@@ -193,7 +191,7 @@ export default {
           status:
             this.user.status[0] && this.user.status[0].label === 'Enabled',
           userRoleId: this.user.role[0].id,
-          empNumber: 1,
+          empNumber: this.user.employee[0].id,
         })
         .then(() => {
           return this.$toast.success({
@@ -207,28 +205,6 @@ export default {
           this.user = {...userModel};
           this.onCancel();
         });
-    },
-    async loadEmployees(serachParam) {
-      return new Promise(resolve => {
-        if (serachParam.trim()) {
-          this.http
-            .getAll({
-              nameOrId: serachParam,
-            })
-            .then(({data}) => {
-              resolve(
-                data.data.map(user => {
-                  return {
-                    id: user.employee.empNumber,
-                    label: `${user.employee.firstName} ${user.employee.lastName}`,
-                  };
-                }),
-              );
-            });
-        } else {
-          resolve([]);
-        }
-      });
     },
   },
 

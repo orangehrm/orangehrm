@@ -70,7 +70,7 @@ function getPageParams(pageSize: number, currentPage: number) {
 
 function getQueryParams(query: any) {
   const params = JSON.parse(JSON.stringify(unref(query)));
-  for (let [key, value] of Object.entries(params)) {
+  for (const [key, value] of Object.entries(params)) {
     if (Array.isArray(value)) {
       if (value.length === 0) {
         params[key] = undefined;
