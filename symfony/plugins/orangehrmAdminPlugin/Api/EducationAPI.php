@@ -88,11 +88,6 @@ class EducationAPI extends EndPoint
 
         );
 
-//        $sortField, removed theses
-//            $sortOrder,
-//            $limit,
-//            $offset,
-//            true
         if (!($count > 0)) {
             throw new RecordNotFoundException('No Records Found');
         }
@@ -136,7 +131,7 @@ class EducationAPI extends EndPoint
     {
         // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getPostParam(self::PARAMETER_IDS);
-        $this->getEducationService()->deleteEducations($ids);  //coundn't find a deleteEducation in educationservice
+        $this->getEducationService()->deleteEducations($ids);
         return new Response($ids);
     }
 }

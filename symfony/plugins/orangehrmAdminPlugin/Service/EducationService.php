@@ -32,14 +32,13 @@ class EducationService
      */
 
     private ?EducationDao $educationDao = null;
-    // define return types
 
     /**
      * @return EducationDao
      *
      */
     public function getEducationDao(): EducationDao
-    {  //added the return type
+    {
 
         if (!($this->educationDao instanceof EducationDao)) {
             $this->educationDao = new EducationDao();
@@ -47,7 +46,6 @@ class EducationService
 
         return $this->educationDao;
     }
-    //define parameter types
 
     /**
      * @param $educationDao
@@ -68,7 +66,7 @@ class EducationService
      */
     public function saveEducation(Education $education)
     {
-        $this->getEducationDao()->saveEducation($education);
+       return $this->getEducationDao()->saveEducation($education);
     }
 
     /**
@@ -126,7 +124,7 @@ class EducationService
      * @return int Number of records deleted
      * @version 2.6.12
      */
-    public function deleteEducations(array $toDeleteIds): array
+    public function deleteEducations(array $toDeleteIds): int
     {
         return $this->getEducationDao()->deleteEducations($toDeleteIds);
     }

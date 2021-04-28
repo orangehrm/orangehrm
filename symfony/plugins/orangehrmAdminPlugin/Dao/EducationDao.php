@@ -27,11 +27,7 @@ use OrangeHRM\ORM\DoctrineQuery;
 use OrangeHRM\Entity\Education;
 use OrangeHRM\ORM\ListSorter;
 
-
-
 class EducationDao {
-
-
 
     /**
      * @param Education $education
@@ -46,7 +42,6 @@ class EducationDao {
 
             Doctrine::getEntityManager()->persist($education);
             Doctrine::getEntityManager()->flush();
-            //Doctrine::getEntityManager()->setParameter(); //test code
             return $education;
         } catch (Exception $e) {
             throw new \DaoException($e->getMessage(), $e->getCode(), $e);
@@ -60,7 +55,7 @@ class EducationDao {
      * @return Education|null
      * @throws DaoException
      */
-    // completed please double check
+
     public function getEducationById(int $id): ?Education
     {
 
@@ -82,23 +77,21 @@ class EducationDao {
      * @throws DaoException
      */
 
-    // double check on that
     public function getEducationByName(string $name): ?Education
     {
         try {
+            $trimmed = trim($name, ' ');
             $query = Doctrine::getEntityManager()->getRepository(
                 Education::class
             )->createQueryBuilder('e');
             $query->andWhere('e.name = :name');
-            $query->setParameter('name', $name);
+            $query->setParameter('name', $trimmed);
             return $query->getQuery()->getOneOrNullResult();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
         
     }
-
-
 
     /**
      * @param string $sortField
@@ -165,28 +158,30 @@ class EducationDao {
         }        
         
     }
-    // coundn't resolve this
 
     /**
      * @param $educationName
      * @return bool
      * @throws DaoException
      */
-    public function isExistingEducationName($educationName) {
-
+    public function isExistingEducationName(string $educationName):bool {
 
         try {
 
-            $q = Doctrine_Query:: create()->from('Education l')
-                            ->where('l.name = ?', trim($educationName));
+            $q = Doctrine::getEntityManager()->getRepository(Education::class)->createQueryBuilder('e');
+            $trimmed = trim($educationName, ' ');
 
-            if ($q->count() > 0) {
+            $q->Where('e.name = :name');
+            $q->setParameter('name', $trimmed);
+            $paginator = new Paginator($q,true);
+
+            if ($paginator->count()>0){
                 return true;
             }
-
             return false;
+            }
 
-        } catch (Exception $e) {
+         catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
         

@@ -16,12 +16,19 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
+
+namespace OrangeHRM\Admin\Tests\Dao;
+
+use OrangeHRM\Admin\Dao\EducationDao;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Education;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
  */
-class EducationDaoTest extends PHPUnit_Framework_TestCase {
+class EducationDaoTest extends TestCase {
 
 	private $educationDao;
 	protected $fixture;
@@ -29,21 +36,21 @@ class EducationDaoTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Set up method
 	 */
-	protected function setUp() {
+	protected function setUp() :void {
 
 		$this->educationDao = new EducationDao();
-		$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
+		$this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
 		TestDataService::populate($this->fixture);
 	}
 
-    public function testAddEducation() {
+    public function testAddEducation()  {
         
         $education = new Education();
         $education->setName('PMP');
         
         $this->educationDao->saveEducation($education);
         
-        $savedEducation = TestDataService::fetchLastInsertedRecord('Education', 'id');
+        $savedEducation = TestDataService::fetchLastInsertedRecord('Education', 'a.id');
         
         $this->assertTrue($savedEducation instanceof Education);
         $this->assertEquals('PMP', $savedEducation->getName());
@@ -57,7 +64,7 @@ class EducationDaoTest extends PHPUnit_Framework_TestCase {
         
         $this->educationDao->saveEducation($education);
         
-        $savedEducation = TestDataService::fetchLastInsertedRecord('Education', 'id');
+        $savedEducation = TestDataService::fetchLastInsertedRecord('Education', 'a.id');
         
         $this->assertTrue($savedEducation instanceof Education);
         $this->assertEquals('MSc New', $savedEducation->getName());
@@ -132,9 +139,10 @@ class EducationDaoTest extends PHPUnit_Framework_TestCase {
         $object = $this->educationDao->getEducationByName('  PhD  ');
         $this->assertTrue($object instanceof Education);
         $this->assertEquals(1, $object->getId());
+
         
         $object = $this->educationDao->getEducationByName('MBA');
-        $this->assertFalse($object);        
+        $this->assertFalse($object instanceof Education);
         
     }      
     
