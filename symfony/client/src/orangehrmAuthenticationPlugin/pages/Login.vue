@@ -19,12 +19,10 @@
  -->
 
 <template>
-  <div class="orangehrm-background-container">
-    <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Login</oxd-text>
-
-      <oxd-divider />
-
+  <login-layout>
+    <login-branding :imgSrc="brandingSrc"></login-branding>
+    <oxd-text class="orangehrm-login-title" tag="h5">Login</oxd-text>
+    <div class="orangehrm-login-form">
       <oxd-form
         @submitValid="onSubmit"
         method="post"
@@ -35,6 +33,8 @@
           <oxd-input-field
             name="username"
             label="Username"
+            labelIcon="person"
+            placeholder="username"
             v-model="username"
             :rules="rules.username"
           />
@@ -44,24 +44,44 @@
           <oxd-input-field
             name="password"
             label="Password"
+            labelIcon="key"
+            placeholder="password"
             v-model="password"
             type="password"
             :rules="rules.password"
           />
         </oxd-form-row>
 
-        <oxd-divider />
-
-        <oxd-button displayType="secondary" label="Login" type="submit" />
+        <oxd-form-actions class="orangehrm-login-action">
+          <oxd-button
+            class="orangehrm-login-button"
+            displayType="main"
+            label="Login"
+            type="submit"
+          />
+        </oxd-form-actions>
       </oxd-form>
+      <oxd-text class="orangehrm-login-pwreset" tag="p"
+        >Forgot your <a href="#">Password?</a></oxd-text
+      >
+      <oxd-divider />
     </div>
-  </div>
+    <login-social></login-social>
+  </login-layout>
 </template>
 
 <script>
+import LoginLayout from '../components/LoginLayout';
+import LoginBranding from '../components/LoginBranding';
+import LoginSocial from '../components/LoginSocial';
 import {urlFor} from '@orangehrm/core/util/helper/url';
 
 export default {
+  components: {
+    'login-layout': LoginLayout,
+    'login-branding': LoginBranding,
+    'login-social': LoginSocial,
+  },
   data() {
     return {
       username: '',
@@ -70,6 +90,7 @@ export default {
         username: [v => (!!v && v.trim() !== '') || 'Required'],
         password: [v => (!!v && v.trim() !== '') || 'Required'],
       },
+      brandingSrc: `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`,
     };
   },
 
@@ -87,15 +108,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.orangehrm-background-container {
-  background-color: $oxd-background-light-gray-color;
-  padding: 1.2rem;
-}
-</style>
-
-<style lang="scss">
-body {
-  background-color: $oxd-background-light-gray-color;
-}
-</style>
+<style src="./login.scss" lang="scss" scoped></style>

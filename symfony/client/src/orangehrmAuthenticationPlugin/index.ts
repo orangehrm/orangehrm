@@ -16,7 +16,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-import Login from './login/Login.vue';
+import Login from './pages/Login.vue';
 
 export default {
   'auth-login': Login,
