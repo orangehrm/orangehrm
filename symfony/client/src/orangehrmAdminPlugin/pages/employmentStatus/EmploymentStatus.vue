@@ -70,10 +70,10 @@
 </template>
 
 <script>
-import usePaginate from '@/core/util/composable/usePaginate';
+import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
-import {navigate} from '@/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 
 export default {
   data() {
