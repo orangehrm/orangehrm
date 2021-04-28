@@ -17,49 +17,64 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Exception;
+namespace OrangeHRM\Core\Api\V2\Validator\Exceptions;
 
-use Exception;
-use Throwable;
+use InvalidArgumentException;
+use OrangeHRM\Core\Api\V2\Validator\Rules\AbstractRule;
 
-class InvalidParamException extends Exception
+class ValidationException extends InvalidArgumentException
 {
-    public const DEFAULT_ERROR_MESSAGE = "Invalid Parameter";
-
     /**
-     * @var array
+     * @var mixed
      */
-    protected array $errorBag = [];
+    protected $input = null;
 
     /**
-     * @param array $errorBag
+     * @var null|AbstractRule
+     */
+    protected ?AbstractRule $rule = null;
+
+    /**
+     * @param $input
+     * @param AbstractRule $rule
      * @param string $message
-     * @param int $code
-     * @param Throwable|null $previous
      */
-    public function __construct(
-        array $errorBag = [],
-        $message = self::DEFAULT_ERROR_MESSAGE,
-        $code = 0,
-        Throwable $previous = null
-    ) {
-        $this->errorBag = $errorBag;
-        parent::__construct($message, $code, $previous);
+    public function __construct($input, AbstractRule $rule, $message = "")
+    {
+        $this->input = $input;
+        $this->rule = $rule;
+        parent::__construct($message);
     }
 
     /**
-     * @return array
+     * @return mixed
      */
-    public function getErrorBag(): array
+    public function getInput()
     {
-        return $this->errorBag;
+        return $this->input;
     }
 
     /**
-     * @param array $errorBag
+     * @param mixed $input
      */
-    public function setErrorBag(array $errorBag): void
+    public function setInput($input): void
     {
-        $this->errorBag = $errorBag;
+        $this->input = $input;
+    }
+
+    /**
+     * @return AbstractRule|null
+     */
+    public function getRule(): ?AbstractRule
+    {
+        return $this->rule;
+    }
+
+    /**
+     * @param AbstractRule|null $rule
+     */
+    public function setRule(?AbstractRule $rule): void
+    {
+        $this->rule = $rule;
     }
 }

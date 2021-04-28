@@ -17,49 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Exception;
+namespace OrangeHRM\Core\Api\V2\Validator\Helpers;
 
-use Exception;
-use Throwable;
-
-class InvalidParamException extends Exception
+trait IsEmptyTrait
 {
-    public const DEFAULT_ERROR_MESSAGE = "Invalid Parameter";
-
     /**
-     * @var array
+     * @param mixed $value
+     * @return bool
      */
-    protected array $errorBag = [];
-
-    /**
-     * @param array $errorBag
-     * @param string $message
-     * @param int $code
-     * @param Throwable|null $previous
-     */
-    public function __construct(
-        array $errorBag = [],
-        $message = self::DEFAULT_ERROR_MESSAGE,
-        $code = 0,
-        Throwable $previous = null
-    ) {
-        $this->errorBag = $errorBag;
-        parent::__construct($message, $code, $previous);
-    }
-
-    /**
-     * @return array
-     */
-    public function getErrorBag(): array
+    private function isEmpty($value): bool
     {
-        return $this->errorBag;
-    }
-
-    /**
-     * @param array $errorBag
-     */
-    public function setErrorBag(array $errorBag): void
-    {
-        $this->errorBag = $errorBag;
+        return in_array($value, [null, ''], true);
     }
 }

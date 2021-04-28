@@ -22,6 +22,7 @@ namespace OrangeHRM\Admin\Api;
 use OrangeHRM\Admin\Api\Model\UserModel;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
@@ -40,8 +41,6 @@ use OrangeHRM\ORM\Doctrine;
 
 class UserAPI extends Endpoint implements CrudEndpoint
 {
-    public const PARAMETER_ID = 'id';
-    public const PARAMETER_IDS = 'ids';
     public const PARAMETER_USERNAME = 'username';
     public const PARAMETER_PASSWORD = 'password';
     public const PARAMETER_USER_ROLE_ID = 'userRoleId';
@@ -194,7 +193,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointUpdateResult
     {
-        $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $username = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USERNAME);
         $userRoleId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USER_ROLE_ID);
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMPLOYEE_NUMBER);
@@ -235,7 +234,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointDeleteResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getSystemUserService()->deleteSystemUsers($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
     }

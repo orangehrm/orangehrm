@@ -19,16 +19,24 @@
 
 namespace OrangeHRM\Core\Api\V2\Validator;
 
+use OrangeHRM\Core\Api\V2\Validator\Rules as OHRMRules;
 use Respect\Validation\Rules as RespectRules;
 
 final class Rules
 {
-    public const ALL_OF = RespectRules\AllOf::class;
+    public const ALL_OF = OHRMRules\Composite\AllOf::class;
+    public const ANY_OF = OHRMRules\Composite\AnyOf::class;
+    public const NONE_OF = OHRMRules\Composite\NoneOf::class;
+    public const ONE_OF = OHRMRules\Composite\OneOf::class;
+
+    public const REQUIRED = OHRMRules\Required::class;
+    public const NOT_REQUIRED = OHRMRules\NotRequired::class;
+    public const ZERO_OR_POSITIVE = OHRMRules\ZeroOrPositive::class;
+
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;
     public const ALWAYS_INVALID = RespectRules\AlwaysInvalid::class;
     public const ALWAYS_VALID = RespectRules\AlwaysValid::class;
-    public const ANY_OF = RespectRules\AnyOf::class;
     public const ARRAY_TYPE = RespectRules\ArrayType::class;
     public const ARRAY_VAL = RespectRules\ArrayVal::class;
     public const ATTRIBUTE = RespectRules\Attribute::class;
@@ -115,7 +123,6 @@ final class Rules
     public const NIF = RespectRules\Nif::class;
     public const NIP = RespectRules\Nip::class;
     public const NO = RespectRules\No::class;
-    public const NONE_OF = RespectRules\NoneOf::class;
     public const NOT = RespectRules\Not::class;
     public const NOT_BLANK = RespectRules\NotBlank::class;
     public const NOT_EMOJI = RespectRules\NotEmoji::class;
@@ -128,7 +135,6 @@ final class Rules
     public const NUMERIC_VAL = RespectRules\NumericVal::class;
     public const OBJECT_TYPE = RespectRules\ObjectType::class;
     public const ODD = RespectRules\Odd::class;
-    public const ONE_OF = RespectRules\OneOf::class;
     public const OPTIONAL = RespectRules\Optional::class;
     public const PERFECT_SQUARE = RespectRules\PerfectSquare::class;
     public const PESEL = RespectRules\Pesel::class;

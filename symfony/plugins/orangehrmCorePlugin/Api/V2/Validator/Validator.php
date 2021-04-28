@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Api\V2\Validator;
 
 use Exception;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\Validator\Exceptions\ValidationException;
 use ReflectionClass;
 use Respect\Validation\Rules;
 
@@ -46,29 +47,27 @@ class Validator
         foreach ($paramKeys as $paramKey) {
             try {
                 if (isset($paramRules[$paramKey])) {
-                    $classNames = [];
-                    foreach ($paramRules[$paramKey]->getRules() as $rule) {
+                    $paramRule = $paramRules[$paramKey];
+                    $ruleClasses = [];
+                    foreach ($paramRule->getRules() as $rule) {
                         $params = $rule->getRuleConstructorParams();
                         if (!is_array($params)) {
                             $params = [];
                         }
-                        $classNames[] = call_user_func_array(
-                            [new ReflectionClass($rule->getRuleClass()), 'newInstance'],
-                            $params
-                        );
+                        $ruleClasses[] = (new ReflectionClass($rule->getRuleClass()))->newInstanceArgs($params);
                     }
 
-                    $paramValidatorRule = new Rules\AllOf(...$classNames);
+                    $paramValidatorRule = new Rules\AllOf(...$ruleClasses);
                     $paramValidator = new Rules\Key($paramKey, $paramValidatorRule);
                     $paramValidator->check(
-                        [$paramKey => $values[$paramKey] ?? $paramRules[$paramKey]->getDefault()]
+                        [$paramKey => $values[$paramKey] ?? $paramRule->getDefault()]
                     );
                 } else {
                     throw new InvalidParamException(
-                        null, sprintf('Unexpected Parameter (`%s`) Received', $paramKey)
+                        [], sprintf('Unexpected Parameter (`%s`) Received', $paramKey)
                     );
                 }
-            } catch (Exception $e) {
+            } catch (ValidationException | Exception $e) {
                 $errorBag[$paramKey] = $e;
             }
         }
@@ -86,9 +85,9 @@ class Validator
      */
     private static function getOnlyNecessaryValues(array $values, ?ParamRuleCollection $rules = null): array
     {
-        $excludedParamKeys = is_null(
-            $rules
-        ) ? ParamRuleCollection::DEFAULT_EXCLUDED_PARAM_KEYS : $rules->getExcludedParamKeys();
+        $excludedParamKeys = is_null($rules) ?
+            ParamRuleCollection::DEFAULT_EXCLUDED_PARAM_KEYS :
+            $rules->getExcludedParamKeys();
         foreach ($excludedParamKeys as $excludedParamKey) {
             unset($values[$excludedParamKey]);
         }

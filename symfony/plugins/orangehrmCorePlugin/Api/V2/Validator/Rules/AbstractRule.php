@@ -17,49 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Exception;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use Exception;
-use Throwable;
+use OrangeHRM\Core\Api\V2\Validator\Exceptions\ValidationException;
+use Respect\Validation\Exceptions\ValidationException as RespectValidationException;
+use Respect\Validation\Rules\AbstractRule as RespectAbstractRule;
 
-class InvalidParamException extends Exception
+abstract class AbstractRule extends RespectAbstractRule
 {
-    public const DEFAULT_ERROR_MESSAGE = "Invalid Parameter";
-
     /**
-     * @var array
+     * @inheritDoc
+     * @throws ValidationException
      */
-    protected array $errorBag = [];
-
-    /**
-     * @param array $errorBag
-     * @param string $message
-     * @param int $code
-     * @param Throwable|null $previous
-     */
-    public function __construct(
-        array $errorBag = [],
-        $message = self::DEFAULT_ERROR_MESSAGE,
-        $code = 0,
-        Throwable $previous = null
-    ) {
-        $this->errorBag = $errorBag;
-        parent::__construct($message, $code, $previous);
-    }
-
-    /**
-     * @return array
-     */
-    public function getErrorBag(): array
+    public function reportError($input, array $extraParams = []): RespectValidationException
     {
-        return $this->errorBag;
-    }
-
-    /**
-     * @param array $errorBag
-     */
-    public function setErrorBag(array $errorBag): void
-    {
-        $this->errorBag = $errorBag;
+        throw new ValidationException($input, $this);
     }
 }

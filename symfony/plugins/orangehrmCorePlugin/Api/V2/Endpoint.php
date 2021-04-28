@@ -124,21 +124,45 @@ abstract class Endpoint
         $rules = [
             new ParamRule(
                 CommonParams::PARAMETER_SORT_ORDER,
-                new Rule(Rules::IN, [[ListSorter::ASCENDING, ListSorter::DESCENDING]])
+                new Rule(
+                    Rules::ONE_OF,
+                    [
+                        new Rule(Rules::NOT_REQUIRED),
+                        new Rule(Rules::IN, [[ListSorter::ASCENDING, ListSorter::DESCENDING]])
+                    ]
+                )
             ),
             new ParamRule(
                 CommonParams::PARAMETER_LIMIT,
-                new Rule(Rules::POSITIVE)
+                new Rule(
+                    Rules::ONE_OF,
+                    [
+                        new Rule(Rules::NOT_REQUIRED),
+                        new Rule(Rules::POSITIVE),
+                    ]
+                )
             ),
             new ParamRule(
                 CommonParams::PARAMETER_OFFSET,
-                new Rule(Rules::NUMBER)
+                new Rule(
+                    Rules::ONE_OF,
+                    [
+                        new Rule(Rules::NOT_REQUIRED),
+                        new Rule(Rules::ZERO_OR_POSITIVE)
+                    ]
+                )
             ),
         ];
         if (!$excludeSortField) {
             $rules[] = new ParamRule(
                 CommonParams::PARAMETER_SORT_FIELD,
-                new Rule(Rules::IN, [$allowedSortFields])
+                new Rule(
+                    Rules::ONE_OF,
+                    [
+                        new Rule(Rules::NOT_REQUIRED),
+                        new Rule(Rules::IN, [$allowedSortFields])
+                    ]
+                )
             );
         }
         return $rules;

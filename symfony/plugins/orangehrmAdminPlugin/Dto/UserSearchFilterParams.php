@@ -78,22 +78,6 @@ class UserSearchFilterParams extends FilterParams
     }
 
     /**
-     * @return string
-     */
-    public function getSortOrder(): string
-    {
-        return $this->sortOrder;
-    }
-
-    /**
-     * @param string $sortOrder
-     */
-    public function setSortOrder(string $sortOrder): void
-    {
-        $this->sortOrder = $sortOrder;
-    }
-
-    /**
      * @return int|null
      */
     public function getUserRoleId(): ?int

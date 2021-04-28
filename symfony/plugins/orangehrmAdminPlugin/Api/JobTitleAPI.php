@@ -101,7 +101,6 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule('test')
         );
     }
 
@@ -147,7 +146,8 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_LIMIT),
+            new ParamRule(self::PARAMETER_ACTIVE_ONLY),
+            ...$this->getSortingAndPaginationParamsRules(['jt.jobTitleName'])
         );
     }
 
@@ -187,7 +187,12 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_TITLE),
+            new ParamRule(self::PARAMETER_DESCRIPTION),
+            new ParamRule(self::PARAMETER_NOTE),
+            new ParamRule(self::PARAMETER_SPECIFICATION),
+        );
     }
 
     /**
@@ -235,7 +240,14 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(self::PARAMETER_TITLE),
+            new ParamRule(self::PARAMETER_DESCRIPTION),
+            new ParamRule(self::PARAMETER_NOTE),
+            new ParamRule(self::PARAMETER_SPECIFICATION),
+            new ParamRule(self::PARAMETER_CURRENT_JOB_SPECIFICATION),
+        );
     }
 
     /**
@@ -253,7 +265,9 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 
     /**

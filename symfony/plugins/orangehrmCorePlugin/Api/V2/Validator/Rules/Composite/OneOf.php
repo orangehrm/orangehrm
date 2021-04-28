@@ -17,49 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Exception;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules\Composite;
 
-use Exception;
-use Throwable;
+use Respect\Validation\Rules;
 
-class InvalidParamException extends Exception
+class OneOf extends AbstractComposite
 {
-    public const DEFAULT_ERROR_MESSAGE = "Invalid Parameter";
-
     /**
-     * @var array
+     * @inheritDoc
      */
-    protected array $errorBag = [];
-
-    /**
-     * @param array $errorBag
-     * @param string $message
-     * @param int $code
-     * @param Throwable|null $previous
-     */
-    public function __construct(
-        array $errorBag = [],
-        $message = self::DEFAULT_ERROR_MESSAGE,
-        $code = 0,
-        Throwable $previous = null
-    ) {
-        $this->errorBag = $errorBag;
-        parent::__construct($message, $code, $previous);
-    }
-
-    /**
-     * @return array
-     */
-    public function getErrorBag(): array
+    protected function getRuleClass(): string
     {
-        return $this->errorBag;
-    }
-
-    /**
-     * @param array $errorBag
-     */
-    public function setErrorBag(array $errorBag): void
-    {
-        $this->errorBag = $errorBag;
+        return Rules\OneOf::class;
     }
 }
