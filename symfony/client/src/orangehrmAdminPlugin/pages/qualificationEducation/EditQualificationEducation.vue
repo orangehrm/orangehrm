@@ -38,10 +38,10 @@
 
         <oxd-form-actions>
           <oxd-button
-              type="button"
-              displayType="ghost"
-              label="Cancel"
-              @click="onCancel"
+            type="button"
+            displayType="ghost"
+            label="Cancel"
+            @click="onCancel"
           />
           <submit-button />
         </oxd-form-actions>
@@ -63,8 +63,8 @@ export default {
   },
   setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        'api/v2/admin/educations',
+      window.appGlobal.baseUrl,
+      'api/v2/admin/educations',
     );
     return {
       http,
@@ -85,65 +85,63 @@ export default {
   },
   methods: {
     onSave() {
-    // TODO: Loading
+      // TODO: Loading
 
       this.isLoading = true;
       this.http
-          .update(this.educationId, {
-            name: this.qualification.name,
-          })
-          .then(() => {
-            return this.$toast.success({
-              title: 'Success',
-              message: 'Qualifications updated successfully!',
-            });
-          })
-          .then(() => {
-            this.onCancel();
-            this.isLoading = false;
+        .update(this.educationId, {
+          name: this.qualification.name,
+        })
+        .then(() => {
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Qualifications updated successfully!',
           });
+        })
+        .then(() => {
+          this.onCancel();
+          this.isLoading = false;
+        });
     },
     onCancel() {
       navigate('/admin/education');
     },
   },
   created() {
-
     this.isLoading = true;
     this.http
-        .get(this.educationId)
-        .then(response => {
-          const {data} = response.data;
-          this.qualification.id = data.id;
-          this.qualification.name = data.name;
-          // Fetch list data for unique test
-          return this.http.getAll();
-        })
-        .then(response => {
-          const {data} = response.data;
-          this.rules.name.push(v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          });
-          this.rules.name.push(v => {
-            return (v && v.length <= 50) || 'Should not exceed 50 characters';
-          });
-          this.rules.name.push(v => {
-            const index = data.findIndex(item => item.name == v);
-            if (index > -1) {
-              const {id} = data[index];
-              return id != this.qualification.id
-                  ? 'Qualification name should be unique'
-                  : true;
-            } else {
-              return true;
-            }
-          });
-          this.isLoading = false;
-        })
-        .finally(() => {
-          this.isLoading = false;
+      .get(this.educationId)
+      .then(response => {
+        const {data} = response.data;
+        this.qualification.id = data.id;
+        this.qualification.name = data.name;
+        // Fetch list data for unique test
+        return this.http.getAll();
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          return (!!v && v.trim() !== '') || 'Required';
         });
-
+        this.rules.name.push(v => {
+          return (v && v.length <= 50) || 'Should not exceed 50 characters';
+        });
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          if (index > -1) {
+            const {id} = data[index];
+            return id != this.qualification.id
+              ? 'Qualification name should be unique'
+              : true;
+          } else {
+            return true;
+          }
+        });
+        this.isLoading = false;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

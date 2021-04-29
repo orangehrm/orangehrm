@@ -72,8 +72,8 @@ export default {
 
   setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        'api/v2/admin/educations',
+      window.appGlobal.baseUrl,
+      'api/v2/admin/educations',
     );
     return {
       http,
@@ -82,50 +82,50 @@ export default {
 
   methods: {
     onSave() {
-//  TODO: Loading
+      //  TODO: Loading
 
       this.isLoading = true;
       this.http
-          .create({
-            name: this.qualification.name,
-          })
-          .then(() => {
-            return this.$toast.success({
-              title: 'Success',
-              message: 'Qualification added successfully!',
-            });
-          })
-          .then(() => {
-            this.qualification.name = '';
-            this.isLoading = false;
-            this.onCancel();
+        .create({
+          name: this.qualification.name,
+        })
+        .then(() => {
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Qualification added successfully!',
           });
+        })
+        .then(() => {
+          this.qualification.name = '';
+          this.isLoading = false;
+          this.onCancel();
+        });
     },
     onCancel() {
-      navigate('/admin/education');
+      navigate('/admin/qualification');
     },
   },
   created() {
     this.isLoading = true;
     this.http
-        .getAll()
-        .then(response => {
-          const {data} = response.data;
-          this.rules.name.push(v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          });
-          this.rules.name.push(v => {
-            return (v && v.length <= 50) || 'Should not exceed 50 characters';
-          });
-          this.rules.name.push(v => {
-            const index = data.findIndex(item => item.name == v);
-            return index === -1 || 'Qualification name should be unique';
-          });
-          this.isLoading = false;
-        })
-        .finally(() => {
-          this.isLoading = false;
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          return (!!v && v.trim() !== '') || 'Required';
         });
+        this.rules.name.push(v => {
+          return (v && v.length <= 50) || 'Should not exceed 50 characters';
+        });
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name == v);
+          return index === -1 || 'Qualification name should be unique';
+        });
+        this.isLoading = false;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

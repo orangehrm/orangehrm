@@ -84,7 +84,11 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', title: 'Education Qualification', style: {'flex-basis': '80%'}},
+        {
+          name: 'name',
+          title: 'Education Qualification',
+          style: {'flex-basis': '80%'},
+        },
         {
           name: 'actions',
           title: 'Actions',
@@ -119,7 +123,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-'api/v2/admin/educations',
+      'api/v2/admin/educations',
     );
     const {
       showPaginator,
@@ -154,10 +158,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveEducation');
+      navigate('/admin/saveQualification');
     },
     onClickEdit(item) {
-      navigate('/admin/saveEducation/{id}', {id: item.id});
+      navigate('/admin/saveQualification/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

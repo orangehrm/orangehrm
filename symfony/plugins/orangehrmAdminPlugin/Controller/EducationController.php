@@ -26,7 +26,7 @@ class EducationController extends AbstractVueController
 {
     public function init(): void
     {
-        $component = new Component('education-list');
+        $component = new Component('qualification-list');
         $this->setComponent($component);
     }
 }

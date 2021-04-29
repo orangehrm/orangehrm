@@ -28,13 +28,12 @@ class SaveEducationController extends AbstractVueController
 {
     public function preRender(Request $request): void
     {
-        // var_dump("hello world"); die;
         $id = $request->get('id');
         if ($id) {
-            $component = new Component('education-edit');
+            $component = new Component('qualification-edit');
             $component->addProp(new Prop('education-id', Prop::TYPE_NUMBER, $id));
         } else {
-            $component = new Component('education-save');
+            $component = new Component('Qualification-save');
         }
         $this->setComponent($component);
     }

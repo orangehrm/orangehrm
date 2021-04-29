@@ -157,16 +157,16 @@ view_organization_structure:
   controller: OrangeHRM\Admin\Controller\OrganizationStructureController::handle
 
 view_education:
-  path: /admin/education
+  path: /admin/qualification
   controller: OrangeHRM\Admin\Controller\EducationController::handle
   methods: [ GET ]
 
 save_education:
-  path: /admin/saveEducation
+  path: /admin/saveQualification
   controller: OrangeHRM\Admin\Controller\SaveEducationController::handle
   methods: [ GET ]
 
 edit_education:
-  path: /admin/saveEducation/{id}
+  path: /admin/saveQualification/{id}
   controller: OrangeHRM\Admin\Controller\SaveEducationController::handle
   methods: [ GET ]
