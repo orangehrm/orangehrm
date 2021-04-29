@@ -29,12 +29,16 @@ trait NestedSetTrait
      * @return NestedSetInterface[]|array
      * @throws NestedSetException
      */
-    public static function fetchTree(?int $depth = null):array
+    public static function fetchTree(?int $depth = null): array
     {
         $entityClass = get_called_class();
-        if (!(in_array(NestedSetInterface::class,array_values(class_implements($entityClass))))) {
+        if (!(in_array(NestedSetInterface::class, array_values(class_implements($entityClass))))) {
             throw new NestedSetException(
-                sprintf('Expected called class implements `%s`, and got called class as `%s`', NestedSetInterface::class, $entityClass)
+                sprintf(
+                    'Expected called class implements `%s`, and got called class as `%s`',
+                    NestedSetInterface::class,
+                    $entityClass
+                )
             );
         }
 

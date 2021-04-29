@@ -17,29 +17,40 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2;
+namespace OrangeHRM\Admin\Api\Model;
 
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Subunit;
 
-interface ResourceEndpoint
+class SubunitModel implements Normalizable
 {
-    /**
-     * Get one resource
-     * @return EndpointGetOneResult
-     */
-    public function getOne(): EndpointGetOneResult;
+    use ModelTrait;
 
-    /**
-     * Update one resource
-     * @return EndpointUpdateResult
-     */
-    public function update(): EndpointUpdateResult;
-
-    /**
-     * Delete a resource
-     * @return EndpointDeleteResult
-     */
-    public function delete(): EndpointDeleteResult;
+    public function __construct(Subunit $subunit)
+    {
+        $this->setEntity($subunit);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+                'unitId',
+                'description',
+                'level',
+                'lft',
+                'rgt',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'name',
+                'unitId',
+                'description',
+                'level',
+                'left',
+                'right',
+            ]
+        );
+    }
 }

@@ -58,6 +58,15 @@ class CompanyStructureDaoTest extends TestCase
         $this->assertEquals($savedSubunit->getName(), 'Organization');
     }
 
+    public function testSaveSubunit(): void
+    {
+        $subunit = new Subunit();
+        $subunit->setName("Open Source");
+        $subunit->setDescription("Handles OrangeHRM product");
+        $this->assertTrue($this->companyStructureDao->saveSubunit($subunit) instanceof Subunit);
+        $this->assertNotNull($subunit->getId());
+    }
+
     public function testDeleteSubunit(): void
     {
         $subunitList = TestDataService::loadObjectList(Subunit::class, $this->fixture, 'Subunit');

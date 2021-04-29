@@ -45,6 +45,21 @@ class CompanyStructureDao
     }
 
     /**
+     * @param Subunit $subunit
+     * @return Subunit
+     * @throws DaoException
+     */
+    public function saveSubunit(Subunit $subunit):Subunit {
+        try {
+            Doctrine::getEntityManager()->persist($subunit);
+            Doctrine::getEntityManager()->flush();
+            return $subunit;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
      * @param Subunit $parentSubunit
      * @param Subunit $subunit
      * @return Subunit
@@ -94,13 +109,14 @@ class CompanyStructureDao
     }
 
     /**
+     * @param int|null $depth
      * @return array|Subunit[]
      * @throws DaoException
      */
-    public function getSubunitTree(): array
+    public function getSubunitTree(?int $depth = null): array
     {
         try {
-            return Subunit::fetchTree();
+            return Subunit::fetchTree($depth);
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }

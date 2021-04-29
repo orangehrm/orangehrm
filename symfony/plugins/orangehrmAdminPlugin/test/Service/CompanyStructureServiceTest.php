@@ -62,6 +62,23 @@ class CompanyStructureServiceTest extends TestCase
         $this->assertEquals($subunit, $result);
     }
 
+    public function testSaveSubunit(): void
+    {
+        $subunit = new Subunit();
+        $subunit->setName("subunit name");
+
+        $compStructureDao = $this->getMockBuilder(CompanyStructureDao::class)->getMock();
+
+        $compStructureDao->expects($this->once())
+            ->method('saveSubunit')
+            ->with($subunit)
+            ->will($this->returnValue($subunit));
+
+        $this->companyStructureService->setCompanyStructureDao($compStructureDao);
+        $result = $this->companyStructureService->saveSubunit($subunit);
+        $this->assertTrue($result instanceof Subunit);
+    }
+
     public function testAddSubunit()
     {
         $parentSubunit = TestDataService::fetchObject(Subunit::class, 1);

@@ -62,6 +62,15 @@ class CompanyStructureService
     }
 
     /**
+     * @param Subunit $subunit
+     * @return Subunit
+     * @throws DaoException
+     */
+    public function saveSubunit(Subunit $subunit):Subunit {
+        return $this->getCompanyStructureDao()->saveSubunit($subunit);
+    }
+
+    /**
      * Add child subunit to a parent subunit
      * @param Subunit $parentSubunit
      * @param Subunit $subunit
@@ -102,11 +111,12 @@ class CompanyStructureService
     /**
      * Get the whole subunit tree
      *
+     * @param int|null $depth
      * @return array|Subunit[] Subunit object list
      * @throws DaoException
      */
-    public function getSubunitTree(): array
+    public function getSubunitTree(?int $depth = null): array
     {
-        return $this->getCompanyStructureDao()->getSubunitTree();
+        return $this->getCompanyStructureDao()->getSubunitTree($depth);
     }
 }
