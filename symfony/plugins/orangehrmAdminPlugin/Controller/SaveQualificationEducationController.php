@@ -24,16 +24,16 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use Symfony\Component\HttpFoundation\Request;
 
-class SaveEducationController extends AbstractVueController
+class SaveQualificationEducationController extends AbstractVueController
 {
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
         if ($id) {
-            $component = new Component('qualification-edit');
+            $component = new Component('qualification-education-edit');
             $component->addProp(new Prop('education-id', Prop::TYPE_NUMBER, $id));
         } else {
-            $component = new Component('Qualification-save');
+            $component = new Component('qualification-education-save');
         }
         $this->setComponent($component);
     }

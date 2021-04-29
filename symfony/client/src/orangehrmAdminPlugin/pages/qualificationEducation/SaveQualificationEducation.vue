@@ -28,7 +28,7 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Qualification Name"
+            label="Level"
             v-model="qualification.name"
             :rules="rules.name"
             required
@@ -102,7 +102,7 @@ export default {
         });
     },
     onCancel() {
-      navigate('/admin/qualification');
+      navigate('/admin/qualificationEducation');
     },
   },
   created() {

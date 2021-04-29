@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Qualification List</oxd-text>
+        <oxd-text tag="h6">Education List</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -86,7 +86,7 @@ export default {
       headers: [
         {
           name: 'name',
-          title: 'Education Qualification',
+          title: 'Level',
           style: {'flex-basis': '80%'},
         },
         {
@@ -158,10 +158,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveQualification');
+      navigate('/admin/saveQualificationEducation');
     },
     onClickEdit(item) {
-      navigate('/admin/saveQualification/{id}', {id: item.id});
+      navigate('/admin/saveQualificationEducation/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

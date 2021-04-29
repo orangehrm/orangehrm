@@ -22,11 +22,11 @@ namespace OrangeHRM\Admin\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 
-class EducationController extends AbstractVueController
+class QualificationEducationController extends AbstractVueController
 {
     public function init(): void
     {
-        $component = new Component('qualification-list');
+        $component = new Component('qualification-education-list');
         $this->setComponent($component);
     }
 }

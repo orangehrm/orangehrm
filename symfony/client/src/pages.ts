@@ -38,6 +38,10 @@ import SaveEducation from '@/orangehrmAdminPlugin/pages/education/SaveEducation.
 import Qualification from '@/orangehrmAdminPlugin/pages/qualificationEducation/QualificationEducation.vue';
 import EditQualification from '@/orangehrmAdminPlugin/pages/qualificationEducation/EditQualificationEducation.vue';
 import SaveQualification from '@/orangehrmAdminPlugin/pages/qualificationEducation/SaveQualificationEducation.vue';
+import QualificationEducation from '@/orangehrmAdminPlugin/pages/qualificationEducation/QualificationEducation.vue';
+import EditQualificationEducation from '@/orangehrmAdminPlugin/pages/qualificationEducation/EditQualificationEducation.vue';
+import SaveQualificationEducation from '@/orangehrmAdminPlugin/pages/qualificationEducation/SaveQualificationEducation.vue';
+
 
 export default {
   'job-title-list': JobTitle,
@@ -46,9 +50,9 @@ export default {
   'job-category-list': JobCategory,
   'job-category-edit': EditJobCategory,
   'job-category-save': SaveJobCategory,
-  'qualification-list': Qualification,
-  'qualification-edit': EditQualification,
-  'qualification-save': SaveQualification,
+  'qualification-education-list': QualificationEducation,
+  'qualification-education-edit': EditQualificationEducation,
+  'qualification-education-save': SaveQualificationEducation,
   ...authenticationPages,
   'system-user-list': SystemUser,
   'system-user-edit': EditSystemUser,

@@ -21,14 +21,14 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit education</oxd-text>
+      <oxd-text tag="h6">Edit Education</oxd-text>
 
       <oxd-divider />
 
       <oxd-form @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Education"
+            label="Level"
             v-model="qualification.name"
             :rules="rules.name"
           />
@@ -104,7 +104,7 @@ export default {
         });
     },
     onCancel() {
-      navigate('/admin/education');
+      navigate('/admin/qualificationEducation');
     },
   },
   created() {
