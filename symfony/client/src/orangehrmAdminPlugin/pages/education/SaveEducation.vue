@@ -25,13 +25,13 @@
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
             label="Qualification Name"
-           
             v-model="qualification.name"
             :rules="rules.name"
+            required
           />
         </oxd-form-row>
 
@@ -44,12 +44,7 @@
             label="Cancel"
             @click="onCancel"
           />
-          <oxd-button
-            class="orangehrm-left-space"
-            displayType="secondary"
-            label="Submit"
-            type="submit"
-          />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -58,10 +53,12 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 
 export default {
   data() {
     return {
+      isLoading: false,
       qualification: {
         id: '',
         name: '',
@@ -72,44 +69,63 @@ export default {
       errors: [],
     };
   },
+
+  setup() {
+    const http = new APIService(
+        window.appGlobal.baseUrl,
+        'api/v2/admin/educations',
+    );
+    return {
+      http,
+    };
+  },
+
   methods: {
     onSave() {
-      // TODO: Loading
-      this.$http
-        .post(`/api/v1/admin/educations`, {
-          name: this.qualification.name,
-        })
-        .then(() => {
-          // go back
-          this.onCancel();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+//  TODO: Loading
+
+      this.isLoading = true;
+      this.http
+          .create({
+            name: this.qualification.name,
+          })
+          .then(() => {
+            return this.$toast.success({
+              title: 'Success',
+              message: 'Qualification added successfully!',
+            });
+          })
+          .then(() => {
+            this.qualification.name = '';
+            this.isLoading = false;
+            this.onCancel();
+          });
     },
     onCancel() {
       navigate('/admin/education');
     },
   },
   created() {
-    this.$http
-      .get(`/api/v1/admin/educations`)
-      .then(response => {
-        const {data} = response.data;
-        this.rules.name.push(v => {
-          return (!!v && v.trim() !== '') || 'Required';
+    this.isLoading = true;
+    this.http
+        .getAll()
+        .then(response => {
+          const {data} = response.data;
+          this.rules.name.push(v => {
+            return (!!v && v.trim() !== '') || 'Required';
+          });
+          this.rules.name.push(v => {
+            return (v && v.length <= 50) || 'Should not exceed 50 characters';
+          });
+          this.rules.name.push(v => {
+            const index = data.findIndex(item => item.name == v);
+            return index === -1 || 'Qualification name should be unique';
+          });
+          this.isLoading = false;
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
-        this.rules.name.push(v => {
-          return (v && v.length <= 100) || 'Should be less than 50 characters';
-        });
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Education name should be unique';
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
   },
 };
 </script>

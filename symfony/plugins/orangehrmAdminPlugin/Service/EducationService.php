@@ -107,7 +107,7 @@ class EducationService
      *
      */
     public function getEducationList(
-        $sortField = 'jc.name', //change start here
+        $sortField = 'e.name', //change start here
         $sortOrder = 'ASC',
         $limit = null,
         $offset = null,

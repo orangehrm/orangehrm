@@ -104,17 +104,17 @@ class EducationDao {
      */
     
     public function getEducationList(
-        $sortField = 'jc.name',
+        $sortField = 'e.name',
         $sortOrder = 'ASC',
         $limit = null,
         $offset = null,
         $count = false
 
     ) {
-        $sortField = ($sortField == "") ? 'jc.name' : $sortField;
+        $sortField = ($sortField == "") ? 'e.name' : $sortField;
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
         try {
-            $q = Doctrine::getEntityManager()->getRepository(Education::class)->createQueryBuilder('jc');
+            $q = Doctrine::getEntityManager()->getRepository(Education::class)->createQueryBuilder('e');
             $q->addOrderBy($sortField, $sortOrder);
             if (!empty($limit)) {
                 $q->setFirstResult($offset)

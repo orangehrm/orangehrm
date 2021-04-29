@@ -22,9 +22,14 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Education Qualifications</oxd-text>
+        <oxd-text tag="h6">Qualification List</oxd-text>
         <div>
-          <oxd-button label="Add" displayType="secondary" @click="onClickAdd" />
+          <oxd-button
+            label="Add"
+            iconName="plus"
+            displayType="secondary"
+            @click="onClickAdd"
+          />
         </div>
       </div>
       <oxd-divider class="orangehrm-horizontal-margin" />
@@ -32,16 +37,17 @@
         <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
           <div v-if="checkedItems.length > 0">
             <oxd-text tag="span">
-              {{ checkedItems.length }} Qualifications Selected
+              {{ checkedItems.length }} Qualification Selected
             </oxd-text>
             <oxd-button
               label="Delete Selected"
+              iconName="trash-fill"
               displayType="label-danger"
               @click="onClickDeleteSelected"
               class="orangehrm-horizontal-margin"
             />
           </div>
-          <oxd-text tag="span" v-else> {{ total }} Qualifications Found</oxd-text>
+          <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
         </div>
       </div>
       <div class="orangehrm-container">
@@ -50,6 +56,7 @@
           :headers="headers"
           :items="items?.data"
           :selectable="true"
+          :clickable="false"
           v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
         />
@@ -71,12 +78,13 @@
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
 
 export default {
   data() {
     return {
       headers: [
-        {name: 'name', title: 'Qualifications', style: {'flex-basis': '80%'}},
+        {name: 'name', title: 'Education Qualification', style: {'flex-basis': '80%'}},
         {
           name: 'actions',
           title: 'Actions',
@@ -109,6 +117,10 @@ export default {
   },
 
   setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+'api/v2/admin/educations',
+    );
     const {
       showPaginator,
       currentPage,
@@ -118,8 +130,9 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate('/api/v1/admin/educations');
+    } = usePaginate(http);
     return {
+      http,
       showPaginator,
       currentPage,
       isLoading,
@@ -129,6 +142,14 @@ export default {
       execQuery,
       items: response,
     };
+  },
+
+  computed: {
+    itemsCountText() {
+      return this.total === 0
+        ? 'No Records Found'
+        : `${this.total} Qualification Found`;
+    },
   },
 
   methods: {
@@ -156,17 +177,21 @@ export default {
       });
     },
     deleteItems(items) {
-      // TODO: Loading
       if (items instanceof Array) {
-        this.$http
-          .delete('/api/v1/admin/educations', {
-            data: {ids: items},
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
           })
           .then(() => {
-            this.resetDataTable();
+            return this.$toast.success({
+              title: 'Success',
+              message: 'Qualification deleted successfully!',
+            });
           })
-          .catch(error => {
-            console.log(error);
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
           });
       }
     },
