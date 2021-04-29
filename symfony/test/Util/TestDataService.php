@@ -25,6 +25,9 @@ use OrangeHRM\Entity\UniqueId;
 use OrangeHRM\ORM\Doctrine;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @template T
+ */
 class TestDataService {
 
     /** Encrypted fields in the format 
@@ -250,6 +253,9 @@ class TestDataService {
      */
     private static function getFQEntityName(string $className): string
     {
+        if (class_exists($className)) {
+            return $className;
+        }
         return "OrangeHRM\Entity\\" . $className;
     }
 
@@ -372,8 +378,7 @@ class TestDataService {
         $wholeCount = Doctrine::getEntityManager()->getRepository($entityName)->count([]);
         $offset = $wholeCount - $count;
 
-        $q = Doctrine::getEntityManager()->createQueryBuilder();
-        $q->from($entityName,'a');
+        $q = Doctrine::getEntityManager()->getRepository($entityName)->createQueryBuilder('a');
         $q->setFirstResult($offset);
         $q->setMaxResults($count);
 
@@ -382,8 +387,8 @@ class TestDataService {
 
     public static function fetchLastInsertedRecord($alias, $orderBy) {
         $entityName = self::getFQEntityName($alias);
-        $q = Doctrine::getEntityManager()->createQueryBuilder();
-        $q->from($entityName,'a');
+        $q = Doctrine::getEntityManager()->getRepository($entityName)->createQueryBuilder('a');
+        $q->setMaxResults(1);
         $q->orderBy($orderBy,'DESC');
 
         return $q->getQuery()->getOneOrNullResult();
