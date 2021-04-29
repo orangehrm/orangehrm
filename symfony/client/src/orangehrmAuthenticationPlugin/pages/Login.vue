@@ -20,7 +20,6 @@
 
 <template>
   <login-layout>
-    <login-branding :imgSrc="brandingSrc"></login-branding>
     <oxd-text class="orangehrm-login-title" tag="h5">Login</oxd-text>
     <div class="orangehrm-login-form">
       <oxd-form
@@ -66,21 +65,17 @@
       >
       <oxd-divider />
     </div>
-    <login-social></login-social>
   </login-layout>
 </template>
 
 <script>
 import LoginLayout from '../components/LoginLayout';
-import LoginBranding from '../components/LoginBranding';
-import LoginSocial from '../components/LoginSocial';
+
 import {urlFor} from '@orangehrm/core/util/helper/url';
 
 export default {
   components: {
     'login-layout': LoginLayout,
-    'login-branding': LoginBranding,
-    'login-social': LoginSocial,
   },
   data() {
     return {
@@ -90,7 +85,6 @@ export default {
         username: [v => (!!v && v.trim() !== '') || 'Required'],
         password: [v => (!!v && v.trim() !== '') || 'Required'],
       },
-      brandingSrc: `${window.appGlobal.baseUrl}/../images/ohrm_branding.png`,
     };
   },
 
