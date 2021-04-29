@@ -150,7 +150,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     public function saveEmploymentStatus(): EmploymentStatus
     {
         // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
             $employeeStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
