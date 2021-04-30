@@ -22,6 +22,9 @@
   <login-layout>
     <oxd-text class="orangehrm-login-title" tag="h5">Login</oxd-text>
     <div class="orangehrm-login-form">
+      <div class="orangehrm-login-error">
+        <!-- Login Errors Here -->
+      </div>
       <oxd-form
         @submitValid="onSubmit"
         method="post"
