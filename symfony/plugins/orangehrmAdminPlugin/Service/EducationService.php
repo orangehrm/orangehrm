@@ -22,6 +22,7 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\EducationDao;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Education;
 
@@ -39,7 +40,6 @@ class EducationService
      */
     public function getEducationDao(): EducationDao
     {
-
         if (!($this->educationDao instanceof EducationDao)) {
             $this->educationDao = new EducationDao();
         }
@@ -49,8 +49,9 @@ class EducationService
 
     /**
      * @param $educationDao
+     * @return void
      */
-    public function setEducationDao($educationDao)
+    public function setEducationDao($educationDao): void
     {
         $this->educationDao = $educationDao;
     }
@@ -66,7 +67,7 @@ class EducationService
      */
     public function saveEducation(Education $education)
     {
-       return $this->getEducationDao()->saveEducation($education);
+        return $this->getEducationDao()->saveEducation($education);
     }
 
     /**
@@ -95,26 +96,25 @@ class EducationService
         return $this->getEducationDao()->getEducationByName($name);
     }
 
+
     /**
-     * Retrieves all education records ordered by name
-     * @param string $sortField //change to the code base
-     * @param string $sortOrder
-     * @param null $limit
-     * @param null $offset
-     * @param false $count
-     * @return int|mixed|string
+     * @param UserSearchFilterParams $educationSearchParamHolder //remove return array for now
+     * @return array
      * @throws DaoException
-     *
      */
-    public function getEducationList(
-        $sortField = 'e.name',
-        $sortOrder = 'ASC',
-        $limit = null,
-        $offset = null,
-        $count = false
-    )
+    public function getEducationList(UserSearchFilterParams $educationSearchParamHolder): array
     {
-        return $this->getEducationDao()->getEducationList($sortField, $sortOrder, $limit, $offset, $count);
+        return $this->getEducationDao()->getEducationList($educationSearchParamHolder);
+    }
+
+    /**
+     * @param UserSearchFilterParams $educationSearchParamHolder
+     * @return int
+     * @throws DaoException
+     */
+    public function getEducationCount(UserSearchFilterParams $educationSearchParamHolder): int
+    {
+        return $this->getEducationDao()->getEducationCount($educationSearchParamHolder);
     }
 
     /**
@@ -138,7 +138,7 @@ class EducationService
      * @return bool
      * @version 2.6.12
      */
-    public function isExistingEducationName( string $educationName): bool
+    public function isExistingEducationName(string $educationName): bool
     {
         return $this->getEducationDao()->isExistingEducationName($educationName);
     }

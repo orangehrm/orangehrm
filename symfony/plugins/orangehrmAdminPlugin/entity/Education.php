@@ -20,6 +20,7 @@
 
 
 namespace OrangeHRM\Entity;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,9 +33,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Education
 {
-    const NO_OF_RECORDS_PER_PAGE = 50;
-    const DELETED = 1;
-    const ACTIVE = 0;
+    public const NO_OF_RECORDS_PER_PAGE = 50;
+    public const DELETED = 1;
+    public const ACTIVE = 0;
 
     /**
      * @var int
@@ -53,22 +54,23 @@ class Education
      */
     private $name;
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="EmployeeEducation", mappedBy="Education")
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeEducation", mappedBy="education")
      * @ORM\JoinColumns({
      * @ORM\JoinColumn(name="id", referencedColumnName="educationId")
      * })
      */
-    private $EmployeeEducation;
+    private $employeeEducation;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->EmployeeEducation = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->employeeEducation = new ArrayCollection();
     }
+
     /**
      * @return int
      */
@@ -95,9 +97,8 @@ class Education
 
     /**
      * @param string $name
-     *
      */
-    public function setName(string $name)  //defined the return type
+    public function setName(string $name)
     {
         $this->name = $name;
     }

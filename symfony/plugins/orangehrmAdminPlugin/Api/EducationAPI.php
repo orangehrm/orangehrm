@@ -22,6 +22,7 @@ namespace OrangeHRM\Admin\Api;
 use DaoException;
 use Exception;
 use OrangeHRM\Admin\Api\Model\EducationModel;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Service\EducationService;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -46,10 +47,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public const PARAMETER_ID = 'id';
     public const PARAMETER_IDS = 'ids';
     public const PARAMETER_NAME = 'name';
-    public const PARAMETER_SORT_FIELD = 'sortField';
-    public const PARAMETER_SORT_ORDER = 'sortOrder';
-    public const PARAMETER_OFFSET = 'offset';
-    public const PARAMETER_LIMIT = 'limit';
 
     /**
      *
@@ -80,7 +77,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getOne(): EndpointGetOneResult
     {
         // TODO:: Check data group permission
-        $id =$this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $educations = $this->getEducationService()->getEducationById($id);
         if (!$educations instanceof Education) {
             throw new RecordNotFoundException('No Record Found');
@@ -98,33 +95,12 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission
-        $sortField = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_SORT_FIELD,
-            'e.name'
-        );
-        $sortOrder = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_SORT_ORDER,
-            'ASC'
-        );
-        $limit = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_LIMIT, 50);
-        $offset = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_OFFSET, 0);
 
-        $count = $this->getEducationService()->getEducationList(
-            $sortField,
-            $sortOrder,
-            $limit,
-            $offset,
-            true
-        );
-
-        $educations = $this->getEducationService()->getEducationList($sortField, $sortOrder, $limit, $offset);
-
-        return new EndpointGetAllResult(
-            EducationModel::class, $educations,
-            new ParameterBag(['total' => $count])
-        );
+        $educationParamHolder = new UserSearchFilterParams();
+        $this->setSortingAndPaginationParams($educationParamHolder);
+        $educations = $this->getEducationService()->getEducationList($educationParamHolder);
+        $count = $this->getEducationService()->getEducationCount($educationParamHolder);
+        return new EndpointGetAllResult(EducationModel::class, $educations, new ParameterBag(['total' => $count]));
     }
 
     /**

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Exception\DaoException;
 use Exception;
@@ -83,35 +84,47 @@ class EducationDao
     }
 
     /**
-     * @param string $sortField
-     * @param string $sortOrder
-     * @param null $limit
-     * @param null $offset
-     * @param false $count
-     * @return int|Education[]
+     * @param UserSearchFilterParams $educationSearchParamHolder
+     * @return array
      * @throws DaoException
      */
-    public function getEducationList(
-        $sortField = 'e.name',
-        $sortOrder = 'ASC',
-        $limit = null,
-        $offset = null,
-        $count = false
-    ) {
-        $sortField = ($sortField == "") ? 'e.name' : $sortField;
-        $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
+    public function getEducationList(UserSearchFilterParams $educationSearchParamHolder): array
+    {
         try {
-            $q = Doctrine::getEntityManager()->getRepository(Education::class)->createQueryBuilder('e');
-            $q->addOrderBy($sortField, $sortOrder);
-            if (!empty($limit)) {
-                $q->setFirstResult($offset)
-                    ->setMaxResults($limit);
-            }
-            if ($count) {
-                $paginator = new Paginator($q);
-                return count($paginator);
-            }
-            return $q->getQuery()->execute();
+            $paginator = $this->getEducationListPaginator($educationSearchParamHolder);
+            return $paginator->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param UserSearchFilterParams $educationSearchParamHolder
+     * @return Paginator
+     */
+    public function getEducationListPaginator(UserSearchFilterParams $educationSearchParamHolder): Paginator
+    {
+        $q = Doctrine::getEntityManager()->getRepository(Education::class)->createQueryBuilder('e');
+        if (!is_null($educationSearchParamHolder->getSortField())) {
+            $q->addOrderBy($educationSearchParamHolder->getSortField(), $educationSearchParamHolder->getSortOrder());
+        }
+        if (!empty($educationSearchParamHolder->getLimit())) {
+            $q->setFirstResult($educationSearchParamHolder->getOffset())
+                ->setMaxResults($educationSearchParamHolder->getLimit());
+        }
+        return new Paginator($q);
+    }
+
+    /**
+     * @param UserSearchFilterParams $educationSearchParamHolder
+     * @return int
+     * @throws DaoException
+     */
+    public function getEducationCount(UserSearchFilterParams $educationSearchParamHolder): int
+    {
+        try {
+            $paginator = $this->getEducationListPaginator($educationSearchParamHolder);
+            return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }

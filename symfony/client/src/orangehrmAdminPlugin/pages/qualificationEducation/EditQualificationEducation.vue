@@ -86,8 +86,6 @@ export default {
   },
   methods: {
     onSave() {
-      // TODO: Loading
-
       this.isLoading = true;
       this.http
         .update(this.educationId, {
