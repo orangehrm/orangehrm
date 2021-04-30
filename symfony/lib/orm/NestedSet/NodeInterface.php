@@ -17,29 +17,57 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2;
+namespace OrangeHRM\ORM\NestedSet;
 
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
-
-interface ResourceEndpoint
+interface NodeInterface
 {
     /**
-     * Get one resource
-     * @return EndpointGetOneResult
+     * @return bool
      */
-    public function getOne(): EndpointGetOneResult;
+    public function hasChildren(): bool;
 
     /**
-     * Update one resource
-     * @return EndpointUpdateResult
+     * @return NestedSetInterface[]
      */
-    public function update(): EndpointUpdateResult;
+    public function getChildren(int $depth = 1): array;
 
     /**
-     * Delete a resource
-     * @return EndpointDeleteResult
+     * @return bool
      */
-    public function delete(): EndpointDeleteResult;
+    public function hasParent(): bool;
+
+    /**
+     * @return NestedSetInterface|null
+     */
+    public function getParent(): ?NestedSetInterface;
+
+    /**
+     * @return int
+     */
+    public function getLevel(): int;
+
+    /**
+     * @param NestedSetInterface $parent
+     */
+    public function insertAsLastChildOf(NestedSetInterface $parent): void;
+
+    /**
+     * @param NestedSetInterface $child
+     */
+    public function addChild(NestedSetInterface $child): void;
+
+    /**
+     * @return bool
+     */
+    public function isLeaf(): bool;
+
+    /**
+     * @return bool
+     */
+    public function isRoot(): bool;
+
+    /**
+     * Deletes node and it's descendants
+     */
+    public function delete();
 }

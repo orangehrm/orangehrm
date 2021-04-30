@@ -110,11 +110,11 @@ class GenericRestController extends AbstractRestController
      */
     protected function handleDeleteRequest(Request $request): Response
     {
-        if ($this->apiEndpoint instanceof CollectionEndpoint) {
+        if ($this->apiEndpoint instanceof CollectionEndpoint || $this->apiEndpoint instanceof ResourceEndpoint) {
             $result = $this->apiEndpoint->delete();
             return new Response($result->normalize());
         } else {
-            throw $this->getNotInstanceOfException(CollectionEndpoint::class);
+            throw $this->getNotInstanceOfException(ResourceEndpoint::class . '` or `' . CollectionEndpoint::class);
         }
     }
 

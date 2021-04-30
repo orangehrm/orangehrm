@@ -40,6 +40,20 @@ apiv2_admin_users:
   defaults:
     _api: OrangeHRM\Admin\Api\UserAPI
 
+apiv2_admin_subunit:
+  path: /api/v2/admin/subunits/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\SubunitAPI
+
+apiv2_admin_subunits:
+  path: /api/v2/admin/subunits
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\SubunitAPI
+
 view_job_title:
   path: /admin/viewJobTitleList
   controller: OrangeHRM\Admin\Controller\JobTitleController::handle

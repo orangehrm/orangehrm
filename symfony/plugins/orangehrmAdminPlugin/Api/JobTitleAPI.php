@@ -23,6 +23,7 @@ use OrangeHRM\Admin\Api\Model\JobTitleModel;
 use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -33,7 +34,6 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 
 class JobTitleAPI extends Endpoint implements CrudEndpoint
 {
@@ -87,7 +87,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $jobTitle = $this->getJobTitleService()->getJobTitleById($id);
         if (!$jobTitle instanceof JobTitle) {
-            throw new RecordNotFoundException('No Record Found');
+            throw new RecordNotFoundException();
         }
 
         return new EndpointGetOneResult(JobTitleModel::class, $jobTitle);

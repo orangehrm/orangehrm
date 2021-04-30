@@ -1,6 +1,5 @@
 <?php
-
-/**
+/*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,59 +16,69 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class CompanyStructureService extends BaseService {
 
-    private $companyStructureDao;
+namespace OrangeHRM\Admin\Service;
 
-    public function getCompanyStructureDao() {
+use OrangeHRM\Admin\Dao\CompanyStructureDao;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Subunit;
+
+class CompanyStructureService
+{
+    /**
+     * @var CompanyStructureDao|null
+     */
+    private ?CompanyStructureDao $companyStructureDao = null;
+
+    /**
+     * @return CompanyStructureDao
+     */
+    public function getCompanyStructureDao(): CompanyStructureDao
+    {
         if (!($this->companyStructureDao instanceof CompanyStructureDao)) {
             $this->companyStructureDao = new CompanyStructureDao();
         }
         return $this->companyStructureDao;
     }
 
-    public function setCompanyStructureDao(CompanyStructureDao $dao) {
-        $this->companyStructureDao = $dao;
+    /**
+     * @param CompanyStructureDao $companyStructureDao
+     */
+    public function setCompanyStructureDao(CompanyStructureDao $companyStructureDao): void
+    {
+        $this->companyStructureDao = $companyStructureDao;
     }
 
     /**
      * Get sub unit for a given id
      *
-     * @version
      * @param int $id Subunit auto incremental id
      * @return Subunit instance if found or a dao exception
+     * @throws DaoException
      */
-    public function getSubunitById($id) {
+    public function getSubunitById(int $id): ?Subunit
+    {
         return $this->getCompanyStructureDao()->getSubunitById($id);
     }
 
     /**
-     * Save a Subunit
-     *
-     * If id is not set, it will be set to next available value and a new subunit
-     * will be added.
-     *
-     * If id is set the belonged subunit will be updated.
-     *
-     * @version
      * @param Subunit $subunit
-     * @return boolean
+     * @return Subunit
+     * @throws DaoException
      */
-    public function saveSubunit(Subunit $subunit) {
+    public function saveSubunit(Subunit $subunit):Subunit {
         return $this->getCompanyStructureDao()->saveSubunit($subunit);
     }
 
     /**
-     * Save the parent sub unit again
-     *
-     * This will update the parent sub unit if the child is changed.
-     *
-     * @version
+     * Add child subunit to a parent subunit
      * @param Subunit $parentSubunit
      * @param Subunit $subunit
-     * @return boolean
+     * @return Subunit
+     * @throws DaoException
      */
-    public function addSubunit(Subunit $parentSubunit, Subunit $subunit) {
+    public function addSubunit(Subunit $parentSubunit, Subunit $subunit): Subunit
+    {
         return $this->getCompanyStructureDao()->addSubunit($parentSubunit, $subunit);
     }
 
@@ -78,34 +87,36 @@ class CompanyStructureService extends BaseService {
      *
      * This will delete the passed subunit and it's children
      *
-     * @version
      * @param Subunit $subunit
-     * @return boolean
+     * @throws DaoException
      */
-    public function deleteSubunit(Subunit $subunit) {
-        return $this->getCompanyStructureDao()->deleteSubunit($subunit);
+    public function deleteSubunit(Subunit $subunit): void
+    {
+        $this->getCompanyStructureDao()->deleteSubunit($subunit);
     }
 
     /**
      * Set the organization name to the root of the tree. Previously the root has the name
      * 'Organization' then if the company name is set this will update the root node of the tree
      *
-     * @version
      * @param string $name
      * @return int - affected rows
+     * @throws DaoException
      */
-    public function setOrganizationName($name) {
+    public function setOrganizationName(string $name): int
+    {
         return $this->getCompanyStructureDao()->setOrganizationName($name);
     }
 
     /**
      * Get the whole subunit tree
      *
-     * @version
-     * @return Nested set - Subunit object list
+     * @param int|null $depth
+     * @return array|Subunit[] Subunit object list
+     * @throws DaoException
      */
-    public function getSubunitTreeObject() {
-        return $this->getCompanyStructureDao()->getSubunitTreeObject();
+    public function getSubunitTree(?int $depth = null): array
+    {
+        return $this->getCompanyStructureDao()->getSubunitTree($depth);
     }
-
 }

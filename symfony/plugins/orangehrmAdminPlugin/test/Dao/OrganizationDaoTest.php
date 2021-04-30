@@ -17,29 +17,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2;
+namespace OrangeHRM\Admin\Tests\Dao;
 
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Admin\Dao\OrganizationDao;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Organization;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-interface ResourceEndpoint
+/**
+ * @group Admin
+ * @group Dao
+ */
+class OrganizationDaoTest extends TestCase
 {
-    /**
-     * Get one resource
-     * @return EndpointGetOneResult
-     */
-    public function getOne(): EndpointGetOneResult;
+    private OrganizationDao $organizationDao;
+    protected string $fixture;
 
     /**
-     * Update one resource
-     * @return EndpointUpdateResult
+     * Set up method
      */
-    public function update(): EndpointUpdateResult;
+    protected function setUp(): void
+    {
+        $this->organizationDao = new OrganizationDao();
+        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/OrganizationDao.yml';
+        TestDataService::populate($this->fixture);
+    }
 
-    /**
-     * Delete a resource
-     * @return EndpointDeleteResult
-     */
-    public function delete(): EndpointDeleteResult;
+    public function testGetOrganizationGeneralInformation(): void
+    {
+        $this->assertTrue($this->organizationDao->getOrganizationGeneralInformation() instanceof Organization);
+    }
 }
+
