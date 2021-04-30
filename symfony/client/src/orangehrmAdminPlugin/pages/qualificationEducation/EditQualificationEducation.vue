@@ -25,12 +25,13 @@
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSave">
+      <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
             label="Level"
             v-model="qualification.name"
             :rules="rules.name"
+            required
           />
         </oxd-form-row>
 
@@ -137,7 +138,6 @@ export default {
             return true;
           }
         });
-        this.isLoading = false;
       })
       .finally(() => {
         this.isLoading = false;

@@ -42,7 +42,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      * @var null|EducationService
      */
     protected ?EducationService $educationService = null;
-    
+
     public const PARAMETER_ID = 'id';
     public const PARAMETER_IDS = 'ids';
     public const PARAMETER_NAME = 'name';
@@ -80,7 +80,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getOne(): EndpointGetOneResult
     {
         // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id =$this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $educations = $this->getEducationService()->getEducationById($id);
         if (!$educations instanceof Education) {
             throw new RecordNotFoundException('No Record Found');

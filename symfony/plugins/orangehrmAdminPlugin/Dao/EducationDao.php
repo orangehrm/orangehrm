@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Exception\DaoException;
 use Exception;
 use OrangeHRM\ORM\Doctrine;
@@ -108,7 +108,7 @@ class EducationDao
                     ->setMaxResults($limit);
             }
             if ($count) {
-                $paginator = new Paginator($q, true);
+                $paginator = new Paginator($q);
                 return count($paginator);
             }
             return $q->getQuery()->execute();
