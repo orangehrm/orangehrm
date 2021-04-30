@@ -40,6 +40,20 @@ apiv2_admin_users:
   defaults:
     _api: OrangeHRM\Admin\Api\UserAPI
 
+apiv2_admin_subunit:
+  path: /api/v2/admin/subunits/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\SubunitAPI
+
+apiv2_admin_subunits:
+  path: /api/v2/admin/subunits
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\SubunitAPI
+
 apiv2_admin_employment_status:
   path: /api/v2/admin/employment-statuses/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -97,6 +111,7 @@ save_employment_status:
 edit_employment_status:
   path: /admin/saveEmploymentStatus/{id}
   controller: OrangeHRM\Admin\Controller\SaveEmploymentStatusController::handle
+  methods: [ GET ]
 
 view_system_users:
   path: /admin/systemUser

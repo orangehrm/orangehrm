@@ -25,6 +25,7 @@ use OrangeHRM\Admin\Api\Model\JobCategoryModel;
 use OrangeHRM\Admin\Service\JobCategoryService;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -34,7 +35,6 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Entity\JobCategory;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 
 class JobCategoryAPI extends Endpoint implements CrudEndpoint
 {
@@ -74,7 +74,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     /**
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
-     * @throws DaoException
      * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
@@ -83,7 +82,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $jobCategory = $this->getJobCategoryService()->getJobCategoryById($id);
         if (!$jobCategory instanceof JobCategory) {
-            throw new RecordNotFoundException('No Record Found');
+            throw new RecordNotFoundException();
         }
 
         return new EndpointGetOneResult(JobCategoryModel::class, $jobCategory);
@@ -91,8 +90,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EndpointGetAllResult
-     * @throws DaoException
-     * @throws RecordNotFoundException
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult

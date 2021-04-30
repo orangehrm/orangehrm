@@ -17,29 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2;
+namespace OrangeHRM\Core\Api\V2\Serializer;
 
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
-
-interface ResourceEndpoint
+interface CollectionNormalizable extends Normalizable
 {
-    /**
-     * Get one resource
-     * @return EndpointGetOneResult
-     */
-    public function getOne(): EndpointGetOneResult;
 
-    /**
-     * Update one resource
-     * @return EndpointUpdateResult
-     */
-    public function update(): EndpointUpdateResult;
-
-    /**
-     * Delete a resource
-     * @return EndpointDeleteResult
-     */
-    public function delete(): EndpointDeleteResult;
 }

@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,29 +16,18 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
-/**
- * @group Admin
- */
-class OrganizationDaoTest extends PHPUnit_Framework_TestCase {
+namespace OrangeHRM\Core\Api\V2\Exception;
 
-    private $organizationDao;
-    protected $fixture;
+use Exception;
+use Throwable;
 
-    /**
-     * Set up method
-     */
-    protected function setUp() {
+class RecordNotFoundException extends Exception
+{
+    public const DEFAULT_ERROR_MESSAGE = "Record Not Found";
 
-        $this->organizationDao = new OrganizationDao();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/OrganizationDao.yml';
-        TestDataService::populate($this->fixture);
+    public function __construct($message = self::DEFAULT_ERROR_MESSAGE, $code = 0, Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
     }
-
-    public function testGetOrganizationGeneralInformation(){
-       $this->assertTrue($this->organizationDao->getOrganizationGeneralInformation() instanceof Organization);
-    }
-
 }
-
