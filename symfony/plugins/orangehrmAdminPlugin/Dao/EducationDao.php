@@ -18,35 +18,29 @@
  */
 
 namespace OrangeHRM\Admin\Dao;
+
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use OrangeHRM\Core\Exception\DaoException;
-use Doctrine\ORM\QueryBuilder;
 use Exception;
 use OrangeHRM\ORM\Doctrine;
-use OrangeHRM\ORM\DoctrineQuery;
 use OrangeHRM\Entity\Education;
-use OrangeHRM\ORM\ListSorter;
 
-class EducationDao {
-
+class EducationDao
+{
     /**
      * @param Education $education
      * @return Education
      * @throws \DaoException
      */
-
-    public function saveEducation(Education $education) :Education
+    public function saveEducation(Education $education): Education
     {
-        
         try {
-
             Doctrine::getEntityManager()->persist($education);
             Doctrine::getEntityManager()->flush();
             return $education;
         } catch (Exception $e) {
             throw new \DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        
     }
 
     /**
@@ -55,10 +49,8 @@ class EducationDao {
      * @return Education|null
      * @throws DaoException
      */
-
     public function getEducationById(int $id): ?Education
     {
-
         try {
             $education = Doctrine::getEntityManager()->getRepository(Education::class)->find($id);
             if ($education instanceof Education) {
@@ -68,7 +60,6 @@ class EducationDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-
     }
 
     /**
@@ -76,7 +67,6 @@ class EducationDao {
      * @return Education|null
      * @throws DaoException
      */
-
     public function getEducationByName(string $name): ?Education
     {
         try {
@@ -90,7 +80,6 @@ class EducationDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        
     }
 
     /**
@@ -99,17 +88,15 @@ class EducationDao {
      * @param null $limit
      * @param null $offset
      * @param false $count
-     * @return int|mixed|string
+     * @return int|Education[]
      * @throws DaoException
      */
-    
     public function getEducationList(
         $sortField = 'e.name',
         $sortOrder = 'ASC',
         $limit = null,
         $offset = null,
         $count = false
-
     ) {
         $sortField = ($sortField == "") ? 'e.name' : $sortField;
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
@@ -120,7 +107,6 @@ class EducationDao {
                 $q->setFirstResult($offset)
                     ->setMaxResults($limit);
             }
-
             if ($count) {
                 $paginator = new Paginator($q, true);
                 return count($paginator);
@@ -129,9 +115,6 @@ class EducationDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-
-
-        
     }
 
     /**
@@ -140,23 +123,17 @@ class EducationDao {
      * @return int
      * @throws DaoException
      */
-    
-    public function deleteEducations(array $toDeleteIds) :int
-
+    public function deleteEducations(array $toDeleteIds): int
     {
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
             $q->delete(Education::class, 'E')
                 ->set('E.deleted', true)
                 ->where($q->expr()->in('E.id', $toDeleteIds));
-
             return $q->getQuery()->execute();
-
-            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }        
-        
+        }
     }
 
     /**
@@ -164,27 +141,20 @@ class EducationDao {
      * @return bool
      * @throws DaoException
      */
-    public function isExistingEducationName(string $educationName):bool {
-
+    public function isExistingEducationName(string $educationName): bool
+    {
         try {
-
             $q = Doctrine::getEntityManager()->getRepository(Education::class)->createQueryBuilder('e');
             $trimmed = trim($educationName, ' ');
-
             $q->Where('e.name = :name');
             $q->setParameter('name', $trimmed);
-            $paginator = new Paginator($q,true);
-
-            if ($paginator->count()>0){
+            $paginator = new Paginator($q, true);
+            if ($paginator->count() > 0) {
                 return true;
             }
             return false;
-            }
-
-         catch (Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        
     }
-
 }

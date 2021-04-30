@@ -48,7 +48,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     protected ?JobCategoryService $jobCategoryService = null;
 
     public const PARAMETER_NAME = 'name';
-
     public const PARAMETER_SORT_FIELD = 'sortField';
     public const PARAMETER_SORT_ORDER = 'sortOrder';
     public const PARAMETER_OFFSET = 'offset';

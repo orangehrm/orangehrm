@@ -28,110 +28,103 @@ use OrangeHRM\Tests\Util\TestDataService;
 /**
  * @group Admin
  */
-class EducationDaoTest extends TestCase {
+class EducationDaoTest extends TestCase
+{
 
-	private $educationDao;
-	protected $fixture;
+    private $educationDao;
+    protected $fixture;
 
-	/**
-	 * Set up method
-	 */
-	protected function setUp() :void {
+    /**
+     * Set up method
+     */
+    protected function setUp(): void
+    {
+        $this->educationDao = new EducationDao();
+        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
+        TestDataService::populate($this->fixture);
+    }
 
-		$this->educationDao = new EducationDao();
-		$this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
-		TestDataService::populate($this->fixture);
-	}
-
-    public function testAddEducation()  {
-        
+    public function testAddEducation(): void
+    {
         $education = new Education();
         $education->setName('PMP');
-        
+
         $this->educationDao->saveEducation($education);
-        
+
         $savedEducation = TestDataService::fetchLastInsertedRecord('Education', 'a.id');
-        
+
         $this->assertTrue($savedEducation instanceof Education);
         $this->assertEquals('PMP', $savedEducation->getName());
-        
     }
-    
-    public function testEditEducation() {
-        
+
+    public function testEditEducation(): void
+    {
         $education = TestDataService::fetchObject('Education', 3);
         $education->setName('MSc New');
-        
+
         $this->educationDao->saveEducation($education);
-        
+
         $savedEducation = TestDataService::fetchLastInsertedRecord('Education', 'a.id');
-        
+
         $this->assertTrue($savedEducation instanceof Education);
         $this->assertEquals('MSc New', $savedEducation->getName());
-        
     }
-    
-    public function testGetEducationById() {
-        
+
+    public function testGetEducationById(): void
+    {
         $education = $this->educationDao->getEducationById(1);
-        
+
         $this->assertTrue($education instanceof Education);
         $this->assertEquals('PhD', $education->getName());
-        
     }
-    
-    public function testGetEducationList() {
-        
+
+    public function testGetEducationList(): void
+    {
         $educationList = $this->educationDao->getEducationList();
-        
+
         foreach ($educationList as $education) {
             $this->assertTrue($education instanceof Education);
         }
-        
-        $this->assertEquals(3, count($educationList));        
-        
+
+        $this->assertEquals(3, count($educationList));
+
         /* Checking record order */
         $this->assertEquals('BSc', $educationList[0]->getName());
         $this->assertEquals('PhD', $educationList[2]->getName());
-        
     }
-    
-    public function testDeleteEducations() {
-        
-        $result = $this->educationDao->deleteEducations(array(1, 2));
-        
+
+    public function testDeleteEducations(): void
+    {
+        $result = $this->educationDao->deleteEducations([1, 2]);
         $this->assertEquals(2, $result);
-        $this->assertEquals(1, count($this->educationDao->getEducationList()));       
-        
+        $this->assertEquals(1, count($this->educationDao->getEducationList()));
     }
-    
-    public function testDeleteWrongRecord() {
-        
-        $result = $this->educationDao->deleteEducations(array(4));
-        
+
+    public function testDeleteWrongRecord(): void
+    {
+        $result = $this->educationDao->deleteEducations([4]);
+
         $this->assertEquals(0, $result);
-        
     }
-    
-    public function testIsExistingEducationName() {
-        
+
+    public function testIsExistingEducationName(): void
+    {
         $this->assertTrue($this->educationDao->isExistingEducationName('PhD'));
         $this->assertTrue($this->educationDao->isExistingEducationName('PHD'));
         $this->assertTrue($this->educationDao->isExistingEducationName('phd'));
         $this->assertTrue($this->educationDao->isExistingEducationName('  PhD  '));
-        
     }
-    
-    public function testGetEducationByName() {
-        
+
+    public function testGetEducationByName(): void
+    {
         $object = $this->educationDao->getEducationByName('PhD');
         $this->assertTrue($object instanceof Education);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->educationDao->getEducationByName('PHD');
         $this->assertTrue($object instanceof Education);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->educationDao->getEducationByName('phd');
         $this->assertTrue($object instanceof Education);
         $this->assertEquals(1, $object->getId());
@@ -140,10 +133,8 @@ class EducationDaoTest extends TestCase {
         $this->assertTrue($object instanceof Education);
         $this->assertEquals(1, $object->getId());
 
-        
+
         $object = $this->educationDao->getEducationByName('MBA');
         $this->assertFalse($object instanceof Education);
-        
-    }      
-    
+    }
 }

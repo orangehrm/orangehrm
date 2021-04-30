@@ -1,7 +1,24 @@
 <?php
-
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Admin\Api;
+
 use DaoException;
 use Exception;
 use OrangeHRM\Admin\Api\Model\EducationModel;
@@ -17,9 +34,7 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Entity\Education;
-//use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-//use Orangehrm\Rest\Http\Response;
 
 class EducationAPI extends EndPoint implements CrudEndpoint
 {
@@ -27,16 +42,14 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      * @var null|EducationService
      */
     protected ?EducationService $educationService = null;
-
-
-    const PARAMETER_ID = 'id';
-    const PARAMETER_IDS = 'ids';
-    const PARAMETER_NAME = 'name';
-
-    const PARAMETER_SORT_FIELD = 'sortField';
-    const PARAMETER_SORT_ORDER = 'sortOrder';
-    const PARAMETER_OFFSET = 'offset';
-    const PARAMETER_LIMIT = 'limit';
+    
+    public const PARAMETER_ID = 'id';
+    public const PARAMETER_IDS = 'ids';
+    public const PARAMETER_NAME = 'name';
+    public const PARAMETER_SORT_FIELD = 'sortField';
+    public const PARAMETER_SORT_ORDER = 'sortOrder';
+    public const PARAMETER_OFFSET = 'offset';
+    public const PARAMETER_LIMIT = 'limit';
 
     /**
      *
@@ -53,71 +66,17 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     /**
      * @param EducationService $educationService
      */
-    public function setEducationService(EducationService $educationService)
+    public function setEducationService(EducationService $educationService): void
     {
         $this->educationService = $educationService;
     }
 
-    // new test code
-
-//    /**
-//     * @return Response
-//     * @throws RecordNotFoundException
-//     */
-//    public function getEducation(): Response
-//    {
-//        // TODO:: Check data group permission
-//        $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-//        $education = $this->getEducationService()->getEducationById($id);
-//        if (!$education instanceof Education) {
-//            throw new RecordNotFoundException('No Record Found');
-//        }
-//        return new Response(
-//            (new EducationModel($education))->toArray()
-//        );
-//    }
-//
-//    /**
-//     * @return Response
-//     * @throws RecordNotFoundException
-//     *
-//     */
-//    public function getEducations(): Response
-//    {
-//        // TODO:: Check data group permission
-//        $sortField = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_FIELD, 'jc.name');
-//        $sortOrder = $this->getRequestParams()->getQueryParam(self::PARAMETER_SORT_ORDER, 'ASC');
-//        $limit = $this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT, 50);
-//        $offset = $this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET, 0);
-//
-//        $count = $this->getEducationService()->getEducationList(
-//            $sortField,
-//            $sortOrder,
-//            $limit,
-//            $offset,
-//            true
-//
-//
-//        );
-//
-//        if (!($count > 0)) {
-//            throw new RecordNotFoundException('No Records Found');
-//        }
-//
-//        $result = [];
-//        $educations = $this->getEducationService()->getEducationList($sortField, $sortOrder, $limit, $offset);
-//        foreach ($educations as $education) {
-//            array_push($result, (new EducationModel($education))->toArray());
-//        }
-//        return new Response($result, [], ['total' => $count]);
-//    }
     /**
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
      * @throws DaoException
      * @throws Exception
      */
-
     public function getOne(): EndpointGetOneResult
     {
         // TODO:: Check data group permission
@@ -196,9 +155,8 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      * @return Education
      * @throws DaoException
      */
-    public function saveEducation() : Education
+    public function saveEducation(): Education
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
@@ -209,11 +167,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
         $education->setName($name);
         return $this->getEducationService()->saveEducation($education);
-        //$education = $this->getEducationService()->saveEducation($education);
-
-//        return new Response(
-//            (new EducationModel($education))->toArray()
-//        );
     }
 
     /**
@@ -221,7 +174,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      * @throws DaoException
      * @throws Exception
      */
-    public function delete() : EndpointDeleteResult
+    public function delete(): EndpointDeleteResult
     {
         // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);

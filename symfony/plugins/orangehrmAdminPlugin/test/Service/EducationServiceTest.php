@@ -31,8 +31,8 @@ use OrangeHRM\Tests\Util\TestDataService;
 class EducationServiceTest extends TestCase
 {
 
-    private $educationService;
-    private $fixture;
+    private EducationService $educationService;
+    private string $fixture;
 
     /**
      * Set up method
@@ -40,14 +40,15 @@ class EducationServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->educationService = new EducationService();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml'; //replace 'sf_plugins_dir'
+        $this->fixture = Config::get(
+                'ohrm_plugins_dir'
+            ) . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml'; //replace 'sf_plugins_dir'
         TestDataService::populate($this->fixture);
     }
 
     public function testGetEducationList(): void
     {
         $educationList = TestDataService::loadObjectList('Education', $this->fixture, 'Education');
-
         $educationDao = $this->getMockBuilder(EducationDao::class)->getMock();
         $educationDao->expects($this->once())
             ->method('getEducationList')
@@ -62,14 +63,11 @@ class EducationServiceTest extends TestCase
     public function testDeleteEducations(): void
     {
         $toBeDeletedEducationIds = array(1, 2);
-
         $educationDao = $this->getMockBuilder(EducationDao::class)->getMock();
-
         $educationDao->expects($this->once())
             ->method('deleteEducations')
             ->with($toBeDeletedEducationIds)
             ->will($this->returnValue(2));
-
         $this->educationService->setEducationDao($educationDao);
         $result = $this->educationService->deleteEducations($toBeDeletedEducationIds);
         $this->assertEquals(2, $result);
@@ -78,36 +76,26 @@ class EducationServiceTest extends TestCase
     public function testGetEducationById(): void
     {
         $educationList = TestDataService::loadObjectList('Education', $this->fixture, 'Education');
-
         $educationDao = $this->getMockBuilder(EducationDao::class)->getMock();
         $educationDao->expects($this->once())
             ->method('getEducationById')
             ->with(1)
             ->will($this->returnValue($educationList[0]));
-
         $this->educationService->setEducationDao($educationDao);
-
         $result = $this->educationService->getEducationById(1);
         $this->assertEquals($result, $educationList[0]);
     }
 
-    // new test function
-
     public function testGetEducationByName(): void
     {
         $educationList = TestDataService::loadObjectList('Education', $this->fixture, 'Education');
-
         $educationDao = $this->getMockBuilder(EducationDao::class)->getMock();
         $educationDao->expects($this->once())
             ->method('getEducationByName')
             ->with(1)
             ->will($this->returnValue($educationList[0]));
-
         $this->educationService->setEducationDao($educationDao);
-
-        $result = $this->educationService->getEducationByName(1); //why it should be 1 shouldn't it be name
+        $result = $this->educationService->getEducationByName(1);
         $this->assertEquals($result, $educationList[0]);
     }
-
-
 }

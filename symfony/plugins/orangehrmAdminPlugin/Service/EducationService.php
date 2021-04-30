@@ -107,11 +107,11 @@ class EducationService
      *
      */
     public function getEducationList(
-        $sortField = 'e.name', //change start here
+        $sortField = 'e.name',
         $sortOrder = 'ASC',
         $limit = null,
         $offset = null,
-        $count = false //end here
+        $count = false
     )
     {
         return $this->getEducationDao()->getEducationList($sortField, $sortOrder, $limit, $offset, $count);
@@ -138,9 +138,8 @@ class EducationService
      * @return bool
      * @version 2.6.12
      */
-    public function isExistingEducationName( string $educationName)
+    public function isExistingEducationName( string $educationName): bool
     {
         return $this->getEducationDao()->isExistingEducationName($educationName);
     }
-
 }
