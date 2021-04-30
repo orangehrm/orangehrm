@@ -17,29 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2;
+namespace OrangeHRM\ORM\NestedSet;
 
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use Exception;
 
-interface ResourceEndpoint
+class NestedSetException extends Exception
 {
-    /**
-     * Get one resource
-     * @return EndpointGetOneResult
-     */
-    public function getOne(): EndpointGetOneResult;
 
-    /**
-     * Update one resource
-     * @return EndpointUpdateResult
-     */
-    public function update(): EndpointUpdateResult;
-
-    /**
-     * Delete a resource
-     * @return EndpointDeleteResult
-     */
-    public function delete(): EndpointDeleteResult;
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,32 +16,48 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class OrganizationService extends BaseService {
 
-    private $organizationDao;
-    
-    public function __construct() {
-        $this->organizationDao = new OrganizationDao();
-    }
+namespace OrangeHRM\Admin\Service;
 
-    public function getOrganizationDao() {
+use OrangeHRM\Admin\Dao\OrganizationDao;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Organization;
+
+class OrganizationService
+{
+    /**
+     * @var OrganizationDao|null
+     */
+    private ?OrganizationDao $organizationDao = null;
+
+    /**
+     * @return OrganizationDao
+     */
+    public function getOrganizationDao(): OrganizationDao
+    {
+        if (is_null($this->organizationDao)) {
+            $this->organizationDao = new OrganizationDao();
+        }
         return $this->organizationDao;
     }
 
-    public function setOrganizationDao(OrganizationDao $organizationDao) {
+    /**
+     * @param OrganizationDao $organizationDao
+     */
+    public function setOrganizationDao(OrganizationDao $organizationDao): void
+    {
         $this->organizationDao = $organizationDao;
     }
 
 
     /**
      * Get organization general information
-     * 
-     * @version
-     * @return Organization $organization
+     *
+     * @return Organization|null
+     * @throws DaoException
      */
-    public function getOrganizationGeneralInformation(){
+    public function getOrganizationGeneralInformation(): ?Organization
+    {
         return $this->getOrganizationDao()->getOrganizationGeneralInformation();
     }
-
 }
-
