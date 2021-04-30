@@ -16,7 +16,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {onBeforeMount, reactive, toRefs, watch} from 'vue';
+import {onBeforeMount, reactive, toRefs, watch, unref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {AxiosResponse} from 'axios';
 
@@ -68,6 +68,31 @@ function getPageParams(pageSize: number, currentPage: number) {
   };
 }
 
+function getQueryParams(query: any) {
+  const params = JSON.parse(JSON.stringify(unref(query)));
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) {
+      if (value.length === 0) {
+        params[key] = undefined;
+      } else {
+        const _param = value[0];
+        if (_param.id === undefined || _param.id === 0) {
+          params[key] = undefined;
+        } else {
+          params[key] = _param.id;
+        }
+      }
+    } else {
+      if (value) {
+        params[key] = value;
+      } else {
+        params[key] = undefined;
+      }
+    }
+  }
+  return params;
+}
+
 /* Override to mutate fields after fetching */
 function defaultNormalizer(data: DTO[]): DTO[] {
   return data;
@@ -75,6 +100,7 @@ function defaultNormalizer(data: DTO[]): DTO[] {
 
 export default function usePaginate(
   http: APIService,
+  query = {},
   normalizer = defaultNormalizer,
 ) {
   const state = reactive<State>({
@@ -89,8 +115,9 @@ export default function usePaginate(
 
   const execQuery = async () => {
     state.isLoading = true;
-    const params = getPageParams(state.pageSize, state.currentPage);
-    state.response = await fetchData(http, params);
+    const pageParams = getPageParams(state.pageSize, state.currentPage);
+    const queryParams = getQueryParams(query);
+    state.response = await fetchData(http, {...pageParams, ...queryParams});
     if (!state.response.error) {
       const {data, ...rest} = state.response;
       const formattedData = normalizer(data);
