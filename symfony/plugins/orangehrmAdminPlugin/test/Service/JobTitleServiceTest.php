@@ -44,7 +44,7 @@ class JobTitleServiceTest extends TestCase
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetJobTitleList()
+    public function testGetJobTitleList(): void
     {
         $jobTitleList = TestDataService::loadObjectList('JobTitle', $this->fixture, 'JobTitle');
 
@@ -60,7 +60,7 @@ class JobTitleServiceTest extends TestCase
         $this->assertEquals($jobTitleList, $result);
     }
 
-    public function testDeleteJobTitle()
+    public function testDeleteJobTitle(): void
     {
         $toBeDeletedJobTitleIds = array(1, 2);
 
@@ -76,7 +76,7 @@ class JobTitleServiceTest extends TestCase
         $this->assertEquals(2, $result);
     }
 
-    public function testGetJobTitleById()
+    public function testGetJobTitleById(): void
     {
         $jobTitleList = TestDataService::loadObjectList('JobTitle', $this->fixture, 'JobTitle');
         $jobTitleDao = $this->getMockBuilder(JobTitleDao::class)->getMock();

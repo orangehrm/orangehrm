@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,32 +16,16 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class OrganizationService extends BaseService {
 
-    private $organizationDao;
-    
-    public function __construct() {
-        $this->organizationDao = new OrganizationDao();
-    }
+namespace OrangeHRM\Core\Api;
 
-    public function getOrganizationDao() {
-        return $this->organizationDao;
-    }
+final class CommonParams
+{
+    public const PARAMETER_ID = 'id';
+    public const PARAMETER_IDS = 'ids';
 
-    public function setOrganizationDao(OrganizationDao $organizationDao) {
-        $this->organizationDao = $organizationDao;
-    }
-
-
-    /**
-     * Get organization general information
-     * 
-     * @version
-     * @return Organization $organization
-     */
-    public function getOrganizationGeneralInformation(){
-        return $this->getOrganizationDao()->getOrganizationGeneralInformation();
-    }
-
+    public const PARAMETER_SORT_FIELD = 'sortField';
+    public const PARAMETER_SORT_ORDER = 'sortOrder';
+    public const PARAMETER_OFFSET = 'offset';
+    public const PARAMETER_LIMIT = 'limit';
 }
-

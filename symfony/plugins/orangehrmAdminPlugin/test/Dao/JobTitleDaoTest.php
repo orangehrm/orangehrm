@@ -21,6 +21,7 @@ namespace OrangeHRM\Admin\Tests\Dao;
 
 use OrangeHRM\Admin\Dao\JobTitleDao;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -44,38 +45,36 @@ class JobTitleDaoTest extends TestCase
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetJobTitleList()
+    public function testGetJobTitleList(): void
     {
         $result = $this->jobTitleDao->getJobTitleList();
         $this->assertEquals(count($result), 3);
     }
 
-    public function testGetJobTitleListWithInactiveJobTitles()
+    public function testGetJobTitleListWithInactiveJobTitles(): void
     {
         $result = $this->jobTitleDao->getJobTitleList("", "", false);
         $this->assertEquals(count($result), 4);
     }
 
-    public function testDeleteJobTitle()
+    public function testDeleteJobTitle(): void
     {
         $toBedeletedIds = array(3, 2);
         $result = $this->jobTitleDao->deleteJobTitle($toBedeletedIds);
         $this->assertEquals($result, 2);
     }
 
-    public function testGetJobTitleById()
+    public function testGetJobTitleById(): void
     {
         $result = $this->jobTitleDao->getJobTitleById(1);
         $this->assertTrue($result instanceof JobTitle);
         $this->assertEquals('Software Architect', $result->getJobTitleName());
     }
 
-//    public function testGetJobSpecAttachmentById() {
-//
-//        $result = $this->jobTitleDao->getJobSpecAttachmentById(1);
-//        $this->assertTrue($result  instanceof JobSpecificationAttachment);
-//        $this->assertEquals('Software architect spec', $result->getFileName());
-//    }
-
+    public function testGetJobSpecAttachmentById(): void
+    {
+        $result = $this->jobTitleDao->getJobSpecAttachmentById(1);
+        $this->assertTrue($result instanceof JobSpecificationAttachment);
+        $this->assertEquals('Software architect spec', $result->getFileName());
+    }
 }
-

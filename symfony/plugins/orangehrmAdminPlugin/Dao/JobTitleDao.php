@@ -85,8 +85,10 @@ class JobTitleDao
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
             $q->update(JobTitle::class, 'jt')
-                ->set('jt.isDeleted', JobTitle::DELETED)
-                ->add('where', $q->expr()->in('jt.id', $toBeDeletedJobTitleIds));
+                ->set('jt.isDeleted', ':isDeleted')
+                ->setParameter('isDeleted', JobTitle::DELETED)
+                ->where($q->expr()->in('jt.id', ':ids'))
+                ->setParameter('ids', $toBeDeletedJobTitleIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

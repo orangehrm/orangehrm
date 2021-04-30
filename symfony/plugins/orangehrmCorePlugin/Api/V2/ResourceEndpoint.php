@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Api\V2;
 
+use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 
@@ -35,4 +36,10 @@ interface ResourceEndpoint
      * @return EndpointUpdateResult
      */
     public function update(): EndpointUpdateResult;
+
+    /**
+     * Delete a resource
+     * @return EndpointDeleteResult
+     */
+    public function delete(): EndpointDeleteResult;
 }

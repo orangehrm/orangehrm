@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use Exception;
 use OrangeHRM\Admin\Api\Model\UserModel;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -46,10 +48,10 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_STATUS = 'status';
     public const PARAMETER_CHANGE_PASSWORD = 'changePassword';
 
-    public const PARAMETER_SORT_FIELD = 'sortField';
-    public const PARAMETER_SORT_ORDER = 'sortOrder';
-    public const PARAMETER_OFFSET = 'offset';
-    public const PARAMETER_LIMIT = 'limit';
+    public const FILTER_USERNAME = 'username';
+    public const FILTER_USER_ROLE_ID = 'userRoleId';
+    public const FILTER_EMPLOYEE_NUMBER = 'empNumber';
+    public const FILTER_STATUS = 'status';
 
     /**
      * @var null|UserService
@@ -77,7 +79,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
     {
@@ -88,35 +90,46 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
     {
-        $searchClues['offset'] = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_OFFSET
+        // TODO:: Check data group permission
+        $userSearchParamHolder = new UserSearchFilterParams();
+        $this->setSortingAndPaginationParams($userSearchParamHolder);
+        $userSearchParamHolder->setStatus(
+            $this->getRequestParams()->getBooleanOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_STATUS
+            )
         );
-        $searchClues['limit'] = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_LIMIT
+        $userSearchParamHolder->setUsername(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_USERNAME
+            )
         );
-        $searchClues['sortField'] = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_SORT_FIELD
+        $userSearchParamHolder->setEmpNumber(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_EMPLOYEE_NUMBER
+            )
         );
-        $searchClues['sortOrder'] = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_SORT_ORDER
+        $userSearchParamHolder->setUserRoleId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_USER_ROLE_ID
+            )
         );
 
-        $users = $this->getSystemUserService()->searchSystemUsers($searchClues);
+        $users = $this->getSystemUserService()->searchSystemUsers($userSearchParamHolder);
         return new EndpointGetAllResult(
             UserModel::class,
             $users,
             new ParameterBag(
                 [
                     'total' => $this->getSystemUserService()->getSearchSystemUsersCount(
-                        $searchClues
+                        $userSearchParamHolder
                     )
                 ]
             )
@@ -125,7 +138,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function create(): EndpointCreateResult
     {
@@ -150,7 +163,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function update(): EndpointUpdateResult
     {
@@ -184,7 +197,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete(): EndpointDeleteResult
     {

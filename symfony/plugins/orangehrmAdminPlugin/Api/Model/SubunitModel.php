@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,29 +16,41 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
-/**
- * @group Admin
- */
-class OrganizationDaoTest extends PHPUnit_Framework_TestCase {
+namespace OrangeHRM\Admin\Api\Model;
 
-    private $organizationDao;
-    protected $fixture;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Subunit;
 
-    /**
-     * Set up method
-     */
-    protected function setUp() {
+class SubunitModel implements Normalizable
+{
+    use ModelTrait;
 
-        $this->organizationDao = new OrganizationDao();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/OrganizationDao.yml';
-        TestDataService::populate($this->fixture);
+    public function __construct(Subunit $subunit)
+    {
+        $this->setEntity($subunit);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+                'unitId',
+                'description',
+                'level',
+                'lft',
+                'rgt',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'name',
+                'unitId',
+                'description',
+                'level',
+                'left',
+                'right',
+            ]
+        );
     }
-
-    public function testGetOrganizationGeneralInformation(){
-       $this->assertTrue($this->organizationDao->getOrganizationGeneralInformation() instanceof Organization);
-    }
-
 }
-
