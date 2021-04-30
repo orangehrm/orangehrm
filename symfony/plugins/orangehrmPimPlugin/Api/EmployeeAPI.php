@@ -29,7 +29,10 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
@@ -83,7 +86,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        throw new NotImplementedException();
     }
 
     /**
@@ -123,7 +126,12 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(self::FILTER_INCLUDE_TERMINATED),
+            new ParamRule(self::FILTER_NAME),
+            new ParamRule(self::FILTER_NAME_OR_ID),
+            ...$this->getSortingAndPaginationParamsRules(['e.lastName'])
+        );
     }
 
     /**
@@ -151,7 +159,12 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_FIRST_NAME),
+            new ParamRule(self::PARAMETER_MIDDLE_NAME),
+            new ParamRule(self::PARAMETER_LAST_NAME),
+            new ParamRule(self::PARAMETER_EMPLOYEE_ID),
+        );
     }
 
     /**
@@ -167,7 +180,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        throw new NotImplementedException();
     }
 
     /**
@@ -183,6 +196,6 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        throw new NotImplementedException();
     }
 }

@@ -21,6 +21,7 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\JobCategoryModel;
 use OrangeHRM\Admin\Service\JobCategoryService;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
@@ -32,7 +33,10 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobCategory;
 
@@ -43,8 +47,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     protected ?JobCategoryService $jobCategoryService = null;
 
-    public const PARAMETER_ID = 'id';
-    public const PARAMETER_IDS = 'ids';
     public const PARAMETER_NAME = 'name';
 
     public const PARAMETER_SORT_FIELD = 'sortField';
@@ -77,7 +79,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointGetOneResult
     {
         // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $jobCategory = $this->getJobCategoryService()->getJobCategoryById($id);
         if (!$jobCategory instanceof JobCategory) {
             throw new RecordNotFoundException();
@@ -91,7 +93,12 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+        );
     }
 
     /**
@@ -134,7 +141,9 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            ...$this->getSortingAndPaginationParamsRules(['jc.name'])
+        );
     }
 
     /**
@@ -153,7 +162,9 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_NAME),
+        );
     }
 
     /**
@@ -172,7 +183,13 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(self::PARAMETER_NAME),
+        );
     }
 
     /**
@@ -181,7 +198,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     private function saveJobCategory(): JobCategory
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
             $jobCategory = $this->getJobCategoryService()->getJobCategoryById($id);
@@ -200,7 +217,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointDeleteResult
     {
         // TODO:: Check data group permission
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getJobCategoryService()->deleteJobCategory($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
@@ -210,6 +227,8 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 }
