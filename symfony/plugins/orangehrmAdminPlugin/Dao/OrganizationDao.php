@@ -17,29 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2;
+namespace OrangeHRM\Admin\Dao;
 
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use Exception;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Organization;
+use OrangeHRM\ORM\Doctrine;
 
-interface ResourceEndpoint
+class OrganizationDao
 {
     /**
-     * Get one resource
-     * @return EndpointGetOneResult
+     * @return Organization|null
+     * @throws DaoException
      */
-    public function getOne(): EndpointGetOneResult;
-
-    /**
-     * Update one resource
-     * @return EndpointUpdateResult
-     */
-    public function update(): EndpointUpdateResult;
-
-    /**
-     * Delete a resource
-     * @return EndpointDeleteResult
-     */
-    public function delete(): EndpointDeleteResult;
+    public function getOrganizationGeneralInformation(): ?Organization
+    {
+        try {
+            $orgInfo = Doctrine::getEntityManager()->getRepository(Organization::class)->find(1);
+            if ($orgInfo instanceof Organization) {
+                return $orgInfo;
+            }
+            return null;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }

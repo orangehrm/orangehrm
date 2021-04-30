@@ -17,29 +17,47 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2;
+namespace OrangeHRM\ORM\NestedSet;
 
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
-
-interface ResourceEndpoint
+interface NestedSetInterface
 {
     /**
-     * Get one resource
-     * @return EndpointGetOneResult
+     * @return int|null
      */
-    public function getOne(): EndpointGetOneResult;
+    public function getLft(): ?int;
 
     /**
-     * Update one resource
-     * @return EndpointUpdateResult
+     * @param int|null $lft
      */
-    public function update(): EndpointUpdateResult;
+    public function setLft(?int $lft): void;
 
     /**
-     * Delete a resource
-     * @return EndpointDeleteResult
+     * @return int|null
      */
-    public function delete(): EndpointDeleteResult;
+    public function getRgt(): ?int;
+
+    /**
+     * @param int|null $rgt
+     */
+    public function setRgt(?int $rgt): void;
+
+    /**
+     * @return int|null
+     */
+    public function getLevel(): ?int;
+
+    /**
+     * @param int|null $level
+     */
+    public function setLevel(?int $level): void;
+
+    /**
+     * @return NodeInterface
+     */
+    public function getNode(): NodeInterface;
+
+    /**
+     * @param NodeInterface|null $node
+     */
+    public function setNode(?NodeInterface $node): void;
 }

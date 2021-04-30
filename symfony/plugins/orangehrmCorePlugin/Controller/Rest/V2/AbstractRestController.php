@@ -21,12 +21,12 @@ namespace OrangeHRM\Core\Controller\Rest\V2;
 
 use Exception;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Validator;
 use OrangeHRM\Core\Api\V2\Request;
 use OrangeHRM\Core\Api\V2\Response;

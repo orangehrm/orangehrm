@@ -70,7 +70,7 @@ abstract class AbstractEndpointResult
      * Normalize object to associative array
      * @return array
      */
-    public abstract function normalize(): array;
+    abstract public function normalize(): array;
 
     /**
      * @return ParameterBag|null
