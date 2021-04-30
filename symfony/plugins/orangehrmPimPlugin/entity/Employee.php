@@ -181,9 +181,10 @@ class Employee
     /**
      * @var int
      *
+     * @ORM\ManyToOne(targetEntity="EmploymentStatus", inversedBy="employees")
      * @ORM\Column(name="emp_status", type="integer", length=13)
      */
-    private $emp_status;
+    private $empStatus;
 
     /**
      * @var int
