@@ -225,7 +225,7 @@ export default {
           this.isLoading = false;
           this.onCancel();
         });
-    }
+    },
   },
 
   computed: {
