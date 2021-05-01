@@ -1,6 +1,6 @@
 <?php
-
-/**
+/*
+ *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,41 +16,27 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ *
  */
-class EmploymentStatusService extends BaseService {
 
-	private $empStatusDao;
+namespace OrangeHRM\Admin\Api\Model;
 
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		$this->empStatusDao = new EmploymentStatusDao();
-	}
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\EmploymentStatus;
 
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getEmploymentStatusDao() {
-		return $this->empStatusDao;
-	}
+class EmploymentStatusModel implements Normalizable
+{
+    use ModelTrait;
 
-	/**
-	 *
-	 * @param EmploymentStatusDao $employmentStatusDao 
-	 */
-	public function setEmploymentStatusDao(EmploymentStatusDao $employmentStatusDao) {
-		$this->empStatusDao = $employmentStatusDao;
-	}
-	
-	public function getEmploymentStatusList(){
-		return $this->empStatusDao->getEmploymentStatusList();
-	}
-	
-	public function getEmploymentStatusById($id){
-		return $this->empStatusDao->getEmploymentStatusById($id);
-	}
-	
-	
+    public function __construct(EmploymentStatus $employmentStatus)
+    {
+        $this->setEntity($employmentStatus);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+            ]
+        );
+    }
 }
