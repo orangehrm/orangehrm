@@ -26,11 +26,7 @@
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
-        <oxd-input-field
-          label="Unit Id"
-          v-model="orgUnit.id"
-          :rules="rules.id"
-        />
+        <oxd-input-field label="Unit Id" v-model="orgUnit.unitId" />
       </oxd-form-row>
       <oxd-form-row>
         <oxd-input-field
@@ -46,7 +42,6 @@
           label="Description"
           placeholder="Type description here"
           v-model="orgUnit.description"
-          :rules="rules.description"
         />
       </oxd-form-row>
       <oxd-text tag="p" class="level-label"
@@ -68,10 +63,11 @@
 </template>
 
 <script>
+import {APIService} from '@/core/util/services/api.service';
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
 
 const orgUnitModel = {
-  id: '',
+  unitId: '',
   name: '',
   description: '',
 };
@@ -86,9 +82,17 @@ export default {
   components: {
     'oxd-dialog': Dialog,
   },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/admin/subunits',
+    );
+    return {
+      http,
+    };
+  },
   data() {
     return {
-      show: true,
       isLoading: false,
       orgUnit: {...orgUnitModel},
       rules: {
@@ -102,24 +106,49 @@ export default {
   },
   methods: {
     onSave() {
-      // TODO: API connection
       this.isLoading = true;
-      setTimeout(() => {
-        this.$toast
-          .success({
+      this.http
+        .create({
+          ...this.orgUnit,
+          parentId: this.data?.id,
+        })
+        .then(() => {
+          return this.$toast.success({
             title: 'Success',
             message: 'Organization unit added successfully!',
-          })
-          .then(() => {
-            this.isLoading = false;
-            this.onCancel();
           });
-      }, 2000);
+        })
+        .then(() => {
+          this.orgUnit = {...orgUnitModel};
+          this.isLoading = false;
+          this.onCancel();
+        });
     },
     onCancel() {
       this.orgUnit = {...orgUnitModel};
       this.$emit('close', true);
     },
+  },
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        if (data) {
+          this.rules.name.push(v => {
+            const index = data.findIndex(item => item.name == v);
+            if (index > -1) {
+              return 'Organization unit name should be unique';
+            } else {
+              return true;
+            }
+          });
+        }
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

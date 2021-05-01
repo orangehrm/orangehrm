@@ -63,16 +63,22 @@
                 'org-structure-card': true,
                 '--edit': editable,
               }"
-              @dblclick="onEditOrglevel(nodeData)"
             >
               <div class="org-name">
-                {{ nodeData.name }}
+                {{ nodeData.unitId ? nodeData.unitId + ':' : '' }}
+                &nbsp;{{ nodeData.name }}
               </div>
               <div v-show="editable" class="org-action">
                 <oxd-icon-button
                   class="org-action-icon"
                   @click="onDelete(nodeData)"
                   name="trash-fill"
+                  role="none"
+                />
+                <oxd-icon-button
+                  class="org-action-icon"
+                  @click="onEditOrglevel(nodeData)"
+                  name="pencil-fill"
                   role="none"
                 />
                 <oxd-icon-button
@@ -89,12 +95,12 @@
     </div>
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
     <save-org-unit
-      :show="showSaveModal"
+      v-if="showSaveModal"
       :data="saveModalState"
       @close="onSaveModalClose"
     ></save-org-unit>
     <edit-org-unit
-      :show="showEditModal"
+      v-if="showEditModal"
       :data="editModalState"
       @close="onEditModalClose"
     ></edit-org-unit>
@@ -115,7 +121,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/job-titles',
+      'api/v2/admin/subunits',
     );
     return {
       http,
@@ -138,65 +144,26 @@ export default {
       saveModalState: null,
       showEditModal: false,
       editModalState: null,
-      data: {
-        name: 'Orange HRM',
-        children: [
-          {name: 'Administration', children: []},
-          {
-            name: 'Engineering',
-            children: [
-              {name: 'Development', children: []},
-              {name: 'Quality Assurance', children: []},
-              {
-                name: 'TechOps',
-                children: [
-                  {
-                    name: 'Network Ops',
-                    children: [],
-                  },
-                  {
-                    name: 'Cloud Ops',
-                    children: [
-                      {
-                        name: 'Aws Engineer',
-                        children: [],
-                      },
-                      {
-                        name: 'Azure Engineer',
-                        children: [],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-
-          {
-            name: 'Finance',
-            children: [{name: 'Accounting', children: []}],
-          },
-          {
-            name: 'Human Resources',
-            children: [],
-          },
-          {
-            name: 'Sales & Marketing',
-            children: [
-              {name: 'Sales', children: []},
-              {name: 'Marketing', children: []},
-            ],
-          },
-        ],
-      },
+      data: {},
     };
   },
   methods: {
     onDelete(node) {
-      // TODO: Connect delete api
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
-          console.log(node);
+          this.isLoading = true;
+          this.http
+            .delete(node.id)
+            .then(() => {
+              return this.$toast.success({
+                title: 'Success',
+                message: 'Organization unit deleted successfully!',
+              });
+            })
+            .then(() => {
+              this.isLoading = false;
+              this.fetchOrgStructure();
+            });
         }
       });
     },
@@ -215,23 +182,31 @@ export default {
     onSaveModalClose() {
       this.saveModalState = null;
       this.showSaveModal = false;
-      this.isLoading = true;
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 2000);
+      this.fetchOrgStructure();
     },
     onEditModalClose() {
       this.editModalState = null;
       this.showEditModal = false;
+      this.fetchOrgStructure();
+    },
+    fetchOrgStructure() {
+      this.isLoading = true;
+      this.http
+        .getAll({
+          mode: 'tree',
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.data = data[0];
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 
   created() {
-    // TODO: Load Org data
-    this.isLoading = true;
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 2000);
+    this.fetchOrgStructure();
   },
 };
 </script>

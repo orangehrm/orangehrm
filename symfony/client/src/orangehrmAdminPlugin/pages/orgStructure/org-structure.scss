@@ -34,7 +34,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10rem;
+    padding: 10rem 0;
     .oxd-loading-spinner-container {
       background-color: $oxd-white-color;
     }
@@ -68,8 +68,9 @@
     min-width: unset;
     height: 30px;
     width: 30px;
-    &:first-child {
-      margin-right: 0.5rem;
+    margin-right: 0.5rem;
+    &:last-child {
+      margin-right: unset;
     }
   }
 }
