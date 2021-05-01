@@ -1,6 +1,6 @@
 <?php
-
-/**
+/*
+ *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,37 +16,27 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ *
  */
-class EmploymentStatusDao extends BaseDao {
 
-	/**
-	 *
-	 * @return type 
-	 */
-	public function getEmploymentStatusList() {
+namespace OrangeHRM\Admin\Controller;
 
-		try {
-			$q = Doctrine_Query :: create()
-				->from('EmploymentStatus')
-				->orderBy('name ASC');
-			return $q->execute();
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
-	
-	/**
-	 *
-	 * @param type $id
-	 * @return type 
-	 */
-	public function getEmploymentStatusById($id) {
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use Symfony\Component\HttpFoundation\Request;
 
-		try {
-			return Doctrine :: getTable('EmploymentStatus')->find($id);
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-	}
+class SaveEmploymentStatusController extends AbstractVueController
+{
+    public function preRender(Request $request): void
+    {
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component('employment-status-edit');
+            $component->addProp(new Prop('employment-status-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('employment-status-save');
+        }
+        $this->setComponent($component);
+    }
 }
-

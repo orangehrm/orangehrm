@@ -27,6 +27,9 @@ import SystemUser from '@/orangehrmAdminPlugin/pages/systemUser/SystemUser.vue';
 import SaveSystemUser from '@/orangehrmAdminPlugin/pages/systemUser/SaveSystemUser.vue';
 import EditSystemUser from '@/orangehrmAdminPlugin/pages/systemUser/EditSystemUser.vue';
 import OrgStructure from '@/orangehrmAdminPlugin/pages/orgStructure/OrgStructure.vue';
+import EditEmploymentStatus from '@/orangehrmAdminPlugin/pages/employmentStatus/EditEmploymentStatus.vue';
+import EmploymentStatus from '@/orangehrmAdminPlugin/pages/employmentStatus/EmploymentStatus.vue';
+import SaveEmploymentStatus from '@/orangehrmAdminPlugin/pages/employmentStatus/SaveEmploymentStatus.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -40,4 +43,7 @@ export default {
   'system-user-edit': EditSystemUser,
   'system-user-save': SaveSystemUser,
   'organization-structure': OrgStructure,
+  'employment-status-list': EmploymentStatus,
+  'employment-status-save': SaveEmploymentStatus,
+  'employment-status-edit': EditEmploymentStatus,
 };
