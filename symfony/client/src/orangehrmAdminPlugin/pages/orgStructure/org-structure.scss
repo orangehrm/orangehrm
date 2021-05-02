@@ -1,0 +1,73 @@
+.org-root-container {
+  padding: 0.5em 2.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  & .oxd-text {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  & .oxd-text::after {
+    content: '';
+    border-left: 0.15rem solid $oxd-primary-one-color;
+    height: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 0;
+  }
+
+  & .oxd-text::before {
+    content: '';
+    border-top: 0.15rem solid $oxd-primary-one-color;
+    width: 1rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.org-container {
+  background-color: $oxd-interface-gray-lighten-2-color;
+  padding: 0.5rem 2rem;
+  & .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10rem 0;
+    .oxd-loading-spinner-container {
+      background-color: $oxd-white-color;
+    }
+  }
+}
+
+.org-structure-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: $oxd-white-color;
+  border-radius: 0.75rem;
+  height: 35px;
+}
+.org-structure-add {
+  min-width: unset;
+  padding: 0.5rem 1rem;
+}
+.org-action {
+  display: flex;
+  &-icon {
+    font-size: inherit;
+    min-height: unset;
+    min-width: unset;
+    height: 30px;
+    width: 30px;
+    margin-right: 0.5rem;
+    &:last-child {
+      margin-right: unset;
+    }
+  }
+}

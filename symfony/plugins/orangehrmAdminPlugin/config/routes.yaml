@@ -127,3 +127,8 @@ edit_system_users:
   path: /admin/saveSystemUser/{id}
   controller: OrangeHRM\Admin\Controller\SaveSystemUserController::handle
   methods: [ GET ]
+
+view_organization_structure:
+  path: /admin/organizationStructure
+  controller: OrangeHRM\Admin\Controller\OrganizationStructureController::handle
+  methods: [ GET ]
