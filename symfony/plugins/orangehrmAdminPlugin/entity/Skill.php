@@ -2,6 +2,8 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +36,14 @@ class Skill
      * @ORM\Column(name="description", type="string", length=2147483647)
      */
     private string $description;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="skillId")
+     */
+    private Collection $employeeSkills;
+
 
     /**
      * Constructor
