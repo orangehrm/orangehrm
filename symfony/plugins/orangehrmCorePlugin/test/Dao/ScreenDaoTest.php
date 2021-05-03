@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,40 +17,49 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Core\Tests\Dao;
+
+use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Dao\ScreenDao;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
+
 /**
  * Description of ScreenDaoTest
  * @group Core
+ * @group Dao
  */
-class ScreenDaoTest extends PHPUnit_Framework_TestCase {
-    
-    /** @property ScreenPermissionDao $dao */
-    private $dao;
-    
+class ScreenDaoTest extends TestCase
+{
+    /**
+     * @var ScreenDao
+     */
+    private ScreenDao $dao;
+
     /**
      * Set up method
      */
-    protected function setUp() {        
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ScreenDao.yml';
-        TestDataService::truncateSpecificTables(array('SystemUser'));
+    protected function setUp(): void
+    {
+        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ScreenDao.yml';
+        TestDataService::truncateSpecificTables([User::class]);
         TestDataService::populate($this->fixture);
-                
+
         $this->dao = new ScreenDao();
     }
-    
-    public function testGetScreen() {
-        
+
+    public function testGetScreen(): void
+    {
         $screen = $this->dao->getScreen('pim', 'viewEmployeeList');
         $this->assertNotNull($screen);
         $this->assertEquals(1, $screen->getId());
         $this->assertEquals('employee list', $screen->getName());
-        $this->assertEquals(3, $screen->getModuleId());
-        $this->assertEquals('viewEmployeeList', $screen->getActionUrl()); 
-        
+        $this->assertEquals(3, $screen->getModule()->getId());
+        $this->assertEquals('viewEmployeeList', $screen->getActionUrl());
+
         // non existing action
         $screen = $this->dao->getScreen('pim', 'viewNoneNone');
-        $this->assertFalse($screen);               
+        $this->assertNull($screen);
     }
-
 }
-
-

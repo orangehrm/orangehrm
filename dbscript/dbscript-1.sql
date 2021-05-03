@@ -2352,3 +2352,10 @@ ALTER TABLE `ohrm_i18n_lang_string`
 
 ALTER TABLE `ohrm_i18n_translate`
     ADD CONSTRAINT `translateUniqueId` UNIQUE (`lang_string_id`, `language_id`);
+
+
+-- ------------------------------
+--        OrangeHRM 5.x
+-- ------------------------------
+
+ALTER TABLE `hs_hr_config` CHANGE `key` `name` VARCHAR(100);

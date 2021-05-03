@@ -55,28 +55,28 @@ class DataGroup
     /**
      * @var bool
      *
-     * @ORM\Column(name="can_read", type="bool", nullable=true)
+     * @ORM\Column(name="can_read", type="boolean", nullable=true)
      */
     private bool $canRead;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="can_create", type="bool", nullable=true)
+     * @ORM\Column(name="can_create", type="boolean", nullable=true)
      */
     private bool $canCreate;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="can_update", type="bool", nullable=true)
+     * @ORM\Column(name="can_update", type="boolean", nullable=true)
      */
     private bool $canUpdate;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="can_delete", type="bool", nullable=true)
+     * @ORM\Column(name="can_delete", type="boolean", nullable=true)
      */
     private bool $canDelete;
 

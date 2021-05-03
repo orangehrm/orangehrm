@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,31 +17,63 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Description of ScreenDao
- *
- */
-class ScreenDao {
-    
-    /**
-     * Get screen for given module and action
-     * 
-     * @param string $module Module Name
-     * @param string $actionUrl Action
-     * @return Screen object or FALSE if not found
-     */
-    public function getScreen($module, $action) {
-        try {           
-            $query = Doctrine_Query::create()
-                    ->from('Screen s')
-                    ->leftJoin('s.Module m')
-                    ->where('m.name = ?', $module)
-                    ->andWhere('s.action_url = ?', $action);
+namespace OrangeHRM\Entity;
 
-            return $query->fetchOne();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }        
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Config
+ *
+ * @ORM\Table(name="hs_hr_config")
+ * @ORM\Entity
+ */
+class Config
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=100)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private string $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="value", type="text")
+     */
+    private string $value;
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
     }
 }
-

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,60 +17,76 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Core\Tests\Dao;
+
+use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Dao\DataGroupDao;
+use OrangeHRM\Entity\DataGroup;
+use OrangeHRM\Entity\User;
+use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
+
+use function count;
+
 /**
  * Description of DataGroupDaoTest
  * @group Core
+ * @group Dao
  */
-class DataGroupDaoTest extends PHPUnit_Framework_TestCase {
-    
-    /** @property ScreenPermissionDao $dao */
-    private $dao;
-    
+class DataGroupDaoTest extends TestCase
+{
+    /**
+     * @var DataGroupDao
+     */
+    private DataGroupDao $dao;
+
     /**
      * Set up method
      */
-    protected function setUp() {        
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/DataGroupDao.yml';
-        TestDataService::truncateSpecificTables(array('SystemUser'));
+    protected function setUp(): void
+    {
+        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/DataGroupDao.yml';
+        TestDataService::truncateSpecificTables([User::class]);
         TestDataService::populate($this->fixture);
-                
+
         $this->dao = new DataGroupDao();
     }
-    
-    
-    public function testGetDataGroupPermission(){ 
-        $permissions = $this->dao->getDataGroupPermission('pim_1',1);
-        $this->assertEquals(1, $permissions->count());
-        $this->assertEquals(1,$permissions[0]->getCanRead());
-    
-    }
-    
-    public function testGetDataGroups(){
-        $this->assertEquals(4,sizeof($this->dao->getDataGroups()));    
-    }    
-    
-    public function testGetDataGroupsNoneDefined(){
-        $pdo = Doctrine_Manager::connection()->getDbh();
-        $pdo->exec('DELETE FROM ohrm_data_group');
-        $this->assertEquals(0, sizeof($this->dao->getDataGroups()));    
-    }    
-    
 
-    public function testGetDataGroup() {
+    public function testGetDataGroupPermission(): void
+    {
+        $permissions = $this->dao->getDataGroupPermission('pim_1', 1);
+        $this->assertEquals(1, count($permissions));
+        $this->assertEquals(1, $permissions[0]->canRead());
+    }
+
+    public function testGetDataGroups(): void
+    {
+        $this->assertEquals(4, sizeof($this->dao->getDataGroups()));
+    }
+
+    public function testGetDataGroupsNoneDefined(): void
+    {
+        $pdo = Doctrine::getEntityManager()->getConnection();
+        $pdo->executeStatement('DELETE FROM ohrm_data_group');
+        $this->assertEquals(0, sizeof($this->dao->getDataGroups()));
+    }
+
+
+    public function testGetDataGroup(): void
+    {
         $dataGroup1 = $this->dao->getDataGroup('pim_1');
         $this->assertTrue($dataGroup1 instanceof DataGroup);
         $this->assertEquals(1, $dataGroup1->getId());
-        
+
         $dataGroup2 = $this->dao->getDataGroup('pim_2');
         $this->assertTrue($dataGroup2 instanceof DataGroup);
         $this->assertEquals(2, $dataGroup2->getId());
-        
     }
-    
-    public function testGetDataGroupInvalid() {
+
+    public function testGetDataGroupInvalid(): void
+    {
         $dataGroup = $this->dao->getDataGroup('xyz_not_exist');
-        $this->assertTrue($dataGroup === false);
+        $this->assertNull($dataGroup);
     }
 }
-
-
