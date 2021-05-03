@@ -19,21 +19,21 @@ class Skill
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=120)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=2147483647)
      */
-    private $description;
+    private string $description;
 
     /**
      * Constructor

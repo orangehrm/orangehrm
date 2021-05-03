@@ -22,6 +22,8 @@
 namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
+use OrangeHRM\Core\Api\CommonParams;
+use \OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -39,18 +41,12 @@ use Orangehrm\Rest\Http\Response;
 use \DaoException;
 use \Exception;
 use \OrangeHRM\Core\Api\V2\Endpoint;
+use \OrangeHRM\Core\Exception\ServiceException;
 
 class SkillAPI extends Endpoint implements CrudEndpoint
 {
-    const PARAMETER_ID = 'id';
-    const PARAMETER_IDS = 'ids';
     const PARAMETER_NAME = 'name';
     const PARAMETER_DESCRIPTION = 'description';
-
-    const PARAMETER_SORT_FIELD = 'sortField';
-    const PARAMETER_SORT_ORDER = 'sortOrder';
-    const PARAMETER_OFFSET = 'offset';
-    const PARAMETER_LIMIT = 'limit';
 
     const FILTER_NAME = 'name';
     const FILTER_DESCRIPTION = 'description';
@@ -88,7 +84,7 @@ class SkillAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointGetOneResult
     {
         // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $skill = $this->getSkillService()->getSkillById($id);
         if (!$skill instanceof Skill) {
             throw new RecordNotFoundException('No Record Found');
@@ -99,14 +95,19 @@ class SkillAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EndpointGetAllResult
-     * @throws \OrangeHRM\Core\Exception\SearchParamException
-     * @throws \OrangeHRM\Core\Exception\ServiceException
+     * @throws SearchParamException
+     * @throws ServiceException
+     * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission
         $skillSearchParams = new SkillSearchFilterParams();
         $this->setSortingAndPaginationParams($skillSearchParams);
+        var_dump(            $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_NAME
+        ));
         $skillSearchParams->setName(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
@@ -167,7 +168,7 @@ class SkillAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointDeleteResult
     {
         // TODO:: Check data group permission
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getSkillService()->deleteSkills($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
@@ -180,7 +181,7 @@ class SkillAPI extends Endpoint implements CrudEndpoint
     public function saveSkill(): Skill
     {
         // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $description = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION);
         if (!empty($id)) {
@@ -204,7 +205,7 @@ class SkillAPI extends Endpoint implements CrudEndpoint
     public function deleteSkills(): Response
     {
         // TODO:: Check data group permission
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getSkillService()->deleteSkills($ids);
         return new Response($ids);
     }

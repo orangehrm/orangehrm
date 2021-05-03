@@ -51,7 +51,7 @@ class SkillDao
      * @return object|null|Skill
      * @throws DaoException
      */
-    public function getSkillById(int $id): Skill
+    public function getSkillById(int $id): ?Skill
     {
         try {
             return Doctrine::getEntityManager()->getRepository(Skill::class)->find($id);

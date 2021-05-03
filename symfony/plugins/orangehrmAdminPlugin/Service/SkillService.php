@@ -71,7 +71,7 @@ class SkillService
      * @return Skill
      * @throws DaoException
      */
-    public function getSkillById(int $id): Skill
+    public function getSkillById(int $id): ?Skill
     {
         return $this->getSkillDao()->getSkillById($id);
     }
