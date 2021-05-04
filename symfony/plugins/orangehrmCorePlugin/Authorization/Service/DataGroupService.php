@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,20 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Description of DataGroupService
- *
- */
-class DataGroupService {
-    
-    public $dao;
-    
+namespace OrangeHRM\Core\Authorization\Service;
+
+use OrangeHRM\Core\Authorization\Dao\DataGroupDao;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\DataGroup;
+use OrangeHRM\Entity\DataGroupPermission;
+
+class DataGroupService
+{
+    /**
+     * @var DataGroupDao|null
+     */
+    public ?DataGroupDao $dao = null;
+
     /**
      * Get the Data group dao
      * @return DataGroupDao dao instance
      */
-    public function getDao() {
-        if (empty($this->dao)) {
+    public function getDao(): DataGroupDao
+    {
+        if (!$this->dao instanceof DataGroupDao) {
             $this->dao = new DataGroupDao();
         }
         return $this->dao;
@@ -41,42 +47,46 @@ class DataGroupService {
      * Set the data group dao
      * @param DataGroupDao $dao
      */
-    public function setDao(DataGroupDao $dao) {
+    public function setDao(DataGroupDao $dao): void
+    {
         $this->dao = $dao;
     }
-    
+
     /**
-     * Get Data Group permissions 
-     * 
-     * @param mixed $dataGroup A single data group name (string), an array of data group names or null (to return all data group permissions)
+     * Get Data Group permissions
+     *
+     * @param string $dataGroup A single data group name (string), an array of data group names or null (to return all data group permissions)
      * @param int $userRoleId User role id
      * @param bool $selfPermission If true, self permissions are returned. If false non-self permissions are returned
-     * 
-     * @return Doctrine_Collection Collection of DataGroupPermission objects
+     *
+     * @return DataGroupPermission[] Collection of DataGroupPermission objects
+     * @throws DaoException
      */
-    public function getDataGroupPermission($dataGroup, $userRoleId , $selfPermission = false){
-        return $this->getDao()->getDataGroupPermission($dataGroup, $userRoleId, $selfPermission );
+    public function getDataGroupPermission(string $dataGroup, int $userRoleId, bool $selfPermission = false): array
+    {
+        return $this->getDao()->getDataGroupPermission($dataGroup, $userRoleId, $selfPermission);
     }
-    
+
     /**
      * Get All defined data groups in the system
-     * 
-     * @return Doctrine_Collection Colelction of DataGroup objects
+     *
+     * @return DataGroup[]
+     * @throws DaoException
      */
-    public function getDataGroups(){
+    public function getDataGroups(): array
+    {
         return $this->getDao()->getDataGroups();
     }
-    
+
     /**
      * Get Data Group with given name
-     * 
+     *
      * @param string $name Data Group name
      * @return DataGroup DataGroup or false if no match.
+     * @throws DaoException
      */
-    public function getDataGroup($name) {
-        return $this->getDao()->getDataGroup($name);       
-    }    
-
-
+    public function getDataGroup(string $name): ?DataGroup
+    {
+        return $this->getDao()->getDataGroup($name);
+    }
 }
-

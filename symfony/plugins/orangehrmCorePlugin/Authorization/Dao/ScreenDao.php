@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,9 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Dao;
+namespace OrangeHRM\Core\Authorization\Dao;
 
 use Exception;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Screen;
 
@@ -30,7 +31,7 @@ class ScreenDao extends BaseDao
      *
      * @param string $module Module Name
      * @param string $action
-     * @return Screen
+     * @return Screen|null
      * @throws DaoException
      */
     public function getScreen(string $module, string $action): ?Screen

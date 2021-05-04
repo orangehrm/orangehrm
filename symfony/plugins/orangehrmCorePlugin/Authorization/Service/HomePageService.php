@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,9 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Home Page Service
- */
+namespace OrangeHRM\Core\Authorization\Service;
+
 class HomePageService {
 
     protected $userSession;

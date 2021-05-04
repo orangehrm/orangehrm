@@ -17,10 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Tests\Dao;
+namespace OrangeHRM\Core\Tests\Authorization\Dao;
 
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Dao\DataGroupDao;
+use OrangeHRM\Core\Authorization\Dao\DataGroupDao;
 use OrangeHRM\Entity\DataGroup;
 use OrangeHRM\Entity\User;
 use OrangeHRM\ORM\Doctrine;

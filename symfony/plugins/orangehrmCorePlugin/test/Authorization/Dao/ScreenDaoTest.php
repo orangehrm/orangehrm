@@ -17,10 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Tests\Dao;
+namespace OrangeHRM\Core\Tests\Authorization\Dao;
 
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Dao\ScreenDao;
+use OrangeHRM\Core\Authorization\Dao\ScreenDao;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;

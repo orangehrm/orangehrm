@@ -24,6 +24,7 @@
     <testsuite name="Core Tests">
       <directory>symfony/plugins/orangehrmCorePlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Dao</directory>
+      <directory>symfony/plugins/orangehrmCorePlugin/test/Authorization</directory>
     </testsuite>
   </testsuites>
 </phpunit>

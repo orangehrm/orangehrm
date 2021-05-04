@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,9 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Dao;
+namespace OrangeHRM\Core\Authorization\Dao;
 
 use Exception;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\ScreenPermission;
 use OrangeHRM\Entity\UserRole;
@@ -29,7 +30,7 @@ class ScreenPermissionDao extends BaseDao
     /**
      * @param string $module Module Name
      * @param string $actionUrl Action
-     * @param array $roles Array of UserRole objects or user role names
+     * @param string[]|UserRole[] $roles Array of UserRole objects or user role names
      * @return ScreenPermission[]
      * @throws DaoException
      */

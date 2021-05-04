@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,90 +17,122 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Description of ScreenPermissionService
- *
- */
-class ScreenPermissionService {
-    
-    private $screenPermissionDao;    
-    private $screenDao;
-    
-    public function getScreenDao() {
-        if (empty($this->screenDao)) {
+namespace OrangeHRM\Core\Authorization\Service;
+
+use OrangeHRM\Core\Authorization\Dao\ScreenDao;
+use OrangeHRM\Core\Authorization\Dao\ScreenPermissionDao;
+use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Screen;
+use OrangeHRM\Entity\UserRole;
+
+class ScreenPermissionService
+{
+    /**
+     * @var ScreenPermissionDao|null
+     */
+    private ?ScreenPermissionDao $screenPermissionDao = null;
+
+    /**
+     * @var ScreenDao|null
+     */
+    private ?ScreenDao $screenDao = null;
+
+    /**
+     * @return ScreenDao
+     */
+    public function getScreenDao(): ScreenDao
+    {
+        if (!$this->screenDao instanceof ScreenDao) {
             $this->screenDao = new ScreenDao();
-        }         
+        }
         return $this->screenDao;
     }
 
-    public function setScreenDao($screenDao) {       
+    /**
+     * @param ScreenDao $screenDao
+     */
+    public function setScreenDao(ScreenDao $screenDao): void
+    {
         $this->screenDao = $screenDao;
     }
 
-    public function getScreenPermissionDao() {
-        if (empty($this->screenPermissionDao)) {
+    /**
+     * @return ScreenPermissionDao
+     */
+    public function getScreenPermissionDao(): ScreenPermissionDao
+    {
+        if (!$this->screenPermissionDao instanceof ScreenPermissionDao) {
             $this->screenPermissionDao = new ScreenPermissionDao();
         }
         return $this->screenPermissionDao;
     }
 
-    public function setScreenPermissionDao($screenPermissionDao) {
+    /**
+     * @param ScreenPermissionDao $screenPermissionDao
+     */
+    public function setScreenPermissionDao(ScreenPermissionDao $screenPermissionDao): void
+    {
         $this->screenPermissionDao = $screenPermissionDao;
     }
 
-        
-    
     /**
      * Get Screen Permissions for given module, action for the given roles
      * @param string $module Module Name
      * @param string $actionUrl Action Name
-     * @param string $roles Array of Role names or Array of UserRole objects
+     * @param string[]|UserRole[] $roles Array of Role names or Array of UserRole objects
+     * @return ResourcePermission
+     * @throws DaoException
      */
-    public function getScreenPermissions($module, $actionUrl, $roles) {
+    public function getScreenPermissions(string $module, string $actionUrl, array $roles): ResourcePermission
+    {
         $screenPermissions = $this->getScreenPermissionDao()->getScreenPermissions($module, $actionUrl, $roles);
-        
-        $permission = null;
 
         // if empty, give all permissions
         if (count($screenPermissions) == 0) {
-            
-            // If screen not defined, give all permissions, if screen is defined, 
+            // If screen not defined, give all permissions, if screen is defined,
             // but don't give any permissions.
             $screen = $this->getScreenDao()->getScreen($module, $actionUrl);
-            if ($screen === false) {
+            if (is_null($screen)) {
                 $permission = new ResourcePermission(true, true, true, true);
             } else {
                 $permission = new ResourcePermission(false, false, false, false);
             }
         } else {
             $read = false;
-            $create = false;            
+            $create = false;
             $update = false;
             $delete = false;
-            
+
             foreach ($screenPermissions as $screenPermission) {
-                if ($screenPermission->can_read) {
+                if ($screenPermission->canRead()) {
                     $read = true;
                 }
-                if ($screenPermission->can_create) {
+                if ($screenPermission->canCreate()) {
                     $create = true;
                 }
-                if ($screenPermission->can_update) {
+                if ($screenPermission->canUpdate()) {
                     $update = true;
                 }
-                if ($screenPermission->can_delete) {
+                if ($screenPermission->canDelete()) {
                     $delete = true;
-                }             
+                }
             }
-            
+
             $permission = new ResourcePermission($read, $create, $update, $delete);
         }
-        
+
         return $permission;
     }
-    
-    public function getScreen($module, $actionUrl) {
+
+    /**
+     * @param string $module
+     * @param string $actionUrl
+     * @return Screen|null
+     * @throws DaoException
+     */
+    public function getScreen(string $module, string $actionUrl): ?Screen
+    {
         return $this->getScreenDao()->getScreen($module, $actionUrl);
     }
 }
-
