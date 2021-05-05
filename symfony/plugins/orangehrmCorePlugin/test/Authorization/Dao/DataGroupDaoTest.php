@@ -46,7 +46,7 @@ class DataGroupDaoTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/DataGroupDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/DataGroupDao.yml';
         TestDataService::truncateSpecificTables([User::class]);
         TestDataService::populate($this->fixture);
 

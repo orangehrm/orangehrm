@@ -43,7 +43,7 @@ class ConfigDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->configDao = new ConfigDao();
-        $this->fixture = \OrangeHRM\Config\Config::get('ohrm_plugins_dir') .
+        $this->fixture = \OrangeHRM\Config\Config::get(\OrangeHRM\Config\Config::PLUGINS_DIR) .
             '/orangehrmCorePlugin/test/fixtures/ConfigDao.yml';
         TestDataService::populate($this->fixture);
         $this->createKernel();

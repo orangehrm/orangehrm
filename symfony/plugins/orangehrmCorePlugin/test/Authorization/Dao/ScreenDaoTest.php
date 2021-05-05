@@ -42,7 +42,7 @@ class ScreenDaoTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ScreenDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/ScreenDao.yml';
         TestDataService::truncateSpecificTables([User::class]);
         TestDataService::populate($this->fixture);
 

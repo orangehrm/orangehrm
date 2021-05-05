@@ -40,7 +40,7 @@ class JobTitleServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->JobTitleService = new JobTitleService();
-        $this->fixture = Config::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobTitleDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/JobTitleDao.yml';
         TestDataService::populate($this->fixture);
     }
 

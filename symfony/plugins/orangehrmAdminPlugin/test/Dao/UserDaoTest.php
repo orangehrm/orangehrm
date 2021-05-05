@@ -45,7 +45,7 @@ class UserDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->systemUserDao = new UserDao();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/SystemUser.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/SystemUser.yml';
         TestDataService::truncateSpecificTables(['User']);
         TestDataService::populate($this->fixture);
     }

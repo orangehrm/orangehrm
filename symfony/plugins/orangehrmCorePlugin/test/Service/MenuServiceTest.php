@@ -40,7 +40,7 @@ class MenuServiceTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/MenuDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/MenuDao.yml';
         TestDataService::populate($this->fixture);
         $this->menuService = new MenuService();
 

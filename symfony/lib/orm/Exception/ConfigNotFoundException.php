@@ -17,36 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Tests\Dao;
+namespace OrangeHRM\ORM\Exception;
 
-use OrangeHRM\Admin\Dao\OrganizationDao;
-use OrangeHRM\Config\Config;
-use OrangeHRM\Entity\Organization;
-use OrangeHRM\Tests\Util\TestCase;
-use OrangeHRM\Tests\Util\TestDataService;
-
-/**
- * @group Admin
- * @group Dao
- */
-class OrganizationDaoTest extends TestCase
+class ConfigNotFoundException extends \Exception
 {
-    private OrganizationDao $organizationDao;
-    protected string $fixture;
 
-    /**
-     * Set up method
-     */
-    protected function setUp(): void
-    {
-        $this->organizationDao = new OrganizationDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/OrganizationDao.yml';
-        TestDataService::populate($this->fixture);
-    }
-
-    public function testGetOrganizationGeneralInformation(): void
-    {
-        $this->assertTrue($this->organizationDao->getOrganizationGeneralInformation() instanceof Organization);
-    }
 }
-

@@ -88,7 +88,7 @@ class SystemConfiguration
      */
     public function setLanguage($languageCode)
     {
-        $query = "UPDATE `hs_hr_config` SET `value` = ? WHERE `hs_hr_config`.`key` = 'admin.localization.default_language'";
+        $query = "UPDATE `hs_hr_config` SET `value` = ? WHERE `hs_hr_config`.`name` = 'admin.localization.default_language'";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
         $statement->execute(array($languageCode));
@@ -180,7 +180,7 @@ class SystemConfiguration
             $country,
             $ohrmVersion
         );
-        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
+        $query = "INSERT INTO `hs_hr_config` (`name`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
         $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER, $instanceIdentifier));
@@ -293,7 +293,7 @@ class SystemConfiguration
             $country,
             $ohrmVersion
         );
-        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
+        $query = "INSERT INTO `hs_hr_config` (`name`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
         $statement->execute(array(self::KEY_INSTANCE_IDENTIFIER_CHECKSUM, $instanceIdentifierChecksum));

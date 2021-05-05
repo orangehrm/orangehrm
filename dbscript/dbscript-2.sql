@@ -3531,3 +3531,9 @@ INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES
 ('buzz', 'Buzz'),
 ('marketplace', 'Marketplace'),
 ('mobile', 'Mobile');
+
+-- ------------------------------
+--        OrangeHRM 5.x
+-- ------------------------------
+
+ALTER TABLE `hs_hr_config` CHANGE `key` `name` VARCHAR(100);

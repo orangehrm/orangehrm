@@ -47,7 +47,7 @@ class HomePageDaoTest extends TestCase
     protected function setUp(): void
     {
         TestDataService::truncateTables([ModuleDefaultPage::class, HomePage::class, UserRole::class, Module::class]);
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/HomePageDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/HomePageDao.yml';
         $this->testData = Yaml::parseFile($this->fixture);
         TestDataService::populate($this->fixture);
         $this->homePageDao = new HomePageDao();

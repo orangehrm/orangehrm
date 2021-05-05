@@ -2358,4 +2358,3 @@ ALTER TABLE `ohrm_i18n_translate`
 --        OrangeHRM 5.x
 -- ------------------------------
 
-ALTER TABLE `hs_hr_config` CHANGE `key` `name` VARCHAR(100);
