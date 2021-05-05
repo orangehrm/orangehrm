@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,6 +16,10 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+namespace OrangeHRM\Core\Authorization\UserRole;
+
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 
 /**
  * Description of UserRoleInterface
@@ -139,7 +142,7 @@ abstract class AbstractUserRole {
     }
 
         
-    public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $requiredPermissions = []) {
 
         $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
         
@@ -157,12 +160,13 @@ abstract class AbstractUserRole {
 
             }
         } else {
-            $entities = array();
+            $entities = [];
         }
         return $entities;
     }
 
-    public function getAccessibleEntityProperties($entityType, $properties = array(), $orderField = null, $orderBy = null, $requiredPermissions = array()) {
+    public function getAccessibleEntityProperties($entityType, $properties = [], $orderField = null, $orderBy = null, $requiredPermissions = []
+    ) {
 
         $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
         if ($permitted) {
@@ -172,12 +176,13 @@ abstract class AbstractUserRole {
                     break;
             }
         } else {
-            $propertyList = array();
+            $propertyList = [];
         }
         return $propertyList;
     }
 
-    public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null, $requiredPermissions = array()) {   
+    public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null, $requiredPermissions = []
+    ) {
         
         $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
         if ($permitted) {        
@@ -205,52 +210,56 @@ abstract class AbstractUserRole {
                     break;                    
             }
         } else {
-            $ids = array();
+            $ids = [];
         }
         return $ids;
     }
     
-    public function getEmployeesWithRole($entities = array()) {
-        return array();
+    public function getEmployeesWithRole($entities = []) {
+        return [];
     }    
 
-    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
     
-    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
     
-    public function getAccessibleVacancies($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleVacancies($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }    
     
-    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }        
     
-    public abstract function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = array());
+    abstract public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []);
     
-    public abstract function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = array());
+    abstract public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []
+    );
     
-    public abstract function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array());
+    abstract public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []);
 
-    public abstract function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = array());
+    abstract public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []
+    );
 
-    public abstract function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = array());
+    abstract public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []
+    );
 
-    public abstract function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = array());
+    abstract public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []);
 
-    public abstract function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = array()); 
+    abstract public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []);
     
-    protected function areRequiredPermissionsAvailable($requiredPermissions = array()) {
+    protected function areRequiredPermissionsAvailable($requiredPermissions = []) {
         $permitted = true;
         
         foreach ($requiredPermissions as $permissionType => $permissions) {
             if ($permissionType == BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP) {
                 foreach ($permissions as $dataGroupName => $requestedResourcePermission) {
-                    $dataGroupPermissions = $this->userRoleManager->getDataGroupPermissions($dataGroupName, array(), array($this->roleName));
+                    $dataGroupPermissions = $this->userRoleManager->getDataGroupPermissions($dataGroupName, [], [$this->roleName]
+                    );
 
                     if ($permitted && $requestedResourcePermission->canRead()) {
                         $permitted = $permitted && $dataGroupPermissions->canRead();

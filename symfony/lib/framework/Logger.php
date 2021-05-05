@@ -44,10 +44,12 @@ class Logger implements LoggerInterface
     }
 
     /**
+     * @param string|null $name
      * @return static
      */
-    public static function getLogger(): self
+    public static function getLogger(?string $name = null): self
     {
+        // TODO:: improve logger with $name
         if (is_null(self::$instance)) {
             self::$instance = new self();
         }

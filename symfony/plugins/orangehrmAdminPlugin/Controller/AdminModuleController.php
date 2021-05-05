@@ -17,40 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Controller;
+namespace OrangeHRM\Admin\Controller;
 
 use Exception;
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Core\Controller\AbstractModuleController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 
-abstract class AbstractController
+class AdminModuleController extends AbstractModuleController
 {
     /**
-     * @param string $path
      * @return RedirectResponse
      * @throws Exception
      */
-    protected function redirect(string $path): RedirectResponse
+    public function handle(): RedirectResponse
     {
-        $request = $this->getCurrentRequest();
-        $baseUrl = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
-        if (substr($path, 0, 1) !== "/") {
-            $path = "/" . $path;
-        }
-        return new RedirectResponse($baseUrl . $path);
-    }
-
-    /**
-     * @return Request|null
-     * @throws Exception
-     */
-    private function getCurrentRequest(): ?Request
-    {
-        /** @var RequestStack $requestStack */
-        $requestStack = ServiceContainer::getContainer()->get(Services::REQUEST_STACK);
-        return $requestStack->getCurrentRequest();
+        $defaultPath = $this->getHomePageService()->getAdminModuleDefaultPath();
+        return $this->redirect($defaultPath);
     }
 }

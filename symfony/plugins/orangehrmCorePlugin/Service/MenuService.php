@@ -63,7 +63,7 @@ class MenuService
     /**
      * @param MenuDao $menuDao
      */
-    public function setMenuDao(MenuDao $menuDao)
+    public function setMenuDao(MenuDao $menuDao): void
     {
         $this->menuDao = $menuDao;
     }
@@ -76,9 +76,10 @@ class MenuService
      *
      * @param UserRole[]|string[] $userRoleList Array of user role names or Array of UserRole objects
      *
-     * @return array Array of MenuItem objects
+     * @return MenuItem[] Array of MenuItem objects
+     * @throws DaoException
      */
-    public function getMenuItemCollection(array $userRoleList)
+    public function getMenuItemCollection(array $userRoleList): array
     {
         $menuArray = $this->_getMenuItemListAsArray($userRoleList);
 
@@ -87,7 +88,7 @@ class MenuService
                 $parentId = $menuItem->getParent() instanceof MenuItem ? $menuItem->getParent()->getId() : null;
 
                 if ($menuItem->getLevel() == $i && array_key_exists($parentId, $menuArray)) {
-                    if ($menuItem->getScreen() instanceof Screen || !$this->_AreSubMenusEmpty($menuItem)) {
+                    if ($menuItem->getScreen() instanceof Screen || !$this->_areSubMenusEmpty($menuItem)) {
                         $menuArray[$parentId]->addSubMenuItem($menuItem);
                     }
 
@@ -110,8 +111,9 @@ class MenuService
     /**
      * @param UserRole[]|string[] $userRoleList
      * @return array
+     * @throws DaoException
      */
-    public function getMenuItemDetails(array $userRoleList)
+    public function getMenuItemDetails(array $userRoleList): array
     {
         $firstLevelItems = $this->getMenuItemCollection($userRoleList);
         $firstLevelHolder = [];
@@ -154,7 +156,11 @@ class MenuService
         ];
     }
 
-    private function _populateMenuInfoArrays(MenuItem $menuItem, array $menuItemDetails)
+    /**
+     * @param MenuItem $menuItem
+     * @param array $menuItemDetails
+     */
+    private function _populateMenuInfoArrays(MenuItem $menuItem, array $menuItemDetails): void
     {
         $this->parentIdArray[$menuItemDetails['id']] = $menuItem->getParent() instanceof MenuItem
             ? $menuItem->getParent()->getId() : null;
@@ -162,36 +168,6 @@ class MenuService
 
         if (!empty($menuItemDetails['module']) && !empty($menuItemDetails['action'])) {
             $this->actionArray[$menuItemDetails['module'] . '_' . $menuItemDetails['action']] = $menuItemDetails['id'];
-        }
-    }
-
-    public function getCurrentItemDetails($details)
-    {
-        $module = $details['module'];
-        $action = $details['action'];
-        $actionArray = $details['actionArray'];
-        $parentIdArray = $details['parentIdArray'];
-        $levelArray = $details['levelArray'];
-
-        if (isset($actionArray[$module . '_' . $action])) {
-            $currentItemId = $actionArray[$module . '_' . $action];
-
-            $level = $levelArray[$currentItemId];
-            $currentItemDetails = ['level1' => '', 'level2' => '', 'level3' => ''];
-
-            if ($level == 1) {
-                $currentItemDetails['level1'] = $currentItemId;
-                return $currentItemDetails;
-            } elseif ($level == 2) {
-                $currentItemDetails['level2'] = $currentItemId;
-                $currentItemDetails['level1'] = $parentIdArray[$currentItemId];
-                return $currentItemDetails;
-            } elseif ($level == 3) {
-                $currentItemDetails['level3'] = $currentItemId;
-                $currentItemDetails['level2'] = $parentIdArray[$currentItemId];
-                $currentItemDetails['level1'] = $parentIdArray[$currentItemDetails['level2']];
-                return $currentItemDetails;
-            }
         }
     }
 
@@ -251,7 +227,7 @@ class MenuService
      * @param MenuItem $menuItem
      * @return bool
      */
-    protected function _AreSubMenusEmpty(MenuItem $menuItem): bool
+    protected function _areSubMenusEmpty(MenuItem $menuItem): bool
     {
         $subMenus = $menuItem->getSubMenuItems();
 

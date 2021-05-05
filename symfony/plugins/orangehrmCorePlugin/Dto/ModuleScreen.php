@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,34 +15,51 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Description of LeavePeriodDefinedHomePageEnabler
- */
-class LeavePeriodDefinedHomePageEnabler implements HomePageEnablerInterface {
-    protected $configService;
-           
-    public function getConfigService() {        
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }        
-        return $this->configService;        
-    }
+namespace OrangeHRM\Core\Dto;
 
-    public function setConfigService($configService) {
-        $this->configService = $configService;
-    }     
+class ModuleScreen
+{
+    /**
+     * @var string|null
+     */
+    private ?string $module = null;
 
     /**
-     * Returns true if leave period is not defined.
-     * This class is used to direct the user to the define leave period page if leave period is not defined.
-     * 
-     * @param SystemUser $systemUser
-     * @return boolean
+     * @var string|null
      */
-    public function isEnabled($systemUser) {
-        return !$this->getConfigService()->isLeavePeriodDefined();
-    }   
+    private ?string $screen = null;
+
+    /**
+     * @return string|null
+     */
+    public function getModule(): ?string
+    {
+        return $this->module;
+    }
+
+    /**
+     * @param string|null $module
+     */
+    public function setModule(?string $module): void
+    {
+        $this->module = $module;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getScreen(): ?string
+    {
+        return $this->screen;
+    }
+
+    /**
+     * @param string|null $screen
+     */
+    public function setScreen(?string $screen): void
+    {
+        $this->screen = $screen;
+    }
 }

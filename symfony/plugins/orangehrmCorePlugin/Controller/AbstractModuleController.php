@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,34 +15,27 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Description of TimesheetPeriodDefinedHomePageEnabler
- */
-class TimesheetPeriodDefinedHomePageEnabler implements HomePageEnablerInterface {
-    protected $configService;
-           
-    public function getConfigService() {        
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }        
-        return $this->configService;        
-    }
+namespace OrangeHRM\Core\Controller;
 
-    public function setConfigService($configService) {
-        $this->configService = $configService;
-    }      
+use OrangeHRM\Core\Authorization\Service\HomePageService;
+
+abstract class AbstractModuleController extends AbstractController
+{
+    /**
+     * @var HomePageService|null
+     */
+    protected ?HomePageService $homePageService = null;
 
     /**
-     * Returns true if timesheet period is not defined.
-     * This class is used to direct the user to the define timesheet period page if timesheet period is not defined.
-     * 
-     * @param SystemUser $systemUser
-     * @return boolean
+     * @return HomePageService
      */
-    public function isEnabled($systemUser) {
-        return !$this->getConfigService()->isTimesheetPeriodDefined();
+    public function getHomePageService(): HomePageService
+    {
+        if (!$this->homePageService instanceof HomePageService) {
+            $this->homePageService = new HomePageService();
+        }
+        return $this->homePageService;
     }
 }

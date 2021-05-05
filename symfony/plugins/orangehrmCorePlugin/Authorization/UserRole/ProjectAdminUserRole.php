@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Core\Authorization\UserRole;
+
 /**
  * Project Admin User Role
  *
@@ -27,7 +28,7 @@ class ProjectAdminUserRole extends AbstractUserRole {
     /**
      * Returns all projects (active and inactive)
      */
-    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = []) {
         $projectList = $this->getProjectService()->getProjectListByProjectAdmin($this->getEmployeeNumber());
         return $projectList;        
     }
@@ -35,37 +36,37 @@ class ProjectAdminUserRole extends AbstractUserRole {
     /**
      * Returns all project ids (active and inactive)
      */
-    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = []) {
         return $this->getProjectService()->getProjectListForUserRole(ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER, $this->getEmployeeNumber());
     }
 
     
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
     
     

@@ -22,7 +22,6 @@ namespace OrangeHRM\Admin\Tests\Dao;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
@@ -174,8 +173,7 @@ class UserDaoTest extends TestCase
     }
 
     /**
-     *
-     * @covers UserDao::getNonPredefinedUserRoles
+     * @covers \OrangeHRM\Admin\Dao\UserDao::getNonPredefinedUserRoles
      */
     public function testGetNonPredefinedUserRoles(): void
     {

@@ -17,37 +17,43 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Controller;
+namespace OrangeHRM\Core\Helper;
 
 use Exception;
+use OrangeHRM\Core\Dto\ModuleScreen;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-abstract class AbstractController
+class ModuleScreenHelper
 {
     /**
-     * @param string $path
-     * @return RedirectResponse
+     * @return ModuleScreen
      * @throws Exception
      */
-    protected function redirect(string $path): RedirectResponse
+    public static function getCurrentModuleAndScreen(): ModuleScreen
     {
-        $request = $this->getCurrentRequest();
-        $baseUrl = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
-        if (substr($path, 0, 1) !== "/") {
-            $path = "/" . $path;
+        $moduleScreen = new ModuleScreen();
+        $request = self::getCurrentRequest();
+        if ($request) {
+            $pathChunks = explode('/', $request->getPathInfo());
+            if (isset($pathChunks[1])) {
+                $moduleScreen->setModule($pathChunks[1]);
+            }
+            if (isset($pathChunks[2])) {
+                $moduleScreen->setScreen($pathChunks[2]);
+            }
         }
-        return new RedirectResponse($baseUrl . $path);
+
+        return $moduleScreen;
     }
 
     /**
      * @return Request|null
      * @throws Exception
      */
-    private function getCurrentRequest(): ?Request
+    private static function getCurrentRequest(): ?Request
     {
         /** @var RequestStack $requestStack */
         $requestStack = ServiceContainer::getContainer()->get(Services::REQUEST_STACK);

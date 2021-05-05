@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,42 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Core\Authorization\UserRole;
+
 /**
  * Description of HiringManagerUserRole
  *
  */
 class HiringManagerUserRole extends AbstractUserRole {
     
-    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = []) {
         return $this->getVacancyService()->getVacancyIdListForHiringManager($this->getEmployeeNumber());
     }
     
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = array()) {
-        return array();
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []) {
+        return [];
     }
 }
 

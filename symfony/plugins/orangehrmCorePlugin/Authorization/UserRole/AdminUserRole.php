@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Core\Authorization\UserRole;
+
 /**
  * Description of AdminUserRole
  *
@@ -25,21 +26,21 @@
  */
 class AdminUserRole extends AbstractUserRole {
     
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []) {
 
         return $this->getEmployeeService()->getEmployeeIdList(false);
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = array()) {
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []) {
 
         return $this->getEmployeeService()->getEmployeePropertyList($properties, $orderField, $orderBy, false);
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []) {
 
         $employees = $this->getEmployeeService()->getEmployeeList('empNumber', 'ASC', true);
 
-        $employeesWithIds = array();
+        $employeesWithIds = [];
 
         foreach ($employees as $employee) {
             $employeesWithIds[$employee->getEmpNumber()] = $employee;
@@ -48,11 +49,11 @@ class AdminUserRole extends AbstractUserRole {
         return $employeesWithIds;
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []) {
 
         $locations = $this->getLocationService()->getLocationList();
 
-        $ids = array();
+        $ids = [];
 
         foreach ($locations as $location) {
             $ids[] = $location->getId();
@@ -61,11 +62,11 @@ class AdminUserRole extends AbstractUserRole {
         return $ids;
     }
 
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []) {
 
         $operationalCountries = $this->getOperationalCountryService()->getOperationalCountryList();
 
-        $ids = array();
+        $ids = [];
 
         foreach ($operationalCountries as $country) {
             $ids[] = $country->getId();
@@ -74,16 +75,16 @@ class AdminUserRole extends AbstractUserRole {
         return $ids;
     }
 
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []) {
 
         return $this->getSystemUserService()->getSystemUserIdList();
     }
 
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []) {
 
         $userRoles = $this->getSystemUserService()->getAssignableUserRoles();
 
-        $ids = array();
+        $ids = [];
 
         foreach ($userRoles as $role) {
             $ids[] = $role->getId();
@@ -92,14 +93,14 @@ class AdminUserRole extends AbstractUserRole {
         return $ids;
     }
     
-    public function getEmployeesWithRole($entities = array()) {
+    public function getEmployeesWithRole($entities = []) {
         return $this->getSystemUserService()->getEmployeesByUserRole($this->roleName);
     }
     
     /**
      * Returns all projects (active and inactive)
      */
-    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = []) {
         $activeProjectList = $this->getProjectService()->getAllProjects($activeOnly = true);
         return $activeProjectList;
     }
@@ -107,11 +108,11 @@ class AdminUserRole extends AbstractUserRole {
     /**
      * Returns all project ids (active and inactive)
      */
-    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = []) {
         return $this->getProjectService()->getProjectListForUserRole(null, null);
     }
 
-    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = []) {
         return $this->getVacancyService()->getVacancyIdList();
     }
 

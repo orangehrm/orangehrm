@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,6 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace OrangeHRM\Core\Authorization\UserRole;
+
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+
 /**
  * Description of SupervisorUserRole
  *
@@ -25,9 +28,9 @@
  */
 class SupervisorUserRole extends AbstractUserRole {
 
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = []) {
 
-        $employeeIdArray = array();
+        $employeeIdArray = [];
 
         $empNumber = $this->getEmployeeNumber();
         if (!empty($empNumber)) {
@@ -37,9 +40,9 @@ class SupervisorUserRole extends AbstractUserRole {
         return $employeeIdArray;
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = array()) {
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []) {
 
-        $employeeProperties = array();
+        $employeeProperties = [];
 
         $empNumber = $this->getEmployeeNumber();
         if (!empty($empNumber)) {
@@ -49,16 +52,16 @@ class SupervisorUserRole extends AbstractUserRole {
         return $employeeProperties;
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []) {
 
-        $employees = array();
+        $employees = [];
 
         $empNumber = $this->getEmployeeNumber();
         if (!empty($empNumber)) {
             $employees = $this->getEmployeeService()->getSubordinateList($empNumber, true);
         }
 
-        $employeesWithIds = array();
+        $employeesWithIds = [];
 
         foreach ($employees as $employee) {
             $employeesWithIds[$employee->getEmpNumber()] = $employee;
@@ -67,9 +70,10 @@ class SupervisorUserRole extends AbstractUserRole {
         return $employeesWithIds;
     }
 
-    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []) {
 
-        $locationIds = array();
+        // TODO
+        $locationIds = [];
         
         if ($operation == BasicUserRoleManager::OPERATION_VIEW) {
             // Return locations of subordinates
@@ -80,19 +84,19 @@ class SupervisorUserRole extends AbstractUserRole {
         return $locationIds;
     }
 
-    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = []) {
 
-        return array();
+        return [];
     }
 
-    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = []) {
 
-        return array();
+        return [];
     }
 
-    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []) {
 
-        return array();
+        return [];
     }
 
 }

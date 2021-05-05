@@ -66,7 +66,8 @@ class MenuDao
             $q->andWhere('sp.canRead = :screenPermission');
             $q->setParameter('screenPermission', true);
 
-            $q->andWhere($q->expr()->in('ur.name', $roleNames));
+            $q->andWhere($q->expr()->in('ur.name', ':roleNames'))
+                ->setParameter('roleNames', $roleNames);
             $q->orWhere($q->expr()->isNull('mi.screen'));
             $q->addOrderBy('mi.orderHint', ListSorter::ASCENDING);
             $q->addOrderBy('mi.id', ListSorter::ASCENDING);
@@ -83,7 +84,7 @@ class MenuDao
      * @return int
      * @throws DaoException
      */
-    public function enableModuleMenuItems(string $moduleName, array $menuTitles = []):int
+    public function enableModuleMenuItems(string $moduleName, array $menuTitles = []): int
     {
         try {
             $q = Doctrine::getEntityManager()->getRepository(MenuItem::class)->createQueryBuilder('mi');
@@ -97,7 +98,8 @@ class MenuDao
             $q->setParameter('menuItemStatus', MenuItem::STATUS_DISABLED);
 
             if (!empty($menuTitles)) {
-                $q->andWhere($q->expr()->in('mi.menuTitle', $menuTitles));
+                $q->andWhere($q->expr()->in('mi.menuTitle', ':menuTitles'))
+                    ->setParameter('menuTitles', $menuTitles);
             }
             $menuItemList = $q->getQuery()->execute();
             $i = 0;

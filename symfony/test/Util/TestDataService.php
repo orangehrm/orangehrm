@@ -25,9 +25,6 @@ use OrangeHRM\Entity\UniqueId;
 use OrangeHRM\ORM\Doctrine;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * @template T
- */
 class TestDataService {
 
     /** Encrypted fields in the format 
