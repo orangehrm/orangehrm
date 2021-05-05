@@ -95,6 +95,20 @@ apiv2_admin_skills:
   defaults:
     _api: OrangeHRM\Admin\Api\SkillAPI
 
+apiv2_license:
+  path: /api/v2/admin/licenses/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\LicenseAPI
+
+apiv2_licenses:
+  path: /api/v2/admin/licenses
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\LicenseAPI
+
 ##########################
 #        Screens
 ##########################
