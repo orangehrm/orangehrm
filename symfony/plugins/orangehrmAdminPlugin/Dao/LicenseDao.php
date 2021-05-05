@@ -26,7 +26,9 @@ use OrangeHRM\Core\Exception\DaoException;
 use Exception;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Entity\License;
-class LicenseDao {
+
+class LicenseDao
+{
 
 
     /**
@@ -36,7 +38,6 @@ class LicenseDao {
      */
     public function saveLicense(License $license): License
     {
-
         try {
             Doctrine::getEntityManager()->persist($license);
             Doctrine::getEntityManager()->flush();
@@ -44,7 +45,6 @@ class LicenseDao {
         } catch (Exception $e) {
             throw new \DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        
     }
 
     /**
@@ -54,7 +54,6 @@ class LicenseDao {
      */
     public function getLicenseById($id): ?License
     {
-
         try {
             $education = Doctrine::getEntityManager()->getRepository(License::class)->find($id);
             if ($education instanceof License) {
@@ -64,7 +63,6 @@ class LicenseDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        
     }
 
     /**
@@ -74,7 +72,6 @@ class LicenseDao {
      */
     public function getLicenseByName($name): ?License
     {
-
         try {
             $trimmed = trim($name, ' ');
             $query = Doctrine::getEntityManager()->getRepository(
@@ -86,7 +83,6 @@ class LicenseDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        
     }
 
     /**
@@ -94,16 +90,14 @@ class LicenseDao {
      * @return array
      * @throws DaoException
      */
-    public function getLicenseList(LicenseSearchFilterParams $licenseSearchParamHolder):array
+    public function getLicenseList(LicenseSearchFilterParams $licenseSearchParamHolder): array
     {
-
         try {
             $paginator = $this->getLicenseListPaginator($licenseSearchParamHolder);
             return $paginator->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        
     }
 
     /**
@@ -145,7 +139,6 @@ class LicenseDao {
      */
     public function deleteLicenses(array $toDeleteIds): int
     {
-
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
             $q->delete(License::class, 'l')
@@ -154,8 +147,7 @@ class LicenseDao {
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }        
-        
+        }
     }
 
     /**
@@ -163,8 +155,8 @@ class LicenseDao {
      * @return bool
      * @throws DaoException
      */
-    public function isExistingLicenseName($licenseName) {
-
+    public function isExistingLicenseName($licenseName)
+    {
         try {
             $q = Doctrine::getEntityManager()->getRepository(License::class)->createQueryBuilder('l');
             $trimmed = trim($licenseName, ' ');
@@ -177,8 +169,7 @@ class LicenseDao {
             return false;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }       
-        
+        }
     }
 
 }

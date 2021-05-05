@@ -23,7 +23,6 @@ use OrangeHRM\Entity\License;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
-
 class LicenseModel implements Normalizable
 {
     use ModelTrait;
