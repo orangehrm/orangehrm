@@ -71,7 +71,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     /**
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
-     * @throws DaoException
      * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
@@ -88,8 +87,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @return EndpointGetAllResult
-     * @throws DaoException
-     * @throws RecordNotFoundException
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
