@@ -39,7 +39,7 @@ class JobCategoryDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->jobCatDao = new JobCategoryDao();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobCategoryDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/JobCategoryDao.yml';
         TestDataService::populate($this->fixture);
     }
 

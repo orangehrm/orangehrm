@@ -53,27 +53,26 @@ ScreenPermission:
   18: {id: 19, user_role_id: 2, screen_id: 10, can_read: 1, can_create: 0, can_update: 0, can_delete: 0}  
 
 MenuItem:
-  0: {id: 1, menuTitle: 'Admin', level: 1, orderHint: 100}
-  1: {id: 2, menuTitle: 'Organization', parentId: 1, level: 2, orderHint: 100}  
-  2: {id: 3, menuTitle: 'General Information', screenId: 1, parentId: 2, level: 3, orderHint: 100}
-  3: {id: 4, menuTitle: 'Locations', screenId: 2, parentId: 2, level: 3, orderHint: 200}  
-  4: {id: 5, menuTitle: 'Memberships', screenId: 3, parentId: 1, level: 2, orderHint: 200}  
-  5: {id: 6, menuTitle: 'Nationalities', screenId: 4, parentId: 1, level: 2, orderHint: 300}   
-  6: {id: 7, menuTitle: 'PIM', level: 1, orderHint: 200}
-  7: {id: 8, menuTitle: 'Configuration', parentId: 7, level: 2, orderHint: 100}  
-  8: {id: 9, menuTitle: 'Optional Fields', screenId: 5, parentId: 8, level: 3, orderHint: 100}  
-  9: {id: 10, menuTitle: 'Employee List', screenId: 6, parentId: 7, level: 2, orderHint: 200, urlExtras: '/reset/1'}  
-  10: {id: 11, menuTitle: 'Add Employee', screenId: 7, parentId: 7, level: 2, orderHint: 300}
-  11: {id: 12, menuTitle: 'Leave', level: 1, orderHint: 300}
-  12: {id: 13, menuTitle: 'Configure', parentId: 12, level: 2, orderHint: 100}
-  13: {id: 14, menuTitle: 'Leave Period', screenId: 8, parentId: 13, level: 3, orderHint: 100}
-  14: {id: 15, menuTitle: 'Leave Types', screenId: 9, parentId: 13, level: 3, orderHint: 200}
-  15: {id: 16, menuTitle: 'Leave Summary', screenId: 10, parentId: 12, level: 2, orderHint: 200}
-  16: {id: 17, menuTitle: 'Leave List', screenId: 11, parentId: 12, level: 2, orderHint: 300, urlExtras: '/reset/1'}
-  17: {id: 18, menuTitle: 'Assign Leave', screenId: 12, parentId: 12, level: 2, orderHint: 400}
-  18: {id: 19, menuTitle: 'My Leave', screenId: 13, parentId: 12, level: 2, orderHint: 500, urlExtras: '/reset/1'}
-  19: {id: 20, menuTitle: 'Apply', screenId: 14, parentId: 12, level: 2, orderHint: 600}
-  20: {id: 21, menuTitle: 'My Info', screenId: 15, level: 1, orderHint: 400}  
+  0: {id: 1, menu_title: 'Admin', level: 1, order_hint: 100}
+  1: {id: 2, menu_title: 'Organization', parent_id: 1, level: 2, order_hint: 100}  
+  2: {id: 3, menu_title: 'General Information', screen_id: 1, parent_id: 2, level: 3, order_hint: 100}
+  3: {id: 4, menu_title: 'Locations', screen_id: 2, parent_id: 2, level: 3, order_hint: 200}  
+  4: {id: 5, menu_title: 'Memberships', screen_id: 3, parent_id: 1, level: 2, order_hint: 200}  
+  5: {id: 6, menu_title: 'Nationalities', screen_id: 4, parent_id: 1, level: 2, order_hint: 300}   
+  6: {id: 7, menu_title: 'PIM', level: 1, order_hint: 200}
+  7: {id: 8, menu_title: 'Configuration', parent_id: 7, level: 2, order_hint: 100}  
+  8: {id: 9, menu_title: 'Optional Fields', screen_id: 5, parent_id: 8, level: 3, order_hint: 100}  
+  9: {id: 10, menu_title: 'Employee List', screen_id: 6, parent_id: 7, level: 2, order_hint: 200, url_extras: '/reset/1'}  
+  10: {id: 11, menu_title: 'Add Employee', screen_id: 7, parent_id: 7, level: 2, order_hint: 300}
+  11: {id: 12, menu_title: 'Leave', level: 1, order_hint: 300}
+  12: {id: 13, menu_title: 'Configure', parent_id: 12, level: 2, order_hint: 100}
+  13: {id: 14, menu_title: 'Leave Period', screen_id: 8, parent_id: 13, level: 3, order_hint: 100}
+  14: {id: 15, menu_title: 'Leave Types', screen_id: 9, parent_id: 13, level: 3, order_hint: 200}
+  15: {id: 16, menu_title: 'Leave Summary', screen_id: 10, parent_id: 12, level: 2, order_hint: 200}
+  16: {id: 17, menu_title: 'Leave List', screen_id: 11, parent_id: 12, level: 2, order_hint: 300, url_extras: '/reset/1'}
+  17: {id: 18, menu_title: 'Assign Leave', screen_id: 12, parent_id: 12, level: 2, order_hint: 400}
+  18: {id: 19, menu_title: 'My Leave', screen_id: 13, parent_id: 12, level: 2, order_hint: 500, url_extras: '/reset/1'}
+  19: {id: 20, menu_title: 'Apply', screen_id: 14, parent_id: 12, level: 2, order_hint: 600}
+  20: {id: 21, menu_title: 'My Info', screen_id: 15, level: 1, order_hint: 400}  
  
 
-  

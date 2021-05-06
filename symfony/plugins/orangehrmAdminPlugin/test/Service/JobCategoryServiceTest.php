@@ -40,7 +40,7 @@ class JobCategoryServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->jobCatService = new JobCategoryService();
-        $this->fixture = Config::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobCategoryDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/JobCategoryDao.yml';
         TestDataService::populate($this->fixture);
     }
 

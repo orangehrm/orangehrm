@@ -29,8 +29,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Module
 {
-    public const ENABLED = 1;
-    public const DISABLED = 0;
+    public const ENABLED = true;
+    public const DISABLED = false;
 
     /**
      * @var int
@@ -39,21 +39,21 @@ class Module
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=120)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="status", type="integer")
+     * @ORM\Column(name="status", type="boolean")
      */
-    private $status;
+    private bool $status;
 
     /**
      * @return int
@@ -88,17 +88,17 @@ class Module
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getStatus(): int
+    public function getStatus(): bool
     {
         return $this->status;
     }
 
     /**
-     * @param int $status
+     * @param bool $status
      */
-    public function setStatus(int $status): void
+    public function setStatus(bool $status): void
     {
         $this->status = $status;
     }

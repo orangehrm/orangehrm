@@ -41,7 +41,7 @@ class JobTitleDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->jobTitleDao = new JobTitleDao();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobTitleDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/JobTitleDao.yml';
         TestDataService::populate($this->fixture);
     }
 

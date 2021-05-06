@@ -42,7 +42,7 @@ class CompanyStructureServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->companyStructureService = new CompanyStructureService();
-        $this->fixture = Config::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/CompanyStructureDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/CompanyStructureDao.yml';
         TestDataService::populate($this->fixture);
     }
 

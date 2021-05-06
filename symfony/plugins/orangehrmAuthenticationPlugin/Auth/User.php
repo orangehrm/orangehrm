@@ -26,10 +26,15 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class User
 {
     public const IS_AUTHENTICATED = 'user.is_authenticated';
+    public const USER_ID = 'user.user_id';
+    public const USER_ROLE_ID = 'user.user_role_id';
+    public const USER_ROLE_NAME = 'user.user_role_name';
+    public const USER_EMPLOYEE_NUMBER = 'user.user_employee_number';
+
     /**
      * @var null|self
      */
-    protected static $userInstance = null;
+    protected static ?User $instance = null;
 
     /**
      * @var Session
@@ -47,10 +52,10 @@ class User
      */
     public static function getInstance(): self
     {
-        if (is_null(self::$userInstance)) {
-            self::$userInstance = new self();
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
         }
-        return self::$userInstance;
+        return self::$instance;
     }
 
     /**
@@ -111,5 +116,69 @@ class User
     public function setIsAuthenticated(bool $status = true): void
     {
         $this->setAttribute(self::IS_AUTHENTICATED, $status);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getUserId(): ?int
+    {
+        return $this->getAttribute(self::USER_ID);
+    }
+
+    /**
+     * @param int|null $userId
+     */
+    public function setUserId(?int $userId): void
+    {
+        $this->setAttribute(self::USER_ID, $userId);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getUserRoleId(): ?int
+    {
+        return $this->getAttribute(self::USER_ROLE_ID);
+    }
+
+    /**
+     * @param int|null $userRoleId
+     */
+    public function setUserRoleId(?int $userRoleId): void
+    {
+        $this->setAttribute(self::USER_ROLE_ID, $userRoleId);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUserRoleName(): ?string
+    {
+        return $this->getAttribute(self::USER_ROLE_NAME);
+    }
+
+    /**
+     * @param string|null $userRoleName
+     */
+    public function setUserRoleName(?string $userRoleName): void
+    {
+        $this->setAttribute(self::USER_ROLE_NAME, $userRoleName);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getEmpNumber(): ?int
+    {
+        return $this->getAttribute(self::USER_EMPLOYEE_NUMBER);
+    }
+
+    /**
+     * @param int|null $empNumber
+     */
+    public function setEmpNumber(?int $empNumber): void
+    {
+        $this->setAttribute(self::USER_EMPLOYEE_NUMBER, $empNumber);
     }
 }
