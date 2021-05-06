@@ -93,6 +93,10 @@ class MenuHelper
             'url' => $url,
         ];
 
+        if (!is_null($menuItem['additionalParams']) && isset($menuItem['additionalParams']['icon'])) {
+            $newMenuItem = array_merge($newMenuItem, $menuItem['additionalParams']);
+        }
+
         if ($active) {
             $newMenuItem['active'] = true;
         }

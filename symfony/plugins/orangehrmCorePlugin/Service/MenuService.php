@@ -191,6 +191,7 @@ class MenuService
         $menu['id'] = $menuItem->getId();
         $menu['menuTitle'] = $menuItem->getMenuTitle();
         $menu['level'] = $menuItem->getLevel();
+        $menu['additionalParams'] = $menuItem->getAdditionalParams();
         $menu['module'] = '';
         $menu['action'] = '';
         $menu['subMenuItems'] = [];

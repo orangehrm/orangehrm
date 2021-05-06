@@ -93,6 +93,13 @@ class MenuItem
     private ?Screen $screen;
 
     /**
+     * @var array|null
+     *
+     * @ORM\Column(name="additional_params", type="json", nullable=true)
+     */
+    private ?array $additionalParams = [];
+
+    /**
      * @var array|MenuItem[]
      */
     protected array $subMenuItems = [];
@@ -223,6 +230,22 @@ class MenuItem
     public function setScreen(?Screen $screen): void
     {
         $this->screen = $screen;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getAdditionalParams(): ?array
+    {
+        return $this->additionalParams;
+    }
+
+    /**
+     * @param array|null $additionalParams
+     */
+    public function setAdditionalParams(?array $additionalParams): void
+    {
+        $this->additionalParams = $additionalParams;
     }
 
     /**
