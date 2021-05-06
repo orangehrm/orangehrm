@@ -30,18 +30,9 @@ import OrgStructure from '@/orangehrmAdminPlugin/pages/orgStructure/OrgStructure
 import EditEmploymentStatus from '@/orangehrmAdminPlugin/pages/employmentStatus/EditEmploymentStatus.vue';
 import EmploymentStatus from '@/orangehrmAdminPlugin/pages/employmentStatus/EmploymentStatus.vue';
 import SaveEmploymentStatus from '@/orangehrmAdminPlugin/pages/employmentStatus/SaveEmploymentStatus.vue';
-
-// add path
-import Education from '@/orangehrmAdminPlugin/pages/education/Education.vue';
-import EditEducation from '@/orangehrmAdminPlugin/pages/education/EditEducation.vue';
-import SaveEducation from '@/orangehrmAdminPlugin/pages/education/SaveEducation.vue';
-import Qualification from '@/orangehrmAdminPlugin/pages/qualificationEducation/QualificationEducation.vue';
-import EditQualification from '@/orangehrmAdminPlugin/pages/qualificationEducation/EditQualificationEducation.vue';
-import SaveQualification from '@/orangehrmAdminPlugin/pages/qualificationEducation/SaveQualificationEducation.vue';
 import QualificationEducation from '@/orangehrmAdminPlugin/pages/qualificationEducation/QualificationEducation.vue';
 import EditQualificationEducation from '@/orangehrmAdminPlugin/pages/qualificationEducation/EditQualificationEducation.vue';
 import SaveQualificationEducation from '@/orangehrmAdminPlugin/pages/qualificationEducation/SaveQualificationEducation.vue';
-
 
 export default {
   'job-title-list': JobTitle,

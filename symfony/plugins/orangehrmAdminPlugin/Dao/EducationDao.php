@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use OrangeHRM\Admin\Dto\UserSearchFilterParams;
+use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Exception\DaoException;
 use Exception;
@@ -84,11 +84,11 @@ class EducationDao
     }
 
     /**
-     * @param UserSearchFilterParams $educationSearchParamHolder
+     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder
      * @return array
      * @throws DaoException
      */
-    public function getEducationList(UserSearchFilterParams $educationSearchParamHolder): array
+    public function getEducationList(QualificationEducationSearchFilterParams $educationSearchParamHolder): array
     {
         try {
             $paginator = $this->getEducationListPaginator($educationSearchParamHolder);
@@ -99,10 +99,10 @@ class EducationDao
     }
 
     /**
-     * @param UserSearchFilterParams $educationSearchParamHolder
+     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder
      * @return Paginator
      */
-    public function getEducationListPaginator(UserSearchFilterParams $educationSearchParamHolder): Paginator
+    public function getEducationListPaginator(QualificationEducationSearchFilterParams $educationSearchParamHolder): Paginator
     {
         $q = Doctrine::getEntityManager()->getRepository(Education::class)->createQueryBuilder('e');
         if (!is_null($educationSearchParamHolder->getSortField())) {
@@ -116,11 +116,11 @@ class EducationDao
     }
 
     /**
-     * @param UserSearchFilterParams $educationSearchParamHolder
+     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder
      * @return int
      * @throws DaoException
      */
-    public function getEducationCount(UserSearchFilterParams $educationSearchParamHolder): int
+    public function getEducationCount(QualificationEducationSearchFilterParams $educationSearchParamHolder): int
     {
         try {
             $paginator = $this->getEducationListPaginator($educationSearchParamHolder);
@@ -161,7 +161,7 @@ class EducationDao
             $trimmed = trim($educationName, ' ');
             $q->Where('e.name = :name');
             $q->setParameter('name', $trimmed);
-            $paginator = new Paginator($q, true);
+            $paginator = new Paginator($q);
             if ($paginator->count() > 0) {
                 return true;
             }

@@ -22,7 +22,7 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\EducationDao;
-use OrangeHRM\Admin\Dto\UserSearchFilterParams;
+use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Education;
 
@@ -98,21 +98,21 @@ class EducationService
 
 
     /**
-     * @param UserSearchFilterParams $educationSearchParamHolder //remove return array for now
+     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder //remove return array for now
      * @return array
      * @throws DaoException
      */
-    public function getEducationList(UserSearchFilterParams $educationSearchParamHolder): array
+    public function getEducationList(QualificationEducationSearchFilterParams $educationSearchParamHolder): array
     {
         return $this->getEducationDao()->getEducationList($educationSearchParamHolder);
     }
 
     /**
-     * @param UserSearchFilterParams $educationSearchParamHolder
+     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder
      * @return int
      * @throws DaoException
      */
-    public function getEducationCount(UserSearchFilterParams $educationSearchParamHolder): int
+    public function getEducationCount(QualificationEducationSearchFilterParams $educationSearchParamHolder): int
     {
         return $this->getEducationDao()->getEducationCount($educationSearchParamHolder);
     }

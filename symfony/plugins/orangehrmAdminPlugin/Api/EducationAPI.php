@@ -22,7 +22,7 @@ namespace OrangeHRM\Admin\Api;
 use DaoException;
 use Exception;
 use OrangeHRM\Admin\Api\Model\EducationModel;
-use OrangeHRM\Admin\Dto\UserSearchFilterParams;
+use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
 use OrangeHRM\Admin\Service\EducationService;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -96,7 +96,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
 
-        $educationParamHolder = new UserSearchFilterParams();
+        $educationParamHolder = new QualificationEducationSearchFilterParams();
         $this->setSortingAndPaginationParams($educationParamHolder);
         $educations = $this->getEducationService()->getEducationList($educationParamHolder);
         $count = $this->getEducationService()->getEducationCount($educationParamHolder);

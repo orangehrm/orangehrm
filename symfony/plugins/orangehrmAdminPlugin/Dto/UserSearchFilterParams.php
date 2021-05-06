@@ -44,7 +44,7 @@ class UserSearchFilterParams extends FilterParams
 
     public function __construct()
     {
-        $this->setSortField('e.name');
+        $this->setSortField('u.userName');
     }
 
     /**
