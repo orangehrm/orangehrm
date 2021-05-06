@@ -22,7 +22,7 @@ import SaveJobTitle from '@/orangehrmAdminPlugin/pages/jobTitle/SaveJobTitle.vue
 import JobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/JobCategory.vue';
 import EditJobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/EditJobCategory.vue';
 import SaveJobCategory from '@/orangehrmAdminPlugin/pages/jobCategory/SaveJobCategory.vue';
-import authenticationPages from './orangehrmAuthenticationPlugin/pages';
+import authenticationPages from './orangehrmAuthenticationPlugin';
 import SystemUser from '@/orangehrmAdminPlugin/pages/systemUser/SystemUser.vue';
 import SaveSystemUser from '@/orangehrmAdminPlugin/pages/systemUser/SaveSystemUser.vue';
 import EditSystemUser from '@/orangehrmAdminPlugin/pages/systemUser/EditSystemUser.vue';
