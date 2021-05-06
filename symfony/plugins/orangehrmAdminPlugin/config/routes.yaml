@@ -138,6 +138,6 @@ edit_system_users:
   methods: [ GET ]
 
 view_organization_structure:
-  path: /admin/organizationStructure
+  path: /admin/viewCompanyStructure
   controller: OrangeHRM\Admin\Controller\OrganizationStructureController::handle
   methods: [ GET ]
