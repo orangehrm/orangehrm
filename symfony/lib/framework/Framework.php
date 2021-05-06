@@ -100,12 +100,14 @@ class Framework extends HttpKernel
         /** @var RequestStack $requestStack */
         $requestStack = ServiceContainer::getContainer()->get(Services::REQUEST_STACK);
 
-        /** @var EventDispatcher $dispatcher */
-        $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
-        $dispatcher->addSubscriber(new RouterListener($matcher, $requestStack));
-
         /** @var Logger $logger */
         $logger = ServiceContainer::getContainer()->get(Services::LOGGER);
+
+        $routerListener = new RouterListener($matcher, $requestStack, $context, $logger, null, $this->isDebug());
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
+        $dispatcher->addSubscriber($routerListener);
+
         $urlGenerator = new UrlGenerator($routes, $context, $logger);
         ServiceContainer::getContainer()->set(Services::URL_GENERATOR, $urlGenerator);
 

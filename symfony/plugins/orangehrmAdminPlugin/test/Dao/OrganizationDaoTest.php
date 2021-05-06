@@ -40,7 +40,7 @@ class OrganizationDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->organizationDao = new OrganizationDao();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/OrganizationDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/OrganizationDao.yml';
         TestDataService::populate($this->fixture);
     }
 

@@ -68,6 +68,15 @@ apiv2_admin_employment_statuses:
   defaults:
     _api: OrangeHRM\Admin\Api\EmploymentStatusAPI
 
+##########################
+#        Screens
+##########################
+
+admin_module:
+  path: /admin/viewAdminModule
+  controller: OrangeHRM\Admin\Controller\AdminModuleController::handle
+  methods: [ GET ]
+
 view_job_title:
   path: /admin/viewJobTitleList
   controller: OrangeHRM\Admin\Controller\JobTitleController::handle
@@ -114,7 +123,7 @@ edit_employment_status:
   methods: [ GET ]
 
 view_system_users:
-  path: /admin/systemUser
+  path: /admin/viewSystemUsers
   controller: OrangeHRM\Admin\Controller\SystemUserController::handle
   methods: [ GET ]
 
@@ -129,6 +138,6 @@ edit_system_users:
   methods: [ GET ]
 
 view_organization_structure:
-  path: /admin/organizationStructure
+  path: /admin/viewCompanyStructure
   controller: OrangeHRM\Admin\Controller\OrganizationStructureController::handle
   methods: [ GET ]

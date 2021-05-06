@@ -20,6 +20,10 @@
 namespace OrangeHRM\Core\Controller;
 
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Dto\AttributeBag;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Helper\VueControllerHelper;
 use OrangeHRM\Core\Vue\Component;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,20 +38,28 @@ abstract class AbstractVueController extends AbstractViewController
     /**
      * @var Environment|null
      */
-    protected $twig = null;
+    protected ?Environment $twig = null;
     /**
      * @var string
      */
-    protected $template = 'vue.html.twig';
+    protected string $template = 'vue.html.twig';
     /**
      * @var null|Component
      */
-    protected $component = null;
+    protected ?Component $component = null;
+    /**
+     * @var AttributeBag
+     */
+    protected AttributeBag $context;
+
+    protected VueControllerHelper $vueControllerHelper;
 
     public function __construct()
     {
         $loader = new FilesystemLoader(Config::get('ohrm_app_template_dir'));
         $this->twig = new Environment($loader, ['cache' => false]);
+        $this->context = new AttributeBag();
+        $this->vueControllerHelper = new VueControllerHelper();
         $this->init();
     }
 
@@ -116,18 +128,17 @@ abstract class AbstractVueController extends AbstractViewController
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws DaoException
+     * @throws ServiceException
      */
     public function render(Request $request): string
     {
+        $this->vueControllerHelper->setRequest($request);
+        $this->vueControllerHelper->setComponent($this->getComponent());
+        $this->getContext()->add($this->vueControllerHelper->getContextParams());
         return $this->getTwig()->render(
             $this->getTemplate(),
-            [
-                'componentName' => $this->getComponent()->getName(),
-                'componentProps' => $this->getComponent()->getProps(),
-                'publicPath' => $request->getBasePath(),
-                'baseUrl' => $request->getBaseUrl(),
-                'assetsVersion' => Config::get('ohrm_vue_build_timestamp'),
-            ]
+            $this->getContext()->all(),
         );
     }
 
@@ -141,8 +152,10 @@ abstract class AbstractVueController extends AbstractViewController
     /**
      * @param Request $request
      * @return Response
+     * @throws DaoException
      * @throws LoaderError
      * @throws RuntimeError
+     * @throws ServiceException
      * @throws SyntaxError
      */
     public function handle(Request $request): Response
@@ -155,5 +168,13 @@ abstract class AbstractVueController extends AbstractViewController
         $response->setContent($content);
 
         return $response;
+    }
+
+    /**
+     * @return AttributeBag
+     */
+    public function getContext(): AttributeBag
+    {
+        return $this->context;
     }
 }

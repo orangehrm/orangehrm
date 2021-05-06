@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,33 +37,36 @@ class Screen
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=100)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="action_url", type="string", length=255)
      */
-    private $actionUrl;
+    private string $actionUrl;
 
     /**
      * @var Module
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Module", mappedBy="screen")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="module_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Module")
+     * @ORM\JoinColumn(name="module_id", referencedColumnName="id")
      */
-    private $module;
+    private Module $module;
 
-    private $screenPermission;
+    /**
+     * @var ScreenPermission[]|Collection
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\ScreenPermission", mappedBy="screen")
+     */
+    private $screenPermissions;
 
     /**
      * @return int
@@ -126,5 +130,21 @@ class Screen
     public function setModule(Module $module): void
     {
         $this->module = $module;
+    }
+
+    /**
+     * @return Collection|ScreenPermission[]
+     */
+    public function getScreenPermissions()
+    {
+        return $this->screenPermissions;
+    }
+
+    /**
+     * @param Collection|ScreenPermission[] $screenPermissions
+     */
+    public function setScreenPermissions($screenPermissions): void
+    {
+        $this->screenPermissions = $screenPermissions;
     }
 }

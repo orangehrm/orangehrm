@@ -1,22 +1,21 @@
 <?php
 
-/* For logging PHP errors */
-include_once('../../lib/confs/log_settings.php');
+use OrangeHRM\Framework\Framework;
+use Symfony\Component\ErrorHandler\Debug;
+use Symfony\Component\HttpFoundation\Request;
 
-/* Added for compatibility with current orangehrm code 
- * OrangeHRM Root directory 
- */
-define('ROOT_PATH', dirname(__FILE__) . '/../../');
-$scriptPath = dirname($_SERVER['SCRIPT_NAME']);
-define('WPATH', $scriptPath . "/../../");
+require realpath(__DIR__ . '/../vendor/autoload.php');
 
-/* Redirect to installer if not set up */
-if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
-    header('Location: ' . WPATH . 'install.php');
-    exit();
+$env = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = 'prod';
+$debug = (bool)($_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = ('prod' !== $env));
+
+if ($debug) {
+    umask(0000);
+    Debug::enable();
 }
 
-require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
-
-$configuration = ProjectConfiguration::getApplicationConfiguration('orangehrm', 'prod', false);
-sfContext::createInstance($configuration)->dispatch();
+$kernel = new Framework($env, $debug);
+$request = Request::createFromGlobals();
+$response = $kernel->handle($request);
+$response->send();
+$kernel->terminate($request, $response);

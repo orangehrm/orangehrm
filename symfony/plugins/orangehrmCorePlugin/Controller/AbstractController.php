@@ -19,7 +19,38 @@
 
 namespace OrangeHRM\Core\Controller;
 
+use Exception;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 abstract class AbstractController
 {
+    /**
+     * @param string $path
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    protected function redirect(string $path): RedirectResponse
+    {
+        $request = $this->getCurrentRequest();
+        $baseUrl = $request->getSchemeAndHttpHost() . $request->getBaseUrl();
+        if (substr($path, 0, 1) !== "/") {
+            $path = "/" . $path;
+        }
+        return new RedirectResponse($baseUrl . $path);
+    }
 
+    /**
+     * @return Request|null
+     * @throws Exception
+     */
+    private function getCurrentRequest(): ?Request
+    {
+        /** @var RequestStack $requestStack */
+        $requestStack = ServiceContainer::getContainer()->get(Services::REQUEST_STACK);
+        return $requestStack->getCurrentRequest();
+    }
 }

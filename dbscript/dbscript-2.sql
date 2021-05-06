@@ -3531,3 +3531,55 @@ INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES
 ('buzz', 'Buzz'),
 ('marketplace', 'Marketplace'),
 ('mobile', 'Mobile');
+
+-- ------------------------------
+--        OrangeHRM 5.x
+-- ------------------------------
+
+ALTER TABLE `hs_hr_config` CHANGE `key` `name` VARCHAR(100);
+
+ALTER TABLE `ohrm_menu_item` ADD additional_params LONGTEXT DEFAULT NULL COMMENT '(DC2Type:json)';
+
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'leave';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'time';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'attendance';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'recruitment';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'recruitmentApply';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'dashboard';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'performance';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'directory';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'maintenance';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'marketPlace';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'buzz';
+
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'My Info';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Pay Grades';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Work Shifts';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'General Information';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Locations';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Skills';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Education';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Licenses';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Languages';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Memberships';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Nationalities';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Email Configuration';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Email Subscriptions';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Localization';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Language Packages';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Modules';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Social Media Authentication';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Register OAuth Client';
+
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Reports' AND `screen_id` IS NOT NULL;
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Optional Fields';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Custom Fields';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Data Import';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Reporting Methods';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Termination Reasons';
+
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-admin\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Admin';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-pim\"}' WHERE `ohrm_menu_item`.`menu_title` = 'PIM';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-time\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Time';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-leave\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Leave';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-recruitment\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Recruitment';

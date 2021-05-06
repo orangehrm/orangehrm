@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity;
 
@@ -19,64 +36,49 @@ class DataGroup
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
-    private $description;
+    private ?string $description;
 
     /**
-     * @var int|null
+     * @var bool
      *
-     * @ORM\Column(name="can_read", type="integer", length=1, nullable=true)
+     * @ORM\Column(name="can_read", type="boolean", nullable=true)
      */
-    private $canRead;
+    private bool $canRead;
 
     /**
-     * @var int|null
+     * @var bool
      *
-     * @ORM\Column(name="can_create", type="integer", length=1, nullable=true)
+     * @ORM\Column(name="can_create", type="boolean", nullable=true)
      */
-    private $canCreate;
+    private bool $canCreate;
 
     /**
-     * @var int|null
+     * @var bool
      *
-     * @ORM\Column(name="can_update", type="integer", length=1, nullable=true)
+     * @ORM\Column(name="can_update", type="boolean", nullable=true)
      */
-    private $canUpdate;
+    private bool $canUpdate;
 
     /**
-     * @var int|null
+     * @var bool
      *
-     * @ORM\Column(name="can_delete", type="integer", length=1, nullable=true)
+     * @ORM\Column(name="can_delete", type="boolean", nullable=true)
      */
-    private $canDelete;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Screen", mappedBy="dataGroup")
-     */
-    private $screens;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->screens = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    private bool $canDelete;
 
     /**
      * @return int
@@ -127,82 +129,66 @@ class DataGroup
     }
 
     /**
-     * @return int|null
+     * @return bool
      */
-    public function getCanRead(): ?int
+    public function canRead(): bool
     {
         return $this->canRead;
     }
 
     /**
-     * @param int|null $canRead
+     * @param bool $canRead
      */
-    public function setCanRead(?int $canRead): void
+    public function setCanRead(bool $canRead): void
     {
         $this->canRead = $canRead;
     }
 
     /**
-     * @return int|null
+     * @return bool
      */
-    public function getCanCreate(): ?int
+    public function canCreate(): bool
     {
         return $this->canCreate;
     }
 
     /**
-     * @param int|null $canCreate
+     * @param bool $canCreate
      */
-    public function setCanCreate(?int $canCreate): void
+    public function setCanCreate(bool $canCreate): void
     {
         $this->canCreate = $canCreate;
     }
 
     /**
-     * @return int|null
+     * @return bool
      */
-    public function getCanUpdate(): ?int
+    public function canUpdate(): bool
     {
         return $this->canUpdate;
     }
 
     /**
-     * @param int|null $canUpdate
+     * @param bool $canUpdate
      */
-    public function setCanUpdate(?int $canUpdate): void
+    public function setCanUpdate(bool $canUpdate): void
     {
         $this->canUpdate = $canUpdate;
     }
 
     /**
-     * @return int|null
+     * @return bool
      */
-    public function getCanDelete(): ?int
+    public function canDelete(): bool
     {
         return $this->canDelete;
     }
 
     /**
-     * @param int|null $canDelete
+     * @param bool $canDelete
      */
-    public function setCanDelete(?int $canDelete): void
+    public function setCanDelete(bool $canDelete): void
     {
         $this->canDelete = $canDelete;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getScreens()
-    {
-        return $this->screens;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $screens
-     */
-    public function setScreens($screens): void
-    {
-        $this->screens = $screens;
     }
 }

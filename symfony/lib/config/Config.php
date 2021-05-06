@@ -21,8 +21,18 @@ namespace OrangeHRM\Config;
 
 class Config
 {
-    protected static $configs = [];
-    protected static $initialized = false;
+    public const BASE_DIR = 'ohrm_base_dir';
+    public const PLUGINS_DIR = 'ohrm_plugins_dir';
+    public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
+
+    /**
+     * @var array
+     */
+    protected static array $configs = [];
+    /**
+     * @var bool
+     */
+    protected static bool $initialized = false;
 
     private function __construct()
     {
@@ -46,7 +56,7 @@ class Config
     public static function get(string $name, $default = null)
     {
         self::init();
-        return isset(self::$configs[$name]) ? self::$configs[$name] : $default;
+        return self::$configs[$name] ?? $default;
     }
 
     /**

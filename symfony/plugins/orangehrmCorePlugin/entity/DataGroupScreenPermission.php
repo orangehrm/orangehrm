@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity;
 
@@ -19,56 +36,92 @@ class DataGroupScreenPermission
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="data_group_id", type="integer")
-     */
-    private $dataGroupId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="screen_id", type="integer")
-     */
-    private $screenId;
+    private int $id;
 
     /**
      * @var int
      *
      * @ORM\Column(name="permission", type="integer")
      */
-    private $permission;
+    private int $permission;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var DataGroup
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\DataGroup", mappedBy="DataGroupScreenPermission")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="data_group_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\DataGroup")
+     * @ORM\JoinColumn(name="data_group_id", referencedColumnName="id")
      */
-    private $DataGroup;
+    private DataGroup $dataGroup;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Screen
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Screen", mappedBy="DataGroupScreenPermission")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="screen_id", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Screen")
+     * @ORM\JoinColumn(name="screen_id", referencedColumnName="id")
      */
-    private $Screen;
+    private Screen $screen;
 
     /**
-     * Constructor
+     * @return int
      */
-    public function __construct()
+    public function getId(): int
     {
-        $this->DataGroup = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->Screen = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->id;
     }
 
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPermission(): int
+    {
+        return $this->permission;
+    }
+
+    /**
+     * @param int $permission
+     */
+    public function setPermission(int $permission): void
+    {
+        $this->permission = $permission;
+    }
+
+    /**
+     * @return DataGroup
+     */
+    public function getDataGroup(): DataGroup
+    {
+        return $this->dataGroup;
+    }
+
+    /**
+     * @param DataGroup $dataGroup
+     */
+    public function setDataGroup(DataGroup $dataGroup): void
+    {
+        $this->dataGroup = $dataGroup;
+    }
+
+    /**
+     * @return Screen
+     */
+    public function getScreen(): Screen
+    {
+        return $this->screen;
+    }
+
+    /**
+     * @param Screen $screen
+     */
+    public function setScreen(Screen $screen): void
+    {
+        $this->screen = $screen;
+    }
 }

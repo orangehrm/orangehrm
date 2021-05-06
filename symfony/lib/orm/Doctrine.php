@@ -24,6 +24,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
 use OrangeHRM\Config\Config;
+use OrangeHRM\ORM\Exception\ConfigNotFoundException;
 
 class Doctrine
 {
@@ -38,12 +39,13 @@ class Doctrine
 
     /**
      * @throws ORMException
+     * @throws ConfigNotFoundException
      */
     private function __construct()
     {
         // TODO::fine tune doctrine with cache
         $isDevMode = false;
-        $proxyDir = null;
+        $proxyDir = Config::get(Config::DOCTRINE_PROXY_DIR);
         $cache = null;
         $useSimpleAnnotationReader = false;
         $paths = $this->getPaths();
@@ -56,8 +58,13 @@ class Doctrine
         );
         $config->setAutoGenerateProxyClasses(true);
 
+        $pathToConf = realpath(Config::get(Config::BASE_DIR) . '/lib/confs/Conf.php');
+        if (!$pathToConf) {
+            throw new ConfigNotFoundException();
+        }
+
         //TODO
-        require_once realpath(__DIR__ . '/../../../lib/confs/Conf.php');
+        require_once $pathToConf;
         $conf = new Conf();
         $conn = [
             'driver' => 'pdo_mysql',
