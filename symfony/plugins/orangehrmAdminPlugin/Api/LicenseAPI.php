@@ -49,7 +49,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public const PARAMETER_NAME = 'name';
 
     /**
-     *
+     * @throws Exception
      * @return LicenseService
      */
     public function getLicenseService(): LicenseService
@@ -78,18 +78,17 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-        $licenses = $this->getLicenseService()->getLicenseById($id);
-        if (!$licenses instanceof License) {
+        $license = $this->getLicenseService()->getLicenseById($id);
+        if (!$license instanceof License) {
             throw new RecordNotFoundException('No Record Found');
         }
 
-        return new EndpointGetOneResult(LicenseModel::class, $licenses);
+        return new EndpointGetOneResult(LicenseModel::class, $license);
     }
 
     /**
      * @return EndpointGetAllResult
      * @throws DaoException
-     * @throws RecordNotFoundException
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
@@ -105,6 +104,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return EndpointCreateResult
      * @throws Exception
      */
     public function create(): EndpointCreateResult
@@ -117,6 +117,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return EndpointUpdateResult
      * @throws Exception
      */
     public function update(): EndpointUpdateResult
@@ -129,7 +130,8 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @return License
-     * @throws DaoException
+     * @throws RecordNotFoundException
+     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function saveLicense(): License
     {
@@ -137,6 +139,9 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
             $education = $this->getLicenseService()->getLicenseById($id);
+            if ($education == null) {
+                throw new RecordNotFoundException('No Record Found');
+            }
         } else {
             $education = new License();
         }
@@ -147,7 +152,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      *
-     * @throws DaoException
+     * @return EndpointDeleteResult
      * @throws Exception
      */
     public function delete(): EndpointDeleteResult

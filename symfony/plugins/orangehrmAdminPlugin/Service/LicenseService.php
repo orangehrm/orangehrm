@@ -32,17 +32,16 @@ class LicenseService
      *
      */
     private ?LicenseDao $licenseDao = null;
-    
+
     /**
      * @return LicenseDao
      */
     public function getLicenseDao(): LicenseDao
     {
-        
         if (!($this->licenseDao instanceof LicenseDao)) {
             $this->licenseDao = new LicenseDao();
         }
-        
+
         return $this->licenseDao;
     }
 
@@ -50,45 +49,50 @@ class LicenseService
      * @param $licenseDao
      * @return void
      */
-    public function setLicenseDao($licenseDao) {
+    public function setLicenseDao($licenseDao)
+    {
         $this->licenseDao = $licenseDao;
     }
-    
+
     /**
      * Saves a license
-     * 
+     *
      * Can be used for a new record or updating.
-     * 
-     * @version 2.6.12 
-     * @param License $license 
+     *
+     * @param License $license
      * @return NULL Doesn't return a value
+     * @throws \DaoException
+     * @version 2.6.12
      */
-    public function saveLicense(License $license) {        
-        $this->getLicenseDao()->saveLicense($license);        
+    public function saveLicense(License $license)
+    {
+        $this->getLicenseDao()->saveLicense($license);
     }
-    
+
     /**
      * Retrieves a license by ID
-     * 
-     * @version 2.6.12 
-     * @param int $id 
+     *
+     * @param int $id
      * @return License An instance of License or NULL
-     */    
-    public function getLicenseById(int $id):?License
+     * @throws DaoException
+     * @version 2.6.12
+     */
+    public function getLicenseById(int $id): ?License
     {
-        return $this->getLicenseDao()->getLicenseById( $id);
+        return $this->getLicenseDao()->getLicenseById($id);
     }
-    
+
     /**
      * Retrieves a license by name
-     * 
+     *
      * Case insensitive
-     * 
-     * @version 2.6.12 
-     * @param string $name 
+     *
+     * @param string $name
      * @return License An instance of License or false
-     */    
-    public function getLicenseByName(string $name):?License
+     * @throws DaoException
+     * @version 2.6.12
+     */
+    public function getLicenseByName(string $name): ?License
     {
         return $this->getLicenseDao()->getLicenseByName($name);
     }
@@ -98,7 +102,7 @@ class LicenseService
      * @return array
      * @throws DaoException
      */
-    public function getLicenseList(LicenseSearchFilterParams $licenseSearchParamHolder):array
+    public function getLicenseList(LicenseSearchFilterParams $licenseSearchParamHolder): array
     {
         return $this->getLicenseDao()->getLicenseList($licenseSearchParamHolder);
     }
@@ -112,14 +116,15 @@ class LicenseService
     {
         return $this->getLicenseDao()->getLicenseCount($licenseSearchParamHolder);
     }
-    
+
     /**
      * Deletes licenses
-     * 
-     * @version 2.6.12 
+     *
      * @param array $toDeleteIds An array of IDs to be deleted
      * @return int Number of records deleted
-     */    
+     * @throws DaoException
+     * @version 2.6.12
+     */
     public function deleteLicenses(array $toDeleteIds): int
     {
         return $this->getLicenseDao()->deleteLicenses($toDeleteIds);
@@ -130,13 +135,13 @@ class LicenseService
      *
      * Case insensitive
      *
-     * @version 2.6.12
      * @param string $licenseName License name that needs to be checked
      * @return Bool
+     * @throws DaoException
+     * @version 2.6.12
      */
     public function isExistingLicenseName(string $licenseName): bool
     {
         return $this->getLicenseDao()->isExistingLicenseName($licenseName);
     }
-    
 }
