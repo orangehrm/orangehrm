@@ -1,0 +1,33 @@
+@import '@orangehrm/oxd/styles/_mixins.scss';
+.orangehrm-login-form {
+  margin: 0 auto;
+  @include oxd-respond-to('xs') {
+    width: 80%;
+  }
+  @include oxd-respond-to('md') {
+    width: 60%;
+    max-width: 485px;
+  }
+}
+.orangehrm-login-action {
+  margin-top: 2rem;
+  justify-content: center;
+}
+.orangehrm-login-button {
+  flex: 1;
+  padding: 1rem 0;
+}
+.orangehrm-login-title {
+  text-align: center;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+.orangehrm-login-pwreset {
+  margin: 1rem 0;
+  text-align: center;
+  font-weight: 600;
+  & a {
+    color: $oxd-primary-one-color;
+    text-decoration: none;
+  }
+}
