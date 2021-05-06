@@ -77,12 +77,12 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-        $educations = $this->getEducationService()->getEducationById($id);
-        if (!$educations instanceof Education) {
+        $education = $this->getEducationService()->getEducationById($id);
+        if (!$education instanceof Education) {
             throw new RecordNotFoundException('No Record Found');
         }
 
-        return new EndpointGetOneResult(EducationModel::class, $educations);
+        return new EndpointGetOneResult(EducationModel::class, $education);
     }
 
     /**
@@ -126,7 +126,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @return Education
-     * @throws DaoException
+     * @throws RecordNotFoundException
      */
     public function saveEducation(): Education
     {
@@ -134,6 +134,9 @@ class EducationAPI extends EndPoint implements CrudEndpoint
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
             $education = $this->getEducationService()->getEducationById($id);
+            if ($education == null) {
+                throw new RecordNotFoundException('No Record Found');
+            }
         } else {
             $education = new Education();
         }
@@ -144,7 +147,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      *
-     * @throws DaoException
      * @throws Exception
      */
     public function delete(): EndpointDeleteResult

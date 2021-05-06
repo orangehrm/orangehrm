@@ -140,9 +140,9 @@ class EducationDao
     {
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
-            $q->delete(Education::class, 'E')
-                ->set('E.deleted', true)
-                ->where($q->expr()->in('E.id', $toDeleteIds));
+            $q->delete(Education::class, 'e')
+                ->set('e.deleted', true)
+                ->where($q->expr()->in('e.id', $toDeleteIds));
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
