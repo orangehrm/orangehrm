@@ -22,7 +22,9 @@ namespace OrangeHRM\Core\Authorization\Service;
 use OrangeHRM\Core\Authorization\Dao\ScreenDao;
 use OrangeHRM\Core\Authorization\Dao\ScreenPermissionDao;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
+use OrangeHRM\Core\Dto\ModuleScreen;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Helper\ModuleScreenHelper;
 use OrangeHRM\Entity\Screen;
 use OrangeHRM\Entity\UserRole;
 
@@ -134,5 +136,23 @@ class ScreenPermissionService
     public function getScreen(string $module, string $actionUrl): ?Screen
     {
         return $this->getScreenDao()->getScreen($module, $actionUrl);
+    }
+
+    /**
+     * @return ModuleScreen
+     */
+    private function getCurrentModuleAndScreen(): ModuleScreen
+    {
+        return ModuleScreenHelper::getCurrentModuleAndScreen();
+    }
+
+    /**
+     * @return Screen|null
+     * @throws DaoException
+     */
+    public function getCurrentScreen(): ?Screen
+    {
+        $currentModuleAndScreen = $this->getCurrentModuleAndScreen();
+        return $this->getScreen($currentModuleAndScreen->getModule(), $currentModuleAndScreen->getScreen());
     }
 }

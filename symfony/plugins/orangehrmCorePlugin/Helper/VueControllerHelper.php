@@ -22,9 +22,11 @@ namespace OrangeHRM\Core\Helper;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
 use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Vue\Component;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -38,6 +40,8 @@ class VueControllerHelper
     public const USER = 'user';
     public const SIDE_PANEL_MENU_ITEMS = 'sidePanelMenuItems';
     public const TOP_MENU_ITEMS = 'topMenuItems';
+    public const CONTEXT_TITLE = 'contextTitle';
+    public const CONTEXT_ICON = 'contextIcon';
 
     /**
      * @var Request|null
@@ -55,6 +59,16 @@ class VueControllerHelper
      * @var UserService|null
      */
     protected ?UserService $userService = null;
+
+    /**
+     * @var MenuService|null
+     */
+    protected ?MenuService $menuService = null;
+
+    /**
+     * @var ScreenPermissionService|null
+     */
+    protected ?ScreenPermissionService $screenPermissionService = null;
 
     public function __construct()
     {
@@ -100,6 +114,7 @@ class VueControllerHelper
     public function getContextParams(): array
     {
         list($sidePanelMenuItems, $topMenuItems) = $this->getMenuItems();
+        list($contextTitle, $contextIcon) = $this->getContextItems();
 
         $this->context->add(
             [
@@ -111,6 +126,8 @@ class VueControllerHelper
                 self::USER => $this->getUserObject(),
                 self::SIDE_PANEL_MENU_ITEMS => $sidePanelMenuItems,
                 self::TOP_MENU_ITEMS => $topMenuItems,
+                self::CONTEXT_TITLE => $contextTitle,
+                self::CONTEXT_ICON => $contextIcon,
             ]
         );
         return $this->context->all();
@@ -169,10 +186,24 @@ class VueControllerHelper
     protected function getMenuItems(): array
     {
         try {
-            return MenuHelper::getMenuItems($this->getRequest()->getBaseUrl());
+            return $this->getMenuService()->getMenuItems($this->getRequest()->getBaseUrl());
         } catch (ServiceException $e) {
         }
         return [[], []];
+    }
+
+    /**
+     * @return array|null[]
+     * @throws DaoException
+     */
+    protected function getContextItems(): array
+    {
+        $currentScreen = $this->getScreenPermissionService()->getCurrentScreen();
+        if ($currentScreen) {
+            // TODO:: nav bar icon per screen
+            return [$currentScreen->getName(), null];
+        }
+        return [null, null];
     }
 
     /**
@@ -192,5 +223,43 @@ class VueControllerHelper
     public function setUserService(UserService $userService): void
     {
         $this->userService = $userService;
+    }
+
+    /**
+     * @return MenuService
+     */
+    public function getMenuService(): MenuService
+    {
+        if (!$this->menuService instanceof MenuService) {
+            $this->menuService = new MenuService();
+        }
+        return $this->menuService;
+    }
+
+    /**
+     * @param MenuService $menuService
+     */
+    public function setMenuService(MenuService $menuService): void
+    {
+        $this->menuService = $menuService;
+    }
+
+    /**
+     * @return ScreenPermissionService
+     */
+    public function getScreenPermissionService(): ScreenPermissionService
+    {
+        if (!$this->screenPermissionService instanceof ScreenPermissionService) {
+            $this->screenPermissionService = new ScreenPermissionService();
+        }
+        return $this->screenPermissionService;
+    }
+
+    /**
+     * @param ScreenPermissionService|null $screenPermissionService
+     */
+    public function setScreenPermissionService(ScreenPermissionService $screenPermissionService): void
+    {
+        $this->screenPermissionService = $screenPermissionService;
     }
 }

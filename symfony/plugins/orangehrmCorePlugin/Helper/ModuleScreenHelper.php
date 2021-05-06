@@ -30,7 +30,6 @@ class ModuleScreenHelper
 {
     /**
      * @return ModuleScreen
-     * @throws Exception
      */
     public static function getCurrentModuleAndScreen(): ModuleScreen
     {
@@ -51,7 +50,6 @@ class ModuleScreenHelper
 
     /**
      * @return Request|null
-     * @throws Exception
      */
     private static function getCurrentRequest(): ?Request
     {

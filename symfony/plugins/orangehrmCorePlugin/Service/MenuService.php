@@ -19,8 +19,12 @@
 
 namespace OrangeHRM\Core\Service;
 
+use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Dao\MenuDao;
+use OrangeHRM\Core\Dto\ModuleScreen;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Helper\ModuleScreenHelper;
 use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\Screen;
 use OrangeHRM\Entity\UserRole;
@@ -239,5 +243,96 @@ class MenuService
         }
 
         return true;
+    }
+
+    /**
+     * @param string $baseUrl
+     * @return array
+     * @throws DaoException
+     * @throws ServiceException
+     */
+    public function getMenuItems(string $baseUrl): array
+    {
+        $moduleScreen = ModuleScreenHelper::getCurrentModuleAndScreen();
+        // TODO:: cache menu items
+        $menuItemDetails = UserRoleManagerFactory::getUserRoleManager()->getAccessibleMenuItemDetails();
+        $menuItemArray = $menuItemDetails['menuItemArray'];
+        $subMenuItemsArray = [];
+        $sidePanelMenuItems = [];
+        $selectedSidePanelMenuId = null;
+        foreach ($menuItemArray as $menuItem) {
+            if (!empty($menuItem['subMenuItems'])) {
+                $subMenuItemsArray[$menuItem['id']] = $menuItem['subMenuItems'];
+            }
+            $active = $menuItem['module'] === $moduleScreen->getModule();
+            if ($active) {
+                $selectedSidePanelMenuId = $menuItem['id'];
+            }
+            unset($menuItem['subMenuItems']);
+            $sidePanelMenuItems[] = $this->mapMenuItem($menuItem, $baseUrl, $active);
+        }
+
+        $topMenuItemsArray = [];
+        foreach ($subMenuItemsArray as $parentId => $subMenuItems) {
+            $topMenuItems = [];
+            foreach ($subMenuItems as $subMenuItem) {
+                $active = $subMenuItem['action'] === $moduleScreen->getScreen();
+                $topMenuItems[] = $this->mapMenuItem($subMenuItem, $baseUrl, $active, $moduleScreen);
+            }
+            $topMenuItemsArray[$parentId] = $topMenuItems;
+        }
+
+        $topMenuItems = is_null($selectedSidePanelMenuId) ? [] : $topMenuItemsArray[$selectedSidePanelMenuId];
+        return [
+            $sidePanelMenuItems,
+            $topMenuItems,
+        ];
+    }
+
+    /**
+     * @param array $menuItem
+     * @param string $baseUrl
+     * @param bool $active
+     * @param ModuleScreen|null $moduleScreen
+     * @return array
+     */
+    private function mapMenuItem(
+        array $menuItem,
+        string $baseUrl,
+        bool $active = false,
+        ?ModuleScreen $moduleScreen = null
+    ): array {
+        $url = '#';
+        if (!empty($menuItem['action']) && !empty($menuItem['module'])) {
+            $url = $baseUrl . '/' . $menuItem['module'] . '/' . $menuItem['action'];
+        }
+        $newMenuItem = [
+            'id' => $menuItem['id'],
+            'name' => $menuItem['menuTitle'],
+            'url' => $url,
+        ];
+
+        if (!is_null($menuItem['additionalParams']) && isset($menuItem['additionalParams']['icon'])) {
+            $newMenuItem = array_merge($newMenuItem, $menuItem['additionalParams']);
+        }
+
+        if ($active) {
+            $newMenuItem['active'] = true;
+        }
+
+        // if sub menu item exists
+        if (isset($menuItem['subMenuItems'])) {
+            $newMenuItem['children'] = [];
+            foreach ($menuItem['subMenuItems'] as $subItem) {
+                $active = $subItem['action'] === $moduleScreen->getScreen();
+                if ($active) {
+                    $newMenuItem['active'] = true;
+                }
+                unset($subItem['subMenuItems']);
+                $newMenuItem['children'][] = $this->mapMenuItem($subItem, $baseUrl, $active, $moduleScreen);
+            }
+        }
+
+        return $newMenuItem;
     }
 }
