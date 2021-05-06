@@ -20,10 +20,13 @@
 namespace OrangeHRM\Authentication\Service;
 
 use OrangeHRM\Admin\Service\UserService;
-use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\User;
+use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationServiceException;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\User;
 
 class AuthenticationService
 {
@@ -57,7 +60,7 @@ class AuthenticationService
      * @return bool
      * @throws AuthenticationServiceException
      */
-    public function setCredentialsForUser(?User $user, array $additionalData):bool
+    public function setCredentialsForUser(?User $user, array $additionalData): bool
     {
         if (!$user instanceof User) {
             return false;
@@ -66,11 +69,15 @@ class AuthenticationService
                 !$user->getEmployee() instanceof Employee &&
                 $user->getEmployee()->getEmpNumber() == '') {
                 throw new AuthenticationServiceException('Employee not assigned');
-            } elseif (!is_null($user->getEmployee()->getEmployeeTerminationRecord())) {
+            } elseif ($user->getEmployee() instanceof Employee && !is_null(
+                    $user->getEmployee()->getEmployeeTerminationRecord()
+                )) {
                 throw new AuthenticationServiceException('Employee is terminated');
             } elseif ($user->getStatus() == 0) {
                 throw new AuthenticationServiceException('Account disabled');
             }
+
+            $this->setUserAttributes($user);
 
             return true;
         }
@@ -81,12 +88,42 @@ class AuthenticationService
      * @param $additionalData
      * @return bool
      * @throws AuthenticationServiceException
-     * @throws \OrangeHRM\Core\Exception\DaoException
-     * @throws \OrangeHRM\Core\Exception\ServiceException
+     * @throws DaoException
+     * @throws ServiceException
      */
-    public function setCredentials(UserCredential $credentials, $additionalData):bool
+    public function setCredentials(UserCredential $credentials, $additionalData): bool
     {
         $user = $this->getSystemUserService()->getCredentials($credentials);
         return $this->setCredentialsForUser($user, $additionalData);
+    }
+
+    /**
+     * @param User $user
+     */
+    protected function setUserAttributes(User $user): void
+    {
+        AuthUser::getInstance()->setUserId($user->getId());
+        AuthUser::getInstance()->setUserRoleId($user->getUserRole()->getId());
+        AuthUser::getInstance()->setUserRoleName($user->getUserRole()->getName());
+        if ($user->getEmployee() instanceof Employee) {
+            AuthUser::getInstance()->setEmpNumber($user->getEmployee()->getEmpNumber());
+        }
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLoggedInUserId(): ?int
+    {
+        return AuthUser::getInstance()->getUserId();
+    }
+
+    /**
+     * @return User|null
+     * @throws ServiceException
+     */
+    public function getLoggedInUser(): ?User
+    {
+        return $this->getSystemUserService()->getSystemUser($this->getLoggedInUserId());
     }
 }

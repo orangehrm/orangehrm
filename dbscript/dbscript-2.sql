@@ -3532,37 +3532,54 @@ INSERT INTO `ohrm_i18n_group` (`name`, `title`) VALUES
 ('marketplace', 'Marketplace'),
 ('mobile', 'Mobile');
 
-INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.url',  'https://opensourcehelp.orangehrm.com');
-INSERT INTO `hs_hr_config` (`key` ,`value`) VALUES ('help.processorClass',  'ZendeskHelpProcessor');
-INSERT INTO `ohrm_i18n_group` (`name`,`title`) VALUES ('help','Help');
+-- ------------------------------
+--        OrangeHRM 5.x
+-- ------------------------------
 
-INSERT INTO `ohrm_registration_event_queue` (`event_type`,`published`,`event_time`) VALUES (0, 0, now());
+ALTER TABLE `hs_hr_config` CHANGE `key` `name` VARCHAR(100);
 
-#Corporate Branding Plugin
+ALTER TABLE `ohrm_menu_item` ADD additional_params LONGTEXT DEFAULT NULL COMMENT '(DC2Type:json)';
 
-SET @module_id := (SELECT id
-                   FROM ohrm_module
-                   WHERE `name` = 'admin');
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'leave';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'time';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'attendance';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'recruitment';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'recruitmentApply';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'dashboard';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'performance';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'directory';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'maintenance';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'marketPlace';
+UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'buzz';
 
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`)
-VALUES ('Add Theme', @module_id, 'addTheme');
-SET @add_theme_screen_id := (SELECT LAST_INSERT_ID());
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'My Info';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Pay Grades';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Work Shifts';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'General Information';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Locations';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Skills';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Education';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Licenses';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Languages';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Memberships';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Nationalities';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Email Configuration';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Email Subscriptions';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Localization';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Language Packages';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Modules';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Social Media Authentication';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Register OAuth Client';
 
-INSERT INTO `ohrm_user_role_screen` (`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`)
-VALUES ('1', @add_theme_screen_id, '1', '1', '1', '1');
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Reports' AND `screen_id` IS NOT NULL;
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Optional Fields';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Custom Fields';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Data Import';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Reporting Methods';
+UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Termination Reasons';
 
-INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`)
-VALUES ('Corporate Branding', @add_theme_screen_id, 1, 2, 700, '', 1);
-INSERT INTO ohrm_theme (`theme_id`, `theme_name`, `variables`)
-VALUES ('1', 'default',
-        '{"primaryColor":"#f28b38","secondaryColor":"#f3f3f3","buttonSuccessColor":"#56ac40","buttonCancelColor":"#848484"}');
-ALTER TABLE ohrm_theme
-    ADD social_media_icons VARCHAR(100) DEFAULT 'inline' NOT NULL;
-ALTER TABLE ohrm_theme
-    ADD login_banner BLOB;
-
--- Ignore if fails
-INSERT INTO `ohrm_i18n_group` (`name`, `title`)
-VALUES ('branding', 'Corporate Branding');
-
-
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-admin\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Admin';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-pim\"}' WHERE `ohrm_menu_item`.`menu_title` = 'PIM';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-time\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Time';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-leave\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Leave';
+UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-recruitment\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Recruitment';

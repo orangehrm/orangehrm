@@ -58,7 +58,7 @@ class UserServiceTest extends TestCase
     }
 
     /**
-     * @covers UserService::getNonPredefinedUserRoles
+     * @covers \OrangeHRM\Admin\Service\UserService::getNonPredefinedUserRoles
      */
     public function testGetNonPredefinedUserRoles(): void
     {

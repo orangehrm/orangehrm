@@ -21,7 +21,10 @@ namespace OrangeHRM\Config;
 
 class ConfigHelper
 {
-    protected $configs = [];
+    /**
+     * @var array
+     */
+    protected array $configs = [];
 
     /**
      * @return array
@@ -31,20 +34,21 @@ class ConfigHelper
         $pathToProjectBase = realpath(__DIR__ . '/../../../');
         $pathToSymfonyDir = realpath($pathToProjectBase . '/symfony/');
         return [
-            'ohrm_base_dir' => $pathToProjectBase,
+            Config::BASE_DIR => $pathToProjectBase,
             'ohrm_symfony_dir' => $pathToSymfonyDir,
             'ohrm_apps_dir' => realpath($pathToSymfonyDir . '/apps'),
             'ohrm_lib_dir' => realpath($pathToSymfonyDir . '/lib'),
             'ohrm_log_dir' => realpath($pathToSymfonyDir . '/log'),
             'ohrm_data_dir' => realpath($pathToSymfonyDir . '/data'),
             'ohrm_config_dir' => realpath($pathToSymfonyDir . '/config'),
-            'ohrm_plugins_dir' => realpath($pathToSymfonyDir . '/plugins'),
+            Config::PLUGINS_DIR => realpath($pathToSymfonyDir . '/plugins'),
             'ohrm_web_dir' => realpath($pathToSymfonyDir . '/web'),
             'ohrm_cache_dir' => realpath($pathToSymfonyDir . '/cache'),
             'ohrm_app_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm'),
             'ohrm_app_config_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/config'),
             'ohrm_app_lib_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/lib'),
             'ohrm_app_i18n_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/i18n'),
+            Config::DOCTRINE_PROXY_DIR => realpath($pathToSymfonyDir . '/config/proxy'),
 
             'ohrm_test_dir' => realpath($pathToProjectBase . '/tests'),
 
@@ -169,7 +173,6 @@ class ConfigHelper
     public function getConfigs(): array
     {
         $this->add($this->getPathConfigs());
-        $this->add($this->getLegacyPathConfigs());
         $this->add($this->getModuleConfigs());
         $this->add($this->getPluginConfigs());
         $this->add($this->getClientConfigs());

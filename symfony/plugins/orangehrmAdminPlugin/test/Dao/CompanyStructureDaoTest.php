@@ -40,7 +40,7 @@ class CompanyStructureDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->companyStructureDao = new CompanyStructureDao();
-        $this->fixture = Config::get('ohrm_plugins_dir') .
+        $this->fixture = Config::get(Config::PLUGINS_DIR) .
             '/orangehrmAdminPlugin/test/fixtures/CompanyStructureDao.yml';
         TestDataService::populate($this->fixture);
     }

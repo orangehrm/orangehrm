@@ -178,8 +178,8 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
         }
 
         error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, self::getErrorLogPath());
-
-        $query = "INSERT INTO `hs_hr_config` ( `key`, `value`) VALUES ('csrf_secret', '{$csrfKey}');";
+        
+        $query = "INSERT INTO `hs_hr_config` ( `name`, `value`) VALUES ('csrf_secret', '{$csrfKey}');";
 
         if (!mysqli_query(self::$conn, $query)) {
             $_SESSION['error'] = 'Unable to initialize csrf key (' . mysqli_error(self::$conn) . ')';

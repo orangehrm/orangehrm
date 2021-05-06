@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity;
 
@@ -19,84 +36,184 @@ class DataGroupPermission
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="user_role_id", type="integer")
+     * @ORM\Column(name="can_read", type="boolean")
      */
-    private $userRoleId;
+    private bool $canRead;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="data_group_id", type="integer")
+     * @ORM\Column(name="can_create", type="boolean")
      */
-    private $dataGroupId;
+    private bool $canCreate;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="can_read", type="integer", length=1)
+     * @ORM\Column(name="can_update", type="boolean")
      */
-    private $canRead;
+    private bool $canUpdate;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="can_create", type="integer", length=1)
+     * @ORM\Column(name="can_delete", type="boolean")
      */
-    private $canCreate;
+    private bool $canDelete;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="can_update", type="integer", length=1)
+     * @ORM\Column(name="self", type="boolean")
      */
-    private $canUpdate;
+    private bool $self;
 
     /**
-     * @var int
+     * @var DataGroup
      *
-     * @ORM\Column(name="can_delete", type="integer", length=1)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\DataGroup")
+     * @ORM\JoinColumn(name="data_group_id", referencedColumnName="id")
      */
-    private $canDelete;
+    private DataGroup $dataGroup;
 
     /**
-     * @var int
+     * @var UserRole
      *
-     * @ORM\Column(name="self", type="integer", length=1)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\UserRole")
+     * @ORM\JoinColumn(name="user_role_id", referencedColumnName="id")
      */
-    private $self;
+    private UserRole $userRole;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\DataGroup", mappedBy="dataGroupPermission")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="data_group_id", referencedColumnName="id")
-     * })
+     * @return int
      */
-    private $dataGroup;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\UserRole", mappedBy="dataGroupPermission")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_role_id", referencedColumnName="id")
-     * })
-     */
-    private $userRole;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getId(): int
     {
-        $this->dataGroup = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->userRole = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->id;
     }
 
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canRead(): bool
+    {
+        return $this->canRead;
+    }
+
+    /**
+     * @param bool $canRead
+     */
+    public function setCanRead(bool $canRead): void
+    {
+        $this->canRead = $canRead;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canCreate(): bool
+    {
+        return $this->canCreate;
+    }
+
+    /**
+     * @param bool $canCreate
+     */
+    public function setCanCreate(bool $canCreate): void
+    {
+        $this->canCreate = $canCreate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canUpdate(): bool
+    {
+        return $this->canUpdate;
+    }
+
+    /**
+     * @param bool $canUpdate
+     */
+    public function setCanUpdate(bool $canUpdate): void
+    {
+        $this->canUpdate = $canUpdate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canDelete(): bool
+    {
+        return $this->canDelete;
+    }
+
+    /**
+     * @param bool $canDelete
+     */
+    public function setCanDelete(bool $canDelete): void
+    {
+        $this->canDelete = $canDelete;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSelf(): bool
+    {
+        return $this->self;
+    }
+
+    /**
+     * @param bool $self
+     */
+    public function setSelf(bool $self): void
+    {
+        $this->self = $self;
+    }
+
+    /**
+     * @return DataGroup
+     */
+    public function getDataGroup(): DataGroup
+    {
+        return $this->dataGroup;
+    }
+
+    /**
+     * @param DataGroup $dataGroup
+     */
+    public function setDataGroup(DataGroup $dataGroup): void
+    {
+        $this->dataGroup = $dataGroup;
+    }
+
+    /**
+     * @return UserRole
+     */
+    public function getUserRole(): UserRole
+    {
+        return $this->userRole;
+    }
+
+    /**
+     * @param UserRole $userRole
+     */
+    public function setUserRole(UserRole $userRole): void
+    {
+        $this->userRole = $userRole;
+    }
 }

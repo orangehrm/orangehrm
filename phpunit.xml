@@ -14,12 +14,19 @@
       <directory>symfony/data</directory>
       <directory>symfony/lib</directory>
       <directory>symfony/web</directory>
+      <directory>symfony/vendor</directory>
+      <directory>symfony/test</directory>
     </exclude>
   </coverage>
   <testsuites>
     <testsuite name="Admin Tests">
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Dao</directory>
+    </testsuite>
+    <testsuite name="Core Tests">
+      <directory>symfony/plugins/orangehrmCorePlugin/test/Service</directory>
+      <directory>symfony/plugins/orangehrmCorePlugin/test/Dao</directory>
+      <directory>symfony/plugins/orangehrmCorePlugin/test/Authorization</directory>
     </testsuite>
   </testsuites>
 </phpunit>

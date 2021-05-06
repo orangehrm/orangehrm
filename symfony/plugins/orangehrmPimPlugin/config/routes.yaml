@@ -11,3 +11,17 @@ apiv2_pim_employees:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeeAPI
+
+##########################
+#        Screens
+##########################
+
+pim_module:
+  path: /pim/viewPimModule
+  controller: OrangeHRM\Pim\Controller\PimModuleController::handle
+  methods: [ GET ]
+
+pim_view_employee_list:
+  path: /pim/viewEmployeeList
+  controller: OrangeHRM\Pim\Controller\EmployeeController::handle
+  methods: [ GET ]
