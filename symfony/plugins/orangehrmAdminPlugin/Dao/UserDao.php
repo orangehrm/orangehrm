@@ -22,6 +22,7 @@ namespace OrangeHRM\Admin\Dao;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
@@ -31,7 +32,7 @@ use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Authentication\Dto\UserCredential;
 
-class UserDao
+class UserDao extends BaseDao
 {
 
     /**
@@ -44,8 +45,7 @@ class UserDao
     public function saveSystemUser(User $systemUser): User
     {
         try {
-            Doctrine::getEntityManager()->persist($systemUser);
-            Doctrine::getEntityManager()->flush();
+            $this->persist($systemUser);
             return $systemUser;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -63,9 +63,7 @@ class UserDao
     public function isExistingSystemUser(UserCredential $credentials, ?int $userId = null): ?User
     {
         try {
-            $query = Doctrine::getEntityManager()->getRepository(
-                User::class
-            )->createQueryBuilder('u');
+            $query = $this->createQueryBuilder(User::class, 'u');
             $query->andWhere('u.userName = :username');
             $query->setParameter('username', $credentials->getUsername());
             if (!empty($userId)) {
@@ -88,7 +86,7 @@ class UserDao
     public function getSystemUser(int $userId): ?User
     {
         try {
-            $user = Doctrine::getEntityManager()->getRepository(User::class)->find($userId);
+            $user = $this->getRepository(User::class)->find($userId);
             if ($user instanceof User) {
                 return $user;
             }
@@ -107,9 +105,7 @@ class UserDao
     public function getSystemUsers(): array
     {
         try {
-            $query = Doctrine::getEntityManager()->getRepository(
-                User::class
-            )->createQueryBuilder('u');
+            $query = $this->createQueryBuilder(User::class, 'u');
             $query->andWhere('u.deleted = :deleted');
             $query->setParameter('deleted', false);
 
@@ -127,13 +123,10 @@ class UserDao
     public function getSystemUserIdList(): array
     {
         try {
-            $query = Doctrine::getEntityManager()->getRepository(
-                User::class
-            )->createQueryBuilder('u');
+            $query = $this->createQueryBuilder(User::class, 'u');
             $query->select('u.id');
             $query->andWhere('u.deleted = :deleted');
             $query->setParameter('deleted', false);
-
 
             $result = $query->getQuery()->getScalarResult();
             return array_column($result, 'id');
@@ -151,8 +144,8 @@ class UserDao
     public function deleteSystemUsers(array $deletedIds): int
     {
         try {
-            $q = Doctrine::getEntityManager()->createQueryBuilder();
-            $q->update(User::class, 'u')
+            $q = $this->createQueryBuilder(User::class, 'u');
+            $q->update()
                 ->set('u.deleted', ':deleted')
                 ->setParameter('deleted', true)
                 ->where($q->expr()->in('u.id', ':ids'))
@@ -172,9 +165,7 @@ class UserDao
     public function getAssignableUserRoles(): array
     {
         try {
-            $query = Doctrine::getEntityManager()->getRepository(
-                UserRole::class
-            )->createQueryBuilder('ur');
+            $query = $this->createQueryBuilder(UserRole::class, 'ur');
             $query->andWhere($query->expr()->in('ur.isAssignable', 1));
             $query->addOrderBy('ur.name', ListSorter::ASCENDING);
 
@@ -192,9 +183,7 @@ class UserDao
     public function getUserRole(string $roleName): ?UserRole
     {
         try {
-            $query = Doctrine::getEntityManager()->getRepository(
-                UserRole::class
-            )->createQueryBuilder('ur');
+            $query = $this->createQueryBuilder(UserRole::class, 'ur');
             $query->andWhere('ur.name = :name');
             $query->setParameter('name', $roleName);
             return $query->getQuery()->getOneOrNullResult();
@@ -211,7 +200,7 @@ class UserDao
     public function getUserRoleById(int $id): ?UserRole
     {
         try {
-            $userRole = Doctrine::getEntityManager()->getRepository(UserRole::class)->find($id);
+            $userRole = $this->getRepository(UserRole::class)->find($id);
             if ($userRole instanceof UserRole) {
                 return $userRole;
             }
@@ -228,9 +217,7 @@ class UserDao
     public function getNonPredefinedUserRoles(): array
     {
         try {
-            $query = Doctrine::getEntityManager()->getRepository(
-                UserRole::class
-            )->createQueryBuilder('ur');
+            $query = $this->createQueryBuilder(UserRole::class, 'ur');
             $query->andWhere('ur.isPredefined = :isPredefined');
             $query->setParameter('isPredefined', false);
             $query->addOrderBy('ur.name', ListSorter::ASCENDING);
@@ -251,8 +238,7 @@ class UserDao
     public function getSearchSystemUsersCount(UserSearchFilterParams $userSearchParamHolder): int
     {
         try {
-            $q = $this->_buildSearchQuery($userSearchParamHolder);
-            $paginator = new Paginator($q);
+            $paginator = $this->getSearchUserPaginator($userSearchParamHolder);
             return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -269,8 +255,8 @@ class UserDao
     public function searchSystemUsers(UserSearchFilterParams $userSearchParamHolder): array
     {
         try {
-            $q = $this->_buildSearchQuery($userSearchParamHolder);
-            return $q->getQuery()->execute();
+            $paginator = $this->getSearchUserPaginator($userSearchParamHolder);
+            return $paginator->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
@@ -278,13 +264,11 @@ class UserDao
 
     /**
      * @param UserSearchFilterParams $userSearchParamHolder
-     * @return QueryBuilder
+     * @return Paginator
      */
-    private function _buildSearchQuery(UserSearchFilterParams $userSearchParamHolder): QueryBuilder
+    private function getSearchUserPaginator(UserSearchFilterParams $userSearchParamHolder): Paginator
     {
-        $q = Doctrine::getEntityManager()->getRepository(
-            User::class
-        )->createQueryBuilder('u');
+        $q = $this->createQueryBuilder(User::class, 'u');
         $q->leftJoin('u.userRole', 'r');
         $q->leftJoin('u.employee', 'e');
 
@@ -316,7 +300,7 @@ class UserDao
         $q->andWhere('u.deleted = :deleted');
         $q->setParameter('deleted', false);
 
-        return $q;
+        return $this->getPaginator($q);
     }
 
     /**
@@ -326,9 +310,7 @@ class UserDao
      */
     public function getAdminUserCount(bool $enabledOnly = true, bool $undeletedOnly = true): int
     {
-        $q = Doctrine::getEntityManager()->getRepository(
-            User::class
-        )->createQueryBuilder('u');
+        $q = $this->createQueryBuilder(User::class, 'u');
         $q->leftJoin('u.userRole', 'ur');
         $q->andWhere('ur.id = :userRoleId');
         $q->setParameter('userRoleId', User::ADMIN_USER_ROLE_ID);
@@ -354,8 +336,8 @@ class UserDao
     public function updatePassword(int $userId, string $password): bool
     {
         try {
-            $q = Doctrine::getEntityManager()->createQueryBuilder();
-            $q->update(User::class, 'u')
+            $q = $this->createQueryBuilder(User::class, 'u');
+            $q->update()
                 ->set('u.userPassword', ':userPassword')
                 ->setParameter('userPassword', $password)
                 ->where('u.id = :id')
@@ -380,9 +362,7 @@ class UserDao
         bool $includeTerminated = false
     ): array {
         try {
-            $q = Doctrine::getEntityManager()->getRepository(
-                Employee::class
-            )->createQueryBuilder('e');
+            $q = $this->createQueryBuilder(Employee::class, 'e');
             $q->innerJoin('e.users', 'u');
             $q->leftJoin('u.userRole', 'r');
             $q->andWhere('r.name = :roleName');

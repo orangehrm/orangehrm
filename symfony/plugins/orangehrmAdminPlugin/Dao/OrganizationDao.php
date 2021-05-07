@@ -20,11 +20,11 @@
 namespace OrangeHRM\Admin\Dao;
 
 use Exception;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Organization;
-use OrangeHRM\ORM\Doctrine;
 
-class OrganizationDao
+class OrganizationDao extends BaseDao
 {
     /**
      * @return Organization|null
@@ -33,7 +33,7 @@ class OrganizationDao
     public function getOrganizationGeneralInformation(): ?Organization
     {
         try {
-            $orgInfo = Doctrine::getEntityManager()->getRepository(Organization::class)->find(1);
+            $orgInfo = $this->getRepository(Organization::class)->find(1);
             if ($orgInfo instanceof Organization) {
                 return $orgInfo;
             }

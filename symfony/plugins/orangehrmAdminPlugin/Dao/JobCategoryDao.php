@@ -19,13 +19,12 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobCategory;
-use OrangeHRM\ORM\Doctrine;
 
-class JobCategoryDao
+class JobCategoryDao extends BaseDao
 {
     /**
      * @param string $sortField
@@ -47,7 +46,7 @@ class JobCategoryDao
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
 
         try {
-            $q = Doctrine::getEntityManager()->getRepository(JobCategory::class)->createQueryBuilder('jc');
+            $q = $this->createQueryBuilder(JobCategory::class, 'jc');
             $q->addOrderBy($sortField, $sortOrder);
             if (!empty($limit)) {
                 $q->setFirstResult($offset)
@@ -55,8 +54,7 @@ class JobCategoryDao
             }
 
             if ($count) {
-                $paginator = new Paginator($q, true);
-                return count($paginator);
+                return $this->count($q);
             }
             return $q->getQuery()->execute();
         } catch (Exception $e) {
@@ -72,7 +70,7 @@ class JobCategoryDao
     public function getJobCategoryById(int $jobCatId): ?JobCategory
     {
         try {
-            $jobCategory = Doctrine::getEntityManager()->getRepository(JobCategory::class)->find($jobCatId);
+            $jobCategory = $this->getRepository(JobCategory::class)->find($jobCatId);
             if ($jobCategory instanceof JobCategory) {
                 return $jobCategory;
             }
@@ -90,8 +88,7 @@ class JobCategoryDao
     public function saveJobCategory(JobCategory $jobCategory): JobCategory
     {
         try {
-            Doctrine::getEntityManager()->persist($jobCategory);
-            Doctrine::getEntityManager()->flush();
+            $this->persist($jobCategory);
             return $jobCategory;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -106,8 +103,8 @@ class JobCategoryDao
     public function deleteJobCategory(array $toBeDeletedJobCategoryIds): int
     {
         try {
-            $q = Doctrine::getEntityManager()->createQueryBuilder();
-            $q->delete(JobCategory::class, 'jc')
+            $q = $this->createQueryBuilder(JobCategory::class, 'jc');
+            $q->delete()
                 ->where($q->expr()->in('jc.id', ':ids'))
                 ->setParameter('ids', $toBeDeletedJobCategoryIds);
             return $q->getQuery()->execute();

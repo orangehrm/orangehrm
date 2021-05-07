@@ -20,24 +20,27 @@
 namespace OrangeHRM\Admin\Dao;
 
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\EmploymentStatus;
-use OrangeHRM\ORM\Doctrine;
-use \DaoException;
-use \Exception;
+use DaoException;
+use Exception;
 
-class EmploymentStatusDao
+class EmploymentStatusDao extends BaseDao
 {
     /**
-     * @param $id
-     * @return object|null
+     * @param int $id
+     * @return EmploymentStatus|null
      * @throws DaoException
      */
-    public function getEmploymentStatusById(int $id): EmploymentStatus
+    public function getEmploymentStatusById(int $id): ?EmploymentStatus
     {
         try {
-            return Doctrine::getEntityManager()->getRepository(EmploymentStatus::class)->find($id);
+            $employmentStatus = $this->getRepository(EmploymentStatus::class)->find($id);
+            if ($employmentStatus instanceof EmploymentStatus) {
+                return $employmentStatus;
+            }
+            return null;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -51,8 +54,7 @@ class EmploymentStatusDao
     public function saveEmploymentStatus(EmploymentStatus $employmentStatus): EmploymentStatus
     {
         try {
-            Doctrine::getEntityManager()->persist($employmentStatus);
-            Doctrine::getEntityManager()->flush();
+            $this->persist($employmentStatus);
             return $employmentStatus;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -67,8 +69,8 @@ class EmploymentStatusDao
     public function deleteEmploymentStatus(array $toBeDeletedEmploymentStatusIds): int
     {
         try {
-            $q = Doctrine::getEntityManager()->createQueryBuilder();
-            $q->delete(EmploymentStatus::class, 'es')
+            $q = $this->createQueryBuilder(EmploymentStatus::class, 'es');
+            $q->delete()
                 ->where($q->expr()->in('es.id', ':ids'))
                 ->setParameter('ids', $toBeDeletedEmploymentStatusIds);
             return $q->getQuery()->execute();
@@ -100,12 +102,13 @@ class EmploymentStatusDao
      */
     private function _buildSearchQuery(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): QueryBuilder
     {
-        $q = Doctrine::getEntityManager()->getRepository(
-            EmploymentStatus::class
-        )->createQueryBuilder('es');
+        $q = $this->createQueryBuilder(EmploymentStatus::class, 'es');
 
         if (!is_null($employmentStatusSearchParams->getSortField())) {
-            $q->addOrderBy($employmentStatusSearchParams->getSortField(), $employmentStatusSearchParams->getSortOrder());
+            $q->addOrderBy(
+                $employmentStatusSearchParams->getSortField(),
+                $employmentStatusSearchParams->getSortOrder()
+            );
         }
         if (!empty($employmentStatusSearchParams->getLimit())) {
             $q->setFirstResult($employmentStatusSearchParams->getOffset())
@@ -128,7 +131,7 @@ class EmploymentStatusDao
     public function getEmploymentStatuses(): array
     {
         try {
-            return Doctrine::getEntityManager()->getRepository(
+            return $this->getRepository(
                 EmploymentStatus::class
             )->findAll();
         } catch (Exception $e) {
@@ -143,12 +146,11 @@ class EmploymentStatusDao
      * @return int
      * @throws DaoException
      */
-    public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): int
-    {
+    public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+    ): int {
         try {
             $q = $this->_buildSearchQuery($employmentStatusSearchParams);
-            $paginator = new \OrangeHRM\ORM\Paginator($q);
-            return $paginator->count();
+            return $this->count($q);
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
