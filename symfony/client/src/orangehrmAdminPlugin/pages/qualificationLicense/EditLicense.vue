@@ -129,10 +129,10 @@ export default {
           return (v && v.length <= 50) || 'Should not exceed 50 characters';
         });
         this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
+          const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.license.id
+            return id !== this.license.id
               ? 'License name should be unique'
               : true;
           } else {

@@ -39,8 +39,6 @@ class LicenseDao extends BaseDao
     {
         try {
             $this->persist($license);
-           // Doctrine::getEntityManager()->persist($license);
-          //  Doctrine::getEntityManager()->flush();
             return $license;
         } catch (Exception $e) {
             throw new \DaoException($e->getMessage(), $e->getCode(), $e);
@@ -55,7 +53,7 @@ class LicenseDao extends BaseDao
     public function getLicenseById($id): ?License
     {
         try {
-            $education = Doctrine::getEntityManager()->getRepository(License::class)->find($id);
+            $education = $this->getRepository(License::class)->find($id);
             if ($education instanceof License) {
                 return $education;
             }
@@ -73,10 +71,8 @@ class LicenseDao extends BaseDao
     public function getLicenseByName($name): ?License
     {
         try {
+            $query = $this->getRepository(License::class)->createQueryBuilder('l');
             $trimmed = trim($name, ' ');
-            $query = Doctrine::getEntityManager()->getRepository(
-                License::class
-            )->createQueryBuilder('l');
             $query->andWhere('l.name = :name');
             $query->setParameter('name', $trimmed);
             return $query->getQuery()->getOneOrNullResult();
@@ -140,7 +136,7 @@ class LicenseDao extends BaseDao
     public function deleteLicenses(array $toDeleteIds): int
     {
         try {
-            $q = Doctrine::getEntityManager()->createQueryBuilder();
+            $q = $this->createQueryBuilder(License::class, 'e');
             $q->delete(License::class, 'l')
                 ->set('l.deleted', true)
                 ->where($q->expr()->in('l.id', $toDeleteIds));
@@ -155,15 +151,15 @@ class LicenseDao extends BaseDao
      * @return bool
      * @throws DaoException
      */
-    public function isExistingLicenseName($licenseName)
+    public function isExistingLicenseName($licenseName): bool
     {
         try {
-            $q = Doctrine::getEntityManager()->getRepository(License::class)->createQueryBuilder('l');
+            $q = $this->getRepository(License::class)->createQueryBuilder('l');
             $trimmed = trim($licenseName, ' ');
             $q->Where('l.name = :name');
             $q->setParameter('name', $trimmed);
-            $paginator = new Paginator($q, true);
-            if ($paginator->count() > 0) {
+            $count = $this->count($q);
+            if ($count > 0) {
                 return true;
             }
             return false;
