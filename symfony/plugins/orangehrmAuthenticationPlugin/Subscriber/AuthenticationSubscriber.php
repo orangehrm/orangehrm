@@ -77,6 +77,9 @@ class AuthenticationSubscriber implements EventSubscriberInterface
         if ($this->getControllerInstance($event) instanceof AbstractRestController) {
             throw new UnauthorizedHttpException($urlGenerator->generate('auth_login'), 'Session expired');
         }
+
+        // Fallback
+        throw new SessionExpiredException();
     }
 
     /**
