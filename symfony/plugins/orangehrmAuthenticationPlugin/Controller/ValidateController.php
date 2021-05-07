@@ -5,6 +5,7 @@ namespace OrangeHRM\Authentication\Controller;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Framework\ServiceContainer;
@@ -26,14 +27,30 @@ class ValidateController extends AbstractController implements PublicControllerI
     protected ?AuthenticationService $authenticationService = null;
 
     /**
+     * @var HomePageService|null
+     */
+    protected ?HomePageService $homePageService = null;
+
+    /**
      * @return AuthenticationService
      */
-    public function getAuthenticationService(): ?AuthenticationService
+    public function getAuthenticationService(): AuthenticationService
     {
-        if (!isset($this->authenticationService)) {
+        if (!$this->authenticationService instanceof AuthenticationService) {
             $this->authenticationService = new AuthenticationService();
         }
         return $this->authenticationService;
+    }
+
+    /**
+     * @return HomePageService
+     */
+    public function getHomePageService(): HomePageService
+    {
+        if (!$this->homePageService instanceof HomePageService) {
+            $this->homePageService = new HomePageService();
+        }
+        return $this->homePageService;
     }
 
     public function handle(Request $request): RedirectResponse
@@ -48,6 +65,7 @@ class ValidateController extends AbstractController implements PublicControllerI
         $success = $this->getAuthenticationService()->setCredentials($credentials, []);
         User::getInstance()->setIsAuthenticated($success);
         $loginUrl = $urlGenerator->generate('auth_login', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $logoutUrl = $urlGenerator->generate('auth_logout', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
         if (!$success) {
             return new RedirectResponse($loginUrl);
@@ -58,7 +76,7 @@ class ValidateController extends AbstractController implements PublicControllerI
         if ($session->has('redirect_uri')) {
             $redirectUrl = $session->get('redirect_uri');
             $session->remove('redirect_uri');
-            if ($redirectUrl !== $loginUrl) {
+            if ($redirectUrl !== $loginUrl || $redirectUrl !== $logoutUrl) {
                 return new RedirectResponse($redirectUrl);
             }
         }

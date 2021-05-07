@@ -17,29 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Dao;
+require_once realpath(__DIR__ . '/../symfony/vendor/autoload.php');
 
-use Exception;
-use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\Organization;
-
-class OrganizationDao extends BaseDao
-{
-    /**
-     * @return Organization|null
-     * @throws DaoException
-     */
-    public function getOrganizationGeneralInformation(): ?Organization
-    {
-        try {
-            $orgInfo = $this->getRepository(Organization::class)->find(1);
-            if ($orgInfo instanceof Organization) {
-                return $orgInfo;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-}
+require_once realpath(__DIR__ . '/utils/installUtil.php');
+require_once realpath(__DIR__ . '/environmentCheck/SystemValidator.php');

@@ -42,6 +42,8 @@ class VueControllerHelper
     public const TOP_MENU_ITEMS = 'topMenuItems';
     public const CONTEXT_TITLE = 'contextTitle';
     public const CONTEXT_ICON = 'contextIcon';
+    public const COPYRIGHT_YEAR = 'copyrightYear';
+    public const PRODUCT_VERSION = 'productVersion';
 
     /**
      * @var Request|null
@@ -128,6 +130,9 @@ class VueControllerHelper
                 self::TOP_MENU_ITEMS => $topMenuItems,
                 self::CONTEXT_TITLE => $contextTitle,
                 self::CONTEXT_ICON => $contextIcon,
+                self::COPYRIGHT_YEAR => date('Y'),
+                // TODO:: should get from configurations
+                self::PRODUCT_VERSION => '5.0',
             ]
         );
         return $this->context->all();

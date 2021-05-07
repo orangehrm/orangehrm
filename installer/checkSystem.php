@@ -18,8 +18,7 @@
  *
  */
 
-require_once(ROOT_PATH . '/installer/utils/installUtil.php');
-require_once(ROOT_PATH . '/installer/environmentCheck/SystemValidator.php');
+require_once realpath(__DIR__ . '/bootstrap.php');
 
 $systemValidator = new SystemValidator();
 

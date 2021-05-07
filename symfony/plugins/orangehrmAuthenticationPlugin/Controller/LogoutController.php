@@ -17,29 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Dao;
+namespace OrangeHRM\Authentication\Controller;
 
-use Exception;
-use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\Organization;
+use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
 
-class OrganizationDao extends BaseDao
+class LogoutController extends AbstractController
 {
-    /**
-     * @return Organization|null
-     * @throws DaoException
-     */
-    public function getOrganizationGeneralInformation(): ?Organization
+    public function handle(): RedirectResponse
     {
-        try {
-            $orgInfo = $this->getRepository(Organization::class)->find(1);
-            if ($orgInfo instanceof Organization) {
-                return $orgInfo;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        /** @var Session $session */
+        $session = ServiceContainer::getContainer()->get(Services::SESSION);
+        $session->invalidate();
+        return $this->redirect("auth/login");
     }
 }

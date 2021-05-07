@@ -19,14 +19,13 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
-use OrangeHRM\ORM\Doctrine;
 
-class JobTitleDao
+class JobTitleDao extends BaseDao
 {
     /**
      * @param string $sortField
@@ -50,11 +49,7 @@ class JobTitleDao
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
 
         try {
-            $q = Doctrine::getEntityManager()->getRepository(
-                JobTitle::class
-            )->createQueryBuilder(
-                'jt'
-            );
+            $q = $this->createQueryBuilder(JobTitle::class,'jt' );
             if ($activeOnly == true) {
                 $q->andWhere('jt.isDeleted = :isDeleted');
                 $q->setParameter('isDeleted', JobTitle::ACTIVE);
@@ -66,8 +61,7 @@ class JobTitleDao
             }
 
             if ($count) {
-                $paginator = new Paginator($q, true);
-                return count($paginator);
+                return $this->count($q);
             }
             return $q->getQuery()->execute();
         } catch (Exception $e) {
@@ -83,8 +77,8 @@ class JobTitleDao
     public function deleteJobTitle(array $toBeDeletedJobTitleIds): int
     {
         try {
-            $q = Doctrine::getEntityManager()->createQueryBuilder();
-            $q->update(JobTitle::class, 'jt')
+            $q = $this->createQueryBuilder(JobTitle::class, 'jt');
+            $q->update()
                 ->set('jt.isDeleted', ':isDeleted')
                 ->setParameter('isDeleted', JobTitle::DELETED)
                 ->where($q->expr()->in('jt.id', ':ids'))
@@ -103,9 +97,7 @@ class JobTitleDao
     public function getJobTitleById(int $jobTitleId): ?JobTitle
     {
         try {
-            $jobTitle = Doctrine::getEntityManager()->getRepository(JobTitle::class)->find(
-                $jobTitleId
-            );
+            $jobTitle = $this->getRepository(JobTitle::class)->find($jobTitleId);
             if ($jobTitle instanceof JobTitle) {
                 return $jobTitle;
             }
@@ -123,9 +115,7 @@ class JobTitleDao
     public function getJobSpecAttachmentById(int $attachId): ?JobSpecificationAttachment
     {
         try {
-            $jobSpecificationAttachment = Doctrine::getEntityManager()->getRepository(
-                JobSpecificationAttachment::class
-            )->find($attachId);
+            $jobSpecificationAttachment = $this->getRepository(JobSpecificationAttachment::class)->find($attachId);
             if ($jobSpecificationAttachment instanceof JobSpecificationAttachment) {
                 return $jobSpecificationAttachment;
             }
@@ -143,8 +133,7 @@ class JobTitleDao
     public function saveJobTitle(JobTitle $jobTitle): JobTitle
     {
         try {
-            Doctrine::getEntityManager()->persist($jobTitle);
-            Doctrine::getEntityManager()->flush();
+            $this->persist($jobTitle);
             return $jobTitle;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -160,8 +149,7 @@ class JobTitleDao
         JobSpecificationAttachment $jobSpecificationAttachment
     ): JobSpecificationAttachment {
         try {
-            Doctrine::getEntityManager()->persist($jobSpecificationAttachment);
-            Doctrine::getEntityManager()->flush();
+            $this->persist($jobSpecificationAttachment);
             return $jobSpecificationAttachment;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -177,8 +165,7 @@ class JobTitleDao
         JobSpecificationAttachment $jobSpecificationAttachment
     ): JobSpecificationAttachment {
         try {
-            Doctrine::getEntityManager()->remove($jobSpecificationAttachment);
-            Doctrine::getEntityManager()->flush();
+            $this->remove($jobSpecificationAttachment);
             return $jobSpecificationAttachment;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
