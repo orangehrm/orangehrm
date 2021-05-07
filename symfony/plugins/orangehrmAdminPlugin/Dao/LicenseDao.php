@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -21,15 +20,15 @@
 namespace OrangeHRM\Admin\Dao;
 
 use OrangeHRM\Admin\Dto\LicenseSearchFilterParams;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Exception\DaoException;
 use Exception;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Entity\License;
 
-class LicenseDao
+class LicenseDao extends BaseDao
 {
-
 
     /**
      * @param License $license
@@ -39,8 +38,9 @@ class LicenseDao
     public function saveLicense(License $license): License
     {
         try {
-            Doctrine::getEntityManager()->persist($license);
-            Doctrine::getEntityManager()->flush();
+            $this->persist($license);
+           // Doctrine::getEntityManager()->persist($license);
+          //  Doctrine::getEntityManager()->flush();
             return $license;
         } catch (Exception $e) {
             throw new \DaoException($e->getMessage(), $e->getCode(), $e);
@@ -171,5 +171,4 @@ class LicenseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-
 }

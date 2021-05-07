@@ -56,7 +56,7 @@ class Doctrine
             $cache,
             $useSimpleAnnotationReader
         );
-        $config->setAutoGenerateProxyClasses(true);
+        //$config->setAutoGenerateProxyClasses(true);
 
         $pathToConf = realpath(Config::get(Config::BASE_DIR) . '/lib/confs/Conf.php');
         if (!$pathToConf) {
