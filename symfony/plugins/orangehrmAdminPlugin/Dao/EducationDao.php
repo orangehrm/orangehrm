@@ -20,13 +20,13 @@
 namespace OrangeHRM\Admin\Dao;
 
 use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Exception\DaoException;
 use Exception;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Entity\Education;
 
-class EducationDao
+class EducationDao extends BaseDao
 {
     /**
      * @param Education $education
@@ -36,8 +36,7 @@ class EducationDao
     public function saveEducation(Education $education): Education
     {
         try {
-            Doctrine::getEntityManager()->persist($education);
-            Doctrine::getEntityManager()->flush();
+            $this->persist($education);
             return $education;
         } catch (Exception $e) {
             throw new \DaoException($e->getMessage(), $e->getCode(), $e);
@@ -53,7 +52,7 @@ class EducationDao
     public function getEducationById(int $id): ?Education
     {
         try {
-            $education = Doctrine::getEntityManager()->getRepository(Education::class)->find($id);
+            $education = $this->getRepository(Education::class)->find($id);
             if ($education instanceof Education) {
                 return $education;
             }
@@ -71,10 +70,8 @@ class EducationDao
     public function getEducationByName(string $name): ?Education
     {
         try {
+            $query = $this->getRepository(Education::class)->createQueryBuilder('e');
             $trimmed = trim($name, ' ');
-            $query = Doctrine::getEntityManager()->getRepository(
-                Education::class
-            )->createQueryBuilder('e');
             $query->andWhere('e.name = :name');
             $query->setParameter('name', $trimmed);
             return $query->getQuery()->getOneOrNullResult();
@@ -102,9 +99,9 @@ class EducationDao
      * @param QualificationEducationSearchFilterParams $educationSearchParamHolder
      * @return Paginator
      */
-    public function getEducationListPaginator(QualificationEducationSearchFilterParams $educationSearchParamHolder): Paginator
-    {
-        $q = Doctrine::getEntityManager()->getRepository(Education::class)->createQueryBuilder('e');
+    public function getEducationListPaginator(QualificationEducationSearchFilterParams $educationSearchParamHolder
+    ): Paginator {
+        $q = $this->getRepository(Education::class)->createQueryBuilder('e');
         if (!is_null($educationSearchParamHolder->getSortField())) {
             $q->addOrderBy($educationSearchParamHolder->getSortField(), $educationSearchParamHolder->getSortOrder());
         }
@@ -139,7 +136,7 @@ class EducationDao
     public function deleteEducations(array $toDeleteIds): int
     {
         try {
-            $q = Doctrine::getEntityManager()->createQueryBuilder();
+            $q = $this->createQueryBuilder(Education::class, 'e');
             $q->delete(Education::class, 'e')
                 ->set('e.deleted', true)
                 ->where($q->expr()->in('e.id', $toDeleteIds));
@@ -157,12 +154,12 @@ class EducationDao
     public function isExistingEducationName(string $educationName): bool
     {
         try {
-            $q = Doctrine::getEntityManager()->getRepository(Education::class)->createQueryBuilder('e');
+            $q = $this->getRepository(Education::class)->createQueryBuilder('e');
             $trimmed = trim($educationName, ' ');
             $q->Where('e.name = :name');
             $q->setParameter('name', $trimmed);
-            $paginator = new Paginator($q);
-            if ($paginator->count() > 0) {
+            $count = $this->count($q);
+            if ($count > 0) {
                 return true;
             }
             return false;

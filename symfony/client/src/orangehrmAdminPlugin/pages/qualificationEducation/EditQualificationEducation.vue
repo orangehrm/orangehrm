@@ -103,7 +103,7 @@ export default {
         });
     },
     onCancel() {
-      navigate('/admin/qualificationEducation');
+      navigate('/admin/viewEducation');
     },
   },
   created() {
@@ -126,10 +126,10 @@ export default {
           return (v && v.length <= 50) || 'Should not exceed 50 characters';
         });
         this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
+          const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.qualification.id
+            return id !== this.qualification.id
               ? 'Qualification name should be unique'
               : true;
           } else {

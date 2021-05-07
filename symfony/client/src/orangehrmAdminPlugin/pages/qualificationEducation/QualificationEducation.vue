@@ -158,10 +158,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveQualificationEducation');
+      navigate('/admin/saveEducation');
     },
     onClickEdit(item) {
-      navigate('/admin/saveQualificationEducation/{id}', {id: item.id});
+      navigate('/admin/saveEducation/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
