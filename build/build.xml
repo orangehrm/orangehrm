@@ -67,7 +67,7 @@
     <exec command="yarn build" dir="${project.dir}/symfony/client" checkreturn="false" passthru="true" />
   </target>
  
-  <target name="build" depends="prepare,symfony.publish.assets,clean">
+  <target name="build" depends="prepare,clean">
     <echo>Copying files...</echo>
     <copy todir="${package.dir}" includeemptydirs="true">
         <fileset dir="${project.dir}">
@@ -75,6 +75,7 @@
             <include name="**/*.htaccess"/>
             <include name="build/fix-ids.php"/>
             <include name="build/verify-constraints.sh"/>
+            <include name="build/build"/>
             <include name="build/testConf.php"/>
             <exclude name="build/dist/**"/>
             <exclude name="build/reports/**"/>
@@ -212,7 +213,7 @@
     <include name="release-revision-*.txt" />
   </fileset>
 
-  <target name="clean" depends="symfony.clear.cache">
+  <target name="clean">
     <echo msg="Cleaning up..."/>
     <delete dir="${dist.dir}"/>
     <delete dir="${reports.dir}" />

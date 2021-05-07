@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Dao;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -29,6 +30,14 @@ use OrangeHRM\ORM\Paginator;
 
 abstract class BaseDao
 {
+    /**
+     * @return EntityManager
+     */
+    protected function getEntityManager(): EntityManager
+    {
+        return Doctrine::getEntityManager();
+    }
+
     /**
      * @param string $entityClass
      * @return ObjectRepository|EntityRepository
@@ -54,6 +63,17 @@ abstract class BaseDao
     }
 
     /**
+     * @param $entity
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    protected function remove($entity): void
+    {
+        Doctrine::getEntityManager()->remove($entity);
+        Doctrine::getEntityManager()->flush();
+    }
+
+    /**
      * @param string $entityClass
      * @param string $alias
      * @param string|null $indexBy
@@ -68,11 +88,19 @@ abstract class BaseDao
 
     /**
      * @param QueryBuilder $qb
+     * @return Paginator
+     */
+    protected function getPaginator(QueryBuilder $qb): Paginator
+    {
+        return new Paginator($qb);
+    }
+
+    /**
+     * @param QueryBuilder $qb
      * @return int
      */
     protected function count(QueryBuilder $qb): int
     {
-        $paginator = new Paginator($qb);
-        return $paginator->count();
+        return $this->getPaginator($qb)->count();
     }
 }

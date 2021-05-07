@@ -18,7 +18,9 @@
  *
  */
 
-require realpath(__DIR__ . "/../symfony/lib/vendor/autoload.php");
+use Symfony\Component\Yaml\Yaml;
+
+require_once realpath(__DIR__ . '/bootstrap.php');
 
 class systemConfigurationHelper
 {
@@ -33,7 +35,7 @@ class systemConfigurationHelper
                 DIRECTORY_SEPARATOR. 'symfony'.DIRECTORY_SEPARATOR.'plugins'.
                 DIRECTORY_SEPARATOR.'orangehrmAdminPlugin'.DIRECTORY_SEPARATOR.'config'.
                 DIRECTORY_SEPARATOR.'supported_languages.yml';
-        $this->languages = sfYaml::load(file_get_contents($file));
+        $this->languages = Yaml::parseFile($file);
     }
 
 

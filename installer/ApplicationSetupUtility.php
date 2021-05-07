@@ -19,8 +19,7 @@
  */
 
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
-require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/phpseclib/phpseclib/Crypt/Random.php';
-require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.php';
+require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/Utility/PasswordHash.php';
 require_once ROOT_PATH.'/installer/SystemConfiguration.php';
 require_once ROOT_PATH.'/installer/Messages.php';
 
@@ -188,7 +187,7 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
     }
 
     public static function createCsrfKey() {
-        return bin2hex(\phpseclib\Crypt\Random::string(55));
+        return bin2hex(random_bytes(55));
     }
 
 public static function createDBUser() {
@@ -249,7 +248,7 @@ public static function createUser() {
 		return;
 	}
 
-    $passwordHasher = new PasswordHash();
+    $passwordHasher = new OrangeHRM\Core\Utility\PasswordHash();
     $hash = $passwordHasher->hash($_SESSION['defUser']['AdminPassword']);
 
 	$query = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('" .$_SESSION['defUser']['AdminUserName']. "','".$hash."','1')";

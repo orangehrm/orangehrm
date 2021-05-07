@@ -20,11 +20,11 @@
 namespace OrangeHRM\Admin\Dao;
 
 use Exception;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Subunit;
-use OrangeHRM\ORM\Doctrine;
 
-class CompanyStructureDao
+class CompanyStructureDao extends BaseDao
 {
     /**
      * @param int $id
@@ -34,7 +34,7 @@ class CompanyStructureDao
     public function getSubunitById(int $id): ?Subunit
     {
         try {
-            $subUnit = Doctrine::getEntityManager()->getRepository(Subunit::class)->find($id);
+            $subUnit = $this->getRepository(Subunit::class)->find($id);
             if ($subUnit instanceof Subunit) {
                 return $subUnit;
             }
@@ -49,10 +49,10 @@ class CompanyStructureDao
      * @return Subunit
      * @throws DaoException
      */
-    public function saveSubunit(Subunit $subunit):Subunit {
+    public function saveSubunit(Subunit $subunit): Subunit
+    {
         try {
-            Doctrine::getEntityManager()->persist($subunit);
-            Doctrine::getEntityManager()->flush();
+            $this->persist($subunit);
             return $subunit;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -96,8 +96,8 @@ class CompanyStructureDao
     public function setOrganizationName(string $name): int
     {
         try {
-            $q = Doctrine::getEntityManager()->createQueryBuilder();
-            $q->update(Subunit::class, 'su')
+            $q = $this->createQueryBuilder(Subunit::class, 'su');
+            $q->update()
                 ->set('su.name', ':name')
                 ->setParameter('name', $name)
                 ->where('su.level = :level')
@@ -121,5 +121,4 @@ class CompanyStructureDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-
 }

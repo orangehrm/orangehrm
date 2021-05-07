@@ -20,13 +20,13 @@
 namespace OrangeHRM\Pim\Dao;
 
 use Exception;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 
-class EmployeeDao
+class EmployeeDao extends BaseDao
 {
     /**
      * @param EmployeeSearchFilterParams $employeeSearchParamHolder
@@ -64,7 +64,7 @@ class EmployeeDao
      */
     public function getEmployeeListPaginator(EmployeeSearchFilterParams $employeeSearchParamHolder): Paginator
     {
-        $q = Doctrine::getEntityManager()->getRepository(Employee::class)->createQueryBuilder('e');
+        $q = $this->createQueryBuilder(Employee::class,'e');
         if (!is_null($employeeSearchParamHolder->getSortField())) {
             $q->addOrderBy($employeeSearchParamHolder->getSortField(), $employeeSearchParamHolder->getSortOrder());
         }
@@ -97,7 +97,7 @@ class EmployeeDao
             $q->setParameter('nameOrId', '%' . $employeeSearchParamHolder->getNameOrId() . '%');
         }
 
-        return new Paginator($q);
+        return $this->getPaginator($q);
     }
 
     /**
@@ -108,8 +108,7 @@ class EmployeeDao
     public function saveEmployee(Employee $employee): Employee
     {
         try {
-            Doctrine::getEntityManager()->persist($employee);
-            Doctrine::getEntityManager()->flush();
+            $this->persist($employee);
             return $employee;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

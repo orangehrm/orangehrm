@@ -21,6 +21,7 @@ session_start();
 define('REAL_ROOT_PATH', dirname(__FILE__));
 define('ROOT_PATH',dirname( dirname(__FILE__) ));
 
+require_once realpath(__DIR__ . '/bootstrap.php');
 require_once(REAL_ROOT_PATH.'/utils/installUtil.php');
 require_once(REAL_ROOT_PATH.'/DetailsHandler.php');
 require_once(REAL_ROOT_PATH.'/BasicConfigurations.php');
@@ -161,9 +162,7 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 		clearLogFile($logfileName);
 		setValueToLogFile($logfileName,date("Y-m-d H:i:s "));
 
-		$result = shell_exec(__DIR__  . "/cli_common_commands.sh 2>> ". $logfileName); // Composer install and symfony commands
-
-		if(!isset($result) || trim($result)==='' || $error){
+		if($error){
 			$messages->displayMessage("Error(s) found. Error log file will display below.");
 
 			$logFile = fopen("logInsatall.log", "r") or die("Unable to open file log file in cli!");
@@ -180,7 +179,6 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			}
 		} else {
 			$messages->displayMessage("Please wait...");
-			$messages->displayMessage("Result - " . $result);
 			$messages->displayMessage("Installation successfully completed...");
 			setValueToLogFile($logfileName, "Installation successfully completed.\n");
 			require_once(ROOT_PATH.'/install.php');

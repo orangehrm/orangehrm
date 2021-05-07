@@ -70,3 +70,12 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+
+.orangehrm-copyright {
+  font-size: 0.8rem;
+  text-align: center;
+
+  & a {
+    color: $oxd-interface-gray-darken-2-color;
+  }
+}

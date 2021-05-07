@@ -27,7 +27,7 @@ use OrangeHRM\Entity\UserRole;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\ListSorter;
 
-class MenuDao
+class MenuDao extends BaseDao
 {
     /**
      * @param UserRole[]|string[] $userRoleList
@@ -51,7 +51,7 @@ class MenuDao
                 }
             }
 
-            $q = Doctrine::getEntityManager()->getRepository(MenuItem::class)->createQueryBuilder('mi');
+            $q = $this->createQueryBuilder(MenuItem::class, 'mi');
             $q->leftJoin('mi.screen', 'sc');
             $q->leftJoin('sc.module', 'mo');
             $q->leftJoin('sc.screenPermissions', 'sp');
@@ -87,7 +87,7 @@ class MenuDao
     public function enableModuleMenuItems(string $moduleName, array $menuTitles = []): int
     {
         try {
-            $q = Doctrine::getEntityManager()->getRepository(MenuItem::class)->createQueryBuilder('mi');
+            $q = $this->createQueryBuilder(MenuItem::class, 'mi');
             $q->leftJoin('mi.screen', 'sc');
             $q->leftJoin('sc.module', 'mo');
 

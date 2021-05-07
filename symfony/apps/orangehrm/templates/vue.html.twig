@@ -35,6 +35,7 @@
       {% endfor %}
       >
     </{{ componentName }}>
+    <template v-slot:footer>{% include 'copyright.html.twig' %}<br></template>
     </oxd-layout>
   </div>
 {% endblock %}

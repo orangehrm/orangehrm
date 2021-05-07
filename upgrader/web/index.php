@@ -1,5 +1,7 @@
 <?php
 
+die('Upgrader not yet implemented for OrangeHRM 5.0');
+
 define('ROOT_PATH', realpath(__DIR__ . '/../..'));
 
 include_once(ROOT_PATH . '/lib/confs/log_settings.php');

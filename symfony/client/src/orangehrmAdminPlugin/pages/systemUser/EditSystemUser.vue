@@ -201,7 +201,7 @@ export default {
 
   methods: {
     onCancel() {
-      navigate('/admin/systemUser');
+      navigate('/admin/viewSystemUsers');
     },
     onSave() {
       this.isLoading = true;
