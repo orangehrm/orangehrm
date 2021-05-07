@@ -30,18 +30,19 @@ jobs:
           cd symfony
           php7.4 -f /usr/bin/composer install
           php7.4 -f /usr/bin/composer dump-autoload -o
-          cd lib
-          php7.3 -f /usr/bin/composer install
-          php7.3 -f /usr/bin/composer dump-autoload -o
-          cd ..
           cd client
           yarn install
 
+      - name: Dump build file
+        run: |
+          cd build
+          echo "SHA: $GITHUB_SHA" > build
+          echo "Repository: $GITHUB_REPOSITORY" >> build
+          echo "Branch: $GITHUB_HEAD_REF" >> build
+
       - name: Run build
         run: |
-          cd symfony
-          php7.3 symfony o:publish-assets
-          cd client
+          cd symfony/client
           yarn build
           cd ../..
           cd build
