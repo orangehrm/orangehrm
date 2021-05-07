@@ -39,10 +39,6 @@ jobs:
           cd symfony
           php7.4 -f /usr/bin/composer install
           php7.4 -f /usr/bin/composer dump-autoload -o
-          cd lib
-          php7.3 -f /usr/bin/composer install
-          php7.3 -f /usr/bin/composer dump-autoload -o
-          cd ..
           cd client
           yarn install
 

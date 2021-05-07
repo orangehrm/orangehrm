@@ -59,31 +59,6 @@ class ConfigHelper
     }
 
     /**
-     * This should call after call `getPathConfigs` and configure path configs
-     * @return array
-     */
-    private function getLegacyPathConfigs(): array
-    {
-        return [
-            'sf_root_dir' => $this->get('ohrm_symfony_dir'),
-            'sf_apps_dir' => $this->get('ohrm_apps_dir'),
-            'sf_lib_dir' => $this->get('ohrm_lib_dir'),
-            'sf_log_dir' => $this->get('ohrm_log_dir'),
-            'sf_data_dir' => $this->get('ohrm_data_dir'),
-            'sf_config_dir' => $this->get('ohrm_config_dir'),
-            'sf_plugins_dir' => $this->get('ohrm_plugins_dir'),
-            'sf_web_dir' => $this->get('ohrm_web_dir'),
-            'sf_cache_dir' => $this->get('ohrm_cache_dir'),
-            'sf_app_dir' => $this->get('ohrm_app_dir'),
-            'sf_app_config_dir' => $this->get('ohrm_app_config_dir'),
-            'sf_app_lib_dir' => $this->get('ohrm_app_lib_dir'),
-            'sf_app_i18n_dir' => $this->get('ohrm_app_i18n_dir'),
-
-            'sf_test_dir' => $this->get('ohrm_test_dir'),
-        ];
-    }
-
-    /**
      * @return string[]
      */
     private function getModuleConfigs(): array

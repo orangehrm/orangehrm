@@ -18,8 +18,7 @@
  *
  */
 
-
-require realpath(__DIR__ . "/../../symfony/lib/vendor/autoload.php");
+use Symfony\Component\Yaml\Yaml;
 
 class SystemValidator
 {
@@ -30,7 +29,7 @@ class SystemValidator
 
     public function __construct()
     {
-        $this->systemRequirements = sfYaml::load(file_get_contents(dirname(__FILE__) . '/system_requirements.yml'));
+        $this->systemRequirements = Yaml::parseFile(realpath(__DIR__ . '/system_requirements.yml'));
 
     }
 
