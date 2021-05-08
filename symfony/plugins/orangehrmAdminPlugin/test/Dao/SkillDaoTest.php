@@ -121,6 +121,6 @@ class SkillDaoTest extends TestCase
         $skillSearchParams = new SkillSearchFilterParams();
 
         $result = $this->skillDao->getSearchSkillsCount($skillSearchParams);
-        $this->assertEquals(3,$result );
+        $this->assertEquals(3, $result);
     }
 }

@@ -83,6 +83,7 @@ class Skill
     {
         $this->name = $name;
     }
+
     /**
      * @return string
      */

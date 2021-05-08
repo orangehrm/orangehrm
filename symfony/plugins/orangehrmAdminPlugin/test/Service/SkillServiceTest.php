@@ -127,7 +127,7 @@ class SkillServiceTest extends TestCase
 
         $this->skillService->setSkillDao($skillDao);
         $result = $this->skillService->getSearchSkillsCount($skillSearchParams);
-        $this->assertEquals(3,$result );
+        $this->assertEquals(3, $result);
     }
 }
 
