@@ -6,7 +6,7 @@ auth_login:
 auth_validate:
   path: /auth/validate
   controller: OrangeHRM\Authentication\Controller\ValidateController::handle
-  methods: [ POST ]
+  methods: [ GET, POST ]
 
 auth_logout:
   path: /auth/logout

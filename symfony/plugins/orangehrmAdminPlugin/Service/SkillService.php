@@ -21,7 +21,7 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\SkillDao;
-use \DaoException;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\Skill;
@@ -103,7 +103,7 @@ class SkillService
      *
      * @param string $skillName Skill name that needs to be checked
      * @return boolean
-     * @version 2.6.12
+     * @throws DaoException
      */
     public function isExistingSkillName(string $skillName): bool
     {

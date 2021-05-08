@@ -23,7 +23,7 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
 use OrangeHRM\Core\Api\CommonParams;
-use \OrangeHRM\Core\Exception\SearchParamException;
+use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -38,10 +38,10 @@ use OrangeHRM\Admin\Service\SkillService;
 use OrangeHRM\Admin\Api\Model\SkillModel;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
-use \DaoException;
+use OrangeHRM\Core\Exception\DaoException;
 use \Exception;
-use \OrangeHRM\Core\Api\V2\Endpoint;
-use \OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Exception\ServiceException;
 
 class SkillAPI extends Endpoint implements CrudEndpoint
 {
@@ -78,7 +78,6 @@ class SkillAPI extends Endpoint implements CrudEndpoint
     /**
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
-     * @throws DaoException
      * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
@@ -87,7 +86,7 @@ class SkillAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $skill = $this->getSkillService()->getSkillById($id);
         if (!$skill instanceof Skill) {
-            throw new RecordNotFoundException('No Record Found');
+            throw new RecordNotFoundException();
         }
 
         return new EndpointGetOneResult(SkillModel::class, $skill);
@@ -104,10 +103,6 @@ class SkillAPI extends Endpoint implements CrudEndpoint
         // TODO:: Check data group permission
         $skillSearchParams = new SkillSearchFilterParams();
         $this->setSortingAndPaginationParams($skillSearchParams);
-        var_dump(            $this->getRequestParams()->getStringOrNull(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::FILTER_NAME
-        ));
         $skillSearchParams->setName(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
@@ -175,19 +170,21 @@ class SkillAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return Skill
-     * @throws DaoException
-     * @throws RecordNotFoundException
+     * @throws RecordNotFoundException|DaoException
      */
     public function saveSkill(): Skill
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        $description = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION);
+        $description = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_DESCRIPTION
+        );
         if (!empty($id)) {
             $skill = $this->getSkillService()->getSkillById($id);
             if ($skill == null) {
-                throw new RecordNotFoundException('No Record Found');
+                throw new RecordNotFoundException();
             }
         } else {
             $skill = new Skill();
@@ -196,17 +193,5 @@ class SkillAPI extends Endpoint implements CrudEndpoint
         $skill->setName($name);
         $skill->setDescription($description);
         return $this->getSkillService()->saveSkill($skill);
-    }
-
-    /**
-     * @return Response
-     * @throws DaoException
-     */
-    public function deleteSkills(): Response
-    {
-        // TODO:: Check data group permission
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getSkillService()->deleteSkills($ids);
-        return new Response($ids);
     }
 }

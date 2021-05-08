@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Tests\Dao;
 
+use Exception;
 use OrangeHRM\Admin\Dao\SkillDao;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
 use OrangeHRM\Config\Config;
@@ -33,11 +34,12 @@ use OrangeHRM\Tests\Util\TestDataService;
 class SkillDaoTest extends TestCase
 {
 
-    private $skillDao;
-    protected $fixture;
+    private SkillDao $skillDao;
+    protected string $fixture;
 
     /**
      * Set up method
+     * @throws Exception
      */
     protected function setUp(): void
     {
@@ -49,21 +51,21 @@ class SkillDaoTest extends TestCase
     public function testGetSkillsList(): void
     {
         $result = $this->skillDao->getSkills();
-        $this->assertEquals(count($result), 3);
+        $this->assertCount(3, $result);
     }
 
     public function testGetSkillById(): void
     {
         $result = $this->skillDao->getSkillById(1);
-        $this->assertEquals($result->getName(), 'Driving');
-        $this->assertEquals($result->getDescription(), 'Ability to drive');
+        $this->assertEquals('Driving', $result->getName());
+        $this->assertEquals('Ability to drive', $result->getDescription());
     }
 
     public function testDeleteSkill(): void
     {
-        $toBedeletedIds = array(3, 2);
-        $result = $this->skillDao->deleteSkills($toBedeletedIds);
-        $this->assertEquals($result, 2);
+        $toTobedeletedIds = array(3, 2);
+        $result = $this->skillDao->deleteSkills($toTobedeletedIds);
+        $this->assertEquals(2, $result);
     }
 
     public function testSearchSkill(): void
@@ -71,7 +73,7 @@ class SkillDaoTest extends TestCase
         $skillSearchParams = new SkillSearchFilterParams();
 
         $result = $this->skillDao->searchSkill($skillSearchParams);
-        $this->assertEquals(3,count($result) );
+        $this->assertCount(3, $result);
         $this->assertTrue($result[0] instanceof Skill);
     }
 
@@ -81,7 +83,7 @@ class SkillDaoTest extends TestCase
         $skillSearchParams->setLimit(2);
 
         $result = $this->skillDao->searchSkill($skillSearchParams);
-        $this->assertEquals(2,count($result) );
+        $this->assertCount(2, $result);
     }
 
     public function testSaveSkill(): void
@@ -110,7 +112,7 @@ class SkillDaoTest extends TestCase
     public function testGetSkills(): void
     {
         $result = $this->skillDao->getSkills();
-        $this->assertEquals(3, count($result));
+        $this->assertCount(3, $result);
         $this->assertTrue($result[0] instanceof Skill);
     }
 

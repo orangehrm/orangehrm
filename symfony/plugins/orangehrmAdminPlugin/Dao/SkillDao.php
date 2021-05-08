@@ -25,8 +25,8 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
 use OrangeHRM\Entity\Skill;
 use OrangeHRM\ORM\Doctrine;
-use \DaoException;
-use \Exception;
+use OrangeHRM\Core\Exception\DaoException;
+use Exception;
 
 class SkillDao
 {

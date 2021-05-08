@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Tests\Service;
 
+use Exception;
 use OrangeHRM\Admin\Dao\SkillDao;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
 use OrangeHRM\Admin\Service\SkillService;
@@ -29,20 +30,22 @@ use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
+ * @group Service
  */
 class SkillServiceTest extends TestCase
 {
 
-    private $skillService;
-    protected $fixture;
+    private SkillService $skillService;
+    protected string $fixture;
 
     /**
      * Set up method
+     * @throws Exception
      */
     protected function setUp(): void
     {
         $this->skillService = new SkillService();
-        $this->fixture = Config::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/SkillDao.yml';
+        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/SkillDao.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -108,7 +111,7 @@ class SkillServiceTest extends TestCase
 
         $this->skillService->setSkillDao($skillDao);
         $result = $this->skillService->searchSkill($skillSearchParams);
-        $this->assertEquals(3,count($result) );
+        $this->assertCount(3, $result);
         $this->assertTrue($result[0] instanceof Skill);
     }
 

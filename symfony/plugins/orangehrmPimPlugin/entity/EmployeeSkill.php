@@ -26,7 +26,7 @@ class EmployeeSkill
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Skill", mappedBy="employeeSkills")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Skill", mappedBy="employeeSkills")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="skillId", referencedColumnName="id")
      * })
