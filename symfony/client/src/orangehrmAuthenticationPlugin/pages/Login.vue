@@ -68,6 +68,9 @@
       >
       <oxd-divider />
     </div>
+    <template v-slot:footer>
+      <slot name="footer"></slot>
+    </template>
   </login-layout>
 </template>
 

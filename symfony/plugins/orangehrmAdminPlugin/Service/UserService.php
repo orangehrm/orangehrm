@@ -195,7 +195,7 @@ class UserService
 
     /**
      * Get User role with given name
-     * @param $roleName
+     * @param string $roleName
      * @return UserRole|null
      * @throws ServiceException
      */

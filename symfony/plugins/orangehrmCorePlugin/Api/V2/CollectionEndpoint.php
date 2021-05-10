@@ -22,24 +22,47 @@ namespace OrangeHRM\Core\Api\V2;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 
 interface CollectionEndpoint
 {
     /**
      * Get collection of resources
      * @return EndpointGetAllResult
+     * @throws NormalizeException
      */
     public function getAll(): EndpointGetAllResult;
 
     /**
+     * Validation rules for CollectionEndpoint::getAll
+     * @return ParamRuleCollection
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection;
+
+    /**
      * Create a new resource
      * @return EndpointCreateResult
+     * @throws NormalizeException
      */
     public function create(): EndpointCreateResult;
 
     /**
+     * Validation rules for CollectionEndpoint::create
+     * @return ParamRuleCollection
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection;
+
+    /**
      * Delete list of resources
      * @return EndpointDeleteResult
+     * @throws NormalizeException
      */
     public function delete(): EndpointDeleteResult;
+
+    /**
+     * Validation rules for CollectionEndpoint::delete
+     * @return ParamRuleCollection
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection;
 }

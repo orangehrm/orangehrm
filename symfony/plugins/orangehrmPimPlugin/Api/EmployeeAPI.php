@@ -29,6 +29,10 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
@@ -80,6 +84,14 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission & get employees using UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties
@@ -112,6 +124,19 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(self::FILTER_INCLUDE_TERMINATED),
+            new ParamRule(self::FILTER_NAME),
+            new ParamRule(self::FILTER_NAME_OR_ID),
+            ...$this->getSortingAndPaginationParamsRules(['e.lastName'])
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function create(): EndpointCreateResult
     {
         // TODO:: Check data group permission
@@ -132,6 +157,19 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_FIRST_NAME),
+            new ParamRule(self::PARAMETER_MIDDLE_NAME),
+            new ParamRule(self::PARAMETER_LAST_NAME),
+            new ParamRule(self::PARAMETER_EMPLOYEE_ID),
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function update(): EndpointUpdateResult
     {
         throw new NotImplementedException();
@@ -140,7 +178,23 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function delete(): EndpointDeleteResult
+    {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
     {
         throw new NotImplementedException();
     }

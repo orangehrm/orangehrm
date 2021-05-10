@@ -19,10 +19,10 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use Exception;
 use OrangeHRM\Admin\Api\Model\UserModel;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
@@ -33,14 +33,16 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\ORM\Doctrine;
 
 class UserAPI extends Endpoint implements CrudEndpoint
 {
-    public const PARAMETER_ID = 'id';
-    public const PARAMETER_IDS = 'ids';
     public const PARAMETER_USERNAME = 'username';
     public const PARAMETER_PASSWORD = 'password';
     public const PARAMETER_USER_ROLE_ID = 'userRoleId';
@@ -79,18 +81,26 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
     {
-        $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $user = $this->getSystemUserService()->getSystemUser($userId);
         return new EndpointGetOneResult(UserModel::class, $user);
     }
 
     /**
      * @inheritDoc
-     * @throws Exception
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID),
+        );
+    }
+
+    /**
+     * @inheritDoc
      */
     public function getAll(): EndpointGetAllResult
     {
@@ -128,7 +138,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
             $users,
             new ParameterBag(
                 [
-                    'total' => $this->getSystemUserService()->getSearchSystemUsersCount(
+                    CommonParams::PARAMETER_TOTAL => $this->getSystemUserService()->getSearchSystemUsersCount(
                         $userSearchParamHolder
                     )
                 ]
@@ -138,7 +148,20 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(self::FILTER_USER_ROLE_ID),
+            new ParamRule(self::FILTER_USERNAME),
+            new ParamRule(self::FILTER_EMPLOYEE_NUMBER),
+            new ParamRule(self::FILTER_STATUS),
+            ...$this->getSortingAndPaginationParamsRules(UserSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
+    }
+
+    /**
+     * @inheritDoc
      */
     public function create(): EndpointCreateResult
     {
@@ -163,11 +186,34 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getCommonBodyValidationRules(): array
+    {
+        return [
+            new ParamRule(self::PARAMETER_USERNAME),
+            new ParamRule(self::PARAMETER_PASSWORD),
+            new ParamRule(self::PARAMETER_USER_ROLE_ID),
+            new ParamRule(self::PARAMETER_EMPLOYEE_NUMBER),
+            new ParamRule(self::PARAMETER_STATUS),
+        ];
+    }
+
+    /**
+     * @inheritDoc
      */
     public function update(): EndpointUpdateResult
     {
-        $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $username = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USERNAME);
         $userRoleId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USER_ROLE_ID);
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMPLOYEE_NUMBER);
@@ -197,12 +243,36 @@ class UserAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(self::PARAMETER_CHANGE_PASSWORD),
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @inheritDoc
      */
     public function delete(): EndpointDeleteResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getSystemUserService()->deleteSystemUsers($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 }

@@ -17,31 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Doctrine\DBAL\Exception\ConnectionException;
-use OrangeHRM\ORM\Doctrine;
+namespace OrangeHRM\Core\Api\V2\Validator;
 
-define('ENVIRNOMENT', 'test');
+use Exception;
+use Throwable;
 
-require realpath(__DIR__ . '/../../vendor/autoload.php');
+class ValidatorException extends Exception
+{
+    public const DEFAULT_ERROR_MESSAGE = "Validator Error";
 
-$errorMessage = "
-Can't connect to database `%s`.
-Run below command and try again;
-$ php ./devTools/general/create-test-db.php
-
-Error:
-%s\n
-";
-
-try {
-    Doctrine::getEntityManager()->getConnection()->connect();
-} catch (ConnectionException $e) {
-    if ($e->getErrorCode() === 1049) {
-        echo sprintf(
-            $errorMessage,
-            Doctrine::getEntityManager()->getConnection()->getDatabase(),
-            $e->getMessage()
-        );
-        die;
+    public function __construct($message = self::DEFAULT_ERROR_MESSAGE, $code = 0, Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
     }
 }
