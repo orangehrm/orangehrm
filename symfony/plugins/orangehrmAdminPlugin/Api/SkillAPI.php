@@ -137,7 +137,7 @@ class SkillAPI extends Endpoint implements CrudEndpoint
             $skills,
             new ParameterBag(
                 [
-                    'total' => $this->getSkillService()->getSearchSkillsCount(
+                    CommonParams::PARAMETER_TOTAL => $this->getSkillService()->getSearchSkillsCount(
                         $skillSearchParams
                     )
                 ]

@@ -126,7 +126,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
             $employmentStatuses,
             new ParameterBag(
                 [
-                    'total' => $this->getEmploymentStatusService()->getSearchEmploymentStatusesCount(
+                    CommonParams::PARAMETER_TOTAL => $this->getEmploymentStatusService()->getSearchEmploymentStatusesCount(
                         $employmentStatusSearchParams
                     )
                 ]
