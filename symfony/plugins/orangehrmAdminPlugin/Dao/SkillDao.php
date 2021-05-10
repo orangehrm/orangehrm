@@ -21,14 +21,15 @@
 namespace OrangeHRM\Admin\Dao;
 
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
 use OrangeHRM\Entity\Skill;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Core\Exception\DaoException;
 use Exception;
+use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Core\Dao\BaseDao;
 
-class SkillDao
+class SkillDao extends BaseDao
 {
     /**
      * @param Skill $skill
@@ -60,19 +61,6 @@ class SkillDao
         }
     }
 
-    public function getSkillByName($name)
-    {
-        try {
-            $q = Doctrine_Query::create()
-                ->from('Skill')
-                ->where('name = ?', trim($name));
-
-            return $q->fetchOne();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
     /**
      * @param array $toDeleteIds
      * @return int
@@ -83,26 +71,11 @@ class SkillDao
         try {
             $q = Doctrine::getEntityManager()->createQueryBuilder();
             $q->delete(Skill::class, 's')
-                ->where($q->expr()->in('s.id', $toDeleteIds));
+                ->where($q->expr()->in('s.id', ':ids'))
+                ->setParameter('ids', $toDeleteIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
-        }
-    }
-
-    public function isExistingSkillName($skillName)
-    {
-        try {
-            $q = Doctrine_Query:: create()->from('Skill s')
-                ->where('s.name = ?', trim($skillName));
-
-            if ($q->count() > 0) {
-                return true;
-            }
-
-            return false;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -116,7 +89,7 @@ class SkillDao
     public function searchSkill(SkillSearchFilterParams $skillSearchParams): array
     {
         try {
-            $q = $this->_buildSearchQuery($skillSearchParams);
+            $q = $this->getSearchSkillPaginator($skillSearchParams);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -125,9 +98,9 @@ class SkillDao
 
     /**
      * @param SkillSearchFilterParams $skillSearchParams
-     * @return QueryBuilder
+     * @return Paginator
      */
-    private function _buildSearchQuery(SkillSearchFilterParams $skillSearchParams): QueryBuilder
+    private function getSearchSkillPaginator(SkillSearchFilterParams $skillSearchParams): Paginator
     {
         $q = Doctrine::getEntityManager()->getRepository(
             Skill::class
@@ -149,14 +122,14 @@ class SkillDao
             $q->andWhere('s.description = :description');
             $q->setParameter('description', $skillSearchParams->getDescription());
         }
-        return $q;
+        return $this->getPaginator($q);
     }
 
     /**
      * Get Employment Statuses
      *
      * @return Skill[]
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @throws DaoException
      */
     public function getSkills(): array
     {
@@ -179,8 +152,7 @@ class SkillDao
     public function getSearchSkillsCount(SkillSearchFilterParams $skillSearchParams): int
     {
         try {
-            $q = $this->_buildSearchQuery($skillSearchParams);
-            $paginator = new \OrangeHRM\ORM\Paginator($q);
+            $paginator = $this->getSearchSkillPaginator($skillSearchParams);
             return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

@@ -105,7 +105,6 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EndpointGetAllResult
-     * @throws DaoException
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult

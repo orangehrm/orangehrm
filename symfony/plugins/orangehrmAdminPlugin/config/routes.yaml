@@ -182,18 +182,18 @@ edit_education:
   path: /admin/saveEducation/{id}
   controller: OrangeHRM\Admin\Controller\SaveQualificationEducationController::handle
   methods: [ GET ]
-  
+
 view_qualification_skills:
-  path: /admin/qualificationSkill
+  path: /admin/viewSkills
   controller: OrangeHRM\Admin\Controller\QualificationSkillController::handle
   methods: [ GET ]
 
 save_qualification_skills:
-  path: /admin/saveQualificationSkill
+  path: /admin/saveSkills
   controller: OrangeHRM\Admin\Controller\SaveQualificationSkillController::handle
   methods: [ GET ]
 
 edit_qualification_skills:
-  path: /admin/saveQualificationSkill/{id}
+  path: /admin/saveSkills/{id}
   controller: OrangeHRM\Admin\Controller\SaveQualificationSkillController::handle
   methods: [ GET ]

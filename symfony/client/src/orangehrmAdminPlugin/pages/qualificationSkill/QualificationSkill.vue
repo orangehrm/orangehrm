@@ -143,10 +143,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveQualificationSkill');
+      navigate('/admin/saveSkills');
     },
     onClickEdit(item) {
-      navigate('/admin/saveQualificationSkill/{id}', {id: item.id});
+      navigate('/admin/saveSkills/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
@@ -168,9 +168,10 @@ export default {
     deleteItems(items) {
       // TODO: Loading
       if (items instanceof Array) {
-        this.$http
-          .delete('api/v1/admin/job-categories', {
-            data: {ids: items},
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
           })
           .then(() => {
             this.resetDataTable();

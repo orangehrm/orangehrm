@@ -118,7 +118,7 @@ export default {
         });
     },
     onCancel() {
-      navigate('/admin/qualificationSkill');
+      navigate('/admin/viewSkills');
     },
   },
   created() {
