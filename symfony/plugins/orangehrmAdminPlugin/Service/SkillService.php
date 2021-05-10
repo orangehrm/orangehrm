@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -25,11 +24,10 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\Skill;
-use \Exception;
+use Exception;
 
 class SkillService
 {
-
     /**
      * @var SkillDao|null
      */
@@ -77,16 +75,6 @@ class SkillService
     }
 
     /**
-     * @param string $name
-     * @return Skill
-     * @throws DaoException
-     */
-    public function getSkillByName(string $name): Skill
-    {
-        return $this->getSkillDao()->getSkillByName($name);
-    }
-
-    /**
      * @param array $toDeleteIds
      * @return int
      * @throws DaoException
@@ -94,20 +82,6 @@ class SkillService
     public function deleteSkills(array $toDeleteIds): int
     {
         return $this->getSkillDao()->deleteSkills($toDeleteIds);
-    }
-
-    /**
-     * Checks whether the given skill name exists
-     *
-     * Case insensitive
-     *
-     * @param string $skillName Skill name that needs to be checked
-     * @return boolean
-     * @throws DaoException
-     */
-    public function isExistingSkillName(string $skillName): bool
-    {
-        return $this->getSkillDao()->isExistingSkillName($skillName);
     }
 
     /**
@@ -137,7 +111,4 @@ class SkillService
             throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
-
-
-
 }

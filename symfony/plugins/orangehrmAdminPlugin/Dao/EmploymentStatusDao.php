@@ -120,6 +120,7 @@ class EmploymentStatusDao extends BaseDao
             $q->andWhere('es.name = :name');
             $q->setParameter('name', $employmentStatusSearchParams->getName());
         }
+        var_dump($q->getQuery());
         return $this->getPaginator($q);
     }
 

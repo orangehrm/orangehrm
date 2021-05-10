@@ -24,18 +24,18 @@ class Skill
     private int $id;
 
     /**
-     * @var string
+     * @var string | null
      *
      * @ORM\Column(name="name", type="string", length=120)
      */
-    private string $name;
+    private ?string $name;
 
     /**
-     * @var string
+     * @var string | null
      *
      * @ORM\Column(name="description", type="string", length=2147483647)
      */
-    private string $description;
+    private ?string $description;
 
     /**
      * @var Collection

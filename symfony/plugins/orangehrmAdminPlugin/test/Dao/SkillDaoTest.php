@@ -30,6 +30,7 @@ use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
+ * @group Dao
  */
 class SkillDaoTest extends TestCase
 {
