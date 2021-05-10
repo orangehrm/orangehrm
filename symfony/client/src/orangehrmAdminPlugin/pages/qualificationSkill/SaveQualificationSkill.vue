@@ -63,7 +63,7 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 
 const skillModel = {
   id: '',
@@ -90,10 +90,9 @@ export default {
   },
 
   setup() {
-    // TODO: Change with resource url
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v1/admin/job-categories',
+      'api/v2/admin/skills',
     );
     return {
       http,
@@ -106,15 +105,19 @@ export default {
       this.http
         .create({
           name: this.skill.name,
+          description: this.skill.description,
         })
         .then(() => {
-          // go back
-          this.skill = {...skillModel};
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Qualification Skills added successfully!',
+          });
+        })
+        .then(() => {
+          this.skill.name = '';
+          this.skill.description = '';
           this.isLoading = false;
           this.onCancel();
-        })
-        .catch(error => {
-          console.log(error);
         });
     },
     onCancel() {

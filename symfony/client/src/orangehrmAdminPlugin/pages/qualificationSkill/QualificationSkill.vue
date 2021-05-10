@@ -72,6 +72,7 @@
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 
 export default {
   data() {
@@ -111,6 +112,10 @@ export default {
   },
 
   setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/admin/skills',
+    );
     const {
       showPaginator,
       currentPage,
@@ -120,8 +125,9 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate('api/v1/admin/job-categories');
+    } = usePaginate(http);
     return {
+      http,
       showPaginator,
       currentPage,
       isLoading,
@@ -166,7 +172,6 @@ export default {
       });
     },
     deleteItems(items) {
-      // TODO: Loading
       if (items instanceof Array) {
         this.isLoading = true;
         this.http
@@ -174,10 +179,14 @@ export default {
             ids: items,
           })
           .then(() => {
-            this.resetDataTable();
+            return this.$toast.success({
+              title: 'Success',
+              message: 'Qualifications Skills deleted successfully!',
+            });
           })
-          .catch(error => {
-            console.log(error);
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
           });
       }
     },

@@ -19,8 +19,14 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
+use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
@@ -91,6 +97,16 @@ class SkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID),
+        );
+    }
+
+    /**
      * @return EndpointGetAllResult
      * @throws SearchParamException
      * @throws ServiceException
@@ -131,6 +147,18 @@ class SkillAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(self::FILTER_NAME),
+            new ParamRule(self::FILTER_DESCRIPTION),
+            ...$this->getSortingAndPaginationParamsRules(SkillSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
+    }
+
+    /**
+     * @inheritDoc
      * @throws Exception
      */
     public function create(): EndpointCreateResult
@@ -139,6 +167,27 @@ class SkillAPI extends Endpoint implements CrudEndpoint
         $skill = $this->saveSkill();
 
         return new EndpointCreateResult(SkillModel::class, $skill);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getCommonBodyValidationRules(): array
+    {
+        return [
+            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_DESCRIPTION),
+        ];
     }
 
     /**
@@ -155,6 +204,20 @@ class SkillAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @inheritDoc
      * @throws DaoException
      * @throws Exception
      */
@@ -164,6 +227,16 @@ class SkillAPI extends Endpoint implements CrudEndpoint
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getSkillService()->deleteSkills($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 
     /**

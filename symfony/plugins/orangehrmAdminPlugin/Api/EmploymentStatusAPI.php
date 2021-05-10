@@ -141,7 +141,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(self::FILTER_NAME),
-            ...$this->getSortingAndPaginationParamsRules(['es.name'])
+            ...$this->getSortingAndPaginationParamsRules(EmploymentStatusSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
