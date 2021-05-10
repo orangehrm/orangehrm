@@ -27,6 +27,11 @@ class ParamRule
     protected string $paramKey;
 
     /**
+     * @var bool
+     */
+    protected bool $required;
+
+    /**
      * @var Rule[]
      */
     protected array $rules;
@@ -37,12 +42,19 @@ class ParamRule
     protected $default = null;
 
     /**
+     * @var string|null
+     */
+    protected ?string $compositeClass = null;
+
+    /**
      * @param string $paramKey
+     * @param bool $required
      * @param Rule ...$rules
      */
-    public function __construct(string $paramKey, Rule ...$rules)
+    public function __construct(string $paramKey, bool $required = false, Rule ...$rules)
     {
         $this->paramKey = $paramKey;
+        $this->required = $required;
         $this->rules = $rules;
     }
 
@@ -63,10 +75,42 @@ class ParamRule
     }
 
     /**
+     * @return bool
+     */
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
+
+    /**
+     * @param bool $required
+     */
+    public function setRequired(bool $required): void
+    {
+        $this->required = $required;
+    }
+
+    /**
      * @return Rule[]
+     * @throws ValidatorException
      */
     public function getRules(): array
     {
+        if ($this->isRequired()) {
+            $compositeClass = Rules::ALL_OF;
+            if (!is_null($this->compositeClass)) {
+                $compositeClass = $this->getCompositeClass();
+            }
+            $this->setCompositeClass(Rules::ONE_OF);
+            return [
+                new Rule(Rules::REQUIRED),
+                new Rule(
+                    $compositeClass,
+                    $this->rules
+                ),
+            ];
+        }
+
         return $this->rules;
     }
 
@@ -92,5 +136,31 @@ class ParamRule
     public function setDefault($default): void
     {
         $this->default = $default;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompositeClass(): string
+    {
+        if (is_null($this->compositeClass)) {
+            $this->compositeClass = Rules::ALL_OF;
+        }
+        return $this->compositeClass;
+    }
+
+    /**
+     * @param string|null $compositeClass
+     * @throws ValidatorException
+     */
+    public function setCompositeClass(?string $compositeClass): void
+    {
+        $allowed = [Rules::ALL_OF, Rules::ONE_OF, Rules::ANY_OF, Rules::NONE_OF, null];
+        if (!in_array($compositeClass, $allowed)) {
+            throw new ValidatorException(
+                sprintf('Expected one of `%s null`. But got `%s`.', implode('`, `', $allowed), $compositeClass)
+            );
+        }
+        $this->compositeClass = $compositeClass;
     }
 }

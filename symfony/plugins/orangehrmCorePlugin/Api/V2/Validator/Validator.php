@@ -22,7 +22,6 @@ namespace OrangeHRM\Core\Api\V2\Validator;
 use Exception;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Validator\Exceptions\ValidationException;
-use ReflectionClass;
 use Respect\Validation\Rules;
 
 class Validator
@@ -48,16 +47,9 @@ class Validator
             try {
                 if (isset($paramRules[$paramKey])) {
                     $paramRule = $paramRules[$paramKey];
-                    $ruleClasses = [];
-                    foreach ($paramRule->getRules() as $rule) {
-                        $params = $rule->getRuleConstructorParams();
-                        if (!is_array($params)) {
-                            $params = [];
-                        }
-                        $ruleClasses[] = (new ReflectionClass($rule->getRuleClass()))->newInstanceArgs($params);
-                    }
 
-                    $paramValidatorRule = new Rules\AllOf(...$ruleClasses);
+                    $compositeClass = $paramRule->getCompositeClass();
+                    $paramValidatorRule = new $compositeClass(...$paramRule->getRules());
                     $paramValidator = new Rules\Key($paramKey, $paramValidatorRule);
                     $paramValidator->check(
                         [$paramKey => $values[$paramKey] ?? $paramRule->getDefault()]

@@ -23,6 +23,8 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class UserSearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = ['u.userName'];
+
     /**
      * @var bool|null
      */

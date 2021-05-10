@@ -95,7 +95,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID,
+                CommonParams::PARAMETER_ID, true,
                 new Rule(Rules::POSITIVE)
             ),
         );
@@ -163,7 +163,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME, true),
         );
     }
 
@@ -185,10 +185,10 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID,
+                CommonParams::PARAMETER_ID, true,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME, true),
         );
     }
 
@@ -228,7 +228,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(CommonParams::PARAMETER_IDS, true),
         );
     }
 }

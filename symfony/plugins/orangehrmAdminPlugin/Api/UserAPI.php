@@ -35,6 +35,8 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\ORM\Doctrine;
@@ -93,7 +95,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID, false),
         );
     }
 
@@ -150,11 +152,16 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_USER_ROLE_ID),
-            new ParamRule(self::FILTER_USERNAME),
-            new ParamRule(self::FILTER_EMPLOYEE_NUMBER),
-            new ParamRule(self::FILTER_STATUS),
-            ...$this->getSortingAndPaginationParamsRules(['u.userName'])
+            new ParamRule(
+                self::FILTER_USER_ROLE_ID, false,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(self::FILTER_USERNAME, false),
+            new ParamRule(self::FILTER_EMPLOYEE_NUMBER, false),
+            new ParamRule(self::FILTER_STATUS, false),
+            ...$this->getSortingAndPaginationParamsRules(
+                UserSearchFilterParams::ALLOWED_SORT_FIELDS
+            )
         );
     }
 
@@ -188,12 +195,22 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_USERNAME),
-            new ParamRule(self::PARAMETER_PASSWORD),
-            new ParamRule(self::PARAMETER_USER_ROLE_ID),
-            new ParamRule(self::PARAMETER_EMPLOYEE_NUMBER),
-            new ParamRule(self::PARAMETER_STATUS),
+            ...$this->getCommonBodyValidationRules(),
         );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getCommonBodyValidationRules(): array
+    {
+        return [
+            new ParamRule(self::PARAMETER_USERNAME, true),
+            new ParamRule(self::PARAMETER_PASSWORD, true),
+            new ParamRule(self::PARAMETER_USER_ROLE_ID, true),
+            new ParamRule(self::PARAMETER_EMPLOYEE_NUMBER, true),
+            new ParamRule(self::PARAMETER_STATUS, true),
+        ];
     }
 
     /**
@@ -235,13 +252,12 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(self::PARAMETER_USERNAME),
-            new ParamRule(self::PARAMETER_PASSWORD),
-            new ParamRule(self::PARAMETER_USER_ROLE_ID),
-            new ParamRule(self::PARAMETER_EMPLOYEE_NUMBER),
-            new ParamRule(self::PARAMETER_STATUS),
-            new ParamRule(self::PARAMETER_CHANGE_PASSWORD),
+            new ParamRule(
+                CommonParams::PARAMETER_ID, true,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(self::PARAMETER_CHANGE_PASSWORD, false),
+            ...$this->getCommonBodyValidationRules(),
         );
     }
 
@@ -261,7 +277,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(CommonParams::PARAMETER_IDS, false),
         );
     }
 }
