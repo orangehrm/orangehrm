@@ -22,6 +22,7 @@ namespace OrangeHRM\Admin\Api;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -30,20 +31,22 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\EmploymentStatus;
 use OrangeHRM\Admin\Service\EmploymentStatusService;
 use OrangeHRM\Admin\Api\Model\EmploymentStatusModel;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-use Orangehrm\Rest\Http\Response;
-use \DaoException;
+use DaoException;
 use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 
 class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
 {
-    const PARAMETER_NAME = 'name';
+    public const PARAMETER_NAME = 'name';
 
-    const FILTER_NAME = 'name';
+    public const FILTER_NAME = 'name';
 
     /**
      * @var null|EmploymentStatusService
@@ -81,16 +84,28 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $employmentStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
         if (!$employmentStatus instanceof EmploymentStatus) {
-            throw new RecordNotFoundException('No Record Found');
+            throw new RecordNotFoundException();
         }
 
         return new EndpointGetOneResult(EmploymentStatusModel::class, $employmentStatus);
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+        );
+    }
+
+    /**
      * @return EndpointGetAllResult
      * @throws DaoException
-     * @throws RecordNotFoundException
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
@@ -104,7 +119,9 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_NAME
             )
         );
-        $employmentStatuses = $this->getEmploymentStatusService()->searchEmploymentStatus($employmentStatusSearchParams);
+        $employmentStatuses = $this->getEmploymentStatusService()->searchEmploymentStatus(
+            $employmentStatusSearchParams
+        );
         return new EndpointGetAllResult(
             EmploymentStatusModel::class,
             $employmentStatuses,
@@ -115,6 +132,17 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
                     )
                 ]
             )
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(self::FILTER_NAME),
+            ...$this->getSortingAndPaginationParamsRules(['es.name'])
         );
     }
 
@@ -132,6 +160,16 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_NAME),
+        );
+    }
+
+    /**
+     * @inheritDoc
      * @throws Exception
      */
     public function update(): EndpointUpdateResult
@@ -140,6 +178,20 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
         $employmentStatus = $this->saveEmploymentStatus();
 
         return new EndpointUpdateResult(EmploymentStatusModel::class, $employmentStatus);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(self::PARAMETER_NAME),
+        );
     }
 
     /**
@@ -176,5 +228,15 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmploymentStatusService()->deleteEmploymentStatus($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 }

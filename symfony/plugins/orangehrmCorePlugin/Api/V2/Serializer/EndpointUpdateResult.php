@@ -19,13 +19,11 @@
 
 namespace OrangeHRM\Core\Api\V2\Serializer;
 
-use Exception;
-
 class EndpointUpdateResult extends AbstractEndpointResult
 {
     /**
      * @inheritDoc
-     * @throws Exception
+     * @throws NormalizeException
      */
     public function normalize(): array
     {

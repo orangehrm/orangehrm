@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Core\Api\V2\Serializer;
 
-use Exception;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use Traversable;
 
@@ -51,12 +50,12 @@ abstract class AbstractEndpointResult
      * @param array|object $data
      * @param ParameterBag|null $meta
      * @param ParameterBag|null $rels
-     * @throws Exception
+     * @throws NormalizeException
      */
     public function __construct(string $modelClass, $data, ParameterBag $meta = null, ParameterBag $rels = null)
     {
         if (!class_exists($modelClass)) {
-            throw new Exception(
+            throw new NormalizeException(
                 sprintf('Could not found class `%s`. Hint: use fully qualified class name', $modelClass)
             );
         }
@@ -106,7 +105,7 @@ abstract class AbstractEndpointResult
 
     /**
      * @return array
-     * @throws Exception
+     * @throws NormalizeException
      */
     protected function _normalize(): array
     {
@@ -114,7 +113,7 @@ abstract class AbstractEndpointResult
         if ($model instanceof Normalizable) {
             return $model->toArray();
         }
-        throw new Exception(
+        throw new NormalizeException(
             sprintf(
                 'Model class should be instance of  `%s`',
                 Normalizable::class
@@ -124,7 +123,7 @@ abstract class AbstractEndpointResult
 
     /**
      * @return array
-     * @throws Exception
+     * @throws NormalizeException
      */
     protected function _normalizeArray(): array
     {
@@ -135,7 +134,7 @@ abstract class AbstractEndpointResult
                 if ($model instanceof Normalizable) {
                     $normalizedArray[] = $model->toArray();
                 } else {
-                    throw new Exception(
+                    throw new NormalizeException(
                         sprintf(
                             'Model class should be instance of  `%s`',
                             Normalizable::class
@@ -146,7 +145,7 @@ abstract class AbstractEndpointResult
             return $normalizedArray;
         }
 
-        throw new Exception(
+        throw new NormalizeException(
             sprintf(
                 '$data should be instance of  `%s`',
                 Traversable::class

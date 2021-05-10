@@ -32,6 +32,10 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Subunit;
 
 class SubunitAPI extends Endpoint implements CrudEndpoint
@@ -88,6 +92,19 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            )
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getAll(): EndpointGetAllResult
     {
         $depth = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_DEPTH);
@@ -109,6 +126,29 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::FILTER_DEPTH,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(
+                self::FILTER_MODE,
+                new Rule(
+                    Rules::ONE_OF,
+                    [
+                        new Rule(Rules::NOT_REQUIRED),
+                        new Rule(Rules::IN, [[self::MODE_LIST, self::MODE_TREE]])
+                    ]
+                )
+            )
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function create(): EndpointCreateResult
     {
         $parentUnitId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PARENT_ID);
@@ -122,6 +162,29 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
         $this->getCompanyStructureService()->addSubunit($parentSubunit, $subunit);
 
         return new EndpointCreateResult(SubunitModel::class, $subunit);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_PARENT_ID),
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getCommonBodyValidationRules(): array
+    {
+        return [
+            new ParamRule(self::PARAMETER_UNIT_ID),
+            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_DESCRIPTION),
+        ];
     }
 
     /**
@@ -162,6 +225,20 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function delete(): EndpointDeleteResult
     {
         $unitId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
@@ -173,5 +250,15 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
         $this->getCompanyStructureService()->deleteSubunit($subunit);
 
         return new EndpointDeleteResult(SubunitModel::class, $resultSubunit);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 }

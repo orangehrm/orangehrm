@@ -20,6 +20,10 @@
 namespace OrangeHRM\Core\Api\V2;
 
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\ORM\ListSorter;
@@ -36,12 +40,25 @@ abstract class Endpoint
     private RequestParams $requestParams;
 
     /**
+     * @var ValidationDecorator|null
+     */
+    private ?ValidationDecorator $validationDecorator = null;
+
+    /**
      * @param Request $request
      */
     public function __construct(Request $request)
     {
         $this->request = $request;
         $this->requestParams = new RequestParams($request);
+        $this->init();
+    }
+
+    /**
+     * Init lifecycle hook for child classes
+     */
+    protected function init()
+    {
     }
 
     /**
@@ -66,6 +83,17 @@ abstract class Endpoint
     protected function setRequestParams(RequestParams $requestParams): void
     {
         $this->requestParams = $requestParams;
+    }
+
+    /**
+     * @return ValidationDecorator
+     */
+    protected function getValidationDecorator(): ValidationDecorator
+    {
+        if (!$this->validationDecorator instanceof ValidationDecorator) {
+            $this->validationDecorator = new ValidationDecorator();
+        }
+        return $this->validationDecorator;
     }
 
     /**
@@ -107,5 +135,45 @@ abstract class Endpoint
             )
         );
         return $searchParamHolder;
+    }
+
+    /**
+     * @param array $allowedSortFields
+     * @param bool $excludeSortField
+     * @return ParamRule[]
+     */
+    protected function getSortingAndPaginationParamsRules(
+        array $allowedSortFields = [],
+        bool $excludeSortField = false
+    ): array {
+        $rules = [
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_SORT_ORDER,
+                    new Rule(Rules::IN, [[ListSorter::ASCENDING, ListSorter::DESCENDING]])
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_LIMIT,
+                    new Rule(Rules::POSITIVE),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_OFFSET,
+                    new Rule(Rules::ZERO_OR_POSITIVE)
+                )
+            ),
+        ];
+        if (!$excludeSortField) {
+            $rules[] = $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_SORT_FIELD,
+                    new Rule(Rules::IN, [$allowedSortFields])
+                )
+            );
+        }
+        return $rules;
     }
 }
