@@ -95,7 +95,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID, false),
+            new ParamRule(CommonParams::PARAMETER_ID),
         );
     }
 
@@ -138,7 +138,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
             $users,
             new ParameterBag(
                 [
-                    'total' => $this->getSystemUserService()->getSearchSystemUsersCount(
+                    CommonParams::PARAMETER_TOTAL => $this->getSystemUserService()->getSearchSystemUsersCount(
                         $userSearchParamHolder
                     )
                 ]
@@ -152,16 +152,11 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::FILTER_USER_ROLE_ID, false,
-                new Rule(Rules::POSITIVE)
-            ),
-            new ParamRule(self::FILTER_USERNAME, false),
-            new ParamRule(self::FILTER_EMPLOYEE_NUMBER, false),
-            new ParamRule(self::FILTER_STATUS, false),
-            ...$this->getSortingAndPaginationParamsRules(
-                UserSearchFilterParams::ALLOWED_SORT_FIELDS
-            )
+            new ParamRule(self::FILTER_USER_ROLE_ID),
+            new ParamRule(self::FILTER_USERNAME),
+            new ParamRule(self::FILTER_EMPLOYEE_NUMBER),
+            new ParamRule(self::FILTER_STATUS),
+            ...$this->getSortingAndPaginationParamsRules(UserSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -205,11 +200,11 @@ class UserAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(self::PARAMETER_USERNAME, true),
-            new ParamRule(self::PARAMETER_PASSWORD, true),
-            new ParamRule(self::PARAMETER_USER_ROLE_ID, true),
-            new ParamRule(self::PARAMETER_EMPLOYEE_NUMBER, true),
-            new ParamRule(self::PARAMETER_STATUS, true),
+            new ParamRule(self::PARAMETER_USERNAME),
+            new ParamRule(self::PARAMETER_PASSWORD),
+            new ParamRule(self::PARAMETER_USER_ROLE_ID),
+            new ParamRule(self::PARAMETER_EMPLOYEE_NUMBER),
+            new ParamRule(self::PARAMETER_STATUS),
         ];
     }
 
@@ -253,10 +248,10 @@ class UserAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID, true,
+                CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_CHANGE_PASSWORD, false),
+            new ParamRule(self::PARAMETER_CHANGE_PASSWORD),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -277,7 +272,7 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS, false),
+            new ParamRule(CommonParams::PARAMETER_IDS),
         );
     }
 }

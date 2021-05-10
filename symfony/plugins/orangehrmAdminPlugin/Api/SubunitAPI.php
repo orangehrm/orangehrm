@@ -96,7 +96,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID, true,
+                CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             )
         );
@@ -130,11 +130,11 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::FILTER_DEPTH, false,
+                self::FILTER_DEPTH,
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(
-                self::FILTER_MODE, false,
+                self::FILTER_MODE,
                 new Rule(
                     Rules::ONE_OF,
                     [
@@ -170,7 +170,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_PARENT_ID, true),
+            new ParamRule(self::PARAMETER_PARENT_ID),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -181,9 +181,9 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(self::PARAMETER_UNIT_ID, false),
-            new ParamRule(self::PARAMETER_NAME, true),
-            new ParamRule(self::PARAMETER_DESCRIPTION, false),
+            new ParamRule(self::PARAMETER_UNIT_ID),
+            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_DESCRIPTION),
         ];
     }
 
@@ -229,7 +229,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID, true,
+                CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
             ...$this->getCommonBodyValidationRules(),
@@ -258,7 +258,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS, true),
+            new ParamRule(CommonParams::PARAMETER_IDS),
         );
     }
 }

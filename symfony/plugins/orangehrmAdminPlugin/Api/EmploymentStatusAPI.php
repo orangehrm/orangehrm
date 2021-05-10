@@ -97,7 +97,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID, true,
+                CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
         );
@@ -141,7 +141,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_NAME, false),
+            new ParamRule(self::FILTER_NAME),
             ...$this->getSortingAndPaginationParamsRules(['es.name'])
         );
     }
@@ -164,7 +164,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME, true),
+            new ParamRule(self::PARAMETER_NAME),
         );
     }
 
@@ -187,10 +187,10 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID, true,
+                CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_NAME, true),
+            new ParamRule(self::PARAMETER_NAME),
         );
     }
 
@@ -236,7 +236,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS, true),
+            new ParamRule(CommonParams::PARAMETER_IDS),
         );
     }
 }

@@ -102,7 +102,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID, true),
+            new ParamRule(CommonParams::PARAMETER_ID),
         );
     }
 
@@ -149,7 +149,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_ACTIVE_ONLY, false,
+                self::PARAMETER_ACTIVE_ONLY,
                 new Rule(Rules::BOOL_VAL)
             ),
             ...$this->getSortingAndPaginationParamsRules(['jt.jobTitleName'])
@@ -193,10 +193,10 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_TITLE, true),
-            new ParamRule(self::PARAMETER_DESCRIPTION, false),
-            new ParamRule(self::PARAMETER_NOTE, false),
-            new ParamRule(self::PARAMETER_SPECIFICATION, false),
+            new ParamRule(self::PARAMETER_TITLE),
+            new ParamRule(self::PARAMETER_DESCRIPTION),
+            new ParamRule(self::PARAMETER_NOTE),
+            new ParamRule(self::PARAMETER_SPECIFICATION),
         );
     }
 
@@ -247,14 +247,14 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID, true,
+                CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_TITLE, true),
-            new ParamRule(self::PARAMETER_DESCRIPTION, false),
-            new ParamRule(self::PARAMETER_NOTE, false),
-            new ParamRule(self::PARAMETER_SPECIFICATION, false),
-            new ParamRule(self::PARAMETER_CURRENT_JOB_SPECIFICATION, false),
+            new ParamRule(self::PARAMETER_TITLE),
+            new ParamRule(self::PARAMETER_DESCRIPTION),
+            new ParamRule(self::PARAMETER_NOTE),
+            new ParamRule(self::PARAMETER_SPECIFICATION),
+            new ParamRule(self::PARAMETER_CURRENT_JOB_SPECIFICATION),
         );
     }
 
@@ -274,7 +274,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS, true),
+            new ParamRule(CommonParams::PARAMETER_IDS),
         );
     }
 

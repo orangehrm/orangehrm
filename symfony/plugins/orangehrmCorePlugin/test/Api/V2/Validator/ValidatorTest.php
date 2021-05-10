@@ -58,58 +58,58 @@ class ValidatorTest extends TestCase
             ],
             new ParamRuleCollection(
                 new ParamRule(
-                    "userName", true,
+                    "userName",
                     new Rule(Rules::STRING_VAL)
                 ),
                 new ParamRule(
-                    "status", false,
+                    "status",
                     new Rule(Rules::BOOL_VAL)
                 )
             )
         ];
-//        $sortOrderRule = new ParamRule(
-//            CommonParams::PARAMETER_SORT_ORDER, false,
-//            new Rule(
-//                Rules::ONE_OF,
-//                [
-//                    new Rule(Rules::IN, [[ListSorter::ASCENDING, ListSorter::DESCENDING]]),
-//                    new Rule(Rules::NOT_REQUIRED),
-//                ]
-//            )
-//        );
-//        yield [
-//            [CommonParams::PARAMETER_SORT_ORDER => null],
-//            new ParamRuleCollection($sortOrderRule)
-//        ];
-//        yield [
-//            [CommonParams::PARAMETER_SORT_ORDER => "DESC"],
-//            new ParamRuleCollection($sortOrderRule)
-//        ];
-//        $statusRule = new ParamRule(
-//            "status", false,
-//            new Rule(Rules::BOOL_VAL),
-//            new Rule(Rules::REQUIRED),
-//        );
-//        yield [
-//            ["status" => "true"],
-//            new ParamRuleCollection($statusRule)
-//        ];
-//        yield [
-//            ["status" => "false"],
-//            new ParamRuleCollection($statusRule)
-//        ];
-//        yield [
-//            [
-//                "attachment" => [
-//                    "name" => "file.txt",
-//                    "type" => "text/plain",
-//                    "size" => "6",
-//                    "base64" => "dGVzdA0K"
-//                ]
-//            ],
-//            new ParamRuleCollection(
-//                new ParamRule("attachment", false)
-//            )
-//        ];
+        $sortOrderRule = new ParamRule(
+            CommonParams::PARAMETER_SORT_ORDER,
+            new Rule(
+                Rules::ONE_OF,
+                [
+                    new Rule(Rules::IN, [[ListSorter::ASCENDING, ListSorter::DESCENDING]]),
+                    new Rule(Rules::NOT_REQUIRED),
+                ]
+            )
+        );
+        yield [
+            [CommonParams::PARAMETER_SORT_ORDER => null],
+            new ParamRuleCollection($sortOrderRule)
+        ];
+        yield [
+            [CommonParams::PARAMETER_SORT_ORDER => "DESC"],
+            new ParamRuleCollection($sortOrderRule)
+        ];
+        $statusRule = new ParamRule(
+            "status",
+            new Rule(Rules::BOOL_VAL),
+            new Rule(Rules::REQUIRED),
+        );
+        yield [
+            ["status" => "true"],
+            new ParamRuleCollection($statusRule)
+        ];
+        yield [
+            ["status" => "false"],
+            new ParamRuleCollection($statusRule)
+        ];
+        yield [
+            [
+                "attachment" => [
+                    "name" => "file.txt",
+                    "type" => "text/plain",
+                    "size" => "6",
+                    "base64" => "dGVzdA0K"
+                ]
+            ],
+            new ParamRuleCollection(
+                new ParamRule("attachment")
+            )
+        ];
     }
 }

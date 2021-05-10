@@ -127,9 +127,9 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_INCLUDE_TERMINATED, false),
-            new ParamRule(self::FILTER_NAME, false),
-            new ParamRule(self::FILTER_NAME_OR_ID, false),
+            new ParamRule(self::FILTER_INCLUDE_TERMINATED),
+            new ParamRule(self::FILTER_NAME),
+            new ParamRule(self::FILTER_NAME_OR_ID),
             ...$this->getSortingAndPaginationParamsRules(['e.lastName'])
         );
     }
@@ -160,10 +160,10 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_FIRST_NAME, false),
-            new ParamRule(self::PARAMETER_MIDDLE_NAME, false),
-            new ParamRule(self::PARAMETER_LAST_NAME, false),
-            new ParamRule(self::PARAMETER_EMPLOYEE_ID, false),
+            new ParamRule(self::PARAMETER_FIRST_NAME),
+            new ParamRule(self::PARAMETER_MIDDLE_NAME),
+            new ParamRule(self::PARAMETER_LAST_NAME),
+            new ParamRule(self::PARAMETER_EMPLOYEE_ID),
         );
     }
 
