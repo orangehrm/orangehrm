@@ -17,31 +17,49 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Doctrine\DBAL\Exception\ConnectionException;
-use OrangeHRM\ORM\Doctrine;
+namespace OrangeHRM\Core\Api\V2\Exception;
 
-define('ENVIRNOMENT', 'test');
+use Exception;
+use Throwable;
 
-require realpath(__DIR__ . '/../../vendor/autoload.php');
+class InvalidParamException extends Exception
+{
+    public const DEFAULT_ERROR_MESSAGE = "Invalid Parameter";
 
-$errorMessage = "
-Can't connect to database `%s`.
-Run below command and try again;
-$ php ./devTools/general/create-test-db.php
+    /**
+     * @var array
+     */
+    protected array $errorBag = [];
 
-Error:
-%s\n
-";
+    /**
+     * @param array $errorBag
+     * @param string $message
+     * @param int $code
+     * @param Throwable|null $previous
+     */
+    public function __construct(
+        array $errorBag = [],
+        $message = self::DEFAULT_ERROR_MESSAGE,
+        $code = 0,
+        Throwable $previous = null
+    ) {
+        $this->errorBag = $errorBag;
+        parent::__construct($message, $code, $previous);
+    }
 
-try {
-    Doctrine::getEntityManager()->getConnection()->connect();
-} catch (ConnectionException $e) {
-    if ($e->getErrorCode() === 1049) {
-        echo sprintf(
-            $errorMessage,
-            Doctrine::getEntityManager()->getConnection()->getDatabase(),
-            $e->getMessage()
-        );
-        die;
+    /**
+     * @return array
+     */
+    public function getErrorBag(): array
+    {
+        return $this->errorBag;
+    }
+
+    /**
+     * @param array $errorBag
+     */
+    public function setErrorBag(array $errorBag): void
+    {
+        $this->errorBag = $errorBag;
     }
 }

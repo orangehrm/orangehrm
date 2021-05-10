@@ -23,6 +23,8 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class UserSearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = ['u.userName'];
+
     /**
      * @var bool|null
      */
@@ -75,22 +77,6 @@ class UserSearchFilterParams extends FilterParams
     public function setUsername(?string $username): void
     {
         $this->username = $username;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSortOrder(): string
-    {
-        return $this->sortOrder;
-    }
-
-    /**
-     * @param string $sortOrder
-     */
-    public function setSortOrder(string $sortOrder): void
-    {
-        $this->sortOrder = $sortOrder;
     }
 
     /**

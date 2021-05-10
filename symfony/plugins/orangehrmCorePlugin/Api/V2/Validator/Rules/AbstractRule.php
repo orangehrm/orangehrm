@@ -17,31 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Doctrine\DBAL\Exception\ConnectionException;
-use OrangeHRM\ORM\Doctrine;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-define('ENVIRNOMENT', 'test');
+use OrangeHRM\Core\Api\V2\Validator\Exceptions\ValidationException;
+use Respect\Validation\Exceptions\ValidationException as RespectValidationException;
+use Respect\Validation\Rules\AbstractRule as RespectAbstractRule;
 
-require realpath(__DIR__ . '/../../vendor/autoload.php');
-
-$errorMessage = "
-Can't connect to database `%s`.
-Run below command and try again;
-$ php ./devTools/general/create-test-db.php
-
-Error:
-%s\n
-";
-
-try {
-    Doctrine::getEntityManager()->getConnection()->connect();
-} catch (ConnectionException $e) {
-    if ($e->getErrorCode() === 1049) {
-        echo sprintf(
-            $errorMessage,
-            Doctrine::getEntityManager()->getConnection()->getDatabase(),
-            $e->getMessage()
-        );
-        die;
+abstract class AbstractRule extends RespectAbstractRule
+{
+    /**
+     * @inheritDoc
+     * @throws ValidationException
+     */
+    public function reportError($input, array $extraParams = []): RespectValidationException
+    {
+        throw new ValidationException($input, $this);
     }
 }

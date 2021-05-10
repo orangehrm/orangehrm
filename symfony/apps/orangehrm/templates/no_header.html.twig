@@ -26,6 +26,7 @@
         :{{ prop.getName() }}="{{ prop.getValue() }}"
     {% endfor %}
     >
+    <template v-slot:footer><br>{% include 'copyright.html.twig' %}<br></template>
     </{{ componentName }}>
     </div>
 {% endblock %}

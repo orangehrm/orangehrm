@@ -17,31 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Doctrine\DBAL\Exception\ConnectionException;
-use OrangeHRM\ORM\Doctrine;
+namespace OrangeHRM\Core\Api\V2\Serializer;
 
-define('ENVIRNOMENT', 'test');
+use Exception;
 
-require realpath(__DIR__ . '/../../vendor/autoload.php');
+class NormalizeException extends Exception
+{
 
-$errorMessage = "
-Can't connect to database `%s`.
-Run below command and try again;
-$ php ./devTools/general/create-test-db.php
-
-Error:
-%s\n
-";
-
-try {
-    Doctrine::getEntityManager()->getConnection()->connect();
-} catch (ConnectionException $e) {
-    if ($e->getErrorCode() === 1049) {
-        echo sprintf(
-            $errorMessage,
-            Doctrine::getEntityManager()->getConnection()->getDatabase(),
-            $e->getMessage()
-        );
-        die;
-    }
 }

@@ -21,6 +21,7 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\JobTitleModel;
 use OrangeHRM\Admin\Service\JobTitleService;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
@@ -32,6 +33,10 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
 
@@ -42,8 +47,6 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      */
     protected ?JobTitleService $jobTitleService = null;
 
-    public const PARAMETER_ID = 'id';
-    public const PARAMETER_IDS = 'ids';
     public const PARAMETER_TITLE = 'title';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_NOTE = 'note';
@@ -84,13 +87,23 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointGetOneResult
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $jobTitle = $this->getJobTitleService()->getJobTitleById($id);
         if (!$jobTitle instanceof JobTitle) {
             throw new RecordNotFoundException();
         }
 
         return new EndpointGetOneResult(JobTitleModel::class, $jobTitle);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID),
+        );
     }
 
     /**
@@ -132,6 +145,20 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_ACTIVE_ONLY,
+                new Rule(Rules::BOOL_VAL)
+            ),
+            ...$this->getSortingAndPaginationParamsRules(['jt.jobTitleName'])
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function create(): EndpointCreateResult
     {
         // TODO:: Check data group permission
@@ -163,11 +190,24 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_TITLE),
+            new ParamRule(self::PARAMETER_DESCRIPTION),
+            new ParamRule(self::PARAMETER_NOTE),
+            new ParamRule(self::PARAMETER_SPECIFICATION),
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function update(): EndpointUpdateResult
     {
         // TODO:: Check data group permission
         $params = $this->getPostParameters();
-        $jobTitleObj = $this->getJobTitleService()->getJobTitleById($params[self::PARAMETER_ID]);
+        $jobTitleObj = $this->getJobTitleService()->getJobTitleById($params[CommonParams::PARAMETER_ID]);
         $jobTitleObj->setJobTitleName($params[self::PARAMETER_TITLE]);
         $jobTitleObj->setJobDescription($params[self::PARAMETER_DESCRIPTION]);
         $jobTitleObj->setNote($params[self::PARAMETER_NOTE]);
@@ -203,11 +243,39 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(self::PARAMETER_TITLE),
+            new ParamRule(self::PARAMETER_DESCRIPTION),
+            new ParamRule(self::PARAMETER_NOTE),
+            new ParamRule(self::PARAMETER_SPECIFICATION),
+            new ParamRule(self::PARAMETER_CURRENT_JOB_SPECIFICATION),
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function delete(): EndpointDeleteResult
     {
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getJobTitleService()->deleteJobTitle($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 
     /**
@@ -216,9 +284,9 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     public function getPostParameters(): array
     {
         $params = [];
-        $params[self::PARAMETER_ID] = $this->getRequestParams()->getInt(
+        $params[CommonParams::PARAMETER_ID] = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::PARAMETER_ID
+            CommonParams::PARAMETER_ID
         );
         $params[self::PARAMETER_TITLE] = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,

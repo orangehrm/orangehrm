@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Doctrine\ORM\QueryBuilder;
 use Exception;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
@@ -27,7 +26,6 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Authentication\Dto\UserCredential;

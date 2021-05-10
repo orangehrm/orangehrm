@@ -1,13 +1,32 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Core\Controller\Rest\V2;
 
 use Exception;
 use OrangeHRM\Core\Api\V2\CollectionEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Request;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Response;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 
 
 class GenericRestController extends AbstractRestController
@@ -53,8 +72,7 @@ class GenericRestController extends AbstractRestController
      */
     protected function handleGetRequest(Request $request): Response
     {
-        $idAttribute = $request->getAttributes()->get('_key', 'id');
-        if (is_null($request->getAttributes()->get($idAttribute))) {
+        if (!$this->isGetOneRequest($request)) {
             if ($this->apiEndpoint instanceof CollectionEndpoint) {
                 $result = $this->apiEndpoint->getAll();
             } else {
@@ -78,6 +96,21 @@ class GenericRestController extends AbstractRestController
 
     /**
      * @inheritDoc
+     */
+    protected function initGetValidationRule(Request $request): ?ParamRuleCollection
+    {
+        $this->getValidationRule = $this->isGetOneRequest($request) ?
+            ($this->apiEndpoint instanceof ResourceEndpoint ?
+                $this->apiEndpoint->getValidationRuleForGetOne() :
+                null) :
+            ($this->apiEndpoint instanceof CollectionEndpoint ?
+                $this->apiEndpoint->getValidationRuleForGetAll() :
+                null);
+        return $this->getValidationRule;
+    }
+
+    /**
+     * @inheritDoc
      * @throws Exception
      */
     protected function handlePostRequest(Request $request): Response
@@ -88,6 +121,16 @@ class GenericRestController extends AbstractRestController
         } else {
             throw $this->getNotInstanceOfException(CollectionEndpoint::class);
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function initPostValidationRule(Request $request): ?ParamRuleCollection
+    {
+        $this->postValidationRule = $this->apiEndpoint instanceof CollectionEndpoint ?
+            $this->apiEndpoint->getValidationRuleForCreate() : null;
+        return $this->postValidationRule;
     }
 
     /**
@@ -106,6 +149,16 @@ class GenericRestController extends AbstractRestController
 
     /**
      * @inheritDoc
+     */
+    protected function initPutValidationRule(Request $request): ?ParamRuleCollection
+    {
+        $this->putValidationRule = $this->apiEndpoint instanceof ResourceEndpoint ?
+            $this->apiEndpoint->getValidationRuleForUpdate() : null;
+        return $this->putValidationRule;
+    }
+
+    /**
+     * @inheritDoc
      * @throws Exception
      */
     protected function handleDeleteRequest(Request $request): Response
@@ -119,13 +172,33 @@ class GenericRestController extends AbstractRestController
     }
 
     /**
+     * @inheritDoc
+     */
+    protected function initDeleteValidationRule(Request $request): ?ParamRuleCollection
+    {
+        $this->deleteValidationRule = $this->apiEndpoint instanceof CollectionEndpoint ?
+            $this->apiEndpoint->getValidationRuleForDelete() : null;
+        return $this->deleteValidationRule;
+    }
+
+    /**
      * @param string $class
      * @return Exception
      */
     private function getNotInstanceOfException(string $class): Exception
     {
-        return new Exception(
+        return new NotImplementedException(
             sprintf('`%s` Endpoint is not an instance of `%s`', get_class($this->apiEndpoint), $class)
         );
+    }
+
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    private function isGetOneRequest(Request $request): bool
+    {
+        $idAttribute = $request->getAttributes()->get('_key', 'id');
+        return $request->getAttributes()->has($idAttribute);
     }
 }
