@@ -10,6 +10,7 @@
             </div>
             <slot></slot>
             <login-social></login-social>
+            <slot name="footer"></slot>
           </div>
         </div>
       </div>
