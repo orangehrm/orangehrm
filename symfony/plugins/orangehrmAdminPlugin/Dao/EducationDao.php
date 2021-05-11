@@ -81,14 +81,14 @@ class EducationDao extends BaseDao
     }
 
     /**
-     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder
+     * @param QualificationEducationSearchFilterParams $educationSearchFilterParams
      * @return array
      * @throws DaoException
      */
-    public function getEducationList(QualificationEducationSearchFilterParams $educationSearchParamHolder): array
+    public function getEducationList(QualificationEducationSearchFilterParams $educationSearchFilterParams): array
     {
         try {
-            $paginator = $this->getEducationListPaginator($educationSearchParamHolder);
+            $paginator = $this->getEducationListPaginator($educationSearchFilterParams);
             return $paginator->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -96,31 +96,31 @@ class EducationDao extends BaseDao
     }
 
     /**
-     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder
+     * @param QualificationEducationSearchFilterParams $educationSearchFilterParams
      * @return Paginator
      */
-    public function getEducationListPaginator(QualificationEducationSearchFilterParams $educationSearchParamHolder
+    public function getEducationListPaginator(QualificationEducationSearchFilterParams $educationSearchFilterParams
     ): Paginator {
         $q = $this->getRepository(Education::class)->createQueryBuilder('e');
-        if (!is_null($educationSearchParamHolder->getSortField())) {
-            $q->addOrderBy($educationSearchParamHolder->getSortField(), $educationSearchParamHolder->getSortOrder());
+        if (!is_null($educationSearchFilterParams->getSortField())) {
+            $q->addOrderBy($educationSearchFilterParams->getSortField(), $educationSearchFilterParams->getSortOrder());
         }
-        if (!empty($educationSearchParamHolder->getLimit())) {
-            $q->setFirstResult($educationSearchParamHolder->getOffset())
-                ->setMaxResults($educationSearchParamHolder->getLimit());
+        if (!empty($educationSearchFilterParams->getLimit())) {
+            $q->setFirstResult($educationSearchFilterParams->getOffset())
+                ->setMaxResults($educationSearchFilterParams->getLimit());
         }
         return new Paginator($q);
     }
 
     /**
-     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder
+     * @param QualificationEducationSearchFilterParams $educationSearchFilterParams
      * @return int
      * @throws DaoException
      */
-    public function getEducationCount(QualificationEducationSearchFilterParams $educationSearchParamHolder): int
+    public function getEducationCount(QualificationEducationSearchFilterParams $educationSearchFilterParams): int
     {
         try {
-            $paginator = $this->getEducationListPaginator($educationSearchParamHolder);
+            $paginator = $this->getEducationListPaginator($educationSearchFilterParams);
             return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
