@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Pim\Api;
 
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
@@ -118,7 +119,11 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         );
         $employees = $this->getEmployeeService()->getEmployeeList($employeeParamHolder);
         $count = $this->getEmployeeService()->getEmployeeCount($employeeParamHolder);
-        return new EndpointGetAllResult(EmployeeModel::class, $employees, new ParameterBag(['total' => $count]));
+        return new EndpointGetAllResult(
+            EmployeeModel::class,
+            $employees,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
     }
 
     /**

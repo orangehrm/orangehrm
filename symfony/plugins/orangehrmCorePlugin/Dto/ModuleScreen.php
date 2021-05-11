@@ -32,6 +32,16 @@ class ModuleScreen
     private ?string $screen = null;
 
     /**
+     * @param string|null $module
+     * @param string|null $screen
+     */
+    public function __construct(?string $module = null, ?string $screen = null)
+    {
+        $this->module = $module;
+        $this->screen = $screen;
+    }
+
+    /**
      * @return string|null
      */
     public function getModule(): ?string
