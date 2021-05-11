@@ -19,12 +19,12 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use Exception;
 use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Exception\DaoException;
-use Exception;
 use OrangeHRM\Entity\Education;
+use OrangeHRM\ORM\Paginator;
 
 class EducationDao extends BaseDao
 {
@@ -70,7 +70,7 @@ class EducationDao extends BaseDao
     public function getEducationByName(string $name): ?Education
     {
         try {
-            $query = $this->createQueryBuilder(Education::class,'e');
+            $query = $this->createQueryBuilder(Education::class, 'e');
             $trimmed = trim($name, ' ');
             $query->andWhere('e.name = :name');
             $query->setParameter('name', $trimmed);
@@ -101,7 +101,7 @@ class EducationDao extends BaseDao
      */
     public function getEducationListPaginator(QualificationEducationSearchFilterParams $educationSearchFilterParams
     ): Paginator {
-        $q = $this->createQueryBuilder(Education::class,'e');
+        $q = $this->createQueryBuilder(Education::class, 'e');
         if (!is_null($educationSearchFilterParams->getSortField())) {
             $q->addOrderBy($educationSearchFilterParams->getSortField(), $educationSearchFilterParams->getSortOrder());
         }
@@ -138,8 +138,8 @@ class EducationDao extends BaseDao
         try {
             $q = $this->createQueryBuilder(Education::class, 'e');
             $q->delete()
-            ->where($q->expr()->in('e.id', ':ids'))
-            ->setParameter('ids', $toDeleteIds);
+                ->where($q->expr()->in('e.id', ':ids'))
+                ->setParameter('ids', $toDeleteIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -154,7 +154,7 @@ class EducationDao extends BaseDao
     public function isExistingEducationName(string $educationName): bool
     {
         try {
-            $q = $this->createQueryBuilder(Education::class,'e');
+            $q = $this->createQueryBuilder(Education::class, 'e');
             $trimmed = trim($educationName, ' ');
             $q->Where('e.name = :name');
             $q->setParameter('name', $trimmed);

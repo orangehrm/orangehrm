@@ -127,7 +127,6 @@ class EducationDaoTest extends TestCase
         $this->assertTrue($object instanceof Education);
         $this->assertEquals(1, $object->getId());
 
-
         $object = $this->educationDao->getEducationByName('MBA');
         $this->assertFalse($object instanceof Education);
     }

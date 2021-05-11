@@ -29,8 +29,20 @@ class EducationService
     /**
      * @var EducationDao|null
      */
-
     private ?EducationDao $educationDao = null;
+
+    /**
+     * Saves an education object
+     * Can be used for a new record or updating.
+     *
+     * @param Education $education
+     * @return Education
+     * @throws \DaoException
+     */
+    public function saveEducation(Education $education): Education
+    {
+        return $this->getEducationDao()->saveEducation($education);
+    }
 
     /**
      * @return EducationDao
@@ -52,19 +64,6 @@ class EducationService
     public function setEducationDao(EducationDao $educationDao): void
     {
         $this->educationDao = $educationDao;
-    }
-
-    /**
-     * Saves an education object
-     * Can be used for a new record or updating.
-     *
-     * @param Education $education
-     * @return Education
-     * @throws \DaoException
-     */
-    public function saveEducation(Education $education): Education
-    {
-        return $this->getEducationDao()->saveEducation($education);
     }
 
     /**

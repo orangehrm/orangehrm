@@ -36,18 +36,6 @@ class EducationServiceTest extends TestCase
     private EducationService $educationService;
     private string $fixture;
 
-    /**
-     * Set up method
-     */
-    protected function setUp(): void
-    {
-        $this->educationService = new EducationService();
-        $this->fixture = Config::get(
-                'ohrm_plugins_dir'
-            ) . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
-        TestDataService::populate($this->fixture);
-    }
-
     public function testGetEducationList(): void
     {
         $educationList = TestDataService::loadObjectList('Education', $this->fixture, 'Education');
@@ -100,5 +88,17 @@ class EducationServiceTest extends TestCase
         $this->educationService->setEducationDao($educationDao);
         $result = $this->educationService->getEducationByName(1);
         $this->assertEquals($result, $educationList[0]);
+    }
+
+    /**
+     * Set up method
+     */
+    protected function setUp(): void
+    {
+        $this->educationService = new EducationService();
+        $this->fixture = Config::get(
+                'ohrm_plugins_dir'
+            ) . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
+        TestDataService::populate($this->fixture);
     }
 }

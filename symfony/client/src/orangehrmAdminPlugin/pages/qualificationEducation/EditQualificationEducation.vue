@@ -53,7 +53,7 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 
 export default {
   props: {
@@ -65,12 +65,13 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/educations',
+      '/api/v2/admin/educations',
     );
     return {
       http,
     };
   },
+
   data() {
     return {
       isLoading: false,
@@ -83,6 +84,7 @@ export default {
       },
     };
   },
+
   methods: {
     onSave() {
       this.isLoading = true;
@@ -105,6 +107,7 @@ export default {
       navigate('/admin/viewEducation');
     },
   },
+
   created() {
     this.isLoading = true;
     this.http

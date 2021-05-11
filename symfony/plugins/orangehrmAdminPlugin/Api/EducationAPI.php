@@ -19,14 +19,15 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use DaoException;
 use Exception;
 use OrangeHRM\Admin\Api\Model\EducationModel;
+use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
 use OrangeHRM\Admin\Service\EducationService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -40,7 +41,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Education;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 
 class EducationAPI extends EndPoint implements CrudEndpoint
 {
@@ -50,6 +50,22 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      * @var null|EducationService
      */
     protected ?EducationService $educationService = null;
+
+    /**
+     * @return EndpointGetOneResult
+     * @throws RecordNotFoundException
+     * @throws Exception
+     */
+    public function getOne(): EndpointGetOneResult
+    {
+        // TODO:: Check data group permission
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $education = $this->getEducationService()->getEducationById($id);
+        if (!$education instanceof Education) {
+            throw new RecordNotFoundException();
+        }
+        return new EndpointGetOneResult(EducationModel::class, $education);
+    }
 
     /**
      *
@@ -69,22 +85,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function setEducationService(EducationService $educationService): void
     {
         $this->educationService = $educationService;
-    }
-
-    /**
-     * @return EndpointGetOneResult
-     * @throws RecordNotFoundException
-     * @throws Exception
-     */
-    public function getOne(): EndpointGetOneResult
-    {
-        // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $education = $this->getEducationService()->getEducationById($id);
-        if (!$education instanceof Education) {
-            throw new RecordNotFoundException();
-        }
-        return new EndpointGetOneResult(EducationModel::class, $education);
     }
 
     /**
@@ -112,7 +112,11 @@ class EducationAPI extends EndPoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($educationParamHolder);
         $educations = $this->getEducationService()->getEducationList($educationParamHolder);
         $count = $this->getEducationService()->getEducationCount($educationParamHolder);
-        return new EndpointGetAllResult(EducationModel::class, $educations, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
+        return new EndpointGetAllResult(
+            EducationModel::class,
+            $educations,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
     }
 
     /**
@@ -121,7 +125,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getSortingAndPaginationParamsRules(['e.name'])
+            ...$this->getSortingAndPaginationParamsRules(EmploymentStatusSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -136,6 +140,27 @@ class EducationAPI extends EndPoint implements CrudEndpoint
         $educations = $this->saveEducation();
 
         return new EndpointCreateResult(EducationModel::class, $educations);
+    }
+
+    /**
+     * @return Education
+     * @throws RecordNotFoundException
+     */
+    public function saveEducation(): Education
+    {
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        if (!empty($id)) {
+            $education = $this->getEducationService()->getEducationById($id);
+            if ($education == null) {
+                throw new RecordNotFoundException();
+            }
+        } else {
+            $education = new Education();
+        }
+
+        $education->setName($name);
+        return $this->getEducationService()->saveEducation($education);
     }
 
     /**
@@ -172,27 +197,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
             ),
             new ParamRule(self::PARAMETER_NAME),
         );
-    }
-
-    /**
-     * @return Education
-     * @throws RecordNotFoundException
-     */
-    public function saveEducation(): Education
-    {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
-            $education = $this->getEducationService()->getEducationById($id);
-            if ($education == null) {
-                throw new RecordNotFoundException();
-            }
-        } else {
-            $education = new Education();
-        }
-
-        $education->setName($name);
-        return $this->getEducationService()->saveEducation($education);
     }
 
     /**
