@@ -45,7 +45,7 @@ class SkillServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->skillService = new SkillService();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/SkillDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/SkillDao.yml';
         TestDataService::populate($this->fixture);
     }
 

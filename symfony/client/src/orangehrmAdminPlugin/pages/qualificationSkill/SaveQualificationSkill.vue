@@ -92,7 +92,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/skills',
+      '/api/v2/admin/skills',
     );
     return {
       http,
@@ -140,10 +140,9 @@ export default {
           const index = data.findIndex(item => item.name == v);
           return index === -1 || 'Skill name should be unique';
         });
-        this.isLoading = false;
       })
-      .catch(error => {
-        console.log(error);
+      .finally(() => {
+        this.isLoading = false;
       });
   },
 };

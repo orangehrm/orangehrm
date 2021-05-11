@@ -102,7 +102,6 @@ export default {
           },
         },
       ],
-      editItem: null,
       checkedItems: [],
     };
   },
@@ -114,7 +113,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/skills',
+      '/api/v2/admin/skills',
     );
     const {
       showPaginator,

@@ -48,13 +48,8 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
-          <oxd-button
-            class="orangehrm-left-space"
-            displayType="secondary"
-            label="Save"
-            type="submit"
-          />
+          <oxd-button type="button" displayType="ghost" label="Cancel" @click="onCancel" />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -98,7 +93,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/skills',
+      '/api/v2/admin/skills',
     );
     return {
       http,
@@ -160,10 +155,9 @@ export default {
             return true;
           }
         });
-        this.isLoading = false;
       })
-      .catch(error => {
-        console.log(error);
+      .finally(() => {
+        this.isLoading = false;
       });
   },
 };
