@@ -20,8 +20,10 @@
 namespace OrangeHRM\Admin\Tests\Service;
 
 use OrangeHRM\Admin\Dao\EducationDao;
+use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
 use OrangeHRM\Admin\Service\EducationService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Education;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -42,22 +44,23 @@ class EducationServiceTest extends TestCase
         $this->educationService = new EducationService();
         $this->fixture = Config::get(
                 'ohrm_plugins_dir'
-            ) . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml'; //replace 'sf_plugins_dir'
+            ) . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
         TestDataService::populate($this->fixture);
     }
 
     public function testGetEducationList(): void
     {
         $educationList = TestDataService::loadObjectList('Education', $this->fixture, 'Education');
+        $educationFilterParams = new QualificationEducationSearchFilterParams();
         $educationDao = $this->getMockBuilder(EducationDao::class)->getMock();
         $educationDao->expects($this->once())
             ->method('getEducationList')
+            ->with($educationFilterParams)
             ->will($this->returnValue($educationList));
-
         $this->educationService->setEducationDao($educationDao);
-
-        $result = $this->educationService->getEducationList();
-        $this->assertEquals($result, $educationList);
+        $result = $this->educationService->getEducationList($educationFilterParams);
+        $this->assertCount(3, $result);
+        $this->assertTrue($result[0] instanceof Education);
     }
 
     public function testDeleteEducations(): void
@@ -83,7 +86,7 @@ class EducationServiceTest extends TestCase
             ->will($this->returnValue($educationList[0]));
         $this->educationService->setEducationDao($educationDao);
         $result = $this->educationService->getEducationById(1);
-        $this->assertEquals($result, $educationList[0]);
+        $this->assertEquals($educationList[0], $result);
     }
 
     public function testGetEducationByName(): void

@@ -20,6 +20,7 @@
 namespace OrangeHRM\Admin\Tests\Dao;
 
 use OrangeHRM\Admin\Dao\EducationDao;
+use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Education;
 use OrangeHRM\Tests\Util\TestCase;
@@ -80,24 +81,17 @@ class EducationDaoTest extends TestCase
 
     public function testGetEducationList(): void
     {
-        $educationList = $this->educationDao->getEducationList();
-
-        foreach ($educationList as $education) {
-            $this->assertTrue($education instanceof Education);
-        }
-
-        $this->assertEquals(3, count($educationList));
-
-        /* Checking record order */
-        $this->assertEquals('BSc', $educationList[0]->getName());
-        $this->assertEquals('PhD', $educationList[2]->getName());
+        $educationFilterParams = new QualificationEducationSearchFilterParams();
+        $result = $this->educationDao->getEducationList($educationFilterParams);
+        $this->assertCount(3, $result);
+        $this->assertTrue($result[0] instanceof Education);
     }
 
     public function testDeleteEducations(): void
     {
-        $result = $this->educationDao->deleteEducations([1, 2]);
+        $toTobedeletedIds = [1, 2];
+        $result = $this->educationDao->deleteEducations($toTobedeletedIds);
         $this->assertEquals(2, $result);
-        $this->assertEquals(1, count($this->educationDao->getEducationList()));
     }
 
     public function testDeleteWrongRecord(): void
