@@ -66,7 +66,6 @@ export default {
       rules: {
         name: [],
       },
-      errors: [],
     };
   },
 

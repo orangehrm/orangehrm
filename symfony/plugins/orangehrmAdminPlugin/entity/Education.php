@@ -23,7 +23,6 @@ namespace OrangeHRM\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Education
@@ -44,7 +43,7 @@ class Education
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
 
     /**
@@ -52,7 +51,7 @@ class Education
      *
      * @ORM\Column(name="name", type="string", length=100)
      */
-    private $name;
+    private string $name;
     /**
      * @var Collection
      *
@@ -82,7 +81,7 @@ class Education
     /**
      * @param int $id
      */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -98,9 +97,8 @@ class Education
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
-
 }

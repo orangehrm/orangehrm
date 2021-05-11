@@ -23,51 +23,8 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class QualificationEducationSearchFilterParams extends FilterParams
 {
-    /**
-     * @var string|null
-     */
-    protected ?string $name = null;
-
-    /**
-     * @var int|null
-     */
-    protected ?int $id = null;
-
     public function __construct()
     {
         $this->setSortField('e.name');
     }
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int|null $id
-     */
-    public function setId(?int $id): void
-    {
-        $this->name = $this->id;
-    }
-
 }

@@ -81,7 +81,6 @@ export default {
       rules: {
         name: [],
       },
-      errors: [],
     };
   },
   methods: {

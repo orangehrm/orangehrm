@@ -111,7 +111,6 @@ export default {
           },
         },
       ],
-      editItem: null,
       checkedItems: [],
     };
   },

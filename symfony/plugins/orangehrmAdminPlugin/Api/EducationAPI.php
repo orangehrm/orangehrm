@@ -44,14 +44,12 @@ use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 
 class EducationAPI extends EndPoint implements CrudEndpoint
 {
+    public const PARAMETER_NAME = 'name';
+
     /**
      * @var null|EducationService
      */
     protected ?EducationService $educationService = null;
-
-    public const PARAMETER_ID = 'id';
-    public const PARAMETER_IDS = 'ids';
-    public const PARAMETER_NAME = 'name';
 
     /**
      *
@@ -83,6 +81,9 @@ class EducationAPI extends EndPoint implements CrudEndpoint
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $education = $this->getEducationService()->getEducationById($id);
+        if (!$education instanceof Education) {
+            throw new RecordNotFoundException();
+        }
         return new EndpointGetOneResult(EducationModel::class, $education);
     }
 
@@ -179,12 +180,12 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      */
     public function saveEducation(): Education
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
             $education = $this->getEducationService()->getEducationById($id);
             if ($education == null) {
-                throw new RecordNotFoundException('No Record Found');
+                throw new RecordNotFoundException();
             }
         } else {
             $education = new Education();
@@ -200,7 +201,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForSaveEducation(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID),
             new ParamRule(self::PARAMETER_NAME),
         );
     }
@@ -212,7 +213,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function delete(): EndpointDeleteResult
     {
         // TODO:: Check data group permission
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEducationService()->deleteEducations($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
@@ -223,7 +224,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_IDS),
+            new ParamRule(CommonParams::PARAMETER_IDS),
         );
     }
 

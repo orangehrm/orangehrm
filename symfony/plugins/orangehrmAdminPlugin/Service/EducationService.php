@@ -49,22 +49,20 @@ class EducationService
      * @param $educationDao
      * @return void
      */
-    public function setEducationDao($educationDao): void
+    public function setEducationDao(EducationDao $educationDao): void
     {
         $this->educationDao = $educationDao;
     }
 
     /**
      * Saves an education object
-     *
      * Can be used for a new record or updating.
      *
      * @param Education $education
-     * @return NULL Doesn't return a value
+     * @return Education
      * @throws \DaoException
-     * @version 2.6.12
      */
-    public function saveEducation(Education $education)
+    public function saveEducation(Education $education): Education
     {
         return $this->getEducationDao()->saveEducation($education);
     }
@@ -75,7 +73,6 @@ class EducationService
      * @param int $id
      * @return Education An instance of Education or NULL
      * @throws DaoException
-     * @version 2.6.12
      */
     public function getEducationById(int $id): ?Education
     {
@@ -90,7 +87,6 @@ class EducationService
      * @param string $name
      * @return Education An instance of Education or false
      * @throws DaoException
-     * @version 2.6.12
      */
     public function getEducationByName(string $name): ?Education
     {
@@ -124,7 +120,6 @@ class EducationService
      * @param array $toDeleteIds An array of IDs to be deleted
      * @return int Number of records deleted
      * @throws DaoException
-     * @version 2.6.12
      */
     public function deleteEducations(array $toDeleteIds): int
     {
@@ -139,7 +134,6 @@ class EducationService
      * @param string $educationName Education name that needs to be checked
      * @return bool
      * @throws DaoException
-     * @version 2.6.12
      */
     public function isExistingEducationName(string $educationName): bool
     {
