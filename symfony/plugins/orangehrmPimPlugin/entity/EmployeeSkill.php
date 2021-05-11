@@ -14,66 +14,119 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EmployeeSkill
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="emp_number", type="integer", length=4)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
     private $emp_number;
+    private $years_of_exp;
+    private $Employee;
+    private $skillId;
+    private $Skill;
 
     /**
      * @var int
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Skill", mappedBy="employeeSkills")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="skillId", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $skillId;
+    private $id;
 
     /**
-     * @var string
+     * @var Employee
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="skills")
+     * @ORM\JoinColumn(name="emp_number")
+     */
+    private Employee $employee;
+
+    /**
+     * @var Skill
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Skill", inversedBy="employeeSkills")
+     * @ORM\JoinColumn(name="skill_id")
+     */
+    private Skill $skill;
+
+    /**
+     * @var float
      *
      * @ORM\Column(name="years_of_exp", type="decimal", length=2)
      */
-    private $years_of_exp;
+    private float $yearsOfExp;
 
     /**
      * @var string
      *
      * @ORM\Column(name="comments", type="string", length=100)
      */
-    private $comments;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmployeeSkill")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
-     */
-    private $Employee;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Skill", mappedBy="EmployeeSkill")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="skillId", referencedColumnName="id")
-     * })
-     */
-    private $Skill;
+    private string $comments;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->Employee = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->Skill = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    /**
+     * @return Employee|null
+     */
+    public function getEmployee(): ?Employee
+    {
+        return $this->employee;
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    public function setEmployee(Employee $employee): void
+    {
+        $this->employee = $employee;
+    }
+
+    /**
+     * @return Skill|null
+     */
+    public function getSkill(): ?Skill
+    {
+        return $this->skill;
+    }
+
+    /**
+     * @param Skill $skill
+     */
+    public function setSkill(Skill $skill): void
+    {
+        $this->skill = $skill;
+    }
+
+    /**
+     * @return float
+     */
+    public function getYearsOfExp(): float
+    {
+        return $this->yearsOfExp;
+    }
+
+    /**
+     * @param float $yearsOfExp
+     */
+    public function setYearsOfExp(float $yearsOfExp): void
+    {
+        $this->yearsOfExp = $yearsOfExp;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComments(): string
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param string $comments
+     */
+    public function setComments(string $comments): void
+    {
+        $this->comments = $comments;
+    }
 }

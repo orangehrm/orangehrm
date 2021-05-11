@@ -26,21 +26,21 @@ class Skill
     /**
      * @var string | null
      *
-     * @ORM\Column(name="name", type="string", length=120)
+     * @ORM\Column(name="name", type="string", length=120, nullable=true)
      */
     private ?string $name;
 
     /**
      * @var string | null
      *
-     * @ORM\Column(name="description", type="string", length=2147483647)
+     * @ORM\Column(name="description", type="string", length=2147483647, nullable=true)
      */
     private ?string $description;
 
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="skillId")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="skill")
      */
     private Collection $employeeSkills;
 
@@ -50,6 +50,7 @@ class Skill
      */
     public function __construct()
     {
+        $this->employeeSkills = new ArrayCollection();
     }
 
     /**
@@ -100,4 +101,19 @@ class Skill
         $this->description = $description;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getEmployeeSkills(): Collection
+    {
+        return $this->employeeSkills;
+    }
+
+    /**
+     * @param Collection $employeeSkills
+     */
+    public function setEmployeeSkills(Collection $employeeSkills): void
+    {
+        $this->employeeSkills = $employeeSkills;
+    }
 }
