@@ -17,14 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Framework\Routing;
 
-use OrangeHRM\Framework\Http\Request;
+use Symfony\Component\Routing\RequestContext as RoutingRequestContext;
 
-interface PluginConfigurationInterface
+class RequestContext extends RoutingRequestContext
 {
-    /**
-     * Initialize plugin
-     */
-    public function initialize(Request $request): void;
+
 }

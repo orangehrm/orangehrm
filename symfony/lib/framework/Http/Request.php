@@ -17,14 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Framework\Http;
 
-use OrangeHRM\Framework\Http\Request;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
-interface PluginConfigurationInterface
+class Request extends HttpRequest
 {
-    /**
-     * Initialize plugin
-     */
-    public function initialize(Request $request): void;
+
 }

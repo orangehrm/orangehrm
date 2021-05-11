@@ -17,14 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Framework\Routing;
 
-use OrangeHRM\Framework\Http\Request;
+use Symfony\Component\Routing\Matcher\UrlMatcher as RoutingUrlMatcher;
 
-interface PluginConfigurationInterface
+class UrlMatcher extends RoutingUrlMatcher
 {
-    /**
-     * Initialize plugin
-     */
-    public function initialize(Request $request): void;
+
 }

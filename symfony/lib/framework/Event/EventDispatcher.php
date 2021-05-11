@@ -17,14 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Framework\Event;
 
-use OrangeHRM\Framework\Http\Request;
+use Symfony\Component\EventDispatcher\EventDispatcher as BaseEventDispatcher;
 
-interface PluginConfigurationInterface
+class EventDispatcher extends BaseEventDispatcher
 {
-    /**
-     * Initialize plugin
-     */
-    public function initialize(Request $request): void;
+
 }

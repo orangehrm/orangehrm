@@ -17,14 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Framework\Http;
 
-use OrangeHRM\Framework\Http\Request;
+use Symfony\Component\HttpFoundation\RequestStack as HttpRequestStack;
 
-interface PluginConfigurationInterface
+class RequestStack extends HttpRequestStack
 {
-    /**
-     * Initialize plugin
-     */
-    public function initialize(Request $request): void;
+
 }

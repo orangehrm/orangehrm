@@ -17,14 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Framework\Logger;
 
-use OrangeHRM\Framework\Http\Request;
+use Monolog\Logger as BaseLogger;
 
-interface PluginConfigurationInterface
+class Logger extends BaseLogger
 {
-    /**
-     * Initialize plugin
-     */
-    public function initialize(Request $request): void;
+
 }

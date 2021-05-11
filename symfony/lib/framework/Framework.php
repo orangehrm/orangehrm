@@ -19,21 +19,23 @@
 
 namespace OrangeHRM\Framework;
 
+use Exception;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use OrangeHRM\Config\Config;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
+use OrangeHRM\Framework\Event\EventDispatcher;
+use OrangeHRM\Framework\Http\ControllerResolver;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\RequestStack;
+use OrangeHRM\Framework\Logger\Logger;
+use OrangeHRM\Framework\Routing\RequestContext;
+use OrangeHRM\Framework\Routing\UrlGenerator;
+use OrangeHRM\Framework\Routing\UrlMatcher;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
-use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\RequestContext;
 
 class Framework extends HttpKernel
 {
@@ -127,10 +129,17 @@ class Framework extends HttpKernel
     }
 
     /**
-     * {@inheritdoc}
+     * @param Request $request
+     * @param int $type
+     * @param bool $catch
+     * @return Response
+     * @throws Exception
      */
-    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
-    {
+    public function handleRequest(
+        Request $request,
+        int $type = HttpKernelInterface::MASTER_REQUEST,
+        bool $catch = true
+    ): Response {
         $this->configureRouter($request);
         $this->configurePlugins($request);
 

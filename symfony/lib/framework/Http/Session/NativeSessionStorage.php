@@ -17,14 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Framework\Http\Session;
 
-use OrangeHRM\Framework\Http\Request;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage as HttpNativeSessionStorage;
 
-interface PluginConfigurationInterface
+class NativeSessionStorage extends HttpNativeSessionStorage
 {
-    /**
-     * Initialize plugin
-     */
-    public function initialize(Request $request): void;
+
 }

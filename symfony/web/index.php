@@ -1,8 +1,8 @@
 <?php
 
 use OrangeHRM\Framework\Framework;
+use OrangeHRM\Framework\Http\Request;
 use Symfony\Component\ErrorHandler\Debug;
-use Symfony\Component\HttpFoundation\Request;
 
 require realpath(__DIR__ . '/../vendor/autoload.php');
 
@@ -16,6 +16,6 @@ if ($debug) {
 
 $kernel = new Framework($env, $debug);
 $request = Request::createFromGlobals();
-$response = $kernel->handle($request);
+$response = $kernel->handleRequest($request);
 $response->send();
 $kernel->terminate($request, $response);

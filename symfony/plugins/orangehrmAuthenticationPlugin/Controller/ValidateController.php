@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Authentication\Controller;
 
@@ -8,13 +25,12 @@ use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\Session\Session;
+use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ValidateController extends AbstractController implements PublicControllerInterface
 {
@@ -64,8 +80,8 @@ class ValidateController extends AbstractController implements PublicControllerI
         $credentials = new UserCredential($username, $password);
         $success = $this->getAuthenticationService()->setCredentials($credentials, []);
         User::getInstance()->setIsAuthenticated($success);
-        $loginUrl = $urlGenerator->generate('auth_login', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $logoutUrl = $urlGenerator->generate('auth_logout', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
+        $logoutUrl = $urlGenerator->generate('auth_logout', [], UrlGenerator::ABSOLUTE_URL);
 
         if (!$success) {
             return new RedirectResponse($loginUrl);
@@ -83,7 +99,7 @@ class ValidateController extends AbstractController implements PublicControllerI
 
         // TODO: Redirect to user homepage (using homepage service)
         return new RedirectResponse(
-            $urlGenerator->generate('view_job_title', [], UrlGeneratorInterface::ABSOLUTE_URL)
+            $urlGenerator->generate('view_job_title', [], UrlGenerator::ABSOLUTE_URL)
         );
     }
 }

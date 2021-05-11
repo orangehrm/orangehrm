@@ -17,14 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework;
+namespace OrangeHRM\Framework\Routing;
 
-use OrangeHRM\Framework\Http\Request;
+use Symfony\Component\Routing\Generator\UrlGenerator as RoutingUrlGenerator;
 
-interface PluginConfigurationInterface
+class UrlGenerator extends RoutingUrlGenerator
 {
-    /**
-     * Initialize plugin
-     */
-    public function initialize(Request $request): void;
+
 }
