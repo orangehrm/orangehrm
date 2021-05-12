@@ -68,6 +68,21 @@ apiv2_admin_employment_statuses:
   defaults:
     _api: OrangeHRM\Admin\Api\EmploymentStatusAPI
 
+
+apiv2_education:
+  path: /api/v2/admin/educations/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\EducationAPI
+
+apiv2_educations:
+  path: /api/v2/admin/educations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\EducationAPI
+
 ##########################
 #        Screens
 ##########################
@@ -140,4 +155,18 @@ edit_system_users:
 view_organization_structure:
   path: /admin/viewCompanyStructure
   controller: OrangeHRM\Admin\Controller\OrganizationStructureController::handle
+
+view_education:
+  path: /admin/viewEducation
+  controller: OrangeHRM\Admin\Controller\QualificationEducationController::handle
+  methods: [ GET ]
+
+save_education:
+  path: /admin/saveEducation
+  controller: OrangeHRM\Admin\Controller\SaveQualificationEducationController::handle
+  methods: [ GET ]
+
+edit_education:
+  path: /admin/saveEducation/{id}
+  controller: OrangeHRM\Admin\Controller\SaveQualificationEducationController::handle
   methods: [ GET ]
