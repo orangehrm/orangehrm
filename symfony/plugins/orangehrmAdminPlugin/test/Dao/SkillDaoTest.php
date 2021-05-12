@@ -49,12 +49,6 @@ class SkillDaoTest extends TestCase
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetSkillsList(): void
-    {
-        $result = $this->skillDao->getSkills();
-        $this->assertCount(3, $result);
-    }
-
     public function testGetSkillById(): void
     {
         $result = $this->skillDao->getSkillById(1);
@@ -108,13 +102,6 @@ class SkillDaoTest extends TestCase
         $this->assertEquals("Driving a truck", $result->getName());
         $this->assertEquals("Ability to drive a truck", $result->getDescription());
         $this->assertEquals(1, $result->getId());
-    }
-
-    public function testGetSkills(): void
-    {
-        $result = $this->skillDao->getSkills();
-        $this->assertCount(3, $result);
-        $this->assertTrue($result[0] instanceof Skill);
     }
 
     public function testGetSearchSkillsCount(): void

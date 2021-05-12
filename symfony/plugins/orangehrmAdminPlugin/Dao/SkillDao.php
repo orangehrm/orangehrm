@@ -125,21 +125,6 @@ class SkillDao extends BaseDao
     }
 
     /**
-     * Get Employment Statuses
-     *
-     * @return Skill[]
-     * @throws DaoException
-     */
-    public function getSkills(): array
-    {
-        try {
-            $this->getRepository(Skill::class)->findAll();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
      * Get Count of Search Query
      *
      * @param SkillSearchFilterParams $skillSearchParams
