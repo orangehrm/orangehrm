@@ -19,8 +19,11 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use OrangeHRM\Admin\Api\Model\JobCategoryModel;
-use OrangeHRM\Admin\Service\JobCategoryService;
+use Exception;
+use OrangeHRM\Admin\Api\Model\EducationModel;
+use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
+use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
+use OrangeHRM\Admin\Service\EducationService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -37,54 +40,51 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\JobCategory;
+use OrangeHRM\Entity\Education;
 
-class JobCategoryAPI extends Endpoint implements CrudEndpoint
+class EducationAPI extends EndPoint implements CrudEndpoint
 {
-    /**
-     * @var null|JobCategoryService
-     */
-    protected ?JobCategoryService $jobCategoryService = null;
-
     public const PARAMETER_NAME = 'name';
-    public const PARAMETER_SORT_FIELD = 'sortField';
-    public const PARAMETER_SORT_ORDER = 'sortOrder';
-    public const PARAMETER_OFFSET = 'offset';
-    public const PARAMETER_LIMIT = 'limit';
 
     /**
-     * @return JobCategoryService
+     * @var null|EducationService
      */
-    public function getJobCategoryService(): JobCategoryService
-    {
-        if (is_null($this->jobCategoryService)) {
-            $this->jobCategoryService = new JobCategoryService();
-        }
-        return $this->jobCategoryService;
-    }
+    protected ?EducationService $educationService = null;
 
     /**
-     * @param JobCategoryService $jobCategoryService
-     */
-    public function setJobCategoryService(JobCategoryService $jobCategoryService)
-    {
-        $this->jobCategoryService = $jobCategoryService;
-    }
-
-    /**
-     * @inheritDoc
+     * @return EndpointGetOneResult
+     * @throws RecordNotFoundException
+     * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $jobCategory = $this->getJobCategoryService()->getJobCategoryById($id);
-        if (!$jobCategory instanceof JobCategory) {
+        $education = $this->getEducationService()->getEducationById($id);
+        if (!$education instanceof Education) {
             throw new RecordNotFoundException();
         }
+        return new EndpointGetOneResult(EducationModel::class, $education);
+    }
 
-        return new EndpointGetOneResult(JobCategoryModel::class, $jobCategory);
+    /**
+     *
+     * @return EducationService
+     */
+    public function getEducationService(): EducationService
+    {
+        if (is_null($this->educationService)) {
+            $this->educationService = new EducationService();
+        }
+        return $this->educationService;
+    }
+
+    /**
+     * @param EducationService $educationService
+     */
+    public function setEducationService(EducationService $educationService): void
+    {
+        $this->educationService = $educationService;
     }
 
     /**
@@ -101,37 +101,21 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @inheritDoc
+     * @return EndpointGetAllResult
+     * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission
-        $sortField = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_SORT_FIELD,
-            'jc.name'
-        );
-        $sortOrder = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::PARAMETER_SORT_ORDER,
-            'ASC'
-        );
-        $limit = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_LIMIT, 50);
-        $offset = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_OFFSET, 0);
 
-        $count = $this->getJobCategoryService()->getJobCategoryList(
-            $sortField,
-            $sortOrder,
-            $limit,
-            $offset,
-            true
-        );
-
-        $jobCategories = $this->getJobCategoryService()->getJobCategoryList($sortField, $sortOrder, $limit, $offset);
-
+        $educationParamHolder = new QualificationEducationSearchFilterParams();
+        $this->setSortingAndPaginationParams($educationParamHolder);
+        $educations = $this->getEducationService()->getEducationList($educationParamHolder);
+        $count = $this->getEducationService()->getEducationCount($educationParamHolder);
         return new EndpointGetAllResult(
-            JobCategoryModel::class, $jobCategories,
-            new ParameterBag(['total' => $count])
+            EducationModel::class,
+            $educations,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 
@@ -141,19 +125,42 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getSortingAndPaginationParamsRules(['jc.name'])
+            ...$this->getSortingAndPaginationParamsRules(QualificationEducationSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
+
     /**
      * @inheritDoc
+     * @throws Exception
      */
     public function create(): EndpointCreateResult
     {
         // TODO:: Check data group permission
-        $jobCategory = $this->saveJobCategory();
+        $educations = $this->saveEducation();
 
-        return new EndpointCreateResult(JobCategoryModel::class, $jobCategory);
+        return new EndpointCreateResult(EducationModel::class, $educations);
+    }
+
+    /**
+     * @return Education
+     * @throws RecordNotFoundException
+     */
+    public function saveEducation(): Education
+    {
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        if (!empty($id)) {
+            $education = $this->getEducationService()->getEducationById($id);
+            if ($education == null) {
+                throw new RecordNotFoundException();
+            }
+        } else {
+            $education = new Education();
+        }
+
+        $education->setName($name);
+        return $this->getEducationService()->saveEducation($education);
     }
 
     /**
@@ -168,13 +175,14 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
     public function update(): EndpointUpdateResult
     {
         // TODO:: Check data group permission
-        $jobCategory = $this->saveJobCategory();
+        $educations = $this->saveEducation();
 
-        return new EndpointUpdateResult(JobCategoryModel::class, $jobCategory);
+        return new EndpointUpdateResult(EducationModel::class, $educations);
     }
 
     /**
@@ -192,32 +200,25 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return JobCategory
-     * @throws DaoException
+     * @inheritDoc
      */
-    private function saveJobCategory(): JobCategory
+    public function getValidationRuleForSaveEducation(): ParamRuleCollection
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
-            $jobCategory = $this->getJobCategoryService()->getJobCategoryById($id);
-        } else {
-            $jobCategory = new JobCategory();
-        }
-
-        $jobCategory->setName($name);
-        return $this->getJobCategoryService()->saveJobCategory($jobCategory);
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(self::PARAMETER_NAME),
+        );
     }
 
     /**
-     * @inheritDoc
-     * @throws DaoException
+     *
+     * @throws Exception
      */
     public function delete(): EndpointDeleteResult
     {
         // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getJobCategoryService()->deleteJobCategory($ids);
+        $this->getEducationService()->deleteEducations($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
 
@@ -230,4 +231,5 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
             new ParamRule(CommonParams::PARAMETER_IDS),
         );
     }
+
 }

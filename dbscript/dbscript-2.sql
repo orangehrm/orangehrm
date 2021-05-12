@@ -3558,7 +3558,6 @@ UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` =
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'General Information';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Locations';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Skills';
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Education';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Licenses';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Languages';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Memberships';
