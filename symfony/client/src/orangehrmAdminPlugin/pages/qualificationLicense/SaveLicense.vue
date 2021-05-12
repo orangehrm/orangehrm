@@ -89,7 +89,7 @@ export default {
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'License added successfully!',
+            message: 'Successfully Added',
           });
         })
         .then(() => {

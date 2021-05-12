@@ -86,11 +86,13 @@ export default {
       headers: [
         {
           name: 'name',
+          slot: 'title',
           title: 'Level',
           style: {'flex-basis': '80%'},
         },
         {
           name: 'actions',
+          slot: 'action',
           title: 'Actions',
           style: {'flex-shrink': 1},
           cellType: 'oxd-table-cell-actions',
@@ -189,7 +191,7 @@ export default {
           .then(() => {
             return this.$toast.success({
               title: 'Success',
-              message: 'Qualification deleted successfully!',
+              message: 'Successfully Deleted',
             });
           })
           .then(() => {

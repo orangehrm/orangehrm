@@ -84,9 +84,15 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', title: 'License', style: {'flex-basis': '80%'}},
+        {
+          name: 'name',
+          slot: 'title',
+          title: 'License',
+          style: {'flex-basis': '80%'},
+        },
         {
           name: 'actions',
+          slot: 'action',
           title: 'Actions',
           style: {'flex-shrink': 1},
           cellType: 'oxd-table-cell-actions',
@@ -185,7 +191,7 @@ export default {
           .then(() => {
             return this.$toast.success({
               title: 'Success',
-              message: 'License deleted successfully!',
+              message: 'Successfully Deleted',
             });
           })
           .then(() => {

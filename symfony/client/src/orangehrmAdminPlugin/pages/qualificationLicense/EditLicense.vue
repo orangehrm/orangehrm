@@ -95,7 +95,7 @@ export default {
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'License updated successfully!',
+            message: 'Successfully Updated',
           });
         })
         .then(() => {
