@@ -28,6 +28,7 @@
         :topbar-menu-items="{{ topMenuItems | json_encode() }}"
         :user="{{ user | json_encode() }}"
         brand-image-src="{{ publicPath }}/images/orange.png?{{ assetsVersion }}"
+        logout-url="{{ baseUrl }}/auth/logout"
     >
       <{{ componentName }}
       {% for prop in componentProps %}
