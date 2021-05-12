@@ -23,6 +23,7 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
@@ -45,6 +46,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public const FILTER_NAME_OR_ID = 'nameOrId';
     public const FILTER_INCLUDE_TERMINATED = 'includeTerminated';
 
+    public const PARAMETER_EMP_NUMBER = 'empNumber';
     public const PARAMETER_FIRST_NAME = 'firstName';
     public const PARAMETER_MIDDLE_NAME = 'middleName';
     public const PARAMETER_LAST_NAME = 'lastName';
@@ -79,7 +81,12 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointGetOneResult
     {
-        throw new NotImplementedException();
+        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
+        $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
+        if (!$employee instanceof Employee) {
+            throw new RecordNotFoundException();
+        }
+        return new EndpointGetOneResult(EmployeeModel::class, $employee);
     }
 
     /**
@@ -87,7 +94,12 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::POSITIVE)
+            )
+        );
     }
 
     /**
@@ -135,7 +147,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
             new ParamRule(self::FILTER_INCLUDE_TERMINATED),
             new ParamRule(self::FILTER_NAME),
             new ParamRule(self::FILTER_NAME_OR_ID),
-            ...$this->getSortingAndPaginationParamsRules(['e.lastName'])
+            ...$this->getSortingAndPaginationParamsRules(EmployeeSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -145,18 +157,27 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointCreateResult
     {
         // TODO:: Check data group permission
+        $employee = new Employee();
+        $this->setParamsToEmployee($employee);
+        $this->getEmployeeService()->saveEmployee($employee);
+        return new EndpointCreateResult(EmployeeModel::class, $employee);
+    }
+
+    /**
+     * @param Employee $employee
+     * @return void
+     */
+    private function setParamsToEmployee(Employee $employee): void
+    {
         $firstName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FIRST_NAME);
         $middleName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_MIDDLE_NAME);
         $lastName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_LAST_NAME);
         $employeeId = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMPLOYEE_ID);
 
-        $employee = new Employee();
         $employee->setFirstName($firstName);
         $employee->setMiddleName($middleName);
         $employee->setLastName($lastName);
         $employee->setEmployeeId($employeeId);
-        $employee = $this->getEmployeeService()->saveEmployee($employee);
-        return new EndpointCreateResult(EmployeeModel::class, $employee);
     }
 
     /**
@@ -165,11 +186,21 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getCommonBodyValidationRules(): array
+    {
+        return [
             new ParamRule(self::PARAMETER_FIRST_NAME),
             new ParamRule(self::PARAMETER_MIDDLE_NAME),
             new ParamRule(self::PARAMETER_LAST_NAME),
             new ParamRule(self::PARAMETER_EMPLOYEE_ID),
-        );
+        ];
     }
 
     /**
@@ -177,7 +208,14 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointUpdateResult
     {
-        throw new NotImplementedException();
+        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
+        $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
+        if (!$employee instanceof Employee) {
+            throw new RecordNotFoundException();
+        }
+        $this->setParamsToEmployee($employee);
+        $this->getEmployeeService()->saveEmployee($employee);
+        return new EndpointUpdateResult(EmployeeModel::class, $employee);
     }
 
     /**
@@ -185,7 +223,10 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_EMP_NUMBER, new Rule(Rules::POSITIVE)),
+            ...$this->getCommonBodyValidationRules(),
+        );
     }
 
     /**

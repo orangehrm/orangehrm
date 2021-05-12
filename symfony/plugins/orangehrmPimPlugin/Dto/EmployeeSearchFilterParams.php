@@ -23,6 +23,8 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeSearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = ['e.lastName', 'e.firstName', 'e.middleName', 'e.empNumber', 'e.employeeId'];
+
     protected bool $includeTerminated = false;
     protected ?string $name = null;
     protected ?string $nameOrId = null;
