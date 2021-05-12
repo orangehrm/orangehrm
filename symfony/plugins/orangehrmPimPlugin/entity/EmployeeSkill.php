@@ -14,12 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EmployeeSkill
 {
-    private $emp_number;
-    private $years_of_exp;
-    private $Employee;
-    private $skillId;
-    private $Skill;
-
     /**
      * @var int
      *
@@ -28,22 +22,6 @@ class EmployeeSkill
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var Employee
-     *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="skills")
-     * @ORM\JoinColumn(name="emp_number")
-     */
-    private Employee $employee;
-
-    /**
-     * @var Skill
-     *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Skill", inversedBy="employeeSkills")
-     * @ORM\JoinColumn(name="skill_id")
-     */
-    private Skill $skill;
 
     /**
      * @var float

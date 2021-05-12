@@ -38,9 +38,8 @@ class Skill
     private ?string $description;
 
     /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="skill")
+     * Many Groups have Many Users.
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="skills")
      */
     private Collection $employeeSkills;
 

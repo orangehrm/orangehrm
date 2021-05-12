@@ -426,9 +426,8 @@ class Employee
 //    private $education;
 
     /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="employee")
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", inversedBy="employees")
+     * @ORM\JoinTable(name="hs_hr_emp_skill")
      */
     private $skills;
 
