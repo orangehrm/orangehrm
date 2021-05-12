@@ -27,6 +27,7 @@ use OrangeHRM\Admin\Service\LicenseService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -40,7 +41,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\License;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 
 class LicenseAPI extends EndPoint implements CrudEndpoint
 {
@@ -154,16 +154,16 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
-            $education = $this->getLicenseService()->getLicenseById($id);
-            if ($education == null) {
+            $license = $this->getLicenseService()->getLicenseById($id);
+            if ($license == null) {
                 throw new RecordNotFoundException();
             }
         } else {
-            $education = new License();
+            $license = new License();
         }
 
-        $education->setName($name);
-        return $this->getLicenseService()->saveLicense($education);
+        $license->setName($name);
+        return $this->getLicenseService()->saveLicense($license);
     }
 
     /**

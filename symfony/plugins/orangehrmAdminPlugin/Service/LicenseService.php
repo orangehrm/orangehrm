@@ -44,7 +44,7 @@ class LicenseService
      */
     public function saveLicense(License $license): License
     {
-        $this->getLicenseDao()->saveLicense($license);
+        return $this->getLicenseDao()->saveLicense($license);
     }
 
     /**

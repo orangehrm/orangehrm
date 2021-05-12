@@ -17,14 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-
 namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use Symfony\Component\HttpFoundation\Request;
-
 
 class SaveQualificationLicenseController extends AbstractVueController
 {

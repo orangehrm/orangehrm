@@ -53,9 +53,9 @@ class LicenseDao extends BaseDao
     public function getLicenseById($id): ?License
     {
         try {
-            $education = $this->getRepository(License::class)->find($id);
-            if ($education instanceof License) {
-                return $education;
+            $license = $this->getRepository(License::class)->find($id);
+            if ($license instanceof License) {
+                return $license;
             }
             return null;
         } catch (Exception $e) {
@@ -82,14 +82,14 @@ class LicenseDao extends BaseDao
     }
 
     /**
-     * @param LicenseSearchFilterParams $licenseSearchParamHolder
+     * @param LicenseSearchFilterParams $licenseSearchFilterParams
      * @return array
      * @throws DaoException
      */
-    public function getLicenseList(LicenseSearchFilterParams $licenseSearchParamHolder): array
+    public function getLicenseList(LicenseSearchFilterParams $licenseSearchFilterParams): array
     {
         try {
-            $paginator = $this->getLicenseListPaginator($licenseSearchParamHolder);
+            $paginator = $this->getLicenseListPaginator($licenseSearchFilterParams);
             return $paginator->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -97,31 +97,31 @@ class LicenseDao extends BaseDao
     }
 
     /**
-     * @param LicenseSearchFilterParams $licenseSearchParamHolder
+     * @param LicenseSearchFilterParams $licenseSearchFilterParams
      * @return Paginator
      */
-    public function getLicenseListPaginator(LicenseSearchFilterParams $licenseSearchParamHolder): Paginator
+    public function getLicenseListPaginator(LicenseSearchFilterParams $licenseSearchFilterParams): Paginator
     {
         $q = $this->createQueryBuilder(License::class, 'l');
-        if (!is_null($licenseSearchParamHolder->getSortField())) {
-            $q->addOrderBy($licenseSearchParamHolder->getSortField(), $licenseSearchParamHolder->getSortOrder());
+        if (!is_null($licenseSearchFilterParams->getSortField())) {
+            $q->addOrderBy($licenseSearchFilterParams->getSortField(), $licenseSearchFilterParams->getSortOrder());
         }
-        if (!empty($licenseSearchParamHolder->getLimit())) {
-            $q->setFirstResult($licenseSearchParamHolder->getOffset())
-                ->setMaxResults($licenseSearchParamHolder->getLimit());
+        if (!empty($licenseSearchFilterParams->getLimit())) {
+            $q->setFirstResult($licenseSearchFilterParams->getOffset())
+                ->setMaxResults($licenseSearchFilterParams->getLimit());
         }
         return new Paginator($q);
     }
 
     /**
-     * @param LicenseSearchFilterParams $licenseSearchParamHolder
+     * @param LicenseSearchFilterParams $licenseSearchFilterParams
      * @return int
      * @throws DaoException
      */
-    public function getLicenseCount(LicenseSearchFilterParams $licenseSearchParamHolder): int
+    public function getLicenseCount(LicenseSearchFilterParams $licenseSearchFilterParams): int
     {
         try {
-            $paginator = $this->getLicenseListPaginator($licenseSearchParamHolder);
+            $paginator = $this->getLicenseListPaginator($licenseSearchFilterParams);
             return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

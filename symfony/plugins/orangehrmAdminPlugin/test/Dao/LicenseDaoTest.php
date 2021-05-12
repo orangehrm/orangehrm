@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Admin\Tests\Dao;
 
+use Exception;
 use OrangeHRM\Admin\Dao\LicenseDao;
 use OrangeHRM\Admin\Dto\LicenseSearchFilterParams;
 use OrangeHRM\Config\Config;
@@ -37,6 +38,7 @@ class LicenseDaoTest extends TestCase
 
     /**
      * Set up method
+     * @throws Exception
      */
     protected function setUp(): void
     {

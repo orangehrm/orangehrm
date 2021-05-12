@@ -62,7 +62,6 @@ export default {
       required: true,
     },
   },
-
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -108,6 +107,7 @@ export default {
       navigate('/admin/viewLicenses');
     },
   },
+
   created() {
     this.isLoading = true;
     this.http
