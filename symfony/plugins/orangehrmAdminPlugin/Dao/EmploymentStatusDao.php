@@ -101,7 +101,7 @@ class EmploymentStatusDao extends BaseDao
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return Paginator
      */
-    private function getSearchEmploymentStatusPaginator(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): \OrangeHRM\ORM\Paginator
+    private function getSearchEmploymentStatusPaginator(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): Paginator
     {
         $q = $this->createQueryBuilder(EmploymentStatus::class, 'es');
 

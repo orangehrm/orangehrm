@@ -23,7 +23,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class SkillSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['s.name','s.description'];
+    public const ALLOWED_SORT_FIELDS = ['s.name', 's.description'];
 
     /**
      * @var string|null

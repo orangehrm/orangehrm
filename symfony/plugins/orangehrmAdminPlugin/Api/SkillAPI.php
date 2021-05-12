@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
-use OrangeHRM\Admin\Dto\UserSearchFilterParams;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -40,20 +38,19 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Entity\Skill;
 use OrangeHRM\Admin\Service\SkillService;
 use OrangeHRM\Admin\Api\Model\SkillModel;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-use Orangehrm\Rest\Http\Response;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Exception\DaoException;
-use \Exception;
+use Exception;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Exception\ServiceException;
 
 class SkillAPI extends Endpoint implements CrudEndpoint
 {
-    const PARAMETER_NAME = 'name';
-    const PARAMETER_DESCRIPTION = 'description';
+    public const PARAMETER_NAME = 'name';
+    public const PARAMETER_DESCRIPTION = 'description';
 
-    const FILTER_NAME = 'name';
-    const FILTER_DESCRIPTION = 'description';
+    public const FILTER_NAME = 'name';
+    public const FILTER_DESCRIPTION = 'description';
 
     /**
      * @var null|SkillService

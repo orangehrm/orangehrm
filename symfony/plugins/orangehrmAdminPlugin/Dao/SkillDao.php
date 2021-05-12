@@ -38,11 +38,10 @@ class SkillDao extends BaseDao
     public function saveSkill(Skill $skill): Skill
     {
         try {
-            Doctrine::getEntityManager()->persist($skill);
-            Doctrine::getEntityManager()->flush();
+            $this->persist($skill);
             return $skill;
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -54,9 +53,13 @@ class SkillDao extends BaseDao
     public function getSkillById(int $id): ?Skill
     {
         try {
-            return Doctrine::getEntityManager()->getRepository(Skill::class)->find($id);
+            $skill = $this->getRepository(Skill::class)->find($id);
+            if ($skill instanceof Skill) {
+                return $skill;
+            }
+            return null;
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -68,7 +71,7 @@ class SkillDao extends BaseDao
     public function deleteSkills(array $toDeleteIds): int
     {
         try {
-            $q = Doctrine::getEntityManager()->createQueryBuilder();
+            $q = $this->createQueryBuilder(Skill::class, 's');
             $q->delete(Skill::class, 's')
                 ->where($q->expr()->in('s.id', ':ids'))
                 ->setParameter('ids', $toDeleteIds);
@@ -88,8 +91,8 @@ class SkillDao extends BaseDao
     public function searchSkill(SkillSearchFilterParams $skillSearchParams): array
     {
         try {
-            $q = $this->getSearchSkillPaginator($skillSearchParams);
-            return $q->getQuery()->execute();
+            $paginator = $this->getSearchSkillPaginator($skillSearchParams);
+            return $paginator->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
@@ -101,10 +104,7 @@ class SkillDao extends BaseDao
      */
     private function getSearchSkillPaginator(SkillSearchFilterParams $skillSearchParams): Paginator
     {
-        $q = Doctrine::getEntityManager()->getRepository(
-            Skill::class
-        )->createQueryBuilder('s');
-
+        $q = $this->createQueryBuilder(Skill::class, 's');
         if (!is_null($skillSearchParams->getSortField())) {
             $q->addOrderBy($skillSearchParams->getSortField(), $skillSearchParams->getSortOrder());
         }
@@ -133,9 +133,7 @@ class SkillDao extends BaseDao
     public function getSkills(): array
     {
         try {
-            return Doctrine::getEntityManager()->getRepository(
-                Skill::class
-            )->findAll();
+            $this->getRepository(Skill::class)->findAll();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }

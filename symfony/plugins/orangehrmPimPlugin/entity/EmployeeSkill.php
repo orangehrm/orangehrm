@@ -15,13 +15,22 @@ use Doctrine\ORM\Mapping as ORM;
 class EmployeeSkill
 {
     /**
-     * @var int
+     * @var Employee
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="skills")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\JoinColumn(name="emp_number")
      */
-    private $id;
+    private Employee $employee;
+
+    /**
+     * @var Skill
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Skill", inversedBy="employeeSkills")
+     * @ORM\Id
+     * @ORM\JoinColumn(name="skill_id")
+     */
+    private Skill $skill;
 
     /**
      * @var float
