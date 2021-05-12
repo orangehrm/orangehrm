@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Admin\Api\Model;
 
-use OrangeHRM\Entity\License;
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\License;
 
 class LicenseModel implements Normalizable
 {

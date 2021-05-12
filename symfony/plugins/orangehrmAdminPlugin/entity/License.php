@@ -21,14 +21,14 @@ class License
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=100)
      */
-    private $name;
+    private string $name;
 
     //mappedBy = license , ColumnName = "license_id"
 

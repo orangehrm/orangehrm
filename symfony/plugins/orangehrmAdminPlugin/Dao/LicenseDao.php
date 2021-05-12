@@ -71,7 +71,7 @@ class LicenseDao extends BaseDao
     public function getLicenseByName($name): ?License
     {
         try {
-            $query = $this->getRepository(License::class)->createQueryBuilder('l');
+            $query = $this->createQueryBuilder(License::class, 'l');
             $trimmed = trim($name, ' ');
             $query->andWhere('l.name = :name');
             $query->setParameter('name', $trimmed);
@@ -102,7 +102,7 @@ class LicenseDao extends BaseDao
      */
     public function getLicenseListPaginator(LicenseSearchFilterParams $licenseSearchParamHolder): Paginator
     {
-        $q = Doctrine::getEntityManager()->getRepository(License::class)->createQueryBuilder('l');
+        $q = $this->createQueryBuilder(License::class, 'l');
         if (!is_null($licenseSearchParamHolder->getSortField())) {
             $q->addOrderBy($licenseSearchParamHolder->getSortField(), $licenseSearchParamHolder->getSortOrder());
         }
@@ -136,10 +136,10 @@ class LicenseDao extends BaseDao
     public function deleteLicenses(array $toDeleteIds): int
     {
         try {
-            $q = $this->createQueryBuilder(License::class, 'e');
-            $q->delete(License::class, 'l')
-                ->set('l.deleted', true)
-                ->where($q->expr()->in('l.id', $toDeleteIds));
+            $q = $this->createQueryBuilder(License::class, 'l');
+            $q->delete()
+                ->where($q->expr()->in('l.id', ':ids'))
+                ->setParameter('ids', $toDeleteIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -154,7 +154,7 @@ class LicenseDao extends BaseDao
     public function isExistingLicenseName($licenseName): bool
     {
         try {
-            $q = $this->getRepository(License::class)->createQueryBuilder('l');
+            $q = $this->createQueryBuilder(License::class, 'l');
             $trimmed = trim($licenseName, ' ');
             $q->Where('l.name = :name');
             $q->setParameter('name', $trimmed);

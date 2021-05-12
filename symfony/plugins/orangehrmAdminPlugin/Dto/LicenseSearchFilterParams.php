@@ -23,105 +23,10 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class LicenseSearchFilterParams extends FilterParams
 {
-    /**
-     * @var bool|null
-     */
-    protected ?bool $status = null;
-    /**
-     * @var string|null
-     */
-    protected ?string $username = null;
-    /**
-     * @var int|null
-     */
-    protected ?int $userRoleId = null;
-    /**
-     * @var int|null
-     */
-    protected ?int $empNumber = null;
+    public const ALLOWED_SORT_FIELDS = ['l.name'];
 
     public function __construct()
     {
         $this->setSortField('l.name');
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getStatus(): ?bool
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param bool|null $status
-     */
-    public function setStatus(?bool $status): void
-    {
-        $this->status = $status;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    /**
-     * @param string|null $username
-     */
-    public function setUsername(?string $username): void
-    {
-        $this->username = $username;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSortOrder(): string
-    {
-        return $this->sortOrder;
-    }
-
-    /**
-     * @param string $sortOrder
-     */
-    public function setSortOrder(string $sortOrder): void
-    {
-        $this->sortOrder = $sortOrder;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getUserRoleId(): ?int
-    {
-        return $this->userRoleId;
-    }
-
-    /**
-     * @param int|null $userRoleId
-     */
-    public function setUserRoleId(?int $userRoleId): void
-    {
-        $this->userRoleId = $userRoleId;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getEmpNumber(): ?int
-    {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param int|null $empNumber
-     */
-    public function setEmpNumber(?int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
     }
 }

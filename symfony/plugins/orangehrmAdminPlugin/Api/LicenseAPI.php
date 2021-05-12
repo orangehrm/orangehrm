@@ -24,6 +24,7 @@ use Exception;
 use OrangeHRM\Admin\Api\Model\LicenseModel;
 use OrangeHRM\Admin\Dto\LicenseSearchFilterParams;
 use OrangeHRM\Admin\Service\LicenseService;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
@@ -34,23 +35,42 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\License;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 
 class LicenseAPI extends EndPoint implements CrudEndpoint
 {
+    public const PARAMETER_NAME = 'name';
+
     /**
      * @var null|LicenseService
      */
     protected ?LicenseService $licenseService = null;
 
-    public const PARAMETER_ID = 'id';
-    public const PARAMETER_IDS = 'ids';
-    public const PARAMETER_NAME = 'name';
+    /**
+     * @return EndpointGetOneResult
+     * @throws RecordNotFoundException
+     * @throws DaoException
+     * @throws Exception
+     */
+    public function getOne(): EndpointGetOneResult
+    {
+        // TODO:: Check data group permission
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $license = $this->getLicenseService()->getLicenseById($id);
+        if (!$license instanceof License) {
+            throw new RecordNotFoundException();
+        }
+        return new EndpointGetOneResult(LicenseModel::class, $license);
+    }
 
     /**
-     * @throws Exception
      * @return LicenseService
+     * @throws Exception
      */
     public function getLicenseService(): LicenseService
     {
@@ -69,26 +89,20 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetOneResult
-     * @throws RecordNotFoundException
-     * @throws DaoException
-     * @throws Exception
+     * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-        $license = $this->getLicenseService()->getLicenseById($id);
-        if (!$license instanceof License) {
-            throw new RecordNotFoundException('No Record Found');
-        }
-
-        return new EndpointGetOneResult(LicenseModel::class, $license);
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+        );
     }
 
     /**
      * @return EndpointGetAllResult
-     * @throws DaoException
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
@@ -99,7 +113,21 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
         $this->setSortingAndPaginationParams($licenseParamHolder);
         $licenses = $this->getLicenseService()->getLicenseList($licenseParamHolder);
         $count = $this->getLicenseService()->getLicenseCount($licenseParamHolder);
-        return new EndpointGetAllResult(LicenseModel::class, $licenses, new ParameterBag(['total' => $count]));
+        return new EndpointGetAllResult(
+            LicenseModel::class,
+            $licenses,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetAll(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            ...$this->getSortingAndPaginationParamsRules(LicenseSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
     }
 
     /**
@@ -116,6 +144,39 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @return License
+     * @throws RecordNotFoundException
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @throws Exception
+     */
+    public function saveLicense(): License
+    {
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        if (!empty($id)) {
+            $education = $this->getLicenseService()->getLicenseById($id);
+            if ($education == null) {
+                throw new RecordNotFoundException();
+            }
+        } else {
+            $education = new License();
+        }
+
+        $education->setName($name);
+        return $this->getLicenseService()->saveLicense($education);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_NAME),
+        );
+    }
+
+    /**
      * @inheritDoc
      * @return EndpointUpdateResult
      * @throws Exception
@@ -129,25 +190,28 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return License
-     * @throws RecordNotFoundException
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @inheritDoc
      */
-    public function saveLicense(): License
+    public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_ID);
-        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
-            $education = $this->getLicenseService()->getLicenseById($id);
-            if ($education == null) {
-                throw new RecordNotFoundException('No Record Found');
-            }
-        } else {
-            $education = new License();
-        }
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(self::PARAMETER_NAME),
+        );
+    }
 
-        $education->setName($name);
-        return $this->getLicenseService()->saveLicense($education);
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForSaveLicense(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(self::PARAMETER_NAME),
+        );
     }
 
     /**
@@ -158,8 +222,18 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function delete(): EndpointDeleteResult
     {
         // TODO:: Check data group permission
-        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getLicenseService()->deleteLicenses($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForDelete(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 }

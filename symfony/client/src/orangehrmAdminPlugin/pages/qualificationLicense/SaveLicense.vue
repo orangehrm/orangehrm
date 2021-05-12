@@ -53,7 +53,7 @@
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 
 export default {
   data() {
@@ -66,7 +66,6 @@ export default {
       rules: {
         name: [],
       },
-      errors: [],
     };
   },
 

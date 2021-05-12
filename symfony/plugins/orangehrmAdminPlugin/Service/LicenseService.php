@@ -34,6 +34,20 @@ class LicenseService
     private ?LicenseDao $licenseDao = null;
 
     /**
+     * Saves a license
+     *
+     * Can be used for a new record or updating.
+     *
+     * @param License $license
+     * @return License
+     * @throws \DaoException
+     */
+    public function saveLicense(License $license): License
+    {
+        $this->getLicenseDao()->saveLicense($license);
+    }
+
+    /**
      * @return LicenseDao
      */
     public function getLicenseDao(): LicenseDao
@@ -49,24 +63,9 @@ class LicenseService
      * @param $licenseDao
      * @return void
      */
-    public function setLicenseDao($licenseDao)
+    public function setLicenseDao(LicenseDao $licenseDao): void
     {
         $this->licenseDao = $licenseDao;
-    }
-
-    /**
-     * Saves a license
-     *
-     * Can be used for a new record or updating.
-     *
-     * @param License $license
-     * @return NULL Doesn't return a value
-     * @throws \DaoException
-     * @version 2.6.12
-     */
-    public function saveLicense(License $license)
-    {
-        $this->getLicenseDao()->saveLicense($license);
     }
 
     /**
@@ -75,7 +74,6 @@ class LicenseService
      * @param int $id
      * @return License An instance of License or NULL
      * @throws DaoException
-     * @version 2.6.12
      */
     public function getLicenseById(int $id): ?License
     {
@@ -90,7 +88,6 @@ class LicenseService
      * @param string $name
      * @return License An instance of License or false
      * @throws DaoException
-     * @version 2.6.12
      */
     public function getLicenseByName(string $name): ?License
     {
@@ -138,7 +135,6 @@ class LicenseService
      * @param string $licenseName License name that needs to be checked
      * @return Bool
      * @throws DaoException
-     * @version 2.6.12
      */
     public function isExistingLicenseName(string $licenseName): bool
     {
