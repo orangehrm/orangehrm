@@ -52,11 +52,11 @@
       </div>
       <div class="orangehrm-container">
         <oxd-card-table
-          ref="dTable"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
+          :loading="isLoading"
           v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
         />
@@ -84,11 +84,12 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'title', title: 'Job Title', style: {flex: 2}},
+        {name: 'title', slot: 'title', title: 'Job Title', style: {flex: 2}},
         {name: 'description', title: 'Description', style: {flex: 4}},
         {
           name: 'actions',
           title: 'Actions',
+          slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
@@ -108,7 +109,6 @@ export default {
           },
         },
       ],
-      editItem: null,
       checkedItems: [],
     };
   },
@@ -198,7 +198,7 @@ export default {
       }
     },
     async resetDataTable() {
-      this.$refs.dTable.checkedItems = [];
+      this.checkedItems = [];
       await this.execQuery();
     },
   },

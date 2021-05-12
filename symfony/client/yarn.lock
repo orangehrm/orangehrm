@@ -1429,16 +1429,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=f118010da4dbbb3bab14d6642d4e97a7b48de390":
+"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=ded5efebb0478436b9fac1a7aa089c537c659067":
   version: 1.0.0
-  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=f118010da4dbbb3bab14d6642d4e97a7b48de390"
+  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=ded5efebb0478436b9fac1a7aa089c537c659067"
   dependencies:
     bootstrap-icons: ^1.3.0
     core-js: ^3.6.5
+    mitt: ^2.1.0
     nanoid: ^3.1.21
     vue: ^3.0.5
     vue-class-component: ^8.0.0-0
-  checksum: f2b3170e35109844fe4b34c687ce1ef794e798bc004e26489a7c23669d2661a7232d2fa1ba18a408c37d289d3d44df4b3cfec2884ce2d17ed349e87c276dfe60
+  checksum: 88b8d9e36d3ee314323ae52aa1a87dc0cee2d2e5136aa10a6d435f153263124e5d1ea47c7ce87ae4f990b8581c14f5aa96a7146d32b03f7cb575c63d8215fce2
   languageName: node
   linkType: hard
 
@@ -9363,6 +9364,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"mitt@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "mitt@npm:2.1.0"
+  checksum: 549fd125e961ca7265e4d1a7c04b9b56787ac2c2093c594528a8afa3003fd3a17ddf55ae346ddf3e1c05084d441f198d6a55bd770915f4578d5843c9e4b6df16
+  languageName: node
+  linkType: hard
+
 "mixin-deep@npm:^1.2.0":
   version: 1.3.2
   resolution: "mixin-deep@npm:1.3.2"
@@ -10018,7 +10026,7 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=f118010da4dbbb3bab14d6642d4e97a7b48de390"
+    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=ded5efebb0478436b9fac1a7aa089c537c659067"
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0

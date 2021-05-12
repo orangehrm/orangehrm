@@ -21,6 +21,18 @@
   background-color: $oxd-interface-gray-lighten-2-color;
   /*border-radius: 1.2rem;*/
   padding: 0.5rem;
+
+  & .oxd-table-header-cell {
+    & .oxd-checkbox-input {
+      border: $oxd-border $oxd-interface-gray-color;
+    }
+  }
+
+  & .oxd-table-card {
+    .card-header-slot-content .data {
+      font-size: 1rem;
+    }
+  }
 }
 
 .orangehrm-paper-container {
