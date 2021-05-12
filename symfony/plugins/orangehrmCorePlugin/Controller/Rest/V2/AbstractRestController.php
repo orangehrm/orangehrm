@@ -144,15 +144,15 @@ abstract class AbstractRestController extends AbstractController
                     break;
 
                 case Request::METHOD_POST:
-                    $response->setContent($this->handlePostRequest($request)->format());
+                    $response->setContent($this->handlePostRequest($request)->formatData());
                     break;
 
                 case Request::METHOD_PUT:
-                    $response->setContent($this->handlePutRequest($request)->format());
+                    $response->setContent($this->handlePutRequest($request)->formatData());
                     break;
 
                 case Request::METHOD_DELETE:
-                    $response->setContent($this->handleDeleteRequest($request)->format());
+                    $response->setContent($this->handleDeleteRequest($request)->formatData());
                     break;
 
                 default:
