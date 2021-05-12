@@ -120,7 +120,6 @@ class LicenseService
      * @param array $toDeleteIds An array of IDs to be deleted
      * @return int Number of records deleted
      * @throws DaoException
-     * @version 2.6.12
      */
     public function deleteLicenses(array $toDeleteIds): int
     {
