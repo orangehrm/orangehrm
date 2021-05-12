@@ -23,6 +23,8 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class QualificationEducationSearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = ['e.name'];
+
     public function __construct()
     {
         $this->setSortField('e.name');

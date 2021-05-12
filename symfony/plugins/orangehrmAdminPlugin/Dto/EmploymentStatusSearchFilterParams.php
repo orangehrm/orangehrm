@@ -23,8 +23,6 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmploymentStatusSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['e.name'];
-
     /**
      * @var string|null
      */

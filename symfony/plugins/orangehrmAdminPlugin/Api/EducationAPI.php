@@ -125,7 +125,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getSortingAndPaginationParamsRules(EmploymentStatusSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules(QualificationEducationSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
