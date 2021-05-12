@@ -52,23 +52,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     protected ?LicenseService $licenseService = null;
 
     /**
-     * @return EndpointGetOneResult
-     * @throws RecordNotFoundException
-     * @throws DaoException
-     * @throws Exception
-     */
-    public function getOne(): EndpointGetOneResult
-    {
-        // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $license = $this->getLicenseService()->getLicenseById($id);
-        if (!$license instanceof License) {
-            throw new RecordNotFoundException();
-        }
-        return new EndpointGetOneResult(LicenseModel::class, $license);
-    }
-
-    /**
      * @return LicenseService
      * @throws Exception
      */
@@ -86,6 +69,23 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function setLicenseService(LicenseService $licenseService): void
     {
         $this->licenseService = $licenseService;
+    }
+
+    /**
+     * @return EndpointGetOneResult
+     * @throws RecordNotFoundException
+     * @throws DaoException
+     * @throws Exception
+     */
+    public function getOne(): EndpointGetOneResult
+    {
+        // TODO:: Check data group permission
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $license = $this->getLicenseService()->getLicenseById($id);
+        if (!$license instanceof License) {
+            throw new RecordNotFoundException();
+        }
+        return new EndpointGetOneResult(LicenseModel::class, $license);
     }
 
     /**

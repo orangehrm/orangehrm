@@ -51,8 +51,7 @@
         </div>
       </div>
       <div class="orangehrm-container">
-        <oxd-card-table
-          ref="dTable"
+        <oxd-card-table :loading="isLoading"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
@@ -201,7 +200,7 @@ export default {
       }
     },
     async resetDataTable() {
-      this.$refs.dTable.checkedItems = [];
+      this.checkedItems = [];
       await this.execQuery();
     },
   },

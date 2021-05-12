@@ -43,7 +43,7 @@ class LicenseDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->licenseDao = new LicenseDao();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/LicenseDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/LicenseDao.yml';
         TestDataService::populate($this->fixture);
     }
 
