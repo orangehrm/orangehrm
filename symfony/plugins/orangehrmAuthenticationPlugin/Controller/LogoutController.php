@@ -20,10 +20,10 @@
 namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class LogoutController extends AbstractController
 {

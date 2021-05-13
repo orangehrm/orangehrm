@@ -64,7 +64,7 @@ class EmployeeDao extends BaseDao
      */
     public function getEmployeeListPaginator(EmployeeSearchFilterParams $employeeSearchParamHolder): Paginator
     {
-        $q = $this->createQueryBuilder(Employee::class,'e');
+        $q = $this->createQueryBuilder(Employee::class, 'e');
         if (!is_null($employeeSearchParamHolder->getSortField())) {
             $q->addOrderBy($employeeSearchParamHolder->getSortField(), $employeeSearchParamHolder->getSortOrder());
         }
@@ -110,6 +110,24 @@ class EmployeeDao extends BaseDao
         try {
             $this->persist($employee);
             return $employee;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param int $empNumber
+     * @return Employee|null
+     * @throws DaoException
+     */
+    public function getEmployeeByEmpNumber(int $empNumber): ?Employee
+    {
+        try {
+            $employee = $this->getRepository(Employee::class)->find($empNumber);
+            if ($employee instanceof Employee) {
+                return $employee;
+            }
+            return null;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }

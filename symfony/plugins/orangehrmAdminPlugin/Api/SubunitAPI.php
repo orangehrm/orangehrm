@@ -129,18 +129,16 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                self::FILTER_DEPTH,
-                new Rule(Rules::POSITIVE)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_DEPTH,
+                    new Rule(Rules::POSITIVE)
+                )
             ),
-            new ParamRule(
-                self::FILTER_MODE,
-                new Rule(
-                    Rules::ONE_OF,
-                    [
-                        new Rule(Rules::NOT_REQUIRED),
-                        new Rule(Rules::IN, [[self::MODE_LIST, self::MODE_TREE]])
-                    ]
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_MODE,
+                    new Rule(Rules::IN, [[self::MODE_LIST, self::MODE_TREE]])
                 )
             )
         );

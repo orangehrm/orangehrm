@@ -19,19 +19,17 @@
 
 namespace OrangeHRM\Core\Controller;
 
-use Exception;
+use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Http\RequestStack;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 abstract class AbstractController
 {
     /**
      * @param string $path
      * @return RedirectResponse
-     * @throws Exception
      */
     protected function redirect(string $path): RedirectResponse
     {
@@ -45,7 +43,6 @@ abstract class AbstractController
 
     /**
      * @return Request|null
-     * @throws Exception
      */
     private function getCurrentRequest(): ?Request
     {

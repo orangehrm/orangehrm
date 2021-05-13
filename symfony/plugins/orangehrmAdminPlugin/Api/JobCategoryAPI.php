@@ -131,7 +131,7 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
 
         return new EndpointGetAllResult(
             JobCategoryModel::class, $jobCategories,
-            new ParameterBag(['total' => $count])
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 

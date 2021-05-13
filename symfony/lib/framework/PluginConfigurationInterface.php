@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Framework;
 
-use Symfony\Component\HttpFoundation\Request;
+use OrangeHRM\Framework\Http\Request;
 
 interface PluginConfigurationInterface
 {

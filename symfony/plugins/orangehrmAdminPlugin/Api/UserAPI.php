@@ -25,6 +25,7 @@ use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -86,6 +87,9 @@ class UserAPI extends Endpoint implements CrudEndpoint
     {
         $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $user = $this->getSystemUserService()->getSystemUser($userId);
+        if (!$user instanceof User) {
+            throw new RecordNotFoundException();
+        }
         return new EndpointGetOneResult(UserModel::class, $user);
     }
 
