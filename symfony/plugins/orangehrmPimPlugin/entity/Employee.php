@@ -181,10 +181,10 @@ class Employee
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="EmploymentStatus", inversedBy="employees")
-     * @ORM\Column(name="emp_status", type="integer", length=13)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\EmploymentStatus", inversedBy="employees")
+     * @ORM\Column(name="emp_status", type="integer", length=13, nullable=true)
      */
-    private $empStatus;
+    private int $empStatus;
 
     /**
      * @var int
@@ -428,10 +428,7 @@ class Employee
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="employee")
      */
     private $skills;
 
@@ -683,5 +680,37 @@ class Employee
     public function setUsers($users): void
     {
         $this->users = $users;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    /**
+     * @param Collection $skills
+     */
+    public function setSkills(Collection $skills): void
+    {
+        $this->skills = $skills;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getEmploymentStatusId(): ?int
+    {
+        return $this->empStatus;
+    }
+
+    /**
+     * @param int|null $employmentStatusId
+     */
+    public function setEmploymentStatusId(?int $employmentStatusId): void
+    {
+        $this->employeeId = $employmentStatusId;
     }
 }
