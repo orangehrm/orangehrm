@@ -22,17 +22,17 @@ namespace OrangeHRM\Core\Vue;
 class Component
 {
     /**
-     * @var null|string
+     * @var string
      */
-    public $name = null;
+    public string $name;
     /**
      * @var array
      */
-    public $props = [];
+    public array $props = [];
 
     /**
      * @param string $name
-     * @param array $props
+     * @param Prop[] $props
      */
     public function __construct(string $name, array $props = [])
     {
@@ -41,9 +41,9 @@ class Component
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -57,7 +57,7 @@ class Component
     }
 
     /**
-     * @return array
+     * @return Prop[]
      */
     public function getProps(): array
     {
@@ -65,7 +65,7 @@ class Component
     }
 
     /**
-     * @param array $props
+     * @param Prop[] $props
      */
     public function setProps(array $props): void
     {

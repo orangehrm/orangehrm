@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Framework;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use OrangeHRM\Framework\DependencyInjection\ContainerBuilder;
 
 class ServiceContainer
 {
@@ -33,12 +33,9 @@ class ServiceContainer
      */
     private static ?ContainerBuilder $containerBuilder = null;
 
-    /**
-     * @param ContainerBuilder|null $containerBuilder
-     */
-    private function __construct(ContainerBuilder $containerBuilder = null)
+    private function __construct()
     {
-        self::$containerBuilder = $containerBuilder ?? new ContainerBuilder();
+        self::$containerBuilder = new ContainerBuilder();
     }
 
     /**

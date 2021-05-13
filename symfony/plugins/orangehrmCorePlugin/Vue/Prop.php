@@ -28,13 +28,13 @@ class Prop
     public const TYPE_OBJECT = 'Object';
 
     /**
-     * @var string|null
+     * @var string
      */
-    protected $name = null;
+    protected string $name;
     /**
      * @var string
      */
-    protected $type = self::TYPE_STRING;
+    protected string $type = self::TYPE_STRING;
     /**
      * @var null|string|int|float|bool|array|object
      */

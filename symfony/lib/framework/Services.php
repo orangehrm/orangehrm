@@ -22,58 +22,57 @@ namespace OrangeHRM\Framework;
 final class Services
 {
     /**
-     * Symfony\Component\HttpFoundation\RequestStack
+     * \OrangeHRM\Framework\Http\RequestStack
      */
     public const REQUEST_STACK = 'request_stack';
 
     /**
-     * Symfony\Component\Routing\RequestContext
+     * \OrangeHRM\Framework\Routing\RequestContext
      */
     public const ROUTER_REQUEST_CONTEXT = 'router.request_context';
 
     /**
-     * Symfony\Component\Routing\Matcher\UrlMatcher
+     * \OrangeHRM\Framework\Routing\UrlMatcher
      */
     public const ROUTER = 'router.default';
 
     /**
-     * Symfony\Component\EventDispatcher\EventDispatcher
+     * \OrangeHRM\Framework\Event\EventDispatcher
      */
     public const EVENT_DISPATCHER = 'event_dispatcher';
 
     /**
-     * Symfony\Component\HttpKernel\Controller\ControllerResolver
+     * \OrangeHRM\Framework\Http\ControllerResolver
      */
     public const CONTROLLER_RESOLVER = 'controller_resolver';
 
     /**
-     * Symfony\Component\HttpKernel\Controller\ArgumentResolver
+     * \Symfony\Component\HttpKernel\Controller\ArgumentResolver
      */
     public const ARGUMENT_RESOLVER = 'argument_resolver';
 
     /**
-     * Symfony\Component\HttpKernel\HttpKernel
+     * \OrangeHRM\Framework\Framework
      */
     public const HTTP_KERNEL = 'http_kernel';
 
     /**
-     * Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage
+     * \OrangeHRM\Framework\Http\Session\NativeSessionStorage
      */
     public const SESSION_STORAGE = 'session_storage';
 
     /**
-     * Symfony\Component\HttpFoundation\Session\Session
+     * \OrangeHRM\Framework\Http\Session\Session
      */
     public const SESSION = 'session';
 
     /**
-     * Monolog\Logger
-     * Psr\Log\LoggerInterface
+     * \OrangeHRM\Framework\Logger\Logger
      */
     public const LOGGER = 'logger';
 
     /**
-     * Symfony\Component\Routing\Generator\UrlGenerator
+     * \OrangeHRM\Framework\Routing\UrlGenerator
      */
     public const URL_GENERATOR = 'url_generator';
 

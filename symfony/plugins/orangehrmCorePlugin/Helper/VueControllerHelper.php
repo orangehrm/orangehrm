@@ -28,7 +28,7 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Vue\Component;
-use Symfony\Component\HttpFoundation\Request;
+use OrangeHRM\Framework\Http\Request;
 
 class VueControllerHelper
 {
