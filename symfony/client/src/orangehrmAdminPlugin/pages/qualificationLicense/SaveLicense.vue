@@ -21,15 +21,15 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit Education</oxd-text>
+      <oxd-text tag="h6">Save License</oxd-text>
 
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Level"
-            v-model="qualification.name"
+            label="License Name"
+            v-model="license.name"
             :rules="rules.name"
             required
           />
@@ -56,26 +56,10 @@ import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 
 export default {
-  props: {
-    educationId: {
-      type: Number,
-      required: true,
-    },
-  },
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/admin/educations',
-    );
-    return {
-      http,
-    };
-  },
-
   data() {
     return {
       isLoading: false,
-      qualification: {
+      license: {
         id: '',
         name: '',
       },
@@ -85,40 +69,44 @@ export default {
     };
   },
 
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/licenses',
+    );
+    return {
+      http,
+    };
+  },
+
   methods: {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.educationId, {
-          name: this.qualification.name,
+        .create({
+          name: this.license.name,
         })
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'Successfully Updated',
+            message: 'Successfully Added',
           });
         })
         .then(() => {
-          this.onCancel();
+          this.license.name = '';
           this.isLoading = false;
+          this.onCancel();
         });
     },
     onCancel() {
-      navigate('/admin/viewEducation');
+      navigate('/admin/viewLicenses');
     },
   },
 
   created() {
     this.isLoading = true;
     this.http
-      .get(this.educationId)
-      .then(response => {
-        const {data} = response.data;
-        this.qualification.id = data.id;
-        this.qualification.name = data.name;
-        // Fetch list data for unique test
-        return this.http.getAll();
-      })
+      .getAll()
       .then(response => {
         const {data} = response.data;
         this.rules.name.push(v => {
@@ -129,14 +117,7 @@ export default {
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
-          if (index > -1) {
-            const {id} = data[index];
-            return id !== this.qualification.id
-              ? 'Qualification name should be unique'
-              : true;
-          } else {
-            return true;
-          }
+          return index === -1 || 'License name should be unique';
         });
       })
       .finally(() => {
