@@ -19,10 +19,14 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
+use OrangeHRM\Admin\Dto\SkillSearchFilterParams;
+use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
-use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -31,63 +35,62 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
-use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\EmploymentStatus;
-use OrangeHRM\Admin\Service\EmploymentStatusService;
-use OrangeHRM\Admin\Api\Model\EmploymentStatusModel;
-use DaoException;
+use OrangeHRM\Entity\Skill;
+use OrangeHRM\Admin\Service\SkillService;
+use OrangeHRM\Admin\Api\Model\SkillModel;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Exception\DaoException;
 use Exception;
-use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Exception\ServiceException;
 
-class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
+class SkillAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
+    public const PARAMETER_DESCRIPTION = 'description';
 
     public const FILTER_NAME = 'name';
+    public const FILTER_DESCRIPTION = 'description';
 
     /**
-     * @var null|EmploymentStatusService
+     * @var null|SkillService
      */
-    protected ?EmploymentStatusService $employmentStatusService = null;
+    protected ?SkillService $skillService = null;
 
     /**
-     * @return EmploymentStatusService
+     * @return SkillService
      */
-    public function getEmploymentStatusService(): EmploymentStatusService
+    public function getSkillService(): SkillService
     {
-        if (is_null($this->employmentStatusService)) {
-            $this->employmentStatusService = new EmploymentStatusService();
+        if (is_null($this->skillService)) {
+            $this->skillService = new SkillService();
         }
-        return $this->employmentStatusService;
+        return $this->skillService;
     }
 
     /**
-     * @param EmploymentStatusService $employmentStatusService
+     * @param SkillService $skillService
      */
-    public function setEmploymentStatusService(EmploymentStatusService $employmentStatusService): void
+    public function setSkillService(SkillService $skillService): void
     {
-        $this->employmentStatusService = $employmentStatusService;
+        $this->skillService = $skillService;
     }
 
     /**
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
-     * @throws DaoException
      * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $employmentStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
-        if (!$employmentStatus instanceof EmploymentStatus) {
+        $skill = $this->getSkillService()->getSkillById($id);
+        if (!$skill instanceof Skill) {
             throw new RecordNotFoundException();
         }
 
-        return new EndpointGetOneResult(EmploymentStatusModel::class, $employmentStatus);
+        return new EndpointGetOneResult(SkillModel::class, $skill);
     }
 
     /**
@@ -96,38 +99,43 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
-            ),
+            new ParamRule(CommonParams::PARAMETER_ID),
         );
     }
 
     /**
      * @return EndpointGetAllResult
+     * @throws SearchParamException
+     * @throws ServiceException
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission
-        $employmentStatusSearchParams = new EmploymentStatusSearchFilterParams();
-        $this->setSortingAndPaginationParams($employmentStatusSearchParams);
-        $employmentStatusSearchParams->setName(
+        $skillSearchParams = new SkillSearchFilterParams();
+        $this->setSortingAndPaginationParams($skillSearchParams);
+        $skillSearchParams->setName(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
                 self::FILTER_NAME
             )
         );
-        $employmentStatuses = $this->getEmploymentStatusService()->searchEmploymentStatus(
-            $employmentStatusSearchParams
+        $skillSearchParams->setDescription(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_DESCRIPTION
+            )
         );
+
+        $skills = $this->getSkillService()->searchSkill($skillSearchParams);
+
         return new EndpointGetAllResult(
-            EmploymentStatusModel::class,
-            $employmentStatuses,
+            SkillModel::class,
+            $skills,
             new ParameterBag(
                 [
-                    CommonParams::PARAMETER_TOTAL => $this->getEmploymentStatusService()->getSearchEmploymentStatusesCount(
-                        $employmentStatusSearchParams
+                    CommonParams::PARAMETER_TOTAL => $this->getSkillService()->getSearchSkillsCount(
+                        $skillSearchParams
                     )
                 ]
             )
@@ -141,7 +149,8 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(self::FILTER_NAME),
-            ...$this->getSortingAndPaginationParamsRules(EmploymentStatusSearchFilterParams::ALLOWED_SORT_FIELDS)
+            new ParamRule(self::FILTER_DESCRIPTION),
+            ...$this->getSortingAndPaginationParamsRules(SkillSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -152,9 +161,9 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointCreateResult
     {
         // TODO:: Check data group permission
-        $employmentStatus = $this->saveEmploymentStatus();
+        $skill = $this->saveSkill();
 
-        return new EndpointCreateResult(EmploymentStatusModel::class, $employmentStatus);
+        return new EndpointCreateResult(SkillModel::class, $skill);
     }
 
     /**
@@ -163,8 +172,19 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
+            ...$this->getCommonBodyValidationRules(),
         );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    private function getCommonBodyValidationRules(): array
+    {
+        return [
+            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_DESCRIPTION),
+        ];
     }
 
     /**
@@ -174,9 +194,9 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointUpdateResult
     {
         // TODO:: Check data group permission
-        $employmentStatus = $this->saveEmploymentStatus();
+        $skill = $this->saveSkill();
 
-        return new EndpointUpdateResult(EmploymentStatusModel::class, $employmentStatus);
+        return new EndpointUpdateResult(SkillModel::class, $skill);
     }
 
     /**
@@ -189,31 +209,8 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_NAME),
+            ...$this->getCommonBodyValidationRules(),
         );
-    }
-
-    /**
-     * @return EmploymentStatus
-     * @throws DaoException
-     * @throws RecordNotFoundException
-     */
-    public function saveEmploymentStatus(): EmploymentStatus
-    {
-        // TODO:: Check data group permission
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
-            $employeeStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
-            if ($employeeStatus == null) {
-                throw new RecordNotFoundException('No Record Found');
-            }
-        } else {
-            $employeeStatus = new EmploymentStatus();
-        }
-
-        $employeeStatus->setName($name);
-        return $this->getEmploymentStatusService()->saveEmploymentStatus($employeeStatus);
     }
 
     /**
@@ -225,7 +222,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getEmploymentStatusService()->deleteEmploymentStatus($ids);
+        $this->getSkillService()->deleteSkills($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
 
@@ -237,5 +234,32 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_IDS),
         );
+    }
+
+    /**
+     * @return Skill
+     * @throws RecordNotFoundException|DaoException
+     */
+    public function saveSkill(): Skill
+    {
+        // TODO:: Check data group permission
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        $description = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_DESCRIPTION
+        );
+        if (!empty($id)) {
+            $skill = $this->getSkillService()->getSkillById($id);
+            if ($skill == null) {
+                throw new RecordNotFoundException();
+            }
+        } else {
+            $skill = new Skill();
+        }
+
+        $skill->setName($name);
+        $skill->setDescription($description);
+        return $this->getSkillService()->saveSkill($skill);
     }
 }
