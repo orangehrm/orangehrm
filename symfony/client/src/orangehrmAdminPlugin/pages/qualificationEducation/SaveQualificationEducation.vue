@@ -91,7 +91,7 @@ export default {
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'Qualification added successfully!',
+            message: 'Successfully Added',
           });
         })
         .then(() => {
