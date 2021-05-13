@@ -65,13 +65,7 @@ class EmployeeDao extends BaseDao
     public function getEmployeeListPaginator(EmployeeSearchFilterParams $employeeSearchParamHolder): Paginator
     {
         $q = $this->createQueryBuilder(Employee::class, 'e');
-        if (!is_null($employeeSearchParamHolder->getSortField())) {
-            $q->addOrderBy($employeeSearchParamHolder->getSortField(), $employeeSearchParamHolder->getSortOrder());
-        }
-        if (!empty($employeeSearchParamHolder->getLimit())) {
-            $q->setFirstResult($employeeSearchParamHolder->getOffset())
-                ->setMaxResults($employeeSearchParamHolder->getLimit());
-        }
+        $this->setSortingAndPaginationParams($q, $employeeSearchParamHolder);
         if (!$employeeSearchParamHolder->isIncludeTerminated()) {
             $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
         }

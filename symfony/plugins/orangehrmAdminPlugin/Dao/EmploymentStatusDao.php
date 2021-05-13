@@ -104,17 +104,7 @@ class EmploymentStatusDao extends BaseDao
     private function getSearchEmploymentStatusPaginator(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): Paginator
     {
         $q = $this->createQueryBuilder(EmploymentStatus::class, 'es');
-
-        if (!is_null($employmentStatusSearchParams->getSortField())) {
-            $q->addOrderBy(
-                $employmentStatusSearchParams->getSortField(),
-                $employmentStatusSearchParams->getSortOrder()
-            );
-        }
-        if (!empty($employmentStatusSearchParams->getLimit())) {
-            $q->setFirstResult($employmentStatusSearchParams->getOffset())
-                ->setMaxResults($employmentStatusSearchParams->getLimit());
-        }
+        $this->setSortingAndPaginationParams($q, $employmentStatusSearchParams);
 
         if (!empty($employmentStatusSearchParams->getName())) {
             $q->andWhere('es.name = :name');
