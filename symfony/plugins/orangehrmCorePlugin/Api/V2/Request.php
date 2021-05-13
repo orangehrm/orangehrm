@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Core\Api\V2;
 
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use OrangeHRM\Framework\Http\Request as HttpRequest;
 
 class Request
 {

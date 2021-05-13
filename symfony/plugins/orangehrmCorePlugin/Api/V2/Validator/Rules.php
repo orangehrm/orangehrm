@@ -180,4 +180,8 @@ final class Rules
     public const XDIGIT = RespectRules\Xdigit::class;
     public const YES = RespectRules\Yes::class;
     public const ZEND = RespectRules\Zend::class;
+
+    private function __construct()
+    {
+    }
 }

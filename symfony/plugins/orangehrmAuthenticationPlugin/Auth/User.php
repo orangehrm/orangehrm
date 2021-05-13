@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Authentication\Auth;
 
+use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class User
 {

@@ -24,7 +24,7 @@ namespace OrangeHRM\Admin\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use Symfony\Component\HttpFoundation\Request;
+use OrangeHRM\Framework\Http\Request;
 
 class SaveEmploymentStatusController extends AbstractVueController
 {

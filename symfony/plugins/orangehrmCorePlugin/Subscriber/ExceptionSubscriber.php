@@ -19,11 +19,6 @@
 
 namespace OrangeHRM\Core\Subscriber;
 
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-use OrangeHRM\Config\Config;
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;

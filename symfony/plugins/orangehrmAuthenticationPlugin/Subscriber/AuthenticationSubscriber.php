@@ -23,6 +23,7 @@ use Exception;
 use OrangeHRM\Core\Controller\AbstractViewController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
+use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Authentication\Auth\User;
@@ -33,8 +34,6 @@ use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AuthenticationSubscriber implements EventSubscriberInterface
 {
@@ -93,7 +92,7 @@ class AuthenticationSubscriber implements EventSubscriberInterface
             /** @var UrlGenerator $urlGenerator */
             $urlGenerator = ServiceContainer::getContainer()->get(Services::URL_GENERATOR);
 
-            $loginUrl = $urlGenerator->generate('auth_login', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
             $response = new RedirectResponse($loginUrl);
 
             $event->setResponse($response);

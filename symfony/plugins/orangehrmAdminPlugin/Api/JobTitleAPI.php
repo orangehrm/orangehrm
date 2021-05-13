@@ -139,7 +139,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
         );
 
         $jobTitles = $this->getJobTitleService()->getJobTitleList($sortField, $sortOrder, $activeOnly, $limit, $offset);
-        return new EndpointGetAllResult(JobTitleModel::class, $jobTitles, new ParameterBag(['total' => $count]));
+        return new EndpointGetAllResult(JobTitleModel::class, $jobTitles, new ParameterBag([CommonParams::PARAMETER_TOTAL => $count]));
     }
 
     /**

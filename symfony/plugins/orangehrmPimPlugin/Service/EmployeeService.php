@@ -77,6 +77,17 @@ class EmployeeService
      */
     public function saveEmployee(Employee $employee): Employee
     {
-        return $this->getEmployeeDao()->saveEmployee($employee);
+        $employee = $this->getEmployeeDao()->saveEmployee($employee);
+        return $employee;
+    }
+
+    /**
+     * @param int $empNumber
+     * @return Employee|null
+     * @throws DaoException
+     */
+    public function getEmployeeByEmpNumber(int $empNumber): ?Employee
+    {
+        return $this->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
     }
 }

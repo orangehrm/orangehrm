@@ -17,8 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 class PimPluginConfiguration implements PluginConfigurationInterface
 {

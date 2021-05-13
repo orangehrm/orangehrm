@@ -17,12 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Framework\Event\EventDispatcher;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\HttpFoundation\Request;
 
 class AuthenticationPluginConfiguration implements PluginConfigurationInterface
 {

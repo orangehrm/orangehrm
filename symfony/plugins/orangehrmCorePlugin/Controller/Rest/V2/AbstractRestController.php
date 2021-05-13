@@ -30,11 +30,11 @@ use OrangeHRM\Core\Api\V2\Response;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Validator;
 use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Framework\Http\Request as HttpRequest;
+use OrangeHRM\Framework\Http\Response as HttpResponse;
+use OrangeHRM\Framework\Logger\Logger;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 abstract class AbstractRestController extends AbstractController
 {
@@ -144,15 +144,15 @@ abstract class AbstractRestController extends AbstractController
                     break;
 
                 case Request::METHOD_POST:
-                    $response->setContent($this->handlePostRequest($request)->format());
+                    $response->setContent($this->handlePostRequest($request)->formatData());
                     break;
 
                 case Request::METHOD_PUT:
-                    $response->setContent($this->handlePutRequest($request)->format());
+                    $response->setContent($this->handlePutRequest($request)->formatData());
                     break;
 
                 case Request::METHOD_DELETE:
-                    $response->setContent($this->handleDeleteRequest($request)->format());
+                    $response->setContent($this->handleDeleteRequest($request)->formatData());
                     break;
 
                 default:
@@ -225,10 +225,10 @@ abstract class AbstractRestController extends AbstractController
     }
 
     /**
-     * @return LoggerInterface
+     * @return Logger
      * @throws Exception
      */
-    private function getLogger(): LoggerInterface
+    private function getLogger(): Logger
     {
         return ServiceContainer::getContainer()->get(Services::LOGGER);
     }
