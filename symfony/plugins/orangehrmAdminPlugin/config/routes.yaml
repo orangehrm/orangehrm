@@ -81,6 +81,7 @@ apiv2_educations:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Admin\Api\EducationAPI
+
 apiv2_admin_skill:
   path: /api/v2/admin/skills/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -94,6 +95,20 @@ apiv2_admin_skills:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Admin\Api\SkillAPI
+
+apiv2_license:
+  path: /api/v2/admin/licenses/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\LicenseAPI
+
+apiv2_licenses:
+  path: /api/v2/admin/licenses
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\LicenseAPI
 
 ##########################
 #        Screens
@@ -196,4 +211,18 @@ save_qualification_skills:
 edit_qualification_skills:
   path: /admin/saveSkills/{id}
   controller: OrangeHRM\Admin\Controller\SaveQualificationSkillController::handle
+
+view_license:
+  path: /admin/viewLicenses
+  controller: OrangeHRM\Admin\Controller\QualificationLicenseController::handle
+  methods: [ GET ]
+
+save_license:
+  path: /admin/saveLicense
+  controller: OrangeHRM\Admin\Controller\SaveQualificationLicenseController::handle
+  methods: [ GET ]
+
+edit_license:
+  path: /admin/saveLicense/{id}
+  controller: OrangeHRM\Admin\Controller\SaveQualificationLicenseController::handle
   methods: [ GET ]

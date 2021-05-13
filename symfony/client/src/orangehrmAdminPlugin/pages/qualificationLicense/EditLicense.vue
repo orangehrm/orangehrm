@@ -21,15 +21,15 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit Education</oxd-text>
+      <oxd-text tag="h6">Edit License</oxd-text>
 
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Level"
-            v-model="qualification.name"
+            label="License Name"
+            v-model="license.name"
             :rules="rules.name"
             required
           />
@@ -57,7 +57,7 @@ import {APIService} from '@orangehrm/core/util/services/api.service';
 
 export default {
   props: {
-    educationId: {
+    licenseId: {
       type: Number,
       required: true,
     },
@@ -65,7 +65,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/educations',
+      '/api/v2/admin/licenses',
     );
     return {
       http,
@@ -75,7 +75,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      qualification: {
+      license: {
         id: '',
         name: '',
       },
@@ -89,8 +89,8 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.educationId, {
-          name: this.qualification.name,
+        .update(this.licenseId, {
+          name: this.license.name,
         })
         .then(() => {
           return this.$toast.success({
@@ -104,18 +104,18 @@ export default {
         });
     },
     onCancel() {
-      navigate('/admin/viewEducation');
+      navigate('/admin/viewLicenses');
     },
   },
 
   created() {
     this.isLoading = true;
     this.http
-      .get(this.educationId)
+      .get(this.licenseId)
       .then(response => {
         const {data} = response.data;
-        this.qualification.id = data.id;
-        this.qualification.name = data.name;
+        this.license.id = data.id;
+        this.license.name = data.name;
         // Fetch list data for unique test
         return this.http.getAll();
       })
@@ -131,8 +131,8 @@ export default {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.qualification.id
-              ? 'Qualification name should be unique'
+            return id !== this.license.id
+              ? 'License name should be unique'
               : true;
           } else {
             return true;

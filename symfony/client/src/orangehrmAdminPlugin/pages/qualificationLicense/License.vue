@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Education</oxd-text>
+        <oxd-text tag="h6">License List</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -37,7 +37,7 @@
         <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
           <div v-if="checkedItems.length > 0">
             <oxd-text tag="span">
-              {{ checkedItems.length }} Qualification Selected
+              {{ checkedItems.length }} License Selected
             </oxd-text>
             <oxd-button
               label="Delete Selected"
@@ -51,8 +51,7 @@
         </div>
       </div>
       <div class="orangehrm-container">
-        <oxd-card-table
-          ref="dTable"
+        <oxd-card-table :loading="isLoading"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
@@ -87,7 +86,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Level',
+          title: 'License',
           style: {'flex-basis': '80%'},
         },
         {
@@ -124,7 +123,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/educations',
+      '/api/v2/admin/licenses',
     );
     const {
       showPaginator,
@@ -153,16 +152,16 @@ export default {
     itemsCountText() {
       return this.total === 0
         ? 'No Records Found'
-        : `${this.total} Qualification Found`;
+        : `${this.total} License Found`;
     },
   },
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveEducation');
+      navigate('/admin/saveLicense');
     },
     onClickEdit(item) {
-      navigate('/admin/saveEducation/{id}', {id: item.id});
+      navigate('/admin/saveLicense/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
@@ -201,7 +200,7 @@ export default {
       }
     },
     async resetDataTable() {
-      this.$refs.dTable.checkedItems = [];
+      this.checkedItems = [];
       await this.execQuery();
     },
   },
