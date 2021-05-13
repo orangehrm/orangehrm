@@ -179,12 +179,12 @@ class Employee
     private $emp_dri_lice_exp_date;
 
     /**
-     * @var int
+     * @var EmploymentStatus|null
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\EmploymentStatus", inversedBy="employees")
-     * @ORM\Column(name="emp_status", type="integer", length=13, nullable=true)
+     * @ORM\JoinColumn(name="emp_status", referencedColumnName="id", nullable=true)
      */
-    private int $empStatus;
+    private ?EmploymentStatus $empStatus;
 
     /**
      * @var int
@@ -352,14 +352,6 @@ class Employee
      * })
      */
     private $jobTitle;
-
-    /**
-     * @var EmploymentStatus|null
-     *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\EmploymentStatus", inversedBy="employees")
-     * @ORM\JoinColumn(name="emp_status", referencedColumnName="id")
-     */
-    private ?EmploymentStatus $employeeStatus;
 
     /**
      * @var Collection
@@ -702,21 +694,5 @@ class Employee
     public function setSkills(Collection $skills): void
     {
         $this->skills = $skills;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getEmploymentStatusId(): ?int
-    {
-        return $this->empStatus;
-    }
-
-    /**
-     * @param int|null $employmentStatusId
-     */
-    public function setEmploymentStatusId(?int $employmentStatusId): void
-    {
-        $this->employeeId = $employmentStatusId;
     }
 }
