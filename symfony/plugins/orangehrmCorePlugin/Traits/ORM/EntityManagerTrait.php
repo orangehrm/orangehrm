@@ -17,17 +17,18 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Util;
+namespace OrangeHRM\Core\Traits\ORM;
 
-use OrangeHRM\Framework\Framework;
+use Doctrine\ORM\EntityManager;
+use OrangeHRM\ORM\Doctrine;
 
-abstract class KernelTestCase extends TestCase
+trait EntityManagerTrait
 {
     /**
-     * @return Framework
+     * @return EntityManager
      */
-    protected function createKernel(): Framework
+    protected function getEntityManager(): EntityManager
     {
-        return new Framework('test', true);
+        return Doctrine::getEntityManager();
     }
 }
