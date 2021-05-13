@@ -17,32 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Dto;
+namespace OrangeHRM\Admin\Api\Model;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Skill;
+use \OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 
-class EmploymentStatusSearchFilterParams extends FilterParams
+class SkillModel implements Normalizable
 {
-    public const ALLOWED_SORT_FIELDS = ['es.name'];
+    use ModelTrait;
 
-    /**
-     * @var string|null
-     */
-    protected ?string $name = null;
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
+    public function __construct(Skill $skill)
     {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
+        $this->setEntity($skill);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+                'description'
+            ]
+        );
     }
 }

@@ -17,32 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Dto;
+namespace OrangeHRM\Admin\Controller;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
 
-class EmploymentStatusSearchFilterParams extends FilterParams
+class QualificationSkillController extends AbstractVueController
 {
-    public const ALLOWED_SORT_FIELDS = ['es.name'];
-
-    /**
-     * @var string|null
-     */
-    protected ?string $name = null;
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
+    public function init(): void
     {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
+        $component = new Component('qualification-skill-list');
+        $this->setComponent($component);
     }
 }

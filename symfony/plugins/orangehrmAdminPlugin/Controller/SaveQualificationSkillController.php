@@ -17,32 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Dto;
+namespace OrangeHRM\Admin\Controller;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use Symfony\Component\HttpFoundation\Request;
 
-class EmploymentStatusSearchFilterParams extends FilterParams
+class SaveQualificationSkillController extends AbstractVueController
 {
-    public const ALLOWED_SORT_FIELDS = ['es.name'];
-
-    /**
-     * @var string|null
-     */
-    protected ?string $name = null;
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
+    public function preRender(Request $request): void
     {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component('qualification-skill-edit');
+            $component->addProp(new Prop('qualification-skill-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('qualification-skill-save');
+        }
+        $this->setComponent($component);
     }
 }

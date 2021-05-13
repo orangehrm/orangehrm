@@ -21,14 +21,19 @@ namespace OrangeHRM\Admin\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 
-class EmploymentStatusSearchFilterParams extends FilterParams
+class SkillSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['es.name'];
+    public const ALLOWED_SORT_FIELDS = ['s.name', 's.description'];
 
     /**
      * @var string|null
      */
     protected ?string $name = null;
+
+    /**
+     * @var string|null
+     */
+    protected ?string $description = null;
 
     /**
      * @return string|null
@@ -44,5 +49,21 @@ class EmploymentStatusSearchFilterParams extends FilterParams
     public function setName(?string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     */
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
     }
 }

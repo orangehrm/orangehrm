@@ -2,6 +2,8 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,38 +21,99 @@ class Skill
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var string
+     * @var string | null
      *
-     * @ORM\Column(name="name", type="string", length=120)
+     * @ORM\Column(name="name", type="string", length=120, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var string
+     * @var string | null
      *
-     * @ORM\Column(name="description", type="string", length=2147483647)
+     * @ORM\Column(name="description", type="string", length=2147483647, nullable=true)
      */
-    private $description;
+    private ?string $description;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="Skill")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="skillId")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="skill")
      */
-    private $EmployeeSkill;
+    private Collection $employeeSkills;
+
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->EmployeeSkill = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->employeeSkills = new ArrayCollection();
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getEmployeeSkills(): Collection
+    {
+        return $this->employeeSkills;
+    }
+
+    /**
+     * @param Collection $employeeSkills
+     */
+    public function setEmployeeSkills(Collection $employeeSkills): void
+    {
+        $this->employeeSkills = $employeeSkills;
+    }
 }

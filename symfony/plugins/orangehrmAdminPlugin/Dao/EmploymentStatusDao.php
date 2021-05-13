@@ -25,6 +25,7 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\EmploymentStatus;
 use DaoException;
 use Exception;
+use OrangeHRM\ORM\Paginator;
 
 class EmploymentStatusDao extends BaseDao
 {
@@ -89,7 +90,7 @@ class EmploymentStatusDao extends BaseDao
     public function searchEmploymentStatus(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): array
     {
         try {
-            $q = $this->_buildSearchQuery($employmentStatusSearchParams);
+            $q = $this->getSearchEmploymentStatusPaginator($employmentStatusSearchParams);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -98,9 +99,9 @@ class EmploymentStatusDao extends BaseDao
 
     /**
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
-     * @return QueryBuilder
+     * @return Paginator
      */
-    private function _buildSearchQuery(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): QueryBuilder
+    private function getSearchEmploymentStatusPaginator(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): Paginator
     {
         $q = $this->createQueryBuilder(EmploymentStatus::class, 'es');
 
@@ -119,14 +120,14 @@ class EmploymentStatusDao extends BaseDao
             $q->andWhere('es.name = :name');
             $q->setParameter('name', $employmentStatusSearchParams->getName());
         }
-        return $q;
+        return $this->getPaginator($q);
     }
 
     /**
      * Get Employment Statuses
      *
      * @return EmploymentStatus[]
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @throws DaoException
      */
     public function getEmploymentStatuses(): array
     {
@@ -149,8 +150,8 @@ class EmploymentStatusDao extends BaseDao
     public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams
     ): int {
         try {
-            $q = $this->_buildSearchQuery($employmentStatusSearchParams);
-            return $this->count($q);
+            $paginator = $this->getSearchEmploymentStatusPaginator($employmentStatusSearchParams);
+            return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
