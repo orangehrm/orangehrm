@@ -66,7 +66,8 @@ class EmployeeEventDao extends BaseDao
      * @param EmployeeEventSearchFilterParams $employeeEventSearchFilterParams
      * @return Paginator
      */
-    private function getEmployeeEventPaginator(EmployeeEventSearchFilterParams $employeeEventSearchFilterParams
+    private function getEmployeeEventPaginator(
+        EmployeeEventSearchFilterParams $employeeEventSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(EmployeeEvent::class, 'event');
         $this->setSortingAndPaginationParams($q, $employeeEventSearchFilterParams);

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,82 +17,93 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Employee Event Service
- * 
- *
-  * @package pim
- */
+namespace OrangeHRM\Pim\Service;
 
-class EmployeeEventService extends BaseService {
-    
+use DateTime;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Entity\EmployeeEvent;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Pim\Dao\EmployeeEventDao;
+use OrangeHRM\Pim\Dto\EmployeeEventSearchFilterParams;
+
+class EmployeeEventService
+{
+    use UserRoleManagerTrait;
+
     /**
-     * @ignore
-     * @var EmployeeEventDao
+     * @var EmployeeEventDao|null
      */
-    private $employeeEventDao;
+    private ?EmployeeEventDao $employeeEventDao = null;
 
     /**
      * @return EmployeeEventDao
      */
-    public function getEmployeeEventDao() {
-        
+    public function getEmployeeEventDao(): EmployeeEventDao
+    {
         if (!($this->employeeEventDao instanceof EmployeeEventDao)) {
             $this->employeeEventDao = new EmployeeEventDao();
         }
-        
+
         return $this->employeeEventDao;
     }
 
     /**
-     * @param $employeeEventDao
+     * @param EmployeeEventDao $employeeEventDao
      */
-    public function setEmployeeEventDao($employeeEventDao) {
+    public function setEmployeeEventDao(EmployeeEventDao $employeeEventDao): void
+    {
         $this->employeeEventDao = $employeeEventDao;
     }
-    
+
     /**
      * Saves a employee event
-     * 
+     *
      * To use in employee events.
-     * 
+     *
      * Save employee | Update contact details | Update dependents ...etc
+     *
+     * @param EmployeeEvent $employeeEvent
+     * @return EmployeeEvent
+     * @throws DaoException
      */
-    public function saveEmployeeEvent(EmployeeEvent $employeeEvent) {
+    public function saveEmployeeEvent(EmployeeEvent $employeeEvent): EmployeeEvent
+    {
         return $this->getEmployeeEventDao()->saveEmployeeEvent($employeeEvent);
     }
 
     /**
      * Save employee event with parameters
      *
-     * @param $empId
-     * @param $type
-     * @param $event
-     * @param $note
-     * @param $createdBy
+     * @param int $empNumber
+     * @param string $type
+     * @param string $event
+     * @param string $note
+     * @return EmployeeEvent
+     * @throws DaoException
      */
-    public function saveEvent($empId, $type, $event, $note, $createdBy)
+    public function saveEvent(int $empNumber, string $type, string $event, string $note): EmployeeEvent
     {
         $employeeEvent = new EmployeeEvent();
-        $employeeEvent->setEmployeeId($empId);
+        $employeeEvent->setEmpNumber($empNumber);
         $employeeEvent->setType($type);
         $employeeEvent->setEvent($event);
         $employeeEvent->setNote($note);
-        $employeeEvent->setCreatedBy($createdBy);
-        $employeeEvent->setCreatedDate(date("Y-m-d h:i:sa"));
-        $this->saveEmployeeEvent($employeeEvent);
+        $employeeEvent->setCreatedBy($this->getUserRole());
+        $employeeEvent->setCreatedDate(new DateTime());
+        return $this->saveEmployeeEvent($employeeEvent);
     }
 
     /**
-     * Get employee event
-     * Get events with parameters
-     * fromDate|toDate|empId|event|type
+     * Get employee events
      *
-     * @param ParameterObject $parameters
-     * @return Doctrine_Collection
+     * @param EmployeeEventSearchFilterParams $employeeEventSearchFilterParams
+     * @return EmployeeEvent[]
+     * @throws DaoException
      */
-    public function getEmployeeEvent(ParameterObject $parameters){
-        return $this->getEmployeeEventDao()->getEmployeeEvent($parameters);
+    public function getEmployeeEvents(EmployeeEventSearchFilterParams $employeeEventSearchFilterParams): array
+    {
+        return $this->getEmployeeEventDao()->getEmployeeEvents($employeeEventSearchFilterParams);
     }
 
     /**
@@ -101,14 +111,13 @@ class EmployeeEventService extends BaseService {
      *
      * @return string
      */
-    public function getUserRole()
+    public function getUserRole(): string
     {
-        $user = UserRoleManagerFactory::getUserRoleManager()->getUser();
-        if ($user instanceof SystemUser) {
+        $user = $this->getUserRoleManager()->getUser();
+        if ($user instanceof User) {
             return $user->getUserRole()->getName();
         } else {
             return 'System';
         }
     }
-
 }
