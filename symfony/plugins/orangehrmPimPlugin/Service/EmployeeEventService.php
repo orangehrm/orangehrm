@@ -120,4 +120,14 @@ class EmployeeEventService
             return 'System';
         }
     }
+
+    /**
+     * @param int $empNumber
+     * @return EmployeeEvent
+     * @throws DaoException
+     */
+    public function saveAddEmployeeEvent(int $empNumber):EmployeeEvent
+    {
+        return $this->saveEvent($empNumber,EmployeeEvent::EVENT_TYPE_EMPLOYEE,EmployeeEvent::EVENT_SAVE,'Saving Employee');
+    }
 }

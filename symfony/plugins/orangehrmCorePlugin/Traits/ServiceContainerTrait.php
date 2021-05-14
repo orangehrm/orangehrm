@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,14 +15,20 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Description of LeaveEvents
- */
-class EmployeeEvents {
-    const JOINED_DATE_CHANGED = 'employee_join_date_changed';
-    const EMPLOYEE_ADDED = 'employee_added';
-    const EMPLOYEES_DELETED = 'employees_deleted';
+namespace OrangeHRM\Core\Traits;
+
+use OrangeHRM\Framework\DependencyInjection\ContainerBuilder;
+use OrangeHRM\Framework\ServiceContainer;
+
+trait ServiceContainerTrait
+{
+    /**
+     * @return ContainerBuilder
+     */
+    protected function getContainer(): ContainerBuilder
+    {
+        return ServiceContainer::getContainer();
+    }
 }
