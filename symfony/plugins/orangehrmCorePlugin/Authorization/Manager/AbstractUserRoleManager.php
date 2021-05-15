@@ -129,29 +129,29 @@ abstract class AbstractUserRoleManager
     abstract protected function getUserRoles(User $user): array;
 
     abstract protected function isActionAllowed(
-        $workFlowId,
-        $state,
-        $action,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $entities = []
-    );
+        string $workFlowId,
+        string $state,
+        string $action,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ):bool;
 
     abstract protected function getAllowedActions(
-        $workFlowId,
-        $state,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $entities = []
-    );
+        string $workflow,
+        string $state,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ):array;
 
     abstract public function getActionableStates(
-        $workflow,
-        $actions,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $entities = []
-    );
+        string $workflow,
+        array $actions,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ):array;
 
     abstract public function getModuleDefaultPage(string $module);
 

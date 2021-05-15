@@ -100,6 +100,20 @@ abstract class BaseDao
 
     /**
      * @param QueryBuilder $qb
+     * @param int $offset
+     * @return object|null
+     */
+    protected function fetchOne(QueryBuilder $qb, int $offset = 0): ?object
+    {
+        $result = $qb->setFirstResult($offset)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->execute();
+        return $result[0] ?? null;
+    }
+
+    /**
+     * @param QueryBuilder $qb
      * @param FilterParams $filterParams
      * @return QueryBuilder
      */
@@ -121,6 +135,7 @@ abstract class BaseDao
      */
     protected function setPaginationParams(QueryBuilder $qb, FilterParams $filterParams): QueryBuilder
     {
+        // If limit = 0, will not paginate
         if (!empty($filterParams->getLimit())) {
             $qb->setFirstResult($filterParams->getOffset())
                 ->setMaxResults($filterParams->getLimit());

@@ -156,7 +156,7 @@ abstract class Endpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_LIMIT,
-                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::ZERO_OR_POSITIVE), // Zero for not to limit results
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
