@@ -1,4 +1,0 @@
-# default values
-all:
-  orangehrmPerformanceTrackerPlugin:
-    version: '0.2'   

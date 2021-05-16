@@ -1,4 +1,0 @@
-auth:
-  login:
-    other-login-mechanisms:
-      - { module: openidauth, component: openIDSelect }
