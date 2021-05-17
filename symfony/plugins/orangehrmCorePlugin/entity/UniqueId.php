@@ -32,32 +32,32 @@ class UniqueId
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", length=4)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="last_id", type="integer", length=4)
+     * @ORM\Column(name="last_id", type="integer", length=10, options={"unsigned":true})
      */
-    private $lastId;
+    private int $lastId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="table_name", type="string", length=50)
      */
-    private $dbTable;
+    private string $tableName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="field_name", type="string", length=50)
      */
-    private $fieldName;
+    private string $fieldName;
 
     /**
      * @return int
@@ -94,17 +94,17 @@ class UniqueId
     /**
      * @return string
      */
-    public function getDbTable(): string
+    public function getTableName(): string
     {
-        return $this->dbTable;
+        return $this->tableName;
     }
 
     /**
-     * @param string $dbTable
+     * @param string $tableName
      */
-    public function setDbTable(string $dbTable): void
+    public function setTableName(string $tableName): void
     {
-        $this->dbTable = $dbTable;
+        $this->tableName = $tableName;
     }
 
     /**

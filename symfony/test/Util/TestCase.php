@@ -19,9 +19,24 @@
 
 namespace OrangeHRM\Tests\Util;
 
+use OrangeHRM\Core\Traits\ORM\EntityManagerTrait;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-class TestCase extends PHPUnitTestCase
+abstract class TestCase extends PHPUnitTestCase
 {
+    use EntityManagerTrait;
 
+    /**
+     * @param string $entityName
+     * @param mixed $id
+     * @return object|null The entity reference.
+     *
+     * @template T
+     * @psalm-param class-string<T> $entityName
+     * @psalm-return ?T
+     */
+    protected function getEntityReference(string $entityName, $id)
+    {
+        return $this->getEntityManager()->getReference($entityName, $id);
+    }
 }

@@ -65,13 +65,7 @@ class EmployeeDao extends BaseDao
     public function getEmployeeListPaginator(EmployeeSearchFilterParams $employeeSearchParamHolder): Paginator
     {
         $q = $this->createQueryBuilder(Employee::class, 'e');
-        if (!is_null($employeeSearchParamHolder->getSortField())) {
-            $q->addOrderBy($employeeSearchParamHolder->getSortField(), $employeeSearchParamHolder->getSortOrder());
-        }
-        if (!empty($employeeSearchParamHolder->getLimit())) {
-            $q->setFirstResult($employeeSearchParamHolder->getOffset())
-                ->setMaxResults($employeeSearchParamHolder->getLimit());
-        }
+        $this->setSortingAndPaginationParams($q, $employeeSearchParamHolder);
         if (!$employeeSearchParamHolder->isIncludeTerminated()) {
             $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
         }
@@ -128,6 +122,41 @@ class EmployeeDao extends BaseDao
                 return $employee;
             }
             return null;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function getSubordinateIdListBySupervisorId($supervisorId, $includeChain = false, $supervisorIdStack = array (), $maxDepth = NULL, $depth = 1) {
+
+        try {
+            $employeeIdList = array();
+            $q = "SELECT h.erep_sub_emp_number
+            	FROM hs_hr_emp_reportto h 
+            		WHERE (h.erep_sup_emp_number = ?)";
+
+
+            $pdo = Doctrine_Manager::connection()->getDbh();
+            $query = $pdo->prepare($q);
+            $query->execute(array($supervisorId));
+            $subordinates =  $query->fetchAll();
+
+            foreach ($subordinates as $subordinate) {
+                array_push($employeeIdList, $subordinate['erep_sub_emp_number']);
+
+                if ($includeChain || (!is_null($maxDepth) && ($depth < $maxDepth))) {
+                    if (!in_array($subordinate['erep_sub_emp_number'], $supervisorIdStack)) {
+                        $supervisorIdStack[] = $subordinate['erep_sub_emp_number'];
+                        $subordinateIdList = $this->getSubordinateIdListBySupervisorId($subordinate['erep_sub_emp_number'], $includeChain, $supervisorIdStack, $maxDepth, $depth + 1);
+                        if (count($subordinateIdList) > 0) {
+                            foreach ($subordinateIdList as $id) {
+                                array_push($employeeIdList, $id);
+                            }
+                        }
+                    }
+                }
+            }
+            return $employeeIdList;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }

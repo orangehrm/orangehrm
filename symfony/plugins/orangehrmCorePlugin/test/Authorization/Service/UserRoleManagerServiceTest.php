@@ -266,12 +266,13 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
     }
 
     protected function getAllowedActions(
-        $workFlowId,
-        $state,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $entities = []
-    ) {
+        string $workflow,
+        string $state,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ):array {
+        return [];
     }
 
     protected function isActionAllowed(
@@ -281,16 +282,18 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         $rolesToExclude = [],
         $rolesToInclude = [],
         $entities = []
-    ) {
+    ) :bool{
+        return false;
     }
 
     public function getActionableStates(
-        $workflow,
-        $actions,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $entities = []
-    ) {
+        string $workflow,
+        array $actions,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ):array {
+        return [];
     }
 
     public function getAccessibleEntityProperties(

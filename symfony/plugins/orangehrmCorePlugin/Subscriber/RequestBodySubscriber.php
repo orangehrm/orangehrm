@@ -19,16 +19,16 @@
 
 namespace OrangeHRM\Core\Subscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class RequestBodySubscriber implements EventSubscriberInterface
+class RequestBodySubscriber extends AbstractEventSubscriber
 {
     /**
      * @inheritDoc
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => [

@@ -27,8 +27,10 @@ use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\HomePage\HomePageEnablerInterface;
+use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\WorkflowStateMachine;
 
 /**
  * Description of BasicUserRoleManager
@@ -55,6 +57,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     protected $projectService;
     protected $vacancyService;
     protected ?HomePageDao $homePageDao = null;
+    protected ?AccessFlowStateMachineService $accessFlowStateMachineService = null;
 
     protected $userRoleClasses;
     protected $decoratorClasses;
@@ -256,6 +259,25 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         $this->homePageDao = $homePageDao;
     }
 
+    /**
+     * @return AccessFlowStateMachineService
+     */
+    public function getAccessFlowStateMachineService(): AccessFlowStateMachineService
+    {
+        if (!$this->accessFlowStateMachineService instanceof AccessFlowStateMachineService) {
+            $this->accessFlowStateMachineService = new AccessFlowStateMachineService();
+        }
+        return $this->accessFlowStateMachineService;
+    }
+
+    /**
+     * @param AccessFlowStateMachineService $accessFlowStateMachineService
+     */
+    public function setAccessFlowStateMachineService(AccessFlowStateMachineService $accessFlowStateMachineService): void
+    {
+        $this->accessFlowStateMachineService = $accessFlowStateMachineService;
+    }
+
     public function getAccessibleEntities(
         $entityType,
         $operation = null,
@@ -377,21 +399,22 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * Check State Transition possible for User
      *
-     * @param type $workFlowId
-     * @param type $state
-     * @param type $action
+     * @param string $workFlowId
+     * @param string $state
+     * @param string $action
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $entities
      * @return bool
      */
     public function isActionAllowed(
-        $workFlowId,
-        $state,
-        $action,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $entities = []
-    ) {
-        // TODO
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        string $workFlowId,
+        string $state,
+        string $action,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ): bool {
         $isAllowed = false;
 
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
@@ -399,7 +422,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         foreach ($filteredRoles as $role) {
             $roleName = $this->fixUserRoleNameForWorkflowStateMachine($role->getName(), $workFlowId);
 
-            $isAllowed = $accessFlowStateMachineService->isActionAllowed($workFlowId, $state, $roleName, $action);
+            $isAllowed = $this->getAccessFlowStateMachineService()->isActionAllowed($workFlowId, $state, $roleName, $action);
             if ($isAllowed) {
                 break;
             }
@@ -412,19 +435,20 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      *
      * @param string $workflow Workflow Name
      * @param string $state Workflow state
-     * @return array Array of workflow items with action name as array index
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $entities
+     * @return array|WorkflowStateMachine[] Array of workflow items with action name as array index
      */
-    public function getAllowedActions($workflow, $state, $rolesToExclude = [], $rolesToInclude = [], $entities = [])
+    public function getAllowedActions(string $workflow, string $state, array $rolesToExclude = [], array $rolesToInclude = [], array $entities = []):array
     {
-        // TODO
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
         $allActions = [];
 
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
 
         foreach ($filteredRoles as $role) {
             $roleName = $this->fixUserRoleNameForWorkflowStateMachine($role->getName(), $workflow);
-            $workFlowItems = $accessFlowStateMachineService->getAllowedWorkflowItems($workflow, $state, $roleName);
+            $workFlowItems = $this->getAccessFlowStateMachineService()->getAllowedWorkflowItems($workflow, $state, $roleName);
 
             if (count($workFlowItems) > 0) {
                 $allActions = $this->getUniqueActionsBasedOnPriority($allActions, $workFlowItems);
@@ -445,17 +469,15 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      *
      * @return array Array of states
      */
-    public function getActionableStates($workflow, $actions, $rolesToExclude = [], $rolesToInclude = [], $entities = [])
+    public function getActionableStates(string $workflow, array $actions, array $rolesToExclude = [], array $rolesToInclude = [], array $entities = []): array
     {
-        // TODO
-        $accessFlowStateMachineService = new AccessFlowStateMachineService();
         $actionableStates = [];
 
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
 
         foreach ($filteredRoles as $role) {
             $roleName = $this->fixUserRoleNameForWorkflowStateMachine($role->getName(), $workflow);
-            $states = $accessFlowStateMachineService->getActionableStates($workflow, $roleName, $actions);
+            $states = $this->getAccessFlowStateMachineService()->getActionableStates($workflow, $roleName, $actions);
 
             if (!empty($states)) {
                 $actionableStates = array_unique(array_merge($actionableStates, $states));
@@ -464,9 +486,13 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $actionableStates;
     }
 
-    protected function getUniqueActionsBasedOnPriority($currentItems, $itemsToMerge)
+    /**
+     * @param WorkflowStateMachine[] $currentItems
+     * @param WorkflowStateMachine[] $itemsToMerge
+     * @return WorkflowStateMachine[]
+     */
+    protected function getUniqueActionsBasedOnPriority(array $currentItems, array $itemsToMerge): array
     {
-        // TODO
         foreach ($itemsToMerge as $item) {
             $actionName = $item->getAction();
             if (!isset($currentItems[$actionName])) {
@@ -672,13 +698,13 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * Filter the given $userRoles array according to the given parameters
      *
-     * @param Array $userRoles Array of UserRole objects
-     * @param Array $rolesToExclude Array of User role names to exclude. These user roles will be removed from $userRoles
-     * @param Array $rolesToInclude Array of User role names to include. If not empty, only these user roles will be included.
-     * @param Array $entities Array of details relevent to deciding if a particular user role applies to this
-     * @return Array $userRoles array filtered as described above.
+     * @param User[] $userRoles Array of UserRole objects
+     * @param string[] $rolesToExclude Array of User role names to exclude. These user roles will be removed from $userRoles
+     * @param string[] $rolesToInclude Array of User role names to include. If not empty, only these user roles will be included.
+     * @param array $entities Array of details relevent to deciding if a particular user role applies to this
+     * @return array $userRoles array filtered as described above.
      */
-    protected function filterRoles($userRoles, $rolesToExclude, $rolesToInclude, $entities = [])
+    protected function filterRoles(array $userRoles, array $rolesToExclude, array $rolesToInclude, array $entities = [])
     {
         // TODO
         if (!empty($rolesToExclude)) {
@@ -712,23 +738,22 @@ class BasicUserRoleManager extends AbstractUserRoleManager
                 $include = true;
 
                 if ($role->getName() == 'Supervisor') {
-                    // If Employee entitiy is given, supervisor role will only
+                    // If Employee entity is given, supervisor role will only
                     // apply if current employee is the supervisor for the given employee
                     if (isset($entities['Employee'])) {
                         if (!$this->isSupervisorFor($entities['Employee'])) {
                             $include = false;
                         }
                     }
-                } else {
-                    if ($role->getName() == 'ESS') {
+                } elseif ($role->getName() == 'ESS') {
                         // If Employee entity is given, the ESS role will only apply
                         // If current logged in employee is the same as the passed entity.
                         if (isset($entities['Employee'])) {
-                            if ($this->user->getEmpNumber() != $entities['Employee']) {
+                            // TODO
+                            if ($this->user->getEmployee()->getEmpNumber() != $entities['Employee']) {
                                 $include = false;
                             }
                         }
-                    }
                 }
 
                 if ($include) {
@@ -922,16 +947,18 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $action;
     }
 
-    protected function fixUserRoleNameForWorkflowStateMachine($roleName, $workflow)
+    /**
+     * @param string $roleName
+     * @param string $workflow
+     * @return string
+     */
+    protected function fixUserRoleNameForWorkflowStateMachine(string $roleName, string $workflow): string
     {
-        // TODO
         $fixedName = $roleName;
         if ($roleName == 'ESS' && $workflow != WorkflowStateMachine::FLOW_LEAVE) {
             $fixedName = 'ESS User';
-        } else {
-            if ($roleName == 'HiringManager' && $workflow == WorkflowStateMachine::FLOW_RECRUITMENT) {
-                $fixedName = 'HIRING MANAGER';
-            }
+        } elseif ($roleName == 'HiringManager' && $workflow == WorkflowStateMachine::FLOW_RECRUITMENT) {
+            $fixedName = 'HIRING MANAGER';
         }
 
         return $fixedName;

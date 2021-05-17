@@ -269,14 +269,7 @@ class UserDao extends BaseDao
         $q = $this->createQueryBuilder(User::class, 'u');
         $q->leftJoin('u.userRole', 'r');
         $q->leftJoin('u.employee', 'e');
-
-        if (!is_null($userSearchParamHolder->getSortField())) {
-            $q->addOrderBy($userSearchParamHolder->getSortField(), $userSearchParamHolder->getSortOrder());
-        }
-        if (!empty($userSearchParamHolder->getLimit())) {
-            $q->setFirstResult($userSearchParamHolder->getOffset())
-                ->setMaxResults($userSearchParamHolder->getLimit());
-        }
+        $this->setSortingAndPaginationParams($q, $userSearchParamHolder);
 
         if (!empty($userSearchParamHolder->getUsername())) {
             $q->andWhere('u.userName = :userName');

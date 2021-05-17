@@ -22,6 +22,7 @@ namespace OrangeHRM\Core\Authorization\Manager;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
+use OrangeHRM\Entity\WorkflowStateMachine;
 
 abstract class AbstractUserRoleManager
 {
@@ -128,30 +129,63 @@ abstract class AbstractUserRoleManager
      */
     abstract protected function getUserRoles(User $user): array;
 
+    /**
+     * Check State Transition possible for User
+     *
+     * @param string $workFlowId
+     * @param string $state
+     * @param string $action
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $entities
+     * @return bool
+     */
     abstract protected function isActionAllowed(
-        $workFlowId,
-        $state,
-        $action,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $entities = []
-    );
+        string $workFlowId,
+        string $state,
+        string $action,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ): bool;
 
+    /**
+     * Get allowed Workflow action items for User
+     *
+     * @param string $workflow Workflow Name
+     * @param string $state Workflow state
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $entities
+     * @return array|WorkflowStateMachine[] Array of workflow items with action name as array index
+     */
     abstract protected function getAllowedActions(
-        $workFlowId,
-        $state,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $entities = []
-    );
+        string $workflow,
+        string $state,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ): array;
 
+    /**
+     * Given an array of actions, returns the states for which those actions can be applied
+     * by the current logged in user
+     *
+     * @param string $workflow Workflow
+     * @param array $actions Array of Action names
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $entities
+     *
+     * @return array Array of states
+     */
     abstract public function getActionableStates(
-        $workflow,
-        $actions,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $entities = []
-    );
+        string $workflow,
+        array $actions,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ): array;
 
     abstract public function getModuleDefaultPage(string $module);
 

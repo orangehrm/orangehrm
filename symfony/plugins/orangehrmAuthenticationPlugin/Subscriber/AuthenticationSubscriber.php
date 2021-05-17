@@ -23,24 +23,24 @@ use Exception;
 use OrangeHRM\Core\Controller\AbstractViewController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
+use OrangeHRM\Framework\Event\AbstractEventSubscriber;
+use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Authentication\Exception\SessionExpiredException;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class AuthenticationSubscriber implements EventSubscriberInterface
+class AuthenticationSubscriber extends AbstractEventSubscriber
 {
     /**
      * @inheritDoc
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::CONTROLLER => [
