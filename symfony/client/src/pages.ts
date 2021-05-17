@@ -65,5 +65,5 @@ export default {
   'license-list': QualificationLicense,
   'license-save': SaveQualificationLicense,
   'license-edit': EditQualificationLicense,
-  ...PimPages
+  ...PimPages,
 };

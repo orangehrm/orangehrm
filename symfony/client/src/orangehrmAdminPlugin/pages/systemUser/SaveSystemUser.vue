@@ -69,7 +69,6 @@
           </oxd-grid>
         </oxd-form-row>
 
-
         <password-input
           v-model:password="user.password"
           v-model:passwordConfirm="user.passwordConfirm"
