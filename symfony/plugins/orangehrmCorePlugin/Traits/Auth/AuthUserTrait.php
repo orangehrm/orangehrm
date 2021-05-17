@@ -17,23 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Controller;
+namespace OrangeHRM\Core\Traits\Auth;
 
-use OrangeHRM\Core\Controller\AbstractController;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\RedirectResponse;
-use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Authentication\Auth\User;
 
-class LogoutController extends AbstractController
+trait AuthUserTrait
 {
-    use ServiceContainerTrait;
-
-    public function handle(): RedirectResponse
+    /**
+     * @return User
+     */
+    protected function getAuthUser(): User
     {
-        /** @var Session $session */
-        $session = $this->getContainer()->get(Services::SESSION);
-        $session->invalidate();
-        return $this->redirect("auth/login");
+        return User::getInstance();
     }
 }

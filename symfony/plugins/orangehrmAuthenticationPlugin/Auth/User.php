@@ -19,12 +19,14 @@
 
 namespace OrangeHRM\Authentication\Auth;
 
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 
 class User
 {
+    use ServiceContainerTrait;
+
     public const IS_AUTHENTICATED = 'user.is_authenticated';
     public const USER_ID = 'user.user_id';
     public const USER_ROLE_ID = 'user.user_role_id';
@@ -44,7 +46,7 @@ class User
     private function __construct()
     {
         /** @var Session $session */
-        $this->session = ServiceContainer::getContainer()->get(Services::SESSION);
+        $this->session = $this->getContainer()->get(Services::SESSION);
     }
 
     /**

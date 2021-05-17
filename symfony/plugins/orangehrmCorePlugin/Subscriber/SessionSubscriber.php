@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Core\Subscriber;
 
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -29,6 +29,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class SessionSubscriber extends AbstractEventSubscriber
 {
+    use ServiceContainerTrait;
+
     /**
      * @inheritDoc
      */
@@ -44,7 +46,7 @@ class SessionSubscriber extends AbstractEventSubscriber
     public function onRequestEvent(RequestEvent $event)
     {
         /** @var Session $session */
-        $session = ServiceContainer::getContainer()->get(Services::SESSION);
+        $session = $this->getContainer()->get(Services::SESSION);
 
         // TODO:: move to config
         $maxIdleTime = 1800;
@@ -56,7 +58,7 @@ class SessionSubscriber extends AbstractEventSubscriber
 
             if (!$hasRedirectUri) {
                 /** @var UrlHelper $urlHelper */
-                $urlHelper = ServiceContainer::getContainer()->get(Services::URL_HELPER);
+                $urlHelper = $this->getContainer()->get(Services::URL_HELPER);
                 $requestUri = $event->getRequest()->getRequestUri();
                 $redirectUri = $urlHelper->getAbsoluteUrl($requestUri);
             }

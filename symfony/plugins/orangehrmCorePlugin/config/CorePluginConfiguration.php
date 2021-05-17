@@ -21,18 +21,20 @@ use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\LoggerSubscriber;
 use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\EventDispatcher;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Session\NativeSessionStorage;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class CorePluginConfiguration implements PluginConfigurationInterface
 {
+    use ServiceContainerTrait;
+
     /**
      * @inheritDoc
      */
@@ -51,22 +53,20 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $session = new Session($sessionStorage);
         $session->start();
 
-        ServiceContainer::getContainer()->set(Services::SESSION_STORAGE, $sessionStorage);
-        ServiceContainer::getContainer()->set(Services::SESSION, $session);
+        $this->getContainer()->set(Services::SESSION_STORAGE, $sessionStorage);
+        $this->getContainer()->set(Services::SESSION, $session);
     }
 
     private function registerCoreSubscribers(): void
     {
         /** @var EventDispatcher $dispatcher */
-        $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
+        $dispatcher = $this->getContainer()->get(Services::EVENT_DISPATCHER);
         $dispatcher->addSubscriber(new ExceptionSubscriber());
         $dispatcher->addSubscriber(new LoggerSubscriber());
         $dispatcher->addListener(
             KernelEvents::REQUEST,
             [
-                new Symfony\Component\HttpKernel\EventListener\SessionListener(
-                    ServiceContainer::getContainer()
-                ),
+                new Symfony\Component\HttpKernel\EventListener\SessionListener($this->getContainer()),
                 'onKernelRequest'
             ]
         );

@@ -19,14 +19,16 @@
 
 namespace OrangeHRM\Core\Controller;
 
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\RequestStack;
-use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 
 abstract class AbstractController
 {
+    use ServiceContainerTrait;
+
     /**
      * @param string $path
      * @return RedirectResponse
@@ -47,7 +49,7 @@ abstract class AbstractController
     private function getCurrentRequest(): ?Request
     {
         /** @var RequestStack $requestStack */
-        $requestStack = ServiceContainer::getContainer()->get(Services::REQUEST_STACK);
+        $requestStack = $this->getContainer()->get(Services::REQUEST_STACK);
         return $requestStack->getCurrentRequest();
     }
 }

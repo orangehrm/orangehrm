@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Api;
 
-use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -92,6 +91,8 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         if (!$employee instanceof Employee) {
             throw new RecordNotFoundException();
         }
+        var_dump($employee->getEmpPicture());die;
+
         return new EndpointGetOneResult(EmployeeModel::class, $employee);
     }
 

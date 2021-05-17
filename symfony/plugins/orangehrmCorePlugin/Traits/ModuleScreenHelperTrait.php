@@ -17,23 +17,18 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Authentication\Controller;
+namespace OrangeHRM\Core\Traits;
 
-use OrangeHRM\Core\Controller\AbstractController;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\RedirectResponse;
-use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Core\Dto\ModuleScreen;
+use OrangeHRM\Core\Helper\ModuleScreenHelper;
 
-class LogoutController extends AbstractController
+trait ModuleScreenHelperTrait
 {
-    use ServiceContainerTrait;
-
-    public function handle(): RedirectResponse
+    /**
+     * @return ModuleScreen
+     */
+    protected function getCurrentModuleAndScreen(): ModuleScreen
     {
-        /** @var Session $session */
-        $session = $this->getContainer()->get(Services::SESSION);
-        $session->invalidate();
-        return $this->redirect("auth/login");
+        return ModuleScreenHelper::getCurrentModuleAndScreen();
     }
 }
