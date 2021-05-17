@@ -20,19 +20,19 @@
 namespace OrangeHRM\Core\Subscriber;
 
 use Exception;
+use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Logger\Logger;
 use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class LoggerSubscriber implements EventSubscriberInterface
+class LoggerSubscriber extends AbstractEventSubscriber
 {
     /**
      * @inheritDoc
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::EXCEPTION => [

@@ -19,9 +19,11 @@
 
 namespace OrangeHRM\Pim\Api;
 
+use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -35,13 +37,17 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeService;
 
 class EmployeeAPI extends Endpoint implements CrudEndpoint
 {
+    use UserRoleManagerTrait;
+
     public const FILTER_NAME = 'name';
     public const FILTER_NAME_OR_ID = 'nameOrId';
     public const FILTER_INCLUDE_TERMINATED = 'includeTerminated';
@@ -156,6 +162,16 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointCreateResult
     {
+        $allowedToAddEmployee = $this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_EMPLOYEE,
+            Employee::STATE_NOT_EXIST,
+            WorkflowStateMachine::EMPLOYEE_ACTION_ADD
+        );
+
+        if (!$allowedToAddEmployee) {
+            throw new BadRequestException('Logged in User Not Allowed to Create an Employee');
+        }
+
         // TODO:: Check data group permission
         $employee = new Employee();
         $this->setParamsToEmployee($employee);
@@ -196,10 +212,35 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(self::PARAMETER_FIRST_NAME),
-            new ParamRule(self::PARAMETER_MIDDLE_NAME),
-            new ParamRule(self::PARAMETER_LAST_NAME),
-            new ParamRule(self::PARAMETER_EMPLOYEE_ID),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_FIRST_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MIDDLE_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_LAST_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                )
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EMPLOYEE_ID,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 10]),
+                )
+            ),
         ];
     }
 

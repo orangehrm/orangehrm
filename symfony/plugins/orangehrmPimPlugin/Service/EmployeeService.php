@@ -20,16 +20,26 @@
 namespace OrangeHRM\Pim\Service;
 
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+use OrangeHRM\Pim\Event\EmployeeAddedEvent;
+use OrangeHRM\Pim\Event\EmployeeEvents;
 
 class EmployeeService
 {
+    use EventDispatcherTrait;
+
     /**
      * @var EmployeeDao|null
      */
     protected ?EmployeeDao $employeeDao = null;
+
+    /**
+     * @var EmployeeEventService|null
+     */
+    protected ?EmployeeEventService $employeeEventService = null;
 
     /**
      * @return EmployeeDao
@@ -48,6 +58,25 @@ class EmployeeService
     public function setEmployeeDao(EmployeeDao $employeeDao): void
     {
         $this->employeeDao = $employeeDao;
+    }
+
+    /**
+     * @return EmployeeEventService
+     */
+    public function getEmployeeEventService(): EmployeeEventService
+    {
+        if (!$this->employeeEventService instanceof EmployeeEventService) {
+            $this->employeeEventService = new EmployeeEventService();
+        }
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param EmployeeEventService $employeeEventService
+     */
+    public function setEmployeeEventService(EmployeeEventService $employeeEventService): void
+    {
+        $this->employeeEventService = $employeeEventService;
     }
 
     /**
@@ -78,6 +107,9 @@ class EmployeeService
     public function saveEmployee(Employee $employee): Employee
     {
         $employee = $this->getEmployeeDao()->saveEmployee($employee);
+
+        $this->getEmployeeEventService()->saveAddEmployeeEvent($employee->getEmpNumber());
+        $this->getEventDispatcher()->dispatch(new EmployeeAddedEvent($employee), EmployeeEvents::EMPLOYEE_ADDED);
         return $employee;
     }
 

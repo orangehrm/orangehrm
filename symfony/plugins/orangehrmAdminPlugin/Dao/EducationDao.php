@@ -102,13 +102,7 @@ class EducationDao extends BaseDao
     public function getEducationListPaginator(QualificationEducationSearchFilterParams $educationSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(Education::class, 'e');
-        if (!is_null($educationSearchFilterParams->getSortField())) {
-            $q->addOrderBy($educationSearchFilterParams->getSortField(), $educationSearchFilterParams->getSortOrder());
-        }
-        if (!empty($educationSearchFilterParams->getLimit())) {
-            $q->setFirstResult($educationSearchFilterParams->getOffset())
-                ->setMaxResults($educationSearchFilterParams->getLimit());
-        }
+        $this->setSortingAndPaginationParams($q, $educationSearchFilterParams);
         return new Paginator($q);
     }
 

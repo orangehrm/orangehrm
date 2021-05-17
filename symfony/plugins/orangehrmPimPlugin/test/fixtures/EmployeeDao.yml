@@ -96,8 +96,8 @@ Nationality:
     0: {id: 1, name: 'Test Nationality'}
 
 EmployeeAttachment:
-    0: {emp_number: '1', attach_id: '1', size: '1024', description: 'A file', filename: 'test.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0' attached_by_name:'admin'}
-    1: {emp_number: '1', attach_id: '2', size: '2024', description: '2nd file', filename: 'test2.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0' attached_by_name:'admin'}
+    0: {emp_number: '1', attach_id: '1', size: '1024', description: 'A file', filename: 'test.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0', attached_by_name: 'admin'}
+    1: {emp_number: '1', attach_id: '2', size: '2024', description: '2nd file', filename: 'test2.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0', attached_by_name: 'admin'}
 
 WorkShift:
     0: {id: 1, name: 'John Conner', hoursPerDay: 8}

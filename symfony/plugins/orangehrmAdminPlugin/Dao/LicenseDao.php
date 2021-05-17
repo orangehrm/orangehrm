@@ -103,13 +103,7 @@ class LicenseDao extends BaseDao
     public function getLicenseListPaginator(LicenseSearchFilterParams $licenseSearchFilterParams): Paginator
     {
         $q = $this->createQueryBuilder(License::class, 'l');
-        if (!is_null($licenseSearchFilterParams->getSortField())) {
-            $q->addOrderBy($licenseSearchFilterParams->getSortField(), $licenseSearchFilterParams->getSortOrder());
-        }
-        if (!empty($licenseSearchFilterParams->getLimit())) {
-            $q->setFirstResult($licenseSearchFilterParams->getOffset())
-                ->setMaxResults($licenseSearchFilterParams->getLimit());
-        }
+        $this->setSortingAndPaginationParams($q, $licenseSearchFilterParams);
         return new Paginator($q);
     }
 
