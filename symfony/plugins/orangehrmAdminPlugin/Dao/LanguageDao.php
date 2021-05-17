@@ -26,7 +26,6 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Language;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\ORM\Doctrine;
 
 class LanguageDao extends BaseDao
 {

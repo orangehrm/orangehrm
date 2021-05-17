@@ -85,6 +85,10 @@ class LanguageDaoTest extends TestCase
         $toTobedeletedIds = [1, 2];
         $result = $this->languageDao->deleteLanguages($toTobedeletedIds);
         $this->assertEquals(2, $result);
+
+        $nullValue = [];
+        $result = $this->languageDao->deleteLanguages($nullValue);
+        $this->assertEquals(0, $result);
     }
 
     public function testDeleteWrongRecord(): void

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -46,16 +45,6 @@ class Language
      * @ORM\Column(name="name", type="string", length=120)
      */
     private string $name;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeLanguage", mappedBy="Language")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="id", referencedColumnName="lang_id")
-     * })
-     */
-    private $EmployeeLanguage;
 
     /**
      * @return int
@@ -88,13 +77,4 @@ class Language
     {
         $this->name = $name;
     }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->EmployeeLanguage = new ArrayCollection();
-    }
-
 }
