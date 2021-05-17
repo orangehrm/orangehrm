@@ -21,12 +21,20 @@ namespace OrangeHRM\Pim\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use Symfony\Component\HttpFoundation\Request;
 
-class EmployeeController extends AbstractVueController
+class SaveEmployeeController extends AbstractVueController
 {
-    public function init(): void
+    public function preRender(Request $request): void
     {
-        $component = new Component('employee-list');
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component('employee-edit');
+            $component->addProp(new Prop('employee-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('employee-save');
+        }
         $this->setComponent($component);
     }
 }

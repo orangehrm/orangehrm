@@ -39,6 +39,7 @@ import SaveQualificationSkill from '@/orangehrmAdminPlugin/pages/qualificationSk
 import EditQualificationLicense from '@/orangehrmAdminPlugin/pages/qualificationLicense/EditLicense.vue';
 import SaveQualificationLicense from '@/orangehrmAdminPlugin/pages/qualificationLicense/SaveLicense.vue';
 import QualificationLicense from '@/orangehrmAdminPlugin/pages/qualificationLicense/License.vue';
+import PimPages from '@/orangehrmPimPlugin';
 
 export default {
   'job-title-list': JobTitle,
@@ -64,4 +65,5 @@ export default {
   'license-list': QualificationLicense,
   'license-save': SaveQualificationLicense,
   'license-edit': EditQualificationLicense,
+  ...PimPages
 };
