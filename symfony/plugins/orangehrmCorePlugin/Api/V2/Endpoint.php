@@ -151,12 +151,13 @@ abstract class Endpoint
                 new ParamRule(
                     CommonParams::PARAMETER_SORT_ORDER,
                     new Rule(Rules::IN, [[ListSorter::ASCENDING, ListSorter::DESCENDING]])
-                )
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CommonParams::PARAMETER_LIMIT,
-                    new Rule(Rules::POSITIVE),
+                    new Rule(Rules::ZERO_OR_POSITIVE), // Zero for not to limit results
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

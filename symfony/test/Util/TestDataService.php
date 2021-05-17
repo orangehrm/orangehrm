@@ -389,6 +389,9 @@ class TestDataService {
         $entityName = self::getFQEntityName($alias);
         $q = Doctrine::getEntityManager()->getRepository($entityName)->createQueryBuilder('a');
         $q->setMaxResults(1);
+        if (substr( $orderBy, 0, 2 ) !== "a.") {
+            $orderBy = 'a.' .$orderBy;
+        }
         $q->orderBy($orderBy,'DESC');
 
         return $q->getQuery()->getOneOrNullResult();

@@ -26,11 +26,27 @@ class Required extends AbstractRule
     use IsEmptyTrait;
 
     /**
+     * @var bool
+     */
+    private bool $excludeEmptyString;
+
+    /**
+     * @param bool $exccludeEmptyString
+     */
+    public function __construct(bool $exccludeEmptyString = false)
+    {
+        $this->excludeEmptyString = $exccludeEmptyString;
+    }
+
+    /**
      * @param mixed $input
      * @return bool
      */
     public function validate($input): bool
     {
+        if ($this->excludeEmptyString) {
+            return !is_null($input);
+        }
         return !$this->isEmpty($input);
     }
 }
