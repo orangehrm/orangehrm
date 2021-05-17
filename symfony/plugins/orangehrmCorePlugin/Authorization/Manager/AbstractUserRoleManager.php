@@ -22,6 +22,7 @@ namespace OrangeHRM\Core\Authorization\Manager;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
+use OrangeHRM\Entity\WorkflowStateMachine;
 
 abstract class AbstractUserRoleManager
 {
@@ -128,6 +129,17 @@ abstract class AbstractUserRoleManager
      */
     abstract protected function getUserRoles(User $user): array;
 
+    /**
+     * Check State Transition possible for User
+     *
+     * @param string $workFlowId
+     * @param string $state
+     * @param string $action
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $entities
+     * @return bool
+     */
     abstract protected function isActionAllowed(
         string $workFlowId,
         string $state,
@@ -135,23 +147,45 @@ abstract class AbstractUserRoleManager
         array $rolesToExclude = [],
         array $rolesToInclude = [],
         array $entities = []
-    ):bool;
+    ): bool;
 
+    /**
+     * Get allowed Workflow action items for User
+     *
+     * @param string $workflow Workflow Name
+     * @param string $state Workflow state
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $entities
+     * @return array|WorkflowStateMachine[] Array of workflow items with action name as array index
+     */
     abstract protected function getAllowedActions(
         string $workflow,
         string $state,
         array $rolesToExclude = [],
         array $rolesToInclude = [],
         array $entities = []
-    ):array;
+    ): array;
 
+    /**
+     * Given an array of actions, returns the states for which those actions can be applied
+     * by the current logged in user
+     *
+     * @param string $workflow Workflow
+     * @param array $actions Array of Action names
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $entities
+     *
+     * @return array Array of states
+     */
     abstract public function getActionableStates(
         string $workflow,
         array $actions,
         array $rolesToExclude = [],
         array $rolesToInclude = [],
         array $entities = []
-    ):array;
+    ): array;
 
     abstract public function getModuleDefaultPage(string $module);
 
