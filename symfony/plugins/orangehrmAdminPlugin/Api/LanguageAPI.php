@@ -19,10 +19,11 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use DaoException;
 use Exception;
-use OrangeHRM\Admin\Api\Model\EducationModel;
-use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
-use OrangeHRM\Admin\Service\EducationService;
+use OrangeHRM\Admin\Api\Model\LanguageModel;
+use OrangeHRM\Admin\Dto\LanguageSearchFilterParams;
+use OrangeHRM\Admin\Service\LanguageService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -39,51 +40,52 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\Education;
+use OrangeHRM\Entity\Language;
 
-class EducationAPI extends EndPoint implements CrudEndpoint
+class LanguageAPI extends EndPoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
 
     /**
-     * @var null|EducationService
+     * @var null|LanguageService
      */
-    protected ?EducationService $educationService = null;
+    protected ?LanguageService $languageService = null;
+
+    /**
+     * @return LanguageService
+     * @throws Exception
+     */
+    public function getLanguageService(): LanguageService
+    {
+        if (is_null($this->languageService)) {
+            $this->languageService = new LanguageService();
+        }
+        return $this->languageService;
+    }
+
+    /**
+     * @param LanguageService $languageService
+     */
+    public function setLanguageService(LanguageService $languageService): void
+    {
+        $this->languageService = $languageService;
+    }
 
     /**
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
+     * @throws DaoException
      * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $education = $this->getEducationService()->getEducationById($id);
-        if (!$education instanceof Education) {
+        $language = $this->getLanguageService()->getLanguageById($id);
+        if (!$language instanceof Language) {
             throw new RecordNotFoundException();
         }
-        return new EndpointGetOneResult(EducationModel::class, $education);
-    }
-
-    /**
-     *
-     * @return EducationService
-     */
-    public function getEducationService(): EducationService
-    {
-        if (is_null($this->educationService)) {
-            $this->educationService = new EducationService();
-        }
-        return $this->educationService;
-    }
-
-    /**
-     * @param EducationService $educationService
-     */
-    public function setEducationService(EducationService $educationService): void
-    {
-        $this->educationService = $educationService;
+        return new EndpointGetOneResult(LanguageModel::class, $language);
     }
 
     /**
@@ -107,13 +109,13 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
 
-        $educationParamHolder = new QualificationEducationSearchFilterParams();
-        $this->setSortingAndPaginationParams($educationParamHolder);
-        $educations = $this->getEducationService()->getEducationList($educationParamHolder);
-        $count = $this->getEducationService()->getEducationCount($educationParamHolder);
+        $languageParamHolder = new LanguageSearchFilterParams();
+        $this->setSortingAndPaginationParams($languageParamHolder);
+        $languages = $this->getLanguageService()->getLanguageList($languageParamHolder);
+        $count = $this->getLanguageService()->getLanguageCount($languageParamHolder);
         return new EndpointGetAllResult(
-            EducationModel::class,
-            $educations,
+            LanguageModel::class,
+            $languages,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
@@ -124,42 +126,21 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getSortingAndPaginationParamsRules(QualificationEducationSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules(LanguageSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
-
     /**
      * @inheritDoc
+     * @return EndpointCreateResult
      * @throws Exception
      */
     public function create(): EndpointCreateResult
     {
         // TODO:: Check data group permission
-        $educations = $this->saveEducation();
+        $languages = $this->saveLanguage();
 
-        return new EndpointCreateResult(EducationModel::class, $educations);
-    }
-
-    /**
-     * @return Education
-     * @throws RecordNotFoundException
-     */
-    public function saveEducation(): Education
-    {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
-            $education = $this->getEducationService()->getEducationById($id);
-            if ($education == null) {
-                throw new RecordNotFoundException();
-            }
-        } else {
-            $education = new Education();
-        }
-
-        $education->setName($name);
-        return $this->getEducationService()->saveEducation($education);
+        return new EndpointCreateResult(LanguageModel::class, $languages);
     }
 
     /**
@@ -173,15 +154,50 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
+     * @return Language
+     * @throws RecordNotFoundException
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @throws Exception
+     */
+    public function saveLanguage(): Language
+    {
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        if (!empty($id)) {
+            $language = $this->getLanguageService()->getLanguageById($id);
+            if ($language == null) {
+                throw new RecordNotFoundException();
+            }
+        } else {
+            $language = new Language();
+        }
+
+        $language->setName($name);
+        return $this->getLanguageService()->saveLanguage($language);
+    }
+
+    /**
      * @inheritDoc
+     */
+    public function getValidationRuleForSaveLanguage(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(self::PARAMETER_NAME),
+        );
+    }
+
+    /**
+     * @inheritDoc
+     * @return EndpointUpdateResult
      * @throws Exception
      */
     public function update(): EndpointUpdateResult
     {
         // TODO:: Check data group permission
-        $educations = $this->saveEducation();
+        $languages = $this->saveLanguage();
 
-        return new EndpointUpdateResult(EducationModel::class, $educations);
+        return new EndpointUpdateResult(LanguageModel::class, $languages);
     }
 
     /**
@@ -199,25 +215,15 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForSaveEducation(): ParamRuleCollection
-    {
-        return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(self::PARAMETER_NAME),
-        );
-    }
-
-    /**
      *
+     * @return EndpointDeleteResult
      * @throws Exception
      */
     public function delete(): EndpointDeleteResult
     {
         // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getEducationService()->deleteEducations($ids);
+        $this->getLanguageService()->deleteLanguages($ids);
         return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
 
@@ -230,5 +236,4 @@ class EducationAPI extends EndPoint implements CrudEndpoint
             new ParamRule(CommonParams::PARAMETER_IDS),
         );
     }
-
 }

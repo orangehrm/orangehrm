@@ -92,9 +92,8 @@ class EducationService
         return $this->getEducationDao()->getEducationByName($name);
     }
 
-
     /**
-     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder //remove return array for now
+     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder
      * @return array
      * @throws DaoException
      */
