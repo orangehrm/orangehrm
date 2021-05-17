@@ -42,4 +42,19 @@ class OrganizationDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @param Organization $organization
+     * @return Organization
+     * @throws DaoException
+     */
+    public function saveOrganizationGeneralInformation(Organization $organization): Organization
+    {
+        try {
+            $this->persist($organization);
+            return $organization;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }

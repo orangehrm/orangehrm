@@ -138,6 +138,19 @@ apiv2_admin_memberships:
   defaults:
     _api: OrangeHRM\Admin\Api\MembershipAPI
 
+apiv2_organization:
+  path: /api/v2/admin/organization/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\OrganizationAPI
+
+apiv2_organizations:
+  path: /api/v2/admin/organization
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\OrganizationAPI
 
 ##########################
 #        Screens
