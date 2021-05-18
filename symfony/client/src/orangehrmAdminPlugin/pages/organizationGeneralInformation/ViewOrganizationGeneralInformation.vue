@@ -248,17 +248,17 @@ export default {
         ],
         registrationNumber: [
           v => {
-            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
+            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
         ],
         taxId: [
           v => {
-            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
+            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
         ],
         phone: [
           v => {
-            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
+            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
           v => {
             return !v || v.match(/[0-9+()-]+$/)
@@ -268,7 +268,7 @@ export default {
         ],
         fax: [
           v => {
-            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
+            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
           v => {
             return !v || v.match(/[0-9+()-]+$/)
@@ -278,7 +278,7 @@ export default {
         ],
         email: [
           v => {
-            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
+            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
           v => {
             return !v ||
@@ -291,37 +291,37 @@ export default {
         ],
         street1: [
           v => {
-            return (!v || v?.length <= 100) || 'Should not exceed 100 characters';
+            return !v || v?.length <= 100 || 'Should not exceed 100 characters';
           },
         ],
         street2: [
           v => {
-            return (!v || v?.length <= 100) || 'Should not exceed 100 characters';
+            return !v || v?.length <= 100 || 'Should not exceed 100 characters';
           },
         ],
         city: [
           v => {
-            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
+            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
         ],
         province: [
           v => {
-            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
+            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
         ],
         country: [
           v => {
-            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
+            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
         ],
         zipCode: [
           v => {
-            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
+            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
         ],
         note: [
           v => {
-            return (!v || v?.length <= 255) || 'Should not exceed 255 characters';
+            return !v || v?.length <= 255 || 'Should not exceed 255 characters';
           },
         ],
       },
