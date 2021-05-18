@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,33 +16,17 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class MembershipService extends BaseService {
 
-    private $membershipDao;
+namespace OrangeHRM\Admin\Controller;
 
-    public function __construct() {
-        $this->membershipDao = new MembershipDao();
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+
+class QualificationMembershipController extends AbstractVueController
+{
+    public function init(): void
+    {
+        $component = new Component('qualification-membership-list');
+        $this->setComponent($component);
     }
-
-    public function getMembershipDao() {
-        return $this->membershipDao;
-    }
-
-    public function setMembershipDao(MembershipDao $MembershipDao) {
-        $this->membershipDao = $MembershipDao;
-    }
-
-    public function getMembershipList() {
-        return $this->membershipDao->getMembershipList();
-    }
-
-    public function getMembershipById($id) {
-        return $this->membershipDao->getMembershipById($id);
-    }
-
-    public function deleteMemberships($membershipList) {
-        return $this->membershipDao->deleteMemberships($membershipList);
-    }
-
 }
-
