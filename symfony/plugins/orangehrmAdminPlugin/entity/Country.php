@@ -115,4 +115,20 @@ class Country
     {
         $this->countryCode = $countryCode;
     }
+
+    /**
+     * @return string
+     */
+    public function getCountryName(): string
+    {
+        return $this->countryName;
+    }
+
+    /**
+     * @param string $countryName
+     */
+    public function setCountryName(string $countryName): void
+    {
+        $this->countryName = $countryName;
+    }
 }

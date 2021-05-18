@@ -39,7 +39,6 @@ use OrangeHRM\Core\Exception\DaoException;
 use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Entity\Organization;
-use OrangeHRM\Pim\Service\EmployeeService;
 
 class OrganizationAPI extends Endpoint implements CrudEndpoint
 {
@@ -63,11 +62,6 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     protected ?OrganizationService $organizationService = null;
 
     /**
-     * @var EmployeeService|null
-     */
-    protected ?EmployeeService $employeeService = null;
-
-    /**
      * @return OrganizationService
      */
     public function getOrganizationService(): OrganizationService
@@ -87,27 +81,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EmployeeService|null
-     */
-    public function getEmployeeService(): ?EmployeeService
-    {
-        if (is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * @param EmployeeService|null $employeeService
-     */
-    public function setEmployeeService(?EmployeeService $employeeService): void
-    {
-        $this->employeeService = $employeeService;
-    }
-
-    /**
      * @return EndpointGetOneResult
-     * @throws RecordNotFoundException
      * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
@@ -245,21 +219,21 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        $taxId = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_TAX_ID);
-        $registrationNumber = $this->getRequestParams()->getString(
+        $taxId = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_TAX_ID);
+        $registrationNumber = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_REGISTRATION_NUMBER
         );
-        $phone = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PHONE);
-        $fax = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FAX);
-        $email = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMAIL);
-        $country = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_COUNTRY);
-        $province = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PROVINCE);
-        $city = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CITY);
-        $zipCode = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ZIP_CODE);
-        $street1 = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STREET_1);
-        $street2 = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STREET_2);
-        $note = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NOTE);
+        $phone = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PHONE);
+        $fax = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FAX);
+        $email = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMAIL);
+        $country = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_COUNTRY);
+        $province = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PROVINCE);
+        $city = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CITY);
+        $zipCode = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ZIP_CODE);
+        $street1 = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STREET_1);
+        $street2 = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STREET_2);
+        $note = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NOTE);
 
         $orgInfo = $this->getOrganizationService()->getOrganizationGeneralInformation();
         if ($orgInfo == null) {

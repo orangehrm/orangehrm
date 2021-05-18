@@ -248,17 +248,17 @@ export default {
         ],
         registrationNumber: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters';
+            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
           },
         ],
         taxId: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters';
+            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
           },
         ],
         phone: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters';
+            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
           },
           v => {
             return !v || v.match(/[0-9+()-]+$/)
@@ -268,7 +268,7 @@ export default {
         ],
         fax: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters';
+            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
           },
           v => {
             return !v || v.match(/[0-9+()-]+$/)
@@ -278,7 +278,7 @@ export default {
         ],
         email: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters';
+            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
           },
           v => {
             return !v ||
@@ -291,37 +291,37 @@ export default {
         ],
         street1: [
           v => {
-            return v.length <= 100 || 'Should not exceed 100 characters';
+            return (!v || v?.length <= 100) || 'Should not exceed 100 characters';
           },
         ],
         street2: [
           v => {
-            return v.length <= 100 || 'Should not exceed 100 characters';
+            return (!v || v?.length <= 100) || 'Should not exceed 100 characters';
           },
         ],
         city: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters';
+            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
           },
         ],
         province: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters';
+            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
           },
         ],
         country: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters';
+            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
           },
         ],
         zipCode: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters';
+            return (!v || v?.length <= 30) || 'Should not exceed 30 characters';
           },
         ],
         note: [
           v => {
-            return v.length <= 255 || 'Should not exceed 255 characters';
+            return (!v || v?.length <= 255) || 'Should not exceed 255 characters';
           },
         ],
       },
@@ -332,8 +332,8 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.http
-        .update(1, {
+      this.http.http
+        .put('api/v2/admin/organization', {
           name: this.organization.name,
           registrationNumber: this.organization.registrationNumber,
           taxId: this.organization.taxId,
@@ -361,8 +361,8 @@ export default {
     },
   },
   created() {
-    this.http
-      .get(1)
+    this.http.http
+      .get('api/v2/admin/organization')
       .then(response => {
         const {data} = response.data;
         this.organization.id = data.id;
@@ -376,7 +376,7 @@ export default {
         this.organization.street2 = data.street2;
         this.organization.city = data.city;
         this.organization.province = data.province;
-        if (data.country !== '') {
+        if (data.country !== '' && data.country !== null) {
           this.organization.country = [
             this.countryList.find(c => {
               return c.id === data.country;

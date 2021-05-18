@@ -115,5 +115,17 @@ class CountryService
         return $this->getCountryDao()->getCountryByCountryCode($countryCode);
     }
 
-
+    /**
+     * @return array
+     * @throws ServiceException
+     */
+    public function getCountryCodeAndNameFromList()
+    {
+        $countryList = $this->getCountryList();
+        $countries = [];
+        foreach ($countryList as $country) {
+            array_push($countries, ['id' => $country->getCountryCode(), "label" => $country->getCountryName()]);
+        }
+        return $countries;
+    }
 }

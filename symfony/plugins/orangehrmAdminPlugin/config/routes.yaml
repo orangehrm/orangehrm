@@ -139,7 +139,7 @@ apiv2_admin_memberships:
     _api: OrangeHRM\Admin\Api\MembershipAPI
 
 apiv2_organization:
-  path: /api/v2/admin/organization/{id}
+  path: /api/v2/admin/organization
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:

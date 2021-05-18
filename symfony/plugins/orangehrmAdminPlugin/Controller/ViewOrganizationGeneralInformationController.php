@@ -40,7 +40,7 @@ class ViewOrganizationGeneralInformationController extends AbstractVueController
     public function init(): void
     {
         $noOfEmployees = $this->getEmployeeService()->getNumberOfEmployees();
-        $countryList = $this->getCountryList();
+        $countryList = $this->getCountryService()->getCountryCodeAndNameFromList();
         $component = new Component('organization-general-information-view');
         $component->addProp(new Prop('number-of-employees', Prop::TYPE_NUMBER, $noOfEmployees));
         $component->addProp(new Prop('country-list', Prop::TYPE_ARRAY, $countryList));
@@ -75,23 +75,5 @@ class ViewOrganizationGeneralInformationController extends AbstractVueController
             $this->countryService = new CountryService();
         }
         return $this->countryService;
-    }
-
-    /**
-     * @param CountryService|null $countryService
-     */
-    public function setCountryService(?CountryService $countryService): void
-    {
-        $this->countryService = $countryService;
-    }
-
-    public function getCountryList()
-    {
-        $countryList = $this->getCountryService()->getCountryList();
-        $countries = [];
-        foreach ($countryList as $country) {
-            array_push($countries, ['id' => $country->getCountryCode(), "label" => $country->getName()]);
-        }
-        return $countries;
     }
 }

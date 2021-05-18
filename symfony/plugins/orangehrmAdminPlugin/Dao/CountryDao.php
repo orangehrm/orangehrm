@@ -34,9 +34,9 @@ class CountryDao extends BaseDao
     public function getCountryList(): array
     {
         try {
-            return $this->getRepository(
-                Country::class
-            )->findAll();
+            $q = $this->createQueryBuilder(Country::class, 'c');
+            $q->orderBy('c.name');
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
