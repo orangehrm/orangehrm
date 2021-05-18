@@ -37,7 +37,7 @@ class EducationService
      *
      * @param Education $education
      * @return Education
-     * @throws \DaoException
+     * @throws DaoException
      */
     public function saveEducation(Education $education): Education
     {
@@ -92,9 +92,8 @@ class EducationService
         return $this->getEducationDao()->getEducationByName($name);
     }
 
-
     /**
-     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder //remove return array for now
+     * @param QualificationEducationSearchFilterParams $educationSearchParamHolder
      * @return array
      * @throws DaoException
      */

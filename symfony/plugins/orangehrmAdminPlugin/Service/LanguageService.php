@@ -17,84 +17,110 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class LanguageService extends BaseService {
-    
-    private $languageDao;
-    
+
+namespace OrangeHRM\Admin\Service;
+
+use OrangeHRM\Admin\Dao\LanguageDao;
+use OrangeHRM\Admin\Dto\LanguageSearchFilterParams;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\Language;
+
+class LanguageService
+{
     /**
-     * @ignore
+     * @var LanguageDao|null
      */
-    public function getLanguageDao() {
-        
+    private ?LanguageDao $languageDao = null;
+
+    /**
+     * @return LanguageDao
+     */
+    public function getLanguageDao(): LanguageDao
+    {
         if (!($this->languageDao instanceof LanguageDao)) {
             $this->languageDao = new LanguageDao();
         }
-        
+
         return $this->languageDao;
     }
 
     /**
-     * @ignore
+     * @param LanguageDao $languageDao
+     * @return Void
      */
-    public function setLanguageDao($languageDao) {
+    public function setLanguageDao(LanguageDao $languageDao): void
+    {
         $this->languageDao = $languageDao;
     }
-    
+
     /**
      * Saves a language
-     * 
+     *
      * Can be used for a new record or updating.
-     * 
-     * @version 2.6.12 
-     * @param Language $language 
-     * @return NULL Doesn't return a value
+     * @param Language $language
+     * @return Language
+     * @throws DaoException
      */
-    public function saveLanguage(Language $language) {        
-        $this->getLanguageDao()->saveLanguage($language);        
+    public function saveLanguage(Language $language): Language
+    {
+        return $this->getLanguageDao()->saveLanguage($language);
     }
-    
+
     /**
      * Retrieves a language by ID
-     * 
-     * @version 2.6.12 
-     * @param int $id 
+     *
+     * @param int $id
      * @return Language An instance of Language or NULL
-     */    
-    public function getLanguageById($id) {
+     * @throws DaoException
+     */
+    public function getLanguageById(int $id): ?Language
+    {
         return $this->getLanguageDao()->getLanguageById($id);
     }
-    
+
     /**
      * Retrieves a language by name
-     * 
+     *
      * Case insensitive
-     * 
-     * @version 2.6.12 
-     * @param string $name 
+     *
+     * @param string $name
      * @return Language An instance of Language or false
-     */    
-    public function getLanguageByName($name) {
+     * @throws DaoException
+     */
+    public function getLanguageByName(string $name): ?Language
+    {
         return $this->getLanguageDao()->getLanguageByName($name);
-    }        
-  
+    }
+
+    /**
+     * @param LanguageSearchFilterParams $languageSearchParamHolder
+     * @return int
+     * @throws DaoException
+     */
+    public function getLanguageCount(LanguageSearchFilterParams $languageSearchParamHolder): int
+    {
+        return $this->getLanguageDao()->getLanguageCount($languageSearchParamHolder);
+    }
+
     /**
      * Retrieves all languages ordered by name
-     * 
-     * @version 2.6.12 
-     * @return Doctrine_Collection A doctrine collection of Language objects 
-     */        
-    public function getLanguageList() {
-        return $this->getLanguageDao()->getLanguageList();
+     * @param LanguageSearchFilterParams $languageSearchParamHolder
+     * @return array
+     * @throws DaoException
+     */
+    public function getLanguageList(LanguageSearchFilterParams $languageSearchParamHolder): array
+    {
+        return $this->getLanguageDao()->getLanguageList($languageSearchParamHolder);
     }
-    
+
     /**
      * Deletes languages
-     * 
-     * @version 2.6.12 
      * @param array $toDeleteIds An array of IDs to be deleted
      * @return int Number of records deleted
-     */    
-    public function deleteLanguages($toDeleteIds) {
+     * @throws DaoException
+     */
+    public function deleteLanguages(array $toDeleteIds): int
+    {
         return $this->getLanguageDao()->deleteLanguages($toDeleteIds);
     }
 
@@ -103,12 +129,13 @@ class LanguageService extends BaseService {
      *
      * Case insensitive
      *
-     * @version 2.6.12
      * @param string $languageName Language name that needs to be checked
-     * @return boolean
+     * @return bool
+     * @throws DaoException
      */
-    public function isExistingLanguageName($languageName) {
+    public function isExistingLanguageName(string $languageName): bool
+    {
         return $this->getLanguageDao()->isExistingLanguageName($languageName);
     }
-    
+
 }

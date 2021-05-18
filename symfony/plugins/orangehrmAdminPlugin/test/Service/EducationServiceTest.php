@@ -96,9 +96,7 @@ class EducationServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->educationService = new EducationService();
-        $this->fixture = Config::get(
-                'ohrm_plugins_dir'
-            ) . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
         TestDataService::populate($this->fixture);
     }
 }
