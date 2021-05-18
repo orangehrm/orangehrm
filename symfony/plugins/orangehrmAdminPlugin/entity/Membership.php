@@ -46,24 +46,6 @@ class Membership
     private string $name;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeMembership", mappedBy="Membership")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="id", referencedColumnName="membershipId")
-     * })
-     */
-    private $EmployeeMembership;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->EmployeeMembership = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * @return int
      */
     public function getId(): int

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use DaoException;
 use Exception;
 use OrangeHRM\Admin\Api\Model\MembershipModel;
 use OrangeHRM\Admin\Dto\MembershipSearchFilterParams;
@@ -130,7 +129,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointCreateResult
      * @throws Exception
      */
     public function create(): EndpointCreateResult
@@ -141,7 +139,10 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
         return new EndpointCreateResult(MembershipModel::class, $memberships);
     }
 
-
+    /**
+     * @return Membership
+     * @throws RecordNotFoundException
+     */
     public function saveMembership(): Membership
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
@@ -165,13 +166,15 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
     /**
      * @inheritDoc
-     * @return EndpointUpdateResult
      * @throws Exception
      */
     public function update(): EndpointUpdateResult
@@ -192,18 +195,24 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
     /**
-     * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForSaveMembership(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 

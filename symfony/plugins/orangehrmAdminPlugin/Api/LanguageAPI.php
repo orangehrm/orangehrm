@@ -94,7 +94,9 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
         );
     }
 
@@ -208,7 +210,7 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID,
-            new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE)
             ),
             new ParamRule(self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),

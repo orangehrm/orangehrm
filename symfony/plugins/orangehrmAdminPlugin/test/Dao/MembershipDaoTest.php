@@ -23,14 +23,12 @@ use Exception;
 use OrangeHRM\Admin\Dao\MembershipDao;
 use OrangeHRM\Admin\Dto\MembershipSearchFilterParams;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\Membership;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 class MembershipDaoTest extends TestCase
 {
-
     private MembershipDao $membershipDao;
     protected string $fixture;
 
@@ -40,7 +38,6 @@ class MembershipDaoTest extends TestCase
      */
     protected function setUp(): void
     {
-
         $this->membershipDao = new MembershipDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/MembershipDao.yml';
         TestDataService::populate($this->fixture);
@@ -96,7 +93,6 @@ class MembershipDaoTest extends TestCase
 
         $result = $this->membershipDao->deleteMemberships([]);
         $this->assertEquals(0, $result);
-
     }
 
     public function testDeleteWrongRecord(): void

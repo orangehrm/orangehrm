@@ -30,4 +30,3 @@ class MembershipSearchFilterParams extends FilterParams
         $this->setSortField('m.name');
     }
 }
- 

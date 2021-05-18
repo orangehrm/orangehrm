@@ -27,12 +27,12 @@ use OrangeHRM\Entity\Membership;
 class MembershipService
 {
     /**
-     * @var Membership|null
+     * @var MembershipDao|null
      */
     private ?MembershipDao $membershipDao = null;
 
     /**
-     * @return Membership
+     * @return MembershipDao
      */
     public function getMembershipDao(): MembershipDao
     {
@@ -51,6 +51,11 @@ class MembershipService
         $this->membershipDao = $MembershipDao;
     }
 
+    /**
+     * @param Membership $membership
+     * @return Membership
+     * @throws DaoException
+     */
     public function saveMembership(Membership $membership): Membership
     {
         return $this->getMembershipDao()->saveMembership($membership);
@@ -59,6 +64,7 @@ class MembershipService
     /**
      * @param int $id
      * @return Membership|null
+     * @throws DaoException
      */
     public function getMembershipById(int $id): ?Membership
     {
@@ -67,7 +73,8 @@ class MembershipService
 
     /**
      * @param string $name
-     * @return Membership
+     * @return Membership|null
+     * @throws DaoException
      */
     public function getMembershipByName(string $name): ?Membership
     {
@@ -77,6 +84,7 @@ class MembershipService
     /**
      * @param MembershipSearchFilterParams $membershipSearchParamsHolder
      * @return array
+     * @throws DaoException
      */
     public function getMembershipList(MembershipSearchFilterParams $membershipSearchParamsHolder): array
     {
@@ -86,16 +94,17 @@ class MembershipService
     /**
      * @param MembershipSearchFilterParams $membershipSearchParamsHolder
      * @return int
+     * @throws DaoException
      */
     public function getMembershipCount(MembershipSearchFilterParams $membershipSearchParamsHolder): int
     {
         return $this->getMembershipDao()->getMembershipCount($membershipSearchParamsHolder);
     }
 
-
     /**
      * @param array $toDeleteIds
      * @return int
+     * @throws DaoException
      */
     public function deleteMemberships(array $toDeleteIds): int
     {
@@ -105,13 +114,11 @@ class MembershipService
     /**
      * @param string $membershipName
      * @return bool
+     * @throws DaoException
      */
     public function isExistingLicenseName(string $membershipName): bool
     {
         return $this->getMembershipDao()->isExistingMembershipName($membershipName);
     }
-
-
-
 }
 
