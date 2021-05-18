@@ -219,7 +219,7 @@ export default {
 
   data() {
     return {
-      editable: true,
+      editable: false,
       isLoading: false,
       organization: {
         name: '',
@@ -356,7 +356,7 @@ export default {
         })
         .then(() => {
           this.isLoading = false;
-          // this.editable = false;
+          this.editable = false;
         });
     },
   },
