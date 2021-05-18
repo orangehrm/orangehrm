@@ -36,7 +36,7 @@ class Country
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $cou_code;
+    private $countryCode;
 
     /**
      * @var string
@@ -50,7 +50,7 @@ class Country
      *
      * @ORM\Column(name="cou_name", type="string", length=80)
      */
-    private $cou_name;
+    private $countryName;
 
     /**
      * @var string
@@ -105,7 +105,7 @@ class Country
      */
     public function getCountryCode(): string
     {
-        return $this->cou_code;
+        return $this->countryCode;
     }
 
     /**
@@ -113,6 +113,6 @@ class Country
      */
     public function setCountryCode(string $countryCode): void
     {
-        $this->cou_code = $countryCode;
+        $this->countryCode = $countryCode;
     }
 }

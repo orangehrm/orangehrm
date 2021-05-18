@@ -32,149 +32,129 @@
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid :cols="2">
-            <oxd-grid-item>
-              <oxd-form-row>
-                <oxd-input-field
-                  label="Organization Name"
-                  v-model="organization.name"
-                  :rules="rules.name"
-                  :disabled="!editable"
-                  required
-                />
-              </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item class="organization-name-container">
+              <oxd-input-field
+                label="Organization Name"
+                v-model="organization.name"
+                :rules="rules.name"
+                :disabled="!editable"
+                required
+              />
             </oxd-grid-item>
-          </oxd-grid>
-          <oxd-grid :cols="1">
             <oxd-grid-item>
-              <oxd-form-row>
-                <oxd-input-field
-                  label="Number of Employees"
-                  v-model="organization.noOfEmployees"
-                  :rules="rules.noOfEmployees"
-                  :disabled="true"
-                />
-              </oxd-form-row>
+              <oxd-input-field
+                label="Number of Employees"
+                v-model="organization.noOfEmployees"
+                :disabled="true"
+              />
             </oxd-grid-item>
-          </oxd-grid>
-        </oxd-grid>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-form-row>
+
+              </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
               <oxd-input-field
                 label="Registration Number"
                 v-model="organization.registrationNumber"
                 :rules="rules.registrationNumber"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-form-row>
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 label="Tax ID"
                 v-model="organization.taxId"
                 :rules="rules.taxId"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-        </oxd-grid>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
         <oxd-divider />
 
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
               <oxd-input-field
                 label="Phone"
                 v-model="organization.phone"
                 :rules="rules.phone"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-form-row>
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 label="Fax"
                 v-model="organization.fax"
                 :rules="rules.fax"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-form-row>
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 label="Email"
                 v-model="organization.email"
                 :rules="rules.email"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-        </oxd-grid>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
         <oxd-divider />
 
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
               <oxd-input-field
                 label="Address Street 1"
                 v-model="organization.street1"
                 :rules="rules.street1"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-form-row>
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 label="Address Street 2"
                 v-model="organization.street2"
                 :rules="rules.street2"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-form-row>
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 label="City"
                 v-model="organization.city"
                 :rules="rules.city"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-        </oxd-grid>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
               <oxd-input-field
                 label="State/Province"
                 v-model="organization.province"
                 :rules="rules.province"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-form-row>
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 label="Zip/Postal Code"
                 v-model="organization.zipCode"
                 :rules="rules.zipCode"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-form-row>
+            </oxd-grid-item>
+            <oxd-grid-item>
               <oxd-input-field
                 label="Country"
                 type="dropdown"
@@ -183,9 +163,9 @@
                 :options="countryList"
                 :disabled="!editable"
               />
-            </oxd-form-row>
-          </oxd-grid-item>
-        </oxd-grid>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
         <oxd-grid :cols="2" class="orangehrm-full-width-grid">
           <oxd-grid-item>
@@ -240,7 +220,7 @@ export default {
 
   data() {
     return {
-      editable: false,
+      editable: true,
       isLoading: false,
       organization: {
         name: '',
@@ -259,20 +239,72 @@ export default {
         note: '',
       },
       rules: {
-        name: [],
-        noOfEmployees: [],
-        registrationNumber: [],
-        taxId: [],
-        phone: [],
-        fax: [],
-        email: [],
-        street1: [],
-        street2: [],
-        city: [],
-        province: [],
-        country: [],
-        zipCode: [],
-        note: [],
+        name: [
+          v => {
+            return (!!v && v.trim() !== '') || 'Required'
+          }, v => {
+            return v.length <= 100 || 'Should not exceed 100 characters'
+          }],
+        registrationNumber: [
+          v => {
+            return v.length <= 30 || 'Should not exceed 30 characters'
+          }],
+        taxId: [
+          v => {
+            return v.length <= 30 || 'Should not exceed 30 characters'
+          }],
+        phone: [
+          v => {
+            return v.length <= 30 || 'Should not exceed 30 characters'
+          },
+          v => {
+            return (!v || v.match(/[0-9+()-]+$/))? true : false ||
+                'Allows numbers and only + - / ( )'
+          }],
+        fax: [
+          v => {
+            return v.length <= 30 || 'Should not exceed 30 characters'
+          },
+          v => {
+            return (!v || v.match(/[0-9+()-]+$/)) ? true : false ||
+                'Allows numbers and only + - / ( )'
+          }],
+        email: [
+          v => {
+            return v.length <= 30 || 'Should not exceed 30 characters'
+          },
+          v => {
+            return (!v || v.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+$/)) ? true : false ||
+                'Expected format: admin@example.com'
+          }],
+        street1: [
+          v => {
+            return v.length <= 100 || 'Should not exceed 100 characters'
+          }],
+        street2: [
+          v => {
+            return v.length <= 100 || 'Should not exceed 100 characters'
+          }],
+        city: [
+          v => {
+            return v.length <= 30 || 'Should not exceed 30 characters'
+          }],
+        province: [
+          v => {
+            return v.length <= 30 || 'Should not exceed 30 characters'
+          }],
+        country: [
+          v => {
+            return v.length <= 30 || 'Should not exceed 30 characters'
+          }],
+        zipCode: [
+          v => {
+            return v.length <= 30 || 'Should not exceed 30 characters'
+          }],
+        note: [
+          v => {
+            return v.length <= 255 || 'Should not exceed 255 characters'
+          }],
       },
       errors: [],
     };
@@ -293,7 +325,7 @@ export default {
           street2: this.organization.street2,
           city: this.organization.city,
           province: this.organization.province,
-          country: this.organization.country[0].id,
+          country: this.organization.country[0]?.id,
           zipCode: this.organization.zipCode,
           note: this.organization.note,
         })
@@ -305,78 +337,37 @@ export default {
         })
         .then(() => {
           this.isLoading = false;
-          this.editable = false;
+          // this.editable = false;
         });
     },
   },
-  created() {
-    this.rules.name.push(v => {
-      return (!!v && v.trim() !== '') || 'Required';
-    });
-    this.rules.name.push(v => {
-      return (v && v.length <= 100) || 'Should not exceed 100 characters';
-    });
-    this.rules.registrationNumber.push(v => {
-      return v.length <= 30 || 'Should not exceed 30 characters';
-    });
-    this.rules.taxId.push(v => {
-      return v.length <= 30 || 'Should not exceed 30 characters';
-    });
-    this.rules.phone.push(v => {
-      return v.length <= 30 || 'Should not exceed 30 characters';
-    });
-    this.rules.fax.push(v => {
-      return v.length <= 30 || 'Should not exceed 30 characters';
-    });
-    this.rules.email.push(v => {
-      return v.length <= 30 || 'Should not exceed 30 characters';
-    });
-    this.rules.street1.push(v => {
-      return v.length <= 100 || 'Should not exceed 100 characters';
-    });
-    this.rules.street2.push(v => {
-      return v.length <= 100 || 'Should not exceed 100 characters';
-    });
-    this.rules.city.push(v => {
-      return v.length <= 30 || 'Should not exceed 30 characters';
-    });
-    this.rules.province.push(v => {
-      return v.length <= 30 || 'Should not exceed 30 characters';
-    });
-    this.rules.country.push(v => {
-      return v.length <= 30 || 'Should not exceed 30 characters';
-    });
-    this.rules.zipCode.push(v => {
-      return v.length <= 30 || 'Should not exceed 30 characters';
-    });
-    this.rules.note.push(v => {
-      return v.length <= 255 || 'Should not exceed 255 characters';
-    });
-    this.http
-      .get(1)
-      .then(response => {
-        const {data} = response.data;
-
-        this.organization.id = data.id;
-        this.organization.name = data.name;
-        this.organization.registrationNumber = data.registrationNumber;
-        this.organization.taxId = data.taxId;
-        this.organization.phone = data.phone;
-        this.organization.fax = data.fax;
-        this.organization.email = data.email;
-        this.organization.street1 = data.street1;
-        this.organization.street2 = data.street2;
-        this.organization.city = data.city;
-        this.organization.province = data.province;
-        this.organization.country = [this.countryList.find((c) => {
-          return c.id === data.country
-        })];
-        this.organization.zipCode = data.zipCode;
-        this.organization.note = data.note;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+  created () {
+    this.http.get(1).then(response => {
+      const { data } = response.data
+      this.organization.id = data.id
+      this.organization.name = data.name
+      this.organization.registrationNumber = data.registrationNumber
+      this.organization.taxId = data.taxId
+      this.organization.phone = data.phone
+      this.organization.fax = data.fax
+      this.organization.email = data.email
+      this.organization.street1 = data.street1
+      this.organization.street2 = data.street2
+      this.organization.city = data.city
+      this.organization.province = data.province
+      if (data.country !== '') {
+        this.organization.country = [
+          this.countryList.find((c) => {
+            return c.id === data.country
+          })]
+      }
+      this.organization.zipCode = data.zipCode
+      this.organization.note = data.note
+    }).finally(() => {
+      this.isLoading = false
+    })
   },
 };
 </script>
+
+<style src="./general-info.scss" lang="scss" scoped></style>

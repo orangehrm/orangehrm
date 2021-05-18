@@ -115,7 +115,21 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
         // TODO:: Check data group permission
         $orgInfo = $this->getOrganizationService()->getOrganizationGeneralInformation();
         if (!$orgInfo instanceof Organization) {
-            throw new RecordNotFoundException();
+            $orgInfo = new Organization();
+            $orgInfo->setId(1);
+            $orgInfo->setName("");
+            $orgInfo->setTaxId("");
+            $orgInfo->setRegistrationNumber("");
+            $orgInfo->setPhone("");
+            $orgInfo->setFax("");
+            $orgInfo->setEmail("");
+            $orgInfo->setCountry("");
+            $orgInfo->setProvince("");
+            $orgInfo->setCity("");
+            $orgInfo->setZipCode("");
+            $orgInfo->setStreet1("");
+            $orgInfo->setStreet2("");
+            $orgInfo->setNote("");
         }
 
         return new EndpointGetOneResult(OrganizationModel::class, $orgInfo);
@@ -192,12 +206,9 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME, new Rule(Rules::REQUIRED)),
             new ParamRule(self::PARAMETER_TAX_ID),
             new ParamRule(self::PARAMETER_REGISTRATION_NUMBER),
-            new ParamRule(self::PARAMETER_PHONE),
-            new ParamRule(self::PARAMETER_FAX),
-            new ParamRule(self::PARAMETER_EMAIL),
             new ParamRule(self::PARAMETER_COUNTRY),
             new ParamRule(self::PARAMETER_PROVINCE),
             new ParamRule(self::PARAMETER_CITY),
@@ -205,6 +216,23 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
             new ParamRule(self::PARAMETER_STREET_1),
             new ParamRule(self::PARAMETER_STREET_2),
             new ParamRule(self::PARAMETER_NOTE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EMAIL,
+                    new Rule(Rules::EMAIL)
+                )
+            ), $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PHONE,
+                    new Rule(Rules::PHONE)
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_FAX,
+                    new Rule(Rules::PHONE)
+                )
+            ),
         );
     }
 
