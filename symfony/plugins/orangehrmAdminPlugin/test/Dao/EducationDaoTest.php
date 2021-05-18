@@ -32,8 +32,8 @@ use OrangeHRM\Tests\Util\TestDataService;
 class EducationDaoTest extends TestCase
 {
 
-    private $educationDao;
-    protected $fixture;
+    private EducationDao $educationDao;
+    protected string $fixture;
 
     /**
      * Set up method
@@ -41,7 +41,7 @@ class EducationDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->educationDao = new EducationDao();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/EducationDao.yml';
         TestDataService::populate($this->fixture);
     }
 

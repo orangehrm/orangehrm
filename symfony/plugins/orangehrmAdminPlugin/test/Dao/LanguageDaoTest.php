@@ -16,115 +16,104 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
+
+namespace OrangeHRM\Admin\Tests\Dao;
+
+use OrangeHRM\Admin\Dao\LanguageDao;
+use OrangeHRM\Admin\Dto\LanguageSearchFilterParams;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Language;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
  */
-class LanguageDaoTest extends PHPUnit_Framework_TestCase {
+class LanguageDaoTest extends TestCase
+{
 
-	private $languageDao;
-	protected $fixture;
+    private LanguageDao $languageDao;
+    protected string $fixture;
 
-	/**
-	 * Set up method
-	 */
-	protected function setUp() {
+    /**
+     * Set up method
+     */
+    protected function setUp(): void
+    {
+        $this->languageDao = new LanguageDao();
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/LanguageDao.yml';
+        TestDataService::populate($this->fixture);
+    }
 
-		$this->languageDao = new LanguageDao();
-		$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/LanguageDao.yml';
-		TestDataService::populate($this->fixture);
-	}
-
-    public function testAddLanguage() {
-        
+    public function testAddLanguage(): void
+    {
         $language = new Language();
         $language->setName('Tamil');
-        
         $this->languageDao->saveLanguage($language);
-        
-        $savedLanguage = TestDataService::fetchLastInsertedRecord('Language', 'id');
-        
+        $savedLanguage = TestDataService::fetchLastInsertedRecord('Language', 'a.id');
         $this->assertTrue($savedLanguage instanceof Language);
         $this->assertEquals('Tamil', $savedLanguage->getName());
-        
     }
-    
-    public function testEditLanguage() {
-        
+
+    public function testEditLanguage(): void
+    {
         $language = TestDataService::fetchObject('Language', 3);
         $language->setName('Canadian French');
-        
         $this->languageDao->saveLanguage($language);
-        
-        $savedLanguage = TestDataService::fetchLastInsertedRecord('Language', 'id');
-        
+        $savedLanguage = TestDataService::fetchLastInsertedRecord('Language', 'a.id');
         $this->assertTrue($savedLanguage instanceof Language);
         $this->assertEquals('Canadian French', $savedLanguage->getName());
-        
     }
-    
-    public function testGetLanguageById() {
-        
+
+    public function testGetLanguageById(): void
+    {
         $language = $this->languageDao->getLanguageById(1);
-        
         $this->assertTrue($language instanceof Language);
         $this->assertEquals('Spanish', $language->getName());
-        
     }
-    
-    public function testGetLanguageList() {
-        
-        $languageList = $this->languageDao->getLanguageList();
-        
-        foreach ($languageList as $language) {
-            $this->assertTrue($language instanceof Language);
-        }
-        
-        $this->assertEquals(3, count($languageList));        
-        
-        /* Checking record order */
-        $this->assertEquals('English', $languageList[0]->getName());
-        $this->assertEquals('Spanish', $languageList[2]->getName());
-        
+
+    public function testGetLanguageList(): void
+    {
+        $languageFilterParams = new LanguageSearchFilterParams();
+        $result = $this->languageDao->getLanguageList($languageFilterParams);
+        $this->assertCount(3, $result);
+        $this->assertTrue($result[0] instanceof Language);
     }
-    
-    public function testDeleteLanguages() {
-        
-        $result = $this->languageDao->deleteLanguages(array(1, 2));
-        
+
+    public function testDeleteLanguages(): void
+    {
+        $toTobedeletedIds = [1, 2];
+        $result = $this->languageDao->deleteLanguages($toTobedeletedIds);
         $this->assertEquals(2, $result);
-        $this->assertEquals(1, count($this->languageDao->getLanguageList()));       
-        
-    }
-    
-    public function testDeleteWrongRecord() {
-        
-        $result = $this->languageDao->deleteLanguages(array(4));
-        
+
+        $result = $this->languageDao->deleteLanguages([]);
         $this->assertEquals(0, $result);
-        
     }
-    
-    public function testIsExistingLanguageName() {
-        
+
+    public function testDeleteWrongRecord(): void
+    {
+        $result = $this->languageDao->deleteLanguages([4]);
+        $this->assertEquals(0, $result);
+    }
+
+    public function testIsExistingLanguageName(): void
+    {
         $this->assertTrue($this->languageDao->isExistingLanguageName('Spanish'));
         $this->assertTrue($this->languageDao->isExistingLanguageName('SPANISH'));
         $this->assertTrue($this->languageDao->isExistingLanguageName('spanish'));
         $this->assertTrue($this->languageDao->isExistingLanguageName('  Spanish  '));
-        
     }
-    
-    public function testGetLanguageByName() {
-        
+
+    public function testGetLanguageByName(): void
+    {
         $object = $this->languageDao->getLanguageByName('Spanish');
         $this->assertTrue($object instanceof Language);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->languageDao->getLanguageByName('SPANISH');
         $this->assertTrue($object instanceof Language);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->languageDao->getLanguageByName('spanish');
         $this->assertTrue($object instanceof Language);
         $this->assertEquals(1, $object->getId());
@@ -132,10 +121,8 @@ class LanguageDaoTest extends PHPUnit_Framework_TestCase {
         $object = $this->languageDao->getLanguageByName('  Spanish  ');
         $this->assertTrue($object instanceof Language);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->languageDao->getLanguageByName('Hindi');
-        $this->assertFalse($object);        
-        
-    }        
-    
+        $this->assertFalse($object instanceof Language);
+    }
 }

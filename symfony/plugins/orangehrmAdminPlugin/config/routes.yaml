@@ -110,6 +110,20 @@ apiv2_licenses:
   defaults:
     _api: OrangeHRM\Admin\Api\LicenseAPI
 
+apiv2_admin_language:
+  path: /api/v2/admin/languages/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\LanguageAPI
+
+apiv2_admin_languages:
+  path: /api/v2/admin/languages
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\LanguageAPI
+
 ##########################
 #        Screens
 ##########################
@@ -226,3 +240,17 @@ edit_license:
   path: /admin/saveLicense/{id}
   controller: OrangeHRM\Admin\Controller\SaveQualificationLicenseController::handle
   methods: [ GET ]
+
+view_qualification_languages:
+  path: /admin/viewLanguages
+  controller: OrangeHRM\Admin\Controller\QualificationLanguageController::handle
+  methods: [ GET ]
+
+save_qualification_languages:
+  path: /admin/saveLanguages
+  controller: OrangeHRM\Admin\Controller\SaveQualificationLanguageController::handle
+  methods: [ GET ]
+
+edit_qualification_languages:
+  path: /admin/saveLanguages/{id}
+  controller: OrangeHRM\Admin\Controller\SaveQualificationLanguageController::handle

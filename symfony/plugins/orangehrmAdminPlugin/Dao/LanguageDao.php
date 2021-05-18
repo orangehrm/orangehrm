@@ -20,41 +20,40 @@
 namespace OrangeHRM\Admin\Dao;
 
 use Exception;
-use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
+use OrangeHRM\Admin\Dto\LanguageSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\Education;
+use OrangeHRM\Entity\Language;
 use OrangeHRM\ORM\Paginator;
 
-class EducationDao extends BaseDao
+class LanguageDao extends BaseDao
 {
     /**
-     * @param Education $education
-     * @return Education
+     * @param Language $language
+     * @return Language
      * @throws DaoException
      */
-    public function saveEducation(Education $education): Education
+    public function saveLanguage(Language $language): Language
     {
         try {
-            $this->persist($education);
-            return $education;
+            $this->persist($language);
+            return $language;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
     /**
-     * get education names according to the Id
      * @param int $id
-     * @return Education|null
+     * @return Language|null
      * @throws DaoException
      */
-    public function getEducationById(int $id): ?Education
+    public function getLanguageById(int $id): ?Language
     {
         try {
-            $education = $this->getRepository(Education::class)->find($id);
-            if ($education instanceof Education) {
-                return $education;
+            $language = $this->getRepository(Language::class)->find($id);
+            if ($language instanceof Language) {
+                return $language;
             }
             return null;
         } catch (Exception $e) {
@@ -63,16 +62,16 @@ class EducationDao extends BaseDao
     }
 
     /**
-     * @param $name
-     * @return Education|null
+     * @param string $name
+     * @return Language|null
      * @throws DaoException
      */
-    public function getEducationByName(string $name): ?Education
+    public function getLanguageByName(string $name): ?Language
     {
         try {
-            $query = $this->createQueryBuilder(Education::class, 'e');
+            $query = $this->createQueryBuilder(Language::class, 'l');
             $trimmed = trim($name, ' ');
-            $query->andWhere('e.name = :name');
+            $query->andWhere('l.name = :name');
             $query->setParameter('name', $trimmed);
             return $query->getQuery()->getOneOrNullResult();
         } catch (Exception $e) {
@@ -81,14 +80,14 @@ class EducationDao extends BaseDao
     }
 
     /**
-     * @param QualificationEducationSearchFilterParams $educationSearchFilterParams
+     * @param LanguageSearchFilterParams $languageSearchFilterParams
      * @return array
      * @throws DaoException
      */
-    public function getEducationList(QualificationEducationSearchFilterParams $educationSearchFilterParams): array
+    public function getLanguageList(LanguageSearchFilterParams $languageSearchFilterParams): array
     {
         try {
-            $paginator = $this->getEducationListPaginator($educationSearchFilterParams);
+            $paginator = $this->getLanguageListPaginator($languageSearchFilterParams);
             return $paginator->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -96,25 +95,25 @@ class EducationDao extends BaseDao
     }
 
     /**
-     * @param QualificationEducationSearchFilterParams $educationSearchFilterParams
+     * @param LanguageSearchFilterParams $languageSearchFilterParams
      * @return Paginator
      */
-    public function getEducationListPaginator(QualificationEducationSearchFilterParams $educationSearchFilterParams
+    public function getLanguageListPaginator(LanguageSearchFilterParams $languageSearchFilterParams
     ): Paginator {
-        $q = $this->createQueryBuilder(Education::class, 'e');
-        $this->setSortingAndPaginationParams($q, $educationSearchFilterParams);
+        $q = $this->createQueryBuilder(Language::class, 'l');
+        $this->setSortingAndPaginationParams($q, $languageSearchFilterParams);
         return new Paginator($q);
     }
 
     /**
-     * @param QualificationEducationSearchFilterParams $educationSearchFilterParams
+     * @param LanguageSearchFilterParams $languageSearchParamHolder
      * @return int
      * @throws DaoException
      */
-    public function getEducationCount(QualificationEducationSearchFilterParams $educationSearchFilterParams): int
+    public function getLanguageCount(LanguageSearchFilterParams $languageSearchParamHolder): int
     {
         try {
-            $paginator = $this->getEducationListPaginator($educationSearchFilterParams);
+            $paginator = $this->getLanguageListPaginator($languageSearchParamHolder);
             return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -122,18 +121,18 @@ class EducationDao extends BaseDao
     }
 
     /**
-     * Soft Delete Education field
      * @param array $toDeleteIds
      * @return int
      * @throws DaoException
      */
-    public function deleteEducations(array $toDeleteIds): int
+    public function deleteLanguages(array $toDeleteIds): int
     {
         try {
-            $q = $this->createQueryBuilder(Education::class, 'e');
+            $q = $this->createQueryBuilder(Language::class, 'l');
             $q->delete()
-                ->where($q->expr()->in('e.id', ':ids'))
+                ->where($q->expr()->in('l.id', ':ids'))
                 ->setParameter('ids', $toDeleteIds);
+
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -141,16 +140,16 @@ class EducationDao extends BaseDao
     }
 
     /**
-     * @param $educationName
+     * @param string $languageName
      * @return bool
      * @throws DaoException
      */
-    public function isExistingEducationName(string $educationName): bool
+    public function isExistingLanguageName(string $languageName): bool
     {
         try {
-            $q = $this->createQueryBuilder(Education::class, 'e');
-            $trimmed = trim($educationName, ' ');
-            $q->Where('e.name = :name');
+            $q = $this->createQueryBuilder(Language::class, 'l');
+            $trimmed = trim($languageName, ' ');
+            $q->Where('l.name = :name');
             $q->setParameter('name', $trimmed);
             $count = $this->count($q);
             if ($count > 0) {
