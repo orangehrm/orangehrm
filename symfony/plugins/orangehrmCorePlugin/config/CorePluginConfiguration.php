@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\LoggerSubscriber;
 use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
@@ -55,6 +56,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
 
         $this->getContainer()->set(Services::SESSION_STORAGE, $sessionStorage);
         $this->getContainer()->set(Services::SESSION, $session);
+        $this->getContainer()->register(Services::CONFIG_SERVICE, ConfigService::class);
     }
 
     private function registerCoreSubscribers(): void

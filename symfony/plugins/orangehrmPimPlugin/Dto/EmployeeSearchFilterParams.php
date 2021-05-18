@@ -28,6 +28,10 @@ class EmployeeSearchFilterParams extends FilterParams
     protected bool $includeTerminated = false;
     protected ?string $name = null;
     protected ?string $nameOrId = null;
+    /**
+     * @var int[]|null
+     */
+    protected ?array $employeeNumbers = null;
 
     public function __construct()
     {
@@ -80,5 +84,21 @@ class EmployeeSearchFilterParams extends FilterParams
     public function setNameOrId(?string $nameOrId): void
     {
         $this->nameOrId = $nameOrId;
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function getEmployeeNumbers(): ?array
+    {
+        return $this->employeeNumbers;
+    }
+
+    /**
+     * @param int[]|null $employeeNumbers
+     */
+    public function setEmployeeNumbers(?array $employeeNumbers): void
+    {
+        $this->employeeNumbers = $employeeNumbers;
     }
 }

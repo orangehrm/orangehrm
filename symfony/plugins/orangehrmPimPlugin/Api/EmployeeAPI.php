@@ -87,11 +87,15 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointGetOneResult
     {
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
+        $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
+
+        if (!in_array($empNumber, $accessibleEmpNumbers)) {
+            throw new RecordNotFoundException();
+        }
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
         if (!$employee instanceof Employee) {
             throw new RecordNotFoundException();
         }
-        var_dump($employee->getEmpPicture());die;
 
         return new EndpointGetOneResult(EmployeeModel::class, $employee);
     }
@@ -117,6 +121,8 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         // TODO:: Check data group permission & get employees using UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties
         $employeeParamHolder = new EmployeeSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeParamHolder);
+        $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
+        $employeeParamHolder->setEmployeeNumbers($accessibleEmpNumbers);
 
         $employeeParamHolder->setIncludeTerminated(
             $this->getRequestParams()->getBoolean(

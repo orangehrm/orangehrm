@@ -25,13 +25,13 @@ use OrangeHRM\Entity\UniqueId;
 use OrangeHRM\ORM\Doctrine;
 use Symfony\Component\Yaml\Yaml;
 
-class TestDataService {
-
+class TestDataService
+{
     /** Encrypted fields in the format 
      *        array('Model1' => array(field1, field2), 
      *              'Model2' => array(field1, field2))        
      */
-    private static $encryptedModels = array('EmployeeSalary' => array('amount'));
+    private static $encryptedModels = []; //array('EmployeeSalary' => array('amount'));
     
     private static $dbConnection;
     private static $data;
@@ -410,9 +410,15 @@ class TestDataService {
         return self::loadObjectListFromArray($alias, $data[$key]);
     }
 
-    public static function loadObjectListFromArray($alias, $data) {
-
-        $objectList = array();
+    /**
+     * @param string $alias
+     * @param array|object[] $data
+     * @return array|object[]
+     */
+    public static function loadObjectListFromArray(string $alias, array $data): array
+    {
+        $objectList = [];
+        $classMetadata = self::_getClassMetadata($alias);
 
         foreach ($data as $row) {
             $entityName = self::getFQEntityName($alias);
@@ -420,6 +426,23 @@ class TestDataService {
 
             foreach ($row as $attribute => $value) {
                 $setMethodName = "set" . ucfirst($attribute);
+
+                $fieldName = self::getFieldForColumn($classMetadata, $attribute);
+                if ($fieldName) {
+                    $associationMapping = self::getAssociationMapping($classMetadata, $fieldName);
+                } else {
+                    $associationMapping = self::getAssociationMapping($classMetadata, $attribute);
+                }
+
+                if ($associationMapping) {
+                    $value = Doctrine::getEntityManager()->getReference($associationMapping['targetEntity'], $value);
+                }
+
+                if (!method_exists($object, $setMethodName)) {
+                    if ($attribute) {
+                        $setMethodName = "set" . ucfirst($fieldName);
+                    }
+                }
                 $object->$setMethodName($value);
             }
 
@@ -427,6 +450,34 @@ class TestDataService {
         }
 
         return $objectList;
+    }
+
+    /**
+     * @param ClassMetadata $classMetadata
+     * @param string $columnName
+     * @return string|null
+     */
+    public static function getFieldForColumn(ClassMetadata $classMetadata, string $columnName): ?string
+    {
+        try {
+            return $classMetadata->getFieldForColumn($columnName);
+        } catch (\Doctrine\ORM\Mapping\MappingException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * @param ClassMetadata $classMetadata
+     * @param string $fieldName
+     * @return array|null
+     */
+    public static function getAssociationMapping(ClassMetadata $classMetadata, string $fieldName): ?array
+    {
+        try {
+            return $classMetadata->getAssociationMapping($fieldName);
+        } catch (\Doctrine\ORM\Mapping\MappingException $e) {
+            return null;
+        }
     }
 
     public static function getRecords($query) {

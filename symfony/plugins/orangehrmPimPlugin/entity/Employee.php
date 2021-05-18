@@ -206,11 +206,12 @@ class Employee
     private $eeo_cat_code;
 
     /**
-     * @var int
+     * @var Subunit|null
      *
-     * @ORM\Column(name="work_station", type="integer", length=4)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Subunit")
+     * @ORM\JoinColumn(name="work_station", referencedColumnName="id", nullable=true)
      */
-    private $work_station;
+    private ?Subunit $subDivision = null;
 
     /**
      * @var string
@@ -241,11 +242,11 @@ class Employee
     private $emp_work_telephone;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="emp_work_email", type="string", length=50)
+     * @ORM\Column(name="emp_work_email", type="string", length=50, nullable=true)
      */
-    private $emp_work_email;
+    private ?string $empWorkEmail;
 
     /**
      * @var string
@@ -262,11 +263,11 @@ class Employee
     private $joined_date;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="emp_oth_email", type="string", length=50)
+     * @ORM\Column(name="emp_oth_email", type="string", length=50, nullable=true)
      */
-    private $emp_oth_email;
+    private ?string $empOtherEmail;
 
     /**
      * @var string
@@ -344,16 +345,6 @@ class Employee
      * @ORM\Column(name="purged_at", type="datetime", nullable=true)
      */
     private ?DateTime $purgedAt;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Subunit", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="work_station", referencedColumnName="id")
-     * })
-     */
-    private $subDivision;
 
     /**
      * @var Collection
@@ -537,12 +528,18 @@ class Employee
     private $users;
 
     /**
+     * @var EmpPicture|null
+     *
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmpPicture", mappedBy="employee")
+     */
+    private ?EmpPicture $empPicture = null;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->smoker = 0;
-        $this->subDivision = new ArrayCollection();
         $this->jobTitle = new ArrayCollection();
         $this->supervisors = new ArrayCollection();
         $this->locations = new ArrayCollection();
@@ -645,6 +642,54 @@ class Employee
     }
 
     /**
+     * @return Subunit|null
+     */
+    public function getSubDivision(): ?Subunit
+    {
+        return $this->subDivision;
+    }
+
+    /**
+     * @param Subunit|null $subDivision
+     */
+    public function setSubDivision(?Subunit $subDivision): void
+    {
+        $this->subDivision = $subDivision;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmpWorkEmail(): ?string
+    {
+        return $this->empWorkEmail;
+    }
+
+    /**
+     * @param string|null $empWorkEmail
+     */
+    public function setEmpWorkEmail(?string $empWorkEmail): void
+    {
+        $this->empWorkEmail = $empWorkEmail;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmpOtherEmail(): ?string
+    {
+        return $this->empOtherEmail;
+    }
+
+    /**
+     * @param string|null $empOtherEmail
+     */
+    public function setEmpOtherEmail(?string $empOtherEmail): void
+    {
+        $this->empOtherEmail = $empOtherEmail;
+    }
+
+    /**
      * @return EmployeeTerminationRecord|null
      */
     public function getEmployeeTerminationRecord(): ?EmployeeTerminationRecord
@@ -658,22 +703,6 @@ class Employee
     public function setEmployeeTerminationRecord(?EmployeeTerminationRecord $employeeTerminationRecord): void
     {
         $this->employeeTerminationRecord = $employeeTerminationRecord;
-    }
-
-    /**
-     * @return DateTime|null
-     */
-    public function getPurgedAt(): ?DateTime
-    {
-        return $this->purgedAt;
-    }
-
-    /**
-     * @param DateTime|null $purgedAt
-     */
-    public function setPurgedAt(?DateTime $purgedAt): void
-    {
-        $this->purgedAt = $purgedAt;
     }
 
     /**
@@ -706,5 +735,37 @@ class Employee
     public function setSkills(Collection $skills): void
     {
         $this->skills = $skills;
+    }
+
+    /**
+     * @return EmpPicture|null
+     */
+    public function getEmpPicture(): ?EmpPicture
+    {
+        return $this->empPicture;
+    }
+
+    /**
+     * @param EmpPicture|null $empPicture
+     */
+    public function setEmpPicture(?EmpPicture $empPicture): void
+    {
+        $this->empPicture = $empPicture;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getPurgedAt(): ?DateTime
+    {
+        return $this->purgedAt;
+    }
+
+    /**
+     * @param DateTime|null $purgedAt
+     */
+    public function setPurgedAt(?DateTime $purgedAt): void
+    {
+        $this->purgedAt = $purgedAt;
     }
 }

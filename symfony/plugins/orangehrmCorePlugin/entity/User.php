@@ -262,6 +262,14 @@ class User
     }
 
     /**
+     * @return int|null
+     */
+    public function getEmpNumber(): ?int
+    {
+        return $this->getEmployee() ? $this->getEmployee()->getEmpNumber() : null;
+    }
+
+    /**
      * @param Employee|null $employee
      */
     public function setEmployee(?Employee $employee): void
