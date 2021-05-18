@@ -158,10 +158,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveMembership');
+      navigate('/admin/saveMemberships');
     },
     onClickEdit(item) {
-      navigate('/admin/saveMembership/{id}', {id: item.id});
+      navigate('/admin/saveMemberships/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

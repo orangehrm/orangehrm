@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,40 +16,102 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
 
-/**
- *  @group Admin
- */
-class MembershipDaoTest extends PHPUnit_Framework_TestCase {
+namespace OrangeHRM\Admin\Tests\Dao;
 
-    private $membershipDao;
-    protected $fixture;
+use Exception;
+use OrangeHRM\Admin\Dao\MembershipDao;
+use OrangeHRM\Admin\Dto\MembershipSearchFilterParams;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Entity\Membership;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
+
+class MembershipDaoTest extends TestCase
+{
+
+    private MembershipDao $membershipDao;
+    protected string $fixture;
 
     /**
      * Set up method
+     * @throws Exception
      */
-    protected function setUp() {
+    protected function setUp(): void
+    {
 
         $this->membershipDao = new MembershipDao();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/MembershipDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/MembershipDao.yml';
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetMembershipList() {
-        $result = $this->membershipDao->getMembershipList();
-        $this->assertEquals(count($result), 3);
+    public function testAddMembership(): void
+    {
+        $membership = new Membership();
+        $membership->setName('membership one');
+
+        $this->membershipDao->saveMembership($membership);
+
+        $savedMembership = TestDataService::fetchLastInsertedRecord('Membership', 'a.id');
+
+        $this->assertTrue($savedMembership instanceof Membership);
+        $this->assertEquals('membership one', $savedMembership->getName());
     }
 
-    public function testGetMembershipById() {
-        $result = $this->membershipDao->getMembershipById(1);
-        $this->assertEquals($result->getName(), 'membership 1');
+    public function testEditMembership(): void
+    {
+        $membership = TestDataService::fetchObject('Membership', 3);
+        $membership->setName('membership New');
+
+        $this->membershipDao->saveMembership($membership);
+
+        $savedMembership = TestDataService::fetchLastInsertedRecord('Membership', 'a.id');
+
+        $this->assertTrue($savedMembership instanceof Membership);
+        $this->assertEquals('membership New', $savedMembership->getName());
     }
 
-    public function testDeleteMemberships() {
-        $result = $this->membershipDao->deleteMemberships(array(1, 2, 3));
-        $this->assertEquals($result, 3);
+    public function testGetMembershipList(): void
+    {
+        $membershipFilterParams = new MembershipSearchFilterParams();
+        $result = $this->membershipDao->getMembershipList($membershipFilterParams);
+        $this->assertCount(3, $result);
+        $this->assertTrue($result[0] instanceof Membership);
     }
 
+    public function testGetMembershipById():void
+    {
+        $membership = $this->membershipDao->getMembershipById(1);
+
+        $this->assertTrue($membership instanceof Membership);
+        $this->assertEquals('membership 1', $membership->getName());
+    }
+
+    public function testDeleteMemberships():void
+    {
+        $toTobedeletedIds = [1, 2];
+        $result = $this->membershipDao->deleteMemberships($toTobedeletedIds);
+        $this->assertEquals(2, $result);
+
+        $result = $this->membershipDao->deleteMemberships([]);
+        $this->assertEquals(0, $result);
+
+    }
+
+    public function testDeleteWrongRecord(): void
+    {
+        $result = $this->membershipDao->deleteMemberships([4]);
+
+        $this->assertEquals(0, $result);
+    }
+
+    public function testIsExistingMembershipName(): void
+    {
+        $this->assertTrue($this->membershipDao->isExistingMembershipName('MembershiP 1'));
+        $this->assertTrue($this->membershipDao->isExistingMembershipName('MEMBERSHIP 1'));
+        $this->assertTrue($this->membershipDao->isExistingMembershipName('membership 1'));
+        $this->assertTrue($this->membershipDao->isExistingMembershipName('  membership 1  '));
+    }
 }
 

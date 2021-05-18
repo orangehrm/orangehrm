@@ -29,12 +29,12 @@ class MembershipService
     /**
      * @var Membership|null
      */
-    private ?Membership $membershipDao = null;
+    private ?MembershipDao $membershipDao = null;
 
     /**
      * @return Membership
      */
-    public function getMembershipDao(): Membership
+    public function getMembershipDao(): MembershipDao
     {
         if (!($this->membershipDao instanceof MembershipDao)) {
             $this->membershipDao = new MembershipDao();

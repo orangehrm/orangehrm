@@ -94,5 +94,4 @@ class Membership
     {
         $this->name = $name;
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,71 +16,90 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
+
+namespace OrangeHRM\Admin\Tests\Service;
+
+use Exception;
+use OrangeHRM\Admin\Dao\MembershipDao;
+use OrangeHRM\Admin\Dto\MembershipSearchFilterParams;
+use OrangeHRM\Admin\Service\MembershipService;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Membership;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
  */
-class MembershipServiceTest extends PHPUnit_Framework_TestCase {
+class MembershipServiceTest extends TestCase
+{
 
-    private $membershipService;
-    private $fixture;
+    private MembershipService $membershipService;
+    private string $fixture;
 
     /**
      * Set up method
+     * @throws Exception
      */
-    protected function setUp() {
+    protected function setUp():void
+    {
         $this->membershipService = new MembershipService();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/MembershipDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/MembershipDao.yml';
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetMembershipList() {
-
+    public function testGetMembershipList(): void
+    {
         $membershipList = TestDataService::loadObjectList('Membership', $this->fixture, 'Membership');
-
-        $membershipDao = $this->getMockBuilder('MembershipDao')->getMock();
+        $membershipFilterParams = new MembershipSearchFilterParams();
+        $membershipDao = $this->getMockBuilder(MembershipDao::class)->getMock();
         $membershipDao->expects($this->once())
                 ->method('getMembershipList')
+                ->with($membershipFilterParams)
                 ->will($this->returnValue($membershipList));
-
         $this->membershipService->setMembershipDao($membershipDao);
-
-        $result = $this->membershipService->getMembershipList();
-        $this->assertEquals($result, $membershipList);
+        $result = $this->membershipService->getMembershipList($membershipFilterParams);
+        $this->assertCount(3, $result);
+        $this->assertTrue($result[0] instanceof Membership);
     }
 
-    public function testGetMembershipById() {
-
+    public function testGetMembershipById():void
+    {
         $membershipList = TestDataService::loadObjectList('Membership', $this->fixture, 'Membership');
-
-        $membershipDao = $this->getMockBuilder('MembershipDao')->getMock();
+        $membershipDao = $this->getMockBuilder(MembershipDao::class)->getMock();
         $membershipDao->expects($this->once())
                 ->method('getMembershipById')
                 ->with(1)
                 ->will($this->returnValue($membershipList[0]));
-
         $this->membershipService->setMembershipDao($membershipDao);
-
         $result = $this->membershipService->getMembershipById(1);
-        $this->assertEquals($result, $membershipList[0]);
+        $this->assertEquals($membershipList[0],$result);
     }
 
-    public function testDeleteMemberships() {
-
-        $membershipList = array(1, 2, 3);
-
-        $membershipDao = $this->getMockBuilder('MembershipDao')->getMock();
+    public function testDeleteMemberships(): void
+    {
+        $toBeDeletedEducationIds = [1,2];
+        $membershipDao = $this->getMockBuilder(MembershipDao::class)->getMock();
         $membershipDao->expects($this->once())
                 ->method('deleteMemberships')
-                ->with($membershipList)
-                ->will($this->returnValue(3));
-
+                ->with($toBeDeletedEducationIds)
+                ->will($this->returnValue(2));
         $this->membershipService->setMembershipDao($membershipDao);
-
-        $result = $this->membershipService->deleteMemberships($membershipList);
-        $this->assertEquals($result, 3);
+        $result = $this->membershipService->deleteMemberships($toBeDeletedEducationIds);
+        $this->assertEquals(2, $result);
     }
 
+    public function testGetEducationByName(): void
+    {
+        $membershipList = TestDataService::loadObjectList('Membership', $this->fixture, 'Membership');
+        $membershipDao = $this->getMockBuilder(MembershipDao::class)->getMock();
+        $membershipDao->expects($this->once())
+            ->method('getMembershipByName')
+            ->with(1)
+            ->will($this->returnValue($membershipList[0]));
+        $this->membershipService->setMembershipDao($membershipDao);
+        $result = $this->membershipService->getMembershipByName(1);
+        $this->assertEquals($result, $membershipList[0]);
+    }
 }
 

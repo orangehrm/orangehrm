@@ -21,8 +21,8 @@ namespace OrangeHRM\Admin\Dao;
 
 use OrangeHRM\Admin\Dto\MembershipSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Core\Exception\DaoException;
 use Exception;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Entity\Membership;
@@ -34,7 +34,7 @@ class MembershipDao extends BaseDao
      * @return Membership
      * @throws DaoException
      */
-    public function saveMembership (Membership $membership): Membership
+    public function saveMembership(Membership $membership): Membership
     {
         try {
             $this->persist($membership);

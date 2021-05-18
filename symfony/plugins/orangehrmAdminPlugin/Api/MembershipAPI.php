@@ -73,7 +73,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
     /**
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
-     * @throws DaoException
      * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
