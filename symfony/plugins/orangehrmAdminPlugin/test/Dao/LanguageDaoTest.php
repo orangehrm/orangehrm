@@ -32,8 +32,8 @@ use OrangeHRM\Tests\Util\TestDataService;
 class LanguageDaoTest extends TestCase
 {
 
-    private $languageDao;
-    protected $fixture;
+    private LanguageDao $languageDao;
+    protected string $fixture;
 
     /**
      * Set up method
@@ -41,7 +41,7 @@ class LanguageDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->languageDao = new LanguageDao();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/LanguageDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/LanguageDao.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -86,8 +86,7 @@ class LanguageDaoTest extends TestCase
         $result = $this->languageDao->deleteLanguages($toTobedeletedIds);
         $this->assertEquals(2, $result);
 
-        $nullValue = [];
-        $result = $this->languageDao->deleteLanguages($nullValue);
+        $result = $this->languageDao->deleteLanguages([]);
         $this->assertEquals(0, $result);
     }
 

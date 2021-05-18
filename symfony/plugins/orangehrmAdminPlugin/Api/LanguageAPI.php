@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use DaoException;
 use Exception;
 use OrangeHRM\Admin\Api\Model\LanguageModel;
 use OrangeHRM\Admin\Dto\LanguageSearchFilterParams;
@@ -40,11 +39,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Language;
 
 class LanguageAPI extends EndPoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
+    public const PARAM_RULE_NAME_MAX_LENGTH = 120;
 
     /**
      * @var null|LanguageService
@@ -74,7 +75,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     /**
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
-     * @throws DaoException
      * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
@@ -90,14 +90,12 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
-            ),
+            new ParamRule(CommonParams::PARAMETER_ID),
         );
     }
 
@@ -121,7 +119,7 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
@@ -145,18 +143,22 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
     /**
      * @return Language
      * @throws RecordNotFoundException
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @throws DaoException
      * @throws Exception
      */
     public function saveLanguage(): Language
@@ -177,13 +179,16 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForSaveLanguage(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
@@ -202,15 +207,16 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
             ),
-            new ParamRule(self::PARAMETER_NAME),
         );
     }
 
@@ -229,6 +235,7 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {

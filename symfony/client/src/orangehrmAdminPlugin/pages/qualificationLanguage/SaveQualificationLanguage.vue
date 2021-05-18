@@ -29,7 +29,7 @@
         <oxd-form-row>
           <oxd-input-field
             label="Language Name"
-            v-model="license.name"
+            v-model="language.name"
             :rules="rules.name"
             required
           />
@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      license: {
+      language: {
         id: '',
         name: '',
       },
@@ -84,7 +84,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          name: this.license.name,
+          name: this.language.name,
         })
         .then(() => {
           return this.$toast.success({
@@ -93,7 +93,7 @@ export default {
           });
         })
         .then(() => {
-          this.license.name = '';
+          this.language.name = '';
           this.isLoading = false;
           this.onCancel();
         });

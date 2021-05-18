@@ -103,13 +103,7 @@ class LanguageDao extends BaseDao
     public function getLanguageListPaginator(LanguageSearchFilterParams $languageSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(Language::class, 'l');
-        if (!is_null($languageSearchFilterParams->getSortField())) {
-            $q->addOrderBy($languageSearchFilterParams->getSortField(), $languageSearchFilterParams->getSortOrder());
-        }
-        if (!empty($languageSearchFilterParams->getLimit())) {
-            $q->setFirstResult($languageSearchFilterParams->getOffset())
-                ->setMaxResults($languageSearchFilterParams->getLimit());
-        }
+        $this->setSortingAndPaginationParams($q, $languageSearchFilterParams);
         return new Paginator($q);
     }
 

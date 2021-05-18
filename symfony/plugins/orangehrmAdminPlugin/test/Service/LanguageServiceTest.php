@@ -25,8 +25,8 @@ use OrangeHRM\Admin\Dto\LanguageSearchFilterParams;
 use OrangeHRM\Admin\Service\LanguageService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Language;
-use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
@@ -43,7 +43,7 @@ class LanguageServiceTest extends TestCase
     protected function setUp(): void
     {
         $this->languageService = new LanguageService();
-        $this->fixture = Config::get('ohrm_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/LanguageDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/LanguageDao.yml';
         TestDataService::populate($this->fixture);
     }
 

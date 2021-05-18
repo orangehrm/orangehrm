@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use DaoException;
 use Exception;
 use OrangeHRM\Admin\Api\Model\LicenseModel;
 use OrangeHRM\Admin\Dto\LicenseSearchFilterParams;
@@ -40,11 +39,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\License;
 
 class LicenseAPI extends EndPoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
+    public const PARAM_RULE_NAME_MAX_LENGTH = 100;
 
     /**
      * @var null|LicenseService
@@ -74,7 +75,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     /**
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
-     * @throws DaoException
      * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
@@ -94,10 +94,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
-            ),
+            new ParamRule(CommonParams::PARAMETER_ID),
         );
     }
 
@@ -122,6 +119,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
@@ -146,7 +144,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     /**
      * @return License
      * @throws RecordNotFoundException
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @throws DaoException
      * @throws Exception
      */
     public function saveLicense(): License
@@ -168,6 +166,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
@@ -175,7 +174,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, 120]),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
             ),
         );
     }
@@ -195,26 +194,30 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
             ),
-            new ParamRule(self::PARAMETER_NAME),
         );
     }
 
     /**
-     * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForSaveLicense(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
@@ -233,6 +236,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {

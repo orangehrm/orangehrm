@@ -29,7 +29,7 @@
         <oxd-form-row>
           <oxd-input-field
             label="Language Name"
-            v-model="license.name"
+            v-model="language.name"
             :rules="rules.name"
             required
           />
@@ -75,7 +75,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      license: {
+      language: {
         id: '',
         name: '',
       },
@@ -90,7 +90,7 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.qualificationLanguageId, {
-          name: this.license.name,
+          name: this.language.name,
         })
         .then(() => {
           return this.$toast.success({
@@ -114,8 +114,8 @@ export default {
       .get(this.qualificationLanguageId)
       .then(response => {
         const {data} = response.data;
-        this.license.id = data.id;
-        this.license.name = data.name;
+        this.language.id = data.id;
+        this.language.name = data.name;
         // Fetch list data for unique test
         return this.http.getAll();
       })
@@ -131,7 +131,7 @@ export default {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.license.id
+            return id !== this.language.id
               ? 'Language name should be unique'
               : true;
           } else {

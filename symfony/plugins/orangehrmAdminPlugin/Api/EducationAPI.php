@@ -39,11 +39,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Education;
 
 class EducationAPI extends EndPoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
+    public const PARAM_RULE_NAME_MAX_LENGTH = 100;
 
     /**
      * @var null|EducationService
@@ -88,14 +90,12 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
-            ),
+            new ParamRule(CommonParams::PARAMETER_ID),
         );
     }
 
@@ -120,6 +120,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
@@ -131,6 +132,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return EndpointCreateResult
      * @throws Exception
      */
     public function create(): EndpointCreateResult
@@ -144,6 +146,8 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     /**
      * @return Education
      * @throws RecordNotFoundException
+     * @throws DaoException
+     * @throws \DaoException
      */
     public function saveEducation(): Education
     {
@@ -164,16 +168,21 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
     /**
      * @inheritDoc
+     * @return EndpointUpdateResult
      * @throws Exception
      */
     public function update(): EndpointUpdateResult
@@ -186,31 +195,36 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
             ),
-            new ParamRule(self::PARAMETER_NAME),
         );
     }
 
     /**
-     * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForSaveEducation(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
     /**
      *
+     * @return EndpointDeleteResult
      * @throws Exception
      */
     public function delete(): EndpointDeleteResult
@@ -223,6 +237,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
@@ -230,5 +245,4 @@ class EducationAPI extends EndPoint implements CrudEndpoint
             new ParamRule(CommonParams::PARAMETER_IDS),
         );
     }
-
 }
