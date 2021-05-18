@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use DaoException;
 use Exception;
 use OrangeHRM\Admin\Api\Model\LicenseModel;
 use OrangeHRM\Admin\Dto\LicenseSearchFilterParams;
@@ -40,11 +39,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\License;
 
 class LicenseAPI extends EndPoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
+    public const PARAM_RULE_NAME_MAX_LENGTH = 100;
 
     /**
      * @var null|LicenseService
@@ -72,9 +73,8 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetOneResult
+     * @inheritDoc
      * @throws RecordNotFoundException
-     * @throws DaoException
      * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
@@ -94,15 +94,12 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
-            ),
+            new ParamRule(CommonParams::PARAMETER_ID),
         );
     }
 
     /**
-     * @return EndpointGetAllResult
+     * @inheritDoc
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
@@ -132,7 +129,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointCreateResult
      * @throws Exception
      */
     public function create(): EndpointCreateResult
@@ -146,7 +142,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     /**
      * @return License
      * @throws RecordNotFoundException
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @throws DaoException
      * @throws Exception
      */
     public function saveLicense(): License
@@ -172,13 +168,16 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
     /**
      * @inheritDoc
-     * @return EndpointUpdateResult
      * @throws Exception
      */
     public function update(): EndpointUpdateResult
@@ -195,28 +194,32 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+            new ParamRule(CommonParams::PARAMETER_ID,
+            new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
     /**
-     * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForSaveLicense(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
     /**
-     *
-     * @return EndpointDeleteResult
+     * @inheritDoc
      * @throws Exception
      */
     public function delete(): EndpointDeleteResult
