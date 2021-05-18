@@ -32,28 +32,34 @@
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
-        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-form-row>
-              <oxd-input-field
-                label="Organization Name"
-                v-model="organization.name"
-                :rules="rules.name"
-                :disabled="!editable"
-                required
-              />
-            </oxd-form-row>
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-form-row>
-              <oxd-input-field
-                label="Number of Employees"
-                v-model="organization.noOfEmployees"
-                :rules="rules.noOfEmployees"
-                :disabled="true"
-              />
-            </oxd-form-row>
-          </oxd-grid-item>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="2">
+            <oxd-grid-item>
+              <oxd-form-row>
+                <oxd-input-field
+                  label="Organization Name"
+                  v-model="organization.name"
+                  :rules="rules.name"
+                  :disabled="!editable"
+                  required
+                />
+              </oxd-form-row>
+            </oxd-grid-item>
+          </oxd-grid>
+          <oxd-grid :cols="1">
+            <oxd-grid-item>
+              <oxd-form-row>
+                <oxd-input-field
+                  label="Number of Employees"
+                  v-model="organization.noOfEmployees"
+                  :rules="rules.noOfEmployees"
+                  :disabled="true"
+                />
+              </oxd-form-row>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-grid>
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-form-row>
               <oxd-input-field
@@ -150,7 +156,7 @@
           <oxd-grid-item>
             <oxd-form-row>
               <oxd-input-field
-                label="province/Province"
+                label="State/Province"
                 v-model="organization.province"
                 :rules="rules.province"
                 :disabled="!editable"
@@ -276,7 +282,7 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({
+        .update(1,{
           name: this.organization.name,
           registrationNumber: this.organization.registrationNumber,
           taxId: this.organization.taxId,
@@ -294,7 +300,7 @@ export default {
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'General Information updated successfully!',
+            message: 'Successfully Updated',
           });
         })
         .then(() => {
@@ -362,7 +368,9 @@ export default {
         this.organization.street2 = data.street2;
         this.organization.city = data.city;
         this.organization.province = data.province;
-        this.organization.country = [this.countryList.find((c)=>{return c.id === data.country})];
+        this.organization.country = [this.countryList.find((c) => {
+          return c.id === data.country
+        })];
         this.organization.zipCode = data.zipCode;
         this.organization.note = data.note;
       })

@@ -24,6 +24,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Organization;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
+use Exception;
 
 /**
  * @group Admin

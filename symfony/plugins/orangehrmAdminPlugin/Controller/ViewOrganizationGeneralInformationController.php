@@ -24,7 +24,6 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Admin\Service\CountryService;
-use OrangeHRM\Admin\Api\Model\CountryModel;
 
 class ViewOrganizationGeneralInformationController extends AbstractVueController
 {

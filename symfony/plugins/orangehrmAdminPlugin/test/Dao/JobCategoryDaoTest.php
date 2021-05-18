@@ -23,6 +23,7 @@ use OrangeHRM\Admin\Dao\JobCategoryDao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
+use Exception;
 
 /**
  * @group Admin
@@ -30,11 +31,12 @@ use OrangeHRM\Tests\Util\TestDataService;
 class JobCategoryDaoTest extends TestCase
 {
 
-    private $jobCatDao;
-    protected $fixture;
+    private JobCategoryDao $jobCatDao;
+    protected string $fixture;
 
     /**
      * Set up method
+     * @throws Exception
      */
     protected function setUp(): void
     {

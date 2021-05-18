@@ -63,7 +63,7 @@ class EmploymentStatusDaoTest extends TestCase
 
     public function testDeleteEmploymentStatus(): void
     {
-        $toTobedeletedIds = array(3, 2);
+        $toTobedeletedIds = [3, 2];
         $result = $this->employmentStatusDao->deleteEmploymentStatus($toTobedeletedIds);
         $this->assertEquals(2, $result);
     }

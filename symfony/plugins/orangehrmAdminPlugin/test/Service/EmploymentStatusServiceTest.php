@@ -35,8 +35,8 @@ use Exception;
 class EmploymentStatusServiceTest extends TestCase
 {
 
-    private $employmentStatusService;
-    protected $fixture;
+    private EmploymentStatusService $employmentStatusService;
+    protected string $fixture;
 
     /**
      * Set up method
@@ -51,7 +51,7 @@ class EmploymentStatusServiceTest extends TestCase
 
     public function testDeleteEmploymentStatus(): void
     {
-        $toBeDeletedEmploymentStatusIds = array(1, 2);
+        $toBeDeletedEmploymentStatusIds = [1, 2];
 
         $employmentStatusDao = $this->getMockBuilder(EmploymentStatusDao::class)->getMock();
 

@@ -158,32 +158,16 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointCreateResult
     {
-        // TODO:: Check data group permission
-        $orgInfo = $this->saveOrganizationInfo();
-
-        return new EndpointCreateResult(OrganizationModel::class, $orgInfo);
+        throw new NotImplementedException();
     }
 
     /**
      * @inheritDoc
+     * @throws NotImplementedException
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
-            new ParamRule(self::PARAMETER_TAX_ID),
-            new ParamRule(self::PARAMETER_REGISTRATION_NUMBER),
-            new ParamRule(self::PARAMETER_PHONE),
-            new ParamRule(self::PARAMETER_FAX),
-            new ParamRule(self::PARAMETER_EMAIL),
-            new ParamRule(self::PARAMETER_COUNTRY),
-            new ParamRule(self::PARAMETER_PROVINCE),
-            new ParamRule(self::PARAMETER_CITY),
-            new ParamRule(self::PARAMETER_ZIP_CODE),
-            new ParamRule(self::PARAMETER_STREET_1),
-            new ParamRule(self::PARAMETER_STREET_2),
-            new ParamRule(self::PARAMETER_NOTE),
-        );
+        throw new NotImplementedException();
     }
 
     /**
@@ -209,6 +193,18 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_TAX_ID),
+            new ParamRule(self::PARAMETER_REGISTRATION_NUMBER),
+            new ParamRule(self::PARAMETER_PHONE),
+            new ParamRule(self::PARAMETER_FAX),
+            new ParamRule(self::PARAMETER_EMAIL),
+            new ParamRule(self::PARAMETER_COUNTRY),
+            new ParamRule(self::PARAMETER_PROVINCE),
+            new ParamRule(self::PARAMETER_CITY),
+            new ParamRule(self::PARAMETER_ZIP_CODE),
+            new ParamRule(self::PARAMETER_STREET_1),
+            new ParamRule(self::PARAMETER_STREET_2),
+            new ParamRule(self::PARAMETER_NOTE),
         );
     }
 
@@ -268,6 +264,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws NotImplementedException
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {

@@ -145,12 +145,6 @@ apiv2_organization:
   defaults:
     _api: OrangeHRM\Admin\Api\OrganizationAPI
 
-apiv2_organizations:
-  path: /api/v2/admin/organization
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, POST, DELETE ]
-  defaults:
-    _api: OrangeHRM\Admin\Api\OrganizationAPI
 
 ##########################
 #        Screens

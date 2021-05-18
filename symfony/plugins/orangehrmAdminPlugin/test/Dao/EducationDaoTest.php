@@ -25,6 +25,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Education;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
+use Exception;
 
 /**
  * @group Admin
@@ -37,6 +38,7 @@ class EducationDaoTest extends TestCase
 
     /**
      * Set up method
+     * @throws Exception
      */
     protected function setUp(): void
     {
