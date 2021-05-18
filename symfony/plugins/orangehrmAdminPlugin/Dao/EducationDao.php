@@ -31,7 +31,7 @@ class EducationDao extends BaseDao
     /**
      * @param Education $education
      * @return Education
-     * @throws \DaoException
+     * @throws DaoException
      */
     public function saveEducation(Education $education): Education
     {
@@ -39,7 +39,7 @@ class EducationDao extends BaseDao
             $this->persist($education);
             return $education;
         } catch (Exception $e) {
-            throw new \DaoException($e->getMessage(), $e->getCode(), $e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 

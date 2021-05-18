@@ -53,7 +53,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     protected ?EducationService $educationService = null;
 
     /**
-     * @return EndpointGetOneResult
+     * @inheritDoc
      * @throws RecordNotFoundException
      * @throws Exception
      */
@@ -69,7 +69,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     *
      * @return EducationService
      */
     public function getEducationService(): EducationService
@@ -90,7 +89,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
@@ -100,13 +98,12 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
+     * @inheritDoc
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission
-
         $educationParamHolder = new QualificationEducationSearchFilterParams();
         $this->setSortingAndPaginationParams($educationParamHolder);
         $educations = $this->getEducationService()->getEducationList($educationParamHolder);
@@ -132,14 +129,12 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointCreateResult
      * @throws Exception
      */
     public function create(): EndpointCreateResult
     {
         // TODO:: Check data group permission
         $educations = $this->saveEducation();
-
         return new EndpointCreateResult(EducationModel::class, $educations);
     }
 
@@ -147,7 +142,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      * @return Education
      * @throws RecordNotFoundException
      * @throws DaoException
-     * @throws \DaoException
      */
     public function saveEducation(): Education
     {
@@ -168,7 +162,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
@@ -182,25 +175,24 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointUpdateResult
      * @throws Exception
      */
     public function update(): EndpointUpdateResult
     {
         // TODO:: Check data group permission
         $educations = $this->saveEducation();
-
         return new EndpointUpdateResult(EducationModel::class, $educations);
     }
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID,
+            new Rule(Rules::POSITIVE)
+            ),
             new ParamRule(self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
@@ -223,7 +215,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     *
      * @return EndpointDeleteResult
      * @throws Exception
      */

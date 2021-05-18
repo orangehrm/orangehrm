@@ -37,7 +37,7 @@ class EducationService
      *
      * @param Education $education
      * @return Education
-     * @throws \DaoException
+     * @throws DaoException
      */
     public function saveEducation(Education $education): Education
     {

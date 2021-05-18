@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -29,7 +28,6 @@ use OrangeHRM\ORM\Paginator;
 
 class LanguageDao extends BaseDao
 {
-
     /**
      * @param Language $language
      * @return Language
@@ -134,6 +132,7 @@ class LanguageDao extends BaseDao
             $q->delete()
                 ->where($q->expr()->in('l.id', ':ids'))
                 ->setParameter('ids', $toDeleteIds);
+
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -161,5 +160,4 @@ class LanguageDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-
 }

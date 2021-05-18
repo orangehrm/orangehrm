@@ -73,7 +73,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetOneResult
+     * @inheritDoc
      * @throws RecordNotFoundException
      * @throws Exception
      */
@@ -99,7 +99,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
+     * @inheritDoc
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
@@ -119,7 +119,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
@@ -130,7 +129,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointCreateResult
      * @throws Exception
      */
     public function create(): EndpointCreateResult
@@ -166,7 +164,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
@@ -181,7 +178,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointUpdateResult
      * @throws Exception
      */
     public function update(): EndpointUpdateResult
@@ -194,12 +190,13 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID,
+            new Rule(Rules::POSITIVE)
+            ),
             new ParamRule(self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
@@ -222,8 +219,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     *
-     * @return EndpointDeleteResult
+     * @inheritDoc
      * @throws Exception
      */
     public function delete(): EndpointDeleteResult
@@ -236,7 +232,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {

@@ -73,7 +73,7 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetOneResult
+     * @inheritDoc
      * @throws RecordNotFoundException
      * @throws Exception
      */
@@ -90,7 +90,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
@@ -100,7 +99,7 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
+     * @inheritDoc
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
@@ -119,7 +118,7 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return ParamRuleCollection
+     * @inheritDoc
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
@@ -130,7 +129,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointCreateResult
      * @throws Exception
      */
     public function create(): EndpointCreateResult
@@ -143,7 +141,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
@@ -194,7 +191,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return EndpointUpdateResult
      * @throws Exception
      */
     public function update(): EndpointUpdateResult
@@ -207,12 +203,13 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @return ParamRuleCollection
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID,
+            new Rule(Rules::POSITIVE)
+            ),
             new ParamRule(self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
