@@ -50,8 +50,7 @@
                 :disabled="true"
               />
             </oxd-grid-item>
-
-              </oxd-grid>
+          </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -182,7 +181,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <submit-button v-if="editable"/>
+          <submit-button v-if="editable" />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -191,7 +190,7 @@
 
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import SwitchInput from "@orangehrm/oxd/src/core/components/Input/SwitchInput";
+import SwitchInput from '@orangehrm/oxd/src/core/components/Input/SwitchInput';
 
 export default {
   props: {
@@ -241,70 +240,90 @@ export default {
       rules: {
         name: [
           v => {
-            return (!!v && v.trim() !== '') || 'Required'
-          }, v => {
-            return v.length <= 100 || 'Should not exceed 100 characters'
-          }],
+            return (!!v && v.trim() !== '') || 'Required';
+          },
+          v => {
+            return v.length <= 100 || 'Should not exceed 100 characters';
+          },
+        ],
         registrationNumber: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters'
-          }],
+            return v.length <= 30 || 'Should not exceed 30 characters';
+          },
+        ],
         taxId: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters'
-          }],
+            return v.length <= 30 || 'Should not exceed 30 characters';
+          },
+        ],
         phone: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters'
+            return v.length <= 30 || 'Should not exceed 30 characters';
           },
           v => {
-            return (!v || v.match(/[0-9+()-]+$/))? true : false ||
-                'Allows numbers and only + - / ( )'
-          }],
+            return !v || v.match(/[0-9+()-]+$/)
+              ? true
+              : false || 'Allows numbers and only + - / ( )';
+          },
+        ],
         fax: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters'
+            return v.length <= 30 || 'Should not exceed 30 characters';
           },
           v => {
-            return (!v || v.match(/[0-9+()-]+$/)) ? true : false ||
-                'Allows numbers and only + - / ( )'
-          }],
+            return !v || v.match(/[0-9+()-]+$/)
+              ? true
+              : false || 'Allows numbers and only + - / ( )';
+          },
+        ],
         email: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters'
+            return v.length <= 30 || 'Should not exceed 30 characters';
           },
           v => {
-            return (!v || v.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+$/)) ? true : false ||
-                'Expected format: admin@example.com'
-          }],
+            return !v ||
+              v.match(
+                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+$/,
+              )
+              ? true
+              : false || 'Expected format: admin@example.com';
+          },
+        ],
         street1: [
           v => {
-            return v.length <= 100 || 'Should not exceed 100 characters'
-          }],
+            return v.length <= 100 || 'Should not exceed 100 characters';
+          },
+        ],
         street2: [
           v => {
-            return v.length <= 100 || 'Should not exceed 100 characters'
-          }],
+            return v.length <= 100 || 'Should not exceed 100 characters';
+          },
+        ],
         city: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters'
-          }],
+            return v.length <= 30 || 'Should not exceed 30 characters';
+          },
+        ],
         province: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters'
-          }],
+            return v.length <= 30 || 'Should not exceed 30 characters';
+          },
+        ],
         country: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters'
-          }],
+            return v.length <= 30 || 'Should not exceed 30 characters';
+          },
+        ],
         zipCode: [
           v => {
-            return v.length <= 30 || 'Should not exceed 30 characters'
-          }],
+            return v.length <= 30 || 'Should not exceed 30 characters';
+          },
+        ],
         note: [
           v => {
-            return v.length <= 255 || 'Should not exceed 255 characters'
-          }],
+            return v.length <= 255 || 'Should not exceed 255 characters';
+          },
+        ],
       },
       errors: [],
     };
@@ -314,7 +333,7 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(1,{
+        .update(1, {
           name: this.organization.name,
           registrationNumber: this.organization.registrationNumber,
           taxId: this.organization.taxId,
@@ -341,31 +360,35 @@ export default {
         });
     },
   },
-  created () {
-    this.http.get(1).then(response => {
-      const { data } = response.data
-      this.organization.id = data.id
-      this.organization.name = data.name
-      this.organization.registrationNumber = data.registrationNumber
-      this.organization.taxId = data.taxId
-      this.organization.phone = data.phone
-      this.organization.fax = data.fax
-      this.organization.email = data.email
-      this.organization.street1 = data.street1
-      this.organization.street2 = data.street2
-      this.organization.city = data.city
-      this.organization.province = data.province
-      if (data.country !== '') {
-        this.organization.country = [
-          this.countryList.find((c) => {
-            return c.id === data.country
-          })]
-      }
-      this.organization.zipCode = data.zipCode
-      this.organization.note = data.note
-    }).finally(() => {
-      this.isLoading = false
-    })
+  created() {
+    this.http
+      .get(1)
+      .then(response => {
+        const {data} = response.data;
+        this.organization.id = data.id;
+        this.organization.name = data.name;
+        this.organization.registrationNumber = data.registrationNumber;
+        this.organization.taxId = data.taxId;
+        this.organization.phone = data.phone;
+        this.organization.fax = data.fax;
+        this.organization.email = data.email;
+        this.organization.street1 = data.street1;
+        this.organization.street2 = data.street2;
+        this.organization.city = data.city;
+        this.organization.province = data.province;
+        if (data.country !== '') {
+          this.organization.country = [
+            this.countryList.find(c => {
+              return c.id === data.country;
+            }),
+          ];
+        }
+        this.organization.zipCode = data.zipCode;
+        this.organization.note = data.note;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

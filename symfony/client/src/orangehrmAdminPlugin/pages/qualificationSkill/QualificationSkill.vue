@@ -41,8 +41,7 @@
               class="orangehrm-horizontal-margin"
             />
           </div>
-          <oxd-text tag="span" v-else>{{itemsCountText}}</oxd-text
-          >
+          <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
         </div>
       </div>
       <div class="orangehrm-container">

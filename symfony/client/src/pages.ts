@@ -77,5 +77,5 @@ export default {
   'qualification-membership-list': QualificationMembership,
   'qualification-membership-edit': EditQualificationMembership,
   'qualification-membership-save': SaveQualificationMembership,
-  'organization-general-information-view' : ViewOrganizationGeneralInformation,
+  'organization-general-information-view': ViewOrganizationGeneralInformation,
 };
