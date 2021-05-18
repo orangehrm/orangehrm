@@ -45,7 +45,7 @@ use OrangeHRM\Entity\Membership;
 class MembershipAPI extends EndPoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
-
+    public const PARAM_RULE_NAME_MAX_LENGTH = 100;
     /**
      * @var null|MembershipService
      */
@@ -71,7 +71,7 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetOneResult
+     * @inheritDoc
      * @throws RecordNotFoundException
      * @throws Exception
      */
@@ -100,7 +100,7 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
+     * @inheritDoc
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
