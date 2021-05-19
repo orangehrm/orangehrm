@@ -161,4 +161,13 @@ class EmployeeDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfEmployees(): int
+    {
+        $q = $this->createQueryBuilder(Employee::class, 'e');
+        return $this->count($q);
+    }
 }

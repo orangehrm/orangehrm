@@ -59,7 +59,7 @@ class JobTitleDaoTest extends TestCase
 
     public function testDeleteJobTitle(): void
     {
-        $toBedeletedIds = array(3, 2);
+        $toBedeletedIds = [3, 2];
         $result = $this->jobTitleDao->deleteJobTitle($toBedeletedIds);
         $this->assertEquals($result, 2);
     }

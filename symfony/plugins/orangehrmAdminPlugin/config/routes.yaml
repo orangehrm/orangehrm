@@ -138,6 +138,14 @@ apiv2_admin_memberships:
   defaults:
     _api: OrangeHRM\Admin\Api\MembershipAPI
 
+apiv2_organization:
+  path: /api/v2/admin/organization
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Admin\Api\OrganizationAPI
+
 
 ##########################
 #        Screens
@@ -283,4 +291,9 @@ save_qualification_memberships:
 edit_qualification_memberships:
   path: /admin/saveMemberships/{id}
   controller: OrangeHRM\Admin\Controller\SaveQualificationMembershipController::handle
+  methods: [ GET ]
 
+view_organization_general_info:
+  path: /admin/viewOrganizationGeneralInformation
+  controller: OrangeHRM\Admin\Controller\ViewOrganizationGeneralInformationController::handle
+  methods: [ GET ]
