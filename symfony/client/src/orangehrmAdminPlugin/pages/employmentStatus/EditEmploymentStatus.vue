@@ -122,9 +122,7 @@ export default {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.name.push(v => {
-          return (
-              (v && v.length <= 50) || 'Should not exceed 50 characters'
-          );
+          return (v && v.length <= 50) || 'Should not exceed 50 characters';
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);

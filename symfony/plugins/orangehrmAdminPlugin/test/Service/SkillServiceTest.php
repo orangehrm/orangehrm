@@ -51,7 +51,7 @@ class SkillServiceTest extends TestCase
 
     public function testDeleteSkill(): void
     {
-        $toBeDeletedSkillIds = array(1, 2);
+        $toBeDeletedSkillIds = [1, 2];
 
         $skillDao = $this->getMockBuilder(SkillDao::class)->getMock();
 
