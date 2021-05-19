@@ -21,7 +21,6 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
@@ -135,7 +134,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EndpointGetAllResult
-     * @throws Exception
+     * @throws NotImplementedException
      */
     public function getAll(): EndpointGetAllResult
     {
@@ -153,7 +152,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     * @throws NotImplementedException
      */
     public function create(): EndpointCreateResult
     {
@@ -342,7 +341,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
+     * @throws NotImplementedException
      */
     public function delete(): EndpointDeleteResult
     {
