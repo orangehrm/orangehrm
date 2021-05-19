@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Doctrine\ORM\QueryBuilder;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\EmploymentStatus;

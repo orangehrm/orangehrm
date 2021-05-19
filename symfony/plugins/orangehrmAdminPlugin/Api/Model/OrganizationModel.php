@@ -32,7 +32,6 @@ class OrganizationModel implements Normalizable
         $this->setEntity($organization);
         $this->setFilters(
             [
-                'id',
                 'name',
                 'taxId',
                 'registrationNumber',

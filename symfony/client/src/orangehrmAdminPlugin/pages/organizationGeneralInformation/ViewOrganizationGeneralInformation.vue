@@ -365,7 +365,6 @@ export default {
       .get('api/v2/admin/organization')
       .then(response => {
         const {data} = response.data;
-        this.organization.id = data.id;
         this.organization.name = data.name;
         this.organization.registrationNumber = data.registrationNumber;
         this.organization.taxId = data.taxId;

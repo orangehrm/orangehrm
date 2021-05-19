@@ -90,13 +90,12 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
         $orgInfo = $this->getOrganizationService()->getOrganizationGeneralInformation();
         if (!$orgInfo instanceof Organization) {
             $orgInfo = new Organization();
-            $orgInfo->setId(1);
             $orgInfo->setName("");
             $orgInfo->setTaxId("");
             $orgInfo->setRegistrationNumber("");
-            $orgInfo->setPhone("");
-            $orgInfo->setFax("");
-            $orgInfo->setEmail("");
+            $orgInfo->setPhone(null);
+            $orgInfo->setFax(null);
+            $orgInfo->setEmail(null);
             $orgInfo->setCountry("");
             $orgInfo->setProvince("");
             $orgInfo->setCity("");
@@ -116,8 +115,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+                CommonParams::PARAMETER_ID
             ),
         );
     }
@@ -177,35 +175,106 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+                CommonParams::PARAMETER_ID
             ),
-            new ParamRule(self::PARAMETER_NAME, new Rule(Rules::REQUIRED)),
-            new ParamRule(self::PARAMETER_TAX_ID),
-            new ParamRule(self::PARAMETER_REGISTRATION_NUMBER),
-            new ParamRule(self::PARAMETER_COUNTRY),
-            new ParamRule(self::PARAMETER_PROVINCE),
-            new ParamRule(self::PARAMETER_CITY),
-            new ParamRule(self::PARAMETER_ZIP_CODE),
-            new ParamRule(self::PARAMETER_STREET_1),
-            new ParamRule(self::PARAMETER_STREET_2),
-            new ParamRule(self::PARAMETER_NOTE),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 100]),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_TAX_ID,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_REGISTRATION_NUMBER,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_COUNTRY,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PROVINCE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CITY,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                ), true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ZIP_CODE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_STREET_1,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 100]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_STREET_2,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 100]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NOTE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, 255]),
+                ), true
+            ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EMAIL,
-                    new Rule(Rules::EMAIL)
-                )
+                    new Rule(Rules::EMAIL),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                ),
+                true
             ), $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_PHONE,
-                    new Rule(Rules::PHONE)
-                )
+                    new Rule(Rules::PHONE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                ), true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_FAX,
-                    new Rule(Rules::PHONE)
-                )
+                    new Rule(Rules::PHONE),
+                    new Rule(Rules::LENGTH, [null, 30]),
+                ),
+                true
             ),
         );
     }
@@ -228,7 +297,10 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
         $fax = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FAX);
         $email = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMAIL);
         $country = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_COUNTRY);
-        $province = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PROVINCE);
+        $province = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_PROVINCE
+        );
         $city = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CITY);
         $zipCode = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ZIP_CODE);
         $street1 = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STREET_1);

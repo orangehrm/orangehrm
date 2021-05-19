@@ -143,7 +143,7 @@ apiv2_organization:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
-    id: 1
+    id: 0
     _api: OrangeHRM\Admin\Api\OrganizationAPI
 
 
