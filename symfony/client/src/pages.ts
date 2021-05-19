@@ -45,6 +45,7 @@ import QualificationLanguage from '@/orangehrmAdminPlugin/pages/qualificationLan
 import QualificationMembership from '@/orangehrmAdminPlugin/pages/qualificationMembership/QualificationMembership.vue';
 import EditQualificationMembership from '@/orangehrmAdminPlugin/pages/qualificationMembership/EditQualificationMembership.vue';
 import SaveQualificationMembership from '@/orangehrmAdminPlugin/pages/qualificationMembership/SaveQualificationMembership.vue';
+import ViewOrganizationGeneralInformation from '@/orangehrmAdminPlugin/pages/organizationGeneralInformation/ViewOrganizationGeneralInformation.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -76,4 +77,5 @@ export default {
   'qualification-membership-list': QualificationMembership,
   'qualification-membership-edit': EditQualificationMembership,
   'qualification-membership-save': SaveQualificationMembership,
+  'organization-general-information-view': ViewOrganizationGeneralInformation,
 };

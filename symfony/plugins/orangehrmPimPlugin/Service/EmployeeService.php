@@ -122,4 +122,12 @@ class EmployeeService
     {
         return $this->getEmployeeDao()->getEmployeeByEmpNumber($empNumber);
     }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfEmployees(): int
+    {
+        return $this->getEmployeeDao()->getNumberOfEmployees();
+    }
 }

@@ -154,7 +154,12 @@ export default {
       headers: [
         {name: 'userName', title: 'Username', style: {flex: 1}},
         {name: 'role', title: 'User Role', style: {flex: 1}},
-        {name: 'empName', slot: 'title', title: 'Employee Name', style: {flex: 1}},
+        {
+          name: 'empName',
+          slot: 'title',
+          title: 'Employee Name',
+          style: {flex: 1},
+        },
         {name: 'status', title: 'Status', style: {flex: 1}},
         {
           name: 'actions',

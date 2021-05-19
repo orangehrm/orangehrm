@@ -1,7 +1,5 @@
 <?php
-
-/*
- * 
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,26 +15,30 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- * 
  */
 
-class CountryDao extends BaseDao {
+namespace OrangeHRM\Admin\Dao;
 
+use OrangeHRM\Entity\Country;
+use OrangeHRM\Core\Dao\BaseDao;
+use DaoException;
+use Exception;
+
+class CountryDao extends BaseDao
+{
     /**
      * Get Country list
-     * @return Country
+     * @return Country[]
+     * @throws DaoException
      */
-    public function getCountryList() {
+    public function getCountryList(): array
+    {
         try {
-            $q = Doctrine_Query::create()
-                    ->from('Country c')
-                    ->orderBy('c.name');
-
-            $countryList = $q->execute();
-
-            return $countryList;
+            $q = $this->createQueryBuilder(Country::class, 'c');
+            $q->orderBy('c.name');
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -69,11 +71,11 @@ class CountryDao extends BaseDao {
         try {
             $query = Doctrine_Query::create()
                     ->from('Country c');
-            
+
             foreach ($searchParams as $field => $filterValue) {
                 $query->addWhere($field . ' = ?', $filterValue);
             }
-            
+
             return $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -117,6 +119,4 @@ class CountryDao extends BaseDao {
             throw new DaoException($exception->getMessage(), $exception->getCode(), $exception);
         }
     }
-
-
 }

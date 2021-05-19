@@ -17,9 +17,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Tests\Dao;
+namespace OrangeHRM\Admin\Tests\Service;
 
 use OrangeHRM\Admin\Dao\OrganizationDao;
+use OrangeHRM\Admin\Service\OrganizationService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Organization;
 use OrangeHRM\Tests\Util\TestCase;
@@ -28,11 +29,12 @@ use Exception;
 
 /**
  * @group Admin
- * @group Dao
+ * @group Service
  */
-class OrganizationDaoTest extends TestCase
+class OrganizationServiceTest extends TestCase
 {
-    private OrganizationDao $organizationDao;
+
+    private OrganizationService $organizationService;
     protected string $fixture;
 
     /**
@@ -41,14 +43,23 @@ class OrganizationDaoTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->organizationDao = new OrganizationDao();
+        $this->organizationService = new OrganizationService();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/OrganizationDao.yml';
         TestDataService::populate($this->fixture);
     }
 
     public function testGetOrganizationGeneralInformation(): void
     {
-        $this->assertTrue($this->organizationDao->getOrganizationGeneralInformation() instanceof Organization);
+        $organization = TestDataService::loadObjectList('Organization', $this->fixture, 'Organization');
+        $organizationDao = $this->getMockBuilder(OrganizationDao::class)->getMock();
+
+        $organizationDao->expects($this->once())
+            ->method('getOrganizationGeneralInformation')
+            ->will($this->returnValue($organization[0]));
+
+        $this->organizationService->setOrganizationDao($organizationDao);
+        $result = $this->organizationService->getOrganizationGeneralInformation();
+        $this->assertEquals($organization[0], $result);
     }
 
     public function testSaveOrganizationGeneralInformation(): void
@@ -67,10 +78,17 @@ class OrganizationDaoTest extends TestCase
         $organization->setStreet1('street1');
         $organization->setStreet2('street2');
         $organization->setNote('test note');
-        $result = $this->organizationDao->saveOrganizationGeneralInformation($organization);
-        $this->assertTrue($result instanceof Organization);
-        $this->assertEquals("OrangeHRM", $result->getName());
-        $this->assertEquals("1234", $result->getTaxId());
-    }
-}
 
+        $organizationDao = $this->getMockBuilder(OrganizationDao::class)->getMock();
+
+        $organizationDao->expects($this->once())
+            ->method('saveOrganizationGeneralInformation')
+            ->with($organization)
+            ->will($this->returnValue($organization));
+
+        $this->organizationService->setOrganizationDao($organizationDao);
+        $result = $this->organizationService->saveOrganizationGeneralInformation($organization);
+        $this->assertEquals($organization, $result);
+    }
+
+}

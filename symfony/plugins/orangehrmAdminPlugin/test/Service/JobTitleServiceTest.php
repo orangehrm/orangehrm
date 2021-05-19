@@ -24,6 +24,7 @@ use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
+use Exception;
 
 /**
  * @group Admin
@@ -31,11 +32,12 @@ use OrangeHRM\Tests\Util\TestDataService;
 class JobTitleServiceTest extends TestCase
 {
 
-    private $JobTitleService;
-    protected $fixture;
+    private JobTitleService $JobTitleService;
+    protected string $fixture;
 
     /**
      * Set up method
+     * @throws Exception
      */
     protected function setUp(): void
     {
@@ -62,7 +64,7 @@ class JobTitleServiceTest extends TestCase
 
     public function testDeleteJobTitle(): void
     {
-        $toBeDeletedJobTitleIds = array(1, 2);
+        $toBeDeletedJobTitleIds = [1, 2];
 
         $jobTitleDao = $this->getMockBuilder(JobTitleDao::class)->getMock();
 

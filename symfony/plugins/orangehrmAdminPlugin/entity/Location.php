@@ -89,7 +89,7 @@ class Location
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Country", mappedBy="Location")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="country_code", referencedColumnName="cou_code")
+     *   @ORM\JoinColumn(name="country_code", referencedColumnName="countryCode")
      * })
      */
     private $country;

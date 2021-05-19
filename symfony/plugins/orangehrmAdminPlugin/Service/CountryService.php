@@ -1,7 +1,5 @@
 <?php
-
-/*
- * 
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,52 +15,58 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- * 
  */
 
-class CountryService extends BaseService {
+namespace OrangeHRM\Admin\Service;
 
-    protected $countryDao;
+use Exception;
+use OrangeHRM\Admin\Dao\CountryDao;
+use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
+use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Entity\Country;
+
+class CountryService
+{
+    /**
+     * @var CountryDao|null
+     */
+    private ?CountryDao $countryDao = null;
 
     /**
-     * 
      * @return CountryDao
      */
-    public function getCountryDao() {
-        if (!($this->countryDao instanceof CountryDao)) {
+    public function getCountryDao(): CountryDao
+    {
+        if (is_null($this->countryDao)) {
             $this->countryDao = new CountryDao();
         }
         return $this->countryDao;
     }
 
     /**
-     *
-     * @param CountryDao $dao 
+     * @param CountryDao $countryDao
      */
-    public function setCountryDao(CountryDao $dao) {
-        $this->countryDao = $dao;
+    public function setCountryDao(CountryDao $countryDao): void
+    {
+        $this->countryDao = $countryDao;
     }
 
     /**
      * Get Country list
-     * @return Country
+     * @return Country[]
+     * @throws ServiceException
      */
-    public function getCountryList() {
+    public function getCountryList()
+    {
         try {
-            $q = Doctrine_Query::create()
-                    ->from('Country c')
-                    ->orderBy('c.name');
-
-            $countryList = $q->execute();
-
-            return $countryList;
+            return $this->getCountryDao()->getCountryList();
         } catch (Exception $e) {
-            throw new AdminServiceException($e->getMessage());
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
     /**
-     * 
+     *
      * @return Province
      */
     public function getProvinceList() {
@@ -81,7 +85,7 @@ class CountryService extends BaseService {
 
     /**
      *
-     * @param array $searchParams 
+     * @param array $searchParams
      */
     public function searchCountries(array $searchParams) {
         try {
@@ -111,5 +115,17 @@ class CountryService extends BaseService {
         return $this->getCountryDao()->getCountryByCountryCode($countryCode);
     }
 
-
+    /**
+     * @return array
+     * @throws ServiceException
+     */
+    public function getCountryCodeAndNameFromList()
+    {
+        $countryList = $this->getCountryList();
+        $countries = [];
+        foreach ($countryList as $country) {
+            array_push($countries, ['id' => $country->getCountryCode(), "label" => $country->getCountryName()]);
+        }
+        return $countries;
+    }
 }

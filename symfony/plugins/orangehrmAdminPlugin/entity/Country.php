@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity;
 
@@ -19,7 +36,7 @@ class Country
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $cou_code;
+    private $countryCode;
 
     /**
      * @var string
@@ -33,7 +50,7 @@ class Country
      *
      * @ORM\Column(name="cou_name", type="string", length=80)
      */
-    private $cou_name;
+    private $countryName;
 
     /**
      * @var string
@@ -67,4 +84,51 @@ class Country
         $this->locations = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryCode(): string
+    {
+        return $this->countryCode;
+    }
+
+    /**
+     * @param string $countryCode
+     */
+    public function setCountryCode(string $countryCode): void
+    {
+        $this->countryCode = $countryCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryName(): string
+    {
+        return $this->countryName;
+    }
+
+    /**
+     * @param string $countryName
+     */
+    public function setCountryName(string $countryName): void
+    {
+        $this->countryName = $countryName;
+    }
 }

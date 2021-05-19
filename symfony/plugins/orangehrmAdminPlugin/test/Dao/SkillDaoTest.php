@@ -58,7 +58,7 @@ class SkillDaoTest extends TestCase
 
     public function testDeleteSkill(): void
     {
-        $toTobedeletedIds = array(3, 2);
+        $toTobedeletedIds = [3, 2];
         $result = $this->skillDao->deleteSkills($toTobedeletedIds);
         $this->assertEquals(2, $result);
     }
