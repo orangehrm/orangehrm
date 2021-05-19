@@ -65,35 +65,70 @@ class EmployeeDao extends BaseDao
      */
     public function getEmployeeListPaginator(EmployeeSearchFilterParams $employeeSearchParamHolder): Paginator
     {
-        $q = $this->createQueryBuilder(Employee::class, 'e');
+        $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->leftJoin('employee.jobTitle', 'jobTitle');
+        $q->leftJoin('employee.subDivision', 'subunit');
+        $q->leftJoin('employee.empStatus', 'empStatus');
+
         $this->setSortingAndPaginationParams($q, $employeeSearchParamHolder);
-        if (!$employeeSearchParamHolder->isIncludeTerminated()) {
-            $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
+
+        if (is_null($employeeSearchParamHolder->getIncludeEmployees()) ||
+            $employeeSearchParamHolder->getIncludeEmployees() ===
+            EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
+        ) {
+            $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        } elseif (
+            $employeeSearchParamHolder->getIncludeEmployees() ===
+            EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST
+        ) {
+            $q->andWhere($q->expr()->isNotNull('employee.employeeTerminationRecord'));
         }
+
         if (!is_null($employeeSearchParamHolder->getName())) {
             $q->andWhere(
                 $q->expr()->orX(
-                    $q->expr()->like('e.firstName', ':name'),
-                    $q->expr()->like('e.lastName', ':name'),
-                    $q->expr()->like('e.middleName', ':name'),
+                    $q->expr()->like('employee.firstName', ':name'),
+                    $q->expr()->like('employee.lastName', ':name'),
+                    $q->expr()->like('employee.middleName', ':name'),
                 )
             );
             $q->setParameter('name', '%' . $employeeSearchParamHolder->getName() . '%');
         }
+
         if (!is_null($employeeSearchParamHolder->getNameOrId())) {
             $q->andWhere(
                 $q->expr()->orX(
-                    $q->expr()->like('e.firstName', ':nameOrId'),
-                    $q->expr()->like('e.lastName', ':nameOrId'),
-                    $q->expr()->like('e.middleName', ':nameOrId'),
-                    $q->expr()->like('e.employeeId', ':nameOrId'),
+                    $q->expr()->like('employee.firstName', ':nameOrId'),
+                    $q->expr()->like('employee.lastName', ':nameOrId'),
+                    $q->expr()->like('employee.middleName', ':nameOrId'),
+                    $q->expr()->like('employee.employeeId', ':nameOrId'),
                 )
             );
             $q->setParameter('nameOrId', '%' . $employeeSearchParamHolder->getNameOrId() . '%');
         }
 
+        if (!is_null($employeeSearchParamHolder->getEmployeeId())) {
+            $q->andWhere($q->expr()->in('employee.employeeId', ':employeeId'))
+                ->setParameter('employeeId', $employeeSearchParamHolder->getEmployeeId());
+        }
+
+        if (!is_null($employeeSearchParamHolder->getSubunitId())) {
+            $q->andWhere($q->expr()->in('subunit.id', ':subunitId'))
+                ->setParameter('subunitId', $employeeSearchParamHolder->getSubunitId());
+        }
+
+        if (!is_null($employeeSearchParamHolder->getEmpStatusId())) {
+            $q->andWhere($q->expr()->in('empStatus.id', ':empStatusId'))
+                ->setParameter('empStatusId', $employeeSearchParamHolder->getEmpStatusId());
+        }
+
+        if (!is_null($employeeSearchParamHolder->getJobTitleId())) {
+            $q->andWhere($q->expr()->in('jobTitle.id', ':jobTitleId'))
+                ->setParameter('jobTitleId', $employeeSearchParamHolder->getJobTitleId());
+        }
+
         if (!is_null($employeeSearchParamHolder->getEmployeeNumbers())) {
-            $q->andWhere($q->expr()->in('e.empNumber', ':empNumbers'))
+            $q->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
                 ->setParameter('empNumbers', $employeeSearchParamHolder->getEmployeeNumbers());
         }
 

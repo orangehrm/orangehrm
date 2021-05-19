@@ -53,7 +53,7 @@ class AdminUserRole extends AbstractUserRole {
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
         $employeeSearchFilterParams->setSortField('e.empNumber');
         $employeeSearchFilterParams->setSortOrder(ListSorter::ASCENDING);
-        $employeeSearchFilterParams->setIncludeTerminated(true);
+        $employeeSearchFilterParams->setIncludeEmployees(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_CURRENT_AND_PAST);
         $employees = $this->getEmployeeService()->getEmployeeList($employeeSearchFilterParams);
 
         $employeesWithIds = [];

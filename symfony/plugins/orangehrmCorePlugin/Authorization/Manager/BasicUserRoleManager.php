@@ -778,7 +778,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         array $rolesToInclude,
         array $entities = []
     ): array {
-        // TODO
         if (!empty($rolesToExclude)) {
             $temp = [];
 

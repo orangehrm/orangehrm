@@ -20,14 +20,14 @@
 namespace OrangeHRM\Pim\Tests\Api\Model;
 
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Pim\Api\Model\EmployeeListModel;
+use OrangeHRM\Pim\Api\Model\EmployeeDetailedModel;
 use OrangeHRM\Tests\Util\TestCase;
 
 /**
  * @group Pim
  * @group Model
  */
-class EmployeeListModelTest extends TestCase
+class EmployeeDetailedModelTest extends TestCase
 {
     public function testToArray()
     {
@@ -43,7 +43,7 @@ class EmployeeListModelTest extends TestCase
                 'title' => null,
                 'isDeleted' => null,
             ],
-            'subUnit' => [
+            'subunit' => [
                 'id' => null,
                 'name' => null,
             ],
@@ -62,7 +62,7 @@ class EmployeeListModelTest extends TestCase
         $employee->setEmployeeId('0001');
         $employee->setEmployeeTerminationRecord(null);
 
-        $employeeModel = new EmployeeListModel($employee);
+        $employeeModel = new EmployeeDetailedModel($employee);
         $this->assertEquals($resultArray, $employeeModel->toArray());
     }
 }

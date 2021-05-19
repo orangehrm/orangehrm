@@ -23,7 +23,7 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Employee;
 
-class EmployeeListModel implements Normalizable
+class EmployeeDetailedModel implements Normalizable
 {
     use ModelTrait;
 
@@ -62,8 +62,8 @@ class EmployeeListModel implements Normalizable
                 ['jobTitle', 'id'],
                 ['jobTitle', 'title'],
                 ['jobTitle', 'isDeleted'],
-                ['subUnit', 'id'],
-                ['subUnit', 'name'],
+                ['subunit', 'id'],
+                ['subunit', 'name'],
                 ['empStatus', 'id'],
                 ['empStatus', 'name'],
                 ['supervisors', ['empNumber', 'lastName', 'firstName', 'middleName']]
