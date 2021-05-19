@@ -56,6 +56,19 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_STREET_2 = 'street2';
     public const PARAMETER_NOTE = 'note';
 
+    public const PARAM_RULE_NAME_MAX_LENGTH = 100;
+    public const PARAM_RULE_TAX_ID_MAX_LENGTH = 30;
+    public const PARAM_RULE_REGISTRATION_NUMBER_MAX_LENGTH = 30;
+    public const PARAM_RULE_PHONE_MAX_LENGTH = 30;
+    public const PARAM_RULE_FAX_MAX_LENGTH = 30;
+    public const PARAM_RULE_EMAIL_MAX_LENGTH = 30;
+    public const PARAM_RULE_COUNTRY_MAX_LENGTH = 30;
+    public const PARAM_RULE_PROVINCE_MAX_LENGTH = 30;
+    public const PARAM_RULE_CITY_MAX_LENGTH = 30;
+    public const PARAM_RULE_ZIP_CODE_MAX_LENGTH = 30;
+    public const PARAM_RULE_STREET_1_MAX_LENGTH = 100;
+    public const PARAM_RULE_STREET_2_MAX_LENGTH = 100;
+    public const PARAM_RULE_NOTE_MAX_LENGTH = 255;
     /**
      * @var null|OrganizationService
      */
@@ -181,14 +194,14 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_NAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 100]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_TAX_ID,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 30]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TAX_ID_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -196,7 +209,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_REGISTRATION_NUMBER,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 30]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_REGISTRATION_NUMBER_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -204,7 +217,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_COUNTRY,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 30]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COUNTRY_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -212,7 +225,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_PROVINCE,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 30]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PROVINCE_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -220,14 +233,14 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_CITY,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 30]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CITY_MAX_LENGTH]),
                 ), true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_ZIP_CODE,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 30]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ZIP_CODE_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -235,7 +248,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_STREET_1,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 100]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STREET_1_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -243,7 +256,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_STREET_2,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 100]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_STREET_2_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -251,28 +264,28 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_NOTE,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 255]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NOTE_MAX_LENGTH]),
                 ), true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EMAIL,
                     new Rule(Rules::EMAIL),
-                    new Rule(Rules::LENGTH, [null, 30]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMAIL_MAX_LENGTH]),
                 ),
                 true
             ), $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_PHONE,
                     new Rule(Rules::PHONE),
-                    new Rule(Rules::LENGTH, [null, 30]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PHONE_MAX_LENGTH]),
                 ), true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_FAX,
                     new Rule(Rules::PHONE),
-                    new Rule(Rules::LENGTH, [null, 30]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_FAX_MAX_LENGTH]),
                 ),
                 true
             ),
