@@ -196,7 +196,7 @@ class Employee
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\EmploymentStatus", inversedBy="employees")
      * @ORM\JoinColumn(name="emp_status", referencedColumnName="id", nullable=true)
      */
-    private ?EmploymentStatus $empStatus;
+    private ?EmploymentStatus $empStatus = null;
 
     /**
      * @var int
@@ -347,21 +347,12 @@ class Employee
     private ?DateTime $purgedAt;
 
     /**
-     * @var Collection
+     * @var JobTitle|null
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\JobTitle", mappedBy="employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="job_title_code", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobTitle")
+     * @ORM\JoinColumn(name="job_title_code", referencedColumnName="id", nullable=true)
      */
-    private $jobTitle;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="subordinates")
-     */
-    private $supervisors;
+    private ?JobTitle $jobTitle = null;
 
     /**
      * @var Collection
@@ -535,13 +526,30 @@ class Employee
     private ?EmpPicture $empPicture = null;
 
     /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="supervisors")
+     */
+    private $subordinates;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", inversedBy="subordinates")
+     * @ORM\JoinTable(
+     *     name="hs_hr_emp_reportto",
+     *     joinColumns={@ORM\JoinColumn(name="erep_sub_emp_number", referencedColumnName="emp_number")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="erep_sup_emp_number", referencedColumnName="emp_number")}
+     * )
+     */
+    private $supervisors;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->smoker = 0;
-        $this->jobTitle = new ArrayCollection();
-        $this->supervisors = new ArrayCollection();
         $this->locations = new ArrayCollection();
         $this->dependents = new ArrayCollection();
         $this->emergencyContacts = new ArrayCollection();
@@ -559,6 +567,8 @@ class Employee
         $this->employeeTerminationRecords = new ArrayCollection();
         $this->EmployeeCountry = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->subordinates = new ArrayCollection();
+        $this->supervisors = new ArrayCollection();
     }
 
     /**
@@ -642,6 +652,22 @@ class Employee
     }
 
     /**
+     * @return EmploymentStatus|null
+     */
+    public function getEmpStatus(): ?EmploymentStatus
+    {
+        return $this->empStatus;
+    }
+
+    /**
+     * @param EmploymentStatus|null $empStatus
+     */
+    public function setEmpStatus(?EmploymentStatus $empStatus): void
+    {
+        $this->empStatus = $empStatus;
+    }
+
+    /**
      * @return Subunit|null
      */
     public function getSubDivision(): ?Subunit
@@ -706,9 +732,57 @@ class Employee
     }
 
     /**
+     * @return DateTime|null
+     */
+    public function getPurgedAt(): ?DateTime
+    {
+        return $this->purgedAt;
+    }
+
+    /**
+     * @param DateTime|null $purgedAt
+     */
+    public function setPurgedAt(?DateTime $purgedAt): void
+    {
+        $this->purgedAt = $purgedAt;
+    }
+
+    /**
+     * @return JobTitle|null
+     */
+    public function getJobTitle(): ?JobTitle
+    {
+        return $this->jobTitle;
+    }
+
+    /**
+     * @param JobTitle|null $jobTitle
+     */
+    public function setJobTitle(?JobTitle $jobTitle): void
+    {
+        $this->jobTitle = $jobTitle;
+    }
+
+    /**
+     * @return Collection|Skill[]
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    /**
+     * @param Collection|Skill[] $skills
+     */
+    public function setSkills($skills): void
+    {
+        $this->skills = $skills;
+    }
+
+    /**
      * @return Collection|User[]
      */
-    public function getUsers(): Collection
+    public function getUsers(): array
     {
         return $this->users;
     }
@@ -719,22 +793,6 @@ class Employee
     public function setUsers($users): void
     {
         $this->users = $users;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getSkills(): Collection
-    {
-        return $this->skills;
-    }
-
-    /**
-     * @param Collection $skills
-     */
-    public function setSkills(Collection $skills): void
-    {
-        $this->skills = $skills;
     }
 
     /**
@@ -754,18 +812,34 @@ class Employee
     }
 
     /**
-     * @return DateTime|null
+     * @return Collection|Employee[]
      */
-    public function getPurgedAt(): ?DateTime
+    public function getSubordinates()
     {
-        return $this->purgedAt;
+        return $this->subordinates;
     }
 
     /**
-     * @param DateTime|null $purgedAt
+     * @param Collection|Employee[] $subordinates
      */
-    public function setPurgedAt(?DateTime $purgedAt): void
+    public function setSubordinates($subordinates): void
     {
-        $this->purgedAt = $purgedAt;
+        $this->subordinates = $subordinates;
+    }
+
+    /**
+     * @return Collection|Employee[]
+     */
+    public function getSupervisors(): Collection
+    {
+        return $this->supervisors;
+    }
+
+    /**
+     * @param Collection|Employee[] $supervisors
+     */
+    public function setSupervisors($supervisors): void
+    {
+        $this->supervisors = $supervisors;
     }
 }

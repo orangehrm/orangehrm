@@ -17,26 +17,39 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Serializer;
+namespace OrangeHRM\Pim\Tests\Api\Model;
 
-use Exception;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Pim\Api\Model\EmployeeModel;
+use OrangeHRM\Tests\Util\TestCase;
 
-class NormalizeException extends Exception
+/**
+ * @group Pim
+ * @group Model
+ */
+class EmployeeModelTest extends TestCase
 {
-    public static function notSetRequiredAttributes(): self
+    public function testToArray()
     {
-        return new self('Not set required model attributes');
-    }
+        $resultArray = [
+            'empNumber' => 1,
+            'lastName' => 'Last',
+            'firstName' => 'First',
+            'middleName' => 'Middle',
+            'employeeId' => '0001',
+            'terminationId' => null
+        ];
 
-    /**
-     * @param string $requiredType
-     * @param $object
-     * @return static
-     */
-    public static function unsupportedType(string $requiredType, $object): self
-    {
-        return new self(
-            sprintf('Required instance of `%s`, but got instance of `%s`', $requiredType, gettype($object))
-        );
+        $employee = new Employee();
+        $employee->setEmpNumber(1);
+        $employee->setFirstName('First');
+        $employee->setMiddleName('Middle');
+        $employee->setLastName('Last');
+        $employee->setEmployeeId('0001');
+        $employee->setEmployeeTerminationRecord(null);
+
+        $employeeModel = new EmployeeModel($employee);
+
+        $this->assertEquals($resultArray, $employeeModel->toArray());
     }
 }

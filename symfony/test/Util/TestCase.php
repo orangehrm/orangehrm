@@ -21,6 +21,9 @@ namespace OrangeHRM\Tests\Util;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerTrait;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
 
 abstract class TestCase extends PHPUnitTestCase
 {
@@ -38,5 +41,37 @@ abstract class TestCase extends PHPUnitTestCase
     protected function getEntityReference(string $entityName, $id)
     {
         return $this->getEntityManager()->getReference($entityName, $id);
+    }
+
+    /**
+     * @param string $className
+     * @param string $methodName
+     * @return ReflectionMethod
+     * @throws ReflectionException
+     */
+    protected static function getClassMethod(string $className, string $methodName): ReflectionMethod
+    {
+        $class = new ReflectionClass($className);
+        $method = $class->getMethod($methodName);
+        $method->setAccessible(true);
+        return $method;
+    }
+
+    /**
+     * @param string $className
+     * @param string $methodName
+     * @param array $methodParams
+     * @param array $constructorParams
+     * @return mixed
+     */
+    protected function invokePrivateMethod(
+        string $className,
+        string $methodName,
+        array $methodParams = [],
+        array $constructorParams = []
+    ) {
+        $method = self::getClassMethod($className, $methodName);
+        $instance = (new ReflectionClass($className))->newInstanceArgs($constructorParams);
+        return $method->invokeArgs($instance, $methodParams);
     }
 }

@@ -30,7 +30,7 @@ use OrangeHRM\Tests\Util\TestCase;
  */
 class ModelTraitTest extends TestCase
 {
-    public function testSetEntity()
+    public function testSetEntity(): void
     {
         $testEntity = new TestJobTitleEntity();
         $testEntity->setName('TestName');
@@ -42,7 +42,7 @@ class ModelTraitTest extends TestCase
         $this->assertEquals(1, count($array));
     }
 
-    public function testSetFilters()
+    public function testSetFilters(): void
     {
         $testEntity = new TestJobTitleEntity();
         $testEntity->setName('TestName');
@@ -55,7 +55,7 @@ class ModelTraitTest extends TestCase
         $this->assertEquals(1, count($array));
     }
 
-    public function testSetAttributeNames()
+    public function testSetAttributeNames(): void
     {
         $testEntity = new TestJobTitleEntity();
         $testEntity->setName('TestUniqueName');
@@ -69,7 +69,7 @@ class ModelTraitTest extends TestCase
         $this->assertEquals(2, count($array));
     }
 
-    public function testToArrayWithChaining()
+    public function testToArrayWithChaining(): void
     {
         $testEmpEntity = new TestEmployeeEntity();
         $testEmpEntity->setId(1);
@@ -121,6 +121,30 @@ class ModelTraitTest extends TestCase
             ['empId' => 1, 'jobTitle' => ['name' => 'Name']],
             $testModel->toArray()
         );
+    }
+
+    public function testMakeNestedArray(): void
+    {
+        $result = $this->invokePrivateMethod(
+            TestModel::class,
+            'makeNestedArray',
+            [['model', 'id'], "Value"]
+        );
+        $this->assertEquals(['model' => ['id' => "Value"]], $result);
+
+        $result = $this->invokePrivateMethod(
+            TestModel::class,
+            'makeNestedArray',
+            [['model', 'id'], null]
+        );
+        $this->assertEquals(['model' => ['id' => null]], $result);
+
+        $result = $this->invokePrivateMethod(
+            TestModel::class,
+            'makeNestedArray',
+            [['model', 'obj'], ['id' => 1, 'name' => 'value']]
+        );
+        $this->assertEquals(['model' => ['obj' => ['id' => 1, 'name' => 'value']]], $result);
     }
 }
 
@@ -234,4 +258,9 @@ class TestEmployeeModel implements Normalizable
     {
         $this->setAttributeNames($attributeNames);
     }
+}
+
+class TestModel implements Normalizable
+{
+    use ModelTrait;
 }
