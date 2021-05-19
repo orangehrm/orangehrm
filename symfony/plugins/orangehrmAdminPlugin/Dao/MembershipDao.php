@@ -19,13 +19,12 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use Exception;
 use OrangeHRM\Admin\Dto\MembershipSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Exception\DaoException;
-use Exception;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Entity\Membership;
+use OrangeHRM\ORM\Paginator;
 
 class MembershipDao extends BaseDao
 {
@@ -85,8 +84,8 @@ class MembershipDao extends BaseDao
      * @return int|mixed|string
      * @throws DaoException
      */
-    public function getMembershipList(MembershipSearchFilterParams $membershipSearchFilterParams) {
-
+    public function getMembershipList(MembershipSearchFilterParams $membershipSearchFilterParams)
+    {
         try {
             $paginator = $this->getMembershipListPaginator($membershipSearchFilterParams);
             return $paginator->getQuery()->execute();
