@@ -124,6 +124,21 @@ apiv2_admin_languages:
   defaults:
     _api: OrangeHRM\Admin\Api\LanguageAPI
 
+apiv2_admin_membership:
+  path: /api/v2/admin/memberships/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\MembershipAPI
+
+apiv2_admin_memberships:
+  path: /api/v2/admin/memberships
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\MembershipAPI
+
+
 ##########################
 #        Screens
 ##########################
@@ -254,3 +269,18 @@ save_qualification_languages:
 edit_qualification_languages:
   path: /admin/saveLanguages/{id}
   controller: OrangeHRM\Admin\Controller\SaveQualificationLanguageController::handle
+
+view_qualification_memberships:
+  path: /admin/membership
+  controller: OrangeHRM\Admin\Controller\QualificationMembershipController::handle
+  methods: [ GET ]
+
+save_qualification_memberships:
+  path: /admin/saveMemberships
+  controller: OrangeHRM\Admin\Controller\SaveQualificationMembershipController::handle
+  methods: [ GET ]
+
+edit_qualification_memberships:
+  path: /admin/saveMemberships/{id}
+  controller: OrangeHRM\Admin\Controller\SaveQualificationMembershipController::handle
+

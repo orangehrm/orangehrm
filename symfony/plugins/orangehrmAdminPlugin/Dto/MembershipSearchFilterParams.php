@@ -17,63 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Admin\Dto;
 
-use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Dto\FilterParams;
 
-/**
- * Membership
- *
- * @ORM\Table(name="ohrm_membership")
- * @ORM\Entity
- */
-class Membership
+class MembershipSearchFilterParams extends FilterParams
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
+    public const ALLOWED_SORT_FIELDS = ['m.name'];
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=100)
-     */
-    private string $name;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function __construct()
     {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+        $this->setSortField('m.name');
     }
 }
