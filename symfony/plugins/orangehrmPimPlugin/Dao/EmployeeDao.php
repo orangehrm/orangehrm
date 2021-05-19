@@ -69,6 +69,7 @@ class EmployeeDao extends BaseDao
         $q->leftJoin('employee.jobTitle', 'jobTitle');
         $q->leftJoin('employee.subDivision', 'subunit');
         $q->leftJoin('employee.empStatus', 'empStatus');
+        $q->leftJoin('employee.supervisors', 'supervisor');
 
         $this->setSortingAndPaginationParams($q, $employeeSearchParamHolder);
 
@@ -130,6 +131,11 @@ class EmployeeDao extends BaseDao
         if (!is_null($employeeSearchParamHolder->getEmployeeNumbers())) {
             $q->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
                 ->setParameter('empNumbers', $employeeSearchParamHolder->getEmployeeNumbers());
+        }
+
+        if (!is_null($employeeSearchParamHolder->getSupervisorEmpNumbers())) {
+            $q->andWhere($q->expr()->in('supervisor.empNumber', ':supervisorEmpNumbers'))
+                ->setParameter('supervisorEmpNumbers', $employeeSearchParamHolder->getSupervisorEmpNumbers());
         }
 
         return $this->getPaginator($q);

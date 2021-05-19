@@ -50,13 +50,12 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
 
     public const FILTER_NAME = 'name';
     public const FILTER_NAME_OR_ID = 'nameOrId';
-    public const FILTER_EMP_NUMBER = 'empNumber';
     public const FILTER_EMPLOYEE_ID = 'employeeId';
     public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
     public const FILTER_EMP_STATUS_ID = 'empStatusId';
     public const FILTER_JOB_TITLE_ID = 'jobTitleId';
     public const FILTER_SUBUNIT_ID = 'subunitId';
-    public const FILTER_SUPERVISOR_EMP_NUMBER = 'supervisorEmpNumber';
+    public const FILTER_SUPERVISOR_EMP_NUMBERS = 'supervisorEmpNumbers';
     public const FILTER_MODEL = 'model';
 
     public const PARAMETER_EMP_NUMBER = 'empNumber';
@@ -205,6 +204,12 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_SUBUNIT_ID
             )
         );
+        $employeeParamHolder->setSupervisorEmpNumbers(
+            $this->getRequestParams()->getArrayOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_SUPERVISOR_EMP_NUMBERS
+            )
+        );
 
         $employees = $this->getEmployeeService()->getEmployeeList($employeeParamHolder);
         $count = $this->getEmployeeService()->getEmployeeCount($employeeParamHolder);
@@ -273,6 +278,12 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::FILTER_SUBUNIT_ID,
                     new Rule(Rules::POSITIVE),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_SUPERVISOR_EMP_NUMBERS,
+                    new Rule(Rules::ARRAY_TYPE),
                 )
             ),
             $this->getModelParamRule(),
