@@ -28,8 +28,8 @@
         <div class="orangehrm-employee-container">
           <div class="orangehrm-employee-image">
             <profile-image-input
-              v-model="employee.profileImage"
-              :rules="rules.profileImage"
+              v-model="employee.empPicture"
+              :rules="rules.empPicture"
               :imgSrc="profilePicUrl"
             />
           </div>
@@ -117,6 +117,7 @@
 </template>
 
 <script>
+import {ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
@@ -130,14 +131,14 @@ const employeeModel = {
   firstName: '',
   middleName: '',
   lastName: '',
-  profileImage: null,
+  empPicture: null,
   employeeId: '',
 };
 
 const userModel = {
   username: '',
-  role: 2,
-  employee: null,
+  userRoleId: 2,
+  empNumber: 0,
   status: '1',
   password: '',
   passwordConfirm: '',
@@ -151,13 +152,27 @@ export default {
     'password-input': PasswordInput,
   },
 
-  setup() {
+  props: {
+    empId: {
+      type: Number,
+      required: true,
+    },
+  },
+
+  setup(props) {
+    const employee = ref({
+      ...employeeModel,
+      employeeId: props.empId ? props.empId : '',
+    });
+
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/pim/employees',
     );
+
     return {
       http,
+      employee,
     };
   },
 
@@ -165,13 +180,12 @@ export default {
     return {
       isLoading: false,
       createLogin: false,
-      employee: {...employeeModel},
       user: {...userModel},
       rules: {
         firstName: [v => (!!v && v.trim() !== '') || 'Required'],
         lastName: [v => (!!v && v.trim() !== '') || 'Required'],
         employeeId: [],
-        profileImage: [
+        empPicture: [
           v =>
             v === null ||
             (v && v.size && v.size <= 1024 * 1024) ||
@@ -195,10 +209,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          firstName: this.employee.firstName,
-          middleName: this.employee.middleName,
-          lastName: this.employee.lastName,
-          employeeId: this.employee.employeeId,
+          ...this.employee,
         })
         .then(response => {
           const {data} = response;
@@ -207,7 +218,7 @@ export default {
               username: this.user.username,
               password: this.user.password,
               status: this.user.status == '1',
-              userRoleId: this.user.role,
+              userRoleId: this.user.userRoleId,
               empNumber: data.data.empNumber,
             });
           } else {
@@ -221,8 +232,6 @@ export default {
           });
         })
         .then(() => {
-          // go back
-          this.isLoading = false;
           this.employee = {...employeeModel};
           this.user = {...userModel};
           this.onCancel();
@@ -232,8 +241,8 @@ export default {
 
   computed: {
     profilePicUrl() {
-      if (this.employee.profileImage) {
-        const file = this.employee.profileImage.base64;
+      if (this.employee.empPicture) {
+        const file = this.employee.empPicture.base64;
         return `data:image/jpeg;base64,${file}`;
       } else {
         return defaultPic;
@@ -243,8 +252,20 @@ export default {
 
   created() {
     this.isLoading = true;
-    this.http.http
-      .get('api/v2/admin/users')
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.employeeId.push(v => {
+          const index = data.findIndex(item => item.employeeId == v);
+          if (index > -1) {
+            return 'Employee Id already exists';
+          } else {
+            return true;
+          }
+        });
+        return this.http.http.get('api/v2/admin/users');
+      })
       .then(response => {
         const {data} = response.data;
         this.rules.username.push(v => {
