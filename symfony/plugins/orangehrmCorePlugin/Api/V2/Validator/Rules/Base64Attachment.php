@@ -20,10 +20,12 @@
 namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\TextHelperTrait;
 
 class Base64Attachment extends AbstractRule
 {
     use ConfigServiceTrait;
+    use TextHelperTrait;
 
     /**
      * @var array
@@ -71,12 +73,7 @@ class Base64Attachment extends AbstractRule
 
         if (!is_null($this->fileNameMinLength) || !is_null($this->fileNameMaxLength)) {
             if (is_string($input['name'])) {
-                if (function_exists('mb_strlen')) {
-                    $fileNameLength = (int)mb_strlen($input['name']);
-                } else {
-                    $fileNameLength = strlen($input['name']);
-                }
-
+                $fileNameLength = $this->strLength($input['name']);
                 if (!($this->validateMin($fileNameLength) && $this->validateMax($fileNameLength))) {
                     return false;
                 }
@@ -88,11 +85,7 @@ class Base64Attachment extends AbstractRule
         $size = intval($input['size']);
         if ($this->checkSizeStrictly) {
             $content = base64_decode($input['base64']);
-            if (function_exists('mb_strlen')) {
-                $contentSize = mb_strlen($content, '8bit');
-            } else {
-                $contentSize = strlen($content);
-            }
+            $contentSize = $this->strLength($content, '8bit');
             $content = null;
             if ($size !== $contentSize) {
                 return false;

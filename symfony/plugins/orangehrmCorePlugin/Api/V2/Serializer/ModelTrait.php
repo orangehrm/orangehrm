@@ -76,9 +76,9 @@ trait ModelTrait
 
                 if (is_array($attribute)) {
                     $value = $this->entity;
-                    foreach ($attribute as $i => $func) {
+                    foreach ($attribute as $i => $getterMethod) {
                         if (!is_null($value)) {
-                            $value = call_user_func([$value, $func]);
+                            $value = $value->$getterMethod();
                             if (is_iterable($value)) {
                                 $collectionAttributes = array_slice($attribute, $i + 1);
                                 if (!isset($collectionAttributes[0])) {

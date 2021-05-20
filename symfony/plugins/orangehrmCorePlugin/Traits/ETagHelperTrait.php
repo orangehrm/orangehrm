@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Core\Traits;
 
-trait EtagHelperTrait
+trait ETagHelperTrait
 {
     /**
      * @param string $data

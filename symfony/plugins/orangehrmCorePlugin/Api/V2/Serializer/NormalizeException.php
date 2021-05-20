@@ -35,8 +35,6 @@ class NormalizeException extends Exception
      */
     public static function unsupportedType(string $requiredType, $object): self
     {
-        return new self(
-            sprintf('Required instance of `%s`, but got instance of `%s`', $requiredType, gettype($object))
-        );
+        return new self("Required instance of `$requiredType`, but got instance of `" . gettype($object) . "`");
     }
 }

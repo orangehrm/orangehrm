@@ -17,38 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Authorization\Exception;
+namespace OrangeHRM\Core\Traits;
 
-use Exception;
-
-class AuthorizationException extends Exception
+trait TextHelperTrait
 {
     /**
-     * @param string $entityType
-     * @param string $method
-     * @return static
+     * @param string $text
+     * @param string|null $encoding
+     * @return int
+     * @link https://www.php.net/manual/en/mbstring.supported-encodings.php
      */
-    public static function entityNotSupported(string $entityType, string $method): self
+    public function strLength(string $text, ?string $encoding = null): int
     {
-        return new self("Entity `$entityType` not supported, @ `$method`");
-    }
-
-    /**
-     * @param string $entityType
-     * @param string $method
-     * @return static
-     */
-    public static function entityNotImplemented(string $entityType, string $method): self
-    {
-        return new self("Entity `$entityType` not implemented, @ `$method`");
-    }
-
-    /**
-     * @param string $method
-     * @return static
-     */
-    public static function methodNotImplemented(string $method): self
-    {
-        return new self("Method `$method` not implemented");
+        if (function_exists('mb_strlen')) {
+            return mb_strlen($text, $encoding);
+        } else {
+            return strlen($text);
+        }
     }
 }

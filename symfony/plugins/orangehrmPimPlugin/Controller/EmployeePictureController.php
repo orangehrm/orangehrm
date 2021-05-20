@@ -23,7 +23,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractFileController;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
-use OrangeHRM\Core\Traits\EtagHelperTrait;
+use OrangeHRM\Core\Traits\ETagHelperTrait;
 use OrangeHRM\Entity\EmpPicture;
 use OrangeHRM\Framework\Http\BinaryFileResponse;
 use OrangeHRM\Framework\Http\Request;
@@ -32,7 +32,7 @@ use OrangeHRM\Pim\Service\EmployeePictureService;
 
 class EmployeePictureController extends AbstractFileController
 {
-    use EtagHelperTrait;
+    use ETagHelperTrait;
 
     /**
      * @var EmployeePictureService|null
