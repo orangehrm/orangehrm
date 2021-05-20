@@ -19,18 +19,21 @@
 
 namespace OrangeHRM\Core\Service;
 
-use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Dao\MenuDao;
 use OrangeHRM\Core\Dto\ModuleScreen;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
-use OrangeHRM\Core\Helper\ModuleScreenHelper;
+use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\MenuItem;
 use OrangeHRM\Entity\Screen;
 use OrangeHRM\Entity\UserRole;
 
 class MenuService
 {
+    use UserRoleManagerTrait;
+    use ModuleScreenHelperTrait;
+
     /**
      * @var MenuDao|null
      */
@@ -246,6 +249,16 @@ class MenuService
     }
 
     /**
+     * @return array
+     * @throws DaoException
+     * @throws ServiceException
+     */
+    private function getAccessibleMenuItemDetails(): array
+    {
+        return $this->getUserRoleManager()->getAccessibleMenuItemDetails();
+    }
+
+    /**
      * @param string $baseUrl
      * @return array
      * @throws DaoException
@@ -253,9 +266,9 @@ class MenuService
      */
     public function getMenuItems(string $baseUrl): array
     {
-        $moduleScreen = ModuleScreenHelper::getCurrentModuleAndScreen();
+        $moduleScreen = $this->getCurrentModuleAndScreen();
         // TODO:: cache menu items
-        $menuItemDetails = UserRoleManagerFactory::getUserRoleManager()->getAccessibleMenuItemDetails();
+        $menuItemDetails = $this->getAccessibleMenuItemDetails();
         $menuItemArray = $menuItemDetails['menuItemArray'];
         $subMenuItemsArray = [];
         $sidePanelMenuItems = [];

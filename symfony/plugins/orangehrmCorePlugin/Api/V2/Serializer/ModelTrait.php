@@ -71,11 +71,34 @@ trait ModelTrait
         $array = [];
         if (!is_null($this->entity)) {
             foreach ($this->filter as $index => $attribute) {
+                $key = empty($this->attributeNames[$index]) ? $attribute :
+                    $this->attributeNames[$index];
+
                 if (is_array($attribute)) {
                     $value = $this->entity;
-                    foreach ($attribute as $func) {
+                    foreach ($attribute as $i => $getterMethod) {
                         if (!is_null($value)) {
-                            $value = call_user_func([$value, $func]);
+                            $value = $value->$getterMethod();
+                            if (is_iterable($value)) {
+                                $collectionAttributes = array_slice($attribute, $i + 1);
+                                if (!isset($collectionAttributes[0])) {
+                                    throw NormalizeException::notSetRequiredAttributes();
+                                }
+                                $collectionAttributes = $collectionAttributes[0];
+
+                                if (!is_array($collectionAttributes)) {
+                                    throw NormalizeException::unsupportedType('array', $collectionAttributes);
+                                }
+
+                                $collectionAttributeNames = array_slice($key, $i + 1)[0];
+                                $value = $this->normalizeNestedCollection(
+                                    $value,
+                                    $collectionAttributes,
+                                    $collectionAttributeNames
+                                );
+                                $key = array_slice($key, 0, $i + 1);
+                                break;
+                            }
                         }
                     }
                 } else {
@@ -83,8 +106,7 @@ trait ModelTrait
                     $getMethodName = "get" . ucfirst($attribute);
                     $value = $this->entity->$getMethodName();
                 }
-                $key = empty($this->attributeNames[$index]) ? $attribute :
-                    $this->attributeNames[$index];
+
                 if (is_array($key)) {
                     $array = array_merge_recursive($array, $this->makeNestedArray($key, $value));
                 } else {
@@ -112,5 +134,30 @@ trait ModelTrait
         }
 
         return $array;
+    }
+
+    /**
+     * @param iterable $collection
+     * @param array $methodNames
+     * @param array $keys
+     * @return array
+     */
+    private function normalizeNestedCollection(iterable $collection, array $methodNames, array $keys): array
+    {
+        $values = [];
+        foreach ($collection as $object) {
+            $value = null;
+            $obj = [];
+            foreach ($methodNames as $i => $getterMethod) {
+                if (!is_null($object)) {
+                    $value = call_user_func([$object, $getterMethod]);
+                }
+                $obj[$keys[$i]] = $value;
+            }
+
+            $values[] = $obj;
+        }
+
+        return $values;
     }
 }

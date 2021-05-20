@@ -32,6 +32,8 @@ final class Rules
     public const REQUIRED = OHRMRules\Required::class;
     public const NOT_REQUIRED = OHRMRules\NotRequired::class;
     public const ZERO_OR_POSITIVE = OHRMRules\ZeroOrPositive::class;
+    public const IN_ACCESSIBLE_EMP_NUMBERS = OHRMRules\InAccessibleEmpNumbers::class;
+    public const BASE_64_ATTACHMENT = OHRMRules\Base64Attachment::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;
