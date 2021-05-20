@@ -27,11 +27,20 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EmpPicture
 {
+    public const ALLOWED_IMAGE_TYPES = [
+        "image/gif",
+        "image/jpeg",
+        "image/jpg",
+        "image/pjpeg",
+        "image/png",
+        "image/x-png"
+    ];
+
     /**
      * @var Employee
      *
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="empPicture")
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="empPicture", cascade={"persist"})
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
     private Employee $employee;
