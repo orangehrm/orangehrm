@@ -19,21 +19,24 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
-use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Routing\UrlGenerator;
-use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 
 class ValidateController extends AbstractController implements PublicControllerInterface
 {
+    use AuthUserTrait;
+    use ServiceContainerTrait;
+
     public const PARAMETER_USERNAME = 'username';
     public const PARAMETER_PASSWORD = 'password';
 
@@ -72,14 +75,14 @@ class ValidateController extends AbstractController implements PublicControllerI
     public function handle(Request $request): RedirectResponse
     {
         /** @var UrlGenerator $urlGenerator */
-        $urlGenerator = ServiceContainer::getContainer()->get(Services::URL_GENERATOR);
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
 
         $username = $request->get(self::PARAMETER_USERNAME, '');
         $password = $request->get(self::PARAMETER_PASSWORD, '');
 
         $credentials = new UserCredential($username, $password);
         $success = $this->getAuthenticationService()->setCredentials($credentials, []);
-        User::getInstance()->setIsAuthenticated($success);
+        $this->getAuthUser()->setIsAuthenticated($success);
         $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
         $logoutUrl = $urlGenerator->generate('auth_logout', [], UrlGenerator::ABSOLUTE_URL);
 
@@ -88,7 +91,7 @@ class ValidateController extends AbstractController implements PublicControllerI
         }
 
         /** @var Session $session */
-        $session = ServiceContainer::getContainer()->get(Services::SESSION);
+        $session = $this->getContainer()->get(Services::SESSION);
         if ($session->has('redirect_uri')) {
             $redirectUrl = $session->get('redirect_uri');
             $session->remove('redirect_uri');

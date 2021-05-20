@@ -22,15 +22,20 @@ namespace OrangeHRM\Core\Authorization\Manager;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Core\Authorization\Dao\HomePageDao;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
+use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
 use OrangeHRM\Core\Authorization\Service\DataGroupService;
 use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
+use OrangeHRM\Core\Authorization\UserRole\AbstractUserRole;
+use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\HomePage\HomePageEnablerInterface;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Core\Service\MenuService;
+use OrangeHRM\Core\Traits\ClassHelperTrait;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Pim\Service\EmployeeService;
 
 /**
  * Description of BasicUserRoleManager
@@ -38,6 +43,8 @@ use OrangeHRM\Entity\WorkflowStateMachine;
  */
 class BasicUserRoleManager extends AbstractUserRoleManager
 {
+    use ClassHelperTrait;
+
     public const PERMISSION_TYPE_DATA_GROUP = 'data_group';
     public const PERMISSION_TYPE_ACTION = 'action';
     public const PERMISSION_TYPE_WORKFLOW_ACTION = 'workflow_action';
@@ -46,7 +53,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     public const OPERATION_EDIT = 'edit';
     public const OPERATION_DELETE = 'delete';
 
-    protected $employeeService;
+    protected ?EmployeeService $employeeService = null;
     protected ?UserService $userService = null;
     protected ?ScreenPermissionService $screenPermissionService = null;
     protected $operationalCountryService;
@@ -59,7 +66,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     protected ?HomePageDao $homePageDao = null;
     protected ?AccessFlowStateMachineService $accessFlowStateMachineService = null;
 
-    protected $userRoleClasses;
+    /**
+     * @var AbstractUserRole[]
+     */
+    protected array $userRoleClasses = [];
     protected $decoratorClasses;
 
     public function __construct()
@@ -92,12 +102,16 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         ];
 
         foreach ($configurations as $roleName => $roleObj) {
-            $className = ClassHelper::getClass($roleObj['class'], 'OrangeHRM\\Core\\Authorization\\UserRole\\');
+            $className = $this->getClass($roleObj['class'], 'OrangeHRM\\Core\\Authorization\\UserRole\\');
             $this->userRoleClasses[$roleName] = new $className($roleName, $this);
         }
     }
 
-    protected function getUserRoleClass($roleName)
+    /**
+     * @param string $roleName
+     * @return AbstractUserRole|null
+     */
+    protected function getUserRoleClass(string $roleName): ?AbstractUserRole
     {
         if (isset($this->userRoleClasses[$roleName])) {
             return $this->userRoleClasses[$roleName];
@@ -174,18 +188,22 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         $this->userService = $userService;
     }
 
-    public function getEmployeeService()
+    /**
+     * @return EmployeeService
+     */
+    public function getEmployeeService(): EmployeeService
     {
-        // TODO
-        if (empty($this->employeeService)) {
+        if (!$this->employeeService instanceof EmployeeService) {
             $this->employeeService = new EmployeeService();
         }
         return $this->employeeService;
     }
 
-    public function setEmployeeService($employeeService)
+    /**
+     * @param EmployeeService $employeeService
+     */
+    public function setEmployeeService(EmployeeService $employeeService): void
     {
-        // TODO
         $this->employeeService = $employeeService;
     }
 
@@ -278,14 +296,17 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         $this->accessFlowStateMachineService = $accessFlowStateMachineService;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAccessibleEntities(
-        $entityType,
-        $operation = null,
-        $returnType = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    ) {
+        string $entityType,
+        ?string $operation = null,
+        ?string $returnType = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requestedPermissions = []
+    ): array {
         // TODO
         $allEmployees = [];
 
@@ -301,7 +322,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
                     $entityType,
                     $operation,
                     $returnType,
-                    $requiredPermissions
+                    $requestedPermissions
                 );
             }
 
@@ -314,19 +335,17 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     }
 
     /**
-     * Get Properties of Accessible Entities
-     * @param $entityType Entity Type
-     * @parm $properties Properties of the entity which should return
+     * @inheritDoc
      */
     public function getAccessibleEntityProperties(
-        $entityType,
-        $properties = [],
-        $orderField = null,
-        $orderBy = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    ) {
+        string $entityType,
+        array $properties = [],
+        ?string $orderField = null,
+        ?string $orderBy = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): array {
         // TODO
 
         $allPropertyList = [];
@@ -361,20 +380,22 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      * TODO: 'locations', 'system users', 'operational countries',
      *       'user role' (only ess for regional admin),
      *
-     * @param type $entityType
-     * @param type $operation
-     * @param type $returnType
-     * @return type
+     * @param string $entityType
+     * @param string|null $operation
+     * @param null $returnType
+     * @param string[] $rolesToExclude
+     * @param string[] $rolesToInclude
+     * @param array $requiredPermissions
+     * @return int[]
      */
-
     public function getAccessibleEntityIds(
-        $entityType,
-        $operation = null,
+        string $entityType,
+        ?string $operation = null,
         $returnType = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    ) {
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): array {
         // TODO
         $allIds = [];
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
@@ -422,7 +443,12 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         foreach ($filteredRoles as $role) {
             $roleName = $this->fixUserRoleNameForWorkflowStateMachine($role->getName(), $workFlowId);
 
-            $isAllowed = $this->getAccessFlowStateMachineService()->isActionAllowed($workFlowId, $state, $roleName, $action);
+            $isAllowed = $this->getAccessFlowStateMachineService()->isActionAllowed(
+                $workFlowId,
+                $state,
+                $roleName,
+                $action
+            );
             if ($isAllowed) {
                 break;
             }
@@ -440,15 +466,24 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      * @param array $entities
      * @return array|WorkflowStateMachine[] Array of workflow items with action name as array index
      */
-    public function getAllowedActions(string $workflow, string $state, array $rolesToExclude = [], array $rolesToInclude = [], array $entities = []):array
-    {
+    public function getAllowedActions(
+        string $workflow,
+        string $state,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ): array {
         $allActions = [];
 
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
 
         foreach ($filteredRoles as $role) {
             $roleName = $this->fixUserRoleNameForWorkflowStateMachine($role->getName(), $workflow);
-            $workFlowItems = $this->getAccessFlowStateMachineService()->getAllowedWorkflowItems($workflow, $state, $roleName);
+            $workFlowItems = $this->getAccessFlowStateMachineService()->getAllowedWorkflowItems(
+                $workflow,
+                $state,
+                $roleName
+            );
 
             if (count($workFlowItems) > 0) {
                 $allActions = $this->getUniqueActionsBasedOnPriority($allActions, $workFlowItems);
@@ -469,8 +504,13 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      *
      * @return array Array of states
      */
-    public function getActionableStates(string $workflow, array $actions, array $rolesToExclude = [], array $rolesToInclude = [], array $entities = []): array
-    {
+    public function getActionableStates(
+        string $workflow,
+        array $actions,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ): array {
         $actionableStates = [];
 
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
@@ -509,15 +549,17 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $currentItems;
     }
 
-
+    /**
+     * @inheritDoc
+     */
     public function isEntityAccessible(
-        $entityType,
+        string $entityType,
         $entityId,
-        $operation = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    ) {
+        ?string $operation = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): bool {
         // TODO
         $entityIds = $this->getAccessibleEntityIds(
             $entityType,
@@ -533,15 +575,17 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $accessible;
     }
 
-
+    /**
+     * @inheritDoc
+     */
     public function areEntitiesAccessible(
-        $entityType,
-        $entityIds,
-        $operation = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    ) {
+        string $entityType,
+        array $entityIds,
+        ?string $operation = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): bool {
         // TODO
         $accessibleIds = $this->getAccessibleEntityIds(
             $entityType,
@@ -566,9 +610,11 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $accessible;
     }
 
-    public function getEmployeesWithRole($roleName, $entities = [])
+    /**
+     * @inheritDoc
+     */
+    public function getEmployeesWithRole(string $roleName, array $entities = []): array
     {
-        // TODO
         $employees = [];
         $roleClass = $this->getUserRoleClass($roleName);
         if (!empty($roleClass)) {
@@ -578,8 +624,13 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $employees;
     }
 
-    public function getAccessibleModules()
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function getAccessibleModules(): array
     {
+        throw AuthorizationException::methodNotImplemented(__METHOD__);
     }
 
     /**
@@ -591,16 +642,31 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $this->getMenuService()->getMenuItemDetails($this->userRoles);
     }
 
-    public function isModuleAccessible($module)
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function isModuleAccessible(string $module): bool
     {
+        throw AuthorizationException::methodNotImplemented(__METHOD__);
     }
 
-    public function isScreenAccessible($module, $screen, $field)
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function isScreenAccessible(string $module, string $screen, string $field): bool
     {
+        throw AuthorizationException::methodNotImplemented(__METHOD__);
     }
 
-    public function isFieldAccessible($module, $screen, $field)
+    /**
+     * @inheritDoc
+     * @throws AuthorizationException
+     */
+    public function isFieldAccessible(string $module, string $screen, string $field): bool
     {
+        throw AuthorizationException::methodNotImplemented(__METHOD__);
     }
 
     /**
@@ -619,14 +685,12 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         $roles = [$user->getUserRole()];
 
         // Check for supervisor:
-        $empNumber = $user->getEmployee() ? $user->getEmployee()->getEmpNumber() : null;
+        $empNumber = $user->getEmpNumber();
         if (!empty($empNumber)) {
             if ($user->getUserRole()->getName() != 'ESS') {
                 $roles[] = $this->getUserService()->getUserRole('ESS');
             }
 
-            // TODO:: should remove this return
-            return $roles;
             if ($this->isProjectAdmin($empNumber)) {
                 $roles[] = $this->getUserService()->getUserRole('ProjectAdmin');
             }
@@ -647,12 +711,16 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             }
         }
 
-
         return $roles;
     }
 
-
-    protected function areRequiredPermissionsAvailable($role, $requiredPermissions = [])
+    /**
+     * @param UserRole $role
+     * @param array $requiredPermissions
+     * @return bool
+     * @throws DaoException
+     */
+    protected function areRequiredPermissionsAvailable(UserRole $role, array $requiredPermissions = []): bool
     {
         // TODO
         $permitted = true;
@@ -698,15 +766,18 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * Filter the given $userRoles array according to the given parameters
      *
-     * @param User[] $userRoles Array of UserRole objects
+     * @param UserRole[] $userRoles Array of UserRole objects
      * @param string[] $rolesToExclude Array of User role names to exclude. These user roles will be removed from $userRoles
      * @param string[] $rolesToInclude Array of User role names to include. If not empty, only these user roles will be included.
-     * @param array $entities Array of details relevent to deciding if a particular user role applies to this
-     * @return array $userRoles array filtered as described above.
+     * @param array $entities Array of details relevant to deciding if a particular user role applies to this
+     * @return UserRole[] $userRoles array filtered as described above.
      */
-    protected function filterRoles(array $userRoles, array $rolesToExclude, array $rolesToInclude, array $entities = [])
-    {
-        // TODO
+    protected function filterRoles(
+        array $userRoles,
+        array $rolesToExclude,
+        array $rolesToInclude,
+        array $entities = []
+    ): array {
         if (!empty($rolesToExclude)) {
             $temp = [];
 
@@ -746,14 +817,13 @@ class BasicUserRoleManager extends AbstractUserRoleManager
                         }
                     }
                 } elseif ($role->getName() == 'ESS') {
-                        // If Employee entity is given, the ESS role will only apply
-                        // If current logged in employee is the same as the passed entity.
-                        if (isset($entities['Employee'])) {
-                            // TODO
-                            if ($this->user->getEmployee()->getEmpNumber() != $entities['Employee']) {
-                                $include = false;
-                            }
+                    // If Employee entity is given, the ESS role will only apply
+                    // If current logged in employee is the same as the passed entity.
+                    if (isset($entities['Employee'])) {
+                        if ($this->getUser()->getEmpNumber() != $entities['Employee']) {
+                            $include = false;
                         }
+                    }
                 }
 
                 if ($include) {
@@ -767,13 +837,17 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         return $userRoles;
     }
 
-    protected function isSupervisorFor($empNumber)
+    /**
+     * @param int $empNumber
+     * @return bool
+     * @throws DaoException
+     * @throws CoreServiceException
+     */
+    protected function isSupervisorFor(int $empNumber): bool
     {
-        // TODO
-        if (is_null($this->subordinates)) {
-            $this->subordinates = $this->getEmployeeService()->getSubordinateIdListBySupervisorId(
-                $this->user->getEmpNumber()
-            );
+        $supervisorId = $this->getUser()->getEmpNumber();
+        if (is_null($this->subordinates) && !is_null($supervisorId)) {
+            $this->subordinates = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($supervisorId);
         }
 
         if (is_array($this->subordinates) && in_array($empNumber, $this->subordinates)) {
@@ -785,18 +859,24 @@ class BasicUserRoleManager extends AbstractUserRoleManager
 
     protected function isProjectAdmin($empNumber)
     {
+        // TODO:: should remove this return
+        return false;
         // TODO
         return $this->getProjectService()->isProjectAdmin($empNumber);
     }
 
     private function isHiringManager($empNumber)
     {
+        // TODO:: should remove this return
+        return false;
         // TODO
         return $this->getVacancyService()->isHiringManager($empNumber);
     }
 
     private function isInterviewer($empNumber)
     {
+        // TODO:: should remove this return
+        return false;
         // TODO
         return $this->getVacancyService()->isInterviewer($empNumber);
     }
@@ -884,7 +964,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         );
     }
 
-    public function getModuleDefaultPage(string $module)
+    public function getModuleDefaultPage(string $module): ?string
     {
         $action = null;
 
@@ -899,8 +979,8 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             $enableClass = $defaultPage->getEnableClass();
             $fallbackNamespace = 'OrangeHRM\\Core\\HomePage\\';
 
-            if (!empty($enableClass) && ClassHelper::classExists($enableClass, $fallbackNamespace)) {
-                $enableClass = ClassHelper::getClass($enableClass, $fallbackNamespace);
+            if (!empty($enableClass) && $this->classExists($enableClass, $fallbackNamespace)) {
+                $enableClass = $this->getClass($enableClass, $fallbackNamespace);
                 $enableClassInstance = new $enableClass();
                 if ($enableClassInstance instanceof HomePageEnablerInterface) {
                     $enabled = $enableClassInstance->isEnabled($this->getUser());
@@ -931,8 +1011,8 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             $enableClass = $defaultPage->getEnableClass();
             $fallbackNamespace = 'OrangeHRM\\Core\\HomePage\\';
 
-            if (!empty($enableClass) && ClassHelper::classExists($enableClass, $fallbackNamespace)) {
-                $enableClass = ClassHelper::getClass($enableClass, $fallbackNamespace);
+            if (!empty($enableClass) && $this->classExists($enableClass, $fallbackNamespace)) {
+                $enableClass = $this->getClass($enableClass, $fallbackNamespace);
                 $enableClassInstance = new $enableClass();
                 if ($enableClassInstance instanceof HomePageEnablerInterface) {
                     $enabled = $enableClassInstance->isEnabled($this->getUser());

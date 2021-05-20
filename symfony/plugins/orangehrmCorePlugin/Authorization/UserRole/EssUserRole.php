@@ -34,7 +34,7 @@ class EssUserRole extends AbstractUserRole {
         return [];
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array {
         return [];
     }
 

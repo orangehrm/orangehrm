@@ -195,17 +195,64 @@ class InvalidUserRoleManager
 class UnitTestUserRoleManager extends AbstractUserRoleManager
 {
     public function getAccessibleEntities(
-        $entityType,
-        $operation = null,
-        $returnType = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requestedPermissions = []
-    ) {
+        string $entityType,
+        ?string $operation = null,
+        ?string $returnType = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requestedPermissions = []
+    ): array {
+        return [];
     }
 
-    public function getAccessibleModules()
+    public function getAccessibleEntityIds(
+        string $entityType,
+        ?string $operation = null,
+        $returnType = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): array {
+        return [];
+    }
+
+    public function isEntityAccessible(
+        string $entityType,
+        $entityId,
+        ?string $operation = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): bool {
+        return false;
+    }
+
+    public function areEntitiesAccessible(
+        string $entityType,
+        array $entityIds,
+        ?string $operation = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): bool {
+        return false;
+    }
+
+    public function getAccessibleEntityProperties(
+        string $entityType,
+        array $properties = [],
+        ?string $orderField = null,
+        ?string $orderBy = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): array {
+        return [];
+    }
+
+    public function getAccessibleModules(): array
     {
+        return [];
     }
 
     public function getAccessibleMenuItemDetails(): array
@@ -213,16 +260,29 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         return [];
     }
 
-    public function isModuleAccessible($module)
+    public function isModuleAccessible(string $module): bool
     {
+        return false;
     }
 
-    public function isScreenAccessible($module, $screen, $field)
+    public function isScreenAccessible(string $module, string $screen, string $field): bool
     {
+        return false;
     }
 
-    public function isFieldAccessible($module, $screen, $field)
+    public function getScreenPermissions(string $module, string $screen): ResourcePermission
     {
+        return new ResourcePermission(false, false, false, false);
+    }
+
+    public function isFieldAccessible(string $module, string $screen, string $field): bool
+    {
+        return false;
+    }
+
+    public function getEmployeesWithRole(string $roleName, array $entities = []): array
+    {
+        return [];
     }
 
     protected function getUserRoles(User $user): array
@@ -230,39 +290,15 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         return [];
     }
 
-    public function getScreenPermissions(string $module, string $screen): ResourcePermission
-    {
-        return new ResourcePermission(true, true, true, true);
-    }
-
-    public function areEntitiesAccessible(
-        $entityType,
-        $entityIds,
-        $operation = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    ) {
-    }
-
-    public function isEntityAccessible(
-        $entityType,
-        $entityId,
-        $operation = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    ) {
-    }
-
-    public function getAccessibleEntityIds(
-        $entityType,
-        $operation = null,
-        $returnType = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    ) {
+    protected function isActionAllowed(
+        string $workFlowId,
+        string $state,
+        string $action,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $entities = []
+    ): bool {
+        return false;
     }
 
     protected function getAllowedActions(
@@ -271,19 +307,8 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         array $rolesToExclude = [],
         array $rolesToInclude = [],
         array $entities = []
-    ):array {
+    ): array {
         return [];
-    }
-
-    protected function isActionAllowed(
-        $workFlowId,
-        $state,
-        $action,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $entities = []
-    ) :bool{
-        return false;
     }
 
     public function getActionableStates(
@@ -292,30 +317,17 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         array $rolesToExclude = [],
         array $rolesToInclude = [],
         array $entities = []
-    ):array {
+    ): array {
         return [];
     }
 
-    public function getAccessibleEntityProperties(
-        $entityType,
-        $properties = [],
-        $orderField = null,
-        $orderBy = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    ) {
-    }
-
-    public function getEmployeesWithRole($roleName, $entities = [])
+    public function getModuleDefaultPage(string $module): ?string
     {
+        return null;
     }
 
     public function getHomePage(): ?string
     {
-    }
-
-    public function getModuleDefaultPage($module)
-    {
+        return null;
     }
 }

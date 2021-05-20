@@ -30,14 +30,16 @@ use OrangeHRM\Core\Api\V2\Response;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Validator;
 use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request as HttpRequest;
 use OrangeHRM\Framework\Http\Response as HttpResponse;
 use OrangeHRM\Framework\Logger\Logger;
-use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 
 abstract class AbstractRestController extends AbstractController
 {
+    use ServiceContainerTrait;
+
     protected ?ParamRuleCollection $getValidationRule = null;
     protected ?ParamRuleCollection $postValidationRule = null;
     protected ?ParamRuleCollection $putValidationRule = null;
@@ -230,6 +232,6 @@ abstract class AbstractRestController extends AbstractController
      */
     private function getLogger(): Logger
     {
-        return ServiceContainer::getContainer()->get(Services::LOGGER);
+        return $this->getContainer()->get(Services::LOGGER);
     }
 }

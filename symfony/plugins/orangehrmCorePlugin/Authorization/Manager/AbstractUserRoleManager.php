@@ -20,15 +20,22 @@
 namespace OrangeHRM\Core\Authorization\Manager;
 
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
 
 abstract class AbstractUserRoleManager
 {
-
+    /**
+     * @var User|null
+     */
     protected ?User $user = null;
-    protected $userRoles = [];
+
+    /**
+     * @var UserRole[]
+     */
+    protected array $userRoles = [];
 
     /**
      * @param User $user
@@ -39,17 +46,23 @@ abstract class AbstractUserRoleManager
         $this->userRoles = $this->getUserRoles($user);
     }
 
+    /**
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
+    /**
+     * @return bool
+     */
     public function userHasNonPredefinedRole(): bool
     {
         $nonPredefined = false;
 
         foreach ($this->userRoles as $role) {
-            if (!$role->getIsPredefined()) {
+            if (!$role->isPredefined()) {
                 $nonPredefined = true;
                 break;
             }
@@ -58,59 +71,123 @@ abstract class AbstractUserRoleManager
         return $nonPredefined;
     }
 
+    /**
+     * @param string $entityType
+     * @param string|null $operation
+     * @param string|null $returnType
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $requestedPermissions
+     * @return array
+     */
     abstract public function getAccessibleEntities(
-        $entityType,
-        $operation = null,
-        $returnType = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requestedPermissions = []
-    );
+        string $entityType,
+        ?string $operation = null,
+        ?string $returnType = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requestedPermissions = []
+    ): array;
 
+    /**
+     * @param string $entityType
+     * @param string|null $operation
+     * @param null $returnType
+     * @param string[] $rolesToExclude
+     * @param string[] $rolesToInclude
+     * @param array $requiredPermissions
+     * @return int[]
+     */
     abstract public function getAccessibleEntityIds(
-        $entityType,
-        $operation = null,
+        string $entityType,
+        ?string $operation = null,
         $returnType = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    );
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): array;
 
+    /**
+     * @param string $entityType
+     * @param string|int $entityId
+     * @param string|null $operation
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $requiredPermissions
+     * @return bool
+     */
     abstract public function isEntityAccessible(
-        $entityType,
+        string $entityType,
         $entityId,
-        $operation = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    );
+        ?string $operation = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): bool;
 
+    /**
+     * @param string $entityType
+     * @param array $entityIds
+     * @param string|null $operation
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $requiredPermissions
+     * @return bool
+     */
     abstract public function areEntitiesAccessible(
-        $entityType,
-        $entityIds,
-        $operation = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    );
+        string $entityType,
+        array $entityIds,
+        ?string $operation = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): bool;
 
+    /**
+     * Get Properties of Accessible Entities
+     *
+     * @param string $entityType
+     * @param array $properties Properties of the entity which should return
+     * @param string|null $orderField
+     * @param string|null $orderBy
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $requiredPermissions
+     * @return array
+     */
     abstract public function getAccessibleEntityProperties(
-        $entityType,
-        $properties = [],
-        $orderField = null,
-        $orderBy = null,
-        $rolesToExclude = [],
-        $rolesToInclude = [],
-        $requiredPermissions = []
-    );
+        string $entityType,
+        array $properties = [],
+        ?string $orderField = null,
+        ?string $orderBy = null,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        array $requiredPermissions = []
+    ): array;
 
-    abstract public function getAccessibleModules();
+    /**
+     * @return array
+     */
+    abstract public function getAccessibleModules(): array;
 
+    /**
+     * @return array
+     */
     abstract public function getAccessibleMenuItemDetails(): array;
 
-    abstract public function isModuleAccessible($module);
+    /**
+     * @param string $module
+     * @return bool
+     */
+    abstract public function isModuleAccessible(string $module): bool;
 
-    abstract public function isScreenAccessible($module, $screen, $field);
+    /**
+     * @param string $module
+     * @param string $screen
+     * @param string $field
+     * @return bool
+     */
+    abstract public function isScreenAccessible(string $module, string $screen, string $field): bool;
 
     /**
      * @param string $module
@@ -119,9 +196,20 @@ abstract class AbstractUserRoleManager
      */
     abstract public function getScreenPermissions(string $module, string $screen): ResourcePermission;
 
-    abstract public function isFieldAccessible($module, $screen, $field);
+    /**
+     * @param string $module
+     * @param string $screen
+     * @param string $field
+     * @return bool
+     */
+    abstract public function isFieldAccessible(string $module, string $screen, string $field): bool;
 
-    abstract public function getEmployeesWithRole($roleName, $entities = []);
+    /**
+     * @param string $roleName
+     * @param array $entities
+     * @return Employee[]
+     */
+    abstract public function getEmployeesWithRole(string $roleName, array $entities = []): array;
 
     /**
      * @param User $user
@@ -187,13 +275,22 @@ abstract class AbstractUserRoleManager
         array $entities = []
     ): array;
 
-    abstract public function getModuleDefaultPage(string $module);
+    /**
+     * @param string $module
+     * @return string|null
+     */
+    abstract public function getModuleDefaultPage(string $module): ?string;
 
+    /**
+     * @return string|null
+     */
     abstract public function getHomePage(): ?string;
 
+    /**
+     * @return bool
+     */
     public function essRightsToOwnWorkflow(): bool
     {
         return true;
     }
 }
-

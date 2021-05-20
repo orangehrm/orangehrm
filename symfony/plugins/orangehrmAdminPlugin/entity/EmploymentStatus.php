@@ -50,7 +50,7 @@ class EmploymentStatus
     /**
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="employeeStatus")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="empStatus")
      */
     private $employees;
 

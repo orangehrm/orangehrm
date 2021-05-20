@@ -196,7 +196,7 @@ class Employee
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\EmploymentStatus", inversedBy="employees")
      * @ORM\JoinColumn(name="emp_status", referencedColumnName="id", nullable=true)
      */
-    private ?EmploymentStatus $empStatus;
+    private ?EmploymentStatus $empStatus = null;
 
     /**
      * @var int
@@ -206,11 +206,12 @@ class Employee
     private $eeo_cat_code;
 
     /**
-     * @var int
+     * @var Subunit|null
      *
-     * @ORM\Column(name="work_station", type="integer", length=4)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Subunit")
+     * @ORM\JoinColumn(name="work_station", referencedColumnName="id", nullable=true)
      */
-    private $work_station;
+    private ?Subunit $subDivision = null;
 
     /**
      * @var string
@@ -241,11 +242,11 @@ class Employee
     private $emp_work_telephone;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="emp_work_email", type="string", length=50)
+     * @ORM\Column(name="emp_work_email", type="string", length=50, nullable=true)
      */
-    private $emp_work_email;
+    private ?string $empWorkEmail;
 
     /**
      * @var string
@@ -262,11 +263,11 @@ class Employee
     private $joined_date;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="emp_oth_email", type="string", length=50)
+     * @ORM\Column(name="emp_oth_email", type="string", length=50, nullable=true)
      */
-    private $emp_oth_email;
+    private ?string $empOtherEmail;
 
     /**
      * @var string
@@ -346,31 +347,12 @@ class Employee
     private ?DateTime $purgedAt;
 
     /**
-     * @var Collection
+     * @var JobTitle|null
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Subunit", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="work_station", referencedColumnName="id")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobTitle")
+     * @ORM\JoinColumn(name="job_title_code", referencedColumnName="id", nullable=true)
      */
-    private $subDivision;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\JobTitle", mappedBy="employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="job_title_code", referencedColumnName="id")
-     * })
-     */
-    private $jobTitle;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="subordinates")
-     */
-    private $supervisors;
+    private ?JobTitle $jobTitle = null;
 
     /**
      * @var Collection
@@ -537,14 +519,37 @@ class Employee
     private $users;
 
     /**
+     * @var EmpPicture|null
+     *
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmpPicture", mappedBy="employee")
+     */
+    private ?EmpPicture $empPicture = null;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="supervisors")
+     */
+    private $subordinates;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", inversedBy="subordinates")
+     * @ORM\JoinTable(
+     *     name="hs_hr_emp_reportto",
+     *     joinColumns={@ORM\JoinColumn(name="erep_sub_emp_number", referencedColumnName="emp_number")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="erep_sup_emp_number", referencedColumnName="emp_number")}
+     * )
+     */
+    private $supervisors;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->smoker = 0;
-        $this->subDivision = new ArrayCollection();
-        $this->jobTitle = new ArrayCollection();
-        $this->supervisors = new ArrayCollection();
         $this->locations = new ArrayCollection();
         $this->dependents = new ArrayCollection();
         $this->emergencyContacts = new ArrayCollection();
@@ -562,6 +567,8 @@ class Employee
         $this->employeeTerminationRecords = new ArrayCollection();
         $this->EmployeeCountry = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->subordinates = new ArrayCollection();
+        $this->supervisors = new ArrayCollection();
     }
 
     /**
@@ -645,6 +652,70 @@ class Employee
     }
 
     /**
+     * @return EmploymentStatus|null
+     */
+    public function getEmpStatus(): ?EmploymentStatus
+    {
+        return $this->empStatus;
+    }
+
+    /**
+     * @param EmploymentStatus|null $empStatus
+     */
+    public function setEmpStatus(?EmploymentStatus $empStatus): void
+    {
+        $this->empStatus = $empStatus;
+    }
+
+    /**
+     * @return Subunit|null
+     */
+    public function getSubDivision(): ?Subunit
+    {
+        return $this->subDivision;
+    }
+
+    /**
+     * @param Subunit|null $subDivision
+     */
+    public function setSubDivision(?Subunit $subDivision): void
+    {
+        $this->subDivision = $subDivision;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmpWorkEmail(): ?string
+    {
+        return $this->empWorkEmail;
+    }
+
+    /**
+     * @param string|null $empWorkEmail
+     */
+    public function setEmpWorkEmail(?string $empWorkEmail): void
+    {
+        $this->empWorkEmail = $empWorkEmail;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmpOtherEmail(): ?string
+    {
+        return $this->empOtherEmail;
+    }
+
+    /**
+     * @param string|null $empOtherEmail
+     */
+    public function setEmpOtherEmail(?string $empOtherEmail): void
+    {
+        $this->empOtherEmail = $empOtherEmail;
+    }
+
+    /**
      * @return EmployeeTerminationRecord|null
      */
     public function getEmployeeTerminationRecord(): ?EmployeeTerminationRecord
@@ -677,9 +748,41 @@ class Employee
     }
 
     /**
+     * @return JobTitle|null
+     */
+    public function getJobTitle(): ?JobTitle
+    {
+        return $this->jobTitle;
+    }
+
+    /**
+     * @param JobTitle|null $jobTitle
+     */
+    public function setJobTitle(?JobTitle $jobTitle): void
+    {
+        $this->jobTitle = $jobTitle;
+    }
+
+    /**
+     * @return Collection|Skill[]
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    /**
+     * @param Collection|Skill[] $skills
+     */
+    public function setSkills($skills): void
+    {
+        $this->skills = $skills;
+    }
+
+    /**
      * @return Collection|User[]
      */
-    public function getUsers(): Collection
+    public function getUsers(): array
     {
         return $this->users;
     }
@@ -693,18 +796,50 @@ class Employee
     }
 
     /**
-     * @return Collection
+     * @return EmpPicture|null
      */
-    public function getSkills(): Collection
+    public function getEmpPicture(): ?EmpPicture
     {
-        return $this->skills;
+        return $this->empPicture;
     }
 
     /**
-     * @param Collection $skills
+     * @param EmpPicture|null $empPicture
      */
-    public function setSkills(Collection $skills): void
+    public function setEmpPicture(?EmpPicture $empPicture): void
     {
-        $this->skills = $skills;
+        $this->empPicture = $empPicture;
+    }
+
+    /**
+     * @return Collection|Employee[]
+     */
+    public function getSubordinates()
+    {
+        return $this->subordinates;
+    }
+
+    /**
+     * @param Collection|Employee[] $subordinates
+     */
+    public function setSubordinates($subordinates): void
+    {
+        $this->subordinates = $subordinates;
+    }
+
+    /**
+     * @return Collection|Employee[]
+     */
+    public function getSupervisors(): Collection
+    {
+        return $this->supervisors;
+    }
+
+    /**
+     * @param Collection|Employee[] $supervisors
+     */
+    public function setSupervisors($supervisors): void
+    {
+        $this->supervisors = $supervisors;
     }
 }
