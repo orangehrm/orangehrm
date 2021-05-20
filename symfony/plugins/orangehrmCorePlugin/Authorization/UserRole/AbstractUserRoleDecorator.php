@@ -47,8 +47,7 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         return $this->decoratedUserRole;
     }
 
-    public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null, $requiredPermissions = []
-    ) {
+    public function getAccessibleEntityIds(string $entityType, ?string $operation = null, $returnType = null, array $requiredPermissions = []): array {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {
@@ -80,7 +79,7 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []) {
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array {
         if (is_null($this->decoratedUserRole)) {
             return [];
         } else {

@@ -20,16 +20,16 @@
 namespace OrangeHRM\Authentication\Subscriber;
 
 use Exception;
+use OrangeHRM\Authentication\Auth\User;
+use OrangeHRM\Authentication\Exception\SessionExpiredException;
 use OrangeHRM\Core\Controller\AbstractViewController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Routing\UrlGenerator;
-use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Authentication\Auth\User;
-use OrangeHRM\Authentication\Exception\SessionExpiredException;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -37,6 +37,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class AuthenticationSubscriber extends AbstractEventSubscriber
 {
+    use ServiceContainerTrait;
+
     /**
      * @inheritDoc
      */
@@ -67,7 +69,7 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
         }
 
         /** @var UrlGenerator $urlGenerator */
-        $urlGenerator = ServiceContainer::getContainer()->get(Services::URL_GENERATOR);
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
 
         if ($this->getControllerInstance($event) instanceof AbstractViewController) {
             throw new SessionExpiredException();
@@ -90,7 +92,7 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
         $exception = $event->getThrowable();
         if ($exception instanceof SessionExpiredException) {
             /** @var UrlGenerator $urlGenerator */
-            $urlGenerator = ServiceContainer::getContainer()->get(Services::URL_GENERATOR);
+            $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
 
             $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
             $response = new RedirectResponse($loginUrl);

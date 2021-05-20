@@ -19,68 +19,98 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
+use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Pim\Service\EmployeeService;
 
 /**
  * Description of UserRoleInterface
  *
  * @author Chameera Senarathna
  */
-abstract class AbstractUserRole {
-    
-    protected $employeeService;
-    protected $systemUserService;
+abstract class AbstractUserRole
+{
+    use AuthUserTrait;
+
+    protected ?EmployeeService $employeeService = null;
+    protected ?UserService $systemUserService = null;
     protected $operationalCountryService;
-    protected $locationService;       
+    protected $locationService;
     protected $projectService;
     protected $vacancyService;
-    
-    protected $userRoleManager;
-    
-    protected $employeeNumber;
-    
-    protected $roleName;
- 
-    public function __construct($roleName, $userRoleManager) {
+
+    /**
+     * @var AbstractUserRoleManager
+     */
+    protected AbstractUserRoleManager $userRoleManager;
+
+    /**
+     * @var string
+     */
+    protected string $roleName;
+
+    /**
+     * @param string $roleName
+     * @param AbstractUserRoleManager $userRoleManager
+     */
+    public function __construct(string $roleName, AbstractUserRoleManager $userRoleManager)
+    {
         $this->userRoleManager = $userRoleManager;
-        $this->roleName = $roleName;        
-    }
-    
-    public function getEmployeeNumber() {
-        if(empty($this->employeeNumber)) {
-            $this->employeeNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
-        }
-        return $this->employeeNumber;
+        $this->roleName = $roleName;
     }
 
-    public function setEmployeeNumber($employeeNumber) {
-        $this->employeeNumber = $employeeNumber;
-    }    
+    /**
+     * @return int|null
+     */
+    public function getEmployeeNumber(): ?int
+    {
+        return $this->getAuthUser()->getEmpNumber();
+    }
 
-    public function getSystemUserService() {
-        if (empty($this->systemUserService)) {
-            $this->systemUserService = new SystemUserService();
+    /**
+     * @return UserService
+     */
+    public function getSystemUserService(): UserService
+    {
+        if (!$this->systemUserService instanceof UserService) {
+            $this->systemUserService = new UserService();
         }
         return $this->systemUserService;
     }
 
-    public function setSystemUserService($systemUserService) {
+    /**
+     * @param UserService $systemUserService
+     */
+    public function setSystemUserService(UserService $systemUserService): void
+    {
         $this->systemUserService = $systemUserService;
     }
 
-    public function getEmployeeService() {
-
-        if (empty($this->employeeService)) {
+    /**
+     * @return EmployeeService
+     */
+    public function getEmployeeService(): EmployeeService
+    {
+        if (!$this->employeeService instanceof EmployeeService) {
             $this->employeeService = new EmployeeService();
         }
         return $this->employeeService;
     }
 
-    public function setEmployeeService($employeeService) {
+    /**
+     * @param EmployeeService $employeeService
+     */
+    public function setEmployeeService(EmployeeService $employeeService): void
+    {
         $this->employeeService = $employeeService;
     }
 
     public function getLocationService() {
+        // TODO
         if (empty($this->locationService)) {
             $this->locationService = new LocationService();
         }
@@ -88,10 +118,12 @@ abstract class AbstractUserRole {
     }
 
     public function setLocationService($locationService) {
+        // TODO
         $this->locationService = $locationService;
     }
 
     public function getOperationalCountryService() {
+        // TODO
         if (empty($this->operationalCountryService)) {
             $this->operationalCountryService = new OperationalCountryService();
         }
@@ -99,6 +131,7 @@ abstract class AbstractUserRole {
     }
 
     public function setOperationalCountryService($operationalCountryService) {
+        // TODO
         $this->operationalCountryService = $operationalCountryService;
     }
     
@@ -107,6 +140,7 @@ abstract class AbstractUserRole {
      * @return ProjectService
      */
     public function getProjectService() {
+        // TODO
         if (is_null($this->projectService)) {
             $this->projectService = new ProjectService();
         }
@@ -119,6 +153,7 @@ abstract class AbstractUserRole {
      * @return void
      */
     public function setProjectService(ProjectService $projectService) {
+        // TODO
         $this->projectService = $projectService;
     }    
     
@@ -127,6 +162,7 @@ abstract class AbstractUserRole {
      * @return VacancyService
      */
     public function getVacancyService() {
+        // TODO
         if (is_null($this->vacancyService)) {
             $this->vacancyService = new VacancyService();
         }        
@@ -138,6 +174,7 @@ abstract class AbstractUserRole {
      * @param VacancyService $vacancyService
      */
     public function setVacancyService(VacancyService $vacancyService) {
+        // TODO
         $this->vacancyService = $vacancyService;
     }
 
@@ -148,16 +185,21 @@ abstract class AbstractUserRole {
         
         if ($permitted) {
             switch ($entityType) {
-                case 'Employee':
+                case Employee::class:
                     $entities = $this->getAccessibleEmployees($operation, $returnType, $requiredPermissions);
                     break;
                 case 'Project':
+                    // TODO:: implement and remove below line
+                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $entities = $this->getAccessibleProjects($operation, $returnType, $requiredPermissions);
                     break;
                 case 'Vacancy':
+                    // TODO:: implement and remove below line
+                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $entities = $this->getAccessibleVacancies($operation, $returnType, $requiredPermissions);
-                    break;                
-
+                    break;
+                default:
+                    throw AuthorizationException::entityNotSupported($entityType, __METHOD__);
             }
         } else {
             $entities = [];
@@ -171,9 +213,11 @@ abstract class AbstractUserRole {
         $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
         if ($permitted) {
             switch ($entityType) {
-                case 'Employee':
+                case Employee::class:
                     $propertyList = $this->getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions);
                     break;
+                default:
+                    throw AuthorizationException::entityNotSupported($entityType, __METHOD__);
             }
         } else {
             $propertyList = [];
@@ -181,36 +225,59 @@ abstract class AbstractUserRole {
         return $propertyList;
     }
 
-    public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null, $requiredPermissions = []
-    ) {
-        
+    /**
+     * @param string $entityType
+     * @param string|null $operation
+     * @param null $returnType
+     * @param array $requiredPermissions
+     * @return int[]
+     */
+    public function getAccessibleEntityIds(
+        string $entityType,
+        ?string $operation = null,
+        $returnType = null,
+        array $requiredPermissions = []
+    ): array {
         $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
-        if ($permitted) {        
+        $ids = [];
+        if ($permitted) {
             switch ($entityType) {
-                case 'Employee':
-                    $ids = $this->getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions);                
+                case Employee::class:
+                    $ids = $this->getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'SystemUser':
+                    // TODO:: implement and remove below line
+                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $ids = $this->getAccessibleSystemUserIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'OperationalCountry':
+                    // TODO:: implement and remove below line
+                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $ids = $this->getAccessibleOperationalCountryIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'UserRole':
+                    // TODO
+                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $ids = $this->getAccessibleUserRoleIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'Location':
+                    // TODO:: implement and remove below line
+                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $ids = $this->getAccessibleLocationIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'Project':
+                    // TODO:: implement and remove below line
+                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $ids = $this->getAccessibleProjectIds($operation, $returnType, $requiredPermissions);
-                    break;            
+                    break;
                 case 'Vacancy':
+                    // TODO:: implement and remove below line
+                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $ids = $this->getAccessibleVacancyIds($operation, $returnType, $requiredPermissions);
-                    break;                    
+                    break;
+                default:
+                    throw AuthorizationException::entityNotSupported($entityType, __METHOD__);
             }
-        } else {
-            $ids = [];
         }
         return $ids;
     }
@@ -233,9 +300,15 @@ abstract class AbstractUserRole {
     
     public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = []) {
         return [];
-    }        
-    
-    abstract public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []);
+    }
+
+    /**
+     * @param null $operation
+     * @param null $returnType
+     * @param array $requiredPermissions
+     * @return array|Employee[]
+     */
+    abstract public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array;
     
     abstract public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = []
     );
@@ -251,8 +324,12 @@ abstract class AbstractUserRole {
     abstract public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = []);
 
     abstract public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []);
-    
-    protected function areRequiredPermissionsAvailable($requiredPermissions = []) {
+
+    /**
+     * @param array $requiredPermissions
+     * @return bool
+     */
+    protected function areRequiredPermissionsAvailable(array $requiredPermissions = []): bool {
         $permitted = true;
         
         foreach ($requiredPermissions as $permissionType => $permissions) {
@@ -277,7 +354,7 @@ abstract class AbstractUserRole {
                         $permitted = $dataGroupPermissions->canDelete();
                     }                        
                 }
-            } else if ($permissionType == BasicUserRoleManager::PERMISSION_TYPE_ACTION) {
+            } elseif ($permissionType == BasicUserRoleManager::PERMISSION_TYPE_ACTION) {
                 $permitted = true;
             }
         } 

@@ -77,7 +77,12 @@ final class Services
     public const URL_GENERATOR = 'url_generator';
 
     /**
-     * Symfony\Component\HttpFoundation\UrlHelper
+     * \Symfony\Component\HttpFoundation\UrlHelper
      */
     public const URL_HELPER = 'url_helper';
+
+    /**
+     * \OrangeHRM\Core\Service\ConfigService
+     */
+    public const CONFIG_SERVICE = 'core.config_service';
 }

@@ -20,15 +20,17 @@
 namespace OrangeHRM\Core\Subscriber;
 
 use Exception;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Logger\Logger;
-use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class LoggerSubscriber extends AbstractEventSubscriber
 {
+    use ServiceContainerTrait;
+
     /**
      * @inheritDoc
      */
@@ -49,7 +51,7 @@ class LoggerSubscriber extends AbstractEventSubscriber
     {
         $exception = $event->getThrowable();
         /** @var Logger $logger */
-        $logger = ServiceContainer::getContainer()->get(Services::LOGGER);
+        $logger = $this->getContainer()->get(Services::LOGGER);
         $logger->error($exception->getMessage());
         $logger->error($exception->getTraceAsString());
     }

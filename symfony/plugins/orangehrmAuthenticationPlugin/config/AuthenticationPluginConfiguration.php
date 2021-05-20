@@ -17,22 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\EventDispatcher;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
 
 class AuthenticationPluginConfiguration implements PluginConfigurationInterface
 {
+    use ServiceContainerTrait;
+
     /**
      * @inheritDoc
      */
     public function initialize(Request $request): void
     {
         /** @var EventDispatcher $dispatcher */
-        $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
+        $dispatcher = $this->getContainer()->get(Services::EVENT_DISPATCHER);
         $dispatcher->addSubscriber(new AuthenticationSubscriber());
     }
 }

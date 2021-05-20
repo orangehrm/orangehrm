@@ -20,17 +20,19 @@
 namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\ServiceContainer;
 use OrangeHRM\Framework\Services;
 
 class LogoutController extends AbstractController
 {
+    use ServiceContainerTrait;
+
     public function handle(): RedirectResponse
     {
         /** @var Session $session */
-        $session = ServiceContainer::getContainer()->get(Services::SESSION);
+        $session = $this->getContainer()->get(Services::SESSION);
         $session->invalidate();
         return $this->redirect("auth/login");
     }

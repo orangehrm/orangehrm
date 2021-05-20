@@ -23,6 +23,7 @@ use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 
@@ -30,7 +31,7 @@ class EmployeeDao extends BaseDao
 {
     /**
      * @param EmployeeSearchFilterParams $employeeSearchParamHolder
-     * @return array
+     * @return Employee[]
      * @throws DaoException
      */
     public function getEmployeeList(EmployeeSearchFilterParams $employeeSearchParamHolder): array
@@ -64,31 +65,77 @@ class EmployeeDao extends BaseDao
      */
     public function getEmployeeListPaginator(EmployeeSearchFilterParams $employeeSearchParamHolder): Paginator
     {
-        $q = $this->createQueryBuilder(Employee::class, 'e');
+        $q = $this->createQueryBuilder(Employee::class, 'employee');
+        $q->leftJoin('employee.jobTitle', 'jobTitle');
+        $q->leftJoin('employee.subDivision', 'subunit');
+        $q->leftJoin('employee.empStatus', 'empStatus');
+        $q->leftJoin('employee.supervisors', 'supervisor');
+
         $this->setSortingAndPaginationParams($q, $employeeSearchParamHolder);
-        if (!$employeeSearchParamHolder->isIncludeTerminated()) {
-            $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
+
+        if (is_null($employeeSearchParamHolder->getIncludeEmployees()) ||
+            $employeeSearchParamHolder->getIncludeEmployees() ===
+            EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
+        ) {
+            $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        } elseif (
+            $employeeSearchParamHolder->getIncludeEmployees() ===
+            EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST
+        ) {
+            $q->andWhere($q->expr()->isNotNull('employee.employeeTerminationRecord'));
         }
+
         if (!is_null($employeeSearchParamHolder->getName())) {
             $q->andWhere(
                 $q->expr()->orX(
-                    $q->expr()->like('e.firstName', ':name'),
-                    $q->expr()->like('e.lastName', ':name'),
-                    $q->expr()->like('e.middleName', ':name'),
+                    $q->expr()->like('employee.firstName', ':name'),
+                    $q->expr()->like('employee.lastName', ':name'),
+                    $q->expr()->like('employee.middleName', ':name'),
                 )
             );
             $q->setParameter('name', '%' . $employeeSearchParamHolder->getName() . '%');
         }
+
         if (!is_null($employeeSearchParamHolder->getNameOrId())) {
             $q->andWhere(
                 $q->expr()->orX(
-                    $q->expr()->like('e.firstName', ':nameOrId'),
-                    $q->expr()->like('e.lastName', ':nameOrId'),
-                    $q->expr()->like('e.middleName', ':nameOrId'),
-                    $q->expr()->like('e.employeeId', ':nameOrId'),
+                    $q->expr()->like('employee.firstName', ':nameOrId'),
+                    $q->expr()->like('employee.lastName', ':nameOrId'),
+                    $q->expr()->like('employee.middleName', ':nameOrId'),
+                    $q->expr()->like('employee.employeeId', ':nameOrId'),
                 )
             );
             $q->setParameter('nameOrId', '%' . $employeeSearchParamHolder->getNameOrId() . '%');
+        }
+
+        if (!is_null($employeeSearchParamHolder->getEmployeeId())) {
+            $q->andWhere($q->expr()->in('employee.employeeId', ':employeeId'))
+                ->setParameter('employeeId', $employeeSearchParamHolder->getEmployeeId());
+        }
+
+        if (!is_null($employeeSearchParamHolder->getSubunitId())) {
+            $q->andWhere($q->expr()->in('subunit.id', ':subunitId'))
+                ->setParameter('subunitId', $employeeSearchParamHolder->getSubunitId());
+        }
+
+        if (!is_null($employeeSearchParamHolder->getEmpStatusId())) {
+            $q->andWhere($q->expr()->in('empStatus.id', ':empStatusId'))
+                ->setParameter('empStatusId', $employeeSearchParamHolder->getEmpStatusId());
+        }
+
+        if (!is_null($employeeSearchParamHolder->getJobTitleId())) {
+            $q->andWhere($q->expr()->in('jobTitle.id', ':jobTitleId'))
+                ->setParameter('jobTitleId', $employeeSearchParamHolder->getJobTitleId());
+        }
+
+        if (!is_null($employeeSearchParamHolder->getEmployeeNumbers())) {
+            $q->andWhere($q->expr()->in('employee.empNumber', ':empNumbers'))
+                ->setParameter('empNumbers', $employeeSearchParamHolder->getEmployeeNumbers());
+        }
+
+        if (!is_null($employeeSearchParamHolder->getSupervisorEmpNumbers())) {
+            $q->andWhere($q->expr()->in('supervisor.empNumber', ':supervisorEmpNumbers'))
+                ->setParameter('supervisorEmpNumbers', $employeeSearchParamHolder->getSupervisorEmpNumbers());
         }
 
         return $this->getPaginator($q);
@@ -127,27 +174,45 @@ class EmployeeDao extends BaseDao
         }
     }
 
-    public function getSubordinateIdListBySupervisorId($supervisorId, $includeChain = false, $supervisorIdStack = array (), $maxDepth = NULL, $depth = 1) {
-
+    /**
+     * @param int $supervisorId
+     * @param bool $includeChain
+     * @param array $supervisorIdStack
+     * @param int|null $maxDepth
+     * @param int $depth
+     * @return int[]
+     * @throws DaoException
+     */
+    public function getSubordinateIdListBySupervisorId(
+        int $supervisorId,
+        bool $includeChain = false,
+        array $supervisorIdStack = [],
+        ?int $maxDepth = null,
+        int $depth = 1
+    ): array {
         try {
-            $employeeIdList = array();
-            $q = "SELECT h.erep_sub_emp_number
-            	FROM hs_hr_emp_reportto h 
-            		WHERE (h.erep_sup_emp_number = ?)";
+            $employeeIdList = [];
+            $q = $this->createQueryBuilder(ReportTo::class, 'r');
+            $q->andWhere('r.supervisor = :supervisorId')
+                ->setParameter('supervisorId', $supervisorId);
 
+            /** @var ReportTo[] $reportToArray */
+            $reportToArray = $q->getQuery()->execute();
 
-            $pdo = Doctrine_Manager::connection()->getDbh();
-            $query = $pdo->prepare($q);
-            $query->execute(array($supervisorId));
-            $subordinates =  $query->fetchAll();
-
-            foreach ($subordinates as $subordinate) {
-                array_push($employeeIdList, $subordinate['erep_sub_emp_number']);
+            foreach ($reportToArray as $reportTo) {
+                $subordinateEmpNumber = $reportTo->getSubordinate()->getEmpNumber();
+                array_push($employeeIdList, $subordinateEmpNumber);
 
                 if ($includeChain || (!is_null($maxDepth) && ($depth < $maxDepth))) {
-                    if (!in_array($subordinate['erep_sub_emp_number'], $supervisorIdStack)) {
-                        $supervisorIdStack[] = $subordinate['erep_sub_emp_number'];
-                        $subordinateIdList = $this->getSubordinateIdListBySupervisorId($subordinate['erep_sub_emp_number'], $includeChain, $supervisorIdStack, $maxDepth, $depth + 1);
+                    if (!in_array($subordinateEmpNumber, $supervisorIdStack)) {
+                        $supervisorIdStack[] = $subordinateEmpNumber;
+                        $subordinateIdList = $this->getSubordinateIdListBySupervisorId(
+                            $subordinateEmpNumber,
+                            $includeChain,
+                            $supervisorIdStack,
+                            $maxDepth,
+                            $depth + 1
+                        );
                         if (count($subordinateIdList) > 0) {
                             foreach ($subordinateIdList as $id) {
                                 array_push($employeeIdList, $id);
@@ -169,5 +234,106 @@ class EmployeeDao extends BaseDao
     {
         $q = $this->createQueryBuilder(Employee::class, 'e');
         return $this->count($q);
+    }
+
+    /**
+     * Return List of Subordinates for given Supervisor
+     *
+     * @param int $supervisorId Supervisor Id
+     * @param bool $includeTerminated Terminated status
+     * @param bool $includeChain
+     * @param array $supervisorIdStack
+     * @return Employee[] of Subordinates
+     * @throws DaoException
+     */
+    public function getSubordinateList(
+        int $supervisorId,
+        bool $includeTerminated = false,
+        bool $includeChain = false,
+        array $supervisorIdStack = []
+    ): array {
+        try {
+            $employeeList = [];
+            $q = $this->createQueryBuilder(ReportTo::class, 'rt');
+            $q->leftJoin('rt.subordinate', 'e');
+            $q->andWhere('rt.supervisor = :supervisorId')
+                ->setParameter('supervisorId', $supervisorId);
+
+            if ($includeTerminated == false) {
+                $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
+            }
+
+            /** @var ReportTo[] $reportToArray */
+            $reportToArray = $q->getQuery()->execute();
+
+            foreach ($reportToArray as $reportTo) {
+                $employeeList[] = $reportTo->getSubordinate();
+
+                if ($includeChain) {
+                    $subordinateEmpNumber = $reportTo->getSubordinate()->getEmpNumber();
+                    if (!in_array($subordinateEmpNumber, $supervisorIdStack)) {
+                        $supervisorIdStack[] = $subordinateEmpNumber;
+                        $subordinateList = $this->getSubordinateList(
+                            $subordinateEmpNumber,
+                            $includeTerminated,
+                            $includeChain,
+                            $supervisorIdStack
+                        );
+                        if (count($subordinateList) > 0) {
+                            foreach ($subordinateList as $sub) {
+                                $employeeList[] = $sub;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return $employeeList;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * Check if employee with given empNumber is a supervisor
+     * @param int $empNumber
+     * @return bool - True if given employee is a supervisor, false if not
+     */
+    public function isSupervisor(int $empNumber): bool
+    {
+        try {
+            $q = $this->createQueryBuilder(ReportTo::class, 'r');
+            $q->andWhere('r.supervisor = :supervisorId')
+                ->setParameter('supervisorId', $empNumber);
+
+            return ($this->count($q) > 0);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * Get Employee id list
+     *
+     * @param bool $excludeTerminatedEmployees
+     * @return int[] EmployeeId List
+     * @throws DaoException
+     */
+    public function getEmployeeIdList(bool $excludeTerminatedEmployees = false): array
+    {
+        try {
+            $q = $this->createQueryBuilder(Employee::class, 'e');
+            $q->select('e.empNumber');
+            $q->addOrderBy('e.empNumber');
+
+            if ($excludeTerminatedEmployees) {
+                $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
+            }
+
+            $result = $q->getQuery()->getArrayResult();
+            return array_column($result, 'empNumber');
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

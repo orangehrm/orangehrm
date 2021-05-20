@@ -43,10 +43,9 @@ class MenuServiceTest extends TestCase
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/MenuDao.yml';
         TestDataService::populate($this->fixture);
         $this->menuService = new MenuService();
-
     }
 
-    public function testGetMenuItemCollectionForAdmin()
+    public function testGetMenuItemCollectionForAdmin(): void
     {
         $userRoleList[0] = new UserRole();
         $userRoleList[0]->setName('Admin');
@@ -67,7 +66,7 @@ class MenuServiceTest extends TestCase
         $this->assertEquals('Leave', $menuArray[12]->getMenuTitle());
     }
 
-    public function testGetMenuItemCollectionForEss()
+    public function testGetMenuItemCollectionForEss(): void
     {
         $userRoleList[0] = new UserRole();
         $userRoleList[0]->setName('ESS');
@@ -87,7 +86,7 @@ class MenuServiceTest extends TestCase
         $this->assertEquals('My Info', $menuArray[21]->getMenuTitle());
     }
 
-    public function testGetMenuItemDetailsForAdmin()
+    public function testGetMenuItemDetailsForAdmin(): void
     {
         $userRoleList[0] = new UserRole();
         $userRoleList[0]->setName('Admin');
@@ -116,7 +115,7 @@ class MenuServiceTest extends TestCase
         $this->assertEquals(3, $LocationsMenu[1]['level']);
     }
 
-    public function testGetMenuItemDetailsForEss()
+    public function testGetMenuItemDetailsForEss(): void
     {
         $userRoleList[0] = new UserRole();
         $userRoleList[0]->setName('ESS');
@@ -132,7 +131,7 @@ class MenuServiceTest extends TestCase
         $this->assertEquals('My Info', $menuArray[1]['menuTitle']);
     }
 
-    public function testGetMenuItemDetailsForSupervisor()
+    public function testGetMenuItemDetailsForSupervisor(): void
     {
         $userRoleList[0] = new UserRole();
         $userRoleList[0]->setName('ESS');
@@ -154,7 +153,7 @@ class MenuServiceTest extends TestCase
         $this->assertEquals('Employee List', $pimSubMenus[0]['menuTitle']);
     }
 
-    public function testGetMenuItemsDetailsForAdminAndEss()
+    public function testGetMenuItemsDetailsForAdminAndEss(): void
     {
         $userRoleList[0] = new UserRole();
         $userRoleList[0]->setName('ESS');

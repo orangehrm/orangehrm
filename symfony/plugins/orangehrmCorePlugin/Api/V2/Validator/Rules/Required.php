@@ -31,11 +31,11 @@ class Required extends AbstractRule
     private bool $excludeEmptyString;
 
     /**
-     * @param bool $exccludeEmptyString
+     * @param bool $excludeEmptyString
      */
-    public function __construct(bool $exccludeEmptyString = false)
+    public function __construct(bool $excludeEmptyString = false)
     {
-        $this->excludeEmptyString = $exccludeEmptyString;
+        $this->excludeEmptyString = $excludeEmptyString;
     }
 
     /**

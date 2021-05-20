@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Authorization\UserRole;
 
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Entity\Employee;
 
 /**
  * Description of SupervisorUserRole
@@ -52,7 +53,13 @@ class SupervisorUserRole extends AbstractUserRole {
         return $employeeProperties;
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []) {
+    /**
+     * @param null $operation
+     * @param null $returnType
+     * @param array $requiredPermissions
+     * @return array|Employee[]
+     */
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []): array {
 
         $employees = [];
 

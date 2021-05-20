@@ -14,6 +14,15 @@ apiv2_pim_employees:
     _api: OrangeHRM\Pim\Api\EmployeeAPI
 
 ##########################
+#        Files
+##########################
+
+pim_employee_picture:
+  path: /pim/viewPhoto/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeePictureController::handle
+  methods: [ GET ]
+
+##########################
 #        Screens
 ##########################
 

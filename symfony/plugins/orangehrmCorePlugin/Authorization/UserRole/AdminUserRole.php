@@ -19,6 +19,10 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+
 /**
  * Description of AdminUserRole
  *
@@ -36,9 +40,21 @@ class AdminUserRole extends AbstractUserRole {
         return $this->getEmployeeService()->getEmployeePropertyList($properties, $orderField, $orderBy, false);
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []) {
+    /**
+     * @param null $operation
+     * @param null $returnType
+     * @param array $requiredPermissions
+     * @return array|Employee[]
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @throws \OrangeHRM\Core\Exception\SearchParamException
+     */
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []):array {
 
-        $employees = $this->getEmployeeService()->getEmployeeList('empNumber', 'ASC', true);
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $employeeSearchFilterParams->setSortField('e.empNumber');
+        $employeeSearchFilterParams->setSortOrder(ListSorter::ASCENDING);
+        $employeeSearchFilterParams->setIncludeEmployees(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_CURRENT_AND_PAST);
+        $employees = $this->getEmployeeService()->getEmployeeList($employeeSearchFilterParams);
 
         $employeesWithIds = [];
 

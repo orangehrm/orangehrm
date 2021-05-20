@@ -23,31 +23,77 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['e.lastName', 'e.firstName', 'e.middleName', 'e.empNumber', 'e.employeeId'];
+    public const ALLOWED_SORT_FIELDS = [
+        'employee.lastName',
+        'employee.firstName',
+        'employee.middleName',
+        'employee.empNumber',
+        'employee.employeeId',
+        'jobTitle.jobTitleName',
+        'empStatus.name',
+        'subunit.name',
+    ];
 
-    protected bool $includeTerminated = false;
+    public const INCLUDE_EMPLOYEES_ONLY_CURRENT = 'onlyCurrent';
+    public const INCLUDE_EMPLOYEES_ONLY_PAST = 'onlyPast';
+    public const INCLUDE_EMPLOYEES_CURRENT_AND_PAST = 'currentAndPast';
+
+    /**
+     * @var string|null
+     */
+    protected ?string $includeEmployees = self::INCLUDE_EMPLOYEES_ONLY_CURRENT;
+    /**
+     * @var string|null
+     */
     protected ?string $name = null;
+    /**
+     * @var string|null
+     */
     protected ?string $nameOrId = null;
+    /**
+     * @var int[]|null
+     */
+    protected ?array $employeeNumbers = null;
+    /**
+     * @var string|null
+     */
+    protected ?string $employeeId = null;
+    /**
+     * @var int|null
+     */
+    protected ?int $empStatusId = null;
+    /**
+     * @var int|null
+     */
+    protected ?int $jobTitleId = null;
+    /**
+     * @var int|null
+     */
+    protected ?int $subunitId = null;
+    /**
+     * @var int[]|null
+     */
+    protected ?array $supervisorEmpNumbers = null;
 
     public function __construct()
     {
-        $this->setSortField('e.lastName');
+        $this->setSortField('employee.lastName');
     }
 
     /**
-     * @return bool
+     * @return string|null
      */
-    public function isIncludeTerminated(): bool
+    public function getIncludeEmployees(): ?string
     {
-        return $this->includeTerminated;
+        return $this->includeEmployees;
     }
 
     /**
-     * @param bool $includeTerminated
+     * @param string|null $includeEmployees
      */
-    public function setIncludeTerminated(bool $includeTerminated): void
+    public function setIncludeEmployees(?string $includeEmployees): void
     {
-        $this->includeTerminated = $includeTerminated;
+        $this->includeEmployees = $includeEmployees;
     }
 
     /**
@@ -80,5 +126,101 @@ class EmployeeSearchFilterParams extends FilterParams
     public function setNameOrId(?string $nameOrId): void
     {
         $this->nameOrId = $nameOrId;
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function getEmployeeNumbers(): ?array
+    {
+        return $this->employeeNumbers;
+    }
+
+    /**
+     * @param int[]|null $employeeNumbers
+     */
+    public function setEmployeeNumbers(?array $employeeNumbers): void
+    {
+        $this->employeeNumbers = $employeeNumbers;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmployeeId(): ?string
+    {
+        return $this->employeeId;
+    }
+
+    /**
+     * @param string|null $employeeId
+     */
+    public function setEmployeeId(?string $employeeId): void
+    {
+        $this->employeeId = $employeeId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getEmpStatusId(): ?int
+    {
+        return $this->empStatusId;
+    }
+
+    /**
+     * @param int|null $empStatusId
+     */
+    public function setEmpStatusId(?int $empStatusId): void
+    {
+        $this->empStatusId = $empStatusId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getJobTitleId(): ?int
+    {
+        return $this->jobTitleId;
+    }
+
+    /**
+     * @param int|null $jobTitleId
+     */
+    public function setJobTitleId(?int $jobTitleId): void
+    {
+        $this->jobTitleId = $jobTitleId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSubunitId(): ?int
+    {
+        return $this->subunitId;
+    }
+
+    /**
+     * @param int|null $subunitId
+     */
+    public function setSubunitId(?int $subunitId): void
+    {
+        $this->subunitId = $subunitId;
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function getSupervisorEmpNumbers(): ?array
+    {
+        return $this->supervisorEmpNumbers;
+    }
+
+    /**
+     * @param int[]|null $supervisorEmpNumbers
+     */
+    public function setSupervisorEmpNumbers(?array $supervisorEmpNumbers): void
+    {
+        $this->supervisorEmpNumbers = $supervisorEmpNumbers;
     }
 }
