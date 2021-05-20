@@ -40,4 +40,22 @@ class EmployeePictureDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @param int $empNumber
+     * @return EmpPicture|null
+     * @throws DaoException
+     */
+    public function getEmpPictureByEmpNumber(int $empNumber): ?EmpPicture
+    {
+        try {
+            $empPicture = $this->getRepository(EmpPicture::class)->find($empNumber);
+            if ($empPicture instanceof EmpPicture) {
+                return $empPicture;
+            }
+            return null;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }

@@ -23,11 +23,36 @@ use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\RequestStack;
+use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Framework\Services;
 
 abstract class AbstractController
 {
     use ServiceContainerTrait;
+
+    /**
+     * @var Response|null
+     */
+    protected ?Response $response = null;
+
+    /**
+     * @return Response
+     */
+    protected function getNewResponse(): Response
+    {
+        return new Response();
+    }
+
+    /**
+     * @return Response
+     */
+    protected function getResponse(): Response
+    {
+        if (!$this->response instanceof Response) {
+            $this->response = $this->getNewResponse();
+        }
+        return $this->response;
+    }
 
     /**
      * @param string $path

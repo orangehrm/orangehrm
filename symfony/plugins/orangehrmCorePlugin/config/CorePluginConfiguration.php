@@ -48,7 +48,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface
             'name' => $isSecure ? 'orangehrm' : '_orangehrm',
             'cookie_secure' => $isSecure,
             'cookie_httponly' => true,
-            'cache_limiter' => 'nocache',
         ];
         $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler());
         $session = new Session($sessionStorage);

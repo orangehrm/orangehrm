@@ -46,11 +46,17 @@ class EmpPicture
     private Employee $employee;
 
     /**
-     * @var string
+     * @var string|resource
      *
      * @ORM\Column(name="epic_picture", type="blob", nullable=true)
      */
     private $picture;
+
+    /**
+     * This property to read `picture` resource
+     * @var string|null
+     */
+    private ?string $pictureString = null;
 
     /**
      * @var string|null
@@ -108,7 +114,10 @@ class EmpPicture
      */
     public function getPicture(): string
     {
-        return $this->picture;
+        if (is_null($this->pictureString)) {
+            $this->pictureString = stream_get_contents($this->picture);
+        }
+        return $this->pictureString;
     }
 
     /**
