@@ -33,8 +33,8 @@ use OrangeHRM\Tests\Util\TestDataService;
 class LicenseDaoTest extends TestCase
 {
 
-    private $licenseDao;
-    protected $fixture;
+    private LicenseDao $licenseDao;
+    protected string $fixture;
 
     /**
      * Set up method

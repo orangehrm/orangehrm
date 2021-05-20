@@ -1,0 +1,17 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+  - { empNumber: 3, firstName: 'John', lastName: 'Wayne', middleName: '', employeeId: 'E003' }
+  - { empNumber: 4, firstName: 'Edgar', lastName: 'Allen', middleName: '', employeeId: 'E004', emp_work_email: '', emp_oth_email: '' }
+  - { empNumber: 5, firstName: 'Judie', lastName: 'Foster', middleName: '', employeeId: 'E005', emp_work_email: '', emp_oth_email: '' }
+
+EmployeeEvent:
+  - { eventId: "1", empNumber: "1", type: 'employee', event: 'SAVE', note: 'Saving Employee', createdDate: '2020-12-02 10:33:23', createdBy: 'Admin' }
+  - { "eventId": "2","empNumber": "2","type": "employee","event": "SAVE","note": "Saving Employee","createdDate": "2020-08-19 10:56:08","createdBy": "Admin" }
+  - { "eventId": "3","empNumber": "2","type": "subordinate","event": "SAVE","note": "Save Employee Subordinate Details","createdDate": "2020-08-19 10:56:29","createdBy": "Admin" }
+  - { "eventId": "4","empNumber": "3","type": "employee","event": "SAVE","note": "Saving Employee","createdDate": "2020-08-19 10:59:45","createdBy": "Admin" }
+  - { "eventId": "5","empNumber": "2","type": "subordinate","event": "DELETE","note": "Employee Subordinate Removed","createdDate": "2020-08-20 12:39:22","createdBy": "Admin" }
+  - { "eventId": "6","empNumber": "2","type": "supervisor","event": "SAVE","note": "Save Employee Supervisor Details","createdDate": "2020-08-20 12:39:31","createdBy": "Admin" }
+  - { "eventId": "7","empNumber": "4","type": "employee","event": "SAVE","note": "Saving Employee","createdDate": "2020-08-20 12:46:09","createdBy": "Admin" }
+  - { "eventId": "8","empNumber": "5","type": "employee","event": "SAVE","note": "Saving Employee","createdDate": "2020-12-18 10:35:11","createdBy": "Admin" }
+  - { "eventId": "9","empNumber": "4","type": "jobDetail","event": "UPDATE","note": "Updating Employee Job Details","createdDate": "2021-03-08 06:03:37","createdBy": "Admin" }

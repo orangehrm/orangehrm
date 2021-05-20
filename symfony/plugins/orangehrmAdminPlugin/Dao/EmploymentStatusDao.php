@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Doctrine\ORM\QueryBuilder;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Entity\EmploymentStatus;
@@ -101,20 +100,10 @@ class EmploymentStatusDao extends BaseDao
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return Paginator
      */
-    private function getSearchEmploymentStatusPaginator(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): Paginator
-    {
+    private function getSearchEmploymentStatusPaginator(EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+    ): Paginator {
         $q = $this->createQueryBuilder(EmploymentStatus::class, 'es');
-
-        if (!is_null($employmentStatusSearchParams->getSortField())) {
-            $q->addOrderBy(
-                $employmentStatusSearchParams->getSortField(),
-                $employmentStatusSearchParams->getSortOrder()
-            );
-        }
-        if (!empty($employmentStatusSearchParams->getLimit())) {
-            $q->setFirstResult($employmentStatusSearchParams->getOffset())
-                ->setMaxResults($employmentStatusSearchParams->getLimit());
-        }
+        $this->setSortingAndPaginationParams($q, $employmentStatusSearchParams);
 
         if (!empty($employmentStatusSearchParams->getName())) {
             $q->andWhere('es.name = :name');
@@ -156,6 +145,5 @@ class EmploymentStatusDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-
 }
 

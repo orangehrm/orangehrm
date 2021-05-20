@@ -24,6 +24,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Organization;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
+use Exception;
 
 /**
  * @group Admin
@@ -36,6 +37,7 @@ class OrganizationDaoTest extends TestCase
 
     /**
      * Set up method
+     * @throws Exception
      */
     protected function setUp(): void
     {
@@ -47,6 +49,28 @@ class OrganizationDaoTest extends TestCase
     public function testGetOrganizationGeneralInformation(): void
     {
         $this->assertTrue($this->organizationDao->getOrganizationGeneralInformation() instanceof Organization);
+    }
+
+    public function testSaveOrganizationGeneralInformation(): void
+    {
+        $organization = new Organization();
+        $organization->setName("OrangeHRM");
+        $organization->setTaxId('1234');
+        $organization->setRegistrationNumber('1234');
+        $organization->setPhone('01123456789');
+        $organization->setFax('01123456789');
+        $organization->setEmail('test@orangehrm.com');
+        $organization->setCountry('SL');
+        $organization->setProvince('Western');
+        $organization->setCity('Panadura');
+        $organization->setZipCode('12500');
+        $organization->setStreet1('street1');
+        $organization->setStreet2('street2');
+        $organization->setNote('test note');
+        $result = $this->organizationDao->saveOrganizationGeneralInformation($organization);
+        $this->assertTrue($result instanceof Organization);
+        $this->assertEquals("OrangeHRM", $result->getName());
+        $this->assertEquals("1234", $result->getTaxId());
     }
 }
 

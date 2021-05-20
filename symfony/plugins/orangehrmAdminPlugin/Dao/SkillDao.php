@@ -105,13 +105,7 @@ class SkillDao extends BaseDao
     private function getSearchSkillPaginator(SkillSearchFilterParams $skillSearchParams): Paginator
     {
         $q = $this->createQueryBuilder(Skill::class, 's');
-        if (!is_null($skillSearchParams->getSortField())) {
-            $q->addOrderBy($skillSearchParams->getSortField(), $skillSearchParams->getSortOrder());
-        }
-        if (!empty($skillSearchParams->getLimit())) {
-            $q->setFirstResult($skillSearchParams->getOffset())
-                ->setMaxResults($skillSearchParams->getLimit());
-        }
+        $this->setSortingAndPaginationParams($q, $skillSearchParams);
 
         if (!empty($skillSearchParams->getName())) {
             $q->andWhere('s.name = :name');

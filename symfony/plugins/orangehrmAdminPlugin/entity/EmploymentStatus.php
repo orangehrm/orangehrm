@@ -38,14 +38,14 @@ class EmploymentStatus
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=60)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var Collection

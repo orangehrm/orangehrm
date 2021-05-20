@@ -19,18 +19,18 @@
 
 namespace OrangeHRM\Core\Subscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class ExceptionSubscriber implements EventSubscriberInterface
+class ExceptionSubscriber extends AbstractEventSubscriber
 {
     /**
      * @inheritDoc
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::EXCEPTION => [

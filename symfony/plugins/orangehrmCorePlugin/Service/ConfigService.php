@@ -63,6 +63,8 @@ class ConfigService
     public const KEY_INSTANCE_IDENTIFIER_CHECKSUM = "instance.identifier_checksum";
     public const KEY_SENDMAIL_PATH = 'email_config.sendmail_path';
 
+    public const MAX_ATTACHMENT_SIZE = 1048576; // 1 MB
+
     /**
      * Get ConfigDao
      * @return ConfigDao
@@ -537,5 +539,13 @@ class ConfigService
     public function getSendmailPath(): string
     {
         return $this->_getConfigValue(self::KEY_SENDMAIL_PATH);
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxAttachmentSize(): int
+    {
+        return self::MAX_ATTACHMENT_SIZE;
     }
 }

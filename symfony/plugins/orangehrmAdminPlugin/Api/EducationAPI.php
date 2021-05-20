@@ -21,7 +21,6 @@ namespace OrangeHRM\Admin\Api;
 
 use Exception;
 use OrangeHRM\Admin\Api\Model\EducationModel;
-use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Admin\Dto\QualificationEducationSearchFilterParams;
 use OrangeHRM\Admin\Service\EducationService;
 use OrangeHRM\Core\Api\CommonParams;
@@ -40,11 +39,13 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Education;
 
 class EducationAPI extends EndPoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
+    public const PARAM_RULE_NAME_MAX_LENGTH = 100;
 
     /**
      * @var null|EducationService
@@ -52,7 +53,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     protected ?EducationService $educationService = null;
 
     /**
-     * @return EndpointGetOneResult
+     * @inheritDoc
      * @throws RecordNotFoundException
      * @throws Exception
      */
@@ -68,7 +69,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     *
      * @return EducationService
      */
     public function getEducationService(): EducationService
@@ -93,21 +93,19 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
+            new ParamRule(CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
         );
     }
 
     /**
-     * @return EndpointGetAllResult
+     * @inheritDoc
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
     {
         // TODO:: Check data group permission
-
         $educationParamHolder = new QualificationEducationSearchFilterParams();
         $this->setSortingAndPaginationParams($educationParamHolder);
         $educations = $this->getEducationService()->getEducationList($educationParamHolder);
@@ -121,6 +119,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
@@ -138,13 +137,13 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $educations = $this->saveEducation();
-
         return new EndpointCreateResult(EducationModel::class, $educations);
     }
 
     /**
      * @return Education
      * @throws RecordNotFoundException
+     * @throws DaoException
      */
     public function saveEducation(): Education
     {
@@ -169,7 +168,10 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
@@ -181,7 +183,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $educations = $this->saveEducation();
-
         return new EndpointUpdateResult(EducationModel::class, $educations);
     }
 
@@ -191,27 +192,32 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+            new ParamRule(CommonParams::PARAMETER_ID,
+            new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
     /**
-     * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForSaveEducation(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(self::PARAMETER_NAME),
+            new ParamRule(self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
         );
     }
 
     /**
-     *
+     * @return EndpointDeleteResult
      * @throws Exception
      */
     public function delete(): EndpointDeleteResult
@@ -224,6 +230,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @return ParamRuleCollection
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
@@ -231,5 +238,4 @@ class EducationAPI extends EndPoint implements CrudEndpoint
             new ParamRule(CommonParams::PARAMETER_IDS),
         );
     }
-
 }

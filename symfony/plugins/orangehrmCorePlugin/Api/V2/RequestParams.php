@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Core\Api\V2;
 
+use OrangeHRM\Core\Dto\Base64Attachment;
+
 class RequestParams
 {
     public const PARAM_TYPE_BODY = 'body';
@@ -142,6 +144,27 @@ class RequestParams
     public function getArrayOrNull(string $type, string $key, ?array $default = null): ?array
     {
         return $this->$type->get($key, $default);
+    }
+
+    /**
+     * @param string $type
+     * @param string $key
+     * @param array|null $default
+     * @return Base64Attachment|null
+     */
+    public function getAttachmentOrNull(string $type, string $key, ?array $default = null): ?Base64Attachment
+    {
+        $attachment = $this->$type->get($key, $default);
+        if (isset($attachment['name']) && isset($attachment['type']) && isset($attachment['base64']) && isset($attachment['size'])) {
+            return new Base64Attachment(
+                $attachment['name'],
+                $attachment['type'],
+                $attachment['base64'],
+                $attachment['size']
+            );
+        }
+
+        return null;
     }
 
     /**

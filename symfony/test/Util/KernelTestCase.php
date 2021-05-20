@@ -21,7 +21,7 @@ namespace OrangeHRM\Tests\Util;
 
 use OrangeHRM\Framework\Framework;
 
-class KernelTestCase extends TestCase
+abstract class KernelTestCase extends TestCase
 {
     /**
      * @return Framework

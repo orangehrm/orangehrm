@@ -51,7 +51,8 @@
         </div>
       </div>
       <div class="orangehrm-container">
-        <oxd-card-table :loading="isLoading"
+        <oxd-card-table
+          :loading="isLoading"
           :headers="headers"
           :items="items?.data"
           :selectable="true"

@@ -27,13 +27,14 @@ class ValidationDecorator
 {
     /**
      * @param ParamRule $paramRule
+     * @param bool $excludeEmptyString
      * @return ParamRule
      */
-    public function requiredParamRule(ParamRule $paramRule): ParamRule
+    public function requiredParamRule(ParamRule $paramRule, bool $excludeEmptyString = false): ParamRule
     {
         $paramRule->setRules(
             [
-                new Rule(Rules::REQUIRED),
+                new Rule(Rules::REQUIRED, [$excludeEmptyString]),
                 new Rule($paramRule->getCompositeClass(), [...$paramRule->getRules()])
             ]
         );
@@ -43,13 +44,14 @@ class ValidationDecorator
 
     /**
      * @param ParamRule $paramRule
+     * @param bool $considerEmptyString
      * @return ParamRule
      */
-    public function notRequiredParamRule(ParamRule $paramRule): ParamRule
+    public function notRequiredParamRule(ParamRule $paramRule, bool $considerEmptyString = false): ParamRule
     {
         $paramRule->setRules(
             [
-                new Rule(Rules::NOT_REQUIRED),
+                new Rule(Rules::NOT_REQUIRED, [$considerEmptyString]),
                 new Rule($paramRule->getCompositeClass(), [...$paramRule->getRules()])
             ]
         );

@@ -22,6 +22,7 @@ namespace OrangeHRM\Pim\Api;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -35,27 +36,61 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmpPicture;
+use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Pim\Api\Model\EmployeeDetailedModel;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+use OrangeHRM\Pim\Service\EmployeePictureService;
 use OrangeHRM\Pim\Service\EmployeeService;
 
 class EmployeeAPI extends Endpoint implements CrudEndpoint
 {
+    use UserRoleManagerTrait;
+
     public const FILTER_NAME = 'name';
     public const FILTER_NAME_OR_ID = 'nameOrId';
-    public const FILTER_INCLUDE_TERMINATED = 'includeTerminated';
+    public const FILTER_EMPLOYEE_ID = 'employeeId';
+    public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
+    public const FILTER_EMP_STATUS_ID = 'empStatusId';
+    public const FILTER_JOB_TITLE_ID = 'jobTitleId';
+    public const FILTER_SUBUNIT_ID = 'subunitId';
+    public const FILTER_SUPERVISOR_EMP_NUMBERS = 'supervisorEmpNumbers';
+    public const FILTER_MODEL = 'model';
 
     public const PARAMETER_EMP_NUMBER = 'empNumber';
     public const PARAMETER_FIRST_NAME = 'firstName';
     public const PARAMETER_MIDDLE_NAME = 'middleName';
     public const PARAMETER_LAST_NAME = 'lastName';
     public const PARAMETER_EMPLOYEE_ID = 'employeeId';
+    public const PARAMETER_EMP_PICTURE = 'empPicture';
+
+    public const PARAM_RULE_FIRST_NAME_MAX_LENGTH = 30;
+    public const PARAM_RULE_MIDDLE_NAME_MAX_LENGTH = 30;
+    public const PARAM_RULE_LAST_NAME_MAX_LENGTH = 30;
+    public const PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH = 30;
+    public const PARAM_RULE_EMP_PICTURE_FILE_NAME_MAX_LENGTH = 100;
+    public const PARAM_RULE_FILTER_NAME_MAX_LENGTH = 100;
+    public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
+
+    public const MODEL_DEFAULT = 'default';
+    public const MODEL_DETAILED = 'detailed';
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => EmployeeModel::class,
+        self::MODEL_DETAILED => EmployeeDetailedModel::class,
+    ];
 
     /**
      * @var EmployeeService|null
      */
     protected ?EmployeeService $employeeService = null;
+
+    /**
+     * @var EmployeePictureService|null
+     */
+    protected ?EmployeePictureService $employeePictureService = null;
 
     /**
      * @return EmployeeService|null
@@ -77,6 +112,25 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @return EmployeePictureService
+     */
+    public function getEmployeePictureService(): EmployeePictureService
+    {
+        if (!$this->employeePictureService instanceof EmployeePictureService) {
+            $this->employeePictureService = new EmployeePictureService();
+        }
+        return $this->employeePictureService;
+    }
+
+    /**
+     * @param EmployeePictureService $employeePictureService
+     */
+    public function setEmployeePictureService(EmployeePictureService $employeePictureService): void
+    {
+        $this->employeePictureService = $employeePictureService;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getOne(): EndpointGetOneResult
@@ -86,7 +140,8 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         if (!$employee instanceof Employee) {
             throw new RecordNotFoundException();
         }
-        return new EndpointGetOneResult(EmployeeModel::class, $employee);
+
+        return new EndpointGetOneResult($this->getModelClass(), $employee);
     }
 
     /**
@@ -97,9 +152,33 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             new ParamRule(
                 self::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::POSITIVE)
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
+            $this->getModelParamRule(),
+        );
+    }
+
+    protected function getModelParamRule(): ParamRule
+    {
+        return $this->getValidationDecorator()->notRequiredParamRule(
+            new ParamRule(
+                self::FILTER_MODEL,
+                new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
             )
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModelClass(): string
+    {
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_MODEL,
+            self::MODEL_DEFAULT
+        );
+        return self::MODEL_MAP[$model];
     }
 
     /**
@@ -110,11 +189,13 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         // TODO:: Check data group permission & get employees using UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties
         $employeeParamHolder = new EmployeeSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeParamHolder);
+        $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
+        $employeeParamHolder->setEmployeeNumbers($accessibleEmpNumbers);
 
-        $employeeParamHolder->setIncludeTerminated(
-            $this->getRequestParams()->getBoolean(
+        $employeeParamHolder->setIncludeEmployees(
+            $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_INCLUDE_TERMINATED
+                self::FILTER_INCLUDE_EMPLOYEES
             )
         );
         $employeeParamHolder->setName(
@@ -129,10 +210,41 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
                 self::FILTER_NAME_OR_ID
             )
         );
+        $employeeParamHolder->setEmployeeId(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_EMPLOYEE_ID
+            )
+        );
+        $employeeParamHolder->setEmpStatusId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_EMP_STATUS_ID
+            )
+        );
+        $employeeParamHolder->setJobTitleId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_JOB_TITLE_ID
+            )
+        );
+        $employeeParamHolder->setSubunitId(
+            $this->getRequestParams()->getIntOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_SUBUNIT_ID
+            )
+        );
+        $employeeParamHolder->setSupervisorEmpNumbers(
+            $this->getRequestParams()->getArrayOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_SUPERVISOR_EMP_NUMBERS
+            )
+        );
+
         $employees = $this->getEmployeeService()->getEmployeeList($employeeParamHolder);
         $count = $this->getEmployeeService()->getEmployeeCount($employeeParamHolder);
         return new EndpointGetAllResult(
-            EmployeeModel::class,
+            $this->getModelClass(),
             $employees,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
@@ -144,9 +256,67 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_INCLUDE_TERMINATED),
-            new ParamRule(self::FILTER_NAME),
-            new ParamRule(self::FILTER_NAME_OR_ID),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_INCLUDE_EMPLOYEES,
+                    new Rule(
+                        Rules::IN,
+                        [
+                            [
+                                EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT,
+                                EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST,
+                                EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_CURRENT_AND_PAST
+                            ]
+                        ]
+                    )
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_FILTER_NAME_MAX_LENGTH]),
+                ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_NAME_OR_ID,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH]),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_EMPLOYEE_ID,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH]),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_EMP_STATUS_ID,
+                    new Rule(Rules::POSITIVE),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_JOB_TITLE_ID,
+                    new Rule(Rules::POSITIVE),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_SUBUNIT_ID,
+                    new Rule(Rules::POSITIVE),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_SUPERVISOR_EMP_NUMBERS,
+                    new Rule(Rules::ARRAY_TYPE),
+                )
+            ),
+            $this->getModelParamRule(),
             ...$this->getSortingAndPaginationParamsRules(EmployeeSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -156,10 +326,44 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointCreateResult
     {
+        $allowedToAddEmployee = $this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_EMPLOYEE,
+            Employee::STATE_NOT_EXIST,
+            WorkflowStateMachine::EMPLOYEE_ACTION_ADD
+        );
+
+        if (!$allowedToAddEmployee) {
+            throw new BadRequestException('Logged in User Not Allowed to Create an Employee');
+        }
+
         // TODO:: Check data group permission
         $employee = new Employee();
         $this->setParamsToEmployee($employee);
-        $this->getEmployeeService()->saveEmployee($employee);
+
+        $empPictureAttachment = $this->getRequestParams()->getAttachmentOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_EMP_PICTURE
+        );
+
+        if ($empPictureAttachment) {
+            $empPicture = new EmpPicture();
+            $empPicture->setFilename($empPictureAttachment->getFilename());
+            $empPicture->setFileType($empPictureAttachment->getFileType());
+            $empPicture->setSize($empPictureAttachment->getSize());
+            $empPicture->setPicture($empPictureAttachment->getContent());
+
+            list ($width, $height) = $this->getEmployeePictureService()->pictureSizeAdjust(
+                $empPictureAttachment->getContent()
+            );
+            $empPicture->setWidth($width);
+            $empPicture->setHeight($height);
+            $empPicture->setEmployee($employee);
+
+            $this->getEmployeePictureService()->saveEmployeePicture($empPicture);
+        } else {
+            $this->getEmployeeService()->saveEmployee($employee);
+        }
+
         return new EndpointCreateResult(EmployeeModel::class, $employee);
     }
 
@@ -186,6 +390,15 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EMP_PICTURE,
+                    new Rule(
+                        Rules::BASE_64_ATTACHMENT,
+                        [EmpPicture::ALLOWED_IMAGE_TYPES, self::PARAM_RULE_EMP_PICTURE_FILE_NAME_MAX_LENGTH]
+                    )
+                ),
+            ),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -196,10 +409,35 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(self::PARAMETER_FIRST_NAME),
-            new ParamRule(self::PARAMETER_MIDDLE_NAME),
-            new ParamRule(self::PARAMETER_LAST_NAME),
-            new ParamRule(self::PARAMETER_EMPLOYEE_ID),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_FIRST_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_FIRST_NAME_MAX_LENGTH]),
+                )
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MIDDLE_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MIDDLE_NAME_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_LAST_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_LAST_NAME_MAX_LENGTH]),
+                )
+            ),
+            $this->getValidationDecorator()->requiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EMPLOYEE_ID,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH]),
+                )
+            ),
         ];
     }
 

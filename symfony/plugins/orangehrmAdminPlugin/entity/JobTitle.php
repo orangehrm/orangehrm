@@ -29,9 +29,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class JobTitle
 {
-    const NO_OF_RECORDS_PER_PAGE = 50;
-    const DELETED = 1;
-    const ACTIVE = 0;
+    public const DELETED = 1;
+    public const ACTIVE = 0;
 
     /**
      * @var int
@@ -144,7 +143,7 @@ class JobTitle
     /**
      * @return bool
      */
-    public function getIsDeleted(): bool
+    public function isDeleted(): bool
     {
         return $this->isDeleted;
     }

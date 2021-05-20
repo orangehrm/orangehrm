@@ -49,7 +49,6 @@ class OrganizationService
         $this->organizationDao = $organizationDao;
     }
 
-
     /**
      * Get organization general information
      *
@@ -59,5 +58,15 @@ class OrganizationService
     public function getOrganizationGeneralInformation(): ?Organization
     {
         return $this->getOrganizationDao()->getOrganizationGeneralInformation();
+    }
+
+    /**
+     * @param Organization $organization
+     * @return Organization
+     * @throws DaoException
+     */
+    public function saveOrganizationGeneralInformation(Organization $organization): Organization
+    {
+        return $this->getOrganizationDao()->saveOrganizationGeneralInformation($organization);
     }
 }
