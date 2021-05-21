@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,26 +15,8 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+import SaveEmployee from './pages/employee/SaveEmployee.vue';
 
-namespace OrangeHRM\Core\Traits;
-
-trait TextHelperTrait
-{
-    /**
-     * @param string $text
-     * @param string|null $encoding
-     * @return int
-     * @link https://www.php.net/manual/en/mbstring.supported-encodings.php
-     */
-    public function strLength(string $text, ?string $encoding = null): int
-    {
-        if (function_exists('mb_strlen')) {
-            if (is_null($encoding)) {
-                return mb_strlen($text);
-            }
-            return mb_strlen($text, $encoding);
-        } else {
-            return strlen($text);
-        }
-    }
-}
+export default {
+  'employee-save': SaveEmployee,
+};

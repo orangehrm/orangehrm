@@ -81,39 +81,11 @@
           </oxd-grid>
         </oxd-form-row>
 
-        <oxd-form-row v-if="user.changePassword" class="user-password-row">
-          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-            <oxd-grid-item class="user-password-cell">
-              <oxd-chip
-                v-if="user.password"
-                :class="chipClasses"
-                :label="passwordStrength"
-              />
-              <oxd-input-field
-                label="Password"
-                type="password"
-                v-model="user.password"
-                :rules="rules.password"
-                required
-              />
-              <oxd-text class="user-password-hint" tag="p">
-                For a strong password, please use a hard to guess combination of
-                text with upper and lower case characters, symbols and numbers
-              </oxd-text>
-            </oxd-grid-item>
-
-            <oxd-grid-item>
-              <oxd-input-field
-                label="Confirm Password"
-                type="password"
-                v-model="user.passwordConfirm"
-                :rules="rules.passwordConfirm"
-                autocomplete="off"
-                required
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
+        <password-input
+          v-if="user.changePassword"
+          v-model:password="user.password"
+          v-model:passwordConfirm="user.passwordConfirm"
+        />
 
         <oxd-divider />
         <oxd-form-actions>
@@ -126,14 +98,10 @@
 </template>
 
 <script>
-import Chip from '@orangehrm/oxd/core/components/Chip/Chip.vue';
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {
-  checkPassword,
-  getPassLevel,
-} from '@orangehrm/core/util/helper/password';
 import {APIService} from '@/core/util/services/api.service';
-import EmployeeDropdown from '@/orangehrmAdminPlugin/components/EmployeeDropdown';
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
+import PasswordInput from '@/core/components/inputs/PasswordInput';
 
 const userModel = {
   id: '',
@@ -155,8 +123,8 @@ export default {
   },
 
   components: {
-    'oxd-chip': Chip,
     'employee-dropdown': EmployeeDropdown,
+    'password-input': PasswordInput,
   },
 
   setup() {
@@ -173,20 +141,12 @@ export default {
       rules: {
         username: [
           v => (!!v && v.trim() !== '') || 'Required',
+          v => (v && v.length >= 5) || 'Should have at least 5 characters',
           v => (v && v.length <= 40) || 'Should not exceed 40 characters',
         ],
         role: [v => (!!v && v.length != 0) || 'Required'],
         employee: [v => (!!v && v.length != 0) || 'Required'],
         status: [v => (!!v && v.length != 0) || 'Required'],
-        password: [
-          v => (!!v && v.trim() !== '') || 'Required',
-          v => (v && v.length <= 64) || 'Should not exceed 64 characters',
-          v => checkPassword(v),
-        ],
-        passwordConfirm: [
-          v => (!!v && v.trim() !== '') || 'Required',
-          v => (!!v && v === this.user.password) || 'Passwords do not match',
-        ],
       },
       userRoles: [
         {id: 1, label: 'Admin'},
@@ -225,35 +185,6 @@ export default {
           this.isLoading = false;
           this.onCancel();
         });
-    },
-  },
-
-  computed: {
-    passwordStrength() {
-      let strength = 0;
-      strength = getPassLevel(this.user.password).reduce(
-        (acc, val) => acc + val,
-        0,
-      );
-      if (this.user.password.trim().length < 8) {
-        strength = 0;
-      }
-      switch (strength) {
-        case 2:
-          return 'Weak';
-        case 3:
-          return 'Better';
-        case 4:
-          return 'Strongest';
-        default:
-          return 'Very Weak';
-      }
-    },
-    chipClasses() {
-      return {
-        'user-password-chip': true,
-        '--green': this.passwordStrength === 'Strongest',
-      };
     },
   },
 
