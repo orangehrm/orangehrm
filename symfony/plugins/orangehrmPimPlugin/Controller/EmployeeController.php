@@ -26,7 +26,6 @@ class EmployeeController extends AbstractVueController
 {
     public function init(): void
     {
-        // TODO: implement `employee-list`
         $component = new Component('employee-list');
         $this->setComponent($component);
     }

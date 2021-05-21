@@ -39,6 +39,7 @@ import SaveQualificationSkill from '@/orangehrmAdminPlugin/pages/qualificationSk
 import EditQualificationLicense from '@/orangehrmAdminPlugin/pages/qualificationLicense/EditLicense.vue';
 import SaveQualificationLicense from '@/orangehrmAdminPlugin/pages/qualificationLicense/SaveLicense.vue';
 import QualificationLicense from '@/orangehrmAdminPlugin/pages/qualificationLicense/License.vue';
+import PimPages from '@/orangehrmPimPlugin';
 import EditQualificationLanguage from '@/orangehrmAdminPlugin/pages/qualificationLanguage/EditQualificationLanguage.vue';
 import SaveQualificationLanguage from '@/orangehrmAdminPlugin/pages/qualificationLanguage/SaveQualificationLanguage.vue';
 import QualificationLanguage from '@/orangehrmAdminPlugin/pages/qualificationLanguage/QualificationLanguage.vue';
@@ -71,6 +72,7 @@ export default {
   'license-list': QualificationLicense,
   'license-save': SaveQualificationLicense,
   'license-edit': EditQualificationLicense,
+  ...PimPages,
   'qualification-language-list': QualificationLanguage,
   'qualification-language-edit': EditQualificationLanguage,
   'qualification-language-save': SaveQualificationLanguage,

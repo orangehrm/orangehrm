@@ -1,49 +1,66 @@
 // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
 // all the essential functionalities required for any enterprise.
 // Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
-// 
+//
 // OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
 // the GNU General Public License as published by the Free Software Foundation; either
 // version 2 of the License, or (at your option) any later version.
-// 
+//
 // OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 // without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License along with this program;
 // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 // Boston, MA  02110-1301, USA
 
 @import '@orangehrm/oxd/styles/_mixins.scss';
-.orangehrm-login-form {
-  margin: 0 auto;
+
+.orangehrm-employee-container {
+  display: flex;
   @include oxd-respond-to('xs') {
-    width: 80%;
+    flex-direction: column;
   }
   @include oxd-respond-to('md') {
-    width: 60%;
-    max-width: 485px;
+    flex-direction: row;
+  }
+  & .orangehrm-employee-image {
+    flex: 1 1 25%;
+    padding: 1rem;
+    text-align: center;
+  }
+  & .orangehrm-employee-form {
+    flex: 1 1 75%;
   }
 }
-.orangehrm-login-action {
-  margin-top: 2rem;
-  justify-content: center;
+
+.user-form-header {
+  display: flex;
+  padding: 1rem;
+  &-text {
+    font-size: 0.8rem;
+    margin-right: 1rem;
+  }
 }
-.orangehrm-login-button {
-  flex: 1;
-  padding: 1rem 0;
+
+::v-deep(.--status-grouped-field) {
+  display: flex;
 }
-.orangehrm-login-title {
-  text-align: center;
-  font-weight: 800;
-  margin-bottom: 1rem;
-}
-.orangehrm-login-pwreset {
-  margin: 1rem 0;
-  text-align: center;
-  font-weight: 600;
-  & a {
-    color: $oxd-primary-one-color;
-    text-decoration: none;
+
+.orangehrm-employee-list {
+  ::v-deep(.card-header-slot) {
+    border-bottom: $oxd-input-control-border--active;
+    margin-bottom: 5px;
+  }
+  ::v-deep(.card-header-slot .oxd-table-card-cell) {
+    display: flex;
+  }
+  ::v-deep(.card-header-slot .header) {
+    margin-right: 5px;
+    font-size: 1rem;
+  }
+  ::v-deep(.card-header-slot-content.--left) {
+    display: flex;
+    align-items: center;
   }
 }

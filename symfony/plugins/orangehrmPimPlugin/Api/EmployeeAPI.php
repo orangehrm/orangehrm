@@ -262,11 +262,10 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
                     new Rule(
                         Rules::IN,
                         [
-                            [
-                                EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT,
-                                EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST,
-                                EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_CURRENT_AND_PAST
-                            ]
+                            array_merge(
+                                array_keys(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_MAP),
+                                array_values(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_MAP)
+                            )
                         ]
                     )
                 )
