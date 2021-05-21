@@ -63,4 +63,10 @@
     display: flex;
     align-items: center;
   }
+  ::v-deep(.card-body-slot) {
+    display: unset;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.2rem;
+  }
 }
