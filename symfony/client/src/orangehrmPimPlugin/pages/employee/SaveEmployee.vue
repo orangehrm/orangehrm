@@ -154,7 +154,11 @@ export default {
 
   props: {
     empId: {
-      type: Number,
+      type: String,
+      required: true,
+    },
+    allowedImageTypes: {
+      type: Array,
       required: true,
     },
   },
@@ -190,6 +194,10 @@ export default {
             v === null ||
             (v && v.size && v.size <= 1024 * 1024) ||
             'Attachment size exceeded',
+          v =>
+            (v &&
+              this.allowedImageTypes.findIndex(item => item === v.type) > -1) ||
+            'File type not allowed',
         ],
         username: [
           v => (!!v && v.trim() !== '') || 'Required',
@@ -243,7 +251,11 @@ export default {
     profilePicUrl() {
       if (this.employee.empPicture) {
         const file = this.employee.empPicture.base64;
-        return `data:image/jpeg;base64,${file}`;
+        const type = this.employee.empPicture.type;
+        const isPicture = this.allowedImageTypes.findIndex(
+          item => item === type,
+        );
+        return isPicture > -1 ? `data:${type};base64,${file}` : defaultPic;
       } else {
         return defaultPic;
       }
