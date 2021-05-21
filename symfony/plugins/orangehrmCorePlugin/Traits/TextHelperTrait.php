@@ -30,6 +30,9 @@ trait TextHelperTrait
     public function strLength(string $text, ?string $encoding = null): int
     {
         if (function_exists('mb_strlen')) {
+            if (is_null($encoding)) {
+                return mb_strlen($text);
+            }
             return mb_strlen($text, $encoding);
         } else {
             return strlen($text);

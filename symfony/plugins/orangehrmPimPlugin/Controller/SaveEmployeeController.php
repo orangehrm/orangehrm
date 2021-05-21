@@ -20,12 +20,28 @@
 namespace OrangeHRM\Pim\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Service\IDGeneratorService;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use Symfony\Component\HttpFoundation\Request;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmpPicture;
+use OrangeHRM\Framework\Http\Request;
 
 class SaveEmployeeController extends AbstractVueController
 {
+    protected ?IDGeneratorService $idGeneratorService = null;
+
+    /**
+     * @return IDGeneratorService|null
+     */
+    public function getIdGeneratorService(): ?IDGeneratorService
+    {
+        if (!$this->idGeneratorService instanceof IDGeneratorService) {
+            $this->idGeneratorService = new IDGeneratorService();
+        }
+        return $this->idGeneratorService;
+    }
+
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
@@ -34,6 +50,9 @@ class SaveEmployeeController extends AbstractVueController
             $component->addProp(new Prop('employee-id', Prop::TYPE_NUMBER, $id));
         } else {
             $component = new Component('employee-save');
+            $employeeId = $this->getIdGeneratorService()->getNextID(Employee::class);
+            $component->addProp(new Prop('emp-id', Prop::TYPE_NUMBER, $employeeId));
+            $component->addProp(new Prop('allowed-image-types', Prop::TYPE_ARRAY, EmpPicture::ALLOWED_IMAGE_TYPES));
         }
         $this->setComponent($component);
     }
