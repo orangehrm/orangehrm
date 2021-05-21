@@ -122,7 +122,7 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import EmployeeDropdown from '@/orangehrmAdminPlugin/components/EmployeeDropdown';
+import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
 
 const userdataNormalizer = data => {
   return data.map(item => {
