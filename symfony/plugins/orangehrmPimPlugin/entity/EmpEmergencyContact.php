@@ -15,62 +15,192 @@ class EmpEmergencyContact
     /**
      * @var int
      *
-     * @ORM\Column(name="emp_number", type="integer", length=4)
+     * @ORM\Column(name="emp_number", type="integer", length=7)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $emp_number;
+    private int $empNumber;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="eec_seqno", type="decimal", length=2)
+     * @ORM\Column(name="eec_seqno", type="integer", length=2)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $seqno;
+    private int $seqNo;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="eec_name", type="string", length=100 , nullable=true)
+     */
+    private ?string $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="eec_name", type="string", length=100)
+     * @ORM\Column(name="eec_relationship", type="string", length=100 ,nullable=true)
      */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="eec_relationship", type="string", length=100)
-     */
-    private $relationship;
+    private string $relationship;
 
     /**
      * @var string
      *
      * @ORM\Column(name="eec_home_no", type="string", length=100)
      */
-    private $home_phone;
+    private string $home_phone;
 
     /**
      * @var string
      *
      * @ORM\Column(name="eec_mobile_no", type="string", length=100)
      */
-    private $mobile_phone;
+    private string $mobile_phone;
 
     /**
      * @var string
      *
      * @ORM\Column(name="eec_office_no", type="string", length=100)
      */
-    private $office_phone;
+    private string $office_phone;
+
+    /**
+     * @return int
+     */
+    public function getEmpNumber(): int
+    {
+        return $this->emp_number;
+    }
+
+    /**
+     * @param int $emp_number
+     */
+    public function setEmpNumber(int $emp_number): void
+    {
+        $this->emp_number = $emp_number;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSeqno(): int
+    {
+        return $this->seqno;
+    }
+
+    /**
+     * @param int $seqno
+     */
+    public function setSeqno(int $seqno): void
+    {
+        $this->seqno = $seqno;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRelationship(): string
+    {
+        return $this->relationship;
+    }
+
+    /**
+     * @param string $relationship
+     */
+    public function setRelationship(string $relationship): void
+    {
+        $this->relationship = $relationship;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHomePhone(): string
+    {
+        return $this->home_phone;
+    }
+
+    /**
+     * @param string $home_phone
+     */
+    public function setHomePhone(string $home_phone): void
+    {
+        $this->home_phone = $home_phone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMobilePhone(): string
+    {
+        return $this->mobile_phone;
+    }
+
+    /**
+     * @param string $mobile_phone
+     */
+    public function setMobilePhone(string $mobile_phone): void
+    {
+        $this->mobile_phone = $mobile_phone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOfficePhone(): string
+    {
+        return $this->office_phone;
+    }
+
+    /**
+     * @param string $office_phone
+     */
+    public function setOfficePhone(string $office_phone): void
+    {
+        $this->office_phone = $office_phone;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEmployee()
+    {
+        return $this->Employee;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $Employee
+     */
+    public function setEmployee($Employee): void
+    {
+        $this->Employee = $Employee;
+    }
+
+
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmpEmergencyContact")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmpEmergencyContact")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      * })
      */
     private $Employee;
