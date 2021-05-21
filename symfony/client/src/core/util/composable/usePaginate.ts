@@ -71,24 +71,7 @@ function getPageParams(pageSize: number, currentPage: number) {
 function getQueryParams(query: any) {
   const params = JSON.parse(JSON.stringify(unref(query)));
   for (const [key, value] of Object.entries(params)) {
-    if (Array.isArray(value)) {
-      if (value.length === 0) {
-        params[key] = undefined;
-      } else {
-        const _param = value[0];
-        if (_param.id === undefined || _param.id === 0) {
-          params[key] = undefined;
-        } else {
-          params[key] = _param.id;
-        }
-      }
-    } else {
-      if (value) {
-        params[key] = value;
-      } else {
-        params[key] = undefined;
-      }
-    }
+    params[key] = value ? value : undefined;
   }
   return params;
 }
