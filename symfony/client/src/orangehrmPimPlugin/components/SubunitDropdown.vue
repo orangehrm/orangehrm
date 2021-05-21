@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,10 +16,46 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-import SaveEmployee from './pages/employee/SaveEmployee.vue';
-import Employee from './pages/employee/Employee.vue';
+ -->
 
+<template>
+  <oxd-input-field
+    type="dropdown"
+    label="Sub Unit"
+    :create-options="loadOptions"
+    :lazyLoad="false"
+  />
+</template>
+
+<script>
+import {APIService} from '@orangehrm/core/util/services/api.service';
 export default {
-  'employee-save': SaveEmployee,
-  'employee-list': Employee,
+  name: 'subunit-dropdown',
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/admin/subunits',
+    );
+    return {
+      http,
+    };
+  },
+  methods: {
+    async loadOptions() {
+      return new Promise(resolve => {
+        this.http.getAll().then(({data}) => {
+          resolve(
+            data.data.map(item => {
+              return {
+                id: item.id,
+                label: item.name,
+                indent: item.level ? item.level + 1 : 1,
+              };
+            }),
+          );
+        });
+      });
+    },
+  },
 };
+</script>

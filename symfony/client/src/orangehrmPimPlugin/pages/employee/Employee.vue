@@ -20,33 +20,45 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <oxd-table-filter filter-title="System Users">
+    <oxd-table-filter filter-title="Employee Information">
       <oxd-form @submitValid="filterItems">
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field label="Username" v-model="filters.username" />
+              <employee-dropdown v-model="filters.employee" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
-                label="User Role"
-                v-model="filters.userRoleId"
-                :clear="false"
-                :options="userRoles"
+                label="Employee Id"
+                v-model="filters.employeeId"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <employee-dropdown v-model="filters.empNumber" />
-            </oxd-grid-item>
-            <oxd-grid-item>
               <oxd-input-field
                 type="dropdown"
-                label="Status"
-                v-model="filters.status"
+                label="Employment Status"
+                v-model="filters.empStatusId"
                 :clear="false"
                 :options="userStatuses"
               />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                type="dropdown"
+                label="Include"
+                v-model="filters.includeEmployees"
+                :clear="false"
+                :options="includeOpts"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <supervisor-dropdown v-model="filters.supervisor" />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <jobtitle-dropdown v-model="filters.jobTitleId" />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <subunit-dropdown v-model="filters.subunitId" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -79,7 +91,7 @@
         <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
           <div v-if="checkedItems.length > 0">
             <oxd-text tag="span">
-              {{ checkedItems.length }} System Users Selected
+              {{ checkedItems.length }} Employee(s) Selected
             </oxd-text>
             <oxd-button
               label="Delete Selected"
@@ -102,6 +114,7 @@
           :loading="isLoading"
           rowDecorator="oxd-table-decorator-card"
           :order="order"
+          class="orangehrm-employee-list"
         />
       </div>
       <div class="orangehrm-bottom-container">
@@ -123,44 +136,58 @@ import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
+import SupervisorDropdown from '@/core/components/inputs/SupervisorDropdown';
+import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
+import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
 
 const userdataNormalizer = data => {
   return data.map(item => {
     return {
-      id: item.id,
-      userName: item.userName,
-      role: item.userRole?.displayName,
-      empName: `${item.employee?.firstName} ${item.employee?.lastName}`,
-      status: item.status ? 'Enabled' : 'Disabled',
+      id: item.empNumber,
+      employeeId: item.employeeId,
+      firstName: item.firstName,
+      lastName: item.lastName,
+      jobtitle: item.jobTitle?.title,
+      empStatus: item.empStatus?.name,
+      subunit: item.subunit?.name,
+      supervisor: item.supervisors
+        ? item.supervisors
+            .map(supervisor => `${supervisor.firstName} ${supervisor.lastName}`)
+            .join(',')
+        : '',
     };
   });
 };
 
 const defaultFilters = {
-  username: '',
-  userRoleId: [{id: 0, label: 'All'}],
-  empNumber: [],
-  status: [{id: 0, label: 'All'}],
+  employee: [],
+  employeeId: '',
+  empStatusId: [{id: 0, label: 'All'}],
+  includeEmployees: [{id: 1, label: 'Current Employees Only'}],
+  supervisor: [],
+  jobTitleId: [],
+  subunitId: [],
 };
 
 export default {
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
     'employee-dropdown': EmployeeDropdown,
+    'supervisor-dropdown': SupervisorDropdown,
+    'jobtitle-dropdown': JobtitleDropdown,
+    'subunit-dropdown': SubunitDropdown,
   },
 
   data() {
     return {
       headers: [
-        {name: 'userName', title: 'Username', style: {flex: 1}},
-        {name: 'role', title: 'User Role', style: {flex: 1}},
-        {
-          name: 'empName',
-          slot: 'title',
-          title: 'Employee Name',
-          style: {flex: 1},
-        },
-        {name: 'status', title: 'Status', style: {flex: 1}},
+        {name: 'employeeId', slot: 'title', title: 'EID', style: {flex: 1}},
+        {name: 'firstName', title: 'First Name', style: {flex: 1}},
+        {name: 'lastName', title: 'Last Name', style: {flex: 1}},
+        {name: 'jobtitle', title: 'Job Title', style: {flex: 1}},
+        {name: 'empStatus', title: 'Employee Status', style: {flex: 1}},
+        {name: 'subunit', title: 'Sub Unit', style: {flex: 1}},
+        {name: 'supervisor', title: 'Supervisor', style: {flex: 1}},
         {
           name: 'actions',
           slot: 'action',
@@ -184,10 +211,10 @@ export default {
           },
         },
       ],
-      userRoles: [
-        {id: 0, label: 'All'},
-        {id: 1, label: 'Admin'},
-        {id: 2, label: 'ESS'},
+      includeOpts: [
+        {id: 1, label: 'Current Employees Only'},
+        {id: 2, label: 'Current and Past Employees'},
+        {id: 3, label: 'Past Employees Only'},
       ],
       userStatuses: [
         {id: 0, label: 'All'},
@@ -212,6 +239,18 @@ export default {
           id: 3,
           default: '',
         },
+        {
+          id: 4,
+          default: '',
+        },
+        {
+          id: 5,
+          default: '',
+        },
+        {
+          id: 6,
+          default: '',
+        },
       ],
     };
   },
@@ -220,13 +259,26 @@ export default {
     const filters = ref({...defaultFilters});
     const serializedFilters = computed(() => {
       return {
-        username: '',
-        userRoleId: filters.value.userRoleId.map(item => item.id)[0],
-        empNumber: filters.value.empNumber.map(item => item.id)[0],
-        status: filters.value.status.map(item => item.id)[0],
+        model: 'detailed',
+        nameOrId: filters.value.employee.map(item => item.id)[0],
+        employeeId: filters.value.employeeId,
+        empStatusId: filters.value.empStatusId.map(item => item.id)[0],
+        includeEmployees: filters.value.includeEmployees.map(item => {
+          return item.id === 1
+            ? 'onlyCurrent'
+            : item.id === 2
+            ? 'currentAndPast'
+            : 'onlyPast';
+        })[0],
+        supervisorEmpNumbers: filters.value.supervisor.map(item => item.id),
+        jobTitleId: filters.value.jobTitleId.map(item => item.id)[0],
+        subunitId: filters.value.subunitId.map(item => item.id)[0],
       };
     });
-    const http = new APIService(window.appGlobal.baseUrl, 'api/v2/admin/users');
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      'api/v2/pim/employees',
+    );
     const {
       showPaginator,
       currentPage,
@@ -255,16 +307,16 @@ export default {
     itemsCountText() {
       return this.total === 0
         ? 'No Records Found'
-        : `${this.total} System User Found`;
+        : `${this.total} Employee(s) Found`;
     },
   },
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveSystemUser');
+      navigate('/pim/addEmployee');
     },
     onClickEdit(item) {
-      navigate('/admin/saveSystemUser/{id}', {id: item.id});
+      navigate('/pim/viewEmployee/empNumber/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
@@ -316,3 +368,5 @@ export default {
   },
 };
 </script>
+
+<style src="./employee.scss" lang="scss" scoped></style>
