@@ -23,7 +23,6 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -451,7 +450,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
             throw new RecordNotFoundException();
         }
         $this->setParamsToEmployee($employee);
-        $this->getEmployeeService()->saveEmployee($employee);
+        $this->getEmployeeService()->updateEmployee($employee);
         return new EndpointUpdateResult(EmployeeModel::class, $employee);
     }
 
@@ -471,7 +470,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointDeleteResult
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 
     /**
@@ -479,6 +478,6 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw new NotImplementedException();
+        throw $this->getNotImplementedException();
     }
 }

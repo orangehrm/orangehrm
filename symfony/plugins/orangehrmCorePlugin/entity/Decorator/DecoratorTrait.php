@@ -17,61 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Entity\Decorator;
 
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * @ORM\Table(name="ohrm_job_category")
- * @ORM\Entity
- */
-class JobCategory
+trait DecoratorTrait
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var object|null
      */
-    private int $id;
+    protected ?object $entityDecorator = null;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=60)
+     * @return object
      */
-    private string $name;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getDecorator(): object
     {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
+        if (is_null($this->entityDecorator)) {
+            $decoratorClassName = $this->getDecoratorClassName();
+            $this->entityDecorator = new $decoratorClassName($this);
+        }
+        return $this->entityDecorator;
     }
 
     /**
      * @return string
      */
-    public function getName(): string
+    protected function getDecoratorClassName(): string
     {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
-    {
-        $this->name = $name;
+        return 'OrangeHRM\\Entity\\Decorator\\' . substr(strrchr(get_class($this), '\\'), 1) . 'Decorator';
     }
 }

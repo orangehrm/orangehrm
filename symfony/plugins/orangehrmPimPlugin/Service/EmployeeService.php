@@ -117,6 +117,16 @@ class EmployeeService
     }
 
     /**
+     * @param Employee $employee
+     * @return Employee
+     * @throws DaoException
+     */
+    public function updateEmployee(Employee $employee): Employee
+    {
+        return $this->getEmployeeDao()->saveEmployee($employee);
+    }
+
+    /**
      * @param int $empNumber
      * @return Employee|null
      * @throws DaoException
