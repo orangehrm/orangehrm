@@ -1,12 +1,29 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * EmployeeSalary
- *
  * @ORM\Table(name="hs_hr_emp_basicsalary")
  * @ORM\Entity
  */
@@ -15,121 +32,221 @@ class EmployeeSalary
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", length=4)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var int
+     * @var Employee
      *
-     * @ORM\Column(name="emp_number", type="integer", length=4)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="salaries")
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="empNumber")
      */
-    private $empNumber;
+    private Employee $employee;
 
     /**
-     * @var int
+     * @var PayGrade|null
      *
-     * @ORM\Column(name="sal_grd_code", type="integer")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\PayGrade")
+     * @ORM\JoinColumn(name="sal_grd_code", referencedColumnName="id", nullable=true)
      */
-    private $payGradeId;
+    private ?PayGrade $payGrade = null;
 
     /**
-     * @var string
+     * @var CurrencyType
      *
-     * @ORM\Column(name="currency_id", type="string", length=6)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\CurrencyType")
+     * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
      */
-    private $currencyCode;
+    private CurrencyType $currencyType;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="ebsal_basic_salary", type="string", length=100)
+     * @ORM\Column(name="ebsal_basic_salary", type="string", length=100, nullable=true)
      */
-    private $amount;
+    private ?string $amount = null;
 
     /**
-     * @var string
+     * @var PayPeriod|null
      *
-     * @ORM\Column(name="payperiod_code", type="string", length=13)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\PayPeriod")
+     * @ORM\JoinColumn(name="payperiod_code", referencedColumnName="payperiod_code", nullable=true)
      */
-    private $payPeriodId;
+    private ?PayPeriod $payPeriod = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="salary_component", type="string", length=100)
+     * @ORM\Column(name="salary_component", type="string", length=100, nullable=true)
      */
-    private $salaryName;
+    private ?string $salaryName;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="comments", type="string", length=255)
+     * @ORM\Column(name="comments", type="string", length=255, nullable=true)
      */
-    private $notes;
+    private ?string $comment;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection|EmpDirectDebit[]
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\CurrencyType", mappedBy="EmployeeSalary")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="currencyCode", referencedColumnName="currency_id")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpDirectDebit", mappedBy="salary")
      */
-    private $currencyType;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmployeeSalary")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="empNumber", referencedColumnName="empNumber")
-     * })
-     */
-    private $employee;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Payperiod", mappedBy="EmployeeSalary")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="payPeriodId", referencedColumnName="payperiod_code")
-     * })
-     */
-    private $payperiod;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpDirectdebit", mappedBy="EmployeeSalary")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="salary_id")
-     * })
-     */
-    private $directDebit;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PayGrade", mappedBy="EmployeeSalary")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="payGradeId", referencedColumnName="id")
-     * })
-     */
-    private $payGrade;
+    private $directDebits;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->currencyType = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->employee = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->payperiod = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->directDebit = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->payGrade = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->directDebits = new ArrayCollection();
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return Employee
+     */
+    public function getEmployee(): Employee
+    {
+        return $this->employee;
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    public function setEmployee(Employee $employee): void
+    {
+        $this->employee = $employee;
+    }
+
+    /**
+     * @return PayGrade|null
+     */
+    public function getPayGrade(): ?PayGrade
+    {
+        return $this->payGrade;
+    }
+
+    /**
+     * @param PayGrade|null $payGrade
+     */
+    public function setPayGrade(?PayGrade $payGrade): void
+    {
+        $this->payGrade = $payGrade;
+    }
+
+    /**
+     * @return CurrencyType
+     */
+    public function getCurrencyType(): CurrencyType
+    {
+        return $this->currencyType;
+    }
+
+    /**
+     * @param CurrencyType $currencyType
+     */
+    public function setCurrencyType(CurrencyType $currencyType): void
+    {
+        $this->currencyType = $currencyType;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAmount(): ?string
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param string|null $amount
+     */
+    public function setAmount(?string $amount): void
+    {
+        $this->amount = $amount;
+    }
+
+    /**
+     * @return PayPeriod|null
+     */
+    public function getPayPeriod(): ?PayPeriod
+    {
+        return $this->payPeriod;
+    }
+
+    /**
+     * @param PayPeriod|null $payPeriod
+     */
+    public function setPayPeriod(?PayPeriod $payPeriod): void
+    {
+        $this->payPeriod = $payPeriod;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSalaryName(): ?string
+    {
+        return $this->salaryName;
+    }
+
+    /**
+     * @param string|null $salaryName
+     */
+    public function setSalaryName(?string $salaryName): void
+    {
+        $this->salaryName = $salaryName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string|null $comment
+     */
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * @return Collection|EmpDirectDebit[]
+     */
+    public function getDirectDebits()
+    {
+        return $this->directDebits;
+    }
+
+    /**
+     * @param Collection|EmpDirectDebit[] $directDebits
+     */
+    public function setDirectDebits($directDebits): void
+    {
+        $this->directDebits = $directDebits;
+    }
 }

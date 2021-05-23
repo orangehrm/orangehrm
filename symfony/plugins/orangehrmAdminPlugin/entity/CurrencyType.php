@@ -1,12 +1,27 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CurrencyType
- *
  * @ORM\Table(name="hs_hr_currency_type")
  * @ORM\Entity
  */
@@ -15,9 +30,9 @@ class CurrencyType
     /**
      * @var int
      *
-     * @ORM\Column(name="code", type="integer", length=4)
+     * @ORM\Column(name="code", type="integer")
      */
-    private $code;
+    private int $code;
 
     /**
      * @var string
@@ -26,42 +41,60 @@ class CurrencyType
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $id;
+    private string $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="currency_name", type="string", length=70)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeSalary", mappedBy="CurrencyType")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="currency_id", referencedColumnName="currency_id")
-     * })
+     * @return int
      */
-    private $EmployeeSalary;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\PayGradeCurrency", mappedBy="CurrencyType")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="currency_id", referencedColumnName="currency_id")
-     * })
-     */
-    private $PayGradeCurrency;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getCode(): int
     {
-        $this->EmployeeSalary = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->PayGradeCurrency = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->code;
     }
 
+    /**
+     * @param int $code
+     */
+    public function setCode(int $code): void
+    {
+        $this->code = $code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 }

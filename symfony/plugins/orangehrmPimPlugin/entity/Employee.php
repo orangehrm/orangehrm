@@ -469,17 +469,14 @@ class Employee
     private $memberships;
 
     /**
-     * @var Collection
+     * @var Collection|EmployeeSalary[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeSalary", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="empNumber", referencedColumnName="empNumber")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSalary", mappedBy="employee")
      */
-    private $salary;
+    private $salaries;
 
     /**
-     * @var Collection
+     * @var Collection|EmpContract[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpContract", mappedBy="employee")
      */
@@ -570,7 +567,7 @@ class Employee
         $this->languages = new ArrayCollection();
         $this->licenses = new ArrayCollection();
         $this->memberships = new ArrayCollection();
-        $this->salary = new ArrayCollection();
+        $this->salaries = new ArrayCollection();
         $this->contracts = new ArrayCollection();
         $this->attachments = new ArrayCollection();
         $this->projectAdmin = new ArrayCollection();
