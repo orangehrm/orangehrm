@@ -2,6 +2,8 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,147 +40,148 @@ class EmpEmergencyContact
     private ?string $name;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="eec_relationship", type="string", length=100 ,nullable=true)
+     * @ORM\Column(name="eec_relationship", type="string", length=100 , nullable=true)
      */
-    private string $relationship;
+    private ?string $relationship;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="eec_home_no", type="string", length=100)
+     * @ORM\Column(name="eec_home_no", type="string", length=100, nullable=true)
      */
-    private string $home_phone;
+    private ?string $homePhone;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="eec_mobile_no", type="string", length=100)
+     * @ORM\Column(name="eec_mobile_no", type="string", length=100, nullable=true)
      */
-    private string $mobile_phone;
+    private ?string $mobilePhone;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="eec_office_no", type="string", length=100)
+     * @ORM\Column(name="eec_office_no", type="string", length=100, nullable=true)
      */
-    private string $office_phone;
+    private ?string $officePhone;
 
     /**
      * @return int
      */
     public function getEmpNumber(): int
     {
-        return $this->emp_number;
+        return $this->empNumber;
     }
 
     /**
-     * @param int $emp_number
+     * @param int $empNumber
      */
-    public function setEmpNumber(int $emp_number): void
+    public function setEmpNumber(int $empNumber): void
     {
-        $this->emp_number = $emp_number;
+        $this->empNumber = $empNumber;
     }
 
     /**
      * @return int
      */
-    public function getSeqno(): int
+    public function getSeqNo(): int
     {
-        return $this->seqno;
+        return $this->seqNo;
     }
 
     /**
-     * @param int $seqno
+     * @param int $seqNo
      */
-    public function setSeqno(int $seqno): void
+    public function setSeqNo(int $seqNo): void
     {
-        $this->seqno = $seqno;
+        $this->seqNo = $seqNo;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      */
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getRelationship(): string
+    public function getRelationship(): ?string
     {
         return $this->relationship;
     }
 
     /**
-     * @param string $relationship
+     * @param string|null $relationship
      */
-    public function setRelationship(string $relationship): void
+    public function setRelationship(?string $relationship): void
     {
         $this->relationship = $relationship;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getHomePhone(): string
+    public function getHomePhone(): ?string
     {
-        return $this->home_phone;
+        return $this->homePhone;
     }
 
     /**
-     * @param string $home_phone
+     * @param string|null $homePhone
      */
-    public function setHomePhone(string $home_phone): void
+    public function setHomePhone(?string $homePhone): void
     {
-        $this->home_phone = $home_phone;
+        $this->homePhone = $homePhone;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMobilePhone(): string
+    public function getMobilePhone(): ?string
     {
-        return $this->mobile_phone;
+        return $this->mobilePhone;
     }
 
     /**
-     * @param string $mobile_phone
+     * @param string|null $mobilePhone
      */
-    public function setMobilePhone(string $mobile_phone): void
+    public function setMobilePhone(?string $mobilePhone): void
     {
-        $this->mobile_phone = $mobile_phone;
+        $this->mobilePhone = $mobilePhone;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getOfficePhone(): string
+    public function getOfficePhone(): ?string
     {
-        return $this->office_phone;
+        return $this->officePhone;
     }
 
     /**
-     * @param string $office_phone
+     * @param string|null $officePhone
      */
-    public function setOfficePhone(string $office_phone): void
+    public function setOfficePhone(?string $officePhone): void
     {
-        $this->office_phone = $office_phone;
+        $this->officePhone = $officePhone;
     }
 
+
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getEmployee()
     {
@@ -186,7 +189,7 @@ class EmpEmergencyContact
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $Employee
+     * @param Collection $Employee
      */
     public function setEmployee($Employee): void
     {
@@ -194,14 +197,10 @@ class EmpEmergencyContact
     }
 
 
-
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmpEmergencyContact")
-     * @ORM\JoinColumns({
+     * @var Collection
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
      */
     private $Employee;
 
@@ -210,7 +209,7 @@ class EmpEmergencyContact
      */
     public function __construct()
     {
-        $this->Employee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->Employee = new ArrayCollection();
     }
 
 }

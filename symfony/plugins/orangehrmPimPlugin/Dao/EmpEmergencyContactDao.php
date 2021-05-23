@@ -20,6 +20,7 @@
 namespace OrangeHRM\Pim\Dao;
 
 use Doctrine\ORM\QueryBuilder;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\ORM\Doctrine;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
@@ -34,7 +35,10 @@ class EmpEmergencyContactDao extends BaseDao
     public function saveEmployeeEmergencyContacts(int $empNumber ,EmpEmergencyContact $empEmergencyContact): EmpEmergencyContact
     {
         try {
-            $this->persist($empEmergencyContact);  //there should be a filter to check if empnumber matches with the right value
+
+            $employee = $this->getReference(Employee::class,$empNumber);
+            $empEmergencyContact->setEmployee($employee);
+            $this->persist($empEmergencyContact) ;  //there should be a filter to check if empNumber matches with the right value
             return $empEmergencyContact;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -50,10 +54,16 @@ class EmpEmergencyContactDao extends BaseDao
     {
 
         try {
-            $q = Doctrine_Query:: create()->from('EmpEmergencyContact ec')
-                ->where('ec.emp_number = ?', $empNumber)
-                ->orderBy('ec.name ASC');
-            return $q->execute();
+            $empEmergencyContact = $this->getRepository(EmpEmergencyContact::class)->find($empNumber);
+            if ($empEmergencyContact instanceof EmpEmergencyContact) {
+                return $empEmergencyContact;
+            }
+            return null;
+//            $q = Doctrine_Query:: create()->from('EmpEmergencyContact ec')
+//                ->where('ec.emp_number = ?', $empNumber)
+//                ->orderBy('ec.name ASC');
+//            return $q->execute();
+
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -72,15 +82,23 @@ class EmpEmergencyContactDao extends BaseDao
     {
 
         try {
-
-            $q = Doctrine_Query::create()->delete('EmpEmergencyContact')
-                ->where('emp_number = ?', $empNumber);
+            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'ec');
+            $q->delete()
+                ->where('ec.empNumber = :empNumber')
+                ->andWhere($q->expr()->in('ec.empNumber', ':empNumbers'))
+                ->setParameter('empNumbers', $entriesToDelete);
+//            $q = Doctrine_Query::create()->delete('EmpEmergencyContact')
+//                ->where('emp_number = ?', $empNumber);
 
             if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {
-                $q->whereIn('seqno', $entriesToDelete);
+//              $q->whereIn('seqNo', $entriesToDelete);
+                $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'ec');
+                $q->delete()
+                    ->andWhere($q->expr()->in('ec.seqNo', ':seqNos'))
+                    ->setParameter('seqNos', $entriesToDelete);
             }
 
-            return $q->execute();
+            return $q->getQuery()->execute();
 
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
@@ -114,16 +132,16 @@ class EmpEmergencyContactDao extends BaseDao
             $q->setParameter('relationship', $emergencyContactSearchFilterParams->getRelationship());
         }
         if (!empty($emergencyContactSearchFilterParams->getHomePhone())) {
-            $q->andWhere('ec.home_phone = :home_phone');
-            $q->setParameter('home_phone', $emergencyContactSearchFilterParams->getHomePhone());
+            $q->andWhere('ec.homePhone = :homePhone');
+            $q->setParameter('homePhone', $emergencyContactSearchFilterParams->getHomePhone());
         }
         if (!empty($emergencyContactSearchFilterParams->getOfficePhone())) {
-            $q->andWhere('ec.office_phone = :office_phone');
-            $q->setParameter('office_phone', $emergencyContactSearchFilterParams->getOfficePhone());
+            $q->andWhere('ec.officePhone = :officePhone');
+            $q->setParameter('officePhone', $emergencyContactSearchFilterParams->getOfficePhone());
         }
         if (!empty($emergencyContactSearchFilterParams->getMobilePhone())) {
-            $q->andWhere('ec.mobile_phone = :mobile_phone');
-            $q->setParameter('mobile_phone', $emergencyContactSearchFilterParams->getMobilePhone());
+            $q->andWhere('ec.mobilePhone = :mobilePhone');
+            $q->setParameter('officePhone', $emergencyContactSearchFilterParams->getMobilePhone());
         }
         return $this->getPaginator($q);
     }
