@@ -402,14 +402,11 @@ class Employee
     private $emergencyContacts;
 
     /**
-     * @var Collection
+     * @var Collection|EmployeeImmigrationRecord[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeImmigrationRecord", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeImmigrationRecord", mappedBy="employee")
      */
-    private $immigrationDocuments;
+    private $immigrationRecords;
 
     /**
      * @var Collection
