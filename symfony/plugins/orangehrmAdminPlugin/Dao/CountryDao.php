@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Country;
 use OrangeHRM\Core\Dao\BaseDao;
-use DaoException;
 use Exception;
 
 class CountryDao extends BaseDao

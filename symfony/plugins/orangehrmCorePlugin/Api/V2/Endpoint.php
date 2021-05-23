@@ -103,7 +103,6 @@ abstract class Endpoint
      * @param FilterParams $searchParamHolder
      * @param string|null $defaultSortField
      * @return FilterParams
-     * @throws SearchParamException
      */
     protected function setSortingAndPaginationParams(
         FilterParams $searchParamHolder,

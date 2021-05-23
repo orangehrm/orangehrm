@@ -19,47 +19,33 @@
 
 namespace OrangeHRM\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="hs_hr_emp_contract_extend")
+ * @ORM\Table(name="hs_hr_emp_locations")
  * @ORM\Entity
  */
-class EmpContract
+class EmpLocations
 {
     /**
      * @var Employee
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="contracts")
-     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number", nullable=false)
      */
     private Employee $employee;
 
     /**
-     * @var string
+     * @var Location
      *
-     * @ORM\Column(name="econ_extend_id", type="decimal", precision=10, scale=0, options={"default" : 0})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Location")
+     * @ORM\JoinColumn(name="location_id", referencedColumnName="id", nullable=false)
      */
-    private string $contractId = '0';
-
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(name="econ_extend_start_date", type="datetime", nullable=true)
-     */
-    private ?DateTime $startDate = null;
-
-    /**
-     * @var DateTime|null
-     *
-     * @ORM\Column(name="econ_extend_end_date", type="datetime", nullable=true)
-     */
-    private ?DateTime $endDate = null;
+    private Location $location;
 
     /**
      * @return Employee
@@ -78,50 +64,18 @@ class EmpContract
     }
 
     /**
-     * @return string
+     * @return Location
      */
-    public function getContractId(): string
+    public function getLocation(): Location
     {
-        return $this->contractId;
+        return $this->location;
     }
 
     /**
-     * @param string $contractId
+     * @param Location $location
      */
-    public function setContractId(string $contractId): void
+    public function setLocation(Location $location): void
     {
-        $this->contractId = $contractId;
-    }
-
-    /**
-     * @return DateTime|null
-     */
-    public function getStartDate(): ?DateTime
-    {
-        return $this->startDate;
-    }
-
-    /**
-     * @param DateTime|null $startDate
-     */
-    public function setStartDate(?DateTime $startDate): void
-    {
-        $this->startDate = $startDate;
-    }
-
-    /**
-     * @return DateTime|null
-     */
-    public function getEndDate(): ?DateTime
-    {
-        return $this->endDate;
-    }
-
-    /**
-     * @param DateTime|null $endDate
-     */
-    public function setEndDate(?DateTime $endDate): void
-    {
-        $this->endDate = $endDate;
+        $this->location = $location;
     }
 }

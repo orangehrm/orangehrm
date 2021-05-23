@@ -375,9 +375,14 @@ class Employee
     private ?DateTime $purgedAt = null;
 
     /**
-     * @var Collection
+     * @var Collection|Location[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Location", mappedBy="employees")
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Location", inversedBy="employees")
+     * @ORM\JoinTable(
+     *     name="hs_hr_emp_locations",
+     *     joinColumns={@ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="location_id", referencedColumnName="id")}
+     * )
      */
     private $locations;
 
@@ -476,10 +481,7 @@ class Employee
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpContract", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpContract", mappedBy="employee")
      */
     private $contracts;
 
@@ -510,15 +512,15 @@ class Employee
      */
     private $employeeTerminationRecords;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Country", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="coun_code", referencedColumnName="cou_code")
-     * })
-     */
-    private $EmployeeCountry;
+//    /**
+//     * @var Collection
+//     *
+//     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Country")
+//     * @ORM\JoinColumns({
+//     *   @ORM\JoinColumn(name="coun_code", referencedColumnName="cou_code")
+//     * })
+//     */
+//    private $EmployeeCountry;
 
     /**
      * @var User[]|Collection
@@ -561,7 +563,7 @@ class Employee
         $this->locations = new ArrayCollection();
         $this->dependents = new ArrayCollection();
         $this->emergencyContacts = new ArrayCollection();
-        $this->immigrationDocuments = new ArrayCollection();
+        $this->immigrationRecords = new ArrayCollection();
         $this->workExperience = new ArrayCollection();
         $this->education = new ArrayCollection();
         $this->skills = new ArrayCollection();
@@ -573,7 +575,7 @@ class Employee
         $this->attachments = new ArrayCollection();
         $this->projectAdmin = new ArrayCollection();
         $this->employeeTerminationRecords = new ArrayCollection();
-        $this->EmployeeCountry = new ArrayCollection();
+//        $this->EmployeeCountry = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->subordinates = new ArrayCollection();
         $this->supervisors = new ArrayCollection();
