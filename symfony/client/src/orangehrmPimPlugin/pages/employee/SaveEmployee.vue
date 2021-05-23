@@ -195,6 +195,7 @@ export default {
             (v && v.size && v.size <= 1024 * 1024) ||
             'Attachment size exceeded',
           v =>
+            v === null ||
             (v &&
               this.allowedImageTypes.findIndex(item => item === v.type) > -1) ||
             'File type not allowed',
