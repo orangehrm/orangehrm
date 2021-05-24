@@ -34,13 +34,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                type="dropdown"
-                label="Employment Status"
-                v-model="filters.empStatusId"
-                :clear="false"
-                :options="userStatuses"
-              />
+              <employment-status-dropdown v-model="filters.empStatusId" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -139,6 +133,7 @@ import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
 import SupervisorDropdown from '@/core/components/inputs/SupervisorDropdown';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
+import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/EmploymentStatusDropdown';
 
 const userdataNormalizer = data => {
   return data.map(item => {
@@ -165,8 +160,8 @@ const defaultFilters = {
   empStatusId: [{id: 0, label: 'All'}],
   includeEmployees: [{id: 1, label: 'Current Employees Only'}],
   supervisor: [],
-  jobTitleId: [],
-  subunitId: [],
+  jobTitleId: [{id: 0, label: 'All'}],
+  subunitId: [{id: 0, label: 'All'}],
 };
 
 export default {
@@ -176,6 +171,7 @@ export default {
     'supervisor-dropdown': SupervisorDropdown,
     'jobtitle-dropdown': JobtitleDropdown,
     'subunit-dropdown': SubunitDropdown,
+    'employment-status-dropdown': EmploymentStatusDropdown,
   },
 
   data() {
@@ -215,11 +211,6 @@ export default {
         {id: 1, label: 'Current Employees Only'},
         {id: 2, label: 'Current and Past Employees'},
         {id: 3, label: 'Past Employees Only'},
-      ],
-      userStatuses: [
-        {id: 0, label: 'All'},
-        {id: 1, label: 'Enabled'},
-        {id: 2, label: 'Disabled'},
       ],
       checkedItems: [],
       order: [

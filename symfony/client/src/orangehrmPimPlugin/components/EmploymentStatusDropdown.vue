@@ -21,7 +21,7 @@
 <template>
   <oxd-input-field
     type="dropdown"
-    label="Sub Unit"
+    label="Employment Status"
     :create-options="loadOptions"
     :lazyLoad="false"
     :clear="false"
@@ -31,11 +31,11 @@
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 export default {
-  name: 'subunit-dropdown',
+  name: 'employment-status-dropdown',
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/subunits',
+      'api/v2/admin/employment-statuses',
     );
     return {
       http,
@@ -49,7 +49,6 @@ export default {
             return {
               id: item.id,
               label: item.name,
-              indent: item.level ? item.level + 1 : 1,
             };
           });
           options.unshift({id: 0, label: 'All'});
