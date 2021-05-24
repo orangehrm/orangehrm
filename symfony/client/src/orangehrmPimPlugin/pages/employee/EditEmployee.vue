@@ -202,15 +202,15 @@ export default {
       default: () => [],
     },
     showDeprecatedFields: {
-      type: String,
+      type: Boolean,
       default: false,
     },
     showSSNField: {
-      type: String,
+      type: Boolean,
       default: false,
     },
     showSINField: {
-      type: String,
+      type: Boolean,
       default: false,
     },
   },
