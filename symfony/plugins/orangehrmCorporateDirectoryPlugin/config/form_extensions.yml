@@ -1,4 +1,0 @@
-viewDirectory:
-  EmployeeDirectorySearchForm:
-    embedForm:
-      - { name: "EmployeeDirectorySearchLocationForm" }

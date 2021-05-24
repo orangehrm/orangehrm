@@ -1,7 +1,0 @@
-pim:
-#  viewEmployeeList:
-#    pre:
-#      - { service: BeaconCommunicationsService, method: setBeaconActivation, messages: [] }
-#  viewMyDetails:
-#    pre:
-#      - { service: BeaconCommunicationsService, method: setBeaconActivation, messages: [] }
