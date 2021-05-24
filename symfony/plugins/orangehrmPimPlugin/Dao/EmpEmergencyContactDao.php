@@ -74,8 +74,8 @@ class EmpEmergencyContactDao extends BaseDao
     /**
      * Delete Emergency contacts
      * @param int $empNumber
-     * @param array $entriesToDelete
-     * @returns integer
+     * @param array|null $entriesToDelete
+     * @return int
      * @throws DaoException
      */
     public function deleteEmployeeEmergencyContacts(int $empNumber, array $entriesToDelete = null): int

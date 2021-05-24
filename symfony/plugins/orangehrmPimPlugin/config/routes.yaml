@@ -86,12 +86,14 @@ apiv2_pim_employee_emergency_contact:
     _key: seqNo
 
 apiv2_pim_employee_emergency_contacts:
-  path: /api/v2/pim/employee/{id}/emergency-contact
+  path: /api/v2/pim/employee/{empNumber}/emergency-contact
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST , DELETE ]
   defaults:
     _api: OrangeHRM\Pim\Api\EmpEmergencyContactAPI
     _key: empNumber
+
+
 
 ##########################
 #        Files

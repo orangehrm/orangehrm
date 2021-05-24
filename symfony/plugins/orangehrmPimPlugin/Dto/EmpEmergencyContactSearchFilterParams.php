@@ -23,7 +23,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmpEmergencyContactSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['ec.name', 'ec.relationship','ec.home_phone','ec.office_phone','ec.mobile_phone'];
+    public const ALLOWED_SORT_FIELDS = ['ec.name', 'ec.relationship','ec.homePhone','ec.officePhone','ec.mobilePhone'];
 
     /**
      * @var string|null
@@ -38,17 +38,17 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
     /**
      * @var string|null
      */
-    protected ?string $home_phone = null;
+    protected ?string $homePhone = null;
 
     /**
      * @var string|null
      */
-    protected ?string $office_phone = null;
+    protected ?string $officePhone = null;
 
     /**
      * @var string|null
      */
-    protected ?string $mobile_phone = null;
+    protected ?string $mobilePhone = null;
 
     /**
      * @return string|null
@@ -87,15 +87,15 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
      */
     public function getHomePhone(): ?string
     {
-        return $this->home_phone;
+        return $this->homePhone;
     }
 
     /**
-     * @param string|null $home_phone
+     * @param string|null $homePhone
      */
-    public function setHomePhone(?string $home_phone): void
+    public function setHomePhone(?string $homePhone): void
     {
-        $this->home_phone = $home_phone;
+        $this->homePhone = $homePhone;
     }
 
     /**
@@ -103,15 +103,15 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
      */
     public function getOfficePhone(): ?string
     {
-        return $this->office_phone;
+        return $this->officePhone;
     }
 
     /**
-     * @param string|null $office_phone
+     * @param string|null $officePhone
      */
-    public function setOfficePhone(?string $office_phone): void
+    public function setOfficePhone(?string $officePhone): void
     {
-        $this->office_phone = $office_phone;
+        $this->officePhone = $officePhone;
     }
 
     /**
@@ -119,15 +119,17 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
      */
     public function getMobilePhone(): ?string
     {
-        return $this->mobile_phone;
+        return $this->mobilePhone;
     }
 
     /**
-     * @param string|null $mobile_phone
+     * @param string|null $mobilePhone
      */
-    public function setMobilePhone(?string $mobile_phone): void
+    public function setMobilePhone(?string $mobilePhone): void
     {
-        $this->mobile_phone = $mobile_phone;
+        $this->mobilePhone = $mobilePhone;
     }
+
+
 
 }

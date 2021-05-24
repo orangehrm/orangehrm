@@ -86,7 +86,7 @@ class EmpEmergencyContactService
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @param array $sequenceNumbers Array of emergency contact sequence numbers. Optional.
-     * @return integer Number of records deleted
+     * @return int Number of records deleted
      * @throws DaoException
      *
      * @todo return number of contacts deleted (currently returns true always) [DONE]
