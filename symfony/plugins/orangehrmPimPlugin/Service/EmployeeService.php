@@ -109,11 +109,17 @@ class EmployeeService
      */
     public function saveEmployee(Employee $employee): Employee
     {
-        $employee = $this->getEmployeeDao()->saveEmployee($employee);
+        return $this->getEmployeeDao()->saveEmployee($employee);
+    }
 
+    /**
+     * @param Employee $employee
+     * @throws DaoException
+     */
+    public function saveAddEmployeeEvent(Employee $employee): void
+    {
         $this->getEmployeeEventService()->saveAddEmployeeEvent($employee->getEmpNumber());
         $this->getEventDispatcher()->dispatch(new EmployeeAddedEvent($employee), EmployeeEvents::EMPLOYEE_ADDED);
-        return $employee;
     }
 
     /**
@@ -121,9 +127,11 @@ class EmployeeService
      * @return Employee
      * @throws DaoException
      */
-    public function updateEmployee(Employee $employee): Employee
+    public function updateEmployeePersonalDetails(Employee $employee): Employee
     {
-        return $this->getEmployeeDao()->saveEmployee($employee);
+        $employee = $this->saveEmployee($employee);
+        $this->getEmployeeEventService()->saveUpdateEmployeePersonalDetailsEvent($employee->getEmpNumber());
+        return $employee;
     }
 
     /**

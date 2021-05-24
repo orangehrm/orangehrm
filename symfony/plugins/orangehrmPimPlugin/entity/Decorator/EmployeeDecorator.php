@@ -20,10 +20,14 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use DateTime;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Nationality;
 
 class EmployeeDecorator
 {
+    use EntityManagerHelperTrait;
+
     /**
      * @var Employee
      */
@@ -102,5 +106,17 @@ class EmployeeDecorator
             $smoker = $smoker == 1;
         }
         $this->getEmployee()->setSmoker($smoker);
+    }
+
+    /**
+     * @param int|null $id
+     */
+    public function setNationality(?int $id): void
+    {
+        $nationality = null;
+        if (!is_null($id)) {
+            $nationality = $this->getReference(Nationality::class, $id);
+        }
+        $this->getEmployee()->setNationality($nationality);
     }
 }

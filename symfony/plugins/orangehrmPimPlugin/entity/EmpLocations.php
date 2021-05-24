@@ -32,7 +32,7 @@ class EmpLocations
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", cascade={"persist"})
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number", nullable=false)
      */
     private Employee $employee;

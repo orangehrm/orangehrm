@@ -21,59 +21,76 @@ namespace OrangeHRM\Pim\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Employee;
 
 class EmployeePersonalDetailModel implements Normalizable
 {
     use ModelTrait;
+    use ConfigServiceTrait;
 
     /**
      * @param Employee $employee
      */
     public function __construct(Employee $employee)
     {
+        $showDeprecatedFields = $this->getConfigService()->showPimDeprecatedFields();
+        $showSsn = $this->getConfigService()->showPimSSN();
+        $showSin = $this->getConfigService()->showPimSIN();
         $this->setEntity($employee);
-        $this->setFilters(
-            [
-                'empNumber',
-                'lastName',
-                'firstName',
-                'middleName',
-                'employeeId',
-                'otherId',
-                'drivingLicenseNo',
-                ['getDecorator', 'getDrivingLicenseExpiredDate'],
-                'ssnNumber',
-                'sinNumber',
-                'gender',
-                'maritalStatus',
-                ['getDecorator', 'getBirthday'],
-                'nickName',
-                ['getDecorator', 'getSmoker'],
-                'militaryService',
-                ['getEmployeeTerminationRecord', 'getId'],
-            ]
-        );
-        $this->setAttributeNames(
-            [
-                'empNumber',
-                'lastName',
-                'firstName',
-                'middleName',
-                'employeeId',
-                'otherId',
-                'drivingLicenseNo',
-                'drivingLicenseExpiredDate',
-                'ssnNumber',
-                'sinNumber',
-                'gender',
-                'maritalStatus',
-                'birthday',
-                'nickName',
-                'smoker',
-                'militaryService',
-                'terminationId',
-            ]
-        );
+        $filter = [
+            'empNumber',
+            'lastName',
+            'firstName',
+            'middleName',
+            'employeeId',
+            'otherId',
+            'drivingLicenseNo',
+            ['getDecorator', 'getDrivingLicenseExpiredDate'],
+            'gender',
+            'maritalStatus',
+            ['getDecorator', 'getBirthday'],
+            ['getEmployeeTerminationRecord', 'getId'],
+            ['getNationality', 'getId'],
+            ['getNationality', 'getName'],
+        ];
+
+        $attributeNames = [
+            'empNumber',
+            'lastName',
+            'firstName',
+            'middleName',
+            'employeeId',
+            'otherId',
+            'drivingLicenseNo',
+            'drivingLicenseExpiredDate',
+            'gender',
+            'maritalStatus',
+            'birthday',
+            'terminationId',
+            ['nationality', 'id'],
+            ['nationality', 'name'],
+        ];
+
+        if ($showSsn) {
+            $filter[] = 'ssnNumber';
+            $attributeNames[] = 'ssnNumber';
+        }
+        if ($showSin) {
+            $filter[] = 'sinNumber';
+            $attributeNames[] = 'sinNumber';
+        }
+        if ($showDeprecatedFields) {
+            $filter[] = 'nickName';
+            $filter[] = ['getDecorator', 'getSmoker'];
+            $filter[] = 'militaryService';
+
+            $attributeNames[] = 'nickName';
+            $attributeNames[] = 'smoker';
+            $attributeNames[] = 'militaryService';
+        }
+
+        $this->setFilters($filter);
+        $this->setAttributeNames($attributeNames);
     }
 }

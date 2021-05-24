@@ -23,7 +23,6 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
@@ -136,9 +135,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     {
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
-        if (!$employee instanceof Employee) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
 
         return new EndpointGetOneResult($this->getModelClass(), $employee);
     }
@@ -361,6 +358,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         } else {
             $this->getEmployeeService()->saveEmployee($employee);
         }
+        $this->getEmployeeService()->saveAddEmployeeEvent($employee);
 
         return new EndpointCreateResult(EmployeeModel::class, $employee);
     }
@@ -446,11 +444,9 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     {
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
-        if (!$employee instanceof Employee) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
         $this->setParamsToEmployee($employee);
-        $this->getEmployeeService()->updateEmployee($employee);
+        $this->getEmployeeService()->saveEmployee($employee);
         return new EndpointUpdateResult(EmployeeModel::class, $employee);
     }
 

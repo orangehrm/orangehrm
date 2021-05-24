@@ -31,12 +31,15 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeePersonalDetailModel;
 use OrangeHRM\Pim\Service\EmployeeService;
 
 class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
 {
+    use ConfigServiceTrait;
+
     public const PARAMETER_EMP_NUMBER = 'empNumber';
     public const PARAMETER_FIRST_NAME = 'firstName';
     public const PARAMETER_MIDDLE_NAME = 'middleName';
@@ -48,6 +51,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_GENDER = 'gender';
     public const PARAMETER_MARTIAL_STATUS = 'maritalStatus';
     public const PARAMETER_BIRTHDAY = 'birthday';
+    public const PARAMETER_NATIONALITY_ID = 'nationalityId';
 
     // Deprecated Fields
     public const PARAMETER_NICKNAME = 'nickname';
@@ -94,7 +98,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
     {
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
-        $this->throwRecordNotFoundExceptionIfNotExist(Employee::class, $employee);
+        $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
 
         return new EndpointGetOneResult(EmployeePersonalDetailModel::class, $employee);
     }
@@ -119,7 +123,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
     {
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
-        $this->throwRecordNotFoundExceptionIfNotExist(Employee::class, $employee);
+        $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
 
         $employee->setFirstName(
             $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FIRST_NAME)
@@ -157,25 +161,43 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
         $employee->getDecorator()->setBirthday(
             $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_BIRTHDAY)
         );
-
-        $employee->setNickName(
-            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NICKNAME)
-        );
-        $employee->getDecorator()->setSmoker(
-            $this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SMOKER)
-        );
-        $employee->setMilitaryService(
-            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_MILITARY_SERVICE)
+        $employee->getDecorator()->setNationality(
+            $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NATIONALITY_ID)
         );
 
-        $employee->setSsnNumber(
-            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SSN_NUMBER)
-        );
-        $employee->setSinNumber(
-            $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SIN_NUMBER)
-        );
+        $showDeprecatedFields = $this->getConfigService()->showPimDeprecatedFields();
+        $showSsn = $this->getConfigService()->showPimSSN();
+        $showSin = $this->getConfigService()->showPimSIN();
 
-        $this->getEmployeeService()->updateEmployee($employee);
+        // Deprecated Fields
+        if ($showDeprecatedFields) {
+            $employee->setNickName(
+                $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NICKNAME)
+            );
+            $employee->getDecorator()->setSmoker(
+                $this->getRequestParams()->getBooleanOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SMOKER)
+            );
+            $employee->setMilitaryService(
+                $this->getRequestParams()->getStringOrNull(
+                    RequestParams::PARAM_TYPE_BODY,
+                    self::PARAMETER_MILITARY_SERVICE
+                )
+            );
+        }
+
+        // Country Specific
+        if ($showSsn) {
+            $employee->setSsnNumber(
+                $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SSN_NUMBER)
+            );
+        }
+        if ($showSin) {
+            $employee->setSinNumber(
+                $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SIN_NUMBER)
+            );
+        }
+
+        $this->getEmployeeService()->updateEmployeePersonalDetails($employee);
 
         return new EndpointUpdateResult(EmployeePersonalDetailModel::class, $employee);
     }
@@ -185,7 +207,10 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
+        $showDeprecatedFields = $this->getConfigService()->showPimDeprecatedFields();
+        $showSsn = $this->getConfigService()->showPimSSN();
+        $showSin = $this->getConfigService()->showPimSIN();
+        $paramRules = [
             new ParamRule(
                 self::PARAMETER_EMP_NUMBER,
                 new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
@@ -262,44 +287,60 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
+                    self::PARAMETER_NATIONALITY_ID,
+                    new Rule(Rules::POSITIVE),
+                )
+            ),
+        ];
+
+        if ($showDeprecatedFields) {
+            $paramRules[] = $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
                     self::PARAMETER_NICKNAME,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, 100]),
                 ),
                 true
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            );
+            $paramRules[] = $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SMOKER,
                     new Rule(Rules::BOOL_TYPE),
                 ),
                 true
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            );
+            $paramRules[] = $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_MILITARY_SERVICE,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, 100]),
                 ),
                 true
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            );
+        }
+
+        if ($showSsn) {
+            $paramRules[] = $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SSN_NUMBER,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, 100]),
                 ),
                 true
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            );
+        }
+
+        if ($showSin) {
+            $paramRules[] = $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SIN_NUMBER,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, 100]),
                 ),
                 true
-            ),
-        );
+            );
+        }
+        return new ParamRuleCollection(...$paramRules);
     }
 
     /**

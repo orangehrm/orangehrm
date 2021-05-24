@@ -100,4 +100,18 @@ trait EntityManagerHelperTrait
             ->execute();
         return $result[0] ?? null;
     }
+
+    /**
+     * @param string $entityName The name of the entity type.
+     * @param mixed $id The entity identifier.
+     * @return object|null The entity reference.
+     *
+     * @template T
+     * @psalm-param class-string<T> $entityName
+     * @psalm-return ?T
+     */
+    protected function getReference(string $entityName, $id)
+    {
+        return $this->getEntityManager()->getReference($entityName, $id);
+    }
 }

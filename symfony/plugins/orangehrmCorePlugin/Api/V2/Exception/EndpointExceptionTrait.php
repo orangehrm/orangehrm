@@ -52,17 +52,17 @@ trait EndpointExceptionTrait
     }
 
     /**
-     * @param string $entityClass
      * @param object|null $entity
+     * @param string|null $entityClass
      * @param string $message
      * @throws RecordNotFoundException
      */
     protected function throwRecordNotFoundExceptionIfNotExist(
-        string $entityClass,
         ?object $entity,
+        ?string $entityClass = null,
         string $message = RecordNotFoundException::DEFAULT_ERROR_MESSAGE
     ) {
-        if (!$entity instanceof $entityClass) {
+        if (($entityClass && !$entity instanceof $entityClass) || is_null($entity)) {
             throw $this->getRecordNotFoundException($message);
         }
     }

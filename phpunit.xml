@@ -36,6 +36,7 @@
       <directory>symfony/plugins/orangehrmPimPlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmPimPlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmPimPlugin/test/Api</directory>
+      <directory>symfony/plugins/orangehrmPimPlugin/test/Entity</directory>
     </testsuite>
   </testsuites>
 </phpunit>

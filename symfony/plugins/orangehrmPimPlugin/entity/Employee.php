@@ -97,18 +97,12 @@ class Employee
     private ?DateTime $birthday = null;
 
     /**
-     * @var int
+     * @var Nationality|null
      *
-     * @ORM\Column(name="nation_code", type="integer")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Nationality")
+     * @ORM\JoinColumn(name="nation_code", referencedColumnName="id", nullable=true)
      */
-    private $nationCode;
-//    /**
-//     * @var Nationality|null
-//     *
-//     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobTitle")
-//     * @ORM\JoinColumn(name="nation_code", referencedColumnName="id", nullable=true)
-//     */
-//    private ?JobTitle $jobTitle = null;
+    private ?Nationality $nationality = null;
 
     /**
      * @var int|null
@@ -720,6 +714,22 @@ class Employee
     public function setBirthday(?DateTime $birthday): void
     {
         $this->birthday = $birthday;
+    }
+
+    /**
+     * @return Nationality|null
+     */
+    public function getNationality(): ?Nationality
+    {
+        return $this->nationality;
+    }
+
+    /**
+     * @param Nationality|null $nationality
+     */
+    public function setNationality(?Nationality $nationality): void
+    {
+        $this->nationality = $nationality;
     }
 
     /**
