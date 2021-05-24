@@ -1,4 +1,0 @@
-# default values
-all:
-  orangehrmCorporateDirectoryPlugin:
-    version: '1.0'   
