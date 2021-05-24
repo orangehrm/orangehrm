@@ -23,6 +23,16 @@ apiv2_pim_employees_personal_details:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employee_contact_details:
+  path: /api/v2/pim/employee/{empNumber}/contact-details
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\ContactDetailsAPI
+    _key: empNumber
+  requirements:
+    empNumber: '\d+'
+
 ##########################
 #        Files
 ##########################
