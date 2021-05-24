@@ -300,6 +300,7 @@ class TestDataService
             $query = '';
 
             try {
+                $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT,0);
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $pdo->beginTransaction();
 
@@ -315,6 +316,7 @@ class TestDataService
                 $pdo->exec($query);
 
                 $pdo->commit();
+                $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 1);
             } catch (Exception $e) {
                 $pdo->rollBack();
                 echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
