@@ -24,6 +24,7 @@
     label="Job Title"
     :create-options="loadOptions"
     :lazyLoad="false"
+    :clear="false"
   />
 </template>
 
@@ -44,14 +45,14 @@ export default {
     async loadOptions() {
       return new Promise(resolve => {
         this.http.getAll().then(({data}) => {
-          resolve(
-            data.data.map(item => {
-              return {
-                id: item.id,
-                label: item.title,
-              };
-            }),
-          );
+          const options = data.data.map(item => {
+            return {
+              id: item.id,
+              label: item.title,
+            };
+          });
+          options.unshift({id: 0, label: 'All'});
+          resolve(options);
         });
       });
     },
