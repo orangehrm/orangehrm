@@ -218,28 +218,28 @@ class Employee
      *
      * @ORM\Column(name="emp_zipcode", type="string", length=20)
      */
-    private $emp_zipcode;
+    private $zipcode;
 
     /**
      * @var string
      *
      * @ORM\Column(name="emp_hm_telephone", type="string", length=50)
      */
-    private $emp_hm_telephone;
+    private $employeeHomeTelephone;
 
     /**
      * @var string
      *
      * @ORM\Column(name="emp_mobile", type="string", length=50)
      */
-    private $emp_mobile;
+    private $employeeMobile;
 
     /**
      * @var string
      *
      * @ORM\Column(name="emp_work_telephone", type="string", length=50)
      */
-    private $emp_work_telephone;
+    private $employeeWorkTelephone;
 
     /**
      * @var string|null
@@ -841,5 +841,149 @@ class Employee
     public function setSupervisors($supervisors): void
     {
         $this->supervisors = $supervisors;
+    }
+
+    /**
+     * @return string | null
+     */
+    public function getStreet1(): ?string
+    {
+        return $this->street1;
+    }
+
+    /**
+     * @param string | null $street1
+     */
+    public function setStreet1(?string $street1): void
+    {
+        $this->street1 = $street1;
+    }
+
+    /**
+     * @return string | null
+     */
+    public function getStreet2(): ?string
+    {
+        return $this->street2;
+    }
+
+    /**
+     * @param string | null $street2
+     */
+    public function setStreet2(?string $street2): void
+    {
+        $this->street2 = $street2;
+    }
+
+    /**
+     * @return string | null
+     */
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string | null $city
+     */
+    public function setCity(?string $city): void
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return string | null
+     */
+    public function getProvince(): ?string
+    {
+        return $this->province;
+    }
+
+    /**
+     * @param string | null $province
+     */
+    public function setProvince(?string $province): void
+    {
+        $this->province = $province;
+    }
+
+    /**
+     * @return string | null
+     */
+    public function getZipcode(): ?string
+    {
+        return $this->zipcode;
+    }
+
+    /**
+     * @param string | null $zipcode
+     */
+    public function setZipcode(?string $zipcode): void
+    {
+        $this->zipcode = $zipcode;
+    }
+
+    /**
+     * @return string | null
+     */
+    public function getEmployeeCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string | null $country
+     */
+    public function setEmployeeCountry(?string $country): void
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return string | null
+     */
+    public function getEmployeeHomeTelephone(): ?string
+    {
+        return $this->employeeHomeTelephone;
+    }
+
+    /**
+     * @param string | null $homeTelephone
+     */
+    public function setEmployeeHomeTelephone(?string $homeTelephone): void
+    {
+        $this->employeeHomeTelephone = $homeTelephone;
+    }
+
+    /**
+     * @return string | null
+     */
+    public function getEmployeeWorkTelephone(): ?string
+    {
+        return $this->employeeWorkTelephone;
+    }
+
+    /**
+     * @param string | null $workTelephone
+     */
+    public function setEmployeeWorkTelephone(?string $workTelephone): void
+    {
+        $this->employeeWorkTelephone = $workTelephone;
+    }
+
+    /**
+     * @return string | null
+     */
+    public function getEmployeeMobile(): ?string
+    {
+        return $this->employeeMobile;
+    }
+
+    /**
+     * @param string | null $mobile
+     */
+    public function setEmployeeMobile(?string $mobile): void
+    {
+        $this->employeeMobile = $mobile;
     }
 }
