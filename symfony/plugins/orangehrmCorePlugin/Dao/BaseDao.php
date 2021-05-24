@@ -19,75 +19,13 @@
 
 namespace OrangeHRM\Core\Dao;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ObjectRepository;
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Traits\ORM\EntityManagerTrait;
-use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 
 abstract class BaseDao
 {
-    use EntityManagerTrait;
-
-    /**
-     * @param string $entityClass
-     * @return ObjectRepository|EntityRepository
-     *
-     * @template T
-     * @psalm-param class-string<T> $entityClass
-     * @psalm-return EntityRepository<T>
-     */
-    protected function getRepository(string $entityClass)
-    {
-        return $this->getEntityManager()->getRepository($entityClass);
-    }
-
-    /**
-     * @param $entity
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    protected function persist($entity): void
-    {
-        $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
-    }
-
-    /**
-     * @param $entity
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    protected function remove($entity): void
-    {
-        $this->getEntityManager()->remove($entity);
-        $this->getEntityManager()->flush();
-    }
-
-    /**
-     * @param string $entityClass
-     * @param string $alias
-     * @param string|null $indexBy
-     * @return QueryBuilder
-     */
-    protected function createQueryBuilder(string $entityClass, string $alias, ?string $indexBy = null): QueryBuilder
-    {
-        return $this->getEntityManager()->createQueryBuilder()
-            ->select($alias)
-            ->from($entityClass, $alias, $indexBy);
-    }
-
-    /**
-     * @param QueryBuilder $qb
-     * @return Paginator
-     */
-    protected function getPaginator(QueryBuilder $qb): Paginator
-    {
-        return new Paginator($qb);
-    }
+    use EntityManagerHelperTrait;
 
     /**
      * @param QueryBuilder $qb
@@ -96,20 +34,6 @@ abstract class BaseDao
     protected function count(QueryBuilder $qb): int
     {
         return $this->getPaginator($qb)->count();
-    }
-
-    /**
-     * @param QueryBuilder $qb
-     * @param int $offset
-     * @return object|null
-     */
-    protected function fetchOne(QueryBuilder $qb, int $offset = 0): ?object
-    {
-        $result = $qb->setFirstResult($offset)
-            ->setMaxResults(1)
-            ->getQuery()
-            ->execute();
-        return $result[0] ?? null;
     }
 
     /**

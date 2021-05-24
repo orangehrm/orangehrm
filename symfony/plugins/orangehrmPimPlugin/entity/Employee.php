@@ -6,15 +6,19 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\EmployeeDecorator;
 
 /**
- * Employee
+ * @method EmployeeDecorator getDecorator()
  *
  * @ORM\Table(name="hs_hr_employee")
  * @ORM\Entity
  */
 class Employee
 {
+    use DecoratorTrait;
+
     public const GENDER_MALE = 1;
     public const GENDER_FEMALE = 2;
 
@@ -37,158 +41,124 @@ class Employee
     private int $empNumber;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="emp_lastname", type="string", length=100)
+     * @ORM\Column(name="employee_id", type="string", length=50, nullable=true)
      */
-    private string $lastName;
+    private ?string $employeeId = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="emp_firstname", type="string", length=100)
+     * @ORM\Column(name="emp_lastname", type="string", length=100, options={"default" : ""})
      */
-    private string $firstName;
+    private string $lastName = '';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="emp_middle_name", type="string", length=100)
+     * @ORM\Column(name="emp_firstname", type="string", length=100, options={"default" : ""})
      */
-    private string $middleName;
+    private string $firstName = '';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="emp_nick_name", type="string", length=100)
+     * @ORM\Column(name="emp_middle_name", type="string", length=100, options={"default" : ""})
      */
-    private string $nickName;
+    private string $middleName = '';
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="emp_nick_name", type="string", length=100, nullable=true, options={"default" : ""})
+     */
+    private ?string $nickName = '';
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="emp_smoker", type="smallint", nullable=true, options={"default" : 0})
      */
-    private ?int $smoker;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="emp_ssn_num", type="string", length=100)
-     */
-    private $ssn;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="emp_sin_num", type="string", length=100)
-     */
-    private $sin;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="emp_other_id", type="string", length=100)
-     */
-    private $otherId;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="emp_dri_lice_num", type="string", length=100)
-     */
-    private $licenseNo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="emp_military_service", type="string", length=100)
-     */
-    private $militaryService;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="emp_street1", type="string", length=100)
-     */
-    private $street1;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="emp_street2", type="string", length=100)
-     */
-    private $street2;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="city_code", type="string", length=100)
-     */
-    private $city;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="coun_code", type="string", length=100)
-     */
-    private $country;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="provin_code", type="string", length=100)
-     */
-    private $province;
+    private ?int $smoker = 0;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="employee_id", type="string", length=50, nullable=true)
+     * @ORM\Column(name="ethnic_race_code", type="string", length=13, nullable=true)
      */
-    private ?string $employeeId;
+    private ?string $ethnicRaceCode = null;
 
     /**
-     * @var string
+     * @var DateTime|null
      *
-     * @ORM\Column(name="ethnic_race_code", type="string", length=13)
+     * @ORM\Column(name="emp_birthday", type="date", nullable=true)
      */
-    private $ethnic_race_code;
+    private ?DateTime $birthday = null;
 
     /**
-     * @var DateTime
+     * @var Nationality|null
      *
-     * @ORM\Column(name="emp_birthday", type="date", length=25)
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Nationality")
+     * @ORM\JoinColumn(name="nation_code", referencedColumnName="id", nullable=true)
      */
-    private $emp_birthday;
+    private ?Nationality $nationality = null;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="nation_code", type="integer")
+     * @ORM\Column(name="emp_gender", type="smallint", nullable=true)
      */
-    private $nation_code;
+    private ?int $gender = null;
 
     /**
-     * @var int
+     * @var string|null
      *
-     * @ORM\Column(name="emp_gender", type="integer", length=2)
+     * @ORM\Column(name="emp_marital_status", type="string", length=20, nullable=true)
      */
-    private $emp_gender;
+    private ?string $maritalStatus = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="emp_marital_status", type="string", length=20)
+     * @ORM\Column(name="emp_ssn_num", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private $emp_marital_status;
+    private ?string $ssnNumber = "";
 
     /**
-     * @var DateTime
+     * @var string|null
      *
-     * @ORM\Column(name="emp_dri_lice_exp_date", type="date", length=25)
+     * @ORM\Column(name="emp_sin_num", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private $emp_dri_lice_exp_date;
+    private ?string $sinNumber = "";
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="emp_other_id", type="string", length=100, nullable=true, options={"default" : ""})
+     */
+    private ?string $otherId = "";
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="emp_dri_lice_num", type="string", length=100, nullable=true, options={"default" : ""})
+     */
+    private ?string $drivingLicenseNo = "";
+
+    /**
+     * @var DateTime|null
+     *
+     * @ORM\Column(name="emp_dri_lice_exp_date", type="date", nullable=true)
+     */
+    private ?DateTime $drivingLicenseExpiredDate = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="emp_military_service", type="string", length=100, nullable=true)
+     */
+    private ?string $militaryService = "";
 
     /**
      * @var EmploymentStatus|null
@@ -199,11 +169,20 @@ class Employee
     private ?EmploymentStatus $empStatus = null;
 
     /**
-     * @var int
+     * @var JobTitle|null
      *
-     * @ORM\Column(name="eeo_cat_code", type="integer")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobTitle")
+     * @ORM\JoinColumn(name="job_title_code", referencedColumnName="id", nullable=true)
      */
-    private $eeo_cat_code;
+    private ?JobTitle $jobTitle = null;
+
+    /**
+     * @var JobCategory|null
+     *
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobCategory")
+     * @ORM\JoinColumn(name="job_title_code", referencedColumnName="id", nullable=true)
+     */
+    private ?JobCategory $jobCategory = null;
 
     /**
      * @var Subunit|null
@@ -214,150 +193,190 @@ class Employee
     private ?Subunit $subDivision = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="emp_zipcode", type="string", length=20)
+     * @ORM\Column(name="emp_street1", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private $emp_zipcode;
+    private ?string $street1 = "";
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="emp_hm_telephone", type="string", length=50)
+     * @ORM\Column(name="emp_street2", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private $emp_hm_telephone;
+    private ?string $street2 = "";
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="emp_mobile", type="string", length=50)
+     * @ORM\Column(name="city_code", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private $emp_mobile;
+    private ?string $city = "";
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="emp_work_telephone", type="string", length=50)
+     * @ORM\Column(name="coun_code", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private $emp_work_telephone;
+    private ?string $country = "";
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="provin_code", type="string", length=100, nullable=true, options={"default" : ""})
+     */
+    private ?string $province = "";
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="emp_zipcode", type="string", length=20, nullable=true)
+     */
+    private ?string $zipcode = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="emp_hm_telephone", type="string", length=50, nullable=true)
+     */
+    private ?string $homeTelephone = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="emp_mobile", type="string", length=50, nullable=true)
+     */
+    private ?string $mobile = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="emp_work_telephone", type="string", length=50, nullable=true)
+     */
+    private ?string $workTelephone = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="emp_work_email", type="string", length=50, nullable=true)
      */
-    private ?string $empWorkEmail;
+    private ?string $workEmail = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="sal_grd_code", type="string", length=13)
+     * @ORM\Column(name="sal_grd_code", type="string", length=13, nullable=true)
      */
-    private $sal_grd_code;
+    private ?string $salaryGradeCode = null;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
-     * @ORM\Column(name="joined_date", type="date", length=25)
+     * @ORM\Column(name="joined_date", type="date", nullable=true)
      */
-    private $joined_date;
+    private ?DateTime $joinedDate = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="emp_oth_email", type="string", length=50, nullable=true)
      */
-    private ?string $empOtherEmail;
+    private ?string $otherEmail = null;
 
     /**
-     * @var string
+     * @var EmployeeTerminationRecord|null
      *
-     * @ORM\Column(name="custom1", type="string", length=250)
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord")
+     * @ORM\JoinColumn(name="termination_id", referencedColumnName="id")
      */
-    private $custom1;
+    private ?EmployeeTerminationRecord $employeeTerminationRecord = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="custom2", type="string", length=250)
+     * @ORM\Column(name="custom1", type="string", length=250, nullable=true)
      */
-    private $custom2;
+    private ?string $custom1 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="custom3", type="string", length=250)
+     * @ORM\Column(name="custom2", type="string", length=250, nullable=true)
      */
-    private $custom3;
+    private ?string $custom2 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="custom4", type="string", length=250)
+     * @ORM\Column(name="custom3", type="string", length=250, nullable=true)
      */
-    private $custom4;
+    private ?string $custom3 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="custom5", type="string", length=250)
+     * @ORM\Column(name="custom4", type="string", length=250, nullable=true)
      */
-    private $custom5;
+    private ?string $custom4 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="custom6", type="string", length=250)
+     * @ORM\Column(name="custom5", type="string", length=250, nullable=true)
      */
-    private $custom6;
+    private ?string $custom5 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="custom7", type="string", length=250)
+     * @ORM\Column(name="custom6", type="string", length=250, nullable=true)
      */
-    private $custom7;
+    private ?string $custom6 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="custom8", type="string", length=250)
+     * @ORM\Column(name="custom7", type="string", length=250, nullable=true)
      */
-    private $custom8;
+    private ?string $custom7 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="custom9", type="string", length=250)
+     * @ORM\Column(name="custom8", type="string", length=250, nullable=true)
      */
-    private $custom9;
+    private ?string $custom8 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="custom10", type="string", length=250)
+     * @ORM\Column(name="custom9", type="string", length=250, nullable=true)
      */
-    private $custom10;
+    private ?string $custom9 = null;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="custom10", type="string", length=250, nullable=true)
+     */
+    private ?string $custom10 = null;
 
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="purged_at", type="datetime", nullable=true)
      */
-    private ?DateTime $purgedAt;
+    private ?DateTime $purgedAt = null;
 
     /**
-     * @var JobTitle|null
+     * @var Collection|Location[]
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobTitle")
-     * @ORM\JoinColumn(name="job_title_code", referencedColumnName="id", nullable=true)
-     */
-    private ?JobTitle $jobTitle = null;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Location", mappedBy="employees")
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Location", inversedBy="employees")
+     * @ORM\JoinTable(
+     *     name="hs_hr_emp_locations",
+     *     joinColumns={@ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="location_id", referencedColumnName="id")}
+     * )
      */
     private $locations;
 
@@ -382,14 +401,11 @@ class Employee
     private $emergencyContacts;
 
     /**
-     * @var Collection
+     * @var Collection|EmployeeImmigrationRecord[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeImmigrationRecord", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeImmigrationRecord", mappedBy="employee")
      */
-    private $immigrationDocuments;
+    private $immigrationRecords;
 
     /**
      * @var Collection
@@ -447,22 +463,16 @@ class Employee
     private $memberships;
 
     /**
-     * @var Collection
+     * @var Collection|EmployeeSalary[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeSalary", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="empNumber", referencedColumnName="empNumber")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSalary", mappedBy="employee")
      */
-    private $salary;
+    private $salaries;
 
     /**
-     * @var Collection
+     * @var Collection|EmpContract[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpContract", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpContract", mappedBy="employee")
      */
     private $contracts;
 
@@ -487,29 +497,21 @@ class Employee
     private $projectAdmin;
 
     /**
-     * @var EmployeeTerminationRecord|null
-     *
-     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord")
-     * @ORM\JoinColumn(name="termination_id", referencedColumnName="id")
-     */
-    private ?EmployeeTerminationRecord $employeeTerminationRecord = null;
-
-    /**
      * @var Collection
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord", mappedBy="employee")
      */
     private $employeeTerminationRecords;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Country", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="coun_code", referencedColumnName="cou_code")
-     * })
-     */
-    private $EmployeeCountry;
+//    /**
+//     * @var Collection
+//     *
+//     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Country")
+//     * @ORM\JoinColumns({
+//     *   @ORM\JoinColumn(name="coun_code", referencedColumnName="cou_code")
+//     * })
+//     */
+//    private $EmployeeCountry;
 
     /**
      * @var User[]|Collection
@@ -526,14 +528,14 @@ class Employee
     private ?EmpPicture $empPicture = null;
 
     /**
-     * @var Collection
+     * @var Collection|Employee[]
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="supervisors")
      */
     private $subordinates;
 
     /**
-     * @var Collection
+     * @var Collection|Employee[]
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Employee", inversedBy="subordinates")
      * @ORM\JoinTable(
@@ -549,23 +551,22 @@ class Employee
      */
     public function __construct()
     {
-        $this->smoker = 0;
         $this->locations = new ArrayCollection();
         $this->dependents = new ArrayCollection();
         $this->emergencyContacts = new ArrayCollection();
-        $this->immigrationDocuments = new ArrayCollection();
+        $this->immigrationRecords = new ArrayCollection();
         $this->workExperience = new ArrayCollection();
         $this->education = new ArrayCollection();
         $this->skills = new ArrayCollection();
         $this->languages = new ArrayCollection();
         $this->licenses = new ArrayCollection();
         $this->memberships = new ArrayCollection();
-        $this->salary = new ArrayCollection();
+        $this->salaries = new ArrayCollection();
         $this->contracts = new ArrayCollection();
         $this->attachments = new ArrayCollection();
         $this->projectAdmin = new ArrayCollection();
         $this->employeeTerminationRecords = new ArrayCollection();
-        $this->EmployeeCountry = new ArrayCollection();
+//        $this->EmployeeCountry = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->subordinates = new ArrayCollection();
         $this->supervisors = new ArrayCollection();
@@ -585,6 +586,22 @@ class Employee
     public function setEmpNumber(int $empNumber): void
     {
         $this->empNumber = $empNumber;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmployeeId(): ?string
+    {
+        return $this->employeeId;
+    }
+
+    /**
+     * @param string|null $employeeId
+     */
+    public function setEmployeeId(?string $employeeId): void
+    {
+        $this->employeeId = $employeeId;
     }
 
     /**
@@ -638,17 +655,209 @@ class Employee
     /**
      * @return string|null
      */
-    public function getEmployeeId(): ?string
+    public function getNickName(): ?string
     {
-        return $this->employeeId;
+        return $this->nickName;
     }
 
     /**
-     * @param string|null $employeeId
+     * @param string|null $nickName
      */
-    public function setEmployeeId(?string $employeeId): void
+    public function setNickName(?string $nickName): void
     {
-        $this->employeeId = $employeeId;
+        $this->nickName = $nickName;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSmoker(): ?int
+    {
+        return $this->smoker;
+    }
+
+    /**
+     * @param int|null $smoker
+     */
+    public function setSmoker(?int $smoker): void
+    {
+        $this->smoker = $smoker;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEthnicRaceCode(): ?string
+    {
+        return $this->ethnicRaceCode;
+    }
+
+    /**
+     * @param string|null $ethnicRaceCode
+     */
+    public function setEthnicRaceCode(?string $ethnicRaceCode): void
+    {
+        $this->ethnicRaceCode = $ethnicRaceCode;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getBirthday(): ?DateTime
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * @param DateTime|null $birthday
+     */
+    public function setBirthday(?DateTime $birthday): void
+    {
+        $this->birthday = $birthday;
+    }
+
+    /**
+     * @return Nationality|null
+     */
+    public function getNationality(): ?Nationality
+    {
+        return $this->nationality;
+    }
+
+    /**
+     * @param Nationality|null $nationality
+     */
+    public function setNationality(?Nationality $nationality): void
+    {
+        $this->nationality = $nationality;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getGender(): ?int
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param int|null $gender
+     */
+    public function setGender(?int $gender): void
+    {
+        $this->gender = $gender;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMaritalStatus(): ?string
+    {
+        return $this->maritalStatus;
+    }
+
+    /**
+     * @param string|null $maritalStatus
+     */
+    public function setMaritalStatus(?string $maritalStatus): void
+    {
+        $this->maritalStatus = $maritalStatus;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSsnNumber(): ?string
+    {
+        return $this->ssnNumber;
+    }
+
+    /**
+     * @param string|null $ssnNumber
+     */
+    public function setSsnNumber(?string $ssnNumber): void
+    {
+        $this->ssnNumber = $ssnNumber;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSinNumber(): ?string
+    {
+        return $this->sinNumber;
+    }
+
+    /**
+     * @param string|null $sinNumber
+     */
+    public function setSinNumber(?string $sinNumber): void
+    {
+        $this->sinNumber = $sinNumber;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOtherId(): ?string
+    {
+        return $this->otherId;
+    }
+
+    /**
+     * @param string|null $otherId
+     */
+    public function setOtherId(?string $otherId): void
+    {
+        $this->otherId = $otherId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDrivingLicenseNo(): ?string
+    {
+        return $this->drivingLicenseNo;
+    }
+
+    /**
+     * @param string|null $drivingLicenseNo
+     */
+    public function setDrivingLicenseNo(?string $drivingLicenseNo): void
+    {
+        $this->drivingLicenseNo = $drivingLicenseNo;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getDrivingLicenseExpiredDate(): ?DateTime
+    {
+        return $this->drivingLicenseExpiredDate;
+    }
+
+    /**
+     * @param DateTime|null $drivingLicenseExpiredDate
+     */
+    public function setDrivingLicenseExpiredDate(?DateTime $drivingLicenseExpiredDate): void
+    {
+        $this->drivingLicenseExpiredDate = $drivingLicenseExpiredDate;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMilitaryService(): ?string
+    {
+        return $this->militaryService;
+    }
+
+    /**
+     * @param string|null $militaryService
+     */
+    public function setMilitaryService(?string $militaryService): void
+    {
+        $this->militaryService = $militaryService;
     }
 
     /**
@@ -665,6 +874,38 @@ class Employee
     public function setEmpStatus(?EmploymentStatus $empStatus): void
     {
         $this->empStatus = $empStatus;
+    }
+
+    /**
+     * @return JobTitle|null
+     */
+    public function getJobTitle(): ?JobTitle
+    {
+        return $this->jobTitle;
+    }
+
+    /**
+     * @param JobTitle|null $jobTitle
+     */
+    public function setJobTitle(?JobTitle $jobTitle): void
+    {
+        $this->jobTitle = $jobTitle;
+    }
+
+    /**
+     * @return JobCategory|null
+     */
+    public function getJobCategory(): ?JobCategory
+    {
+        return $this->jobCategory;
+    }
+
+    /**
+     * @param JobCategory|null $jobCategory
+     */
+    public function setJobCategory(?JobCategory $jobCategory): void
+    {
+        $this->jobCategory = $jobCategory;
     }
 
     /**
@@ -686,33 +927,193 @@ class Employee
     /**
      * @return string|null
      */
-    public function getEmpWorkEmail(): ?string
+    public function getStreet1(): ?string
     {
-        return $this->empWorkEmail;
+        return $this->street1;
     }
 
     /**
-     * @param string|null $empWorkEmail
+     * @param string|null $street1
      */
-    public function setEmpWorkEmail(?string $empWorkEmail): void
+    public function setStreet1(?string $street1): void
     {
-        $this->empWorkEmail = $empWorkEmail;
+        $this->street1 = $street1;
     }
 
     /**
      * @return string|null
      */
-    public function getEmpOtherEmail(): ?string
+    public function getStreet2(): ?string
     {
-        return $this->empOtherEmail;
+        return $this->street2;
     }
 
     /**
-     * @param string|null $empOtherEmail
+     * @param string|null $street2
      */
-    public function setEmpOtherEmail(?string $empOtherEmail): void
+    public function setStreet2(?string $street2): void
     {
-        $this->empOtherEmail = $empOtherEmail;
+        $this->street2 = $street2;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string|null $city
+     */
+    public function setCity(?string $city): void
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string|null $country
+     */
+    public function setCountry(?string $country): void
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProvince(): ?string
+    {
+        return $this->province;
+    }
+
+    /**
+     * @param string|null $province
+     */
+    public function setProvince(?string $province): void
+    {
+        $this->province = $province;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getZipcode(): ?string
+    {
+        return $this->zipcode;
+    }
+
+    /**
+     * @param string|null $zipcode
+     */
+    public function setZipcode(?string $zipcode): void
+    {
+        $this->zipcode = $zipcode;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getHomeTelephone(): ?string
+    {
+        return $this->homeTelephone;
+    }
+
+    /**
+     * @param string|null $homeTelephone
+     */
+    public function setHomeTelephone(?string $homeTelephone): void
+    {
+        $this->homeTelephone = $homeTelephone;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMobile(): ?string
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * @param string|null $mobile
+     */
+    public function setMobile(?string $mobile): void
+    {
+        $this->mobile = $mobile;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getWorkTelephone(): ?string
+    {
+        return $this->workTelephone;
+    }
+
+    /**
+     * @param string|null $workTelephone
+     */
+    public function setWorkTelephone(?string $workTelephone): void
+    {
+        $this->workTelephone = $workTelephone;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getWorkEmail(): ?string
+    {
+        return $this->workEmail;
+    }
+
+    /**
+     * @param string|null $workEmail
+     */
+    public function setWorkEmail(?string $workEmail): void
+    {
+        $this->workEmail = $workEmail;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getJoinedDate(): ?DateTime
+    {
+        return $this->joinedDate;
+    }
+
+    /**
+     * @param DateTime|null $joinedDate
+     */
+    public function setJoinedDate(?DateTime $joinedDate): void
+    {
+        $this->joinedDate = $joinedDate;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOtherEmail(): ?string
+    {
+        return $this->otherEmail;
+    }
+
+    /**
+     * @param string|null $otherEmail
+     */
+    public function setOtherEmail(?string $otherEmail): void
+    {
+        $this->otherEmail = $otherEmail;
     }
 
     /**
@@ -732,6 +1133,182 @@ class Employee
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getEducation(): ArrayCollection
+    {
+        return $this->education;
+    }
+
+    /**
+     * @param ArrayCollection $education
+     */
+    public function setEducation(ArrayCollection $education): void
+    {
+        $this->education = $education;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom1(): ?string
+    {
+        return $this->custom1;
+    }
+
+    /**
+     * @param string|null $custom1
+     */
+    public function setCustom1(?string $custom1): void
+    {
+        $this->custom1 = $custom1;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom2(): ?string
+    {
+        return $this->custom2;
+    }
+
+    /**
+     * @param string|null $custom2
+     */
+    public function setCustom2(?string $custom2): void
+    {
+        $this->custom2 = $custom2;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom3(): ?string
+    {
+        return $this->custom3;
+    }
+
+    /**
+     * @param string|null $custom3
+     */
+    public function setCustom3(?string $custom3): void
+    {
+        $this->custom3 = $custom3;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom4(): ?string
+    {
+        return $this->custom4;
+    }
+
+    /**
+     * @param string|null $custom4
+     */
+    public function setCustom4(?string $custom4): void
+    {
+        $this->custom4 = $custom4;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom5(): ?string
+    {
+        return $this->custom5;
+    }
+
+    /**
+     * @param string|null $custom5
+     */
+    public function setCustom5(?string $custom5): void
+    {
+        $this->custom5 = $custom5;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom6(): ?string
+    {
+        return $this->custom6;
+    }
+
+    /**
+     * @param string|null $custom6
+     */
+    public function setCustom6(?string $custom6): void
+    {
+        $this->custom6 = $custom6;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom7(): ?string
+    {
+        return $this->custom7;
+    }
+
+    /**
+     * @param string|null $custom7
+     */
+    public function setCustom7(?string $custom7): void
+    {
+        $this->custom7 = $custom7;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom8(): ?string
+    {
+        return $this->custom8;
+    }
+
+    /**
+     * @param string|null $custom8
+     */
+    public function setCustom8(?string $custom8): void
+    {
+        $this->custom8 = $custom8;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom9(): ?string
+    {
+        return $this->custom9;
+    }
+
+    /**
+     * @param string|null $custom9
+     */
+    public function setCustom9(?string $custom9): void
+    {
+        $this->custom9 = $custom9;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCustom10(): ?string
+    {
+        return $this->custom10;
+    }
+
+    /**
+     * @param string|null $custom10
+     */
+    public function setCustom10(?string $custom10): void
+    {
+        $this->custom10 = $custom10;
+    }
+
+    /**
      * @return DateTime|null
      */
     public function getPurgedAt(): ?DateTime
@@ -745,22 +1322,6 @@ class Employee
     public function setPurgedAt(?DateTime $purgedAt): void
     {
         $this->purgedAt = $purgedAt;
-    }
-
-    /**
-     * @return JobTitle|null
-     */
-    public function getJobTitle(): ?JobTitle
-    {
-        return $this->jobTitle;
-    }
-
-    /**
-     * @param JobTitle|null $jobTitle
-     */
-    public function setJobTitle(?JobTitle $jobTitle): void
-    {
-        $this->jobTitle = $jobTitle;
     }
 
     /**

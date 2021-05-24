@@ -35,10 +35,10 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmploymentStatus;
 use OrangeHRM\Admin\Service\EmploymentStatusService;
 use OrangeHRM\Admin\Api\Model\EmploymentStatusModel;
-use DaoException;
 use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 
@@ -76,7 +76,6 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
      * @throws DaoException
-     * @throws Exception
      */
     public function getOne(): EndpointGetOneResult
     {
@@ -104,8 +103,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
-     * @throws Exception
+     * @inheritDoc
      */
     public function getAll(): EndpointGetAllResult
     {
@@ -147,7 +145,6 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function create(): EndpointCreateResult
     {

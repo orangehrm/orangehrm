@@ -126,8 +126,28 @@ class EmployeeEventService
      * @return EmployeeEvent
      * @throws DaoException
      */
-    public function saveAddEmployeeEvent(int $empNumber):EmployeeEvent
+    public function saveAddEmployeeEvent(int $empNumber): EmployeeEvent
     {
-        return $this->saveEvent($empNumber,EmployeeEvent::EVENT_TYPE_EMPLOYEE,EmployeeEvent::EVENT_SAVE,'Saving Employee');
+        return $this->saveEvent(
+            $empNumber,
+            EmployeeEvent::EVENT_TYPE_EMPLOYEE,
+            EmployeeEvent::EVENT_SAVE,
+            'Saving Employee'
+        );
+    }
+
+    /**
+     * @param int $empNumber
+     * @return EmployeeEvent
+     * @throws DaoException
+     */
+    public function saveUpdateEmployeePersonalDetailsEvent(int $empNumber): EmployeeEvent
+    {
+        return $this->saveEvent(
+            $empNumber,
+            EmployeeEvent::EVENT_TYPE_EMPLOYEE,
+            EmployeeEvent::EVENT_UPDATE,
+            'Updating Employee Details'
+        );
     }
 }
