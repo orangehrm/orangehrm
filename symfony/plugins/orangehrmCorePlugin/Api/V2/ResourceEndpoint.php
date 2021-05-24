@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Core\Api\V2;
 
+use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
@@ -31,12 +33,15 @@ interface ResourceEndpoint
      * Get one resource
      * @return EndpointGetOneResult
      * @throws NormalizeException
+     * @throws RecordNotFoundException
+     * @throws NotImplementedException
      */
     public function getOne(): EndpointGetOneResult;
 
     /**
      * Validation rules for CollectionEndpoint::getOne
      * @return ParamRuleCollection
+     * @throws NotImplementedException
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection;
 
@@ -44,24 +49,30 @@ interface ResourceEndpoint
      * Update one resource
      * @return EndpointUpdateResult
      * @throws NormalizeException
+     * @throws RecordNotFoundException
+     * @throws NotImplementedException
      */
     public function update(): EndpointUpdateResult;
 
     /**
      * Validation rules for CollectionEndpoint::update
      * @return ParamRuleCollection
+     * @throws NotImplementedException
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection;
 
     /**
      * Delete a resource
      * @return EndpointDeleteResult
+     * @throws RecordNotFoundException
+     * @throws NotImplementedException
      */
     public function delete(): EndpointDeleteResult;
 
     /**
      * Validation rules for ResourceEndpoint::delete
      * @return ParamRuleCollection
+     * @throws NotImplementedException
      */
     public function getValidationRuleForDelete(): ParamRuleCollection;
 }

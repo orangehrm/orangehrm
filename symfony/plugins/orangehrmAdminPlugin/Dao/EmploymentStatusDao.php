@@ -19,11 +19,11 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use Exception;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmploymentStatus;
-use DaoException;
-use Exception;
 use OrangeHRM\ORM\Paginator;
 
 class EmploymentStatusDao extends BaseDao
@@ -146,4 +146,3 @@ class EmploymentStatusDao extends BaseDao
         }
     }
 }
-

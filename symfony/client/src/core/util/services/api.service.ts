@@ -29,7 +29,6 @@ export class APIService {
     this._apiSection = path;
     this._http = axios.create({
       baseURL: this._baseUrl,
-      timeout: 3000,
     });
     this.setupResponseInterceptors(getCurrentInstance());
   }

@@ -1,81 +1,80 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * EmpContract
- *
  * @ORM\Table(name="hs_hr_emp_contract_extend")
  * @ORM\Entity
  */
 class EmpContract
 {
     /**
-     * @var int
+     * @var Employee
      *
-     * @ORM\Column(name="emp_number", type="integer", length=4)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="contracts", cascade={"persist"})
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
-    private $emp_number;
+    private Employee $employee;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="econ_extend_id", type="decimal", length=10)
+     * @ORM\Column(name="econ_extend_id", type="decimal", precision=10, scale=0, options={"default" : 0})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $contract_id;
+    private string $contractId = '0';
 
     /**
-     * @var \DateTime
+     * @var DateTime|null
      *
-     * @ORM\Column(name="econ_extend_start_date", type="datetime", length=25)
+     * @ORM\Column(name="econ_extend_start_date", type="datetime", nullable=true)
      */
-    private $start_date;
+    private ?DateTime $startDate = null;
 
     /**
-     * @var \DateTime
+     * @var DateTime|null
      *
-     * @ORM\Column(name="econ_extend_end_date", type="datetime", length=25)
+     * @ORM\Column(name="econ_extend_end_date", type="datetime", nullable=true)
      */
-    private $end_date;
+    private ?DateTime $endDate = null;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmpContract")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
+     * @return Employee
      */
-    private $employee;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getEmployee(): Employee
     {
-        $this->employee = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->employee;
     }
 
     /**
-     * @return int
+     * @param Employee $employee
      */
-    public function getEmpNumber(): int
+    public function setEmployee(Employee $employee): void
     {
-        return $this->emp_number;
-    }
-
-    /**
-     * @param int $emp_number
-     */
-    public function setEmpNumber(int $emp_number)
-    {
-        $this->emp_number = $emp_number;
+        $this->employee = $employee;
     }
 
     /**
@@ -83,62 +82,46 @@ class EmpContract
      */
     public function getContractId(): string
     {
-        return $this->contract_id;
+        return $this->contractId;
     }
 
     /**
-     * @param string $contract_id
+     * @param string $contractId
      */
-    public function setContractId(string $contract_id)
+    public function setContractId(string $contractId): void
     {
-        $this->contract_id = $contract_id;
+        $this->contractId = $contractId;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime|null
      */
-    public function getStartDate(): \DateTime
+    public function getStartDate(): ?DateTime
     {
-        return $this->start_date;
+        return $this->startDate;
     }
 
     /**
-     * @param \DateTime $start_date
+     * @param DateTime|null $startDate
      */
-    public function setStartDate(\DateTime $start_date)
+    public function setStartDate(?DateTime $startDate): void
     {
-        $this->start_date = $start_date;
+        $this->startDate = $startDate;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime|null
      */
-    public function getEndDate(): \DateTime
+    public function getEndDate(): ?DateTime
     {
-        return $this->end_date;
+        return $this->endDate;
     }
 
     /**
-     * @param \DateTime $end_date
+     * @param DateTime|null $endDate
      */
-    public function setEndDate(\DateTime $end_date)
+    public function setEndDate(?DateTime $endDate): void
     {
-        $this->end_date = $end_date;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEmployee()
-    {
-        return $this->employee;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $employee
-     */
-    public function setEmployee($employee)
-    {
-        $this->employee = $employee;
+        $this->endDate = $endDate;
     }
 }

@@ -22,8 +22,6 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Country
- *
  * @ORM\Table(name="hs_hr_country")
  * @ORM\Entity
  */
@@ -36,53 +34,35 @@ class Country
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private $countryCode;
+    private string $countryCode;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=80)
      */
-    private $name;
+    private string $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="cou_name", type="string", length=80)
      */
-    private $countryName;
+    private string $countryName;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="iso3", type="string", length=3)
+     * @ORM\Column(name="iso3", type="string", length=3, nullable=true)
      */
-    private $iso3;
+    private ?string $iso3;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="numcode", type="integer", length=2)
+     * @ORM\Column(name="numcode", type="smallint", nullable=true)
      */
-    private $numcode;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\Location", mappedBy="Country")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="cou_code", referencedColumnName="country")
-     * })
-     */
-    private $locations;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->locations = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    private ?int $numCode;
 
     /**
      * @return string
@@ -130,5 +110,37 @@ class Country
     public function setCountryName(string $countryName): void
     {
         $this->countryName = $countryName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getIso3(): ?string
+    {
+        return $this->iso3;
+    }
+
+    /**
+     * @param string|null $iso3
+     */
+    public function setIso3(?string $iso3): void
+    {
+        $this->iso3 = $iso3;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getNumCode(): ?int
+    {
+        return $this->numCode;
+    }
+
+    /**
+     * @param int|null $numCode
+     */
+    public function setNumCode(?int $numCode): void
+    {
+        $this->numCode = $numCode;
     }
 }

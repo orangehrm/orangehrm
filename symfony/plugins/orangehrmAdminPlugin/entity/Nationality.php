@@ -19,15 +19,13 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_pay_grade")
+ * @ORM\Table(name="ohrm_nationality")
  * @ORM\Entity
  */
-class PayGrade
+class Nationality
 {
     /**
      * @var int
@@ -39,26 +37,11 @@ class PayGrade
     private int $id;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="name", type="string", length=60, nullable=true)
+     * @ORM\Column(name="name", type="string", length=100)
      */
-    private ?string $name;
-
-    /**
-     * @var Collection|PayGradeCurrency[]
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PayGradeCurrency", mappedBy="payGrade")
-     */
-    private $payGradeCurrencies;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->payGradeCurrencies = new ArrayCollection();
-    }
+    private string $name;
 
     /**
      * @return int
@@ -77,34 +60,18 @@ class PayGrade
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string|null $name
+     * @param string $name
      */
-    public function setName(?string $name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return Collection|PayGradeCurrency[]
-     */
-    public function getPayGradeCurrencies()
-    {
-        return $this->payGradeCurrencies;
-    }
-
-    /**
-     * @param Collection|PayGradeCurrency[] $payGradeCurrencies
-     */
-    public function setPayGradeCurrencies($payGradeCurrencies): void
-    {
-        $this->payGradeCurrencies = $payGradeCurrencies;
     }
 }

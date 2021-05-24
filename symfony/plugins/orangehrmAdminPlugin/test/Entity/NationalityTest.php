@@ -17,61 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Admin\Tests\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Nationality;
+use OrangeHRM\Tests\Util\EntityTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-/**
- * @ORM\Table(name="ohrm_job_category")
- * @ORM\Entity
- */
-class JobCategory
+class NationalityTest extends EntityTestCase
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=60)
-     */
-    private string $name;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    protected function setUp(): void
     {
-        return $this->id;
+        TestDataService::truncateSpecificTables([Nationality::class]);
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
+    public function testNationalityEntity(): void
     {
-        $this->id = $id;
-    }
+        $nationality = new Nationality();
+        $nationality->setName('Afghan');
+        $this->persist($nationality);
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
-    {
-        $this->name = $name;
+        /** @var Nationality $nationality */
+        $nationality = $this->getRepository(Nationality::class)->find(1);
+        $this->assertEquals('Afghan', $nationality->getName());
+        $this->assertEquals(1, $nationality->getId());
     }
 }
