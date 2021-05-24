@@ -1,9 +1,0 @@
-view_jobs:
-  url:   /recruitmentApply/jobs.:extension
-  param: { module:recruitmentApply, action: viewJobs, extension: html}
-  with_wildcard_routes: false
-  requirements:
-    extension: (html|rss)
-
-
-

@@ -1,3 +1,0 @@
-all:
-    orangehrmBuzzPlugin:
-        version: '1.0'
