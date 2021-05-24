@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Api\V2;
 
+use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
@@ -31,12 +32,14 @@ interface CollectionEndpoint
      * Get collection of resources
      * @return EndpointGetAllResult
      * @throws NormalizeException
+     * @throws NotImplementedException
      */
     public function getAll(): EndpointGetAllResult;
 
     /**
      * Validation rules for CollectionEndpoint::getAll
      * @return ParamRuleCollection
+     * @throws NotImplementedException
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection;
 
@@ -44,12 +47,14 @@ interface CollectionEndpoint
      * Create a new resource
      * @return EndpointCreateResult
      * @throws NormalizeException
+     * @throws NotImplementedException
      */
     public function create(): EndpointCreateResult;
 
     /**
      * Validation rules for CollectionEndpoint::create
      * @return ParamRuleCollection
+     * @throws NotImplementedException
      */
     public function getValidationRuleForCreate(): ParamRuleCollection;
 
@@ -57,12 +62,14 @@ interface CollectionEndpoint
      * Delete list of resources
      * @return EndpointDeleteResult
      * @throws NormalizeException
+     * @throws NotImplementedException
      */
     public function delete(): EndpointDeleteResult;
 
     /**
      * Validation rules for CollectionEndpoint::delete
      * @return ParamRuleCollection
+     * @throws NotImplementedException
      */
     public function getValidationRuleForDelete(): ParamRuleCollection;
 }

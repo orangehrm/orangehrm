@@ -17,46 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Validator\Rules;
+namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\Employee;
-
-class InAccessibleEmpNumbers extends AbstractRule
+trait DecoratorTrait
 {
-    use UserRoleManagerTrait;
-    use AuthUserTrait;
+    /**
+     * @var object|null
+     */
+    protected ?object $entityDecorator = null;
 
     /**
-     * @var bool
+     * @return object
      */
-    protected bool $includeLoggedInEmpNumber;
-
-    /**
-     * @param bool $includeLoggedInEmpNumber
-     */
-    public function __construct(bool $includeLoggedInEmpNumber = true)
+    public function getDecorator(): object
     {
-        $this->includeLoggedInEmpNumber = $includeLoggedInEmpNumber;
+        if (is_null($this->entityDecorator)) {
+            $decoratorClassName = $this->getDecoratorClassName();
+            $this->entityDecorator = new $decoratorClassName($this);
+        }
+        return $this->entityDecorator;
     }
 
     /**
-     * @param mixed $input
-     * @return bool
+     * @return string
      */
-    public function validate($input): bool
+    protected function getDecoratorClassName(): string
     {
-        if (!(is_numeric($input) && $input > 0)) {
-            return false;
-        }
-
-        if ($this->includeLoggedInEmpNumber && $input == $this->getAuthUser()->getEmpNumber()) {
-            return true;
-        }
-
-        $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
-
-        return in_array($input, $accessibleEmpNumbers);
+        return 'OrangeHRM\\Entity\\Decorator\\' . substr(strrchr(get_class($this), '\\'), 1) . 'Decorator';
     }
 }

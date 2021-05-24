@@ -17,61 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Tests\Util;
 
-use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 
-/**
- * @ORM\Table(name="ohrm_job_category")
- * @ORM\Entity
- */
-class JobCategory
+abstract class EntityTestCase extends TestCase
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=60)
-     */
-    private string $name;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
-    {
-        $this->name = $name;
-    }
+    use EntityManagerHelperTrait;
 }

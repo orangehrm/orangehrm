@@ -20,10 +20,10 @@
 
 namespace OrangeHRM\Admin\Service;
 
-use \Exception;
+use Exception;
 use OrangeHRM\Admin\Dao\EmploymentStatusDao;
-use \DaoException;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\EmploymentStatus;
 

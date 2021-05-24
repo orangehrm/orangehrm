@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Api\V2;
 
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Exception\EndpointExceptionTrait;
 use OrangeHRM\Core\Api\V2\Validator\Helpers\ValidationDecorator;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -30,6 +31,8 @@ use OrangeHRM\ORM\ListSorter;
 
 abstract class Endpoint
 {
+    use EndpointExceptionTrait;
+
     /**
      * @var Request
      */
@@ -100,7 +103,6 @@ abstract class Endpoint
      * @param FilterParams $searchParamHolder
      * @param string|null $defaultSortField
      * @return FilterParams
-     * @throws SearchParamException
      */
     protected function setSortingAndPaginationParams(
         FilterParams $searchParamHolder,

@@ -22,56 +22,60 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_job_category")
+ * @ORM\Table(name="hs_hr_emp_locations")
  * @ORM\Entity
  */
-class JobCategory
+class EmpLocations
 {
     /**
-     * @var int
+     * @var Employee
      *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", cascade={"persist"})
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number", nullable=false)
      */
-    private int $id;
+    private Employee $employee;
 
     /**
-     * @var string
+     * @var Location
      *
-     * @ORM\Column(name="name", type="string", length=60)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Location")
+     * @ORM\JoinColumn(name="location_id", referencedColumnName="id", nullable=false)
      */
-    private string $name;
+    private Location $location;
 
     /**
-     * @return int
+     * @return Employee
      */
-    public function getId(): int
+    public function getEmployee(): Employee
     {
-        return $this->id;
+        return $this->employee;
     }
 
     /**
-     * @param int $id
+     * @param Employee $employee
      */
-    public function setId(int $id)
+    public function setEmployee(Employee $employee): void
     {
-        $this->id = $id;
+        $this->employee = $employee;
     }
 
     /**
-     * @return string
+     * @return Location
      */
-    public function getName(): string
+    public function getLocation(): Location
     {
-        return $this->name;
+        return $this->location;
     }
 
     /**
-     * @param string $name
+     * @param Location $location
      */
-    public function setName(string $name)
+    public function setLocation(Location $location): void
     {
-        $this->name = $name;
+        $this->location = $location;
     }
 }

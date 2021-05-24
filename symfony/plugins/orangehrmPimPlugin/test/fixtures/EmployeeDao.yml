@@ -15,8 +15,8 @@ Employee:
   4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah', middleName: 'KT', employeeId: 'E005', emp_work_email: '', emp_oth_email: ''}
 
 EmployeeImmigrationRecord:
-    0: {empNumber: '1', recordId: '0', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', notes: 'test comment'}
-    1: {empNumber: '2', recordId: '1', type: 2, number: 'RTF33323411', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', notes: 'i modify this'}
+    0: {emp_number: '1', recordId: '0', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', comment: 'test comment'}
+    1: {emp_number: '2', recordId: '1', type: 2, number: 'RTF33323411', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', comment: 'i modify this'}
 
 #EmpUsTaxExemption:
 #  0: {emp_number: '1', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska'}
@@ -120,5 +120,5 @@ PayGradeCurrency:
     2: {pay_grade_id : 2, currency_id: 'YEN', min_salary: '2000', max_salary: '30000' }
 
 EmployeeSalary:
-    0: {id: 1, empNumber: 1, payGradeId: 1, currencyCode: 'LKR', amount: '10000.00', salaryName: 'Main Salary'}
-    1: {id: 2, empNumber: 1, payGradeId: 2, currencyCode: 'USD', amount: '20000.00', salaryName: 'Allowance'}
+    0: {id: 1, emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', amount: '10000.00', salaryName: 'Main Salary'}
+    1: {id: 2, emp_number: 1, sal_grd_code: 2, currency_id: 'USD', amount: '20000.00', salaryName: 'Allowance'}

@@ -19,61 +19,44 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="ohrm_pay_grade")
+ * @ORM\Table(name="hs_hr_payperiod")
  * @ORM\Entity
  */
-class PayGrade
+class PayPeriod
 {
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="payperiod_code", type="string", length=13)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
-    private int $id;
+    private string $code;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="name", type="string", length=60, nullable=true)
+     * @ORM\Column(name="payperiod_name", type="string", length=100, nullable=true)
      */
     private ?string $name;
 
     /**
-     * @var Collection|PayGradeCurrency[]
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PayGradeCurrency", mappedBy="payGrade")
+     * @return string
      */
-    private $payGradeCurrencies;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getCode(): string
     {
-        $this->payGradeCurrencies = new ArrayCollection();
+        return $this->code;
     }
 
     /**
-     * @return int
+     * @param string $code
      */
-    public function getId(): int
+    public function setCode(string $code): void
     {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
+        $this->code = $code;
     }
 
     /**
@@ -90,21 +73,5 @@ class PayGrade
     public function setName(?string $name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return Collection|PayGradeCurrency[]
-     */
-    public function getPayGradeCurrencies()
-    {
-        return $this->payGradeCurrencies;
-    }
-
-    /**
-     * @param Collection|PayGradeCurrency[] $payGradeCurrencies
-     */
-    public function setPayGradeCurrencies($payGradeCurrencies): void
-    {
-        $this->payGradeCurrencies = $payGradeCurrencies;
     }
 }
