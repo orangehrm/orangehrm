@@ -1,0 +1,5 @@
+{
+    "baseUrl": "http://php80/orangehrm/symfony/web/index.php",
+    "defaultCommandTimeout": 2000,
+    "video": false
+}
