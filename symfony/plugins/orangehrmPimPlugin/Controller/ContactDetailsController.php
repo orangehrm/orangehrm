@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,14 +16,25 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-import SaveEmployee from './pages/employee/SaveEmployee.vue';
-import Employee from './pages/employee/Employee.vue';
-import EditEmployee from './pages/employee/EditEmployee.vue';
-import EditContactDetails from './pages/employee/EditContactDetails.vue';
 
-export default {
-  'employee-save': SaveEmployee,
-  'employee-list': Employee,
-  'employee-edit': EditEmployee,
-  'employee-contact-details': EditContactDetails,
-};
+namespace OrangeHRM\Pim\Controller;
+
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+
+class ContactDetailsController extends AbstractVueController
+{
+    public function preRender(Request $request): void
+    {
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component('employee-contact-details');
+            $component->addProp(new Prop('employee-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            // TODO: 404
+        }
+        $this->setComponent($component);
+    }
+}
