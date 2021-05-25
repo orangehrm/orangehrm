@@ -47,6 +47,10 @@
   display: flex;
 }
 
+::v-deep(.--gender-grouped-field) {
+  display: flex;
+}
+
 .orangehrm-employee-list {
   ::v-deep(.card-header-slot) {
     border-bottom: $oxd-input-control-border--active;

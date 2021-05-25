@@ -16,7 +16,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 import {ComponentInternalInstance, getCurrentInstance} from 'vue';
 
 export class APIService {
@@ -77,6 +82,17 @@ export class APIService {
       'Content-Type': 'application/json',
     };
     return this._http.delete(`${this._apiSection}`, {headers, data});
+  }
+
+  request(options: AxiosRequestConfig): Promise<AxiosResponse> {
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    return this._http.request({
+      url: this._apiSection,
+      headers,
+      ...options,
+    });
   }
 
   /**
