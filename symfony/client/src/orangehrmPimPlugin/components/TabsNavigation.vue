@@ -1,0 +1,101 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
+<template>
+  <div role="tablist" class="orangehrm-tabs">
+    <div
+      v-for="tab in tabs"
+      :key="tab"
+      role="tab"
+      class="orangehrm-tabs-wrapper"
+    >
+      <a
+        :class="{'orangehrm-tabs-item': true, '--active': tab.active}"
+        :href="tab.url"
+        >{{ tab.name }}</a
+      >
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'tabs-navigation',
+  props: {
+    tabs: {
+      type: Array,
+      required: true,
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import '@orangehrm/oxd/styles/_mixins.scss';
+
+.orangehrm-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  &-wrapper {
+    display: flex;
+  }
+  &-item {
+    padding: 0.75rem 1rem;
+    border-radius: $oxd-border-radius;
+    flex: 100%;
+    color: $oxd-interface-gray-darken-1-color;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: $oxd-font-family;
+    font-weight: 700;
+    @include oxd-respond-to('xs') {
+      margin-right: 0.5rem;
+      background-color: $oxd-interface-gray-lighten-2-color;
+      white-space: nowrap;
+      &.--active,
+      &:hover {
+        background-color: $oxd-primary-one-color;
+        color: $oxd-white-color;
+      }
+    }
+    @include oxd-respond-to('md') {
+      margin-bottom: 0.5rem;
+      background-color: unset;
+      white-space: wrap;
+      &.--active,
+      &:hover {
+        background-color: $oxd-interface-gray-lighten-2-color;
+        color: $oxd-interface-gray-darken-1-color;
+      }
+    }
+  }
+  @include oxd-respond-to('xs') {
+    flex-direction: row;
+    overflow: scroll hidden;
+    padding-bottom: 5px;
+  }
+  @include oxd-respond-to('md') {
+    flex-direction: column;
+    overflow: visible;
+    padding-bottom: unset;
+  }
+  @include oxd-scrollbar();
+}
+</style>
