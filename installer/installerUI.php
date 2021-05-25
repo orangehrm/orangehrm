@@ -65,8 +65,8 @@ $helpLink = array("#welcome", "#license", "#DBCreation", "#systemChk", "#adminUs
     <title>OrangeHRM Web Installation Wizard</title>
     <link href="favicon.ico" rel="icon" type="image/gif"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script src="../symfony/web/js/jquery/jquery-1.8.0.min.js"></script>
-    <script src="../symfony/web/js/jquery/validate/jquery.validate.js"></script>
+    <script src="js/jquery-1.8.0.min.js"></script>
+    <script src="js/jquery.validate.js"></script>
     <script language="JavaScript">
 
 function goToScreen(screenNo) {
@@ -88,7 +88,7 @@ function back() {
 </head>
 <body>
 <div id="body">
-  <a href="http://www.orangehrm.com"><img src="../symfony/web/themes/default/images/logo.png" alt="OrangeHRM" name="logo"  width="283" height="56" border="0" id="logo" style="margin-left: 10px;margin-bottom: 15px;" title="OrangeHRM"></a>
+  <a href="http://www.orangehrm.com"><img src="../symfony/web/images/logo.png" alt="OrangeHRM" name="logo"  width="283" height="56" border="0" id="logo" style="margin-left: 10px;margin-bottom: 15px;" title="OrangeHRM"></a>
 <form name="frmInstall" action="../install.php" method="POST">
 <input type="hidden" name="txtScreen" value="<?php echo $currScreen?>">
 <input type="hidden" name="actionResponse">
