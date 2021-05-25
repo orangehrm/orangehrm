@@ -27,6 +27,10 @@ use OrangeHRM\Entity\Membership;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Admin
+ * @group Dao
+ */
 class MembershipDaoTest extends TestCase
 {
     private MembershipDao $membershipDao;

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,32 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-class NationalityService extends BaseService{
-  private $nationalityDao;
+namespace OrangeHRM\Admin\Service\Model;
 
-    public function __construct() {
-        $this->nationalityDao = new NationalityDao();
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Nationality;
+
+class NationalityModel implements Normalizable
+{
+    use ModelTrait;
+
+    /**
+     * @param Nationality $nationality
+     */
+    public function __construct(Nationality $nationality)
+    {
+        $this->setEntity($nationality);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'label'
+            ]
+        );
     }
-
-    public function getNationalityDao() {
-        return $this->nationalityDao;
-    }
-
-    public function setNationalityDao(NationalityDao $nationalityDao) {
-        $this->nationalityDao = $nationalityDao;
-    }
-
-    public function getNationalityList() {
-        return $this->nationalityDao->getNationalityList();
-    }
-
-    public function getNationalityById($id) {
-        return $this->nationalityDao->getNationalityById($id);
-    }
-
-    public function deleteNationalities($nationalityList) {
-        return $this->nationalityDao->deleteNationalities($nationalityList);
-    }
-
 }
-

@@ -29,6 +29,7 @@ use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
+ * @group Dao
  */
 class LicenseDaoTest extends TestCase
 {

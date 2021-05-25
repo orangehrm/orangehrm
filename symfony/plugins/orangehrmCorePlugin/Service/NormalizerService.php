@@ -17,16 +17,38 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Serializer;
+namespace OrangeHRM\Core\Service;
 
-class EndpointDeleteResult extends AbstractEndpointResult
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizerTrait;
+
+class NormalizerService
 {
+    use NormalizerTrait;
+
     /**
-     * @inheritDoc
+     * @param string $modelClass
+     * @param object $data
+     * @return array
      * @throws NormalizeException
      */
-    public function normalize(): array
+    public function normalize(string $modelClass, object $data): array
     {
+        $this->setModelClass($modelClass);
+        $this->setData($data);
         return $this->normalizeObject();
+    }
+
+    /**
+     * @param string $modelClass
+     * @param array $data
+     * @return array
+     * @throws NormalizeException
+     */
+    public function normalizeArray(string $modelClass, array $data): array
+    {
+        $this->setModelClass($modelClass);
+        $this->setData($data);
+        return $this->normalizeObjectsArray();
     }
 }

@@ -39,39 +39,39 @@ class DataGroupPermission
     private int $id;
 
     /**
-     * @var bool
+     * @var bool|null
      *
-     * @ORM\Column(name="can_read", type="boolean")
+     * @ORM\Column(name="can_read", type="boolean", nullable=true)
      */
-    private bool $canRead;
+    private ?bool $canRead = null;
 
     /**
-     * @var bool
+     * @var bool|null
      *
-     * @ORM\Column(name="can_create", type="boolean")
+     * @ORM\Column(name="can_create", type="boolean", nullable=true)
      */
-    private bool $canCreate;
+    private ?bool $canCreate = null;
 
     /**
-     * @var bool
+     * @var bool|null
      *
-     * @ORM\Column(name="can_update", type="boolean")
+     * @ORM\Column(name="can_update", type="boolean", nullable=true)
      */
-    private bool $canUpdate;
+    private ?bool $canUpdate = null;
 
     /**
-     * @var bool
+     * @var bool|null
      *
-     * @ORM\Column(name="can_delete", type="boolean")
+     * @ORM\Column(name="can_delete", type="boolean", nullable=true)
      */
-    private bool $canDelete;
+    private ?bool $canDelete = null;
 
     /**
-     * @var bool
+     * @var bool|null
      *
-     * @ORM\Column(name="self", type="boolean")
+     * @ORM\Column(name="self", type="boolean", nullable=true)
      */
-    private bool $self;
+    private ?bool $self = null;
 
     /**
      * @var DataGroup
@@ -110,7 +110,7 @@ class DataGroupPermission
      */
     public function canRead(): bool
     {
-        return $this->canRead;
+        return (bool)$this->canRead;
     }
 
     /**
@@ -126,7 +126,7 @@ class DataGroupPermission
      */
     public function canCreate(): bool
     {
-        return $this->canCreate;
+        return (bool)$this->canCreate;
     }
 
     /**
@@ -142,7 +142,7 @@ class DataGroupPermission
      */
     public function canUpdate(): bool
     {
-        return $this->canUpdate;
+        return (bool)$this->canUpdate;
     }
 
     /**
@@ -158,7 +158,7 @@ class DataGroupPermission
      */
     public function canDelete(): bool
     {
-        return $this->canDelete;
+        return (bool)$this->canDelete;
     }
 
     /**
@@ -174,7 +174,7 @@ class DataGroupPermission
      */
     public function isSelf(): bool
     {
-        return $this->self;
+        return (bool)$this->self;
     }
 
     /**
