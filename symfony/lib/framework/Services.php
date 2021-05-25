@@ -85,4 +85,9 @@ final class Services
      * \OrangeHRM\Core\Service\ConfigService
      */
     public const CONFIG_SERVICE = 'core.config_service';
+
+    /**
+     * \OrangeHRM\Core\Service\NormalizerService
+     */
+    public const NORMALIZER_SERVICE = 'core.normalizer_service';
 }

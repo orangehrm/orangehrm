@@ -17,24 +17,18 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller;
+namespace OrangeHRM\Core\Traits;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Core\Helper\ModuleScreenHelper;
 use OrangeHRM\Framework\Http\Request;
 
-class ContactDetailsController extends AbstractVueController
+trait CurrentRequestTrait
 {
-    public function preRender(Request $request): void
+    /**
+     * @return Request|null
+     */
+    protected function getCurrentRequest(): ?Request
     {
-        $id = $request->get('id');
-        if ($id) {
-            $component = new Component('employee-contact-details');
-            $component->addProp(new Prop('employee-id', Prop::TYPE_NUMBER, $id));
-        } else {
-            // TODO: 404
-        }
-        $this->setComponent($component);
+        return ModuleScreenHelper::getCurrentRequest();
     }
 }

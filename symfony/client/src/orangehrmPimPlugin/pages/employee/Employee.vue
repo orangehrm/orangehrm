@@ -307,7 +307,7 @@ export default {
       navigate('/pim/addEmployee');
     },
     onClickEdit(item) {
-      navigate('/pim/viewEmployee/empNumber/{id}', {id: item.id});
+      navigate('/pim/viewPersonalDetails/empNumber/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

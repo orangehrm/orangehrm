@@ -269,6 +269,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_GENDER,
+                    new Rule(Rules::IN, [[Employee::GENDER_MALE, Employee::GENDER_FEMALE]])
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

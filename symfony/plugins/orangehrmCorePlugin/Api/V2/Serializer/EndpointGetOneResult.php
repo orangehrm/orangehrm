@@ -27,6 +27,6 @@ class EndpointGetOneResult extends AbstractEndpointResult
      */
     public function normalize(): array
     {
-        return $this->_normalize();
+        return $this->normalizeObject();
     }
 }
