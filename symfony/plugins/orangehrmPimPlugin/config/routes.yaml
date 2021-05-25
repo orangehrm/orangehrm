@@ -50,3 +50,13 @@ pim_add_employee:
   path: /pim/addEmployee
   controller: OrangeHRM\Pim\Controller\SaveEmployeeController::handle
   methods: [ GET ]
+
+pim_edit_employee:
+  path: /pim/viewEmployee/empNumber/{id}
+  controller: OrangeHRM\Pim\Controller\SaveEmployeeController::handle
+  methods: [ GET ]
+
+pim_edit_contact_details:
+  path: /pim/contactDetails/empNumber/{id}
+  controller: OrangeHRM\Pim\Controller\ContactDetailsController::handle
+  methods: [ GET ]
