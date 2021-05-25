@@ -53,32 +53,32 @@ class DataGroup
     private ?string $description;
 
     /**
-     * @var bool
+     * @var bool|null
      *
      * @ORM\Column(name="can_read", type="boolean", nullable=true)
      */
-    private bool $canRead;
+    private ?bool $canRead = null;
 
     /**
-     * @var bool
+     * @var bool|null
      *
      * @ORM\Column(name="can_create", type="boolean", nullable=true)
      */
-    private bool $canCreate;
+    private ?bool $canCreate = null;
 
     /**
-     * @var bool
+     * @var bool|null
      *
      * @ORM\Column(name="can_update", type="boolean", nullable=true)
      */
-    private bool $canUpdate;
+    private ?bool $canUpdate = null;
 
     /**
-     * @var bool
+     * @var bool|null
      *
      * @ORM\Column(name="can_delete", type="boolean", nullable=true)
      */
-    private bool $canDelete;
+    private ?bool $canDelete = null;
 
     /**
      * @return int
@@ -133,7 +133,7 @@ class DataGroup
      */
     public function canRead(): bool
     {
-        return $this->canRead;
+        return (bool)$this->canRead;
     }
 
     /**
@@ -149,7 +149,7 @@ class DataGroup
      */
     public function canCreate(): bool
     {
-        return $this->canCreate;
+        return (bool)$this->canCreate;
     }
 
     /**
@@ -165,7 +165,7 @@ class DataGroup
      */
     public function canUpdate(): bool
     {
-        return $this->canUpdate;
+        return (bool)$this->canUpdate;
     }
 
     /**
@@ -181,7 +181,7 @@ class DataGroup
      */
     public function canDelete(): bool
     {
-        return $this->canDelete;
+        return (bool)$this->canDelete;
     }
 
     /**

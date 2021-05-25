@@ -19,35 +19,44 @@
 
 namespace OrangeHRM\Pim\Controller;
 
+use Exception;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Service\IDGeneratorService;
-use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\EmpPicture;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Pim\Service\PIMLeftMenuService;
 
-class SaveEmployeeController extends AbstractVueController
+abstract class BaseViewEmployeeController extends AbstractVueController
 {
-    protected ?IDGeneratorService $idGeneratorService = null;
+    /**
+     * @var PIMLeftMenuService|null
+     */
+    protected ?PIMLeftMenuService $pimLeftMenuService = null;
 
     /**
-     * @return IDGeneratorService|null
+     * @return PIMLeftMenuService|null
      */
-    public function getIdGeneratorService(): ?IDGeneratorService
+    public function getPimLeftMenuService(): ?PIMLeftMenuService
     {
-        if (!$this->idGeneratorService instanceof IDGeneratorService) {
-            $this->idGeneratorService = new IDGeneratorService();
+        if (!$this->pimLeftMenuService instanceof PIMLeftMenuService) {
+            $this->pimLeftMenuService = new PIMLeftMenuService();
         }
-        return $this->idGeneratorService;
+        return $this->pimLeftMenuService;
     }
 
-    public function preRender(Request $request): void
+    /**
+     * @inheritDoc
+     * @throws Exception
+     */
+    public function render(Request $request): string
     {
-        $component = new Component('employee-save');
-        $employeeId = $this->getIdGeneratorService()->getNextID(Employee::class);
-        $component->addProp(new Prop('emp-id', Prop::TYPE_NUMBER, $employeeId));
-        $component->addProp(new Prop('allowed-image-types', Prop::TYPE_ARRAY, EmpPicture::ALLOWED_IMAGE_TYPES));
-        $this->setComponent($component);
+        $empNumber = $request->get('empNumber');
+        if (empty($empNumber)) {
+            throw new Exception('`empNumber` required attribute for ' . __METHOD__);
+        }
+        $menuTabs = $this->getPimLeftMenuService()->getPreparedMenuItems($empNumber);
+        $this->getComponent()->addProp(
+            new Prop('tabs', Prop::TYPE_ARRAY, $menuTabs)
+        );
+        return parent::render($request);
     }
 }

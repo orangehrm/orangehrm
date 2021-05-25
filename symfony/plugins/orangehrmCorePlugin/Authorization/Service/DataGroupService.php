@@ -55,16 +55,16 @@ class DataGroupService
     /**
      * Get Data Group permissions
      *
-     * @param string $dataGroup A single data group name (string), an array of data group names or null (to return all data group permissions)
+     * @param string[]|string $dataGroup A single data group name (string), an array of data group names or null (to return all data group permissions)
      * @param int $userRoleId User role id
      * @param bool $selfPermission If true, self permissions are returned. If false non-self permissions are returned
      *
      * @return DataGroupPermission[] Collection of DataGroupPermission objects
      * @throws DaoException
      */
-    public function getDataGroupPermission(string $dataGroup, int $userRoleId, bool $selfPermission = false): array
+    public function getDataGroupPermission($dataGroups, int $userRoleId, bool $selfPermission = false): array
     {
-        return $this->getDao()->getDataGroupPermission($dataGroup, $userRoleId, $selfPermission);
+        return $this->getDao()->getDataGroupPermission($dataGroups, $userRoleId, $selfPermission);
     }
 
     /**

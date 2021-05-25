@@ -17,16 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Serializer;
+namespace OrangeHRM\Core\Traits\Service;
 
-class EndpointDeleteResult extends AbstractEndpointResult
+use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+
+trait NormalizerServiceTrait
 {
+    use ServiceContainerTrait;
+
     /**
-     * @inheritDoc
-     * @throws NormalizeException
+     * @return NormalizerService
      */
-    public function normalize(): array
+    public function getNormalizerService(): NormalizerService
     {
-        return $this->normalizeObject();
+        return $this->getContainer()->get(Services::NORMALIZER_SERVICE);
     }
 }

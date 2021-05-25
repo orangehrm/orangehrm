@@ -17,12 +17,12 @@
  */
 import SaveEmployee from './pages/employee/SaveEmployee.vue';
 import Employee from './pages/employee/Employee.vue';
-import EditEmployee from './pages/employee/EditEmployee.vue';
+import EditEmployee from './pages/employee/EmployeePersonalDetails.vue';
 import EditContactDetails from './pages/employee/EditContactDetails.vue';
 
 export default {
   'employee-save': SaveEmployee,
   'employee-list': Employee,
-  'employee-edit': EditEmployee,
+  'employee-personal-details': EditEmployee,
   'employee-contact-details': EditContactDetails,
 };

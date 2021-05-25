@@ -115,8 +115,18 @@ class EmployeeDecorator
     {
         $nationality = null;
         if (!is_null($id)) {
+            /** @var Nationality|null $nationality */
             $nationality = $this->getReference(Nationality::class, $id);
         }
         $this->getEmployee()->setNationality($nationality);
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->getEmployee()->getEmployeeTerminationRecord() == null ?
+            Employee::STATE_ACTIVE : Employee::STATE_TERMINATED;
     }
 }

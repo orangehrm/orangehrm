@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Util;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerTrait;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use ReflectionClass;
 use ReflectionException;
@@ -73,5 +74,22 @@ abstract class TestCase extends PHPUnitTestCase
         $method = self::getClassMethod($className, $methodName);
         $instance = (new ReflectionClass($className))->newInstanceArgs($constructorParams);
         return $method->invokeArgs($instance, $methodParams);
+    }
+
+    /**
+     * @param string $className
+     * @param MockObject $mockInstance
+     * @param string $methodName
+     * @param array $methodParams
+     * @return mixed
+     */
+    protected function invokePrivateMethodOnMock(
+        string $className,
+        MockObject $mockInstance,
+        string $methodName,
+        array $methodParams = []
+    ) {
+        $method = self::getClassMethod($className, $methodName);
+        return $method->invokeArgs($mockInstance, $methodParams);
     }
 }

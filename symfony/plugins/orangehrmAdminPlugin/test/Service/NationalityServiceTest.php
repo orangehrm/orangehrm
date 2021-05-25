@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,33 +16,45 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
+
+namespace OrangeHRM\Admin\Tests\Service;
+
+use OrangeHRM\Admin\Dao\NationalityDao;
+use OrangeHRM\Admin\Service\NationalityService;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Nationality;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- *  @group Admin
+ * @group Admin
+ * @group Service
  */
-class NationalityServiceTest extends PHPUnit_Framework_TestCase {
-
-    private $nationalityService;
-    private $fixture;
+class NationalityServiceTest extends TestCase
+{
+    private NationalityService $nationalityService;
+    private string $fixture;
 
     /**
      * Set up method
      */
-    protected function setUp() {
+    protected function setUp(): void
+    {
         $this->nationalityService = new NationalityService();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/NationalityDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/NationalityDao.yml';
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetNationalityList() {
+    public function testGetNationalityList(): void
+    {
+        $nationalityList = TestDataService::loadObjectList(Nationality::class, $this->fixture, 'Nationality');
 
-        $nationalityList = TestDataService::loadObjectList('Nationality', $this->fixture, 'Nationality');
-
-        $nationalityDao = $this->getMockBuilder('NationalityDao')->getMock();
+        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
+            ->onlyMethods(['getNationalityList'])
+            ->getMock();
         $nationalityDao->expects($this->once())
-                ->method('getNationalityList')
-                ->will($this->returnValue($nationalityList));
+            ->method('getNationalityList')
+            ->will($this->returnValue($nationalityList));
 
         $this->nationalityService->setNationalityDao($nationalityDao);
 
@@ -51,15 +62,17 @@ class NationalityServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($result, $nationalityList);
     }
 
-    public function testGetNationalityById() {
+    public function testGetNationalityById(): void
+    {
+        $nationalityList = TestDataService::loadObjectList(Nationality::class, $this->fixture, 'Nationality');
 
-        $nationalityList = TestDataService::loadObjectList('Nationality', $this->fixture, 'Nationality');
-
-        $nationalityDao = $this->getMockBuilder('NationalityDao')->getMock();
+        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
+            ->onlyMethods(['getNationalityById'])
+            ->getMock();
         $nationalityDao->expects($this->once())
-                ->method('getNationalityById')
-                ->with(1)
-                ->will($this->returnValue($nationalityList[0]));
+            ->method('getNationalityById')
+            ->with(1)
+            ->will($this->returnValue($nationalityList[0]));
 
         $this->nationalityService->setNationalityDao($nationalityDao);
 
@@ -67,21 +80,21 @@ class NationalityServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($result, $nationalityList[0]);
     }
 
-    public function testDeleteNationalities() {
+    public function testDeleteNationalities(): void
+    {
+        $nationalityList = [1, 2, 3];
 
-        $nationalityList = array(1, 2, 3);
-
-        $nationalityDao = $this->getMockBuilder('NationalityDao')->getMock();
+        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
+            ->onlyMethods(['deleteNationalities'])
+            ->getMock();
         $nationalityDao->expects($this->once())
-                ->method('deleteNationalities')
-                ->with($nationalityList)
-                ->will($this->returnValue(3));
+            ->method('deleteNationalities')
+            ->with($nationalityList)
+            ->will($this->returnValue(3));
 
         $this->nationalityService->setNationalityDao($nationalityDao);
 
         $result = $this->nationalityService->deleteNationalities($nationalityList);
         $this->assertEquals($result, 3);
     }
-
 }
-

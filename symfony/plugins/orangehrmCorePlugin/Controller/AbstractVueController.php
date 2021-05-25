@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Controller;
 
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Controller\Exception\VueControllerException;
 use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
@@ -51,7 +52,9 @@ abstract class AbstractVueController extends AbstractViewController
      * @var AttributeBag
      */
     protected AttributeBag $context;
-
+    /**
+     * @var VueControllerHelper
+     */
     protected VueControllerHelper $vueControllerHelper;
 
     public function __construct()
@@ -100,6 +103,9 @@ abstract class AbstractVueController extends AbstractViewController
      */
     public function setComponent(Component $component): void
     {
+        if ($this->getResponse()->getStatusCode() !== Response::HTTP_OK) {
+            throw VueControllerException::alreadyHandled();
+        }
         $this->component = $component;
     }
 
@@ -164,7 +170,7 @@ abstract class AbstractVueController extends AbstractViewController
         $content = $this->render($request);
         $this->postRender($request);
 
-        $response = new Response();
+        $response = $this->getResponse();
         $response->setContent($content);
 
         return $response;
@@ -176,5 +182,14 @@ abstract class AbstractVueController extends AbstractViewController
     public function getContext(): AttributeBag
     {
         return $this->context;
+    }
+
+    protected function handleBadRequest(): void
+    {
+        // TODO:: develop UI for bad request controllers
+        $component = new Component('bad-request');
+        $this->setComponent($component);
+        $response = $this->getResponse();
+        $response->setStatusCode(Response::HTTP_BAD_REQUEST);
     }
 }
