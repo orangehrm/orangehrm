@@ -22,10 +22,9 @@ class Employee
     public const GENDER_MALE = 1;
     public const GENDER_FEMALE = 2;
 
-    public const UNMARRIED = 'Unmarried';
-    public const MARRIED = 'Married';
-    public const DIVORCED = 'Divorced';
-    public const OTHERS = 'Others';
+    public const MARITAL_STATUS_SINGLE = 'Single';
+    public const MARITAL_STATUS_MARRIED = 'Married';
+    public const MARITAL_STATUS_OTHER = 'Other';
 
     public const STATE_ACTIVE = 'ACTIVE';
     public const STATE_TERMINATED = 'TERMINATED';

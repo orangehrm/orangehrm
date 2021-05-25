@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <edit-employee-layout :employee-id="employeeId" :tabs="tabs">
+  <edit-employee-layout :employee-id="empNumber" :tabs="tabs">
     <oxd-text tag="h6">Personal Details</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -163,9 +163,9 @@
 </template>
 
 <script>
-import {APIService} from '@/core/util/services/api.service';
-import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
-import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
+import {APIService} from '@orangehrm/core/util/services/api.service';
+import EditEmployeeLayout from '@orangehrm/orangehrmPimPlugin/components/EditEmployeeLayout';
+import FullNameInput from '@orangehrm/orangehrmPimPlugin/components/FullNameInput';
 
 const employeeModel = {
   firstName: '',
@@ -193,7 +193,7 @@ export default {
   },
 
   props: {
-    employeeId: {
+    empNumber: {
       type: String,
       required: true,
     },
@@ -218,7 +218,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.employeeId}/personal-details`,
+      `api/v2/pim/employees/${props.empNumber}/personal-details`,
     );
 
     return {
@@ -235,22 +235,10 @@ export default {
         lastName: [v => (!!v && v.trim() !== '') || 'Required'],
         employeeId: [],
       },
-      tabs: [
-        {name: 'Personal Details', url: '#', active: true},
-        {name: 'Contact Details', url: '#', active: false},
-        {name: 'Emergency Contacts', url: '#', active: false},
-        {name: 'Dependants', url: '#', active: false},
-        {name: 'Immigration', url: '#', active: false},
-        {name: 'Job', url: '#', active: false},
-        {name: 'Salary', url: '#', active: false},
-        {name: 'Report-to', url: '/', active: false},
-        {name: 'Qualifications', url: '#', active: false},
-        {name: 'Memberships', url: '#', active: false},
-      ],
       maritalStatuses: [
-        {id: 1, label: 'Single'},
-        {id: 2, label: 'Married'},
-        {id: 3, label: 'Other'},
+        {id: 'Single', label: 'Single'},
+        {id: 'Married', label: 'Married'},
+        {id: 'Other', label: 'Other'},
       ],
     };
   },
@@ -291,7 +279,7 @@ export default {
       const {data} = response.data;
       this.employee = {...employeeModel, ...data};
       this.employee.maritalStatus = this.maritalStatuses.filter(
-        item => item.id === data.maritalStatus?.id,
+        item => item.id === data.maritalStatus,
       );
       this.employee.nationality = this.nationalities.filter(
         item => item.id === data.nationality?.id,
@@ -316,7 +304,7 @@ export default {
           const index = data.findIndex(item => item.employeeId == v);
           if (index > -1) {
             const {empNumber} = data[index];
-            return empNumber != this.employeeId
+            return empNumber != this.empNumber
               ? 'Employee Id already exists'
               : true;
           } else {

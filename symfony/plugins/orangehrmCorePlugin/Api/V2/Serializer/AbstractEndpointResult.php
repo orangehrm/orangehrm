@@ -20,19 +20,10 @@
 namespace OrangeHRM\Core\Api\V2\Serializer;
 
 use OrangeHRM\Core\Api\V2\ParameterBag;
-use Traversable;
 
 abstract class AbstractEndpointResult
 {
-    /**
-     * @var string
-     */
-    protected string $modelClass;
-
-    /**
-     * @var array|object
-     */
-    protected $data;
+    use NormalizerTrait;
 
     /**
      * @var ParameterBag|null
@@ -101,55 +92,5 @@ abstract class AbstractEndpointResult
     public function setRels(?ParameterBag $rels): void
     {
         $this->rels = $rels;
-    }
-
-    /**
-     * @return array
-     * @throws NormalizeException
-     */
-    protected function _normalize(): array
-    {
-        $model = new $this->modelClass($this->data);
-        if ($model instanceof Normalizable) {
-            return $model->toArray();
-        }
-        throw new NormalizeException(
-            sprintf(
-                'Model class should be instance of  `%s`',
-                Normalizable::class
-            )
-        );
-    }
-
-    /**
-     * @return array
-     * @throws NormalizeException
-     */
-    protected function _normalizeArray(): array
-    {
-        if (is_iterable($this->data)) {
-            $normalizedArray = [];
-            foreach ($this->data as $data) {
-                $model = new $this->modelClass($data);
-                if ($model instanceof Normalizable) {
-                    $normalizedArray[] = $model->toArray();
-                } else {
-                    throw new NormalizeException(
-                        sprintf(
-                            'Model class should be instance of  `%s`',
-                            Normalizable::class
-                        )
-                    );
-                }
-            }
-            return $normalizedArray;
-        }
-
-        throw new NormalizeException(
-            sprintf(
-                '$data should be instance of  `%s`',
-                Traversable::class
-            )
-        );
     }
 }

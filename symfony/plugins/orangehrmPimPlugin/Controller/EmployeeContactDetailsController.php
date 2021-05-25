@@ -17,16 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Serializer;
+namespace OrangeHRM\Pim\Controller;
 
-class EndpointDeleteResult extends AbstractEndpointResult
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+
+class EmployeeContactDetailsController extends BaseViewEmployeeController
 {
-    /**
-     * @inheritDoc
-     * @throws NormalizeException
-     */
-    public function normalize(): array
+    public function preRender(Request $request): void
     {
-        return $this->normalizeObject();
+        $empNumber = $request->get('empNumber');
+        if ($empNumber) {
+            $component = new Component('employee-contact-details');
+            $component->addProp(new Prop('employee-id', Prop::TYPE_NUMBER, $empNumber));
+            $this->setComponent($component);
+        } else {
+            $this->handleBadRequest();
+        }
     }
 }

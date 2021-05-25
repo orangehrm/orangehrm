@@ -29,6 +29,7 @@ use Exception;
 
 /**
  * @group Admin
+ * @group Dao
  */
 class EducationDaoTest extends TestCase
 {

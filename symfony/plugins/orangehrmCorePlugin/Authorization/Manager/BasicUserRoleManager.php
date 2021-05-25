@@ -910,7 +910,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      *
      * For testing, move service object into member variable.
      *
-     * @param string $dataGroupName
+     * @param string[]|string $dataGroupName
      * @param array $rolesToExclude
      * @param array $rolesToInclude
      * @param bool $selfPermission
@@ -919,7 +919,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      * @throws DaoException
      */
     public function getDataGroupPermissions(
-        string $dataGroupName,
+        $dataGroupName,
         array $rolesToExclude = [],
         array $rolesToInclude = [],
         bool $selfPermission = false,

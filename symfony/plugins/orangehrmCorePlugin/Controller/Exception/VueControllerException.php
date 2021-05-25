@@ -17,16 +17,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Serializer;
+namespace OrangeHRM\Core\Controller\Exception;
 
-class EndpointDeleteResult extends AbstractEndpointResult
+use Exception;
+
+class VueControllerException extends Exception
 {
     /**
-     * @inheritDoc
-     * @throws NormalizeException
+     * @return static
      */
-    public function normalize(): array
+    public static function alreadyHandled(): self
     {
-        return $this->normalizeObject();
+        return new self("Request already handled, cannot change the component");
     }
 }

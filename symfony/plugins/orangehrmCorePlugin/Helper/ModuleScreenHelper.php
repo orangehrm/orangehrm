@@ -50,7 +50,7 @@ class ModuleScreenHelper
     /**
      * @return Request|null
      */
-    private static function getCurrentRequest(): ?Request
+    public static function getCurrentRequest(): ?Request
     {
         /** @var RequestStack $requestStack */
         $requestStack = ServiceContainer::getContainer()->get(Services::REQUEST_STACK);

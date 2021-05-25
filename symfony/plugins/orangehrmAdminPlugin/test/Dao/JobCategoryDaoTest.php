@@ -27,6 +27,7 @@ use Exception;
 
 /**
  * @group Admin
+ * @group Dao
  */
 class JobCategoryDaoTest extends TestCase
 {
