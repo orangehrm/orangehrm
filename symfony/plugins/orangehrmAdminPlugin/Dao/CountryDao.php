@@ -56,7 +56,7 @@ class CountryDao extends BaseDao
             $q = $this->createQueryBuilder(Province::class, 'p');
 
             if (!empty($countryCode)) {
-                $q->andWhere('countryCode = :countryCode')
+                $q->andWhere('p.countryCode = :countryCode')
                     ->setParameter('countryCode', $countryCode);
             }
 

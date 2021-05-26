@@ -67,6 +67,13 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_MIDDLE_NAME_MAX_LENGTH = 30;
     public const PARAM_RULE_LAST_NAME_MAX_LENGTH = 30;
     public const PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH = 30;
+    public const PARAM_RULE_OTHER_ID_MAX_LENGTH = 100;
+    public const PARAM_RULE_DRIVING_LICENSE_NO_MAX_LENGTH = 100;
+    public const PARAM_RULE_MARTIAL_STATUS_MAX_LENGTH = 20;
+    public const PARAM_RULE_NICKNAME_MAX_LENGTH = 100;
+    public const PARAM_RULE_MILITARY_SERVICE_MAX_LENGTH = 100;
+    public const PARAM_RULE_SSN_NUMBER_MAX_LENGTH = 100;
+    public const PARAM_RULE_SIN_NUMBER_MAX_LENGTH = 100;
 
     /**
      * @inheritDoc
@@ -225,7 +232,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_OTHER_ID,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 100]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_OTHER_ID_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -233,7 +240,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_DRIVING_LICENSE_NO,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 100]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DRIVING_LICENSE_NO_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -253,7 +260,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_MARTIAL_STATUS,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 20]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MARTIAL_STATUS_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -276,7 +283,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_NICKNAME,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 100]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NICKNAME_MAX_LENGTH]),
                 ),
                 true
             );
@@ -291,7 +298,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_MILITARY_SERVICE,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 100]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MILITARY_SERVICE_MAX_LENGTH]),
                 ),
                 true
             );
@@ -302,7 +309,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SSN_NUMBER,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 100]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SSN_NUMBER_MAX_LENGTH]),
                 ),
                 true
             );
@@ -313,7 +320,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SIN_NUMBER,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, 100]),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SIN_NUMBER_MAX_LENGTH]),
                 ),
                 true
             );

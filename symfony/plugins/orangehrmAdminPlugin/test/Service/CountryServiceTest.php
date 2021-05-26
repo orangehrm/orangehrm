@@ -158,6 +158,7 @@ class CountryServiceTest extends TestCase
         $country = new Country();
         $country->setCountryCode('SG');
         $country->setName('SINGAPORE');
+        $country->setCountryName('Singapore');
 
         $countryDao = $this->getMockBuilder(CountryDao::class)
             ->onlyMethods(['getCountryList'])
@@ -177,6 +178,6 @@ class CountryServiceTest extends TestCase
         $countries = $countryService->getCountryArray();
         $this->assertCount(1, $countries);
         $this->assertEquals('SG', $countries[0]['id']);
-        $this->assertEquals('SINGAPORE', $countries[0]['label']);
+        $this->assertEquals('Singapore', $countries[0]['label']);
     }
 }

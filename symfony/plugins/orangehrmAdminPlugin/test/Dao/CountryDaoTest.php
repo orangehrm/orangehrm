@@ -77,7 +77,7 @@ class CountryDaoTest extends TestCase
 
     public function testGetProvinceList(): void
     {
-        $result = $this->dao->getProvinceList();
+        $result = $this->dao->getProvinceList('US');
 
         $sampleProvince = TestDataService::loadObjectList(Province::class, $this->fixture, 'Province');
         $this->assertCount(4, $result);
