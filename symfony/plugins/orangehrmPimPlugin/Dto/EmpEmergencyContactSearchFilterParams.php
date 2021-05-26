@@ -23,7 +23,12 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmpEmergencyContactSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['ec.name', 'ec.relationship','ec.homePhone','ec.officePhone','ec.mobilePhone'];
+    public const ALLOWED_SORT_FIELDS = ['ec.empNumber', 'ec.name', 'ec.relationship','ec.homePhone','ec.officePhone','ec.mobilePhone'];
+
+    /**
+     * @var int
+     */
+    protected int $empNumber ;
 
     /**
      * @var string|null
@@ -49,6 +54,28 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
      * @var string|null
      */
     protected ?string $mobilePhone = null;
+
+    //experimental
+    /**
+     * @var int[]|null
+     */
+    protected ?array $employeeNumbers = null;
+
+    /**
+     * @return int
+     */
+    public function getEmpNumber(): int
+    {
+        return $this->empNumber;
+    }
+
+    /**
+     * @param int $empNumber
+     */
+    public function setEmpNumber(int $empNumber): void
+    {
+        $this->empNumber = $empNumber;
+    }
 
     /**
      * @return string|null
@@ -130,6 +157,22 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
         $this->mobilePhone = $mobilePhone;
     }
 
+
+    /**
+     * @return int[]|null
+     */
+    public function getEmployeeNumbers(): ?array
+    {
+        return $this->employeeNumbers;
+    }
+
+    /**
+     * @param int[]|null $employeeNumbers
+     */
+    public function setEmployeeNumbers(?array $employeeNumbers): void
+    {
+        $this->employeeNumbers = $employeeNumbers;
+    }
 
 
 }

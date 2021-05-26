@@ -43,7 +43,7 @@ class EmpEmergencyContactService
      * Get Emergency contacts for given employee
      *
      * @version 2.6.11
-     * @param int $empNumber Employee Number
+     * @param int $seqNo Employee Number
      * EmpEmergencyContact objects as array. Array will be empty
      *               if no emergency contacts defined fo
      * r employee.
@@ -51,16 +51,20 @@ class EmpEmergencyContactService
      *
      * @todo Rename method as getEmployeeEmergencyContacts [DONE]
      */
-    public function getEmployeeEmergencyContacts(int $empNumber): ?EmpEmergencyContact
+    public function getEmployeeEmergencyContacts(int $seqNo , int $empNumber): ?EmpEmergencyContact
     {
-        return $this->getEmpEmergencyContactDao()->getEmployeeEmergencyContacts($empNumber);
+        return $this->getEmpEmergencyContactDao()->getEmployeeEmergencyContacts($seqNo , $empNumber);
     }
 
     /**
-     * @return EmpEmergencyContactDao|null
+     * @return EmpEmergencyContactDao
      */
-    public function getEmpEmergencyContactDao(): ?EmpEmergencyContactDao
+    public function getEmpEmergencyContactDao(): EmpEmergencyContactDao
     {
+        if (!($this->EmpEmergencyContactDao instanceof EmpEmergencyContactDao)) {
+            $this->EmpEmergencyContactDao = new EmpEmergencyContactDao();
+        }
+
         return $this->EmpEmergencyContactDao;
     }
 
@@ -74,7 +78,7 @@ class EmpEmergencyContactService
 
     public function saveEmpEmergencyContacts(EmpEmergencyContact $empEmergencyContact): EmpEmergencyContact
     {
-        return $this->getEmpEmergencyContactDao()->saveEmployeeEmergencyContacts($empEmergencyContact);
+        return $this->getEmpEmergencyContactDao()->saveEmployeeEmergencyContacts($empEmergencyContact );
     }
 
     /**

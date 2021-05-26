@@ -21,18 +21,10 @@
 namespace OrangeHRM\Pim\Api;
 
 
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
-use OrangeHRM\Core\Exception\DaoException;
-use Exception;
-use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
-use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -41,51 +33,39 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Exception\SearchParamException;
+use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\EmpEmergencyContact;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmpEmergencyContactModel;
 use OrangeHRM\Pim\Dto\EmpEmergencyContactSearchFilterParams;
 use OrangeHRM\Pim\Service\EmpEmergencyContactService;
-use OrangeHRM\Pim\Service\EmployeeService;
-use Orangehrm\Rest\Api\Pim\Entity\Employee;
-use phpDocumentor\Reflection\Types\Self_;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait ;
 
 class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
 {
-    public const PARAMETER_EMP_NUMBER = 'empNumber' ;
-    public const PARAMETER_EMP_NUMBERS = 'empNumbers' ;
-    public const PARAMETER_EEC_SEQNO = 'seqNo' ;
-    public const PARAMETER_NAME = 'name' ;
-    public const PARAMETER_RELATIONSHIP = 'relationship' ;
-    public const PARAMETER_HOME_PHONE = 'homePhone' ;
-    public const PARAMETER_OFFICE_PHONE = 'officePhone' ;
-    public const PARAMETER_MOBILE_PHONE = 'mobilePhone' ;
+    public const PARAMETER_EMP_NUMBER = 'empNumber';
+    public const PARAMETER_EMP_NUMBERS = 'empNumbers';
+    public const PARAMETER_EEC_SEQNO = 'seqNo';
+    public const PARAMETER_NAME = 'name';
+    public const PARAMETER_RELATIONSHIP = 'relationship';
+    public const PARAMETER_HOME_PHONE = 'homePhone';
+    public const PARAMETER_OFFICE_PHONE = 'officePhone';
+    public const PARAMETER_MOBILE_PHONE = 'mobilePhone';
 
-    public const FILTER_EMP_NUMBER = 'empNumber' ;
-    public const FILTER_EEC_SEQNO = 'seqNo' ;
-    public const FILTER_NAME = 'name' ;
-    public const FILTER_RELATIONSHIP = 'relationship' ;
-    public const FILTER_HOME_PHONE = 'homePhone' ;
-    public const FILTER_OFFICE_PHONE = 'officePhone' ;
-    public const FILTER_MOBILE_PHONE = 'mobilePhone' ;
+    public const FILTER_EMP_NUMBER = 'empNumber';
+    public const FILTER_EEC_SEQNO = 'seqNo';
+    public const FILTER_NAME = 'name';
+    public const FILTER_RELATIONSHIP = 'relationship';
+    public const FILTER_HOME_PHONE = 'homePhone';
+    public const FILTER_OFFICE_PHONE = 'officePhone';
+    public const FILTER_MOBILE_PHONE = 'mobilePhone';
 
-    private ?EmployeeService $employeeService;
-
-    /**
-     * @return EmployeeService|null
-     */
-    protected function getEmployeeService(): ?EmployeeService
-    {
-        if ($this->employeeService != null) {
-            return $this->employeeService;
-        } else {
-            return new EmployeeService();
-        }
-    }
-
-    public function setEmployeeService($employeeService)
-    {
-        $this->employeeService = $employeeService;
-    }
 
     /**
      * @var EmpEmergencyContactService|null
@@ -122,6 +102,17 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
         // TODO: Implement getAll() method.
         $empEmergencyContactSearchParams = new EmpEmergencyContactSearchFilterParams();
         $this->setSortingAndPaginationParams($empEmergencyContactSearchParams);
+        $accessibleEmpNumbers = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMP_NUMBER);
+        $empEmergencyContactSearchParams->setEmpNumber($accessibleEmpNumbers);
+
+
+//        $empEmergencyContactSearchParams->setEmpNumber(
+//            $this->getRequestParams()->getInt(
+//                RequestParams::PARAM_TYPE_QUERY,
+//                self::FILTER_EMP_NUMBER
+//            )
+//        );
+
         $empEmergencyContactSearchParams->setName(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
@@ -177,7 +168,7 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     {
         // TODO: Implement getValidationRuleForGetAll() method.
         return new ParamRuleCollection(
-            //new ParamRule(self::FILTER_EMP_NUMBER),
+            new ParamRule(self::FILTER_EMP_NUMBER),
             //new ParamRule(self::FILTER_EEC_SEQNO),
             new ParamRule(self::FILTER_NAME),
             new ParamRule(self::FILTER_RELATIONSHIP),
@@ -194,6 +185,8 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointCreateResult //done
     {
         // TODO: Implement create() method.
+        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
+        $seqNo = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EEC_SEQNO);
         $empEmergencyContact = $this->saveEmployeeEmergencyContacts();
 
         return new EndpointCreateResult(EmpEmergencyContactModel::class, $empEmergencyContact);
@@ -206,6 +199,8 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     {
         // TODO: Implement getValidationRuleForCreate() method.
         return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_EMP_NUMBER),
+            new ParamRule(self::PARAMETER_EEC_SEQNO),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -232,7 +227,7 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
         // TODO: Implement delete() method.
         $sequenceNumbers = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EEC_SEQNO);//added the sequence number
         $empNumbers = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMP_NUMBERS);
-        $this->getEmpEmergencyContactService()->deleteEmployeeEmergencyContacts($sequenceNumbers,$empNumbers);
+        $this->getEmpEmergencyContactService()->deleteEmployeeEmergencyContacts($sequenceNumbers, $empNumbers);
         return new EndpointDeleteResult(ArrayModel::class, $empNumbers);
     }
 
@@ -257,8 +252,8 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
-        $this->validateEmployee($empNumber);
-        $emergencyContact = $this->getEmpEmergencyContactService()->getEmployeeEmergencyContacts($empNumber);
+        $seqNo = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EEC_SEQNO);
+        $emergencyContact = $this->getEmpEmergencyContactService()->getEmployeeEmergencyContacts($seqNo, $empNumber);
         if (!$emergencyContact instanceof EmpEmergencyContact) {
             throw new RecordNotFoundException();
         }
@@ -273,6 +268,7 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(self::PARAMETER_EMP_NUMBER),
+            new ParamRule(self::PARAMETER_EEC_SEQNO),
         );
     }
 
@@ -283,6 +279,9 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointUpdateResult //done
     {
         // TODO: Implement update() method.
+
+
+
         $empEmergencyContact = $this->saveEmployeeEmergencyContacts();
 
         return new EndpointUpdateResult(EmpEmergencyContactModel::class, $empEmergencyContact);
@@ -306,14 +305,18 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
 
     public function saveEmployeeEmergencyContacts(): EmpEmergencyContact  //done
     { //fix this
+        $seqNo = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EEC_SEQNO);
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        $relationship = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_RELATIONSHIP);
+        $relationship = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_RELATIONSHIP);
         $homePhone = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_OFFICE_PHONE);
-        $mobilePhone = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_OFFICE_PHONE);
-        $officePhone = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_OFFICE_PHONE);
+        $mobilePhone = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_OFFICE_PHONE);
+        $officePhone = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_OFFICE_PHONE);
         if (!empty($empNumber)) {
-            $empEmergencyContact = $this->getEmpEmergencyContactService()->getEmployeeEmergencyContacts($empNumber);
+            $empEmergencyContact = $this->getEmpEmergencyContactService()->getEmployeeEmergencyContacts($seqNo, $empNumber);
             if ($empEmergencyContact == null) {
                 throw new RecordNotFoundException();
             }
@@ -326,8 +329,7 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
         $empEmergencyContact->setHomePhone($homePhone);
         $empEmergencyContact->setMobilePhone($mobilePhone);
         $empEmergencyContact->setOfficePhone($officePhone);
-        return $this->getEmpEmergencyContactService()->saveEmpEmergencyContacts($empEmergencyContact);
-
+        return $this->getEmpEmergencyContactService()->saveEmpEmergencyContacts($empEmergencyContact, );
     }
 
     /**
@@ -344,4 +346,5 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
             throw new RecordNotFoundException('Employee Not Found');
         }
     }
+
 }

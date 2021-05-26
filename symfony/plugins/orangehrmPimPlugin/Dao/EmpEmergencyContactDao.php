@@ -47,15 +47,28 @@ class EmpEmergencyContactDao extends BaseDao
 
     /**
      * Get Emergency contacts for given employee
+     * @param int $seqNo
      * @param int $empNumber Employee Number
-     * @return array EmpEmergencyContact objects as array
+     * @return EmpEmergencyContact|null EmpEmergencyContact objects as array
+     * @throws DaoException
      */
-    public function getEmployeeEmergencyContacts(int $empNumber): ?EmpEmergencyContact
+    public function getEmployeeEmergencyContacts(int $seqNo, int $empNumber): ?EmpEmergencyContact
     {
-
         try {
-            $empEmergencyContact = $this->getRepository(EmpEmergencyContact::class)->find($empNumber);
-            if ($empEmergencyContact instanceof EmpEmergencyContact) {
+//            $empEmergencyContact = $this->getRepository(EmpEmergencyContact::class)->find($empNumber);
+//            if ($empEmergencyContact  instanceof EmpEmergencyContact) {
+//                return $empEmergencyContact;
+//            }
+//            return null;
+//            $query = $this->createQueryBuilder(EmpEmergencyContact::class, 'ec') ;
+//            $query->andWhere('ec.empNumber = :empNumber');
+//            //$query->andWhere('ec.seqNo = :seqNo');
+//           // $query->setParameter('seqNo',1);
+//            $query->setParameter('empNumber',1);
+//            return $query->getQuery()->getOneOrNullResult();
+
+            $empEmergencyContact = $this->getEntityManager()->getRepository(EmpEmergencyContact::class)->findOneBy(['seqNo'=> $seqNo, 'empNumber' => $empNumber]);
+            if ($empEmergencyContact  instanceof EmpEmergencyContact) {
                 return $empEmergencyContact;
             }
             return null;
@@ -123,27 +136,32 @@ class EmpEmergencyContactDao extends BaseDao
         $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'ec');
         $this->setSortingAndPaginationParams($q, $emergencyContactSearchFilterParams);
 
-        if (!empty($emergencyContactSearchFilterParams->getName())) {
-            $q->andWhere('ec.name = :name');
-            $q->setParameter('name', $emergencyContactSearchFilterParams->getName());
+        if (!empty($emergencyContactSearchFilterParams->getEmpNumber())) {
+            $q->andWhere('ec.empNumber = :empNumber');
+            $q->setParameter('empNumber', $emergencyContactSearchFilterParams->getEmpNumber());
         }
-        if (!empty($emergencyContactSearchFilterParams->getRelationship())) {
-            $q->andWhere('ec.relationship = :relationship');
-            $q->setParameter('relationship', $emergencyContactSearchFilterParams->getRelationship());
-        }
-        if (!empty($emergencyContactSearchFilterParams->getHomePhone())) {
-            $q->andWhere('ec.homePhone = :homePhone');
-            $q->setParameter('homePhone', $emergencyContactSearchFilterParams->getHomePhone());
-        }
-        if (!empty($emergencyContactSearchFilterParams->getOfficePhone())) {
-            $q->andWhere('ec.officePhone = :officePhone');
-            $q->setParameter('officePhone', $emergencyContactSearchFilterParams->getOfficePhone());
-        }
-        if (!empty($emergencyContactSearchFilterParams->getMobilePhone())) {
-            $q->andWhere('ec.mobilePhone = :mobilePhone');
-            $q->setParameter('officePhone', $emergencyContactSearchFilterParams->getMobilePhone());
-        }
-        return $this->getPaginator($q);
+//        if (!empty($emergencyContactSearchFilterParams->getName())) {
+//            $q->andWhere('ec.name = :name');
+//            $q->setParameter('name', $emergencyContactSearchFilterParams->getName());
+//        }
+//        if (!empty($emergencyContactSearchFilterParams->getRelationship())) {
+//            $q->andWhere('ec.relationship = :relationship');
+//            $q->setParameter('relationship', $emergencyContactSearchFilterParams->getRelationship());
+//        }
+//        if (!empty($emergencyContactSearchFilterParams->getHomePhone())) {
+//            $q->andWhere('ec.homePhone = :homePhone');
+//            $q->setParameter('homePhone', $emergencyContactSearchFilterParams->getHomePhone());
+//        }
+//        if (!empty($emergencyContactSearchFilterParams->getOfficePhone())) {
+//            $q->andWhere('ec.officePhone = :officePhone');
+//            $q->setParameter('officePhone', $emergencyContactSearchFilterParams->getOfficePhone());
+//        }
+//        if (!empty($emergencyContactSearchFilterParams->getMobilePhone())) {
+//            $q->andWhere('ec.mobilePhone = :mobilePhone');
+//            $q->setParameter('officePhone', $emergencyContactSearchFilterParams->getMobilePhone());
+//        }
+//        return $this->Paginator($q);
+        return new Paginator($q);
     }
 
     public function getSearchEmployeeEmergencyContactsCount(EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams):int
