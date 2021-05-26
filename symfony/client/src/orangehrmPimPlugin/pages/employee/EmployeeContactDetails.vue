@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <edit-employee-layout :employee-id="employeeId">
+  <edit-employee-layout :employee-id="empNumber">
     <oxd-text tag="h6">Contact Details</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -59,7 +59,7 @@
             <oxd-input-field
               type="dropdown"
               label="Country"
-              v-model="contact.country"
+              v-model="contact.countryCode"
               :options="countries"
             />
           </oxd-grid-item>
@@ -80,22 +80,22 @@
           <oxd-grid-item>
             <oxd-input-field
               label="Home"
-              v-model="contact.phoneHome"
-              :rules="rules.phoneHome"
+              v-model="contact.homeTelephone"
+              :rules="rules.homeTelephone"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Mobile"
-              v-model="contact.phoneMobile"
-              :rules="rules.phoneMobile"
+              v-model="contact.mobile"
+              :rules="rules.mobile"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Work"
-              v-model="contact.phoneWork"
-              :rules="rules.phoneWork"
+              v-model="contact.workTelephone"
+              :rules="rules.workTelephone"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -108,15 +108,15 @@
           <oxd-grid-item>
             <oxd-input-field
               label="Work Email"
-              v-model="contact.emailWork"
-              :rules="rules.emailWork"
+              v-model="contact.workEmail"
+              :rules="rules.workEmail"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Other Email"
-              v-model="contact.emailOther"
-              :rules="rules.emailOther"
+              v-model="contact.otherEmail"
+              :rules="rules.otherEmail"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -131,6 +131,7 @@
 </template>
 
 <script>
+import {APIService} from '@orangehrm/core/util/services/api.service';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 
 const contactDetailsModel = {
@@ -138,18 +139,22 @@ const contactDetailsModel = {
   street2: '',
   city: '',
   province: '',
-  country: [],
+  countryCode: [],
   zipCode: '',
-  phoneHome: '',
-  phoneMobile: '',
-  phoneWork: '',
-  emailWork: '',
-  emailOther: '',
+  homeTelephone: '',
+  workTelephone: '',
+  mobile: '',
+  workEmail: '',
+  otherEmail: '',
 };
 
 export default {
+  components: {
+    'edit-employee-layout': EditEmployeeLayout,
+  },
+
   props: {
-    employeeId: {
+    empNumber: {
       type: String,
       required: true,
     },
@@ -158,9 +163,18 @@ export default {
       default: () => [],
     },
   },
-  components: {
-    'edit-employee-layout': EditEmployeeLayout,
+
+  setup(props) {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `api/v2/pim/employee/${props.empNumber}/contact-details`,
+    );
+
+    return {
+      http,
+    };
   },
+
   data() {
     return {
       isLoading: false,
@@ -191,7 +205,7 @@ export default {
             return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
         ],
-        phoneHome: [
+        homeTelephone: [
           v => {
             return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
@@ -201,7 +215,7 @@ export default {
               : false || 'Allows numbers and only + - / ( )';
           },
         ],
-        phoneMobile: [
+        mobile: [
           v => {
             return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
@@ -211,7 +225,7 @@ export default {
               : false || 'Allows numbers and only + - / ( )';
           },
         ],
-        phoneWork: [
+        workTelephone: [
           v => {
             return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
@@ -221,7 +235,7 @@ export default {
               : false || 'Allows numbers and only + - / ( )';
           },
         ],
-        emailWork: [
+        workEmail: [
           v => {
             return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
@@ -234,7 +248,7 @@ export default {
               : false || 'Expected format: admin@example.com';
           },
         ],
-        emailOther: [
+        otherEmail: [
           v => {
             return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
@@ -249,6 +263,50 @@ export default {
         ],
       },
     };
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      this.http
+        .request({
+          method: 'PUT',
+          data: {
+            ...this.contact,
+            countryCode: this.contact.countryCode.map(item => item.id)[0],
+          },
+        })
+        .then(response => {
+          this.updateModel(response);
+          return this.$toast.success({
+            title: 'Success',
+            message: 'Successfully Updated',
+          });
+        })
+        .then(() => {
+          this.isLoading = false;
+        });
+    },
+
+    updateModel(response) {
+      const {data} = response.data;
+      this.contact = {...contactDetailsModel, ...data};
+      this.contact.countryCode = this.countries.filter(
+        item => item.id === data.countryCode,
+      );
+    },
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        this.updateModel(response);
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

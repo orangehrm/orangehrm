@@ -35,7 +35,7 @@ class EmployeeContactDetailsController extends BaseViewEmployeeController
         $empNumber = $request->get('empNumber');
         if ($empNumber) {
             $component = new Component('employee-contact-details');
-            $component->addProp(new Prop('employee-id', Prop::TYPE_NUMBER, $empNumber));
+            $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
 
             /** @var CountryService $countryService */
             $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);

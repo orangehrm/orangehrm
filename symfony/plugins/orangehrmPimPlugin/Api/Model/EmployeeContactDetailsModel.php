@@ -45,5 +45,20 @@ class EmployeeContactDetailsModel implements Normalizable
                 'otherEmail'
             ]
         );
+        $this->setAttributeNames(
+            [
+                'street1',
+                'street2',
+                'city',
+                'province',
+                'zipCode',
+                'countryCode',
+                'homeTelephone',
+                'workTelephone',
+                'mobile',
+                'workEmail',
+                'otherEmail'
+            ]
+        );
     }
 }

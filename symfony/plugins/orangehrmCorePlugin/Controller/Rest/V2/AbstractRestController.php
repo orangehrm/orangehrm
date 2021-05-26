@@ -174,8 +174,6 @@ abstract class AbstractRestController extends AbstractController
             $this->getLogger()->info($e->getMessage());
             $this->getLogger()->info($e->getTraceAsString());
 
-            var_dump($e);die;
-
             // TODO:: should format to show multiple errors
             $response->setContent(
                 Response::formatError(
