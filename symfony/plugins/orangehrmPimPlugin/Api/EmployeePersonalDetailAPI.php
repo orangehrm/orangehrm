@@ -34,10 +34,11 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeePersonalDetailModel;
-use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
 {
+    use EmployeeServiceTrait;
     use ConfigServiceTrait;
 
     public const PARAMETER_EMP_NUMBER = 'empNumber';
@@ -66,30 +67,6 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_MIDDLE_NAME_MAX_LENGTH = 30;
     public const PARAM_RULE_LAST_NAME_MAX_LENGTH = 30;
     public const PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH = 30;
-
-    /**
-     * @var EmployeeService|null
-     */
-    protected ?EmployeeService $employeeService = null;
-
-    /**
-     * @return EmployeeService|null
-     */
-    public function getEmployeeService(): ?EmployeeService
-    {
-        if (is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * @param EmployeeService|null $employeeService
-     */
-    public function setEmployeeService(?EmployeeService $employeeService): void
-    {
-        $this->employeeService = $employeeService;
-    }
 
     /**
      * @inheritDoc

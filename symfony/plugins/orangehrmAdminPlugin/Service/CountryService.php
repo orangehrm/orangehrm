@@ -19,14 +19,17 @@
 
 namespace OrangeHRM\Admin\Service;
 
-use Exception;
 use OrangeHRM\Admin\Dao\CountryDao;
-use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
-use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Admin\Service\Model\CountryModel;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Country;
+use OrangeHRM\Entity\Province;
 
 class CountryService
 {
+    use NormalizerServiceTrait;
+
     /**
      * @var CountryDao|null
      */
@@ -54,78 +57,51 @@ class CountryService
     /**
      * Get Country list
      * @return Country[]
-     * @throws ServiceException
+     * @throws DaoException
      */
-    public function getCountryList()
+    public function getCountryList(): array
     {
-        try {
-            return $this->getCountryDao()->getCountryList();
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getCountryDao()->getCountryList();
     }
 
     /**
      *
-     * @return Province
+     * @return Province[]
      */
-    public function getProvinceList() {
-        try {
-            $q = Doctrine_Query::create()
-                    ->from('Province p')
-                    ->orderBy('p.province_name');
-
-            $provinceList = $q->execute();
-
-            return $provinceList;
-        } catch (Exception $e) {
-            throw new AdminServiceException($e->getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param array $searchParams
-     */
-    public function searchCountries(array $searchParams) {
-        try {
-            return $this->getCountryDao()->searchCountries($searchParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage());
-        }
+    public function getProvinceList(): array
+    {
+        return $this->getCountryDao()->getProvinceList();
     }
 
     /**
      * Get Country By Country Name
-     * @param $countryName
-     * @return Doctrine_Record
+     * @param string $countryName
+     * @return Country|null
      * @throws DaoException
      */
-    public function getCountryByCountryName($countryName){
+    public function getCountryByCountryName(string $countryName): ?Country
+    {
         return $this->getCountryDao()->getCountryByCountryName($countryName);
     }
 
     /**
      * Get country by country code
      *
-     * @param $countryCode
-     * @return Doctrine_Record
+     * @param string $countryCode
+     * @return Country|null
+     * @throws DaoException
      */
-    public function getCountryByCountryCode($countryCode){
+    public function getCountryByCountryCode(string $countryCode): ?Country
+    {
         return $this->getCountryDao()->getCountryByCountryCode($countryCode);
     }
 
     /**
      * @return array
-     * @throws ServiceException
      */
-    public function getCountryCodeAndNameFromList()
+    public function getCountryArray(): array
     {
-        $countryList = $this->getCountryList();
-        $countries = [];
-        foreach ($countryList as $country) {
-            array_push($countries, ['id' => $country->getCountryCode(), "label" => $country->getCountryName()]);
-        }
-        return $countries;
+        $countries = $this->getCountryList();
+        return $this->getNormalizerService()->normalizeArray(CountryModel::class, $countries);
     }
 }

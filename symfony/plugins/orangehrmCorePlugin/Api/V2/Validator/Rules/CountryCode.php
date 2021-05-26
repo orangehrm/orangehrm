@@ -17,33 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Api\Model;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\Employee;
+use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\Country;
+use OrangeHRM\Framework\Services;
 
-class ContactDetailsModel implements Normalizable
+class CountryCode extends AbstractRule
 {
-    use ModelTrait;
+    use ServiceContainerTrait;
 
-    public function __construct(Employee $employee)
+    public function validate($input): bool
     {
-        $this->setEntity($employee);
-        $this->setFilters(
-            [
-                'street1',
-                'street2',
-                'city',
-                'province',
-                'zipcode',
-                'country',
-                'homeTelephone',
-                'workTelephone',
-                'mobile',
-                'workEmail',
-                'otherEmail'
-            ]
-        );
+        /** @var CountryService $countryService */
+        $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
+        if (!is_string($input)) {
+            return false;
+        }
+        return $countryService->getCountryByCountryCode($input) instanceof Country;
     }
 }
