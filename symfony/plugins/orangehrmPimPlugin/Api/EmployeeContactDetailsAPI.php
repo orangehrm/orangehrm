@@ -74,7 +74,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     public function getOne(): EndpointGetOneResult
     {
         // TODO:: Check data group permission
-        $empNumber = $this->getRequestParams()->getString(
+        $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_EMP_NUMBER
         );

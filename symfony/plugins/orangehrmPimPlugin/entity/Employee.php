@@ -380,12 +380,9 @@ class Employee
     private $locations;
 
     /**
-     * @var Collection
+     * @var Collection|EmpDependent[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpDependent", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpDependent", mappedBy="employee")
      */
     private $dependents;
 

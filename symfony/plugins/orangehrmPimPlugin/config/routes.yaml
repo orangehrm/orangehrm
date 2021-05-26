@@ -33,6 +33,24 @@ apiv2_pim_employee_contact_details:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_dependent:
+  path: /api/v2/pim/employees/{empNumber}/dependents/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeDependentAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_dependents:
+  path: /api/v2/pim/employees/{empNumber}/dependents
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeDependentAPI
+  requirements:
+    empNumber: '\d+'
+
 ##########################
 #        Files
 ##########################
