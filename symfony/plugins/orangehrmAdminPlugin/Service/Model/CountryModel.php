@@ -17,24 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Pim\Service\EmployeeService;
+namespace OrangeHRM\Admin\Service\Model;
 
-class PimPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Country;
+
+class CountryModel implements Normalizable
 {
-    use ServiceContainerTrait;
+    use ModelTrait;
 
     /**
-     * @inheritDoc
+     * @param Country $country
      */
-    public function initialize(Request $request): void
+    public function __construct(Country $country)
     {
-        $this->getContainer()->register(
-            Services::EMPLOYEE_SERVICE,
-            EmployeeService::class
+        $this->setEntity($country);
+        $this->setFilters(
+            [
+                'countryCode',
+                'countryName',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'label'
+            ]
         );
     }
 }

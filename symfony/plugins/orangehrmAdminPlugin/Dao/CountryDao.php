@@ -19,10 +19,12 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use Exception;
+use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Country;
-use OrangeHRM\Core\Dao\BaseDao;
-use Exception;
+use OrangeHRM\Entity\Province;
+use OrangeHRM\ORM\ListSorter;
 
 class CountryDao extends BaseDao
 {
@@ -35,7 +37,7 @@ class CountryDao extends BaseDao
     {
         try {
             $q = $this->createQueryBuilder(Country::class, 'c');
-            $q->orderBy('c.name');
+            $q->orderBy('c.name', ListSorter::ASCENDING);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -45,38 +47,22 @@ class CountryDao extends BaseDao
     /**
      * Fetch list of provinces
      *
-     * @param String $countryCode Country code - defaults to null
-     * @return Province
+     * @param string|null $countryCode Country code - defaults to null
+     * @return Province[]
      */
-    public function getProvinceList($countryCode = NULL) {
+    public function getProvinceList(?string $countryCode = null): array
+    {
         try {
-            $q = Doctrine_Query::create()
-                    ->from('Province p');
+            $q = $this->createQueryBuilder(Province::class, 'p');
 
             if (!empty($countryCode)) {
-                $q->where('cou_code = ?', $countryCode);
+                $q->andWhere('p.countryCode = :countryCode')
+                    ->setParameter('countryCode', $countryCode);
             }
 
-            $q->orderBy('p.province_name');
+            $q->addOrderBy('p.provinceName', ListSorter::ASCENDING);
 
-            $provinceList = $q->execute();
-
-            return $provinceList;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    public function searchCountries(array $searchParams) {
-        try {
-            $query = Doctrine_Query::create()
-                    ->from('Country c');
-
-            foreach ($searchParams as $field => $filterValue) {
-                $query->addWhere($field . ' = ?', $filterValue);
-            }
-
-            return $query->execute();
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -85,15 +71,18 @@ class CountryDao extends BaseDao
     /**
      * Get Country By Country Name
      *
-     * @param $countryName
-     * @return Doctrine_Record
+     * @param string $countryName
+     * @return Country|null
      * @throws DaoException
      */
-    public function getCountryByCountryName($countryName)
+    public function getCountryByCountryName(string $countryName): ?Country
     {
         try {
-            $country = Doctrine::getTable('Country')->findOneBy('cou_name', $countryName);
-            return $country;
+            $country = $this->getRepository(Country::class)->findOneBy(['countryName' => $countryName]);
+            if ($country instanceof Country) {
+                return $country;
+            }
+            return null;
         } catch (Exception $exception) {
             throw new DaoException($exception->getMessage(), $exception->getCode(), $exception);
         }
@@ -102,19 +91,18 @@ class CountryDao extends BaseDao
     /**
      * Get Country by country code
      *
-     * @param $countryName
-     * @return Doctrine_Record
+     * @param string $countryCode
+     * @return Country|null
      * @throws DaoException
      */
-    public function getCountryByCountryCode($countryCode)
+    public function getCountryByCountryCode(string $countryCode): ?Country
     {
         try {
+            $q = $this->createQueryBuilder(Country::class, 'c');
+            $q->where('c.countryCode = :countryCode')
+                ->setParameter('countryCode', $countryCode);
 
-            $q = Doctrine_Query:: create()->from('Country c')
-                ->where('c.cou_code = ?', $countryCode);
-
-            return $q->execute();
-
+            return $this->fetchOne($q);
         } catch (Exception $exception) {
             throw new DaoException($exception->getMessage(), $exception->getCode(), $exception);
         }

@@ -17,24 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Pim\Service\EmployeeService;
+namespace OrangeHRM\Pim\Api\Model;
 
-class PimPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Employee;
+
+class EmployeeContactDetailsModel implements Normalizable
 {
-    use ServiceContainerTrait;
+    use ModelTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
+    public function __construct(Employee $employee)
     {
-        $this->getContainer()->register(
-            Services::EMPLOYEE_SERVICE,
-            EmployeeService::class
+        $this->setEntity($employee);
+        $this->setFilters(
+            [
+                'street1',
+                'street2',
+                'city',
+                'province',
+                'zipcode',
+                'country',
+                'homeTelephone',
+                'workTelephone',
+                'mobile',
+                'workEmail',
+                'otherEmail'
+            ]
         );
     }
 }

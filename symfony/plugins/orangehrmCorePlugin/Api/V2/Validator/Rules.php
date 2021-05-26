@@ -34,6 +34,7 @@ final class Rules
     public const ZERO_OR_POSITIVE = OHRMRules\ZeroOrPositive::class;
     public const IN_ACCESSIBLE_EMP_NUMBERS = OHRMRules\InAccessibleEmpNumbers::class;
     public const BASE_64_ATTACHMENT = OHRMRules\Base64Attachment::class;
+    public const COUNTRY_CODE = OHRMRules\CountryCode::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;
@@ -59,7 +60,6 @@ final class Rules
     public const CONTAINS_ANY = RespectRules\ContainsAny::class;
     public const CONTROL = RespectRules\Control::class;
     public const COUNTABLE = RespectRules\Countable::class;
-    public const COUNTRY_CODE = RespectRules\CountryCode::class;
     public const CPF = RespectRules\Cpf::class;
     public const CREDIT_CARD = RespectRules\CreditCard::class;
     public const CURRENCY_CODE = RespectRules\CurrencyCode::class;
@@ -182,6 +182,11 @@ final class Rules
     public const XDIGIT = RespectRules\Xdigit::class;
     public const YES = RespectRules\Yes::class;
     public const ZEND = RespectRules\Zend::class;
+
+    /**
+     * Unused rules
+     * @RespectRules\CountryCode::class
+     */
 
     private function __construct()
     {
