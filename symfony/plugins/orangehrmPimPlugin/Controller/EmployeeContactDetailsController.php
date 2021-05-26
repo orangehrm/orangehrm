@@ -19,18 +19,27 @@
 
 namespace OrangeHRM\Pim\Controller;
 
+use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Services;
 
 class EmployeeContactDetailsController extends BaseViewEmployeeController
 {
+    use ServiceContainerTrait;
+
     public function preRender(Request $request): void
     {
         $empNumber = $request->get('empNumber');
         if ($empNumber) {
             $component = new Component('employee-contact-details');
             $component->addProp(new Prop('employee-id', Prop::TYPE_NUMBER, $empNumber));
+
+            /** @var CountryService $countryService */
+            $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
+            $component->addProp(new Prop('countries', Prop::TYPE_ARRAY, $countryService->getCountryArray()));
             $this->setComponent($component);
         } else {
             $this->handleBadRequest();

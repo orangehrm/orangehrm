@@ -42,10 +42,11 @@ use OrangeHRM\Pim\Api\Model\EmployeeDetailedModel;
 use OrangeHRM\Pim\Api\Model\EmployeeModel;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeePictureService;
-use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeAPI extends Endpoint implements CrudEndpoint
 {
+    use EmployeeServiceTrait;
     use UserRoleManagerTrait;
 
     public const FILTER_NAME = 'name';
@@ -81,33 +82,9 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     ];
 
     /**
-     * @var EmployeeService|null
-     */
-    protected ?EmployeeService $employeeService = null;
-
-    /**
      * @var EmployeePictureService|null
      */
     protected ?EmployeePictureService $employeePictureService = null;
-
-    /**
-     * @return EmployeeService|null
-     */
-    public function getEmployeeService(): ?EmployeeService
-    {
-        if (is_null($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * @param EmployeeService|null $employeeService
-     */
-    public function setEmployeeService(?EmployeeService $employeeService): void
-    {
-        $this->employeeService = $employeeService;
-    }
 
     /**
      * @return EmployeePictureService

@@ -17,15 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\Framework\Services;
 
 class AdminPluginConfiguration implements PluginConfigurationInterface
 {
+    use ServiceContainerTrait;
+
     /**
      * @inheritDoc
      */
     public function initialize(Request $request): void
     {
+        $this->getContainer()->register(
+            Services::COUNTRY_SERVICE,
+            CountryService::class
+        );
+        $this->getContainer()->register(
+            Services::USER_SERVICE,
+            UserService::class
+        );
     }
 }

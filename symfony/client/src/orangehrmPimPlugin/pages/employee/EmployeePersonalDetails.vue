@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <edit-employee-layout :employee-id="empNumber" :tabs="tabs">
+  <edit-employee-layout :employee-id="empNumber">
     <oxd-text tag="h6">Personal Details</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">

@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller;
+namespace OrangeHRM\Pim\Controller\File;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Controller\AbstractFileController;
@@ -58,8 +58,6 @@ class EmployeePictureController extends AbstractFileController
      */
     public function handle(Request $request)
     {
-        $publicPath = Config::get(Config::PUBLIC_DIR);
-
         $empNumber = $request->get('empNumber');
         if (!is_null($empNumber)) {
             $empPicture = $this->getEmployeePictureService()->getAccessibleEmpPictureByEmpNumber($empNumber);
@@ -76,7 +74,8 @@ class EmployeePictureController extends AbstractFileController
             }
         }
 
-        $response = $this->getFileResponse(realpath($publicPath . '/themes/default/images/default-photo.png'));
+        $publicPath = Config::get(Config::PUBLIC_DIR);
+        $response = $this->getFileResponse(realpath($publicPath . '/images/default-photo.png'));
         $response->setAutoEtag();
         $this->setCommonHeaders($response, "image/png");
         $response->isNotModified($request);
