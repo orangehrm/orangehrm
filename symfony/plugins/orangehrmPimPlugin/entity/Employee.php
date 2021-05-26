@@ -1132,22 +1132,6 @@ class Employee
     }
 
     /**
-     * @return ArrayCollection
-     */
-    public function getEducation(): ArrayCollection
-    {
-        return $this->education;
-    }
-
-    /**
-     * @param ArrayCollection $education
-     */
-    public function setEducation(ArrayCollection $education): void
-    {
-        $this->education = $education;
-    }
-
-    /**
      * @return string|null
      */
     public function getCustom1(): ?string

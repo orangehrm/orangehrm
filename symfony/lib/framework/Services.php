@@ -22,72 +22,99 @@ namespace OrangeHRM\Framework;
 final class Services
 {
     /**
-     * \OrangeHRM\Framework\Http\RequestStack
+     * @see \OrangeHRM\Framework\Http\RequestStack
      */
     public const REQUEST_STACK = 'request_stack';
 
     /**
-     * \OrangeHRM\Framework\Routing\RequestContext
+     * @see \OrangeHRM\Framework\Routing\RequestContext
      */
     public const ROUTER_REQUEST_CONTEXT = 'router.request_context';
 
     /**
-     * \OrangeHRM\Framework\Routing\UrlMatcher
+     * @see \OrangeHRM\Framework\Routing\UrlMatcher
      */
     public const ROUTER = 'router.default';
 
     /**
-     * \OrangeHRM\Framework\Event\EventDispatcher
+     * @see \OrangeHRM\Framework\Event\EventDispatcher
      */
     public const EVENT_DISPATCHER = 'event_dispatcher';
 
     /**
-     * \OrangeHRM\Framework\Http\ControllerResolver
+     * @see \OrangeHRM\Framework\Http\ControllerResolver
      */
     public const CONTROLLER_RESOLVER = 'controller_resolver';
 
     /**
-     * \Symfony\Component\HttpKernel\Controller\ArgumentResolver
+     * @see \Symfony\Component\HttpKernel\Controller\ArgumentResolver
      */
     public const ARGUMENT_RESOLVER = 'argument_resolver';
 
     /**
-     * \OrangeHRM\Framework\Framework
+     * @see \OrangeHRM\Framework\Framework
      */
     public const HTTP_KERNEL = 'http_kernel';
 
     /**
-     * \OrangeHRM\Framework\Http\Session\NativeSessionStorage
+     * @see \OrangeHRM\Framework\Http\Session\NativeSessionStorage
      */
     public const SESSION_STORAGE = 'session_storage';
 
     /**
-     * \OrangeHRM\Framework\Http\Session\Session
+     * @see \OrangeHRM\Framework\Http\Session\Session
      */
     public const SESSION = 'session';
 
     /**
-     * \OrangeHRM\Framework\Logger\Logger
+     * @see \OrangeHRM\Framework\Logger\Logger
      */
     public const LOGGER = 'logger';
 
     /**
-     * \OrangeHRM\Framework\Routing\UrlGenerator
+     * @see \OrangeHRM\Framework\Routing\UrlGenerator
      */
     public const URL_GENERATOR = 'url_generator';
 
     /**
-     * \Symfony\Component\HttpFoundation\UrlHelper
+     * @see \Symfony\Component\HttpFoundation\UrlHelper
      */
     public const URL_HELPER = 'url_helper';
 
+    ///////////////////////////////////////////////////////////////
+    /// Core plugin services
+    ///////////////////////////////////////////////////////////////
+
     /**
-     * \OrangeHRM\Core\Service\ConfigService
+     * @see \OrangeHRM\Core\Service\ConfigService
      */
     public const CONFIG_SERVICE = 'core.config_service';
 
     /**
-     * \OrangeHRM\Core\Service\NormalizerService
+     * @see \OrangeHRM\Core\Service\NormalizerService
      */
     public const NORMALIZER_SERVICE = 'core.normalizer_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Admin plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Admin\Service\CountryService
+     */
+    public const COUNTRY_SERVICE = 'admin.country_service';
+
+    /**
+     * @see \OrangeHRM\Admin\Service\UserService
+     */
+    public const USER_SERVICE = 'admin.user_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Pim plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Pim\Service\EmployeeService
+     */
+    public const EMPLOYEE_SERVICE = 'pim.employee_service';
 }

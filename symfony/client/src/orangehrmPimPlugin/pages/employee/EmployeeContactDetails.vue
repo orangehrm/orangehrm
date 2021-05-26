@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <edit-employee-layout :employee-id="employeeId" :tabs="tabs">
+  <edit-employee-layout :employee-id="employeeId">
     <oxd-text tag="h6">Contact Details</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -153,6 +153,10 @@ export default {
       type: String,
       required: true,
     },
+    countries: {
+      type: Array,
+      default: () => [],
+    },
   },
   components: {
     'edit-employee-layout': EditEmployeeLayout,
@@ -244,19 +248,6 @@ export default {
           },
         ],
       },
-      tabs: [
-        {name: 'Personal Details', url: '#', active: false},
-        {name: 'Contact Details', url: '#', active: true},
-        {name: 'Emergency Contacts', url: '#', active: false},
-        {name: 'Dependants', url: '#', active: false},
-        {name: 'Immigration', url: '#', active: false},
-        {name: 'Job', url: '#', active: false},
-        {name: 'Salary', url: '#', active: false},
-        {name: 'Report-to', url: '/', active: false},
-        {name: 'Qualifications', url: '#', active: false},
-        {name: 'Memberships', url: '#', active: false},
-      ],
-      countries: [{id: 1, label: 'Sri Lanka'}],
     };
   },
 };

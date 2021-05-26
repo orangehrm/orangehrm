@@ -504,7 +504,7 @@ public static function install() {
 
 		case 5 :	error_log (date("r")." Write Conf - Starting\n",3, self::getErrorLogPath());
 					self::writeConfFile();
-					self::writeSymfonyDbConfigFile();
+					//self::writeSymfonyDbConfigFile();
 					error_log (date("r")." Write Conf - Done\n",3, self::getErrorLogPath());
 					if (!isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 6;
