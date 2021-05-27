@@ -22,7 +22,7 @@ use OrangeHRM\ORM\Doctrine;
 
 define('ENVIRNOMENT', 'test');
 
-require realpath(__DIR__ . '/../../vendor/autoload.php');
+require realpath(__DIR__ . '/../../../vendor/autoload.php');
 
 $errorMessage = "
 Can't connect to database `%s`.
