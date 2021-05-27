@@ -20,16 +20,18 @@
 namespace OrangeHRM\Authentication\Service;
 
 use OrangeHRM\Admin\Service\UserService;
-use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Exception\AuthenticationServiceException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 
 class AuthenticationService
 {
+    use AuthUserTrait;
+
     /**
      * @var null|UserService
      */
@@ -102,11 +104,11 @@ class AuthenticationService
      */
     protected function setUserAttributes(User $user): void
     {
-        AuthUser::getInstance()->setUserId($user->getId());
-        AuthUser::getInstance()->setUserRoleId($user->getUserRole()->getId());
-        AuthUser::getInstance()->setUserRoleName($user->getUserRole()->getName());
+        $this->getAuthUser()->setUserId($user->getId());
+        $this->getAuthUser()->setUserRoleId($user->getUserRole()->getId());
+        $this->getAuthUser()->setUserRoleName($user->getUserRole()->getName());
         if ($user->getEmployee() instanceof Employee) {
-            AuthUser::getInstance()->setEmpNumber($user->getEmployee()->getEmpNumber());
+            $this->getAuthUser()->setEmpNumber($user->getEmployee()->getEmpNumber());
         }
     }
 
@@ -115,7 +117,18 @@ class AuthenticationService
      */
     public function getLoggedInUserId(): ?int
     {
-        return AuthUser::getInstance()->getUserId();
+        return $this->getAuthUser()->getUserId();
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setLoggedInUserToAuthUserInstance(User $user): void
+    {
+        $this->getAuthUser()->setUser($user);
+        if ($user->getEmployee() instanceof Employee) {
+            $this->getAuthUser()->setEmployee($user->getEmployee());
+        }
     }
 
     /**

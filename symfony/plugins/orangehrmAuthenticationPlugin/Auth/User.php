@@ -20,6 +20,7 @@
 namespace OrangeHRM\Authentication\Auth;
 
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Services;
 
@@ -42,6 +43,16 @@ class User
      * @var Session
      */
     protected $session = null;
+
+    /**
+     * @var null|\OrangeHRM\Entity\User
+     */
+    protected ?\OrangeHRM\Entity\User $user = null;
+
+    /**
+     * @var null|Employee
+     */
+    protected ?Employee $employee = null;
 
     private function __construct()
     {
@@ -114,6 +125,7 @@ class User
 
     /**
      * @param bool $status
+     * @internal
      */
     public function setIsAuthenticated(bool $status = true): void
     {
@@ -130,6 +142,7 @@ class User
 
     /**
      * @param int|null $userId
+     * @internal
      */
     public function setUserId(?int $userId): void
     {
@@ -146,6 +159,7 @@ class User
 
     /**
      * @param int|null $userRoleId
+     * @internal
      */
     public function setUserRoleId(?int $userRoleId): void
     {
@@ -162,6 +176,7 @@ class User
 
     /**
      * @param string|null $userRoleName
+     * @internal
      */
     public function setUserRoleName(?string $userRoleName): void
     {
@@ -178,9 +193,44 @@ class User
 
     /**
      * @param int|null $empNumber
+     * @internal
      */
     public function setEmpNumber(?int $empNumber): void
     {
         $this->setAttribute(self::USER_EMPLOYEE_NUMBER, $empNumber);
+    }
+
+    /**
+     * @return \OrangeHRM\Entity\User|null
+     */
+    public function getUser(): ?\OrangeHRM\Entity\User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param \OrangeHRM\Entity\User|null $user
+     * @internal
+     */
+    public function setUser(?\OrangeHRM\Entity\User $user): void
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return Employee|null
+     */
+    public function getEmployee(): ?Employee
+    {
+        return $this->employee;
+    }
+
+    /**
+     * @param Employee|null $employee
+     * @internal
+     */
+    public function setEmployee(?Employee $employee): void
+    {
+        $this->employee = $employee;
     }
 }
