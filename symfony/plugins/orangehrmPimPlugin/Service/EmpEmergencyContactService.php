@@ -87,17 +87,16 @@ class EmpEmergencyContactService
      * If $entriesToDelete is not provided (null), all entries of given employee
      * will be deleted.
      *
-     * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $sequenceNumbers Array of emergency contact sequence numbers. Optional.
+     * @param array|null $sequenceNumbers Array of emergency contact sequence numbers. Optional.
      * @return int Number of records deleted
      * @throws DaoException
-     *
+     * @version 2.6.11
      * @todo return number of contacts deleted (currently returns true always) [DONE]
      * @todo Exceptions should preserve previous exception [DONE]
      * @todo rename method as deleteEmployeeEmergencyContacts [DONE]
      */
-    public function deleteEmployeeEmergencyContacts($empNumber, $sequenceNumbers = null): int
+    public function deleteEmployeeEmergencyContacts(int $empNumber, array $sequenceNumbers = null): int
     {
         return $this->getEmpEmergencyContactDao()->deleteEmployeeEmergencyContacts($empNumber, $sequenceNumbers);
     }

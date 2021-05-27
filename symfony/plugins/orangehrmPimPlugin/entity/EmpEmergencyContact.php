@@ -15,6 +15,16 @@ use Doctrine\ORM\Mapping as ORM;
 class EmpEmergencyContact
 {
     /**
+     * @var Employee
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="dependents", cascade={"persist"})
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
+     */
+    private Employee $employee;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="emp_number", type="integer", length=7)
@@ -24,48 +34,47 @@ class EmpEmergencyContact
     private int $empNumber;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="eec_seqno", type="integer", length=2)
+     * @ORM\Column(name="eec_seqno", type="decimal", precision=2, scale=0, options={"default" : 0})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
-    private int $seqNo;
+    private string $seqNo = '0';
+
+    /**
+     * @var string|null
+     * @ORM\Column(name="eec_name", type="string", length=100 , nullable=true, options={"default" : ""})
+     */
+    private ?string $name = "";
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="eec_name", type="string", length=100 , nullable=true)
+     * @ORM\Column(name="eec_relationship", type="string", length=100 , nullable=true, options={"default" : ""})
      */
-    private ?string $name;
+    private ?string $relationship = "";
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="eec_relationship", type="string", length=100 , nullable=true)
+     * @ORM\Column(name="eec_home_no", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private ?string $relationship;
+    private ?string $homePhone = "";
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="eec_home_no", type="string", length=100, nullable=true)
+     * @ORM\Column(name="eec_mobile_no", type="string", length=100, nullable=true options={"default" : ""})
      */
-    private ?string $homePhone;
+    private ?string $mobilePhone = "";
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="eec_mobile_no", type="string", length=100, nullable=true)
+     * @ORM\Column(name="eec_office_no", type="string", length=100, nullable=true options={"default" : ""})
      */
-    private ?string $mobilePhone;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="eec_office_no", type="string", length=100, nullable=true)
-     */
-    private ?string $officePhone;
+    private ?string $officePhone = "";
 
     /**
      * @return int
@@ -181,19 +190,19 @@ class EmpEmergencyContact
 
 
     /**
-     * @return Collection
+     * @return Employee
      */
-    public function getEmployee()
+    public function getEmployee(): Employee
     {
-        return $this->Employee;
+        return $this->employee;
     }
 
     /**
-     * @param Collection $Employee
+     * @param Employee $employee
      */
-    public function setEmployee($Employee): void
+    public function setEmployee(Employee $employee): void
     {
-        $this->Employee = $Employee;
+        $this->Employee = $employee;
     }
 
 

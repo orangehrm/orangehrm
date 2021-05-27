@@ -50,7 +50,7 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait ;
 class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_EMP_NUMBER = 'empNumber';
-    public const PARAMETER_EMP_NUMBERS = 'empNumbers';
+    public const PARAMETER_EEC_SEQNOS = 'seqNos';
     public const PARAMETER_EEC_SEQNO = 'seqNo';
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_RELATIONSHIP = 'relationship';
@@ -225,10 +225,10 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointDeleteResult //done not sure
     {
         // TODO: Implement delete() method.
-        $sequenceNumbers = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EEC_SEQNO);//added the sequence number
-        $empNumbers = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMP_NUMBERS);
-        $this->getEmpEmergencyContactService()->deleteEmployeeEmergencyContacts($sequenceNumbers, $empNumbers);
-        return new EndpointDeleteResult(ArrayModel::class, $empNumbers);
+        $sequenceNumbers = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EEC_SEQNOS);//added the sequence number
+        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMP_NUMBER);
+        $this->getEmpEmergencyContactService()->deleteEmployeeEmergencyContacts($empNumber,$sequenceNumbers, );
+        return new EndpointDeleteResult(ArrayModel::class, $sequenceNumbers);
     }
 
     /**
@@ -238,8 +238,8 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     {
         // TODO: Implement getValidationRuleForDelete() method.
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_EMP_NUMBERS),
-            new ParamRule(self::PARAMETER_EEC_SEQNO),
+            new ParamRule(self::PARAMETER_EMP_NUMBER),
+            new ParamRule(self::PARAMETER_EEC_SEQNOS),
         );
     }
 
