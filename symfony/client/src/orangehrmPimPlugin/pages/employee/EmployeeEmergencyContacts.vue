@@ -19,29 +19,23 @@
  -->
 
 <template>
-  <div class="orangehrm-attachment">
-    <oxd-divider />
-    <save-attachment
+  <edit-employee-layout :employee-id="empNumber">
+    <save-emergency-contact
       v-if="showSaveModal"
-      :http="http"
       @close="onSaveModalClose"
-    ></save-attachment>
-    <edit-attachment
-      v-else-if="showEditModal"
+    ></save-emergency-contact>
+    <edit-emergency-contact
+      v-if="showEditModal"
       :data="editModalState"
-      :http="http"
       @close="onEditModalClose"
-    ></edit-attachment>
-    <template v-else>
-      <div
-        class="orangehrm-horizontal-padding
-        orangehrm-vertical-padding"
-      >
-        <profile-action-header @click="onClickAdd">
-          Attachments
-        </profile-action-header>
-      </div>
-      <oxd-divider class="orangehrm-horizontal-margin" />
+    ></edit-emergency-contact>
+    <div class="orangehrm-horizontal-padding orangehrm-top-padding">
+      <profile-action-header @click="onClickAdd">
+        Assigned Emergency Contacts
+      </profile-action-header>
+      <oxd-divider />
+    </div>
+    <div>
       <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
         <div v-if="checkedItems.length > 0">
           <oxd-text tag="span">
@@ -57,43 +51,59 @@
         </div>
         <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
       </div>
-      <div class="orangehrm-container">
-        <oxd-card-table
-          :headers="headers"
-          :items="items?.data"
-          :selectable="true"
-          :clickable="false"
-          :loading="isLoading"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
-        />
-      </div>
-      <div v-if="showPaginator" class="orangehrm-bottom-container">
-        <oxd-pagination :length="pages" v-model:current="currentPage" />
-      </div>
-    </template>
+    </div>
+    <div class="orangehrm-container">
+      <oxd-card-table
+        :headers="headers"
+        :items="items?.data"
+        :selectable="true"
+        :clickable="false"
+        :loading="isLoading"
+        v-model:selected="checkedItems"
+        rowDecorator="oxd-table-decorator-card"
+      />
+    </div>
+    <div class="orangehrm-bottom-container">
+      <oxd-pagination
+        v-if="showPaginator"
+        :length="pages"
+        v-model:current="currentPage"
+      />
+    </div>
     <delete-confirmation ref="deleteDialog"></delete-confirmation>
-  </div>
+  </edit-employee-layout>
 </template>
 
 <script>
-import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import SaveAttachment from '@/orangehrmPimPlugin/components/SaveAttachment';
-import EditAttachment from '@/orangehrmPimPlugin/components/EditAttachment';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
+import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
+import SaveEmergencyContact from '@/orangehrmPimPlugin/components/SaveEmergencyContact';
+import EditEmergencyContact from '@/orangehrmPimPlugin/components/EditEmergencyContact';
+import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 
 export default {
-  name: 'profile-attachments',
   components: {
-    'save-attachment': SaveAttachment,
-    'edit-attachment': EditAttachment,
     'profile-action-header': ProfileActionHeader,
+    'edit-employee-layout': EditEmployeeLayout,
+    'save-emergency-contact': SaveEmergencyContact,
+    'edit-emergency-contact': EditEmergencyContact,
     'delete-confirmation': DeleteConfirmationDialog,
   },
+
+  props: {
+    empNumber: {
+      type: String,
+      required: true,
+    },
+    countries: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
   setup() {
-    // TODO: setup prop to change path
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/admin/job-categories',
@@ -121,20 +131,20 @@ export default {
       items: response,
     };
   },
+
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'File Name', style: {flex: 1}},
-        {name: 'description', title: 'Description', style: {flex: 1}},
-        {name: 'size', title: 'Size', style: {flex: 1}},
-        {name: 'type', title: 'Type', style: {flex: 1}},
-        {name: 'date', title: 'Date Added', style: {flex: 1}},
-        {name: 'addedBy', title: 'Added By', style: {flex: 1}},
+        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
+        {name: 'relationship', title: 'Relationship', style: {flex: 1}},
+        {name: 'homeTelephone', title: 'Home Telephone', style: {flex: 1}},
+        {name: 'workTelephone', title: 'Work Telephone', style: {flex: 1}},
+        {name: 'mobile', title: 'Mobile', style: {flex: 1}},
         {
           name: 'actions',
-          title: 'Actions',
           slot: 'action',
-          style: {flex: 1},
+          title: 'Actions',
+          style: {'flex-shrink': 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {
@@ -150,12 +160,6 @@ export default {
                 name: 'pencil-fill',
               },
             },
-            download: {
-              onClick: this.onClickDownload,
-              props: {
-                name: 'download',
-              },
-            },
           },
         },
       ],
@@ -164,17 +168,6 @@ export default {
       showEditModal: false,
       editModalState: null,
     };
-  },
-
-  computed: {
-    itemsCountText() {
-      return this.total === 0
-        ? 'No Attachments Found'
-        : `${this.total} Attachment(s) Found`;
-    },
-    itemsSelectedText() {
-      return `${this.checkedItems.length} Attachment(s) selected`;
-    },
   },
 
   methods: {
@@ -228,10 +221,6 @@ export default {
       this.editModalState = item;
       this.showEditModal = true;
     },
-    onClickDownload(item) {
-      // TODO: do download
-      console.log(item);
-    },
     onSaveModalClose() {
       this.showSaveModal = false;
       this.resetDataTable();
@@ -242,5 +231,18 @@ export default {
       this.resetDataTable();
     },
   },
+
+  computed: {
+    itemsCountText() {
+      return this.total === 0
+        ? 'No Records Found'
+        : `${this.total} Emeregency Contact(s) Found`;
+    },
+    itemsSelectedText() {
+      return `${this.checkedItems.length} Emeregency Contact(s) Selected`;
+    },
+  },
 };
 </script>
+
+<style src="./employee.scss" lang="scss" scoped></style>

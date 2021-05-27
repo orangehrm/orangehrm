@@ -34,9 +34,7 @@
           <tabs-navigation :tabs="tabs"></tabs-navigation>
         </div>
         <div class="orangehrm-edit-employee-content">
-          <div class="orangehrm-edit-employee-slot">
-            <slot></slot>
-          </div>
+          <slot></slot>
           <profile-attachments></profile-attachments>
         </div>
       </div>
@@ -118,9 +116,6 @@ export default {
     @include oxd-respond-to('md') {
       border-left: $oxd-input-control-border--active;
     }
-  }
-  &-slot {
-    padding: 1rem;
   }
   &-name {
     text-align: center;

@@ -47,7 +47,7 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_STREET_2 = 'street2';
     public const PARAMETER_CITY = 'city';
     public const PARAMETER_PROVINCE = 'province';
-    public const PARAMETER_ZIP_CODE = 'zipcode';
+    public const PARAMETER_ZIP_CODE = 'zipCode';
     public const PARAMETER_COUNTRY = 'countryCode';
     public const PARAMETER_HOME_TELEPHONE = 'homeTelephone';
     public const PARAMETER_WORK_TELEPHONE = 'workTelephone';
