@@ -42,7 +42,7 @@ class ConfigHelper
             'ohrm_data_dir' => realpath($pathToSymfonyDir . '/data'),
             'ohrm_config_dir' => realpath($pathToSymfonyDir . '/config'),
             Config::PLUGINS_DIR => realpath($pathToSymfonyDir . '/plugins'),
-            Config::PUBLIC_DIR => realpath($pathToSymfonyDir . '/web'),
+            Config::PUBLIC_DIR => realpath($pathToProjectBase . '/web'),
             'ohrm_cache_dir' => realpath($pathToSymfonyDir . '/cache'),
             'ohrm_app_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm'),
             'ohrm_app_config_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/config'),
@@ -54,7 +54,7 @@ class ConfigHelper
 
             'ohrm_client_dir' => realpath($pathToSymfonyDir . '/client'),
             'ohrm_app_template_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/templates'),
-            'ohrm_vue_build_dir' => realpath($pathToSymfonyDir . '/web/dist'),
+            'ohrm_vue_build_dir' => realpath($pathToProjectBase . '/web/dist'),
         ];
     }
 

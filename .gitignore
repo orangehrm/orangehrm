@@ -3,7 +3,7 @@ lib/confs/
 symfony/cache/
 symfony/config/
 symfony/log/
-symfony/web/
+web/dist/
 symfony/apps/orangehrm/config/
 symfony/lib/vendor
 symfony/vendor
