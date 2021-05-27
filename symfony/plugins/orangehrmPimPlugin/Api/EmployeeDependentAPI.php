@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Pim\Api;
 
+use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -45,6 +47,9 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_RELATIONSHIP_TYPE = 'relationshipType';
     public const PARAMETER_RELATIONSHIP = 'relationship';
     public const PARAMETER_DATE_OF_BIRTH = 'dateOfBirth';
+
+    public const FILTER_NAME = 'name';
+    public const FILTER_RELATIONSHIP_TYPE = 'relationshipType';
 
     public const PARAM_RULE_NAME_MAX_LENGTH = 100;
     public const PARAM_RULE_RELATIONSHIP_MAX_LENGTH = 100;
@@ -107,14 +112,34 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws ServiceException|DaoException
      */
     public function getAll(): EndpointGetAllResult
     {
+        $employeeDependentSearchParams = new EmployeeDependentSearchFilterParams();
+        $this->setSortingAndPaginationParams($employeeDependentSearchParams);
+        $employeeDependentSearchParams->setName(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_NAME
+            )
+        );
+        $employeeDependentSearchParams->setRelationshipType(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_RELATIONSHIP_TYPE
+            )
+        );
+
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $empDependents = $this->getEmployeeDependentService()->getEmployeeDependents($empNumber);
+
+        $employeeDependentSearchParams->setEmpNumber(
+            $empNumber
+        );
+        $empDependents = $this->getEmployeeDependentService()->searchEmployeeDependent($employeeDependentSearchParams);
 
         return new EndpointGetAllResult(
             EmployeeDependentModel::class, $empDependents,
@@ -137,7 +162,9 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_EMP_NUMBER,
                 new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
-            ...$this->getSortingAndPaginationParamsRules()
+            new ParamRule(self::FILTER_NAME),
+            new ParamRule(self::FILTER_RELATIONSHIP_TYPE),
+            ...$this->getSortingAndPaginationParamsRules(EmployeeDependentSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 

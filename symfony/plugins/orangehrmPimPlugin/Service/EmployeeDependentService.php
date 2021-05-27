@@ -19,9 +19,12 @@
 
 namespace OrangeHRM\Pim\Service;
 
+use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Pim\Dao\EmployeeDependentDao;
+use Exception;
 
 class EmployeeDependentService
 {
@@ -88,5 +91,19 @@ class EmployeeDependentService
     public function deleteEmployeeDependents(int $empNumber, array $entriesToDelete): int
     {
         return $this->getEmployeeDependentDao()->deleteEmployeeDependents($empNumber, $entriesToDelete);
+    }
+
+    /**
+     * @param EmployeeDependentSearchFilterParams $employeeDependentSearchParams
+     * @return array
+     * @throws ServiceException
+     */
+    public function searchEmployeeDependent(EmployeeDependentSearchFilterParams $employeeDependentSearchParams): array
+    {
+        try {
+            return $this->getEmployeeDependentDao()->searchEmployeeDependent($employeeDependentSearchParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }
