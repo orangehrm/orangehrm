@@ -473,12 +473,9 @@ class Employee
     private $contracts;
 
     /**
-     * @var Collection
+     * @var Collection|EmployeeAttachment[]
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeAttachment", mappedBy="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     * })
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeAttachment", mappedBy="employee")
      */
     private $attachments;
 

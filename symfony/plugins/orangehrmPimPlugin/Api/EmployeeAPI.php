@@ -433,7 +433,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_EMP_NUMBER, new Rule(Rules::POSITIVE)),
+            new ParamRule(self::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)),
             ...$this->getCommonBodyValidationRules(),
         );
     }
