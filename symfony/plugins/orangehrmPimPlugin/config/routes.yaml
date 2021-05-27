@@ -74,7 +74,7 @@ apiv2_pim_employees_attachments:
 ##########################
 
 pim_employee_picture:
-  path: /pim/viewPhoto/{empNumber}
+  path: /pim/viewPhoto/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\File\EmployeePictureController::handle
   methods: [ GET ]
 

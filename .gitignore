@@ -4,12 +4,10 @@ symfony/cache/
 symfony/config/
 symfony/log/
 web/dist/
-symfony/apps/orangehrm/config/
-symfony/lib/vendor
 symfony/vendor
 apidoc
-symfony/test/api/tests/_output/
 installer/log.txt
 logInsatall.log
 .phpunit.result.cache
 tests/node_modules
+coverage/

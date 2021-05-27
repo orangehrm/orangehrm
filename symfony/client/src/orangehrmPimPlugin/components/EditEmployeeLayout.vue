@@ -79,7 +79,7 @@ export default {
 
     const imgSrc = computed(() => {
       return props.employeeId
-        ? `${window.appGlobal.baseUrl}/pim/viewPhoto/${props.employeeId}`
+        ? `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.employeeId}`
         : defaultPic;
     });
 
