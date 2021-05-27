@@ -161,4 +161,21 @@ class EmployeeDependentDao extends BaseDao
         $q->addOrderBy('d.name', ListSorter::ASCENDING);
         return $this->getPaginator($q);
     }
+
+    /**
+     * Get Count of Search Query
+     *
+     * @param EmployeeDependentSearchFilterParams $employeeDependentSearchParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getSearchEmployeeDependentsCount(EmployeeDependentSearchFilterParams $employeeDependentSearchParams): int
+    {
+        try {
+            $paginator = $this->getSearchEmployeeDependentPaginator($employeeDependentSearchParams);
+            return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }

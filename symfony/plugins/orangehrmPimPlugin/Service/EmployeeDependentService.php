@@ -106,4 +106,18 @@ class EmployeeDependentService
             throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @param EmployeeDependentSearchFilterParams $employeeDependentSearchParams
+     * @return int
+     * @throws ServiceException
+     */
+    public function getSearchEmployeeDependentsCount(EmployeeDependentSearchFilterParams $employeeDependentSearchParams): int
+    {
+        try {
+            return $this->getEmployeeDependentDao()->getSearchEmployeeDependentsCount($employeeDependentSearchParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }
