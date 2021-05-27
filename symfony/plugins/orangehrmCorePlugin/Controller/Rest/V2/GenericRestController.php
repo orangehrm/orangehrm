@@ -26,6 +26,7 @@ use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Request;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Response;
+use OrangeHRM\Core\Api\V2\Serializer\AbstractEndpointResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 
 
@@ -85,13 +86,7 @@ class GenericRestController extends AbstractRestController
                 throw $this->getNotInstanceOfException(ResourceEndpoint::class);
             }
         }
-        $meta = $result->getMeta();
-        $rels = $result->getRels();
-        return new Response(
-            $result->normalize(),
-            is_null($meta) ? [] : $meta->all(),
-            is_null($rels) ? [] : $rels->all()
-        );
+        return new Response(...$this->getPreparedResponseParamsFromResult($result));
     }
 
     /**
@@ -117,7 +112,7 @@ class GenericRestController extends AbstractRestController
     {
         if ($this->apiEndpoint instanceof CollectionEndpoint) {
             $result = $this->apiEndpoint->create();
-            return new Response($result->normalize());
+            return new Response(...$this->getPreparedResponseParamsFromResult($result));
         } else {
             throw $this->getNotInstanceOfException(CollectionEndpoint::class);
         }
@@ -141,7 +136,7 @@ class GenericRestController extends AbstractRestController
     {
         if ($this->apiEndpoint instanceof ResourceEndpoint) {
             $result = $this->apiEndpoint->update();
-            return new Response($result->normalize());
+            return new Response(...$this->getPreparedResponseParamsFromResult($result));
         } else {
             throw $this->getNotInstanceOfException(ResourceEndpoint::class);
         }
@@ -165,7 +160,7 @@ class GenericRestController extends AbstractRestController
     {
         if ($this->apiEndpoint instanceof CollectionEndpoint || $this->apiEndpoint instanceof ResourceEndpoint) {
             $result = $this->apiEndpoint->delete();
-            return new Response($result->normalize());
+            return new Response(...$this->getPreparedResponseParamsFromResult($result));
         } else {
             throw $this->getNotInstanceOfException(ResourceEndpoint::class . '` or `' . CollectionEndpoint::class);
         }
@@ -200,5 +195,20 @@ class GenericRestController extends AbstractRestController
     {
         $idAttribute = $request->getAttributes()->get('_key', 'id');
         return $request->getAttributes()->has($idAttribute);
+    }
+
+    /**
+     * @param AbstractEndpointResult $result
+     * @return array
+     */
+    private function getPreparedResponseParamsFromResult(AbstractEndpointResult $result): array
+    {
+        $meta = $result->getMeta();
+        $rels = $result->getRels();
+        return [
+            $result->normalize(),
+            is_null($meta) ? [] : $meta->all(),
+            is_null($rels) ? [] : $rels->all()
+        ];
     }
 }
