@@ -137,6 +137,7 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_EMP_NUMBER,
                 new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
+            ...$this->getSortingAndPaginationParamsRules()
         );
     }
 
