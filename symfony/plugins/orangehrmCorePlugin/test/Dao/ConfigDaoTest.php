@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Tests\Dao;
+namespace OrangeHRM\Tests\Core\Dao;
 
 use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Entity\Config;

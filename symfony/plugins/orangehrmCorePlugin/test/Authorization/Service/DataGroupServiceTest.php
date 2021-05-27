@@ -18,7 +18,7 @@
  *
  */
 
-namespace OrangeHRM\Core\Tests\Authorization\Service;
+namespace OrangeHRM\Tests\Core\Authorization\Service;
 
 use OrangeHRM\Core\Authorization\Dao\DataGroupDao;
 use OrangeHRM\Core\Authorization\Service\DataGroupService;
