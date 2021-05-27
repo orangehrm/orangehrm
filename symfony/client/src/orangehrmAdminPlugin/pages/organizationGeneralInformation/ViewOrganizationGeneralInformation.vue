@@ -44,14 +44,11 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <div>
-                <oxd-label class="no-of-employees-label">
-                  Number of Employees
-                </oxd-label>
-                <h1 class="no-of-employees-value">
-                  {{organization.noOfEmployees}}
-                </h1>
-              </div>
+              <oxd-input-group label="Number of Employees">
+                <oxd-text tag="h5" :style="{ fontSize : '12px', padding: '0.675rem 0.5rem' }">
+                  {{ organization.noOfEmployees }}
+                </oxd-text>
+              </oxd-input-group>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
