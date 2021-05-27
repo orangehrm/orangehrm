@@ -27,7 +27,10 @@
             <oxd-text class="orangehrm-edit-employee-name" tag="h6">{{
               employeeName
             }}</oxd-text>
-            <div class="orangehrm-edit-employee-image">
+            <div
+              class="orangehrm-edit-employee-image"
+              @click="onClickProfilePic"
+            >
               <img alt="profile picture" class="employee-image" :src="imgSrc" />
             </div>
           </div>
@@ -45,6 +48,7 @@
 <script>
 import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@orangehrm/core/util/helper/navigation';
 import TabsNavigation from '@/orangehrmPimPlugin/components/TabsNavigation';
 import ProfileAttachments from '@/orangehrmPimPlugin/components/ProfileAttachments';
 
@@ -83,9 +87,16 @@ export default {
         : defaultPic;
     });
 
+    const onClickProfilePic = () => {
+      navigate('/pim/viewPhotograph/empNumber/{empNumber}', {
+        empNumber: props.employeeId,
+      });
+    };
+
     return {
       imgSrc,
       employeeName,
+      onClickProfilePic,
     };
   },
 };
@@ -135,6 +146,7 @@ export default {
     justify-content: center;
     align-items: flex-end;
     flex-shrink: 0;
+    cursor: pointer;
     .employee-image {
       height: 6rem;
     }
