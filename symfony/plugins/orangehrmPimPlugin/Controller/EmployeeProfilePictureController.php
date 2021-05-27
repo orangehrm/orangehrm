@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,20 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-import SaveEmployee from './pages/employee/SaveEmployee.vue';
-import Employee from './pages/employee/Employee.vue';
-import EmployeePersonalDetails from './pages/employee/EmployeePersonalDetails.vue';
-import EmployeeContactDetails from './pages/employee/EmployeeContactDetails.vue';
-import EmployeeEmergencyContacts from './pages/employee/EmployeeEmergencyContacts.vue';
-import EmployeeDependents from './pages/employee/EmployeeDependents.vue';
-import EmployeeProfilePicture from './pages/employee/EmployeeProfilePicture.vue';
+namespace OrangeHRM\Pim\Controller;
 
-export default {
-  'employee-save': SaveEmployee,
-  'employee-list': Employee,
-  'employee-personal-details': EmployeePersonalDetails,
-  'employee-contact-details': EmployeeContactDetails,
-  'employee-emergency-contacts': EmployeeEmergencyContacts,
-  'employee-dependents': EmployeeDependents,
-  'employee-profile-picture': EmployeeProfilePicture,
-};
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\EmpPicture;
+use OrangeHRM\Framework\Http\Request;
+
+class EmployeeProfilePictureController extends BaseViewEmployeeController
+{
+    public function preRender(Request $request): void
+    {
+        $empNumber = $request->get('empNumber');
+        if ($empNumber) {
+            $component = new Component('employee-profile-picture');
+            $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
+            $component->addProp(new Prop('allowed-image-types', Prop::TYPE_ARRAY, EmpPicture::ALLOWED_IMAGE_TYPES));
+            $this->setComponent($component);
+        } else {
+            $this->handleBadRequest();
+        }
+    }
+}
