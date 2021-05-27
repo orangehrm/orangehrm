@@ -66,7 +66,12 @@ pim_employee_personal_details:
   controller: OrangeHRM\Pim\Controller\EmployeePersonalDetailController::handle
   methods: [ GET ]
 
-pim_edit_contact_details:
+pim_employee_contact_details:
   path: /pim/contactDetails/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeContactDetailsController::handle
+  methods: [ GET ]
+
+pim_employee_emergency_contacts:
+  path: /pim/viewEmergencyContacts/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeEmergencyContactsController::handle
   methods: [ GET ]

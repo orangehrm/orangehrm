@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-card-container">
-    <oxd-text tag="h6">Add Attachment</oxd-text>
+    <oxd-text tag="h6">Edit Attachment</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -67,12 +67,16 @@ const attachmentModel = {
 };
 
 export default {
-  name: 'save-attachment',
+  name: 'edit-attachment',
 
   emits: ['close'],
 
   props: {
     http: {
+      type: Object,
+      required: true,
+    },
+    data: {
       type: Object,
       required: true,
     },
