@@ -20,113 +20,115 @@
 
 <template>
   <edit-employee-layout :employee-id="empNumber">
-    <oxd-text tag="h6">Contact Details</oxd-text>
-    <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
-      <oxd-text class="orangehrm-sub-title" tag="h6">Address</oxd-text>
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+      <oxd-text tag="h6">Contact Details</oxd-text>
       <oxd-divider />
-      <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Street 1"
-              v-model="contact.street1"
-              :rules="rules.street1"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Street 2"
-              v-model="contact.street2"
-              :rules="rules.street2"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="City"
-              v-model="contact.city"
-              :rules="rules.city"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="State/Province"
-              v-model="contact.province"
-              :rules="rules.province"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              type="dropdown"
-              label="Country"
-              v-model="contact.countryCode"
-              :options="countries"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Zip/Postal Code"
-              v-model="contact.zipCode"
-              :rules="rules.zipCode"
-            />
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
+      <oxd-form :loading="isLoading" @submitValid="onSave">
+        <oxd-text class="orangehrm-sub-title" tag="h6">Address</oxd-text>
+        <oxd-divider />
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Street 1"
+                v-model="contact.street1"
+                :rules="rules.street1"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Street 2"
+                v-model="contact.street2"
+                :rules="rules.street2"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="City"
+                v-model="contact.city"
+                :rules="rules.city"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="State/Province"
+                v-model="contact.province"
+                :rules="rules.province"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                type="dropdown"
+                label="Country"
+                v-model="contact.countryCode"
+                :options="countries"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Zip/Postal Code"
+                v-model="contact.zipCode"
+                :rules="rules.zipCode"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
-      <oxd-text class="orangehrm-sub-title" tag="h6">Telephone</oxd-text>
-      <oxd-divider />
-      <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Home"
-              v-model="contact.homeTelephone"
-              :rules="rules.homeTelephone"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Mobile"
-              v-model="contact.mobile"
-              :rules="rules.mobile"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Work"
-              v-model="contact.workTelephone"
-              :rules="rules.workTelephone"
-            />
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
+        <oxd-text class="orangehrm-sub-title" tag="h6">Telephone</oxd-text>
+        <oxd-divider />
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Home"
+                v-model="contact.homeTelephone"
+                :rules="rules.homeTelephone"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Mobile"
+                v-model="contact.mobile"
+                :rules="rules.mobile"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Work"
+                v-model="contact.workTelephone"
+                :rules="rules.workTelephone"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
-      <oxd-text class="orangehrm-sub-title" tag="h6">Email</oxd-text>
-      <oxd-divider />
-      <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Work Email"
-              v-model="contact.workEmail"
-              :rules="rules.workEmail"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Other Email"
-              v-model="contact.otherEmail"
-              :rules="rules.otherEmail"
-            />
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
+        <oxd-text class="orangehrm-sub-title" tag="h6">Email</oxd-text>
+        <oxd-divider />
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Work Email"
+                v-model="contact.workEmail"
+                :rules="rules.workEmail"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Other Email"
+                v-model="contact.otherEmail"
+                :rules="rules.otherEmail"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
-      <oxd-divider />
-      <oxd-form-actions>
-        <submit-button />
-      </oxd-form-actions>
-    </oxd-form>
+        <oxd-divider />
+        <oxd-form-actions>
+          <submit-button />
+        </oxd-form-actions>
+      </oxd-form>
+    </div>
   </edit-employee-layout>
 </template>
 

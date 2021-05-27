@@ -20,145 +20,147 @@
 
 <template>
   <edit-employee-layout :employee-id="empNumber">
-    <oxd-text tag="h6">Personal Details</oxd-text>
-    <oxd-divider />
-    <oxd-form :loading="isLoading" @submitValid="onSave">
-      <oxd-form-row>
-        <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <full-name-input
-              v-model:firstName="employee.firstName"
-              v-model:middleName="employee.middleName"
-              v-model:lastName="employee.lastName"
-              :rules="rules"
-            />
-          </oxd-grid-item>
-        </oxd-grid>
-        <oxd-grid
-          :cols="3"
-          v-if="showDeprecatedFields"
-          class="orangehrm-full-width-grid"
-        >
-          <oxd-grid-item>
-            <oxd-input-field label="Nickname" v-model="employee.nickname" />
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
-
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+      <oxd-text tag="h6">Personal Details</oxd-text>
       <oxd-divider />
-      <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Employee Id"
-              v-model="employee.employeeId"
-              :rules="rules.employeeId"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field label="Other Id" v-model="employee.otherId" />
-          </oxd-grid-item>
-        </oxd-grid>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Driver's License Number"
-              v-model="employee.drivingLicenseNo"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="License Expiry Date"
-              v-model="employee.drivingLicenseExpiredDate"
-            />
-          </oxd-grid-item>
-        </oxd-grid>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item v-if="showSSNField">
-            <oxd-input-field label="SSN Number" v-model="employee.ssnNumb" />
-          </oxd-grid-item>
-          <oxd-grid-item v-if="showSINField">
-            <oxd-input-field label="SIN Number" v-model="employee.sinNumb" />
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
-
-      <oxd-divider />
-      <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-input-field
-              type="dropdown"
-              label="Nationality"
-              v-model="employee.nationality"
-              :clear="false"
-              :options="nationalities"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              type="dropdown"
-              label="Marital Status"
-              v-model="employee.maritalStatus"
-              :clear="false"
-              :options="maritalStatuses"
-            />
-          </oxd-grid-item>
-        </oxd-grid>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Date of Birth"
-              v-model="employee.birthday"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-group
-              label="Gender"
-              :classes="{wrapper: '--gender-grouped-field'}"
-            >
-              <oxd-input-field
-                type="radio"
-                v-model="employee.gender"
-                optionLabel="Male"
-                value="1"
+      <oxd-form :loading="isLoading" @submitValid="onSave">
+        <oxd-form-row>
+          <oxd-grid :cols="1" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <full-name-input
+                v-model:firstName="employee.firstName"
+                v-model:middleName="employee.middleName"
+                v-model:lastName="employee.lastName"
+                :rules="rules"
               />
+            </oxd-grid-item>
+          </oxd-grid>
+          <oxd-grid
+            :cols="3"
+            v-if="showDeprecatedFields"
+            class="orangehrm-full-width-grid"
+          >
+            <oxd-grid-item>
+              <oxd-input-field label="Nickname" v-model="employee.nickname" />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-divider />
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
               <oxd-input-field
-                type="radio"
-                v-model="employee.gender"
-                optionLabel="Female"
-                value="2"
+                label="Employee Id"
+                v-model="employee.employeeId"
+                :rules="rules.employeeId"
               />
-            </oxd-input-group>
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field label="Other Id" v-model="employee.otherId" />
+            </oxd-grid-item>
+          </oxd-grid>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Driver's License Number"
+                v-model="employee.drivingLicenseNo"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="License Expiry Date"
+                v-model="employee.drivingLicenseExpiredDate"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item v-if="showSSNField">
+              <oxd-input-field label="SSN Number" v-model="employee.ssnNumb" />
+            </oxd-grid-item>
+            <oxd-grid-item v-if="showSINField">
+              <oxd-input-field label="SIN Number" v-model="employee.sinNumb" />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
-      <oxd-divider v-if="showDeprecatedFields" />
-      <oxd-form-row v-if="showDeprecatedFields">
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Military Service"
-              v-model="employee.militaryService"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              type="checkbox"
-              label="Smoker"
-              option-label="yes"
-              v-model="employee.smoker"
-            />
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
+        <oxd-divider />
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                type="dropdown"
+                label="Nationality"
+                v-model="employee.nationality"
+                :clear="false"
+                :options="nationalities"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                type="dropdown"
+                label="Marital Status"
+                v-model="employee.maritalStatus"
+                :clear="false"
+                :options="maritalStatuses"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Date of Birth"
+                v-model="employee.birthday"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-group
+                label="Gender"
+                :classes="{wrapper: '--gender-grouped-field'}"
+              >
+                <oxd-input-field
+                  type="radio"
+                  v-model="employee.gender"
+                  optionLabel="Male"
+                  value="1"
+                />
+                <oxd-input-field
+                  type="radio"
+                  v-model="employee.gender"
+                  optionLabel="Female"
+                  value="2"
+                />
+              </oxd-input-group>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
-      <oxd-divider />
-      <oxd-form-actions>
-        <submit-button />
-      </oxd-form-actions>
-    </oxd-form>
+        <oxd-divider v-if="showDeprecatedFields" />
+        <oxd-form-row v-if="showDeprecatedFields">
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Military Service"
+                v-model="employee.militaryService"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                type="checkbox"
+                label="Smoker"
+                option-label="yes"
+                v-model="employee.smoker"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-divider />
+        <oxd-form-actions>
+          <submit-button />
+        </oxd-form-actions>
+      </oxd-form>
+    </div>
   </edit-employee-layout>
 </template>
 

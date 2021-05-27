@@ -70,3 +70,8 @@ pim_employee_contact_details:
   path: /pim/contactDetails/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeContactDetailsController::handle
   methods: [ GET ]
+
+pim_employee_emergency_contacts:
+  path: /pim/viewEmergencyContacts/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeEmergencyContactsController::handle
+  methods: [ GET ]
