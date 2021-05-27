@@ -19,10 +19,12 @@ import SaveEmployee from './pages/employee/SaveEmployee.vue';
 import Employee from './pages/employee/Employee.vue';
 import EmployeePersonalDetails from './pages/employee/EmployeePersonalDetails.vue';
 import EmployeeContactDetails from './pages/employee/EmployeeContactDetails.vue';
+import EmployeeEmergencyContacts from './pages/employee/EmployeeEmergencyContacts.vue';
 
 export default {
   'employee-save': SaveEmployee,
   'employee-list': Employee,
   'employee-personal-details': EmployeePersonalDetails,
   'employee-contact-details': EmployeeContactDetails,
+  'employee-emergency-contacts': EmployeeEmergencyContacts,
 };
