@@ -77,11 +77,13 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->will($this->returnValue(UnitTestUserRoleManager::class));
 
         $authenticationService = $this->getMockBuilder(AuthenticationService::class)
-            ->onlyMethods(['getLoggedInUserId'])
+            ->onlyMethods(['getLoggedInUserId', 'setLoggedInUserToAuthUserInstance'])
             ->getMock();
         $authenticationService->expects($this->once())
             ->method('getLoggedInUserId')
             ->will($this->returnValue(211));
+        $authenticationService->expects($this->once())
+            ->method('setLoggedInUserToAuthUserInstance');
 
         $systemUser = new User();
         $systemUser->setId(211);

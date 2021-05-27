@@ -121,7 +121,7 @@ class UserRoleManagerService
      * @throws DaoException
      * @throws ServiceException
      */
-    public function getUserRoleManager():?AbstractUserRoleManager
+    public function getUserRoleManager(): ?AbstractUserRoleManager
     {
         $logger = Logger::getLogger('core.UserRoleManagerService');
 
@@ -155,6 +155,7 @@ class UserRoleManagerService
         $systemUser = $this->getUserService()->getSystemUser($userId);
 
         if ($systemUser instanceof User) {
+            $this->getAuthenticationService()->setLoggedInUserToAuthUserInstance($systemUser);
             $manager->setUser($systemUser);
         } else {
             $logger->info('No logged in system user when creating UserRoleManager');

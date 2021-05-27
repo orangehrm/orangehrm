@@ -64,6 +64,28 @@ class ConfigService
     public const KEY_SENDMAIL_PATH = 'email_config.sendmail_path';
 
     public const MAX_ATTACHMENT_SIZE = 1048576; // 1 MB
+    public const ALLOWED_FILE_TYPES = [
+        "text/plain",
+        "text/rtf",
+        "application/rtf",
+        "application/pdf",
+        "application/msword",
+        "application/vnd.ms-excel",
+        "application/vnd.ms-powerpoint",
+        "application/vnd.oasis.opendocument.text",
+        "application/vnd.oasis.opendocument.spreadsheet",
+        "application/vnd.oasis.opendocument.presentation",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "application/vnd.openxmlformats-officedocument.presentationml.slideshow",
+        "image/x-png",
+        "image/gif",
+        "image/jpeg",
+        "image/jpg",
+        "image/pjpeg",
+        "image/png"
+    ];
 
     /**
      * Get ConfigDao
@@ -547,5 +569,13 @@ class ConfigService
     public function getMaxAttachmentSize(): int
     {
         return self::MAX_ATTACHMENT_SIZE;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAllowedFileTypes(): array
+    {
+        return self::ALLOWED_FILE_TYPES;
     }
 }

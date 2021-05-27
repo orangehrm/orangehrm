@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Controller;
 
 use OrangeHRM\Framework\Http\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 
 abstract class AbstractFileController extends AbstractController
 {
@@ -47,5 +48,17 @@ abstract class AbstractFileController extends AbstractController
             $this->fileResponse = $this->getNewFileResponse($file);
         }
         return $this->fileResponse;
+    }
+
+    /**
+     * @param string $filename
+     * @return string
+     */
+    protected function makeAttachmentDisposition(string $filename): string
+    {
+        return HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            $filename
+        );
     }
 }
