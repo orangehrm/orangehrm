@@ -67,11 +67,19 @@ class RequestParams
      * @param string $type
      * @param string $key
      * @param string|null $default
+     * @param bool $convertEmptyStringToNull
      * @return string|null
      */
-    public function getStringOrNull(string $type, string $key, ?string $default = null): ?string
-    {
+    public function getStringOrNull(
+        string $type,
+        string $key,
+        ?string $default = null,
+        bool $convertEmptyStringToNull = true
+    ): ?string {
         $param = $this->$type->get($key, $default);
+        if (!$convertEmptyStringToNull) {
+            return $param;
+        }
         return $this->isEmptyString($param) && is_null($default) ? null : $param;
     }
 
@@ -144,6 +152,17 @@ class RequestParams
     public function getArrayOrNull(string $type, string $key, ?array $default = null): ?array
     {
         return $this->$type->get($key, $default);
+    }
+
+    /**
+     * @param string $type
+     * @param string $key
+     * @param array|null $default
+     * @return Base64Attachment
+     */
+    public function getAttachment(string $type, string $key, ?array $default = null): Base64Attachment
+    {
+        return $this->getAttachmentOrNull($type, $key, $default);
     }
 
     /**

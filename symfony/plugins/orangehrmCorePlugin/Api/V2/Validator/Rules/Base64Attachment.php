@@ -49,13 +49,13 @@ class Base64Attachment extends AbstractRule
     private bool $checkSizeStrictly;
 
     public function __construct(
-        array $allowedTypes,
+        ?array $allowedTypes = null,
         ?int $fileNameMaxLength = null,
         ?int $fileNameMinLength = null,
         bool $checkSizeStrictly = true,
         ?int $maxFileSize = null
     ) {
-        $this->allowedTypes = $allowedTypes;
+        $this->allowedTypes = $allowedTypes ?? $this->getConfigService()->getAllowedFileTypes();
         $this->fileNameMaxLength = $fileNameMaxLength;
         $this->fileNameMinLength = $fileNameMinLength;
         $this->checkSizeStrictly = $checkSizeStrictly;
