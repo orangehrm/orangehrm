@@ -1,3 +1,26 @@
 .organization-name-container{
   grid-column: span 2;
 }
+
+.no-of-employees-value{
+  font-family: "Nunito Sans";
+  font-size: 12px;
+  font-weight: 700;
+  color: rgb(100, 114, 140);
+  box-sizing: border-box;
+  font-family: "Nunito Sans";
+  color: #64728c;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  border-radius: 0.65rem;
+  padding: 0.675rem 0.5rem;
+  width: 100%;
+  min-height: 45px;
+}
+.no-of-employees-label {
+  font-family: "Nunito Sans";
+  font-size: 12px;
+  font-weight: 700;
+  color: #64728c;
+}

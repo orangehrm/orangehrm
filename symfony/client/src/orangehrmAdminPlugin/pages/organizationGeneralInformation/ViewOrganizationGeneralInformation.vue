@@ -44,11 +44,14 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                label="Number of Employees"
-                v-model="organization.noOfEmployees"
-                :disabled="true"
-              />
+              <div>
+                <oxd-label class="no-of-employees-label">
+                  Number of Employees
+                </oxd-label>
+                <h1 class="no-of-employees-value">
+                  {{organization.noOfEmployees}}
+                </h1>
+              </div>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -351,7 +354,7 @@ export default {
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'Successfully Updated',
+            message: 'Successfully Saved',
           });
         })
         .then(() => {
