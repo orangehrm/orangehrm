@@ -19,6 +19,10 @@
 
 namespace OrangeHRM\Pim\Service;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Exception;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Exception\DaoException;
@@ -37,24 +41,6 @@ class EmpEmergencyContactService
      * @var EmpEmergencyContactDao|null
      */
     protected ?EmpEmergencyContactDao $EmpEmergencyContactDao = null;
-
-
-    /**
-     * Get Emergency contacts for given employee
-     *
-     * @version 2.6.11
-     * @param int $seqNo Employee Number
-     * EmpEmergencyContact objects as array. Array will be empty
-     *               if no emergency contacts defined fo
-     * r employee.
-     * @throws DaoException
-     *
-     * @todo Rename method as getEmployeeEmergencyContacts [DONE]
-     */
-    public function getEmployeeEmergencyContacts(int $seqNo , int $empNumber): ?EmpEmergencyContact
-    {
-        return $this->getEmpEmergencyContactDao()->getEmployeeEmergencyContacts($seqNo , $empNumber);
-    }
 
     /**
      * @return EmpEmergencyContactDao
@@ -76,47 +62,53 @@ class EmpEmergencyContactService
         $this->EmpEmergencyContactDao = $EmpEmergencyContactDao;
     }
 
-    public function saveEmpEmergencyContacts(EmpEmergencyContact $empEmergencyContact): EmpEmergencyContact
+    /**
+     * Get Emergency contacts for given employee
+     * @param int $seqNo Employee Number
+     * @param int $empNumber
+     * @return EmpEmergencyContact|null
+     * @throws DaoException
+     */
+    public function getEmployeeEmergencyContact( int $empNumber, int $seqNo): ?EmpEmergencyContact
     {
-        return $this->getEmpEmergencyContactDao()->saveEmployeeEmergencyContacts($empEmergencyContact );
+        return $this->getEmpEmergencyContactDao()->getEmployeeEmergencyContact( $empNumber,  $seqNo);
+    }
+
+    /**
+     * @param int $empNumber
+     * @return array
+     * @throws DaoException
+     */
+    public function getEmployeeEmergencyContactList(int $empNumber): array
+    {
+        return $this->getEmpEmergencyContactDao()->getEmployeeEmergencyContactList($empNumber);
+    }
+
+    /**
+     * @param EmpEmergencyContact $empEmergencyContact
+     * @return EmpEmergencyContact
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function saveEmpEmergencyContact(EmpEmergencyContact $empEmergencyContact): EmpEmergencyContact
+    {
+        return $this->getEmpEmergencyContactDao()->saveEmployeeEmergencyContact($empEmergencyContact );
     }
 
     /**
      * Delete the given emergency contacts from the given employee
-     *
      * If $entriesToDelete is not provided (null), all entries of given employee
      * will be deleted.
-     *
      * @param int $empNumber Employee Number
      * @param array|null $sequenceNumbers Array of emergency contact sequence numbers. Optional.
      * @return int Number of records deleted
      * @throws DaoException
-     * @version 2.6.11
-     * @todo return number of contacts deleted (currently returns true always) [DONE]
-     * @todo Exceptions should preserve previous exception [DONE]
-     * @todo rename method as deleteEmployeeEmergencyContacts [DONE]
      */
-    public function deleteEmployeeEmergencyContacts(int $empNumber, array $sequenceNumbers = null): int
+    public function deleteEmployeeEmergencyContacts(int $empNumber, array $sequenceNumbers): int
     {
         return $this->getEmpEmergencyContactDao()->deleteEmployeeEmergencyContacts($empNumber, $sequenceNumbers);
-    }
-
-    public function searchEmployeeEmergencyContacts(EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams): array
-    {
-        try {
-            return $this->getEmpEmergencyContactDao()->searchEmployeeEmergencyContacts($emergencyContactSearchFilterParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    public function getSearchEmployeeEmergencyContactsCount(EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams):int
-    {
-        try {
-            return $this->getEmpEmergencyContactDao()->getSearchEmployeeEmergencyContactsCount($emergencyContactSearchFilterParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
     }
 
 }

@@ -387,7 +387,7 @@ class Employee
     private $dependents;
 
     /**
-     * @var Collection
+     * @var Collection|EmpEmergencyContact[]
      *
      * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\EmpEmergencyContact", mappedBy="Employee")
      */

@@ -2,12 +2,11 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\EmpEmergencyContactDecorator;
 
 /**
- * EmpEmergencyContact
+ * @method EmpEmergencyContactDecorator getDecorator()
  *
  * @ORM\Table(name="hs_hr_emp_emergency_contacts")
  * @ORM\Entity
@@ -19,19 +18,19 @@ class EmpEmergencyContact
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="dependents", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="emergencyContacts", cascade={"persist"})
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
     private Employee $employee;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="emp_number", type="integer", length=7)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private int $empNumber;
+//    /**
+//     * @var int
+//     *
+//     * @ORM\Column(name="emp_number", type="integer", length=7)
+//     * @ORM\Id
+//     * @ORM\GeneratedValue(strategy="NONE")
+//     */
+//    private int $empNumber;
 
     /**
      * @var string
@@ -76,21 +75,21 @@ class EmpEmergencyContact
      */
     private ?string $officePhone = "";
 
-    /**
-     * @return int
-     */
-    public function getEmpNumber(): int
-    {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param int $empNumber
-     */
-    public function setEmpNumber(int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
-    }
+//    /**
+//     * @return int
+//     */
+//    public function getEmpNumber(): int
+//    {
+//        return $this->empNumber;
+//    }
+//
+//    /**
+//     * @param int $empNumber
+//     */
+//    public function setEmpNumber(int $empNumber): void
+//    {
+//        $this->empNumber = $empNumber;
+//    }
 
     /**
      * @return int
@@ -202,23 +201,17 @@ class EmpEmergencyContact
      */
     public function setEmployee(Employee $employee): void
     {
-        $this->Employee = $employee;
+        $this->employee = $employee;
     }
 
 
-    /**
-     * @var Collection
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
-     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-     */
-    private $Employee;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->Employee = new ArrayCollection();
-    }
+//    /**
+//     * Constructor
+//     */
+//    public function __construct()
+//    {
+//        $this->employee = new ArrayCollection();
+//    }
 
 }
