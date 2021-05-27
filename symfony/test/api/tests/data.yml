@@ -1,2 +1,0 @@
-OAuthClient:
-  0: {client_id: 'wstest', client_secret: 'wstest',redirect_uri: 'http:://test.cn'}
