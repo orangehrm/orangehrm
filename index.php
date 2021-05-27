@@ -33,5 +33,5 @@ if (!$installed) {
     exit();    
 }
 
-header("Location: ./symfony/web/index.php/auth/login");
+header("Location: ./web/index.php/auth/login");
 exit();

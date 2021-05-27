@@ -120,7 +120,7 @@ public static function initUniqueIDs() {
 	return true;
 }
 
-public static function fillData($phase=1, $source='/dbscript/dbscript-') {
+public static function fillData($phase=1, $source='/installer/dbscript/dbscript-') {
 	$source .= $phase.'.sql';
 	self::connectDB();
 

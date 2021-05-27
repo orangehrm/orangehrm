@@ -1,8 +1,0 @@
-class_name: ApiTester
-modules:
-    enabled:
-      - Helper\Api
-      - REST:
-          depends: PhpBrowser
-          url: http://localhost/orangehrm.os/symfony/web/api_test.php/
-          part: Json
