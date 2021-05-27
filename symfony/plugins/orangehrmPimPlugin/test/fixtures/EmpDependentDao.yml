@@ -1,0 +1,8 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002' }
+
+EmpDependent:
+  - { emp_number: 1, ed_seqno: '1', ed_name: 'Abrahamson', ed_relationship_type: 'child', ed_date_of_birth: '2007-02-23' }
+  - { emp_number: 1, ed_seqno: '2', ed_name: 'Abram', ed_relationship_type: 'other', ed_relationship: 'friend', ed_date_of_birth: '2004-02-23' }
+  - { emp_number: 2, ed_seqno: '1', ed_name: 'Achilles', ed_relationship_type: 'other', ed_relationship: 'friend' }

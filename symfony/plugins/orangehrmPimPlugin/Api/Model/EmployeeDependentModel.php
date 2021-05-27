@@ -17,18 +17,39 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api;
+namespace OrangeHRM\Pim\Api\Model;
 
-final class CommonParams
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\EmpDependent;
+
+class EmployeeDependentModel implements Normalizable
 {
-    public const PARAMETER_ID = 'id';
-    public const PARAMETER_IDS = 'ids';
-    public const PARAMETER_EMP_NUMBER = 'empNumber';
+    use ModelTrait;
 
-    public const PARAMETER_SORT_FIELD = 'sortField';
-    public const PARAMETER_SORT_ORDER = 'sortOrder';
-    public const PARAMETER_OFFSET = 'offset';
-    public const PARAMETER_LIMIT = 'limit';
-
-    public const PARAMETER_TOTAL = 'total';
+    /**
+     * @param EmpDependent $empDependent
+     */
+    public function __construct(EmpDependent $empDependent)
+    {
+        $this->setEntity($empDependent);
+        $this->setFilters(
+            [
+                'seqNo',
+                'name',
+                'relationshipType',
+                'relationship',
+                ['getDecorator', 'getDateOfBirth'],
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'name',
+                'relationshipType',
+                'relationship',
+                'dateOfBirth',
+            ]
+        );
+    }
 }
