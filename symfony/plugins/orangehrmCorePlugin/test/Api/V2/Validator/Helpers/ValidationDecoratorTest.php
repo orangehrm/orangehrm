@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Tests\Api\V2\Validator\Helpers;
+namespace OrangeHRM\Tests\Core\Api\V2\Validator\Helpers;
 
 use Generator;
 use OrangeHRM\Core\Api\CommonParams;

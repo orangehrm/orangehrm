@@ -31,8 +31,6 @@
     },
     "autoload": {
         "psr-4": {
-            "Orangehrm\\Rest\\": "./plugins/orangehrmRESTPlugin/lib",
-            "Orangehrm\\Rest\\Modules\\": "./plugins/orangehrmRESTPlugin/modules",
             "OrangeHRM\\ORM\\": "./lib/orm",
             "OrangeHRM\\Framework\\": "./lib/framework",
             "OrangeHRM\\Config\\": "./lib/config",
@@ -64,10 +62,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OrangeHRM\\Tests\\": "./test",
-            "OrangeHRM\\Admin\\Tests\\": "./plugins/orangehrmAdminPlugin/test",
-            "OrangeHRM\\Core\\Tests\\": "./plugins/orangehrmCorePlugin/test",
-            "OrangeHRM\\Pim\\Tests\\": "./plugins/orangehrmPimPlugin/test"
+            "OrangeHRM\\Tests\\": "./test/phpunit",
+            "OrangeHRM\\Tests\\Admin\\": "./plugins/orangehrmAdminPlugin/test",
+            "OrangeHRM\\Tests\\Core\\": "./plugins/orangehrmCorePlugin/test",
+            "OrangeHRM\\Tests\\Pim\\": "./plugins/orangehrmPimPlugin/test"
         }
     }
 }

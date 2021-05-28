@@ -1,0 +1,7 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002' }
+  - { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', middleName: '',employeeId: '0003' }
+
+EmpPicture:
+  - { emp_number: 1, epic_picture: 'testblob', epic_filename: 'profile.jpeg',  epic_type: 'image/jpeg', epic_file_size: '20692', epic_file_width: '200', epic_file_height: '200'}

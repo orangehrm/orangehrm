@@ -58,18 +58,6 @@ class InstallCleaner {
             $file = $this->rootDir . "/lib/confs/cryptokeys/key.ohrm";
             $this->removeFile($file);
 
-            $file = $this->rootDir . "/lib/logs/notification_mails.log";
-            $this->removeFile($file);
-
-            $file = $this->rootDir  . "/symfony/apps/orangehrm/config/emailConfiguration.yml";
-            $this->removeFile($file);
-
-            $file = $this->rootDir . "/symfony/apps/orangehrm/config/parameters.yml";
-            $this->removeFile($file);
-
-            $file = $this->rootDir . "/symfony/config/databases.yml";
-            $this->removeFile($file);
-
         } else {
             $this->displayMessage("File {$confPhpFile} not found. Skipping install reset");
         }

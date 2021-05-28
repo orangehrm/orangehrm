@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Tests\Authorization\Service;
+namespace OrangeHRM\Tests\Core\Authorization\Service;
 
 use OrangeHRM\Core\Authorization\Dao\ScreenDao;
 use OrangeHRM\Core\Authorization\Dao\ScreenPermissionDao;

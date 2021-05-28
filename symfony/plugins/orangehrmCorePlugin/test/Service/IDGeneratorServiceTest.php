@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Tests\Service;
+namespace OrangeHRM\Tests\Core\Service;
 
 use Generator;
 use OrangeHRM\Core\Dao\IDGeneratorDao;
