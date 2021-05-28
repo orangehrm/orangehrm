@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Dao\EmployeeDependentDao;
+use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeDependentService;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -134,5 +135,51 @@ class EmployeeDependentServiceTest extends TestCase
 
         $rows = $this->employeeDependentService->deleteEmployeeDependents(1, [1, 2]);
         $this->assertEquals(2, $rows);
+    }
+
+    public function testSearchEmployeeDependent(): void
+    {
+        $empDependent1 = new EmpDependent();
+        $empDependent1->getDecorator()->setEmployeeByEmpNumber(1);
+        $empDependent1->setName('Abrahamson');
+        $empDependent1->setRelationshipType('child');
+        $empDependent1->getDecorator()->setDateOfBirth('2007-02-23');
+
+        $empDependent2 = new EmpDependent();
+        $empDependent2->getDecorator()->setEmployeeByEmpNumber(1);
+        $empDependent2->setName('Abram');
+        $empDependent2->setRelationship('friend');
+        $empDependent2->setRelationshipType('other');
+        $empDependent2->getDecorator()->setDateOfBirth('2004-02-23');
+
+        $empDependentList = array($empDependent1, $empDependent2);
+        $empDependentSearchParams = new EmployeeDependentSearchFilterParams();
+        $empDependentSearchParams->setEmpNumber(1);
+        $empDependentDao = $this->getMockBuilder(EmployeeDependentDao::class)->getMock();
+
+        $empDependentDao->expects($this->once())
+            ->method('searchEmployeeDependent')
+            ->with($empDependentSearchParams)
+            ->will($this->returnValue($empDependentList));
+
+        $this->employeeDependentService->setEmployeeDependentDao($empDependentDao);
+        $result = $this->employeeDependentService->searchEmployeeDependent($empDependentSearchParams);
+        $this->assertCount(2, $result);
+        $this->assertTrue($result[0] instanceof EmpDependent);
+    }
+
+    public function testGetSearchEmployeeDependentsCount(): void
+    {
+        $empDependentSearchParams = new EmployeeDependentSearchFilterParams();
+        $empDependentSearchParams->setEmpNumber(1);
+        $empDependentDao = $this->getMockBuilder(EmployeeDependentDao::class)->getMock();
+
+        $empDependentDao->expects($this->once())
+            ->method('getSearchEmployeeDependentsCount')
+            ->with($empDependentSearchParams)
+            ->will($this->returnValue(2));
+        $this->employeeDependentService->setEmployeeDependentDao($empDependentDao);
+        $result = $this->employeeDependentService->getSearchEmployeeDependentsCount($empDependentSearchParams);
+        $this->assertEquals(2, $result);
     }
 }
