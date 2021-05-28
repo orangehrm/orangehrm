@@ -54,7 +54,7 @@ class EmployeeDependentService
 
     /**
      * @param int $empNumber
-     * @return array
+     * @return EmpDependent[]
      * @throws DaoException
      */
     public function getEmployeeDependents(int $empNumber): array
@@ -95,7 +95,7 @@ class EmployeeDependentService
 
     /**
      * @param EmployeeDependentSearchFilterParams $employeeDependentSearchParams
-     * @return array
+     * @return EmpDependent[]
      * @throws ServiceException
      */
     public function searchEmployeeDependent(EmployeeDependentSearchFilterParams $employeeDependentSearchParams): array
@@ -112,8 +112,8 @@ class EmployeeDependentService
      * @return int
      * @throws ServiceException
      */
-    public function getSearchEmployeeDependentsCount(EmployeeDependentSearchFilterParams $employeeDependentSearchParams): int
-    {
+    public function getSearchEmployeeDependentsCount(EmployeeDependentSearchFilterParams $employeeDependentSearchParams
+    ): int {
         try {
             return $this->getEmployeeDependentDao()->getSearchEmployeeDependentsCount($employeeDependentSearchParams);
         } catch (Exception $e) {

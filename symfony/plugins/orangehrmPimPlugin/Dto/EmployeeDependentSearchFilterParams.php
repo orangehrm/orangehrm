@@ -42,6 +42,14 @@ class EmployeeDependentSearchFilterParams extends FilterParams
     protected ?string $relationshipType = null;
 
     /**
+     * EmployeeDependentSearchFilterParams constructor.
+     */
+    public function __construct()
+    {
+        $this->setSortField('d.name');
+    }
+
+    /**
      * @return int|null
      */
     public function getEmpNumber(): ?int

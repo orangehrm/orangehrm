@@ -88,7 +88,7 @@ class EmployeeDependentServiceTest extends TestCase
 
         $employeeDependentDao->expects($this->once())
             ->method('getEmployeeDependent')
-            ->with(1,1)
+            ->with(1, 1)
             ->will($this->returnValue($empDependent1));
 
         $this->employeeDependentService->setEmployeeDependentDao($employeeDependentDao);

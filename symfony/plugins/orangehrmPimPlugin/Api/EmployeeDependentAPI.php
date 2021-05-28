@@ -146,7 +146,8 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeDependentService()->getSearchEmployeeDependentsCount(
+                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeDependentService(
+                    )->getSearchEmployeeDependentsCount(
                         $employeeDependentSearchParams
                     )
                 ]
