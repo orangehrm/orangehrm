@@ -21,6 +21,8 @@ namespace OrangeHRM\Pim\Dao;
 
 use Exception;
 use InvalidArgumentException;
+use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
+use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpDependent;
@@ -114,6 +116,63 @@ class EmployeeDependentDao extends BaseDao
                 ->setParameter('ids', $entriesToDelete);
 
             return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * Search
+     *
+     * @param EmployeeDependentSearchFilterParams $employeeDependentSearchParams
+     * @return array
+     * @throws DaoException
+     */
+    public function searchEmployeeDependent(EmployeeDependentSearchFilterParams $employeeDependentSearchParams): array
+    {
+        try {
+            $paginator = $this->getSearchEmployeeDependentPaginator($employeeDependentSearchParams);
+            return $paginator->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmployeeDependentSearchFilterParams $employeeDependentSearchParams
+     * @return Paginator
+     */
+    private function getSearchEmployeeDependentPaginator(EmployeeDependentSearchFilterParams $employeeDependentSearchParams): Paginator
+    {
+        $q = $this->createQueryBuilder(EmpDependent::class, 'd');
+        $this->setSortingAndPaginationParams($q, $employeeDependentSearchParams);
+
+        $q->andWhere('d.employee = :empNumber')
+            ->setParameter('empNumber', $employeeDependentSearchParams->getEmpNumber());
+
+        if (!empty($employeeDependentSearchParams->getName())) {
+            $q->andWhere('d.name = :name');
+            $q->setParameter('name', $employeeDependentSearchParams->getName());
+        }
+        if (!empty($employeeDependentSearchParams->getRelationshipType())) {
+            $q->andWhere('d.relationshipType = :relationshipType');
+            $q->setParameter('relationshipType', $employeeDependentSearchParams->getRelationshipType());
+        }
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * Get Count of Search Query
+     *
+     * @param EmployeeDependentSearchFilterParams $employeeDependentSearchParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getSearchEmployeeDependentsCount(EmployeeDependentSearchFilterParams $employeeDependentSearchParams): int
+    {
+        try {
+            $paginator = $this->getSearchEmployeeDependentPaginator($employeeDependentSearchParams);
+            return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
