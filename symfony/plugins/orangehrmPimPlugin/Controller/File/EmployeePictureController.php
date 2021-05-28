@@ -63,10 +63,10 @@ class EmployeePictureController extends AbstractFileController
             $empPicture = $this->getEmployeePictureService()->getAccessibleEmpPictureByEmpNumber($empNumber);
             if ($empPicture instanceof EmpPicture) {
                 $response = $this->getResponse();
-                $response->setEtag($this->generateEtag($empPicture->getPicture()));
+                $response->setEtag($this->generateEtag($empPicture->getDecorator()->getPicture()));
 
                 if (!$response->isNotModified($request)) {
-                    $response->setContent($empPicture->getPicture());
+                    $response->setContent($empPicture->getDecorator()->getPicture());
                     $this->setCommonHeaders($response, $empPicture->getFileType());
                 }
 

@@ -89,8 +89,8 @@ EmpDependent:
 #    0: {emp_number: '1', seqno: '1', ec_name: 'Anuradha', ec_date_of_birth: '2001-01-01'}
 #    1: {emp_number: '1', seqno: '2', ec_name: 'Sumith', ec_date_of_birth: '2003-01-09'}
 
-EmpPicture:
-    0: {emp_number: '1', epic_filename: 'test_file.jpg', epic_type: 'test/type', epic_file_size: '2000'}
+#EmpPicture:
+#    0: {emp_number: '1', epic_filename: 'test_file.jpg', epic_type: 'test/type', epic_file_size: '2000'}
 
 #Nationality:
 #    0: {id: 1, name: 'Test Nationality'}

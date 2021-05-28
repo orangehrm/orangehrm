@@ -20,13 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\EmpPictureDecorator;
 
 /**
+ * @method EmpPictureDecorator getDecorator()
+ *
  * @ORM\Table(name="hs_hr_emp_picture")
  * @ORM\Entity
  */
 class EmpPicture
 {
+    use DecoratorTrait;
+
     public const ALLOWED_IMAGE_TYPES = [
         "image/gif",
         "image/jpeg",
@@ -51,12 +57,6 @@ class EmpPicture
      * @ORM\Column(name="epic_picture", type="blob", nullable=true)
      */
     private $picture;
-
-    /**
-     * This property to read `picture` resource
-     * @var string|null
-     */
-    private ?string $pictureString = null;
 
     /**
      * @var string|null
@@ -110,14 +110,11 @@ class EmpPicture
     }
 
     /**
-     * @return string
+     * @return string|resource
      */
-    public function getPicture(): string
+    public function getPicture()
     {
-        if (is_null($this->pictureString)) {
-            $this->pictureString = stream_get_contents($this->picture);
-        }
-        return $this->pictureString;
+        return $this->picture;
     }
 
     /**

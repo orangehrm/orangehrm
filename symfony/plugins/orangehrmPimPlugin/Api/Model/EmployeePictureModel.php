@@ -17,31 +17,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Doctrine\DBAL\Exception\ConnectionException;
-use OrangeHRM\ORM\Doctrine;
+namespace OrangeHRM\Pim\Api\Model;
 
-define('ENVIRNOMENT', 'test');
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\EmpPicture;
 
-require realpath(__DIR__ . '/../../vendor/autoload.php');
+class EmployeePictureModel implements Normalizable
+{
+    use ModelTrait;
 
-$errorMessage = "
-Can't connect to database `%s`.
-Run below command and try again;
-$ php ./devTools/general/create-test-db.php
-
-Error:
-%s\n
-";
-
-try {
-    Doctrine::getEntityManager()->getConnection()->connect();
-} catch (ConnectionException $e) {
-    if ($e->getErrorCode() === 1049) {
-        echo sprintf(
-            $errorMessage,
-            Doctrine::getEntityManager()->getConnection()->getDatabase(),
-            $e->getMessage()
+    /**
+     * @param EmpPicture $empPicture
+     */
+    public function __construct(EmpPicture $empPicture)
+    {
+        $this->setEntity($empPicture);
+        $this->setFilters(
+            [
+                ['getEmployee', 'getEmpNumber'],
+                'filename',
+                'fileType',
+                'size',
+                'width',
+                'height'
+            ]
         );
-        die;
+        $this->setAttributeNames(
+            [
+                'empNumber',
+            ]
+        );
     }
 }
