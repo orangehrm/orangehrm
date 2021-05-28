@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <div class="orangehrm-paper-container">
+    <div class="orangehrm-card-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6">General Information</oxd-text>
         <oxd-switch-input
@@ -45,7 +45,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-group label="Number of Employees">
-                <oxd-text tag="h5" :style="{ fontSize : '12px', padding: '0.675rem 0.5rem' }">
+                <oxd-text tag="p" class="no-of-employees-value">
                   {{ organization.noOfEmployees }}
                 </oxd-text>
               </oxd-input-group>
