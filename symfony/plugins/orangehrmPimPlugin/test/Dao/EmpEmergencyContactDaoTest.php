@@ -66,7 +66,7 @@ class EmpEmergencyContactDaoTest extends TestCase
         /** @var EmpEmergencyContact $empEmergencyContactObj */
         $empEmergencyContactObj = $this->getRepository(EmpEmergencyContact::class)->findOneBy([
             'employee' => 1,
-            'seqNo' => 1
+            'seqNo' => 3
         ]);
         $this->assertEquals("Yasitha", $empEmergencyContactObj->getName());
         $this->assertEquals("friend", $empEmergencyContactObj->getRelationship());
@@ -124,10 +124,10 @@ class EmpEmergencyContactDaoTest extends TestCase
 
     public function testGetEmployeeEmergencyContactList(): void
     {
-        $empEmergencyContact = $this->employeeEmergencyContactDao->getEmployeeEmergencyContactList(1);
-        $this->assertCount(2, $empEmergencyContact);
-        $this->assertEquals('Yasitha', $empEmergencyContact[0]->getName());
-        $this->assertEquals('Rashmi', $empEmergencyContact[2]->getName());
+        $empEmergencyContact = $this->employeeEmergencyContactDao->getEmployeeEmergencyContactList(2);
+        $this->assertCount(1, $empEmergencyContact);
+        $this->assertEquals('Renukshan', $empEmergencyContact[1]->getName());
+        //$this->assertEquals('Rashmi', $empEmergencyContact[2]->getName());
     }
 
     public function testGetEmployeeEmergencyContact(): void

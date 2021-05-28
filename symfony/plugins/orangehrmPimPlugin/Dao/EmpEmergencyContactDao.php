@@ -75,9 +75,9 @@ class EmpEmergencyContactDao extends BaseDao
     public function getEmployeeEmergencyContact(int $empNumber, int $seqNo): ?EmpEmergencyContact
     {
         try {
-            $empEmergencyContact = $this->getEntityManager()->getRepository(EmpEmergencyContact::class)->findOneBy([
+            $empEmergencyContact = $this->getRepository(EmpEmergencyContact::class)->findOneBy([
+                'employee' => $empNumber,
                 'seqNo' => $seqNo,
-                'empNumber' => $empNumber
             ]);
             if ($empEmergencyContact instanceof EmpEmergencyContact) {
                 return $empEmergencyContact;

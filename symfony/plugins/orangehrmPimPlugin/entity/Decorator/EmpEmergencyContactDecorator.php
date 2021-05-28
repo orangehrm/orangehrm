@@ -57,6 +57,6 @@ class EmpEmergencyContactDecorator
     {
         /** @var Employee|null $employee */
         $employee = $this->getReference(Employee::class, $empNumber);
-        $this->getEmpEmergencyContact()->setEmployee();
+        $this->getEmpEmergencyContact()->setEmployee($employee);
     }
 }

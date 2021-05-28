@@ -23,16 +23,9 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Exception;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Entity\EmpEmergencyContact;
 use OrangeHRM\Pim\Dao\EmpEmergencyContactDao;
-use OrangeHRM\Pim\Dao\EmployeeDao;
-use OrangeHRM\Pim\Dto\EmpEmergencyContactSearchFilterParams;
-use OrangeHRM\Pim\Event\EmployeeAddedEvent;
-use OrangeHRM\Pim\Event\EmployeeEvents;
 
 class EmpEmergencyContactService
 {
@@ -69,9 +62,9 @@ class EmpEmergencyContactService
      * @return EmpEmergencyContact|null
      * @throws DaoException
      */
-    public function getEmployeeEmergencyContact( int $empNumber, int $seqNo): ?EmpEmergencyContact
+    public function getEmployeeEmergencyContact(int $empNumber, int $seqNo): ?EmpEmergencyContact
     {
-        return $this->getEmpEmergencyContactDao()->getEmployeeEmergencyContact( $empNumber,  $seqNo);
+        return $this->getEmpEmergencyContactDao()->getEmployeeEmergencyContact($empNumber, $seqNo);
     }
 
     /**
@@ -94,7 +87,7 @@ class EmpEmergencyContactService
      */
     public function saveEmpEmergencyContact(EmpEmergencyContact $empEmergencyContact): EmpEmergencyContact
     {
-        return $this->getEmpEmergencyContactDao()->saveEmployeeEmergencyContact($empEmergencyContact );
+        return $this->getEmpEmergencyContactDao()->saveEmployeeEmergencyContact($empEmergencyContact);
     }
 
     /**

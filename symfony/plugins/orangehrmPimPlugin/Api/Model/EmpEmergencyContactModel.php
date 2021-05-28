@@ -35,7 +35,6 @@ class EmpEmergencyContactModel implements Normalizable
         $this->setEntity($empEmergencyContact);
         $this->setFilters(
             [
-                'empNumber',
                 'seqNo',
                 'name',
                 'relationship',
@@ -46,8 +45,7 @@ class EmpEmergencyContactModel implements Normalizable
         );
         $this->setAttributeNames(
             [
-                'empNumber',
-                'seqNo',
+                'id',
                 'name',
                 'relationship',
                 'homePhone',
