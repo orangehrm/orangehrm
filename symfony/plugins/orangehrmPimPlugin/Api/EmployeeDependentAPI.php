@@ -113,7 +113,7 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws ServiceException
+     * @throws ServiceException|DaoException
      */
     public function getAll(): EndpointGetAllResult
     {
