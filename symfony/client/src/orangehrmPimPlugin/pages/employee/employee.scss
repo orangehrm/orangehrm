@@ -74,3 +74,16 @@
     grid-gap: 0.2rem;
   }
 }
+
+.orangehrm-employee-picture {
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 8rem;
+  ::v-deep(.oxd-file-div) {
+    width: 12rem !important;
+    height: 12rem !important;
+  }
+  ::v-deep(.employee-image) {
+    height: 12rem;
+  }
+}

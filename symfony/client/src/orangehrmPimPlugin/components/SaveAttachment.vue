@@ -24,26 +24,35 @@
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
-        <oxd-input-field
-          type="file"
-          label="Select File"
-          buttonLabel="Browse"
-          v-model="attachment.file"
-          :rules="rules.file"
-        />
-        <oxd-text class="orangehrm-input-hint" tag="p"
-          >Accepts up to 1MB</oxd-text
-        >
+        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-input-field
+              type="file"
+              label="Select File"
+              buttonLabel="Browse"
+              v-model="attachment.attachment"
+              :rules="rules.attachment"
+              required
+            />
+            <oxd-text class="orangehrm-input-hint" tag="p"
+              >Accepts up to 1MB</oxd-text
+            >
+          </oxd-grid-item>
+        </oxd-grid>
       </oxd-form-row>
 
       <oxd-form-row>
-        <oxd-input-field
-          type="textarea"
-          label="Comment"
-          placeholder="Type comment here"
-          v-model="attachment.comment"
-          :rules="rules.comment"
-        />
+        <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+          <oxd-grid-item>
+            <oxd-input-field
+              type="textarea"
+              label="Comment"
+              placeholder="Type comment here"
+              v-model="attachment.description"
+              :rules="rules.description"
+            />
+          </oxd-grid-item>
+        </oxd-grid>
       </oxd-form-row>
 
       <oxd-divider />
@@ -62,8 +71,8 @@
 
 <script>
 const attachmentModel = {
-  file: null,
-  comment: '',
+  attachment: null,
+  description: '',
 };
 
 export default {
@@ -76,6 +85,10 @@ export default {
       type: Object,
       required: true,
     },
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
   },
 
   data() {
@@ -85,19 +98,23 @@ export default {
         ...attachmentModel,
       },
       rules: {
-        comment: [
+        description: [
           v =>
             (v && v.length <= 400) ||
             v === '' ||
             'Should not exceed 400 characters',
         ],
-        file: [
+        attachment: [
           v => {
             return v !== null || 'Required';
           },
           v =>
             (v && v.size && v.size <= 1024 * 1024) ||
             'Attachment size exceeded',
+          v =>
+            (v &&
+              this.allowedFileTypes.findIndex(item => item === v.type) > -1) ||
+            'File type not allowed',
         ],
       },
     };
