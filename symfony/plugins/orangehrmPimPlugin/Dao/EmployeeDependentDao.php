@@ -158,7 +158,6 @@ class EmployeeDependentDao extends BaseDao
             $q->andWhere('d.relationshipType = :relationshipType');
             $q->setParameter('relationshipType', $employeeDependentSearchParams->getRelationshipType());
         }
-        $q->addOrderBy('d.name', ListSorter::ASCENDING);
         return $this->getPaginator($q);
     }
 
