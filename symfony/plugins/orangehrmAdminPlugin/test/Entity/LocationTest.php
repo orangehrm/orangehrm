@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Tests\Entity;
+namespace OrangeHRM\Tests\Admin\Entity;
 
 use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\Location;

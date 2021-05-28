@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Tests\Service;
+namespace OrangeHRM\Tests\Admin\Service;
 
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\UserService;

@@ -13,6 +13,14 @@ apiv2_pim_employees:
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeeAPI
 
+apiv2_pim_employee_picture:
+  path: /api/v2/pim/employees/{empNumber}/picture
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeePictureAPI
+    _key: empNumber
+
 apiv2_pim_employees_personal_details:
   path: /api/v2/pim/employees/{empNumber}/personal-details
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Tests\Api\V2\Serializer;
+namespace OrangeHRM\Tests\Core\Api\V2\Serializer;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
@@ -28,7 +28,7 @@ use OrangeHRM\Tests\Util\TestCase;
  * @group Serializer
  * @group Model
  */
-class ModelTraitCallNestedCollectionsTest extends TestCase
+class ModelTraitNormalizeNestedCollectionTest extends TestCase
 {
     public function testCallNestedCollections(): void
     {
