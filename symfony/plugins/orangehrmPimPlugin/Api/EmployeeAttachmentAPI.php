@@ -35,14 +35,14 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\Base64Attachment;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\EmployeeAttachment;
 use OrangeHRM\Pim\Api\Model\EmployeeAttachmentModel;
 use OrangeHRM\Pim\Service\EmployeeAttachmentService;
 
 class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
 {
-    use AuthUserTrait;
+    use UserRoleManagerTrait;
 
     public const PARAMETER_SCREEN = 'screen';
     public const PARAMETER_ATTACHMENT = 'attachment';
@@ -199,8 +199,8 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
         $employeeAttachment->setFileType($base64Attachment->getFileType());
         $employeeAttachment->setAttachment($base64Attachment->getContent());
 
-        $employeeAttachment->setAttachedBy($this->getAuthUser()->getUser()->getId());
-        $employeeAttachment->setAttachedByName($this->getAuthUser()->getUser()->getUserName());
+        $employeeAttachment->setAttachedBy($this->getUserRoleManager()->getUser()->getId());
+        $employeeAttachment->setAttachedByName($this->getUserRoleManager()->getUser()->getUserName());
         return $employeeAttachment;
     }
 
@@ -213,7 +213,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
             $this->getEmpNumberRule(),
             $this->getScreenRule(),
             $this->getAttachmentRule(),
-            $this->getValidationDecorator()->notRequiredParamRule($this->getDescriptionRule()),
+            $this->getValidationDecorator()->notRequiredParamRule($this->getDescriptionRule(), true),
         );
     }
 

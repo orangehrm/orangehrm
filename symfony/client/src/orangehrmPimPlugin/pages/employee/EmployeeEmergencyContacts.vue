@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <edit-employee-layout :employee-id="empNumber">
+  <edit-employee-layout :employee-id="empNumber" screen="emergency">
     <save-emergency-contact
       v-if="showSaveModal"
       @close="onSaveModalClose"

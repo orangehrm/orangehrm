@@ -24,9 +24,12 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Pim\Service\PIMLeftMenuService;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
 abstract class BaseViewEmployeeController extends AbstractVueController
 {
+    use ConfigServiceTrait;
+
     /**
      * @var PIMLeftMenuService|null
      */
@@ -57,6 +60,7 @@ abstract class BaseViewEmployeeController extends AbstractVueController
         $this->getComponent()->addProp(
             new Prop('tabs', Prop::TYPE_ARRAY, $menuTabs)
         );
+        $this->getComponent()->addProp(new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes()));
         return parent::render($request);
     }
 }
