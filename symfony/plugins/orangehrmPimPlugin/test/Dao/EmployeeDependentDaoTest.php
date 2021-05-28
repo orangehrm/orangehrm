@@ -26,6 +26,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Dao\EmployeeDependentDao;
+use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -128,5 +129,46 @@ class EmployeeDependentDaoTest extends TestCase
         $this->assertNull($empDependentObj);
         $empDependentObj = $this->getRepository(EmpDependent::class)->findOneBy(['employee' => 1, 'seqNo' => 2]);
         $this->assertNull($empDependentObj);
+    }
+
+    public function testSearchEmployeeDependent(): void
+    {
+        // search empNumber = 1
+        $employeeDependentSearchParams = new EmployeeDependentSearchFilterParams();
+        $employeeDependentSearchParams->setEmpNumber(1);
+        $result = $this->employeeDependentDao->searchEmployeeDependent($employeeDependentSearchParams);
+        $this->assertCount(2, $result);
+        $this->assertTrue($result[0] instanceof EmpDependent);
+
+        // search empNumber = 1 and name = Abrahamson
+        $employeeDependentSearchParams->setEmpNumber(1);
+        $employeeDependentSearchParams->setName('Abrahamson');
+        $result = $this->employeeDependentDao->searchEmployeeDependent($employeeDependentSearchParams);
+        $this->assertCount(1, $result);
+        $this->assertTrue($result[0] instanceof EmpDependent);
+
+        // search empNumber = 1 and name = Abrahamson and relationship type = other
+        $employeeDependentSearchParams->setEmpNumber(1);
+        $employeeDependentSearchParams->setName('Abrahamson');
+        $employeeDependentSearchParams->setRelationshipType('other');
+        $result = $this->employeeDependentDao->searchEmployeeDependent($employeeDependentSearchParams);
+        $this->assertCount(0, $result);
+    }
+
+    public function testSearchEmployeeDependentWithLimit(): void
+    {
+        $employeeDependentSearchParams = new EmployeeDependentSearchFilterParams();
+        $employeeDependentSearchParams->setLimit(1);
+        $employeeDependentSearchParams->setEmpNumber(1);
+        $result = $this->employeeDependentDao->searchEmployeeDependent($employeeDependentSearchParams);
+        $this->assertCount(1, $result);
+    }
+
+    public function testGetSearchEmployeeDependentCount(): void
+    {
+        $employeeDependentSearchParams = new EmployeeDependentSearchFilterParams();
+        $employeeDependentSearchParams->setEmpNumber(1);
+        $result = $this->employeeDependentDao->getSearchEmployeeDependentsCount($employeeDependentSearchParams);
+        $this->assertEquals(2, $result);
     }
 }
