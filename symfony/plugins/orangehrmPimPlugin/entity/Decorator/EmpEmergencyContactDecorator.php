@@ -34,11 +34,11 @@ class EmpEmergencyContactDecorator
 
     /**
      * EmpEmergencyContactDecorator constructor.
-     * @param EmpEmergencyContact $employee
+     * @param EmpEmergencyContact $empEmergencyContact
      */
-    public function __construct(EmpEmergencyContact $employee)
+    public function __construct(EmpEmergencyContact $empEmergencyContact)
     {
-        $this->empEmergencyContact = $employee;
+        $this->empEmergencyContact = $empEmergencyContact;
     }
 
     /**

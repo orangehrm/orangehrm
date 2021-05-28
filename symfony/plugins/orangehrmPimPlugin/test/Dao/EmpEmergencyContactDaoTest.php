@@ -50,11 +50,9 @@ class EmpEmergencyContactDaoTest extends TestCase
 
     public function testSaveEmployeeEmergencyContact(): void
     {
-        //$seqNo = "80";
         $employee = $this->getEntityReference(Employee::class, 1);
         $empEmergencyContact = new EmpEmergencyContact();
         $empEmergencyContact->setEmployee($employee);
-        //$empEmergencyContact->setSeqNo($seqNo);
         $empEmergencyContact->setName("Yasitha");
         $empEmergencyContact->setRelationship("friend");
         $empEmergencyContact->setHomePhone("0335445678");
@@ -124,10 +122,10 @@ class EmpEmergencyContactDaoTest extends TestCase
 
     public function testGetEmployeeEmergencyContactList(): void
     {
-        $empEmergencyContact = $this->employeeEmergencyContactDao->getEmployeeEmergencyContactList(2);
-        $this->assertCount(1, $empEmergencyContact);
-        $this->assertEquals('Renukshan', $empEmergencyContact[1]->getName());
-        //$this->assertEquals('Rashmi', $empEmergencyContact[2]->getName());
+        $empEmergencyContact = $this->employeeEmergencyContactDao->getEmployeeEmergencyContactList(1);
+        $this->assertCount(2, $empEmergencyContact);
+        $this->assertEquals('Rashmi', $empEmergencyContact[0]->getName());
+        $this->assertEquals('Yasitha', $empEmergencyContact[1]->getName());
     }
 
     public function testGetEmployeeEmergencyContact(): void

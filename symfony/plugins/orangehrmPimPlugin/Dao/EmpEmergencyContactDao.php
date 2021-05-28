@@ -86,7 +86,6 @@ class EmpEmergencyContactDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -99,11 +98,11 @@ class EmpEmergencyContactDao extends BaseDao
     public function deleteEmployeeEmergencyContacts(int $empNumber, array $entriesToDelete): int
     {
         try {
-            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'ec');
+            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'ecc');
             $q->delete()
-                ->where('ec.employee = :empNumber')
+                ->where('ecc.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->andWhere($q->expr()->in('ec.seqNo', ':ids'))
+            $q->andWhere($q->expr()->in('ecc.seqNo', ':ids'))
                 ->setParameter('ids', $entriesToDelete);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
@@ -119,10 +118,10 @@ class EmpEmergencyContactDao extends BaseDao
     public function getEmployeeEmergencyContactList(int $empNumber): array
     {
         try {
-            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'ec');
-            $q->andWhere('ec.employee = :empNumber')
+            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'ecc');
+            $q->andWhere('ecc.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->addOrderBy('ec.name', ListSorter::ASCENDING);
+            $q->addOrderBy('ecc.name', ListSorter::ASCENDING);
 
             return $q->getQuery()->execute();
         } catch (Exception $e) {

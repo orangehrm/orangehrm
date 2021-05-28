@@ -27,15 +27,6 @@ class EmpEmergencyContact
      */
     private Employee $employee;
 
-//    /**
-//     * @var int
-//     *
-//     * @ORM\Column(name="emp_number", type="integer", length=7)
-//     * @ORM\Id
-//     * @ORM\GeneratedValue(strategy="NONE")
-//     */
-//    private int $empNumber;
-
     /**
      * @var string
      *
@@ -79,34 +70,34 @@ class EmpEmergencyContact
      */
     private ?string $officePhone = "";
 
-//    /**
-//     * @return int
-//     */
-//    public function getEmpNumber(): int
-//    {
-//        return $this->empNumber;
-//    }
-//
-//    /**
-//     * @param int $empNumber
-//     */
-//    public function setEmpNumber(int $empNumber): void
-//    {
-//        $this->empNumber = $empNumber;
-//    }
+    /**
+     * @return Employee
+     */
+    public function getEmployee(): Employee
+    {
+        return $this->employee;
+    }
 
     /**
-     * @return int
+     * @param Employee $employee
      */
-    public function getSeqNo(): int
+    public function setEmployee(Employee $employee): void
+    {
+        $this->employee = $employee;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSeqNo(): string
     {
         return $this->seqNo;
     }
 
     /**
-     * @param int $seqNo
+     * @param string $seqNo
      */
-    public function setSeqNo(int $seqNo): void
+    public function setSeqNo(string $seqNo): void
     {
         $this->seqNo = $seqNo;
     }
@@ -190,32 +181,5 @@ class EmpEmergencyContact
     {
         $this->officePhone = $officePhone;
     }
-
-
-    /**
-     * @return Employee
-     */
-    public function getEmployee(): Employee
-    {
-        return $this->employee;
-    }
-
-    /**
-     * @param Employee $employee
-     */
-    public function setEmployee(Employee $employee): void
-    {
-        $this->employee = $employee;
-    }
-
-
-
-//    /**
-//     * Constructor
-//     */
-//    public function __construct()
-//    {
-//        $this->employee = new ArrayCollection();
-//    }
 
 }

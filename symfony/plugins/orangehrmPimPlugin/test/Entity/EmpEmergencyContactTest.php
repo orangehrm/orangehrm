@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Tests\Entity;
 
-use DateTime;
 use OrangeHRM\Entity\EmpEmergencyContact;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Tests\Util\EntityTestCase;
@@ -50,7 +49,10 @@ class EmpEmergencyContactTest extends EntityTestCase
         $this->persist($empEmergencyContact);
 
         /** @var EmpEmergencyContact[] $empEmergencyContacts */
-        $empEmergencyContacts = $this->getRepository(EmpEmergencyContact::class)->findBy(['employee' => 1, 'seqNo' => '1']);
+        $empEmergencyContacts = $this->getRepository(EmpEmergencyContact::class)->findBy([
+            'employee' => 1,
+            'seqNo' => '1'
+        ]);
         $empEmergencyContact = $empEmergencyContacts[0];
         $this->assertEquals('0001', $empEmergencyContact->getEmployee()->getEmployeeId());
         $this->assertEquals('1', $empEmergencyContact->getSeqNo());

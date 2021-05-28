@@ -19,10 +19,6 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpEmergencyContact;
 use OrangeHRM\Pim\Dao\EmpEmergencyContactDao;
@@ -33,26 +29,26 @@ class EmpEmergencyContactService
     /**
      * @var EmpEmergencyContactDao|null
      */
-    protected ?EmpEmergencyContactDao $EmpEmergencyContactDao = null;
+    protected ?EmpEmergencyContactDao $empEmergencyContactDao = null;
 
     /**
      * @return EmpEmergencyContactDao
      */
     public function getEmpEmergencyContactDao(): EmpEmergencyContactDao
     {
-        if (!($this->EmpEmergencyContactDao instanceof EmpEmergencyContactDao)) {
-            $this->EmpEmergencyContactDao = new EmpEmergencyContactDao();
+        if (!($this->empEmergencyContactDao instanceof EmpEmergencyContactDao)) {
+            $this->empEmergencyContactDao = new EmpEmergencyContactDao();
         }
 
-        return $this->EmpEmergencyContactDao;
+        return $this->empEmergencyContactDao;
     }
 
     /**
-     * @param EmpEmergencyContactDao|null $EmpEmergencyContactDao
+     * @param EmpEmergencyContactDao|null $empEmergencyContactDao
      */
-    public function setEmpEmergencyContactDao(?EmpEmergencyContactDao $EmpEmergencyContactDao): void
+    public function setEmpEmergencyContactDao(?EmpEmergencyContactDao $empEmergencyContactDao): void
     {
-        $this->EmpEmergencyContactDao = $EmpEmergencyContactDao;
+        $this->empEmergencyContactDao = $empEmergencyContactDao;
     }
 
     /**
@@ -80,10 +76,6 @@ class EmpEmergencyContactService
     /**
      * @param EmpEmergencyContact $empEmergencyContact
      * @return EmpEmergencyContact
-     * @throws NoResultException
-     * @throws NonUniqueResultException
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function saveEmpEmergencyContact(EmpEmergencyContact $empEmergencyContact): EmpEmergencyContact
     {

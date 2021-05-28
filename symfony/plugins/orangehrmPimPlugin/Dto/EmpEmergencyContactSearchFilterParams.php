@@ -23,39 +23,18 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmpEmergencyContactSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['ec.empNumber', 'ec.name', 'ec.relationship','ec.homePhone','ec.officePhone','ec.mobilePhone'];
+    public const ALLOWED_SORT_FIELDS = ['ecc.name'];
 
     /**
      * @var int
      */
-    protected int $empNumber ;
+    protected int $empNumber;
 
     /**
      * @var string|null
      */
     protected ?string $name = null;
 
-    /**
-     * @var string|null
-     */
-    protected ?string $relationship = null;
-
-    /**
-     * @var string|null
-     */
-    protected ?string $homePhone = null;
-
-    /**
-     * @var string|null
-     */
-    protected ?string $officePhone = null;
-
-    /**
-     * @var string|null
-     */
-    protected ?string $mobilePhone = null;
-
-    //experimental
     /**
      * @var int[]|null
      */
@@ -94,71 +73,6 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
     }
 
     /**
-     * @return string|null
-     */
-    public function getRelationship(): ?string
-    {
-        return $this->relationship;
-    }
-
-    /**
-     * @param string|null $relationship
-     */
-    public function setRelationship(?string $relationship): void
-    {
-        $this->relationship = $relationship;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getHomePhone(): ?string
-    {
-        return $this->homePhone;
-    }
-
-    /**
-     * @param string|null $homePhone
-     */
-    public function setHomePhone(?string $homePhone): void
-    {
-        $this->homePhone = $homePhone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getOfficePhone(): ?string
-    {
-        return $this->officePhone;
-    }
-
-    /**
-     * @param string|null $officePhone
-     */
-    public function setOfficePhone(?string $officePhone): void
-    {
-        $this->officePhone = $officePhone;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getMobilePhone(): ?string
-    {
-        return $this->mobilePhone;
-    }
-
-    /**
-     * @param string|null $mobilePhone
-     */
-    public function setMobilePhone(?string $mobilePhone): void
-    {
-        $this->mobilePhone = $mobilePhone;
-    }
-
-
-    /**
      * @return int[]|null
      */
     public function getEmployeeNumbers(): ?array
@@ -173,6 +87,5 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
     {
         $this->employeeNumbers = $employeeNumbers;
     }
-
 
 }
