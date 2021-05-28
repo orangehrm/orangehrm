@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Pim\Api;
 
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
 use OrangeHRM\Core\Api\CommonParams;
@@ -310,10 +311,18 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws DaoException
      */
     public function delete(): EndpointDeleteResult
     {
-        throw $this->getNotImplementedException();
+        // TODO:: Check data group permission
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getEmployeeDependentService()->deleteEmployeeDependents($empNumber, $ids);
+        return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -321,6 +330,12 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 }
