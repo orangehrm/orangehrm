@@ -25,6 +25,7 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\EmpEmergencyContact;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Dao\EmpEmergencyContactDao;
+use OrangeHRM\Pim\Dto\EmpEmergencyContactSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -152,5 +153,40 @@ class EmpEmergencyContactDaoTest extends TestCase
             'seqNo' => 2
         ]);
         $this->assertNull($empEmergencyContactObj);
+    }
+
+    public function testSearchEmployeeEmergencyContacts(): void
+    {
+        // search empNumber = 1
+        $emergencyContactSearchParams = new EmpEmergencyContactSearchFilterParams();
+        $emergencyContactSearchParams->setEmpNumber(1);
+        $result = $this->employeeEmergencyContactDao->searchEmployeeEmergencyContacts($emergencyContactSearchParams);
+        $this->assertCount(2, $result);
+        $this->assertTrue($result[0] instanceof EmpEmergencyContact);
+
+        // search empNumber = 1 and name = Yasitha
+        $emergencyContactSearchParams->setEmpNumber(1);
+        $emergencyContactSearchParams->setName('Yasitha');
+        $result = $this->employeeEmergencyContactDao->searchEmployeeEmergencyContacts($emergencyContactSearchParams);
+        $this->assertCount(1, $result);
+        $this->assertTrue($result[0] instanceof EmpEmergencyContact);
+
+    }
+
+    public function testSearchEmployeeEmergencyContactsWithLimit(): void
+    {
+        $emergencyContactSearchParams = new EmpEmergencyContactSearchFilterParams();
+        $emergencyContactSearchParams->setLimit(1);
+        $emergencyContactSearchParams->setEmpNumber(1);
+        $result = $this->employeeEmergencyContactDao->searchEmployeeEmergencyContacts($emergencyContactSearchParams);
+        $this->assertCount(1, $result);
+    }
+
+    public function testGetSearchEmployeeEmergencyContactsCount(): void
+    {
+        $emergencyContactSearchParams = new EmpEmergencyContactSearchFilterParams();
+        $emergencyContactSearchParams->setEmpNumber(1);
+        $result = $this->employeeEmergencyContactDao->getSearchEmployeeEmergencyContactsCount($emergencyContactSearchParams);
+        $this->assertEquals(2, $result);
     }
 }

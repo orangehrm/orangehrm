@@ -20,8 +20,11 @@
 namespace OrangeHRM\Pim\Service;
 
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\EmpEmergencyContact;
 use OrangeHRM\Pim\Dao\EmpEmergencyContactDao;
+use OrangeHRM\Pim\Dto\EmpEmergencyContactSearchFilterParams;
+use Exception;
 
 class EmpEmergencyContactService
 {
@@ -94,6 +97,34 @@ class EmpEmergencyContactService
     public function deleteEmployeeEmergencyContacts(int $empNumber, array $sequenceNumbers): int
     {
         return $this->getEmpEmergencyContactDao()->deleteEmployeeEmergencyContacts($empNumber, $sequenceNumbers);
+    }
+
+    /**
+     * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
+     * @return array
+     * @throws ServiceException
+     */
+    public function searchEmployeeEmergencyContacts(EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams): array
+    {
+        try {
+            return $this->getEmpEmergencyContactDao()->searchEmployeeEmergencyContacts($emergencyContactSearchFilterParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
+     * @return int
+     * @throws ServiceException
+     */
+    public function getSearchEmployeeEmergencyContactsCount(EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams):int
+    {
+        try {
+            return $this->getEmpEmergencyContactDao()->getSearchEmployeeEmergencyContactsCount($emergencyContactSearchFilterParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
 }

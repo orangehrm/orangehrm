@@ -31,14 +31,13 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\EmpEmergencyContact;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmpEmergencyContactModel;
 use OrangeHRM\Pim\Dto\EmpEmergencyContactSearchFilterParams;
 use OrangeHRM\Pim\Service\EmpEmergencyContactService;
@@ -83,23 +82,32 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
-     * @throws DaoException
-     * @throws NormalizeException
+     * @inheritDoc
+     * @throws ServiceException
      */
     public function getAll(): EndpointGetAllResult
     {
+        $emergencyContactSearchParams = new EmpEmergencyContactSearchFilterParams();
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $emergencyContact = $this->getEmpEmergencyContactService()->getEmployeeEmergencyContactList($empNumber);
+
+        $this->setSortingAndPaginationParams($emergencyContactSearchParams);
+        $emergencyContactSearchParams->setName(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_NAME
+            )
+        );
+        $emergencyContactSearchParams->setEmpNumber($empNumber);
+        $emergencyContact = $this->getEmpEmergencyContactService()->searchEmployeeEmergencyContacts($emergencyContactSearchParams);
         return new EndpointGetAllResult(
             EmpEmergencyContactModel::class, $emergencyContact,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    CommonParams::PARAMETER_TOTAL => count($emergencyContact)
+                    CommonParams::PARAMETER_TOTAL => $this->getEmpEmergencyContactService()->getSearchEmployeeEmergencyContactsCount($emergencyContactSearchParams)
                 ]
             )
         );
@@ -115,6 +123,9 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_EMP_NUMBER,
                 new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
+            new ParamRule(self::FILTER_NAME),
+            ...$this->getSortingAndPaginationParamsRules(EmpEmergencyContactSearchFilterParams::ALLOWED_SORT_FIELDS)
+
         );
     }
 

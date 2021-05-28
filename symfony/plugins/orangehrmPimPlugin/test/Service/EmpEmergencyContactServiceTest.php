@@ -23,6 +23,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\EmpEmergencyContact;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Dao\EmpEmergencyContactDao;
+use OrangeHRM\Pim\Dto\EmpEmergencyContactSearchFilterParams;
 use OrangeHRM\Pim\Service\EmpEmergencyContactService;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -143,4 +144,45 @@ class EmpEmergencyContactServiceTest extends TestCase
         $this->assertEquals(2, $rows);
     }
 
+    public function testSearchEmployeeEmergencyContacts(): void
+    {
+        $empEmergencyContact1 = new EmpEmergencyContact();
+        $empEmergencyContact1->getDecorator()->setEmployeeByEmpNumber(1);
+        $empEmergencyContact1->setName('Yasitha');
+
+        $empEmergencyContact2 = new EmpEmergencyContact();
+        $empEmergencyContact2->getDecorator()->setEmployeeByEmpNumber(1);
+        $empEmergencyContact2->setName('Rashmi');
+
+
+        $empEmergencyContactList = array($empEmergencyContact1, $empEmergencyContact2);
+        $empEmergencyContactSearchParams = new EmpEmergencyContactSearchFilterParams();
+        $empEmergencyContactSearchParams->setEmpNumber(1);
+        $empEmergencyContactDao = $this->getMockBuilder(EmpEmergencyContactDao::class)->getMock();
+
+        $empEmergencyContactDao->expects($this->once())
+            ->method('searchEmployeeEmergencyContacts')
+            ->with($empEmergencyContactSearchParams)
+            ->will($this->returnValue($empEmergencyContactList));
+
+        $this->empEmergencyContactService->setEmpEmergencyContactDao($empEmergencyContactDao);
+        $result = $this->empEmergencyContactService->searchEmployeeEmergencyContacts($empEmergencyContactSearchParams);
+        $this->assertCount(2, $result);
+        $this->assertTrue($result[0] instanceof EmpEmergencyContact);
+    }
+
+    public function testGetSearchEmployeeEmergencyContactsCount(): void
+    {
+        $empEmergencyContactSearchParams = new EmpEmergencyContactSearchFilterParams();
+        $empEmergencyContactSearchParams->setEmpNumber(1);
+        $empEmergencyContactDao = $this->getMockBuilder(EmpEmergencyContactDao::class)->getMock();
+
+        $empEmergencyContactDao->expects($this->once())
+            ->method('getSearchEmployeeEmergencyContactsCount')
+            ->with($empEmergencyContactSearchParams)
+            ->will($this->returnValue(2));
+        $this->empEmergencyContactService->setEmpEmergencyContactDao($empEmergencyContactDao);
+        $result = $this->empEmergencyContactService->getSearchEmployeeEmergencyContactsCount($empEmergencyContactSearchParams);
+        $this->assertEquals(2, $result);
+    }
 }
