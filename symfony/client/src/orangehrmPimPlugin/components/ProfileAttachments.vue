@@ -24,12 +24,14 @@
     <save-attachment
       v-if="showSaveModal"
       :http="http"
+      :allowed-file-types="allowedFileTypes"
       @close="onSaveModalClose"
     ></save-attachment>
     <edit-attachment
       v-else-if="showEditModal"
       :data="editModalState"
       :http="http"
+      :allowed-file-types="allowedFileTypes"
       @close="onEditModalClose"
     ></edit-attachment>
     <template v-else>
@@ -92,11 +94,24 @@ export default {
     'profile-action-header': ProfileActionHeader,
     'delete-confirmation': DeleteConfirmationDialog,
   },
-  setup() {
-    // TODO: setup prop to change path
+  props: {
+    employeeId: {
+      type: String,
+      required: true,
+    },
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    screen: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/job-categories',
+      `api/v2/pim/employees/${props.employeeId}/screen/${props.screen}/attachments`,
     );
 
     const {
@@ -124,12 +139,12 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'File Name', style: {flex: 1}},
+        {name: 'filename', slot: 'title', title: 'File Name', style: {flex: 1}},
         {name: 'description', title: 'Description', style: {flex: 1}},
         {name: 'size', title: 'Size', style: {flex: 1}},
-        {name: 'type', title: 'Type', style: {flex: 1}},
-        {name: 'date', title: 'Date Added', style: {flex: 1}},
-        {name: 'addedBy', title: 'Added By', style: {flex: 1}},
+        {name: 'fileType', title: 'Type', style: {flex: 1}},
+        {name: 'attachedDate', title: 'Date Added', style: {flex: 1}},
+        {name: 'attachedByName', title: 'Added By', style: {flex: 1}},
         {
           name: 'actions',
           title: 'Actions',
@@ -229,8 +244,8 @@ export default {
       this.showEditModal = true;
     },
     onClickDownload(item) {
-      // TODO: do download
-      console.log(item);
+      const downUrl = `${window.appGlobal.baseUrl}/pim/viewAttachment/empNumber/${this.employeeId}/attachId/${item.id}`;
+      window.open(downUrl, '_blank');
     },
     onSaveModalClose() {
       this.showSaveModal = false;

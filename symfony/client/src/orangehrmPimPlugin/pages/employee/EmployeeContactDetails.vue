@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <edit-employee-layout :employee-id="empNumber">
+  <edit-employee-layout :employee-id="empNumber" screen="contact">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-text tag="h6">Contact Details</oxd-text>
       <oxd-divider />

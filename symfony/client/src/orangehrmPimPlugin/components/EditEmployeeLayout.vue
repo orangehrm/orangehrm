@@ -41,6 +41,7 @@
           <profile-attachments
             v-if="screen !== 'default'"
             :employee-id="employeeId"
+            :allowed-file-types="allowedFileTypes"
             :screen="screen"
           ></profile-attachments>
         </div>
@@ -70,6 +71,10 @@ export default {
       required: true,
     },
     tabs: {
+      type: Array,
+      required: true,
+    },
+    allowedFileTypes: {
       type: Array,
       required: true,
     },
