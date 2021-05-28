@@ -129,3 +129,8 @@ pim_employee_dependents:
   path: /pim/viewDependents/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeDependentsController::handle
   methods: [ GET ]
+
+pim_employee_profile_picture:
+  path: /pim/viewPhotograph/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeProfilePictureController::handle
+  methods: [ GET ]
