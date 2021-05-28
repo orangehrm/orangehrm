@@ -38,7 +38,11 @@
         </div>
         <div class="orangehrm-edit-employee-content">
           <slot></slot>
-          <profile-attachments></profile-attachments>
+          <profile-attachments
+            v-if="screen !== 'default'"
+            :employee-id="employeeId"
+            :screen="screen"
+          ></profile-attachments>
         </div>
       </div>
     </div>
@@ -68,6 +72,26 @@ export default {
     tabs: {
       type: Array,
       required: true,
+    },
+    screen: {
+      type: String,
+      default: 'default',
+      validator(value) {
+        return [
+          'default',
+          'personal',
+          'contact',
+          'emergency',
+          'dependents',
+          'immigration',
+          'qualifications',
+          'tax',
+          'salary',
+          'contract',
+          'report-to',
+          'membership',
+        ].includes(value);
+      },
     },
   },
   setup(props) {

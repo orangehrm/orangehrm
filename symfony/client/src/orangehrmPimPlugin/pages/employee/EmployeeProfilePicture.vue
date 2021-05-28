@@ -67,10 +67,9 @@ export default {
   },
 
   setup(props) {
-    // TODO: change api path
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employee/${props.empNumber}/contact-details`,
+      `api/v2/pim/employees/${props.empNumber}/picture`,
     );
 
     return {
@@ -118,6 +117,7 @@ export default {
         })
         .then(() => {
           this.isLoading = false;
+          location.reload();
         });
     },
   },
