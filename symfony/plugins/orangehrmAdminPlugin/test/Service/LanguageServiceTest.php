@@ -18,7 +18,7 @@
  */
 
 
-namespace OrangeHRM\Admin\Tests\Service;
+namespace OrangeHRM\Tests\Admin\Service;
 
 use OrangeHRM\Admin\Dao\LanguageDao;
 use OrangeHRM\Admin\Dto\LanguageSearchFilterParams;

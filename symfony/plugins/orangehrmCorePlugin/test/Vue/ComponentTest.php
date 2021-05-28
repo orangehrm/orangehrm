@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Tests\Vue;
+namespace OrangeHRM\Tests\Core\Vue;
 
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;

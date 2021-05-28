@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Tests\Api\Model;
+namespace OrangeHRM\Tests\Pim\Api\Model;
 
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeDetailedModel;

@@ -28,8 +28,8 @@ jobs:
       - name: Install depandancies
         run: |
           cd symfony
-          php7.4 -f /usr/bin/composer install
-          php7.4 -f /usr/bin/composer dump-autoload -o
+          php7.4 -f /usr/bin/composer install --no-dev
+          php7.4 -f /usr/bin/composer dump-autoload --optimize --no-dev --classmap-authoritative
           cd client
           yarn install
 

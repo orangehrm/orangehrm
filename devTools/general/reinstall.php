@@ -54,8 +54,8 @@ if (mysqli_query($conn, "DROP DATABASE `{$c->dbname}`")) {
 
 function executeDbQueries($rootPath, $conn) {
     
-    $dbscript1      = $rootPath . 'dbscript/dbscript-1.sql';
-    $dbscript2      = $rootPath . 'dbscript/dbscript-2.sql';
+    $dbscript1      = $rootPath . 'installer/dbscript/dbscript-1.sql';
+    $dbscript2      = $rootPath . 'installer/dbscript/dbscript-2.sql';
     
     $queryList  = getQueries($dbscript1);
     $i          = 1;    

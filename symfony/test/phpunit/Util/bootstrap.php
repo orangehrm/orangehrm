@@ -17,39 +17,31 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Pim\Api\Model;
+use Doctrine\DBAL\Exception\ConnectionException;
+use OrangeHRM\ORM\Doctrine;
 
-use OrangeHRM\Entity\Employee;
-use OrangeHRM\Pim\Api\Model\EmployeeModel;
-use OrangeHRM\Tests\Util\TestCase;
+define('ENVIRNOMENT', 'test');
 
-/**
- * @group Pim
- * @group Model
- */
-class EmployeeModelTest extends TestCase
-{
-    public function testToArray()
-    {
-        $resultArray = [
-            'empNumber' => 1,
-            'lastName' => 'Last',
-            'firstName' => 'First',
-            'middleName' => 'Middle',
-            'employeeId' => '0001',
-            'terminationId' => null
-        ];
+require realpath(__DIR__ . '/../../../vendor/autoload.php');
 
-        $employee = new Employee();
-        $employee->setEmpNumber(1);
-        $employee->setFirstName('First');
-        $employee->setMiddleName('Middle');
-        $employee->setLastName('Last');
-        $employee->setEmployeeId('0001');
-        $employee->setEmployeeTerminationRecord(null);
+$errorMessage = "
+Can't connect to database `%s`.
+Run below command and try again;
+$ php ./devTools/general/create-test-db.php
 
-        $employeeModel = new EmployeeModel($employee);
+Error:
+%s\n
+";
 
-        $this->assertEquals($resultArray, $employeeModel->toArray());
+try {
+    Doctrine::getEntityManager()->getConnection()->connect();
+} catch (ConnectionException $e) {
+    if ($e->getErrorCode() === 1049) {
+        echo sprintf(
+            $errorMessage,
+            Doctrine::getEntityManager()->getConnection()->getDatabase(),
+            $e->getMessage()
+        );
+        die;
     }
 }
