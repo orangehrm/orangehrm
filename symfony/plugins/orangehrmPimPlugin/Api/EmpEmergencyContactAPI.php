@@ -51,10 +51,6 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_MOBILE_PHONE = 'mobilePhone';
 
     public const FILTER_NAME = 'name';
-    public const FILTER_RELATIONSHIP = 'relationship';
-    public const FILTER_HOME_PHONE = 'homePhone';
-    public const FILTER_OFFICE_PHONE = 'officePhone';
-    public const FILTER_MOBILE_PHONE = 'mobilePhone';
     public const PARAM_RULE_Max_Length = 100;
 
     /**
@@ -63,7 +59,7 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     protected ?EmpEmergencyContactService $empEmergencyContactService = null;
 
     /**
-     * @return EmpEmergencyContactService|null
+     * @return EmpEmergencyContactService
      */
     public function getEmpEmergencyContactService(): EmpEmergencyContactService
     {
@@ -119,11 +115,18 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_EMP_NUMBER,
-                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    CommonParams::PARAMETER_EMP_NUMBER,
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                ),
             ),
-            new ParamRule(self::FILTER_NAME),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::FILTER_NAME,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_Max_Length]),
+                ),
+            ),
             ...$this->getSortingAndPaginationParamsRules(EmpEmergencyContactSearchFilterParams::ALLOWED_SORT_FIELDS)
 
         );
@@ -192,7 +195,9 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
             CommonParams::PARAMETER_EMP_NUMBER);
         $this->getEmpEmergencyContactService()->deleteEmployeeEmergencyContacts($empNumber, $sequenceNumbers);
-        return new EndpointDeleteResult(ArrayModel::class, $sequenceNumbers);
+        return new EndpointDeleteResult(ArrayModel::class, $sequenceNumbers,
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+        );
     }
 
     /**
@@ -223,9 +228,6 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
         $emergencyContact = $this->getEmpEmergencyContactService()->getEmployeeEmergencyContact($empNumber, $seqNo);
         $this->throwRecordNotFoundExceptionIfNotExist($emergencyContact, EmpEmergencyContact::class);
 
-        if (!$emergencyContact instanceof EmpEmergencyContact) {
-            throw new RecordNotFoundException();
-        }
         return new EndpointGetOneResult(EmpEmergencyContactModel::class, $emergencyContact,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );

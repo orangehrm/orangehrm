@@ -36,11 +36,6 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
     protected ?string $name = null;
 
     /**
-     * @var int[]|null
-     */
-    protected ?array $employeeNumbers = null;
-
-    /**
      * @return int
      */
     public function getEmpNumber(): int
@@ -70,22 +65,6 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
     public function setName(?string $name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return int[]|null
-     */
-    public function getEmployeeNumbers(): ?array
-    {
-        return $this->employeeNumbers;
-    }
-
-    /**
-     * @param int[]|null $employeeNumbers
-     */
-    public function setEmployeeNumbers(?array $employeeNumbers): void
-    {
-        $this->employeeNumbers = $employeeNumbers;
     }
 
 }

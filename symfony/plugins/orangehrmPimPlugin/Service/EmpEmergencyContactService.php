@@ -20,11 +20,9 @@
 namespace OrangeHRM\Pim\Service;
 
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\EmpEmergencyContact;
 use OrangeHRM\Pim\Dao\EmpEmergencyContactDao;
 use OrangeHRM\Pim\Dto\EmpEmergencyContactSearchFilterParams;
-use Exception;
 
 class EmpEmergencyContactService
 {
@@ -102,29 +100,23 @@ class EmpEmergencyContactService
     /**
      * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
      * @return array
-     * @throws ServiceException
+     * @throws DaoException
      */
-    public function searchEmployeeEmergencyContacts(EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams): array
-    {
-        try {
-            return $this->getEmpEmergencyContactDao()->searchEmployeeEmergencyContacts($emergencyContactSearchFilterParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+    public function searchEmployeeEmergencyContacts(
+        EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
+    ): array {
+        return $this->getEmpEmergencyContactDao()->searchEmployeeEmergencyContacts($emergencyContactSearchFilterParams);
     }
 
     /**
      * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
      * @return int
-     * @throws ServiceException
+     * @throws DaoException
      */
-    public function getSearchEmployeeEmergencyContactsCount(EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams):int
-    {
-        try {
-            return $this->getEmpEmergencyContactDao()->getSearchEmployeeEmergencyContactsCount($emergencyContactSearchFilterParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+    public function getSearchEmployeeEmergencyContactsCount(
+        EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
+    ): int {
+        return $this->getEmpEmergencyContactDao()->getSearchEmployeeEmergencyContactsCount($emergencyContactSearchFilterParams);
     }
 
 }
