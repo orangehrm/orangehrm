@@ -115,11 +115,9 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    CommonParams::PARAMETER_EMP_NUMBER,
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
-                ),
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::FILTER_NAME,

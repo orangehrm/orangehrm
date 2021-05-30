@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Tests\Dao;
+namespace OrangeHRM\Tests\Pim\Dao;
 
 use InvalidArgumentException;
 use OrangeHRM\Config\Config;

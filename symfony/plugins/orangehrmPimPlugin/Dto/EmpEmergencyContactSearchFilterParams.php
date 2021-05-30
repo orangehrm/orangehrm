@@ -23,7 +23,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmpEmergencyContactSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['ecc.name'];
+    public const ALLOWED_SORT_FIELDS = ['eec.name'];
 
     /**
      * @var int

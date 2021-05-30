@@ -92,11 +92,11 @@ class EmpEmergencyContactDao extends BaseDao
     public function deleteEmployeeEmergencyContacts(int $empNumber, array $entriesToDelete): int
     {
         try {
-            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'ecc');
+            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
             $q->delete()
-                ->where('ecc.employee = :empNumber')
+                ->where('eec.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->andWhere($q->expr()->in('ecc.seqNo', ':ids'))
+            $q->andWhere($q->expr()->in('eec.seqNo', ':ids'))
                 ->setParameter('ids', $entriesToDelete);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
@@ -112,10 +112,10 @@ class EmpEmergencyContactDao extends BaseDao
     public function getEmployeeEmergencyContactList(int $empNumber): array
     {
         try {
-            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'ecc');
-            $q->andWhere('ecc.employee = :empNumber')
+            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
+            $q->andWhere('eec.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->addOrderBy('ecc.name', ListSorter::ASCENDING);
+            $q->addOrderBy('eec.name', ListSorter::ASCENDING);
 
             return $q->getQuery()->execute();
         } catch (Exception $e) {
@@ -146,15 +146,15 @@ class EmpEmergencyContactDao extends BaseDao
     private function getSearchEmployeeEmergencyContactsPaginator(
         EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
     ): Paginator {
-        $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'ecc');
+        $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
         $this->setSortingAndPaginationParams($q, $emergencyContactSearchFilterParams);
 
         if (!empty($emergencyContactSearchFilterParams->getEmpNumber())) {
-            $q->andWhere('ecc.employee = :empNumber');
+            $q->andWhere('eec.employee = :empNumber');
             $q->setParameter('empNumber', $emergencyContactSearchFilterParams->getEmpNumber());
         }
         if (!empty($emergencyContactSearchFilterParams->getName())) {
-            $q->andWhere('ecc.name = :name');
+            $q->andWhere('eec.name = :name');
             $q->setParameter('name', $emergencyContactSearchFilterParams->getName());
         }
 
