@@ -22,10 +22,12 @@
   <edit-employee-layout :employee-id="empNumber" screen="emergency">
     <save-emergency-contact
       v-if="showSaveModal"
+      :http="http"
       @close="onSaveModalClose"
     ></save-emergency-contact>
     <edit-emergency-contact
       v-if="showEditModal"
+      :http="http"
       :data="editModalState"
       @close="onEditModalClose"
     ></edit-emergency-contact>
@@ -103,10 +105,10 @@ export default {
     },
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/job-categories',
+      `api/v2/pim/employees/${props.empNumber}/emergency-contacts`,
     );
 
     const {
@@ -137,9 +139,9 @@ export default {
       headers: [
         {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
         {name: 'relationship', title: 'Relationship', style: {flex: 1}},
-        {name: 'homeTelephone', title: 'Home Telephone', style: {flex: 1}},
-        {name: 'workTelephone', title: 'Work Telephone', style: {flex: 1}},
-        {name: 'mobile', title: 'Mobile', style: {flex: 1}},
+        {name: 'homePhone', title: 'Home Telephone', style: {flex: 1}},
+        {name: 'officePhone', title: 'Work Telephone', style: {flex: 1}},
+        {name: 'mobilePhone', title: 'Mobile', style: {flex: 1}},
         {
           name: 'actions',
           slot: 'action',
