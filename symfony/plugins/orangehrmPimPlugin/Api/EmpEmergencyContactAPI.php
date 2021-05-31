@@ -190,7 +190,7 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
     {
         $sequenceNumbers = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY,
             CommonParams::PARAMETER_IDS);
-        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
+        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER);
         $this->getEmpEmergencyContactService()->deleteEmployeeEmergencyContacts($empNumber, $sequenceNumbers);
         return new EndpointDeleteResult(ArrayModel::class, $sequenceNumbers,
@@ -289,9 +289,9 @@ class EmpEmergencyContactAPI extends Endpoint implements CrudEndpoint
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $relationship = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_RELATIONSHIP);
-        $homePhone = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_OFFICE_PHONE);
+        $homePhone = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_HOME_PHONE);
         $mobilePhone = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_OFFICE_PHONE);
+            self::PARAMETER_MOBILE_PHONE);
         $officePhone = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_OFFICE_PHONE);
         if ($seqNo) {
