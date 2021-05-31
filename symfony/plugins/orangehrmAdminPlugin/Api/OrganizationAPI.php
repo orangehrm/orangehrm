@@ -269,21 +269,21 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EMAIL,
-                    new Rule(Rules::EMAIL),
+                    new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMAIL_MAX_LENGTH]),
                 ),
                 true
             ), $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_PHONE,
-                    new Rule(Rules::PHONE),
+                    new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PHONE_MAX_LENGTH]),
                 ), true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_FAX,
-                    new Rule(Rules::PHONE),
+                    new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_FAX_MAX_LENGTH]),
                 ),
                 true
