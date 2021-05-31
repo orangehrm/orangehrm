@@ -145,11 +145,12 @@ class EmployeeService
     }
 
     /**
+     * @param bool $includeTerminated
      * @return int
      */
-    public function getNumberOfEmployees(): int
+    public function getNumberOfEmployees(bool $includeTerminated = false): int
     {
-        return $this->getEmployeeDao()->getNumberOfEmployees();
+        return $this->getEmployeeDao()->getNumberOfEmployees($includeTerminated);
     }
 
     /**

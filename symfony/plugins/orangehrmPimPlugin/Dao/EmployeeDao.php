@@ -228,11 +228,17 @@ class EmployeeDao extends BaseDao
     }
 
     /**
+     * @param bool $includeTerminated
      * @return int
      */
-    public function getNumberOfEmployees(): int
+    public function getNumberOfEmployees(bool $includeTerminated = false): int
     {
         $q = $this->createQueryBuilder(Employee::class, 'e');
+
+        if ($includeTerminated == false) {
+            $q->andWhere($q->expr()->isNull('e.employeeTerminationRecord'));
+        }
+
         return $this->count($q);
     }
 
