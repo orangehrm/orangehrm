@@ -1,0 +1,8 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002' }
+
+EmpEmergencyContact:
+  - {emp_number: 1, eec_seqno: '1', eec_name: 'Yasitha', eec_relationship: 'friend', eec_home_no: '0335445678', eec_mobile_no: '0776734567', eec_office_no: '0113456787'}
+  - {emp_number: 2, eec_seqno: '2', eec_name: 'Renukshan', eec_relationship: 'friend1', eec_home_no: '0373245675', eec_mobile_no: '0776734237', eec_office_no: '0113676787'}
+  - {emp_number: 1, eec_seqno: '2', eec_name: 'Rashmi', eec_relationship: 'friend', eec_home_no: '0335445678', eec_mobile_no: '0776734567', eec_office_no: '0113456787'}
