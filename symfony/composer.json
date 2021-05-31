@@ -27,7 +27,8 @@
         "symfony/dependency-injection": "^5.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "doctrine/migrations": "^3.1"
     },
     "autoload": {
         "psr-4": {
@@ -67,5 +68,8 @@
             "OrangeHRM\\Tests\\Core\\": "./plugins/orangehrmCorePlugin/test",
             "OrangeHRM\\Tests\\Pim\\": "./plugins/orangehrmPimPlugin/test"
         }
+    },
+    "scripts": {
+        "test": "cd ../ && phpunit"
     }
 }
