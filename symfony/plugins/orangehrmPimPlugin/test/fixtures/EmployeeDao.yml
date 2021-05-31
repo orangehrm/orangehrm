@@ -41,8 +41,9 @@ ReportTo:
   3: {erep_sup_emp_number: '3', erep_sub_emp_number: '1', erep_reporting_mode: '3'}
 
 EmpEmergencyContact:
-  0: {emp_number: '1', eec_seqno: '1', eec_name: 'Yasitha', eec_relationship: 'friend', home_phone: '0335445678', mobile_phone: '0776734567', eec_office_no: '0113456787'}
-  1: {emp_number: '2', eec_seqno: '2', eec_name: 'Renukshan', eec_relationship: 'friend1', home_phone: '0373245675', mobile_phone: '0776734237', eec_office_no: '0113676787'}
+  0: {emp_number: '1', eec_seqno: '1', eec_name: 'Yasitha', eec_relationship: 'friend', eec_home_no: '0335445678', eec_mobile_no: '0776734567', eec_office_no: '0113456787'}
+  1: {emp_number: '2', eec_seqno: '2', eec_name: 'Renukshan', eec_relationship: 'friend1', eec_home_no: '0373245675', eec_mobile_no: '0776734237', eec_office_no: '0113676787'}
+  2: {emp_number: '1', eec_seqno: '2', eec_name: 'Rashmi', eec_relationship: 'friend', eec_home_no: '0335445678', eec_mobile_no: '0776734567', eec_office_no: '0113456787'}
 
 EmpWorkExperience:
   0: {emp_number: '1', eexp_seqno: '1', eexp_employer: 'OrangeHRM', eexp_jobtit: 'SE', eexp_from_date: '2005-04-03', eexp_to_date: '2010-04-04', eexp_comments: 'Worked Hard', eexp_internal: '2'}
