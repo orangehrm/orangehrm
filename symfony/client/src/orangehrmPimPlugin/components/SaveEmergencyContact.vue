@@ -48,22 +48,22 @@
           <oxd-grid-item>
             <oxd-input-field
               label="Home Telephone"
-              v-model="contact.homeTelephone"
-              :rules="rules.homeTelephone"
+              v-model="contact.homePhone"
+              :rules="rules.homePhone"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Mobile"
-              v-model="contact.mobile"
-              :rules="rules.mobile"
+              v-model="contact.mobilePhone"
+              :rules="rules.mobilePhone"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Work Telephone"
-              v-model="contact.workTelephone"
-              :rules="rules.workTelephone"
+              v-model="contact.officePhone"
+              :rules="rules.officePhone"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -84,14 +84,12 @@
 </template>
 
 <script>
-import {APIService} from '@/core/util/services/api.service';
-
 const emergencyContactModel = {
   name: '',
   relationship: '',
-  homeTelephone: '',
-  workTelephone: '',
-  mobile: '',
+  homePhone: '',
+  officePhone: '',
+  mobilePhone: '',
 };
 
 export default {
@@ -99,14 +97,11 @@ export default {
 
   emits: ['close'],
 
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/admin/job-titles',
-    );
-    return {
-      http,
-    };
+  props: {
+    http: {
+      type: Object,
+      required: true,
+    },
   },
 
   data() {
@@ -130,12 +125,12 @@ export default {
             return !v || v?.length <= 100 || 'Should not exceed 100 characters';
           },
         ],
-        homeTelephone: [
+        homePhone: [
           v => {
             return (
               v.trim() !== '' ||
-              this.contact.mobile.trim() !== '' ||
-              this.contact.workTelephone.trim() !== '' ||
+              this.contact.mobilePhone.trim() !== '' ||
+              this.contact.officePhone.trim() !== '' ||
               'At least one phone number is required'
             );
           },
@@ -148,7 +143,7 @@ export default {
               : false || 'Allows numbers and only + - / ( )';
           },
         ],
-        mobile: [
+        mobilePhone: [
           v => {
             return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
@@ -158,7 +153,7 @@ export default {
               : false || 'Allows numbers and only + - / ( )';
           },
         ],
-        workTelephone: [
+        officePhone: [
           v => {
             return !v || v?.length <= 30 || 'Should not exceed 30 characters';
           },
@@ -173,7 +168,6 @@ export default {
   },
 
   methods: {
-    // TODO: API Call
     onSave() {
       this.isLoading = true;
       this.http
