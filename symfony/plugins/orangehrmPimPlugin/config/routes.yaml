@@ -77,6 +77,24 @@ apiv2_pim_employees_attachments:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employee_emergency_contact:
+  path: /api/v2/pim/employees/{empNumber}/emergency-contacts/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmpEmergencyContactAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employee_emergency_contacts:
+  path: /api/v2/pim/employees/{empNumber}/emergency-contacts
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST , DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmpEmergencyContactAPI
+  requirements:
+    empNumber: '\d+'
+
 ##########################
 #        Files
 ##########################
