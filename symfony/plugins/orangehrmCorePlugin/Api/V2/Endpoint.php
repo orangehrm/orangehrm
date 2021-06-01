@@ -26,7 +26,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\ORM\ListSorter;
 
 abstract class Endpoint
@@ -82,6 +81,7 @@ abstract class Endpoint
 
     /**
      * @param RequestParams $requestParams
+     * @internal
      */
     protected function setRequestParams(RequestParams $requestParams): void
     {

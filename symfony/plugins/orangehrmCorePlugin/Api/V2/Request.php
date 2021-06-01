@@ -69,14 +69,6 @@ class Request
     }
 
     /**
-     * @param HttpRequest $httpRequest
-     */
-    public function setHttpRequest(HttpRequest $httpRequest): void
-    {
-        $this->httpRequest = $httpRequest;
-    }
-
-    /**
      * @return ParameterBag
      */
     public function getBody(): ParameterBag
@@ -86,6 +78,7 @@ class Request
 
     /**
      * @param ParameterBag $body
+     * @internal
      */
     public function setBody(ParameterBag $body): void
     {
@@ -102,6 +95,7 @@ class Request
 
     /**
      * @param ParameterBag $attributes
+     * @internal
      */
     public function setAttributes(ParameterBag $attributes): void
     {
@@ -118,6 +112,7 @@ class Request
 
     /**
      * @param ParameterBag $query
+     * @internal
      */
     public function setQuery(ParameterBag $query): void
     {
