@@ -22,6 +22,7 @@ namespace OrangeHRM\Entity\Decorator;
 use DateTime;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Location;
 use OrangeHRM\Entity\Nationality;
 
 class EmployeeDecorator
@@ -128,5 +129,17 @@ class EmployeeDecorator
     {
         return $this->getEmployee()->getEmployeeTerminationRecord() == null ?
             Employee::STATE_ACTIVE : Employee::STATE_TERMINATED;
+    }
+
+    /**
+     * @return Location|null
+     */
+    public function getLocation(): ?Location
+    {
+        $locations = $this->getEmployee()->getLocations();
+        if (empty($locations) || !isset($locations[0])) {
+            return null;
+        }
+        return $locations[0];
     }
 }
