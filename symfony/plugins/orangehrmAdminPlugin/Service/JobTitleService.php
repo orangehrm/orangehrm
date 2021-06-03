@@ -20,12 +20,16 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\JobTitleDao;
+use OrangeHRM\Admin\Service\Model\JobTitleModel;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobSpecificationAttachment;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\JobTitle;
 
 class JobTitleService
 {
+    use NormalizerServiceTrait;
+
     /**
      * @var JobTitleDao|null
      */
@@ -141,5 +145,16 @@ class JobTitleService
     ): JobSpecificationAttachment {
         return $this->getJobTitleDao()->deleteJobSpecificationAttachment($jobSpecificationAttachment);
     }
+
+    /**
+     * @return array
+     * @throws \OrangeHRM\Core\Api\V2\Serializer\NormalizeException
+     */
+    public function getJobTitleArray(): array
+    {
+        $jobtitles = $this->getJobTitleList();
+        return $this->getNormalizerService()->normalizeArray(JobTitleModel::class, $jobtitles);
+    }
+
 }
 
