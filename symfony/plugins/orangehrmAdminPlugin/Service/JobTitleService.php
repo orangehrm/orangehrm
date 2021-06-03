@@ -152,8 +152,8 @@ class JobTitleService
      */
     public function getJobTitleArray(): array
     {
-        $jobtitles = $this->getJobTitleList();
-        return $this->getNormalizerService()->normalizeArray(JobTitleModel::class, $jobtitles);
+        $jobTitles = $this->getJobTitleList();
+        return $this->getNormalizerService()->normalizeArray(JobTitleModel::class, $jobTitles);
     }
 
 }

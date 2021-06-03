@@ -19,11 +19,14 @@
 
 namespace OrangeHRM\Pim\Controller;
 
+
+use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
+use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Admin\Service\CountryService;
-use OrangeHRM\Admin\Service\JobTitleService;
+use OrangeHRM\Admin\Service\EmploymentStatusService;
 use OrangeHRM\Admin\Service\JobCategoryService;
+use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
@@ -33,21 +36,50 @@ class EmployeeJobController extends BaseViewEmployeeController
 {
     use ConfigServiceTrait;
 
-    protected ?JobTitleService $jobTitleService = null ;
-    protected ?JobCategoryService $jobCategoryService = null ;
+    protected ?JobTitleService $jobTitleService = null;
+    protected ?JobCategoryService $jobCategoryService = null;
+    protected ?CompanyStructureService $companyStructureService = null;
+    protected ?EmploymentStatusService $employmentStatusService = null;
+    protected ?EmploymentStatusSearchFilterParams $employmentStatusSearchFilterParams = null;
 
-    protected function getJobTitleService(){
+    protected function getJobTitleService()
+    {
         if (!$this->jobTitleService instanceof JobTitleService) {
             $this->jobTitleService = new JobTitleService();
         }
         return $this->jobTitleService;
     }
 
-    protected function getJobCategoryService(){
+    protected function getJobCategoryService()
+    {
         if (!$this->jobCategoryService instanceof JobCategoryService) {
             $this->jobCategoryService = new JobCategoryService();
         }
         return $this->jobCategoryService;
+    }
+
+    protected function getCompanyStructureService()
+    {
+        if (!$this->companyStructureService instanceof CompanyStructureService) {
+            $this->companyStructureService = new CompanyStructureService();
+        }
+        return $this->companyStructureService;
+    }
+
+    protected function getEmploymentStatusService()
+    {
+        if (!$this->employmentStatusService instanceof EmploymentStatusService) {
+            $this->employmentStatusService = new EmploymentStatusService();
+        }
+        return $this->employmentStatusService;
+    }
+
+    protected function getEmploymentStatusSearchFilterParams()
+    {
+        if (!$this->employmentStatusSearchFilterParams instanceof EmploymentStatusSearchFilterParams) {
+            $this->employmentStatusSearchFilterParams = new EmploymentStatusSearchFilterParams();
+        }
+        return $this->employmentStatusSearchFilterParams;
     }
 
     public function preRender(Request $request): void
@@ -65,6 +97,17 @@ class EmployeeJobController extends BaseViewEmployeeController
             /** @var JobCategoryService $jobCategoryService */
             $jobCategories = $this->getJobCategoryService()->getJobCategoryArray();
             $component->addProp(new Prop('job-categories', Prop::TYPE_ARRAY, $jobCategories));
+            $this->setComponent($component);
+
+            /** @var CompanyStructureService $companyStructureService */
+            $subunits = $this->getCompanyStructureService()->getSubunitArray();
+            $component->addProp(new Prop('subunits', Prop::TYPE_ARRAY, $subunits));
+            $this->setComponent($component);
+
+            /** @var EmploymentStatusService $employmentStatusService */
+            $employmentStatusSearchFilterParams = $this->getEmploymentStatusSearchFilterParams();
+            $employmentStatuses = $this->getEmploymentStatusService()->getEmploymentStatusArray($employmentStatusSearchFilterParams);
+            $component->addProp(new Prop('employmentStatuses', Prop::TYPE_ARRAY, $employmentStatuses));
             $this->setComponent($component);
 
             /** @var CountryService $countryService */

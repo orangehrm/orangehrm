@@ -23,12 +23,16 @@ namespace OrangeHRM\Admin\Service;
 use Exception;
 use OrangeHRM\Admin\Dao\EmploymentStatusDao;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
+use OrangeHRM\Admin\Service\Model\EmploymentStatusModel;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\EmploymentStatus;
 
 class EmploymentStatusService
 {
+    use NormalizerServiceTrait;
 
     /**
      * @var EmploymentStatusDao|null
@@ -111,5 +115,17 @@ class EmploymentStatusService
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+     * @return array
+     * @throws ServiceException
+     * @throws NormalizeException
+     */
+    public function getEmploymentStatusArray(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): array
+    {
+        $employmentStatuses = $this->searchEmploymentStatus( $employmentStatusSearchParams);
+        return $this->getNormalizerService()->normalizeArray(EmploymentStatusModel::class, $employmentStatuses);
     }
 }

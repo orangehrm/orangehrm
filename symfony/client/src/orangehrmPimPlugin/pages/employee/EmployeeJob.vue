@@ -29,7 +29,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 label="Joined Date"
-                v-model="contract.joinedDate"
+                v-model="job.joinedDate"
                 :rules="rules.joinedDate"
               />
             </oxd-grid-item>
@@ -37,22 +37,21 @@
               <oxd-input-field
                 type="dropdown"
                 label="Job Title"
-                v-model="contract.jobTitleId"
+                v-model="job.jobTitleId"
                 :options="jobTitles"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
                 label="Job Specification"
-                v-model="contract.jobSpecificationId"
+                v-model="job.jobSpecificationId"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 type="dropdown"
                 label="Job Catergory"
-                v-model="contract.jobCategoryId"
+                v-model="job.jobCategoryId"
                 :options="jobCategories"
               />
             </oxd-grid-item>
@@ -60,14 +59,15 @@
               <oxd-input-field
                 type="dropdown"
                 label="Sub Unit"
-                v-model="contract.subUnitId"
+                v-model="job.subUnitId"
+                :options="subunits"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 type="dropdown"
                 label="Location"
-                v-model="contract.locationId"
+                v-model="job.locationId"
                 :options="countries"
               />
             </oxd-grid-item>
@@ -75,8 +75,8 @@
               <oxd-input-field
                 type="dropdown"
                 label="Employment Status"
-                v-model="contract.locationId"
-                :options="countries"
+                v-model="job.empStatusId"
+                :options="employmentStatuses"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -96,24 +96,21 @@
               <oxd-grid-item>
                 <oxd-input-field
                   label="Contract Start Date"
-                  v-model="contract.city"
-                  :rules="rules.city"
+                  v-model="job.startDate"
                 />
               </oxd-grid-item>
 
               <oxd-grid-item>
                 <oxd-input-field
                   label="Contract End Date"
-                  v-model="contract.city"
-                  :rules="rules.city"
+                  v-model="job.endDate"
                 />
               </oxd-grid-item>
 
               <oxd-grid-item>
                 <oxd-input-field
                   label="Contract Details"
-                  v-model="contract.city"
-                  :rules="rules.city"
+                  v-model="job.contractAttachment"
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -144,6 +141,12 @@ const jobDetailsModel = {
   locationId: [],
 };
 
+const ContractDetailsModel = {
+  joinedDate: '',
+  endDate: '',
+  contractAttachment: '',
+};
+
 export default {
   components: {
     'edit-employee-layout': EditEmployeeLayout,
@@ -167,6 +170,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    subunits: {
+      type: Array,
+      default: () => [],
+    },
+    employmentStatuses: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   setup(props) {
@@ -184,88 +195,17 @@ export default {
     return {
       isLoading: false,
       createContractDetails: false,
-      contract: {...jobDetailsModel},
+      job: {...jobDetailsModel},
+      Contract: {...ContractDetailsModel},
       rules: {
         joinedDate: [
           v => {
             return !v || v?.length <= 100 || 'Should not exceed 100 characters';
           },
         ],
-
-        street2: [
+        endDate: [
           v => {
             return !v || v?.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
-        city: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        province: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        zipCode: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        homeTelephone: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
-        ],
-        mobile: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
-        ],
-        workTelephone: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
-        ],
-        workEmail: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v ||
-              v.match(
-                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+$/,
-              )
-              ? true
-              : false || 'Expected format: admin@example.com';
-          },
-        ],
-        otherEmail: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v ||
-              v.match(
-                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+$/,
-              )
-              ? true
-              : false || 'Expected format: admin@example.com';
           },
         ],
       },
@@ -279,12 +219,12 @@ export default {
         .request({
           method: 'PUT',
           data: {
-            ...this.contract,
-            locationId: this.contract.locationId.map(item => item.id)[0],
-            jobTitleId: this.contract.jobTitleId.map(item => item.id)[0],
-            jobCategoryId: this.contract.jobCategoryId.map(
-              item => item.id,
-            )[0],
+            ...this.job,
+            locationId: this.job.locationId.map(item => item.id)[0],
+            jobTitleId: this.job.jobTitleId.map(item => item.id)[0],
+            jobCategoryId: this.job.jobCategoryId.map(item => item.id)[0],
+            subunitId: this.job.subunitId.map(item => item.id)[0],
+            empStatusId: this.job.empStatusId.map(item => item.id)[0],
           },
         })
         .then(response => {
@@ -301,15 +241,22 @@ export default {
 
     updateModel(response) {
       const {data} = response.data;
-      this.contract = {...jobDetailsModel, ...data};
-      this.contract.locationId = this.countries.filter(
+      this.Contract = {...ContractDetailsModel, ...data};
+      this.job = {...jobDetailsModel, ...data};
+      this.job.locationId = this.countries.filter(
         item => item.id === data.locationId,
       );
-      this.contract.jobTitleId = this.jobTitles.filter(
+      this.job.jobTitleId = this.jobTitles.filter(
         item => item.id === data.jobTitleId?.id,
       );
-      this.contract.jobCategoryId = this.jobCategories.filter(
+      this.job.jobCategoryId = this.jobCategories.filter(
         item => item.id === data.jobCategoryId?.id,
+      );
+      this.job.subunitId = this.subunits.filter(
+        item => item.id === data.subunitId?.id,
+      );
+      this.job.empStatusId = this.employmentStatuses.filter(
+        item => item.id === data.empStatusId?.id,
       );
     },
   },
