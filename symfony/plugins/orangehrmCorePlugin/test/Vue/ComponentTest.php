@@ -38,7 +38,7 @@ class ComponentTest extends TestCase
         $component = new Component($componentName, []);
         $component->setName('vue-page');
         $this->assertEquals('vue-page', $component->getName());
-        $this->assertEquals([], $component->getProps());
+        $this->assertEmpty($component->getProps());
     }
 
     public function testComponentWithProps(): void

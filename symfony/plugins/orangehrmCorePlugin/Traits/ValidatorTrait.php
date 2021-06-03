@@ -17,27 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Authentication\Auth\User as AuthUser;
-use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Event\EventDispatcher;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Core\Traits;
 
-class AuthenticationPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Validator;
+use OrangeHRM\Core\Api\V2\Validator\ValidatorException;
+
+trait ValidatorTrait
 {
-    use ServiceContainerTrait;
-
     /**
-     * @inheritDoc
+     * @param array $values
+     * @param ParamRuleCollection|null $rules
+     * @return bool
+     * @throws InvalidParamException
+     * @throws ValidatorException
      */
-    public function initialize(Request $request): void
+    protected function validate(array $values, ?ParamRuleCollection $rules = null): bool
     {
-        /** @var EventDispatcher $dispatcher */
-        $dispatcher = $this->getContainer()->get(Services::EVENT_DISPATCHER);
-        $dispatcher->addSubscriber(new AuthenticationSubscriber());
-        $this->getContainer()->register(Services::AUTH_USER)
-            ->setFactory([AuthUser::class, 'getInstance']);
+        return Validator::validate($values, $rules);
     }
 }

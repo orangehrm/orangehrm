@@ -21,13 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\EmpContractDecorator;
 
 /**
+ * @method EmpContractDecorator getDecorator()
+ *
  * @ORM\Table(name="hs_hr_emp_contract_extend")
  * @ORM\Entity
  */
 class EmpContract
 {
+    use DecoratorTrait;
+
     /**
      * @var Employee
      *

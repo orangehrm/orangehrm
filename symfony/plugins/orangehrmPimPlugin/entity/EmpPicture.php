@@ -56,42 +56,42 @@ class EmpPicture
      *
      * @ORM\Column(name="epic_picture", type="blob", nullable=true)
      */
-    private $picture;
+    private $picture = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="epic_filename", type="string", length=100, nullable=true)
      */
-    private ?string $filename;
+    private ?string $filename = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="epic_type", type="string", length=50, nullable=true)
      */
-    private ?string $fileType;
+    private ?string $fileType = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="epic_file_size", type="string", length=20, nullable=true)
      */
-    private ?string $size;
+    private ?string $size = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="epic_file_width", type="string", length=20, nullable=true)
      */
-    private ?string $width;
+    private ?string $width = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="epic_file_height", type="string", length=20, nullable=true)
      */
-    private ?string $height;
+    private ?string $height = null;
 
     /**
      * @return Employee

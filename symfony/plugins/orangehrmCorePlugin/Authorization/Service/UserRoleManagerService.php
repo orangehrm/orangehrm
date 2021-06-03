@@ -26,12 +26,13 @@ use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
-use OrangeHRM\Core\Helper\ClassHelper;
+use OrangeHRM\Core\Traits\ClassHelperTrait;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Logger;
 
 class UserRoleManagerService
 {
+    use ClassHelperTrait;
 
     public const KEY_USER_ROLE_MANAGER_CLASS = "authorize_user_role_manager_class";
 
@@ -130,9 +131,9 @@ class UserRoleManagerService
         $manager = null;
 
         $fallbackNamespace = 'OrangeHRM\\Core\\Authorization\\Manager\\';
-        if (ClassHelper::classExists($class, $fallbackNamespace)) {
+        if ($this->classExists($class, $fallbackNamespace)) {
             try {
-                $class = ClassHelper::getClass($class, $fallbackNamespace);
+                $class = $this->getClass($class, $fallbackNamespace);
                 $manager = new $class();
             } catch (Exception $e) {
                 throw new ServiceException('Exception when initializing user role manager:' . $e->getMessage());
@@ -155,7 +156,6 @@ class UserRoleManagerService
         $systemUser = $this->getUserService()->getSystemUser($userId);
 
         if ($systemUser instanceof User) {
-            $this->getAuthenticationService()->setLoggedInUserToAuthUserInstance($systemUser);
             $manager->setUser($systemUser);
         } else {
             $logger->info('No logged in system user when creating UserRoleManager');
