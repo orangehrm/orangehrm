@@ -27,14 +27,9 @@ use OrangeHRM\Entity\JobTitle;
 class JobTitleService
 {
     /**
-     * @var JobTitleDao
+     * @var JobTitleDao|null
      */
-    private JobTitleDao $jobTitleDao;
-
-    public function __construct()
-    {
-        $this->jobTitleDao = new JobTitleDao();
-    }
+    private ?JobTitleDao $jobTitleDao = null;
 
     /**
      * @return JobTitleDao
