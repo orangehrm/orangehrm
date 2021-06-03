@@ -17,27 +17,39 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Authentication\Auth\User as AuthUser;
-use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Event\EventDispatcher;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Entity\Decorator;
 
-class AuthenticationPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Entity\EmployeeTerminationRecord;
+
+class EmployeeTerminationRecordDecorator
 {
-    use ServiceContainerTrait;
+    /**
+     * @var EmployeeTerminationRecord
+     */
+    protected EmployeeTerminationRecord $employeeTerminationRecord;
 
     /**
-     * @inheritDoc
+     * @param EmployeeTerminationRecord $employeeTerminationRecord
      */
-    public function initialize(Request $request): void
+    public function __construct(EmployeeTerminationRecord $employeeTerminationRecord)
     {
-        /** @var EventDispatcher $dispatcher */
-        $dispatcher = $this->getContainer()->get(Services::EVENT_DISPATCHER);
-        $dispatcher->addSubscriber(new AuthenticationSubscriber());
-        $this->getContainer()->register(Services::AUTH_USER)
-            ->setFactory([AuthUser::class, 'getInstance']);
+        $this->employeeTerminationRecord = $employeeTerminationRecord;
+    }
+
+    /**
+     * @return EmployeeTerminationRecord
+     */
+    public function getEmployeeTerminationRecord(): EmployeeTerminationRecord
+    {
+        return $this->employeeTerminationRecord;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDate(): ?string
+    {
+        $date = $this->getEmployeeTerminationRecord()->getDate();
+        return $date ? $date->format('Y-m-d') : null;
     }
 }

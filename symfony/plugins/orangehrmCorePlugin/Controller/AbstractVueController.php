@@ -117,12 +117,16 @@ abstract class AbstractVueController extends AbstractViewController
         return $this->component;
     }
 
+    /**
+     * @throws VueControllerException
+     */
     public function init(): void
     {
     }
 
     /**
      * @param Request $request
+     * @throws VueControllerException
      */
     public function preRender(Request $request): void
     {
@@ -150,6 +154,7 @@ abstract class AbstractVueController extends AbstractViewController
 
     /**
      * @param Request $request
+     * @throws VueControllerException
      */
     public function postRender(Request $request): void
     {

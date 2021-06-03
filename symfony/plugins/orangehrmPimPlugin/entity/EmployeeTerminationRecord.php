@@ -21,15 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\EmployeeTerminationRecordDecorator;
 
 /**
- * EmployeeTerminationRecord
+ * @method EmployeeTerminationRecordDecorator getDecorator()
  *
  * @ORM\Table(name="ohrm_emp_termination")
  * @ORM\Entity
  */
 class EmployeeTerminationRecord
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *

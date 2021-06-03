@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Core\Api\V2;
 
+use DateTime;
+use DateTimeZone;
 use OrangeHRM\Core\Dto\Base64Attachment;
 
 class RequestParams
@@ -184,6 +186,60 @@ class RequestParams
         }
 
         return null;
+    }
+
+    /**
+     * @param string $type
+     * @param string $key
+     * @param DateTimeZone|null $timezone
+     * @param DateTime|null $default
+     * @return DateTime
+     */
+    public function getDateTime(
+        string $type,
+        string $key,
+        ?DateTimeZone $timezone = null,
+        ?DateTime $default = null
+    ): DateTime {
+        if ($default instanceof DateTime && $timezone instanceof DateTimeZone) {
+            $default->setTimezone($timezone);
+        }
+
+        $param = $this->$type->get($key, $default);
+        $date = new DateTime($param);
+        if ($timezone instanceof DateTimeZone) {
+            $date->setTimezone($timezone);
+        }
+        return $date;
+    }
+
+    /**
+     * @param string $type
+     * @param string $key
+     * @param DateTimeZone|null $timezone
+     * @param DateTime|null $default
+     * @return DateTime|null
+     */
+    public function getDateTimeOrNull(
+        string $type,
+        string $key,
+        ?DateTimeZone $timezone = null,
+        ?DateTime $default = null
+    ): ?DateTime {
+        if ($default instanceof DateTime && $timezone instanceof DateTimeZone) {
+            $default->setTimezone($timezone);
+        }
+
+        $param = $this->$type->get($key, $default);
+        if ($this->isEmptyString($param) || is_null($param)) {
+            return null;
+        }
+
+        $date = new DateTime($param);
+        if ($timezone instanceof DateTimeZone) {
+            $date->setTimezone($timezone);
+        }
+        return $date;
     }
 
     /**

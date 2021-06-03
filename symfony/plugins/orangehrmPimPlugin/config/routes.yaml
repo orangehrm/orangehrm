@@ -31,6 +31,26 @@ apiv2_pim_employees_personal_details:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_job_details:
+  path: /api/v2/pim/employees/{empNumber}/job-details
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeJobDetailAPI
+    _key: empNumber
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_job_employment_contract:
+  path: /api/v2/pim/employees/{empNumber}/employment-contract
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmploymentContractAPI
+    _key: empNumber
+  requirements:
+    empNumber: '\d+'
+
 apiv2_pim_employee_contact_details:
   path: /api/v2/pim/employee/{empNumber}/contact-details
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

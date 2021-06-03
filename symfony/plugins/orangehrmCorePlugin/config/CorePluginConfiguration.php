@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
@@ -58,6 +59,8 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->set(Services::SESSION, $session);
         $this->getContainer()->register(Services::CONFIG_SERVICE, ConfigService::class);
         $this->getContainer()->register(Services::NORMALIZER_SERVICE, NormalizerService::class);
+        $this->getContainer()->register(Services::USER_ROLE_MANAGER)
+            ->setFactory([UserRoleManagerFactory::class, 'getUserRoleManager']);
     }
 
     private function registerCoreSubscribers(): void

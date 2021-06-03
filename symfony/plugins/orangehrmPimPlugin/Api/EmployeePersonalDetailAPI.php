@@ -19,12 +19,10 @@
 
 namespace OrangeHRM\Pim\Api;
 
-use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -36,7 +34,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeePersonalDetailModel;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
+class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
 {
     use EmployeeServiceTrait;
     use ConfigServiceTrait;
@@ -326,38 +324,6 @@ class EmployeePersonalDetailAPI extends Endpoint implements CrudEndpoint
             );
         }
         return new ParamRuleCollection(...$paramRules);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getAll(): EndpointGetAllResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForGetAll(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function create(): EndpointCreateResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForCreate(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
     }
 
     /**

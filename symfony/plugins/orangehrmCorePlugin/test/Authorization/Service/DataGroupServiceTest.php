@@ -89,7 +89,7 @@ class DataGroupServiceTest extends TestCase
 
         $this->service->setDao($dao);
         $result = $this->service->getDataGroups();
-        $this->assertEquals([], $result);
+        $this->assertEmpty($result);
     }
 
     public function testGetDataGroup(): void

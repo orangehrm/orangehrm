@@ -20,20 +20,17 @@
 namespace OrangeHRM\Core\Traits;
 
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
-use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
-use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Framework\Services;
 
 trait UserRoleManagerTrait
 {
+    use ServiceContainerTrait;
+
     /**
-     * @return BasicUserRoleManager|AbstractUserRoleManager
-     * @throws DaoException
-     * @throws ServiceException
+     * @return AbstractUserRoleManager
      */
-    protected function getUserRoleManager(): AbstractUserRoleManager
+    public function getUserRoleManager(): AbstractUserRoleManager
     {
-        return UserRoleManagerFactory::getUserRoleManager();
+        return $this->getContainer()->get(Services::USER_ROLE_MANAGER);
     }
 }

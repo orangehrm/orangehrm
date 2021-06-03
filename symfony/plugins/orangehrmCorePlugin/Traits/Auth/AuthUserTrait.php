@@ -20,14 +20,18 @@
 namespace OrangeHRM\Core\Traits\Auth;
 
 use OrangeHRM\Authentication\Auth\User;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
 trait AuthUserTrait
 {
+    use ServiceContainerTrait;
+
     /**
      * @return User
      */
-    protected function getAuthUser(): User
+    public function getAuthUser(): User
     {
-        return User::getInstance();
+        return $this->getContainer()->get(Services::AUTH_USER);
     }
 }
