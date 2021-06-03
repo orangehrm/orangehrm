@@ -467,7 +467,7 @@ class Employee
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpContract", mappedBy="employee")
      */
-    private $contracts;
+    private $employmentContracts;
 
     /**
      * @var Collection|EmployeeAttachment[]
@@ -552,7 +552,7 @@ class Employee
         $this->licenses = new ArrayCollection();
         $this->memberships = new ArrayCollection();
         $this->salaries = new ArrayCollection();
-        $this->contracts = new ArrayCollection();
+        $this->employmentContracts = new ArrayCollection();
         $this->attachments = new ArrayCollection();
         $this->projectAdmin = new ArrayCollection();
         $this->employeeTerminationRecords = new ArrayCollection();
@@ -1299,6 +1299,22 @@ class Employee
     }
 
     /**
+     * @return Collection|Location[]
+     */
+    public function getLocations(): Collection
+    {
+        return $this->locations;
+    }
+
+    /**
+     * @param Collection|Location[] $locations
+     */
+    public function setLocations($locations): void
+    {
+        $this->locations = $locations;
+    }
+
+    /**
      * @return Collection|Skill[]
      */
     public function getSkills(): Collection
@@ -1312,6 +1328,22 @@ class Employee
     public function setSkills($skills): void
     {
         $this->skills = $skills;
+    }
+
+    /**
+     * @return Collection|EmpContract[]
+     */
+    public function getEmploymentContracts(): Collection
+    {
+        return $this->employmentContracts;
+    }
+
+    /**
+     * @param Collection|EmpContract[] $employmentContracts
+     */
+    public function setEmploymentContracts($employmentContracts): void
+    {
+        $this->employmentContracts = $employmentContracts;
     }
 
     /**

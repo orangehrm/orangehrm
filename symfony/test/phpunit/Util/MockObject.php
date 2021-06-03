@@ -17,27 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Authentication\Auth\User as AuthUser;
-use OrangeHRM\Authentication\Subscriber\AuthenticationSubscriber;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Event\EventDispatcher;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Tests\Util;
 
-class AuthenticationPluginConfiguration implements PluginConfigurationInterface
+interface MockObject extends \PHPUnit\Framework\MockObject\MockObject
 {
-    use ServiceContainerTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
-    {
-        /** @var EventDispatcher $dispatcher */
-        $dispatcher = $this->getContainer()->get(Services::EVENT_DISPATCHER);
-        $dispatcher->addSubscriber(new AuthenticationSubscriber());
-        $this->getContainer()->register(Services::AUTH_USER)
-            ->setFactory([AuthUser::class, 'getInstance']);
-    }
 }

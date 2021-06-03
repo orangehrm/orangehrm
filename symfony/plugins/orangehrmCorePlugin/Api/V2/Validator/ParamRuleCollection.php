@@ -63,6 +63,30 @@ class ParamRuleCollection
     }
 
     /**
+     * @param ParamRule $paramValidation
+     */
+    public function addParamValidation(ParamRule $paramValidation): void
+    {
+        $this->paramValidations[] = $paramValidation;
+    }
+
+    /**
+     * @param string $paramKey
+     */
+    public function removeParamValidation(string $paramKey): void
+    {
+        $rules = $this->getParamValidations();
+        foreach ($rules as $index => $paramRule) {
+            if ($paramRule->getParamKey() === $paramKey) {
+                array_splice($rules, $index, 1);
+                break;
+            }
+        }
+
+        $this->setParamValidations($rules);
+    }
+
+    /**
      * @return bool
      */
     public function isStrict(): bool

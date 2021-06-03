@@ -122,4 +122,12 @@ class EmployeeAttachmentDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @param EmployeeAttachment $employeeAttachment
+     */
+    public function deleteEmployeeAttachment(EmployeeAttachment $employeeAttachment): void
+    {
+        $this->remove($employeeAttachment);
+    }
 }

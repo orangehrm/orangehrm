@@ -121,17 +121,6 @@ class AuthenticationService
     }
 
     /**
-     * @param User $user
-     */
-    public function setLoggedInUserToAuthUserInstance(User $user): void
-    {
-        $this->getAuthUser()->setUser($user);
-        if ($user->getEmployee() instanceof Employee) {
-            $this->getAuthUser()->setEmployee($user->getEmployee());
-        }
-    }
-
-    /**
      * @return User|null
      * @throws ServiceException
      */

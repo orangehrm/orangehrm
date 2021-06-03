@@ -19,15 +19,48 @@
 
 namespace OrangeHRM\Tests\Util;
 
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Framework;
+use OrangeHRM\Framework\Http\Request;
 
 abstract class KernelTestCase extends TestCase
 {
+    use ServiceContainerTrait;
+
+    /**
+     * @param array $query
+     * @param array $request
+     * @param array $attributes
+     * @return Request
+     */
+    protected function getHttpRequest(array $query = [], array $request = [], array $attributes = []): Request
+    {
+        return new Request($query, $request, $attributes);
+    }
+
     /**
      * @return Framework
      */
     protected function createKernel(): Framework
     {
-        return new Framework('test', true);
+        $this->getContainer()->reset();
+        return $this->getMockBuilder(Framework::class)
+            ->onlyMethods(['handle'])
+            ->setConstructorArgs(['test', true])
+            ->getMock();
+    }
+
+    /**
+     * @param array $services
+     * @return Framework
+     */
+    protected function createKernelWithMockServices(array $services = []): Framework
+    {
+        $kernel = $this->createKernel();
+
+        foreach ($services as $id => $service) {
+            $this->getContainer()->set($id, $service);
+        }
+        return $kernel;
     }
 }

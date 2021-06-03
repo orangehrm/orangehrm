@@ -20,7 +20,6 @@
 namespace OrangeHRM\Authentication\Auth;
 
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Services;
 
@@ -43,16 +42,6 @@ class User
      * @var Session
      */
     protected $session = null;
-
-    /**
-     * @var null|\OrangeHRM\Entity\User
-     */
-    protected ?\OrangeHRM\Entity\User $user = null;
-
-    /**
-     * @var null|Employee
-     */
-    protected ?Employee $employee = null;
 
     private function __construct()
     {
@@ -198,39 +187,5 @@ class User
     public function setEmpNumber(?int $empNumber): void
     {
         $this->setAttribute(self::USER_EMPLOYEE_NUMBER, $empNumber);
-    }
-
-    /**
-     * @return \OrangeHRM\Entity\User|null
-     */
-    public function getUser(): ?\OrangeHRM\Entity\User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param \OrangeHRM\Entity\User|null $user
-     * @internal
-     */
-    public function setUser(?\OrangeHRM\Entity\User $user): void
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * @return Employee|null
-     */
-    public function getEmployee(): ?Employee
-    {
-        return $this->employee;
-    }
-
-    /**
-     * @param Employee|null $employee
-     * @internal
-     */
-    public function setEmployee(?Employee $employee): void
-    {
-        $this->employee = $employee;
     }
 }

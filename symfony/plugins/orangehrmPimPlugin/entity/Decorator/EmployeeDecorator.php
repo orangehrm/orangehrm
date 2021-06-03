@@ -22,7 +22,12 @@ namespace OrangeHRM\Entity\Decorator;
 use DateTime;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmploymentStatus;
+use OrangeHRM\Entity\JobCategory;
+use OrangeHRM\Entity\JobTitle;
+use OrangeHRM\Entity\Location;
 use OrangeHRM\Entity\Nationality;
+use OrangeHRM\Entity\Subunit;
 
 class EmployeeDecorator
 {
@@ -128,5 +133,73 @@ class EmployeeDecorator
     {
         return $this->getEmployee()->getEmployeeTerminationRecord() == null ?
             Employee::STATE_ACTIVE : Employee::STATE_TERMINATED;
+    }
+
+    /**
+     * @return Location|null
+     */
+    public function getLocation(): ?Location
+    {
+        $locations = $this->getEmployee()->getLocations();
+        if (empty($locations) || !isset($locations[0])) {
+            return null;
+        }
+        return $locations[0];
+    }
+
+    /**
+     * @param int|null $id
+     */
+    public function setLocationById(?int $id): void
+    {
+        $location = $this->getLocation();
+        if ($location) {
+            $this->getEntityManager()->remove($location);
+        }
+        /** @var Location|null $location */
+        $location = is_null($id) ? null : $this->getReference(Location::class, $id);
+        if ($location) {
+            $this->getEmployee()->setLocations([$location]);
+        }
+    }
+
+    /**
+     * @param int|null $id
+     */
+    public function setJobTitleById(?int $id): void
+    {
+        /** @var JobTitle|null $jobTitle */
+        $jobTitle = is_null($id) ? null : $this->getReference(JobTitle::class, $id);
+        $this->getEmployee()->setJobTitle($jobTitle);
+    }
+
+    /**
+     * @param int|null $id
+     */
+    public function setEmpStatusById(?int $id): void
+    {
+        /** @var EmploymentStatus|null $empStatus */
+        $empStatus = is_null($id) ? null : $this->getReference(EmploymentStatus::class, $id);
+        $this->getEmployee()->setEmpStatus($empStatus);
+    }
+
+    /**
+     * @param int|null $id
+     */
+    public function setJobCategoryById(?int $id): void
+    {
+        /** @var JobCategory|null $jobCategory */
+        $jobCategory = is_null($id) ? null : $this->getReference(JobCategory::class, $id);
+        $this->getEmployee()->setJobCategory($jobCategory);
+    }
+
+    /**
+     * @param int|null $id
+     */
+    public function setSubunitById(?int $id): void
+    {
+        /** @var Subunit|null $subunit */
+        $subunit = is_null($id) ? null : $this->getReference(Subunit::class, $id);
+        $this->getEmployee()->setSubDivision($subunit);
     }
 }

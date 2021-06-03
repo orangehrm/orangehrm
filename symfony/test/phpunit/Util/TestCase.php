@@ -92,4 +92,36 @@ abstract class TestCase extends PHPUnitTestCase
         $method = self::getClassMethod($className, $methodName);
         return $method->invokeArgs($mockInstance, $methodParams);
     }
+
+    /**
+     * @param string $className
+     * @param string $methodName
+     * @param array $methodParams
+     * @param array $constructorParams
+     * @return mixed
+     */
+    protected function invokeProtectedMethod(
+        string $className,
+        string $methodName,
+        array $methodParams = [],
+        array $constructorParams = []
+    ) {
+        return $this->invokePrivateMethod($className, $methodName, $methodParams, $constructorParams);
+    }
+
+    /**
+     * @param string $className
+     * @param MockObject $mockInstance
+     * @param string $methodName
+     * @param array $methodParams
+     * @return mixed
+     */
+    protected function invokeProtectedMethodOnMock(
+        string $className,
+        MockObject $mockInstance,
+        string $methodName,
+        array $methodParams = []
+    ) {
+        return $this->invokePrivateMethodOnMock($className, $mockInstance, $methodName, $methodParams);
+    }
 }

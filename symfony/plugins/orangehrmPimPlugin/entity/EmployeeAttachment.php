@@ -58,7 +58,6 @@ class EmployeeAttachment
         self::SCREEN_TAX_EXEMPTIONS,
         self::SCREEN_SALARY,
         self::SCREEN_JOB,
-        self::SCREEN_JOB_CONTRACT,
         self::SCREEN_REPORT_TO,
         self::SCREEN_MEMBERSHIP,
     ];

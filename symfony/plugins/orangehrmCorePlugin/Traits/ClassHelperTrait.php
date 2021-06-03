@@ -30,7 +30,7 @@ trait ClassHelperTrait
      */
     protected function classExists(string $className, ?string $fallbackNamespace = null): bool
     {
-        return ClassHelper::getClass($className, $fallbackNamespace);
+        return ClassHelper::classExists($className, $fallbackNamespace);
     }
 
     /**

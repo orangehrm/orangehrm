@@ -44,14 +44,16 @@ class ValidationDecorator
 
     /**
      * @param ParamRule $paramRule
-     * @param bool $considerEmptyString
+     * @param bool $excludeEmptyString If true consider empty string as acceptable value,
+     * If false consider empty string as null while validating
+     *
      * @return ParamRule
      */
-    public function notRequiredParamRule(ParamRule $paramRule, bool $considerEmptyString = false): ParamRule
+    public function notRequiredParamRule(ParamRule $paramRule, bool $excludeEmptyString = false): ParamRule
     {
         $paramRule->setRules(
             [
-                new Rule(Rules::NOT_REQUIRED, [$considerEmptyString]),
+                new Rule(Rules::NOT_REQUIRED, [$excludeEmptyString]),
                 new Rule($paramRule->getCompositeClass(), [...$paramRule->getRules()])
             ]
         );
