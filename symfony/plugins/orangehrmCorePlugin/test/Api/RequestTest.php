@@ -34,7 +34,7 @@ class RequestTest extends TestCase
     {
         $httpRequest = new HttpRequest();
         $request = new Request($httpRequest);
-        $this->assertEquals([], $request->getAllParameters());
+        $this->assertEmpty($request->getAllParameters());
 
         $httpRequest = new HttpRequest(['query' => 'param']);
         $request = new Request($httpRequest);
