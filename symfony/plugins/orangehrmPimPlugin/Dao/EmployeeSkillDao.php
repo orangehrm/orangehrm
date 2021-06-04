@@ -38,7 +38,6 @@ class EmployeeSkillDao extends BaseDao
     public function saveEmployeeSkill(EmployeeSkill $employeeSkill): EmployeeSkill
     {
         try {
-            die($employeeSkill->getEmployee()->getEmployeeId());
             $this->persist($employeeSkill);
             return $employeeSkill;
         } catch (Exception $e) {

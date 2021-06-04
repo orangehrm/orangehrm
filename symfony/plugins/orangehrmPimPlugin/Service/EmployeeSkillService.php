@@ -93,12 +93,11 @@ class EmployeeSkillService
      */
     public function searchEmployeeSkill(EmployeeSkillSearchFilterParams $EmployeeSkillSearchParams): array
     {
-//        try {
+        try {
             return $this->getEmployeeSkillDao()->searchEmployeeSkill($EmployeeSkillSearchParams);
-//        } catch (Exception $e) {
-//            die;
-//            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-//        }
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**

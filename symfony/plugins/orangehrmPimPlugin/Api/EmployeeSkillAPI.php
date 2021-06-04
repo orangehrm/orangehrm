@@ -20,14 +20,12 @@
 namespace OrangeHRM\Pim\Api;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Dto\EmployeeSkillSearchFilterParams;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\SearchParamException;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -49,10 +47,12 @@ use OrangeHRM\Core\Exception\ServiceException;
 class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
 {
     use EntityManagerHelperTrait;
-    public const PARAMETER_YEARS_OF_EXP = 'yrsOfExp';
+
+    public const PARAMETER_SKILL_ID = 'skillId';
+    public const PARAMETER_YEARS_OF_EXP = 'yearsOfExperience';
     public const PARAMETER_COMMENTS = 'comments';
 
-    public const FILTER_YEARS_OF_EXP = 'yrsOfExp';
+    public const FILTER_YEARS_OF_EXP = 'yearsOfExperience';
     public const FILTER_COMMENTS = 'comments';
 
     public const PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH = 2;
@@ -89,9 +89,6 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointGetOneResult
     {
-        /** @var Employee $employee */
-        $employee = $this->getReference(Employee::class,1);
-        $q = $this->createQueryBuilder(EmployeeSkill::class,'s')->getQuery()->execute();
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
@@ -99,7 +96,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
         $skillId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $employeeSkill = $this->getEmployeeSkillService()->getEmployeeSkillById($empNumber, $skillId);
         if (!$employeeSkill instanceof EmployeeSkill) {
-            throw new RecordNotFoundException();
+            $this->throwRecordNotFoundExceptionIfNotExist($employeeSkill, EmployeeSkill::class);
         }
 
         return new EndpointGetOneResult(EmployeeSkillModel::class, $employeeSkill);
@@ -197,6 +194,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            new ParamRule(self::PARAMETER_SKILL_ID, new Rule(Rules::REQUIRED)),
             $this->getEmpNumberRule(),
             ...$this->getCommonBodyValidationRules(),
         );
@@ -218,7 +216,6 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::INT_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH]),
             ),
-            new ParamRule(CommonParams::PARAMETER_ID),
         ];
     }
 
@@ -246,6 +243,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED)),
             $this->getEmpNumberRule(),
             ...$this->getCommonBodyValidationRules(),
         );
@@ -284,26 +282,39 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      */
     public function saveEmployeeSkill(): EmployeeSkill
     {
-        $skillId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $comments = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_COMMENTS);
-        $yrsOfExp = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_YEARS_OF_EXP);
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $skillId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SKILL_ID);
+        $comments = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_COMMENTS
+        );
+        $yrsOfExp = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_YEARS_OF_EXP
+        );
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        if (!empty($skillId) && !empty($empNumber)) {
-            $employeeSkill = $this->getEmployeeSkillService()->getEmployeeSkillById($empNumber, $skillId);
+
+        // update operation
+        if (!empty($id)) {
+            $employeeSkill = $this->getEmployeeSkillService()->getEmployeeSkillById($empNumber, $id);
             if ($employeeSkill == null) {
                 $this->throwRecordNotFoundExceptionIfNotExist($employeeSkill, EmployeeSkill::class);
             }
         } else {
-            $employeeSkill = new EmployeeSkill();
-            $employeeSkill->getDecorator()->setEmployeeByEmpNumber($empNumber);
+            if (!empty($skillId)) {  // create operation
+                $employeeSkill = $this->getEmployeeSkillService()->getEmployeeSkillById($empNumber, $skillId);
+                if ($employeeSkill == null) { // record not exist
+                    $employeeSkill = new EmployeeSkill();
+                    $employeeSkill->getDecorator()->setEmployeeByEmpNumber($empNumber);
+                    $employeeSkill->getDecorator()->setSkillBySkillId($skillId);
+                }
+            }
         }
-
         $employeeSkill->setYearsOfExp($yrsOfExp);
         $employeeSkill->setComments($comments);
-        $employeeSkill->getDecorator()->setSkillBySkillId($skillId);
 
         return $this->getEmployeeSkillService()->saveEmployeeSkill($employeeSkill);
     }
@@ -316,7 +327,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
         return new ParamRule(
             CommonParams::PARAMETER_EMP_NUMBER,
             new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS),
-//            new Rule(Rules::REQUIRED)
+            new Rule(Rules::REQUIRED)
         );
     }
 

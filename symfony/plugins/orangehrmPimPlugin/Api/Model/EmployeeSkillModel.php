@@ -38,12 +38,15 @@ class EmployeeSkillModel implements Normalizable
                 ['getEmployee', 'getEmpNumber'],
                 ['getSkill', 'getId'],
                 'yearsOfExp',
+                'comments'
             ]
         );
         $this->setAttributeNames(
             [
                 'empNumber',
-                'id'
+                'skillId',
+                'yearsOfExperience',
+                'comments'
             ]
         );
     }
