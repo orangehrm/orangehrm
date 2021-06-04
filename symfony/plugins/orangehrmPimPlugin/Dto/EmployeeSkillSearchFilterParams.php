@@ -20,8 +20,6 @@
 namespace OrangeHRM\Pim\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
-use OrangeHRM\ORM\ListSorter;
-use OrangeHRM\Core\Exception\SearchParamException;
 
 class EmployeeSkillSearchFilterParams extends FilterParams
 {
@@ -44,12 +42,10 @@ class EmployeeSkillSearchFilterParams extends FilterParams
 
     /**
      * EmployeeSkillSearchFilterParams constructor.
-     * @throws SearchParamException
      */
     public function __construct()
     {
         $this->setSortField('es.yearsOfExp');
-        $this->setSortOrder(ListSorter::DESCENDING);
     }
     /**
      * @return float|null
