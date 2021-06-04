@@ -1,5 +1,5 @@
 {
-    "baseUrl": "http://php80/orangehrm/symfony/web/index.php",
+    "baseUrl": "https://os50al9-os-guardian.orangehrm.com/web/index.php",
     "defaultCommandTimeout": 2000,
     "video": false
 }
