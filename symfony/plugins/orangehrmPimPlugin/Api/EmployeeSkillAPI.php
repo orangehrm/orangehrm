@@ -138,7 +138,6 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-
         $employeeSkillSearchParams->setEmpNumber(
             $empNumber
         );
