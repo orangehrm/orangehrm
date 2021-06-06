@@ -56,37 +56,27 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                type="dropdown"
-                label="Sub Unit"
-                v-model="job.subUnitId"
-                :options="subunits"
-              />
+              <subunit-dropdown v-model="job.subunitId" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
                 type="dropdown"
                 label="Location"
                 v-model="job.locationId"
-                :options="countries"
+                :options="locations"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                type="dropdown"
-                label="Employment Status"
-                v-model="job.empStatusId"
-                :options="employmentStatuses"
-              />
+              <employment-status-dropdown v-model="job.empStatusId" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
         <oxd-divider />
 
-        <oxd-form-row class="contract-form-header">
-          <oxd-text class="contract-form-header-text" tag="p"
-            >Include Employement Contract Details
-          </oxd-text>
+        <oxd-form-row class="user-form-header">
+          <oxd-text class="user-form-header-text" tag="p"
+            >Include Employement Contract Details &nbsp;</oxd-text
+          >
           <oxd-switch-input v-model="createContractDetails" />
         </oxd-form-row>
 
@@ -96,21 +86,24 @@
               <oxd-grid-item>
                 <oxd-input-field
                   label="Contract Start Date"
-                  v-model="job.startDate"
+                  v-model="contract.startDate"
                 />
               </oxd-grid-item>
 
               <oxd-grid-item>
                 <oxd-input-field
                   label="Contract End Date"
-                  v-model="job.endDate"
+                  v-model="contract.endDate"
                 />
               </oxd-grid-item>
 
               <oxd-grid-item>
                 <oxd-input-field
+                  type="file"
                   label="Contract Details"
-                  v-model="job.contractAttachment"
+                  buttonLabel="Browse"
+                  v-model="contract.contractAttachment"
+                  :rules="rules.specification"
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -131,9 +124,11 @@
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
+import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
+import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/EmploymentStatusDropdown';
 
 const jobDetailsModel = {
-  joinedDate: '',
+  joinedDate: [],
   jobTitleId: [],
   empStatusId: [],
   jobCategoryId: [],
@@ -141,16 +136,18 @@ const jobDetailsModel = {
   locationId: [],
 };
 
-const ContractDetailsModel = {
-  joinedDate: '',
+const contractDetailsModel = {
+  startDate: '',
   endDate: '',
-  contractAttachment: '',
+  contractAttachment: null,
 };
 
 export default {
   components: {
     'edit-employee-layout': EditEmployeeLayout,
     'oxd-switch-input': SwitchInput,
+    'subunit-dropdown': SubunitDropdown,
+    'employment-status-dropdown': EmploymentStatusDropdown,
   },
 
   props: {
@@ -158,7 +155,7 @@ export default {
       type: String,
       required: true,
     },
-    countries: {
+    locations: {
       type: Array,
       default: () => [],
     },
@@ -183,7 +180,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employee/${props.empNumber}/job-details`,
+      `api/v2/pim/employees/${props.empNumber}/job-details`,
     );
 
     return {
@@ -196,7 +193,7 @@ export default {
       isLoading: false,
       createContractDetails: false,
       job: {...jobDetailsModel},
-      Contract: {...ContractDetailsModel},
+      contract: {...contractDetailsModel},
       rules: {
         joinedDate: [
           v => {
@@ -208,6 +205,7 @@ export default {
             return !v || v?.length <= 100 || 'Should not exceed 100 characters';
           },
         ],
+        
       },
     };
   },
@@ -220,15 +218,31 @@ export default {
           method: 'PUT',
           data: {
             ...this.job,
-            locationId: this.job.locationId.map(item => item.id)[0],
             jobTitleId: this.job.jobTitleId.map(item => item.id)[0],
             jobCategoryId: this.job.jobCategoryId.map(item => item.id)[0],
             subunitId: this.job.subunitId.map(item => item.id)[0],
             empStatusId: this.job.empStatusId.map(item => item.id)[0],
+            locationId: this.job.locationId.map(item => item.id)[0],
           },
         })
         .then(response => {
-          this.updateModel(response);
+          this.updateJobModel(response);
+          if (this.createContractDetails) {
+            return this.http.request({
+              method: 'PUT',
+              url: `api/v2/pim/employees/${this.empNumber}/employment-contract`,
+              data: {
+                ...this.contract,
+                startDate: this.contract.startDate,
+                endDate: this.contract.endDate,
+              },
+            });
+          } else {
+            return;
+          }
+        })
+        .then(response => {
+          this.updateContractModel(response);
           return this.$toast.success({
             title: 'Success',
             message: 'Successfully Updated',
@@ -239,24 +253,28 @@ export default {
         });
     },
 
-    updateModel(response) {
+    updateContractModel(response) {
       const {data} = response.data;
-      this.Contract = {...ContractDetailsModel, ...data};
-      this.job = {...jobDetailsModel, ...data};
-      this.job.locationId = this.countries.filter(
-        item => item.id === data.locationId,
-      );
+      this.contract = {...contractDetailsModel, ...data};
+    },
+
+    updateJobModel(response) {
+      const {data} = response.data;
+
       this.job.jobTitleId = this.jobTitles.filter(
-        item => item.id === data.jobTitleId?.id,
+        item => item.id === data.jobTitle?.id,
       );
       this.job.jobCategoryId = this.jobCategories.filter(
-        item => item.id === data.jobCategoryId?.id,
+        item => item.id === data.jobCategory?.id,
       );
       this.job.subunitId = this.subunits.filter(
-        item => item.id === data.subunitId?.id,
+        item => item.id === data.subunit?.id,
       );
       this.job.empStatusId = this.employmentStatuses.filter(
-        item => item.id === data.empStatusId?.id,
+        item => item.id === data.empStatus?.id,
+      );
+      this.job.locationId = this.locations.filter(
+        item => item.id === data.location?.id,
       );
     },
   },
@@ -266,7 +284,16 @@ export default {
     this.http
       .getAll()
       .then(response => {
-        this.updateModel(response);
+        this.updateJobModel(response);
+      })
+      .then(() => {
+        return this.http.request({
+          method: 'GET',
+          url: `api/v2/pim/employees/${this.empNumber}/employment-contract`,
+        });
+      })
+      .then(response => {
+        this.updateContractModel(response);
       })
       .finally(() => {
         this.isLoading = false;

@@ -66,21 +66,6 @@ class EmployeeJobController extends BaseViewEmployeeController
         return $this->companyStructureService;
     }
 
-    protected function getEmploymentStatusService()
-    {
-        if (!$this->employmentStatusService instanceof EmploymentStatusService) {
-            $this->employmentStatusService = new EmploymentStatusService();
-        }
-        return $this->employmentStatusService;
-    }
-
-    protected function getEmploymentStatusSearchFilterParams()
-    {
-        if (!$this->employmentStatusSearchFilterParams instanceof EmploymentStatusSearchFilterParams) {
-            $this->employmentStatusSearchFilterParams = new EmploymentStatusSearchFilterParams();
-        }
-        return $this->employmentStatusSearchFilterParams;
-    }
 
     public function preRender(Request $request): void
     {
@@ -104,15 +89,9 @@ class EmployeeJobController extends BaseViewEmployeeController
             $component->addProp(new Prop('subunits', Prop::TYPE_ARRAY, $subunits));
             $this->setComponent($component);
 
-            /** @var EmploymentStatusService $employmentStatusService */
-            $employmentStatusSearchFilterParams = $this->getEmploymentStatusSearchFilterParams();
-            $employmentStatuses = $this->getEmploymentStatusService()->getEmploymentStatusArray($employmentStatusSearchFilterParams);
-            $component->addProp(new Prop('employmentStatuses', Prop::TYPE_ARRAY, $employmentStatuses));
-            $this->setComponent($component);
-
             /** @var CountryService $countryService */
             $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
-            $component->addProp(new Prop('countries', Prop::TYPE_ARRAY, $countryService->getCountryArray()));
+            $component->addProp(new Prop('locations', Prop::TYPE_ARRAY, $countryService->getCountryArray()));
             $this->setComponent($component);
         } else {
             $this->handleBadRequest();
