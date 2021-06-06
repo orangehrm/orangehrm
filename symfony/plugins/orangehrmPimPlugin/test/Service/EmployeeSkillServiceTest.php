@@ -17,33 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Service;
+namespace OrangeHRM\Tests\Pim\Service;
 
+use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Dao\EmployeeSkillDao;
+use OrangeHRM\Pim\Service\EmployeeSkillService;
+use OrangeHRM\Tests\Util\TestCase;
 
-class EmployeeSkillService
+/**
+ * @group Pim
+ * @group Service
+ */
+class EmployeeSkillServiceTest extends TestCase
 {
-    /**
-     * @var EmployeeSkillDao|null
-     */
-    private ?EmployeeSkillDao $EmployeeSkillDao = null;
+    private EmployeeSkillService $employeeSkillService;
 
-    /**
-     * @return EmployeeSkillDao|null
-     */
-    public function getEmployeeSkillDao(): EmployeeSkillDao
+    protected function setUp(): void
     {
-        if (!($this->EmployeeSkillDao instanceof EmployeeSkillDao)) {
-            $this->EmployeeSkillDao = new EmployeeSkillDao();
-        }
-        return $this->EmployeeSkillDao;
+        $this->employeeSkillService = new EmployeeSkillService();
     }
 
-    /**
-     * @param $EmployeeSkillDao
-     */
-    public function setEmployeeSkillDao(EmployeeSkillDao $EmployeeSkillDao): void
-    {
-        $this->EmployeeSkillDao = $EmployeeSkillDao;
+    public function testGetEmployeeSkillDao(){
+        $this->assertTrue($this->employeeSkillService->getEmployeeSkillDao() instanceof EmployeeSkillDao);
+    }
+
+    public function testGetEmployeeSkillDaoBySetter(){
+        $employeeSkillDao = new EmployeeSkillDao();
+        $this->employeeSkillService->setEmployeeSkillDao($employeeSkillDao);
+        $this->assertTrue($this->employeeSkillService->getEmployeeSkillDao() instanceof EmployeeSkillDao);
     }
 }
