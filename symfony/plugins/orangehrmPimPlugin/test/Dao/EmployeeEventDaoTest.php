@@ -58,7 +58,7 @@ class EmployeeEventDaoTest extends TestCase
         $employeeEvent = $this->employeeEventDao->saveEmployeeEvent($employeeEvent);
         $this->assertNotNull($employeeEvent->getEventId());
 
-        $resultEmployeeEvent = TestDataService::fetchLastInsertedRecord(EmployeeEvent::class, 'eventId');
+        $resultEmployeeEvent = TestDataService::fetchLastInsertedRecord(EmployeeEvent::class, 'eventId', false);
         $this->assertEquals($employeeEvent->getType(), $resultEmployeeEvent->getType());
         $this->assertEquals($employeeEvent->getEvent(), $resultEmployeeEvent->getEvent());
         $this->assertEquals($employeeEvent->getNote(), $resultEmployeeEvent->getNote());

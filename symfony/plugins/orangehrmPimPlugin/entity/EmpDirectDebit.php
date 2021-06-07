@@ -27,6 +27,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EmpDirectDebit
 {
+    public const ACCOUNT_TYPE_SAVINGS = 'SAVINGS';
+    public const ACCOUNT_TYPE_CHECKING = 'CHECKING';
+    public const ACCOUNT_TYPE_OTHER = 'OTHER';
+
     /**
      * @var int
      *
@@ -39,7 +43,7 @@ class EmpDirectDebit
     /**
      * @var EmployeeSalary
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\EmployeeSalary", inversedBy="directDebits")
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmployeeSalary", inversedBy="directDebit")
      * @ORM\JoinColumn(name="salary_id", referencedColumnName="id", onDelete="Cascade")
      */
     private EmployeeSalary $salary;

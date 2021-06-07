@@ -228,7 +228,7 @@ abstract class AbstractUserRoleManager
      * @param array $entities
      * @return bool
      */
-    abstract protected function isActionAllowed(
+    abstract public function isActionAllowed(
         string $workFlowId,
         string $state,
         string $action,

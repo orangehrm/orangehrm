@@ -55,12 +55,19 @@ trait ModelTrait
     }
 
     /**
-     * Set Api entity class
      * @param object $entity
      */
     public function setEntity(object $entity)
     {
         $this->entity = $entity;
+    }
+
+    /**
+     * @return object
+     */
+    public function getEntity(): object
+    {
+        return $this->entity;
     }
 
     /**

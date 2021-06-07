@@ -132,7 +132,7 @@ class CompanyStructureDaoTest extends TestCase
         $subUnit3->setRgt(6);
         $subUnit3->setLevel(2);
 
-        $tempSubUnit4 = TestDataService::fetchLastInsertedRecord(Subunit::class, 'a.id');
+        $tempSubUnit4 = TestDataService::fetchLastInsertedRecord(Subunit::class, 'id', false);
         $subUnit4 = new Subunit();
         $subUnit4->setId($tempSubUnit4->getId());
         $subUnit4->setName('New Department');

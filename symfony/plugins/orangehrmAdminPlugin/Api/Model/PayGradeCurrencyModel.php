@@ -17,34 +17,38 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Admin\Service\CountryService;
-use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Admin\Service\UserService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Admin\Api\Model;
 
-class AdminPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\PayGradeCurrency;
+
+class PayGradeCurrencyModel implements Normalizable
 {
-    use ServiceContainerTrait;
+    use ModelTrait;
 
     /**
-     * @inheritDoc
+     * @param PayGradeCurrency $payGradeCurrency
      */
-    public function initialize(Request $request): void
+    public function __construct(PayGradeCurrency $payGradeCurrency)
     {
-        $this->getContainer()->register(
-            Services::COUNTRY_SERVICE,
-            CountryService::class
+        $this->setEntity($payGradeCurrency);
+        $this->setFilters(
+            [
+                'minSalary',
+                'maxSalary',
+                ['getCurrencyType', 'getId'],
+                ['getCurrencyType', 'getName'],
+            ]
         );
-        $this->getContainer()->register(
-            Services::USER_SERVICE,
-            UserService::class
-        );
-        $this->getContainer()->register(
-            Services::PAY_GRADE_SERVICE,
-            PayGradeService::class
+        $this->setAttributeNames(
+            [
+                'minSalary',
+                'maxSalary',
+                ['currencyType', 'id'],
+                ['currencyType', 'name'],
+            ]
         );
     }
+
 }

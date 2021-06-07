@@ -17,34 +17,39 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Admin\Service\CountryService;
+namespace OrangeHRM\Admin\Api\Model;
+
 use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Admin\Service\UserService;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\Entity\PayGrade;
 use OrangeHRM\Framework\Services;
 
-class AdminPluginConfiguration implements PluginConfigurationInterface
+class PayGradeCurrenciesModel extends PayGradeModel implements Normalizable
 {
+    use NormalizerServiceTrait;
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return PayGradeService
      */
-    public function initialize(Request $request): void
+    public function getPayGradeService(): PayGradeService
     {
-        $this->getContainer()->register(
-            Services::COUNTRY_SERVICE,
-            CountryService::class
+        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
+    }
+
+    public function toArray(): array
+    {
+        /** @var PayGrade $payGrade */
+        $payGrade = $this->getEntity();
+        $payGradeArray = parent::toArray();
+        $payGradeCurrencies = $this->getPayGradeService()->getCurrencyListByPayGradeId($payGrade->getId());
+        $payGradeArray['payGradeCurrencies'] = $this->getNormalizerService()->normalizeArray(
+            PayGradeCurrencyModel::class,
+            $payGradeCurrencies
         );
-        $this->getContainer()->register(
-            Services::USER_SERVICE,
-            UserService::class
-        );
-        $this->getContainer()->register(
-            Services::PAY_GRADE_SERVICE,
-            PayGradeService::class
-        );
+
+        return $payGradeArray;
     }
 }

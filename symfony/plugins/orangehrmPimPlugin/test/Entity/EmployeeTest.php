@@ -24,6 +24,10 @@ use OrangeHRM\Entity\Nationality;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Pim
+ * @group Entity
+ */
 class EmployeeTest extends EntityTestCase
 {
     public function testEmployeeEntityWithNationality(): void

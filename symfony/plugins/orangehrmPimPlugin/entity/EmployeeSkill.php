@@ -19,7 +19,7 @@ class EmployeeSkill
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="skills")
      * @ORM\Id
-     * @ORM\JoinColumn(name="emp_number")
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
     private Employee $employee;
 
