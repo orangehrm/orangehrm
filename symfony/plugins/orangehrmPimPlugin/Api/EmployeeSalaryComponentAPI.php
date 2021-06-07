@@ -238,10 +238,12 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
             self::PARAMETER_SALARY_AMOUNT
         );
 
-        if ($payGradeId && $this->getPayGradeService()
+        if (!is_null($payGradeId)) {
+            if (!$this->getPayGradeService()
                 ->isValidSalaryAmountForPayGradeCurrency($salaryAmount, $currencyTypeId, $payGradeId)
-        ) {
-            throw $this->getBadRequestException('Salary should be within min and max');
+            ) {
+                throw $this->getBadRequestException('Salary should be within min and max');
+            }
         }
 
         $employeeSalary->setAmount($salaryAmount);
