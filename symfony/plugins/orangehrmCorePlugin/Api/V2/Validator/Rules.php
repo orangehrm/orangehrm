@@ -35,6 +35,7 @@ final class Rules
     public const IN_ACCESSIBLE_EMP_NUMBERS = OHRMRules\InAccessibleEmpNumbers::class;
     public const BASE_64_ATTACHMENT = OHRMRules\Base64Attachment::class;
     public const COUNTRY_CODE = OHRMRules\CountryCode::class;
+    public const CURRENCY = OHRMRules\Currency::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;
@@ -62,7 +63,6 @@ final class Rules
     public const COUNTABLE = RespectRules\Countable::class;
     public const CPF = RespectRules\Cpf::class;
     public const CREDIT_CARD = RespectRules\CreditCard::class;
-    public const CURRENCY_CODE = RespectRules\CurrencyCode::class;
     public const DATE = RespectRules\Date::class;
     public const DATE_TIME = RespectRules\DateTime::class;
     public const DECIMAL = RespectRules\Decimal::class;
@@ -186,6 +186,7 @@ final class Rules
     /**
      * Unused rules
      * @RespectRules\CountryCode::class
+     * @RespectRules\CurrencyCode::class
      */
 
     private function __construct()

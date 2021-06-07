@@ -17,34 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Admin\Service\CountryService;
-use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Admin\Service\UserService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Admin\Dto;
 
-class AdminPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Core\Dto\FilterParams;
+
+class PayGradeSearchFilterParams extends FilterParams
 {
-    use ServiceContainerTrait;
+    public const ALLOWED_SORT_FIELDS = ['pg.name'];
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
+    public function __construct()
     {
-        $this->getContainer()->register(
-            Services::COUNTRY_SERVICE,
-            CountryService::class
-        );
-        $this->getContainer()->register(
-            Services::USER_SERVICE,
-            UserService::class
-        );
-        $this->getContainer()->register(
-            Services::PAY_GRADE_SERVICE,
-            PayGradeService::class
-        );
+        $this->setSortField('pg.name');
     }
 }

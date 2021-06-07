@@ -396,14 +396,24 @@ class TestDataService
         return $q->getQuery()->execute();
     }
 
-    public static function fetchLastInsertedRecord($alias, $orderBy) {
+    /**
+     * @param string $alias
+     * @param string $orderBy
+     * @param bool $clearEntities
+     * @return object|null
+     */
+    public static function fetchLastInsertedRecord(string $alias, string $orderBy, bool $clearEntities = true): ?object
+    {
         $entityName = self::getFQEntityName($alias);
+        if ($clearEntities) {
+            Doctrine::getEntityManager()->clear($entityName);
+        }
         $q = Doctrine::getEntityManager()->getRepository($entityName)->createQueryBuilder('a');
         $q->setMaxResults(1);
-        if (substr( $orderBy, 0, 2 ) !== "a.") {
-            $orderBy = 'a.' .$orderBy;
+        if (substr($orderBy, 0, 2) !== "a.") {
+            $orderBy = 'a.' . $orderBy;
         }
-        $q->orderBy($orderBy,'DESC');
+        $q->orderBy($orderBy, 'DESC');
 
         return $q->getQuery()->getOneOrNullResult();
     }

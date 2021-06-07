@@ -19,16 +19,20 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\EmployeeSalaryDecorator;
 
 /**
+ * @method EmployeeSalaryDecorator getDecorator()
+ *
  * @ORM\Table(name="hs_hr_emp_basicsalary")
  * @ORM\Entity
  */
 class EmployeeSalary
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -41,8 +45,8 @@ class EmployeeSalary
     /**
      * @var Employee
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="salaries")
-     * @ORM\JoinColumn(name="emp_number", referencedColumnName="empNumber")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="salaries", cascade={"persist"})
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
     private Employee $employee;
 
@@ -58,7 +62,7 @@ class EmployeeSalary
      * @var CurrencyType
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\CurrencyType")
-     * @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="currency_id", referencedColumnName="currency_id")
      */
     private CurrencyType $currencyType;
 
@@ -82,29 +86,21 @@ class EmployeeSalary
      *
      * @ORM\Column(name="salary_component", type="string", length=100, nullable=true)
      */
-    private ?string $salaryName;
+    private ?string $salaryName = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="comments", type="string", length=255, nullable=true)
      */
-    private ?string $comment;
+    private ?string $comment = null;
 
     /**
-     * @var Collection|EmpDirectDebit[]
+     * @var EmpDirectDebit|null
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpDirectDebit", mappedBy="salary")
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmpDirectDebit", mappedBy="salary", cascade={"persist"})
      */
-    private $directDebits;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->directDebits = new ArrayCollection();
-    }
+    private ?EmpDirectDebit $directDebit = null;
 
     /**
      * @return int
@@ -235,18 +231,18 @@ class EmployeeSalary
     }
 
     /**
-     * @return Collection|EmpDirectDebit[]
+     * @return EmpDirectDebit|null
      */
-    public function getDirectDebits()
+    public function getDirectDebit(): ?EmpDirectDebit
     {
-        return $this->directDebits;
+        return $this->directDebit;
     }
 
     /**
-     * @param Collection|EmpDirectDebit[] $directDebits
+     * @param EmpDirectDebit|null $directDebit
      */
-    public function setDirectDebits($directDebits): void
+    public function setDirectDebit(?EmpDirectDebit $directDebit): void
     {
-        $this->directDebits = $directDebits;
+        $this->directDebit = $directDebit;
     }
 }

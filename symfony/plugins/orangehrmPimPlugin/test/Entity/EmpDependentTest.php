@@ -25,6 +25,10 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Pim
+ * @group Entity
+ */
 class EmpDependentTest extends EntityTestCase
 {
     protected function setUp(): void
