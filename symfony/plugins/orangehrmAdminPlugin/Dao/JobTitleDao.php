@@ -49,7 +49,7 @@ class JobTitleDao extends BaseDao
         $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
 
         try {
-            $q = $this->createQueryBuilder(JobTitle::class,'jt' );
+            $q = $this->createQueryBuilder(JobTitle::class, 'jt');
             if ($activeOnly == true) {
                 $q->andWhere('jt.isDeleted = :isDeleted');
                 $q->setParameter('isDeleted', JobTitle::ACTIVE);
@@ -169,6 +169,24 @@ class JobTitleDao extends BaseDao
             return $jobSpecificationAttachment;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param int $jobTitleId
+     * @return JobSpecificationAttachment|null
+     * @throws DaoException
+     */
+    public function getJobSpecificationByJobTitleId(int $jobTitleId): ?JobSpecificationAttachment
+    {
+        try {
+            $q = $this->createQueryBuilder(JobSpecificationAttachment::class, 'js');
+            $q->andWhere('js.jobTitle = :jobTitleId')
+                ->setParameter('jobTitleId', $jobTitleId);
+
+            return $this->fetchOne($q);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

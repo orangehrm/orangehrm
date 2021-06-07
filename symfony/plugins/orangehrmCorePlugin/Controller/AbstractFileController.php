@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Controller;
 
 use OrangeHRM\Framework\Http\BinaryFileResponse;
+use OrangeHRM\Framework\Http\Response;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 
 abstract class AbstractFileController extends AbstractController
@@ -60,5 +61,41 @@ abstract class AbstractFileController extends AbstractController
             HeaderUtils::DISPOSITION_ATTACHMENT,
             $filename
         );
+    }
+
+    /**
+     * @param string $filename
+     * @param string $contentType
+     * @param string $contentLength
+     * @param Response|null $response
+     * @return Response
+     */
+    protected function setCommonHeadersToResponse(
+        string $filename,
+        string $contentType,
+        string $contentLength,
+        ?Response $response = null
+    ): Response {
+        if (is_null($response)) {
+            $response = $this->getResponse();
+        }
+
+        $response->headers->set("Content-Type", $contentType);
+        $response->headers->set("Content-Length", $contentLength);
+        $response->headers->set(
+            'Content-Disposition',
+            $this->makeAttachmentDisposition($filename)
+        );
+
+        $response->setPublic();
+        $response->setMaxAge(0);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+        $response->headers->addCacheControlDirective('post-check', 0);
+        $response->headers->addCacheControlDirective('pre-check', 0);
+        $response->headers->set("Content-Transfer-Encoding", "binary");
+        $response->headers->set('Pragma', 'Public');
+        $response->headers->set('Expires', '0');
+
+        return $response;
     }
 }
