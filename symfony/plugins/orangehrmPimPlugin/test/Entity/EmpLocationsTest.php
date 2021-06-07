@@ -26,6 +26,10 @@ use OrangeHRM\Entity\Location;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Pim
+ * @group Entity
+ */
 class EmpLocationsTest extends EntityTestCase
 {
     protected function setUp(): void

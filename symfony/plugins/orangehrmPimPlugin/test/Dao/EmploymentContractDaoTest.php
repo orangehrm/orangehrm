@@ -25,6 +25,10 @@ use OrangeHRM\Pim\Dao\EmploymentContractDao;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Pim
+ * @group Dao
+ */
 class EmploymentContractDaoTest extends TestCase
 {
     /**

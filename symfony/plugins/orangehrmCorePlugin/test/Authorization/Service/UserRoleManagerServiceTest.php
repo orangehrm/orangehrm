@@ -290,7 +290,7 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         return [];
     }
 
-    protected function isActionAllowed(
+    public function isActionAllowed(
         string $workFlowId,
         string $state,
         string $action,

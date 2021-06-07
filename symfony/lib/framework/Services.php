@@ -119,6 +119,11 @@ final class Services
     public const COUNTRY_SERVICE = 'admin.country_service';
 
     /**
+     * @see \OrangeHRM\Admin\Service\PayGradeService
+     */
+    public const PAY_GRADE_SERVICE = 'admin.pay_grade_service';
+
+    /**
      * @see \OrangeHRM\Admin\Service\UserService
      */
     public const USER_SERVICE = 'admin.user_service';
