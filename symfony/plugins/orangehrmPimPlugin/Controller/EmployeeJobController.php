@@ -66,6 +66,14 @@ class EmployeeJobController extends BaseViewEmployeeController
         return $this->companyStructureService;
     }
 
+    protected function getEmploymentStatusService()
+    {
+        if (!$this->employmentStatusService instanceof EmploymentStatusService) {
+            $this->employmentStatusService = new EmploymentStatusService();
+        }
+        return $this->employmentStatusService;
+    }
+
 
     public function preRender(Request $request): void
     {
@@ -84,8 +92,20 @@ class EmployeeJobController extends BaseViewEmployeeController
             $component->addProp(new Prop('job-categories', Prop::TYPE_ARRAY, $jobCategories));
             $this->setComponent($component);
 
+            /** @var EmploymentStatusService $employmentStatusService */
+            $employmentStatuses = $this->getEmploymentStatusService()->getEmploymentStatusArray();
+            $component->addProp(new Prop('employment-statuses', Prop::TYPE_ARRAY, $employmentStatuses));
+            $this->setComponent($component);
+
             /** @var CompanyStructureService $companyStructureService */
             $subunits = $this->getCompanyStructureService()->getSubunitArray();
+            $subunits = array_map(function($subunit){
+                return [
+                    'id' => $subunit['id'],
+                    'label' => $subunit['name'],
+                    'indent' => $subunit['level'] ? intval($subunit['level']) + 1 : 1,
+                ]; 
+            }, $subunits);
             $component->addProp(new Prop('subunits', Prop::TYPE_ARRAY, $subunits));
             $this->setComponent($component);
 

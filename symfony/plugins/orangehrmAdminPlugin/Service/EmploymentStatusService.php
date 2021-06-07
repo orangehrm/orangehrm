@@ -118,13 +118,13 @@ class EmploymentStatusService
     }
 
     /**
-     * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return array
      * @throws ServiceException
      * @throws NormalizeException
      */
-    public function getEmploymentStatusArray(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): array
+    public function getEmploymentStatusArray(): array
     {
+        $employmentStatusSearchParams = new EmploymentStatusSearchFilterParams();
         $employmentStatuses = $this->searchEmploymentStatus( $employmentStatusSearchParams);
         return $this->getNormalizerService()->normalizeArray(EmploymentStatusModel::class, $employmentStatuses);
     }

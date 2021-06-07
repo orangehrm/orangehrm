@@ -56,7 +56,12 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <subunit-dropdown v-model="job.subunitId" />
+              <oxd-input-field
+                type="dropdown"
+                label="Sub Unit"
+                v-model="job.subunitId"
+                :options="subunits"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -67,7 +72,12 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <employment-status-dropdown v-model="job.empStatusId" />
+              <oxd-input-field
+                type="dropdown"
+                label="Employment Status"
+                v-model="job.empStatusId"
+                :options="employmentStatuses"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -75,7 +85,7 @@
 
         <oxd-form-row class="user-form-header">
           <oxd-text class="user-form-header-text" tag="p"
-            >Include Employement Contract Details &nbsp;</oxd-text
+            >Include Employement Contract Details</oxd-text
           >
           <oxd-switch-input v-model="createContractDetails" />
         </oxd-form-row>
@@ -103,8 +113,11 @@
                   label="Contract Details"
                   buttonLabel="Browse"
                   v-model="contract.contractAttachment"
-                  :rules="rules.specification"
+                  :rules="rules.contractAttachment"
                 />
+                <oxd-text class="orangehrm-input-hint" tag="p"
+                  >Accepts up to 1MB</oxd-text
+                >
               </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
@@ -124,8 +137,6 @@
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
-import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
-import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/EmploymentStatusDropdown';
 
 const jobDetailsModel = {
   joinedDate: '',
@@ -146,8 +157,6 @@ export default {
   components: {
     'edit-employee-layout': EditEmployeeLayout,
     'oxd-switch-input': SwitchInput,
-    'subunit-dropdown': SubunitDropdown,
-    'employment-status-dropdown': EmploymentStatusDropdown,
   },
 
   props: {
@@ -195,15 +204,11 @@ export default {
       job: {...jobDetailsModel},
       contract: {...contractDetailsModel},
       rules: {
-        joinedDate: [
-          v => {
-            return !v || v?.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
-        endDate: [
-          v => {
-            return !v || v?.length <= 100 || 'Should not exceed 100 characters';
-          },
+        contractAttachment: [
+          v =>
+            v === null ||
+            (v && v.size && v.size <= 1024 * 1024) ||
+            'Attachment size exceeded',
         ],
       },
     };
@@ -255,7 +260,14 @@ export default {
 
     updateContractModel(response) {
       const {data} = response.data;
-      this.contract = {...contractDetailsModel, ...data};
+      if (data.startDate || data.endDate) {
+        this.createContractDetails = true;
+      }
+      this.contract.startDate = data.startDate;
+      this.contract.endDate = data.endDate;
+      this.contract.contractAttachment = data.contractAttachment?.id
+        ? data.contractAttachment
+        : null;
     },
 
     updateJobModel(response) {
@@ -278,7 +290,6 @@ export default {
       this.job.locationId = this.locations.filter(
         item => item.id === data.location?.id,
       );
-      console.log(this.job);
     },
   },
 
@@ -304,3 +315,5 @@ export default {
   },
 };
 </script>
+
+<style src="./employee.scss" lang="scss" scoped></style>
