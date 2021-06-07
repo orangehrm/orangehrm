@@ -57,6 +57,15 @@ class EmployeeDecorator
     /**
      * @return string|null
      */
+    public function getJoinedDate(): ?string
+    {
+        $date = $this->getEmployee()->getJoinedDate();
+        return $date ? $date->format('Y-m-d') : null;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getDrivingLicenseExpiredDate(): ?string
     {
         $date = $this->getEmployee()->getDrivingLicenseExpiredDate();
