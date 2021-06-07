@@ -23,8 +23,11 @@ use OrangeHRM\Admin\Dao\PayGradeDao;
 use OrangeHRM\Admin\Dto\PayGradeSearchFilterParams;
 use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Entity\PayGrade;
 use OrangeHRM\Entity\PayGradeCurrency;
+use OrangeHRM\Entity\PayPeriod;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -123,5 +126,73 @@ class PayGradeServiceTest extends TestCase
 
         $result = $this->payGradeService->getCurrencyByCurrencyIdAndPayGradeId('USD', 1);
         $this->assertEquals($result, $payGradeCurrencyList[0]);
+    }
+
+    public function testGetPayPeriodArray(): void
+    {
+        $payPeriod = new PayPeriod();
+        $payPeriod->setCode(1);
+        $payPeriod->setName('Weekly');
+
+        $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
+        $payGradeDao->expects($this->once())
+            ->method('getPayPeriods')
+            ->will($this->returnValue([$payPeriod]));
+
+        $payGradeService = $this->getMockBuilder(PayGradeService::class)
+            ->onlyMethods(['getNormalizerService'])
+            ->getMock();
+        $payGradeService->expects($this->once())
+            ->method('getNormalizerService')
+            ->will($this->returnValue(new NormalizerService()));
+        $payGradeService->setPayGradeDao($payGradeDao);
+
+        $result = $payGradeService->getPayPeriodArray();
+        $this->assertEquals([['id' => 1, 'label' => 'Weekly']], $result);
+    }
+
+    public function testGetPayGradeArray(): void
+    {
+        $payGrade = new PayGrade();
+        $payGrade->setId(1);
+        $payGrade->setName('Test');
+
+        $payGradeService = $this->getMockBuilder(PayGradeService::class)
+            ->onlyMethods(['getNormalizerService', 'getPayGradeList'])
+            ->getMock();
+        $payGradeService->expects($this->once())
+            ->method('getNormalizerService')
+            ->will($this->returnValue(new NormalizerService()));
+
+        $payGradeService->expects($this->once())
+            ->method('getPayGradeList')
+            ->will($this->returnValue([$payGrade]));
+
+        $result = $payGradeService->getPayGradeArray();
+        $this->assertEquals([['id' => 1, 'label' => 'Test']], $result);
+    }
+
+    public function testGetCurrencyArray(): void
+    {
+        $currencyType = new CurrencyType();
+        $currencyType->setId(151);
+        $currencyType->setId('USD');
+        $currencyType->setName('United States Dollar');
+
+        $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
+        $payGradeDao->expects($this->once())
+            ->method('getCurrencies')
+            ->will($this->returnValue([$currencyType]));
+
+        $payGradeService = $this->getMockBuilder(PayGradeService::class)
+            ->onlyMethods(['getNormalizerService'])
+            ->getMock();
+        $payGradeService->expects($this->once())
+            ->method('getNormalizerService')
+            ->will($this->returnValue(new NormalizerService()));
+        $payGradeService->setPayGradeDao($payGradeDao);
+
+        $result = $payGradeService->getCurrencyArray();
+        $this->assertEquals([['id' => 'USD', 'label' => 'United States Dollar']], $result);
     }
 }

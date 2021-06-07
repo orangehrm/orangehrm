@@ -21,12 +21,18 @@ namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\PayGradeDao;
 use OrangeHRM\Admin\Dto\PayGradeSearchFilterParams;
+use OrangeHRM\Admin\Service\Model\CurrencyModel;
+use OrangeHRM\Admin\Service\Model\PayGradeModel;
+use OrangeHRM\Admin\Service\Model\PayPeriodModel;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\PayGrade;
 use OrangeHRM\Entity\PayGradeCurrency;
 
 class PayGradeService
 {
+    use NormalizerServiceTrait;
+
     /**
      * @var PayGradeDao|null
      */
@@ -62,12 +68,15 @@ class PayGradeService
     }
 
     /**
-     * @param PayGradeSearchFilterParams $payGradeSearchFilterParams
+     * @param PayGradeSearchFilterParams|null $payGradeSearchFilterParams
      * @return PayGrade[]
      * @throws DaoException
      */
-    public function getPayGradeList(PayGradeSearchFilterParams $payGradeSearchFilterParams): array
+    public function getPayGradeList(PayGradeSearchFilterParams $payGradeSearchFilterParams = null): array
     {
+        if (is_null($payGradeSearchFilterParams)) {
+            $payGradeSearchFilterParams = new PayGradeSearchFilterParams();
+        }
         return $this->getPayGradeDao()->getPayGradeList($payGradeSearchFilterParams);
     }
 
@@ -113,5 +122,35 @@ class PayGradeService
         }
 
         return true;
+    }
+
+    /**
+     * @return array
+     * @throws DaoException
+     */
+    public function getPayPeriodArray(): array
+    {
+        $payPeriods = $this->getPayGradeDao()->getPayPeriods();
+        return $this->getNormalizerService()->normalizeArray(PayPeriodModel::class, $payPeriods);
+    }
+
+    /**
+     * @return array
+     * @throws DaoException
+     */
+    public function getPayGradeArray(): array
+    {
+        $payGrades = $this->getPayGradeList();
+        return $this->getNormalizerService()->normalizeArray(PayGradeModel::class, $payGrades);
+    }
+
+    /**
+     * @return array
+     * @throws DaoException
+     */
+    public function getCurrencyArray(): array
+    {
+        $currencies = $this->getPayGradeDao()->getCurrencies();
+        return $this->getNormalizerService()->normalizeArray(CurrencyModel::class, $currencies);
     }
 }

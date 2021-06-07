@@ -36,6 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\EmpDirectDebit;
 use OrangeHRM\Entity\EmployeeSalary;
 use OrangeHRM\Pim\Api\Model\EmployeeSalaryModel;
@@ -43,6 +44,8 @@ use OrangeHRM\Pim\Service\EmployeeSalaryService;
 
 class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
 {
+    use ServiceContainerTrait;
+
     public const PARAMETER_PAY_GRADE_ID = 'payGradeId';
     public const PARAMETER_SALARY_COMPONENT = 'salaryComponent';
     public const PARAMETER_PAY_FREQUENCY_ID = 'payFrequencyId';
@@ -70,11 +73,6 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     protected ?EmployeeSalaryService $employeeSalaryService = null;
 
     /**
-     * @var PayGradeService|null
-     */
-    protected ?PayGradeService $payGradeService = null;
-
-    /**
      * @return EmployeeSalaryService
      */
     public function getEmployeeSalaryService(): EmployeeSalaryService
@@ -90,10 +88,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
      */
     public function getPayGradeService(): PayGradeService
     {
-        if (!$this->payGradeService instanceof PayGradeService) {
-            $this->payGradeService = new PayGradeService();
-        }
-        return $this->payGradeService;
+        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
     }
 
     /**
