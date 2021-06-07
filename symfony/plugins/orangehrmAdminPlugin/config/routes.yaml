@@ -146,6 +146,20 @@ apiv2_organization:
     id: 0
     _api: OrangeHRM\Admin\Api\OrganizationAPI
 
+apiv2_admin_paygrades_currency:
+  path: /api/v2/admin/pay-grades/{payGradeId}/currencies/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeCurrencyAPI
+
+apiv2_admin_paygrades_currencies:
+  path: /api/v2/admin/pay-grades/{payGradeId}/currencies
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeCurrencyAPI
+
 
 ##########################
 #        Screens

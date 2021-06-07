@@ -17,34 +17,26 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Admin\Service\CountryService;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
+
 use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\Core\Traits\TextHelperTrait;
+use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Framework\Services;
 
-class AdminPluginConfiguration implements PluginConfigurationInterface
+class Currency extends AbstractRule
 {
     use ServiceContainerTrait;
+    use TextHelperTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function initialize(Request $request): void
+    public function validate($input): bool
     {
-        $this->getContainer()->register(
-            Services::COUNTRY_SERVICE,
-            CountryService::class
-        );
-        $this->getContainer()->register(
-            Services::USER_SERVICE,
-            UserService::class
-        );
-        $this->getContainer()->register(
-            Services::PAY_GRADE_SERVICE,
-            PayGradeService::class
-        );
+        /** @var PayGradeService $payGradeService */
+        $payGradeService = $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
+        if (!is_string($input) || $this->strLength($input) !== 3) {
+            return false;
+        }
+        return $payGradeService->getPayGradeDao()->getCurrencyById($input) instanceof CurrencyType;
     }
 }

@@ -79,6 +79,24 @@ apiv2_pim_employees_dependents:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_salary_component:
+  path: /api/v2/pim/employees/{empNumber}/salary-components/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_salary_components:
+  path: /api/v2/pim/employees/{empNumber}/salary-components
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSalaryComponentAPI
+  requirements:
+    empNumber: '\d+'
+
 apiv2_pim_employees_attachment:
   path: /api/v2/pim/employees/{empNumber}/screen/{screen}/attachments/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
