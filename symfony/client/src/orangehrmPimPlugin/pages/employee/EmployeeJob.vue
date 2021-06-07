@@ -128,7 +128,7 @@ import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
 import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/EmploymentStatusDropdown';
 
 const jobDetailsModel = {
-  joinedDate: [],
+  joinedDate: '',
   jobTitleId: [],
   empStatusId: [],
   jobCategoryId: [],
@@ -205,7 +205,6 @@ export default {
             return !v || v?.length <= 100 || 'Should not exceed 100 characters';
           },
         ],
-        
       },
     };
   },
@@ -233,8 +232,6 @@ export default {
               url: `api/v2/pim/employees/${this.empNumber}/employment-contract`,
               data: {
                 ...this.contract,
-                startDate: this.contract.startDate,
-                endDate: this.contract.endDate,
               },
             });
           } else {
@@ -242,7 +239,10 @@ export default {
           }
         })
         .then(response => {
-          this.updateContractModel(response);
+          if (this.createContractDetails) {
+            this.updateContractModel(response);
+          }
+
           return this.$toast.success({
             title: 'Success',
             message: 'Successfully Updated',
@@ -261,6 +261,8 @@ export default {
     updateJobModel(response) {
       const {data} = response.data;
 
+      this.job.joinedDate = data.joinedDate;
+
       this.job.jobTitleId = this.jobTitles.filter(
         item => item.id === data.jobTitle?.id,
       );
@@ -276,6 +278,7 @@ export default {
       this.job.locationId = this.locations.filter(
         item => item.id === data.location?.id,
       );
+      console.log(this.job);
     },
   },
 
