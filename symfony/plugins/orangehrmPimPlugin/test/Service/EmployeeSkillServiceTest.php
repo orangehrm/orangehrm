@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Tests\Pim\Service;
 
-use OrangeHRM\Core\Service\ConfigService;
-use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Dao\EmployeeSkillDao;
 use OrangeHRM\Pim\Service\EmployeeSkillService;
 use OrangeHRM\Tests\Util\TestCase;
