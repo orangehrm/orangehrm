@@ -21,14 +21,14 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Save Nationality</oxd-text>
+      <oxd-text tag="h6">Add Nationality</oxd-text>
 
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Nationality Name"
+            label="Name"
             v-model="nationality.name"
             :rules="rules.name"
             required

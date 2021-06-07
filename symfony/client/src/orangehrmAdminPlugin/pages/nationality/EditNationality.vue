@@ -28,7 +28,7 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Nationality Name"
+            label="Name"
             v-model="nationality.name"
             :rules="rules.name"
             required

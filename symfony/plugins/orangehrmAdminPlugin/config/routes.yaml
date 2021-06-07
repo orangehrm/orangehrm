@@ -350,10 +350,10 @@ view_nationality:
 
 save_nationality:
   path: /admin/saveNationality
-  controller: OrangeHRM\Admin\Controller\SaveJobCategoryController::handle
+  controller: OrangeHRM\Admin\Controller\SaveNationalityController::handle
   methods: [ GET ]
 
 edit_nationality:
   path: /admin/saveNationality/{id}
-  controller: OrangeHRM\Admin\Controller\SaveJobCategoryController::handle
+  controller: OrangeHRM\Admin\Controller\SaveNationalityController::handle
   methods: [ GET ]
