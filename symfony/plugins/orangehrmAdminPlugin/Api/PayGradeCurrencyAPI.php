@@ -19,12 +19,11 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use OrangeHRM\Admin\Api\Model\PayGradeCurrenciesModel;
-use OrangeHRM\Admin\Api\Model\PayGradeModel;
+use OrangeHRM\Admin\Api\Model\PayGradeCurrencyModel;
 use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
@@ -35,33 +34,21 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\PayGrade;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
-class PayGradeAPI extends Endpoint implements CrudEndpoint
+class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
 {
-    public const FILTER_MODEL = 'model';
+    use ServiceContainerTrait;
 
-    public const MODEL_DEFAULT = 'default';
-    public const MODEL_PAY_GRADE_WITH_CURRENCIES = 'withCurrencies';
-    public const MODEL_MAP = [
-        self::MODEL_DEFAULT => PayGradeModel::class,
-        self::MODEL_PAY_GRADE_WITH_CURRENCIES => PayGradeCurrenciesModel::class,
-    ];
-
-    /**
-     * @var PayGradeService|null
-     */
-    protected ?PayGradeService $payGradeService = null;
+    public const PARAMETER_PAY_GRADE_ID = 'payGradeId';
 
     /**
      * @return PayGradeService
      */
     public function getPayGradeService(): PayGradeService
     {
-        if (!$this->payGradeService instanceof PayGradeService) {
-            $this->payGradeService = new PayGradeService();
-        }
-        return $this->payGradeService;
+        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
     }
 
     /**
@@ -69,37 +56,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointGetOneResult
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $payGrade = $this->getPayGradeService()->getPayGradeById($id);
-        $this->throwRecordNotFoundExceptionIfNotExist($payGrade, PayGrade::class);
-
-        return new EndpointGetOneResult($this->getModelClass(), $payGrade);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getModelClass(): string
-    {
-        $model = $this->getRequestParams()->getString(
-            RequestParams::PARAM_TYPE_QUERY,
-            self::FILTER_MODEL,
-            self::MODEL_DEFAULT
-        );
-        return self::MODEL_MAP[$model];
-    }
-
-    /**
-     * @return ParamRule
-     */
-    protected function getModelParamRule(): ParamRule
-    {
-        return $this->getValidationDecorator()->notRequiredParamRule(
-            new ParamRule(
-                self::FILTER_MODEL,
-                new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
-            )
-        );
+        throw $this->getNotImplementedException();
     }
 
     /**
@@ -107,13 +64,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
-            ),
-            $this->getModelParamRule()
-        );
+        throw $this->getNotImplementedException();
     }
 
     /**
@@ -121,7 +72,16 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointGetAllResult
     {
-        throw $this->getNotImplementedException();
+        $payGradeId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_PAY_GRADE_ID
+        );
+        $payGradeCurrencies = $this->getPayGradeService()->getCurrencyListByPayGradeId($payGradeId);
+
+        return new EndpointGetAllResult(
+            PayGradeCurrencyModel::class, $payGradeCurrencies,
+            new ParameterBag([self::PARAMETER_PAY_GRADE_ID => $payGradeId])
+        );
     }
 
     /**
@@ -129,7 +89,12 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                self::PARAMETER_PAY_GRADE_ID,
+                new Rule(Rules::POSITIVE)
+            )
+        );
     }
 
     /**
