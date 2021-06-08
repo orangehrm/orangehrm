@@ -101,8 +101,8 @@ class EmploymentStatusService
      * @return int
      * @throws DaoException
      */
-    public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): int
-    {
+    public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+    ): int {
         return $this->getEmploymentStatusDao()->getSearchEmploymentStatusesCount($employmentStatusSearchParams);
     }
 
@@ -112,7 +112,8 @@ class EmploymentStatusService
     public function getEmploymentStatusArray(): array
     {
         $employmentStatusSearchParams = new EmploymentStatusSearchFilterParams();
-        $employmentStatuses = $this->searchEmploymentStatus( $employmentStatusSearchParams);
+        $employmentStatusSearchParams->setLimit(0); // to get all records
+        $employmentStatuses = $this->searchEmploymentStatus($employmentStatusSearchParams);
         return $this->getNormalizerService()->normalizeArray(EmploymentStatusModel::class, $employmentStatuses);
     }
 }

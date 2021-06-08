@@ -274,7 +274,8 @@ class EmployeeAttachment
      */
     public function setScreen(string $screen): void
     {
-        if (!in_array($screen, self::SCREENS)) {
+        $allowedScreens = array_merge(self::SCREENS, [self::SCREEN_JOB_CONTRACT]);
+        if (!in_array($screen, $allowedScreens)) {
             throw new InvalidArgumentException('Invalid `screen`');
         }
         $this->screen = $screen;
