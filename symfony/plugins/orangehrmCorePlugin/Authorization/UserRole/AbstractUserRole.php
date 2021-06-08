@@ -19,12 +19,14 @@
 
 namespace OrangeHRM\Core\Authorization\UserRole;
 
+use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Location;
 use OrangeHRM\Pim\Service\EmployeeService;
 
 /**
@@ -39,7 +41,7 @@ abstract class AbstractUserRole
     protected ?EmployeeService $employeeService = null;
     protected ?UserService $systemUserService = null;
     protected $operationalCountryService;
-    protected $locationService;
+    protected ?LocationService $locationService = null;
     protected $projectService;
     protected $vacancyService;
 
@@ -109,16 +111,20 @@ abstract class AbstractUserRole
         $this->employeeService = $employeeService;
     }
 
-    public function getLocationService() {
-        // TODO
-        if (empty($this->locationService)) {
+    /**
+     * @return LocationService
+     */
+    public function getLocationService():LocationService {
+        if (!$this->locationService instanceof LocationService) {
             $this->locationService = new LocationService();
         }
         return $this->locationService;
     }
 
-    public function setLocationService($locationService) {
-        // TODO
+    /**
+     * @param LocationService $locationService
+     */
+    public function setLocationService(LocationService $locationService):void {
         $this->locationService = $locationService;
     }
 
@@ -260,9 +266,7 @@ abstract class AbstractUserRole
                     throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $ids = $this->getAccessibleUserRoleIds($operation, $returnType, $requiredPermissions);
                     break;
-                case 'Location':
-                    // TODO:: implement and remove below line
-                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
+                case Location::class:
                     $ids = $this->getAccessibleLocationIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'Project':

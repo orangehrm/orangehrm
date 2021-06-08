@@ -28,6 +28,7 @@ use Exception;
 
 /**
  * @group Admin
+ * @group Service
  */
 class JobTitleServiceTest extends TestCase
 {
