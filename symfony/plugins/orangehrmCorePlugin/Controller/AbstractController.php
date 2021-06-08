@@ -77,4 +77,18 @@ abstract class AbstractController
         $requestStack = $this->getContainer()->get(Services::REQUEST_STACK);
         return $requestStack->getCurrentRequest();
     }
+
+    /**
+     * @param Response|null $response
+     * @return Response
+     */
+    protected function handleBadRequest(?Response $response = null): Response
+    {
+        if (is_null($response)) {
+            $response = $this->getResponse();
+        }
+
+        $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+        return $response;
+    }
 }

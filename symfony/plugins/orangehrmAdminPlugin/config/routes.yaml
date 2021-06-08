@@ -12,6 +12,14 @@ apiv2_admin_job_titles:
   defaults:
     _api: OrangeHRM\Admin\Api\JobTitleAPI
 
+apiv2_admin_job_specification:
+  path: /api/v2/admin/job-titles/{jobTitleId}/specification
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\JobSpecificationAPI
+    _key: jobTitleId
+
 apiv2_admin_job_category:
   path: /api/v2/admin/job-categories/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -159,6 +167,16 @@ apiv2_admin_paygrades_currencies:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Admin\Api\PayGradeCurrencyAPI
+
+
+##########################
+#        Files
+##########################
+
+admin_job_specification_attachment:
+  path: /admin/viewJobSpecification/attachId/{attachId}
+  controller: OrangeHRM\Admin\Controller\File\JobSpecification::handle
+  methods: [ GET ]
 
 
 ##########################

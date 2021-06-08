@@ -20,15 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\JobSpecificationAttachmentDecorator;
 
 /**
- * JobSpecificationAttachment
+ * @method JobSpecificationAttachmentDecorator getDecorator()
  *
  * @ORM\Table(name="ohrm_job_specification_attachment")
  * @ORM\Entity
  */
 class JobSpecificationAttachment
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -60,7 +64,7 @@ class JobSpecificationAttachment
     private int $fileSize;
 
     /**
-     * @var resource
+     * @var string|resource
      *
      * @ORM\Column(name="file_content", type="blob", length=2147483647)
      */
@@ -139,9 +143,9 @@ class JobSpecificationAttachment
     }
 
     /**
-     * @return string
+     * @return string|resource
      */
-    public function getFileContent(): string
+    public function getFileContent()
     {
         return $this->fileContent;
     }

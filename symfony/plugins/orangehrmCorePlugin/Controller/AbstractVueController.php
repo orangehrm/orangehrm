@@ -189,12 +189,14 @@ abstract class AbstractVueController extends AbstractViewController
         return $this->context;
     }
 
-    protected function handleBadRequest(): void
+    /**
+     * @inheritDoc
+     */
+    protected function handleBadRequest(?Response $response = null): Response
     {
         // TODO:: develop UI for bad request controllers
         $component = new Component('bad-request');
         $this->setComponent($component);
-        $response = $this->getResponse();
-        $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+        return parent::handleBadRequest($response);
     }
 }

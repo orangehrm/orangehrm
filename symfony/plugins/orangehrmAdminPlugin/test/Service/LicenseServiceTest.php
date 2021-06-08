@@ -29,6 +29,7 @@ use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
+ * @group Service
  */
 class LicenseServiceTest extends TestCase
 {
