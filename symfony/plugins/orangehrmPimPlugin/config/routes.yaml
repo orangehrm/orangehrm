@@ -186,6 +186,11 @@ pim_employee_dependents:
   controller: OrangeHRM\Pim\Controller\EmployeeDependentsController::handle
   methods: [ GET ]
 
+pim_employee_salary:
+  path: /pim/viewSalaryList/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeSalaryController::handle
+  methods: [ GET ]
+
 pim_employee_profile_picture:
   path: /pim/viewPhotograph/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeProfilePictureController::handle
