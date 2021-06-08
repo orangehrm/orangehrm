@@ -126,13 +126,14 @@ class NationalityService
     }
 
     /**
+     * @param NationalitySearchFilterParams $nationalitySearchParamHolder
      * @return array
      * @throws DaoException
      * @throws NormalizeException
      */
-    public function getNationalityArray(): array
+    public function getNationalityArray(NationalitySearchFilterParams $nationalitySearchParamHolder): array
     {
-        $nationalities = $this->getNationalityList();
+        $nationalities = $this->getNationalityList( $nationalitySearchParamHolder);
         return $this->getNormalizerService()->normalizeArray(NationalityModel::class, $nationalities);
     }
 }
