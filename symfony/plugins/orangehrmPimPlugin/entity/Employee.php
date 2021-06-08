@@ -179,7 +179,7 @@ class Employee
      * @var JobCategory|null
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobCategory")
-     * @ORM\JoinColumn(name="job_title_code", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="eeo_cat_code", referencedColumnName="id", nullable=true)
      */
     private ?JobCategory $jobCategory = null;
 

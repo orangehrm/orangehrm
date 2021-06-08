@@ -24,7 +24,6 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Exception\DaoException;
 use Exception;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Entity\License;
 
 class LicenseDao extends BaseDao
@@ -33,7 +32,7 @@ class LicenseDao extends BaseDao
     /**
      * @param License $license
      * @return License
-     * @throws \DaoException
+     * @throws DaoException
      */
     public function saveLicense(License $license): License
     {
@@ -41,7 +40,7 @@ class LicenseDao extends BaseDao
             $this->persist($license);
             return $license;
         } catch (Exception $e) {
-            throw new \DaoException($e->getMessage(), $e->getCode(), $e);
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 

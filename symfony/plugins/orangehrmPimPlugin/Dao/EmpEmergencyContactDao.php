@@ -42,7 +42,7 @@ class EmpEmergencyContactDao extends BaseDao
             $empNumber = $empEmergencyContact->getEmployee()->getEmpNumber();
             $q->andWhere('eec.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->add('select', $q->expr()->max('eec.seqNo'));
+            $q->select($q->expr()->max('eec.seqNo'));
             $maxSeqNo = $q->getQuery()->getSingleScalarResult();
             $seqNo = 1;
             if (!is_null($maxSeqNo)) {

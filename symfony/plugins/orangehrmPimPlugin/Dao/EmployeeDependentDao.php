@@ -82,7 +82,7 @@ class EmployeeDependentDao extends BaseDao
             $empNumber = $dependent->getEmployee()->getEmpNumber();
             $q->andWhere('d.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->add('select', $q->expr()->max('d.seqNo'));
+            $q->select($q->expr()->max('d.seqNo'));
             $maxSeqNo = $q->getQuery()->getSingleScalarResult();
             $seqNo = 1;
             if (!is_null($maxSeqNo)) {
