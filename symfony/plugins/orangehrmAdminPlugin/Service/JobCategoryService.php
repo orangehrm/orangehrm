@@ -107,6 +107,10 @@ class JobCategoryService
         return $this->jobCatDao->deleteJobCategory($toBeDeletedJobCategoryIds);
     }
 
+    /**
+     * @return array
+     * @throws DaoException
+     */
     public function getJobCategoryArray(): array
     {
         $jobCategories = $this->getJobCategoryList();

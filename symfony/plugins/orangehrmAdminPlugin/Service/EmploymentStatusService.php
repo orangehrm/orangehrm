@@ -20,13 +20,10 @@
 
 namespace OrangeHRM\Admin\Service;
 
-use Exception;
 use OrangeHRM\Admin\Dao\EmploymentStatusDao;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\EmploymentStatusModel;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\EmploymentStatus;
 
@@ -92,35 +89,25 @@ class EmploymentStatusService
     /**
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return array
-     * @throws ServiceException
+     * @throws DaoException
      */
     public function searchEmploymentStatus(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): array
     {
-        try {
-            return $this->getEmploymentStatusDao()->searchEmploymentStatus($employmentStatusSearchParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getEmploymentStatusDao()->searchEmploymentStatus($employmentStatusSearchParams);
     }
 
     /**
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return int
-     * @throws ServiceException
+     * @throws DaoException
      */
     public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): int
     {
-        try {
-            return $this->getEmploymentStatusDao()->getSearchEmploymentStatusesCount($employmentStatusSearchParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getEmploymentStatusDao()->getSearchEmploymentStatusesCount($employmentStatusSearchParams);
     }
 
     /**
      * @return array
-     * @throws ServiceException
-     * @throws NormalizeException
      */
     public function getEmploymentStatusArray(): array
     {

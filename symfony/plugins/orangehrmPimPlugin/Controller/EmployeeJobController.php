@@ -19,18 +19,15 @@
 
 namespace OrangeHRM\Pim\Controller;
 
-
-use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
 use OrangeHRM\Admin\Service\CompanyStructureService;
-use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\EmploymentStatusService;
 use OrangeHRM\Admin\Service\JobCategoryService;
 use OrangeHRM\Admin\Service\JobTitleService;
+use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
 
 class EmployeeJobController extends BaseViewEmployeeController
 {
@@ -40,9 +37,12 @@ class EmployeeJobController extends BaseViewEmployeeController
     protected ?JobCategoryService $jobCategoryService = null;
     protected ?CompanyStructureService $companyStructureService = null;
     protected ?EmploymentStatusService $employmentStatusService = null;
-    protected ?EmploymentStatusSearchFilterParams $employmentStatusSearchFilterParams = null;
+    protected ?LocationService $locationService = null;
 
-    protected function getJobTitleService()
+    /**
+     * @return JobTitleService
+     */
+    protected function getJobTitleService(): JobTitleService
     {
         if (!$this->jobTitleService instanceof JobTitleService) {
             $this->jobTitleService = new JobTitleService();
@@ -50,7 +50,10 @@ class EmployeeJobController extends BaseViewEmployeeController
         return $this->jobTitleService;
     }
 
-    protected function getJobCategoryService()
+    /**
+     * @return JobCategoryService
+     */
+    protected function getJobCategoryService(): JobCategoryService
     {
         if (!$this->jobCategoryService instanceof JobCategoryService) {
             $this->jobCategoryService = new JobCategoryService();
@@ -58,7 +61,10 @@ class EmployeeJobController extends BaseViewEmployeeController
         return $this->jobCategoryService;
     }
 
-    protected function getCompanyStructureService()
+    /**
+     * @return CompanyStructureService
+     */
+    protected function getCompanyStructureService(): CompanyStructureService
     {
         if (!$this->companyStructureService instanceof CompanyStructureService) {
             $this->companyStructureService = new CompanyStructureService();
@@ -66,7 +72,10 @@ class EmployeeJobController extends BaseViewEmployeeController
         return $this->companyStructureService;
     }
 
-    protected function getEmploymentStatusService()
+    /**
+     * @return EmploymentStatusService
+     */
+    protected function getEmploymentStatusService(): EmploymentStatusService
     {
         if (!$this->employmentStatusService instanceof EmploymentStatusService) {
             $this->employmentStatusService = new EmploymentStatusService();
@@ -74,6 +83,16 @@ class EmployeeJobController extends BaseViewEmployeeController
         return $this->employmentStatusService;
     }
 
+    /**
+     * @return LocationService
+     */
+    protected function getLocationService(): LocationService
+    {
+        if (!$this->locationService instanceof LocationService) {
+            $this->locationService = new LocationService();
+        }
+        return $this->locationService;
+    }
 
     public function preRender(Request $request): void
     {
@@ -82,36 +101,20 @@ class EmployeeJobController extends BaseViewEmployeeController
             $component = new Component('employee-job');
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
 
-            /** @var JobTitleService $jobTitleService */
             $jobTitles = $this->getJobTitleService()->getJobTitleArray();
             $component->addProp(new Prop('job-titles', Prop::TYPE_ARRAY, $jobTitles));
-            $this->setComponent($component);
 
-            /** @var JobCategoryService $jobCategoryService */
             $jobCategories = $this->getJobCategoryService()->getJobCategoryArray();
             $component->addProp(new Prop('job-categories', Prop::TYPE_ARRAY, $jobCategories));
-            $this->setComponent($component);
 
-            /** @var EmploymentStatusService $employmentStatusService */
             $employmentStatuses = $this->getEmploymentStatusService()->getEmploymentStatusArray();
             $component->addProp(new Prop('employment-statuses', Prop::TYPE_ARRAY, $employmentStatuses));
-            $this->setComponent($component);
 
-            /** @var CompanyStructureService $companyStructureService */
             $subunits = $this->getCompanyStructureService()->getSubunitArray();
-            $subunits = array_map(function($subunit){
-                return [
-                    'id' => $subunit['id'],
-                    'label' => $subunit['name'],
-                    'indent' => $subunit['level'] ? intval($subunit['level']) + 1 : 1,
-                ]; 
-            }, $subunits);
             $component->addProp(new Prop('subunits', Prop::TYPE_ARRAY, $subunits));
-            $this->setComponent($component);
 
-            /** @var CountryService $countryService */
-            $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
-            $component->addProp(new Prop('locations', Prop::TYPE_ARRAY, $countryService->getCountryArray()));
+            $locations = $this->getLocationService()->getAccessibleLocationsArray($empNumber);
+            $component->addProp(new Prop('locations', Prop::TYPE_ARRAY, $locations));
             $this->setComponent($component);
         } else {
             $this->handleBadRequest();
