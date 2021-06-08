@@ -42,9 +42,9 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
-                label="Job Specification"
-                v-model="job.jobSpecificationId"
+              <job-spec-download
+                :key="`jobspec-${selectedJobTitleId}`"
+                :resource-id="selectedJobTitleId"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -87,10 +87,10 @@
           <oxd-text class="user-form-header-text" tag="p"
             >Include Employement Contract Details</oxd-text
           >
-          <oxd-switch-input v-model="createContractDetails" />
+          <oxd-switch-input v-model="showContractDetails" />
         </oxd-form-row>
 
-        <template v-if="createContractDetails">
+        <template v-if="showContractDetails">
           <oxd-form-row>
             <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item>
@@ -106,18 +106,21 @@
                   v-model="contract.endDate"
                 />
               </oxd-grid-item>
-
+            </oxd-grid>
+          </oxd-form-row>
+          <oxd-form-row>
+            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-grid-item>
-                <oxd-input-field
-                  type="file"
+                <file-upload-input
                   label="Contract Details"
                   buttonLabel="Browse"
-                  v-model="contract.contractAttachment"
+                  v-model:newFile="contract.newAttachment"
+                  v-model:method="contract.method"
+                  :file="contract.oldAttachment"
                   :rules="rules.contractAttachment"
+                  url="admin/viewJobSpecification/attachId"
+                  hint="Accepts up to 1MB"
                 />
-                <oxd-text class="orangehrm-input-hint" tag="p"
-                  >Accepts up to 1MB</oxd-text
-                >
               </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
@@ -135,8 +138,10 @@
 
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
+import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
+import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
+import JobSpecDownload from '@/orangehrmPimPlugin/components/JobSpecDownload';
 
 const jobDetailsModel = {
   joinedDate: '',
@@ -150,13 +155,17 @@ const jobDetailsModel = {
 const contractDetailsModel = {
   startDate: '',
   endDate: '',
-  contractAttachment: null,
+  oldAttachment: null,
+  newAttachment: null,
+  method: 'keepCurrent',
 };
 
 export default {
   components: {
     'edit-employee-layout': EditEmployeeLayout,
     'oxd-switch-input': SwitchInput,
+    'job-spec-download': JobSpecDownload,
+    'file-upload-input': FileUploadInput,
   },
 
   props: {
@@ -200,7 +209,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      createContractDetails: false,
+      showContractDetails: false,
       job: {...jobDetailsModel},
       contract: {...contractDetailsModel},
       rules: {
@@ -231,23 +240,21 @@ export default {
         })
         .then(response => {
           this.updateJobModel(response);
-          if (this.createContractDetails) {
-            return this.http.request({
-              method: 'PUT',
-              url: `api/v2/pim/employees/${this.empNumber}/employment-contract`,
-              data: {
-                ...this.contract,
-              },
-            });
-          } else {
-            return;
-          }
+          return this.http.request({
+            method: 'PUT',
+            url: `api/v2/pim/employees/${this.empNumber}/employment-contract`,
+            data: {
+              startDate: this.contract.startDate,
+              endDate: this.contract.endDate,
+              currentContractAttachment: this.contract.method,
+              contractAttachment: this.contract.newAttachment,
+            },
+          });
         })
         .then(response => {
-          if (this.createContractDetails) {
+          if (response) {
             this.updateContractModel(response);
           }
-
           return this.$toast.success({
             title: 'Success',
             message: 'Successfully Updated',
@@ -260,21 +267,18 @@ export default {
 
     updateContractModel(response) {
       const {data} = response.data;
-      if (data.startDate || data.endDate) {
-        this.createContractDetails = true;
-      }
       this.contract.startDate = data.startDate;
       this.contract.endDate = data.endDate;
-      this.contract.contractAttachment = data.contractAttachment?.id
+      this.contract.oldAttachment = data.contractAttachment?.id
         ? data.contractAttachment
         : null;
+      this.contract.newAttachment = null;
+      this.contract.method = 'keepCurrent';
     },
 
     updateJobModel(response) {
       const {data} = response.data;
-
       this.job.joinedDate = data.joinedDate;
-
       this.job.jobTitleId = this.jobTitles.filter(
         item => item.id === data.jobTitle?.id,
       );
@@ -290,6 +294,13 @@ export default {
       this.job.locationId = this.locations.filter(
         item => item.id === data.location?.id,
       );
+    },
+  },
+
+  computed: {
+    selectedJobTitleId() {
+      const jobTitleId = this.job.jobTitleId.map(item => item.id)[0];
+      return jobTitleId || 0;
     },
   },
 
