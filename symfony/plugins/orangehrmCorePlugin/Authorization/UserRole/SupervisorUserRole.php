@@ -78,8 +78,6 @@ class SupervisorUserRole extends AbstractUserRole {
     }
 
     public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = []) {
-
-        // TODO
         $locationIds = [];
         
         if ($operation == BasicUserRoleManager::OPERATION_VIEW) {

@@ -40,7 +40,7 @@ class LicenseService
      *
      * @param License $license
      * @return License
-     * @throws \DaoException
+     * @throws DaoException
      */
     public function saveLicense(License $license): License
     {

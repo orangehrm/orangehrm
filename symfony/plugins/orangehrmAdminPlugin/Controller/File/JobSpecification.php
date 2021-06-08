@@ -17,55 +17,51 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller\File;
+namespace OrangeHRM\Admin\Controller\File;
 
+use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Core\Controller\AbstractFileController;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\EmployeeAttachment;
+use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
-use OrangeHRM\Pim\Service\EmployeeAttachmentService;
 
-class EmployeeAttachmentController extends AbstractFileController
+class JobSpecification extends AbstractFileController
 {
     /**
-     * @var EmployeeAttachmentService|null
+     * @var JobTitleService|null
      */
-    protected ?EmployeeAttachmentService $employeeAttachmentService = null;
+    protected ?JobTitleService $jobTitleService = null;
 
     /**
-     * @return EmployeeAttachmentService
+     * @return JobTitleService
      */
-    public function getEmployeeAttachmentService(): EmployeeAttachmentService
+    public function getJobTitleService(): JobTitleService
     {
-        if (!$this->employeeAttachmentService instanceof EmployeeAttachmentService) {
-            $this->employeeAttachmentService = new EmployeeAttachmentService();
+        if (!$this->jobTitleService instanceof JobTitleService) {
+            $this->jobTitleService = new JobTitleService();
         }
-        return $this->employeeAttachmentService;
+        return $this->jobTitleService;
     }
 
     /**
      * @param Request $request
      * @return Response
-     * @throws DaoException
      */
     public function handle(Request $request): Response
     {
-        $empNumber = $request->get('empNumber');
         $attachId = $request->get('attachId');
-
         $response = $this->getResponse();
 
-        if ($empNumber && $attachId) {
-            $attachment = $this->getEmployeeAttachmentService()->getAccessibleEmployeeAttachment($empNumber, $attachId);
-            if ($attachment instanceof EmployeeAttachment) {
+        if ($attachId) {
+            $attachment = $this->getJobTitleService()->getJobSpecAttachmentById($attachId);
+            if ($attachment instanceof JobSpecificationAttachment) {
                 $this->setCommonHeadersToResponse(
-                    $attachment->getFilename(),
+                    $attachment->getFileName(),
                     $attachment->getFileType(),
-                    $attachment->getSize(),
+                    $attachment->getFileSize(),
                     $response
                 );
-                $response->setContent($attachment->getDecorator()->getAttachment());
+                $response->setContent($attachment->getDecorator()->getFileContent());
                 return $response;
             }
         }
