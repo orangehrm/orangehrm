@@ -20,11 +20,15 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\CompanyStructureDao;
+use OrangeHRM\Admin\Service\Model\SubunitModel;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Subunit;
 
 class CompanyStructureService
 {
+    use NormalizerServiceTrait;
+
     /**
      * @var CompanyStructureDao|null
      */
@@ -66,7 +70,8 @@ class CompanyStructureService
      * @return Subunit
      * @throws DaoException
      */
-    public function saveSubunit(Subunit $subunit):Subunit {
+    public function saveSubunit(Subunit $subunit): Subunit
+    {
         return $this->getCompanyStructureDao()->saveSubunit($subunit);
     }
 
@@ -118,5 +123,16 @@ class CompanyStructureService
     public function getSubunitTree(?int $depth = null): array
     {
         return $this->getCompanyStructureDao()->getSubunitTree($depth);
+    }
+
+    /**
+     * @return array
+     * @throws DaoException
+     */
+    public function getSubunitArray(): array
+    {
+        $subunits = $this->getSubunitTree();
+        unset($subunits[0]); // remove root node
+        return $this->getNormalizerService()->normalizeArray(SubunitModel::class, $subunits);
     }
 }
