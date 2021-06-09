@@ -41,6 +41,7 @@ use OrangeHRM\Entity\EmpDirectDebit;
 use OrangeHRM\Entity\EmployeeSalary;
 use OrangeHRM\Pim\Api\Model\EmployeeSalaryModel;
 use OrangeHRM\Pim\Service\EmployeeSalaryService;
+use OrangeHRM\Framework\Services;
 
 class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
 {

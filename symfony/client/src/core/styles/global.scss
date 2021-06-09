@@ -101,6 +101,12 @@
   font-size: 1rem;
 }
 
+@for $i from 1 through 8 {
+  .--span-column-#{$i} {
+    grid-column: span #{$i};
+  }
+}
+
 .oxd-grid-item {
   min-width: 0;
 }
