@@ -245,7 +245,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DRIVING_LICENSE_EXPIRED_DATE,
-                    new Rule(Rules::DATE, ['Y-m-d']),
+                    new Rule(Rules::API_DATE),
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -265,7 +265,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_BIRTHDAY,
-                    new Rule(Rules::DATE, ['Y-m-d']),
+                    new Rule(Rules::API_DATE),
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

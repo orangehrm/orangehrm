@@ -254,7 +254,7 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DATE_OF_BIRTH,
-                    new Rule(Rules::DATE, ['Y-m-d']),
+                    new Rule(Rules::API_DATE),
                 )
             ),
         ];
