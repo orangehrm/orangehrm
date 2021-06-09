@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\test\Api;
+namespace OrangeHRM\Tests\Pim\Api;
 
 use DateTime;
 use Generator;

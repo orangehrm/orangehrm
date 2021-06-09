@@ -19,16 +19,48 @@
 
 namespace OrangeHRM\Pim\Event;
 
-class EmployeeEvents
+use DateTime;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Framework\Event\Event;
+
+/**
+ * @Event("OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent")
+ */
+class EmployeeJoinedDateChangedEvent extends Event
 {
     /**
-     * @see \OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent
+     * @var Employee
      */
-    public const JOINED_DATE_CHANGED = 'employee_join_date_changed';
+    private Employee $employee;
 
     /**
-     * @see \OrangeHRM\Pim\Event\EmployeeAddedEvent
+     * @var DateTime|null
      */
-    public const EMPLOYEE_ADDED = 'employee_added';
-    public const EMPLOYEES_DELETED = 'employees_deleted';
+    private ?DateTime $previousJoinedDate = null;
+
+    /**
+     * @param Employee $employee
+     * @param DateTime|null $previousJoinedDate
+     */
+    public function __construct(Employee $employee, ?DateTime $previousJoinedDate)
+    {
+        $this->employee = $employee;
+        $this->previousJoinedDate = $previousJoinedDate;
+    }
+
+    /**
+     * @return Employee
+     */
+    public function getEmployee(): Employee
+    {
+        return $this->employee;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getPreviousJoinedDate(): ?DateTime
+    {
+        return $this->previousJoinedDate;
+    }
 }

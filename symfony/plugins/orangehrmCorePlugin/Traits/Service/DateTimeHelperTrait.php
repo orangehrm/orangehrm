@@ -17,18 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Event;
+namespace OrangeHRM\Core\Traits\Service;
 
-class EmployeeEvents
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+
+trait DateTimeHelperTrait
 {
-    /**
-     * @see \OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent
-     */
-    public const JOINED_DATE_CHANGED = 'employee_join_date_changed';
+    use ServiceContainerTrait;
 
     /**
-     * @see \OrangeHRM\Pim\Event\EmployeeAddedEvent
+     * @return DateTimeHelperService
      */
-    public const EMPLOYEE_ADDED = 'employee_added';
-    public const EMPLOYEES_DELETED = 'employees_deleted';
+    protected function getDateTimeHelper(): DateTimeHelperService
+    {
+        return $this->getContainer()->get(Services::DATETIME_HELPER_SERVICE);
+    }
 }

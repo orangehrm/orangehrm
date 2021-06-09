@@ -17,18 +17,25 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Event;
+namespace OrangeHRM\Pim\Service;
 
-class EmployeeEvents
+use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
+
+class EmployeeTerminationService
 {
     /**
-     * @see \OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent
+     * @var EmployeeTerminationDao|null
      */
-    public const JOINED_DATE_CHANGED = 'employee_join_date_changed';
+    protected ?EmployeeTerminationDao $employeeTerminationDao = null;
 
     /**
-     * @see \OrangeHRM\Pim\Event\EmployeeAddedEvent
+     * @return EmployeeTerminationDao
      */
-    public const EMPLOYEE_ADDED = 'employee_added';
-    public const EMPLOYEES_DELETED = 'employees_deleted';
+    public function getEmployeeTerminationDao(): EmployeeTerminationDao
+    {
+        if (!$this->employeeTerminationDao instanceof EmployeeTerminationDao) {
+            $this->employeeTerminationDao = new EmployeeTerminationDao();
+        }
+        return $this->employeeTerminationDao;
+    }
 }
