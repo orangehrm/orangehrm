@@ -118,7 +118,7 @@
                   v-model:method="contract.method"
                   :file="contract.oldAttachment"
                   :rules="rules.contractAttachment"
-                  url="admin/viewJobSpecification/attachId"
+                  :url="`pim/viewAttachment/empNumber/${empNumber}/attachId`"
                   hint="Accepts up to 1MB"
                 />
               </oxd-grid-item>
@@ -214,6 +214,13 @@ export default {
       contract: {...contractDetailsModel},
       rules: {
         contractAttachment: [
+          v => {
+            if (this.contract.method == 'replaceCurrent') {
+              return !!v || 'Required';
+            } else {
+              return true;
+            }
+          },
           v =>
             v === null ||
             (v && v.size && v.size <= 1024 * 1024) ||
@@ -246,8 +253,13 @@ export default {
             data: {
               startDate: this.contract.startDate,
               endDate: this.contract.endDate,
-              currentContractAttachment: this.contract.method,
-              contractAttachment: this.contract.newAttachment,
+              currentContractAttachment:
+                this.contract.method != 'keepCurrent'
+                  ? this.contract.method
+                  : undefined,
+              contractAttachment: this.contract.newAttachment
+                ? this.contract.newAttachment
+                : undefined,
             },
           });
         })
