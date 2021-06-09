@@ -94,17 +94,19 @@ class EmployeeSkillAPITest extends EndpointTestCase
         $result = $api->getOne();
         $this->assertEquals(
             [
-                "empNumber" => 1,
-                "skillId" => 1,
                 "yearsOfExperience" => 3,
-                "comments" => "Comments"
+                "comments" => "Comments",
+                "skill" => [
+                    "id" => 1,
+                    "name" => "Driving",
+                    "description" => "Driving Skills"
+                ]
             ],
             $result->normalize()
         );
         $this->assertEquals(
             [
                 "empNumber" => 1,
-                "skillId" => 1
             ],
             $result->getMeta()->all()
         );
@@ -202,17 +204,19 @@ class EmployeeSkillAPITest extends EndpointTestCase
         $result = $api->update();
         $this->assertEquals(
             [
-                "empNumber" => 1,
-                "skillId" => 1,
                 "yearsOfExperience" => 5,
-                "comments" => "Comment new"
+                "comments" => "Comment new",
+                "skill" => [
+                    "id" => 1,
+                    "name" => "Driving",
+                    "description" => "Driving Skills"
+                ]
             ],
             $result->normalize()
         );
         $this->assertEquals(
             [
                 "empNumber" => 1,
-                "skillId" => 1
             ],
             $result->getMeta()->all()
         );
@@ -413,17 +417,19 @@ class EmployeeSkillAPITest extends EndpointTestCase
         $result = $api->update();
         $this->assertEquals(
             [
-                "empNumber" => 1,
-                "skillId" => 1,
                 "yearsOfExperience" => 5,
-                "comments" => "Comment new"
+                "comments" => "Comment new",
+                "skill" => [
+                    "id" => 1,
+                    "name" => "Driving",
+                    "description" => "Driving Skills"
+                ]
             ],
             $result->normalize()
         );
         $this->assertEquals(
             [
                 "empNumber" => 1,
-                "skillId" => 1
             ],
             $result->getMeta()->all()
         );
@@ -533,16 +539,22 @@ class EmployeeSkillAPITest extends EndpointTestCase
         $this->assertEquals(
             [
                 [
-                    "empNumber" => 1,
-                    "skillId" => 1,
                     "yearsOfExperience" => 3,
-                    "comments" => "Comments"
+                    "comments" => "Comments",
+                    "skill" => [
+                        "id" => 1,
+                        "name" => "Driving",
+                        "description" => "Driving Skills"
+                    ]
                 ],
                 [
-                    "empNumber" => 1,
-                    "skillId" => 2,
                     "yearsOfExperience" => 3,
-                    "comments" => "Comments"
+                    "comments" => "Comments",
+                    "skill" => [
+                        "id" => 2,
+                        "name" => "Swimming",
+                        "description" => "Swimming Skills"
+                    ]
                 ]
             ],
             $result->normalize()

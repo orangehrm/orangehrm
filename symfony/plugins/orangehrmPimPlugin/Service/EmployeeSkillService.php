@@ -26,24 +26,24 @@ class EmployeeSkillService
     /**
      * @var EmployeeSkillDao|null
      */
-    private ?EmployeeSkillDao $EmployeeSkillDao = null;
+    private ?EmployeeSkillDao $employeeSkillDao = null;
 
     /**
      * @return EmployeeSkillDao|null
      */
     public function getEmployeeSkillDao(): EmployeeSkillDao
     {
-        if (!($this->EmployeeSkillDao instanceof EmployeeSkillDao)) {
-            $this->EmployeeSkillDao = new EmployeeSkillDao();
+        if (!($this->employeeSkillDao instanceof EmployeeSkillDao)) {
+            $this->employeeSkillDao = new EmployeeSkillDao();
         }
-        return $this->EmployeeSkillDao;
+        return $this->employeeSkillDao;
     }
 
     /**
-     * @param $EmployeeSkillDao
+     * @param $employeeSkillDao
      */
-    public function setEmployeeSkillDao(EmployeeSkillDao $EmployeeSkillDao): void
+    public function setEmployeeSkillDao(EmployeeSkillDao $employeeSkillDao): void
     {
-        $this->EmployeeSkillDao = $EmployeeSkillDao;
+        $this->employeeSkillDao = $employeeSkillDao;
     }
 }

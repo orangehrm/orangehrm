@@ -46,8 +46,6 @@ use OrangeHRM\Core\Exception\ServiceException;
 
 class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
 {
-    use EntityManagerHelperTrait;
-
     public const PARAMETER_SKILL_ID = 'skillId';
     public const PARAMETER_YEARS_OF_EXP = 'yearsOfExperience';
     public const PARAMETER_COMMENTS = 'comments';
@@ -98,14 +96,12 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
             $empNumber,
             $skillId
         );
-        if (!$employeeSkill instanceof EmployeeSkill) {
-            $this->throwRecordNotFoundExceptionIfNotExist($employeeSkill, EmployeeSkill::class);
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($employeeSkill, EmployeeSkill::class);
 
         return new EndpointGetOneResult(
             EmployeeSkillModel::class,
             $employeeSkill,
-            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber, self::PARAMETER_SKILL_ID => $skillId])
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
 
@@ -240,7 +236,6 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeSkill->getEmployee()->getEmpNumber(),
-                    self::PARAMETER_SKILL_ID => $employeeSkill->getSkill()->getId()
                 ]
             )
         );
@@ -312,28 +307,17 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-
-        // update operation
-        if (!empty($id)) {
-            $employeeSkill = $this->getEmployeeSkillService()->getEmployeeSkillDao()->getEmployeeSkillById(
-                $empNumber,
-                $id
-            );
-            if ($employeeSkill == null) {
-                $this->throwRecordNotFoundExceptionIfNotExist($employeeSkill, EmployeeSkill::class);
-            }
-        } else {
-            if (!empty($skillId)) {  // create operation
-                $employeeSkill = $this->getEmployeeSkillService()->getEmployeeSkillDao()->getEmployeeSkillById(
-                    $empNumber,
-                    $skillId
-                );
-                if ($employeeSkill == null) { // record not exist
-                    $employeeSkill = new EmployeeSkill();
-                    $employeeSkill->getDecorator()->setEmployeeByEmpNumber($empNumber);
-                    $employeeSkill->getDecorator()->setSkillBySkillId($skillId);
-                }
-            }
+        if(!empty($skillId)){ // create operation
+            $id = $skillId;
+        }
+        $employeeSkill = $this->getEmployeeSkillService()->getEmployeeSkillDao()->getEmployeeSkillById(
+            $empNumber,
+            $id
+        );
+        if ($employeeSkill == null) {
+            $employeeSkill = new EmployeeSkill();
+            $employeeSkill->getDecorator()->setEmployeeByEmpNumber($empNumber);
+            $employeeSkill->getDecorator()->setSkillBySkillId($id);
         }
         $employeeSkill->setYearsOfExp($yrsOfExp);
         $employeeSkill->setComments($comments);
@@ -348,8 +332,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRule(
             CommonParams::PARAMETER_EMP_NUMBER,
-            new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS),
-            new Rule(Rules::REQUIRED)
+            new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
         );
     }
 }

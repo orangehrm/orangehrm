@@ -35,18 +35,20 @@ class EmployeeSkillModel implements Normalizable
         $this->setEntity($employeeSkill);
         $this->setFilters(
             [
-                ['getEmployee', 'getEmpNumber'],
-                ['getSkill', 'getId'],
                 'yearsOfExp',
-                'comments'
+                'comments',
+                ['getSkill', 'getId'],
+                ['getSkill', 'getName'],
+                ['getSkill', 'getDescription']
             ]
         );
         $this->setAttributeNames(
             [
-                'empNumber',
-                'skillId',
                 'yearsOfExperience',
-                'comments'
+                'comments',
+                ['skill', 'id'],
+                ['skill', 'name'],
+                ['skill', 'description']
             ]
         );
     }

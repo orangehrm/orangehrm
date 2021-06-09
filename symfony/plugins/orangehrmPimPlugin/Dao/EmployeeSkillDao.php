@@ -19,10 +19,8 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use Doctrine\ORM\QueryBuilder;
 use OrangeHRM\Pim\Dto\EmployeeSkillSearchFilterParams;
 use OrangeHRM\Entity\EmployeeSkill;
-use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\Core\Exception\DaoException;
 use Exception;
 use OrangeHRM\ORM\Paginator;
@@ -65,7 +63,6 @@ class EmployeeSkillDao extends BaseDao
             }
             return null;
         } catch (Exception $e) {
-
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
@@ -84,7 +81,7 @@ class EmployeeSkillDao extends BaseDao
                 ->andWhere('es.employee = :empNumber')
                 ->andWhere($q->expr()->in('es.skill', ':ids'))
                 ->setParameter('ids', $toDeleteIds)
-            ->setParameter('empNumber', $empNumber);
+                ->setParameter('empNumber', $empNumber);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -95,7 +92,7 @@ class EmployeeSkillDao extends BaseDao
      * Search EmployeeSkill
      *
      * @param EmployeeSkillSearchFilterParams $employeeSkillSearchParams
-     * @return array
+     * @return EmployeeSkill[]
      * @throws DaoException
      */
     public function searchEmployeeSkill(EmployeeSkillSearchFilterParams $employeeSkillSearchParams): array
@@ -112,7 +109,8 @@ class EmployeeSkillDao extends BaseDao
      * @param EmployeeSkillSearchFilterParams $employeeSkillSearchParams
      * @return Paginator
      */
-    private function getSearchEmployeeSkillPaginator(EmployeeSkillSearchFilterParams $employeeSkillSearchParams
+    private function getSearchEmployeeSkillPaginator(
+        EmployeeSkillSearchFilterParams $employeeSkillSearchParams
     ): Paginator {
         $q = $this->createQueryBuilder(EmployeeSkill::class, 'es');
         $this->setSortingAndPaginationParams($q, $employeeSkillSearchParams);

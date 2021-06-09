@@ -34,10 +34,13 @@ class EmployeeSkillModelTest extends TestCase
     public function testToArray()
     {
         $resultArray = [
-            'empNumber' => 1,
-            'skillId' => 1,
             'yearsOfExperience' => 5,
-            'comments' => 'test comment'
+            'comments' => 'test comment',
+            "skill" => [
+                "id" => 1,
+                "name" => "Driving",
+                "description" => "Driving Skills"
+            ]
         ];
 
         $employee = new Employee();
