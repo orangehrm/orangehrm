@@ -20,15 +20,16 @@
 
 namespace OrangeHRM\Admin\Service;
 
-use Exception;
 use OrangeHRM\Admin\Dao\EmploymentStatusDao;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
+use OrangeHRM\Admin\Service\Model\EmploymentStatusModel;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\EmploymentStatus;
 
 class EmploymentStatusService
 {
+    use NormalizerServiceTrait;
 
     /**
      * @var EmploymentStatusDao|null
@@ -88,28 +89,31 @@ class EmploymentStatusService
     /**
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return array
-     * @throws ServiceException
+     * @throws DaoException
      */
     public function searchEmploymentStatus(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): array
     {
-        try {
-            return $this->getEmploymentStatusDao()->searchEmploymentStatus($employmentStatusSearchParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getEmploymentStatusDao()->searchEmploymentStatus($employmentStatusSearchParams);
     }
 
     /**
      * @param EmploymentStatusSearchFilterParams $employmentStatusSearchParams
      * @return int
-     * @throws ServiceException
+     * @throws DaoException
      */
-    public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams): int
+    public function getSearchEmploymentStatusesCount(EmploymentStatusSearchFilterParams $employmentStatusSearchParams
+    ): int {
+        return $this->getEmploymentStatusDao()->getSearchEmploymentStatusesCount($employmentStatusSearchParams);
+    }
+
+    /**
+     * @return array
+     */
+    public function getEmploymentStatusArray(): array
     {
-        try {
-            return $this->getEmploymentStatusDao()->getSearchEmploymentStatusesCount($employmentStatusSearchParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        $employmentStatusSearchParams = new EmploymentStatusSearchFilterParams();
+        $employmentStatusSearchParams->setLimit(0); // to get all records
+        $employmentStatuses = $this->searchEmploymentStatus($employmentStatusSearchParams);
+        return $this->getNormalizerService()->normalizeArray(EmploymentStatusModel::class, $employmentStatuses);
     }
 }

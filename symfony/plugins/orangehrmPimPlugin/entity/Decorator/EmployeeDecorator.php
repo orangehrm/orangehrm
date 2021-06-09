@@ -57,6 +57,15 @@ class EmployeeDecorator
     /**
      * @return string|null
      */
+    public function getJoinedDate(): ?string
+    {
+        $date = $this->getEmployee()->getJoinedDate();
+        return $date ? $date->format('Y-m-d') : null;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getDrivingLicenseExpiredDate(): ?string
     {
         $date = $this->getEmployee()->getDrivingLicenseExpiredDate();
@@ -153,14 +162,20 @@ class EmployeeDecorator
     public function setLocationById(?int $id): void
     {
         $location = $this->getLocation();
-        if ($location) {
-            $this->getEntityManager()->remove($location);
-        }
-        /** @var Location|null $location */
-        $location = is_null($id) ? null : $this->getReference(Location::class, $id);
-        if ($location) {
-            $this->getEmployee()->setLocations([$location]);
-        }
+        $locationId = $location instanceof Location ? $location->getId() : null;
+
+        if (is_null($id)) {
+            // Remove location
+            $this->getEmployee()->setLocations([]);
+        } elseif ($locationId !== $id) {
+            // Changed location
+            $this->getEmployee()->setLocations([]);
+
+            $location = $this->getReference(Location::class, $id);
+            if ($location) {
+                $this->getEmployee()->setLocations([$location]);
+            }
+        } // else not changed location
     }
 
     /**

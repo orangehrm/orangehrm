@@ -33,7 +33,7 @@ class EmployeeJobDetailModel implements Normalizable
         $this->setFilters(
             [
                 'empNumber',
-                'joinedDate',
+                ['getDecorator', 'getJoinedDate'],
                 ['getJobTitle', 'getId'],
                 ['getJobTitle', 'getJobTitleName'],
                 ['getJobTitle', 'isDeleted'],

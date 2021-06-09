@@ -92,7 +92,7 @@ export default {
           'qualifications',
           'tax',
           'salary',
-          'contract',
+          'job',
           'report-to',
           'membership',
         ].includes(value);

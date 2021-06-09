@@ -20,11 +20,15 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\JobCategoryDao;
+use OrangeHRM\Admin\Service\Model\JobCategoryModel;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\JobCategory;
 
 class JobCategoryService
 {
+    use NormalizerServiceTrait;
+
     /**
      * @var JobCategoryDao
      */
@@ -101,5 +105,15 @@ class JobCategoryService
     public function deleteJobCategory(array $toBeDeletedJobCategoryIds): int
     {
         return $this->jobCatDao->deleteJobCategory($toBeDeletedJobCategoryIds);
+    }
+
+    /**
+     * @return array
+     * @throws DaoException
+     */
+    public function getJobCategoryArray(): array
+    {
+        $jobCategories = $this->getJobCategoryList();
+        return $this->getNormalizerService()->normalizeArray(JobCategoryModel::class, $jobCategories);
     }
 }
