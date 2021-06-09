@@ -188,6 +188,7 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
 
         if (!$contractAttachment instanceof EmployeeAttachment && $base64Attachment) {
             $contractAttachment = new EmployeeAttachment();
+            $contractAttachment->getDecorator()->setEmployeeByEmpNumber($empNumber);
             $this->setAttachmentAttributes($contractAttachment, $base64Attachment);
             $this->getEmploymentContractService()->saveContractAttachment($contractAttachment);
         } elseif ($currentContractAttachment === self::CONTRACT_ATTACHMENT_DELETE_CURRENT) {

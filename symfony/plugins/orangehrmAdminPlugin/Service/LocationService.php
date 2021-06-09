@@ -137,7 +137,7 @@ class LocationService
         if (!is_null($empNumber)) {
             $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
             foreach ($employee->getLocations() as $location) {
-                $employeeLocationsIds[] = $location;
+                $employeeLocationsIds[] = $location->getId();
             }
         }
         $accessibleLocationIds = $this->getUserRoleManager()->getAccessibleEntityIds(Location::class);

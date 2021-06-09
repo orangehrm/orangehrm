@@ -106,3 +106,7 @@
     grid-column: span #{$i};
   }
 }
+
+.oxd-grid-item {
+  min-width: 0;
+}
