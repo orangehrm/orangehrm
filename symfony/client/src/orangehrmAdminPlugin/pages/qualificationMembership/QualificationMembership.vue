@@ -87,7 +87,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Name',
+          title: 'Membership',
           style: {'flex-basis': '80%'},
         },
         {
