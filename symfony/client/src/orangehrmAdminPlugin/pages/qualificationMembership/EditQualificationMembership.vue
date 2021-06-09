@@ -28,7 +28,7 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Membership Name"
+            label="Name"
             v-model="membership.name"
             :rules="rules.name"
             required
@@ -131,9 +131,7 @@ export default {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.membership.id
-              ? 'Membership name should be unique'
-              : true;
+            return id !== this.membership.id ? ' Already exists' : true;
           } else {
             return true;
           }
