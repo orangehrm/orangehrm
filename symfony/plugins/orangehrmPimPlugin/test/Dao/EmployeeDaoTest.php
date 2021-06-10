@@ -167,4 +167,21 @@ class EmployeeDaoTest extends TestCase
         $this->assertEquals(1, count($employeeIdList));
         $this->assertEquals(1, $employeeIdList[0]);
     }
+
+    public function testDeleteEmployees(): void
+    {
+        $employees = TestDataService::loadObjectList(Employee::class, $this->fixture, 'Employee');
+        foreach ($employees as $emp) {
+            $empNumbers[] = $emp->getEmpNumber();
+        }
+
+        $retVal = $this->employeeDao->deleteEmployees($empNumbers);
+        $this->assertEquals(count($empNumbers), $retVal);
+
+        $retVal = $this->employeeDao->deleteEmployees($empNumbers);
+        $this->assertEquals(0, $retVal);
+
+        $retVal = $this->employeeDao->deleteEmployees([]);
+        $this->assertEquals(0, $retVal);
+    }
 }

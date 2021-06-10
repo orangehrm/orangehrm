@@ -23,6 +23,7 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
@@ -447,7 +448,12 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointDeleteResult
     {
-        throw $this->getNotImplementedException();
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        if (!$this->getUserRoleManager()->areEntitiesAccessible(Employee::class, $ids)) {
+            throw $this->getBadRequestException('Employees not accessible');
+        }
+        $this->getEmployeeService()->deleteEmployees($ids);
+        return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -455,6 +461,25 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        $allowedToDeleteActive = $this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_EMPLOYEE,
+            Employee::STATE_ACTIVE,
+            WorkflowStateMachine::EMPLOYEE_ACTION_DELETE_ACTIVE
+        );
+        $allowedToDeleteTerminated = $this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_EMPLOYEE,
+            Employee::STATE_TERMINATED,
+            WorkflowStateMachine::EMPLOYEE_ACTION_DELETE_TERMINATED
+        );
+        if (!($allowedToDeleteActive || $allowedToDeleteTerminated)) {
+            throw $this->getBadRequestException('Not allowed to delete employees');
+        }
+
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
+            )
+        );
     }
 }

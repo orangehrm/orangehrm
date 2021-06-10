@@ -252,4 +252,14 @@ class EmployeeService
     {
         return $this->getEmployeeDao()->getEmployeeIdList($excludeTerminatedEmployees);
     }
+
+    /**
+     * @param int[] $empNumbers
+     * @return int
+     * @throws DaoException
+     */
+    public function deleteEmployees(array $empNumbers): int
+    {
+        return $this->getEmployeeDao()->deleteEmployees($empNumbers);
+    }
 }
