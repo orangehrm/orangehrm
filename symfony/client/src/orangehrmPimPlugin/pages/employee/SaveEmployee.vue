@@ -189,6 +189,7 @@ export default {
       isLoading: false,
       createLogin: false,
       user: {...userModel},
+      empNumber: null,
       rules: {
         firstName: [required, shouldNotExceedCharLength(30)],
         middleName: [shouldNotExceedCharLength(30)],
@@ -227,6 +228,9 @@ export default {
         })
         .then(response => {
           const {data} = response;
+          if (data?.data) {
+            this.empNumber = data.data.empNumber;
+          }
           if (this.createLogin && data?.data) {
             return this.http.http.post('api/v2/admin/users', {
               username: this.user.username,
@@ -248,7 +252,11 @@ export default {
         .then(() => {
           this.employee = {...employeeModel};
           this.user = {...userModel};
-          this.onCancel();
+          if (this.empNumber) {
+            navigate(`/pim/viewPersonalDetails/empNumber/${this.empNumber}`);
+          } else {
+            this.onCancel();
+          }
         });
     },
   },
