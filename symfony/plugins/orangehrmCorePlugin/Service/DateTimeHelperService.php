@@ -36,6 +36,18 @@ class DateTimeHelperService
     }
 
     /**
+     * Format given \DateTime object to H:i string.
+     * Return null if null given
+     *
+     * @param DateTime|null $dateTime
+     * @return string|null
+     */
+    public function formatDateTimeToTimeString(?DateTime $dateTime): ?string
+    {
+        return $dateTime instanceof DateTime ? $dateTime->format('H:i') : null;
+    }
+
+    /**
      * Check only date equals of given \DateTime objects, by converting into Y-m-d
      *
      * @param DateTime|null $dateTime1

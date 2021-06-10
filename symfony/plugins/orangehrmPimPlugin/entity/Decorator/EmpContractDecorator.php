@@ -21,6 +21,7 @@ namespace OrangeHRM\Entity\Decorator;
 
 use DateTime;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\EmpContract;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeAttachment;
@@ -29,6 +30,7 @@ use OrangeHRM\Pim\Service\EmploymentContractService;
 class EmpContractDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var EmpContract
@@ -73,7 +75,7 @@ class EmpContractDecorator
     public function getStartDate(): ?string
     {
         $date = $this->getEmpContract()->getStartDate();
-        return $date ? $date->format('Y-m-d') : null;
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
     }
 
     /**
@@ -82,7 +84,7 @@ class EmpContractDecorator
     public function getEndDate(): ?string
     {
         $date = $this->getEmpContract()->getEndDate();
-        return $date ? $date->format('Y-m-d') : null;
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
     }
 
     /**

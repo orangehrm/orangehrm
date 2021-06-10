@@ -49,6 +49,22 @@ class DateTimeHelperServiceTest extends TestCase
         $this->assertNull($this->dateTimeHelperService->formatDateTimeToYmd(null));
     }
 
+    public function testFormatDateTimeToTimeString(): void
+    {
+        $date = '2020-05-23 10:13:03';
+        $this->assertEquals('10:13', $this->dateTimeHelperService->formatDateTimeToTimeString(new DateTime($date)));
+
+        $dateTime = new DateTime('2020-05-23 10:13:03', new DateTimeZone('Pacific/Auckland'));
+        $dateTime->setTimezone(new DateTimeZone('Europe/London'));
+        $this->assertEquals('23:13', $this->dateTimeHelperService->formatDateTimeToTimeString($dateTime));
+
+        $date = '2020-05-23 10:13';
+        $dateTime = new DateTime($date, new DateTimeZone('Europe/London'));
+        $this->assertEquals('10:13', $this->dateTimeHelperService->formatDateTimeToTimeString($dateTime));
+
+        $this->assertNull($this->dateTimeHelperService->formatDateTimeToTimeString(null));
+    }
+
     public function testIsDatesEqual(): void
     {
         $date = '2020-05-23';
