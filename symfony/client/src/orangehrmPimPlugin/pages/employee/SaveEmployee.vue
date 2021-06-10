@@ -124,6 +124,10 @@ import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
 import ProfileImageInput from '@/orangehrmPimPlugin/components/ProfileImageInput';
 import FullNameInput from '@/orangehrmPimPlugin/components/FullNameInput';
 import PasswordInput from '@/core/components/inputs/PasswordInput';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
@@ -186,9 +190,10 @@ export default {
       createLogin: false,
       user: {...userModel},
       rules: {
-        firstName: [v => (!!v && v.trim() !== '') || 'Required'],
-        lastName: [v => (!!v && v.trim() !== '') || 'Required'],
-        employeeId: [],
+        firstName: [required, shouldNotExceedCharLength(30)],
+        middleName: [shouldNotExceedCharLength(30)],
+        lastName: [required, shouldNotExceedCharLength(30)],
+        employeeId: [shouldNotExceedCharLength(10)],
         empPicture: [
           v =>
             v === null ||
@@ -201,7 +206,7 @@ export default {
             'File type not allowed',
         ],
         username: [
-          v => (!!v && v.trim() !== '') || 'Required',
+          required,
           v => (v && v.length >= 5) || 'Should have at least 5 characters',
           v => (v && v.length <= 40) || 'Should not exceed 40 characters',
         ],

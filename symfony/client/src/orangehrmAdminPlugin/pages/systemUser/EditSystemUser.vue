@@ -102,6 +102,7 @@ import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
 import PasswordInput from '@/core/components/inputs/PasswordInput';
+import {required} from '@orangehrm/core/util/validation/rules';
 
 const userModel = {
   id: '',
@@ -140,7 +141,7 @@ export default {
       user: {...userModel},
       rules: {
         username: [
-          v => (!!v && v.trim() !== '') || 'Required',
+          required,
           v => (v && v.length >= 5) || 'Should have at least 5 characters',
           v => (v && v.length <= 40) || 'Should not exceed 40 characters',
         ],
