@@ -13,5 +13,11 @@
         "userName": "Mike",
         "password": "Mike@123",
         "fullName": "Mike Combas"
+    },
+    "ann": {
+        "userName": "annfr",
+        "password": "ann@OHRM123",
+        "fullName": "Ann Frank"
     }
+	
 }

@@ -34,3 +34,5 @@ Cypress.Commands.add('login', (username, password) => {
 
     cy.get('form').submit()
 })
+
+import 'cypress-file-upload';
