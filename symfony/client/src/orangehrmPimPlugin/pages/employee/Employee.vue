@@ -185,7 +185,7 @@ export default {
         },
         {name: 'lastName', title: 'Last Name', style: {flex: 1}},
         {name: 'jobTitle', title: 'Job Title', style: {flex: 1}},
-        {name: 'empStatus', title: 'Employee Status', style: {flex: 1}},
+        {name: 'empStatus', title: 'Employment Status', style: {flex: 1}},
         {name: 'subunit', title: 'Sub Unit', style: {flex: 1}},
         {name: 'supervisor', title: 'Supervisor', style: {flex: 1}},
         {
