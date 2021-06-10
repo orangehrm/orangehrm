@@ -38,6 +38,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button
             type="button"
             displayType="ghost"
@@ -54,8 +55,10 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
+//import requiredText from '../../../core/components/required/RequiredText.vue';
 
 export default {
+  //components: {requiredText},
   props: {
     educationId: {
       type: Number,

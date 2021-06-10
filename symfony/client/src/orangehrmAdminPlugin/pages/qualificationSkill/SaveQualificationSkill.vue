@@ -48,13 +48,9 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
-          <oxd-button
-            class="orangehrm-left-space"
-            displayType="secondary"
-            label="Add"
-            type="submit"
-          />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>

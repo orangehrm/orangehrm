@@ -153,7 +153,9 @@ export default {
     itemsCountText() {
       return this.total === 0
         ? 'No Records Found'
-        : `${this.total} Records Found`;
+        : this.total === 1
+        ? '(1) Record Found'
+        : `(${this.total}) Records Found`;
     },
   },
 
