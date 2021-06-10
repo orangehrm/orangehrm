@@ -286,7 +286,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EmployeeSkill
-     * @throws RecordNotFoundException|DaoException
+     * @throws DaoException
      */
     public function saveEmployeeSkill(): EmployeeSkill
     {
