@@ -30,6 +30,11 @@ class EmploymentStatusSearchFilterParams extends FilterParams
      */
     protected ?string $name = null;
 
+    public function __construct()
+    {
+        $this->setSortField('es.name');
+    }
+
     /**
      * @return string|null
      */
