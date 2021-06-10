@@ -19,14 +19,11 @@
 
 namespace OrangeHRM\Pim\Api;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Pim\Dto\EmployeeSkillSearchFilterParams;
+use Exception;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\Validator\ParamRule;
-use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -35,14 +32,15 @@ use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
-use OrangeHRM\Entity\EmployeeSkill;
-use OrangeHRM\Pim\Service\EmployeeSkillService;
-use OrangeHRM\Pim\Api\Model\EmployeeSkillModel;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Validator\ParamRule;
+use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
-use Exception;
-use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Entity\EmployeeSkill;
+use OrangeHRM\Pim\Api\Model\EmployeeSkillModel;
+use OrangeHRM\Pim\Dto\EmployeeSkillSearchFilterParams;
+use OrangeHRM\Pim\Service\EmployeeSkillService;
 
 class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
 {
@@ -118,7 +116,6 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EndpointGetAllResult
-     * @throws ServiceException
      * @throws Exception
      */
     public function getAll(): EndpointGetAllResult
@@ -307,7 +304,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        if(!empty($skillId)){ // create operation
+        if (!empty($skillId)) { // create operation
             $id = $skillId;
         }
         $employeeSkill = $this->getEmployeeSkillService()->getEmployeeSkillDao()->getEmployeeSkillById(
