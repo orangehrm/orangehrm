@@ -237,7 +237,7 @@ export default {
           name: 'actions',
           slot: 'action',
           title: 'Actions',
-          style: {'flex-shrink': 1},
+          style: {flex: '0.5'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {
