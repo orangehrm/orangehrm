@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-card-container">
-    <oxd-text tag="h6">Edit Attachment</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-header">Edit Attachment</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>

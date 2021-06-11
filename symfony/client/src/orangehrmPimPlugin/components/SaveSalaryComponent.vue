@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-    <oxd-text tag="h6">Add Salary Component</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-header">Add Salary Component</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>

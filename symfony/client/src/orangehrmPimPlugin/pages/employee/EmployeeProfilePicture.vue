@@ -21,7 +21,9 @@
 <template>
   <edit-employee-layout :employee-id="empNumber">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="h6">Change Profile Picture</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-header"
+        >Change Profile Picture</oxd-text
+      >
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>

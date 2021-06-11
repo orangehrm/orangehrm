@@ -22,7 +22,9 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Employment Status List</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-header"
+          >Employment Status List</oxd-text
+        >
         <div>
           <oxd-button label="Add" displayType="secondary" @click="onClickAdd" />
         </div>

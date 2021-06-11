@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-    <oxd-text tag="h6">Edit Dependent</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-header">Edit Dependent</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>

@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Language</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-header">Language</oxd-text>
         <div>
           <oxd-button
             label="Add"

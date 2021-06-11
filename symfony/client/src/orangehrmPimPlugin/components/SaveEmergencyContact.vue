@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-    <oxd-text tag="h6">Save Emergency Contact</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-header"
+      >Save Emergency Contact</oxd-text
+    >
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>

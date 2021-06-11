@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Save Job Category</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-header">Save Job Category</oxd-text>
 
       <oxd-divider />
 

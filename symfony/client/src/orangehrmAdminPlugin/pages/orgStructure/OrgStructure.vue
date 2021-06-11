@@ -22,7 +22,9 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Organization Structure</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-header"
+          >Organization Structure</oxd-text
+        >
         <oxd-switch-input
           v-if="!isLoading"
           v-model="editable"

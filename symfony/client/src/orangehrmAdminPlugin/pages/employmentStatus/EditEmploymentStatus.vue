@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit Employment Status</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-header"
+        >Edit Employment Status</oxd-text
+      >
 
       <oxd-divider />
 

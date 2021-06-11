@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Save Language</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-header">Save Language</oxd-text>
 
       <oxd-divider />
 
