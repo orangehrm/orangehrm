@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Admin\Dao;
 
 use OrangeHRM\Admin\Dao\JobTitleDao;
+use OrangeHRM\Admin\Dto\JobTitleSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
@@ -49,13 +50,13 @@ class JobTitleDaoTest extends TestCase
     public function testGetJobTitleList(): void
     {
         $result = $this->jobTitleDao->getJobTitleList();
-        $this->assertEquals(count($result), 3);
+        $this->assertCount(3, $result);
     }
 
     public function testGetJobTitleListWithInactiveJobTitles(): void
     {
-        $result = $this->jobTitleDao->getJobTitleList("", "", false);
-        $this->assertEquals(count($result), 4);
+        $result = $this->jobTitleDao->getJobTitleList(false);
+        $this->assertCount(4, $result);
     }
 
     public function testDeleteJobTitle(): void
@@ -77,5 +78,28 @@ class JobTitleDaoTest extends TestCase
         $result = $this->jobTitleDao->getJobSpecAttachmentById(1);
         $this->assertTrue($result instanceof JobSpecificationAttachment);
         $this->assertEquals('Software architect spec', $result->getFileName());
+    }
+
+    public function testGetJobTitles(): void
+    {
+        $jobTitleSearchFilterParams = new JobTitleSearchFilterParams();
+        $result = $this->jobTitleDao->getJobTitles($jobTitleSearchFilterParams);
+        $this->assertCount(4, $result);
+        $this->assertEquals('Quality Assuarance', $result[0]->getJobTitleName());
+
+        $jobTitleSearchFilterParams->setActiveOnly(true);
+        $result = $this->jobTitleDao->getJobTitles($jobTitleSearchFilterParams);
+        $this->assertCount(3, $result);
+    }
+
+    public function testGetJobTitlesCount(): void
+    {
+        $jobTitleSearchFilterParams = new JobTitleSearchFilterParams();
+        $result = $this->jobTitleDao->getJobTitlesCount($jobTitleSearchFilterParams);
+        $this->assertEquals(4, $result);
+
+        $jobTitleSearchFilterParams->setActiveOnly(true);
+        $result = $this->jobTitleDao->getJobTitlesCount($jobTitleSearchFilterParams);
+        $this->assertEquals(3, $result);
     }
 }

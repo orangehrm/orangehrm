@@ -58,24 +58,12 @@ class JobTitleService
      * Returns JobTitlelist - By default this will returns the active jobTitle list
      * To get the all the jobTitles(with deleted) should pass the $activeOnly as false
      *
-     * @param string $sortField
-     * @param string $sortOrder
      * @param bool $activeOnly
-     * @param int|null $limit
-     * @param int|null $offset
-     * @param bool $count
      * @return int|JobTitle[]
      * @throws DaoException
      */
-    public function getJobTitleList(
-        string $sortField = 'jt.jobTitleName',
-        string $sortOrder = 'ASC',
-        bool $activeOnly = true,
-        ?int $limit = null,
-        ?int $offset = null,
-        bool $count = false
-    ) {
-        return $this->getJobTitleDao()->getJobTitleList($sortField, $sortOrder, $activeOnly, $limit, $offset, $count);
+    public function getJobTitleList(bool $activeOnly = true) {
+        return $this->getJobTitleDao()->getJobTitleList($activeOnly);
     }
 
     /**

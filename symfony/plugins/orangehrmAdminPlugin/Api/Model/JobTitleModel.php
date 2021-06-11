@@ -36,6 +36,10 @@ class JobTitleModel implements Normalizable
                 'jobTitleName',
                 'jobDescription',
                 'note',
+                ['getJobSpecificationAttachment', 'getId'],
+                ['getJobSpecificationAttachment', 'getFileName'],
+                ['getJobSpecificationAttachment', 'getFileType'],
+                ['getJobSpecificationAttachment', 'getFileSize'],
             ]
         );
         $this->setAttributeNames(
@@ -44,6 +48,10 @@ class JobTitleModel implements Normalizable
                 'title',
                 'description',
                 'note',
+                ['jobSpecification', 'id'],
+                ['jobSpecification', 'filename'],
+                ['jobSpecification', 'fileType'],
+                ['jobSpecification', 'fileSize'],
             ]
         );
     }
