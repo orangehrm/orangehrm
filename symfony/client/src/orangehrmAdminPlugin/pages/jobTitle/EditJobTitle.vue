@@ -88,6 +88,7 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
+import {required} from '@orangehrm/core/util/validation/rules';
 
 const initialJobTitle = {
   title: '',
@@ -178,9 +179,7 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.rules.title.push(v => {
-          return (!!v && v.trim() !== '') || 'Required';
-        });
+        this.rules.title.push(required);
         this.rules.title.push(v => {
           return (v && v.length <= 100) || 'Should not exceed 100 characters';
         });

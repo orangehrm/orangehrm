@@ -55,11 +55,10 @@ class JobTitleServiceTest extends TestCase
 
         $jobTitleDao->expects($this->once())
             ->method('getJobTitleList')
-            ->with("", "", "")
             ->will($this->returnValue($jobTitleList));
 
         $this->JobTitleService->setJobTitleDao($jobTitleDao);
-        $result = $this->JobTitleService->getJobTitleList("", "", "");
+        $result = $this->JobTitleService->getJobTitleList();
         $this->assertEquals($jobTitleList, $result);
     }
 

@@ -168,6 +168,10 @@
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import EditEmployeeLayout from '@orangehrm/orangehrmPimPlugin/components/EditEmployeeLayout';
 import FullNameInput from '@orangehrm/orangehrmPimPlugin/components/FullNameInput';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 const employeeModel = {
   firstName: '',
@@ -233,9 +237,10 @@ export default {
       isLoading: false,
       employee: {...employeeModel},
       rules: {
-        firstName: [v => (!!v && v.trim() !== '') || 'Required'],
-        lastName: [v => (!!v && v.trim() !== '') || 'Required'],
-        employeeId: [],
+        firstName: [required, shouldNotExceedCharLength(30)],
+        middleName: [shouldNotExceedCharLength(30)],
+        lastName: [required, shouldNotExceedCharLength(30)],
+        employeeId: [shouldNotExceedCharLength(10)],
       },
       maritalStatuses: [
         {id: 'Single', label: 'Single'},

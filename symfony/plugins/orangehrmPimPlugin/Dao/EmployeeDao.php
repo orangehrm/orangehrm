@@ -342,4 +342,22 @@ class EmployeeDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @param int[] $empNumbers
+     * @returns int
+     * @throws DaoException
+     */
+    public function deleteEmployees(array $empNumbers): int
+    {
+        try {
+            $q = $this->createQueryBuilder(Employee::class, 'e');
+            $q->delete()
+                ->where($q->expr()->in('e.empNumber', ':empNumbers'))
+                ->setParameter('empNumbers', $empNumbers);
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }

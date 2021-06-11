@@ -140,9 +140,9 @@ const userdataNormalizer = data => {
     return {
       id: item.empNumber,
       employeeId: item.employeeId,
-      firstName: item.firstName,
+      firstAndMiddleName: `${item.firstName} ${item.middleName}`,
       lastName: item.lastName,
-      jobtitle: item.jobTitle?.title,
+      jobTitle: item.jobTitle?.title,
       empStatus: item.empStatus?.name,
       subunit: item.subunit?.name,
       supervisor: item.supervisors
@@ -177,11 +177,15 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'employeeId', slot: 'title', title: 'EID', style: {flex: 1}},
-        {name: 'firstName', title: 'First Name', style: {flex: 1}},
+        {name: 'employeeId', slot: 'title', title: 'Id', style: {flex: 1}},
+        {
+          name: 'firstAndMiddleName',
+          title: 'First (& Middle) Name',
+          style: {flex: 1},
+        },
         {name: 'lastName', title: 'Last Name', style: {flex: 1}},
-        {name: 'jobtitle', title: 'Job Title', style: {flex: 1}},
-        {name: 'empStatus', title: 'Employee Status', style: {flex: 1}},
+        {name: 'jobTitle', title: 'Job Title', style: {flex: 1}},
+        {name: 'empStatus', title: 'Employment Status', style: {flex: 1}},
         {name: 'subunit', title: 'Sub Unit', style: {flex: 1}},
         {name: 'supervisor', title: 'Supervisor', style: {flex: 1}},
         {

@@ -23,6 +23,7 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
@@ -69,7 +70,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_FIRST_NAME_MAX_LENGTH = 30;
     public const PARAM_RULE_MIDDLE_NAME_MAX_LENGTH = 30;
     public const PARAM_RULE_LAST_NAME_MAX_LENGTH = 30;
-    public const PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH = 30;
+    public const PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH = 50;
     public const PARAM_RULE_EMP_PICTURE_FILE_NAME_MAX_LENGTH = 100;
     public const PARAM_RULE_FILTER_NAME_MAX_LENGTH = 100;
     public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
@@ -349,7 +350,10 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         $firstName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_FIRST_NAME);
         $middleName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_MIDDLE_NAME);
         $lastName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_LAST_NAME);
-        $employeeId = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMPLOYEE_ID);
+        $employeeId = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_EMPLOYEE_ID
+        );
 
         $employee->setFirstName($firstName);
         $employee->setMiddleName($middleName);
@@ -404,12 +408,13 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_LAST_NAME_MAX_LENGTH]),
                 )
             ),
-            $this->getValidationDecorator()->requiredParamRule(
+            $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EMPLOYEE_ID,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH]),
-                )
+                ),
+                true
             ),
         ];
     }
@@ -443,7 +448,12 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointDeleteResult
     {
-        throw $this->getNotImplementedException();
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        if (!$this->getUserRoleManager()->areEntitiesAccessible(Employee::class, $ids)) {
+            throw $this->getBadRequestException('Employees not accessible');
+        }
+        $this->getEmployeeService()->deleteEmployees($ids);
+        return new EndpointDeleteResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -451,6 +461,25 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        $allowedToDeleteActive = $this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_EMPLOYEE,
+            Employee::STATE_ACTIVE,
+            WorkflowStateMachine::EMPLOYEE_ACTION_DELETE_ACTIVE
+        );
+        $allowedToDeleteTerminated = $this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_EMPLOYEE,
+            Employee::STATE_TERMINATED,
+            WorkflowStateMachine::EMPLOYEE_ACTION_DELETE_TERMINATED
+        );
+        if (!($allowedToDeleteActive || $allowedToDeleteTerminated)) {
+            throw $this->getBadRequestException('Not allowed to delete employees');
+        }
+
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
+            )
+        );
     }
 }
