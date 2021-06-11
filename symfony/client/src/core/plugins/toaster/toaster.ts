@@ -46,6 +46,11 @@ export interface ToasterAPI {
   warn: (message: ToastMessage) => Promise<string>;
   clear: (id: number | string) => void;
   clearAll: () => void;
+
+  saveSuccess: () => Promise<string>;
+  addSuccess: () => Promise<string>;
+  updateSuccess: () => Promise<string>;
+  deleteSuccess: () => Promise<string>;
 }
 
 const state: ToasterState = reactive({
@@ -185,6 +190,30 @@ export default {
       state.toasts = [];
     };
 
+    const saveSuccess = () =>
+      success({
+        title: 'Success',
+        message: 'Successfully Saved!',
+      });
+
+    const addSuccess = () =>
+      success({
+        title: 'Success',
+        message: 'Successfully Added!',
+      });
+
+    const updateSuccess = () =>
+      success({
+        title: 'Success',
+        message: 'Successfully Updated!',
+      });
+
+    const deleteSuccess = () =>
+      success({
+        title: 'Success',
+        message: 'Successfully Deleted!',
+      });
+
     state.class = options.class ? options.class : 'oxd-toast-container--toast';
     state.transition = options.animation ? options.animation : 'oxd-toast-list';
     state.position = options.position ? options.position : 'bottom';
@@ -202,6 +231,10 @@ export default {
       warn,
       clear,
       clearAll,
+      saveSuccess,
+      addSuccess,
+      updateSuccess,
+      deleteSuccess,
     };
     app.config.globalProperties.$toast = toasterAPI;
   },

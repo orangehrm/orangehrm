@@ -155,10 +155,7 @@ export default {
           this.http
             .delete(node.id)
             .then(() => {
-              return this.$toast.success({
-                title: 'Success',
-                message: 'Organization unit deleted successfully!',
-              });
+              return this.$toast.deleteSuccess();
             })
             .then(() => {
               this.isLoading = false;

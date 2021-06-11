@@ -32,31 +32,19 @@
           />
         </div>
       </div>
-      <oxd-divider class="orangehrm-horizontal-margin" />
-      <div>
-        <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-          <div v-if="checkedItems.length > 0">
-            <oxd-text tag="span">
-              {{ checkedItems.length }} Qualification Selected
-            </oxd-text>
-            <oxd-button
-              label="Delete Selected"
-              iconName="trash-fill"
-              displayType="label-danger"
-              @click="onClickDeleteSelected"
-              class="orangehrm-horizontal-margin"
-            />
-          </div>
-          <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
-        </div>
-      </div>
+      <table-header
+        :selected="checkedItems.length"
+        :total="total"
+        :loading="isLoading"
+        @delete="onClickDeleteSelected"
+      ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
-          ref="dTable"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
           :clickable="false"
+          :loading="isLoading"
           v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
         />
@@ -149,14 +137,6 @@ export default {
     };
   },
 
-  computed: {
-    itemsCountText() {
-      return this.total === 0
-        ? 'No Records Found'
-        : `${this.total} Qualification Found`;
-    },
-  },
-
   methods: {
     onClickAdd() {
       navigate('/admin/saveEducation');
@@ -189,10 +169,7 @@ export default {
             ids: items,
           })
           .then(() => {
-            return this.$toast.success({
-              title: 'Success',
-              message: 'Successfully Deleted',
-            });
+            return this.$toast.deleteSuccess();
           })
           .then(() => {
             this.isLoading = false;
@@ -201,7 +178,7 @@ export default {
       }
     },
     async resetDataTable() {
-      this.$refs.dTable.checkedItems = [];
+      this.checkedItems = [];
       await this.execQuery();
     },
   },

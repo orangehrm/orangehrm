@@ -22,28 +22,17 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Qualification Skills List</oxd-text>
+        <oxd-text tag="h6">Skills</oxd-text>
         <div>
           <oxd-button label="Add" displayType="secondary" @click="onClickAdd" />
         </div>
       </div>
-      <oxd-divider class="orangehrm-horizontal-margin" />
-      <div>
-        <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-          <div v-if="checkedItems.length > 0">
-            <oxd-text tag="span">
-              {{ checkedItems.length }} Qualification Skills Selected
-            </oxd-text>
-            <oxd-button
-              label="Delete Selected"
-              displayType="label-danger"
-              @click="onClickDeleteSelected"
-              class="orangehrm-horizontal-margin"
-            />
-          </div>
-          <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
-        </div>
-      </div>
+      <table-header
+        :selected="checkedItems.length"
+        :total="total"
+        :loading="isLoading"
+        @delete="onClickDeleteSelected"
+      ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
           ref="dTable"
@@ -137,14 +126,6 @@ export default {
     };
   },
 
-  computed: {
-    itemsCountText() {
-      return this.total === 0
-        ? 'No Records Found'
-        : `${this.total} Qualification Skills Found`;
-    },
-  },
-
   methods: {
     onClickAdd() {
       navigate('/admin/saveSkills');
@@ -177,10 +158,7 @@ export default {
             ids: items,
           })
           .then(() => {
-            return this.$toast.success({
-              title: 'Success',
-              message: 'Qualifications Skills deleted successfully!',
-            });
+            return this.$toast.deleteSuccess();
           })
           .then(() => {
             this.isLoading = false;
@@ -189,7 +167,7 @@ export default {
       }
     },
     async resetDataTable() {
-      this.$refs.dTable.checkedItems = [];
+      this.checkedItems = [];
       await this.execQuery();
     },
   },

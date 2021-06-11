@@ -95,10 +95,7 @@ export default {
           name: this.category.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Job category updated successfully!',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();

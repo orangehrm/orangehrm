@@ -75,6 +75,7 @@ export default {
 
   data() {
     return {
+      isLoading: false,
       employmentStatus: {
         id: '',
         name: '',
@@ -92,14 +93,10 @@ export default {
           name: this.employmentStatus.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Employment Status updated successfully!',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();
-          this.isLoading = false;
         });
     },
     onCancel() {
@@ -107,6 +104,7 @@ export default {
     },
   },
   created() {
+    this.isLoading = true;
     this.http
       .get(this.employmentStatusId)
       .then(response => {

@@ -93,14 +93,10 @@ export default {
           name: this.license.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();
-          this.isLoading = false;
         });
     },
     onCancel() {

@@ -43,22 +43,12 @@
           Attachments
         </profile-action-header>
       </div>
-      <oxd-divider class="orangehrm-horizontal-margin" />
-      <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-        <div v-if="checkedItems.length > 0">
-          <oxd-text tag="span">
-            {{ itemsSelectedText }}
-          </oxd-text>
-          <oxd-button
-            label="Delete Selected"
-            iconName="trash-fill"
-            displayType="label-danger"
-            @click="onClickDeleteSelected"
-            class="orangehrm-horizontal-margin"
-          />
-        </div>
-        <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
-      </div>
+      <table-header
+        :selected="checkedItems.length"
+        :total="total"
+        :loading="isLoading"
+        @delete="onClickDeleteSelected"
+      ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
           :headers="headers"
@@ -181,17 +171,6 @@ export default {
     };
   },
 
-  computed: {
-    itemsCountText() {
-      return this.total === 0
-        ? 'No Attachments Found'
-        : `${this.total} Attachment(s) Found`;
-    },
-    itemsSelectedText() {
-      return `${this.checkedItems.length} Attachment(s) selected`;
-    },
-  },
-
   methods: {
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {
@@ -218,10 +197,7 @@ export default {
             ids: items,
           })
           .then(() => {
-            return this.$toast.success({
-              title: 'Success',
-              message: 'Successfully Deleted',
-            });
+            return this.$toast.deleteSuccess();
           })
           .then(() => {
             this.isLoading = false;

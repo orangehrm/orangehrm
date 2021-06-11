@@ -153,15 +153,10 @@ export default {
           empNumber: this.user.employee[0].id,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'System user added successfully!',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           // go back
-          this.isLoading = false;
-          this.user = {...userModel};
           this.onCancel();
         });
     },

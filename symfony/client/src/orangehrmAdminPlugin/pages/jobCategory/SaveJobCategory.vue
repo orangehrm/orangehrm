@@ -88,14 +88,9 @@ export default {
           name: this.category.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Job category added successfully!',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
-          this.category.name = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },

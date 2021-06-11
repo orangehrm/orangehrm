@@ -108,15 +108,11 @@ export default {
           description: this.skill.description,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Qualification Skills added successfully!',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           this.skill.name = '';
           this.skill.description = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },

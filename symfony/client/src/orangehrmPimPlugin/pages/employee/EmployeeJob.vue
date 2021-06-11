@@ -267,10 +267,7 @@ export default {
           if (response) {
             this.updateContractModel(response);
           }
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.isLoading = false;

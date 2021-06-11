@@ -87,14 +87,9 @@ export default {
           name: this.employmentStatus.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Employment Status added successfully!',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
-          this.employmentStatus.name = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },

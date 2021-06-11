@@ -87,14 +87,10 @@ export default {
           name: this.membership.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Added',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           this.membership.name = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },

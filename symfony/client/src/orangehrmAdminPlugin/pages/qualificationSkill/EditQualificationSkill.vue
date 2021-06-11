@@ -114,14 +114,10 @@ export default {
           description: this.skill.description,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Qualification Skills updated successfully!',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();
-          this.isLoading = false;
         });
     },
     onCancel() {

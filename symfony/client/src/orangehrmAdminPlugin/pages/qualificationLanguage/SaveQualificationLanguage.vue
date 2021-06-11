@@ -87,14 +87,10 @@ export default {
           name: this.language.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Added',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           this.language.name = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },

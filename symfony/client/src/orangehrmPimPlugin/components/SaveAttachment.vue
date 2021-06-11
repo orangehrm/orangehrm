@@ -128,10 +128,7 @@ export default {
           ...this.attachment,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Added',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           this.attachment = {...attachmentModel};

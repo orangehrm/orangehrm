@@ -145,10 +145,7 @@ export default {
           ...this.jobTitle,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Job title added successfully!',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           this.jobTitle = {...initialJobTitle};

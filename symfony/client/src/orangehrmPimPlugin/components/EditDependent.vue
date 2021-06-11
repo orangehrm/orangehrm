@@ -149,10 +149,7 @@ export default {
           )[0],
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.dependent = {...dependentModel};

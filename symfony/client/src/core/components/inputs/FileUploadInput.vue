@@ -53,7 +53,7 @@
       </div>
     </div>
   </oxd-input-group>
-  <div v-if="method==='replaceCurrent' || !file" class="orangehrm-file-input">
+  <div v-if="method === 'replaceCurrent' || !file" class="orangehrm-file-input">
     <oxd-input-field
       v-bind="$attrs"
       type="file"
@@ -123,7 +123,6 @@ export default {
     display: block;
     text-align: center;
     font-size: 12px;
-    width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -136,6 +135,8 @@ export default {
     flex-shrink: 0;
   }
   &-preview {
+    flex-shrink: 1;
+    min-width: 0;
     margin-right: 0.5rem;
     background-color: $oxd-background-pastel-white-color;
     padding: 0.5rem;

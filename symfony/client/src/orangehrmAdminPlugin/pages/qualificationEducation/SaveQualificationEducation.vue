@@ -81,22 +81,15 @@ export default {
 
   methods: {
     onSave() {
-      //  TODO: Loading
-
       this.isLoading = true;
       this.http
         .create({
           name: this.qualification.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Added',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
-          this.qualification.name = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },

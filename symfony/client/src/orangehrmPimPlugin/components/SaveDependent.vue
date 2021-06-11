@@ -145,10 +145,7 @@ export default {
           )[0],
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Added',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           this.dependent = {...dependentModel};

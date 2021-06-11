@@ -267,10 +267,7 @@ export default {
         })
         .then(response => {
           this.updateModel(response);
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.isLoading = false;

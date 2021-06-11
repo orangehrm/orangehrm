@@ -331,10 +331,7 @@ export default {
             : undefined,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Added',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();

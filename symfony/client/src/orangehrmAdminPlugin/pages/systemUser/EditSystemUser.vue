@@ -176,13 +176,9 @@ export default {
           changePassword: this.user.changePassword,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'System user updated successfully!',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
-          this.isLoading = false;
           this.onCancel();
         });
     },

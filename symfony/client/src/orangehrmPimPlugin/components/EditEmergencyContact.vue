@@ -179,10 +179,7 @@ export default {
           ...this.contact,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.contact = {...emergencyContactModel};

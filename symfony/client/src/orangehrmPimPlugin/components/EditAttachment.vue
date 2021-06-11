@@ -141,10 +141,7 @@ export default {
       this.http
         .update(this.data.id, {...this.attachment})
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.attachment = {...attachmentModel};

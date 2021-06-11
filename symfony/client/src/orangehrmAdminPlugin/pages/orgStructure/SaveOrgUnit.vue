@@ -113,14 +113,9 @@ export default {
           parentId: this.data?.id,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Organization unit added successfully!',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
-          this.orgUnit = {...orgUnitModel};
-          this.isLoading = false;
           this.onCancel();
         });
     },
