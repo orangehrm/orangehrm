@@ -2,82 +2,138 @@
 
 namespace OrangeHRM\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\EmployeeLicenseDecorator;
 
 /**
- * EmployeeLicense
+ * @method EmployeeLicenseDecorator getDecorator()
  *
  * @ORM\Table(name="ohrm_emp_license")
  * @ORM\Entity
  */
 class EmployeeLicense
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="emp_number", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     */
-    private $empNumber;
+    use DecoratorTrait;
 
     /**
-     * @var int
+     * @var License
      *
-     * @ORM\Column(name="license_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\License", inversedBy="employeeLicenses")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\JoinColumn(name="license_id", referencedColumnName="id")
      */
-    private $licenseId;
+    private License $licenseId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="license_no", type="string", length=50)
      */
-    private $licenseNo;
+    private string $licenseNo;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="license_issued_date", type="date")
      */
-    private $licenseIssuedDate;
+    private DateTime $licenseIssuedDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="license_expiry_date", type="date")
      */
-    private $licenseExpiryDate;
+    private DateTime $licenseExpiryDate;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Employee
      *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="EmployeeLicense")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="empNumber", referencedColumnName="empNumber")
-     * })
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="licenses", cascade={"persist"})
+     * @ORM\Id
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
-    private $Employee;
+    private Employee $employee;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\License", mappedBy="EmployeeLicense")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="license_id", referencedColumnName="id")
-     * })
+     * @return License
      */
-    private $License;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getLicenseId(): License
     {
-        $this->Employee = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->License = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->licenseId;
+    }
+
+    /**
+     * @param License $licenseId
+     */
+    public function setLicenseId(License $licenseId): void
+    {
+        $this->licenseId = $licenseId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLicenseNo(): string
+    {
+        return $this->licenseNo;
+    }
+
+    /**
+     * @param string $licenseNo
+     */
+    public function setLicenseNo(string $licenseNo): void
+    {
+        $this->licenseNo = $licenseNo;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getLicenseIssuedDate(): DateTime
+    {
+        return $this->licenseIssuedDate;
+    }
+
+    /**
+     * @param DateTime $licenseIssuedDate
+     */
+    public function setLicenseIssuedDate(DateTime $licenseIssuedDate): void
+    {
+        $this->licenseIssuedDate = $licenseIssuedDate;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getLicenseExpiryDate(): DateTime
+    {
+        return $this->licenseExpiryDate;
+    }
+
+    /**
+     * @param DateTime $licenseExpiryDate
+     */
+    public function setLicenseExpiryDate(DateTime $licenseExpiryDate): void
+    {
+        $this->licenseExpiryDate = $licenseExpiryDate;
+    }
+
+    /**
+     * @return Employee
+     */
+    public function getEmployee(): Employee
+    {
+        return $this->employee;
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    public function setEmployee(Employee $employee): void
+    {
+        $this->employee = $employee;
     }
 
 }
