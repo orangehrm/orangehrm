@@ -37,7 +37,7 @@
         <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
           <div v-if="checkedItems.length > 0">
             <oxd-text tag="span">
-              {{ checkedItems.length }} Nationality Selected
+              {{ checkedItems.length }} Records Selected
             </oxd-text>
             <oxd-button
               label="Delete Selected"
@@ -153,7 +153,7 @@ export default {
     itemsCountText() {
       return this.total === 0
         ? 'No Records Found'
-        : `${this.total} Nationality Found`;
+        : `${this.total} Records Found`;
     },
   },
 

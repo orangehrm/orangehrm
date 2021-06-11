@@ -57,7 +57,7 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      */
     public function getNationalityService(): NationalityService
     {
-        if (is_null($this->nationalityService)) {
+        if (!$this->nationalityService instanceof NationalityService) {
             $this->nationalityService = new NationalityService();
         }
         return $this->nationalityService;
@@ -84,9 +84,7 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $nationality = $this->getNationalityService()->getNationalityById($id);
-        if (!$nationality instanceof Nationality) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($nationality, Nationality::class);
         return new EndpointGetOneResult(NationalityModel::class, $nationality);
     }
 
@@ -138,9 +136,9 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
     public function create(): EndpointCreateResult
     {
         // TODO:: Check data group permission
-        $nationalities = $this->saveNationality();
+        $nationality = $this->saveNationality();
 
-        return new EndpointCreateResult(NationalityModel::class, $nationalities);
+        return new EndpointCreateResult(NationalityModel::class, $nationality);
     }
 
     /**
@@ -152,11 +150,9 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
+        if ($id) {
             $nationality = $this->getNationalityService()->getNationalityById($id);
-            if ($nationality == null) {
-                throw new RecordNotFoundException();
-            }
+            $this->throwRecordNotFoundExceptionIfNotExist($nationality, Nationality::class);
         } else {
             $nationality = new Nationality();
         }

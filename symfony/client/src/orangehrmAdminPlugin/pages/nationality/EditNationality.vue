@@ -125,14 +125,14 @@ export default {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.name.push(v => {
-          return (v && v.length <= 50) || 'Should not exceed 50 characters';
+          return (v && v.length <= 100) || 'Should not exceed 100 characters';
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
             return id !== this.nationality.id
-              ? 'Nationality name should be unique'
+              ? 'Already exists'
               : true;
           } else {
             return true;

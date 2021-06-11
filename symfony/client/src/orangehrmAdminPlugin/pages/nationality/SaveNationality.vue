@@ -89,7 +89,7 @@ export default {
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'Successfully Added',
+            message: 'Successfully Saved',
           });
         })
         .then(() => {
@@ -113,11 +113,11 @@ export default {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.name.push(v => {
-          return (v && v.length <= 50) || 'Should not exceed 50 characters';
+          return (v && v.length <= 100) || 'Should not exceed 100 characters';
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
-          return index === -1 || 'Nationality name should be unique';
+          return index === -1 || 'Already exists';
         });
       })
       .finally(() => {

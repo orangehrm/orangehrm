@@ -141,16 +141,16 @@ class NationalityDao extends BaseDao
     }
 
     /**
-     * @param string $NationalityName
+     * @param string $nationalityName
      * @return bool
      * @throws DaoException
      */
-    public function isExistingNationalityName(string $NationalityName): bool
+    public function isExistingNationalityName(string $nationalityName): bool
     {
         try {
             $q = $this->createQueryBuilder(Nationality::class, 'n');
-            $trimmed = trim($NationalityName, ' ');
-            $q->Where('n.name = :name');
+            $trimmed = trim($nationalityName, ' ');
+            $q->where('n.name = :name');
             $q->setParameter('name', $trimmed);
             $count = $this->count($q);
             if ($count > 0) {
