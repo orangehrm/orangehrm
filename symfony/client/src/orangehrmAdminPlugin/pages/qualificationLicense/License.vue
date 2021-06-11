@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">License List</oxd-text>
+        <oxd-text tag="h6">Licenses</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -37,7 +37,7 @@
         <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
           <div v-if="checkedItems.length > 0">
             <oxd-text tag="span">
-              {{ checkedItems.length }} License Selected
+              {{ checkedItems.length }} Records Selected
             </oxd-text>
             <oxd-button
               label="Delete Selected"
@@ -87,7 +87,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'License',
+          title: 'Name',
           style: {'flex-basis': '80%'},
         },
         {
@@ -153,7 +153,7 @@ export default {
     itemsCountText() {
       return this.total === 0
         ? 'No Records Found'
-        : `${this.total} License Found`;
+        : `${this.total} Records Found`;
     },
   },
 

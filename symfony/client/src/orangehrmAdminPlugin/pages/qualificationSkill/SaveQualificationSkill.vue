@@ -21,14 +21,14 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Save Skill</oxd-text>
+      <oxd-text tag="h6">Add Skill</oxd-text>
 
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Skill Name"
+            label="Name"
             v-model="skill.name"
             :rules="rules.name"
             required
@@ -38,7 +38,7 @@
         <oxd-form-row>
           <oxd-input-field
             type="textarea"
-            label="Skill Description"
+            label="Description"
             placeholder="Type description here"
             v-model="skill.description"
             :rules="rules.description"
@@ -48,13 +48,9 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
-          <oxd-button
-            class="orangehrm-left-space"
-            displayType="secondary"
-            label="Add"
-            type="submit"
-          />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -80,9 +76,9 @@ export default {
         name: [],
         description: [
           v =>
-            (v && v.length < 400) ||
+            (v && v.length <= 400) ||
             v === '' ||
-            'Should be less than 400 characters',
+            'Should not exceed 400 characters',
         ],
       },
       errors: [],
@@ -110,7 +106,7 @@ export default {
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'Qualification Skills added successfully!',
+            message: 'Successfully Saved',
           });
         })
         .then(() => {
@@ -134,11 +130,11 @@ export default {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.name.push(v => {
-          return (v && v.length < 50) || 'Should be less than 50 characters';
+          return (v && v.length <= 120) || 'Should not exceed 120 characters';
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Skill name should be unique';
+          return index === -1 || 'Already exists';
         });
       })
       .finally(() => {

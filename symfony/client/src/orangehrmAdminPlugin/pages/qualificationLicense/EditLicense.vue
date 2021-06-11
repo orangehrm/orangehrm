@@ -28,7 +28,7 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="License Name"
+            label="Name"
             v-model="license.name"
             :rules="rules.name"
             required
@@ -38,6 +38,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button
             type="button"
             displayType="ghost"
@@ -125,15 +126,13 @@ export default {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.name.push(v => {
-          return (v && v.length <= 50) || 'Should not exceed 50 characters';
+          return (v && v.length <= 100) || 'Should not exceed 100 characters';
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.license.id
-              ? 'License name should be unique'
-              : true;
+            return id !== this.license.id ? 'Already exists' : true;
           } else {
             return true;
           }

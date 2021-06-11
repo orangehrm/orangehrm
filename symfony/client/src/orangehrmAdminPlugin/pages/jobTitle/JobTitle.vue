@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Job Title List</oxd-text>
+        <oxd-text tag="h6">Job Titles</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -37,7 +37,7 @@
         <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
           <div v-if="checkedItems.length > 0">
             <oxd-text tag="span">
-              {{ checkedItems.length }} Job Title Selected
+              ({{ checkedItems.length }}) Records Selected
             </oxd-text>
             <oxd-button
               label="Delete Selected"
@@ -85,7 +85,7 @@ export default {
     return {
       headers: [
         {name: 'title', slot: 'title', title: 'Job Title', style: {flex: 2}},
-        {name: 'description', title: 'Description', style: {flex: 4}},
+        {name: 'description', title: 'Job Description', style: {flex: 4}},
         {
           name: 'actions',
           title: 'Actions',
@@ -120,7 +120,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/job-titles',
+      '/api/v2/admin/job-titles',
     );
     const {
       showPaginator,
@@ -149,7 +149,7 @@ export default {
     itemsCountText() {
       return this.total === 0
         ? 'No Records Found'
-        : `${this.total} Job Title Found`;
+        : `${this.total} Records Found`;
     },
   },
 
@@ -188,7 +188,7 @@ export default {
           .then(() => {
             return this.$toast.success({
               title: 'Success',
-              message: 'Job title deleted successfully!',
+              message: 'Successfully Deleted',
             });
           })
           .then(() => {

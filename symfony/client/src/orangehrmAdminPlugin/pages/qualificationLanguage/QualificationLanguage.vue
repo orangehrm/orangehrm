@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Language List</oxd-text>
+        <oxd-text tag="h6">Languages</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -37,7 +37,7 @@
         <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
           <div v-if="checkedItems.length > 0">
             <oxd-text tag="span">
-              {{ checkedItems.length }} Language Selected
+              {{ checkedItems.length }} Records Selected
             </oxd-text>
             <oxd-button
               label="Delete Selected"
@@ -51,7 +51,8 @@
         </div>
       </div>
       <div class="orangehrm-container">
-        <oxd-card-table :loading="isLoading"
+        <oxd-card-table
+          :loading="isLoading"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
@@ -86,7 +87,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Language',
+          title: 'Name',
           style: {'flex-basis': '80%'},
         },
         {
@@ -152,7 +153,7 @@ export default {
     itemsCountText() {
       return this.total === 0
         ? 'No Records Found'
-        : `${this.total} Language Found`;
+        : `${this.total} Records Found`;
     },
   },
 

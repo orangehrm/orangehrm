@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Job Category List</oxd-text>
+        <oxd-text tag="h6">Job Categories</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -37,7 +37,7 @@
         <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
           <div v-if="checkedItems.length > 0">
             <oxd-text tag="span">
-              {{ checkedItems.length }} Job Category Selected
+              {{ checkedItems.length }} Records Selected
             </oxd-text>
             <oxd-button
               label="Delete Selected"
@@ -153,7 +153,7 @@ export default {
     itemsCountText() {
       return this.total === 0
         ? 'No Records Found'
-        : `${this.total} Job Category Found`;
+        : `${this.total} Records Found`;
     },
   },
 
@@ -191,7 +191,7 @@ export default {
           .then(() => {
             return this.$toast.success({
               title: 'Success',
-              message: 'Job category deleted successfully!',
+              message: 'Successfully Deleted',
             });
           })
           .then(() => {

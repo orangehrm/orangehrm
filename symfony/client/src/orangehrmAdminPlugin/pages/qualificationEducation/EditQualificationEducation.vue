@@ -38,6 +38,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button
             type="button"
             displayType="ghost"
@@ -54,8 +55,10 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
+//import requiredText from '../../../core/components/required/RequiredText.vue';
 
 export default {
+  //components: {requiredText},
   props: {
     educationId: {
       type: Number,
@@ -125,15 +128,13 @@ export default {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.name.push(v => {
-          return (v && v.length <= 50) || 'Should not exceed 50 characters';
+          return (v && v.length <= 100) || 'Should not exceed 100 characters';
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.qualification.id
-              ? 'Qualification name should be unique'
-              : true;
+            return id !== this.qualification.id ? 'Already exists' : true;
           } else {
             return true;
           }
