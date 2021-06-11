@@ -80,6 +80,8 @@ describe('Job title page', function () {
 		})
 		
 		it('Length validation', () => {
+			
+			//verify required and length validations in Add Job Title screen
 
 			cy.visit('/admin/viewJobTitleList')
 			
