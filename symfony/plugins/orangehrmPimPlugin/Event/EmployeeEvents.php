@@ -21,10 +21,13 @@ namespace OrangeHRM\Pim\Event;
 
 class EmployeeEvents
 {
+    /**
+     * @see \OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent
+     */
     public const JOINED_DATE_CHANGED = 'employee_join_date_changed';
 
     /**
-     * @Event("OrangeHRM\Pim\Event\EmployeeAddedEvent")
+     * @see \OrangeHRM\Pim\Event\EmployeeAddedEvent
      */
     public const EMPLOYEE_ADDED = 'employee_added';
     public const EMPLOYEES_DELETED = 'employees_deleted';

@@ -20,8 +20,8 @@
 namespace OrangeHRM\Tests\Pim\Service;
 
 
+use DateTime;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Dao\EmployeeDependentDao;
@@ -52,14 +52,14 @@ class EmployeeDependentServiceTest extends TestCase
         $empDependent1->getDecorator()->setEmployeeByEmpNumber(1);
         $empDependent1->setName('Abrahamson');
         $empDependent1->setRelationshipType('child');
-        $empDependent1->getDecorator()->setDateOfBirth('2007-02-23');
+        $empDependent1->setDateOfBirth(new DateTime('2007-02-23'));
 
         $empDependent2 = new EmpDependent();
         $empDependent2->getDecorator()->setEmployeeByEmpNumber(1);
         $empDependent2->setName('Abram');
         $empDependent2->setRelationship('friend');
         $empDependent2->setRelationshipType('other');
-        $empDependent2->getDecorator()->setDateOfBirth('2004-02-23');
+        $empDependent2->setDateOfBirth(new DateTime('2004-02-23'));
 
         $employeeDependentDao = $this->getMockBuilder(EmployeeDependentDao::class)->getMock();
 
@@ -81,7 +81,7 @@ class EmployeeDependentServiceTest extends TestCase
         $empDependent1->getDecorator()->setEmployeeByEmpNumber(1);
         $empDependent1->setName('Abrahamson');
         $empDependent1->setRelationshipType('child');
-        $empDependent1->getDecorator()->setDateOfBirth('2007-02-23');
+        $empDependent1->setDateOfBirth(new DateTime('2007-02-23'));
 
         $employeeDependentDao = $this->getMockBuilder(EmployeeDependentDao::class)->getMock();
 
@@ -143,14 +143,14 @@ class EmployeeDependentServiceTest extends TestCase
         $empDependent1->getDecorator()->setEmployeeByEmpNumber(1);
         $empDependent1->setName('Abrahamson');
         $empDependent1->setRelationshipType('child');
-        $empDependent1->getDecorator()->setDateOfBirth('2007-02-23');
+        $empDependent1->setDateOfBirth(new DateTime('2007-02-23'));
 
         $empDependent2 = new EmpDependent();
         $empDependent2->getDecorator()->setEmployeeByEmpNumber(1);
         $empDependent2->setName('Abram');
         $empDependent2->setRelationship('friend');
         $empDependent2->setRelationshipType('other');
-        $empDependent2->getDecorator()->setDateOfBirth('2004-02-23');
+        $empDependent2->setDateOfBirth(new DateTime('2004-02-23'));
 
         $empDependentList = array($empDependent1, $empDependent2);
         $empDependentSearchParams = new EmployeeDependentSearchFilterParams();

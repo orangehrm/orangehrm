@@ -21,6 +21,7 @@ namespace OrangeHRM\Entity\Decorator;
 
 use DateTime;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmploymentStatus;
 use OrangeHRM\Entity\JobCategory;
@@ -32,6 +33,7 @@ use OrangeHRM\Entity\Subunit;
 class EmployeeDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var Employee
@@ -60,7 +62,7 @@ class EmployeeDecorator
     public function getJoinedDate(): ?string
     {
         $date = $this->getEmployee()->getJoinedDate();
-        return $date ? $date->format('Y-m-d') : null;
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
     }
 
     /**
@@ -69,18 +71,7 @@ class EmployeeDecorator
     public function getDrivingLicenseExpiredDate(): ?string
     {
         $date = $this->getEmployee()->getDrivingLicenseExpiredDate();
-        return $date ? $date->format('Y-m-d') : null;
-    }
-
-    /**
-     * @param string|null $drivingLicenseExpiredDate
-     */
-    public function setDrivingLicenseExpiredDate(?string $drivingLicenseExpiredDate): void
-    {
-        if (!is_null($drivingLicenseExpiredDate)) {
-            $drivingLicenseExpiredDate = new DateTime($drivingLicenseExpiredDate);
-        }
-        $this->getEmployee()->setDrivingLicenseExpiredDate($drivingLicenseExpiredDate);
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
     }
 
     /**
@@ -89,18 +80,7 @@ class EmployeeDecorator
     public function getBirthday(): ?string
     {
         $date = $this->getEmployee()->getBirthday();
-        return $date ? $date->format('Y-m-d') : null;
-    }
-
-    /**
-     * @param string|null $birthday
-     */
-    public function setBirthday(?string $birthday): void
-    {
-        if (!is_null($birthday)) {
-            $birthday = new DateTime($birthday);
-        }
-        $this->getEmployee()->setBirthday($birthday);
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
     }
 
     /**

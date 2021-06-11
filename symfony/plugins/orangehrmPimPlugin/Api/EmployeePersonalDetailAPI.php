@@ -128,8 +128,8 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
                 self::PARAMETER_DRIVING_LICENSE_NO
             )
         );
-        $employee->getDecorator()->setDrivingLicenseExpiredDate(
-            $this->getRequestParams()->getStringOrNull(
+        $employee->setDrivingLicenseExpiredDate(
+            $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_DRIVING_LICENSE_EXPIRED_DATE
             )
@@ -140,8 +140,8 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
         $employee->setMaritalStatus(
             $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_MARTIAL_STATUS)
         );
-        $employee->getDecorator()->setBirthday(
-            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_BIRTHDAY)
+        $employee->setBirthday(
+            $this->getRequestParams()->getDateTimeOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_BIRTHDAY)
         );
         $employee->getDecorator()->setNationality(
             $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NATIONALITY_ID)
@@ -245,7 +245,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DRIVING_LICENSE_EXPIRED_DATE,
-                    new Rule(Rules::DATE, ['Y-m-d']),
+                    new Rule(Rules::API_DATE),
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -265,7 +265,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_BIRTHDAY,
-                    new Rule(Rules::DATE, ['Y-m-d']),
+                    new Rule(Rules::API_DATE),
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

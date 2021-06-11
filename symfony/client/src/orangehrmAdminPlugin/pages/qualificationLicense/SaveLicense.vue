@@ -21,14 +21,14 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Save License</oxd-text>
+      <oxd-text tag="h6"> Add License</oxd-text>
 
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="License Name"
+            label="Name"
             v-model="license.name"
             :rules="rules.name"
             required
@@ -38,6 +38,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button
             type="button"
             displayType="ghost"
@@ -89,7 +90,7 @@ export default {
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'Successfully Added',
+            message: 'Successfully Saved',
           });
         })
         .then(() => {
@@ -113,11 +114,11 @@ export default {
           return (!!v && v.trim() !== '') || 'Required';
         });
         this.rules.name.push(v => {
-          return (v && v.length <= 50) || 'Should not exceed 50 characters';
+          return (v && v.length <= 100) || 'Should not exceed 100 characters';
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
-          return index === -1 || 'License name should be unique';
+          return index === -1 || 'Already exists';
         });
       })
       .finally(() => {

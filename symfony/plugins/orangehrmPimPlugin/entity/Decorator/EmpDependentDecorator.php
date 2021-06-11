@@ -21,12 +21,14 @@ namespace OrangeHRM\Entity\Decorator;
 
 use DateTime;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Entity\Employee;
 
 class EmpDependentDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var EmpDependent
@@ -55,18 +57,7 @@ class EmpDependentDecorator
     public function getDateOfBirth(): ?string
     {
         $date = $this->getEmpDependent()->getDateOfBirth();
-        return $date ? $date->format('Y-m-d') : null;
-    }
-
-    /**
-     * @param string|null $dateOfBirth Y-m-d format
-     */
-    public function setDateOfBirth(?string $dateOfBirth): void
-    {
-        if (!is_null($dateOfBirth)) {
-            $dateOfBirth = new DateTime($dateOfBirth);
-        }
-        $this->getEmpDependent()->setDateOfBirth($dateOfBirth);
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
     }
 
     /**

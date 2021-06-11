@@ -221,8 +221,8 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
         $empDependent->setRelationship(
             $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_RELATIONSHIP)
         );
-        $empDependent->getDecorator()->setDateOfBirth(
-            $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE_OF_BIRTH)
+        $empDependent->setDateOfBirth(
+            $this->getRequestParams()->getDateTimeOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE_OF_BIRTH)
         );
 
         return $this->getEmployeeDependentService()->saveEmployeeDependent($empDependent);
@@ -254,7 +254,7 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_DATE_OF_BIRTH,
-                    new Rule(Rules::DATE, ['Y-m-d']),
+                    new Rule(Rules::API_DATE),
                 )
             ),
         ];

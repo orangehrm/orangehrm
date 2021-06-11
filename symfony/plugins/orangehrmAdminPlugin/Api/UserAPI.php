@@ -38,12 +38,16 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
 
 class UserAPI extends Endpoint implements CrudEndpoint
 {
+    use ServiceContainerTrait;
+
     public const PARAMETER_USERNAME = 'username';
     public const PARAMETER_PASSWORD = 'password';
     public const PARAMETER_USER_ROLE_ID = 'userRoleId';
@@ -57,27 +61,11 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public const FILTER_STATUS = 'status';
 
     /**
-     * @var null|UserService
-     */
-    protected ?UserService $systemUserService = null;
-
-    /**
      * @return UserService|null
      */
     public function getSystemUserService(): ?UserService
     {
-        if (is_null($this->systemUserService)) {
-            $this->systemUserService = new UserService();
-        }
-        return $this->systemUserService;
-    }
-
-    /**
-     * @param UserService|null $systemUserService
-     */
-    public function setSystemUserService(?UserService $systemUserService): void
-    {
-        $this->systemUserService = $systemUserService;
+        return $this->getContainer()->get(Services::USER_SERVICE);
     }
 
     /**

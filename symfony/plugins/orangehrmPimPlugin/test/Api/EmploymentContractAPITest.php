@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\test\Api;
+namespace OrangeHRM\Tests\Pim\Api;
 
 use DateTime;
 use Generator;
@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Decorator\EmpContractDecorator;
 use OrangeHRM\Entity\EmpContract;
 use OrangeHRM\Entity\Employee;
@@ -94,6 +95,7 @@ class EmploymentContractAPITest extends EndpointTestCase
             ->method('getEmploymentContractDao')
             ->willReturn($employmentContractDao);
 
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
         /** @var MockObject&EmploymentContractAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             EmploymentContractAPI::class,
@@ -249,6 +251,8 @@ class EmploymentContractAPITest extends EndpointTestCase
             ->method('getEmploymentContractDao')
             ->willReturn($employmentContractDao);
 
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
+
         /** @var MockObject&EmploymentContractAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             EmploymentContractAPI::class,
@@ -368,6 +372,8 @@ class EmploymentContractAPITest extends EndpointTestCase
         $userRoleManager->expects($this->exactly(2))
             ->method('getUser')
             ->will($this->returnValue($user));
+
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
 
         /** @var MockObject&EmploymentContractAPI $api */
         $api = $this->getApiEndpointMockBuilder(
@@ -516,6 +522,8 @@ class EmploymentContractAPITest extends EndpointTestCase
             ->will($this->returnValueMap($contractAttachmentMap));
         $employmentContractService->expects($this->once())
             ->method('deleteContractAttachment');
+
+        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
 
         /** @var MockObject&EmploymentContractAPI $api */
         $api = $this->getApiEndpointMockBuilder(
