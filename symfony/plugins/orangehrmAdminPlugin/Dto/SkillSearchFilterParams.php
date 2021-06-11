@@ -35,6 +35,11 @@ class SkillSearchFilterParams extends FilterParams
      */
     protected ?string $description = null;
 
+    public function __construct()
+    {
+        $this->setSortField('s.name');
+    }
+
     /**
      * @return string|null
      */

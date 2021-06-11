@@ -21,14 +21,14 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Save Job Category</oxd-text>
+      <oxd-text tag="h6">Add Job Category</oxd-text>
 
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Job Category Name"
+            label="Name"
             v-model="category.name"
             :rules="rules.name"
             required
@@ -38,6 +38,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button
             type="button"
             displayType="ghost"
@@ -90,7 +91,7 @@ export default {
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'Job category added successfully!',
+            message: 'Successfully Saved',
           });
         })
         .then(() => {
@@ -118,7 +119,7 @@ export default {
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Job category name should be unique';
+          return index === -1 || 'Already exists.';
         });
         this.isLoading = false;
       })

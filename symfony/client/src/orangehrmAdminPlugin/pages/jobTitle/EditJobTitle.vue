@@ -76,6 +76,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
@@ -154,7 +155,7 @@ export default {
         .then(() => {
           return this.$toast.success({
             title: 'Success',
-            message: 'Job title updated successfully!',
+            message: 'Successfully Updated',
           });
         })
         .then(() => {
@@ -187,7 +188,7 @@ export default {
           const index = data.findIndex(item => item.title == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.jobTitle.id ? 'Job title should be unique' : true;
+            return id != this.jobTitle.id ? ' Already exists' : true;
           } else {
             return true;
           }
