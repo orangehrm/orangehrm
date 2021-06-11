@@ -30,7 +30,7 @@
       <oxd-form @submitValid="onSave" :loading="isLoading">
         <oxd-form-row>
           <oxd-input-field
-            label="Employment Status Name"
+            label="Name"
             v-model="employmentStatus.name"
             :rules="rules.name"
             required
@@ -68,7 +68,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/employment-statuses',
+      '/api/v2/admin/employment-statuses',
     );
     return {
       http,
@@ -128,9 +128,7 @@ export default {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.employmentStatus.id
-              ? 'Employee Status should be unique'
-              : true;
+            return id != this.employmentStatus.id ? 'Already exists' : true;
           } else {
             return true;
           }

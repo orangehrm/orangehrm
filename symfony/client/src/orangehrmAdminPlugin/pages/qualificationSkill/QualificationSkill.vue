@@ -24,7 +24,12 @@
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-header">Skills</oxd-text>
         <div>
-          <oxd-button label="Add" displayType="secondary" @click="onClickAdd" />
+          <oxd-button
+            label="Add"
+            iconName="plus"
+            displayType="secondary"
+            @click="onClickAdd"
+          />
         </div>
       </div>
       <table-header
@@ -35,10 +40,11 @@
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
-          ref="dTable"
+          :loading="isLoading"
           :headers="headers"
           :items="items?.data"
           :selectable="true"
+          :clickable="false"
           v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
         />
@@ -66,11 +72,12 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', title: 'Name', style: {flex: 1}},
-        {name: 'description', title: 'Description', style: {flex: 1}},
+        {name: 'name', slot: 'title', title: 'Name', style: {flex: 2}},
+        {name: 'description', title: 'Description', style: {flex: 4}},
         {
           name: 'actions',
           title: 'Actions',
+          slot: 'action',
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {

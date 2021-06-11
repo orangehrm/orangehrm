@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-header">Job Title List</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-header">Job Titles</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -73,7 +73,7 @@ export default {
     return {
       headers: [
         {name: 'title', slot: 'title', title: 'Job Title', style: {flex: 2}},
-        {name: 'description', title: 'Description', style: {flex: 4}},
+        {name: 'description', title: 'Job Description', style: {flex: 4}},
         {
           name: 'actions',
           title: 'Actions',
@@ -108,7 +108,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/job-titles',
+      '/api/v2/admin/job-titles',
     );
     const {
       showPaginator,

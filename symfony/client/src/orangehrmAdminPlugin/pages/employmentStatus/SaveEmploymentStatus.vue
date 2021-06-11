@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-header"
-        >Save Employment Status</oxd-text
+        >Add Employment Status</oxd-text
       >
 
       <oxd-divider />
@@ -30,7 +30,7 @@
       <oxd-form @submitValid="onSave" :loading="isLoading">
         <oxd-form-row>
           <oxd-input-field
-            label="Employment Status Name"
+            label="Name"
             v-model="employmentStatus.name"
             :rules="rules.name"
             required
@@ -74,7 +74,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/employment-statuses',
+      '/api/v2/admin/employment-statuses',
     );
     return {
       http,
@@ -114,7 +114,7 @@ export default {
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Employment Status should be unique';
+          return index === -1 || 'Already exists';
         });
       })
       .finally(() => {

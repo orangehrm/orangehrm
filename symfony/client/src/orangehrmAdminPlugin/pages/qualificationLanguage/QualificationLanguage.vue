@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-header">Language</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-header">Languages</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -75,7 +75,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Language',
+          title: 'Name',
           style: {'flex-basis': '80%'},
         },
         {

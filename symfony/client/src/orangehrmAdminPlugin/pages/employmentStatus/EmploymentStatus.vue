@@ -22,11 +22,14 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-header"
-          >Employment Status List</oxd-text
-        >
+        <oxd-text tag="h6" class="orangehrm-header">Employment Status</oxd-text>
         <div>
-          <oxd-button label="Add" displayType="secondary" @click="onClickAdd" />
+          <oxd-button
+            label="Add"
+            iconName="plus"
+            displayType="secondary"
+            @click="onClickAdd"
+          />
         </div>
       </div>
       <table-header
@@ -109,7 +112,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/employment-statuses',
+      '/api/v2/admin/employment-statuses',
     );
     const {
       showPaginator,

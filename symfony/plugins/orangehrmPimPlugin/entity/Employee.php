@@ -285,7 +285,7 @@ class Employee
     /**
      * @var EmployeeTerminationRecord|null
      *
-     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord")
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord", cascade={"persist"})
      * @ORM\JoinColumn(name="termination_id", referencedColumnName="id")
      */
     private ?EmployeeTerminationRecord $employeeTerminationRecord = null;
@@ -487,7 +487,7 @@ class Employee
     private $projectAdmin;
 
     /**
-     * @var Collection
+     * @var EmployeeTerminationRecord[]|Collection
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord", mappedBy="employee")
      */

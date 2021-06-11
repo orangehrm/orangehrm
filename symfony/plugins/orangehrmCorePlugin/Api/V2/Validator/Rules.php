@@ -36,6 +36,7 @@ final class Rules
     public const BASE_64_ATTACHMENT = OHRMRules\Base64Attachment::class;
     public const COUNTRY_CODE = OHRMRules\CountryCode::class;
     public const CURRENCY = OHRMRules\Currency::class;
+    public const API_DATE = OHRMRules\ApiDate::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;

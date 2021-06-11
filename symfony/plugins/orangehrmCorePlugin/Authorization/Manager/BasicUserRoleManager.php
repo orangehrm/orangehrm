@@ -35,7 +35,8 @@ use OrangeHRM\Core\Traits\ClassHelperTrait;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
-use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 /**
  * Description of BasicUserRoleManager
@@ -43,6 +44,7 @@ use OrangeHRM\Pim\Service\EmployeeService;
  */
 class BasicUserRoleManager extends AbstractUserRoleManager
 {
+    use EmployeeServiceTrait;
     use ClassHelperTrait;
 
     public const PERMISSION_TYPE_DATA_GROUP = 'data_group';
@@ -53,8 +55,6 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     public const OPERATION_EDIT = 'edit';
     public const OPERATION_DELETE = 'delete';
 
-    protected ?EmployeeService $employeeService = null;
-    protected ?UserService $userService = null;
     protected ?ScreenPermissionService $screenPermissionService = null;
     protected $operationalCountryService;
     protected $locationService;
@@ -174,37 +174,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
      */
     public function getUserService(): UserService
     {
-        if (!$this->userService instanceof UserService) {
-            $this->userService = new UserService();
-        }
-        return $this->userService;
-    }
-
-    /**
-     * @param UserService $userService
-     */
-    public function setUserService(UserService $userService): void
-    {
-        $this->userService = $userService;
-    }
-
-    /**
-     * @return EmployeeService
-     */
-    public function getEmployeeService(): EmployeeService
-    {
-        if (!$this->employeeService instanceof EmployeeService) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService): void
-    {
-        $this->employeeService = $employeeService;
+        return $this->getContainer()->get(Services::USER_SERVICE);
     }
 
     /**

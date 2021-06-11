@@ -28,7 +28,7 @@
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Job Category Name"
+            label="Name"
             v-model="category.name"
             :rules="rules.name"
             required
@@ -38,6 +38,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button
             type="button"
             displayType="ghost"
@@ -129,9 +130,7 @@ export default {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.category.id
-              ? 'Job category name should be unique'
-              : true;
+            return id != this.category.id ? 'Already exists.' : true;
           } else {
             return true;
           }
