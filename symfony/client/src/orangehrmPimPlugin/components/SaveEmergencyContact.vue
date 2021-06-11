@@ -86,6 +86,8 @@
 </template>
 
 <script>
+import {required} from '@orangehrm/core/util/validation/rules';
+
 const emergencyContactModel = {
   name: '',
   relationship: '',
@@ -112,17 +114,13 @@ export default {
       contact: {...emergencyContactModel},
       rules: {
         name: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
+          required,
           v => {
             return !v || v?.length <= 100 || 'Should not exceed 100 characters';
           },
         ],
         relationship: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
+          required,
           v => {
             return !v || v?.length <= 100 || 'Should not exceed 100 characters';
           },

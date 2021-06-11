@@ -164,6 +164,10 @@
 
 <script>
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 const salComponentModel = {
   name: '',
@@ -222,18 +226,9 @@ export default {
       accountType: '',
       usableCurrencies: [],
       rules: {
-        name: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
-          v => {
-            return !v || v.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
+        name: [required, shouldNotExceedCharLength(100)],
         salaryAmount: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
+          required,
           v => {
             return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
           },
@@ -249,9 +244,7 @@ export default {
         ],
         currencyId: [v => (!!v && v.length != 0) || 'Required'],
         directDepositAccount: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
+          required,
           v =>
             (v && v.length <= 100) ||
             v === '' ||
@@ -259,18 +252,14 @@ export default {
         ],
         directDepositAccountType: [v => (!!v && v.length != 0) || 'Required'],
         accountType: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
+          required,
           v =>
             (v && v.length <= 20) ||
             v === '' ||
             'Should not exceed 20 characters',
         ],
         directDepositRoutingNumber: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
+          required,
           v =>
             (v && v.length <= 9) ||
             v === '' ||
@@ -280,9 +269,7 @@ export default {
           },
         ],
         directDepositAmount: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
+          required,
           v => {
             return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
           },

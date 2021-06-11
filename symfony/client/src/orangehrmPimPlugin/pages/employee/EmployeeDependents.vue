@@ -46,7 +46,7 @@
       <oxd-card-table
         :headers="headers"
         :items="items?.data"
-        :selectable="true"
+        :selectable="selectable"
         :clickable="false"
         :loading="isLoading"
         v-model:selected="checkedItems"
@@ -136,33 +136,6 @@ export default {
 
   data() {
     return {
-      headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
-        {name: 'relationship', title: 'Relationship', style: {flex: 1}},
-        {name: 'dateOfBirth', title: 'Date of Birth', style: {flex: 1}},
-        {
-          name: 'actions',
-          slot: 'action',
-          title: 'Actions',
-          style: {'flex-shrink': 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
-      ],
       checkedItems: [],
       showSaveModal: false,
       showEditModal: false,
@@ -226,6 +199,44 @@ export default {
       this.showEditModal = false;
       this.editModalState = null;
       this.resetDataTable();
+    },
+  },
+
+  computed: {
+    headers() {
+      const headers = [
+        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
+        {name: 'relationship', title: 'Relationship', style: {flex: 1}},
+        {name: 'dateOfBirth', title: 'Date of Birth', style: {flex: 1}},
+      ];
+      if (this.selectable) {
+        headers.push({
+          name: 'actions',
+          slot: 'action',
+          title: 'Actions',
+          style: {flex: '0.5'},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            delete: {
+              onClick: this.onClickDelete,
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
+            },
+            edit: {
+              onClick: this.onClickEdit,
+              props: {
+                name: 'pencil-fill',
+              },
+            },
+          },
+        });
+      }
+      return headers;
+    },
+    selectable() {
+      return !(this.showSaveModal || this.showEditModal);
     },
   },
 };

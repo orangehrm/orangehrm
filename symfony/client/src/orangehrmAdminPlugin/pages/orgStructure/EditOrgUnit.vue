@@ -63,6 +63,7 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
+import {required} from '@orangehrm/core/util/validation/rules';
 
 const orgUnitModel = {
   unitId: '',
@@ -94,11 +95,7 @@ export default {
       isLoading: false,
       orgUnit: {...orgUnitModel},
       rules: {
-        name: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
-        ],
+        name: [required],
       },
     };
   },

@@ -193,6 +193,7 @@
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import SwitchInput from '@orangehrm/oxd/src/core/components/Input/SwitchInput';
+import {required} from '@orangehrm/core/util/validation/rules';
 
 export default {
   props: {
@@ -241,9 +242,7 @@ export default {
       },
       rules: {
         name: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
+          required,
           v => {
             return v.length <= 100 || 'Should not exceed 100 characters';
           },

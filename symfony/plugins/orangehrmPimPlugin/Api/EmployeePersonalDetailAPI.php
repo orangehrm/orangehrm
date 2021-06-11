@@ -64,7 +64,7 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
     public const PARAM_RULE_FIRST_NAME_MAX_LENGTH = 30;
     public const PARAM_RULE_MIDDLE_NAME_MAX_LENGTH = 30;
     public const PARAM_RULE_LAST_NAME_MAX_LENGTH = 30;
-    public const PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH = 30;
+    public const PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH = 50;
     public const PARAM_RULE_OTHER_ID_MAX_LENGTH = 100;
     public const PARAM_RULE_DRIVING_LICENSE_NO_MAX_LENGTH = 100;
     public const PARAM_RULE_MARTIAL_STATUS_MAX_LENGTH = 20;
@@ -219,12 +219,13 @@ class EmployeePersonalDetailAPI extends Endpoint implements ResourceEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_LAST_NAME_MAX_LENGTH]),
                 )
             ),
-            $this->getValidationDecorator()->requiredParamRule(
+            $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_EMPLOYEE_ID,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMPLOYEE_ID_MAX_LENGTH]),
-                )
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(

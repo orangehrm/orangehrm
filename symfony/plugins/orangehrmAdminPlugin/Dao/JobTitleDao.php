@@ -20,53 +20,79 @@
 namespace OrangeHRM\Admin\Dao;
 
 use Exception;
+use OrangeHRM\Admin\Dto\JobTitleSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\JobSpecificationAttachment;
 use OrangeHRM\Entity\JobTitle;
+use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\ORM\Paginator;
 
 class JobTitleDao extends BaseDao
 {
     /**
-     * @param string $sortField
-     * @param string $sortOrder
      * @param bool $activeOnly
-     * @param int|null $limit
-     * @param int|null $offset
-     * @param false $count
      * @return int|JobTitle[]
      * @throws DaoException
      */
-    public function getJobTitleList(
-        string $sortField = 'jt.jobTitleName',
-        string $sortOrder = 'ASC',
-        bool $activeOnly = true,
-        ?int $limit = null,
-        ?int $offset = null,
-        bool $count = false
-    ) {
-        $sortField = ($sortField == "") ? 'jt.jobTitleName' : $sortField;
-        $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
-
+    public function getJobTitleList(bool $activeOnly = true)
+    {
         try {
             $q = $this->createQueryBuilder(JobTitle::class, 'jt');
             if ($activeOnly == true) {
                 $q->andWhere('jt.isDeleted = :isDeleted');
                 $q->setParameter('isDeleted', JobTitle::ACTIVE);
             }
-            $q->addOrderBy($sortField, $sortOrder);
-            if (!empty($limit)) {
-                $q->setFirstResult($offset)
-                    ->setMaxResults($limit);
-            }
+            $q->addOrderBy('jt.jobTitleName', ListSorter::ASCENDING);
 
-            if ($count) {
-                return $this->count($q);
-            }
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+    }
+
+    /**
+     * @param JobTitleSearchFilterParams $jobTitleSearchFilterParams
+     * @return JobTitle[]
+     * @throws DaoException
+     */
+    public function getJobTitles(JobTitleSearchFilterParams $jobTitleSearchFilterParams): array
+    {
+        try {
+            return $this->getJobTitlesPaginator($jobTitleSearchFilterParams)->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param JobTitleSearchFilterParams $jobTitleSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getJobTitlesCount(JobTitleSearchFilterParams $jobTitleSearchFilterParams): int
+    {
+        try {
+            return $this->getJobTitlesPaginator($jobTitleSearchFilterParams)->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param JobTitleSearchFilterParams $jobTitleSearchFilterParams
+     * @return Paginator
+     */
+    private function getJobTitlesPaginator(
+        JobTitleSearchFilterParams $jobTitleSearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(JobTitle::class, 'jt');
+        $this->setSortingAndPaginationParams($q, $jobTitleSearchFilterParams);
+        if ($jobTitleSearchFilterParams->getActiveOnly() == true) {
+            $q->andWhere('jt.isDeleted = :isDeleted');
+            $q->setParameter('isDeleted', JobTitle::ACTIVE);
+        }
+        return $this->getPaginator($q);
     }
 
     /**
