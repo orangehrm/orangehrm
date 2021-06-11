@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Pim\Service;
 
+use DateTime;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
@@ -28,6 +29,7 @@ use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Event\EmployeeAddedEvent;
 use OrangeHRM\Pim\Event\EmployeeEvents;
+use OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent;
 
 class EmployeeService
 {
@@ -43,6 +45,11 @@ class EmployeeService
      * @var EmployeeEventService|null
      */
     protected ?EmployeeEventService $employeeEventService = null;
+
+    /**
+     * @var EmployeeTerminationService|null
+     */
+    protected ?EmployeeTerminationService $employeeTerminationService = null;
 
     /**
      * @return EmployeeDao
@@ -80,6 +87,17 @@ class EmployeeService
     public function setEmployeeEventService(EmployeeEventService $employeeEventService): void
     {
         $this->employeeEventService = $employeeEventService;
+    }
+
+    /**
+     * @return EmployeeTerminationService
+     */
+    public function getEmployeeTerminationService(): EmployeeTerminationService
+    {
+        if (!$this->employeeTerminationService instanceof EmployeeTerminationService) {
+            $this->employeeTerminationService = new EmployeeTerminationService();
+        }
+        return $this->employeeTerminationService;
     }
 
     /**
@@ -132,6 +150,28 @@ class EmployeeService
         $employee = $this->saveEmployee($employee);
         $this->getEmployeeEventService()->saveUpdateEmployeePersonalDetailsEvent($employee->getEmpNumber());
         return $employee;
+    }
+
+    /**
+     * @param Employee $employee
+     * @throws DaoException
+     */
+    public function updateEmployeeJobDetails(Employee $employee): void
+    {
+        $employee = $this->saveEmployee($employee);
+        $this->getEmployeeEventService()->saveUpdateJobDetailsEvent($employee->getEmpNumber());
+    }
+
+    /**
+     * @param Employee $employee
+     * @param DateTime|null $previousJoinedDate
+     */
+    public function dispatchJoinedDateChangedEvent(Employee $employee, ?DateTime $previousJoinedDate): void
+    {
+        $this->getEventDispatcher()->dispatch(
+            new EmployeeJoinedDateChangedEvent($employee, $previousJoinedDate),
+            EmployeeEvents::JOINED_DATE_CHANGED
+        );
     }
 
     /**

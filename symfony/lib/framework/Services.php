@@ -96,6 +96,11 @@ final class Services
     public const NORMALIZER_SERVICE = 'core.normalizer_service';
 
     /**
+     * @see \OrangeHRM\Core\Service\DateTimeHelperService
+     */
+    public const DATETIME_HELPER_SERVICE = 'core.datetime_helper_service';
+
+    /**
      * @see \OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager
      */
     public const USER_ROLE_MANAGER = 'core.authorization.user_role_manager';

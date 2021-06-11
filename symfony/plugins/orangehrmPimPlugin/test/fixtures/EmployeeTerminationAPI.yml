@@ -1,0 +1,4 @@
+TerminationReason:
+  0: {id: 1, name: 'Resigned'}
+  1: {id: 2, name: 'Dismissed'}
+  2: {id: 3, name: 'Laid-off'}

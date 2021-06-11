@@ -81,7 +81,10 @@ class Framework extends HttpKernel
     {
         $logger = new Logger('orangehrm');
         $logger->pushHandler(
-            new StreamHandler(Config::get('ohrm_log_dir') . DIRECTORY_SEPARATOR . 'orangehrm.log', Logger::WARNING)
+            new StreamHandler(
+                Config::get(Config::LOG_DIR) . DIRECTORY_SEPARATOR . 'orangehrm.log',
+                $this->isDebug() ? Logger::DEBUG : Logger::WARNING
+            )
         );
         ServiceContainer::getContainer()->set(Services::LOGGER, $logger);
     }

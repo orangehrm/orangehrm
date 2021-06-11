@@ -19,13 +19,9 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TerminationReason
- *
  * @ORM\Table(name="ohrm_emp_termination_reason")
  * @ORM\Entity
  */
@@ -46,24 +42,6 @@ class TerminationReason
      * @ORM\Column(name="name", type="string", length=100)
      */
     private string $name;
-
-    /**
-     * @var Collection|EmployeeTerminationRecord[]
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeTerminationRecord", mappedBy="terminationReason")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="reason_id")
-     * })
-     */
-    private Collection $employeeTerminationRecord;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->employeeTerminationRecord = new ArrayCollection();
-    }
 
     /**
      * @return int
@@ -95,21 +73,5 @@ class TerminationReason
     public function setName(string $name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getEmployeeTerminationRecord(): Collection
-    {
-        return $this->employeeTerminationRecord;
-    }
-
-    /**
-     * @param Collection $employeeTerminationRecord
-     */
-    public function setEmployeeTerminationRecord(Collection $employeeTerminationRecord): void
-    {
-        $this->employeeTerminationRecord = $employeeTerminationRecord;
     }
 }

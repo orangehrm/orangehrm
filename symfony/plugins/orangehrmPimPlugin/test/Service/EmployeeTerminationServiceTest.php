@@ -17,18 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Event;
+namespace OrangeHRM\Pim\test\Service;
 
-class EmployeeEvents
+use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
+use OrangeHRM\Pim\Service\EmployeeTerminationService;
+use OrangeHRM\Tests\Util\TestCase;
+
+/**
+ * @group Pim
+ * @group Service
+ */
+class EmployeeTerminationServiceTest extends TestCase
 {
-    /**
-     * @see \OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent
-     */
-    public const JOINED_DATE_CHANGED = 'employee_join_date_changed';
-
-    /**
-     * @see \OrangeHRM\Pim\Event\EmployeeAddedEvent
-     */
-    public const EMPLOYEE_ADDED = 'employee_added';
-    public const EMPLOYEES_DELETED = 'employees_deleted';
+    public function testGetEmployeeTerminationDao(): void
+    {
+        $employeeTerminationService = new EmployeeTerminationService();
+        $this->assertTrue($employeeTerminationService->getEmployeeTerminationDao() instanceof EmployeeTerminationDao);
+    }
 }

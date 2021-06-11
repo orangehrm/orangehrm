@@ -150,4 +150,19 @@ class EmployeeEventService
             'Updating Employee Details'
         );
     }
+
+    /**
+     * @param int $empNumber
+     * @return EmployeeEvent
+     * @throws DaoException
+     */
+    public function saveUpdateJobDetailsEvent(int $empNumber): EmployeeEvent
+    {
+        return $this->saveEvent(
+            $empNumber,
+            EmployeeEvent::EVENT_TYPE_JOB_DETAIL,
+            EmployeeEvent::EVENT_UPDATE,
+            'Updating Employee Job Details'
+        );
+    }
 }
