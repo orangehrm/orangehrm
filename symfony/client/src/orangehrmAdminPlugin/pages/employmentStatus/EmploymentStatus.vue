@@ -22,9 +22,14 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Employment Status List</oxd-text>
+        <oxd-text tag="h6">Employment Status</oxd-text>
         <div>
-          <oxd-button label="Add" displayType="secondary" @click="onClickAdd" />
+          <oxd-button
+            label="Add"
+            iconName="plus"
+            displayType="secondary"
+            @click="onClickAdd"
+          />
         </div>
       </div>
       <oxd-divider class="orangehrm-horizontal-margin" />
@@ -32,7 +37,7 @@
         <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
           <div v-if="checkedItems.length > 0">
             <oxd-text tag="span">
-              {{ checkedItems.length }} Employment Status Selected
+              {{ checkedItems.length }} Records Selected
             </oxd-text>
             <oxd-button
               label="Delete Selected"
@@ -119,7 +124,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/employment-statuses',
+      '/api/v2/admin/employment-statuses',
     );
     const {
       showPaginator,
@@ -148,7 +153,7 @@ export default {
     itemsCountText() {
       return this.total === 0
         ? 'No Records Found'
-        : `${this.total} Employment Status Found`;
+        : `${this.total} Records Found`;
     },
   },
 
@@ -186,7 +191,7 @@ export default {
           .then(() => {
             return this.$toast.success({
               title: 'Success',
-              message: 'Employment Status deleted successfully!',
+              message: 'Successfully Deleted',
             });
           })
           .then(() => {

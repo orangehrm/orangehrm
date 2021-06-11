@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,38 +16,20 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Admin\Dto;
+<template>
+  <oxd-text class="orangehrm-form-hint">* Required</oxd-text>
+</template>
 
-use OrangeHRM\Core\Dto\FilterParams;
+<script>
+export default {
+  name: 'required-text',
+};
+</script>
 
-class EmploymentStatusSearchFilterParams extends FilterParams
-{
-    public const ALLOWED_SORT_FIELDS = ['es.name'];
-
-    /**
-     * @var string|null
-     */
-    protected ?string $name = null;
-
-    public function __construct()
-    {
-        $this->setSortField('es.name');
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
+<style lang="scss" scoped>
+.orangehrm-form-hint {
+  margin-right: auto;
 }
+</style>
