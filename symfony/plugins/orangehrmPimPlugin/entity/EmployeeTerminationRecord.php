@@ -46,7 +46,7 @@ class EmployeeTerminationRecord
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="termination_date", type="date", length=25)
+     * @ORM\Column(name="termination_date", type="date")
      */
     private DateTime $date;
 
@@ -60,7 +60,7 @@ class EmployeeTerminationRecord
     /**
      * @var TerminationReason|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\TerminationReason", inversedBy="employeeTerminationRecord")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\TerminationReason")
      * @ORM\JoinColumn(name="reason_id", referencedColumnName="id", nullable=true)
      */
     private ?TerminationReason $terminationReason;

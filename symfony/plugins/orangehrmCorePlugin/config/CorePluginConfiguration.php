@@ -19,6 +19,7 @@
 
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\LoggerSubscriber;
@@ -59,6 +60,10 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->set(Services::SESSION, $session);
         $this->getContainer()->register(Services::CONFIG_SERVICE, ConfigService::class);
         $this->getContainer()->register(Services::NORMALIZER_SERVICE, NormalizerService::class);
+        $this->getContainer()->register(
+            Services::DATETIME_HELPER_SERVICE,
+            DateTimeHelperService::class
+        );
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)
             ->setFactory([UserRoleManagerFactory::class, 'getUserRoleManager']);
     }

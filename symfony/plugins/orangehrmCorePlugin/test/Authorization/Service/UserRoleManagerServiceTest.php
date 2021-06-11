@@ -26,12 +26,11 @@ use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Service\UserRoleManagerService;
 use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
- * Description of UserRoleManagerFactoryTest
- *
  * @group Core
  * @group Service
  */
@@ -44,13 +43,9 @@ class UserRoleManagerServiceTest extends KernelTestCase
      */
     protected function setUp(): void
     {
-        $this->service = new UserRoleManagerService();
         $this->createKernel();
     }
 
-    /**
-     * Test the getConfigDao() and setConfigDao() method
-     */
     public function testGetUserRoleManagerClassName(): void
     {
         $configDao = $this->getMockBuilder(ConfigDao::class)
@@ -61,7 +56,19 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)
             ->will($this->returnValue('TestUserRoleManager'));
 
-        $this->service->setConfigDao($configDao);
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getConfigDao'])
+            ->getMock();
+        $configService->expects($this->once())
+            ->method('getConfigDao')
+            ->willReturn($configDao);
+
+        $this->service = $this->getMockBuilder(UserRoleManagerService::class)
+            ->onlyMethods(['getConfigService'])->getMock();
+        $this->service->expects($this->once())
+            ->method('getConfigService')
+            ->willReturn($configService);
+
         $class = $this->service->getUserRoleManagerClassName();
         $this->assertEquals('TestUserRoleManager', $class);
     }
@@ -75,6 +82,12 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->method('getValue')
             ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)
             ->will($this->returnValue(UnitTestUserRoleManager::class));
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getConfigDao'])
+            ->getMock();
+        $configService->expects($this->once())
+            ->method('getConfigDao')
+            ->willReturn($configDao);
 
         $authenticationService = $this->getMockBuilder(AuthenticationService::class)
             ->onlyMethods(['getLoggedInUserId'])
@@ -93,9 +106,17 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->method('getSystemUser')
             ->will($this->returnValue($systemUser));
 
-        $this->service->setConfigDao($configDao);
-        $this->service->setAuthenticationService($authenticationService);
-        $this->service->setUserService($systemUserService);
+        $this->service = $this->getMockBuilder(UserRoleManagerService::class)
+            ->onlyMethods(['getUserService', 'getConfigService', 'getAuthenticationService'])->getMock();
+        $this->service->expects($this->once())
+            ->method('getUserService')
+            ->willReturn($systemUserService);
+        $this->service->expects($this->once())
+            ->method('getConfigService')
+            ->willReturn($configService);
+        $this->service->expects($this->once())
+            ->method('getAuthenticationService')
+            ->willReturn($authenticationService);
 
         $manager = $this->service->getUserRoleManager();
         $this->assertNotNull($manager);
@@ -114,8 +135,18 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->method('getValue')
             ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)
             ->will($this->returnValue(InvalidUserRoleManager::class));
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getConfigDao'])
+            ->getMock();
+        $configService->expects($this->once())
+            ->method('getConfigDao')
+            ->willReturn($configDao);
 
-        $this->service->setConfigDao($configDao);
+        $this->service = $this->getMockBuilder(UserRoleManagerService::class)
+            ->onlyMethods(['getConfigService'])->getMock();
+        $this->service->expects($this->once())
+            ->method('getConfigService')
+            ->willReturn($configService);
 
         try {
             $manager = $this->service->getUserRoleManager();
@@ -136,8 +167,18 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->method('getValue')
             ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)
             ->will($this->returnValue($className));
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getConfigDao'])
+            ->getMock();
+        $configService->expects($this->once())
+            ->method('getConfigDao')
+            ->willReturn($configDao);
 
-        $this->service->setConfigDao($configDao);
+        $this->service = $this->getMockBuilder(UserRoleManagerService::class)
+            ->onlyMethods(['getConfigService'])->getMock();
+        $this->service->expects($this->once())
+            ->method('getConfigService')
+            ->willReturn($configService);
 
         try {
             $manager = $this->service->getUserRoleManager();
@@ -156,7 +197,12 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->method('getValue')
             ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)
             ->will($this->returnValue(UnitTestUserRoleManager::class));
-
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['getConfigDao'])
+            ->getMock();
+        $configService->expects($this->once())
+            ->method('getConfigDao')
+            ->willReturn($configDao);
 
         $authenticationService = $this->getMockBuilder(AuthenticationService::class)
             ->onlyMethods(['getLoggedInUserId'])
@@ -174,9 +220,14 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->with(100)
             ->will($this->returnValue(null));
 
-        $this->service->setConfigDao($configDao);
-        $this->service->setAuthenticationService($authenticationService);
-        $this->service->setUserService($systemUserService);
+        $this->service = $this->getMockBuilder(UserRoleManagerService::class)
+            ->onlyMethods(['getConfigService', 'getAuthenticationService'])->getMock();
+        $this->service->expects($this->once())
+            ->method('getConfigService')
+            ->willReturn($configService);
+        $this->service->expects($this->once())
+            ->method('getAuthenticationService')
+            ->willReturn($authenticationService);
 
         try {
             $manager = $this->service->getUserRoleManager();

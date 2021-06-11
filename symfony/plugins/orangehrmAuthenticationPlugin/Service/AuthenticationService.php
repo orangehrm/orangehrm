@@ -25,35 +25,22 @@ use OrangeHRM\Authentication\Exception\AuthenticationServiceException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Services;
 
 class AuthenticationService
 {
     use AuthUserTrait;
-
-    /**
-     * @var null|UserService
-     */
-    private ?UserService $systemUserService = null;
-
-    /**
-     * @param UserService $service
-     */
-    public function setSystemUserService(UserService $service)
-    {
-        $this->systemUserService = $service;
-    }
+    use ServiceContainerTrait;
 
     /**
      * @return UserService
      */
     public function getSystemUserService(): UserService
     {
-        if (!isset($this->systemUserService)) {
-            $this->systemUserService = new UserService();
-        }
-        return $this->systemUserService;
+        return $this->getContainer()->get(Services::USER_SERVICE);
     }
 
     /**

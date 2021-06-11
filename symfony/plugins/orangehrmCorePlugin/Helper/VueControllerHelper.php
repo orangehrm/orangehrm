@@ -27,11 +27,15 @@ use OrangeHRM\Core\Dto\AttributeBag;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\MenuService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Services;
 
 class VueControllerHelper
 {
+    use ServiceContainerTrait;
+
     public const COMPONENT_NAME = 'componentName';
     public const COMPONENT_PROPS = 'componentProps';
     public const PUBLIC_PATH = 'publicPath';
@@ -57,10 +61,6 @@ class VueControllerHelper
      * @var AttributeBag
      */
     protected AttributeBag $context;
-    /**
-     * @var UserService|null
-     */
-    protected ?UserService $userService = null;
 
     /**
      * @var MenuService|null
@@ -216,18 +216,7 @@ class VueControllerHelper
      */
     public function getUserService(): UserService
     {
-        if (!$this->userService instanceof UserService) {
-            $this->userService = new UserService();
-        }
-        return $this->userService;
-    }
-
-    /**
-     * @param UserService $userService
-     */
-    public function setUserService(UserService $userService): void
-    {
-        $this->userService = $userService;
+        return $this->getContainer()->get(Services::USER_SERVICE);
     }
 
     /**

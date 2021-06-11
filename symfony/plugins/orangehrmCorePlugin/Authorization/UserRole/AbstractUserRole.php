@@ -27,7 +27,8 @@ use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Location;
-use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 /**
  * Description of UserRoleInterface
@@ -37,9 +38,8 @@ use OrangeHRM\Pim\Service\EmployeeService;
 abstract class AbstractUserRole
 {
     use AuthUserTrait;
+    use EmployeeServiceTrait;
 
-    protected ?EmployeeService $employeeService = null;
-    protected ?UserService $systemUserService = null;
     protected $operationalCountryService;
     protected ?LocationService $locationService = null;
     protected $projectService;
@@ -78,37 +78,7 @@ abstract class AbstractUserRole
      */
     public function getSystemUserService(): UserService
     {
-        if (!$this->systemUserService instanceof UserService) {
-            $this->systemUserService = new UserService();
-        }
-        return $this->systemUserService;
-    }
-
-    /**
-     * @param UserService $systemUserService
-     */
-    public function setSystemUserService(UserService $systemUserService): void
-    {
-        $this->systemUserService = $systemUserService;
-    }
-
-    /**
-     * @return EmployeeService
-     */
-    public function getEmployeeService(): EmployeeService
-    {
-        if (!$this->employeeService instanceof EmployeeService) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
-    }
-
-    /**
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService): void
-    {
-        $this->employeeService = $employeeService;
+        return $this->getContainer()->get(Services::USER_SERVICE);
     }
 
     /**

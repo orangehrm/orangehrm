@@ -51,6 +51,24 @@ apiv2_pim_employees_job_employment_contract:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_termination:
+  path: /api/v2/pim/employees/{empNumber}/terminations/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeTerminationAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_terminations:
+  path: /api/v2/pim/employees/{empNumber}/terminations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeTerminationAPI
+  requirements:
+    empNumber: '\d+'
+
 apiv2_pim_employee_contact_details:
   path: /api/v2/pim/employee/{empNumber}/contact-details
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

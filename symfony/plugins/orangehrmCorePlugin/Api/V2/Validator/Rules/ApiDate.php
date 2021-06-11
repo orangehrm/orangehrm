@@ -17,18 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Event;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-class EmployeeEvents
+use Respect\Validation\Helpers\CanValidateDateTime;
+
+class ApiDate extends AbstractRule
 {
-    /**
-     * @see \OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent
-     */
-    public const JOINED_DATE_CHANGED = 'employee_join_date_changed';
+    use CanValidateDateTime;
 
     /**
-     * @see \OrangeHRM\Pim\Event\EmployeeAddedEvent
+     * @var string
      */
-    public const EMPLOYEE_ADDED = 'employee_added';
-    public const EMPLOYEES_DELETED = 'employees_deleted';
+    private string $format = 'Y-m-d';
+
+    /**
+     * {@inheritDoc}
+     */
+    public function validate($input): bool
+    {
+        if (!is_scalar($input)) {
+            return false;
+        }
+        return $this->isDateTime($this->format, (string)$input);
+    }
 }

@@ -19,10 +19,16 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
+use OrangeHRM\Entity\TerminationReason;
 
 class EmployeeTerminationRecordDecorator
 {
+    use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
+
     /**
      * @var EmployeeTerminationRecord
      */
@@ -39,7 +45,7 @@ class EmployeeTerminationRecordDecorator
     /**
      * @return EmployeeTerminationRecord
      */
-    public function getEmployeeTerminationRecord(): EmployeeTerminationRecord
+    protected function getEmployeeTerminationRecord(): EmployeeTerminationRecord
     {
         return $this->employeeTerminationRecord;
     }
@@ -50,6 +56,16 @@ class EmployeeTerminationRecordDecorator
     public function getDate(): ?string
     {
         $date = $this->getEmployeeTerminationRecord()->getDate();
-        return $date ? $date->format('Y-m-d') : null;
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setTerminationReasonById(int $id): void
+    {
+        /** @var TerminationReason|null $terminationReason */
+        $terminationReason = $this->getReference(TerminationReason::class, $id);
+        $this->getEmployeeTerminationRecord()->setTerminationReason($terminationReason);
     }
 }

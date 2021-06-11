@@ -20,12 +20,14 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeAttachment;
 
 class EmployeeAttachmentDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var EmployeeAttachment
@@ -60,7 +62,7 @@ class EmployeeAttachmentDecorator
     public function getAttachedDate(): string
     {
         $dateTime = $this->getEmployeeAttachment()->getAttachedTime();
-        return $dateTime->format('Y-m-d');
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($dateTime);
     }
 
     /**
@@ -69,7 +71,7 @@ class EmployeeAttachmentDecorator
     public function getAttachedTime(): string
     {
         $dateTime = $this->getEmployeeAttachment()->getAttachedTime();
-        return $dateTime->format('H:i');
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString($dateTime);
     }
 
     /**
