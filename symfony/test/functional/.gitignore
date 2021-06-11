@@ -1,5 +1,0 @@
-node_modules
-*.log
-cypress/screenshots
-cypress/fixtures/user.json
-cypress.json

@@ -11,3 +11,10 @@ logInsatall.log
 .phpunit.result.cache
 tests/node_modules
 coverage/
+.vscode
+
+symfony/test/functional/node_modules
+symfony/test/functional/*.log
+symfony/test/functional/cypress/screenshots
+symfony/test/functional/cypress.json
+symfony/test/functional/cypress/fixtures/user.json
