@@ -258,11 +258,11 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_START_DATE,
-                new Rule(Rules::DATE, ['Y-m-d']),
+                new Rule(Rules::API_DATE),
             ),
             new ParamRule(
                 self::PARAMETER_END_DATE,
-                new Rule(Rules::DATE, ['Y-m-d']),
+                new Rule(Rules::API_DATE),
             ),
 
         ];
@@ -357,11 +357,11 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_MAJOR
         );
-        $startDate = $this->getRequestParams()->getStringOrNull(
+        $startDate = $this->getRequestParams()->getDateTimeOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_START_DATE
         );
-        $endDate = $this->getRequestParams()->getStringOrNull(
+        $endDate = $this->getRequestParams()->getDateTimeOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_END_DATE
         );
@@ -387,8 +387,8 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
         $employeeEducation->setMajor($major);
 
         // TODO:: API_DATE
-        $employeeEducation->setStartDate(new DateTime($startDate));
-        $employeeEducation->setEndDate(new DateTime($endDate));
+        $employeeEducation->setStartDate($startDate);
+        $employeeEducation->setEndDate($endDate);
 
         return $this->getEmployeeEducationService()->getEmployeeEducationDao()->saveEmployeeEducation(
             $employeeEducation

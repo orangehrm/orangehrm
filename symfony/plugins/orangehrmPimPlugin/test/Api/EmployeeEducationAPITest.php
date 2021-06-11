@@ -23,6 +23,7 @@ use DateTime;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Education;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeEducation;
@@ -81,6 +82,13 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ->method('getEmployeeEducationDao')
             ->willReturn($employeeEducationDao);
 
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => $employeeEducationService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
         /** @var MockObject&EmployeeEducationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             EmployeeEducationAPI::class,
@@ -104,8 +112,8 @@ class EmployeeEducationAPITest extends EndpointTestCase
                 "major" => "CE",
                 "year" => 2020,
                 "score" => "First Class",
-                "startDate" => new DateTime('2017-01-01'),
-                "endDate" => new DateTime('2020-12-31'),
+                "startDate" => '2017-01-01',
+                "endDate" => '2020-12-31',
                 "education" => [
                     "id" => 1,
                     "name" => "BSc"
@@ -194,6 +202,13 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ->method('getEmployeeEducationDao')
             ->willReturn($employeeEducationDao);
 
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => $employeeEducationService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
         /** @var MockObject&EmployeeEducationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             EmployeeEducationAPI::class,
@@ -226,8 +241,8 @@ class EmployeeEducationAPITest extends EndpointTestCase
                 "major" => "CE",
                 "year" => 2020,
                 "score" => "First Class",
-                "startDate" => new DateTime('2017-01-01'),
-                "endDate" => new DateTime('2020-12-31'),
+                "startDate" => '2017-01-01',
+                "endDate" => '2020-12-31',
                 "education" => [
                     "id" => 1,
                     "name" => "BSc"
@@ -429,6 +444,13 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ->method('getEmployeeEducationDao')
             ->willReturn($employeeEducationDao);
 
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => $employeeEducationService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
         /** @var MockObject&EmployeeEducationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             EmployeeEducationAPI::class,
@@ -461,8 +483,8 @@ class EmployeeEducationAPITest extends EndpointTestCase
                 "major" => "CE",
                 "year" => 2020,
                 "score" => "First Class",
-                "startDate" => new DateTime('2017-01-01'),
-                "endDate" => new DateTime('2020-12-31'),
+                "startDate" => '2017-01-01',
+                "endDate" => '2020-12-31',
                 "education" => [
                     "id" => 1,
                     "name" => "BSc"
@@ -575,6 +597,13 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ->method('getEmployeeEducationDao')
             ->willReturn($employeeEducationDao);
 
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => $employeeEducationService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
         /** @var MockObject&EmployeeEducationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             EmployeeEducationAPI::class,
@@ -604,8 +633,8 @@ class EmployeeEducationAPITest extends EndpointTestCase
                     "major" => "CE",
                     "year" => 2020,
                     "score" => "First Class",
-                    "startDate" => new DateTime('2017-01-01'),
-                    "endDate" => new DateTime('2020-12-31'),
+                    "startDate" => '2017-01-01',
+                    "endDate" => '2020-12-31',
                     "education" => [
                         "id" => 1,
                         "name" => "BSc"
@@ -617,8 +646,8 @@ class EmployeeEducationAPITest extends EndpointTestCase
                     "major" => "CE",
                     "year" => 2020,
                     "score" => "First Class",
-                    "startDate" => new DateTime('2017-01-01'),
-                    "endDate" => new DateTime('2020-12-31'),
+                    "startDate" => '2017-01-01',
+                    "endDate" => '2020-12-31',
                     "education" => [
                         "id" => 2,
                         "name" => "MSc"

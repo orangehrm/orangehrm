@@ -19,9 +19,13 @@
 
 namespace OrangeHRM\Tests\Pim\Api\Model;
 
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeEducation;
 use OrangeHRM\Entity\Education;
+use OrangeHRM\Framework\Framework;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\Model\EmployeeEducationModel;
 use OrangeHRM\Tests\Util\TestCase;
 use DateTime;
@@ -32,6 +36,8 @@ use DateTime;
  */
 class EmployeeEducationModelTest extends TestCase
 {
+    use ServiceContainerTrait;
+
     public function testToArray()
     {
         $resultArray = [
@@ -40,8 +46,8 @@ class EmployeeEducationModelTest extends TestCase
             "major"=> "CE",
             "year"=> 2020,
             "score"=> "First Class",
-            "startDate"=> new DateTime('2017-01-01'),
-            "endDate"=> new DateTime('2020-12-31'),
+            "startDate"=> '2017-01-01',
+            "endDate"=> '2020-12-31',
             "education"=> [
                 "id"=> 1,
                 "name"=> "BSc"
@@ -72,7 +78,39 @@ class EmployeeEducationModelTest extends TestCase
         $employeeEducation->setEmployee($employee);
 
         $employeeModel = new EmployeeEducationModel($employeeEducation);
+        $this->createKernelWithMockServices(
+            [
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
 
         $this->assertEquals($resultArray, $employeeModel->toArray());
     }
+
+    /**
+     * @return Framework
+     */
+    protected function createKernel(): Framework
+    {
+        $this->getContainer()->reset();
+        return $this->getMockBuilder(Framework::class)
+            ->onlyMethods(['handle'])
+            ->setConstructorArgs(['test', true])
+            ->getMock();
+    }
+
+    /**
+     * @param array $services
+     * @return Framework
+     */
+    protected function createKernelWithMockServices(array $services = []): Framework
+    {
+        $kernel = $this->createKernel();
+
+        foreach ($services as $id => $service) {
+            $this->getContainer()->set($id, $service);
+        }
+        return $kernel;
+    }
+
 }

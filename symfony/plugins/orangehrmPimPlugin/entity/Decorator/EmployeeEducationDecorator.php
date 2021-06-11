@@ -20,6 +20,7 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Education;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeEducation;
@@ -27,6 +28,7 @@ use OrangeHRM\Entity\EmployeeEducation;
 class EmployeeEducationDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var EmployeeEducation
@@ -67,5 +69,23 @@ class EmployeeEducationDecorator
         /** @var Education|null $education */
         $education = $this->getReference(Education::class, $educationId);
         $this->getEmployeeEducation()->setEducation($education);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStartDate(): ?string
+    {
+        $date = $this->getEmployeeEducation()->getStartDate();
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEndDate(): ?string
+    {
+        $date = $this->getEmployeeEducation()->getEndDate();
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
     }
 }

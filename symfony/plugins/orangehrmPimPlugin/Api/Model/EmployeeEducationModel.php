@@ -40,8 +40,8 @@ class EmployeeEducationModel implements Normalizable
                 'major',
                 'year',
                 'score',
-                'startDate',
-                'endDate',
+                ['getDecorator', 'getStartDate'],
+                ['getDecorator', 'getEndDate'],
                 ['getEducation', 'getId'],
                 ['getEducation', 'getName'],
             ]
