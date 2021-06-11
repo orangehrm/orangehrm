@@ -2,8 +2,6 @@ import user from '../../../fixtures/user.json'
 import charLength from '../../../fixtures/charLength.json'
 import promisify from 'cypress-promise'
 
-
-
 //Get the current education list count
 const getEducationListCount = async () => {
     let txt = await promisify(cy.get('.oxd-text').contains('Found').invoke('text'))
@@ -11,10 +9,8 @@ const getEducationListCount = async () => {
 }
 
 describe('Qualification - Education', function () {
-
-    const educationName = "Qqqqqqq"
-    const updatedEducationName = "Wwqqqqq"
-
+    const educationName = "Certificate Level"
+    const updatedEducationName = "Advanced Level"
 
     //View Education List Page
     it('Check education view page', () => {
@@ -23,12 +19,9 @@ describe('Qualification - Education', function () {
         cy.get('.oxd-text--h6').should('include.text', "Education")
     })
 
-
-
     //Add Education record to the list
     //check the Successfully Added toast message 
     //Check whether count of the list has increased by 1 after addding a new record to the list
-
     it('Add education', async () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
@@ -43,10 +36,7 @@ describe('Qualification - Education', function () {
         expect(updatedCount).to.eq(previousCount + 1)
     })
 
-
-
     //Validate required fields in Save Education Screen
-
     it('Required field validation', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
@@ -55,32 +45,22 @@ describe('Qualification - Education', function () {
         cy.get('.oxd-input-group__message').should('include.text', 'Required')
     })
 
-
     //Validate maximum character length of the fields in Save Education screen
-
     it('Maximum Length validation', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
         cy.get('.oxd-button--medium').should('include.text', "Add").click()
-        cy.get('.oxd-input-group').type(charLength.chars100.level)
+        cy.get('.oxd-input-group').type(charLength.chars100.text)
         cy.get('.oxd-input-group__message').should('include.text', 'Should not exceed 50 characters')
         cy.get('.oxd-button--secondary').click()
         cy.url().should('include', '/admin/saveEducation')
     })
 
-
-
-
     //Validation check for the duplicated records
-
     it('Duplicate Records Validation', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
-        // cy.get('.oxd-button--medium').should('include.text',"Add").click()
-        // cy.get('.oxd-input-group').type(educationName)
-        // cy.get('.oxd-button--secondary').click()
-        // cy.get('.oxd-toast').should('include.text', 'Success')
         cy.get('.oxd-button--medium').should('include.text', "Add").click()
         cy.get('.oxd-input-group').type(educationName)
         cy.get('.oxd-button--secondary').click()
@@ -89,12 +69,9 @@ describe('Qualification - Education', function () {
         cy.url().should('include', '/admin/saveEducation')
     })
 
-
-
     //Update an existing education record from the list
     //check the Updated toast message 
     //Check whether count of the list remains the same after updating 
-
     it('Edit education', async () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
@@ -108,12 +85,9 @@ describe('Qualification - Education', function () {
         expect(updatedCount).to.eq(previousCount)
     })
 
-
-
     //Delete an Education record from the list
     //check the Deleted toast message 
     //Check whether count of the list has reduced by 1 after deleting a record from the list
-
     it('Delete education', async () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
@@ -126,7 +100,7 @@ describe('Qualification - Education', function () {
         expect(updatedCount).to.eq(previousCount - 1)
     })
 
-
+    //Bulk Delete records from the list
     it('Bulk Delete education', async () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
