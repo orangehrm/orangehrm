@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-header">Add Job Title</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">Add Job Title</oxd-text>
 
       <oxd-divider />
 

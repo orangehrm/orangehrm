@@ -35,7 +35,7 @@ import GridItem from '@orangehrm/oxd/core/components/Grid/GridItem.vue';
 
 import SubmitButton from '@orangehrm/components/buttons/SubmitButton.vue';
 import TableHeader from '@orangehrm/components/table/TableHeader.vue';
-import RequiredText from '@orangehrm/components/required/RequiredText.vue';
+import RequiredText from '@orangehrm/components/labels/RequiredText.vue';
 
 export default {
   install: (app: App) => {

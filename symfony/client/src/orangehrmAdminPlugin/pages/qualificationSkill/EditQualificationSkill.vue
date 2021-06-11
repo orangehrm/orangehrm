@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-header"> Edit Skill</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title"> Edit Skill</oxd-text>
 
       <oxd-divider />
 

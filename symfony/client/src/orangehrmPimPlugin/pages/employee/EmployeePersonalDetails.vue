@@ -21,7 +21,9 @@
 <template>
   <edit-employee-layout :employee-id="empNumber" screen="personal">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="h6" class="orangehrm-header">Personal Details</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        Personal Details
+      </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>

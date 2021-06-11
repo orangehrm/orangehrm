@@ -21,7 +21,7 @@
 <template>
   <edit-employee-layout :employee-id="empNumber">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="h6" class="orangehrm-header"
+      <oxd-text tag="h6" class="orangehrm-main-title"
         >Change Profile Picture</oxd-text
       >
       <oxd-divider />

@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-header"
+        <oxd-text tag="h6" class="orangehrm-main-title"
           >General Information</oxd-text
         >
         <oxd-switch-input

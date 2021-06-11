@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-    <oxd-text tag="h6" class="orangehrm-header"
+    <oxd-text tag="h6" class="orangehrm-main-title"
       >Save Emergency Contact</oxd-text
     >
     <oxd-divider />
