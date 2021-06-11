@@ -60,8 +60,8 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
 
     public const PARAM_RULE_INSTITUTE_MAX_LENGTH = 100;
     public const PARAM_RULE_MAJOR_MAX_LENGTH = 100;
-    public const PARAM_RULE_YEAR_MAX_LENGTH = 100;
-    public const PARAM_RULE_SCORE_MAX_LENGTH = 100;
+    public const PARAM_RULE_YEAR_MAX_LENGTH = 4;
+    public const PARAM_RULE_SCORE_MAX_LENGTH = 25;
 
     /**
      * @var null|EmployeeEducationService
