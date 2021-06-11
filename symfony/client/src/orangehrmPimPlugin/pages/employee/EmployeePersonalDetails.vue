@@ -73,6 +73,8 @@
               <oxd-input-field
                 label="License Expiry Date"
                 v-model="employee.drivingLicenseExpiredDate"
+                type="date"
+                placeholder="yyyy-mm-dd"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -113,6 +115,8 @@
               <oxd-input-field
                 label="Date of Birth"
                 v-model="employee.birthday"
+                type="date"
+                placeholder="yyyy-mm-dd"
               />
             </oxd-grid-item>
             <oxd-grid-item>

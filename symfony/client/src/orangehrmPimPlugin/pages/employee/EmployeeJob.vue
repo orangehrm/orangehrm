@@ -31,6 +31,8 @@
                 label="Joined Date"
                 v-model="job.joinedDate"
                 :rules="rules.joinedDate"
+                type="date"
+                placeholder="yyyy-mm-dd"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -97,6 +99,9 @@
                 <oxd-input-field
                   label="Contract Start Date"
                   v-model="contract.startDate"
+                  :rules="rules.startDate"
+                  type="date"
+                  placeholder="yyyy-mm-dd"
                 />
               </oxd-grid-item>
 
@@ -104,6 +109,9 @@
                 <oxd-input-field
                   label="Contract End Date"
                   v-model="contract.endDate"
+                  :rules="rules.endDate"
+                  type="date"
+                  placeholder="yyyy-mm-dd"
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -213,6 +221,8 @@ export default {
       job: {...jobDetailsModel},
       contract: {...contractDetailsModel},
       rules: {
+        startDate: [],
+        endDate: [],
         contractAttachment: [
           v => {
             if (this.contract.method == 'replaceCurrent') {

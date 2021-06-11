@@ -61,6 +61,9 @@
             <oxd-input-field
               label="Date of Birth"
               v-model="dependent.dateOfBirth"
+              type="date"
+              placeholder="yyyy-mm-dd"
+              :rules="rules.dateOfBirth"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -128,6 +131,7 @@ export default {
             return !v || v.length <= 100 || 'Should not exceed 100 characters';
           },
         ],
+        dateOfBirth: [],
       },
       relationshipOptions: [
         {id: 'child', label: 'Child'},
