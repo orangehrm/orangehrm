@@ -85,7 +85,7 @@
 
         <oxd-form-row class="user-form-header">
           <oxd-text class="user-form-header-text" tag="p"
-            >Include Employement Contract Details</oxd-text
+            >Include Employment Contract Details</oxd-text
           >
           <oxd-switch-input v-model="showContractDetails" />
         </oxd-form-row>

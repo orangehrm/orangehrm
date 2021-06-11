@@ -55,6 +55,7 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
+import {required} from '@orangehrm/core/util/validation/rules';
 
 export default {
   props: {
@@ -122,9 +123,7 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          return (!!v && v.trim() !== '') || 'Required';
-        });
+        this.rules.name.push(required);
         this.rules.name.push(v => {
           return (v && v.length <= 120) || 'Should not exceed 120 characters';
         });

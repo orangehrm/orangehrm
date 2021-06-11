@@ -76,7 +76,7 @@
 
 <script>
 import LoginLayout from '../components/LoginLayout';
-
+import {required} from '@orangehrm/core/util/validation/rules';
 import {urlFor} from '@orangehrm/core/util/helper/url';
 
 export default {
@@ -88,8 +88,8 @@ export default {
       username: '',
       password: '',
       rules: {
-        username: [v => (!!v && v.trim() !== '') || 'Required'],
-        password: [v => (!!v && v.trim() !== '') || 'Required'],
+        username: [required],
+        password: [required],
       },
     };
   },

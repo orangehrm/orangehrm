@@ -53,7 +53,7 @@
       </div>
     </div>
   </oxd-input-group>
-  <div v-if="method==='replaceCurrent' || !file" class="orangehrm-file-input">
+  <div v-if="method === 'replaceCurrent' || !file" class="orangehrm-file-input">
     <oxd-input-field
       v-bind="$attrs"
       type="file"
