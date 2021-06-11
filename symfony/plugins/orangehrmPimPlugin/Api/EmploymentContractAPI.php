@@ -184,6 +184,10 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
             throw $this->getBadRequestException(
                 "`" . self::PARAMETER_CURRENT_CONTRACT_ATTACHMENT . "` should not define if there is no contract attachment"
             );
+        } elseif ($contractAttachment instanceof EmployeeAttachment && !$currentContractAttachment) {
+            throw $this->getBadRequestException(
+                "`" . self::PARAMETER_CURRENT_CONTRACT_ATTACHMENT . "` should define if there is contract attachment"
+            );
         }
 
         if (!$contractAttachment instanceof EmployeeAttachment && $base64Attachment) {
@@ -228,7 +232,7 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_CURRENT_CONTRACT_ATTACHMENT
         );
-        $startDateRules = [new Rule(Rules::DATE, ['Y-m-d'])];
+        $startDateRules = [new Rule(Rules::API_DATE)];
         if ($endDate) {
             $startDateRules[] = new Rule(Rules::LESS_THAN, [$endDate]);
         }
@@ -247,7 +251,7 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_END_DATE,
-                    new Rule(Rules::DATE, ['Y-m-d'])
+                    new Rule(Rules::API_DATE)
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

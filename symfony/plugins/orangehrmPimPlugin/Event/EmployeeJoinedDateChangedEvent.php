@@ -17,56 +17,50 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Decorator;
+namespace OrangeHRM\Pim\Event;
 
 use DateTime;
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Framework\Event\Event;
 
-class EmpDependentDecorator
+/**
+ * @Event("OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent")
+ */
+class EmployeeJoinedDateChangedEvent extends Event
 {
-    use EntityManagerHelperTrait;
-    use DateTimeHelperTrait;
+    /**
+     * @var Employee
+     */
+    private Employee $employee;
 
     /**
-     * @var EmpDependent
+     * @var DateTime|null
      */
-    protected EmpDependent $empDependent;
+    private ?DateTime $previousJoinedDate = null;
 
     /**
-     * @param EmpDependent $employee
+     * @param Employee $employee
+     * @param DateTime|null $previousJoinedDate
      */
-    public function __construct(EmpDependent $employee)
+    public function __construct(Employee $employee, ?DateTime $previousJoinedDate)
     {
-        $this->empDependent = $employee;
+        $this->employee = $employee;
+        $this->previousJoinedDate = $previousJoinedDate;
     }
 
     /**
-     * @return EmpDependent
+     * @return Employee
      */
-    protected function getEmpDependent(): EmpDependent
+    public function getEmployee(): Employee
     {
-        return $this->empDependent;
+        return $this->employee;
     }
 
     /**
-     * @return string|null
+     * @return DateTime|null
      */
-    public function getDateOfBirth(): ?string
+    public function getPreviousJoinedDate(): ?DateTime
     {
-        $date = $this->getEmpDependent()->getDateOfBirth();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
-    }
-
-    /**
-     * @param int $empNumber
-     */
-    public function setEmployeeByEmpNumber(int $empNumber): void
-    {
-        /** @var Employee|null $employee */
-        $employee = $this->getReference(Employee::class, $empNumber);
-        $this->getEmpDependent()->setEmployee($employee);
+        return $this->previousJoinedDate;
     }
 }

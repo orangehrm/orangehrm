@@ -17,18 +17,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Event;
+namespace OrangeHRM\Pim\Api\Model;
 
-class EmployeeEvents
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\EmployeeTerminationRecord;
+
+class EmployeeTerminationModel implements Normalizable
 {
-    /**
-     * @see \OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent
-     */
-    public const JOINED_DATE_CHANGED = 'employee_join_date_changed';
+    use ModelTrait;
 
-    /**
-     * @see \OrangeHRM\Pim\Event\EmployeeAddedEvent
-     */
-    public const EMPLOYEE_ADDED = 'employee_added';
-    public const EMPLOYEES_DELETED = 'employees_deleted';
+    public function __construct(EmployeeTerminationRecord $employeeTerminationRecord)
+    {
+        $this->setEntity($employeeTerminationRecord);
+        $this->setFilters(
+            [
+                'id',
+                'note',
+                ['getDecorator', 'getDate'],
+                ['getTerminationReason', 'getId'],
+                ['getTerminationReason', 'getName'],
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'note',
+                'date',
+                ['terminationReason', 'id'],
+                ['terminationReason', 'name'],
+            ]
+        );
+    }
 }

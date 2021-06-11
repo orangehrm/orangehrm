@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Api\Model\EmployeeJobDetailModel;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -37,6 +38,7 @@ use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
 {
     use EmployeeServiceTrait;
+    use DateTimeHelperTrait;
 
     public const PARAMETER_JOINED_DATE = 'joinedDate';
     public const PARAMETER_JOB_TITLE_ID = 'jobTitleId';
@@ -109,6 +111,7 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
             self::PARAMETER_LOCATION_ID
         );
 
+        $currentJoinedDate = $employee->getJoinedDate();
         $employee->setJoinedDate($joinedDate);
         $employee->getDecorator()->setJobTitleById($jobTitleId);
         $employee->getDecorator()->setEmpStatusById($empStatusId);
@@ -116,7 +119,12 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
         $employee->getDecorator()->setSubunitById($subunitId);
         $employee->getDecorator()->setLocationById($locationId);
 
-        $this->getEmployeeService()->saveEmployee($employee);
+        $this->getEmployeeService()->updateEmployeeJobDetails($employee);
+
+        if (!$this->getDateTimeHelper()->isDatesEqual($currentJoinedDate, $employee->getJoinedDate(), true)) {
+            $this->getEmployeeService()->dispatchJoinedDateChangedEvent($employee, $currentJoinedDate);
+        }
+
         return new EndpointUpdateResult(EmployeeJobDetailModel::class, $employee);
     }
 
@@ -133,7 +141,7 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_JOINED_DATE,
-                    new Rule(Rules::DATE, ['Y-m-d'])
+                    new Rule(Rules::API_DATE)
                 )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(

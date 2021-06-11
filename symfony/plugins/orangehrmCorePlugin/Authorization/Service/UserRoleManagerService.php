@@ -23,52 +23,25 @@ use Exception;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
-use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Logger;
+use OrangeHRM\Framework\Services;
 
 class UserRoleManagerService
 {
     use ClassHelperTrait;
+    use ConfigServiceTrait;
 
     public const KEY_USER_ROLE_MANAGER_CLASS = "authorize_user_role_manager_class";
-
-    /**
-     * @var ConfigDao|null
-     */
-    protected ?ConfigDao $configDao = null;
 
     /**
      * @var AuthenticationService|null
      */
     protected ?AuthenticationService $authenticationService = null;
-
-    /**
-     * @var UserService|null
-     */
-    protected ?UserService $userService = null;
-
-    /**
-     * @return ConfigDao
-     */
-    public function getConfigDao(): ConfigDao
-    {
-        if (!$this->configDao instanceof ConfigDao) {
-            $this->configDao = new ConfigDao();
-        }
-        return $this->configDao;
-    }
-
-    /**
-     * @param ConfigDao $configDao
-     */
-    public function setConfigDao(ConfigDao $configDao): void
-    {
-        $this->configDao = $configDao;
-    }
 
     /**
      * @return AuthenticationService
@@ -82,30 +55,11 @@ class UserRoleManagerService
     }
 
     /**
-     * @param AuthenticationService $authenticationService
-     */
-    public function setAuthenticationService(AuthenticationService $authenticationService): void
-    {
-        $this->authenticationService = $authenticationService;
-    }
-
-    /**
      * @return UserService
      */
     public function getUserService(): UserService
     {
-        if (!$this->userService instanceof UserService) {
-            $this->userService = new UserService();
-        }
-        return $this->userService;
-    }
-
-    /**
-     * @param UserService $userService
-     */
-    public function setUserService(UserService $userService): void
-    {
-        $this->userService = $userService;
+        return $this->getContainer()->get(Services::USER_SERVICE);
     }
 
     /**
@@ -114,7 +68,7 @@ class UserRoleManagerService
      */
     public function getUserRoleManagerClassName(): ?string
     {
-        return $this->getConfigDao()->getValue(self::KEY_USER_ROLE_MANAGER_CLASS);
+        return $this->getConfigService()->getConfigDao()->getValue(self::KEY_USER_ROLE_MANAGER_CLASS);
     }
 
     /**
