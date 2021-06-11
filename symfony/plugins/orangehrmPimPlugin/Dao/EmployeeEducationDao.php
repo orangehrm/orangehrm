@@ -19,12 +19,12 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use OrangeHRM\Pim\Dto\EmployeeEducationSearchFilterParams;
-use OrangeHRM\Entity\EmployeeEducation;
-use OrangeHRM\Core\Exception\DaoException;
 use Exception;
-use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\EmployeeEducation;
+use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Pim\Dto\EmployeeEducationSearchFilterParams;
 
 class EmployeeEducationDao extends BaseDao
 {
@@ -143,8 +143,8 @@ class EmployeeEducationDao extends BaseDao
      * @return int
      * @throws DaoException
      */
-    public function getSearchEmployeeEducationsCount(EmployeeEducationSearchFilterParams $employeeEducationSearchParams): int
-    {
+    public function getSearchEmployeeEducationsCount(EmployeeEducationSearchFilterParams $employeeEducationSearchParams
+    ): int {
         try {
             $paginator = $this->getSearchEmployeeEducationPaginator($employeeEducationSearchParams);
             return $paginator->count();

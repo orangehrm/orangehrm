@@ -19,12 +19,12 @@
 
 namespace OrangeHRM\Tests\Pim\Entity;
 
-use OrangeHRM\Entity\EmployeeEducation;
-use OrangeHRM\Entity\Employee;
+use DateTime;
 use OrangeHRM\Entity\Education;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeEducation;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use DateTime;
 
 class EmployeeEducationTest extends EntityTestCase
 {
@@ -58,7 +58,9 @@ class EmployeeEducationTest extends EntityTestCase
         $this->persist($employeeEducation);
 
         /** @var EmployeeEducation[] $employeeEducations */
-        $employeeEducations = $this->getRepository(EmployeeEducation::class)->findBy(['employee' => 1, 'education' => 1]);
+        $employeeEducations = $this->getRepository(EmployeeEducation::class)->findBy(
+            ['employee' => 1, 'education' => 1]
+        );
         $employeeEducation = $employeeEducations[0];
         $this->assertEquals('0001', $employeeEducation->getEmployee()->getEmployeeId());
         $this->assertEquals(1, $employeeEducation->getEducation()->getId());

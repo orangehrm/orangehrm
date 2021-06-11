@@ -20,9 +20,9 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\EmployeeEducation;
 use OrangeHRM\Entity\Education;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeEducation;
 
 class EmployeeEducationDecorator
 {

@@ -19,8 +19,8 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\EmployeeEducationDecorator;
 
@@ -100,33 +100,6 @@ class EmployeeEducation
      * @ORM\Column(name="end_date", type="date")
      */
     private DateTime $endDate;
-
-//    /**
-//     * @var \Doctrine\Common\Collections\Collection
-//     *
-//     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="education")
-//     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-//     */
-//    private $employee;
-//
-//    /**
-//     * @var \Doctrine\Common\Collections\Collection
-//     *
-//     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Education", mappedBy="employeeEducation")
-//     * @ORM\JoinColumns({
-//     *   @ORM\JoinColumn(name="educationId", referencedColumnName="id")
-//     * })
-//     */
-//    private $education;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-//        $this->employee = new \Doctrine\Common\Collections\ArrayCollection();
-//        $this->education = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * @return int

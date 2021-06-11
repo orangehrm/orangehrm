@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Pim\test\Api;
 
+use DateTime;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
@@ -31,7 +32,6 @@ use OrangeHRM\Pim\Dao\EmployeeEducationDao;
 use OrangeHRM\Pim\Service\EmployeeEducationService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
-use DateTime;
 
 /**
  * @group Pim
@@ -99,16 +99,16 @@ class EmployeeEducationAPITest extends EndpointTestCase
         $result = $api->getOne();
         $this->assertEquals(
             [
-                "id"=> 1,
-                "institute"=> "UoP",
-                "major"=> "CE",
-                "year"=> 2020,
-                "score"=> "First Class",
-                "startDate"=> new DateTime('2017-01-01'),
-                "endDate"=> new DateTime('2020-12-31'),
-                "education"=> [
-                    "id"=> 1,
-                    "name"=> "BSc"
+                "id" => 1,
+                "institute" => "UoP",
+                "major" => "CE",
+                "year" => 2020,
+                "score" => "First Class",
+                "startDate" => new DateTime('2017-01-01'),
+                "endDate" => new DateTime('2020-12-31'),
+                "education" => [
+                    "id" => 1,
+                    "name" => "BSc"
                 ]
             ],
             $result->normalize()
@@ -221,16 +221,16 @@ class EmployeeEducationAPITest extends EndpointTestCase
         $result = $api->update();
         $this->assertEquals(
             [
-                "id"=> 1,
-                "institute"=> "UoP",
-                "major"=> "CE",
-                "year"=> 2020,
-                "score"=> "First Class",
-                "startDate"=> new DateTime('2017-01-01'),
-                "endDate"=> new DateTime('2020-12-31'),
-                "education"=> [
-                    "id"=> 1,
-                    "name"=> "BSc"
+                "id" => 1,
+                "institute" => "UoP",
+                "major" => "CE",
+                "year" => 2020,
+                "score" => "First Class",
+                "startDate" => new DateTime('2017-01-01'),
+                "endDate" => new DateTime('2020-12-31'),
+                "education" => [
+                    "id" => 1,
+                    "name" => "BSc"
                 ]
             ],
             $result->normalize()
@@ -456,16 +456,16 @@ class EmployeeEducationAPITest extends EndpointTestCase
         $result = $api->update();
         $this->assertEquals(
             [
-                "id"=> 1,
-                "institute"=> "UoP",
-                "major"=> "CE",
-                "year"=> 2020,
-                "score"=> "First Class",
-                "startDate"=> new DateTime('2017-01-01'),
-                "endDate"=> new DateTime('2020-12-31'),
-                "education"=> [
-                    "id"=> 1,
-                    "name"=> "BSc"
+                "id" => 1,
+                "institute" => "UoP",
+                "major" => "CE",
+                "year" => 2020,
+                "score" => "First Class",
+                "startDate" => new DateTime('2017-01-01'),
+                "endDate" => new DateTime('2020-12-31'),
+                "education" => [
+                    "id" => 1,
+                    "name" => "BSc"
                 ]
             ],
             $result->normalize()
@@ -599,29 +599,29 @@ class EmployeeEducationAPITest extends EndpointTestCase
         $this->assertEquals(
             [
                 [
-                    "id"=> 1,
-                    "institute"=> "UoP",
-                    "major"=> "CE",
-                    "year"=> 2020,
-                    "score"=> "First Class",
-                    "startDate"=> new DateTime('2017-01-01'),
-                    "endDate"=> new DateTime('2020-12-31'),
-                    "education"=> [
-                        "id"=> 1,
-                        "name"=> "BSc"
+                    "id" => 1,
+                    "institute" => "UoP",
+                    "major" => "CE",
+                    "year" => 2020,
+                    "score" => "First Class",
+                    "startDate" => new DateTime('2017-01-01'),
+                    "endDate" => new DateTime('2020-12-31'),
+                    "education" => [
+                        "id" => 1,
+                        "name" => "BSc"
                     ]
                 ],
                 [
-                    "id"=> 2,
-                    "institute"=> "UoP",
-                    "major"=> "CE",
-                    "year"=> 2020,
-                    "score"=> "First Class",
-                    "startDate"=> new DateTime('2017-01-01'),
-                    "endDate"=> new DateTime('2020-12-31'),
-                    "education"=> [
-                        "id"=> 2,
-                        "name"=> "MSc"
+                    "id" => 2,
+                    "institute" => "UoP",
+                    "major" => "CE",
+                    "year" => 2020,
+                    "score" => "First Class",
+                    "startDate" => new DateTime('2017-01-01'),
+                    "endDate" => new DateTime('2020-12-31'),
+                    "education" => [
+                        "id" => 2,
+                        "name" => "MSc"
                     ]
                 ]
             ],

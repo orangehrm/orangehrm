@@ -19,14 +19,14 @@
 
 namespace OrangeHRM\Tests\Pim\Dao;
 
+use DateTime;
 use Exception;
-use OrangeHRM\Pim\Dao\EmployeeEducationDao;
-use OrangeHRM\Pim\Dto\EmployeeEducationSearchFilterParams;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\EmployeeEducation;
+use OrangeHRM\Pim\Dao\EmployeeEducationDao;
+use OrangeHRM\Pim\Dto\EmployeeEducationSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use DateTime;
 
 /**
  * @group Pim

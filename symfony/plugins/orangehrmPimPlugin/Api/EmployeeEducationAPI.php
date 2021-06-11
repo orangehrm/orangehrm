@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Pim\Api;
 
+use DateTime;
 use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
@@ -41,22 +42,21 @@ use OrangeHRM\Entity\EmployeeEducation;
 use OrangeHRM\Pim\Api\Model\EmployeeEducationModel;
 use OrangeHRM\Pim\Dto\EmployeeEducationSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeEducationService;
-use DateTime;
 
 class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_EDUCATION_ID = 'educationId';
-    public const PARAMETER_INSTITUTE='institute';
-    public const PARAMETER_MAJOR='major';
-    public const PARAMETER_YEAR='year';
-    public const PARAMETER_SCORE='score';
-    public const PARAMETER_START_DATE='startDate';
-    public const PARAMETER_END_DATE='endDate';
+    public const PARAMETER_INSTITUTE = 'institute';
+    public const PARAMETER_MAJOR = 'major';
+    public const PARAMETER_YEAR = 'year';
+    public const PARAMETER_SCORE = 'score';
+    public const PARAMETER_START_DATE = 'startDate';
+    public const PARAMETER_END_DATE = 'endDate';
 
-    public const FILTER_INSTITUTE='institute';
-    public const FILTER_MAJOR='major';
-    public const FILTER_YEAR='year';
-    public const FILTER_SCORE='score';
+    public const FILTER_INSTITUTE = 'institute';
+    public const FILTER_MAJOR = 'major';
+    public const FILTER_YEAR = 'year';
+    public const FILTER_SCORE = 'score';
 
     public const PARAM_RULE_INSTITUTE_MAX_LENGTH = 100;
     public const PARAM_RULE_MAJOR_MAX_LENGTH = 100;
@@ -98,7 +98,10 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $educationId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $educationId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
         $employeeEducation = $this->getEmployeeEducationService()->getEmployeeEducationDao()->getEmployeeEducationById(
             $empNumber,
             $educationId
@@ -163,7 +166,9 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
             $empNumber
         );
 
-        $employeeEducations = $this->getEmployeeEducationService()->getEmployeeEducationDao()->searchEmployeeEducation($employeeEducationSearchParams);
+        $employeeEducations = $this->getEmployeeEducationService()->getEmployeeEducationDao()->searchEmployeeEducation(
+            $employeeEducationSearchParams
+        );
 
         return new EndpointGetAllResult(
             EmployeeEducationModel::class,
@@ -171,7 +176,8 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeEducationService()->getEmployeeEducationDao()->getSearchEmployeeEducationsCount(
+                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeEducationService()->getEmployeeEducationDao(
+                    )->getSearchEmployeeEducationsCount(
                         $employeeEducationSearchParams
                     )
                 ]
@@ -384,7 +390,9 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
         $employeeEducation->setStartDate(new DateTime($startDate));
         $employeeEducation->setEndDate(new DateTime($endDate));
 
-        return $this->getEmployeeEducationService()->getEmployeeEducationDao()->saveEmployeeEducation($employeeEducation);
+        return $this->getEmployeeEducationService()->getEmployeeEducationDao()->saveEmployeeEducation(
+            $employeeEducation
+        );
     }
 
     /**
