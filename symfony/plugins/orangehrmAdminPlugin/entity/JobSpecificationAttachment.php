@@ -45,28 +45,28 @@ class JobSpecificationAttachment
     /**
      * @var string
      *
-     * @ORM\Column(name="file_name", type="string", length=255)
+     * @ORM\Column(name="file_name", type="string", length=200)
      */
     private string $fileName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="file_type", type="string", length=255)
+     * @ORM\Column(name="file_type", type="string", length=200)
      */
     private string $fileType;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="file_size", type="integer", length=30)
+     * @ORM\Column(name="file_size", type="integer")
      */
     private int $fileSize;
 
     /**
      * @var string|resource
      *
-     * @ORM\Column(name="file_content", type="blob", length=2147483647)
+     * @ORM\Column(name="file_content", type="blob")
      */
     private $fileContent;
 

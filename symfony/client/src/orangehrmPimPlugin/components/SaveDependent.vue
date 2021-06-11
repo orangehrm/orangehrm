@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import {required} from '@orangehrm/core/util/validation/rules';
+
 const dependentModel = {
   name: '',
   relationshipType: [{id: 'child', label: 'Child'}],
@@ -106,9 +108,7 @@ export default {
       dependent: {...dependentModel},
       rules: {
         name: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
+          required,
           v => {
             return !v || v.length <= 100 || 'Should not exceed 100 characters';
           },
@@ -119,9 +119,7 @@ export default {
           },
         ],
         relationship: [
-          v => {
-            return (!!v && v.trim() !== '') || 'Required';
-          },
+          required,
           v => {
             return !v || v.length <= 100 || 'Should not exceed 100 characters';
           },

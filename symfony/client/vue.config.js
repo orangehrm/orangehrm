@@ -18,7 +18,8 @@ module.exports = {
         '@orangehrm/components': '@/core/components',
         '@orangehrm/core': '@/core',
         '@orangehrm/orangehrmAdminPlugin': '@/orangehrmAdminPlugin',
-        '@orangehrm/orangehrmAuthenticationPlugin': '@/orangehrmAuthenticationPlugin',
+        '@orangehrm/orangehrmAuthenticationPlugin':
+          '@/orangehrmAuthenticationPlugin',
         '@orangehrm/orangehrmPimPlugin': '@/orangehrmPimPlugin',
         assets: '@orangehrm/oxd/src/assets',
       },
