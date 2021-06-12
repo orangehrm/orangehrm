@@ -19,6 +19,9 @@
 
 namespace OrangeHRM\Core\Api\V2\Serializer;
 
+/**
+ * @deprecated
+ */
 class EndpointGetOneResult extends AbstractEndpointResult
 {
     /**

@@ -19,9 +19,10 @@
 
 namespace OrangeHRM\Core\Api\V2\Serializer;
 
+use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 
-abstract class AbstractEndpointResult
+abstract class AbstractEndpointResult implements EndpointResult
 {
     use NormalizerTrait;
 
