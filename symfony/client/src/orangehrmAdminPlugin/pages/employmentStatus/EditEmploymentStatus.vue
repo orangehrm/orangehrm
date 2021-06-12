@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit Employment Status</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title"
+        >Edit Employment Status</oxd-text
+      >
 
       <oxd-divider />
 
@@ -76,6 +78,7 @@ export default {
 
   data() {
     return {
+      isLoading: false,
       employmentStatus: {
         id: '',
         name: '',
@@ -93,14 +96,10 @@ export default {
           name: this.employmentStatus.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();
-          this.isLoading = false;
         });
     },
     onCancel() {
@@ -108,6 +107,7 @@ export default {
     },
   },
   created() {
+    this.isLoading = true;
     this.http
       .get(this.employmentStatusId)
       .then(response => {

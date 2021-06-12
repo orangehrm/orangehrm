@@ -1,6 +1,6 @@
 <template>
   <div class="orangehrm-action-header">
-    <oxd-text tag="h6">
+    <oxd-text tag="h6" class="orangehrm-main-title">
       <slot></slot>
     </oxd-text>
     <oxd-button

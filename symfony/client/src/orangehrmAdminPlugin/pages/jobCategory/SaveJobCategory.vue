@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Add Job Category</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        Add Job Category
+      </oxd-text>
 
       <oxd-divider />
 
@@ -90,14 +92,9 @@ export default {
           name: this.category.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Saved',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
-          this.category.name = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },

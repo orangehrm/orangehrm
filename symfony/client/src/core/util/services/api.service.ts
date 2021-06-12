@@ -55,6 +55,7 @@ export class APIService {
     return this._http.get(`${this._apiSection}/${id}`, {headers, params});
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   create(data: any): Promise<AxiosResponse> {
     const headers = {
       'Content-Type': 'application/json',
@@ -63,6 +64,7 @@ export class APIService {
     return this._http.post(this._apiSection, data, {headers});
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   update(id: number, data: any): Promise<AxiosResponse> {
     const headers = {
       'Content-Type': 'application/json',
@@ -77,6 +79,7 @@ export class APIService {
     return this._http.delete(`${this._apiSection}/${id}`, {headers});
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deleteAll(data?: any): Promise<AxiosResponse> {
     const headers = {
       'Content-Type': 'application/json',

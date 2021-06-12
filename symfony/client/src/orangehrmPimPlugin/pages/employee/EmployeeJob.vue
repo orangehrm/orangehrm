@@ -21,7 +21,7 @@
 <template>
   <edit-employee-layout :employee-id="empNumber" screen="job">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="h6">Job Details</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">Job Details</oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -31,6 +31,8 @@
                 label="Joined Date"
                 v-model="job.joinedDate"
                 :rules="rules.joinedDate"
+                type="date"
+                placeholder="yyyy-mm-dd"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -97,6 +99,9 @@
                 <oxd-input-field
                   label="Contract Start Date"
                   v-model="contract.startDate"
+                  :rules="rules.startDate"
+                  type="date"
+                  placeholder="yyyy-mm-dd"
                 />
               </oxd-grid-item>
 
@@ -104,6 +109,9 @@
                 <oxd-input-field
                   label="Contract End Date"
                   v-model="contract.endDate"
+                  :rules="rules.endDate"
+                  type="date"
+                  placeholder="yyyy-mm-dd"
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -213,6 +221,8 @@ export default {
       job: {...jobDetailsModel},
       contract: {...contractDetailsModel},
       rules: {
+        startDate: [],
+        endDate: [],
         contractAttachment: [
           v => {
             if (this.contract.method == 'replaceCurrent') {
@@ -267,10 +277,7 @@ export default {
           if (response) {
             this.updateContractModel(response);
           }
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.isLoading = false;

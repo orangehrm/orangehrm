@@ -35,25 +35,13 @@
       <profile-action-header @click="onClickAdd">
         Assigned Emergency Contacts
       </profile-action-header>
-      <oxd-divider />
     </div>
-    <div>
-      <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-        <div v-if="checkedItems.length > 0">
-          <oxd-text tag="span">
-            {{ itemsSelectedText }}
-          </oxd-text>
-          <oxd-button
-            label="Delete Selected"
-            iconName="trash-fill"
-            displayType="label-danger"
-            @click="onClickDeleteSelected"
-            class="orangehrm-horizontal-margin"
-          />
-        </div>
-        <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
-      </div>
-    </div>
+    <table-header
+      :selected="checkedItems.length"
+      :total="total"
+      :loading="isLoading"
+      @delete="onClickDeleteSelected"
+    ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
         :headers="headers"
@@ -198,10 +186,7 @@ export default {
             ids: items,
           })
           .then(() => {
-            return this.$toast.success({
-              title: 'Success',
-              message: 'Successfully Deleted',
-            });
+            return this.$toast.deleteSuccess();
           })
           .then(() => {
             this.isLoading = false;
@@ -231,17 +216,6 @@ export default {
       this.showEditModal = false;
       this.editModalState = null;
       this.resetDataTable();
-    },
-  },
-
-  computed: {
-    itemsCountText() {
-      return this.total === 0
-        ? 'No Records Found'
-        : `${this.total} Emeregency Contact(s) Found`;
-    },
-    itemsSelectedText() {
-      return `${this.checkedItems.length} Emeregency Contact(s) Selected`;
     },
   },
 };

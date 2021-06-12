@@ -67,7 +67,11 @@
   padding-right: 1.5rem;
   background-color: $oxd-white-color;
   border-radius: 0.75rem;
-  height: 35px;
+  min-height: 35px;
+}
+.org-name {
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 .org-structure-add {
   min-width: unset;

@@ -22,7 +22,9 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">General Information</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title"
+          >General Information</oxd-text
+        >
         <oxd-switch-input
           v-model="editable"
           optionLabel="Edit"
@@ -348,10 +350,7 @@ export default {
           note: this.organization.note,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Saved',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.isLoading = false;
@@ -360,6 +359,7 @@ export default {
     },
   },
   created() {
+    this.isLoading = true;
     this.http.http
       .get('api/v2/admin/organization')
       .then(response => {

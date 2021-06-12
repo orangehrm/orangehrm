@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit Job Title</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">Edit Job Title</oxd-text>
 
       <oxd-divider />
 
@@ -154,14 +154,10 @@ export default {
           ...this.jobTitle,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           // go back
-          this.isLoading = false;
           this.onCancel();
         });
     },
