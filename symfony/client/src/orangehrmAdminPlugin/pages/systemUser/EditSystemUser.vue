@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit User</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">Edit User</oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -177,13 +177,9 @@ export default {
           changePassword: this.user.changePassword,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'System user updated successfully!',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
-          this.isLoading = false;
           this.onCancel();
         });
     },

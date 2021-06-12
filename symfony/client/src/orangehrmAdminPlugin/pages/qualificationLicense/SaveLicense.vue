@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6"> Add License</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title"> Add License</oxd-text>
 
       <oxd-divider />
 
@@ -89,14 +89,10 @@ export default {
           name: this.license.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Saved',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           this.license.name = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },

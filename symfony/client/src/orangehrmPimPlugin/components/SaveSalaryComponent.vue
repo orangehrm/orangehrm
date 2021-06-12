@@ -20,7 +20,9 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-    <oxd-text tag="h6">Add Salary Component</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">
+      Add Salary Component
+    </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -314,10 +316,7 @@ export default {
             : undefined,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Added',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           this.onCancel();

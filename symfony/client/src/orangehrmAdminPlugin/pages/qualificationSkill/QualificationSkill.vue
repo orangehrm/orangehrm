@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Skills</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title">Skills</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -32,24 +32,12 @@
           />
         </div>
       </div>
-      <oxd-divider class="orangehrm-horizontal-margin" />
-      <div>
-        <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-          <div v-if="checkedItems.length > 0">
-            <oxd-text tag="span">
-              {{ checkedItems.length }} Records Selected
-            </oxd-text>
-            <oxd-button
-              label="Delete Selected"
-              iconName="trash-fill"
-              displayType="label-danger"
-              @click="onClickDeleteSelected"
-              class="orangehrm-horizontal-margin"
-            />
-          </div>
-          <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
-        </div>
-      </div>
+      <table-header
+        :selected="checkedItems.length"
+        :total="total"
+        :loading="isLoading"
+        @delete="onClickDeleteSelected"
+      ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
           :loading="isLoading"
@@ -145,14 +133,6 @@ export default {
     };
   },
 
-  computed: {
-    itemsCountText() {
-      return this.total === 0
-        ? 'No Records Found'
-        : `${this.total} Records Found`;
-    },
-  },
-
   methods: {
     onClickAdd() {
       navigate('/admin/saveSkills');
@@ -185,10 +165,7 @@ export default {
             ids: items,
           })
           .then(() => {
-            return this.$toast.success({
-              title: 'Success',
-              message: 'Successfully Deleted',
-            });
+            return this.$toast.deleteSuccess();
           })
           .then(() => {
             this.isLoading = false;

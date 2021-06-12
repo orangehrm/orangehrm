@@ -22,7 +22,9 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Organization Structure</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title"
+          >Organization Structure</oxd-text
+        >
         <oxd-switch-input
           v-if="!isLoading"
           v-model="editable"
@@ -155,10 +157,7 @@ export default {
           this.http
             .delete(node.id)
             .then(() => {
-              return this.$toast.success({
-                title: 'Success',
-                message: 'Organization unit deleted successfully!',
-              });
+              return this.$toast.deleteSuccess();
             })
             .then(() => {
               this.isLoading = false;

@@ -21,7 +21,9 @@
 <template>
   <edit-employee-layout :employee-id="empNumber" screen="personal">
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="h6">Personal Details</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        Personal Details
+      </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -71,6 +73,8 @@
               <oxd-input-field
                 label="License Expiry Date"
                 v-model="employee.drivingLicenseExpiredDate"
+                type="date"
+                placeholder="yyyy-mm-dd"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -111,6 +115,8 @@
               <oxd-input-field
                 label="Date of Birth"
                 v-model="employee.birthday"
+                type="date"
+                placeholder="yyyy-mm-dd"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -272,10 +278,7 @@ export default {
         })
         .then(response => {
           this.updateModel(response);
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.isLoading = false;

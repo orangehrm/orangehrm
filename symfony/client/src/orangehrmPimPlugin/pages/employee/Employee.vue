@@ -80,24 +80,12 @@
           @click="onClickAdd"
         />
       </div>
-      <oxd-divider class="orangehrm-horizontal-margin" />
-      <div>
-        <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-          <div v-if="checkedItems.length > 0">
-            <oxd-text tag="span">
-              {{ checkedItems.length }} Employee(s) Selected
-            </oxd-text>
-            <oxd-button
-              label="Delete Selected"
-              iconName="trash-fill"
-              displayType="label-danger"
-              @click="onClickDeleteSelected"
-              class="orangehrm-horizontal-margin"
-            />
-          </div>
-          <oxd-text tag="span" v-else>{{ itemsCountText }}</oxd-text>
-        </div>
-      </div>
+      <table-header
+        :selected="checkedItems.length"
+        :total="total"
+        :loading="isLoading"
+        @delete="onClickDeleteSelected"
+      ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
           :headers="headers"
@@ -298,14 +286,6 @@ export default {
     };
   },
 
-  computed: {
-    itemsCountText() {
-      return this.total === 0
-        ? 'No Records Found'
-        : `${this.total} Employee(s) Found`;
-    },
-  },
-
   methods: {
     onClickAdd() {
       navigate('/pim/addEmployee');
@@ -338,10 +318,7 @@ export default {
             ids: items,
           })
           .then(() => {
-            return this.$toast.success({
-              title: 'Success',
-              message: 'User deleted successfully!',
-            });
+            return this.$toast.deleteSuccess();
           })
           .then(() => {
             this.isLoading = false;

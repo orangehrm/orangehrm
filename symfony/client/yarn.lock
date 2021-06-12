@@ -1429,17 +1429,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=f4a9e471df853f55327bd126f1149566096658f3":
+"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=77787e7ac03e58f8531ddeba87f3f5658d5c9f2c":
   version: 1.0.0
-  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=f4a9e471df853f55327bd126f1149566096658f3"
+  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=77787e7ac03e58f8531ddeba87f3f5658d5c9f2c"
   dependencies:
     bootstrap-icons: ^1.3.0
     core-js: ^3.6.5
+    date-fns: ^2.22.1
     mitt: ^2.1.0
     nanoid: ^3.1.21
     vue: ^3.0.5
     vue-class-component: ^8.0.0-0
-  checksum: 051128a2e6786da7a3091686f14b2c0e197999324bc90ae44835be931e160b1200228e6f4ce270bb55efc8b0ca3f681705fb09b73c0c3a4718e0219ce98b1e23
+  checksum: 2fbc17cdff58da9029cdfc3374d32855e511d17afe4108d6178701c40d90db44d9717901e70f653c0c5cb4ae7808ffe07f5807e30a3b55a6f267fd0e5739fb4b
   languageName: node
   linkType: hard
 
@@ -4933,6 +4934,13 @@ __metadata:
     whatwg-mimetype: ^2.2.0
     whatwg-url: ^7.0.0
   checksum: 04d211e1e9f83bab75450487da34b124b32beacd1ad0df96e3a747b705c24c65579833a04a6ea30a528ea5b99d5247660408c513b38905bf855f2de585b9e91c
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^2.22.1":
+  version: 2.22.1
+  resolution: "date-fns@npm:2.22.1"
+  checksum: a89dc6cdf3929b3f0d54d129a3c288df995fc3e6c8099dacc215e5404b4950fc8551d11a58968dfd3b8d576d0c5e637072f615e8f9c3e47d82c81e3952007d5b
   languageName: node
   linkType: hard
 
@@ -10026,7 +10034,7 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=f4a9e471df853f55327bd126f1149566096658f3"
+    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=77787e7ac03e58f8531ddeba87f3f5658d5c9f2c"
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0
@@ -10041,6 +10049,7 @@ fsevents@~2.3.1:
     "@vue/test-utils": ^2.0.0-0
     axios: ^0.21.1
     core-js: ^3.6.5
+    date-fns: ^2.22.1
     eslint: ^6.7.2
     eslint-plugin-prettier: ^3.1.3
     eslint-plugin-vue: ^7.0.0-0

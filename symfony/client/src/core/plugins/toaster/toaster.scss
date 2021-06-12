@@ -1,10 +1,17 @@
+@import '@orangehrm/oxd/styles/_mixins.scss';
+
 .oxd-toast-container {
   position: fixed;
   display: flex;
   flex-direction: column;
   z-index: 999999;
   left: 12px;
-  min-width: 400px;
+  @include oxd-respond-to('xs') {
+    min-width: 290px;
+  }
+  @include oxd-respond-to('md') {
+    min-width: 400px;
+  }
   &--bottom {
     bottom: 1rem;
   }
