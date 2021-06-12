@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit Job Category</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        Edit Job Category
+      </oxd-text>
 
       <oxd-divider />
 
@@ -97,10 +99,7 @@ export default {
           name: this.category.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();

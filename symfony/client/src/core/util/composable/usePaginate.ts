@@ -20,6 +20,7 @@ import {onBeforeMount, reactive, toRefs, watch, unref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {AxiosResponse} from 'axios';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface ServerResponse {
   data?: any;
   meta?: any;
@@ -40,6 +41,7 @@ interface State {
 interface DTO {
   [key: string]: any;
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 async function fetchData(
   http: APIService,
@@ -68,6 +70,7 @@ function getPageParams(pageSize: number, currentPage: number) {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getQueryParams(query: any) {
   const params = JSON.parse(JSON.stringify(unref(query)));
   for (const [key, value] of Object.entries(params)) {
@@ -92,7 +95,7 @@ export default function usePaginate(
     response: {},
     total: 0,
     pages: 0,
-    pageSize: 5,
+    pageSize: 50,
     currentPage: 1,
   });
 

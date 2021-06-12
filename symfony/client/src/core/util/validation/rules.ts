@@ -16,6 +16,8 @@
  * Boston, MA  02110-1301, USA
  */
 
+import {parseDate, isBefore, isAfter} from '../helper/datefns';
+
 /**
  * @param {string} value
  * @returns {boolean|string}
@@ -34,5 +36,42 @@ export const shouldNotExceedCharLength = function(charLength: number) {
       value.length <= charLength ||
       `Should not exceed ${charLength} characters`
     );
+  };
+};
+
+export const validDateFormat = function(dateFormat: string) {
+  return function(value: string): boolean | string {
+    const parsed = parseDate(value, dateFormat);
+    return parsed ? true : `Should be a valid date in ${dateFormat} format`;
+  };
+};
+
+export const beforeDate = function(
+  dateFormat: string,
+  valueToCompare: string,
+  message: string,
+) {
+  return function(value: string): boolean | string {
+    const origin = parseDate(value, dateFormat);
+    const reference = parseDate(valueToCompare, dateFormat);
+    if (origin && reference) {
+      return isBefore(origin, reference) ? true : message;
+    }
+    return message;
+  };
+};
+
+export const afterDate = function(
+  dateFormat: string,
+  valueToCompare: string,
+  message: string,
+) {
+  return function(value: string): boolean | string {
+    const origin = parseDate(value, dateFormat);
+    const reference = parseDate(valueToCompare, dateFormat);
+    if (origin && reference) {
+      return isAfter(origin, reference) ? true : message;
+    }
+    return message;
   };
 };

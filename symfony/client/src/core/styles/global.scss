@@ -1,10 +1,23 @@
 .orangehrm-header-container {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
   padding: 1.2rem;
   align-items: center;
+  & .oxd-button {
+    white-space: nowrap;
+  }
+}
+
+.orangehrm-main-title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
+
+.orangehrm-sub-title {
+  padding: 0.25rem 0;
+  font-size: 1rem;
 }
 
 .orangehrm-left-space {
@@ -94,19 +107,4 @@
   & a {
     color: $oxd-interface-gray-darken-2-color;
   }
-}
-
-.orangehrm-sub-title {
-  padding: 0.25rem 0;
-  font-size: 1rem;
-}
-
-@for $i from 1 through 8 {
-  .--span-column-#{$i} {
-    grid-column: span #{$i};
-  }
-}
-
-.oxd-grid-item {
-  min-width: 0;
 }

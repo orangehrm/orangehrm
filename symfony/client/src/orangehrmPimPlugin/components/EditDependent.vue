@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-    <oxd-text tag="h6">Edit Dependent</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">Edit Dependent</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
@@ -61,6 +61,9 @@
             <oxd-input-field
               label="Date of Birth"
               v-model="dependent.dateOfBirth"
+              type="date"
+              placeholder="yyyy-mm-dd"
+              :rules="rules.dateOfBirth"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -128,6 +131,7 @@ export default {
             return !v || v.length <= 100 || 'Should not exceed 100 characters';
           },
         ],
+        dateOfBirth: [],
       },
       relationshipOptions: [
         {id: 'child', label: 'Child'},
@@ -147,10 +151,7 @@ export default {
           )[0],
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.dependent = {...dependentModel};

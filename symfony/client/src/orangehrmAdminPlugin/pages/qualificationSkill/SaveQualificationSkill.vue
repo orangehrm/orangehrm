@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Add Skill</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">Add Skill</oxd-text>
 
       <oxd-divider />
 
@@ -105,15 +105,11 @@ export default {
           description: this.skill.description,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Saved',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           this.skill.name = '';
           this.skill.description = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },

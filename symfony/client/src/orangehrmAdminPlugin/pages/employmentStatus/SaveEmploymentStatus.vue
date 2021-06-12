@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Add Employment Status</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title"
+        >Add Employment Status</oxd-text
+      >
 
       <oxd-divider />
 
@@ -88,14 +90,9 @@ export default {
           name: this.employmentStatus.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Saved',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
-          this.employmentStatus.name = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },

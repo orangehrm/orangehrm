@@ -107,13 +107,9 @@ export default {
           ...this.orgUnit,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Organization unit updated successfully!',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
-          this.isLoading = false;
           this.onCancel();
         });
     },
