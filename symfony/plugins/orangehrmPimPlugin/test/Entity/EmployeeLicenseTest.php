@@ -43,7 +43,7 @@ class EmployeeLicenseTest extends EntityTestCase
 
         $license = new License();
         $license->setId(1);
-        $license->setName('Cima');
+        $license->setName('CIMA');
         $this->persist($license);
 
         $employeeLicense = new EmployeeLicense();

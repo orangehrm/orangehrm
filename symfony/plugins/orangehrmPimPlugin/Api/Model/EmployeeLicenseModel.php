@@ -35,16 +35,18 @@ class EmployeeLicenseModel implements Normalizable
         $this->setEntity($employeeLicense);
         $this->setFilters(
             [
-                'yearsOfExp',
-                'comments',
+                'licenseNo',
+                'licenseIssuedDate',
+                'licenseExpiryDate',
                 ['getLicenseId', 'getId'],
                 ['getLicenseId', 'getName']
             ]
         );
         $this->setAttributeNames(
             [
-                'yearsOfExperience',
-                'comments',
+                'licenseNo',
+                'licenseIssuedDate',
+                'licenseExpiryDate',
                 ['licenseId', 'id'],
                 ['licenseId', 'name']
             ]

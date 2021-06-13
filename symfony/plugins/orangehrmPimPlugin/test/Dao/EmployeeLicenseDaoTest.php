@@ -23,7 +23,6 @@ use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\EmployeeLicense;
-use OrangeHRM\Entity\Decorator\EmployeeLicenseDecorator;
 use OrangeHRM\Pim\Dao\EmployeeLicenseDao;
 use OrangeHRM\Pim\Dto\EmployeeLicenseSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
@@ -36,7 +35,7 @@ use OrangeHRM\Tests\Util\TestDataService;
 class EmployeeLicenseDaoTest extends TestCase
 {
 
-    private EmployeeLicenseDao $employeeSkillDao;
+    private EmployeeLicenseDao $employeeLicenseDao;
     protected string $fixture;
 
     /**
@@ -45,14 +44,14 @@ class EmployeeLicenseDaoTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->employeeSkillDao = new EmployeeLicenseDao();
+        $this->employeeLicenseDao = new EmployeeLicenseDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPimPlugin/test/fixtures/EmployeeLicenseDao.yml';
         TestDataService::populate($this->fixture);
     }
 
     public function testGetEmployeeLicense(): void
     {
-        $result = $this->employeeSkillDao->getEmployeeLicense(1, 1);
+        $result = $this->employeeLicenseDao->getEmployeeLicense(1, 1);
         $this->assertEquals('1', $result->getLicenseNo());
         $this->assertEquals('2020-01-23', $result->getLicenseIssuedDate()->format('Y-m-d'));
         $this->assertEquals('2021-01-23', $result->getLicenseExpiryDate()->format('Y-m-d'));
@@ -61,62 +60,62 @@ class EmployeeLicenseDaoTest extends TestCase
     public function testDeleteEmployeeLicense(): void
     {
         $toTobedeletedIds = [1, 2];
-        $result = $this->employeeSkillDao->deleteEmployeeLicenses(1, $toTobedeletedIds);
+        $result = $this->employeeLicenseDao->deleteEmployeeLicenses(1, $toTobedeletedIds);
         $this->assertEquals(2, $result);
     }
 
-    public function testSearchEmployeeSkill(): void
+    public function testSearchEmployeeLicense(): void
     {
-        $employeeSkillSearchParams = new EmployeeLicenseSearchFilterParams();
-        $employeeSkillSearchParams->setEmpNumber(1);
-        $result = $this->employeeSkillDao->searchEmployeeLicense($employeeSkillSearchParams);
+        $employeeLicenseSearchParams = new EmployeeLicenseSearchFilterParams();
+        $employeeLicenseSearchParams->setEmpNumber(1);
+        $result = $this->employeeLicenseDao->searchEmployeeLicense($employeeLicenseSearchParams);
         $this->assertCount(2, $result);
         $this->assertTrue($result[0] instanceof EmployeeLicense);
     }
 
-    public function testSearchEmployeeSkillWithLimit(): void
+    public function testSearchEmployeeLicenseWithLimit(): void
     {
-        $employeeSkillSearchParams = new EmployeeLicenseSearchFilterParams();
-        $employeeSkillSearchParams->setEmpNumber(1);
-        $employeeSkillSearchParams->setLimit(1);
+        $employeeLicenseSearchParams = new EmployeeLicenseSearchFilterParams();
+        $employeeLicenseSearchParams->setEmpNumber(1);
+        $employeeLicenseSearchParams->setLimit(1);
 
-        $result = $this->employeeSkillDao->searchEmployeeLicense($employeeSkillSearchParams);
+        $result = $this->employeeLicenseDao->searchEmployeeLicense($employeeLicenseSearchParams);
         $this->assertCount(1, $result);
     }
 
     public function testSaveEmployeeLicense(): void
     {
-        $employeeSkill = new EmployeeLicense();
-        $employeeSkill->getDecorator()->setLicenseByLicenseId(1);
-        $employeeSkill->getDecorator()->setEmployeeByEmpNumber(3);
-        $employeeSkill->setLicenseNo('05');
-        $employeeSkill->setLicenseIssuedDate(new DateTime('2020-05-23'));
-        $employeeSkill->setLicenseExpiryDate(new DateTime('2021-05-23'));
-        $result = $this->employeeSkillDao->saveEmployeeLicense($employeeSkill);
+        $employeeLicense = new EmployeeLicense();
+        $employeeLicense->getDecorator()->setLicenseByLicenseId(1);
+        $employeeLicense->getDecorator()->setEmployeeByEmpNumber(3);
+        $employeeLicense->setLicenseNo('05');
+        $employeeLicense->setLicenseIssuedDate(new DateTime('2020-05-23'));
+        $employeeLicense->setLicenseExpiryDate(new DateTime('2021-05-23'));
+        $result = $this->employeeLicenseDao->saveEmployeeLicense($employeeLicense);
         $this->assertTrue($result instanceof EmployeeLicense);
         $this->assertEquals("05", $result->getLicenseNo());
         $this->assertEquals('2020-05-23', $result->getLicenseIssuedDate()->format('Y-m-d'));
         $this->assertEquals('2020-05-23', $result->getLicenseExpiryDate()->format('Y-m-d'));
     }
 
-    public function testEditEmployeeSkill(): void
+    public function testEditEmployeeLicense(): void
     {
-        $employeeSkill = $this->employeeSkillDao->getEmployeeLicense(1, 1);
-        $employeeSkill->setLicenseNo("07");
-        $employeeSkill->setLicenseIssuedDate(new DateTime('2020-07-23'));
-        $employeeSkill->setLicenseExpiryDate(new DateTime('2021-07-23'));
-        $result = $this->employeeSkillDao->saveEmployeeLicense($employeeSkill);
+        $employeeLicense = $this->employeeLicenseDao->getEmployeeLicense(1, 1);
+        $employeeLicense->setLicenseNo("07");
+        $employeeLicense->setLicenseIssuedDate(new DateTime('2020-07-23'));
+        $employeeLicense->setLicenseExpiryDate(new DateTime('2021-07-23'));
+        $result = $this->employeeLicenseDao->saveEmployeeLicense($employeeLicense);
         $this->assertTrue($result instanceof EmployeeLicense);
         $this->assertEquals("07", $result->getLicenseNo());
         $this->assertEquals('2020-07-23', $result->getLicenseIssuedDate()->format('Y-m-d'));
         $this->assertEquals('2021-07-23', $result->getLicenseExpiryDate()->format('Y-m-d'));
     }
 
-    public function testGetSearchEmployeeSkillsCount(): void
+    public function testGetSearchEmployeeLicensesCount(): void
     {
-        $employeeSkillSearchParams = new EmployeeLicenseSearchFilterParams();
-        $employeeSkillSearchParams->setEmpNumber(1);
-        $result = $this->employeeSkillDao->getSearchEmployeeLicensesCount($employeeSkillSearchParams);
+        $employeeLicenseSearchParams = new EmployeeLicenseSearchFilterParams();
+        $employeeLicenseSearchParams->setEmpNumber(1);
+        $result = $this->employeeLicenseDao->getSearchEmployeeLicensesCount($employeeLicenseSearchParams);
         $this->assertEquals(2, $result);
     }
 }

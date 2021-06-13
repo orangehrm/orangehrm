@@ -63,7 +63,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      */
     public function getEmployeeLicenseService(): EmployeeLicenseService
     {
-        if (is_null($this->employeeLicenseService)) {
+        if (!$this->employeeLicenseService instanceof EmployeeLicenseService) {
             $this->employeeLicenseService = new EmployeeLicenseService();
         }
         return $this->employeeLicenseService;
@@ -119,38 +119,44 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointGetAllResult
     {
-        $employeeSkillSearchParams = new EmployeeLicenseSearchFilterParams();
-        $this->setSortingAndPaginationParams($employeeSkillSearchParams);
-        $employeeSkillSearchParams->setYearsOfExp(
+        $employeeLicenseSearchParams = new EmployeeLicenseSearchFilterParams();
+        $this->setSortingAndPaginationParams($employeeLicenseSearchParams);
+        $employeeLicenseSearchParams->setLicenseNo(
             $this->getRequestParams()->getStringOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_YEARS_OF_EXP
+                self::FILTER_LICENSE_NO
             )
         );
-        $employeeSkillSearchParams->setComments(
-            $this->getRequestParams()->getStringOrNull(
+        $employeeLicenseSearchParams->setLicenseIssuedDate(
+            $this->getRequestParams()->getDateTimeOrNull(
                 RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_COMMENTS
+                self::PARAMETER_LICENSE_ISSUED_DATE
+            )
+        );
+        $employeeLicenseSearchParams->setLicenseExpiryDate(
+            $this->getRequestParams()->getDateTimeOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::PARAMETER_LICENSE_EXPIRED_DATE
             )
         );
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $employeeSkillSearchParams->setEmpNumber(
+        $employeeLicenseSearchParams->setEmpNumber(
             $empNumber
         );
 
-        $employeeSkills = $this->getEmployeeSkillService()->getEmployeeSkillDao()->searchEmployeeSkill($employeeSkillSearchParams);
+        $employeeLicenses = $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->searchEmployeeLicense($employeeLicenseSearchParams);
 
         return new EndpointGetAllResult(
-            EmployeeSkillModel::class,
-            $employeeSkills,
+            EmployeeLicenseModel::class,
+            $employeeLicenses,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeSkillService()->getEmployeeSkillDao()->getSearchEmployeeSkillsCount(
-                        $employeeSkillSearchParams
+                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->getSearchEmployeeLicensesCount(
+                        $employeeLicenseSearchParams
                     )
                 ]
             )
@@ -164,9 +170,10 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getEmpNumberRule(),
-            new ParamRule(self::FILTER_COMMENTS),
-            new ParamRule(self::FILTER_YEARS_OF_EXP),
-            ...$this->getSortingAndPaginationParamsRules(EmployeeSkillSearchFilterParams::ALLOWED_SORT_FIELDS)
+            new ParamRule(self::FILTER_LICENSE_NO),
+            new ParamRule(self::PARAMETER_LICENSE_ISSUED_DATE),
+            new ParamRule(self::PARAMETER_LICENSE_EXPIRED_DATE),
+            ...$this->getSortingAndPaginationParamsRules(EmployeeLicenseSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -176,13 +183,13 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointCreateResult
     {
-        $employeeSkill = $this->saveEmployeeSkill();
+        $employeeLicense = $this->saveEmployeeLicense();
         return new EndpointCreateResult(
-            EmployeeSkillModel::class, $employeeSkill,
+            EmployeeLicenseModel::class, $employeeLicense,
             new ParameterBag(
                 [
-                    CommonParams::PARAMETER_EMP_NUMBER => $employeeSkill->getEmployee()->getEmpNumber(),
-                    self::PARAMETER_SKILL_ID => $employeeSkill->getSkill()->getId()
+                    CommonParams::PARAMETER_EMP_NUMBER => $employeeLicense->getEmployee()->getEmpNumber(),
+                    self::PARAMETER_LICENSE_ID => $employeeLicense->getLicenseId()->getId()
                 ]
             )
         );
@@ -194,7 +201,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_SKILL_ID, new Rule(Rules::REQUIRED)),
+            new ParamRule(self::PARAMETER_LICENSE_ID, new Rule(Rules::REQUIRED)),
             $this->getEmpNumberRule(),
             ...$this->getCommonBodyValidationRules(),
         );
@@ -207,14 +214,9 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     {
         return [
             new ParamRule(
-                self::PARAMETER_COMMENTS,
+                self::PARAMETER_LICENSE_NO,
                 new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENTS_MAX_LENGTH]),
-            ),
-            new ParamRule(
-                self::PARAMETER_YEARS_OF_EXP,
-                new Rule(Rules::INT_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH]),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_LICENSE_NO_MAX_LENGTH]),
             ),
         ];
     }
@@ -225,13 +227,13 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointUpdateResult
     {
-        $employeeSkill = $this->saveEmployeeLicense();
+        $employeeLicense = $this->saveEmployeeLicense();
 
         return new EndpointUpdateResult(
-            EmployeeLicenseModel::class, $employeeSkill,
+            EmployeeLicenseModel::class, $employeeLicense,
             new ParameterBag(
                 [
-                    CommonParams::PARAMETER_EMP_NUMBER => $employeeSkill->getEmployee()->getEmpNumber(),
+                    CommonParams::PARAMETER_EMP_NUMBER => $employeeLicense->getEmployee()->getEmpNumber(),
                 ]
             )
         );
@@ -261,7 +263,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_EMP_NUMBER
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getEmployeeSkillService()->getEmployeeSkillDao()->deleteEmployeeSkills($empNumber, $ids);
+        $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->deleteEmployeeLicenses($empNumber, $ids);
         return new EndpointDeleteResult(
             ArrayModel::class, $ids,
             new ParameterBag(
@@ -284,41 +286,44 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EmployeeSkill
+     * @return EmployeeLicense
      * @throws DaoException
      */
-    public function saveEmployeeSkill(): EmployeeSkill
+    public function saveEmployeeLicense(): EmployeeLicense
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $skillId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SKILL_ID);
-        $comments = $this->getRequestParams()->getStringOrNull(
+        $licenseId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_LICENSE_ID);
+        $licenseNo = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_COMMENTS
+            self::PARAMETER_LICENSE_NO
         );
-        $yrsOfExp = $this->getRequestParams()->getIntOrNull(
+        $issuedDate = $this->getRequestParams()->getDateTimeOrNull(
             RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_YEARS_OF_EXP
+            self::PARAMETER_LICENSE_ISSUED_DATE
+        );
+        $expiryDate = $this->getRequestParams()->getDateTimeOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_LICENSE_EXPIRED_DATE
         );
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        if (!empty($skillId)) { // create operation
-            $id = $skillId;
+        if ($licenseId) {
+            $employeeLicense = $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->getEmployeeLicense($empNumber,
+                $id);
+            $this->throwRecordNotFoundExceptionIfNotExist($employeeLicense, EmployeeLicense::class);
+        } else {
+            $employeeLicense = new EmployeeLicense();
+            $employeeLicense->getDecorator()->setEmployeeByEmpNumber($empNumber);
+            $employeeLicense->getDecorator()->setLicenseByLicenseId($id);
         }
-        $employeeSkill = $this->getEmployeeSkillService()->getEmployeeSkillDao()->getEmployeeSkillById(
-            $empNumber,
-            $id
-        );
-        if ($employeeSkill == null) {
-            $employeeSkill = new EmployeeSkill();
-            $employeeSkill->getDecorator()->setEmployeeByEmpNumber($empNumber);
-            $employeeSkill->getDecorator()->setSkillBySkillId($id);
-        }
-        $employeeSkill->setYearsOfExp($yrsOfExp);
-        $employeeSkill->setComments($comments);
 
-        return $this->getEmployeeSkillService()->getEmployeeSkillDao()->saveEmployeeSkill($employeeSkill);
+        $employeeLicense->setLicenseNo($licenseNo);
+        $employeeLicense->setLicenseIssuedDate($issuedDate);
+        $employeeLicense->setLicenseExpiryDate($expiryDate);
+
+        return $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->saveEmployeeLicense($employeeLicense);
     }
 
     /**
