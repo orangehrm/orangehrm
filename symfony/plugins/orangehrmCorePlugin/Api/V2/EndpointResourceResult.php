@@ -17,12 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Serializer;
+namespace OrangeHRM\Core\Api\V2;
 
-/**
- * @deprecated
- */
-class EndpointCreateResult extends AbstractEndpointResult
+use OrangeHRM\Core\Api\V2\Serializer\AbstractEndpointResult;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
+
+class EndpointResourceResult extends AbstractEndpointResult
 {
     /**
      * @inheritDoc
