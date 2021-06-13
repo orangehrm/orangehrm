@@ -20,11 +20,9 @@
 namespace OrangeHRM\Pim\Dao;
 
 use Exception;
-use InvalidArgumentException;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeLicense;
-use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\EmployeeLicenseSearchFilterParams;
 
@@ -32,49 +30,35 @@ class EmployeeLicenseDao extends BaseDao
 {
 
     /**
-     * @param EmpEmergencyContact $empEmergencyContact
-     * @return EmpEmergencyContact
+     * @param EmployeeLicense $employeeLicense
+     * @return EmployeeLicense
+     * @throws DaoException
      */
-    public function saveEmployeeEmergencyContact(EmpEmergencyContact $empEmergencyContact): EmpEmergencyContact
+    public function saveEmployeeLicense(EmployeeLicense $employeeLicense): EmployeeLicense
     {
-        if ($empEmergencyContact->getSeqNo() === '0') {
-            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
-            $empNumber = $empEmergencyContact->getEmployee()->getEmpNumber();
-            $q->andWhere('eec.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
-            $q->select($q->expr()->max('eec.seqNo'));
-            $maxSeqNo = $q->getQuery()->getSingleScalarResult();
-            $seqNo = 1;
-            if (!is_null($maxSeqNo)) {
-                $seqNo += intval($maxSeqNo);
-            }
-            $empEmergencyContact->setSeqNo($seqNo);
+        try {
+            $this->persist($employeeLicense);
+            return $employeeLicense;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        $seqNo = intval($empEmergencyContact->getSeqNo());
-        if (!($seqNo < 100 && $seqNo > 0)) {
-            throw new InvalidArgumentException('Invalid `seqNo`');
-        }
-
-        $this->persist($empEmergencyContact);
-        return $empEmergencyContact;
     }
 
     /**
-     * Get Emergency contacts for given employee
-     * @param int $seqNo
-     * @param int $empNumber Employee Number
-     * @return EmpEmergencyContact|null EmpEmergencyContact objects as array
+     * @param int $empNumber
+     * @param int $licenseId
+     * @return EmployeeLicense|null
      * @throws DaoException
      */
-    public function getEmployeeEmergencyContact(int $empNumber, int $seqNo): ?EmpEmergencyContact
+    public function getEmployeeLicense(int $empNumber, int $licenseId): ?EmployeeLicense
     {
         try {
-            $empEmergencyContact = $this->getRepository(EmpEmergencyContact::class)->findOneBy([
+            $employeeLicense = $this->getRepository(EmployeeLicense::class)->findOneBy([
                 'employee' => $empNumber,
-                'seqNo' => $seqNo,
+                'licenseId' => $licenseId,
             ]);
-            if ($empEmergencyContact instanceof EmpEmergencyContact) {
-                return $empEmergencyContact;
+            if ($employeeLicense instanceof EmployeeLicense) {
+                return $employeeLicense;
             }
             return null;
         } catch (Exception $e) {
@@ -83,20 +67,19 @@ class EmployeeLicenseDao extends BaseDao
     }
 
     /**
-     * Delete Emergency contacts
      * @param int $empNumber
-     * @param array|null $entriesToDelete
+     * @param array $entriesToDelete
      * @return int
      * @throws DaoException
      */
-    public function deleteEmployeeEmergencyContacts(int $empNumber, array $entriesToDelete): int
+    public function deleteEmployeeLicenses(int $empNumber, array $entriesToDelete): int
     {
         try {
-            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
+            $q = $this->createQueryBuilder(EmployeeLicense::class, 'el');
             $q->delete()
-                ->where('eec.employee = :empNumber')
+                ->where('el.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->andWhere($q->expr()->in('eec.seqNo', ':ids'))
+            $q->andWhere($q->expr()->in('el.licenseId', ':ids'))
                 ->setParameter('ids', $entriesToDelete);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
@@ -105,72 +88,44 @@ class EmployeeLicenseDao extends BaseDao
     }
 
     /**
-     * @param int $empNumber
+     * @param EmployeeLicenseSearchFilterParams $employeeLicenseSearchFilterParams
      * @return array
      * @throws DaoException
      */
-    public function getEmployeeEmergencyContactList(int $empNumber): array
+    public function searchEmployeeLicense(EmployeeLicenseSearchFilterParams $employeeLicenseSearchFilterParams): array
     {
         try {
-            $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
-            $q->andWhere('eec.employee = :empNumber')
-                ->setParameter('empNumber', $empNumber);
-            $q->addOrderBy('eec.name', ListSorter::ASCENDING);
-
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
-     * @return array
-     * @throws DaoException
-     */
-    public function searchEmployeeEmergencyContacts(
-        EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
-    ): array {
-        try {
-            $paginator = $this->getSearchEmployeeEmergencyContactsPaginator($emergencyContactSearchFilterParams);
+            $paginator = $this->getSearchEmployeeLicensesPaginator($employeeLicenseSearchFilterParams);
             return $paginator->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
-    /**
-     * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
-     * @return Paginator
-     */
-    private function getSearchEmployeeEmergencyContactsPaginator(
-        EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
+
+    private function getSearchEmployeeLicensesPaginator(
+        EmployeeLicenseSearchFilterParams $employeeLicenseSearchFilterParams
     ): Paginator {
-        $q = $this->createQueryBuilder(EmpEmergencyContact::class, 'eec');
-        $this->setSortingAndPaginationParams($q, $emergencyContactSearchFilterParams);
+        $q = $this->createQueryBuilder(EmployeeLicense::class, 'el');
+        $this->setSortingAndPaginationParams($q, $employeeLicenseSearchFilterParams);
 
-        if (!empty($emergencyContactSearchFilterParams->getEmpNumber())) {
-            $q->andWhere('eec.employee = :empNumber');
-            $q->setParameter('empNumber', $emergencyContactSearchFilterParams->getEmpNumber());
+        if (!empty($employeeLicenseSearchFilterParams->getEmpNumber())) {
+            $q->andWhere('el.employee = :empNumber');
+            $q->setParameter('empNumber', $employeeLicenseSearchFilterParams->getEmpNumber());
         }
-        if (!empty($emergencyContactSearchFilterParams->getName())) {
-            $q->andWhere('eec.name = :name');
-            $q->setParameter('name', $emergencyContactSearchFilterParams->getName());
-        }
-
         return $this->getPaginator($q);
     }
 
     /**
-     * @param EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
+     * @param EmployeeLicenseSearchFilterParams $employeeLicenseSearchFilterParams
      * @return int
      * @throws DaoException
      */
-    public function getSearchEmployeeEmergencyContactsCount(
-        EmpEmergencyContactSearchFilterParams $emergencyContactSearchFilterParams
+    public function getSearchEmployeeLicensesCount(
+        EmployeeLicenseSearchFilterParams $employeeLicenseSearchFilterParams
     ): int {
         try {
-            $paginator = $this->getSearchEmployeeEmergencyContactsPaginator($emergencyContactSearchFilterParams);
+            $paginator = $this->getSearchEmployeeLicensesPaginator($employeeLicenseSearchFilterParams);
             return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

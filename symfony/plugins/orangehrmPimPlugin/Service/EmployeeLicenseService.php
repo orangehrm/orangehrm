@@ -17,38 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Pim\Service;
 
-use DateTime;
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Pim\Dao\EmployeeLicenseDao;
 
-class EmployeeLicenseSearchFilterParams extends FilterParams
+class EmployeeLicenseService
 {
-    public const ALLOWED_SORT_FIELDS = ['el.licenseIssuedDate'];
+    /**
+     * @var EmployeeLicenseDao|null
+     */
+    private ?EmployeeLicenseDao $employeeLicenseDao = null;
 
     /**
-     * @var int
+     * @return EmployeeLicenseDao
      */
-    protected int $empNumber;
-
-    public function __construct()
+    public function getEmployeeLicenseDao(): EmployeeLicenseDao
     {
-        $this->setSortField('el.licenseIssuedDate');
+        if (!($this->employeeLicenseDao instanceof EmployeeLicenseDao)) {
+            $this->employeeLicenseDao = new EmployeeLicenseDao();
+        }
+        return $this->employeeLicenseDao;
     }
 
     /**
-     * @return int
+     * @param EmployeeLicenseDao $employeeLicenseDao
      */
-    public function getEmpNumber(): int
+    public function setEmployeeLicenseDao(EmployeeLicenseDao $employeeLicenseDao): void
     {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param int $empNumber
-     */
-    public function setEmpNumber(int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
+        $this->employeeLicenseDao = $employeeLicenseDao;
     }
 }

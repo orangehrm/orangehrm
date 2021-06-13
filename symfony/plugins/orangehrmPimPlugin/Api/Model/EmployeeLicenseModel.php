@@ -17,55 +17,37 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity\Decorator;
+namespace OrangeHRM\Pim\Api\Model;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\EmployeeLicense;
-use OrangeHRM\Entity\License;
-use OrangeHRM\Entity\Employee;
 
-class EmployeeLicenceDecorator
+class EmployeeLicenseModel implements Normalizable
 {
-    use EntityManagerHelperTrait;
-
-    /**
-     * @var EmployeeLicense
-     */
-    protected EmployeeLicense $employeeLicense;
+    use ModelTrait;
 
     /**
      * @param EmployeeLicense $employeeLicense
      */
     public function __construct(EmployeeLicense $employeeLicense)
     {
-        $this->employeeLicense = $employeeLicense;
-    }
-
-    /**
-     * @return EmployeeLicense
-     */
-    protected function getEmployeeLicense(): EmployeeLicense
-    {
-        return $this->employeeLicense;
-    }
-
-    /**
-     * @param int $empNumber
-     */
-    public function setEmployeeByEmpNumber(int $empNumber): void
-    {
-        /** @var Employee|null $employee */
-        $employee = $this->getReference(Employee::class, $empNumber);
-        $this->getEmployeeLicense()->setEmployee($employee);
-    }
-
-    /**
-     * @param int $licenseId
-     */
-    public function setLicenseByLicenseId(int $licenseId): void
-    {
-        /** @var License|null $license */
-        $license = $this->getReference(License::class, $licenseId);
-        $this->getEmployeeLicense()->setLicenseId($license);
+        $this->setEntity($employeeLicense);
+        $this->setFilters(
+            [
+                'yearsOfExp',
+                'comments',
+                ['getLicenseId', 'getId'],
+                ['getLicenseId', 'getName']
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'yearsOfExperience',
+                'comments',
+                ['licenseId', 'id'],
+                ['licenseId', 'name']
+            ]
+        );
     }
 }

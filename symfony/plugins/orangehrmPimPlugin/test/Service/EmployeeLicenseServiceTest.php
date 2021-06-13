@@ -17,38 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Tests\Pim\Service;
 
-use DateTime;
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Pim\Dao\EmployeeLicenseDao;
+use OrangeHRM\Pim\Service\EmployeeLicenseService;
+use OrangeHRM\Tests\Util\TestCase;
 
-class EmployeeLicenseSearchFilterParams extends FilterParams
+/**
+ * @group Pim
+ * @group Service
+ */
+class EmployeeLicenseServiceTest extends TestCase
 {
-    public const ALLOWED_SORT_FIELDS = ['el.licenseIssuedDate'];
+    private EmployeeLicenseService $employeeLicenseService;
 
-    /**
-     * @var int
-     */
-    protected int $empNumber;
-
-    public function __construct()
+    protected function setUp(): void
     {
-        $this->setSortField('el.licenseIssuedDate');
+        $this->employeeLicenseService = new EmployeeLicenseService();
     }
 
-    /**
-     * @return int
-     */
-    public function getEmpNumber(): int
-    {
-        return $this->empNumber;
+    public function testGetEmployeeLicenseDao(){
+        $this->assertTrue($this->employeeLicenseService->getEmployeeLicenseDao() instanceof EmployeeLicenseDao);
     }
 
-    /**
-     * @param int $empNumber
-     */
-    public function setEmpNumber(int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
+    public function testGetEmployeeLicenseDaoBySetter(){
+        $employeeLicenseDao = new EmployeeLicenseDao();
+        $this->employeeLicenseService->setEmployeeLicenseDao($employeeLicenseDao);
+        $this->assertTrue($this->employeeLicenseService->getEmployeeLicenseDao() instanceof EmployeeLicenseDao);
     }
 }
