@@ -51,7 +51,7 @@ class JobTitle
      *
      * @ORM\Column(name="job_description", type="string", length=400, nullable=true)
      */
-    private ?string $jobDescription;
+    private ?string $jobDescription = null;
 
     /**
      * @var string|null
@@ -65,19 +65,14 @@ class JobTitle
      *
      * @ORM\Column(name="is_deleted", type="boolean", nullable=true, options={"default":0})
      */
-    private bool $isDeleted;
+    private bool $isDeleted = false;
 
     /**
      * @var JobSpecificationAttachment|null
      *
      * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\JobSpecificationAttachment", mappedBy="jobTitle", cascade={"persist", "remove"})
      */
-    private ?JobSpecificationAttachment $jobSpecificationAttachment;
-
-    public function __construct()
-    {
-        $this->isDeleted = false;
-    }
+    private ?JobSpecificationAttachment $jobSpecificationAttachment = null;
 
     /**
      * @return int

@@ -17,12 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Serializer;
+namespace OrangeHRM\Core\Api\V2;
 
-/**
- * @deprecated
- */
-class EndpointCreateResult extends AbstractEndpointResult
+use OrangeHRM\Core\Api\V2\Serializer\AbstractEndpointResult;
+use OrangeHRM\Core\Api\V2\Serializer\CollectionNormalizable;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
+
+class EndpointCollectionResult extends AbstractEndpointResult
 {
     /**
      * @inheritDoc
@@ -30,6 +31,9 @@ class EndpointCreateResult extends AbstractEndpointResult
      */
     public function normalize(): array
     {
-        return $this->normalizeObject();
+        if (in_array(CollectionNormalizable::class, array_values(class_implements($this->modelClass)))) {
+            return $this->normalizeObject();
+        }
+        return $this->normalizeObjectsArray();
     }
 }

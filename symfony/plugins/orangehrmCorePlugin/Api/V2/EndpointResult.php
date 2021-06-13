@@ -17,19 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Serializer;
+namespace OrangeHRM\Core\Api\V2;
 
-/**
- * @deprecated
- */
-class EndpointCreateResult extends AbstractEndpointResult
+interface EndpointResult
 {
     /**
-     * @inheritDoc
-     * @throws NormalizeException
+     * Normalize object to associative array
+     * @return array
      */
-    public function normalize(): array
-    {
-        return $this->normalizeObject();
-    }
+    public function normalize(): array;
+
+    /**
+     * @return ParameterBag|null
+     */
+    public function getMeta(): ?ParameterBag;
+
+    /**
+     * @return ParameterBag|null
+     */
+    public function getRels(): ?ParameterBag;
 }
