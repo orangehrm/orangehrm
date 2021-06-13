@@ -53,9 +53,9 @@ class EmployeeSkillTest extends EntityTestCase
         $employeeSkill->setComments('comment');
         $this->persist($employeeSkill);
 
-        /** @var EmployeeSkill[] $empDependents */
-        $empDependents = $this->getRepository(EmployeeSkill::class)->findBy(['employee' => 1, 'skill' => 1]);
-        $employeeSkill = $empDependents[0];
+        /** @var EmployeeSkill[] $employeeSkills */
+        $employeeSkills = $this->getRepository(EmployeeSkill::class)->findBy(['employee' => 1, 'skill' => 1]);
+        $employeeSkill = $employeeSkills[0];
         $this->assertEquals('0001', $employeeSkill->getEmployee()->getEmployeeId());
         $this->assertEquals(1, $employeeSkill->getSkill()->getId());
         $this->assertEquals(5, $employeeSkill->getYearsOfExp());
