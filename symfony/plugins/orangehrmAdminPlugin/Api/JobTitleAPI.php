@@ -25,15 +25,13 @@ use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -87,7 +85,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $jobTitle = $this->getJobTitleService()->getJobTitleById($id);
@@ -95,7 +93,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
             throw new RecordNotFoundException();
         }
 
-        return new EndpointGetOneResult(JobTitleModel::class, $jobTitle);
+        return new EndpointResourceResult(JobTitleModel::class, $jobTitle);
     }
 
     /**
@@ -111,7 +109,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointResult
     {
         $jobTitleSearchFilterParams = new JobTitleSearchFilterParams();
         $this->setSortingAndPaginationParams($jobTitleSearchFilterParams);
@@ -126,7 +124,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
         $count = $this->getJobTitleService()->getJobTitleDao()->getJobTitlesCount($jobTitleSearchFilterParams);
 
         $jobTitles = $this->getJobTitleService()->getJobTitleDao()->getJobTitles($jobTitleSearchFilterParams);
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             JobTitleModel::class,
             $jobTitles,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
@@ -150,7 +148,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResult
     {
         // TODO:: Check data group permission
         $jobTitle = new JobTitle();
@@ -163,7 +161,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
 
         $jobTitle = $this->getJobTitleService()->saveJobTitle($jobTitle);
 
-        return new EndpointCreateResult(JobTitleModel::class, $jobTitle);
+        return new EndpointResourceResult(JobTitleModel::class, $jobTitle);
     }
 
     /**
@@ -280,7 +278,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResult
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
@@ -322,7 +320,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
 
         $this->getJobTitleService()->saveJobTitle($jobTitle);
 
-        return new EndpointUpdateResult(JobTitleModel::class, $jobTitle);
+        return new EndpointResourceResult(JobTitleModel::class, $jobTitle);
     }
 
     /**
@@ -374,11 +372,11 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getJobTitleService()->deleteJobTitle($ids);
-        return new EndpointDeleteResult(ArrayModel::class, $ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
