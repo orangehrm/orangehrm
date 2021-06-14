@@ -33,7 +33,7 @@ class EmployeeEducationTest extends EntityTestCase
         TestDataService::truncateSpecificTables([EmployeeEducation::class, Employee::class, Education::class]);
     }
 
-    public function testEmpDependentEntity(): void
+    public function testEmployeeEducationEntity(): void
     {
         $employee = new Employee();
         $employee->setFirstName('Kayla');

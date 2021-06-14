@@ -432,7 +432,7 @@ class Employee
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeEducation", mappedBy="employee")
      */
-    private $education;
+    private $educations;
 
     /**
      * @var Collection
@@ -562,7 +562,7 @@ class Employee
         $this->emergencyContacts = new ArrayCollection();
         $this->immigrationRecords = new ArrayCollection();
         $this->workExperience = new ArrayCollection();
-        $this->education = new ArrayCollection();
+        $this->educations = new ArrayCollection();
         $this->skills = new ArrayCollection();
         $this->languages = new ArrayCollection();
         $this->licenses = new ArrayCollection();
