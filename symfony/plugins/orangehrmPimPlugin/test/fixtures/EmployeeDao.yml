@@ -49,15 +49,6 @@ EmpWorkExperience:
   0: {emp_number: '1', eexp_seqno: '1', eexp_employer: 'OrangeHRM', eexp_jobtit: 'SE', eexp_from_date: '2005-04-03', eexp_to_date: '2010-04-04', eexp_comments: 'Worked Hard', eexp_internal: '2'}
   1: {emp_number: '1', eexp_seqno: '2', eexp_employer: 'IFS', eexp_jobtit: 'Architect', eexp_from_date: '2006-04-03', eexp_to_date: '2011-04-04', eexp_comments: 'Worked', eexp_internal: '3'}
 
-Education:
-  0: {id: 1, name: 'MTR, ENG'}
-  1: {id: 2, name: 'Pera, ENG1'}
-
-EmployeeEducation:
-  0: {id: 1, empNumber: '1', educationId: 1, major: 'ENG', year: '2007', score: '3.7', startDate: '2006-03-04', endDate: '2010-03-05'}
-  1: {id: 2, empNumber: '1', educationId: 2, major: 'ENG1', year: '2008', score: '4', startDate: '2007-03-04', endDate: '2011-03-05'}
-  2: {id: 3, empNumber: '2', educationId: 1, major: 'ENG1', year: '2008', score: '4', startDate: '2007-03-04', endDate: '2011-03-05'}
-
 Skill:
   0: {id: 1, name: 'good', description: 'good work'}
   1: {id: 2, name: 'better', description: 'better work'}
