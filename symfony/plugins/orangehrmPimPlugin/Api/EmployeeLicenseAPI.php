@@ -218,6 +218,8 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_LICENSE_NO_MAX_LENGTH]),
             ),
+            new ParamRule(self::PARAMETER_LICENSE_ISSUED_DATE),
+            new ParamRule(self::PARAMETER_LICENSE_EXPIRED_DATE),
         ];
     }
 

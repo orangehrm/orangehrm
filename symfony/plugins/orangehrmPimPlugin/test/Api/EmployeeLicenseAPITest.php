@@ -195,8 +195,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                 RequestParams::PARAM_TYPE_BODY => [
                     EmployeeLicenseAPI::PARAMETER_LICENSE_ID => 1,
                     EmployeeLicenseAPI::PARAMETER_LICENSE_NO => '05',
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => new DateTime('2019-07-19'),
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => new DateTime('2020-07-19'),
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => '2019-05-19',
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => '2020-05-19',
                 ]
             ]
         )->onlyMethods(['getEmployeeLicenseService'])
@@ -209,8 +209,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
         $this->assertEquals(
             [
                 'licenseNo' => '05',
-                'licenseIssuedDate' => new DateTime('2019-07-19'),
-                'licenseExpiryDate' => new DateTime('2020-07-19'),
+                'licenseIssuedDate' => new DateTime('2019-05-19'),
+                'licenseExpiryDate' => new DateTime('2020-05-19'),
                 "licenseId" => [
                     "id" => 1,
                     "name" => "CIMA"
@@ -255,7 +255,6 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
                     CommonParams::PARAMETER_ID => 1,
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_ID => 1,
                     EmployeeLicenseAPI::PARAMETER_LICENSE_NO => '02',
                     EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => '2019-05-19',
                     EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => '2020-05-19',
@@ -411,8 +410,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                 RequestParams::PARAM_TYPE_BODY => [
                     EmployeeLicenseAPI::PARAMETER_LICENSE_ID => 1,
                     EmployeeLicenseAPI::PARAMETER_LICENSE_NO => '02',
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => new DateTime('2019-05-19'),
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => new DateTime('2020-05-19'),
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => '2019-05-19',
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => '2020-05-19',
                 ]
             ]
         )->onlyMethods(['getEmployeeLicenseService'])
@@ -472,8 +471,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
                     EmployeeLicenseAPI::PARAMETER_LICENSE_ID => 1,
                     EmployeeLicenseAPI::PARAMETER_LICENSE_NO => '05',
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => new DateTime('2019-07-19'),
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => new DateTime('2020-07-19'),
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => '2019-07-19',
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => '2020-07-19',
                 ],
                 $rules
             )
@@ -534,8 +533,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                 ],
                 RequestParams::PARAM_TYPE_BODY => [
                     EmployeeLicenseAPI::PARAMETER_LICENSE_NO => '02',
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => new DateTime('2019-05-19'),
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => new DateTime('2020-05-19'),
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => '2019-05-19',
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => '2020-05-19',
                 ]
             ]
         )->onlyMethods(['getEmployeeLicenseService'])
@@ -606,8 +605,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
                     EmployeeLicenseAPI::PARAMETER_LICENSE_NO => '02',
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => new DateTime('2019-05-19'),
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => new DateTime('2020-05-19'),
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => '2019-05-19',
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => '2020-05-19',
                 ],
                 $rules
             )
