@@ -48,17 +48,17 @@ class EmployeeLicenseTest extends EntityTestCase
 
         $employeeLicense = new EmployeeLicense();
         $employeeLicense->setEmployee($employee);
-        $employeeLicense->setLicenseId($license);
+        $employeeLicense->setLicense($license);
         $employeeLicense->setLicenseNo('no1');
         $employeeLicense->setLicenseIssuedDate(new DateTime('2019-05-23'));
         $employeeLicense->setLicenseExpiryDate(new DateTime('2020-05-23'));
         $this->persist($employeeLicense);
 
         /** @var EmployeeLicense[] $employeeLicenses */
-        $employeeLicenses = $this->getRepository(EmployeeLicense::class)->findBy(['employee' => 1, 'licenseId' => 1]);
+        $employeeLicenses = $this->getRepository(EmployeeLicense::class)->findBy(['employee' => 1, 'license' => 1]);
         $employeeLicense = $employeeLicenses[0];
         $this->assertEquals('0001', $employeeLicense->getEmployee()->getEmployeeId());
-        $this->assertEquals(1, $employeeLicense->getLicenseId()->getId());
+        $this->assertEquals(1, $employeeLicense->getLicense()->getId());
         $this->assertEquals('no1', $employeeLicense->getLicenseNo());
         $this->assertEquals('2019-05-23', $employeeLicense->getLicenseIssuedDate()->format('Y-m-d'));
         $this->assertEquals('2020-05-23', $employeeLicense->getLicenseExpiryDate()->format('Y-m-d'));

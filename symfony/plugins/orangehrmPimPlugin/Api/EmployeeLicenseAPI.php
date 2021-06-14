@@ -47,7 +47,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_LICENSE_ID = 'licenseId';
     public const PARAMETER_LICENSE_NO = 'licenseNo';
     public const PARAMETER_LICENSE_ISSUED_DATE = 'issuedDate';
-    public const PARAMETER_LICENSE_EXPIRED_DATE = 'expiredDate';
+    public const PARAMETER_LICENSE_EXPIRED_DATE = 'expiryDate';
 
     public const FILTER_LICENSE_NO = 'licenseNo';
 
@@ -171,8 +171,12 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             $this->getEmpNumberRule(),
             new ParamRule(self::FILTER_LICENSE_NO),
-            new ParamRule(self::PARAMETER_LICENSE_ISSUED_DATE),
-            new ParamRule(self::PARAMETER_LICENSE_EXPIRED_DATE),
+            new ParamRule(self::PARAMETER_LICENSE_ISSUED_DATE,
+                new Rule(Rules::API_DATE)
+            ),
+            new ParamRule(self::PARAMETER_LICENSE_EXPIRED_DATE,
+                new Rule(Rules::API_DATE)
+            ),
             ...$this->getSortingAndPaginationParamsRules(EmployeeLicenseSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -218,8 +222,12 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_LICENSE_NO_MAX_LENGTH]),
             ),
-            new ParamRule(self::PARAMETER_LICENSE_ISSUED_DATE),
-            new ParamRule(self::PARAMETER_LICENSE_EXPIRED_DATE),
+            new ParamRule(self::PARAMETER_LICENSE_ISSUED_DATE,
+                new Rule(Rules::API_DATE)
+            ),
+            new ParamRule(self::PARAMETER_LICENSE_EXPIRED_DATE,
+                new Rule(Rules::API_DATE)
+            ),
         ];
     }
 
@@ -311,11 +319,12 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        if ($licenseId) {
+        if (!empty($licenseId)) {
+            $id = $licenseId;
+        }
             $employeeLicense = $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->getEmployeeLicense($empNumber,
                 $id);
-            $this->throwRecordNotFoundExceptionIfNotExist($employeeLicense, EmployeeLicense::class);
-        } else {
+        if ($employeeLicense == null) {
             $employeeLicense = new EmployeeLicense();
             $employeeLicense->getDecorator()->setEmployeeByEmpNumber($empNumber);
             $employeeLicense->getDecorator()->setLicenseByLicenseId($id);

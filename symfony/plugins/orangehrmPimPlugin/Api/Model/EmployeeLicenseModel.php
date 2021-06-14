@@ -36,19 +36,19 @@ class EmployeeLicenseModel implements Normalizable
         $this->setFilters(
             [
                 'licenseNo',
-                'licenseIssuedDate',
-                'licenseExpiryDate',
-                ['getLicenseId', 'getId'],
-                ['getLicenseId', 'getName']
+                ['getDecorator', 'getLicenseIssuedDate'],
+                ['getDecorator', 'getLicenseExpiryDate'],
+                ['getLicense', 'getId'],
+                ['getLicense', 'getName']
             ]
         );
         $this->setAttributeNames(
             [
                 'licenseNo',
-                'licenseIssuedDate',
-                'licenseExpiryDate',
-                ['licenseId', 'id'],
-                ['licenseId', 'name']
+                'issuedDate',
+                'expiryDate',
+                ['license', 'id'],
+                ['license', 'name']
             ]
         );
     }

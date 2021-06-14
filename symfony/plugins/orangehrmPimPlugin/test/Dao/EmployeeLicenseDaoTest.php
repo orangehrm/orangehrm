@@ -90,7 +90,7 @@ class EmployeeLicenseDaoTest extends TestCase
         $employeeLicense->getDecorator()->setEmployeeByEmpNumber(3);
         $employeeLicense->setLicenseNo('05');
         $employeeLicense->setLicenseIssuedDate(new DateTime('2020-05-23'));
-        $employeeLicense->setLicenseExpiryDate(new DateTime('2021-05-23'));
+        $employeeLicense->setLicenseExpiryDate(new DateTime('2020-05-23'));
         $result = $this->employeeLicenseDao->saveEmployeeLicense($employeeLicense);
         $this->assertTrue($result instanceof EmployeeLicense);
         $this->assertEquals("05", $result->getLicenseNo());

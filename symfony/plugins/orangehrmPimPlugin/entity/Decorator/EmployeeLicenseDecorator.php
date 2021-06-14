@@ -19,14 +19,17 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use DateTime;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\EmployeeLicense;
 use OrangeHRM\Entity\License;
 use OrangeHRM\Entity\Employee;
 
-class EmployeeLicenceDecorator
+class EmployeeLicenseDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var EmployeeLicense
@@ -66,6 +69,21 @@ class EmployeeLicenceDecorator
     {
         /** @var License|null $license */
         $license = $this->getReference(License::class, $licenseId);
-        $this->getEmployeeLicense()->setLicenseId($license);
+        $this->getEmployeeLicense()->setLicense($license);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLicenseIssuedDate(): ?string
+    {
+        $date = $this->getEmployeeLicense() -> getLicenseIssuedDate();
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+    }
+
+    public function getLicenseExpiryDate(): ?string
+    {
+        $date = $this->getEmployeeLicense() -> getLicenseExpiryDate();
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
     }
 }

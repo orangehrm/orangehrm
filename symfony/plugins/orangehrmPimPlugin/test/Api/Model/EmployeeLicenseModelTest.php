@@ -36,9 +36,11 @@ class EmployeeLicenseModelTest extends TestCase
     {
         $resultArray = [
             'licenseNo' => '02',
-            'licenseIssuedDate' => new DateTime('2019-05-19'),
-            'licenseExpiryDate'=> new DateTime('2020-05-19'),
-            "licenseId" => [
+            'Decorator' =>[
+                'licenseIssuedDate' => '2019-05-19',
+                'licenseExpiryDate'=> '2020-05-19'
+            ],
+            "license" => [
                 "id" => 1,
                 "name" => "CIMA"
             ]
@@ -58,10 +60,10 @@ class EmployeeLicenseModelTest extends TestCase
 
         $employeeLicense = new EmployeeLicense();
         $employeeLicense->setEmployee($employee);
-        $employeeLicense->setLicenseId($license);
+        $employeeLicense->setLicense($license);
         $employeeLicense->setLicenseNo('02');
-        $employeeLicense->setLicenseIssuedDate(new DateTime('2019-05-19'));
-        $employeeLicense->setLicenseExpiryDate(new DateTime('2020-05-19'));
+        $employeeLicense->getDecorator()->setLicenseIssuedDate(new DateTime('2019-05-19'));
+        $employeeLicense->getDecorator()->setLicenseExpiryDate(new DateTime('2020-05-19'));
 
         $employeeModel = new EmployeeLicenseModel($employeeLicense);
 

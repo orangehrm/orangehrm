@@ -61,7 +61,7 @@ class EmployeeLicenseAPITest extends EndpointTestCase
 
         $employeeLicense = new EmployeeLicense();
         $employeeLicense->setEmployee($employee);
-        $employeeLicense->setLicenseId($license);
+        $employeeLicense->setLicense($license);
         $employeeLicense->setLicenseNo('02');
         $employeeLicense->setLicenseIssuedDate(new DateTime('2019-05-19'));
         $employeeLicense->setLicenseExpiryDate(new DateTime('2020-05-19'));
@@ -100,7 +100,7 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                 'licenseNo' => '02',
                 'licenseIssuedDate' => new DateTime('2019-05-19'),
                 'licenseExpiryDate' => new DateTime('2020-05-19'),
-                "licenseId" => [
+                "license" => [
                     "id" => 1,
                     "name" => "CIMA"
                 ]
@@ -161,7 +161,7 @@ class EmployeeLicenseAPITest extends EndpointTestCase
         $license->setName('CIMA');
         $employeeLicense = new EmployeeLicense();
         $employeeLicense->setEmployee($employee);
-        $employeeLicense->setLicenseId($license);
+        $employeeLicense->setLicense($license);
         $employeeLicense->setLicenseNo('02');
         $employeeLicense->setLicenseIssuedDate(new DateTime('2019-05-19'));
         $employeeLicense->setLicenseExpiryDate(new DateTime('2020-05-19'));
@@ -211,7 +211,7 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                 'licenseNo' => '05',
                 'licenseIssuedDate' => new DateTime('2019-05-19'),
                 'licenseExpiryDate' => new DateTime('2020-05-19'),
-                "licenseId" => [
+                "license" => [
                     "id" => 1,
                     "name" => "CIMA"
                 ]
@@ -278,7 +278,7 @@ class EmployeeLicenseAPITest extends EndpointTestCase
         $license->setName('CIMA');
         $employeeLicense = new EmployeeLicense();
         $employeeLicense->setEmployee($employee);
-        $employeeLicense->setLicenseId($license);
+        $employeeLicense->setLicense($license);
         $employeeLicense->setLicenseNo('02');
         $employeeLicense->setLicenseIssuedDate(new DateTime('2019-05-19'));
         $employeeLicense->setLicenseExpiryDate(new DateTime('2020-05-19'));
@@ -377,7 +377,7 @@ class EmployeeLicenseAPITest extends EndpointTestCase
         $License->setName('CIMA');
         $employeeLicense = new EmployeeLicense();
         $employeeLicense->setEmployee($employee);
-        $employeeLicense->setLicenseId($License);
+        $employeeLicense->setLicense($License);
         $employeeLicense->setLicenseNo('02');
         $employeeLicense->setLicenseIssuedDate(new DateTime('2019-05-19'));
         $employeeLicense->setLicenseExpiryDate(new DateTime('2020-05-19'));
@@ -409,9 +409,9 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                 ],
                 RequestParams::PARAM_TYPE_BODY => [
                     EmployeeLicenseAPI::PARAMETER_LICENSE_ID => 1,
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_NO => '02',
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => '2019-05-19',
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => '2020-05-19',
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_NO => '05',
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => '2019-07-19',
+                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => '2020-07-19',
                 ]
             ]
         )->onlyMethods(['getEmployeeLicenseService'])
@@ -426,7 +426,7 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                 'licenseNo' => '05',
                 'licenseIssuedDate' => new DateTime('2019-07-19'),
                 'licenseExpiryDate' => new DateTime('2020-07-19'),
-                "licenseId" => [
+                "license" => [
                     "id" => 1,
                     "name" => "CIMA"
                 ]
@@ -496,14 +496,14 @@ class EmployeeLicenseAPITest extends EndpointTestCase
         $license2->setName('CCNA');
         $employeeLicense1 = new EmployeeLicense();
         $employeeLicense1->setEmployee($employee);
-        $employeeLicense1->setLicenseId($license1);
+        $employeeLicense1->setLicense($license1);
         $employeeLicense1->setLicenseNo('02');
         $employeeLicense1->setLicenseIssuedDate(new DateTime('2019-05-19'));
         $employeeLicense1->setLicenseExpiryDate(new DateTime('2020-05-19'));
 
         $employeeLicense2 = new EmployeeLicense();
         $employeeLicense2->setEmployee($employee);
-        $employeeLicense2->setLicenseId($license2);
+        $employeeLicense2->setLicense($license2);
         $employeeLicense2->setLicenseNo('02');
         $employeeLicense2->setLicenseIssuedDate(new DateTime('2019-05-19'));
         $employeeLicense2->setLicenseExpiryDate(new DateTime('2020-05-19'));
@@ -550,7 +550,7 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                     'licenseNo' => '02',
                     'licenseIssuedDate' => new DateTime('2019-05-19'),
                     'licenseExpiryDate' => new DateTime('2020-05-19'),
-                    "licenseId" => [
+                    "license" => [
                         "id" => 1,
                         "name" => "CIMA"
                     ]
@@ -559,7 +559,7 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                     'licenseNo' => '02',
                     'licenseIssuedDate' => new DateTime('2019-05-19'),
                     'licenseExpiryDate' => new DateTime('2020-05-19'),
-                    "licenseId" => [
+                    "license" => [
                         "id" => 2,
                         "name" => "CCNA"
                     ]

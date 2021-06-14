@@ -55,7 +55,7 @@ class EmployeeLicenseDao extends BaseDao
         try {
             $employeeLicense = $this->getRepository(EmployeeLicense::class)->findOneBy([
                 'employee' => $empNumber,
-                'licenseId' => $licenseId,
+                'license' => $licenseId,
             ]);
             if ($employeeLicense instanceof EmployeeLicense) {
                 return $employeeLicense;
@@ -79,7 +79,7 @@ class EmployeeLicenseDao extends BaseDao
             $q->delete()
                 ->where('el.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber);
-            $q->andWhere($q->expr()->in('el.licenseId', ':ids'))
+            $q->andWhere($q->expr()->in('el.license', ':ids'))
                 ->setParameter('ids', $entriesToDelete);
             return $q->getQuery()->execute();
         } catch (Exception $e) {

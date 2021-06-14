@@ -22,10 +22,10 @@ namespace OrangeHRM\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
-use OrangeHRM\Entity\Decorator\EmployeeLicenceDecorator;
+use OrangeHRM\Entity\Decorator\EmployeeLicenseDecorator;
 
 /**
- * @method EmployeeLicenceDecorator getDecorator()
+ * @method EmployeelicenseDecorator getDecorator()
  *
  * @ORM\Table(name="ohrm_emp_license")
  * @ORM\Entity
@@ -41,7 +41,7 @@ class EmployeeLicense
      * @ORM\Id
      * @ORM\JoinColumn(name="license_id", referencedColumnName="id")
      */
-    private License $licenseId;
+    private License $license;
 
     /**
      * @var string|null
@@ -74,19 +74,19 @@ class EmployeeLicense
     private Employee $employee;
 
     /**
-     * @return License|null
+     * @return License
      */
-    public function getLicenseId(): ?License
+    public function getLicense(): License
     {
-        return $this->licenseId;
+        return $this->license;
     }
 
     /**
-     * @param License $licenseId
+     * @param License $license
      */
-    public function setLicenseId(License $licenseId): void
+    public function setLicense(License $license): void
     {
-        $this->licenseId = $licenseId;
+        $this->license = $license;
     }
 
     /**
