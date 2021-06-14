@@ -24,6 +24,7 @@ use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeLicense;
 use OrangeHRM\Entity\License;
@@ -79,6 +80,13 @@ class EmployeeLicenseAPITest extends EndpointTestCase
             ->method('getEmployeeLicenseDao')
             ->willReturn($employeeLicenseDao);
 
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => $employeeLicenseService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
         /** @var MockObject&EmployeeLicenseAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             EmployeeLicenseAPI::class,
@@ -98,8 +106,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
         $this->assertEquals(
             [
                 'licenseNo' => '02',
-                'licenseIssuedDate' => new DateTime('2019-05-19'),
-                'licenseExpiryDate' => new DateTime('2020-05-19'),
+                'issuedDate' => '2019-05-19',
+                'expiryDate' => '2020-05-19',
                 "license" => [
                     "id" => 1,
                     "name" => "CIMA"
@@ -184,6 +192,13 @@ class EmployeeLicenseAPITest extends EndpointTestCase
             ->method('getEmployeeLicenseDao')
             ->willReturn($employeeLicenseDao);
 
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => $employeeLicenseService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
         /** @var MockObject&EmployeeLicenseAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             EmployeeLicenseAPI::class,
@@ -209,8 +224,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
         $this->assertEquals(
             [
                 'licenseNo' => '05',
-                'licenseIssuedDate' => new DateTime('2019-05-19'),
-                'licenseExpiryDate' => new DateTime('2020-05-19'),
+                'issuedDate' => '2019-05-19',
+                'expiryDate' => '2020-05-19',
                 "license" => [
                     "id" => 1,
                     "name" => "CIMA"
@@ -396,6 +411,13 @@ class EmployeeLicenseAPITest extends EndpointTestCase
             ->onlyMethods(['getEmployeeLicenseDao'])
             ->getMock();
 
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => $employeeLicenseService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
         $employeeLicenseService->expects($this->exactly(2))
             ->method('getEmployeeLicenseDao')
             ->willReturn($employeeLicenseDao);
@@ -424,8 +446,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
         $this->assertEquals(
             [
                 'licenseNo' => '05',
-                'licenseIssuedDate' => new DateTime('2019-07-19'),
-                'licenseExpiryDate' => new DateTime('2020-07-19'),
+                'issuedDate' => '2019-07-19',
+                'expiryDate' => '2020-07-19',
                 "license" => [
                     "id" => 1,
                     "name" => "CIMA"
@@ -524,6 +546,13 @@ class EmployeeLicenseAPITest extends EndpointTestCase
             ->method('getEmployeeLicenseDao')
             ->willReturn($employeeLicenseDao);
 
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => $employeeLicenseService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
         /** @var MockObject&EmployeeLicenseAPI $api */
         $api = $this->getApiEndpointMockBuilder(
             EmployeeLicenseAPI::class,
@@ -548,8 +577,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
             [
                 [
                     'licenseNo' => '02',
-                    'licenseIssuedDate' => new DateTime('2019-05-19'),
-                    'licenseExpiryDate' => new DateTime('2020-05-19'),
+                    'issuedDate' => '2019-05-19',
+                    'expiryDate' => '2020-05-19',
                     "license" => [
                         "id" => 1,
                         "name" => "CIMA"
@@ -557,8 +586,8 @@ class EmployeeLicenseAPITest extends EndpointTestCase
                 ],
                 [
                     'licenseNo' => '02',
-                    'licenseIssuedDate' => new DateTime('2019-05-19'),
-                    'licenseExpiryDate' => new DateTime('2020-05-19'),
+                    'issuedDate' => '2019-05-19',
+                    'expiryDate' => '2020-05-19',
                     "license" => [
                         "id" => 2,
                         "name" => "CCNA"

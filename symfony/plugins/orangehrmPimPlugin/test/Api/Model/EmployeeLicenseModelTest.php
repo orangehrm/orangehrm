@@ -20,26 +20,26 @@
 namespace OrangeHRM\Tests\Pim\Api\Model;
 
 use DateTime;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeLicense;
 use OrangeHRM\Entity\License;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\Model\EmployeeLicenseModel;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
  * @group Pim
  * @group Model
  */
-class EmployeeLicenseModelTest extends TestCase
+class EmployeeLicenseModelTest extends KernelTestCase
 {
     public function testToArray()
     {
         $resultArray = [
             'licenseNo' => '02',
-            'Decorator' =>[
-                'licenseIssuedDate' => '2019-05-19',
-                'licenseExpiryDate'=> '2020-05-19'
-            ],
+            'issuedDate' => '2019-05-19',
+            'expiryDate' => '2020-05-19',
             "license" => [
                 "id" => 1,
                 "name" => "CIMA"
@@ -62,11 +62,15 @@ class EmployeeLicenseModelTest extends TestCase
         $employeeLicense->setEmployee($employee);
         $employeeLicense->setLicense($license);
         $employeeLicense->setLicenseNo('02');
-        $employeeLicense->getDecorator()->setLicenseIssuedDate(new DateTime('2019-05-19'));
-        $employeeLicense->getDecorator()->setLicenseExpiryDate(new DateTime('2020-05-19'));
+        $employeeLicense->setLicenseIssuedDate(new DateTime('2019-05-19'));
+        $employeeLicense->setLicenseExpiryDate(new DateTime('2020-05-19'));
 
         $employeeModel = new EmployeeLicenseModel($employeeLicense);
-
+        $this->createKernelWithMockServices(
+            [
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
         $this->assertEquals($resultArray, $employeeModel->toArray());
     }
 }
