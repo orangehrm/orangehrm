@@ -337,18 +337,18 @@ class NationalityAPITest extends EndpointTestCase
             ->getMock();
 
 
-        $skill1 = new Nationality();
-        $skill1->setId(1);
-        $skill1->setName('Sri Lankan');
+        $nationality1 = new Nationality();
+        $nationality1->setId(1);
+        $nationality1->setName('Sri Lankan');
 
-        $skill2 = new Nationality();
-        $skill2->setId(2);
-        $skill2->setName('Indian');
+        $nationality2 = new Nationality();
+        $nationality2->setId(2);
+        $nationality2->setName('Indian');
 
 
         $nationalityDao->expects($this->exactly(1))
             ->method('getNationalityList')
-            ->willReturn([$skill1, $skill2]);
+            ->willReturn([$nationality1, $nationality2]);
 
         $nationalityDao->expects($this->exactly(1))
             ->method('getNationalityCount')
