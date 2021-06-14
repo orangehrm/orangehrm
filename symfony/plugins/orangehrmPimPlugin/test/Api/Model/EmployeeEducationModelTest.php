@@ -27,14 +27,14 @@ use OrangeHRM\Entity\Education;
 use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\Model\EmployeeEducationModel;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use DateTime;
 
 /**
  * @group Pim
  * @group Model
  */
-class EmployeeEducationModelTest extends TestCase
+class EmployeeEducationModelTest extends KernelTestCase
 {
     use ServiceContainerTrait;
 
@@ -86,31 +86,4 @@ class EmployeeEducationModelTest extends TestCase
 
         $this->assertEquals($resultArray, $employeeModel->toArray());
     }
-
-    /**
-     * @return Framework
-     */
-    protected function createKernel(): Framework
-    {
-        $this->getContainer()->reset();
-        return $this->getMockBuilder(Framework::class)
-            ->onlyMethods(['handle'])
-            ->setConstructorArgs(['test', true])
-            ->getMock();
-    }
-
-    /**
-     * @param array $services
-     * @return Framework
-     */
-    protected function createKernelWithMockServices(array $services = []): Framework
-    {
-        $kernel = $this->createKernel();
-
-        foreach ($services as $id => $service) {
-            $this->getContainer()->set($id, $service);
-        }
-        return $kernel;
-    }
-
 }

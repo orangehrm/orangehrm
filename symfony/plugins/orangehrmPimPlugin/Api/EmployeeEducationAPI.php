@@ -19,12 +19,10 @@
 
 namespace OrangeHRM\Pim\Api;
 
-use DateTime;
 use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -52,11 +50,6 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_SCORE = 'score';
     public const PARAMETER_START_DATE = 'startDate';
     public const PARAMETER_END_DATE = 'endDate';
-
-    public const FILTER_INSTITUTE = 'institute';
-    public const FILTER_MAJOR = 'major';
-    public const FILTER_YEAR = 'year';
-    public const FILTER_SCORE = 'score';
 
     public const PARAM_RULE_INSTITUTE_MAX_LENGTH = 100;
     public const PARAM_RULE_MAJOR_MAX_LENGTH = 100;
@@ -88,9 +81,7 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetOneResult
-     * @throws RecordNotFoundException
-     * @throws Exception
+     * @inheritDoc
      */
     public function getOne(): EndpointGetOneResult
     {
@@ -134,30 +125,6 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     {
         $employeeEducationSearchParams = new EmployeeEducationSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeEducationSearchParams);
-        $employeeEducationSearchParams->setInstitute(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_INSTITUTE
-            )
-        );
-        $employeeEducationSearchParams->setMajor(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_MAJOR
-            )
-        );
-        $employeeEducationSearchParams->setYear(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_YEAR
-            )
-        );
-        $employeeEducationSearchParams->setScore(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_SCORE
-            )
-        );
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
@@ -192,11 +159,6 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getEmpNumberRule(),
-            new ParamRule(self::FILTER_INSTITUTE),
-            new ParamRule(self::FILTER_MAJOR),
-            new ParamRule(self::FILTER_YEAR),
-            new ParamRule(self::FILTER_SCORE),
-            ...$this->getSortingAndPaginationParamsRules(EmployeeEducationSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -212,7 +174,6 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeEducation->getEmployee()->getEmpNumber(),
-                    self::PARAMETER_EDUCATION_ID => $employeeEducation->getEducation()->getId()
                 ]
             )
         );
@@ -224,7 +185,7 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_EDUCATION_ID, new Rule(Rules::REQUIRED)),
+            new ParamRule(self::PARAMETER_EDUCATION_ID, new Rule(Rules::REQUIRED), new Rule(Rules::POSITIVE)),
             $this->getEmpNumberRule(),
             ...$this->getCommonBodyValidationRules(),
         );
@@ -292,7 +253,7 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED)),
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED), new Rule(Rules::POSITIVE)),
             $this->getEmpNumberRule(),
             ...$this->getCommonBodyValidationRules(),
         );

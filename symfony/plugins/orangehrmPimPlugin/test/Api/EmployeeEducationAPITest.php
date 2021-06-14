@@ -610,12 +610,6 @@ class EmployeeEducationAPITest extends EndpointTestCase
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                ],
-                RequestParams::PARAM_TYPE_BODY => [
-                    EmployeeEducationAPI::FILTER_SCORE => "First Class",
-                    EmployeeEducationAPI::FILTER_YEAR => 2020,
-                    EmployeeEducationAPI::FILTER_INSTITUTE => 'UoM',
-                    EmployeeEducationAPI::FILTER_MAJOR => 'CSE'
                 ]
             ]
         )->onlyMethods(['getEmployeeEducationService'])
@@ -692,11 +686,7 @@ class EmployeeEducationAPITest extends EndpointTestCase
         $this->assertTrue(
             $this->validate(
                 [
-                    CommonParams::PARAMETER_EMP_NUMBER => 1,
-                    EmployeeEducationAPI::FILTER_SCORE => "First Class",
-                    EmployeeEducationAPI::FILTER_YEAR => 2020,
-                    EmployeeEducationAPI::FILTER_INSTITUTE => 'UoM',
-                    EmployeeEducationAPI::FILTER_MAJOR => 'CSE'
+                    CommonParams::PARAMETER_EMP_NUMBER => 1
                 ],
                 $rules
             )

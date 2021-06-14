@@ -77,11 +77,11 @@ class EmployeeEducationDao extends BaseDao
     {
         try {
             $q = $this->createQueryBuilder(EmployeeEducation::class, 'ee');
-            $q->delete(EmployeeEducation::class, 'ee')
+            $q->delete()
                 ->andWhere('ee.employee = :empNumber')
+                ->setParameter('empNumber', $empNumber)
                 ->andWhere($q->expr()->in('ee.education', ':ids'))
-                ->setParameter('ids', $toDeleteIds)
-                ->setParameter('empNumber', $empNumber);
+                ->setParameter('ids', $toDeleteIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -117,22 +117,6 @@ class EmployeeEducationDao extends BaseDao
 
         $q->andWhere('ee.employee = :empNumber')
             ->setParameter('empNumber', $employeeEducationSearchParams->getEmpNumber());
-        if (!empty($employeeEducationSearchParams->getYear())) {
-            $q->andWhere('ee.year = :year');
-            $q->setParameter('year', $employeeEducationSearchParams->getYear());
-        }
-        if (!empty($employeeEducationSearchParams->getScore())) {
-            $q->andWhere('ee.score = :score');
-            $q->setParameter('score', $employeeEducationSearchParams->getScore());
-        }
-        if (!empty($employeeEducationSearchParams->getInstitute())) {
-            $q->andWhere('ee.institute = :institute');
-            $q->setParameter('institute', $employeeEducationSearchParams->getInstitute());
-        }
-        if (!empty($employeeEducationSearchParams->getMajor())) {
-            $q->andWhere('ee.major = :major');
-            $q->setParameter('major', $employeeEducationSearchParams->getMajor());
-        }
         return $this->getPaginator($q);
     }
 

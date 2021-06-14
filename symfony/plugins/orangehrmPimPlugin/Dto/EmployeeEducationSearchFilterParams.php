@@ -23,28 +23,6 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeEducationSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['ee.year', 'ee.score', 'ee.institute', 'ee.major'];
-
-    /**
-     * @var int|null
-     */
-    protected ?int $year = null;
-
-    /**
-     * @var string|null
-     */
-    protected ?string $score = null;
-
-    /**
-     * @var string|null
-     */
-    protected ?string $institute = null;
-
-    /**
-     * @var string|null
-     */
-    protected ?string $major = null;
-
     /**
      * @var string|null
      */
@@ -72,69 +50,5 @@ class EmployeeEducationSearchFilterParams extends FilterParams
     public function setEmpNumber(?int $empNumber): void
     {
         $this->empNumber = $empNumber;
-    }
-
-    /**
-     * @return string | null
-     */
-    public function getInstitute(): ?string
-    {
-        return $this->institute;
-    }
-
-    /**
-     * @param string | null $institute
-     */
-    public function setInstitute(?string $institute): void
-    {
-        $this->institute = $institute;
-    }
-
-    /**
-     * @return string | null
-     */
-    public function getMajor(): ?string
-    {
-        return $this->major;
-    }
-
-    /**
-     * @param string | null $major
-     */
-    public function setMajor(?string $major): void
-    {
-        $this->major = $major;
-    }
-
-    /**
-     * @return int | null
-     */
-    public function getYear(): ?int
-    {
-        return $this->year;
-    }
-
-    /**
-     * @param int | null $year
-     */
-    public function setYear(?int $year): void
-    {
-        $this->year = $year;
-    }
-
-    /**
-     * @return string | null
-     */
-    public function getScore(): ?string
-    {
-        return $this->score;
-    }
-
-    /**
-     * @param string | null $score
-     */
-    public function setScore(?string $score): void
-    {
-        $this->score = $score;
     }
 }
