@@ -632,10 +632,7 @@ class EmployeeLicenseAPITest extends EndpointTestCase
         $this->assertTrue(
             $this->validate(
                 [
-                    CommonParams::PARAMETER_EMP_NUMBER => 1,
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_NO => '02',
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_ISSUED_DATE => '2019-05-19',
-                    EmployeeLicenseAPI::PARAMETER_LICENSE_EXPIRED_DATE => '2020-05-19',
+                    CommonParams::PARAMETER_EMP_NUMBER => 1
                 ],
                 $rules
             )
