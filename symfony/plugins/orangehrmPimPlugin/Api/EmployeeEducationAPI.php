@@ -159,6 +159,7 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getEmpNumberRule(),
+            ...$this->getSortingAndPaginationParamsRules(EmployeeEducationSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 

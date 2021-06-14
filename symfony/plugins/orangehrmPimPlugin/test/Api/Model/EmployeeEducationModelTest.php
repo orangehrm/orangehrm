@@ -24,7 +24,6 @@ use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeEducation;
 use OrangeHRM\Entity\Education;
-use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\Model\EmployeeEducationModel;
 use OrangeHRM\Tests\Util\KernelTestCase;

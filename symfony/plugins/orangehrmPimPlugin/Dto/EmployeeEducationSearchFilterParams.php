@@ -23,6 +23,8 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeEducationSearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = ['ee.year', 'ee.score', 'ee.institute', 'ee.major'];
+
     /**
      * @var string|null
      */
