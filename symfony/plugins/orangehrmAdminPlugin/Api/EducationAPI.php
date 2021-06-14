@@ -59,10 +59,13 @@ class EducationAPI extends EndPoint implements CrudEndpoint
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $education = $this->getEducationService()->getEducationById($id);
+
         if (!$education instanceof Education) {
             throw new RecordNotFoundException();
         }
+        $this->throwRecordNotFoundExceptionIfNotExist($education, Education::class);
         return new EndpointResourceResult(EducationModel::class, $education);
+
     }
 
     /**
@@ -191,6 +194,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)

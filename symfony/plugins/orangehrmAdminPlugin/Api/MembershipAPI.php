@@ -76,9 +76,11 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $membership = $this->getMembershipService()->getMembershipById($id);
+
         if (!$membership instanceof Membership) {
             throw new RecordNotFoundException();
         }
+        $this->throwRecordNotFoundExceptionIfNotExist($membership, Membership::class);
         return new EndpointResourceResult(MembershipModel::class, $membership);
     }
 

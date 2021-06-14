@@ -79,9 +79,12 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $license = $this->getLicenseService()->getLicenseById($id);
+
         if (!$license instanceof License) {
             throw new RecordNotFoundException();
         }
+        $this->throwRecordNotFoundExceptionIfNotExist($license, License::class);
+
         return new EndpointResourceResult(LicenseModel::class, $license);
     }
 
@@ -91,6 +94,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
@@ -194,8 +198,8 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
+
+            new ParamRule(CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
             new ParamRule(

@@ -38,6 +38,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button
             type="button"
             displayType="ghost"
@@ -93,10 +94,7 @@ export default {
           name: this.nationality.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Updated',
-          });
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();
@@ -131,9 +129,7 @@ export default {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.nationality.id
-              ? 'Already exists'
-              : true;
+            return id !== this.nationality.id ? 'Already exists' : true;
           } else {
             return true;
           }

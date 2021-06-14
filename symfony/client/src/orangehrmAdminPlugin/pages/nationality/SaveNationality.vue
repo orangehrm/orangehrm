@@ -38,6 +38,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <oxd-button
             type="button"
             displayType="ghost"
@@ -87,10 +88,7 @@ export default {
           name: this.nationality.name,
         })
         .then(() => {
-          return this.$toast.success({
-            title: 'Success',
-            message: 'Successfully Saved',
-          });
+          return this.$toast.addSuccess();
         })
         .then(() => {
           this.nationality.name = '';
