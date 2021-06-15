@@ -1,0 +1,11 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+  - { empNumber: 3, firstName: 'John', lastName: 'Wayne', middleName: '', employeeId: 'E003' }
+  - { empNumber: 4, firstName: 'Edgar', lastName: 'Allen', middleName: '', employeeId: 'E004', emp_work_email: '', emp_oth_email: '' }
+  - { empNumber: 5, firstName: 'Judie', lastName: 'Foster', middleName: '', employeeId: 'E005', emp_work_email: '', emp_oth_email: '' }
+
+EmpWorkExperience:
+  0: {emp_number: '1', eexp_seqno: '1', eexp_employer: 'OrangeHRM', eexp_jobtit: 'SE', eexp_from_date: '2005-04-03', eexp_to_date: '2010-04-04', eexp_comments: 'Worked Hard', eexp_internal: '2'}
+  1: {emp_number: '1', eexp_seqno: '2', eexp_employer: 'IFS', eexp_jobtit: 'Architect', eexp_from_date: '2006-04-03', eexp_to_date: '2011-04-04', eexp_comments: 'Worked', eexp_internal: '3'}
+
