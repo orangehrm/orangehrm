@@ -216,22 +216,30 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 self::PARAMETER_EMPLOYER,
                 new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_EMPLOYER_MAX_LENGTH]),
             ),
             new ParamRule(
                 self::PARAMETER_JOB_TITLE,
                 new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::REQUIRED),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_JOB_TITLE_MAX_LENGTH]),
             ),
-            new ParamRule(
-                self::PARAMETER_COMMENTS,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENTS_MAX_LENGTH]),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_COMMENTS,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENTS_MAX_LENGTH]),
+                ),
+                true
             ),
-            new ParamRule(
-                self::PARAMETER_INTERNAL,
-                new Rule(Rules::INT_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_INTERNAL_MAX_LENGTH]),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_INTERNAL,
+                    new Rule(Rules::INT_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_INTERNAL_MAX_LENGTH]),
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
