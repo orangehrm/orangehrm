@@ -20,20 +20,24 @@
 
 <template>
   <div>
-    <save-education
+    <save-language
       v-if="showSaveModal"
       :http="http"
+      :fluencies="fluencies"
+      :competencies="competencies"
       @close="onSaveModalClose"
-    ></save-education>
-    <edit-education
+    ></save-language>
+    <edit-language
       v-if="showEditModal"
       :http="http"
       :data="editModalState"
+      :employee-id="employeeId"
+      :competencies="competencies"
       @close="onEditModalClose"
-    ></edit-education>
+    ></edit-language>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
-        Education
+        Languages
       </profile-action-header>
     </div>
     <table-header
@@ -64,28 +68,30 @@
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
-import SaveEducation from '@/orangehrmPimPlugin/components/SaveEducation';
-import EditEducation from '@/orangehrmPimPlugin/components/EditEducation';
+import SaveLanguage from '@/orangehrmPimPlugin/components/SaveLanguage';
+import EditLanguage from '@/orangehrmPimPlugin/components/EditLanguage';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 
-const educationNormalizer = data => {
+const languageNormalizer = data => {
   return data.map(item => {
     return {
-      id: item.id,
-      level: item.education.name,
-      year: item.year,
-      score: item.score,
+      language: item.language.name,
+      languageId: item.language.id,
+      fluency: item.fluency.name,
+      fluencyId: item.fluency.id,
+      competency: item.competency.name,
+      comments: item.comment,
     };
   });
 };
 
 export default {
-  name: 'employee-education',
+  name: 'employee-languages',
 
   components: {
     'profile-action-header': ProfileActionHeader,
-    'save-education': SaveEducation,
-    'edit-education': EditEducation,
+    'save-language': SaveLanguage,
+    'edit-language': EditLanguage,
     'delete-confirmation': DeleteConfirmationDialog,
   },
 
@@ -94,12 +100,20 @@ export default {
       type: String,
       required: true,
     },
+    fluencies: {
+      type: Array,
+      required: true,
+    },
+    competencies: {
+      type: Array,
+      required: true,
+    },
   },
 
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.employeeId}/educations`,
+      `api/v2/pim/employees/${props.employeeId}/languages`,
     );
 
     const {
@@ -111,7 +125,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, educationNormalizer);
+    } = usePaginate(http, {}, languageNormalizer);
     return {
       http,
       showPaginator,
@@ -128,17 +142,10 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'level', slot: 'title', title: 'Level', style: {flex: 1}},
-        {
-          name: 'year',
-          title: 'Year',
-          style: {flex: 1},
-        },
-        {
-          name: 'score',
-          title: 'GPA/Score',
-          style: {flex: 1},
-        },
+        {name: 'language', slot: 'title', title: 'Language', style: {flex: 1}},
+        {name: 'fluency', title: 'Fluency', style: {flex: 1}},
+        {name: 'competency', title: 'Competency', style: {flex: 1}},
+        {name: 'comments', title: 'Comments', style: {flex: 1}},
         {
           name: 'actions',
           slot: 'action',
@@ -173,7 +180,10 @@ export default {
     onClickDeleteSelected() {
       if (!this.selectable) return;
       const ids = this.checkedItems.map(index => {
-        return this.items?.data[index].id;
+        return {
+          languageId: this.items?.data[index].languageId,
+          fluencyId: this.items?.data[index].fluencyId,
+        };
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -185,7 +195,12 @@ export default {
       if (!this.selectable) return;
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
-          this.deleteItems([item.id]);
+          this.deleteItems([
+            {
+              languageId: item.languageId,
+              fluencyId: item.fluencyId,
+            },
+          ]);
         }
       });
     },

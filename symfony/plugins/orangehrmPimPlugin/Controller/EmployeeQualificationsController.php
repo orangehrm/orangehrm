@@ -22,6 +22,7 @@ namespace OrangeHRM\Pim\Controller;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Entity\EmployeeLanguage;
 
 class EmployeeQualificationsController extends BaseViewEmployeeController
 {
@@ -30,7 +31,22 @@ class EmployeeQualificationsController extends BaseViewEmployeeController
         $empNumber = $request->get('empNumber');
         if ($empNumber) {
             $component = new Component('employee-qualifications');
+            $fluencies = array_map(function ($item, $index) {
+                return [
+                    "id" => $index,
+                    "label" => $item,
+                ];
+            }, EmployeeLanguage::FLUENCIES, array_keys(EmployeeLanguage::FLUENCIES));
+            $competencies = array_map(function ($item, $index) {
+                return [
+                    "id" => $index,
+                    "label" => $item,
+                ];
+            }, EmployeeLanguage::COMPETENCIES, array_keys(EmployeeLanguage::COMPETENCIES));
+
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
+            $component->addProp(new Prop('fluencies', Prop::TYPE_ARRAY, $fluencies));
+            $component->addProp(new Prop('competencies', Prop::TYPE_ARRAY, $competencies));
 
             $this->setComponent($component);
         } else {
