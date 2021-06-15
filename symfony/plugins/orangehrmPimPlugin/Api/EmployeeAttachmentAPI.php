@@ -22,14 +22,11 @@ namespace OrangeHRM\Pim\Api;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -70,13 +67,13 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         list($empNumber, $screen, $id) = $this->getUrlAttributes();
         $employeeAttachment = $this->getEmployeeAttachmentService()->getEmployeeAttachment($empNumber, $id, $screen);
         $this->throwRecordNotFoundExceptionIfNotExist($employeeAttachment, EmployeeAttachment::class);
 
-        return new EndpointGetOneResult(
+        return new EndpointResourceResult(
             EmployeeAttachmentModel::class,
             $employeeAttachment,
             new ParameterBag(
@@ -120,12 +117,12 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         list($empNumber, $screen) = $this->getUrlAttributes();
         $employeeAttachments = $this->getEmployeeAttachmentService()->getEmployeeAttachments($empNumber, $screen);
 
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             EmployeeAttachmentModel::class,
             $employeeAttachments,
             new ParameterBag(
@@ -153,7 +150,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         list($empNumber, $screen) = $this->getUrlAttributes();
         $attachment = $this->getRequestParams()->getAttachment(
@@ -173,7 +170,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
 
         $this->getEmployeeAttachmentService()->saveEmployeeAttachment($employeeAttachment);
 
-        return new EndpointCreateResult(
+        return new EndpointResourceResult(
             EmployeeAttachmentModel::class,
             $employeeAttachment,
             new ParameterBag(
@@ -270,7 +267,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         list($empNumber, $screen, $id) = $this->getUrlAttributes();
         $attachment = $this->getRequestParams()->getAttachmentOrNull(
@@ -297,7 +294,7 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
 
         $this->getEmployeeAttachmentService()->saveEmployeeAttachment($employeeAttachment);
 
-        return new EndpointUpdateResult(
+        return new EndpointResourceResult(
             EmployeeAttachmentModel::class,
             $employeeAttachment,
             new ParameterBag(
@@ -326,12 +323,12 @@ class EmployeeAttachmentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         list($empNumber, $screen) = $this->getUrlAttributes();
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeAttachmentService()->deleteEmployeeAttachments($empNumber, $screen, $ids);
-        return new EndpointDeleteResult(ArrayModel::class, $ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**

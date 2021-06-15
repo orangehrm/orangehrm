@@ -37,6 +37,7 @@ final class Rules
     public const COUNTRY_CODE = OHRMRules\CountryCode::class;
     public const CURRENCY = OHRMRules\Currency::class;
     public const API_DATE = OHRMRules\ApiDate::class;
+    public const EACH = OHRMRules\Each::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;
@@ -70,7 +71,6 @@ final class Rules
     public const DIGIT = RespectRules\Digit::class;
     public const DIRECTORY = RespectRules\Directory::class;
     public const DOMAIN = RespectRules\Domain::class;
-    public const EACH = RespectRules\Each::class;
     public const EMAIL = RespectRules\Email::class;
     public const ENDS_WITH = RespectRules\EndsWith::class;
     public const EQUALS = RespectRules\Equals::class;
@@ -188,6 +188,7 @@ final class Rules
      * Unused rules
      * @RespectRules\CountryCode::class
      * @RespectRules\CurrencyCode::class
+     * @RespectRules\Each::class
      */
 
     private function __construct()

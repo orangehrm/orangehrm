@@ -22,13 +22,10 @@ namespace OrangeHRM\Pim\Api;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -51,7 +48,7 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         list($empNumber, $id) = $this->getUrlAttributes();
         $employeeTerminationRecord = $this->getEmployeeService()
@@ -59,7 +56,7 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
             ->getEmployeeTerminationDao()->getEmployeeTermination($id);
         $this->throwRecordNotFoundExceptionIfNotExist($employeeTerminationRecord, EmployeeTerminationRecord::class);
 
-        return new EndpointGetOneResult(
+        return new EndpointResourceResult(
             EmployeeTerminationModel::class, $employeeTerminationRecord,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
@@ -101,7 +98,7 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         throw $this->getNotImplementedException();
     }
@@ -117,7 +114,7 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         list($empNumber) = $this->getUrlAttributes();
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
@@ -130,7 +127,7 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
         $employee->setEmployeeTerminationRecord($employeeTerminationRecord);
         $this->getEmployeeService()->saveEmployee($employee);
 
-        return new EndpointCreateResult(
+        return new EndpointResourceResult(
             EmployeeTerminationModel::class, $employeeTerminationRecord,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
@@ -200,7 +197,7 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         list($empNumber, $id) = $this->getUrlAttributes();
         $employeeTerminationRecord = $this->getEmployeeService()
@@ -214,7 +211,7 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
             ->getEmployeeTerminationService()
             ->getEmployeeTerminationDao()
             ->saveEmployeeTermination($employeeTerminationRecord);
-        return new EndpointUpdateResult(
+        return new EndpointResourceResult(
             EmployeeTerminationModel::class, $employeeTerminationRecord,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
@@ -238,7 +235,7 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         throw $this->getNotImplementedException();
     }

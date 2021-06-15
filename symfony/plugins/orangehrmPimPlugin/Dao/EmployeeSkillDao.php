@@ -77,7 +77,7 @@ class EmployeeSkillDao extends BaseDao
     {
         try {
             $q = $this->createQueryBuilder(EmployeeSkill::class, 'es');
-            $q->delete(EmployeeSkill::class, 'es')
+            $q->delete()
                 ->andWhere('es.employee = :empNumber')
                 ->andWhere($q->expr()->in('es.skill', ':ids'))
                 ->setParameter('ids', $toDeleteIds)

@@ -22,8 +22,6 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Language
- *
  * @ORM\Table(name="ohrm_language")
  * @ORM\Entity
  */

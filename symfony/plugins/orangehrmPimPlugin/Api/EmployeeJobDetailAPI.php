@@ -21,11 +21,9 @@ namespace OrangeHRM\Pim\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -50,7 +48,7 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -58,7 +56,7 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
         );
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
-        return new EndpointGetOneResult(EmployeeJobDetailModel::class, $employee);
+        return new EndpointResourceResult(EmployeeJobDetailModel::class, $employee);
     }
 
     /**
@@ -77,7 +75,7 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -125,7 +123,7 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
             $this->getEmployeeService()->dispatchJoinedDateChangedEvent($employee, $currentJoinedDate);
         }
 
-        return new EndpointUpdateResult(EmployeeJobDetailModel::class, $employee);
+        return new EndpointResourceResult(EmployeeJobDetailModel::class, $employee);
     }
 
     /**
@@ -180,7 +178,7 @@ class EmployeeJobDetailAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         throw $this->getNotImplementedException();
     }

@@ -17,21 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Pim\Service;
+namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
-use OrangeHRM\Pim\Service\EmployeeTerminationService;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Pim\Dao\EmployeeLanguageDao;
 
-/**
- * @group Pim
- * @group Service
- */
-class EmployeeTerminationServiceTest extends TestCase
+class EmployeeLanguageService
 {
-    public function testGetEmployeeTerminationDao(): void
+    protected ?EmployeeLanguageDao $employeeLanguageDao = null;
+
+    /**
+     * @return EmployeeLanguageDao
+     */
+    public function getEmployeeLanguageDao(): EmployeeLanguageDao
     {
-        $employeeTerminationService = new EmployeeTerminationService();
-        $this->assertTrue($employeeTerminationService->getEmployeeTerminationDao() instanceof EmployeeTerminationDao);
+        if (!$this->employeeLanguageDao instanceof EmployeeLanguageDao) {
+            $this->employeeLanguageDao = new EmployeeLanguageDao();
+        }
+        return $this->employeeLanguageDao;
     }
 }
