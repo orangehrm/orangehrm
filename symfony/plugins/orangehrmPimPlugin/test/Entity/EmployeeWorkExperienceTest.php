@@ -35,7 +35,6 @@ class EmployeeWorkExperienceTest extends EntityTestCase
     public function testEmployeeWorkExperienceEntity(): void
     {
         $employee = new Employee();
-//        $employee->setEmpNumber(1);
         $employee->setFirstName('Kayla');
         $employee->setLastName('Abbey');
         $employee->setEmployeeId('0001');
@@ -54,11 +53,11 @@ class EmployeeWorkExperienceTest extends EntityTestCase
 
         /** @var EmpWorkExperience[] $employeeWorkExperiences */
         $employeeWorkExperiences = $this->getRepository(EmpWorkExperience::class)->findBy(
-            ['employee' => 1, 'seqNo' => 0]
+            ['employee' => 1, 'seqNo' => 4]
         );
         $employeeWorkExperience = $employeeWorkExperiences[0];
         $this->assertEquals('0001', $employeeWorkExperience->getEmployee()->getEmployeeId());
-        $this->assertEquals(0, $employeeWorkExperience->getSeqNo());  // TODO:: not correct
+        $this->assertEquals(4, $employeeWorkExperience->getSeqNo());
         $this->assertEquals("OHRM", $employeeWorkExperience->getEmployer());
         $this->assertEquals("SE", $employeeWorkExperience->getJobTitle());
         $this->assertEquals("test", $employeeWorkExperience->getComments());
