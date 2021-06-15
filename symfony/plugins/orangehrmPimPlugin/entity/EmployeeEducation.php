@@ -92,14 +92,14 @@ class EmployeeEducation
      *
      * @ORM\Column(name="start_date", type="date", nullable=true)
      */
-    private ?DateTime $startDate;
+    private ?DateTime $startDate = null;
 
     /**
      * @var DateTime | null
      *
      * @ORM\Column(name="end_date", type="date", nullable=true)
      */
-    private ?DateTime $endDate;
+    private ?DateTime $endDate = null;
 
     /**
      * @return int

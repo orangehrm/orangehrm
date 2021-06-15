@@ -230,13 +230,17 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
                 ),
                 true
             ),
-            new ParamRule(
-                self::PARAMETER_START_DATE,
-                new Rule(Rules::API_DATE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_START_DATE,
+                    new Rule(Rules::API_DATE),
+                ),
             ),
-            new ParamRule(
-                self::PARAMETER_END_DATE,
-                new Rule(Rules::API_DATE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_END_DATE,
+                    new Rule(Rules::API_DATE),
+                ),
             ),
         ];
     }

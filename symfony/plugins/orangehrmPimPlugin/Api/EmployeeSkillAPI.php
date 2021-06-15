@@ -219,7 +219,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_YEARS_OF_EXP,
                     new Rule(Rules::INT_TYPE),
-                    new Rule((Rules::POSITIVE)),
+                    new Rule((Rules::ZERO_OR_POSITIVE)),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH]),
                 ),
                 true
