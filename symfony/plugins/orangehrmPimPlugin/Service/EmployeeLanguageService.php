@@ -17,61 +17,22 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Pim\Service;
 
-use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Pim\Dao\EmployeeLanguageDao;
 
-/**
- * @ORM\Table(name="ohrm_language")
- * @ORM\Entity
- */
-class Language
+class EmployeeLanguageService
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", length=11)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
+    protected ?EmployeeLanguageDao $employeeLanguageDao = null;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=120)
+     * @return EmployeeLanguageDao
      */
-    private string $name;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getEmployeeLanguageDao(): EmployeeLanguageDao
     {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+        if (!$this->employeeLanguageDao instanceof EmployeeLanguageDao) {
+            $this->employeeLanguageDao = new EmployeeLanguageDao();
+        }
+        return $this->employeeLanguageDao;
     }
 }

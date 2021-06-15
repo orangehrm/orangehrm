@@ -17,61 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use OrangeHRM\Core\Api\V2\Validator\Rules\Composite\AbstractComposite;
+use Respect\Validation\Helpers\CanValidateIterable;
 
-/**
- * @ORM\Table(name="ohrm_language")
- * @ORM\Entity
- */
-class Language
+class Each extends AbstractRule
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", length=11)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
+    use CanValidateIterable;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=120)
+     * @var AbstractComposite
      */
-    private string $name;
+    private AbstractComposite $rule;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function __construct(AbstractComposite $rule)
     {
-        return $this->id;
+        $this->rule = $rule;
     }
 
     /**
-     * @param int $id
+     * @inheritDoc
      */
-    public function setId(int $id): void
+    public function validate($input): bool
     {
-        $this->id = $id;
-    }
+        if (!$this->isIterable($input)) {
+            throw $this->reportError($input);
+        }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+        try {
+            foreach ($input as $value) {
+                if (!$this->rule->validate($value)) {
+                    return false;
+                }
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
     }
 }
