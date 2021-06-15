@@ -23,7 +23,6 @@ use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -78,9 +77,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetOneResult
-     * @throws RecordNotFoundException
-     * @throws Exception
+     * @inheritDoc
      */
     public function getOne(): EndpointGetOneResult
     {
@@ -108,7 +105,9 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
             $this->getEmpNumberRule(),
         );
     }
@@ -121,24 +120,6 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     {
         $employeeLicenseSearchParams = new EmployeeLicenseSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeLicenseSearchParams);
-//        $employeeLicenseSearchParams->setLicenseNo(
-//            $this->getRequestParams()->getStringOrNull(
-//                RequestParams::PARAM_TYPE_QUERY,
-//                self::FILTER_LICENSE_NO
-//            )
-//        );
-//        $employeeLicenseSearchParams->setLicenseIssuedDate(
-//            $this->getRequestParams()->getDateTimeOrNull(
-//                RequestParams::PARAM_TYPE_QUERY,
-//                self::PARAMETER_LICENSE_ISSUED_DATE
-//            )
-//        );
-//        $employeeLicenseSearchParams->setLicenseExpiryDate(
-//            $this->getRequestParams()->getDateTimeOrNull(
-//                RequestParams::PARAM_TYPE_QUERY,
-//                self::PARAMETER_LICENSE_EXPIRED_DATE
-//            )
-//        );
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
@@ -170,13 +151,6 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getEmpNumberRule(),
-//            new ParamRule(self::FILTER_LICENSE_NO),
-//            new ParamRule(self::PARAMETER_LICENSE_ISSUED_DATE,
-//                new Rule(Rules::API_DATE)
-//            ),
-//            new ParamRule(self::PARAMETER_LICENSE_EXPIRED_DATE,
-//                new Rule(Rules::API_DATE)
-//            ),
             ...$this->getSortingAndPaginationParamsRules(EmployeeLicenseSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -193,7 +167,6 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeLicense->getEmployee()->getEmpNumber(),
-                    //self::PARAMETER_LICENSE_ID => $employeeLicense->getLicenseId()->getId()
                 ]
             )
         );
@@ -255,7 +228,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED), new Rule(Rules::POSITIVE)),
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::POSITIVE)),
             $this->getEmpNumberRule(),
             ...$this->getCommonBodyValidationRules(),
         );
@@ -263,8 +236,6 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws DaoException
-     * @throws Exception
      */
     public function delete(): EndpointDeleteResult
     {

@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Dto;
 
-use DateTime;
 use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeLicenseSearchFilterParams extends FilterParams
@@ -32,20 +31,8 @@ class EmployeeLicenseSearchFilterParams extends FilterParams
     protected ?string $empNumber;
 
     /**
-     * @var string|null
+     * EmployeeLicenseSearchFilterParams constructor.
      */
-    protected ?string $licenseNo = null ;
-
-    /**
-     * @var DateTime|null
-     */
-    protected ?DateTime  $licenseIssuedDate = null;
-
-    /**
-     * @var DateTime|null
-     */
-    protected ?DateTime  $licenseExpiryDate = null;
-
     public function __construct()
     {
         $this->setSortField('el.licenseIssuedDate');
@@ -66,54 +53,5 @@ class EmployeeLicenseSearchFilterParams extends FilterParams
     {
         $this->empNumber = $empNumber;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getLicenseNo(): ?string
-    {
-        return $this->licenseNo;
-    }
-
-    /**
-     * @param string|null $licenseNo
-     */
-    public function setLicenseNo(?string $licenseNo): void
-    {
-        $this->licenseNo = $licenseNo;
-    }
-
-    /**
-     * @return DateTime|null
-     */
-    public function getLicenseIssuedDate(): ?DateTime
-    {
-        return $this->licenseIssuedDate;
-    }
-
-    /**
-     * @param DateTime|null $licenseIssuedDate
-     */
-    public function setLicenseIssuedDate(?DateTime $licenseIssuedDate): void
-    {
-        $this->licenseIssuedDate = $licenseIssuedDate;
-    }
-
-    /**
-     * @return DateTime|null
-     */
-    public function getLicenseExpiryDate(): ?DateTime
-    {
-        return $this->licenseExpiryDate;
-    }
-
-    /**
-     * @param DateTime|null $licenseExpiryDate
-     */
-    public function setLicenseExpiryDate(?DateTime $licenseExpiryDate): void
-    {
-        $this->licenseExpiryDate = $licenseExpiryDate;
-    }
-
 
 }

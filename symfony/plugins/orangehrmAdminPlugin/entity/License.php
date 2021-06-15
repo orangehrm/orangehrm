@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,22 +45,6 @@ class License
      * @ORM\Column(name="name", type="string", length=100)
      */
     private string $name;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeLicense", mappedBy="License")
-     */
-    private Collection $employeeLicenses;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->employeeLicenses = new ArrayCollection();
-    }
 
     /**
      * @return int
@@ -95,22 +77,5 @@ class License
     {
         $this->name = $name;
     }
-
-    /**
-     * @return Collection
-     */
-    public function getEmployeeLicenses()
-    {
-        return $this->employeeLicenses;
-    }
-
-    /**
-     * @param Collection $employeeLicenses
-     */
-    public function setEmployeeLicenses($employeeLicenses): void
-    {
-        $this->employeeLicenses = $employeeLicenses;
-    }
-
 
 }

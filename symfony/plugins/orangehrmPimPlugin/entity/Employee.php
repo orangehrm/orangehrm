@@ -449,14 +449,14 @@ class Employee
     private $languages;
 
     /**
-     * @var Collection
+     * @var Collection|EmployeeLicense[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeLicense", mappedBy="employee")
      */
     private $licenses;
 
     /**
-     * @var Collection
+     * @var Collection|EmployeeLicense[]
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeMembership", mappedBy="Employee")
      * @ORM\JoinColumns({

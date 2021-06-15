@@ -115,7 +115,7 @@ export default {
         });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists.';
+          return index === -1 || 'Already exists';
         });
         this.isLoading = false;
       })
