@@ -234,13 +234,17 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::INT_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_INTERNAL_MAX_LENGTH]),
             ),
-            new ParamRule(
-                self::PARAMETER_FROM_DATE,
-                new Rule(Rules::API_DATE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_FROM_DATE,
+                    new Rule(Rules::API_DATE),
+                ),
             ),
-            new ParamRule(
-                self::PARAMETER_TO_DATE,
-                new Rule(Rules::API_DATE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_TO_DATE,
+                    new Rule(Rules::API_DATE),
+                ),
             ),
         ];
     }
@@ -359,7 +363,6 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
             $employeeWorkExperience = new EmpWorkExperience();
             $employeeWorkExperience->getDecorator()->setEmployeeByEmpNumber($empNumber);
         }
-//        $employeeWorkExperience->setSeqNo(1); // TODO:: get by AUTO INCREMENTED
         $employeeWorkExperience->setEmployer($employer);
         $employeeWorkExperience->setJobTitle($jobTitle);
         $employeeWorkExperience->setComments($comments);

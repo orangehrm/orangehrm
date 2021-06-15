@@ -27,46 +27,46 @@ class EmpWorkExperience
     private int $seqNo = 0;
 
     /**
-     * @var string
+     * @var string | null
      *
-     * @ORM\Column(name="eexp_employer", type="string", length=100)
+     * @ORM\Column(name="eexp_employer", type="string", length=100, nullable=true)
      */
-    private string $employer;
+    private ?string $employer;
 
     /**
-     * @var string
+     * @var string | null
      *
-     * @ORM\Column(name="eexp_jobtit", type="string", length=120)
+     * @ORM\Column(name="eexp_jobtit", type="string", length=120, nullable=true)
      */
-    private string $jobTitle;
+    private ?string $jobTitle;
 
     /**
-     * @var DateTime
+     * @var DateTime | null
      *
-     * @ORM\Column(name="eexp_from_date", type="datetime", length=25)
+     * @ORM\Column(name="eexp_from_date", type="datetime", length=25, nullable=true)
      */
-    private DateTime $fromDate;
+    private ?DateTime $fromDate;
 
     /**
-     * @var DateTime
+     * @var DateTime | null
      *
-     * @ORM\Column(name="eexp_to_date", type="datetime", length=25)
+     * @ORM\Column(name="eexp_to_date", type="datetime", length=25, nullable=true)
      */
-    private DateTime $toDate;
+    private ?DateTime $toDate;
 
     /**
-     * @var string
+     * @var string | null
      *
-     * @ORM\Column(name="eexp_comments", type="string", length=200)
+     * @ORM\Column(name="eexp_comments", type="string", length=200, nullable=true)
      */
-    private string $comments;
+    private ?string $comments;
 
     /**
-     * @var int
+     * @var int | null
      *
      * @ORM\Column(name="eexp_internal", type="integer", length=4)
      */
-    private int $internal;
+    private ?int $internal;
 
     /**
      * @var Employee
@@ -93,98 +93,98 @@ class EmpWorkExperience
     }
 
     /**
-     * @return string
+     * @return string | null
      */
-    public function getEmployer(): string
+    public function getEmployer(): ?string
     {
         return $this->employer;
     }
 
     /**
-     * @param string $employer
+     * @param string | null $employer
      */
-    public function setEmployer(string $employer): void
+    public function setEmployer(?string $employer): void
     {
         $this->employer = $employer;
     }
 
     /**
-     * @return string
+     * @return string | null
      */
-    public function getJobTitle(): string
+    public function getJobTitle(): ?string
     {
         return $this->jobTitle;
     }
 
     /**
-     * @param string $jobTitle
+     * @param string | null $jobTitle
      */
-    public function setJobTitle(string $jobTitle): void
+    public function setJobTitle(?string $jobTitle): void
     {
         $this->jobTitle = $jobTitle;
     }
 
     /**
-     * @return DateTime
+     * @return DateTime | null
      */
-    public function getFromDate(): DateTime
+    public function getFromDate(): ?DateTime
     {
         return $this->fromDate;
     }
 
     /**
-     * @param DateTime $fromDate
+     * @param DateTime | null $fromDate
      */
-    public function setFromDate(DateTime $fromDate): void
+    public function setFromDate(?DateTime $fromDate): void
     {
         $this->fromDate = $fromDate;
     }
 
 
     /**
-     * @return DateTime
+     * @return DateTime | null
      */
-    public function getToDate(): DateTime
+    public function getToDate(): ?DateTime
     {
         return $this->toDate;
     }
 
     /**
-     * @param DateTime $toDate
+     * @param DateTime | null $toDate
      */
-    public function setToDate(DateTime $toDate): void
+    public function setToDate(?DateTime $toDate): void
     {
         $this->toDate = $toDate;
     }
 
     /**
-     * @return string
+     * @return string | null
      */
-    public function getComments(): string
+    public function getComments(): ?string
     {
         return $this->comments;
     }
 
     /**
-     * @param string $comments
+     * @param string | null $comments
      */
-    public function setComments(string $comments): void
+    public function setComments(?string $comments): void
     {
         $this->comments = $comments;
     }
 
     /**
-     * @return int
+     * @return int | null
      */
-    public function getInternal(): int
+    public function getInternal(): ?int
     {
         return $this->internal;
     }
 
     /**
-     * @param int $internal
+     * @param int | null $internal
      */
-    public function setInternal(int $internal): void
+    public function setInternal(?int $internal): void
     {
         $this->internal = $internal;
     }
