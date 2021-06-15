@@ -61,9 +61,9 @@ class EmployeeSkill
     /**
      * @var string | null
      *
-     * @ORM\Column(name="comments", type="string", length=100, nullable=true)
+     * @ORM\Column(name="comments", type="string", length=100, nullable=false)
      */
-    private ?string $comments;
+    private string $comments;
 
     /**
      * @return Employee|null
@@ -114,17 +114,17 @@ class EmployeeSkill
     }
 
     /**
-     * @return string | null
+     * @return string
      */
-    public function getComments(): ?string
+    public function getComments(): string
     {
         return $this->comments;
     }
 
     /**
-     * @param string | null $comments
+     * @param string $comments
      */
-    public function setComments(?string $comments): void
+    public function setComments(string $comments): void
     {
         $this->comments = $comments;
     }
