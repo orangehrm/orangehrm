@@ -23,15 +23,12 @@ use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -71,19 +68,11 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param EmployeeSkillService $employeeSkillService
-     */
-    public function setEmployeeSkillService(EmployeeSkillService $employeeSkillService): void
-    {
-        $this->employeeSkillService = $employeeSkillService;
-    }
-
-    /**
-     * @return EndpointGetOneResult
+     * @return EndpointResourceResult
      * @throws RecordNotFoundException
      * @throws Exception
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -96,7 +85,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
         );
         $this->throwRecordNotFoundExceptionIfNotExist($employeeSkill, EmployeeSkill::class);
 
-        return new EndpointGetOneResult(
+        return new EndpointResourceResult(
             EmployeeSkillModel::class,
             $employeeSkill,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
@@ -115,10 +104,10 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
+     * @return EndpointCollectionResult
      * @throws Exception
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         $employeeSkillSearchParams = new EmployeeSkillSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeSkillSearchParams);
@@ -142,15 +131,18 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
             $empNumber
         );
 
-        $employeeSkills = $this->getEmployeeSkillService()->getEmployeeSkillDao()->searchEmployeeSkill($employeeSkillSearchParams);
+        $employeeSkills = $this->getEmployeeSkillService()->getEmployeeSkillDao()->searchEmployeeSkill(
+            $employeeSkillSearchParams
+        );
 
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             EmployeeSkillModel::class,
             $employeeSkills,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeSkillService()->getEmployeeSkillDao()->getSearchEmployeeSkillsCount(
+                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeSkillService()->getEmployeeSkillDao(
+                    )->getSearchEmployeeSkillsCount(
                         $employeeSkillSearchParams
                     )
                 ]
@@ -175,15 +167,14 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         $employeeSkill = $this->saveEmployeeSkill();
-        return new EndpointCreateResult(
+        return new EndpointResourceResult(
             EmployeeSkillModel::class, $employeeSkill,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeSkill->getEmployee()->getEmpNumber(),
-                    self::PARAMETER_SKILL_ID => $employeeSkill->getSkill()->getId()
                 ]
             )
         );
@@ -224,11 +215,11 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         $employeeSkill = $this->saveEmployeeSkill();
 
-        return new EndpointUpdateResult(
+        return new EndpointResourceResult(
             EmployeeSkillModel::class, $employeeSkill,
             new ParameterBag(
                 [
@@ -255,7 +246,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
      * @throws DaoException
      * @throws Exception
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -263,7 +254,7 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeSkillService()->getEmployeeSkillDao()->deleteEmployeeSkills($empNumber, $ids);
-        return new EndpointDeleteResult(
+        return new EndpointResourceResult(
             ArrayModel::class, $ids,
             new ParameterBag(
                 [

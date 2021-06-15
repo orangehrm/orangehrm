@@ -19,27 +19,24 @@
 
 namespace OrangeHRM\Pim\Api;
 
-use OrangeHRM\Core\Api\V2\Model\ArrayModel;
-use OrangeHRM\Core\Exception\ServiceException;
-use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Pim\Api\Model\EmployeeDependentModel;
+use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeDependentService;
 
 class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
@@ -74,7 +71,7 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -88,7 +85,7 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
         $empDependent = $this->getEmployeeDependentService()->getEmployeeDependent($empNumber, $id);
         $this->throwRecordNotFoundExceptionIfNotExist($empDependent, EmpDependent::class);
 
-        return new EndpointGetOneResult(
+        return new EndpointResourceResult(
             EmployeeDependentModel::class, $empDependent,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
@@ -115,7 +112,7 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws ServiceException|DaoException
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         $employeeDependentSearchParams = new EmployeeDependentSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeDependentSearchParams);
@@ -142,7 +139,7 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
         );
         $empDependents = $this->getEmployeeDependentService()->searchEmployeeDependent($employeeDependentSearchParams);
 
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             EmployeeDependentModel::class, $empDependents,
             new ParameterBag(
                 [
@@ -175,11 +172,11 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         $empDependent = $this->saveEmpDependent();
 
-        return new EndpointCreateResult(
+        return new EndpointResourceResult(
             EmployeeDependentModel::class, $empDependent,
             new ParameterBag(
                 [
@@ -277,11 +274,11 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         $empDependent = $this->saveEmpDependent();
 
-        return new EndpointUpdateResult(
+        return new EndpointResourceResult(
             EmployeeDependentModel::class, $empDependent,
             new ParameterBag(
                 [
@@ -313,7 +310,7 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws DaoException
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         // TODO:: Check data group permission
         $empNumber = $this->getRequestParams()->getInt(
@@ -322,7 +319,7 @@ class EmployeeDependentAPI extends Endpoint implements CrudEndpoint
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeDependentService()->deleteEmployeeDependents($empNumber, $ids);
-        return new EndpointDeleteResult(ArrayModel::class, $ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**

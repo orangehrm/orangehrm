@@ -72,7 +72,7 @@ class SkillDao extends BaseDao
     {
         try {
             $q = $this->createQueryBuilder(Skill::class, 's');
-            $q->delete(Skill::class, 's')
+            $q->delete()
                 ->where($q->expr()->in('s.id', ':ids'))
                 ->setParameter('ids', $toDeleteIds);
             return $q->getQuery()->execute();

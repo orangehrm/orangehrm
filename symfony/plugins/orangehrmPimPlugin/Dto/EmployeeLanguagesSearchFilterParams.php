@@ -17,21 +17,37 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Pim\Service;
+namespace OrangeHRM\Pim\Dto;
 
-use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
-use OrangeHRM\Pim\Service\EmployeeTerminationService;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Core\Dto\FilterParams;
 
-/**
- * @group Pim
- * @group Service
- */
-class EmployeeTerminationServiceTest extends TestCase
+class EmployeeLanguagesSearchFilterParams extends FilterParams
 {
-    public function testGetEmployeeTerminationDao(): void
+    public const ALLOWED_SORT_FIELDS = ['l.name'];
+
+    /**
+     * @var int|null
+     */
+    private ?int $empNumber = null;
+
+    public function __construct()
     {
-        $employeeTerminationService = new EmployeeTerminationService();
-        $this->assertTrue($employeeTerminationService->getEmployeeTerminationDao() instanceof EmployeeTerminationDao);
+        $this->setSortField('l.name');
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getEmpNumber(): ?int
+    {
+        return $this->empNumber;
+    }
+
+    /**
+     * @param int|null $empNumber
+     */
+    public function setEmpNumber(?int $empNumber): void
+    {
+        $this->empNumber = $empNumber;
     }
 }

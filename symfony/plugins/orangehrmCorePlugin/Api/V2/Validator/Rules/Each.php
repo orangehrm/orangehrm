@@ -17,21 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Pim\Service;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
-use OrangeHRM\Pim\Service\EmployeeTerminationService;
-use OrangeHRM\Tests\Util\TestCase;
+use Exception;
+use OrangeHRM\Core\Api\V2\Validator\Rules\Composite\AbstractComposite;
+use Respect\Validation\Helpers\CanValidateIterable;
 
-/**
- * @group Pim
- * @group Service
- */
-class EmployeeTerminationServiceTest extends TestCase
+class Each extends AbstractRule
 {
-    public function testGetEmployeeTerminationDao(): void
+    use CanValidateIterable;
+
+    /**
+     * @var AbstractComposite
+     */
+    private AbstractComposite $rule;
+
+    public function __construct(AbstractComposite $rule)
     {
-        $employeeTerminationService = new EmployeeTerminationService();
-        $this->assertTrue($employeeTerminationService->getEmployeeTerminationDao() instanceof EmployeeTerminationDao);
+        $this->rule = $rule;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function validate($input): bool
+    {
+        if (!$this->isIterable($input)) {
+            throw $this->reportError($input);
+        }
+
+        try {
+            foreach ($input as $value) {
+                if (!$this->rule->validate($value)) {
+                    return false;
+                }
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+        return true;
     }
 }
