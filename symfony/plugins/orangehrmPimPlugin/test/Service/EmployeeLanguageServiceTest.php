@@ -19,19 +19,19 @@
 
 namespace OrangeHRM\Tests\Pim\Service;
 
-use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
-use OrangeHRM\Pim\Service\EmployeeTerminationService;
+use OrangeHRM\Pim\Dao\EmployeeLanguageDao;
+use OrangeHRM\Pim\Service\EmployeeLanguageService;
 use OrangeHRM\Tests\Util\TestCase;
 
 /**
  * @group Pim
  * @group Service
  */
-class EmployeeTerminationServiceTest extends TestCase
+class EmployeeLanguageServiceTest extends TestCase
 {
-    public function testGetEmployeeTerminationDao(): void
+    public function testGetEmployeeLanguageDao(): void
     {
-        $employeeTerminationService = new EmployeeTerminationService();
-        $this->assertTrue($employeeTerminationService->getEmployeeTerminationDao() instanceof EmployeeTerminationDao);
+        $service = new EmployeeLanguageService();
+        $this->assertTrue($service->getEmployeeLanguageDao() instanceof EmployeeLanguageDao);
     }
 }

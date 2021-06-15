@@ -435,21 +435,18 @@ class Employee
     private $educations;
 
     /**
-     * @var Collection
+     * @var Collection|Skill[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="employee")
      */
     private $skills;
 
-//    /**
-//     * @var Collection
-//     *
-//     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeLanguage", mappedBy="Employee")
-//     * @ORM\JoinColumns({
-//     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-//     * })
-//     */
-//    private $languages;
+    /**
+     * @var Collection|EmployeeLanguage[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeLanguage", mappedBy="employee")
+     */
+    private $languages;
 
 //    /**
 //     * @var Collection

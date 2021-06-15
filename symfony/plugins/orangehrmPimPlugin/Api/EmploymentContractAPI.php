@@ -21,13 +21,11 @@ namespace OrangeHRM\Pim\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -74,7 +72,7 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -88,7 +86,7 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
             $employmentContract = new EmpContract();
             $employmentContract->getDecorator()->setEmployeeByEmpNumber($empNumber);
         }
-        return new EndpointGetOneResult(
+        return new EndpointResourceResult(
             EmploymentContractModel::class,
             $employmentContract,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
@@ -111,7 +109,7 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -121,7 +119,7 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
         $this->updateContractAttachment($empNumber);
         $employmentContract = $this->updateEmploymentContract($empNumber);
 
-        return new EndpointUpdateResult(
+        return new EndpointResourceResult(
             EmploymentContractModel::class,
             $employmentContract,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
@@ -295,7 +293,7 @@ class EmploymentContractAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         throw $this->getNotImplementedException();
     }

@@ -22,15 +22,12 @@ namespace OrangeHRM\Pim\Api;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -109,13 +106,13 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
 
-        return new EndpointGetOneResult($this->getModelClass(), $employee);
+        return new EndpointResourceResult($this->getModelClass(), $employee);
     }
 
     /**
@@ -158,7 +155,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         // TODO:: Check data group permission & get employees using UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties
         $employeeParamHolder = new EmployeeSearchFilterParams();
@@ -217,7 +214,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
 
         $employees = $this->getEmployeeService()->getEmployeeList($employeeParamHolder);
         $count = $this->getEmployeeService()->getEmployeeCount($employeeParamHolder);
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             $this->getModelClass(),
             $employees,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
@@ -297,7 +294,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         $allowedToAddEmployee = $this->getUserRoleManager()->isActionAllowed(
             WorkflowStateMachine::FLOW_EMPLOYEE,
@@ -338,7 +335,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         }
         $this->getEmployeeService()->saveAddEmployeeEvent($employee);
 
-        return new EndpointCreateResult(EmployeeModel::class, $employee);
+        return new EndpointResourceResult(EmployeeModel::class, $employee);
     }
 
     /**
@@ -422,14 +419,14 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
         $this->setParamsToEmployee($employee);
         $this->getEmployeeService()->saveEmployee($employee);
-        return new EndpointUpdateResult(EmployeeModel::class, $employee);
+        return new EndpointResourceResult(EmployeeModel::class, $employee);
     }
 
     /**
@@ -446,14 +443,14 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         if (!$this->getUserRoleManager()->areEntitiesAccessible(Employee::class, $ids)) {
             throw $this->getBadRequestException('Employees not accessible');
         }
         $this->getEmployeeService()->deleteEmployees($ids);
-        return new EndpointDeleteResult(ArrayModel::class, $ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**

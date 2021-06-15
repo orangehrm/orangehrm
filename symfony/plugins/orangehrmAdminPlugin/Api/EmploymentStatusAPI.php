@@ -19,28 +19,25 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use Exception;
+use OrangeHRM\Admin\Api\Model\EmploymentStatusModel;
 use OrangeHRM\Admin\Dto\EmploymentStatusSearchFilterParams;
+use OrangeHRM\Admin\Service\EmploymentStatusService;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmploymentStatus;
-use OrangeHRM\Admin\Service\EmploymentStatusService;
-use OrangeHRM\Admin\Api\Model\EmploymentStatusModel;
-use Exception;
-use OrangeHRM\Core\Api\CommonParams;
 
 class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
 {
@@ -73,11 +70,11 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetOneResult
+     * @return EndpointResourceResult
      * @throws RecordNotFoundException
      * @throws DaoException
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
@@ -86,7 +83,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
             throw new RecordNotFoundException();
         }
 
-        return new EndpointGetOneResult(EmploymentStatusModel::class, $employmentStatus);
+        return new EndpointResourceResult(EmploymentStatusModel::class, $employmentStatus);
     }
 
     /**
@@ -105,7 +102,7 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         // TODO:: Check data group permission
         $employmentStatusSearchParams = new EmploymentStatusSearchFilterParams();
@@ -119,12 +116,13 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
         $employmentStatuses = $this->getEmploymentStatusService()->searchEmploymentStatus(
             $employmentStatusSearchParams
         );
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             EmploymentStatusModel::class,
             $employmentStatuses,
             new ParameterBag(
                 [
-                    CommonParams::PARAMETER_TOTAL => $this->getEmploymentStatusService()->getSearchEmploymentStatusesCount(
+                    CommonParams::PARAMETER_TOTAL => $this->getEmploymentStatusService(
+                    )->getSearchEmploymentStatusesCount(
                         $employmentStatusSearchParams
                     )
                 ]
@@ -146,12 +144,12 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         // TODO:: Check data group permission
         $employmentStatus = $this->saveEmploymentStatus();
 
-        return new EndpointCreateResult(EmploymentStatusModel::class, $employmentStatus);
+        return new EndpointResourceResult(EmploymentStatusModel::class, $employmentStatus);
     }
 
     /**
@@ -168,12 +166,12 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         // TODO:: Check data group permission
         $employmentStatus = $this->saveEmploymentStatus();
 
-        return new EndpointUpdateResult(EmploymentStatusModel::class, $employmentStatus);
+        return new EndpointResourceResult(EmploymentStatusModel::class, $employmentStatus);
     }
 
     /**
@@ -218,12 +216,12 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      * @throws DaoException
      * @throws Exception
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmploymentStatusService()->deleteEmploymentStatus($ids);
-        return new EndpointDeleteResult(ArrayModel::class, $ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**

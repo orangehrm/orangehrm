@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Authentication\Controller;
 
+use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
@@ -92,9 +93,9 @@ class ValidateController extends AbstractController implements PublicControllerI
 
         /** @var Session $session */
         $session = $this->getContainer()->get(Services::SESSION);
-        if ($session->has('redirect_uri')) {
-            $redirectUrl = $session->get('redirect_uri');
-            $session->remove('redirect_uri');
+        if ($session->has(AuthUser::SESSION_TIMEOUT_REDIRECT_URL)) {
+            $redirectUrl = $session->get(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
+            $session->remove(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
             if ($redirectUrl !== $loginUrl || $redirectUrl !== $logoutUrl) {
                 return new RedirectResponse($redirectUrl);
             }

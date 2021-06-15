@@ -21,11 +21,9 @@ namespace OrangeHRM\Pim\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -59,7 +57,7 @@ class EmployeePictureAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -67,7 +65,7 @@ class EmployeePictureAPI extends Endpoint implements ResourceEndpoint
         );
         $empPicture = $this->getEmployeePictureService()->getEmpPictureByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($empPicture, EmpPicture::class);
-        return new EndpointGetOneResult(EmployeePictureModel::class, $empPicture);
+        return new EndpointResourceResult(EmployeePictureModel::class, $empPicture);
     }
 
     /**
@@ -86,7 +84,7 @@ class EmployeePictureAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -115,7 +113,7 @@ class EmployeePictureAPI extends Endpoint implements ResourceEndpoint
 
         $this->getEmployeePictureService()->saveEmployeePicture($empPicture);
 
-        return new EndpointUpdateResult(EmployeePictureModel::class, $empPicture);
+        return new EndpointResourceResult(EmployeePictureModel::class, $empPicture);
     }
 
     /**
@@ -141,7 +139,7 @@ class EmployeePictureAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         throw $this->getNotImplementedException();
     }

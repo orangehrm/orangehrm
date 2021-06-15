@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Util;
 
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Request;
@@ -73,5 +74,10 @@ abstract class EndpointTestCase extends KernelTestCase
     protected function expectBadRequestException(): void
     {
         $this->expectException(BadRequestException::class);
+    }
+
+    protected function expectInvalidParamException(): void
+    {
+        $this->expectException(InvalidParamException::class);
     }
 }

@@ -23,14 +23,11 @@ use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -83,7 +80,7 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -99,7 +96,7 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
         );
         $this->throwRecordNotFoundExceptionIfNotExist($employeeEducation, EmployeeEducation::class);
 
-        return new EndpointGetOneResult(
+        return new EndpointResourceResult(
             EmployeeEducationModel::class,
             $employeeEducation,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
@@ -118,10 +115,10 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
+     * @return EndpointCollectionResult
      * @throws Exception
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         $employeeEducationSearchParams = new EmployeeEducationSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeEducationSearchParams);
@@ -137,7 +134,7 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
             $employeeEducationSearchParams
         );
 
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             EmployeeEducationModel::class,
             $employeeEducations,
             new ParameterBag(
@@ -167,10 +164,10 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         $employeeEducation = $this->saveEmployeeEducation();
-        return new EndpointCreateResult(
+        return new EndpointResourceResult(
             EmployeeEducationModel::class, $employeeEducation,
             new ParameterBag(
                 [
@@ -234,11 +231,11 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         $employeeEducation = $this->saveEmployeeEducation();
 
-        return new EndpointUpdateResult(
+        return new EndpointResourceResult(
             EmployeeEducationModel::class, $employeeEducation,
             new ParameterBag(
                 [
@@ -265,7 +262,7 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
      * @throws DaoException
      * @throws Exception
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -273,7 +270,7 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeEducationService()->getEmployeeEducationDao()->deleteEmployeeEducations($empNumber, $ids);
-        return new EndpointDeleteResult(
+        return new EndpointResourceResult(
             ArrayModel::class, $ids,
             new ParameterBag(
                 [

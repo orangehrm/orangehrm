@@ -22,12 +22,10 @@ namespace OrangeHRM\Admin\Api;
 use OrangeHRM\Admin\Api\Model\JobSpecificationModel;
 use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -57,7 +55,7 @@ class JobSpecificationAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $jobTitleId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -66,7 +64,7 @@ class JobSpecificationAPI extends Endpoint implements ResourceEndpoint
         $jobSpecification = $this->getJobTitleService()->getJobTitleDao()->getJobSpecificationByJobTitleId($jobTitleId);
         $this->throwRecordNotFoundExceptionIfNotExist($jobSpecification, JobSpecificationAttachment::class);
 
-        return new EndpointGetOneResult(
+        return new EndpointResourceResult(
             JobSpecificationModel::class, $jobSpecification,
             new ParameterBag([self::PARAMETER_JOB_TITLE_ID => $jobTitleId])
         );
@@ -88,7 +86,7 @@ class JobSpecificationAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         throw $this->getNotImplementedException();
     }
@@ -104,7 +102,7 @@ class JobSpecificationAPI extends Endpoint implements ResourceEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         throw $this->getNotImplementedException();
     }
