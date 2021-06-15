@@ -23,13 +23,10 @@ use OrangeHRM\Admin\Api\Model\PayGradeCurrencyModel;
 use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -54,7 +51,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         throw $this->getNotImplementedException();
     }
@@ -70,7 +67,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         $payGradeId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -78,7 +75,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
         );
         $payGradeCurrencies = $this->getPayGradeService()->getCurrencyListByPayGradeId($payGradeId);
 
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             PayGradeCurrencyModel::class, $payGradeCurrencies,
             new ParameterBag([self::PARAMETER_PAY_GRADE_ID => $payGradeId])
         );
@@ -100,7 +97,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         throw $this->getNotImplementedException();
     }
@@ -116,7 +113,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         throw $this->getNotImplementedException();
     }
@@ -132,7 +129,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         throw $this->getNotImplementedException();
     }

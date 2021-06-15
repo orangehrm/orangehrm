@@ -187,6 +187,25 @@ apiv2_pim_employees_education:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_languages:
+  path: /api/v2/pim/employees/{empNumber}/languages
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeLanguageAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_language:
+  path: /api/v2/pim/employees/{empNumber}/languages/{languageId}/fluencies/{fluencyId}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _key: fluencyId
+    _api: OrangeHRM\Pim\Api\EmployeeLanguageAPI
+  requirements:
+    empNumber: '\d+'
+
 ##########################
 #        Files
 ##########################
