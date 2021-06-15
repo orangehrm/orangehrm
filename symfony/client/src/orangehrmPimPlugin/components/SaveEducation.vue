@@ -20,25 +20,46 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">Edit Skill</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">Add Education</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field
-              label="Skill"
-              v-model="skill.name"
+            <qualification-dropdown
+              label="Level"
+              v-model="education.educationId"
+              :rules="rules.educationId"
+              api="api/v2/admin/educations"
               required
-              readonly
-              disabled
+            ></qualification-dropdown>
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              label="Institute"
+              v-model="education.institute"
+              :rules="rules.institute"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Years of Experience"
-              v-model="skill.yearsOfExperience"
-              :rules="rules.yearsOfExperience"
+              label="Major/Specialization"
+              v-model="education.major"
+              :rules="rules.major"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              label="Year"
+              v-model="education.year"
+              :rules="rules.year"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              label="GPA/Score"
+              v-model="education.score"
+              :rules="rules.score"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -46,12 +67,22 @@
 
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="--span-column-2">
+          <oxd-grid-item>
             <oxd-input-field
-              type="textarea"
-              label="Comments"
-              v-model="skill.comments"
-              :rules="rules.comments"
+              label="Start Date"
+              v-model="education.startDate"
+              :rules="rules.startDate"
+              type="date"
+              placeholder="yyyy-mm-dd"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              label="End Date"
+              v-model="education.endDate"
+              :rules="rules.endDate"
+              type="date"
+              placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -73,20 +104,26 @@
 </template>
 
 <script>
+import QualificationDropdown from '@/orangehrmPimPlugin/components/QualificationDropdown';
 import {
+  required,
   shouldNotExceedCharLength,
-  max,
   digitsOnly,
+  validDateFormat,
 } from '@orangehrm/core/util/validation/rules';
 
-const skillModel = {
-  yearsOfExperience: 0,
-  comments: '',
-  name: '',
+const educationModel = {
+  educationId: [],
+  institute: '',
+  major: '',
+  year: '',
+  score: '',
+  startDate: '',
+  endDate: '',
 };
 
 export default {
-  name: 'edit-skill',
+  name: 'save-education',
 
   emits: ['close'],
 
@@ -95,19 +132,24 @@ export default {
       type: Object,
       required: true,
     },
-    data: {
-      type: Object,
-      required: true,
-    },
+  },
+
+  components: {
+    'qualification-dropdown': QualificationDropdown,
   },
 
   data() {
     return {
       isLoading: false,
-      skill: {...skillModel},
+      education: {...educationModel},
       rules: {
-        yearsOfExperience: [digitsOnly, max(100)],
-        comments: [shouldNotExceedCharLength(100)],
+        educationId: [required],
+        institute: [shouldNotExceedCharLength(100)],
+        major: [shouldNotExceedCharLength(100)],
+        score: [shouldNotExceedCharLength(25)],
+        year: [shouldNotExceedCharLength(4), digitsOnly],
+        startDate: [validDateFormat('yyyy-MM-dd')],
+        endDate: [validDateFormat('yyyy-MM-dd')],
       },
     };
   },
@@ -116,12 +158,13 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.data.id, {
-          yearsOfExperience: parseInt(this.skill.yearsOfExperience),
-          comments: this.skill.comments !== '' ? this.skill.comments : ' ',
+        .create({
+          ...this.education,
+          educationId: this.education.educationId.map(item => item.id)[0],
+          year: parseInt(this.education.year),
         })
         .then(() => {
-          return this.$toast.updateSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();
@@ -130,21 +173,6 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.data.id)
-      .then(response => {
-        const {data} = response.data;
-        this.skill.name = data.skill.name;
-        this.skill.comments = data.comments;
-        this.skill.yearsOfExperience = data.yearsOfExperience;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>
