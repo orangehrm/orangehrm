@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Api;
 
-use DateTime;
 use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
@@ -356,10 +355,6 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
                 $seqNo
             );
         } else{
-            $employeeWorkExperience = new EmpWorkExperience();
-            $employeeWorkExperience->getDecorator()->setEmployeeByEmpNumber($empNumber);
-        }
-        if ($employeeWorkExperience == null) {
             $employeeWorkExperience = new EmpWorkExperience();
             $employeeWorkExperience->getDecorator()->setEmployeeByEmpNumber($empNumber);
         }
