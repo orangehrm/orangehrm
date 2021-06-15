@@ -37,7 +37,7 @@ class EmployeeLicense
     /**
      * @var License
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\License", inversedBy="employeeLicenses")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\License")
      * @ORM\Id
      * @ORM\JoinColumn(name="license_id", referencedColumnName="id")
      */

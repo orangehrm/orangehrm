@@ -23,14 +23,12 @@ use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -47,8 +45,6 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_LICENSE_NO = 'licenseNo';
     public const PARAMETER_LICENSE_ISSUED_DATE = 'issuedDate';
     public const PARAMETER_LICENSE_EXPIRED_DATE = 'expiryDate';
-
-    public const FILTER_LICENSE_NO = 'licenseNo';
 
     public const PARAM_RULE_LICENSE_NO_MAX_LENGTH = 50;
 
@@ -77,9 +73,11 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @inheritDoc
+     * @return EndpointResourceResult
+     * @throws DaoException
+     * @throws RecordNotFoundException
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -92,7 +90,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
         );
         $this->throwRecordNotFoundExceptionIfNotExist($employeeLicense, EmployeeLicense::class);
 
-        return new EndpointGetOneResult(
+        return new EndpointResourceResult(
             EmployeeLicenseModel::class,
             $employeeLicense,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
@@ -113,13 +111,14 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
+     * @return EndpointCollectionResult
      * @throws Exception
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         $employeeLicenseSearchParams = new EmployeeLicenseSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeLicenseSearchParams);
+
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
@@ -130,7 +129,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
 
         $employeeLicenses = $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->searchEmployeeLicense($employeeLicenseSearchParams);
 
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             EmployeeLicenseModel::class,
             $employeeLicenses,
             new ParameterBag(
@@ -159,10 +158,10 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         $employeeLicense = $this->saveEmployeeLicense();
-        return new EndpointCreateResult(
+        return new EndpointResourceResult(
             EmployeeLicenseModel::class, $employeeLicense,
             new ParameterBag(
                 [
@@ -208,11 +207,11 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         $employeeLicense = $this->saveEmployeeLicense();
 
-        return new EndpointUpdateResult(
+        return new EndpointResourceResult(
             EmployeeLicenseModel::class, $employeeLicense,
             new ParameterBag(
                 [
@@ -236,8 +235,10 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws DaoException
+     * @throws Exception
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -245,7 +246,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeLicenseService()->getEmployeeLicenseDao()->deleteEmployeeLicenses($empNumber, $ids);
-        return new EndpointDeleteResult(
+        return new EndpointResourceResult(
             ArrayModel::class, $ids,
             new ParameterBag(
                 [

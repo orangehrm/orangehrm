@@ -456,7 +456,7 @@ class Employee
     private $licenses;
 
     /**
-     * @var Collection|EmployeeLicense[]
+     * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeMembership", mappedBy="Employee")
      * @ORM\JoinColumns({
