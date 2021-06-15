@@ -62,42 +62,42 @@ class EmployeeEducation
     /**
      * @var string | null
      *
-     * @ORM\Column(name="institute", type="string", length=100)
+     * @ORM\Column(name="institute", type="string", length=100, nullable=true)
      */
     private ?string $institute;
 
     /**
      * @var string | null
      *
-     * @ORM\Column(name="major", type="string", length=100)
+     * @ORM\Column(name="major", type="string", length=100, nullable=true)
      */
     private ?string $major;
 
     /**
      * @var int | null
      *
-     * @ORM\Column(name="year", type="decimal", length=4)
+     * @ORM\Column(name="year", type="decimal", length=4, nullable=true)
      */
     private ?int $year;
 
     /**
      * @var string | null
      *
-     * @ORM\Column(name="score", type="string", length=25)
+     * @ORM\Column(name="score", type="string", length=25, nullable=true)
      */
     private ?string $score;
 
     /**
      * @var DateTime | null
      *
-     * @ORM\Column(name="start_date", type="date")
+     * @ORM\Column(name="start_date", type="date", nullable=true)
      */
     private ?DateTime $startDate;
 
     /**
      * @var DateTime | null
      *
-     * @ORM\Column(name="end_date", type="date")
+     * @ORM\Column(name="end_date", type="date", nullable=true)
      */
     private ?DateTime $endDate;
 

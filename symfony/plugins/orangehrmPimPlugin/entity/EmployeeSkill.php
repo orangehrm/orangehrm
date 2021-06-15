@@ -54,14 +54,14 @@ class EmployeeSkill
     /**
      * @var float | null
      *
-     * @ORM\Column(name="years_of_exp", type="decimal", length=2)
+     * @ORM\Column(name="years_of_exp", type="decimal", length=2, nullable=true)
      */
     private ?float $yearsOfExp;
 
     /**
      * @var string | null
      *
-     * @ORM\Column(name="comments", type="string", length=100)
+     * @ORM\Column(name="comments", type="string", length=100, nullable=true)
      */
     private ?string $comments;
 
