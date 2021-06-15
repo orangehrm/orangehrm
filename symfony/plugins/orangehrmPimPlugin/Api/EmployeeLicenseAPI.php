@@ -73,6 +73,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     *@inheritDoc
      * @return EndpointResourceResult
      * @throws DaoException
      * @throws RecordNotFoundException
@@ -177,7 +178,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_LICENSE_ID, new Rule(Rules::REQUIRED)),
+            new ParamRule(self::PARAMETER_LICENSE_ID, new Rule(Rules::REQUIRED),  new Rule(Rules::POSITIVE)),
             $this->getEmpNumberRule(),
             ...$this->getCommonBodyValidationRules(),
         );
