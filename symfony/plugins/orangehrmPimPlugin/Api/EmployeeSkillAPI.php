@@ -71,14 +71,6 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param EmployeeSkillService $employeeSkillService
-     */
-    public function setEmployeeSkillService(EmployeeSkillService $employeeSkillService): void
-    {
-        $this->employeeSkillService = $employeeSkillService;
-    }
-
-    /**
      * @return EndpointGetOneResult
      * @throws RecordNotFoundException
      * @throws Exception
