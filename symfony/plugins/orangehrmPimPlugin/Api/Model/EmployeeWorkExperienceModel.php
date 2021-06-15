@@ -39,18 +39,16 @@ class EmployeeWorkExperienceModel implements Normalizable
                 'employer',
                 'jobTitle',
                 'comments',
-                'internal',
                 ['getDecorator', 'getFromDate'],
                 ['getDecorator', 'getToDate'],
             ]
         );
         $this->setAttributeNames(
             [
-                'seqNo',
-                'employer',
+                'id',
+                'company',
                 'jobTitle',
-                'comments',
-                'internal',
+                'comment',
                 'fromDate',
                 'toDate',
                 ['education', 'id'],

@@ -26,11 +26,6 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -40,23 +35,20 @@ use OrangeHRM\Entity\EmpWorkExperience;
 use OrangeHRM\Pim\Api\Model\EmployeeWorkExperienceModel;
 use OrangeHRM\Pim\Dto\EmployeeWorkExperienceSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeWorkExperienceService;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 
 class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
 {
-    public const PARAMETER_EMPLOYER = 'employer';
+    public const PARAMETER_EMPLOYER = 'company';
     public const PARAMETER_JOB_TITLE = 'jobTitle';
     public const PARAMETER_FROM_DATE = 'fromDate';
     public const PARAMETER_TO_DATE = 'toDate';
-    public const PARAMETER_COMMENTS = 'comments';
-    public const PARAMETER_INTERNAL = 'internal';
-
-    public const FILTER_JOB_TITLE = 'jobTitle';
-    public const FILTER_EMPLOYER = 'employer';
+    public const PARAMETER_COMMENTS = 'comment';
 
     public const PARAM_RULE_EMPLOYER_MAX_LENGTH = 100;
-    public const PARAM_RULE_JOB_TITLE_MAX_LENGTH = 100;
-    public const PARAM_RULE_COMMENTS_MAX_LENGTH = 100;
-    public const PARAM_RULE_INTERNAL_MAX_LENGTH = 100;
+    public const PARAM_RULE_JOB_TITLE_MAX_LENGTH = 120;
+    public const PARAM_RULE_COMMENTS_MAX_LENGTH = 200;
 
     /**
      * @var null|EmployeeWorkExperienceService
@@ -75,17 +67,9 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param EmployeeWorkExperienceService $employeeWorkExperienceService
-     */
-    public function setEmployeeWorkExperienceService(EmployeeWorkExperienceService $employeeWorkExperienceService): void
-    {
-        $this->employeeWorkExperienceService = $employeeWorkExperienceService;
-    }
-
-    /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -101,7 +85,7 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
         );
         $this->throwRecordNotFoundExceptionIfNotExist($employeeWorkExperience, EmpWorkExperience::class);
 
-        return new EndpointGetOneResult(
+        return new EndpointResourceResult(
             EmployeeWorkExperienceModel::class,
             $employeeWorkExperience,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
@@ -123,22 +107,10 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
      * @return EndpointGetAllResult
      * @throws Exception
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         $employeeWorkExperienceSearchParams = new EmployeeWorkExperienceSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeWorkExperienceSearchParams);
-        $employeeWorkExperienceSearchParams->setJobTitle(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_JOB_TITLE
-            )
-        );
-        $employeeWorkExperienceSearchParams->setEmployer(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_EMPLOYER
-            )
-        );
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
@@ -151,7 +123,7 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
             $employeeWorkExperienceSearchParams
         );
 
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             EmployeeWorkExperienceModel::class,
             $employeeWorkExperiences,
             new ParameterBag(
@@ -173,8 +145,6 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getEmpNumberRule(),
-            new ParamRule(self::FILTER_JOB_TITLE),
-            new ParamRule(self::FILTER_EMPLOYER),
             ...$this->getSortingAndPaginationParamsRules(EmployeeWorkExperienceSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -183,10 +153,10 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         $employeeWorkExperience = $this->saveEmployeeWorkExperience();
-        return new EndpointCreateResult(
+        return new EndpointResourceResult(
             EmployeeWorkExperienceModel::class, $employeeWorkExperience,
             new ParameterBag(
                 [
@@ -235,14 +205,6 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
-                    self::PARAMETER_INTERNAL,
-                    new Rule(Rules::INT_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_INTERNAL_MAX_LENGTH]),
-                ),
-                true
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
                     self::PARAMETER_FROM_DATE,
                     new Rule(Rules::API_DATE),
                 ),
@@ -260,11 +222,11 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         $employeeWorkExperience = $this->saveEmployeeWorkExperience();
 
-        return new EndpointUpdateResult(
+        return new EndpointResourceResult(
             EmployeeWorkExperienceModel::class, $employeeWorkExperience,
             new ParameterBag(
                 [
@@ -291,7 +253,7 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
      * @throws DaoException
      * @throws Exception
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -299,7 +261,7 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeWorkExperienceService()->getEmployeeWorkExperienceDao()->deleteEmployeeWorkExperiences($empNumber, $ids);
-        return new EndpointDeleteResult(
+        return new EndpointResourceResult(
             ArrayModel::class, $ids,
             new ParameterBag(
                 [
@@ -348,10 +310,6 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_COMMENTS
         );
-        $internal = $this->getRequestParams()->getIntOrNull(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_INTERNAL
-        );
 
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
@@ -369,7 +327,6 @@ class EmployeeWorkExperienceAPI extends Endpoint implements CrudEndpoint
         $employeeWorkExperience->setEmployer($employer);
         $employeeWorkExperience->setJobTitle($jobTitle);
         $employeeWorkExperience->setComments($comments);
-        $employeeWorkExperience->setInternal($internal);
 
         $employeeWorkExperience->setFromDate($fromDate);
         $employeeWorkExperience->setToDate($toDate);

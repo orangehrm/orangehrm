@@ -21,8 +21,8 @@ namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Entity\EmpWorkExperience;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmpWorkExperience;
 
 class EmpWorkExperienceDecorator
 {
@@ -32,7 +32,7 @@ class EmpWorkExperienceDecorator
     /**
      * @var EmpWorkExperience
      */
-        protected EmpWorkExperience $employeeWorkExperience;
+    protected EmpWorkExperience $employeeWorkExperience;
 
     /**
      * @param EmpWorkExperience $employeeWorkExperience

@@ -28,16 +28,6 @@ class EmployeeWorkExperienceSearchFilterParams extends FilterParams
     /**
      * @var string|null
      */
-    protected ?string $jobTitle = null;
-
-    /**
-     * @var string|null
-     */
-    protected ?string $employer = null;
-
-    /**
-     * @var string|null
-     */
     protected ?string $empNumber = null;
 
     /**
@@ -62,37 +52,5 @@ class EmployeeWorkExperienceSearchFilterParams extends FilterParams
     public function setEmpNumber(?int $empNumber): void
     {
         $this->empNumber = $empNumber;
-    }
-
-    /**
-     * @return string | null
-     */
-    public function getJobTitle(): ?string
-    {
-        return $this->jobTitle;
-    }
-
-    /**
-     * @param string | null $jobTitle
-     */
-    public function setJobTitle(?string $jobTitle): void
-    {
-        $this->jobTitle = $jobTitle;
-    }
-
-    /**
-     * @return string | null
-     */
-    public function getEmployer(): ?string
-    {
-        return $this->employer;
-    }
-
-    /**
-     * @param string | null $employer
-     */
-    public function setEmployer(?string $employer): void
-    {
-        $this->employer = $employer;
     }
 }

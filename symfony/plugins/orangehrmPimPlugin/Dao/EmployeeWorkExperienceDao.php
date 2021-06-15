@@ -134,10 +134,6 @@ class EmployeeWorkExperienceDao extends BaseDao
 
         $q->andWhere('we.employee = :empNumber')
             ->setParameter('empNumber', $employeeWorkExperienceSearchParams->getEmpNumber());
-        if (!empty($employeeWorkExperienceSearchParams->getJobTitle())) {
-            $q->andWhere('we.jobTitle = :jobTitle');
-            $q->setParameter('jobTitle', $employeeWorkExperienceSearchParams->getJobTitle());
-        }
         return $this->getPaginator($q);
     }
 
