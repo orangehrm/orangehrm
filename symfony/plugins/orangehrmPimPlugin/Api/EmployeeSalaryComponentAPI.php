@@ -24,14 +24,11 @@ use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -39,9 +36,9 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\EmpDirectDebit;
 use OrangeHRM\Entity\EmployeeSalary;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\Model\EmployeeSalaryModel;
 use OrangeHRM\Pim\Service\EmployeeSalaryService;
-use OrangeHRM\Framework\Services;
 
 class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
 {
@@ -95,13 +92,13 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         list($empNumber, $id) = $this->getUrlAttributes();
         $employeeSalary = $this->getEmployeeSalaryService()->getEmployeeSalaryDao()->getEmployeeSalary($empNumber, $id);
         $this->throwRecordNotFoundExceptionIfNotExist($employeeSalary, EmployeeSalary::class);
 
-        return new EndpointGetOneResult(
+        return new EndpointResourceResult(
             EmployeeSalaryModel::class, $employeeSalary,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
@@ -143,7 +140,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         list($empNumber) = $this->getUrlAttributes();
         $employeeSalarySearchFilterParams = new EmployeeSalarySearchFilterParams();
@@ -152,7 +149,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
         $employeeSalaries = $this->getEmployeeSalaryService()->getEmployeeSalaryDao()->getEmployeeSalaries(
             $employeeSalarySearchFilterParams
         );
-        return new EndpointGetAllResult(
+        return new EndpointCollectionResult(
             EmployeeSalaryModel::class, $employeeSalaries,
             new ParameterBag(
                 [
@@ -182,7 +179,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         list($empNumber) = $this->getUrlAttributes();
         $employeeSalary = new EmployeeSalary();
@@ -194,7 +191,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
             ->getEmployeeSalaryDao()
             ->saveEmployeeSalary($employeeSalary);
 
-        return new EndpointCreateResult(
+        return new EndpointResourceResult(
             EmployeeSalaryModel::class, $employeeSalary,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
@@ -402,7 +399,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         list($empNumber, $id) = $this->getUrlAttributes();
         $employeeSalary = $this->getEmployeeSalaryService()
@@ -417,7 +414,7 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
             ->getEmployeeSalaryDao()
             ->saveEmployeeSalary($employeeSalary);
 
-        return new EndpointUpdateResult(
+        return new EndpointResourceResult(
             EmployeeSalaryModel::class, $employeeSalary,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
@@ -441,12 +438,12 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         list($empNumber) = $this->getUrlAttributes();
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeSalaryService()->getEmployeeSalaryDao()->deleteEmployeeSalaries($empNumber, $ids);
-        return new EndpointDeleteResult(
+        return new EndpointResourceResult(
             ArrayModel::class, $ids,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );

@@ -19,24 +19,21 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use Exception;
+use OrangeHRM\Admin\Api\Model\OrganizationModel;
+use OrangeHRM\Admin\Service\OrganizationService;
+use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Admin\Service\OrganizationService;
-use OrangeHRM\Admin\Api\Model\OrganizationModel;
 use OrangeHRM\Core\Exception\DaoException;
-use Exception;
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Entity\Organization;
 
 class OrganizationAPI extends Endpoint implements CrudEndpoint
@@ -93,10 +90,10 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetOneResult
+     * @return EndpointResourceResult
      * @throws Exception
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         // TODO:: Check data group permission
         $orgInfo = $this->getOrganizationService()->getOrganizationGeneralInformation();
@@ -117,7 +114,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
             $orgInfo->setNote("");
         }
 
-        return new EndpointGetOneResult(OrganizationModel::class, $orgInfo);
+        return new EndpointResourceResult(OrganizationModel::class, $orgInfo);
     }
 
     /**
@@ -133,10 +130,10 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointGetAllResult
+     * @return EndpointCollectionResult
      * @throws NotImplementedException
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         throw new NotImplementedException();
     }
@@ -154,7 +151,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws NotImplementedException
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         throw new NotImplementedException();
     }
@@ -172,12 +169,12 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws Exception
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         // TODO:: Check data group permission
         $orgInfo = $this->saveOrganizationInfo();
 
-        return new EndpointUpdateResult(OrganizationModel::class, $orgInfo);
+        return new EndpointResourceResult(OrganizationModel::class, $orgInfo);
     }
 
     /**
@@ -233,7 +230,8 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_CITY,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CITY_MAX_LENGTH]),
-                ), true
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -264,7 +262,8 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_NOTE,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NOTE_MAX_LENGTH]),
-                ), true
+                ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -274,12 +273,13 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
                 ),
                 true
             ), $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_PHONE,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PHONE_MAX_LENGTH]),
-                ), true
+            new ParamRule(
+                self::PARAMETER_PHONE,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PHONE_MAX_LENGTH]),
             ),
+            true
+        ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_FAX,
@@ -343,7 +343,7 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
      * @inheritDoc
      * @throws NotImplementedException
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         throw new NotImplementedException();
     }

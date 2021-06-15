@@ -25,13 +25,10 @@ use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointCreateResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointDeleteResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetAllResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointGetOneResult;
-use OrangeHRM\Core\Api\V2\Serializer\EndpointUpdateResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -78,7 +75,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getOne(): EndpointGetOneResult
+    public function getOne(): EndpointResourceResult
     {
         $unitId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $subunit = $this->getCompanyStructureService()->getSubunitById($unitId);
@@ -86,7 +83,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
             throw new RecordNotFoundException();
         }
 
-        return new EndpointGetOneResult(SubunitModel::class, $subunit);
+        return new EndpointResourceResult(SubunitModel::class, $subunit);
     }
 
     /**
@@ -105,7 +102,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function getAll(): EndpointGetAllResult
+    public function getAll(): EndpointCollectionResult
     {
         $depth = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_DEPTH);
         $mode = $this->getRequestParams()->getStringOrNull(
@@ -120,7 +117,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
             $modelClass = SubunitTreeModel::class;
         }
 
-        return new EndpointGetAllResult($modelClass, $subunits);
+        return new EndpointCollectionResult($modelClass, $subunits);
     }
 
     /**
@@ -147,7 +144,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function create(): EndpointCreateResult
+    public function create(): EndpointResourceResult
     {
         $parentUnitId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PARENT_ID);
         $parentSubunit = $this->getCompanyStructureService()->getSubunitById($parentUnitId);
@@ -159,7 +156,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
         $subunit = $this->setParamsToSubunit($subunit);
         $this->getCompanyStructureService()->addSubunit($parentSubunit, $subunit);
 
-        return new EndpointCreateResult(SubunitModel::class, $subunit);
+        return new EndpointResourceResult(SubunitModel::class, $subunit);
     }
 
     /**
@@ -206,7 +203,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function update(): EndpointUpdateResult
+    public function update(): EndpointResourceResult
     {
         $unitId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $subunit = $this->getCompanyStructureService()->getSubunitById($unitId);
@@ -217,7 +214,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
         $subunit = $this->setParamsToSubunit($subunit);
 
         $this->getCompanyStructureService()->saveSubunit($subunit);
-        return new EndpointUpdateResult(SubunitModel::class, $subunit);
+        return new EndpointResourceResult(SubunitModel::class, $subunit);
     }
 
     /**
@@ -237,7 +234,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     /**
      * @inheritDoc
      */
-    public function delete(): EndpointDeleteResult
+    public function delete(): EndpointResourceResult
     {
         $unitId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $subunit = $this->getCompanyStructureService()->getSubunitById($unitId);
@@ -247,7 +244,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
         $resultSubunit = clone $subunit;
         $this->getCompanyStructureService()->deleteSubunit($subunit);
 
-        return new EndpointDeleteResult(SubunitModel::class, $resultSubunit);
+        return new EndpointResourceResult(SubunitModel::class, $resultSubunit);
     }
 
     /**
