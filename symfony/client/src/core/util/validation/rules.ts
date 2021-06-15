@@ -19,11 +19,23 @@
 import {parseDate, isBefore, isAfter} from '../helper/datefns';
 
 /**
- * @param {string} value
+ * @param {string|number|Array} value
  * @returns {boolean|string}
  */
-export const required = function(value: string): boolean | string {
-  return (!!value && value.trim() !== '') || 'Required';
+
+export const required = function(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: string | number | Array<any>,
+): boolean | string {
+  if (typeof value === 'string') {
+    return (!!value && value.trim() !== '') || 'Required';
+  } else if (typeof value === 'number') {
+    return Number.isNaN(value) || 'Required';
+  } else if (Array.isArray(value)) {
+    return (!!value && value.length !== 0) || 'Required';
+  } else {
+    return 'Required';
+  }
 };
 
 /**
@@ -41,6 +53,7 @@ export const shouldNotExceedCharLength = function(charLength: number) {
 
 export const validDateFormat = function(dateFormat: string) {
   return function(value: string): boolean | string {
+    if (value === '') return true;
     const parsed = parseDate(value, dateFormat);
     return parsed ? true : `Should be a valid date in ${dateFormat} format`;
   };
@@ -74,4 +87,22 @@ export const afterDate = function(
     }
     return message;
   };
+};
+
+export const max = function(maxValue: number) {
+  return function(value: string): boolean | string {
+    return (
+      Number.isNaN(parseFloat(value)) ||
+      parseFloat(value) < maxValue ||
+      `Should be less than ${maxValue}`
+    );
+  };
+};
+
+export const digitsOnly = function(value: string): boolean | string {
+  return (
+    value == '' ||
+    (/^\d+$/.test(value) && !Number.isNaN(parseFloat(value))) ||
+    'Should be a number'
+  );
 };

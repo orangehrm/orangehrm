@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,25 +16,25 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <oxd-text tag="p" class="orangehrm-form-hint">* Required</oxd-text>
-</template>
+namespace OrangeHRM\Pim\Controller;
 
-<script>
-export default {
-  name: 'required-text',
-};
-</script>
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
 
-<style lang="scss" scoped>
-.orangehrm-form-hint {
-  margin-right: auto;
-  font-weight: 600;
-  font-size: 0.75rem;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+class EmployeeQualificationsController extends BaseViewEmployeeController
+{
+    public function preRender(Request $request): void
+    {
+        $empNumber = $request->get('empNumber');
+        if ($empNumber) {
+            $component = new Component('employee-qualifications');
+            $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
+
+            $this->setComponent($component);
+        } else {
+            $this->handleBadRequest();
+        }
+    }
 }
-</style>

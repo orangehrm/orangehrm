@@ -254,3 +254,8 @@ pim_employee_job:
   path: /pim/viewJobDetails/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeJobController::handle
   methods: [ GET ]
+
+pim_employee_qualifications:
+  path: /pim/viewQualifications/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeQualificationsController::handle
+  methods: [ GET ]

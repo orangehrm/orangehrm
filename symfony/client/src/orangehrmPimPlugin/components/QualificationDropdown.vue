@@ -19,22 +19,45 @@
  -->
 
 <template>
-  <oxd-text tag="p" class="orangehrm-form-hint">* Required</oxd-text>
+  <oxd-input-field
+    type="dropdown"
+    :create-options="loadOptions"
+    :lazyLoad="false"
+    :clear="false"
+  />
 </template>
 
 <script>
+import {APIService} from '@orangehrm/core/util/services/api.service';
 export default {
-  name: 'required-text',
+  name: 'qualification-dropdown',
+  props: {
+    api: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    const http = new APIService(window.appGlobal.baseUrl, props.api);
+    return {
+      http,
+    };
+  },
+  methods: {
+    async loadOptions() {
+      return new Promise(resolve => {
+        this.http.getAll().then(({data}) => {
+          resolve(
+            data.data.map(item => {
+              return {
+                id: item.id,
+                label: item.name,
+              };
+            }),
+          );
+        });
+      });
+    },
+  },
 };
 </script>
-
-<style lang="scss" scoped>
-.orangehrm-form-hint {
-  margin-right: auto;
-  font-weight: 600;
-  font-size: 0.75rem;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-</style>
