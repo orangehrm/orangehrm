@@ -25,7 +25,6 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -73,10 +72,9 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     *@inheritDoc
+     * @inheritDoc
      * @return EndpointResourceResult
      * @throws DaoException
-     * @throws RecordNotFoundException
      */
     public function getOne(): EndpointResourceResult
     {
@@ -178,7 +176,7 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_LICENSE_ID, new Rule(Rules::REQUIRED),  new Rule(Rules::POSITIVE)),
+            new ParamRule(self::PARAMETER_LICENSE_ID, new Rule(Rules::REQUIRED), new Rule(Rules::POSITIVE)),
             $this->getEmpNumberRule(),
             ...$this->getCommonBodyValidationRules(),
         );
