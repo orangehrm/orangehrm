@@ -27,6 +27,7 @@ class User
 {
     use ServiceContainerTrait;
 
+    public const SESSION_TIMEOUT_REDIRECT_URL = 'redirect_uri';
     public const IS_AUTHENTICATED = 'user.is_authenticated';
     public const USER_ID = 'user.user_id';
     public const USER_ROLE_ID = 'user.user_role_id';

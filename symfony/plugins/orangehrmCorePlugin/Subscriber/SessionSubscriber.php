@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Subscriber;
 
+use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Http\Session\Session;
@@ -51,8 +52,8 @@ class SessionSubscriber extends AbstractEventSubscriber
         // TODO:: move to config
         $maxIdleTime = 1800;
         if (time() - $session->getMetadataBag()->getLastUsed() > $maxIdleTime) {
-            $hasRedirectUri = $session->has('redirect_uri');
-            $redirectUri = $session->get('redirect_uri');
+            $hasRedirectUri = $session->has(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
+            $redirectUri = $session->get(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
             $session->invalidate();
 
 
@@ -62,7 +63,7 @@ class SessionSubscriber extends AbstractEventSubscriber
                 $requestUri = $event->getRequest()->getRequestUri();
                 $redirectUri = $urlHelper->getAbsoluteUrl($requestUri);
             }
-            $session->set('redirect_uri', $redirectUri);
+            $session->set(AuthUser::SESSION_TIMEOUT_REDIRECT_URL, $redirectUri);
         }
     }
 }

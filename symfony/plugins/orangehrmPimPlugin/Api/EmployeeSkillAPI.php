@@ -183,7 +183,6 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $employeeSkill->getEmployee()->getEmpNumber(),
-                    self::PARAMETER_SKILL_ID => $employeeSkill->getSkill()->getId()
                 ]
             )
         );
