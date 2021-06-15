@@ -52,18 +52,18 @@ class EmployeeSkill
     private Skill $skill;
 
     /**
-     * @var float
+     * @var float | null
      *
      * @ORM\Column(name="years_of_exp", type="decimal", length=2)
      */
-    private float $yearsOfExp;
+    private ?float $yearsOfExp;
 
     /**
-     * @var string
+     * @var string | null
      *
      * @ORM\Column(name="comments", type="string", length=100)
      */
-    private string $comments;
+    private ?string $comments;
 
     /**
      * @return Employee|null
@@ -98,33 +98,33 @@ class EmployeeSkill
     }
 
     /**
-     * @return float
+     * @return float | null
      */
-    public function getYearsOfExp(): float
+    public function getYearsOfExp(): ?float
     {
         return $this->yearsOfExp;
     }
 
     /**
-     * @param float $yearsOfExp
+     * @param float | null $yearsOfExp
      */
-    public function setYearsOfExp(float $yearsOfExp): void
+    public function setYearsOfExp(?float $yearsOfExp): void
     {
         $this->yearsOfExp = $yearsOfExp;
     }
 
     /**
-     * @return string
+     * @return string | null
      */
-    public function getComments(): string
+    public function getComments(): ?string
     {
         return $this->comments;
     }
 
     /**
-     * @param string $comments
+     * @param string | null $comments
      */
-    public function setComments(string $comments): void
+    public function setComments(?string $comments): void
     {
         $this->comments = $comments;
     }
