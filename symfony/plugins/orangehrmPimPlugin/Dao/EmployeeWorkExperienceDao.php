@@ -51,7 +51,7 @@ class EmployeeWorkExperienceDao extends BaseDao
             $employeeWorkExperience->setSeqNo($seqNo);
         }
         $seqNo = intval($employeeWorkExperience->getSeqNo());
-        if (!(strlen((string)$seqNo) < 10 && $seqNo > 0)) {
+        if (!(strlen((string)$seqNo) <= 10 && $seqNo > 0)) {
             throw new InvalidArgumentException('Invalid `seqNo`');
         }
 
