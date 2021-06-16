@@ -60,7 +60,7 @@ class EmployeeLanguage
     /**
      * @var Language
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Language")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Language", inversedBy="employeeLanguages")
      * @ORM\Id
      * @ORM\JoinColumn(name="lang_id", referencedColumnName="id")
      * @ORM\GeneratedValue(strategy="NONE")

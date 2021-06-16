@@ -215,6 +215,15 @@ apiv2_pim_employees_language:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_allowed_languages:
+  path: /api/v2/pim/employees/{empNumber}/allowed-languages
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeAllowedLanguageAPI
+  requirements:
+    empNumber: '\d+'
+
 apiv2_pim_employees_work_experiences:
   path: /api/v2/pim/employees/{empNumber}/work-experiences
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

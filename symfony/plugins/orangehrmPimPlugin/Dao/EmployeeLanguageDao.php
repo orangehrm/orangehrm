@@ -19,11 +19,14 @@
 
 namespace OrangeHRM\Pim\Dao;
 
+use Doctrine\ORM\Query\Expr;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeLanguage;
+use OrangeHRM\Entity\Language;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Pim\Dto\EmployeeAllowedLanguageSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeLanguagesSearchFilterParams;
 
 class EmployeeLanguageDao extends BaseDao
@@ -128,6 +131,11 @@ class EmployeeLanguageDao extends BaseDao
         $q->andWhere('el.employee = :empNumber')
             ->setParameter('empNumber', $employeeLanguagesSearchFilterParams->getEmpNumber());
 
+        if (!is_null($employeeLanguagesSearchFilterParams->getLanguageIds())) {
+            $q->andWhere($q->expr()->in('l.id', ':languageIds'))
+                ->setParameter('languageIds', $employeeLanguagesSearchFilterParams->getLanguageIds());
+        }
+
         return $this->getPaginator($q);
     }
 
@@ -145,5 +153,57 @@ class EmployeeLanguageDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @param EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
+     * @return Language[]
+     * @throws DaoException
+     */
+    public function getAllowedEmployeeLanguages(
+        EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
+    ): array {
+        try {
+            $paginator = $this->getAllowedEmployeeLanguagesPaginator($employeeAllowedLanguageSearchFilterParams);
+            return $paginator->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getAllowedEmployeeLanguagesCount(
+        EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
+    ): int {
+        try {
+            $paginator = $this->getAllowedEmployeeLanguagesPaginator($employeeAllowedLanguageSearchFilterParams);
+            return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
+     * @return Paginator
+     */
+    private function getAllowedEmployeeLanguagesPaginator(
+        EmployeeAllowedLanguageSearchFilterParams $employeeAllowedLanguageSearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(Language::class, 'l');
+        $q->leftJoin('l.employeeLanguages', 'el', Expr\Join::WITH, 'el.employee = :empNumber');
+        $q->setParameter('empNumber', $employeeAllowedLanguageSearchFilterParams->getEmpNumber());
+        $q->addSelect('el');
+        $this->setSortingAndPaginationParams($q, $employeeAllowedLanguageSearchFilterParams);
+
+        $q->addGroupBy('l.name');
+        $q->andHaving($q->expr()->lt($q->expr()->count('l.name'), ':fluencyCount'))
+            ->setParameter('fluencyCount', count(EmployeeLanguage::FLUENCIES));
+
+        return $this->getPaginator($q);
     }
 }
