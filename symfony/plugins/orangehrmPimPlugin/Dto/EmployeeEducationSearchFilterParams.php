@@ -23,19 +23,16 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeEducationSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['ee.year', 'ee.score', 'ee.institute', 'ee.major'];
+    public const ALLOWED_SORT_FIELDS = ['e.name'];
 
     /**
      * @var string|null
      */
     protected ?string $empNumber = null;
 
-    /**
-     * EmployeeSkillSearchFilterParams constructor.
-     */
     public function __construct()
     {
-        $this->setSortField('ee.year');
+        $this->setSortField('e.name');
     }
 
     /**
