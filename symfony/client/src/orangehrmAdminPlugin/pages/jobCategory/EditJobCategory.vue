@@ -131,7 +131,7 @@ export default {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.category.id ? 'Already exists.' : true;
+            return id != this.category.id ? 'Already exists' : true;
           } else {
             return true;
           }

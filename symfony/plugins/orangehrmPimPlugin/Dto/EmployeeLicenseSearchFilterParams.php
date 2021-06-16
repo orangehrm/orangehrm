@@ -17,65 +17,41 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Pim\Dto;
 
-use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Dto\FilterParams;
 
-/**
- * License
- *
- * @ORM\Table(name="ohrm_license")
- * @ORM\Entity
- */
-class License
+class EmployeeLicenseSearchFilterParams extends FilterParams
 {
+    public const ALLOWED_SORT_FIELDS = ['el.licenseIssuedDate'];
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var string|null
      */
-    private int $id;
+    protected ?string $empNumber;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=100)
+     * EmployeeLicenseSearchFilterParams constructor.
      */
-    private string $name;
+    public function __construct()
+    {
+        $this->setSortField('el.licenseIssuedDate');
+    }
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getEmpNumber(): int
     {
-        return $this->id;
+        return $this->empNumber;
     }
 
     /**
-     * @param int $id
+     * @param int $empNumber
      */
-    public function setId(int $id): void
+    public function setEmpNumber(int $empNumber): void
     {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+        $this->empNumber = $empNumber;
     }
 
 }

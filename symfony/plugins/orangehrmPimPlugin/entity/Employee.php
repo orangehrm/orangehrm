@@ -448,15 +448,12 @@ class Employee
      */
     private $languages;
 
-//    /**
-//     * @var Collection
-//     *
-//     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeLicense", mappedBy="Employee")
-//     * @ORM\JoinColumns({
-//     *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
-//     * })
-//     */
-//    private $licenses;
+    /**
+     * @var Collection|EmployeeLicense[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeLicense", mappedBy="employee")
+     */
+    private $licenses;
 
     /**
      * @var Collection

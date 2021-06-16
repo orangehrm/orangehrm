@@ -17,65 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Tests\Pim\Service;
 
-use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Pim\Dao\EmployeeLicenseDao;
+use OrangeHRM\Pim\Service\EmployeeLicenseService;
+use OrangeHRM\Tests\Util\TestCase;
 
 /**
- * License
- *
- * @ORM\Table(name="ohrm_license")
- * @ORM\Entity
+ * @group Pim
+ * @group Service
  */
-class License
+class EmployeeLicenseServiceTest extends TestCase
 {
+    private EmployeeLicenseService $employeeLicenseService;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=100)
-     */
-    private string $name;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    protected function setUp(): void
     {
-        return $this->id;
+        $this->employeeLicenseService = new EmployeeLicenseService();
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
+    public function testGetEmployeeLicenseDao(){
+        $this->assertTrue($this->employeeLicenseService->getEmployeeLicenseDao() instanceof EmployeeLicenseDao);
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
+    public function testGetEmployeeLicenseDaoBySetter(){
+        $employeeLicenseDao = new EmployeeLicenseDao();
+        $this->employeeLicenseService->setEmployeeLicenseDao($employeeLicenseDao);
+        $this->assertTrue($this->employeeLicenseService->getEmployeeLicenseDao() instanceof EmployeeLicenseDao);
     }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
 }

@@ -17,65 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Pim\Service;
 
-use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Pim\Dao\EmployeeLicenseDao;
 
-/**
- * License
- *
- * @ORM\Table(name="ohrm_license")
- * @ORM\Entity
- */
-class License
+class EmployeeLicenseService
 {
+    /**
+     * @var EmployeeLicenseDao|null
+     */
+    private ?EmployeeLicenseDao $employeeLicenseDao = null;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @return EmployeeLicenseDao
      */
-    private int $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=100)
-     */
-    private string $name;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getEmployeeLicenseDao(): EmployeeLicenseDao
     {
-        return $this->id;
+        if (!($this->employeeLicenseDao instanceof EmployeeLicenseDao)) {
+            $this->employeeLicenseDao = new EmployeeLicenseDao();
+        }
+        return $this->employeeLicenseDao;
     }
 
     /**
-     * @param int $id
+     * @param EmployeeLicenseDao $employeeLicenseDao
      */
-    public function setId(int $id): void
+    public function setEmployeeLicenseDao(EmployeeLicenseDao $employeeLicenseDao): void
     {
-        $this->id = $id;
+        $this->employeeLicenseDao = $employeeLicenseDao;
     }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
 }
