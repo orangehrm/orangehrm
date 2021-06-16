@@ -21,7 +21,7 @@ namespace OrangeHRM\Pim\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 
-class EmployeeSkillSearchFilterParams extends FilterParams
+class EmployeeAllowedSkillSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['s.name'];
 
@@ -30,9 +30,6 @@ class EmployeeSkillSearchFilterParams extends FilterParams
      */
     protected ?string $empNumber = null;
 
-    /**
-     * EmployeeSkillSearchFilterParams constructor.
-     */
     public function __construct()
     {
         $this->setSortField('s.name');

@@ -64,14 +64,6 @@ class EmployeeLicenseAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param EmployeeLicenseService $employeeLicenseService
-     */
-    public function setEmployeeLicenseService(EmployeeLicenseService $employeeLicenseService): void
-    {
-        $this->employeeLicenseService = $employeeLicenseService;
-    }
-
-    /**
      * @inheritDoc
      * @return EndpointResourceResult
      * @throws DaoException

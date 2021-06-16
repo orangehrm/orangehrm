@@ -17,40 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Pim\Api\Model;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Skill;
 
-class EmployeeSkillSearchFilterParams extends FilterParams
+class EmployeeAllowedSkillModel implements Normalizable
 {
-    public const ALLOWED_SORT_FIELDS = ['s.name'];
+    use ModelTrait;
 
-    /**
-     * @var string|null
-     */
-    protected ?string $empNumber = null;
-
-    /**
-     * EmployeeSkillSearchFilterParams constructor.
-     */
-    public function __construct()
+    public function __construct(Skill $skill)
     {
-        $this->setSortField('s.name');
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getEmpNumber(): ?int
-    {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param int|null $empNumber
-     */
-    public function setEmpNumber(?int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
+        $this->setEntity($skill);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+            ]
+        );
     }
 }
