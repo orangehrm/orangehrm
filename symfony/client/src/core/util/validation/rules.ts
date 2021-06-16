@@ -53,7 +53,7 @@ export const shouldNotExceedCharLength = function(charLength: number) {
 
 export const validDateFormat = function(dateFormat: string) {
   return function(value: string): boolean | string {
-    if (value === '') return true;
+    if (!value) return true;
     const parsed = parseDate(value, dateFormat);
     return parsed ? true : `Should be a valid date in ${dateFormat} format`;
   };
