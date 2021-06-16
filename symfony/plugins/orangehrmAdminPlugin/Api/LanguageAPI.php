@@ -79,10 +79,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $language = $this->getLanguageService()->getLanguageById($id);
-
-        if (!$language instanceof Language) {
-            throw new RecordNotFoundException();
-        }
         $this->throwRecordNotFoundExceptionIfNotExist($language, Language::class);
         return new EndpointResourceResult(LanguageModel::class, $language);
     }
@@ -165,11 +161,9 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
+        if ($id) {
             $language = $this->getLanguageService()->getLanguageById($id);
-            if ($language == null) {
-                throw new RecordNotFoundException();
-            }
+            $this->throwRecordNotFoundExceptionIfNotExist($language, Language::class);
         } else {
             $language = new Language();
         }

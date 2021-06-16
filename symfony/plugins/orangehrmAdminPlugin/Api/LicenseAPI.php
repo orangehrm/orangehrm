@@ -79,10 +79,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $license = $this->getLicenseService()->getLicenseById($id);
-
-        if (!$license instanceof License) {
-            throw new RecordNotFoundException();
-        }
         $this->throwRecordNotFoundExceptionIfNotExist($license, License::class);
 
         return new EndpointResourceResult(LicenseModel::class, $license);
@@ -145,19 +141,16 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @return License
-     * @throws RecordNotFoundException
      * @throws DaoException
-     * @throws Exception
+     * @throws RecordNotFoundException
      */
     public function saveLicense(): License
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
+        if ($id) {
             $license = $this->getLicenseService()->getLicenseById($id);
-            if ($license == null) {
-                throw new RecordNotFoundException();
-            }
+            $this->throwRecordNotFoundExceptionIfNotExist($license, License::class);
         } else {
             $license = new License();
         }

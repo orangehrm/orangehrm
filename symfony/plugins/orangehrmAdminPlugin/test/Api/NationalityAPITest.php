@@ -240,26 +240,22 @@ class NationalityAPITest extends EndpointTestCase
             ->onlyMethods(['saveNationality'])
             ->getMock();
 
-
-        $nationality = new Nationality();
-//        $nationality->setId(1);
-//        $nationality->setName('Sri Lankan');
-
-//        $nationalityDao->expects($this->exactly(1))
-//            ->method('getNationalityById')
-//            ->with(1)
-//            ->willReturn($nationality);
-
-        $nationalityDao->expects($this->exactly(1))
+        $nationalityDao->expects($this->once())
             ->method('saveNationality')
-            ->with($nationality)
-            ->will($this->returnValue($nationality));
+            ->will(
+                $this->returnCallback(
+                    function (Nationality $nationality) {
+                        $nationality->setId(1);
+                        return $nationality;
+                    }
+                )
+            );
 
         $nationalityService = $this->getMockBuilder(NationalityService::class)
             ->onlyMethods(['getNationalityDao'])
             ->getMock();
 
-        $nationalityService->expects($this->exactly(2))
+        $nationalityService->expects($this->once())
             ->method('getNationalityDao')
             ->willReturn($nationalityDao);
 
@@ -268,21 +264,20 @@ class NationalityAPITest extends EndpointTestCase
             NationalityAPI::class,
             [
                 RequestParams::PARAM_TYPE_BODY => [
-                    CommonParams::PARAMETER_ID => 2,
                     NationalityAPI::PARAMETER_NAME => 'India',
                 ]
             ]
         )->onlyMethods(['getNationalityService'])
             ->getMock();
-        $api->expects($this->exactly(2))
+        $api->expects($this->once())
             ->method('getNationalityService')
             ->will($this->returnValue($nationalityService));
 
-        $result = $api->update();
+        $result = $api->create();
         $this->assertEquals(
             [
-                "id" => 2,
-                "name" => 'india'
+                "id" => 1,
+                "name" => 'India'
             ],
             $result->normalize()
         );

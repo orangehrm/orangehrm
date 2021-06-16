@@ -59,13 +59,8 @@ class EducationAPI extends EndPoint implements CrudEndpoint
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $education = $this->getEducationService()->getEducationById($id);
-
-        if (!$education instanceof Education) {
-            throw new RecordNotFoundException();
-        }
         $this->throwRecordNotFoundExceptionIfNotExist($education, Education::class);
         return new EndpointResourceResult(EducationModel::class, $education);
-
     }
 
     /**
@@ -150,11 +145,9 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
+        if ($id) {
             $education = $this->getEducationService()->getEducationById($id);
-            if ($education == null) {
-                throw new RecordNotFoundException();
-            }
+            $this->throwRecordNotFoundExceptionIfNotExist($education, Education::class);
         } else {
             $education = new Education();
         }
@@ -223,7 +216,7 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResourceResult
+     * @inheritDoc
      * @throws Exception
      */
     public function delete(): EndpointResourceResult
