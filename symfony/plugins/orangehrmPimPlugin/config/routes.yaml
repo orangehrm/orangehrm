@@ -224,6 +224,24 @@ apiv2_pim_employees_work_experience:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_licenses:
+  path: /api/v2/pim/employees/{empNumber}/licenses
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeLicenseAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_license:
+  path: /api/v2/pim/employees/{empNumber}/licenses/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeLicenseAPI
+  requirements:
+    empNumber: '\d+'
+
 ##########################
 #        Files
 ##########################
