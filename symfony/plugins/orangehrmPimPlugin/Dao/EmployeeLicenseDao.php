@@ -19,11 +19,14 @@
 
 namespace OrangeHRM\Pim\Dao;
 
+use Doctrine\ORM\Query\Expr;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeLicense;
+use OrangeHRM\Entity\License;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Pim\Dto\EmployeeAllowedLicenseSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeLicenseSearchFilterParams;
 
 class EmployeeLicenseDao extends BaseDao
@@ -53,10 +56,12 @@ class EmployeeLicenseDao extends BaseDao
     public function getEmployeeLicense(int $empNumber, int $licenseId): ?EmployeeLicense
     {
         try {
-            $employeeLicense = $this->getRepository(EmployeeLicense::class)->findOneBy([
-                'employee' => $empNumber,
-                'license' => $licenseId,
-            ]);
+            $employeeLicense = $this->getRepository(EmployeeLicense::class)->findOneBy(
+                [
+                    'employee' => $empNumber,
+                    'license' => $licenseId,
+                ]
+            );
             if ($employeeLicense instanceof EmployeeLicense) {
                 return $employeeLicense;
             }
@@ -130,5 +135,53 @@ class EmployeeLicenseDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @param EmployeeAllowedLicenseSearchFilterParams $skillSearchFilterParams
+     * @return License[]
+     * @throws DaoException
+     */
+    public function getEmployeeAllowedLicenses(EmployeeAllowedLicenseSearchFilterParams $skillSearchFilterParams): array
+    {
+        try {
+            $paginator = $this->getEmployeeAllowedLicensesPaginator($skillSearchFilterParams);
+            return $paginator->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmployeeAllowedLicenseSearchFilterParams $skillSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getEmployeeAllowedLicensesCount(
+        EmployeeAllowedLicenseSearchFilterParams $skillSearchFilterParams
+    ): int {
+        try {
+            $paginator = $this->getEmployeeAllowedLicensesPaginator($skillSearchFilterParams);
+            return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmployeeAllowedLicenseSearchFilterParams $skillSearchFilterParams
+     * @return Paginator
+     */
+    private function getEmployeeAllowedLicensesPaginator(
+        EmployeeAllowedLicenseSearchFilterParams $skillSearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(License::class, 'l');
+        $q->leftJoin('l.employeeLicenses', 'el', Expr\Join::WITH, 'el.employee = :empNumber');
+        $this->setSortingAndPaginationParams($q, $skillSearchFilterParams);
+
+        $q->andWhere($q->expr()->isNull('el.employee'));
+        $q->setParameter('empNumber', $skillSearchFilterParams->getEmpNumber());
+
+        return $this->getPaginator($q);
     }
 }

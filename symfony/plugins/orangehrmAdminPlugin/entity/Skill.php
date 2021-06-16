@@ -1,4 +1,21 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 namespace OrangeHRM\Entity;
 
@@ -7,8 +24,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Skill
- *
  * @ORM\Table(name="ohrm_skill")
  * @ORM\Entity
  */
@@ -33,21 +48,17 @@ class Skill
     /**
      * @var string | null
      *
-     * @ORM\Column(name="description", type="string", length=2147483647, nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private ?string $description;
 
     /**
-     * @var Collection
+     * @var Collection|EmployeeSkill[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmployeeSkill", mappedBy="skill")
      */
-    private Collection $employeeSkills;
+    private $employeeSkills;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->employeeSkills = new ArrayCollection();
@@ -86,34 +97,18 @@ class Skill
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getEmployeeSkills(): Collection
-    {
-        return $this->employeeSkills;
-    }
-
-    /**
-     * @param Collection $employeeSkills
-     */
-    public function setEmployeeSkills(Collection $employeeSkills): void
-    {
-        $this->employeeSkills = $employeeSkills;
     }
 }

@@ -25,7 +25,7 @@ use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\EmployeeLicenseDecorator;
 
 /**
- * @method EmployeelicenseDecorator getDecorator()
+ * @method EmployeeLicenseDecorator getDecorator()
  *
  * @ORM\Table(name="ohrm_emp_license")
  * @ORM\Entity
@@ -37,7 +37,7 @@ class EmployeeLicense
     /**
      * @var License
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\License")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\License", inversedBy="employeeLicenses")
      * @ORM\Id
      * @ORM\JoinColumn(name="license_id", referencedColumnName="id")
      */
