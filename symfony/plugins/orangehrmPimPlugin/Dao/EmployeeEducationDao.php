@@ -45,17 +45,17 @@ class EmployeeEducationDao extends BaseDao
 
     /**
      * @param int $empNumber
-     * @param int $educationId
+     * @param int $id
      * @return EmployeeEducation|null
      * @throws DaoException
      */
-    public function getEmployeeEducationById(int $empNumber, int $educationId): ?EmployeeEducation
+    public function getEmployeeEducationById(int $empNumber, int $id): ?EmployeeEducation
     {
         try {
             $employeeEducation = $this->getRepository(EmployeeEducation::class)->findOneBy(
                 [
                     'employee' => $empNumber,
-                    'education' => $educationId,
+                    'id' => $id,
                 ]
             );
             if ($employeeEducation instanceof EmployeeEducation) {
@@ -80,7 +80,7 @@ class EmployeeEducationDao extends BaseDao
             $q->delete()
                 ->andWhere('ee.employee = :empNumber')
                 ->setParameter('empNumber', $empNumber)
-                ->andWhere($q->expr()->in('ee.education', ':ids'))
+                ->andWhere($q->expr()->in('ee.id', ':ids'))
                 ->setParameter('ids', $toDeleteIds);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
@@ -113,6 +113,7 @@ class EmployeeEducationDao extends BaseDao
         EmployeeEducationSearchFilterParams $employeeEducationSearchParams
     ): Paginator {
         $q = $this->createQueryBuilder(EmployeeEducation::class, 'ee');
+        $q->leftJoin('ee.education', 'e');
         $this->setSortingAndPaginationParams($q, $employeeEducationSearchParams);
 
         $q->andWhere('ee.employee = :empNumber')

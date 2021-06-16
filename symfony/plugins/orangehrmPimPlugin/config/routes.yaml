@@ -160,6 +160,15 @@ apiv2_pim_employees_skills:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_allowed_skills:
+  path: /api/v2/pim/employees/{empNumber}/skills/allowed
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeAllowedSkillAPI
+  requirements:
+    empNumber: '\d+'
+
 apiv2_pim_employees_skill:
   path: /api/v2/pim/employees/{empNumber}/skills/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -168,15 +177,7 @@ apiv2_pim_employees_skill:
     _api: OrangeHRM\Pim\Api\EmployeeSkillAPI
   requirements:
     empNumber: '\d+'
-
-apiv2_pim_employees_allowed_skills:
-  path: /api/v2/pim/employees/{empNumber}/allowed-skills
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, POST, DELETE ]
-  defaults:
-    _api: OrangeHRM\Pim\Api\EmployeeAllowedSkillAPI
-  requirements:
-    empNumber: '\d+'
+    id: '\d+'
 
 apiv2_pim_employees_educations:
   path: /api/v2/pim/employees/{empNumber}/educations
@@ -216,7 +217,7 @@ apiv2_pim_employees_language:
     empNumber: '\d+'
 
 apiv2_pim_employees_allowed_languages:
-  path: /api/v2/pim/employees/{empNumber}/allowed-languages
+  path: /api/v2/pim/employees/{empNumber}/languages/allowed
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
   defaults:
@@ -251,6 +252,15 @@ apiv2_pim_employees_licenses:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_allowed_licenses:
+  path: /api/v2/pim/employees/{empNumber}/licenses/allowed
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeAllowedLicenseAPI
+  requirements:
+    empNumber: '\d+'
+
 apiv2_pim_employees_license:
   path: /api/v2/pim/employees/{empNumber}/licenses/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -259,15 +269,7 @@ apiv2_pim_employees_license:
     _api: OrangeHRM\Pim\Api\EmployeeLicenseAPI
   requirements:
     empNumber: '\d+'
-
-apiv2_pim_employees_allowed_licenses:
-  path: /api/v2/pim/employees/{empNumber}/allowed-licenses
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, POST, DELETE ]
-  defaults:
-    _api: OrangeHRM\Pim\Api\EmployeeAllowedLicenseAPI
-  requirements:
-    empNumber: '\d+'
+    id: '\d+'
 
 ##########################
 #        Files
@@ -335,4 +337,9 @@ pim_employee_profile_picture:
 pim_employee_job:
   path: /pim/viewJobDetails/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeJobController::handle
+  methods: [ GET ]
+
+pim_employee_qualifications:
+  path: /pim/viewQualifications/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeQualificationsController::handle
   methods: [ GET ]

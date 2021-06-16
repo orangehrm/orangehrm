@@ -19,11 +19,23 @@
 import {parseDate, isBefore, isAfter} from '../helper/datefns';
 
 /**
- * @param {string} value
+ * @param {string|number|Array} value
  * @returns {boolean|string}
  */
-export const required = function(value: string): boolean | string {
-  return (!!value && value.trim() !== '') || 'Required';
+
+export const required = function(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: string | number | Array<any>,
+): boolean | string {
+  if (typeof value === 'string') {
+    return (!!value && value.trim() !== '') || 'Required';
+  } else if (typeof value === 'number') {
+    return Number.isNaN(value) || 'Required';
+  } else if (Array.isArray(value)) {
+    return (!!value && value.length !== 0) || 'Required';
+  } else {
+    return 'Required';
+  }
 };
 
 /**
@@ -33,7 +45,7 @@ export const shouldNotExceedCharLength = function(charLength: number) {
   return function(value: string): boolean | string {
     return (
       !value ||
-      value.length <= charLength ||
+      new String(value).length <= charLength ||
       `Should not exceed ${charLength} characters`
     );
   };
@@ -41,37 +53,50 @@ export const shouldNotExceedCharLength = function(charLength: number) {
 
 export const validDateFormat = function(dateFormat: string) {
   return function(value: string): boolean | string {
+    if (!value) return true;
     const parsed = parseDate(value, dateFormat);
     return parsed ? true : `Should be a valid date in ${dateFormat} format`;
   };
 };
 
+export const max = function(maxValue: number) {
+  return function(value: string): boolean | string {
+    return (
+      Number.isNaN(parseFloat(value)) ||
+      parseFloat(value) < maxValue ||
+      `Should be less than ${maxValue}`
+    );
+  };
+};
+
+export const digitsOnly = function(value: string): boolean | string {
+  return (
+    value == '' ||
+    (/^\d+$/.test(value) && !Number.isNaN(parseFloat(value))) ||
+    'Should be a number'
+  );
+};
+
 export const beforeDate = function(
   dateFormat: string,
-  valueToCompare: string,
-  message: string,
+  date1: string,
+  date2: string,
 ) {
-  return function(value: string): boolean | string {
-    const origin = parseDate(value, dateFormat);
-    const reference = parseDate(valueToCompare, dateFormat);
-    if (origin && reference) {
-      return isBefore(origin, reference) ? true : message;
-    }
-    return message;
-  };
+  // Skip assersion on unset values
+  if (!date1 || !date2) {
+    return true;
+  }
+  return isBefore(date1, date2, dateFormat);
 };
 
 export const afterDate = function(
   dateFormat: string,
-  valueToCompare: string,
-  message: string,
+  date1: string,
+  date2: string,
 ) {
-  return function(value: string): boolean | string {
-    const origin = parseDate(value, dateFormat);
-    const reference = parseDate(valueToCompare, dateFormat);
-    if (origin && reference) {
-      return isAfter(origin, reference) ? true : message;
-    }
-    return message;
-  };
+  // Skip assersion on unset values
+  if (!date1 || !date2) {
+    return true;
+  }
+  return isAfter(date1, date2, dateFormat);
 };

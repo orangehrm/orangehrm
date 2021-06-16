@@ -70,30 +70,14 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param EmployeeEducationService $employeeEducationService
-     */
-    public function setEmployeeEducationService(EmployeeEducationService $employeeEducationService): void
-    {
-        $this->employeeEducationService = $employeeEducationService;
-    }
-
-    /**
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
     {
-        $empNumber = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_EMP_NUMBER
-        );
-        $educationId = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_ID
-        );
-        $employeeEducation = $this->getEmployeeEducationService()->getEmployeeEducationDao()->getEmployeeEducationById(
-            $empNumber,
-            $educationId
-        );
+        list($empNumber, $id) = $this->getUrlAttributes();
+        $employeeEducation = $this->getEmployeeEducationService()
+            ->getEmployeeEducationDao()
+            ->getEmployeeEducationById($empNumber, $id);
         $this->throwRecordNotFoundExceptionIfNotExist($employeeEducation, EmployeeEducation::class);
 
         return new EndpointResourceResult(
@@ -101,6 +85,22 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
             $employeeEducation,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
+    }
+
+    /**
+     * @return array
+     */
+    private function getUrlAttributes(): array
+    {
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $id = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+        return [$empNumber, $id];
     }
 
     /**
@@ -120,15 +120,10 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
+        list($empNumber) = $this->getUrlAttributes();
         $employeeEducationSearchParams = new EmployeeEducationSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeEducationSearchParams);
-        $empNumber = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_EMP_NUMBER
-        );
-        $employeeEducationSearchParams->setEmpNumber(
-            $empNumber
-        );
+        $employeeEducationSearchParams->setEmpNumber($empNumber);
 
         $employeeEducations = $this->getEmployeeEducationService()->getEmployeeEducationDao()->searchEmployeeEducation(
             $employeeEducationSearchParams
@@ -166,14 +161,15 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        $employeeEducation = $this->saveEmployeeEducation();
+        list($empNumber) = $this->getUrlAttributes();
+        $educationId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EDUCATION_ID);
+        $employeeEducation = new EmployeeEducation();
+        $employeeEducation->getDecorator()->setEmployeeByEmpNumber($empNumber);
+        $employeeEducation->getDecorator()->setEducationByEducationId($educationId);
+        $employeeEducation = $this->saveEmployeeEducation($employeeEducation);
         return new EndpointResourceResult(
             EmployeeEducationModel::class, $employeeEducation,
-            new ParameterBag(
-                [
-                    CommonParams::PARAMETER_EMP_NUMBER => $employeeEducation->getEmployee()->getEmpNumber(),
-                ]
-            )
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
 
@@ -195,35 +191,50 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(
-                self::PARAMETER_INSTITUTE,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_INSTITUTE_MAX_LENGTH]),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_INSTITUTE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_INSTITUTE_MAX_LENGTH]),
+                ),
+                true
             ),
-            new ParamRule(
-                self::PARAMETER_MAJOR,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MAJOR_MAX_LENGTH]),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_MAJOR,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MAJOR_MAX_LENGTH]),
+                ),
+                true
             ),
-            new ParamRule(
-                self::PARAMETER_YEAR,
-                new Rule(Rules::INT_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_YEAR_MAX_LENGTH]),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_YEAR,
+                    new Rule(Rules::INT_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_YEAR_MAX_LENGTH]),
+                ),
+                true
             ),
-            new ParamRule(
-                self::PARAMETER_SCORE,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SCORE_MAX_LENGTH]),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_SCORE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SCORE_MAX_LENGTH]),
+                ),
+                true
             ),
-            new ParamRule(
-                self::PARAMETER_START_DATE,
-                new Rule(Rules::API_DATE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_START_DATE,
+                    new Rule(Rules::API_DATE),
+                ),
             ),
-            new ParamRule(
-                self::PARAMETER_END_DATE,
-                new Rule(Rules::API_DATE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_END_DATE,
+                    new Rule(Rules::API_DATE),
+                ),
             ),
-
         ];
     }
 
@@ -233,15 +244,16 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        $employeeEducation = $this->saveEmployeeEducation();
+        list($empNumber, $id) = $this->getUrlAttributes();
+        $employeeEducation = $this->getEmployeeEducationService()
+            ->getEmployeeEducationDao()
+            ->getEmployeeEducationById($empNumber, $id);
+        $this->throwRecordNotFoundExceptionIfNotExist($employeeEducation, EmployeeEducation::class);
+        $this->saveEmployeeEducation($employeeEducation);
 
         return new EndpointResourceResult(
             EmployeeEducationModel::class, $employeeEducation,
-            new ParameterBag(
-                [
-                    CommonParams::PARAMETER_EMP_NUMBER => $employeeEducation->getEmployee()->getEmpNumber(),
-                ]
-            )
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
 
@@ -264,10 +276,7 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        $empNumber = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_EMP_NUMBER
-        );
+        list($empNumber) = $this->getUrlAttributes();
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeEducationService()->getEmployeeEducationDao()->deleteEmployeeEducations($empNumber, $ids);
         return new EndpointResourceResult(
@@ -292,14 +301,12 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @param EmployeeEducation $employeeEducation
      * @return EmployeeEducation
      * @throws DaoException
-     * @throws Exception
      */
-    public function saveEmployeeEducation(): EmployeeEducation
+    public function saveEmployeeEducation(EmployeeEducation $employeeEducation): EmployeeEducation
     {
-        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $educationId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EDUCATION_ID);
         $year = $this->getRequestParams()->getIntOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_YEAR
@@ -324,34 +331,17 @@ class EmployeeEducationAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_END_DATE
         );
-        $empNumber = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_EMP_NUMBER
-        );
-        if (!empty($educationId)) { // create operation
-            $id = $educationId;
-        }
-        $employeeEducation = $this->getEmployeeEducationService()->getEmployeeEducationDao()->getEmployeeEducationById(
-            $empNumber,
-            $id
-        );
-        if ($employeeEducation == null) {
-            $employeeEducation = new EmployeeEducation();
-            $employeeEducation->getDecorator()->setEmployeeByEmpNumber($empNumber);
-            $employeeEducation->getDecorator()->setEducationByEducationId($id);
-        }
+
         $employeeEducation->setYear($year);
         $employeeEducation->setScore($score);
         $employeeEducation->setInstitute($institute);
         $employeeEducation->setMajor($major);
-
-        // TODO:: API_DATE
         $employeeEducation->setStartDate($startDate);
         $employeeEducation->setEndDate($endDate);
 
-        return $this->getEmployeeEducationService()->getEmployeeEducationDao()->saveEmployeeEducation(
-            $employeeEducation
-        );
+        return $this->getEmployeeEducationService()
+            ->getEmployeeEducationDao()
+            ->saveEmployeeEducation($employeeEducation);
     }
 
     /**
