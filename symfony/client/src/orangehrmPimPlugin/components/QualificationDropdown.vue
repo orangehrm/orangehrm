@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,38 +16,48 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Pim\Dto;
+<template>
+  <oxd-input-field
+    type="dropdown"
+    :create-options="loadOptions"
+    :lazyLoad="false"
+    :clear="false"
+  />
+</template>
 
-use OrangeHRM\Core\Dto\FilterParams;
-
-class EmployeeEducationSearchFilterParams extends FilterParams
-{
-    public const ALLOWED_SORT_FIELDS = ['e.name'];
-
-    /**
-     * @var string|null
-     */
-    protected ?string $empNumber = null;
-
-    public function __construct()
-    {
-        $this->setSortField('e.name');
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getEmpNumber(): ?int
-    {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param int|null $empNumber
-     */
-    public function setEmpNumber(?int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
-    }
-}
+<script>
+import {APIService} from '@orangehrm/core/util/services/api.service';
+export default {
+  name: 'qualification-dropdown',
+  props: {
+    api: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    const http = new APIService(window.appGlobal.baseUrl, props.api);
+    return {
+      http,
+    };
+  },
+  methods: {
+    async loadOptions() {
+      return new Promise(resolve => {
+        this.http.getAll().then(({data}) => {
+          resolve(
+            data.data.map(item => {
+              return {
+                id: item.id,
+                label: item.name,
+              };
+            }),
+          );
+        });
+      });
+    },
+  },
+};
+</script>

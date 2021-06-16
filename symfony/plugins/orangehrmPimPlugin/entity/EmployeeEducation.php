@@ -60,46 +60,46 @@ class EmployeeEducation
     private Education $education;
 
     /**
-     * @var string
+     * @var string | null
      *
-     * @ORM\Column(name="institute", type="string", length=100)
+     * @ORM\Column(name="institute", type="string", length=100, nullable=true)
      */
-    private string $institute;
+    private ?string $institute;
 
     /**
-     * @var string
+     * @var string | null
      *
-     * @ORM\Column(name="major", type="string", length=100)
+     * @ORM\Column(name="major", type="string", length=100, nullable=true)
      */
-    private string $major;
+    private ?string $major;
 
     /**
-     * @var int
+     * @var int | null
      *
-     * @ORM\Column(name="year", type="decimal", length=4)
+     * @ORM\Column(name="year", type="decimal", length=4, nullable=true)
      */
-    private int $year;
+    private ?int $year;
 
     /**
-     * @var string
+     * @var string | null
      *
-     * @ORM\Column(name="score", type="string", length=25)
+     * @ORM\Column(name="score", type="string", length=25, nullable=true)
      */
-    private string $score;
+    private ?string $score;
 
     /**
-     * @var DateTime
+     * @var DateTime | null
      *
-     * @ORM\Column(name="start_date", type="date")
+     * @ORM\Column(name="start_date", type="date", nullable=true)
      */
-    private DateTime $startDate;
+    private ?DateTime $startDate = null;
 
     /**
-     * @var DateTime
+     * @var DateTime | null
      *
-     * @ORM\Column(name="end_date", type="date")
+     * @ORM\Column(name="end_date", type="date", nullable=true)
      */
-    private DateTime $endDate;
+    private ?DateTime $endDate = null;
 
     /**
      * @return int
@@ -118,7 +118,7 @@ class EmployeeEducation
     }
 
     /**
-     * @return Education|null
+     * @return Education | null
      */
     public function getEducation(): ?Education
     {
@@ -150,97 +150,97 @@ class EmployeeEducation
     }
 
     /**
-     * @return string
+     * @return string | null
      */
-    public function getInstitute(): string
+    public function getInstitute(): ?string
     {
         return $this->institute;
     }
 
     /**
-     * @param string $institute
+     * @param string | null $institute
      */
-    public function setInstitute(string $institute): void
+    public function setInstitute(?string $institute): void
     {
         $this->institute = $institute;
     }
 
     /**
-     * @return string
+     * @return string | null
      */
-    public function getMajor(): string
+    public function getMajor(): ?string
     {
         return $this->major;
     }
 
     /**
-     * @param string $major
+     * @param string | null $major
      */
-    public function setMajor(string $major): void
+    public function setMajor(?string $major): void
     {
         $this->major = $major;
     }
 
     /**
-     * @return int
+     * @return int | null
      */
-    public function getYear(): int
+    public function getYear(): ?int
     {
         return $this->year;
     }
 
     /**
-     * @param int $year
+     * @param int | null $year
      */
-    public function setYear(int $year): void
+    public function setYear(?int $year): void
     {
         $this->year = $year;
     }
 
     /**
-     * @return string
+     * @return string | null
      */
-    public function getScore(): string
+    public function getScore(): ?string
     {
         return $this->score;
     }
 
     /**
-     * @param string $score
+     * @param string | null $score
      */
-    public function setScore(string $score): void
+    public function setScore(?string $score): void
     {
         $this->score = $score;
     }
 
     /**
-     * @return DateTime
+     * @return DateTime | null
      */
-    public function getStartDate(): DateTime
+    public function getStartDate(): ?DateTime
     {
         return $this->startDate;
     }
 
     /**
-     * @param DateTime $startDate
+     * @param DateTime | null $startDate
      */
-    public function setStartDate(DateTime $startDate): void
+    public function setStartDate(?DateTime $startDate): void
     {
         $this->startDate = $startDate;
     }
 
     /**
-     * @return DateTime
+     * @return DateTime | null
      */
-    public function getEndDate(): DateTime
+    public function getEndDate(): ?DateTime
     {
         return $this->endDate;
     }
 
     /**
-     * @param DateTime $endDate
+     * @param DateTime | null $endDate
      */
-    public function setEndDate(DateTime $endDate): void
+    public function setEndDate(?DateTime $endDate): void
     {
         $this->endDate = $endDate;
     }

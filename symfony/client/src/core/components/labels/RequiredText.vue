@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <oxd-text type="p" class="orangehrm-form-hint">* Required</oxd-text>
+  <oxd-text tag="p" class="orangehrm-form-hint">* Required</oxd-text>
 </template>
 
 <script>
