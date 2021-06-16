@@ -104,7 +104,7 @@ export default {
       `api/v2/pim/employees/${props.employeeId}/licenses`,
     );
 
-    const licenceEndpoint = `api/v2/pim/employees/${props.employeeId}/allowed-licenses?limit=0`;
+    const licenceEndpoint = `api/v2/pim/employees/${props.employeeId}/licenses/allowed?limit=0`;
 
     const {
       showPaginator,

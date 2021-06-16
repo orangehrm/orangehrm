@@ -26,20 +26,24 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <qualification-dropdown
+            <oxd-input-field
+              type="dropdown"
               label="Language"
               v-model="language.languageId"
+              :key="allowedLanguages"
+              :options="allowedLanguages"
               :rules="rules.languageId"
-              :api="api"
+              :clear="false"
               required
-            ></qualification-dropdown>
+            />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               type="dropdown"
               label="Fluency"
               v-model="language.fluencyId"
-              :options="fluencies"
+              :key="allowedFluencies"
+              :options="allowedFluencies"
               :rules="rules.fluencyId"
               :clear="false"
               required
@@ -88,7 +92,6 @@
 </template>
 
 <script>
-import QualificationDropdown from '@/orangehrmPimPlugin/components/QualificationDropdown';
 import {
   required,
   shouldNotExceedCharLength,
@@ -125,14 +128,11 @@ export default {
     },
   },
 
-  components: {
-    'qualification-dropdown': QualificationDropdown,
-  },
-
   data() {
     return {
       isLoading: false,
       language: {...languageModel},
+      languages: [],
       rules: {
         languageId: [required],
         fluencyId: [required],
@@ -162,6 +162,50 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
+  },
+
+  computed: {
+    allowedLanguages() {
+      return this.languages;
+    },
+    allowedFluencies() {
+      const languageIndex = this.languages.findIndex(
+        item => item.id === this.language.languageId[0]?.id,
+      );
+      if (languageIndex > -1) {
+        const selectedLanguage = this.languages[languageIndex];
+        return this.fluencies.filter(item => {
+          return selectedLanguage.allowedFluencyIds.includes(item.id);
+        });
+      }
+      return [];
+    },
+  },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .request({
+        method: 'GET',
+        url: this.api,
+      })
+      .then(response => {
+        const {data} = response.data;
+        if (Array.isArray(data)) {
+          this.languages = data.map(item => {
+            return {
+              id: item.id,
+              label: item.name,
+              allowedFluencyIds: item.allowedFluencyIds
+                ? item.allowedFluencyIds
+                : [],
+            };
+          });
+        }
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>
