@@ -24,6 +24,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeLanguage;
 use OrangeHRM\Entity\Language;
 use OrangeHRM\Pim\Dao\EmployeeLanguageDao;
+use OrangeHRM\Pim\Dto\EmployeeAllowedLanguageSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeLanguagesSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -58,7 +59,13 @@ class EmployeeLanguageDaoTest extends TestCase
         $this->employeeLanguageDao->saveEmployeeLanguage($empLanguage);
 
         /** @var EmployeeLanguage $resultEmpLanguage */
-        $resultEmpLanguage = TestDataService::fetchLastInsertedRecord(EmployeeLanguage::class, 'employee');
+        $resultEmpLanguage = $this->getEntityManager()->getRepository(EmployeeLanguage::class)->findOneBy(
+            [
+                'employee' => 3,
+                'language' => 1,
+                'fluency' => 1,
+            ]
+        );
         $this->assertEquals('Tyler', $resultEmpLanguage->getEmployee()->getFirstName());
         $this->assertEquals('English', $resultEmpLanguage->getLanguage()->getName());
         $this->assertEquals('Writing', $resultEmpLanguage->getDecorator()->getFluency());
@@ -121,6 +128,35 @@ class EmployeeLanguageDaoTest extends TestCase
         $this->assertEquals(1, $empLanguagesCount);
     }
 
+    public function testGetEmployeeLanguagesWithLanguageIds(): void
+    {
+        $employeeLanguagesSearchFilterParams = new EmployeeLanguagesSearchFilterParams();
+        $employeeLanguagesSearchFilterParams->setEmpNumber(1);
+        $employeeLanguagesSearchFilterParams->setLanguageIds([1]);
+        $empLanguages = $this->employeeLanguageDao->getEmployeeLanguages($employeeLanguagesSearchFilterParams);
+        $this->assertCount(1, $empLanguages);
+
+        $resultEmpLanguage = $empLanguages[0];
+        $this->assertEquals('Kayla', $resultEmpLanguage->getEmployee()->getFirstName());
+        $this->assertEquals('English', $resultEmpLanguage->getLanguage()->getName());
+
+        $employeeLanguagesSearchFilterParams->setLanguageIds([100]);
+        $empLanguages = $this->employeeLanguageDao->getEmployeeLanguages($employeeLanguagesSearchFilterParams);
+        $this->assertCount(0, $empLanguages);
+
+        $employeeLanguagesSearchFilterParams->setEmpNumber(1);
+        $employeeLanguagesSearchFilterParams->setLanguageIds([1, 2]);
+        $empLanguages = $this->employeeLanguageDao->getEmployeeLanguages($employeeLanguagesSearchFilterParams);
+        $this->assertCount(2, $empLanguages);
+
+        $resultEmpLanguage = $empLanguages[0];
+        $this->assertEquals('Kayla', $resultEmpLanguage->getEmployee()->getFirstName());
+        $this->assertEquals('English', $resultEmpLanguage->getLanguage()->getName());
+        $resultEmpLanguage = $empLanguages[1];
+        $this->assertEquals('Kayla', $resultEmpLanguage->getEmployee()->getFirstName());
+        $this->assertEquals('Spanish', $resultEmpLanguage->getLanguage()->getName());
+    }
+
     public function testDeleteEmployeeLanguages(): void
     {
         $entriesToDelete = [['languageId' => 2, 'fluencyId' => 100]];
@@ -133,5 +169,69 @@ class EmployeeLanguageDaoTest extends TestCase
         ];
         $empLanguagesCount = $this->employeeLanguageDao->deleteEmployeeLanguages(1, $entriesToDelete);
         $this->assertEquals(2, $empLanguagesCount);
+    }
+
+    public function testGetAllowedEmployeeLanguages(): void
+    {
+        $searchFilterParams = new EmployeeAllowedLanguageSearchFilterParams();
+        $searchFilterParams->setEmpNumber(1);
+        $languages = $this->employeeLanguageDao->getAllowedEmployeeLanguages($searchFilterParams);
+
+        $this->assertCount(3, $languages);
+        $this->assertEquals(
+            ['Dutch', 'English', 'Spanish'],
+            array_map(
+                function (Language $language) {
+                    return $language->getName();
+                },
+                $languages
+            )
+        );
+
+        $searchFilterParams = new EmployeeAllowedLanguageSearchFilterParams();
+        $searchFilterParams->setEmpNumber(4);
+        $languages = $this->employeeLanguageDao->getAllowedEmployeeLanguages($searchFilterParams);
+        $this->assertCount(2, $languages);
+        $this->assertEquals(
+            ['Dutch', 'Spanish'],
+            array_map(
+                function (Language $language) {
+                    return $language->getName();
+                },
+                $languages
+            )
+        );
+
+        $searchFilterParams = new EmployeeAllowedLanguageSearchFilterParams();
+        $searchFilterParams->setEmpNumber(100);
+        $languages = $this->employeeLanguageDao->getAllowedEmployeeLanguages($searchFilterParams);
+        $this->assertCount(3, $languages);
+        $this->assertEquals(
+            ['Dutch', 'English', 'Spanish'],
+            array_map(
+                function (Language $language) {
+                    return $language->getName();
+                },
+                $languages
+            )
+        );
+    }
+
+    public function testGetEmployeeAllowedLicensesCount(): void
+    {
+        $searchFilterParams = new EmployeeAllowedLanguageSearchFilterParams();
+        $searchFilterParams->setEmpNumber(1);
+        $languagesCount = $this->employeeLanguageDao->getAllowedEmployeeLanguagesCount($searchFilterParams);
+        $this->assertEquals(3, $languagesCount);
+
+        $searchFilterParams = new EmployeeAllowedLanguageSearchFilterParams();
+        $searchFilterParams->setEmpNumber(4);
+        $languagesCount = $this->employeeLanguageDao->getAllowedEmployeeLanguagesCount($searchFilterParams);
+        $this->assertEquals(2, $languagesCount);
+
+        $searchFilterParams = new EmployeeAllowedLanguageSearchFilterParams();
+        $searchFilterParams->setEmpNumber(100);
+        $languagesCount = $this->employeeLanguageDao->getAllowedEmployeeLanguagesCount($searchFilterParams);
+        $this->assertEquals(3, $languagesCount);
     }
 }
