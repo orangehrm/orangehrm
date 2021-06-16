@@ -17,65 +17,39 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Pim\Api\Model;
 
-use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\EmployeeLicense;
 
-/**
- * License
- *
- * @ORM\Table(name="ohrm_license")
- * @ORM\Entity
- */
-class License
+class EmployeeLicenseModel implements Normalizable
 {
+    use ModelTrait;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @param EmployeeLicense $employeeLicense
      */
-    private int $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=100)
-     */
-    private string $name;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function __construct(EmployeeLicense $employeeLicense)
     {
-        return $this->id;
+        $this->setEntity($employeeLicense);
+        $this->setFilters(
+            [
+                'licenseNo',
+                ['getDecorator', 'getLicenseIssuedDate'],
+                ['getDecorator', 'getLicenseExpiryDate'],
+                ['getLicense', 'getId'],
+                ['getLicense', 'getName']
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'licenseNo',
+                'issuedDate',
+                'expiryDate',
+                ['license', 'id'],
+                ['license', 'name']
+            ]
+        );
     }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
 }
