@@ -30,7 +30,7 @@
               label="Language"
               v-model="language.languageId"
               :rules="rules.languageId"
-              api="api/v2/admin/languages"
+              :api="api"
               required
             ></qualification-dropdown>
           </oxd-grid-item>
@@ -117,6 +117,10 @@ export default {
     },
     competencies: {
       type: Array,
+      required: true,
+    },
+    api: {
+      type: String,
       required: true,
     },
   },

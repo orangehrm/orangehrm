@@ -30,7 +30,7 @@
               label="Level"
               v-model="education.educationId"
               :rules="rules.educationId"
-              api="api/v2/admin/educations"
+              :api="api"
               required
             ></qualification-dropdown>
           </oxd-grid-item>
@@ -110,6 +110,7 @@ import {
   shouldNotExceedCharLength,
   digitsOnly,
   validDateFormat,
+  afterDate,
 } from '@orangehrm/core/util/validation/rules';
 
 const educationModel = {
@@ -132,6 +133,10 @@ export default {
       type: Object,
       required: true,
     },
+    api: {
+      type: String,
+      required: true,
+    },
   },
 
   components: {
@@ -149,7 +154,15 @@ export default {
         score: [shouldNotExceedCharLength(25)],
         year: [shouldNotExceedCharLength(4), digitsOnly],
         startDate: [validDateFormat('yyyy-MM-dd')],
-        endDate: [validDateFormat('yyyy-MM-dd')],
+        endDate: [
+          validDateFormat('yyyy-MM-dd'),
+          value => {
+            return (
+              afterDate('yyyy-MM-dd', value, this.education.startDate) ||
+              'End date should be after start date'
+            );
+          },
+        ],
       },
     };
   },

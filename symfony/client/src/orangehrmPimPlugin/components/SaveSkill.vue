@@ -30,7 +30,7 @@
               label="Skill"
               v-model="skill.skillId"
               :rules="rules.skillId"
-              api="api/v2/admin/skills"
+              :api="api"
               required
             ></qualification-dropdown>
           </oxd-grid-item>
@@ -95,6 +95,10 @@ export default {
   props: {
     http: {
       type: Object,
+      required: true,
+    },
+    api: {
+      type: String,
       required: true,
     },
   },

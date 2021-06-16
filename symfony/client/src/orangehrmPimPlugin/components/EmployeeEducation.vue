@@ -23,6 +23,7 @@
     <save-education
       v-if="showSaveModal"
       :http="http"
+      :api="educationEndpoint"
       @close="onSaveModalClose"
     ></save-education>
     <edit-education
@@ -102,6 +103,8 @@ export default {
       `api/v2/pim/employees/${props.employeeId}/educations`,
     );
 
+    const educationEndpoint = 'api/v2/admin/educations?limit=0';
+
     const {
       showPaginator,
       currentPage,
@@ -122,6 +125,7 @@ export default {
       pageSize,
       execQuery,
       items: response,
+      educationEndpoint,
     };
   },
 

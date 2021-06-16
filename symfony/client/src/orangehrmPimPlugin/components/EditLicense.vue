@@ -20,15 +20,15 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">Edit Education</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">Edit License</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Level"
-              v-model="education.name"
+              label="License Type"
+              v-model="license.name"
               required
               readonly
               disabled
@@ -36,30 +36,9 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Institute"
-              v-model="education.institute"
-              :rules="rules.institute"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Major/Specialization"
-              v-model="education.major"
-              :rules="rules.major"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Year"
-              v-model="education.year"
-              :rules="rules.year"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="GPA/Score"
-              v-model="education.score"
-              :rules="rules.score"
+              label="License Number"
+              v-model="license.licenseNo"
+              :rules="rules.licenseNo"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -69,18 +48,18 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Start Date"
-              v-model="education.startDate"
-              :rules="rules.startDate"
+              label="Issued Date"
+              v-model="license.issuedDate"
+              :rules="rules.issuedDate"
               type="date"
               placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="End Date"
-              v-model="education.endDate"
-              :rules="rules.endDate"
+              label="Expiry Date"
+              v-model="license.expiryDate"
+              :rules="rules.expiryDate"
               type="date"
               placeholder="yyyy-mm-dd"
             />
@@ -105,24 +84,20 @@
 
 <script>
 import {
-  shouldNotExceedCharLength,
-  digitsOnly,
   validDateFormat,
+  shouldNotExceedCharLength,
   afterDate,
 } from '@orangehrm/core/util/validation/rules';
 
-const educationModel = {
+const licenseModel = {
   name: '',
-  institute: '',
-  major: '',
-  year: '',
-  score: '',
-  startDate: '',
-  endDate: '',
+  licenseNo: '',
+  issuedDate: '',
+  expiryDate: '',
 };
 
 export default {
-  name: 'edit-education',
+  name: 'edit-license',
 
   emits: ['close'],
 
@@ -140,19 +115,16 @@ export default {
   data() {
     return {
       isLoading: false,
-      education: {...educationModel},
+      license: {...licenseModel},
       rules: {
-        institute: [shouldNotExceedCharLength(100)],
-        major: [shouldNotExceedCharLength(100)],
-        score: [shouldNotExceedCharLength(25)],
-        year: [shouldNotExceedCharLength(4), digitsOnly],
-        startDate: [validDateFormat('yyyy-MM-dd')],
-        endDate: [
+        licenseNo: [shouldNotExceedCharLength(50)],
+        issuedDate: [validDateFormat('yyyy-MM-dd')],
+        expiryDate: [
           validDateFormat('yyyy-MM-dd'),
           value => {
             return (
-              afterDate('yyyy-MM-dd', value, this.education.startDate) ||
-              'End date should be after start date'
+              afterDate('yyyy-MM-dd', value, this.license.issuedDate) ||
+              'Expiry date should be after issued date'
             );
           },
         ],
@@ -165,12 +137,9 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.data.id, {
-          institute: this.education.institute,
-          major: this.education.major,
-          year: parseInt(this.education.year),
-          score: this.education.score,
-          startDate: this.education.startDate,
-          endDate: this.education.endDate,
+          licenseNo: this.license.licenseNo,
+          issuedDate: this.license.issuedDate,
+          expiryDate: this.license.expiryDate,
         })
         .then(() => {
           return this.$toast.updateSuccess();
@@ -190,13 +159,10 @@ export default {
       .get(this.data.id)
       .then(response => {
         const {data} = response.data;
-        this.education.name = data.education.name;
-        this.education.institute = data.institute;
-        this.education.major = data.major;
-        this.education.year = data.year ? data.year : '';
-        this.education.score = data.score;
-        this.education.startDate = data.startDate ? data.startDate : '';
-        this.education.endDate = data.endDate ? data.endDate : '';
+        this.license.name = data.license.name;
+        this.license.licenseNo = data.licenseNo ? data.licenseNo : '';
+        this.license.issuedDate = data.issuedDate;
+        this.license.expiryDate = data.expiryDate;
       })
       .finally(() => {
         this.isLoading = false;

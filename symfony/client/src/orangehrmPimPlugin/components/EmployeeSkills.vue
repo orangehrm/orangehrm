@@ -23,6 +23,7 @@
     <save-skill
       v-if="showSaveModal"
       :http="http"
+      :api="skillsEndpoint"
       @close="onSaveModalClose"
     ></save-skill>
     <edit-skill
@@ -102,6 +103,8 @@ export default {
       `api/v2/pim/employees/${props.employeeId}/skills`,
     );
 
+    const skillsEndpoint = `api/v2/pim/employees/${props.employeeId}/allowed-skills?limit=0`;
+
     const {
       showPaginator,
       currentPage,
@@ -122,6 +125,7 @@ export default {
       pageSize,
       execQuery,
       items: response,
+      skillsEndpoint,
     };
   },
 

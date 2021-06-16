@@ -20,46 +20,25 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title">Edit Education</oxd-text>
+    <oxd-text tag="h6" class="orangehrm-main-title">Add License</oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field
-              label="Level"
-              v-model="education.name"
+            <qualification-dropdown
+              label="License Type"
+              v-model="license.licenseId"
+              :rules="rules.licenseId"
+              :api="api"
               required
-              readonly
-              disabled
-            />
+            ></qualification-dropdown>
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Institute"
-              v-model="education.institute"
-              :rules="rules.institute"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Major/Specialization"
-              v-model="education.major"
-              :rules="rules.major"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Year"
-              v-model="education.year"
-              :rules="rules.year"
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="GPA/Score"
-              v-model="education.score"
-              :rules="rules.score"
+              label="License Number"
+              v-model="license.licenseNo"
+              :rules="rules.licenseNo"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -69,18 +48,18 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Start Date"
-              v-model="education.startDate"
-              :rules="rules.startDate"
+              label="Issued Date"
+              v-model="license.issuedDate"
+              :rules="rules.issuedDate"
               type="date"
               placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="End Date"
-              v-model="education.endDate"
-              :rules="rules.endDate"
+              label="Expiry Date"
+              v-model="license.expiryDate"
+              :rules="rules.expiryDate"
               type="date"
               placeholder="yyyy-mm-dd"
             />
@@ -104,25 +83,23 @@
 </template>
 
 <script>
+import QualificationDropdown from '@/orangehrmPimPlugin/components/QualificationDropdown';
 import {
-  shouldNotExceedCharLength,
-  digitsOnly,
+  required,
   validDateFormat,
+  shouldNotExceedCharLength,
   afterDate,
 } from '@orangehrm/core/util/validation/rules';
 
-const educationModel = {
-  name: '',
-  institute: '',
-  major: '',
-  year: '',
-  score: '',
-  startDate: '',
-  endDate: '',
+const licenseModel = {
+  licenseId: [],
+  licenseNo: '',
+  issuedDate: '',
+  expiryDate: '',
 };
 
 export default {
-  name: 'edit-education',
+  name: 'save-license',
 
   emits: ['close'],
 
@@ -131,28 +108,30 @@ export default {
       type: Object,
       required: true,
     },
-    data: {
-      type: Object,
+    api: {
+      type: String,
       required: true,
     },
+  },
+
+  components: {
+    'qualification-dropdown': QualificationDropdown,
   },
 
   data() {
     return {
       isLoading: false,
-      education: {...educationModel},
+      license: {...licenseModel},
       rules: {
-        institute: [shouldNotExceedCharLength(100)],
-        major: [shouldNotExceedCharLength(100)],
-        score: [shouldNotExceedCharLength(25)],
-        year: [shouldNotExceedCharLength(4), digitsOnly],
-        startDate: [validDateFormat('yyyy-MM-dd')],
-        endDate: [
+        licenseId: [required],
+        licenseNo: [shouldNotExceedCharLength(50)],
+        issuedDate: [validDateFormat('yyyy-MM-dd')],
+        expiryDate: [
           validDateFormat('yyyy-MM-dd'),
           value => {
             return (
-              afterDate('yyyy-MM-dd', value, this.education.startDate) ||
-              'End date should be after start date'
+              afterDate('yyyy-MM-dd', value, this.license.issuedDate) ||
+              'Expiry date should be after issued date'
             );
           },
         ],
@@ -164,16 +143,12 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.data.id, {
-          institute: this.education.institute,
-          major: this.education.major,
-          year: parseInt(this.education.year),
-          score: this.education.score,
-          startDate: this.education.startDate,
-          endDate: this.education.endDate,
+        .create({
+          ...this.license,
+          licenseId: this.license.licenseId.map(item => item.id)[0],
         })
         .then(() => {
-          return this.$toast.updateSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();
@@ -182,25 +157,6 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.data.id)
-      .then(response => {
-        const {data} = response.data;
-        this.education.name = data.education.name;
-        this.education.institute = data.institute;
-        this.education.major = data.major;
-        this.education.year = data.year ? data.year : '';
-        this.education.score = data.score;
-        this.education.startDate = data.startDate ? data.startDate : '';
-        this.education.endDate = data.endDate ? data.endDate : '';
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>

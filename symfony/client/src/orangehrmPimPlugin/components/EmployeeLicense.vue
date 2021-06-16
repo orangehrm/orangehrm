@@ -20,25 +20,21 @@
 
 <template>
   <div>
-    <save-language
+    <save-license
       v-if="showSaveModal"
       :http="http"
-      :api="languagesEndpoint"
-      :fluencies="fluencies"
-      :competencies="competencies"
+      :api="licenceEndpoint"
       @close="onSaveModalClose"
-    ></save-language>
-    <edit-language
+    ></save-license>
+    <edit-license
       v-if="showEditModal"
       :http="http"
       :data="editModalState"
-      :employee-id="employeeId"
-      :competencies="competencies"
       @close="onEditModalClose"
-    ></edit-language>
+    ></edit-license>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
-        Languages
+        License
       </profile-action-header>
     </div>
     <table-header
@@ -69,30 +65,29 @@
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
-import SaveLanguage from '@/orangehrmPimPlugin/components/SaveLanguage';
-import EditLanguage from '@/orangehrmPimPlugin/components/EditLanguage';
+import SaveLicense from '@/orangehrmPimPlugin/components/SaveLicense';
+import EditLicense from '@/orangehrmPimPlugin/components/EditLicense';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 
-const languageNormalizer = data => {
+const licenseNormalizer = data => {
   return data.map(item => {
     return {
-      language: item.language.name,
-      languageId: item.language.id,
-      fluency: item.fluency.name,
-      fluencyId: item.fluency.id,
-      competency: item.competency.name,
-      comments: item.comment,
+      id: item.license.id,
+      type: item.license.name,
+      licenseNo: item.licenseNo,
+      issuedDate: item.issuedDate,
+      expiryDate: item.expiryDate,
     };
   });
 };
 
 export default {
-  name: 'employee-languages',
+  name: 'employee-license',
 
   components: {
     'profile-action-header': ProfileActionHeader,
-    'save-language': SaveLanguage,
-    'edit-language': EditLanguage,
+    'save-license': SaveLicense,
+    'edit-license': EditLicense,
     'delete-confirmation': DeleteConfirmationDialog,
   },
 
@@ -101,23 +96,15 @@ export default {
       type: String,
       required: true,
     },
-    fluencies: {
-      type: Array,
-      required: true,
-    },
-    competencies: {
-      type: Array,
-      required: true,
-    },
   },
 
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.employeeId}/languages`,
+      `api/v2/pim/employees/${props.employeeId}/licenses`,
     );
 
-    const languagesEndpoint = 'api/v2/admin/languages?limit=0';
+    const licenceEndpoint = `api/v2/pim/employees/${props.employeeId}/allowed-licenses?limit=0`;
 
     const {
       showPaginator,
@@ -128,7 +115,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, languageNormalizer);
+    } = usePaginate(http, {}, licenseNormalizer);
     return {
       http,
       showPaginator,
@@ -139,17 +126,16 @@ export default {
       pageSize,
       execQuery,
       items: response,
-      languagesEndpoint,
+      licenceEndpoint,
     };
   },
 
   data() {
     return {
       headers: [
-        {name: 'language', slot: 'title', title: 'Language', style: {flex: 1}},
-        {name: 'fluency', title: 'Fluency', style: {flex: 1}},
-        {name: 'competency', title: 'Competency', style: {flex: 1}},
-        {name: 'comments', title: 'Comments', style: {flex: 1}},
+        {name: 'type', slot: 'title', title: 'License Type', style: {flex: 1}},
+        {name: 'issuedDate', title: 'Issued Date', style: {flex: 1}},
+        {name: 'expiryDate', title: 'Expiry Date', style: {flex: 1}},
         {
           name: 'actions',
           slot: 'action',
@@ -184,10 +170,7 @@ export default {
     onClickDeleteSelected() {
       if (!this.selectable) return;
       const ids = this.checkedItems.map(index => {
-        return {
-          languageId: this.items?.data[index].languageId,
-          fluencyId: this.items?.data[index].fluencyId,
-        };
+        return this.items?.data[index].id;
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -199,12 +182,7 @@ export default {
       if (!this.selectable) return;
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
-          this.deleteItems([
-            {
-              languageId: item.languageId,
-              fluencyId: item.fluencyId,
-            },
-          ]);
+          this.deleteItems([item.id]);
         }
       });
     },

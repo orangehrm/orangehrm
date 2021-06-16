@@ -59,36 +59,6 @@ export const validDateFormat = function(dateFormat: string) {
   };
 };
 
-export const beforeDate = function(
-  dateFormat: string,
-  valueToCompare: string,
-  message: string,
-) {
-  return function(value: string): boolean | string {
-    const origin = parseDate(value, dateFormat);
-    const reference = parseDate(valueToCompare, dateFormat);
-    if (origin && reference) {
-      return isBefore(origin, reference) ? true : message;
-    }
-    return message;
-  };
-};
-
-export const afterDate = function(
-  dateFormat: string,
-  valueToCompare: string,
-  message: string,
-) {
-  return function(value: string): boolean | string {
-    const origin = parseDate(value, dateFormat);
-    const reference = parseDate(valueToCompare, dateFormat);
-    if (origin && reference) {
-      return isAfter(origin, reference) ? true : message;
-    }
-    return message;
-  };
-};
-
 export const max = function(maxValue: number) {
   return function(value: string): boolean | string {
     return (
@@ -105,4 +75,28 @@ export const digitsOnly = function(value: string): boolean | string {
     (/^\d+$/.test(value) && !Number.isNaN(parseFloat(value))) ||
     'Should be a number'
   );
+};
+
+export const beforeDate = function(
+  dateFormat: string,
+  date1: string,
+  date2: string,
+) {
+  // Skip assersion on unset values
+  if (!date1 || !date2) {
+    return true;
+  }
+  return isBefore(date1, date2, dateFormat);
+};
+
+export const afterDate = function(
+  dateFormat: string,
+  date1: string,
+  date2: string,
+) {
+  // Skip assersion on unset values
+  if (!date1 || !date2) {
+    return true;
+  }
+  return isAfter(date1, date2, dateFormat);
 };
