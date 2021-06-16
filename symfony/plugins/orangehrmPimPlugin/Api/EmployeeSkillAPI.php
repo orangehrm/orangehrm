@@ -45,9 +45,6 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_YEARS_OF_EXP = 'yearsOfExperience';
     public const PARAMETER_COMMENTS = 'comments';
 
-    public const FILTER_YEARS_OF_EXP = 'yearsOfExperience';
-    public const FILTER_COMMENTS = 'comments';
-
     public const PARAM_RULE_YEARS_OF_EXP_MAX_LENGTH = 2;
     public const PARAM_RULE_COMMENTS_MAX_LENGTH = 100;
 
@@ -111,25 +108,12 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     {
         $employeeSkillSearchParams = new EmployeeSkillSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeSkillSearchParams);
-        $employeeSkillSearchParams->setYearsOfExp(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_YEARS_OF_EXP
-            )
-        );
-        $employeeSkillSearchParams->setComments(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_QUERY,
-                self::FILTER_COMMENTS
-            )
-        );
+
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $employeeSkillSearchParams->setEmpNumber(
-            $empNumber
-        );
+        $employeeSkillSearchParams->setEmpNumber($empNumber);
 
         $employeeSkills = $this->getEmployeeSkillService()->getEmployeeSkillDao()->searchEmployeeSkill(
             $employeeSkillSearchParams
@@ -157,8 +141,6 @@ class EmployeeSkillAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getEmpNumberRule(),
-            new ParamRule(self::FILTER_COMMENTS),
-            new ParamRule(self::FILTER_YEARS_OF_EXP),
             ...$this->getSortingAndPaginationParamsRules(EmployeeSkillSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
