@@ -23,7 +23,9 @@ use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\EmployeeLicense;
+use OrangeHRM\Entity\License;
 use OrangeHRM\Pim\Dao\EmployeeLicenseDao;
+use OrangeHRM\Pim\Dto\EmployeeAllowedLicenseSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeLicenseSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -117,5 +119,67 @@ class EmployeeLicenseDaoTest extends TestCase
         $employeeLicenseSearchParams->setEmpNumber(1);
         $result = $this->employeeLicenseDao->getSearchEmployeeLicensesCount($employeeLicenseSearchParams);
         $this->assertEquals(2, $result);
+    }
+
+    public function testGetEmployeeAllowedLicenses(): void
+    {
+        $searchFilterParams = new EmployeeAllowedLicenseSearchFilterParams();
+        $searchFilterParams->setEmpNumber(1);
+        $licenses = $this->employeeLicenseDao->getEmployeeAllowedLicenses($searchFilterParams);
+
+        $this->assertEquals(
+            ['NAITA'],
+            array_map(
+                function (License $license) {
+                    return $license->getName();
+                },
+                $licenses
+            )
+        );
+        $searchFilterParams = new EmployeeAllowedLicenseSearchFilterParams();
+        $searchFilterParams->setEmpNumber(2);
+        $licenses = $this->employeeLicenseDao->getEmployeeAllowedLicenses($searchFilterParams);
+        $this->assertCount(2, $licenses);
+        $this->assertEquals(
+            ['CIMA', 'NAITA'],
+            array_map(
+                function (License $license) {
+                    return $license->getName();
+                },
+                $licenses
+            )
+        );
+
+        $searchFilterParams = new EmployeeAllowedLicenseSearchFilterParams();
+        $searchFilterParams->setEmpNumber(100);
+        $licenses = $this->employeeLicenseDao->getEmployeeAllowedLicenses($searchFilterParams);
+        $this->assertCount(3, $licenses);
+        $this->assertEquals(
+            ['CCNA', 'CIMA', 'NAITA'],
+            array_map(
+                function (License $license) {
+                    return $license->getName();
+                },
+                $licenses
+            )
+        );
+    }
+
+    public function testGetEmployeeAllowedLicensesCount(): void
+    {
+        $searchFilterParams = new EmployeeAllowedLicenseSearchFilterParams();
+        $searchFilterParams->setEmpNumber(1);
+        $licensesCount = $this->employeeLicenseDao->getEmployeeAllowedLicensesCount($searchFilterParams);
+        $this->assertEquals(1, $licensesCount);
+
+        $searchFilterParams = new EmployeeAllowedLicenseSearchFilterParams();
+        $searchFilterParams->setEmpNumber(2);
+        $licensesCount = $this->employeeLicenseDao->getEmployeeAllowedLicensesCount($searchFilterParams);
+        $this->assertEquals(2, $licensesCount);
+
+        $searchFilterParams = new EmployeeAllowedLicenseSearchFilterParams();
+        $searchFilterParams->setEmpNumber(100);
+        $licensesCount = $this->employeeLicenseDao->getEmployeeAllowedLicensesCount($searchFilterParams);
+        $this->assertEquals(3, $licensesCount);
     }
 }

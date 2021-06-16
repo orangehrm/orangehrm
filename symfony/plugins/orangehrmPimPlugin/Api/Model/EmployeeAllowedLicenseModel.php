@@ -17,40 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Pim\Api\Model;
 
-use OrangeHRM\Core\Dto\FilterParams;
+use OrangeHRM\Admin\Api\Model\LicenseModel;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 
-class EmployeeSkillSearchFilterParams extends FilterParams
+class EmployeeAllowedLicenseModel extends LicenseModel implements Normalizable
 {
-    public const ALLOWED_SORT_FIELDS = ['s.name'];
 
-    /**
-     * @var string|null
-     */
-    protected ?string $empNumber = null;
-
-    /**
-     * EmployeeSkillSearchFilterParams constructor.
-     */
-    public function __construct()
-    {
-        $this->setSortField('s.name');
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getEmpNumber(): ?int
-    {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param int|null $empNumber
-     */
-    public function setEmpNumber(?int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
-    }
 }
