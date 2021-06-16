@@ -21,19 +21,14 @@ namespace OrangeHRM\Pim\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 
-class EmployeeLanguagesSearchFilterParams extends FilterParams
+class EmployeeAllowedLanguageSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['l.name'];
 
     /**
-     * @var int|null
+     * @var string|null
      */
-    private ?int $empNumber = null;
-
-    /**
-     * @var int[]|null
-     */
-    private ?array $languageIds = null;
+    protected ?string $empNumber = null;
 
     public function __construct()
     {
@@ -54,21 +49,5 @@ class EmployeeLanguagesSearchFilterParams extends FilterParams
     public function setEmpNumber(?int $empNumber): void
     {
         $this->empNumber = $empNumber;
-    }
-
-    /**
-     * @return int[]|null
-     */
-    public function getLanguageIds(): ?array
-    {
-        return $this->languageIds;
-    }
-
-    /**
-     * @param int[]|null $languageIds
-     */
-    public function setLanguageIds(?array $languageIds): void
-    {
-        $this->languageIds = $languageIds;
     }
 }
