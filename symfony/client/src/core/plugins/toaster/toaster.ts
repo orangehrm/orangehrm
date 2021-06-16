@@ -193,25 +193,25 @@ export default {
     const saveSuccess = () =>
       success({
         title: 'Success',
-        message: 'Successfully Saved!',
+        message: 'Successfully Saved',
       });
 
     const addSuccess = () =>
       success({
         title: 'Success',
-        message: 'Successfully Added!',
+        message: 'Successfully Added',
       });
 
     const updateSuccess = () =>
       success({
         title: 'Success',
-        message: 'Successfully Updated!',
+        message: 'Successfully Updated',
       });
 
     const deleteSuccess = () =>
       success({
         title: 'Success',
-        message: 'Successfully Deleted!',
+        message: 'Successfully Deleted',
       });
 
     state.class = options.class ? options.class : 'oxd-toast-container--toast';

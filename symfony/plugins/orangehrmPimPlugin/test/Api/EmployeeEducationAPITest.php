@@ -20,6 +20,8 @@
 namespace OrangeHRM\Tests\Pim\Api;
 
 use DateTime;
+use OrangeHRM\Authentication\Auth\User;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
@@ -33,6 +35,7 @@ use OrangeHRM\Pim\Dao\EmployeeEducationDao;
 use OrangeHRM\Pim\Service\EmployeeEducationService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Pim
@@ -40,6 +43,14 @@ use OrangeHRM\Tests\Util\MockObject;
  */
 class EmployeeEducationAPITest extends EndpointTestCase
 {
+    protected function loadFixtures(): void
+    {
+        $this->fixture = Config::get(
+                Config::PLUGINS_DIR
+            ) . '/orangehrmPimPlugin/test/fixtures/EmployeeEducationDao.yml';
+        TestDataService::populate($this->fixture);
+    }
+
     public function testGetEmployeeEducationService(): void
     {
         $api = new EmployeeEducationAPI($this->getRequest());
@@ -138,7 +149,7 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ->method('getAccessibleEntityIds')
             ->willReturn([1, 2]);
 
-        $authUser = $this->getMockBuilder(\OrangeHRM\Authentication\Auth\User::class)
+        $authUser = $this->getMockBuilder(User::class)
             ->onlyMethods(['getEmpNumber'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -191,8 +202,13 @@ class EmployeeEducationAPITest extends EndpointTestCase
 
         $employeeEducationDao->expects($this->exactly(1))
             ->method('saveEmployeeEducation')
-            ->with($employeeEducation)
-            ->will($this->returnValue($employeeEducation));
+            ->will(
+                $this->returnCallback(
+                    function (EmployeeEducation $employeeEducation) {
+                        return $employeeEducation;
+                    }
+                )
+            );
 
         $employeeEducationService = $this->getMockBuilder(EmployeeEducationService::class)
             ->onlyMethods(['getEmployeeEducationDao'])
@@ -267,7 +283,7 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ->method('getAccessibleEntityIds')
             ->willReturn([1, 2]);
 
-        $authUser = $this->getMockBuilder(\OrangeHRM\Authentication\Auth\User::class)
+        $authUser = $this->getMockBuilder(User::class)
             ->onlyMethods(['getEmpNumber'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -376,7 +392,7 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ->method('getAccessibleEntityIds')
             ->willReturn([1, 2]);
 
-        $authUser = $this->getMockBuilder(\OrangeHRM\Authentication\Auth\User::class)
+        $authUser = $this->getMockBuilder(User::class)
             ->onlyMethods(['getEmpNumber'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -404,6 +420,8 @@ class EmployeeEducationAPITest extends EndpointTestCase
 
     public function testCreate()
     {
+        $this->loadFixtures();
+
         $empNumber = 1;
         $employeeEducationDao = $this->getMockBuilder(EmployeeEducationDao::class)
             ->onlyMethods(['saveEmployeeEducation', 'getEmployeeEducationById'])
@@ -426,21 +444,27 @@ class EmployeeEducationAPITest extends EndpointTestCase
         $employeeEducation->setEducation($education);
         $employeeEducation->setEmployee($employee);
 
-        $employeeEducationDao->expects($this->exactly(1))
+        $employeeEducationDao->expects($this->never())
             ->method('getEmployeeEducationById')
             ->with(1, 1)
             ->willReturn($employeeEducation);
 
-        $employeeEducationDao->expects($this->exactly(1))
+        $employeeEducationDao->expects($this->once())
             ->method('saveEmployeeEducation')
-            ->with($employeeEducation)
-            ->will($this->returnValue($employeeEducation));
+            ->will(
+                $this->returnCallback(
+                    function (EmployeeEducation $employeeEducation) {
+                        $employeeEducation->setId(1);
+                        return $employeeEducation;
+                    }
+                )
+            );
 
         $employeeEducationService = $this->getMockBuilder(EmployeeEducationService::class)
             ->onlyMethods(['getEmployeeEducationDao'])
             ->getMock();
 
-        $employeeEducationService->expects($this->exactly(2))
+        $employeeEducationService->expects($this->once())
             ->method('getEmployeeEducationDao')
             ->willReturn($employeeEducationDao);
 
@@ -459,7 +483,6 @@ class EmployeeEducationAPITest extends EndpointTestCase
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
                 ],
                 RequestParams::PARAM_TYPE_BODY => [
-                    CommonParams::PARAMETER_EMP_NUMBER => 1,
                     EmployeeEducationAPI::PARAMETER_EDUCATION_ID => 1,
                     EmployeeEducationAPI::PARAMETER_INSTITUTE => 'UoP',
                     EmployeeEducationAPI::PARAMETER_MAJOR => 'CE',
@@ -471,11 +494,11 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getEmployeeEducationService'])
             ->getMock();
-        $api->expects($this->exactly(2))
+        $api->expects($this->once())
             ->method('getEmployeeEducationService')
             ->will($this->returnValue($employeeEducationService));
 
-        $result = $api->update();
+        $result = $api->create();
         $this->assertEquals(
             [
                 "id" => 1,
@@ -509,7 +532,7 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ->method('getAccessibleEntityIds')
             ->willReturn([1, 2]);
 
-        $authUser = $this->getMockBuilder(\OrangeHRM\Authentication\Auth\User::class)
+        $authUser = $this->getMockBuilder(User::class)
             ->onlyMethods(['getEmpNumber'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -668,7 +691,7 @@ class EmployeeEducationAPITest extends EndpointTestCase
             ->method('getAccessibleEntityIds')
             ->willReturn([1, 2]);
 
-        $authUser = $this->getMockBuilder(\OrangeHRM\Authentication\Auth\User::class)
+        $authUser = $this->getMockBuilder(User::class)
             ->onlyMethods(['getEmpNumber'])
             ->disableOriginalConstructor()
             ->getMock();
