@@ -596,8 +596,6 @@ class EmployeeSkillAPITest extends EndpointTestCase
             $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
-                    EmployeeSkillAPI::PARAMETER_COMMENTS => "comments",
-                    EmployeeSkillAPI::PARAMETER_YEARS_OF_EXP => 3
                 ],
                 $rules
             )

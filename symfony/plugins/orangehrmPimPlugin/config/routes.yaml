@@ -169,6 +169,15 @@ apiv2_pim_employees_skill:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_allowed_skills:
+  path: /api/v2/pim/employees/{empNumber}/allowed-skills
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeAllowedSkillAPI
+  requirements:
+    empNumber: '\d+'
+
 apiv2_pim_employees_educations:
   path: /api/v2/pim/employees/{empNumber}/educations
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

@@ -19,12 +19,15 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use OrangeHRM\Pim\Dto\EmployeeSkillSearchFilterParams;
-use OrangeHRM\Entity\EmployeeSkill;
-use OrangeHRM\Core\Exception\DaoException;
+use Doctrine\ORM\Query\Expr;
 use Exception;
-use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\EmployeeSkill;
+use OrangeHRM\Entity\Skill;
+use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Pim\Dto\EmployeeAllowedSkillSearchFilterParams;
+use OrangeHRM\Pim\Dto\EmployeeSkillSearchFilterParams;
 
 class EmployeeSkillDao extends BaseDao
 {
@@ -113,18 +116,12 @@ class EmployeeSkillDao extends BaseDao
         EmployeeSkillSearchFilterParams $employeeSkillSearchParams
     ): Paginator {
         $q = $this->createQueryBuilder(EmployeeSkill::class, 'es');
+        $q->leftJoin('es.skill', 's');
         $this->setSortingAndPaginationParams($q, $employeeSkillSearchParams);
 
         $q->andWhere('es.employee = :empNumber')
             ->setParameter('empNumber', $employeeSkillSearchParams->getEmpNumber());
-        if (!empty($employeeSkillSearchParams->getYearsOfExp())) {
-            $q->andWhere('es.yearsOfExp = :yearsOfExp');
-            $q->setParameter('yearsOfExp', $employeeSkillSearchParams->getYearsOfExp());
-        }
-        if (!empty($employeeSkillSearchParams->getComments())) {
-            $q->andWhere('es.comments = :comments');
-            $q->setParameter('comments', $employeeSkillSearchParams->getComments());
-        }
+
         return $this->getPaginator($q);
     }
 
@@ -143,5 +140,52 @@ class EmployeeSkillDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @param EmployeeAllowedSkillSearchFilterParams $skillSearchFilterParams
+     * @return Skill[]
+     * @throws DaoException
+     */
+    public function getEmployeeAllowedSkills(EmployeeAllowedSkillSearchFilterParams $skillSearchFilterParams): array
+    {
+        try {
+            $paginator = $this->getEmployeeAllowedSkillsPaginator($skillSearchFilterParams);
+            return $paginator->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmployeeAllowedSkillSearchFilterParams $skillSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getEmployeeAllowedSkillsCount(EmployeeAllowedSkillSearchFilterParams $skillSearchFilterParams): int
+    {
+        try {
+            $paginator = $this->getEmployeeAllowedSkillsPaginator($skillSearchFilterParams);
+            return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmployeeAllowedSkillSearchFilterParams $skillSearchFilterParams
+     * @return Paginator
+     */
+    private function getEmployeeAllowedSkillsPaginator(
+        EmployeeAllowedSkillSearchFilterParams $skillSearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(Skill::class, 's');
+        $q->leftJoin('s.employeeSkills', 'es', Expr\Join::WITH, 'es.employee = :empNumber');
+        $this->setSortingAndPaginationParams($q, $skillSearchFilterParams);
+
+        $q->andWhere($q->expr()->isNull('es.employee'));
+        $q->setParameter('empNumber', $skillSearchFilterParams->getEmpNumber());
+
+        return $this->getPaginator($q);
     }
 }

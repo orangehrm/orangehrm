@@ -1,7 +1,8 @@
 Skill:
-  0: {id: 1, name: 'Driving', description: 'Ability to drive'}
-  1: {id: 2, name: 'Skydiving'}
-  2: {id: 3, name: 'Sign Language', description: 'Ability to communicate with disabled people'}
+  - { id: 1, name: 'Driving', description: 'Ability to drive' }
+  - { id: 2, name: 'Skydiving' }
+  - { id: 3, name: 'Sign Language', description: 'Ability to communicate with disabled people' }
+  - { id: 4, name: 'Drawing' }
 
 Employee:
   - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
