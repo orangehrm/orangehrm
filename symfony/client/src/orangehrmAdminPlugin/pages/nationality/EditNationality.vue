@@ -118,7 +118,7 @@ export default {
         this.nationality.id = data.id;
         this.nationality.name = data.name;
         // Fetch list data for unique test
-        return this.http.getAll();
+        return this.http.getAll({limit: 0});
       })
       .then(response => {
         const {data} = response.data;
