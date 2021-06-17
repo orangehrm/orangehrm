@@ -135,7 +135,11 @@
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
-import {shouldNotExceedCharLength} from '@orangehrm/core/util/validation/rules';
+import {
+  shouldNotExceedCharLength,
+  validPhoneNumberFormat,
+  validEmailFormat,
+} from '@orangehrm/core/util/validation/rules';
 
 const contactDetailsModel = {
   street1: '',
@@ -188,52 +192,11 @@ export default {
         city: [shouldNotExceedCharLength(70)],
         province: [shouldNotExceedCharLength(70)],
         zipCode: [shouldNotExceedCharLength(10)],
-        homeTelephone: [
-          shouldNotExceedCharLength(25),
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
-        ],
-        mobile: [
-          shouldNotExceedCharLength(25),
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
-        ],
-        workTelephone: [
-          shouldNotExceedCharLength(25),
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
-        ],
-        workEmail: [
-          shouldNotExceedCharLength(50),
-          v => {
-            return !v ||
-              v.match(
-                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+$/,
-              )
-              ? true
-              : false || 'Expected format: admin@example.com';
-          },
-        ],
-        otherEmail: [
-          shouldNotExceedCharLength(50),
-          v => {
-            return !v ||
-              v.match(
-                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+$/,
-              )
-              ? true
-              : false || 'Expected format: admin@example.com';
-          },
-        ],
+        homeTelephone: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
+        mobile: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
+        workTelephone: [shouldNotExceedCharLength(25), validPhoneNumberFormat],
+        workEmail: [shouldNotExceedCharLength(50), validEmailFormat],
+        otherEmail: [shouldNotExceedCharLength(50), validEmailFormat],
       },
     };
   },
