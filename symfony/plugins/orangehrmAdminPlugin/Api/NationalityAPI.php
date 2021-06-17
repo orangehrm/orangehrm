@@ -20,9 +20,9 @@
 namespace OrangeHRM\Admin\Api;
 
 use Exception;
-use OrangeHRM\Admin\Api\Model\LicenseModel;
-use OrangeHRM\Admin\Dto\LicenseSearchFilterParams;
-use OrangeHRM\Admin\Service\LicenseService;
+use OrangeHRM\Admin\Api\Model\NationalityModel;
+use OrangeHRM\Admin\Dto\NationalitySearchFilterParams;
+use OrangeHRM\Admin\Service\NationalityService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -37,36 +37,27 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\License;
+use OrangeHRM\Entity\Nationality;
 
-class LicenseAPI extends EndPoint implements CrudEndpoint
+class NationalityAPI extends EndPoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
     public const PARAM_RULE_NAME_MAX_LENGTH = 100;
 
     /**
-     * @var null|LicenseService
+     * @var null|NationalityService
      */
-    protected ?LicenseService $licenseService = null;
+    protected ?NationalityService $nationalityService = null;
 
     /**
-     * @return LicenseService
-     * @throws Exception
+     * @return NationalityService
      */
-    public function getLicenseService(): LicenseService
+    public function getNationalityService(): NationalityService
     {
-        if (is_null($this->licenseService)) {
-            $this->licenseService = new LicenseService();
+        if (!$this->nationalityService instanceof NationalityService) {
+            $this->nationalityService = new NationalityService();
         }
-        return $this->licenseService;
-    }
-
-    /**
-     * @param LicenseService $licenseService
-     */
-    public function setLicenseService(LicenseService $licenseService): void
-    {
-        $this->licenseService = $licenseService;
+        return $this->nationalityService;
     }
 
     /**
@@ -78,9 +69,9 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $license = $this->getLicenseService()->getLicenseById($id);
-        $this->throwRecordNotFoundExceptionIfNotExist($license, License::class);
-        return new EndpointResourceResult(LicenseModel::class, $license);
+        $nationality = $this->getNationalityService()->getNationalityById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($nationality, Nationality::class);
+        return new EndpointResourceResult(NationalityModel::class, $nationality);
     }
 
     /**
@@ -89,9 +80,8 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+            new ParamRule(CommonParams::PARAMETER_ID,
+            new Rule(Rules::POSITIVE)
             ),
         );
     }
@@ -103,13 +93,13 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getAll(): EndpointCollectionResult
     {
         // TODO:: Check data group permission
-        $licenseParamHolder = new LicenseSearchFilterParams();
-        $this->setSortingAndPaginationParams($licenseParamHolder);
-        $licenses = $this->getLicenseService()->getLicenseList($licenseParamHolder);
-        $count = $this->getLicenseService()->getLicenseCount($licenseParamHolder);
+        $nationalityParamHolder = new NationalitySearchFilterParams();
+        $this->setSortingAndPaginationParams($nationalityParamHolder);
+        $nationalities = $this->getNationalityService()->getNationalityList($nationalityParamHolder);
+        $count = $this->getNationalityService()->getNationalityCount($nationalityParamHolder);
         return new EndpointCollectionResult(
-            LicenseModel::class,
-            $licenses,
+            NationalityModel::class,
+            $nationalities,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
@@ -120,7 +110,7 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getSortingAndPaginationParamsRules(LicenseSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules(NationalitySearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -131,27 +121,27 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function create(): EndpointResourceResult
     {
         // TODO:: Check data group permission
-        $licenses = $this->saveLicense();
-        return new EndpointResourceResult(LicenseModel::class, $licenses);
+        $nationality = $this->saveNationality();
+        return new EndpointResourceResult(NationalityModel::class, $nationality);
     }
 
     /**
-     * @return License
+     * @return Nationality
      * @throws DaoException
      * @throws RecordNotFoundException
      */
-    public function saveLicense(): License
+    public function saveNationality(): Nationality
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if ($id) {
-            $license = $this->getLicenseService()->getLicenseById($id);
-            $this->throwRecordNotFoundExceptionIfNotExist($license, License::class);
+            $nationality = $this->getNationalityService()->getNationalityById($id);
+            $this->throwRecordNotFoundExceptionIfNotExist($nationality, Nationality::class);
         } else {
-            $license = new License();
+            $nationality = new Nationality();
         }
-        $license->setName($name);
-        return $this->getLicenseService()->saveLicense($license);
+        $nationality->setName($name);
+        return $this->getNationalityService()->saveNationality($nationality);
     }
 
     /**
@@ -175,8 +165,8 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         // TODO:: Check data group permission
-        $licenses = $this->saveLicense();
-        return new EndpointResourceResult(LicenseModel::class, $licenses);
+        $nationalities = $this->saveNationality();
+        return new EndpointResourceResult(NationalityModel::class, $nationalities);
     }
 
     /**
@@ -186,10 +176,9 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+            new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(
-                self::PARAMETER_NAME,
+            new ParamRule(self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
             ),
@@ -199,12 +188,11 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     /**
      * @return ParamRuleCollection
      */
-    public function getValidationRuleForSaveLicense(): ParamRuleCollection
+    public function getValidationRuleForSaveNationality(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
-            new ParamRule(
-                self::PARAMETER_NAME,
+            new ParamRule(self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
             ),
@@ -212,14 +200,14 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     }
 
     /**
-     * @inheritDoc
+     * @return EndpointResourceResult
      * @throws Exception
      */
     public function delete(): EndpointResourceResult
     {
         // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getLicenseService()->deleteLicenses($ids);
+        $this->getNationalityService()->deleteNationalities($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 

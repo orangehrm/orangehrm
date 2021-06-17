@@ -64,7 +64,6 @@ class EmployeePersonalDetailController extends BaseViewEmployeeController
 
             $nationalities = $this->getNationalityService()->getNationalityArray();
             $component->addProp(new Prop('nationalities', Prop::TYPE_ARRAY, $nationalities));
-
             $this->setComponent($component);
         } else {
             $this->handleBadRequest();

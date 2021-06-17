@@ -20,6 +20,7 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\NationalityDao;
+use OrangeHRM\Admin\Dto\NationalitySearchFilterParams;
 use OrangeHRM\Admin\Service\Model\NationalityModel;
 use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Exception\DaoException;
@@ -55,12 +56,33 @@ class NationalityService
     }
 
     /**
-     * @return Nationality[]
+     * @param NationalitySearchFilterParams $nationalitySearchParamHolder
+     * @return array
      * @throws DaoException
      */
-    public function getNationalityList(): array
+    public function getNationalityList(NationalitySearchFilterParams $nationalitySearchParamHolder): array
     {
-        return $this->getNationalityDao()->getNationalityList();
+        return $this->getNationalityDao()->getNationalityList($nationalitySearchParamHolder);
+    }
+
+    /**
+     * @param NationalitySearchFilterParams $nationalitySearchParamHolder
+     * @return int
+     * @throws DaoException
+     */
+    public function getNationalityCount(NationalitySearchFilterParams $nationalitySearchParamHolder): int
+    {
+        return $this->getNationalityDao()->getNationalityCount($nationalitySearchParamHolder);
+    }
+
+    /**
+     * @param Nationality $nationality
+     * @return Nationality
+     * @throws DaoException
+     */
+    public function saveNationality(Nationality $nationality): Nationality
+    {
+        return $this->getNationalityDao()->saveNationality($nationality);
     }
 
     /**
@@ -74,13 +96,33 @@ class NationalityService
     }
 
     /**
-     * @param array $nationalityList
+     * @param string $name
+     * @return Nationality|null
+     * @throws DaoException
+     */
+    public function getNationalityByName(string $name): ?Nationality
+    {
+        return $this->getNationalityDao()->getNationalityByName($name);
+    }
+
+    /**
+     * @param array $toDeleteIds
      * @return int
      * @throws DaoException
      */
-    public function deleteNationalities(array $nationalityList): int
+    public function deleteNationalities(array $toDeleteIds): int
     {
-        return $this->getNationalityDao()->deleteNationalities($nationalityList);
+        return $this->getNationalityDao()->deleteNationalities($toDeleteIds);
+    }
+
+    /**
+     * @param string $nationalityName
+     * @return bool
+     * @throws DaoException
+     */
+    public function isExistingNationalityName(string $nationalityName): bool
+    {
+        return $this->getNationalityDao()->isExistingNationalityName($nationalityName);
     }
 
     /**
@@ -90,7 +132,9 @@ class NationalityService
      */
     public function getNationalityArray(): array
     {
-        $nationalities = $this->getNationalityList();
+        $nationalitySearchParamHolder = new NationalitySearchFilterParams();
+        $nationalitySearchParamHolder->setLimit(0);
+        $nationalities = $this->getNationalityList($nationalitySearchParamHolder);
         return $this->getNormalizerService()->normalizeArray(NationalityModel::class, $nationalities);
     }
 }
