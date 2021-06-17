@@ -20,26 +20,68 @@
 namespace OrangeHRM\Admin\Dao;
 
 use Exception;
+use OrangeHRM\Admin\Dto\NationalitySearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Nationality;
-use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\ORM\Paginator;
 
 class NationalityDao extends BaseDao
 {
+
     /**
-     * @return Nationality[]
+     * @param Nationality $nationality
+     * @return Nationality
      * @throws DaoException
      */
-    public function getNationalityList(): array
+    public function saveNationality(Nationality $nationality): Nationality
     {
         try {
-            $q = $this->createQueryBuilder(Nationality::class, 'n');
-            $q->addOrderBy('n.name', ListSorter::ASCENDING);
-
-            return $q->getQuery()->execute();
+            $this->persist($nationality);
+            return $nationality;
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param NationalitySearchFilterParams $nationalitySearchFilterParams
+     * @return array
+     * @throws DaoException
+     */
+    public function getNationalityList(NationalitySearchFilterParams $nationalitySearchFilterParams): array
+    {
+        try {
+            $paginator = $this->getNationalityListPaginator($nationalitySearchFilterParams);
+            return $paginator->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param NationalitySearchFilterParams $nationalitySearchFilterParams
+     * @return Paginator
+     */
+    public function getNationalityListPaginator(NationalitySearchFilterParams $nationalitySearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(Nationality::class, 'n');
+        $this->setSortingAndPaginationParams($q, $nationalitySearchFilterParams);
+        return new Paginator($q);
+    }
+
+    /**
+     * @param NationalitySearchFilterParams $nationalitySearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getNationalityCount(NationalitySearchFilterParams $nationalitySearchFilterParams): int
+    {
+        try {
+            $paginator = $this->getNationalityListPaginator($nationalitySearchFilterParams);
+            return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -57,26 +99,66 @@ class NationalityDao extends BaseDao
             }
             return null;
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
     /**
-     * @param array $nationalityList
+     * @param string $name
+     * @return Nationality|null
+     * @throws DaoException
+     */
+    public function getNationalityByName(string $name): ?Nationality
+    {
+        try {
+            $query = $this->createQueryBuilder(Nationality::class, 'n');
+            $trimmed = trim($name, ' ');
+            $query->andWhere('n.name = :name');
+            $query->setParameter('name', $trimmed);
+            return $query->getQuery()->getOneOrNullResult();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param array $toDeleteIds
      * @return int
      * @throws DaoException
      */
-    public function deleteNationalities(array $nationalityList): int
+    public function deleteNationalities(array $toDeleteIds): int
     {
         try {
             $q = $this->createQueryBuilder(Nationality::class, 'n');
             $q->delete();
             $q->where($q->expr()->in('n.id', ':ids'))
-                ->setParameter('ids', $nationalityList);
+                ->setParameter('ids', $toDeleteIds);
 
             return $q->getQuery()->execute();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param string $nationalityName
+     * @return bool
+     * @throws DaoException
+     */
+    public function isExistingNationalityName(string $nationalityName): bool
+    {
+        try {
+            $q = $this->createQueryBuilder(Nationality::class, 'n');
+            $trimmed = trim($nationalityName, ' ');
+            $q->where('n.name = :name');
+            $q->setParameter('name', $trimmed);
+            $count = $this->count($q);
+            if ($count > 0) {
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

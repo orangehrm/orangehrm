@@ -21,17 +21,15 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title"
-        >Add Employment Status</oxd-text
-      >
+      <oxd-text tag="h6">Edit Nationality</oxd-text>
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSave" :loading="isLoading">
+      <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
             label="Name"
-            v-model="employmentStatus.name"
+            v-model="nationality.name"
             :rules="rules.name"
             required
           />
@@ -57,29 +55,38 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 export default {
+  props: {
+    nationalityId: {
+      type: Number,
+      required: true,
+    },
+  },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/nationalities',
+    );
+    return {
+      http,
+    };
+  },
+
   data() {
     return {
       isLoading: false,
-      employmentStatus: {
+      nationality: {
         id: '',
         name: '',
       },
       rules: {
-        name: [],
+        name: [required, shouldNotExceedCharLength(100)],
       },
-    };
-  },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/admin/employment-statuses',
-    );
-    return {
-      http,
     };
   },
 
@@ -87,34 +94,42 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({
-          name: this.employmentStatus.name,
+        .update(this.nationalityId, {
+          name: this.nationality.name,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();
         });
     },
     onCancel() {
-      navigate('/admin/employmentStatus');
+      navigate('/admin/nationality');
     },
   },
 
   created() {
     this.isLoading = true;
     this.http
-      .getAll()
+      .get(this.nationalityId)
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(required);
+        this.nationality.id = data.id;
+        this.nationality.name = data.name;
+        // Fetch list data for unique test
+        return this.http.getAll();
+      })
+      .then(response => {
+        const {data} = response.data;
         this.rules.name.push(v => {
-          return (v && v.length <= 50) || 'Should not exceed 50 characters';
-        });
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
-          return index === -1 || 'Already exists';
+          const index = data.findIndex(item => item.name === v);
+          if (index > -1) {
+            const {id} = data[index];
+            return id !== this.nationality.id ? 'Already exists' : true;
+          } else {
+            return true;
+          }
         });
       })
       .finally(() => {

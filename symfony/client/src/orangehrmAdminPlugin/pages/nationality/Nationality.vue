@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">Memberships</oxd-text>
+        <oxd-text tag="h6">Nationalities</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -75,7 +75,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Membership',
+          title: 'Nationality',
           style: {'flex-basis': '80%'},
         },
         {
@@ -112,7 +112,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/memberships',
+      '/api/v2/admin/nationalities',
     );
     const {
       showPaginator,
@@ -139,14 +139,15 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveMemberships');
+      navigate('/admin/saveNationality');
     },
     onClickEdit(item) {
-      navigate('/admin/saveMemberships/{id}', {id: item.id});
+      navigate('/admin/saveNationality/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
-      const ids = this.checkedItems.map(index => {
-        return this.items?.data[index].id;
+      const ids = [];
+      this.checkedItems.forEach(index => {
+        ids.push(this.items?.data[index].id);
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {

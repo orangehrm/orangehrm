@@ -20,6 +20,7 @@
   </coverage>
   <testsuites>
     <testsuite name="Admin Tests">
+      <directory>symfony/plugins/orangehrmAdminPlugin/test/Api</directory>
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Entity</directory>
