@@ -272,7 +272,7 @@ export default {
     this.http
       .getAll()
       .then(response => {
-        const {data} = response.data;
+        this.updateModel(response);
       })
       .finally(() => {
         this.isLoading = false;
