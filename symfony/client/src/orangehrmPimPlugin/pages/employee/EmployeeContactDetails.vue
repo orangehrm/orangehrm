@@ -58,17 +58,17 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
-                label="Country"
-                v-model="contact.countryCode"
-                :options="countries"
+                label="Zip/Postal Code"
+                v-model="contact.zipCode"
+                :rules="rules.zipCode"
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                label="Zip/Postal Code"
-                v-model="contact.zipCode"
-                :rules="rules.zipCode"
+                type="dropdown"
+                label="Country"
+                v-model="contact.countryCode"
+                :options="countries"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -135,6 +135,7 @@
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
+import {shouldNotExceedCharLength} from '@orangehrm/core/util/validation/rules';
 
 const contactDetailsModel = {
   street1: '',
@@ -182,35 +183,13 @@ export default {
       isLoading: false,
       contact: {...contactDetailsModel},
       rules: {
-        street1: [
-          v => {
-            return !v || v?.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
-        street2: [
-          v => {
-            return !v || v?.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
-        city: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        province: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        zipCode: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
+        street1: [shouldNotExceedCharLength(70)],
+        street2: [shouldNotExceedCharLength(70)],
+        city: [shouldNotExceedCharLength(70)],
+        province: [shouldNotExceedCharLength(70)],
+        zipCode: [shouldNotExceedCharLength(10)],
         homeTelephone: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
+          shouldNotExceedCharLength(25),
           v => {
             return !v || v.match(/[0-9+()-]+$/)
               ? true
@@ -218,9 +197,7 @@ export default {
           },
         ],
         mobile: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
+          shouldNotExceedCharLength(25),
           v => {
             return !v || v.match(/[0-9+()-]+$/)
               ? true
@@ -228,9 +205,7 @@ export default {
           },
         ],
         workTelephone: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
+          shouldNotExceedCharLength(25),
           v => {
             return !v || v.match(/[0-9+()-]+$/)
               ? true
@@ -238,9 +213,7 @@ export default {
           },
         ],
         workEmail: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
+          shouldNotExceedCharLength(50),
           v => {
             return !v ||
               v.match(
@@ -251,9 +224,7 @@ export default {
           },
         ],
         otherEmail: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
+          shouldNotExceedCharLength(50),
           v => {
             return !v ||
               v.match(
@@ -280,7 +251,7 @@ export default {
         })
         .then(response => {
           this.updateModel(response);
-          return this.$toast.updateSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.isLoading = false;
@@ -301,7 +272,7 @@ export default {
     this.http
       .getAll()
       .then(response => {
-        this.updateModel(response);
+        const {data} = response.data;
       })
       .finally(() => {
         this.isLoading = false;
