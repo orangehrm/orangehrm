@@ -106,7 +106,9 @@ export default {
   created() {
     this.isLoading = true;
     this.http
-      .getAll()
+      .getAll({
+        limit: 0,
+      })
       .then(response => {
         const {data} = response.data;
         this.rules.name.push(v => {
