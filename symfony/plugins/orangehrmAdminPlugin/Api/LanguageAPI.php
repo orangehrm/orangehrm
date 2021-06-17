@@ -133,7 +133,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $languages = $this->saveLanguage();
-
         return new EndpointResourceResult(LanguageModel::class, $languages);
     }
 
@@ -167,7 +166,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
         } else {
             $language = new Language();
         }
-
         $language->setName($name);
         return $this->getLanguageService()->saveLanguage($language);
     }
@@ -195,7 +193,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $languages = $this->saveLanguage();
-
         return new EndpointResourceResult(LanguageModel::class, $languages);
     }
 

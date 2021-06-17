@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\test\Api;
+namespace OrangeHRM\tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\NationalityAPI;
 use OrangeHRM\Admin\Dao\NationalityDao;
@@ -54,11 +54,9 @@ class NationalityAPITest extends EndpointTestCase
             ->method('getNationalityById')
             ->with(1)
             ->will($this->returnValue($nationality));
-
         $nationalityService = $this->getMockBuilder(NationalityService::class)
             ->onlyMethods(['getNationalityDao'])
             ->getMock();
-
         $nationalityService->expects($this->exactly(1))
             ->method('getNationalityDao')
             ->willReturn($nationalityDao);
@@ -113,11 +111,9 @@ class NationalityAPITest extends EndpointTestCase
             ->method('deleteNationalities')
             ->with([1])
             ->willReturn(1);
-
         $nationalityService = $this->getMockBuilder(NationalityService::class)
             ->onlyMethods(['getNationalityDao'])
             ->getMock();
-
         $nationalityService->expects($this->exactly(1))
             ->method('getNationalityDao')
             ->willReturn($nationalityDao);
@@ -170,21 +166,17 @@ class NationalityAPITest extends EndpointTestCase
         $nationality->setId(1);
         $nationality->setName('India');
 
-
         $nationalityDao->expects($this->exactly(1))
             ->method('getNationalityById')
             ->with(1)
             ->willReturn($nationality);
-
         $nationalityDao->expects($this->exactly(1))
             ->method('saveNationality')
             ->with($nationality)
             ->will($this->returnValue($nationality));
-
         $nationalityService = $this->getMockBuilder(NationalityService::class)
             ->onlyMethods(['getNationalityDao'])
             ->getMock();
-
         $nationalityService->expects($this->exactly(2))
             ->method('getNationalityDao')
             ->willReturn($nationalityDao);
@@ -209,7 +201,6 @@ class NationalityAPITest extends EndpointTestCase
         $result = $api->update();
         $this->assertEquals(
             [
-
                 "id" => 1,
                 "name" => "sri lankan"
             ],
@@ -224,10 +215,8 @@ class NationalityAPITest extends EndpointTestCase
         $this->assertTrue(
             $this->validate(
                 [
-
                     CommonParams::PARAMETER_ID => 1,
                     NationalityAPI::PARAMETER_NAME => 'Sri Lankan',
-
                 ],
                 $rules
             )
@@ -239,7 +228,6 @@ class NationalityAPITest extends EndpointTestCase
         $nationalityDao = $this->getMockBuilder(NationalityDao::class)
             ->onlyMethods(['saveNationality'])
             ->getMock();
-
         $nationalityDao->expects($this->once())
             ->method('saveNationality')
             ->will(
@@ -254,7 +242,6 @@ class NationalityAPITest extends EndpointTestCase
         $nationalityService = $this->getMockBuilder(NationalityService::class)
             ->onlyMethods(['getNationalityDao'])
             ->getMock();
-
         $nationalityService->expects($this->once())
             ->method('getNationalityDao')
             ->willReturn($nationalityDao);
@@ -303,28 +290,22 @@ class NationalityAPITest extends EndpointTestCase
             ->onlyMethods(['getNationalityList', 'getNationalityCount'])
             ->getMock();
 
-
         $nationality1 = new Nationality();
         $nationality1->setId(1);
         $nationality1->setName('Sri Lankan');
-
         $nationality2 = new Nationality();
         $nationality2->setId(2);
         $nationality2->setName('Indian');
 
-
         $nationalityDao->expects($this->exactly(1))
             ->method('getNationalityList')
             ->willReturn([$nationality1, $nationality2]);
-
         $nationalityDao->expects($this->exactly(1))
             ->method('getNationalityCount')
             ->willReturn(2);
-
         $nationalityService = $this->getMockBuilder(NationalityService::class)
             ->onlyMethods(['getNationalityDao'])
             ->getMock();
-
         $nationalityService->expects($this->exactly(2))
             ->method('getNationalityDao')
             ->willReturn($nationalityDao);
@@ -333,7 +314,6 @@ class NationalityAPITest extends EndpointTestCase
         $api = $this->getApiEndpointMockBuilder(
             NationalityAPI::class,
             [
-
                 RequestParams::PARAM_TYPE_BODY => [
                     NationalityAPI::PARAMETER_NAME,
                 ]
@@ -372,8 +352,7 @@ class NationalityAPITest extends EndpointTestCase
         $rules = $api->getValidationRuleForGetAll();
         $this->assertTrue(
             $this->validate(
-                [
-                ],
+                [],
                 $rules
             )
         );

@@ -80,7 +80,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $license = $this->getLicenseService()->getLicenseById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($license, License::class);
-
         return new EndpointResourceResult(LicenseModel::class, $license);
     }
 
@@ -90,7 +89,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
@@ -105,7 +103,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getAll(): EndpointCollectionResult
     {
         // TODO:: Check data group permission
-
         $licenseParamHolder = new LicenseSearchFilterParams();
         $this->setSortingAndPaginationParams($licenseParamHolder);
         $licenses = $this->getLicenseService()->getLicenseList($licenseParamHolder);
@@ -135,7 +132,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $licenses = $this->saveLicense();
-
         return new EndpointResourceResult(LicenseModel::class, $licenses);
     }
 
@@ -154,7 +150,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
         } else {
             $license = new License();
         }
-
         $license->setName($name);
         return $this->getLicenseService()->saveLicense($license);
     }
@@ -181,7 +176,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $licenses = $this->saveLicense();
-
         return new EndpointResourceResult(LicenseModel::class, $licenses);
     }
 
@@ -191,7 +185,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-
             new ParamRule(CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),

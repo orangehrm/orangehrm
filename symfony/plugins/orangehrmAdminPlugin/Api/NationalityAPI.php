@@ -58,18 +58,7 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
             $this->nationalityService = new NationalityService();
         }
         return $this->nationalityService;
-
     }
-
-    /**
-     * @param NationalityService|null $nationalityService
-     */
-    public function setNationalityService(?NationalityService $nationalityService): void
-    {
-        $this->nationalityService = $nationalityService;
-    }
-
-
 
     /**
      * @inheritDoc
@@ -104,7 +93,6 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
     public function getAll(): EndpointCollectionResult
     {
         // TODO:: Check data group permission
-
         $nationalityParamHolder = new NationalitySearchFilterParams();
         $this->setSortingAndPaginationParams($nationalityParamHolder);
         $nationalities = $this->getNationalityService()->getNationalityList($nationalityParamHolder);
@@ -134,7 +122,6 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $nationality = $this->saveNationality();
-
         return new EndpointResourceResult(NationalityModel::class, $nationality);
     }
 
@@ -153,7 +140,6 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
         } else {
             $nationality = new Nationality();
         }
-
         $nationality->setName($name);
         return $this->getNationalityService()->saveNationality($nationality);
     }
@@ -180,7 +166,6 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $nationalities = $this->saveNationality();
-
         return new EndpointResourceResult(NationalityModel::class, $nationalities);
     }
 

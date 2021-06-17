@@ -151,7 +151,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
         } else {
             $education = new Education();
         }
-
         $education->setName($name);
         return $this->getEducationService()->saveEducation($education);
     }
@@ -187,7 +186,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-
             new ParamRule(
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)

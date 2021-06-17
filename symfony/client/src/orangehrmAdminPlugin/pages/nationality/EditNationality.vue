@@ -55,6 +55,10 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 export default {
   props: {
@@ -81,7 +85,7 @@ export default {
         name: '',
       },
       rules: {
-        name: [],
+        name: [required, shouldNotExceedCharLength(100)],
       },
     };
   },
@@ -119,12 +123,6 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          return (!!v && v.trim() !== '') || 'Required';
-        });
-        this.rules.name.push(v => {
-          return (v && v.length <= 100) || 'Should not exceed 100 characters';
-        });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {

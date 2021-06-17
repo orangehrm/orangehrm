@@ -65,7 +65,7 @@ export default {
         name: '',
       },
       rules: {
-        name: [],
+        name: [required, shouldNotExceedCharLength(100)],
       },
     };
   },
@@ -107,12 +107,6 @@ export default {
       .getAll()
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          return (!!v && v.trim() !== '') || 'Required';
-        });
-        this.rules.name.push(v => {
-          return (v && v.length <= 100) || 'Should not exceed 100 characters';
-        });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name === v);
           return index === -1 || 'Already exists';

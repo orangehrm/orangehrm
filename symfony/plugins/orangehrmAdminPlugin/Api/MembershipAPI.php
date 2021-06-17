@@ -131,7 +131,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $memberships = $this->saveMembership();
-
         return new EndpointResourceResult(MembershipModel::class, $memberships);
     }
 
@@ -150,7 +149,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
         } else {
             $membership = new Membership();
         }
-
         $membership->setName($name);
         return $this->getMembershipService()->saveMembership($membership);
     }
@@ -177,7 +175,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $memberships = $this->saveMembership();
-
         return new EndpointResourceResult(MembershipModel::class, $memberships);
     }
 
