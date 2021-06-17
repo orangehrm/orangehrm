@@ -19,14 +19,21 @@
  -->
 
 <template>
-  <oxd-dialog @update:show="onCancel" :style="{minWidth: '50%'}">
+  <oxd-dialog
+    @update:show="onCancel"
+    :style="{width: '90%', maxWidth: '600px'}"
+  >
     <div class="orangehrm-modal-header">
       <oxd-text type="card-title">Add Organization Unit</oxd-text>
     </div>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
-        <oxd-input-field label="Unit Id" v-model="orgUnit.unitId" />
+        <oxd-input-field
+          label="Unit Id"
+          v-model="orgUnit.unitId"
+          :rules="rules.unitId"
+        />
       </oxd-form-row>
       <oxd-form-row>
         <oxd-input-field
@@ -42,6 +49,7 @@
           label="Description"
           placeholder="Type description here"
           v-model="orgUnit.description"
+          :rules="rules.description"
         />
       </oxd-form-row>
       <oxd-text tag="p" class="level-label"
@@ -50,6 +58,7 @@
       <oxd-divider />
 
       <oxd-form-actions>
+        <required-text />
         <oxd-button
           type="button"
           displayType="ghost"
@@ -65,7 +74,10 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 const orgUnitModel = {
   unitId: '',
@@ -97,7 +109,9 @@ export default {
       isLoading: false,
       orgUnit: {...orgUnitModel},
       rules: {
-        name: [required],
+        unitId: [shouldNotExceedCharLength(100)],
+        name: [required, shouldNotExceedCharLength(100)],
+        description: [shouldNotExceedCharLength(400)],
       },
     };
   },
@@ -110,7 +124,7 @@ export default {
           parentId: this.data?.id,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();
