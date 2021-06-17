@@ -130,8 +130,8 @@ export default {
       isLoading: false,
       workExperience: {...workExpModel},
       rules: {
-        company: [required],
-        jobTitle: [required],
+        company: [required, shouldNotExceedCharLength(100)],
+        jobTitle: [required, shouldNotExceedCharLength(100)],
         fromDate: [validDateFormat('yyyy-MM-dd')],
         toDate: [
           validDateFormat('yyyy-MM-dd'),
@@ -142,7 +142,7 @@ export default {
             );
           },
         ],
-        comment: [shouldNotExceedCharLength(100)],
+        comment: [shouldNotExceedCharLength(200)],
       },
     };
   },
