@@ -36,6 +36,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Membership;
 
 class MembershipAPI extends EndPoint implements CrudEndpoint
@@ -76,9 +77,7 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $membership = $this->getMembershipService()->getMembershipById($id);
-        if (!$membership instanceof Membership) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($membership, Membership::class);
         return new EndpointResourceResult(MembershipModel::class, $membership);
     }
 
@@ -132,27 +131,24 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $memberships = $this->saveMembership();
-
         return new EndpointResourceResult(MembershipModel::class, $memberships);
     }
 
     /**
      * @return Membership
      * @throws RecordNotFoundException
+     * @throws DaoException
      */
     public function saveMembership(): Membership
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
-        if (!empty($id)) {
+        if ($id) {
             $membership = $this->getMembershipService()->getMembershipById($id);
-            if ($membership == null) {
-                throw new RecordNotFoundException();
-            }
+            $this->throwRecordNotFoundExceptionIfNotExist($membership, Membership::class);
         } else {
             $membership = new Membership();
         }
-
         $membership->setName($name);
         return $this->getMembershipService()->saveMembership($membership);
     }
@@ -179,7 +175,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $memberships = $this->saveMembership();
-
         return new EndpointResourceResult(MembershipModel::class, $memberships);
     }
 

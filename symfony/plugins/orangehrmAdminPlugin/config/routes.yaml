@@ -168,6 +168,19 @@ apiv2_admin_paygrades_currencies:
   defaults:
     _api: OrangeHRM\Admin\Api\PayGradeCurrencyAPI
 
+apiv2_admin_nationality:
+  path: /api/v2/admin/nationalities/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\NationalityAPI
+
+apiv2_admin_nationalities:
+  path: /api/v2/admin/nationalities
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\NationalityAPI
 
 ##########################
 #        Files
@@ -328,4 +341,19 @@ edit_qualification_memberships:
 view_organization_general_info:
   path: /admin/viewOrganizationGeneralInformation
   controller: OrangeHRM\Admin\Controller\ViewOrganizationGeneralInformationController::handle
+  methods: [ GET ]
+
+view_nationality:
+  path: /admin/nationality
+  controller: OrangeHRM\Admin\Controller\NationalityController::handle
+  methods: [ GET ]
+
+save_nationality:
+  path: /admin/saveNationality
+  controller: OrangeHRM\Admin\Controller\SaveNationalityController::handle
+  methods: [ GET ]
+
+edit_nationality:
+  path: /admin/saveNationality/{id}
+  controller: OrangeHRM\Admin\Controller\SaveNationalityController::handle
   methods: [ GET ]

@@ -47,6 +47,9 @@ import QualificationMembership from '@/orangehrmAdminPlugin/pages/qualificationM
 import EditQualificationMembership from '@/orangehrmAdminPlugin/pages/qualificationMembership/EditQualificationMembership.vue';
 import SaveQualificationMembership from '@/orangehrmAdminPlugin/pages/qualificationMembership/SaveQualificationMembership.vue';
 import ViewOrganizationGeneralInformation from '@/orangehrmAdminPlugin/pages/organizationGeneralInformation/ViewOrganizationGeneralInformation.vue';
+import Nationality from '@/orangehrmAdminPlugin/pages/nationality/Nationality.vue';
+import EditNationality from '@/orangehrmAdminPlugin/pages/nationality/EditNationality.vue';
+import SaveNationality from '@/orangehrmAdminPlugin/pages/nationality/SaveNationality.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -80,4 +83,7 @@ export default {
   'qualification-membership-edit': EditQualificationMembership,
   'qualification-membership-save': SaveQualificationMembership,
   'organization-general-information-view': ViewOrganizationGeneralInformation,
+  'nationality-list': Nationality,
+  'nationality-edit': EditNationality,
+  'nationality-save': SaveNationality,
 };

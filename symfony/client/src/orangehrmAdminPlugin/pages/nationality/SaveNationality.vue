@@ -21,17 +21,15 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title"
-        >Add Employment Status</oxd-text
-      >
+      <oxd-text tag="h6">Add Nationality</oxd-text>
 
       <oxd-divider />
 
-      <oxd-form @submitValid="onSave" :loading="isLoading">
+      <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
             label="Name"
-            v-model="employmentStatus.name"
+            v-model="nationality.name"
             :rules="rules.name"
             required
           />
@@ -57,18 +55,21 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 export default {
   data() {
     return {
       isLoading: false,
-      employmentStatus: {
+      nationality: {
         id: '',
         name: '',
       },
       rules: {
-        name: [],
+        name: [required, shouldNotExceedCharLength(100)],
       },
     };
   },
@@ -76,7 +77,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/employment-statuses',
+      '/api/v2/admin/nationalities',
     );
     return {
       http,
@@ -88,17 +89,17 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          name: this.employmentStatus.name,
+          name: this.nationality.name,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();
         });
     },
     onCancel() {
-      navigate('/admin/employmentStatus');
+      navigate('/admin/nationality');
     },
   },
 
@@ -108,12 +109,8 @@ export default {
       .getAll()
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(required);
         this.rules.name.push(v => {
-          return (v && v.length <= 50) || 'Should not exceed 50 characters';
-        });
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name == v);
+          const index = data.findIndex(item => item.name === v);
           return index === -1 || 'Already exists';
         });
       })
