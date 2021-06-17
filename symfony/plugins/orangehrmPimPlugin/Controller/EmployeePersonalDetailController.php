@@ -25,7 +25,6 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
-
 class EmployeePersonalDetailController extends BaseViewEmployeeController
 {
     use ConfigServiceTrait;
@@ -65,7 +64,6 @@ class EmployeePersonalDetailController extends BaseViewEmployeeController
 
             $nationalities = $this->getNationalityService()->getNationalityArray();
             $component->addProp(new Prop('nationalities', Prop::TYPE_ARRAY, $nationalities));
-
             $this->setComponent($component);
         } else {
             $this->handleBadRequest();
