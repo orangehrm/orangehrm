@@ -55,6 +55,10 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 export default {
   data() {
@@ -88,11 +92,9 @@ export default {
           name: this.nationality.name,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.nationality.name = '';
-          this.isLoading = false;
           this.onCancel();
         });
     },
