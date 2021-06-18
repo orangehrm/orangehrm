@@ -87,3 +87,7 @@
     height: 12rem;
   }
 }
+
+::v-deep(.--termination-button) {
+  white-space: unset !important;
+}

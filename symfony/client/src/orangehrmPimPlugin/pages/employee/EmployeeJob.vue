@@ -141,6 +141,26 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
+
+    <oxd-divider />
+
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+      <profile-action-header
+        iconName=""
+        :displayType="terminationActionType"
+        :label="terminationActionLabel"
+        class="--termination-button"
+        @click="onClickTerminate"
+      >
+        Employee Termination / Activiation
+      </profile-action-header>
+    </div>
+    <save-termination
+      v-if="showTerminationModal"
+      :employee-id="empNumber"
+      :termination-reasons="terminationReasons"
+      @close="onTerminationModalClose"
+    ></save-termination>
   </edit-employee-layout>
 </template>
 
@@ -150,6 +170,8 @@ import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import JobSpecDownload from '@/orangehrmPimPlugin/components/JobSpecDownload';
+import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
+import SaveTermination from '@/orangehrmPimPlugin/components/SaveTermination';
 
 const jobDetailsModel = {
   joinedDate: '',
@@ -174,6 +196,8 @@ export default {
     'oxd-switch-input': SwitchInput,
     'job-spec-download': JobSpecDownload,
     'file-upload-input': FileUploadInput,
+    'profile-action-header': ProfileActionHeader,
+    'save-termination': SaveTermination,
   },
 
   props: {
@@ -201,6 +225,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    terminationReasons: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   setup(props) {
@@ -220,6 +248,8 @@ export default {
       showContractDetails: false,
       job: {...jobDetailsModel},
       contract: {...contractDetailsModel},
+      termination: null,
+      showTerminationModal: false,
       rules: {
         startDate: [],
         endDate: [],
@@ -284,6 +314,20 @@ export default {
         });
     },
 
+    onClickTerminate() {
+      if (this.termination?.id) {
+        // reactivate
+      } else {
+        // show terminate popup
+        this.showTerminationModal = true;
+      }
+    },
+
+    onTerminationModalClose() {
+      this.showTerminationModal = false;
+      // refresh
+    },
+
     updateContractModel(response) {
       const {data} = response.data;
       this.contract.startDate = data.startDate;
@@ -313,6 +357,7 @@ export default {
       this.job.locationId = this.locations.filter(
         item => item.id === data.location?.id,
       );
+      this.termination = data.employeeTerminationRecord;
     },
   },
 
@@ -320,6 +365,14 @@ export default {
     selectedJobTitleId() {
       const jobTitleId = this.job.jobTitleId.map(item => item.id)[0];
       return jobTitleId || 0;
+    },
+    terminationActionLabel() {
+      return this.termination?.id
+        ? 'Activate Employment'
+        : 'Terminate Employment';
+    },
+    terminationActionType() {
+      return this.termination?.id ? 'ghost-success' : 'label-danger';
     },
   },
 
