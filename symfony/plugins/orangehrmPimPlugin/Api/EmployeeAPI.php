@@ -48,6 +48,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     use UserRoleManagerTrait;
 
     public const FILTER_NAME = 'name';
+    public const FILTER_EMP_NUMBER = 'empNumber';
     public const FILTER_NAME_OR_ID = 'nameOrId';
     public const FILTER_EMPLOYEE_ID = 'employeeId';
     public const FILTER_INCLUDE_EMPLOYEES = 'includeEmployees';
@@ -57,7 +58,6 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public const FILTER_SUPERVISOR_EMP_NUMBERS = 'supervisorEmpNumbers';
     public const FILTER_MODEL = 'model';
 
-    public const PARAMETER_EMP_NUMBER = 'empNumber';
     public const PARAMETER_FIRST_NAME = 'firstName';
     public const PARAMETER_MIDDLE_NAME = 'middleName';
     public const PARAMETER_LAST_NAME = 'lastName';
@@ -108,7 +108,10 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
 
@@ -122,7 +125,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                self::PARAMETER_EMP_NUMBER,
+                CommonParams::PARAMETER_EMP_NUMBER,
                 new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
             $this->getModelParamRule(),
@@ -160,8 +163,17 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
         // TODO:: Check data group permission & get employees using UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties
         $employeeParamHolder = new EmployeeSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeParamHolder);
-        $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
-        $employeeParamHolder->setEmployeeNumbers($accessibleEmpNumbers);
+
+        $empNumber = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_EMP_NUMBER
+        );
+        if (!is_null($empNumber)) {
+            $employeeParamHolder->setEmployeeNumbers([$empNumber]);
+        } else {
+            $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
+            $employeeParamHolder->setEmployeeNumbers($accessibleEmpNumbers);
+        }
 
         $employeeParamHolder->setIncludeEmployees(
             $this->getRequestParams()->getStringOrNull(
@@ -247,6 +259,12 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_FILTER_NAME_MAX_LENGTH]),
                 ),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::FILTER_EMP_NUMBER,
+                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+                )
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -421,7 +439,10 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
         $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
         $this->setParamsToEmployee($employee);
@@ -435,7 +456,7 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)),
+            new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)),
             ...$this->getCommonBodyValidationRules(),
         );
     }
