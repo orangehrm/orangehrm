@@ -91,3 +91,11 @@
 ::v-deep(.--termination-button) {
   white-space: unset !important;
 }
+
+.orangehrm-terminate-date {
+  cursor: pointer;
+  color: $oxd-primary-one-color;
+  text-decoration: underline;
+  font-size: 0.75rem;
+  font-weight: 800;
+}

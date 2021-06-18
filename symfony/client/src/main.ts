@@ -20,7 +20,9 @@ import {createApp} from 'vue';
 import components from './components';
 import pages from './pages';
 import toaster, {ToasterAPI} from './core/plugins/toaster/toaster';
+import loader, {LoaderAPI} from './core/plugins/loader/loader';
 import './core/plugins/toaster/toaster.scss';
+import './core/plugins/loader/loader.scss';
 
 const app = createApp({
   name: 'App',
@@ -37,6 +39,8 @@ app.use(toaster, {
   position: 'bottom',
 });
 
+app.use(loader);
+
 // @ts-expect-error
 const baseUrl = window.appGlobal.baseUrl;
 
@@ -44,6 +48,7 @@ const baseUrl = window.appGlobal.baseUrl;
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $toast: ToasterAPI;
+    $loader: LoaderAPI;
   }
 }
 

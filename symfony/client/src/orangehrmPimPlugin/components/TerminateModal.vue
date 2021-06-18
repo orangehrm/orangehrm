@@ -20,7 +20,7 @@
 
 <template>
   <oxd-dialog
-    @update:show="onCancel"
+    @update:show="onCancel(false)"
     :style="{width: '90%', maxWidth: '600px'}"
   >
     <div class="orangehrm-modal-header">
@@ -65,7 +65,7 @@
           type="button"
           displayType="ghost"
           label="Cancel"
-          @click="onCancel"
+          @click="onCancel(false)"
         />
         <submit-button />
       </oxd-form-actions>
@@ -85,11 +85,11 @@ import {
 const terminationModel = {
   terminationReasonId: [{id: 1, label: 'Other'}],
   date: '',
-  note: '',
+  note: null,
 };
 
 export default {
-  name: 'save-termination',
+  name: 'terminate-modal',
   props: {
     employeeId: {
       type: String,
@@ -98,6 +98,10 @@ export default {
     terminationReasons: {
       type: Array,
       required: true,
+    },
+    terminationId: {
+      type: Number,
+      required: false,
     },
   },
   components: {
@@ -126,23 +130,45 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.http
-        .create({
-          ...this.termination,
-          terminationReasonId: this.termination.terminationReasonId.map(
-            item => item.id,
-          )[0],
+      const payload = {
+        ...this.termination,
+        terminationReasonId: this.termination.terminationReasonId.map(
+          item => item.id,
+        )[0],
+      };
+      this.submitData(payload, this.terminationId)
+        .then(() => {
+          return this.$toast.updateSuccess();
         })
         .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          this.onCancel();
+          this.onCancel(true);
         });
     },
-    onCancel() {
-      this.$emit('close', true);
+    async submitData(payload, id) {
+      return !id ? this.http.create(payload) : this.http.update(id, payload);
     },
+    onCancel(reload) {
+      this.$emit('close', reload);
+    },
+  },
+
+  beforeMount() {
+    if (this.terminationId) {
+      this.isLoading = true;
+      this.http
+        .get(this.terminationId)
+        .then(response => {
+          const {data} = response.data;
+          this.termination.terminationReasonId = this.terminationReasons.filter(
+            item => item.id === data.terminationReason?.id,
+          );
+          this.termination.date = data.date;
+          this.termination.note = data.note;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    }
   },
 };
 </script>

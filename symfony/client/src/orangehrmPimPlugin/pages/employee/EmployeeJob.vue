@@ -154,13 +154,22 @@
       >
         Employee Termination / Activiation
       </profile-action-header>
+      <oxd-text
+        tag="p"
+        class="orangehrm-terminate-date"
+        v-if="termination && termination.id"
+        @click="openTerminateModal"
+      >
+        Terminated on: {{ termination.date }}
+      </oxd-text>
     </div>
-    <save-termination
-      v-if="showTerminationModal"
+    <terminate-modal
+      v-if="showTerminateModal"
       :employee-id="empNumber"
       :termination-reasons="terminationReasons"
-      @close="onTerminationModalClose"
-    ></save-termination>
+      :termination-id="termination.id"
+      @close="closeTerminateModal"
+    ></terminate-modal>
   </edit-employee-layout>
 </template>
 
@@ -171,7 +180,7 @@ import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import JobSpecDownload from '@/orangehrmPimPlugin/components/JobSpecDownload';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
-import SaveTermination from '@/orangehrmPimPlugin/components/SaveTermination';
+import TerminateModal from '@/orangehrmPimPlugin/components/TerminateModal';
 
 const jobDetailsModel = {
   joinedDate: '',
@@ -197,7 +206,7 @@ export default {
     'job-spec-download': JobSpecDownload,
     'file-upload-input': FileUploadInput,
     'profile-action-header': ProfileActionHeader,
-    'save-termination': SaveTermination,
+    'terminate-modal': TerminateModal,
   },
 
   props: {
@@ -249,7 +258,7 @@ export default {
       job: {...jobDetailsModel},
       contract: {...contractDetailsModel},
       termination: null,
-      showTerminationModal: false,
+      showTerminateModal: false,
       rules: {
         startDate: [],
         endDate: [],
@@ -316,23 +325,33 @@ export default {
 
     onClickTerminate() {
       if (this.termination?.id) {
+        this.$loader.startLoading();
         this.http
           .request({
             method: 'DELETE',
-            url: `api/v2/pim/employees/${this.employeeId}/terminations/${this.termination.id}`,
+            url: `api/v2/pim/employees/${this.empNumber}/terminations`,
           })
           .then(() => {
-            this.$toast.updateSuccess();
+            return this.$toast.updateSuccess();
+          })
+          .then(() => {
+            this.$loader.endLoading();
+            location.reload();
           });
       } else {
-        // show terminate popup
-        this.showTerminationModal = true;
+        this.openTerminateModal();
       }
     },
 
-    onTerminationModalClose() {
-      this.showTerminationModal = false;
-      // refresh
+    openTerminateModal() {
+      this.showTerminateModal = true;
+    },
+
+    closeTerminateModal(reload) {
+      this.showTerminateModal = false;
+      if (reload) {
+        location.reload();
+      }
     },
 
     updateContractModel(response) {
