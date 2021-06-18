@@ -111,8 +111,10 @@ export const validEmailFormat = function(value: string): boolean | string {
   );
 };
 
-export const validPhoneNumberFormat = function(value: string,): boolean | string {
+export const validPhoneNumberFormat = function(
+  value: string,
+): boolean | string {
   return (
-    !value || /^[0-9+()-]+$/.test(value) || 'Allows numbers and only + - / ( )'
+    !value || /^[0-9+()-/]+$/.test(value) || 'Allows numbers and only + - / ( )'
   );
 };
