@@ -316,7 +316,14 @@ export default {
 
     onClickTerminate() {
       if (this.termination?.id) {
-        // reactivate
+        this.http
+          .request({
+            method: 'DELETE',
+            url: `api/v2/pim/employees/${this.employeeId}/terminations/${this.termination.id}`,
+          })
+          .then(() => {
+            this.$toast.updateSuccess();
+          });
       } else {
         // show terminate popup
         this.showTerminationModal = true;
