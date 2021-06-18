@@ -28,10 +28,12 @@ use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeJobController extends BaseViewEmployeeController
 {
     use ConfigServiceTrait;
+    use EmployeeServiceTrait;
 
     protected ?JobTitleService $jobTitleService = null;
     protected ?JobCategoryService $jobCategoryService = null;
@@ -116,18 +118,9 @@ class EmployeeJobController extends BaseViewEmployeeController
             $locations = $this->getLocationService()->getAccessibleLocationsArray($empNumber);
             $component->addProp(new Prop('locations', Prop::TYPE_ARRAY, $locations));
 
-            $terminationReasons = [
-                ["id" => 1, "label" => "Other"],
-                ["id" => 2, "label" => "Retired"],
-                ["id" => 3, "label" => "Contract Not Renewed"],
-                ["id" => 4, "label" => "Resigned - Company Requested"],
-                ["id" => 5, "label" => "Resigned - Self Proposed"],
-                ["id" => 6, "label" => "Resigned"],
-                ["id" => 7, "label" => "Deceased"],
-                ["id" => 8, "label" => "Physically Disabled/Compensated"],
-                ["id" => 9, "label" => "Laid-off"],
-                ["id" => 10, "label" => "Dismissed"]
-            ];
+            $terminationReasons = $this->getEmployeeService()
+                ->getEmployeeTerminationService()
+                ->getTerminationReasonsArray();
             $component->addProp(new Prop('termination-reasons', Prop::TYPE_ARRAY, $terminationReasons));
 
             $this->setComponent($component);
