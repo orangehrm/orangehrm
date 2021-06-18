@@ -169,7 +169,9 @@ export default {
           title: this.jobTitle.title,
           description: this.jobTitle.description,
           note: this.jobTitle.note,
-          currentJobSpecification: this.jobTitle.method,
+          currentJobSpecification: this.jobTitle.oldSpecification
+            ? this.jobTitle.method
+            : undefined,
           specification: this.jobTitle.newSpecification
             ? this.jobTitle.newSpecification
             : undefined,
