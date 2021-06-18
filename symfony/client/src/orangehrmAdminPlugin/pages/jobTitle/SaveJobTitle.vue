@@ -88,7 +88,12 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+  validFileTypes,
+  maxFileSize,
+} from '@orangehrm/core/util/validation/rules';
 
 const initialJobTitle = {
   title: '',
@@ -98,6 +103,17 @@ const initialJobTitle = {
 };
 
 export default {
+  props: {
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
+  },
+
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -113,25 +129,13 @@ export default {
       isLoading: false,
       jobTitle: {...initialJobTitle},
       rules: {
-        title: [],
-        description: [
-          v =>
-            (v && v.length <= 400) ||
-            v === '' ||
-            'Should not exceed 400 characters',
-        ],
+        title: [required, shouldNotExceedCharLength(100)],
+        description: [shouldNotExceedCharLength(400)],
         specification: [
-          v =>
-            v === null ||
-            (v && v.size && v.size <= 1024 * 1024) ||
-            'Attachment size exceeded',
+          validFileTypes(this.allowedFileTypes),
+          maxFileSize(this.maxFileSize),
         ],
-        note: [
-          v =>
-            (v && v.length <= 400) ||
-            v === '' ||
-            'Should not exceed 400 characters',
-        ],
+        note: [shouldNotExceedCharLength(400)],
       },
     };
   },
@@ -147,11 +151,9 @@ export default {
           ...this.jobTitle,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.jobTitle = {...initialJobTitle};
-          this.isLoading = false;
           this.onCancel();
         });
     },
@@ -160,16 +162,12 @@ export default {
   created() {
     this.isLoading = true;
     this.http
-      .getAll()
+      .getAll({limit: 0})
       .then(response => {
         const {data} = response.data;
-        this.rules.title.push(required);
-        this.rules.title.push(v => {
-          return (v && v.length <= 100) || 'Should not exceed 100 characters';
-        });
         this.rules.title.push(v => {
           const index = data.findIndex(item => item.title == v);
-          return index === -1 || ' Already exists';
+          return index === -1 || 'Already exists';
         });
       })
       .finally(() => {
