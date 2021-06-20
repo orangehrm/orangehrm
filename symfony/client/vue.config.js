@@ -21,6 +21,7 @@ module.exports = {
         '@orangehrm/orangehrmAuthenticationPlugin':
           '@/orangehrmAuthenticationPlugin',
         '@orangehrm/orangehrmPimPlugin': '@/orangehrmPimPlugin',
+        '@orangehrm/orangehrmToDoPlugin': '@/orangehrmToDoPlugin',
         assets: '@orangehrm/oxd/src/assets',
       },
     },

@@ -53,6 +53,7 @@
             "OrangeHRM\\Pim\\": "./plugins/orangehrmPimPlugin",
             "OrangeHRM\\Recruitment\\": "./plugins/orangehrmRecruitmentPlugin",
             "OrangeHRM\\Time\\": "./plugins/orangehrmTimePlugin",
+            "OrangeHRM\\ToDo\\": "./plugins/orangehrmToDoPlugin",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
                 "./plugins/orangehrmPerformancePlugin/entity",
