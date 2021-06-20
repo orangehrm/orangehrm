@@ -33,10 +33,12 @@ fi
 # Create the plugin folders                                                                        #
 ################################################################################
 PLUGIN_NAME=$1
+FE_PLUGIN_FOLDER=../../symfony/client/src/$PLUGIN_NAME
+BE_PLUGIN_FOLDER=../../symfony/plugins/$PLUGIN_NAME
 
-# Create plugin folders
-mkdir -p ../../symfony/plugins/$PLUGIN_NAME/{Api,config,Controller,entity,test,modules,Service}
-mkdir  ../../symfony/client/src/$PLUGIN_NAME/
+mkdir -p ${BE_PLUGIN_FOLDER}/{Api,config,Controller,entity,test,modules,Service}
+mkdir -p ${FE_PLUGIN_FOLDER}/{pages,}
+cp ./templates/front-end/index.ts.txt ${FE_PLUGIN_FOLDER}/index.ts
 
 echo "$PLUGIN_NAME plugin folder generated"
 echo "Happy coding"
