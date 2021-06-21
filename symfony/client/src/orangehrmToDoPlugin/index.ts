@@ -17,7 +17,9 @@
  */
 
 import ToDo from './pages/todo/ToDo.vue';
+import ToDoSave from './pages/todo/ToDoSave.vue';
 
 export default {
   'todo-list': ToDo,
+  'todo-save': ToDoSave,
 };

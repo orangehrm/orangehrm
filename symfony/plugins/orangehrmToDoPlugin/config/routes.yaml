@@ -21,3 +21,8 @@ view_todo:
   path: /todo/items
   controller: OrangeHRM\ToDo\Controller\ToDoController::handle
   methods: [ GET ]
+
+save_todo:
+  path: /todo/saveToDo
+  controller: OrangeHRM\ToDo\Controller\SaveToDoController::handle
+  methods: [ GET ]
