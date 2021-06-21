@@ -1,0 +1,23 @@
+apiv2_todo:
+  path: /api/v2/todos/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\ToDo\Api\ToDoAPI
+
+apiv2_todos:
+  path: /api/v2/todos
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\ToDo\Api\ToDoAPI
+
+
+##########################
+#        Screens
+##########################
+
+view_todo:
+  path: /todo/items
+  controller: OrangeHRM\ToDo\Controller\ToDoController::handle
+  methods: [ GET ]
