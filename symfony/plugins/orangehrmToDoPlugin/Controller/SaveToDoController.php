@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,12 +17,24 @@
  * Boston, MA  02110-1301, USA
  */
 
-import ToDo from './pages/todo/ToDo.vue';
-import ToDoSave from './pages/todo/ToDoSave.vue';
-import ToDoEdit from './pages/todo/ToDoEdit.vue';
+namespace OrangeHRM\ToDo\Controller;
 
-export default {
-  'todo-list': ToDo,
-  'todo-save': ToDoSave,
-  'todo-edit': ToDoEdit,
-};
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+
+class SaveToDoController extends AbstractVueController
+{
+    public function preRender(Request $request): void
+    {
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component('todo-edit');
+            $component->addProp(new Prop('todo-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('todo-save');
+        }
+        $this->setComponent($component);
+    }
+}
