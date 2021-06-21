@@ -58,7 +58,8 @@
                 "./plugins/orangehrmAdminPlugin/entity",
                 "./plugins/orangehrmPerformancePlugin/entity",
                 "./plugins/orangehrmPimPlugin/entity",
-                "./plugins/orangehrmCorePlugin/entity"
+                "./plugins/orangehrmCorePlugin/entity",
+                "./plugins/orangehrmToDoPlugin/entity"
             ]
         }
     },
