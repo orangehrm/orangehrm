@@ -22,16 +22,19 @@ namespace OrangeHRM\Admin\Service;
 use Exception;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Dto\UserSearchFilterParams;
+use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
-use OrangeHRM\Authentication\Dto\UserCredential;
 
 class UserService
 {
+    use UserRoleManagerTrait;
+
     /**
      * @var UserDao|null
      */
@@ -369,5 +372,19 @@ class UserService
         }
 
         return $valid;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getUndeletableUserIds(): array
+    {
+        $undeletableIds = [];
+        $user = $this->getUserRoleManager()->getUser();
+        if ($user instanceof User) {
+            $undeletableIds[] = $user->getId();
+        }
+
+        return $undeletableIds;
     }
 }

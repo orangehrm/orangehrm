@@ -27,7 +27,6 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -36,10 +35,8 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\ORM\Doctrine;
 
 class UserAPI extends Endpoint implements CrudEndpoint
 {
@@ -72,9 +69,8 @@ class UserAPI extends Endpoint implements CrudEndpoint
     {
         $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $user = $this->getSystemUserService()->getSystemUser($userId);
-        if (!$user instanceof User) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
+
         return new EndpointResourceResult(UserModel::class, $user);
     }
 
@@ -122,16 +118,10 @@ class UserAPI extends Endpoint implements CrudEndpoint
         );
 
         $users = $this->getSystemUserService()->searchSystemUsers($userSearchParamHolder);
+        $count = $this->getSystemUserService()->getSearchSystemUsersCount($userSearchParamHolder);
         return new EndpointCollectionResult(
-            UserModel::class,
-            $users,
-            new ParameterBag(
-                [
-                    CommonParams::PARAMETER_TOTAL => $this->getSystemUserService()->getSearchSystemUsersCount(
-                        $userSearchParamHolder
-                    )
-                ]
-            )
+            UserModel::class, $users,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
 
@@ -154,23 +144,32 @@ class UserAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
+        $user = new User();
+        $this->setUserParams($user);
+
+        $user = $this->getSystemUserService()->saveSystemUser($user, true);
+        return new EndpointResourceResult(UserModel::class, $user);
+    }
+
+    /**
+     * @param User $user
+     * @param bool $changePassword
+     */
+    public function setUserParams(User $user, bool $changePassword = true): void
+    {
         $username = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USERNAME);
-        $password = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PASSWORD);
         $userRoleId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USER_ROLE_ID);
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMPLOYEE_NUMBER);
         $status = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS);
 
-        $employee = Doctrine::getEntityManager()->getReference(Employee::class, $empNumber);
-
-        $userRole = $this->getSystemUserService()->getUserRoleById($userRoleId);
-        $systemUser = new User();
-        $systemUser->setUserName($username);
-        $systemUser->setUserPassword($password);
-        $systemUser->setStatus($status);
-        $systemUser->setUserRole($userRole);
-        $systemUser->setEmployee($employee);
-        $systemUser = $this->getSystemUserService()->saveSystemUser($systemUser, true);
-        return new EndpointResourceResult(UserModel::class, $systemUser);
+        $user->setUserName($username);
+        $user->setStatus($status);
+        $user->getDecorator()->setUserRoleById($userRoleId);
+        $user->getDecorator()->setEmployeeByEmpNumber($empNumber);
+        if ($changePassword) {
+            $password = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PASSWORD);
+            $user->setUserPassword($password);
+        }
     }
 
     /**
@@ -203,31 +202,17 @@ class UserAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         $userId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $username = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USERNAME);
-        $userRoleId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_USER_ROLE_ID);
-        $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_EMPLOYEE_NUMBER);
-        $status = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_STATUS);
         $changePassword = $this->getRequestParams()->getBoolean(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_CHANGE_PASSWORD
         );
 
-        $employee = Doctrine::getEntityManager()->getReference(Employee::class, $empNumber);
+        $user = $this->getSystemUserService()->getSystemUser($userId);
+        $this->throwRecordNotFoundExceptionIfNotExist($user, User::class);
 
-        $userRole = $this->getSystemUserService()->getUserRoleById($userRoleId);
-
-        $systemUser = $this->getSystemUserService()->getSystemUser($userId);
-        $systemUser->setUserName($username);
-        $systemUser->setStatus($status);
-        $systemUser->setUserRole($userRole);
-        $systemUser->setEmployee($employee);
-
-        if ($changePassword) {
-            $password = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PASSWORD);
-            $systemUser->setUserPassword($password);
-        }
-        $systemUser = $this->getSystemUserService()->saveSystemUser($systemUser, $changePassword);
-        return new EndpointResourceResult(UserModel::class, $systemUser);
+        $this->setUserParams($user, $changePassword);
+        $user = $this->getSystemUserService()->saveSystemUser($user, $changePassword);
+        return new EndpointResourceResult(UserModel::class, $user);
     }
 
     /**
@@ -260,8 +245,20 @@ class UserAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
+        $undeletableIds = $this->getSystemUserService()->getUndeletableUserIds();
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(
+                    Rules::EACH,
+                    [
+                        new Rules\Composite\AllOf(
+                            new Rule(Rules::POSITIVE),
+                            new Rule(Rules::NOT_IN, [$undeletableIds])
+                        )
+                    ]
+                )
+            ),
         );
     }
 }
