@@ -48,16 +48,16 @@
             </oxd-form-row>
 
             <oxd-form-row>
-              <oxd-input-field
-                type="file"
+              <file-upload-input
                 label="Job Specification"
                 buttonLabel="Browse"
-                v-model="jobTitle.specification"
+                v-model:newFile="jobTitle.newSpecification"
+                v-model:method="jobTitle.method"
+                :file="jobTitle.oldSpecification"
                 :rules="rules.specification"
+                :url="`admin/viewJobSpecification/attachId`"
+                hint="Accepts up to 1MB"
               />
-              <oxd-text class="orangehrm-input-hint" tag="p"
-                >Accepts up to 1MB</oxd-text
-              >
             </oxd-form-row>
 
             <oxd-form-row>
@@ -88,21 +88,41 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+  validFileTypes,
+  maxFileSize,
+} from '@orangehrm/core/util/validation/rules';
+import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 
 const initialJobTitle = {
   title: '',
   description: '',
-  specification: null,
+  oldSpecification: '',
+  newSpecification: null,
+  method: 'keepCurrent',
   note: '',
 };
 
 export default {
   props: {
     jobTitleId: {
+      type: String,
+      required: true,
+    },
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    maxFileSize: {
       type: Number,
       required: true,
     },
+  },
+
+  components: {
+    'file-upload-input': FileUploadInput,
   },
 
   setup() {
@@ -120,25 +140,20 @@ export default {
       isLoading: false,
       jobTitle: {...initialJobTitle},
       rules: {
-        title: [],
-        description: [
-          v =>
-            (v && v.length <= 400) ||
-            v === '' ||
-            'Should not exceed 400 characters',
-        ],
+        title: [required, shouldNotExceedCharLength(100)],
+        description: [shouldNotExceedCharLength(400)],
         specification: [
-          v =>
-            v == null ||
-            (v && v.size && v.size <= 1024 * 1024) ||
-            'Attachment size exceeded',
+          v => {
+            if (this.jobTitle.method == 'replaceCurrent') {
+              return required(v);
+            } else {
+              return true;
+            }
+          },
+          validFileTypes(this.allowedFileTypes),
+          maxFileSize(this.maxFileSize),
         ],
-        note: [
-          v =>
-            (v && v.length <= 400) ||
-            v === '' ||
-            'Should not exceed 400 characters',
-        ],
+        note: [shouldNotExceedCharLength(400)],
       },
     };
   },
@@ -151,13 +166,20 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.jobTitleId, {
-          ...this.jobTitle,
+          title: this.jobTitle.title,
+          description: this.jobTitle.description,
+          note: this.jobTitle.note,
+          currentJobSpecification: this.jobTitle.oldSpecification
+            ? this.jobTitle.method
+            : undefined,
+          specification: this.jobTitle.newSpecification
+            ? this.jobTitle.newSpecification
+            : undefined,
         })
         .then(() => {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          // go back
           this.onCancel();
         });
     },
@@ -169,21 +191,25 @@ export default {
       .get(this.jobTitleId)
       .then(response => {
         const {data} = response.data;
-        this.jobTitle = {...initialJobTitle, ...data};
+        this.jobTitle.title = data.title;
+        this.jobTitle.description = data.description;
+        this.jobTitle.note = data.note;
+        this.jobTitle.oldSpecification = data.jobSpecification?.id
+          ? data.jobSpecification
+          : null;
+        this.jobTitle.newSpecification = null;
+        this.jobTitle.method = 'keepCurrent';
+
         // Fetch list data for unique test
-        return this.http.getAll();
+        return this.http.getAll({limit: 0});
       })
       .then(response => {
         const {data} = response.data;
-        this.rules.title.push(required);
-        this.rules.title.push(v => {
-          return (v && v.length <= 100) || 'Should not exceed 100 characters';
-        });
         this.rules.title.push(v => {
           const index = data.findIndex(item => item.title == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.jobTitle.id ? ' Already exists' : true;
+            return id != this.jobTitleId ? 'Already exists' : true;
           } else {
             return true;
           }
