@@ -9,5 +9,6 @@ apidoc
 installer/log.txt
 logInsatall.log
 .phpunit.result.cache
-tests/node_modules
+symfony/test/functional/node_modules
+symfony/tests/functional/yarn.lock
 coverage/
