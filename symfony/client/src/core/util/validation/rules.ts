@@ -33,6 +33,8 @@ export const required = function(
     return Number.isNaN(value) || 'Required';
   } else if (Array.isArray(value)) {
     return (!!value && value.length !== 0) || 'Required';
+  } else if (typeof value === 'object') {
+    return value !== null || 'Required';
   } else {
     return 'Required';
   }
@@ -99,6 +101,31 @@ export const afterDate = function(
     return true;
   }
   return isAfter(date1, date2, dateFormat);
+};
+
+/**
+ * @param {number} size - File size in bytes
+ */
+export const maxFileSize = function(size: number) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return function(file: any): boolean | string {
+    return (
+      file === null ||
+      (file.size && file.size <= size) ||
+      'Attachment size exceeded'
+    );
+  };
+};
+
+export const validFileTypes = function(fileTypes: string[]) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return function(file: any): boolean | string {
+    return (
+      file === null ||
+      (file && fileTypes.findIndex(item => item === file.type) > -1) ||
+      'File type not allowed'
+    );
+  };
 };
 
 export const validEmailFormat = function(value: string): boolean | string {
