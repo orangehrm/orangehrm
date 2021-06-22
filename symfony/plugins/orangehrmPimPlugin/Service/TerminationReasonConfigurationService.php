@@ -93,6 +93,16 @@ class TerminationReasonConfigurationService
     }
 
     /**
+     * @param TerminationReasonConfigurationSearchFilterParams $terminationReasonConfigurationSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getTerminationReasonCount(TerminationReasonConfigurationSearchFilterParams $terminationReasonConfigurationSearchFilterParams): int
+    {
+        return $this->getTerminationReasonDao()->getTerminationReasonCount($terminationReasonConfigurationSearchFilterParams);
+    }
+
+    /**
      * @param array $toDeleteIds
      * @return int
      * @throws DaoException

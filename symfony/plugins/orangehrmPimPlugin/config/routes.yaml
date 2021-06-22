@@ -271,6 +271,20 @@ apiv2_pim_employees_license:
     empNumber: '\d+'
     id: '\d+'
 
+apiv2_pim_termination_record:
+  path: /api/v2/pim/termination_records/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\JobTitleAPI
+
+apiv2_pim_termination_records:
+  path: /api/v2/pim/termination_records
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\JobTitleAPI
+
 ##########################
 #        Files
 ##########################
