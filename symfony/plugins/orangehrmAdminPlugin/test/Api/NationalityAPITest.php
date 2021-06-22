@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\tests\Admin\Api;
+namespace OrangeHRM\Tests\Admin\Api;
 
 use OrangeHRM\Admin\Api\NationalityAPI;
 use OrangeHRM\Admin\Dao\NationalityDao;

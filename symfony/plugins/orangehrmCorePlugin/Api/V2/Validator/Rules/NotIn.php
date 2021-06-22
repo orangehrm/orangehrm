@@ -17,38 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Service;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
-use OrangeHRM\Pim\Service\Model\TerminationReasonModel;
-
-class EmployeeTerminationService
+class NotIn extends AbstractRule
 {
-    use NormalizerServiceTrait;
+    /**
+     * @var array
+     */
+    private array $haystack;
 
     /**
-     * @var EmployeeTerminationDao|null
+     * @var bool
      */
-    protected ?EmployeeTerminationDao $employeeTerminationDao = null;
+    private bool $compareIdentical;
 
     /**
-     * @return EmployeeTerminationDao
+     * @param array $haystack
+     * @param bool $compareIdentical
      */
-    public function getEmployeeTerminationDao(): EmployeeTerminationDao
+    public function __construct(array $haystack, bool $compareIdentical = false)
     {
-        if (!$this->employeeTerminationDao instanceof EmployeeTerminationDao) {
-            $this->employeeTerminationDao = new EmployeeTerminationDao();
-        }
-        return $this->employeeTerminationDao;
+        $this->haystack = $haystack;
+        $this->compareIdentical = $compareIdentical;
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
-    public function getTerminationReasonsArray(): array
+    public function validate($input): bool
     {
-        $terminationReasons = $this->getEmployeeTerminationDao()->getTerminationReasonList();
-        return $this->getNormalizerService()->normalizeArray(TerminationReasonModel::class, $terminationReasons);
+        return !in_array($input, $this->haystack, $this->compareIdentical);
     }
 }

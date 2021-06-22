@@ -243,7 +243,7 @@ export default {
     const serializedFilters = computed(() => {
       return {
         model: 'detailed',
-        nameOrId: filters.value.employee.map(item => item.id)[0],
+        empNumber: filters.value.employee.map(item => item.id)[0],
         employeeId: filters.value.employeeId,
         empStatusId: filters.value.empStatusId.map(item => item.id)[0],
         includeEmployees: filters.value.includeEmployees.map(item => {

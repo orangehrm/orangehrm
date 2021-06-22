@@ -45,6 +45,7 @@
 
       <oxd-grid-item>
         <oxd-input-field
+          ref="passwordConfirm"
           label="Confirm Password"
           type="password"
           :modelValue="passwordConfirm"
@@ -96,6 +97,19 @@ export default {
       },
     };
   },
+  emits: ['update:password', 'update:passwordConfirm'],
+
+  watch: {
+    password(value) {
+      if (
+        (!!this.passwordConfirm && value !== this.passwordConfirm) ||
+        (!!this.passwordConfirm && value === this.passwordConfirm)
+      ) {
+        this.$nextTick(this.$refs.passwordConfirm.triggerUpdate);
+      }
+    },
+  },
+
   computed: {
     passwordStrength() {
       let strength = 0;

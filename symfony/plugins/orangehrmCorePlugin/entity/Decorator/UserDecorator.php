@@ -17,38 +17,55 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Service;
+namespace OrangeHRM\Entity\Decorator;
 
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
-use OrangeHRM\Pim\Service\Model\TerminationReasonModel;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\UserRole;
 
-class EmployeeTerminationService
+class UserDecorator
 {
-    use NormalizerServiceTrait;
+    use EntityManagerHelperTrait;
 
     /**
-     * @var EmployeeTerminationDao|null
+     * @var User
      */
-    protected ?EmployeeTerminationDao $employeeTerminationDao = null;
+    private User $user;
 
     /**
-     * @return EmployeeTerminationDao
+     * @param User $user
      */
-    public function getEmployeeTerminationDao(): EmployeeTerminationDao
+    public function __construct(User $user)
     {
-        if (!$this->employeeTerminationDao instanceof EmployeeTerminationDao) {
-            $this->employeeTerminationDao = new EmployeeTerminationDao();
-        }
-        return $this->employeeTerminationDao;
+        $this->user = $user;
     }
 
     /**
-     * @return array
+     * @return User
      */
-    public function getTerminationReasonsArray(): array
+    protected function getUser(): User
     {
-        $terminationReasons = $this->getEmployeeTerminationDao()->getTerminationReasonList();
-        return $this->getNormalizerService()->normalizeArray(TerminationReasonModel::class, $terminationReasons);
+        return $this->user;
+    }
+
+    /**
+     * @param int $empNumber
+     */
+    public function setEmployeeByEmpNumber(int $empNumber): void
+    {
+        /** @var Employee|null $employee */
+        $employee = $this->getReference(Employee::class, $empNumber);
+        $this->getUser()->setEmployee($employee);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setUserRoleById(int $id): void
+    {
+        /** @var UserRole|null $userRole */
+        $userRole = $this->getReference(UserRole::class, $id);
+        $this->getUser()->setUserRole($userRole);
     }
 }
