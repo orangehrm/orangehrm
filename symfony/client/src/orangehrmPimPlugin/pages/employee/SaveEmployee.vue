@@ -108,6 +108,7 @@
 
         <oxd-divider />
         <oxd-form-actions>
+          <required-text />
           <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>

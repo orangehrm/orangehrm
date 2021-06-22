@@ -247,6 +247,12 @@ export default {
         middleName: [shouldNotExceedCharLength(30)],
         lastName: [required, shouldNotExceedCharLength(30)],
         employeeId: [shouldNotExceedCharLength(10)],
+        otherId: [shouldNotExceedCharLength(30)],
+        drivingLicenseNo: [shouldNotExceedCharLength(30)],
+        ssnNumb: [shouldNotExceedCharLength(30)],
+        sinNumb: [shouldNotExceedCharLength(30)],
+        nickname: [shouldNotExceedCharLength(30)],
+        militaryService: [shouldNotExceedCharLength(30)],
       },
       maritalStatuses: [
         {id: 'Single', label: 'Single'},
@@ -278,7 +284,7 @@ export default {
         })
         .then(response => {
           this.updateModel(response);
-          return this.$toast.updateSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.isLoading = false;
