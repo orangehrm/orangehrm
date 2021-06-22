@@ -86,7 +86,11 @@
 </template>
 
 <script>
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+  validPhoneNumberFormat,
+} from '@orangehrm/core/util/validation/rules';
 
 const emergencyContactModel = {
   name: '',
@@ -113,56 +117,22 @@ export default {
       isLoading: false,
       contact: {...emergencyContactModel},
       rules: {
-        name: [
-          required,
-          v => {
-            return !v || v?.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
-        relationship: [
-          required,
-          v => {
-            return !v || v?.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
+        name: [required, shouldNotExceedCharLength(100)],
+        relationship: [required, shouldNotExceedCharLength(100)],
         homePhone: [
+          validPhoneNumberFormat,
+          shouldNotExceedCharLength(30),
           v => {
             return (
-              v.trim() !== '' ||
-              this.contact.mobilePhone.trim() !== '' ||
-              this.contact.officePhone.trim() !== '' ||
+              v !== '' ||
+              this.contact.mobilePhone !== '' ||
+              this.contact.officePhone !== '' ||
               'At least one phone number is required'
             );
           },
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
         ],
-        mobilePhone: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
-        ],
-        officePhone: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
-        ],
+        mobilePhone: [validPhoneNumberFormat, shouldNotExceedCharLength(30)],
+        officePhone: [validPhoneNumberFormat, shouldNotExceedCharLength(30)],
       },
     };
   },
