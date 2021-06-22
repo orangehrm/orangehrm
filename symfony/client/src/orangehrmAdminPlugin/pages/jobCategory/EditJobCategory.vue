@@ -103,7 +103,6 @@ export default {
         })
         .then(() => {
           this.onCancel();
-          this.isLoading = false;
         });
     },
     onCancel() {

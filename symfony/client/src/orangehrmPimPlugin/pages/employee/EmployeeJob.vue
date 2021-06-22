@@ -302,10 +302,9 @@ export default {
             data: {
               startDate: this.contract.startDate,
               endDate: this.contract.endDate,
-              currentContractAttachment:
-                this.contract.method != 'keepCurrent'
-                  ? this.contract.method
-                  : undefined,
+              currentContractAttachment: this.contract.oldAttachment
+                ? this.contract.method
+                : undefined,
               contractAttachment: this.contract.newAttachment
                 ? this.contract.newAttachment
                 : undefined,

@@ -67,6 +67,8 @@ class ConfigService
     public const ALLOWED_FILE_TYPES = [
         "text/plain",
         "text/rtf",
+        "text/csv",
+        "application/csv",
         "application/rtf",
         "application/pdf",
         "application/msword",

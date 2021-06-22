@@ -34,6 +34,7 @@
           :modelValue="password"
           @update:modelValue="$emit('update:password', $event)"
           :rules="rules.password"
+          autocomplete="off"
           required
         />
         <oxd-text class="user-password-hint" tag="p">
