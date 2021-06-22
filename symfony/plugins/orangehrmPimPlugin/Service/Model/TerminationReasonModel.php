@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,44 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {createApp} from 'vue';
-import components from './components';
-import pages from './pages';
-import toaster, {ToasterAPI} from './core/plugins/toaster/toaster';
-import loader, {LoaderAPI} from './core/plugins/loader/loader';
-import './core/plugins/toaster/toaster.scss';
-import './core/plugins/loader/loader.scss';
+namespace OrangeHRM\Pim\Service\Model;
 
-const app = createApp({
-  name: 'App',
-  components: pages,
-});
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\TerminationReason;
 
-// Global Register Components
-app.use(components);
+class TerminationReasonModel implements Normalizable
+{
+    use ModelTrait;
 
-app.use(toaster, {
-  duration: 2500,
-  persist: false,
-  animation: 'oxd-toast-list',
-  position: 'bottom',
-});
-
-app.use(loader);
-
-// @ts-expect-error
-const baseUrl = window.appGlobal.baseUrl;
-
-// https://github.com/vuejs/vue-next/pull/982
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $toast: ToasterAPI;
-    $loader: LoaderAPI;
-  }
+    /**
+     * @param TerminationReason $terminationReason
+     */
+    public function __construct(TerminationReason $terminationReason)
+    {
+        $this->setEntity($terminationReason);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'label'
+            ]
+        );
+    }
 }
-
-app.config.globalProperties.global = {
-  baseUrl,
-};
-
-app.mount('#app');

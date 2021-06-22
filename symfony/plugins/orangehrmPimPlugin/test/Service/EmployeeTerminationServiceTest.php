@@ -19,19 +19,45 @@
 
 namespace OrangeHRM\Tests\Pim\Service;
 
+use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Entity\TerminationReason;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
 use OrangeHRM\Pim\Service\EmployeeTerminationService;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
  * @group Pim
  * @group Service
  */
-class EmployeeTerminationServiceTest extends TestCase
+class EmployeeTerminationServiceTest extends KernelTestCase
 {
     public function testGetEmployeeTerminationDao(): void
     {
         $employeeTerminationService = new EmployeeTerminationService();
         $this->assertTrue($employeeTerminationService->getEmployeeTerminationDao() instanceof EmployeeTerminationDao);
+    }
+
+    public function testGetTerminationReasonsArray(): void
+    {
+        $terminationReason = new TerminationReason();
+        $terminationReason->setId(1);
+        $terminationReason->setName('Test Reason');
+
+        $dao = $this->getMockBuilder(EmployeeTerminationDao::class)->onlyMethods(['getTerminationReasonList'])->getMock(
+        );
+        $dao->expects($this->once())
+            ->method('getTerminationReasonList')
+            ->willReturn([$terminationReason]);
+
+        $service = $this->getMockBuilder(EmployeeTerminationService::class)->onlyMethods(
+            ['getEmployeeTerminationDao']
+        )->getMock();
+        $service->expects($this->once())
+            ->method('getEmployeeTerminationDao')
+            ->willReturn($dao);
+
+        $this->createKernelWithMockServices([Services::NORMALIZER_SERVICE => new NormalizerService()]);
+        $this->assertEquals([['id' => 1, 'label' => 'Test Reason']], $service->getTerminationReasonsArray());
     }
 }
