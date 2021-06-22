@@ -208,7 +208,7 @@ export default {
     const filters = ref({...defaultFilters});
     const serializedFilters = computed(() => {
       return {
-        username: '',
+        username: filters.value.username,
         userRoleId: filters.value.userRoleId.map(item => item.id)[0],
         empNumber: filters.value.empNumber.map(item => item.id)[0],
         status: filters.value.status.map(item => item.id)[0],

@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import {shouldNotExceedCharLength} from '@orangehrm/core/util/validation/rules';
+
 const attachmentModel = {
   attachment: null,
   description: '',
@@ -98,12 +100,7 @@ export default {
         ...attachmentModel,
       },
       rules: {
-        description: [
-          v =>
-            (v && v.length <= 400) ||
-            v === '' ||
-            'Should not exceed 400 characters',
-        ],
+        description: [shouldNotExceedCharLength(200)],
         attachment: [
           v => {
             return v !== null || 'Required';

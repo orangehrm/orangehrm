@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Admin\Service;
 use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
@@ -142,7 +143,7 @@ class UserServiceTest extends TestCase
         $password = 'sadffas';
 
         $dao = $this->getMockBuilder(UserDao::class)
-            ->setMethods(array('getSystemUser'))
+            ->onlyMethods(['getSystemUser'])
             ->getMock();
 
         $dao->expects($this->once())
@@ -171,7 +172,7 @@ class UserServiceTest extends TestCase
 
 
         $dao = $this->getMockBuilder(UserDao::class)
-            ->setMethods(array('getSystemUser'))
+            ->onlyMethods(['getSystemUser'])
             ->getMock();
 
         $dao->expects($this->once())
@@ -199,7 +200,7 @@ class UserServiceTest extends TestCase
 
 
         $dao = $this->getMockBuilder(UserDao::class)
-            ->setMethods(array('getSystemUser'))
+            ->onlyMethods(['getSystemUser'])
             ->getMock();
 
         $dao->expects($this->once())
@@ -227,7 +228,7 @@ class UserServiceTest extends TestCase
 
 
         $dao = $this->getMockBuilder(UserDao::class)
-            ->setMethods(array('getSystemUser'))
+            ->onlyMethods(['getSystemUser'])
             ->getMock();
 
         $dao->expects($this->once())
@@ -248,7 +249,7 @@ class UserServiceTest extends TestCase
 
         $mockHasher = $this->getMockBuilder(PasswordHash::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('hash'))
+            ->onlyMethods(['hash'])
             ->getMock();
         $mockHasher->expects($this->once())
             ->method('hash')
@@ -256,7 +257,7 @@ class UserServiceTest extends TestCase
             ->will($this->returnValue($hashedPassword));
 
         $mockDao = $this->getMockBuilder(UserDao::class)
-            ->setMethods(array('updatePassword'))
+            ->onlyMethods(['updatePassword'])
             ->getMock();
         $mockDao->expects($this->once())
             ->method('updatePassword')
@@ -277,7 +278,7 @@ class UserServiceTest extends TestCase
 
         $credentials = new UserCredential($userName, $password);
         $mockDao = $this->getMockBuilder(UserDao::class)
-            ->setMethods(array('isExistingSystemUser'))
+            ->onlyMethods(['isExistingSystemUser'])
             ->getMock();
         $mockDao->expects($this->once())
             ->method('isExistingSystemUser')
@@ -306,7 +307,7 @@ class UserServiceTest extends TestCase
         $credentials = new UserCredential($userName, $password);
         $mockHasher = $this->getMockBuilder(PasswordHash::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('verify'))
+            ->onlyMethods(['verify'])
             ->getMock();
         $mockHasher->expects($this->once())
             ->method('verify')
@@ -314,7 +315,7 @@ class UserServiceTest extends TestCase
             ->will($this->returnValue(true));
 
         $mockDao = $this->getMockBuilder(UserDao::class)
-            ->setMethods(array('isExistingSystemUser'))
+            ->onlyMethods(['isExistingSystemUser'])
             ->getMock();
         $mockDao->expects($this->once())
             ->method('isExistingSystemUser')
@@ -346,7 +347,7 @@ class UserServiceTest extends TestCase
 
 
         $mockDao = $this->getMockBuilder(UserDao::class)
-            ->setMethods(array('isExistingSystemUser', 'saveSystemUser'))
+            ->onlyMethods(['isExistingSystemUser', 'saveSystemUser'])
             ->getMock();
         $mockDao->expects($this->once())
             ->method('isExistingSystemUser')
@@ -384,7 +385,7 @@ class UserServiceTest extends TestCase
 
 
         $mockDao = $this->getMockBuilder(UserDao::class)
-            ->setMethods(array('isExistingSystemUser'))
+            ->onlyMethods(['isExistingSystemUser'])
             ->getMock();
         $mockDao->expects($this->once())
             ->method('isExistingSystemUser')
@@ -404,7 +405,7 @@ class UserServiceTest extends TestCase
 
         $mockHasher = $this->getMockBuilder(PasswordHash::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('hash'))
+            ->onlyMethods(['hash'])
             ->getMock();
         $mockHasher->expects($this->once())
             ->method('hash')
@@ -414,6 +415,26 @@ class UserServiceTest extends TestCase
         $this->systemUserService->setPasswordHasher($mockHasher);
         $result = $this->systemUserService->hashPassword($password);
         $this->assertEquals($hashedPassword, $result);
+    }
+
+    public function testGetUndeletableUserIds(): void
+    {
+        $user = new User();
+        $user->setId(1);
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->onlyMethods(['getUser'])
+            ->getMock();
+        $userRoleManager->expects($this->exactly(2))
+            ->method('getUser')
+            ->willReturn($user, null);
+
+        $service = $this->getMockBuilder(UserService::class)->onlyMethods(['getUserRoleManager'])->getMock();
+        $service->expects($this->exactly(2))
+            ->method('getUserRoleManager')
+            ->willReturn($userRoleManager);
+
+        $this->assertEquals([1], $service->getUndeletableUserIds());
+        $this->assertEmpty($service->getUndeletableUserIds());
     }
 }
 

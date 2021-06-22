@@ -120,8 +120,10 @@ export default {
       rules: {
         username: [
           required,
-          v => (v && v.length >= 5) || 'Should have at least 5 characters',
-          v => (v && v.length <= 40) || 'Should not exceed 40 characters',
+          v =>
+            (v && v.trim().length >= 5) || 'Should have at least 5 characters',
+          v =>
+            (v && v.trim().length <= 40) || 'Should not exceed 40 characters',
         ],
         role: [v => (!!v && v.length != 0) || 'Required'],
         employee: [v => (!!v && v.length != 0) || 'Required'],
@@ -146,7 +148,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          username: this.user.username,
+          username: this.user.username.trim(),
           password: this.user.password,
           status:
             this.user.status[0] && this.user.status[0].label === 'Enabled',
