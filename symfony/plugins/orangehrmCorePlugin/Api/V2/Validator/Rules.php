@@ -38,6 +38,7 @@ final class Rules
     public const CURRENCY = OHRMRules\Currency::class;
     public const API_DATE = OHRMRules\ApiDate::class;
     public const EACH = OHRMRules\Each::class;
+    public const NOT_IN = OHRMRules\NotIn::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;

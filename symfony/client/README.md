@@ -3,11 +3,11 @@
 ### Prerequisites
 
 - Yarn
-- [Visual Studio Code](https://code.visualstudio.com/) with [Vetur extension](https://github.com/vuejs/vetur)
+- [Visual Studio Code](https://code.visualstudio.com/) with [Vetur extension](https://github.com/vuejs/vetur) [Optional]
 
 ### Getting Started
 
-#### Install dependancies
+#### Install dependencies
 
 ```
 yarn install
