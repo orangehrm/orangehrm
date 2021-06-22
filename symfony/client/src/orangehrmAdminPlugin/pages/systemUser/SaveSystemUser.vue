@@ -64,6 +64,7 @@
                 v-model="user.username"
                 :rules="rules.username"
                 required
+                autocomplete="off"
               />
             </oxd-grid-item>
           </oxd-grid>
