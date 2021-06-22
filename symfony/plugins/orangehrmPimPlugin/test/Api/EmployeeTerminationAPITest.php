@@ -23,6 +23,7 @@ use DateTime;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Service\DateTimeHelperService;
@@ -54,16 +55,143 @@ class EmployeeTerminationAPITest extends EndpointTestCase
 
     public function testDelete(): void
     {
-        $api = new EmployeeTerminationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->delete();
+        $this->loadFixtures();
+
+        $empNumber = 1;
+        $employee = new Employee();
+        $employee->setEmpNumber($empNumber);
+        $terminationReason = new TerminationReason();
+        $terminationReason->setId(1);
+        $terminationReason->setName('Test Reason');
+        $terminationRecord = new EmployeeTerminationRecord();
+        $terminationRecord->setTerminationReason($terminationReason);
+        $terminationRecord->setId(1);
+        $terminationRecord->setEmployee($employee);
+        $terminationRecord->setDate(new DateTime('2021-06-17'));
+        $terminationRecord->setNote('Test Note');
+        $employee->setEmployeeTerminationRecord($terminationRecord);
+
+        $employeeService = $this->getMockBuilder(EmployeeService::class)
+            ->onlyMethods(['saveEmployee', 'getEmployeeByEmpNumber'])
+            ->getMock();
+        $employeeService->expects($this->once())
+            ->method('saveEmployee')
+            ->will(
+                $this->returnCallback(
+                    function ($employee) {
+                        return $employee;
+                    }
+                )
+            );
+
+        $employee2 = new Employee();
+        $employee2->setEmpNumber(2);
+
+        $map = [
+            [1, $employee],
+            [2, $employee2],
+            [3, null],
+        ];
+        $employeeService->expects($this->exactly(3))
+            ->method('getEmployeeByEmpNumber')
+            ->will($this->returnValueMap($map));
+
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => $employeeService,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
+        /** @var MockObject&EmployeeTerminationAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            EmployeeTerminationAPI::class,
+            [
+                RequestParams::PARAM_TYPE_ATTRIBUTE => [
+                    CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
+                ]
+            ]
+        )->onlyMethods([])->getMock();
+
+        $result = $api->delete();
+        $this->assertEquals(
+            [
+                'id' => 1,
+                'note' => 'Test Note',
+                'date' => '2021-06-17',
+                'terminationReason' => [
+                    'id' => 1,
+                    'name' => 'Test Reason',
+                ]
+            ],
+            $result->normalize()
+        );
+        $this->assertEquals(
+            ['empNumber' => $empNumber],
+            $result->getMeta()->all()
+        );
+
+        /** @var MockObject&EmployeeTerminationAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            EmployeeTerminationAPI::class,
+            [
+                RequestParams::PARAM_TYPE_ATTRIBUTE => [
+                    CommonParams::PARAMETER_EMP_NUMBER => 2,
+                ]
+            ]
+        )->onlyMethods([])->getMock();
+        try {
+            $api->delete();
+        } catch (RecordNotFoundException $e) {
+            $this->assertEquals('Record Not Found', $e->getMessage());
+        }
+
+        /** @var MockObject&EmployeeTerminationAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            EmployeeTerminationAPI::class,
+            [
+                RequestParams::PARAM_TYPE_ATTRIBUTE => [
+                    CommonParams::PARAMETER_EMP_NUMBER => 3,
+                ]
+            ]
+        )->onlyMethods([])->getMock();
+        try {
+            $api->delete();
+        } catch (RecordNotFoundException $e) {
+            $this->assertEquals('Record Not Found', $e->getMessage());
+        }
     }
 
     public function testGetValidationRuleForDelete(): void
     {
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->onlyMethods(['getAccessibleEntityIds'])
+            ->getMock();
+        $userRoleManager->expects($this->exactly(0))
+            ->method('getAccessibleEntityIds')
+            ->willReturn([1, 2]);
+
+        $authUser = $this->getMockBuilder(User::class)
+            ->onlyMethods(['getEmpNumber'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->expects($this->once())
+            ->method('getEmpNumber')
+            ->willReturn(1);
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::AUTH_USER => $authUser
+            ]
+        );
         $api = new EmployeeTerminationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForDelete();
+        $rules = $api->getValidationRuleForDelete();
+        $this->assertTrue(
+            $this->validate(
+                [CommonParams::PARAMETER_EMP_NUMBER => 1],
+                $rules
+            )
+        );
     }
 
     public function testGetAll(): void

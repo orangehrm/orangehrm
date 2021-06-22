@@ -237,7 +237,20 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        throw $this->getNotImplementedException();
+        list($empNumber) = $this->getUrlAttributes();
+        $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
+        $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
+
+        $employeeTerminationRecord = $employee->getEmployeeTerminationRecord();
+        $this->throwRecordNotFoundExceptionIfNotExist($employeeTerminationRecord, EmployeeTerminationRecord::class);
+
+        $employee->setEmployeeTerminationRecord(null);
+        $this->getEmployeeService()->saveEmployee($employee);
+
+        return new EndpointResourceResult(
+            EmployeeTerminationModel::class, $employeeTerminationRecord,
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+        );
     }
 
     /**
@@ -245,6 +258,11 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            )
+        );
     }
 }

@@ -19,10 +19,14 @@
 
 namespace OrangeHRM\Pim\Service;
 
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
+use OrangeHRM\Pim\Service\Model\TerminationReasonModel;
 
 class EmployeeTerminationService
 {
+    use NormalizerServiceTrait;
+
     /**
      * @var EmployeeTerminationDao|null
      */
@@ -37,5 +41,14 @@ class EmployeeTerminationService
             $this->employeeTerminationDao = new EmployeeTerminationDao();
         }
         return $this->employeeTerminationDao;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTerminationReasonsArray(): array
+    {
+        $terminationReasons = $this->getEmployeeTerminationDao()->getTerminationReasonList();
+        return $this->getNormalizerService()->normalizeArray(TerminationReasonModel::class, $terminationReasons);
     }
 }
