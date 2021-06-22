@@ -24,9 +24,10 @@
       <div class="orangehrm-edit-employee">
         <div class="orangehrm-edit-employee-navigation">
           <div class="orangehrm-edit-employee-imagesection">
-            <oxd-text class="orangehrm-edit-employee-name" tag="h6">{{
-              employeeName
-            }}</oxd-text>
+            <div class="orangehrm-edit-employee-name">
+              <oxd-text tag="h6" class="--strong">{{ employeeName }}</oxd-text>
+              <oxd-text v-if="!isCurrentEmp" tag="p">(Past Employee)</oxd-text>
+            </div>
             <div
               class="orangehrm-edit-employee-image"
               @click="onClickProfilePic"
@@ -101,6 +102,7 @@ export default {
   },
   setup(props) {
     const employeeName = ref('');
+    const isCurrentEmp = ref(true);
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/pim/employees',
@@ -108,6 +110,7 @@ export default {
 
     http.get(props.employeeId).then(({data}) => {
       employeeName.value = `${data.data.firstName} ${data.data.lastName}`;
+      isCurrentEmp.value = data.data.terminationId ? false : true;
     });
 
     const imgSrc = computed(() => {
@@ -125,6 +128,7 @@ export default {
     return {
       imgSrc,
       employeeName,
+      isCurrentEmp,
       onClickProfilePic,
     };
   },
@@ -159,11 +163,13 @@ export default {
   }
   &-name {
     text-align: center;
-    font-weight: 700;
-    font-size: 1.2rem;
     padding-left: 1rem;
     padding-right: 1rem;
     padding-bottom: 1rem;
+    & .--strong {
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
   }
   &-image {
     overflow: hidden;

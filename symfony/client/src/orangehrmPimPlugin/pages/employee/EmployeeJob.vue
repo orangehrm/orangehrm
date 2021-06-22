@@ -141,6 +141,35 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
+
+    <oxd-divider />
+
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+      <profile-action-header
+        iconName=""
+        :displayType="terminationActionType"
+        :label="terminationActionLabel"
+        class="--termination-button"
+        @click="onClickTerminate"
+      >
+        Employee Termination / Activiation
+      </profile-action-header>
+      <oxd-text
+        tag="p"
+        class="orangehrm-terminate-date"
+        v-if="termination && termination.id"
+        @click="openTerminateModal"
+      >
+        Terminated on: {{ termination.date }}
+      </oxd-text>
+    </div>
+    <terminate-modal
+      v-if="showTerminateModal"
+      :employee-id="empNumber"
+      :termination-reasons="terminationReasons"
+      :termination-id="termination.id"
+      @close="closeTerminateModal"
+    ></terminate-modal>
   </edit-employee-layout>
 </template>
 
@@ -150,6 +179,8 @@ import FileUploadInput from '@/core/components/inputs/FileUploadInput';
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import JobSpecDownload from '@/orangehrmPimPlugin/components/JobSpecDownload';
+import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
+import TerminateModal from '@/orangehrmPimPlugin/components/TerminateModal';
 
 const jobDetailsModel = {
   joinedDate: '',
@@ -174,6 +205,8 @@ export default {
     'oxd-switch-input': SwitchInput,
     'job-spec-download': JobSpecDownload,
     'file-upload-input': FileUploadInput,
+    'profile-action-header': ProfileActionHeader,
+    'terminate-modal': TerminateModal,
   },
 
   props: {
@@ -201,6 +234,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    terminationReasons: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   setup(props) {
@@ -220,6 +257,8 @@ export default {
       showContractDetails: false,
       job: {...jobDetailsModel},
       contract: {...contractDetailsModel},
+      termination: null,
+      showTerminateModal: false,
       rules: {
         startDate: [],
         endDate: [],
@@ -284,6 +323,37 @@ export default {
         });
     },
 
+    onClickTerminate() {
+      if (this.termination?.id) {
+        this.$loader.startLoading();
+        this.http
+          .request({
+            method: 'DELETE',
+            url: `api/v2/pim/employees/${this.empNumber}/terminations`,
+          })
+          .then(() => {
+            return this.$toast.updateSuccess();
+          })
+          .then(() => {
+            this.$loader.endLoading();
+            location.reload();
+          });
+      } else {
+        this.openTerminateModal();
+      }
+    },
+
+    openTerminateModal() {
+      this.showTerminateModal = true;
+    },
+
+    closeTerminateModal(reload) {
+      this.showTerminateModal = false;
+      if (reload) {
+        location.reload();
+      }
+    },
+
     updateContractModel(response) {
       const {data} = response.data;
       this.contract.startDate = data.startDate;
@@ -313,6 +383,7 @@ export default {
       this.job.locationId = this.locations.filter(
         item => item.id === data.location?.id,
       );
+      this.termination = data.employeeTerminationRecord;
     },
   },
 
@@ -320,6 +391,14 @@ export default {
     selectedJobTitleId() {
       const jobTitleId = this.job.jobTitleId.map(item => item.id)[0];
       return jobTitleId || 0;
+    },
+    terminationActionLabel() {
+      return this.termination?.id
+        ? 'Activate Employment'
+        : 'Terminate Employment';
+    },
+    terminationActionType() {
+      return this.termination?.id ? 'ghost-success' : 'label-danger';
     },
   },
 

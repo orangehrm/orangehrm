@@ -1,0 +1,12 @@
+.orangehrm-loader {
+  z-index: 1100 !important;
+  &-fade-enter-active,
+  &-fade-leave-active {
+    transition: opacity 0.25s ease;
+  }
+
+  &-fade-enter-from,
+  &-fade-leave-to {
+    opacity: 0;
+  }
+}
