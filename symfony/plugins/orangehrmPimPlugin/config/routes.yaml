@@ -276,14 +276,14 @@ apiv2_pim_termination_record:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
-    _api: OrangeHRM\Pim\Api\JobTitleAPI
+    _api: OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI
 
 apiv2_pim_termination_records:
   path: /api/v2/pim/termination_records
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
   defaults:
-    _api: OrangeHRM\Pim\Api\JobTitleAPI
+    _api: OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI
 
 ##########################
 #        Files
@@ -361,4 +361,19 @@ pim_employee_job:
 pim_employee_qualifications:
   path: /pim/viewQualifications/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeQualificationsController::handle
+  methods: [ GET ]
+
+view_termination_record:
+  path: /pim/viewTerminationReasons
+  controller: OrangeHRM\Pim\Controller\TerminationReasonController::handle
+  methods: [ GET ]
+
+save_termination_record:
+  path: /pim/saveTerminationReasons
+  controller: OrangeHRM\Pim\Controller\SaveTerminationReasonController::handle
+  methods: [ GET ]
+
+edit_termination_record:
+  path: /pim/saveTerminationReasons/{id}
+  controller: OrangeHRM\Pim\Controller\SaveTerminationReasonController::handle
   methods: [ GET ]
