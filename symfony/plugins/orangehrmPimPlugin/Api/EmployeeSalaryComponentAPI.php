@@ -58,12 +58,12 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
 
     public const PARAM_RULE_SALARY_COMPONENT_MAX_LENGTH = 100;
     public const PARAM_RULE_SALARY_AMOUNT_MAX_LENGTH = 100;
-    public const PARAM_RULE_COMMENT_MAX_LENGTH = 100;
+    public const PARAM_RULE_COMMENT_MAX_LENGTH = 250;
     public const PARAM_RULE_DIRECT_DEPOSIT_ACCOUNT_MAX_LENGTH = 100;
     public const PARAM_RULE_DIRECT_DEPOSIT_ACCOUNT_TYPE_MAX_LENGTH = 20;
     public const PARAM_RULE_DIRECT_DEPOSIT_ROUTING_NUMBER_MAX_LENGTH = 9;
-    public const PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MIN_LENGTH = 0;
-    public const PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MAX_LENGTH = 999999999.99;
+    public const PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MIN = 0;
+    public const PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MAX = 999999999.99;
 
     /**
      * @var EmployeeSalaryService|null
@@ -386,8 +386,8 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
                     new Rule(
                         Rules::BETWEEN,
                         [
-                            self::PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MIN_LENGTH,
-                            self::PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MAX_LENGTH
+                            self::PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MIN,
+                            self::PARAM_RULE_DIRECT_DEPOSIT_AMOUNT_MAX
                         ]
                     )
                 )
