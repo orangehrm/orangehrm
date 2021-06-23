@@ -24,4 +24,12 @@ use OrangeHRM\Core\Dto\FilterParams;
 class TerminationReasonConfigurationSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['tr.name'];
+
+    /**
+     * TerminationReasonConfigurationSearchFilterParams constructor.
+     */
+    public function __construct()
+    {
+        $this->setSortField('tr.name');
+    }
 }
