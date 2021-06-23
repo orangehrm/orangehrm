@@ -43,7 +43,11 @@
             class="orangehrm-full-width-grid"
           >
             <oxd-grid-item>
-              <oxd-input-field label="Nickname" v-model="employee.nickname" />
+              <oxd-input-field
+                label="Nickname"
+                v-model="employee.nickname"
+                :rules="rules.nickname"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -59,7 +63,11 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field label="Other Id" v-model="employee.otherId" />
+              <oxd-input-field
+                label="Other Id"
+                v-model="employee.otherId"
+                :rules="rules.otherId"
+              />
             </oxd-grid-item>
           </oxd-grid>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
@@ -67,6 +75,7 @@
               <oxd-input-field
                 label="Driver's License Number"
                 v-model="employee.drivingLicenseNo"
+                :rules="rules.drivingLicenseNo"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -80,10 +89,18 @@
           </oxd-grid>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item v-if="showSSNField">
-              <oxd-input-field label="SSN Number" v-model="employee.ssnNumb" />
+              <oxd-input-field
+                label="SSN Number"
+                v-model="employee.ssnNumb"
+                :rules="rules.ssnNumb"
+              />
             </oxd-grid-item>
             <oxd-grid-item v-if="showSINField">
-              <oxd-input-field label="SIN Number" v-model="employee.sinNumb" />
+              <oxd-input-field
+                label="SIN Number"
+                v-model="employee.sinNumb"
+                :rules="rules.sinNumb"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -148,6 +165,7 @@
               <oxd-input-field
                 label="Military Service"
                 v-model="employee.militaryService"
+                :rules="rules.militaryService"
               />
             </oxd-grid-item>
             <oxd-grid-item>
