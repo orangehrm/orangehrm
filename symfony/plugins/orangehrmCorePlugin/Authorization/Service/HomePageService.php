@@ -19,38 +19,11 @@
 
 namespace OrangeHRM\Core\Authorization\Service;
 
-use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
-use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
 class HomePageService
 {
-    /**
-     * @var AbstractUserRoleManager|null
-     */
-    protected ?AbstractUserRoleManager $userRoleManager = null;
-
-    /**
-     * @return AbstractUserRoleManager
-     * @throws DaoException
-     * @throws ServiceException
-     */
-    public function getUserRoleManager(): AbstractUserRoleManager
-    {
-        if (!$this->userRoleManager instanceof AbstractUserRoleManager) {
-            $this->userRoleManager = UserRoleManagerFactory::getUserRoleManager();
-        }
-        return $this->userRoleManager;
-    }
-
-    /**
-     * @param AbstractUserRoleManager $userRoleManager
-     */
-    public function setUserRoleManager(AbstractUserRoleManager $userRoleManager): void
-    {
-        $this->userRoleManager = $userRoleManager;
-    }
+    use UserRoleManagerTrait;
 
     public function getHomePagePath()
     {

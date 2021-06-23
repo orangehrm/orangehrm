@@ -17,40 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Subscriber;
+namespace OrangeHRM\Authentication\Exception;
 
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Event\AbstractEventSubscriber;
-use OrangeHRM\Framework\Http\Session\Session;
-use OrangeHRM\Framework\Services;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
+use Exception;
+use OrangeHRM\Framework\Http\Response;
+use Throwable;
 
-class SessionSubscriber extends AbstractEventSubscriber
+class UnauthorizedException extends Exception
 {
-    use ServiceContainerTrait;
+    /**
+     * @var Response
+     */
+    private Response $response;
 
     /**
-     * @inheritDoc
+     * @param Response $response
+     * @param string $message
+     * @param int $code
+     * @param Throwable|null $previous
      */
-    public static function getSubscribedEvents(): array
+    public function __construct(Response $response, $message = "", $code = 0, Throwable $previous = null)
     {
-        return [
-            KernelEvents::REQUEST => [
-                ['onRequestEvent', 100000],
-            ],
-        ];
+        parent::__construct($message, $code, $previous);
+        $this->response = $response;
     }
 
-    public function onRequestEvent(RequestEvent $event)
+    /**
+     * @return Response
+     */
+    public function getResponse(): Response
     {
-        /** @var Session $session */
-        $session = $this->getContainer()->get(Services::SESSION);
+        return $this->response;
+    }
 
-        // TODO:: move to config
-        $maxIdleTime = 1800;
-        if (time() - $session->getMetadataBag()->getLastUsed() > $maxIdleTime) {
-            $session->invalidate();
-        }
+    /**
+     * @param Response $response
+     */
+    public function setResponse(Response $response): void
+    {
+        $this->response = $response;
     }
 }
