@@ -316,7 +316,7 @@ export default {
             : undefined,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();

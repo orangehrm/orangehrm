@@ -147,7 +147,7 @@ export default {
           )[0],
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.dependent = {...dependentModel};
