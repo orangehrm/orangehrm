@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Pim\Dao;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
@@ -165,15 +166,20 @@ class TerminationReasonConfigurationDao extends BaseDao
         }
     }
 
-    public function isReasonInUse($idArray)
+    /**
+     * @param $idArray
+     * @return bool
+     * @throws NonUniqueResultException
+     */
+    public function isReasonInUse($idArray): bool
     {
-        $q = Doctrine_Query::create()->from('Employee em')
-            ->leftJoin('em.EmployeeTerminationRecord et')
-            ->leftJoin('et.TerminationReason tr')
-            ->whereIn('tr.id', $idArray);
-        $result = $q->fetchOne();
-
-        if ($result instanceof Employee) {
+        $query = $this->createQueryBuilder(Employee::class, 'e');
+        $query->leftJoin('e.EmployeeTerminationRecord', 'et');
+        $query->leftJoin('et.TerminationReason', 'tr')
+            ->where($query->expr()->in('tr.id', ':ids'));
+        $query->setParameter('ids', $idArray);
+        $query->getQuery()->getOneOrNullResult();
+        if ($query instanceof Employee) {
             return true;
         }
         return false;

@@ -157,7 +157,7 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $terminationReason = $this->getTerminationReasonConfigurationService()->getTerminationReasonById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($terminationReason, TerminationReason::class);
-        return new EndpointResourceResult(TerminationReason::class, $terminationReason);
+        return new EndpointResourceResult(TerminationReasonConfigurationModel::class, $terminationReason);
     }
 
     /**

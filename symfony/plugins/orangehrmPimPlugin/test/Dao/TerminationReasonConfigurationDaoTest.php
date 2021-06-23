@@ -123,7 +123,7 @@ class TerminationReasonConfigurationDaoTest extends TestCase
     
     public function testIsReasonInUse() {
         
-        $empTermination = Doctrine::getTable('EmployeeTerminationRecord')->find(1);
+        $empTermination = $this->getEntityReference('EmployeeTerminationRecord',1);
         $empTermination->setEmpNumber(2);
         $empTermination->save();
         
