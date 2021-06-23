@@ -21,17 +21,29 @@ namespace OrangeHRM\Pim\Controller;
 
 use Exception;
 use OrangeHRM\Core\Controller\AbstractModuleController;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Framework\Routing\UrlGenerator;
+use OrangeHRM\Framework\Services;
 
-class PimModuleController extends AbstractModuleController
+class ViewMyDetailsController extends AbstractModuleController
 {
+    use AuthUserTrait;
+
     /**
      * @return RedirectResponse
      * @throws Exception
      */
     public function handle(): RedirectResponse
     {
-        $defaultPath = $this->getHomePageService()->getPimModuleDefaultPath();
-        return $this->redirect($defaultPath);
+        $empNumber = $this->getAuthUser()->getEmpNumber();
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+        $url = $urlGenerator->generate(
+            'pim_employee_personal_details',
+            ['empNumber' => $empNumber],
+            UrlGenerator::ABSOLUTE_URL
+        );
+        return new RedirectResponse($url);
     }
 }
