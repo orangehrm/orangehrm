@@ -83,6 +83,14 @@ export default {
   components: {
     'login-layout': LoginLayout,
   },
+
+  props: {
+    error: {
+      type: Object,
+      default: () => null,
+    },
+  },
+
   data() {
     return {
       username: '',

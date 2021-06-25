@@ -34,6 +34,8 @@ class User
     public const USER_ROLE_NAME = 'user.user_role_name';
     public const USER_EMPLOYEE_NUMBER = 'user.user_employee_number';
 
+    public const FLASH_LOGIN_ERROR = 'flash.login_error';
+
     /**
      * @var null|self
      */
@@ -112,6 +114,34 @@ class User
     public function getAllAttributes(): array
     {
         return $this->getSession()->all();
+    }
+
+    /**
+     * @param string $type
+     * @param mixed $message
+     */
+    public function addFlash(string $type, $message): void
+    {
+        $this->getSession()->getFlashBag()->add($type, $message);
+    }
+
+    /**
+     * @param string $type
+     * @param array $default
+     * @return array
+     */
+    public function getFlash(string $type, array $default = []): array
+    {
+        return $this->getSession()->getFlashBag()->get($type, $default);
+    }
+
+    /**
+     * @param string $type
+     * @return bool
+     */
+    public function hasFlash(string $type): bool
+    {
+        return $this->getSession()->getFlashBag()->has($type);
     }
 
     /**
