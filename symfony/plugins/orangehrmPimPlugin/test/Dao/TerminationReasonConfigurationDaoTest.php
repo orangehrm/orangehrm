@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Pim\Dao;
 
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\TerminationReason;
 use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
 use OrangeHRM\Pim\Dao\TerminationReasonConfigurationDao;
@@ -122,14 +123,15 @@ class TerminationReasonConfigurationDaoTest extends TestCase
     }
     
     public function testIsReasonInUse() {
-        
-        $empTermination = $this->getEntityReference('EmployeeTerminationRecord',1);
+
+        $empTermination = new Employee();
         $empTermination->setEmpNumber(2);
-        $empTermination->save();
-        
-        $this->assertTrue($this->terminationReasonConfigurationDao->isReasonInUse(array(1)));
-        $this->assertFalse($this->terminationReasonConfigurationDao->isReasonInUse(array(2)));
-        $this->assertFalse($this->terminationReasonConfigurationDao->isReasonInUse(array(3)));
+        $empTermination = TestDataService::fetchObject('TerminationReason', 1);
+        $this->terminationReasonConfigurationDao->saveTerminationReason($empTermination);
+
+        $this->assertTrue($this->terminationReasonConfigurationDao->isReasonInUse([1])); //this need to be true
+        $this->assertFalse($this->terminationReasonConfigurationDao->isReasonInUse([2]));
+        $this->assertFalse($this->terminationReasonConfigurationDao->isReasonInUse([3]));
         
     }
     
