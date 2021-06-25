@@ -171,14 +171,20 @@ class TerminationReasonConfigurationDao extends BaseDao
      */
     public function isReasonInUse(array $idArray): bool
     {
-        $query = $this->createQueryBuilder(Employee::class, 'e');
-        $query->leftJoin('e.employeeTerminationRecord', 'et');
-        $query->leftJoin('et.terminationReason', 'tr')
-            ->where($query->expr()->in('tr.id', ':ids'));
-        $query->setParameter('ids', $idArray);
-        if ($this->fetchOne($query) instanceof Employee) {
-            return true;
+        try {
+            $query = $this->createQueryBuilder(Employee::class, 'e');
+            $query->leftJoin('e.employeeTerminationRecord', 'et');
+            $query->leftJoin('et.terminationReason', 'tr')
+                ->where($query->expr()->in('tr.id', ':ids'));
+            $query->setParameter('ids', $idArray);
+            if ($this->fetchOne($query) instanceof Employee) {
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        return false;
     }
+
+
 }
