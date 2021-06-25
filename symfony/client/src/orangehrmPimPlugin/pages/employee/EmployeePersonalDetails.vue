@@ -181,6 +181,7 @@
 
         <oxd-divider />
         <oxd-form-actions>
+          <required-text />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>

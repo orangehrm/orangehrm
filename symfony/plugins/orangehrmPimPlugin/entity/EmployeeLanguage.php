@@ -35,9 +35,9 @@ class EmployeeLanguage
     use DecoratorTrait;
 
     public const FLUENCIES = [
-        1 => 'Writing',
+        1 => 'Reading',
         2 => 'Speaking',
-        3 => 'Reading'
+        3 => 'Writing'
     ];
 
     public const COMPETENCIES = [
