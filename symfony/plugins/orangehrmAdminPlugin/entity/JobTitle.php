@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -73,6 +75,18 @@ class JobTitle
      * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\JobSpecificationAttachment", mappedBy="jobTitle", cascade={"persist", "remove"})
      */
     private ?JobSpecificationAttachment $jobSpecificationAttachment = null;
+
+    /**
+     * @var Collection|Employee[]
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Employee", mappedBy="jobTitle")
+     */
+    private $employees;
+
+    public function __construct()
+    {
+        $this->employees = new ArrayCollection();
+    }
 
     /**
      * @return int

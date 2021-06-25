@@ -130,7 +130,9 @@ const userdataNormalizer = data => {
       employeeId: item.employeeId,
       firstAndMiddleName: `${item.firstName} ${item.middleName}`,
       lastName: item.lastName,
-      jobTitle: item.jobTitle?.title,
+      jobTitle: item.jobTitle?.isDeleted
+        ? item.jobTitle.title + ' (Deleted)'
+        : item.jobTitle?.title,
       empStatus: item.empStatus?.name,
       subunit: item.subunit?.name,
       supervisor: item.supervisors

@@ -19,12 +19,14 @@
 
 namespace OrangeHRM\Tests\Admin\Service;
 
+use Exception;
 use OrangeHRM\Admin\Dao\JobTitleDao;
 use OrangeHRM\Admin\Service\JobTitleService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use Exception;
 
 /**
  * @group Admin
@@ -93,5 +95,60 @@ class JobTitleServiceTest extends TestCase
         $this->assertEquals($jobTitleList[0], $result);
     }
 
+    public function testGetJobTitleArray(): void
+    {
+        $jobTitleDao = $this->getMockBuilder(JobTitleDao::class)
+            ->onlyMethods(['getJobTitleList'])
+            ->getMock();
+
+        $jobTitle = new JobTitle();
+        $jobTitle->setId(1);
+        $jobTitle->setJobTitleName('SE');
+
+        $jobTitleDao->expects($this->once())
+            ->method('getJobTitleList')
+            ->with(1)
+            ->willReturn([$jobTitle]);
+
+        $jobTitleService = $this->getMockBuilder(JobTitleService::class)
+            ->onlyMethods(['getNormalizerService', 'getJobTitleDao'])
+            ->getMock();
+        $jobTitleService->expects($this->once())
+            ->method('getJobTitleDao')
+            ->willReturn($jobTitleDao);
+        $jobTitleService->expects($this->once())
+            ->method('getNormalizerService')
+            ->willReturn(new NormalizerService());
+        $result = $jobTitleService->getJobTitleArray();
+        $this->assertEquals([['id' => 1, 'label' => 'SE']], $result);
+    }
+
+    public function testGetJobTitleArrayForEmployee(): void
+    {
+        $jobTitleDao = $this->getMockBuilder(JobTitleDao::class)
+            ->onlyMethods(['getJobTitlesForEmployee'])
+            ->getMock();
+
+        $jobTitle = new JobTitle();
+        $jobTitle->setId(1);
+        $jobTitle->setJobTitleName('SE');
+
+        $jobTitleDao->expects($this->once())
+            ->method('getJobTitlesForEmployee')
+            ->with(1)
+            ->willReturn([$jobTitle]);
+
+        $jobTitleService = $this->getMockBuilder(JobTitleService::class)
+            ->onlyMethods(['getNormalizerService', 'getJobTitleDao'])
+            ->getMock();
+        $jobTitleService->expects($this->once())
+            ->method('getJobTitleDao')
+            ->willReturn($jobTitleDao);
+        $jobTitleService->expects($this->once())
+            ->method('getNormalizerService')
+            ->willReturn(new NormalizerService());
+        $result = $jobTitleService->getJobTitleArrayForEmployee(1);
+        $this->assertEquals([['id' => 1, 'label' => 'SE']], $result);
+    }
 }
 

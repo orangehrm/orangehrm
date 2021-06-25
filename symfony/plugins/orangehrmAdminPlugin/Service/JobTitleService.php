@@ -142,5 +142,15 @@ class JobTitleService
         $jobTitles = $this->getJobTitleList();
         return $this->getNormalizerService()->normalizeArray(JobTitleModel::class, $jobTitles);
     }
+
+    /**
+     * @param int $empNumber
+     * @return array
+     */
+    public function getJobTitleArrayForEmployee(int $empNumber): array
+    {
+        $jobTitles = $this->getJobTitleDao()->getJobTitlesForEmployee($empNumber);
+        return $this->getNormalizerService()->normalizeArray(JobTitleModel::class, $jobTitles);
+    }
 }
 
