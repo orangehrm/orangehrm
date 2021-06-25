@@ -169,7 +169,7 @@ class TerminationReasonConfigurationDao extends BaseDao
      * @param $idArray
      * @return bool
      */
-    public function isReasonInUse($idArray): bool
+    public function isReasonInUse(array $idArray): bool
     {
         $query = $this->createQueryBuilder(Employee::class, 'e');
         $query->leftJoin('e.employeeTerminationRecord', 'et');
