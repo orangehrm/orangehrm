@@ -22,38 +22,38 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Termination Reasons</oxd-text>
+        <oxd-text class="orangehrm-main-title">Termination Reasons</oxd-text>
         <div>
           <oxd-button
-              label="Add"
-              iconName="plus"
-              displayType="secondary"
-              @click="onClickAdd"
+            label="Add"
+            iconName="plus"
+            displayType="secondary"
+            @click="onClickAdd"
           />
         </div>
       </div>
       <table-header
-          :selected="checkedItems.length"
-          :total="total"
-          :loading="isLoading"
-          @delete="onClickDeleteSelected"
+        :selected="checkedItems.length"
+        :total="total"
+        :loading="isLoading"
+        @delete="onClickDeleteSelected"
       ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
-            :loading="isLoading"
-            :headers="headers"
-            :items="items?.data"
-            :selectable="true"
-            :clickable="false"
-            v-model:selected="checkedItems"
-            rowDecorator="oxd-table-decorator-card"
+          :loading="isLoading"
+          :headers="headers"
+          :items="items?.data"
+          :selectable="true"
+          :clickable="false"
+          v-model:selected="checkedItems"
+          rowDecorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
         <oxd-pagination
-            v-if="showPaginator"
-            :length="pages"
-            v-model:current="currentPage"
+          v-if="showPaginator"
+          :length="pages"
+          v-model:current="currentPage"
         />
       </div>
     </div>
@@ -111,8 +111,8 @@ export default {
 
   setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        '/api/v2/pim/termination_records',
+      window.appGlobal.baseUrl,
+      '/api/v2/pim/termination-reasons',
     );
     const {
       showPaginator,
@@ -166,16 +166,16 @@ export default {
       if (items instanceof Array) {
         this.isLoading = true;
         this.http
-            .deleteAll({
-              ids: items,
-            })
-            .then(() => {
-              return this.$toast.deleteSuccess();
-            })
-            .then(() => {
-              this.isLoading = false;
-              this.resetDataTable();
-            });
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
       }
     },
     async resetDataTable() {

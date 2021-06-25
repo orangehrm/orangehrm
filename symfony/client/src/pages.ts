@@ -50,9 +50,6 @@ import ViewOrganizationGeneralInformation from '@/orangehrmAdminPlugin/pages/org
 import Nationality from '@/orangehrmAdminPlugin/pages/nationality/Nationality.vue';
 import EditNationality from '@/orangehrmAdminPlugin/pages/nationality/EditNationality.vue';
 import SaveNationality from '@/orangehrmAdminPlugin/pages/nationality/SaveNationality.vue';
-import TerminationReason from '@/orangehrmPimPlugin/pages/configuration/TerminationReason.vue';
-import EditTerminationReason from '@/orangehrmPimPlugin/pages/configuration/EditTerminationReason.vue';
-import SaveTerminationReason from '@/orangehrmPimPlugin/pages/configuration/SaveTerminationReason.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -89,7 +86,4 @@ export default {
   'nationality-list': Nationality,
   'nationality-edit': EditNationality,
   'nationality-save': SaveNationality,
-  'termination-reason-list': TerminationReason,
-  'termination-reason-edit': EditTerminationReason,
-  'termination-reason-save': SaveTerminationReason,
 };

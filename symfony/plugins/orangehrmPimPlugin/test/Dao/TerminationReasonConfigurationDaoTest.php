@@ -22,8 +22,8 @@ namespace OrangeHRM\Tests\Pim\Dao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\TerminationReason;
-use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
 use OrangeHRM\Pim\Dao\TerminationReasonConfigurationDao;
+use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -37,59 +37,53 @@ class TerminationReasonConfigurationDaoTest extends TestCase
     /**
      * @var TerminationReasonConfigurationDao
      */
-	private TerminationReasonConfigurationDao $terminationReasonConfigurationDao;
-	protected string $fixture;
+    private TerminationReasonConfigurationDao $terminationReasonConfigurationDao;
+    protected string $fixture;
 
-	/**
-	 * Set up method
-	 */
-	protected function setUp(): void
+    /**
+     * Set up method
+     */
+    protected function setUp(): void
     {
-
-		$this->terminationReasonConfigurationDao = new TerminationReasonConfigurationDao();
-		$this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPimPlugin/test/fixtures/TerminationReasonConfigurationDao.yml';
-		TestDataService::populate($this->fixture);
-	}
+        $this->terminationReasonConfigurationDao = new TerminationReasonConfigurationDao();
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPimPlugin/test/fixtures/TerminationReasonConfigurationDao.yml';
+        TestDataService::populate($this->fixture);
+    }
 
     public function testAddTerminationReason(): void
     {
-        
         $terminationReason = new TerminationReason();
         $terminationReason->setName('Deceased');
-        
+
         $this->terminationReasonConfigurationDao->saveTerminationReason($terminationReason);
-        
+
         $savedTerminationReason = TestDataService::fetchLastInsertedRecord('TerminationReason', 'a.id');
-        
+
         $this->assertTrue($savedTerminationReason instanceof TerminationReason);
         $this->assertEquals('Deceased', $savedTerminationReason->getName());
-        
     }
-    
+
     public function testEditTerminationReason(): void
     {
-        
         $terminationReason = TestDataService::fetchObject('TerminationReason', 3);
         $terminationReason->setName('2011 Layed off');
-        
+
         $this->terminationReasonConfigurationDao->saveTerminationReason($terminationReason);
-        
+
         $savedTerminationReason = TestDataService::fetchLastInsertedRecord('TerminationReason', 'a.id');
-        
+
         $this->assertTrue($savedTerminationReason instanceof TerminationReason);
         $this->assertEquals('2011 Layed off', $savedTerminationReason->getName());
     }
-    
+
     public function testGetTerminationReasonById(): void
     {
-        
         $terminationReason = $this->terminationReasonConfigurationDao->getTerminationReasonById(1);
-        
+
         $this->assertTrue($terminationReason instanceof TerminationReason);
         $this->assertEquals('Resigned', $terminationReason->getName());
-        
     }
-    
+
     public function testGetTerminationReasonList(): void
     {
         $terminationReasonConfigurationFilterParams = new TerminationReasonConfigurationSearchFilterParams();
@@ -97,54 +91,49 @@ class TerminationReasonConfigurationDaoTest extends TestCase
         $this->assertCount(3, $result);
         $this->assertTrue($result[0] instanceof TerminationReason);
     }
-    
+
     public function testDeleteTerminationReasons(): void
     {
         $result = $this->terminationReasonConfigurationDao->deleteTerminationReasons([1, 2]);
         $this->assertEquals(2, $result);
     }
-    
+
     public function testDeleteWrongRecord(): void
     {
-        
         $result = $this->terminationReasonConfigurationDao->deleteTerminationReasons([4]);
         $this->assertEquals(0, $result);
-        
     }
-    
+
     public function testIsExistingTerminationReasonName(): void
     {
-        
         $this->assertTrue($this->terminationReasonConfigurationDao->isExistingTerminationReasonName('Resigned'));
         $this->assertTrue($this->terminationReasonConfigurationDao->isExistingTerminationReasonName('RESIGNED'));
         $this->assertTrue($this->terminationReasonConfigurationDao->isExistingTerminationReasonName('resigned'));
         $this->assertTrue($this->terminationReasonConfigurationDao->isExistingTerminationReasonName('  Resigned  '));
-        
     }
-    
-    public function testIsReasonInUse() {
 
+    public function testIsReasonInUse(): void
+    {
         $empTermination = new Employee();
         $empTermination->setEmpNumber(2);
         $empTermination = TestDataService::fetchObject('TerminationReason', 1);
         $this->terminationReasonConfigurationDao->saveTerminationReason($empTermination);
 
-        $this->assertTrue($this->terminationReasonConfigurationDao->isReasonInUse([1])); //this need to be true
+        $this->assertTrue($this->terminationReasonConfigurationDao->isReasonInUse([1]));
         $this->assertFalse($this->terminationReasonConfigurationDao->isReasonInUse([2]));
         $this->assertFalse($this->terminationReasonConfigurationDao->isReasonInUse([3]));
-        
     }
-    
-    public function testGetTerminationReasonByName() {
-        
+
+    public function testGetTerminationReasonByName(): void
+    {
         $object = $this->terminationReasonConfigurationDao->getTerminationReasonByName('Resigned');
         $this->assertTrue($object instanceof TerminationReason);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->terminationReasonConfigurationDao->getTerminationReasonByName('RESIGNED');
         $this->assertTrue($object instanceof TerminationReason);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->terminationReasonConfigurationDao->getTerminationReasonByName('resigned');
         $this->assertTrue($object instanceof TerminationReason);
         $this->assertEquals(1, $object->getId());
@@ -152,9 +141,8 @@ class TerminationReasonConfigurationDaoTest extends TestCase
         $object = $this->terminationReasonConfigurationDao->getTerminationReasonByName('  Resigned  ');
         $this->assertTrue($object instanceof TerminationReason);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->terminationReasonConfigurationDao->getTerminationReasonByName('Fired');
         $this->assertFalse($object instanceof TerminationReason);
-        
     }
 }

@@ -21,17 +21,17 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit Termination Reason</oxd-text>
+      <oxd-text class="orangehrm-main-title">Add Termination Reason</oxd-text>
 
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-              label="Name"
-              v-model="termination.name"
-              :rules="rules.name"
-              required
+            label="Name"
+            v-model="termination.name"
+            :rules="rules.name"
+            required
           />
         </oxd-form-row>
 
@@ -40,10 +40,10 @@
         <oxd-form-actions>
           <required-text />
           <oxd-button
-              type="button"
-              displayType="ghost"
-              label="Cancel"
-              @click="onCancel"
+            type="button"
+            displayType="ghost"
+            label="Cancel"
+            @click="onCancel"
           />
           <submit-button />
         </oxd-form-actions>
@@ -61,22 +61,6 @@ import {
 } from '@orangehrm/core/util/validation/rules';
 
 export default {
-  props: {
-    terminationReasonId: {
-      type: Number,
-      required: true,
-    },
-  },
-  setup() {
-    const http = new APIService(
-        window.appGlobal.baseUrl,
-        '/api/v2/pim/termination_records',
-    );
-    return {
-      http,
-    };
-  },
-
   data() {
     return {
       isLoading: false,
@@ -90,19 +74,29 @@ export default {
     };
   },
 
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/pim/termination-reasons',
+    );
+    return {
+      http,
+    };
+  },
+
   methods: {
     onSave() {
       this.isLoading = true;
       this.http
-          .update(this.terminationReasonId, {
-            name: this.termination.name,
-          })
-          .then(() => {
-            return this.$toast.updateSuccess();
-          })
-          .then(() => {
-            this.onCancel();
-          });
+        .create({
+          name: this.termination.name,
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
     },
     onCancel() {
       navigate('/pim/viewTerminationReasons');
@@ -112,29 +106,19 @@ export default {
   created() {
     this.isLoading = true;
     this.http
-        .get(this.terminationReasonId)
-        .then(response => {
-          const {data} = response.data;
-          this.termination.id = data.id;
-          this.termination.name = data.name;
-          // Fetch list data for unique test
-          return this.http.getAll({limit: 0});
-        })
-        .then(response => {
-          const {data} = response.data;
-          this.rules.name.push(v => {
-            const index = data.findIndex(item => item.name === v);
-            if (index > -1) {
-              const {id} = data[index];
-              return id !== this.termination.id ? 'Already exists' : true;
-            } else {
-              return true;
-            }
-          });
-        })
-        .finally(() => {
-          this.isLoading = false;
+      .getAll({
+        limit: 0,
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.name.push(v => {
+          const index = data.findIndex(item => item.name === v);
+          return index === -1 || 'Already exists';
         });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>
