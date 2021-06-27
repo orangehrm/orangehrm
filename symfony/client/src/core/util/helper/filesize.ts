@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,21 +16,42 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller;
+const BYTE = 1;
+const KILO_BYTE = 1024;
+const MEGA_BYTE = 1048576; // 1024 * 1024
+const GIGA_BYTE = 1073741824; // 1024 * 1024 * 1024
 
-use Exception;
-use OrangeHRM\Core\Controller\AbstractModuleController;
-use OrangeHRM\Framework\Http\RedirectResponse;
+/**
+ * @param {string|number} value
+ * @param {number|null} digits
+ * @param {boolean} withSuffix
+ */
+export const convertFilesizeToString = function(
+  value: string | number,
+  digits?: number,
+  withSuffix = true,
+): string {
+  let divisor = BYTE;
+  let suffix = 'B';
+  let filesize;
+  if (typeof value === 'number') {
+    filesize = value;
+  } else {
+    filesize = parseInt(value, 10);
+  }
 
-class PimModuleController extends AbstractModuleController
-{
-    /**
-     * @return RedirectResponse
-     * @throws Exception
-     */
-    public function handle(): RedirectResponse
-    {
-        $defaultPath = $this->getHomePageService()->getPimModuleDefaultPath();
-        return $this->redirect($defaultPath);
-    }
-}
+  if (filesize >= GIGA_BYTE) {
+    divisor = GIGA_BYTE;
+    suffix = 'GB';
+  } else if (filesize >= MEGA_BYTE) {
+    divisor = MEGA_BYTE;
+    suffix = 'MB';
+  } else if (filesize >= KILO_BYTE) {
+    divisor = KILO_BYTE;
+    suffix = 'kB';
+  }
+
+  return (
+    (filesize / divisor).toFixed(digits) + (withSuffix ? ' ' + suffix : '')
+  );
+};

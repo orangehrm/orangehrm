@@ -27,7 +27,6 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -65,23 +64,13 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param CompanyStructureService $companyStructureService
-     */
-    public function setCompanyStructureService(CompanyStructureService $companyStructureService): void
-    {
-        $this->companyStructureService = $companyStructureService;
-    }
-
-    /**
      * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
     {
         $unitId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $subunit = $this->getCompanyStructureService()->getSubunitById($unitId);
-        if (!$subunit instanceof Subunit) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($subunit, Subunit::class);
 
         return new EndpointResourceResult(SubunitModel::class, $subunit);
     }
@@ -148,9 +137,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     {
         $parentUnitId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_PARENT_ID);
         $parentSubunit = $this->getCompanyStructureService()->getSubunitById($parentUnitId);
-        if (!$parentSubunit instanceof Subunit) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($parentSubunit, Subunit::class);
 
         $subunit = new Subunit();
         $subunit = $this->setParamsToSubunit($subunit);
@@ -207,9 +194,7 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     {
         $unitId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $subunit = $this->getCompanyStructureService()->getSubunitById($unitId);
-        if (!$subunit instanceof Subunit) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($subunit, Subunit::class);
 
         $subunit = $this->setParamsToSubunit($subunit);
 
@@ -238,9 +223,8 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     {
         $unitId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $subunit = $this->getCompanyStructureService()->getSubunitById($unitId);
-        if (!$subunit instanceof Subunit) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($subunit, Subunit::class);
+
         $resultSubunit = clone $subunit;
         $this->getCompanyStructureService()->deleteSubunit($subunit);
 
@@ -253,7 +237,10 @@ class SubunitAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
         );
     }
 }

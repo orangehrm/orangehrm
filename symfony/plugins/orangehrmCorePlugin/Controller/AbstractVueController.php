@@ -26,6 +26,7 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Helper\VueControllerHelper;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
 use Twig\Environment;
@@ -162,14 +163,14 @@ abstract class AbstractVueController extends AbstractViewController
 
     /**
      * @param Request $request
-     * @return Response
+     * @return Response|RedirectResponse
      * @throws DaoException
      * @throws LoaderError
      * @throws RuntimeError
      * @throws ServiceException
      * @throws SyntaxError
      */
-    public function handle(Request $request): Response
+    public function handle(Request $request)
     {
         $this->preRender($request);
         $content = $this->render($request);

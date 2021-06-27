@@ -21,8 +21,8 @@ use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
-use OrangeHRM\Core\Subscriber\LoggerSubscriber;
 use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
@@ -44,8 +44,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface
      */
     public function initialize(Request $request): void
     {
-        $this->registerCoreSubscribers();
-
         $isSecure = $request->isSecure();
         $options = [
             'name' => $isSecure ? 'orangehrm' : '_orangehrm',
@@ -60,12 +58,12 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->set(Services::SESSION, $session);
         $this->getContainer()->register(Services::CONFIG_SERVICE, ConfigService::class);
         $this->getContainer()->register(Services::NORMALIZER_SERVICE, NormalizerService::class);
-        $this->getContainer()->register(
-            Services::DATETIME_HELPER_SERVICE,
-            DateTimeHelperService::class
-        );
+        $this->getContainer()->register(Services::DATETIME_HELPER_SERVICE, DateTimeHelperService::class);
+        $this->getContainer()->register(Services::TEXT_HELPER_SERVICE, TextHelperService::class);
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)
             ->setFactory([UserRoleManagerFactory::class, 'getUserRoleManager']);
+
+        $this->registerCoreSubscribers();
     }
 
     private function registerCoreSubscribers(): void
@@ -73,7 +71,6 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         /** @var EventDispatcher $dispatcher */
         $dispatcher = $this->getContainer()->get(Services::EVENT_DISPATCHER);
         $dispatcher->addSubscriber(new ExceptionSubscriber());
-        $dispatcher->addSubscriber(new LoggerSubscriber());
         $dispatcher->addListener(
             KernelEvents::REQUEST,
             [

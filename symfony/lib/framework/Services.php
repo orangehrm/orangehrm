@@ -101,6 +101,11 @@ final class Services
     public const DATETIME_HELPER_SERVICE = 'core.datetime_helper_service';
 
     /**
+     * @see \OrangeHRM\Core\Service\TextHelperService
+     */
+    public const TEXT_HELPER_SERVICE = 'core.text_helper_service';
+
+    /**
      * @see \OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager
      */
     public const USER_ROLE_MANAGER = 'core.authorization.user_role_manager';

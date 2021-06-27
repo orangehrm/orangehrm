@@ -45,28 +45,55 @@ class PayGradeDaoTest extends TestCase
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetPayGradeList()
+    public function testGetPayGradeList(): void
     {
         $payGradeSearchFilterParams = new PayGradeSearchFilterParams();
         $result = $this->payGradeDao->getPayGradeList($payGradeSearchFilterParams);
-        $this->assertEquals(count($result), 3);
+        $this->assertCount(3, $result);
+        $this->assertEquals('Pay Grade 1', $result[0]->getName());
+        $this->assertEquals('Pay Grade 3', $result[2]->getName());
     }
 
-    public function testGetPayGradeById()
+    public function testGetPayGradeById(): void
     {
         $result = $this->payGradeDao->getPayGradeById(1);
         $this->assertEquals($result->getName(), 'Pay Grade 1');
     }
 
-    public function testGetCurrencyListByPayGradeId()
+    public function testGetCurrencyListByPayGradeId(): void
     {
         $result = $this->payGradeDao->getCurrencyListByPayGradeId(1);
-        $this->assertEquals(count($result), 2);
+        $this->assertCount(2, $result);
+        $this->assertEquals('AUD', $result[0]->getCurrencyType()->getId());
+        $this->assertEquals('USD', $result[1]->getCurrencyType()->getId());
     }
 
-    public function testGetCurrencyByCurrencyIdAndPayGradeId()
+    public function testGetCurrencyByCurrencyIdAndPayGradeId(): void
     {
         $result = $this->payGradeDao->getCurrencyByCurrencyIdAndPayGradeId('USD', 1);
         $this->assertEquals($result->getMinSalary(), 5000);
+    }
+
+    public function testGetPayPeriods(): void
+    {
+        $result = $this->payGradeDao->getPayPeriods();
+        $this->assertCount(6, $result);
+        $this->assertEquals('Bi Weekly', $result[0]->getName());
+        $this->assertEquals('Weekly', $result[5]->getName());
+    }
+
+    public function testGetCurrencies(): void
+    {
+        $result = $this->payGradeDao->getCurrencies();
+        $this->assertCount(2, $result);
+        $this->assertEquals('AUD', $result[0]->getId());
+        $this->assertEquals('USD', $result[1]->getId());
+    }
+
+    public function testGetCurrencyById(): void
+    {
+        $result = $this->payGradeDao->getCurrencyById('AUD');
+        $this->assertEquals(2, $result->getCode());
+        $this->assertEquals('Australian Dollar', $result->getName());
     }
 }

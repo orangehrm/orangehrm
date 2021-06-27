@@ -20,24 +20,28 @@
 namespace OrangeHRM\Authentication\Subscriber;
 
 use Exception;
-use OrangeHRM\Authentication\Auth\User;
+use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Exception\SessionExpiredException;
+use OrangeHRM\Authentication\Exception\UnauthorizedException;
 use OrangeHRM\Core\Controller\AbstractViewController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Controller\Rest\V2\AbstractRestController;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Framework\Http\Response;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
+use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class AuthenticationSubscriber extends AbstractEventSubscriber
 {
     use ServiceContainerTrait;
+    use AuthUserTrait;
 
     /**
      * @inheritDoc
@@ -60,7 +64,7 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
      */
     public function onControllerEvent(ControllerEvent $event)
     {
-        if (User::getInstance()->isAuthenticated()) {
+        if ($this->getAuthUser()->isAuthenticated()) {
             return;
         }
 
@@ -68,15 +72,25 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
             return;
         }
 
-        /** @var UrlGenerator $urlGenerator */
-        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
-
         if ($this->getControllerInstance($event) instanceof AbstractViewController) {
+            /** @var UrlHelper $urlHelper */
+            $urlHelper = $this->getContainer()->get(Services::URL_HELPER);
+            $requestUri = $event->getRequest()->getRequestUri();
+            $redirectUri = $urlHelper->getAbsoluteUrl($requestUri);
+            $this->getAuthUser()->setAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL, $redirectUri);
             throw new SessionExpiredException();
         }
 
         if ($this->getControllerInstance($event) instanceof AbstractRestController) {
-            throw new UnauthorizedHttpException($urlGenerator->generate('auth_login'), 'Session expired');
+            $response = new Response();
+            $message = 'Session expired';
+            $response->setContent(
+                \OrangeHRM\Core\Api\V2\Response::formatError(
+                    ['error' => ['status' => Response::HTTP_UNAUTHORIZED, 'message' => $message]]
+                )
+            );
+            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+            throw new UnauthorizedException($response, $message);
         }
 
         // Fallback
@@ -98,6 +112,9 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
             $response = new RedirectResponse($loginUrl);
 
             $event->setResponse($response);
+            $event->stopPropagation();
+        } elseif ($exception instanceof UnauthorizedException) {
+            $event->setResponse($exception->getResponse());
             $event->stopPropagation();
         }
     }

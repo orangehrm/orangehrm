@@ -51,6 +51,26 @@ class JobTitleDaoTest extends TestCase
     {
         $result = $this->jobTitleDao->getJobTitleList();
         $this->assertCount(3, $result);
+        $this->assertEquals('Quality Assuarance', $result[0]->getJobTitleName());
+        $this->assertEquals('Software Architect', $result[1]->getJobTitleName());
+        $this->assertEquals('Software Engineer', $result[2]->getJobTitleName());
+    }
+
+    public function testGetJobTitlesForEmployee(): void
+    {
+        $result = $this->jobTitleDao->getJobTitlesForEmployee(1);
+        $this->assertCount(4, $result);
+
+        $this->assertEquals('Quality Assuarance', $result[0]->getJobTitleName());
+        $this->assertEquals('Sales Person', $result[1]->getJobTitleName());
+        $this->assertEquals('Software Architect', $result[2]->getJobTitleName());
+        $this->assertEquals('Software Engineer', $result[3]->getJobTitleName());
+
+        $result = $this->jobTitleDao->getJobTitlesForEmployee(2);
+        $this->assertCount(3, $result);
+        $this->assertEquals('Quality Assuarance', $result[0]->getJobTitleName());
+        $this->assertEquals('Software Architect', $result[1]->getJobTitleName());
+        $this->assertEquals('Software Engineer', $result[2]->getJobTitleName());
     }
 
     public function testGetJobTitleListWithInactiveJobTitles(): void
