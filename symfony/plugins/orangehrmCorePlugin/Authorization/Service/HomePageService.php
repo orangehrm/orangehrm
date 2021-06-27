@@ -19,75 +19,73 @@
 
 namespace OrangeHRM\Core\Authorization\Service;
 
-use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
-use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
 class HomePageService
 {
-    /**
-     * @var AbstractUserRoleManager|null
-     */
-    protected ?AbstractUserRoleManager $userRoleManager = null;
+    use UserRoleManagerTrait;
 
     /**
-     * @return AbstractUserRoleManager
-     * @throws DaoException
-     * @throws ServiceException
+     * @return string|null
      */
-    public function getUserRoleManager(): AbstractUserRoleManager
-    {
-        if (!$this->userRoleManager instanceof AbstractUserRoleManager) {
-            $this->userRoleManager = UserRoleManagerFactory::getUserRoleManager();
-        }
-        return $this->userRoleManager;
-    }
-
-    /**
-     * @param AbstractUserRoleManager $userRoleManager
-     */
-    public function setUserRoleManager(AbstractUserRoleManager $userRoleManager): void
-    {
-        $this->userRoleManager = $userRoleManager;
-    }
-
-    public function getHomePagePath()
+    public function getHomePagePath(): ?string
     {
         return $this->getUserRoleManager()->getHomePage();
     }
 
-    public function getTimeModuleDefaultPath()
+    /**
+     * @return string|null
+     */
+    public function getTimeModuleDefaultPath(): ?string
     {
         return $this->getModuleDefaultPage('time');
     }
 
-    public function getLeaveModuleDefaultPath()
+    /**
+     * @return string|null
+     */
+    public function getLeaveModuleDefaultPath(): ?string
     {
         return $this->getModuleDefaultPage('leave');
     }
 
-    public function getAdminModuleDefaultPath()
+    /**
+     * @return string|null
+     */
+    public function getAdminModuleDefaultPath(): ?string
     {
         return $this->getModuleDefaultPage('admin');
     }
 
-    public function getPimModuleDefaultPath()
+    /**
+     * @return string|null
+     */
+    public function getPimModuleDefaultPath(): ?string
     {
         return $this->getModuleDefaultPage('pim');
     }
 
-    public function getRecruitmentModuleDefaultPath()
+    /**
+     * @return string|null
+     */
+    public function getRecruitmentModuleDefaultPath(): ?string
     {
         return $this->getModuleDefaultPage('recruitment');
     }
 
-    public function getPerformanceModuleDefaultPath()
+    /**
+     * @return string|null
+     */
+    public function getPerformanceModuleDefaultPath(): ?string
     {
         return $this->getModuleDefaultPage('performance');
     }
 
-    public function getModuleDefaultPage($module)
+    /**
+     * @param string $module
+     * @return string|null
+     */
+    public function getModuleDefaultPage(string $module): ?string
     {
         return $this->getUserRoleManager()->getModuleDefaultPage($module);
     }

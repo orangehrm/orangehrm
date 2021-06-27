@@ -294,6 +294,11 @@ pim_module:
   controller: OrangeHRM\Pim\Controller\PimModuleController::handle
   methods: [ GET ]
 
+pim_view_my_details:
+  path: /pim/viewMyDetails
+  controller: OrangeHRM\Pim\Controller\ViewMyDetailsController::handle
+  methods: [ GET ]
+
 pim_view_employee_list:
   path: /pim/viewEmployeeList
   controller: OrangeHRM\Pim\Controller\EmployeeController::handle

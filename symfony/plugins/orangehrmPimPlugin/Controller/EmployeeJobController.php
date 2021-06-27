@@ -103,7 +103,7 @@ class EmployeeJobController extends BaseViewEmployeeController
             $component = new Component('employee-job');
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
 
-            $jobTitles = $this->getJobTitleService()->getJobTitleArray();
+            $jobTitles = $this->getJobTitleService()->getJobTitleArrayForEmployee($empNumber);
             $component->addProp(new Prop('job-titles', Prop::TYPE_ARRAY, $jobTitles));
 
             $jobCategories = $this->getJobCategoryService()->getJobCategoryArray();

@@ -29,7 +29,6 @@ use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Services;
 
@@ -91,19 +90,15 @@ class ValidateController extends AbstractController implements PublicControllerI
             return new RedirectResponse($loginUrl);
         }
 
-        /** @var Session $session */
-        $session = $this->getContainer()->get(Services::SESSION);
-        if ($session->has(AuthUser::SESSION_TIMEOUT_REDIRECT_URL)) {
-            $redirectUrl = $session->get(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
-            $session->remove(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
+        if ($this->getAuthUser()->hasAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL)) {
+            $redirectUrl = $this->getAuthUser()->getAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
+            $this->getAuthUser()->removeAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
             if ($redirectUrl !== $loginUrl || $redirectUrl !== $logoutUrl) {
                 return new RedirectResponse($redirectUrl);
             }
         }
 
-        // TODO: Redirect to user homepage (using homepage service)
-        return new RedirectResponse(
-            $urlGenerator->generate('view_job_title', [], UrlGenerator::ABSOLUTE_URL)
-        );
+        $homePagePath = $this->getHomePageService()->getHomePagePath();
+        return $this->redirect($homePagePath);
     }
 }

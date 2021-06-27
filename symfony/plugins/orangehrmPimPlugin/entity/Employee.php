@@ -187,7 +187,7 @@ class Employee
     /**
      * @var JobTitle|null
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobTitle")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\JobTitle", inversedBy="employees")
      * @ORM\JoinColumn(name="job_title_code", referencedColumnName="id", nullable=true)
      */
     private ?JobTitle $jobTitle = null;

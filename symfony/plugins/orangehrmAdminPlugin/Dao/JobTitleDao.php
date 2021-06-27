@@ -32,10 +32,10 @@ class JobTitleDao extends BaseDao
 {
     /**
      * @param bool $activeOnly
-     * @return int|JobTitle[]
+     * @return JobTitle[]
      * @throws DaoException
      */
-    public function getJobTitleList(bool $activeOnly = true)
+    public function getJobTitleList(bool $activeOnly = true): array
     {
         try {
             $q = $this->createQueryBuilder(JobTitle::class, 'jt');
@@ -43,6 +43,29 @@ class JobTitleDao extends BaseDao
                 $q->andWhere('jt.isDeleted = :isDeleted');
                 $q->setParameter('isDeleted', JobTitle::ACTIVE);
             }
+            $q->addOrderBy('jt.jobTitleName', ListSorter::ASCENDING);
+
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param int $empNumber
+     * @return JobTitle[]
+     * @throws DaoException
+     */
+    public function getJobTitlesForEmployee(int $empNumber): array
+    {
+        try {
+            $q = $this->createQueryBuilder(JobTitle::class, 'jt');
+            $q->leftJoin('jt.employees', 'e');
+            $q->andWhere('jt.isDeleted = :isDeleted')
+                ->setParameter('isDeleted', JobTitle::ACTIVE);
+            $q->orWhere('e.empNumber = :empNumber')
+                ->setParameter('empNumber', $empNumber);
+
             $q->addOrderBy('jt.jobTitleName', ListSorter::ASCENDING);
 
             return $q->getQuery()->execute();

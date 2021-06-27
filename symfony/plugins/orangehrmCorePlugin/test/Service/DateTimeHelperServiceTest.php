@@ -24,6 +24,10 @@ use DateTimeZone;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Tests\Util\TestCase;
 
+/**
+ * @group Core
+ * @group Service
+ */
 class DateTimeHelperServiceTest extends TestCase
 {
     private DateTimeHelperService $dateTimeHelperService;

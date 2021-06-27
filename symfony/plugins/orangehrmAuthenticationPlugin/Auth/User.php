@@ -98,6 +98,15 @@ class User
     }
 
     /**
+     * @param string $name
+     * @return mixed
+     */
+    public function removeAttribute(string $name)
+    {
+        return $this->getSession()->remove($name);
+    }
+
+    /**
      * @return array
      */
     public function getAllAttributes(): array

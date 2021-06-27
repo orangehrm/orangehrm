@@ -17,25 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Traits;
+namespace OrangeHRM\Core\Traits\Service;
+
+use OrangeHRM\Core\Service\TextHelperService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
 
 trait TextHelperTrait
 {
+    use ServiceContainerTrait;
+
     /**
-     * @param string $text
-     * @param string|null $encoding
-     * @return int
-     * @link https://www.php.net/manual/en/mbstring.supported-encodings.php
+     * @return TextHelperService
      */
-    public function strLength(string $text, ?string $encoding = null): int
+    protected function getTextHelper(): TextHelperService
     {
-        if (function_exists('mb_strlen')) {
-            if (is_null($encoding)) {
-                return mb_strlen($text);
-            }
-            return mb_strlen($text, $encoding);
-        } else {
-            return strlen($text);
-        }
+        return $this->getContainer()->get(Services::TEXT_HELPER_SERVICE);
     }
 }

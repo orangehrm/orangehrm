@@ -22,6 +22,7 @@ namespace OrangeHRM\Framework;
 use Exception;
 use Monolog\Handler\StreamHandler;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Subscriber\LoggerSubscriber;
 use OrangeHRM\Framework\Event\EventDispatcher;
 use OrangeHRM\Framework\Http\ControllerResolver;
 use OrangeHRM\Framework\Http\Request;
@@ -87,6 +88,10 @@ class Framework extends HttpKernel
             )
         );
         ServiceContainer::getContainer()->set(Services::LOGGER, $logger);
+
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = ServiceContainer::getContainer()->get(Services::EVENT_DISPATCHER);
+        $dispatcher->addSubscriber(new LoggerSubscriber());
     }
 
     protected function configureRouter(Request $request): void

@@ -115,7 +115,9 @@ class PayGradeDao extends BaseDao
     public function getPayPeriods(): array
     {
         try {
-            return $this->getRepository(PayPeriod::class)->findAll();
+            $q = $this->createQueryBuilder(PayPeriod::class, 'pp');
+            $q->addOrderBy('pp.name', ListSorter::ASCENDING);
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
