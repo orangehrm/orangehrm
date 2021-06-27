@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,21 +16,36 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller;
+import {required} from '../rules';
 
-use Exception;
-use OrangeHRM\Core\Controller\AbstractModuleController;
-use OrangeHRM\Framework\Http\RedirectResponse;
+describe('core/util/validation/rules', () => {
+  test('required::empty string', () => {
+    const result = required('');
+    expect(result).toBe('Required');
+  });
 
-class PimModuleController extends AbstractModuleController
-{
-    /**
-     * @return RedirectResponse
-     * @throws Exception
-     */
-    public function handle(): RedirectResponse
-    {
-        $defaultPath = $this->getHomePageService()->getPimModuleDefaultPath();
-        return $this->redirect($defaultPath);
-    }
-}
+  test('required::string only with space', () => {
+    const result = required(' ');
+    expect(result).toBe('Required');
+  });
+
+  test('required::string only with new line char', () => {
+    const result = required('\n');
+    expect(result).toBe('Required');
+  });
+
+  test('required::number', () => {
+    const result = required(1);
+    expect(result).toBeTruthy();
+  });
+
+  test('required::empty array', () => {
+    const result = required([]);
+    expect(result).toBe('Required');
+  });
+
+  test('required::array', () => {
+    const result = required(['test']);
+    expect(result).toBeTruthy();
+  });
+});

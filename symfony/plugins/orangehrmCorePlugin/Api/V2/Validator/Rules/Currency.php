@@ -20,8 +20,8 @@
 namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
 use OrangeHRM\Admin\Service\PayGradeService;
+use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Core\Traits\TextHelperTrait;
 use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Framework\Services;
 
@@ -34,7 +34,7 @@ class Currency extends AbstractRule
     {
         /** @var PayGradeService $payGradeService */
         $payGradeService = $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
-        if (!is_string($input) || $this->strLength($input) !== 3) {
+        if (!is_string($input) || $this->getTextHelper()->strLength($input) !== 3) {
             return false;
         }
         return $payGradeService->getPayGradeDao()->getCurrencyById($input) instanceof CurrencyType;

@@ -22,7 +22,6 @@ import {parseDate, isBefore, isAfter} from '../helper/datefns';
  * @param {string|number|Array} value
  * @returns {boolean|string}
  */
-
 export const required = function(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: string | number | Array<any>,

@@ -3577,3 +3577,6 @@ UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-time\"}' WHE
 UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-leave\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Leave';
 UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-recruitment\"}' WHERE `ohrm_menu_item`.`menu_title` = 'Recruitment';
 
+-- Should remove once implement dashboard screen
+UPDATE `ohrm_home_page` SET action='pim/viewPimModule' WHERE `user_role_id`=1;
+UPDATE `ohrm_home_page` SET action='pim/viewPimModule' WHERE `user_role_id`=2;

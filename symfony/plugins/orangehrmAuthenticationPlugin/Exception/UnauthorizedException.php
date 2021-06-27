@@ -17,21 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller;
+namespace OrangeHRM\Authentication\Exception;
 
 use Exception;
-use OrangeHRM\Core\Controller\AbstractModuleController;
-use OrangeHRM\Framework\Http\RedirectResponse;
+use OrangeHRM\Framework\Http\Response;
+use Throwable;
 
-class PimModuleController extends AbstractModuleController
+class UnauthorizedException extends Exception
 {
     /**
-     * @return RedirectResponse
-     * @throws Exception
+     * @var Response
      */
-    public function handle(): RedirectResponse
+    private Response $response;
+
+    /**
+     * @param Response $response
+     * @param string $message
+     * @param int $code
+     * @param Throwable|null $previous
+     */
+    public function __construct(Response $response, $message = "", $code = 0, Throwable $previous = null)
     {
-        $defaultPath = $this->getHomePageService()->getPimModuleDefaultPath();
-        return $this->redirect($defaultPath);
+        parent::__construct($message, $code, $previous);
+        $this->response = $response;
+    }
+
+    /**
+     * @return Response
+     */
+    public function getResponse(): Response
+    {
+        return $this->response;
+    }
+
+    /**
+     * @param Response $response
+     */
+    public function setResponse(Response $response): void
+    {
+        $this->response = $response;
     }
 }

@@ -47,9 +47,20 @@ jobs:
           php installer/cli_install.php 0
           php devTools/general/create-test-db.php root
 
+      - name: Run Jest
+        run: |
+          cd symfony/client
+          yarn test:unit --coverage
+
       - name: Run test
         run: |
-          ./symfony/vendor/bin/phpunit
+          XDEBUG_MODE=coverage ./symfony/vendor/bin/phpunit --coverage-html coverage -d memory_limit=512M
+
+      - name: Upload jest coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: jest-coverage
+          path: symfony/client/coverage
 
   composer_v2_check:
     runs-on: ubuntu-20.04
