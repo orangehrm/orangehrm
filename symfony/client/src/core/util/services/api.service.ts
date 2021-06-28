@@ -23,6 +23,7 @@ import axios, {
   AxiosResponse,
 } from 'axios';
 import {ComponentInternalInstance, getCurrentInstance} from 'vue';
+import {reloadPage} from '@orangehrm/core/util/helper/navigation';
 
 export class APIService {
   private _http: AxiosInstance;
@@ -108,6 +109,11 @@ export class APIService {
         return response;
       },
       (error: AxiosError): Promise<AxiosError> => {
+        if (error.response?.status === 401) {
+          reloadPage();
+          return Promise.reject();
+        }
+
         const $toast = vm?.appContext.config.globalProperties.$toast;
         if ($toast) {
           $toast.error({
