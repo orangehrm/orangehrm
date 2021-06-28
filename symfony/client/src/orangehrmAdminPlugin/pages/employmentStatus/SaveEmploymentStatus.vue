@@ -91,7 +91,7 @@ export default {
           name: this.employmentStatus.name,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();

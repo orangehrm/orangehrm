@@ -37,7 +37,13 @@
         class="orangehrm-horizontal-margin orangehrm-clear-margins"
       />
       <div v-if="!isLoading" class="org-root-container">
-        <oxd-text tag="p">{{ data.name }}</oxd-text>
+        <oxd-text
+          tag="p"
+          :class="{
+            '--parent': data && data.children != 0,
+          }"
+          >{{ data.name }}</oxd-text
+        >
         <oxd-button
           v-show="editable"
           class="org-structure-add"

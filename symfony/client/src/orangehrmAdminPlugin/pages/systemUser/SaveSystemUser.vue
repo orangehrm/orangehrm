@@ -157,7 +157,7 @@ export default {
           empNumber: this.user.employee[0].id,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           // go back
