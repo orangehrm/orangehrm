@@ -48,4 +48,20 @@ describe('core/util/validation/rules', () => {
     const result = required(['test']);
     expect(result).toBeTruthy();
   });
+
+  test('required::object', () => {
+    // @ts-expect-error
+    let result = required({test: 'Object'});
+    expect(result).toBeTruthy();
+
+    // @ts-expect-error
+    result = required(null);
+    expect(result).toBe('Required');
+  });
+
+  test('required::unsupported type', () => {
+    // @ts-expect-error
+    const result = required(true);
+    expect(result).toBe('Required');
+  });
 });
