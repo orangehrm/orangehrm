@@ -363,17 +363,17 @@ pim_employee_qualifications:
   controller: OrangeHRM\Pim\Controller\EmployeeQualificationsController::handle
   methods: [ GET ]
 
-view_termination_record:
+view_termination_reason:
   path: /pim/viewTerminationReasons
   controller: OrangeHRM\Pim\Controller\TerminationReasonController::handle
   methods: [ GET ]
 
-save_termination_record:
+save_termination_reason:
   path: /pim/saveTerminationReasons
   controller: OrangeHRM\Pim\Controller\SaveTerminationReasonController::handle
   methods: [ GET ]
 
-edit_termination_record:
+edit_termination_reason:
   path: /pim/saveTerminationReasons/{id}
   controller: OrangeHRM\Pim\Controller\SaveTerminationReasonController::handle
   methods: [ GET ]

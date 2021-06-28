@@ -144,11 +144,11 @@ class TerminationReasonConfigurationDao extends BaseDao
     }
 
     /**
-     * @param $terminationReasonName
+     * @param string $terminationReasonName
      * @return bool
      * @throws DaoException
      */
-    public function isExistingTerminationReasonName($terminationReasonName): bool
+    public function isExistingTerminationReasonName(string $terminationReasonName): bool
     {
         try {
             $q = $this->createQueryBuilder(TerminationReason::class, 'tr');
