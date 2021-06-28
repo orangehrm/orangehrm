@@ -89,7 +89,7 @@ export default {
           name: this.language.name,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.language.name = '';

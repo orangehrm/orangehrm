@@ -105,7 +105,7 @@ export default {
           description: this.skill.description,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.skill.name = '';
