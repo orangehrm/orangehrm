@@ -21,58 +21,15 @@ namespace OrangeHRM\Pim\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 
-class EmpEmergencyContactSearchFilterParams extends FilterParams
+class TerminationReasonConfigurationSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['eec.name'];
+    public const ALLOWED_SORT_FIELDS = ['tr.name'];
 
     /**
-     * @var int
-     */
-    protected int $empNumber;
-
-    /**
-     * @var string|null
-     */
-    protected ?string $name = null;
-
-    /**
-     * EmpEmergencyContactSearchFilterParams constructor.
+     * TerminationReasonConfigurationSearchFilterParams constructor.
      */
     public function __construct()
     {
-        $this->setSortField('eec.name');
+        $this->setSortField('tr.name');
     }
-
-    /**
-     * @return int
-     */
-    public function getEmpNumber(): int
-    {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param int $empNumber
-     */
-    public function setEmpNumber(int $empNumber): void
-    {
-        $this->empNumber = $empNumber;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
-
 }
