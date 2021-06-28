@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="orangehrm-main-title">Reporting Methods</oxd-text>
+        <oxd-text class="orangehrm-main-title">Reporting Methods</oxd-text>
         <div>
           <oxd-button
             label="Add"

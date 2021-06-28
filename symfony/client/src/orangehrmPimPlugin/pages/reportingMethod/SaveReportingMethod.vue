@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="orangehrm-main-title">Add Reporting Method</oxd-text>
+      <oxd-text class="orangehrm-main-title">Add Reporting Method</oxd-text>
 
       <oxd-divider />
 
