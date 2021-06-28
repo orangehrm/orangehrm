@@ -271,7 +271,6 @@ apiv2_pim_employees_license:
     empNumber: '\d+'
     id: '\d+'
 
-<<<<<<< HEAD
 apiv2_pim_termination_reason:
   path: /api/v2/pim/termination-reasons/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -285,7 +284,7 @@ apiv2_pim_termination_reasons:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI
-=======
+
 apiv2_pim_reporting_method:
   path: /api/v2/pim/reporting-methods/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -299,7 +298,6 @@ apiv2_pim_reporting_methods:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI
->>>>>>> bug fixs and reporting method screen added
 
 ##########################
 #        Files
