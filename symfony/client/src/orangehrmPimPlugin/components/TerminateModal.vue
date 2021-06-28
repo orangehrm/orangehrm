@@ -46,6 +46,7 @@
           :rules="rules.terminationReasonId"
           :options="terminationReasons"
           :clear="false"
+          required
         />
       </oxd-form-row>
       <oxd-form-row>
