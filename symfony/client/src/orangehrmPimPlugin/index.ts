@@ -29,6 +29,9 @@ import EmployeeQualifications from './pages/employee/EmployeeQualifications.vue'
 import TerminationReason from './pages/terminationReason/TerminationReason.vue';
 import EditTerminationReason from './pages/terminationReason/EditTerminationReason.vue';
 import SaveTerminationReason from './pages/terminationReason/SaveTerminationReason.vue';
+import ReportingMethod from './pages/reportingMethod/ReportingMethod.vue';
+import EditReportingMethod from './pages/reportingMethod/EditReportingMethod.vue';
+import SaveReportingMethod from './pages/reportingMethod/SaveReportingMethod.vue';
 
 export default {
   'employee-save': SaveEmployee,
@@ -44,4 +47,7 @@ export default {
   'termination-reason-list': TerminationReason,
   'termination-reason-edit': EditTerminationReason,
   'termination-reason-save': SaveTerminationReason,
+  'reporting-method-list': ReportingMethod,
+  'reporting-method-edit': EditReportingMethod,
+  'reporting-method-save': SaveReportingMethod,
 };

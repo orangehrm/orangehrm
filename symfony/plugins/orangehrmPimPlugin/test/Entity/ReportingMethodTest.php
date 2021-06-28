@@ -17,16 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller;
+namespace OrangeHRM\Tests\Pim\Entity;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Entity\ReportingMethod;
+use OrangeHRM\Tests\Util\EntityTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-class ReportingMethodController extends AbstractVueController
+class ReportingMethodTest extends EntityTestCase
 {
-    public function init(): void
+    protected function setUp(): void
     {
-        $component = new Component('reporting-method-list');
-        $this->setComponent($component);
+        TestDataService::truncateSpecificTables([ReportingMethod::class]);
+    }
+
+    public function testReportingMethodEntity(): void
+    {
+        $reportingMethod = new ReportingMethod();
+        $reportingMethod->setName('Indirect');
+        $this->persist($reportingMethod);
+
+        /** @var ReportingMethod $reportingMethod */
+        $reportingMethod = $this->getRepository(ReportingMethod::class)->find(1);
+        $this->assertEquals('Indirect', $reportingMethod->getName());
+        $this->assertEquals(1, $reportingMethod->getId());
     }
 }

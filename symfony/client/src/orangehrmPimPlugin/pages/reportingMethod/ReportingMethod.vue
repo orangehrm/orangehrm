@@ -22,7 +22,7 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6">Nationalities</oxd-text>
+        <oxd-text tag="orangehrm-main-title">Reporting Methods</oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -75,7 +75,7 @@ export default {
         {
           name: 'name',
           slot: 'title',
-          title: 'Nationality',
+          title: 'Name',
           style: {'flex-basis': '80%'},
         },
         {
@@ -112,7 +112,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/nationalities',
+      '/api/v2/pim/reporting-methods',
     );
     const {
       showPaginator,
@@ -139,10 +139,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/admin/saveNationality');
+      navigate('/pim/saveReportingMethod');
     },
     onClickEdit(item) {
-      navigate('/admin/saveNationality/{id}', {id: item.id});
+      navigate('/pim/saveReportingMethod/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = [];

@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Add Nationality</oxd-text>
+      <oxd-text tag="orangehrm-main-title">Add Reporting Method</oxd-text>
 
       <oxd-divider />
 
@@ -29,7 +29,7 @@
         <oxd-form-row>
           <oxd-input-field
             label="Name"
-            v-model="nationality.name"
+            v-model="reportingMethod.name"
             :rules="rules.name"
             required
           />
@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      nationality: {
+      reportingMethod: {
         id: '',
         name: '',
       },
@@ -77,7 +77,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/nationalities',
+      '/api/v2/pim/reporting-methods',
     );
     return {
       http,
@@ -89,7 +89,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          name: this.nationality.name,
+          name: this.reportingMethod.name,
         })
         .then(() => {
           return this.$toast.saveSuccess();
@@ -99,7 +99,7 @@ export default {
         });
     },
     onCancel() {
-      navigate('/admin/nationality');
+      navigate('/pim/viewReportingMethods');
     },
   },
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,26 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * ReportingMethodConfigurationService Service
- * @package pim
- * @todo Rename to ReportingMethodConfigurationService [DONE]
- * @todo Deside if all methods need to have try catch blocks [DONE]
- */
+namespace OrangeHRM\Pim\Service;
 
-class ReportingMethodConfigurationService extends BaseService {
-    
+use OrangeHRM\Pim\Dao\ReportingMethodConfigurationDao;
+use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Entity\ReportingMethod;
+
+class ReportingMethodConfigurationService
+{
+    use NormalizerServiceTrait;
+
     /**
-     * @ignore
-     * @var ReportingMethodConfigurationDao 
+     * @var ReportingMethodConfigurationDao|null
      */
-    private $reportingMethodDao;
-    
+    private ?ReportingMethodConfigurationDao $reportingMethodDao = null;
+
     /**
-     * @ignore
+     * @return ReportingMethodConfigurationDao
      */
-    public function getReportingMethodDao() {
-        
+    public function getReportingMethodDao(): ReportingMethodConfigurationDao
+    {
+
         if (!($this->reportingMethodDao instanceof ReportingMethodConfigurationDao)) {
             $this->reportingMethodDao = new ReportingMethodConfigurationDao();
         }
@@ -46,87 +48,80 @@ class ReportingMethodConfigurationService extends BaseService {
     }
 
     /**
-     * @ignore
+     * @param ReportingMethodConfigurationDao $reportingMethodDao
      */
-    public function setReportingMethodDao($reportingMethodDao) {
+    public function setReportingMethodDao(ReportingMethodConfigurationDao $reportingMethodDao): void
+    {
         $this->reportingMethodDao = $reportingMethodDao;
-    }
-    
-    /**
-     * Saves a reportingMethod
-     * 
-     * Can be used for a new record or updating.
-     * 
-     * @version 2.6.12 
-     * @param ReportingMethod $reportingMethod 
-     * @return NULL Doesn't return a value
-     * 
-     * @todo return saved entity [DONE]
-     */
-    public function saveReportingMethod(ReportingMethod $reportingMethod) {        
-        return $this->getReportingMethodDao()->saveReportingMethod($reportingMethod);        
-    }
-    
-    /**
-     * Retrieves a reportingMethod by ID
-     * 
-     * @version 2.6.12 
-     * @param int $id 
-     * @return ReportingMethod An instance of ReportingMethod or NULL
-     * 
-     * @todo rename method as getReportingMethod( $id )[DONE]
-     */    
-    public function getReportingMethod($id) {
-        return $this->getReportingMethodDao()->getReportingMethod($id);
-    }
-    
-    /**
-     * Retrieves a reporting method by name
-     * 
-     * Case insensitive
-     * 
-     * @version 2.6.12 
-     * @param string $name 
-     * @return ReportingMethod An instance of ReportingMethod or false
-     */    
-    public function getReportingMethodByName($name) {
-        return $this->getReportingMethodDao()->getReportingMethodByName($name);
-    }     
-  
-    /**
-     * Retrieves all reportingMethods ordered by name
-     * 
-     * @version 2.6.12 
-     * @return Doctrine_Collection A doctrine collection of ReportingMethod objects 
-     */        
-    public function getReportingMethodList() {
-        return $this->getReportingMethodDao()->getReportingMethodList();
-    }
-    
-    /**
-     * Deletes reportingMethods
-     * 
-     * @version 2.6.12 
-     * @param array $ids An array of IDs to be deleted
-     * @return int Number of records deleted
-     */    
-    public function deleteReportingMethods($ids) {
-        return $this->getReportingMethodDao()->deleteReportingMethods($ids);
     }
 
     /**
-     * Checks whether the given reportingMethod name exists
-     *
-     * Case insensitive
-     *
-     * @version 2.6.12
-     * @param string $reportingMethodName ReportingMethod name that needs to be checked
-     * @return boolean
-     * 
-     * 
+     * @param ReportingMethod $reportingMethod
+     * @return ReportingMethod
+     * @throws DaoException
      */
-    public function isExistingReportingMethodName($reportingMethodName) {
+    public function saveReportingMethod(ReportingMethod $reportingMethod): ReportingMethod
+    {
+        return $this->getReportingMethodDao()->saveReportingMethod($reportingMethod);        
+    }
+
+    /**
+     * @param int $id
+     * @return ReportingMethod|null
+     * @throws DaoException
+     */
+    public function getReportingMethodById(int $id): ?ReportingMethod
+    {
+        return $this->getReportingMethodDao()->getReportingMethodById($id);
+    }
+
+    /**
+     * @param string $name
+     * @return ReportingMethod|null
+     * @throws DaoException
+     */
+    public function getReportingMethodByName(string $name): ?ReportingMethod
+    {
+        return $this->getReportingMethodDao()->getReportingMethodByName($name);
+    }
+
+    /**
+     * @param ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
+     * @return array
+     * @throws DaoException
+     */
+    public function getReportingMethodList(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams ): array
+    {
+        return $this->getReportingMethodDao()->getReportingMethodList($reportingMethodSearchFilterParams);
+    }
+
+    /**
+     * @param ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getReportingMethodCount(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams): int
+    {
+        return $this->getReportingMethodDao()->getReportingMethodCount($reportingMethodSearchFilterParams);
+    }
+
+    /**
+     * @param array $toDeleteIds
+     * @return int
+     * @throws DaoException
+     */
+    public function deleteReportingMethods(array $toDeleteIds): int
+    {
+        return $this->getReportingMethodDao()->deleteReportingMethods($toDeleteIds);
+    }
+
+    /**
+     * @param string $reportingMethodName
+     * @return bool
+     * @throws DaoException
+     */
+    public function isExistingReportingMethodName(string $reportingMethodName): bool
+    {
         return $this->getReportingMethodDao()->isExistingReportingMethodName($reportingMethodName);
     }
-    
 }

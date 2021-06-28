@@ -19,12 +19,12 @@
 
 namespace OrangeHRM\Tests\Pim\Api;
 
-use OrangeHRM\Admin\Api\NationalityAPI;
-use OrangeHRM\Admin\Dao\NationalityDao;
-use OrangeHRM\Admin\Service\NationalityService;
+use OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI;
+use OrangeHRM\Pim\Dao\ReportingMethodConfigurationDao;
+use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Entity\Nationality;
+use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
 
@@ -34,52 +34,52 @@ use OrangeHRM\Tests\Util\MockObject;
  */
 class ReportingMethodConfigurationAPITest extends EndpointTestCase
 {
-    public function testGetNationalityService(): void
+    public function getReportingMethodService(): void
     {
-        $api = new NationalityAPI($this->getRequest());
-        $this->assertTrue($api->getNationalityService() instanceof NationalityService);
+        $api = new ReportingMethodConfigurationAPI($this->getRequest());
+        $this->assertTrue($api->getReportingMethodService() instanceof ReportingMethodConfigurationService);
     }
 
     public function testGetOne(): void
     {
-        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
-            ->onlyMethods(['getNationalityById'])
+        $reportingMethodDao = $this->getMockBuilder(ReportingMethodConfigurationDao::class)
+            ->onlyMethods(['getReportingMethodById'])
             ->getMock();
 
-        $nationality = new Nationality();
-        $nationality->setId(1);
-        $nationality->setName('Sri Lankan');
+        $reportingMethod = new ReportingMethod();
+        $reportingMethod->setId(1);
+        $reportingMethod->setName('Indirect');
 
-        $nationalityDao->expects($this->exactly(1))
-            ->method('getNationalityById')
+        $reportingMethodDao->expects($this->exactly(1))
+            ->method('getReportingMethodById')
             ->with(1)
-            ->will($this->returnValue($nationality));
-        $nationalityService = $this->getMockBuilder(NationalityService::class)
-            ->onlyMethods(['getNationalityDao'])
+            ->will($this->returnValue($reportingMethod));
+        $reportingMethodService = $this->getMockBuilder(ReportingMethodConfigurationService::class)
+            ->onlyMethods(['getReportingMethodDao'])
             ->getMock();
-        $nationalityService->expects($this->exactly(1))
-            ->method('getNationalityDao')
-            ->willReturn($nationalityDao);
+        $reportingMethodService->expects($this->exactly(1))
+            ->method('getReportingMethodDao')
+            ->willReturn($reportingMethodDao);
 
-        /** @var MockObject&NationalityAPI $api */
+        /** @var MockObject&ReportingMethodConfigurationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
-            NationalityAPI::class,
+            ReportingMethodConfigurationAPI::class,
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     CommonParams::PARAMETER_ID => 1
                 ]
             ]
-        )->onlyMethods(['getNationalityService'])
+        )->onlyMethods(['getReportingMethodService'])
             ->getMock();
         $api->expects($this->once())
-            ->method('getNationalityService')
-            ->will($this->returnValue($nationalityService));
+            ->method('getReportingMethodService')
+            ->will($this->returnValue($reportingMethodService));
 
         $result = $api->getOne();
         $this->assertEquals(
             [
                 "id" => 1,
-                "name" => "Sri Lankan"
+                "name" => "Indirect"
             ],
             $result->normalize()
         );
@@ -87,7 +87,7 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForGetOne(): void
     {
-        $api = new NationalityAPI($this->getRequest());
+        $api = new ReportingMethodConfigurationAPI($this->getRequest());
         $rules = $api->getValidationRuleForGetOne();
         $this->assertTrue(
             $this->validate(
@@ -99,39 +99,39 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testDelete()
     {
-        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
-            ->onlyMethods(['deleteNationalities'])
+        $reportingMethodDao = $this->getMockBuilder(ReportingMethodConfigurationDao::class)
+            ->onlyMethods(['deleteReportingMethods'])
             ->getMock();
 
-        $nationality = new Nationality();
-        $nationality->setId(1);
-        $nationality->setName('Sri Lankan');
+        $reportingMethod = new ReportingMethod();
+        $reportingMethod->setId(1);
+        $reportingMethod->setName('Indirect');
 
-        $nationalityDao->expects($this->exactly(1))
-            ->method('deleteNationalities')
+        $reportingMethodDao->expects($this->exactly(1))
+            ->method('deleteReportingMethods')
             ->with([1])
             ->willReturn(1);
-        $nationalityService = $this->getMockBuilder(NationalityService::class)
-            ->onlyMethods(['getNationalityDao'])
+        $reportingMethodService = $this->getMockBuilder(ReportingMethodConfigurationService::class)
+            ->onlyMethods(['getReportingMethodDao'])
             ->getMock();
-        $nationalityService->expects($this->exactly(1))
-            ->method('getNationalityDao')
-            ->willReturn($nationalityDao);
+        $reportingMethodService->expects($this->exactly(1))
+            ->method('getReportingMethodDao')
+            ->willReturn($reportingMethodDao);
 
-        /** @var MockObject&NationalityAPI $api */
+        /** @var MockObject&ReportingMethodConfigurationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
-            NationalityAPI::class,
+            ReportingMethodConfigurationAPI::class,
             [
 
                 RequestParams::PARAM_TYPE_BODY => [
                     CommonParams::PARAMETER_IDS => [1],
                 ]
             ]
-        )->onlyMethods(['getNationalityService'])
+        )->onlyMethods(['getReportingMethodService'])
             ->getMock();
         $api->expects($this->exactly(1))
-            ->method('getNationalityService')
-            ->will($this->returnValue($nationalityService));
+            ->method('getReportingMethodService')
+            ->will($this->returnValue($reportingMethodService));
 
         $result = $api->delete();
         $this->assertEquals(
@@ -144,7 +144,7 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForDelete(): void
     {
-        $api = new NationalityAPI($this->getRequest());
+        $api = new ReportingMethodConfigurationAPI($this->getRequest());
         $rules = $api->getValidationRuleForDelete();
         $this->assertTrue(
             $this->validate(
@@ -158,51 +158,51 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testUpdate()
     {
-        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
-            ->onlyMethods(['saveNationality', 'getNationalityById'])
+        $reportingMethodDao = $this->getMockBuilder(ReportingMethodConfigurationDao::class)
+            ->onlyMethods(['saveReportingMethod', 'getReportingMethodById'])
             ->getMock();
 
-        $nationality = new Nationality();
-        $nationality->setId(1);
-        $nationality->setName('India');
+        $reportingMethod = new ReportingMethod();
+        $reportingMethod->setId(1);
+        $reportingMethod->setName('Direct');
 
-        $nationalityDao->expects($this->exactly(1))
-            ->method('getNationalityById')
+        $reportingMethodDao->expects($this->exactly(1))
+            ->method('getReportingMethodById')
             ->with(1)
-            ->willReturn($nationality);
-        $nationalityDao->expects($this->exactly(1))
-            ->method('saveNationality')
-            ->with($nationality)
-            ->will($this->returnValue($nationality));
-        $nationalityService = $this->getMockBuilder(NationalityService::class)
-            ->onlyMethods(['getNationalityDao'])
+            ->willReturn($reportingMethod);
+        $reportingMethodDao->expects($this->exactly(1))
+            ->method('saveReportingMethod')
+            ->with($reportingMethod)
+            ->will($this->returnValue($reportingMethod));
+        $reportingMethodService = $this->getMockBuilder(ReportingMethodConfigurationService::class)
+            ->onlyMethods(['getReportingMethodDao'])
             ->getMock();
-        $nationalityService->expects($this->exactly(2))
-            ->method('getNationalityDao')
-            ->willReturn($nationalityDao);
+        $reportingMethodService->expects($this->exactly(2))
+            ->method('getReportingMethodDao')
+            ->willReturn($reportingMethodDao);
 
-        /** @var MockObject&NationalityAPI $api */
+        /** @var MockObject&ReportingMethodConfigurationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
-            NationalityAPI::class,
+            ReportingMethodConfigurationAPI::class,
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     CommonParams::PARAMETER_ID => 1
                 ],
                 RequestParams::PARAM_TYPE_BODY => [
-                    NationalityAPI::PARAMETER_NAME => 'sri lankan',
+                    ReportingMethodConfigurationAPI::PARAMETER_NAME => 'Indirect',
                 ]
             ]
-        )->onlyMethods(['getNationalityService'])
+        )->onlyMethods(['getReportingMethodService'])
             ->getMock();
         $api->expects($this->exactly(2))
-            ->method('getNationalityService')
-            ->will($this->returnValue($nationalityService));
+            ->method('getReportingMethodService')
+            ->will($this->returnValue($reportingMethodService));
 
         $result = $api->update();
         $this->assertEquals(
             [
                 "id" => 1,
-                "name" => "sri lankan"
+                "name" => "Indirect"
             ],
             $result->normalize()
         );
@@ -210,13 +210,13 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForUpdate(): void
     {
-        $api = new NationalityAPI($this->getRequest());
+        $api = new ReportingMethodConfigurationAPI($this->getRequest());
         $rules = $api->getValidationRuleForUpdate();
         $this->assertTrue(
             $this->validate(
                 [
                     CommonParams::PARAMETER_ID => 1,
-                    NationalityAPI::PARAMETER_NAME => 'Sri Lankan',
+                    ReportingMethodConfigurationAPI::PARAMETER_NAME => 'Indirect',
                 ],
                 $rules
             )
@@ -225,46 +225,46 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testCreate()
     {
-        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
-            ->onlyMethods(['saveNationality'])
+        $reportingMethodDao = $this->getMockBuilder(ReportingMethodConfigurationDao::class)
+            ->onlyMethods(['saveReportingMethod'])
             ->getMock();
-        $nationalityDao->expects($this->once())
-            ->method('saveNationality')
+        $reportingMethodDao->expects($this->once())
+            ->method('saveReportingMethod')
             ->will(
                 $this->returnCallback(
-                    function (Nationality $nationality) {
-                        $nationality->setId(1);
-                        return $nationality;
+                    function (ReportingMethod $reportingMethod) {
+                        $reportingMethod->setId(1);
+                        return $reportingMethod;
                     }
                 )
             );
 
-        $nationalityService = $this->getMockBuilder(NationalityService::class)
-            ->onlyMethods(['getNationalityDao'])
+        $reportingMethodService = $this->getMockBuilder(ReportingMethodConfigurationService::class)
+            ->onlyMethods(['getReportingMethodDao'])
             ->getMock();
-        $nationalityService->expects($this->once())
-            ->method('getNationalityDao')
-            ->willReturn($nationalityDao);
+        $reportingMethodService->expects($this->once())
+            ->method('getReportingMethodDao')
+            ->willReturn($reportingMethodDao);
 
-        /** @var MockObject&NationalityAPI $api */
+        /** @var MockObject&ReportingMethodConfigurationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
-            NationalityAPI::class,
+            ReportingMethodConfigurationAPI::class,
             [
                 RequestParams::PARAM_TYPE_BODY => [
-                    NationalityAPI::PARAMETER_NAME => 'India',
+                    ReportingMethodConfigurationAPI::PARAMETER_NAME => 'Direct',
                 ]
             ]
-        )->onlyMethods(['getNationalityService'])
+        )->onlyMethods(['getReportingMethodService'])
             ->getMock();
         $api->expects($this->once())
-            ->method('getNationalityService')
-            ->will($this->returnValue($nationalityService));
+            ->method('getReportingMethodService')
+            ->will($this->returnValue($reportingMethodService));
 
         $result = $api->create();
         $this->assertEquals(
             [
                 "id" => 1,
-                "name" => 'India'
+                "name" => 'Direct'
             ],
             $result->normalize()
         );
@@ -272,12 +272,12 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForCreate(): void
     {
-        $api = new NationalityAPI($this->getRequest());
+        $api = new ReportingMethodConfigurationAPI($this->getRequest());
         $rules = $api->getValidationRuleForCreate();
         $this->assertTrue(
             $this->validate(
                 [
-                    NationalityAPI::PARAMETER_NAME => 'india',
+                    ReportingMethodConfigurationAPI::PARAMETER_NAME => 'Direct',
                 ],
                 $rules
             )
@@ -286,54 +286,54 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testGetAll()
     {
-        $nationalityDao = $this->getMockBuilder(NationalityDao::class)
-            ->onlyMethods(['getNationalityList', 'getNationalityCount'])
+        $reportingMethodDao = $this->getMockBuilder(ReportingMethodConfigurationDao::class)
+            ->onlyMethods(['getReportingMethodList', 'getReportingMethodCount'])
             ->getMock();
 
-        $nationality1 = new Nationality();
-        $nationality1->setId(1);
-        $nationality1->setName('Sri Lankan');
-        $nationality2 = new Nationality();
-        $nationality2->setId(2);
-        $nationality2->setName('Indian');
+        $reportingMethod1 = new ReportingMethod();
+        $reportingMethod1->setId(1);
+        $reportingMethod1->setName('Indirect');
+        $reportingMethod2 = new ReportingMethod();
+        $reportingMethod2->setId(2);
+        $reportingMethod2->setName('Direct');
 
-        $nationalityDao->expects($this->exactly(1))
-            ->method('getNationalityList')
-            ->willReturn([$nationality1, $nationality2]);
-        $nationalityDao->expects($this->exactly(1))
-            ->method('getNationalityCount')
+        $reportingMethodDao->expects($this->exactly(1))
+            ->method('getReportingMethodList')
+            ->willReturn([$reportingMethod1, $reportingMethod2]);
+        $reportingMethodDao->expects($this->exactly(1))
+            ->method('getReportingMethodCount')
             ->willReturn(2);
-        $nationalityService = $this->getMockBuilder(NationalityService::class)
-            ->onlyMethods(['getNationalityDao'])
+        $reportingMethodService = $this->getMockBuilder(ReportingMethodConfigurationService::class)
+            ->onlyMethods(['getReportingMethodDao'])
             ->getMock();
-        $nationalityService->expects($this->exactly(2))
-            ->method('getNationalityDao')
-            ->willReturn($nationalityDao);
+        $reportingMethodService->expects($this->exactly(2))
+            ->method('getReportingMethodDao')
+            ->willReturn($reportingMethodDao);
 
-        /** @var MockObject&NationalityAPI $api */
+        /** @var MockObject&ReportingMethodConfigurationAPI $api */
         $api = $this->getApiEndpointMockBuilder(
-            NationalityAPI::class,
+            ReportingMethodConfigurationAPI::class,
             [
                 RequestParams::PARAM_TYPE_BODY => [
-                    NationalityAPI::PARAMETER_NAME,
+                    ReportingMethodConfigurationAPI::PARAMETER_NAME,
                 ]
             ]
-        )->onlyMethods(['getNationalityService'])
+        )->onlyMethods(['getReportingMethodService'])
             ->getMock();
         $api->expects($this->exactly(2))
-            ->method('getNationalityService')
-            ->will($this->returnValue($nationalityService));
+            ->method('getReportingMethodService')
+            ->will($this->returnValue($reportingMethodService));
 
         $result = $api->getAll();
         $this->assertEquals(
             [
                 [
                     "id" => 1,
-                    "name" => "Sri Lankan"
+                    "name" => "Indirect"
                 ],
                 [
                     "id" => 2,
-                    "name" => "Indian"
+                    "name" => "Direct"
                 ]
             ],
             $result->normalize()
@@ -348,7 +348,7 @@ class ReportingMethodConfigurationAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForGetAll(): void
     {
-        $api = new NationalityAPI($this->getRequest());
+        $api = new ReportingMethodConfigurationAPI($this->getRequest());
         $rules = $api->getValidationRuleForGetAll();
         $this->assertTrue(
             $this->validate(

@@ -17,19 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Api\Model;
+namespace OrangeHRM\Pim\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\Nationality;
+use OrangeHRM\Entity\ReportingMethod;
 
 class ReportingMethodConfigurationModel implements Normalizable
 {
     use ModelTrait;
 
-    public function __construct(Nationality $nationality)
+    public function __construct(ReportingMethod $ReportingMethod)
     {
-        $this->setEntity($nationality);
+        $this->setEntity($ReportingMethod);
         $this->setFilters(
             [
                 'id',

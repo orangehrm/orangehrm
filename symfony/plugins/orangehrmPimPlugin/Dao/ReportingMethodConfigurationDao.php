@@ -20,13 +20,14 @@
 namespace OrangeHRM\Pim\Dao;
 
 use Exception;
-use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
 
-class ReportingMethodConfigurationDao extends BaseDao {
+class ReportingMethodConfigurationDao extends BaseDao
+{
 
     /**
      * @param ReportingMethod $reportingMethod
@@ -41,82 +42,122 @@ class ReportingMethodConfigurationDao extends BaseDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        
     }
-    
-    public function getReportingMethod($id) {
-        
+
+    /**
+     * @param int $id
+     * @return ReportingMethod|null
+     * @throws DaoException
+     */
+    public function getReportingMethodById(int $id): ?ReportingMethod
+    {
         try {
-            return Doctrine::getTable('ReportingMethod')->find($id);
+            $reportingMethod = $this->getRepository(ReportingMethod::class)->find($id);
+            if ($reportingMethod instanceof ReportingMethod) {
+                return $reportingMethod;
+            }
+            return null;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        
     }
-    
-    public function getReportingMethodByName($name) {
-        
+
+    /**
+     * @param string $name
+     * @return ReportingMethod|null
+     * @throws DaoException
+     */
+    public function getReportingMethodByName(string $name): ?ReportingMethod
+    {
         try {
-            
-            $q = Doctrine_Query::create()
-                                ->from('ReportingMethod')
-                                ->where('name = ?', trim($name));
-            
-            return $q->fetchOne();
-            
+            $query = $this->createQueryBuilder(ReportingMethod::class, 'rm');
+            $trimmed = trim($name, ' ');
+            $query->andWhere('rm.name = :name');
+            $query->setParameter('name', $trimmed);
+            return $query->getQuery()->getOneOrNullResult();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        
-    }    
-    
-    public function getReportingMethodList() {
-        
+    }
+
+    /**
+     * @param ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
+     * @return Paginator
+     */
+    public function getReportingMethodListPaginator(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(ReportingMethod::class, 'rm');
+        $this->setSortingAndPaginationParams($q, $reportingMethodSearchFilterParams);
+        return new Paginator($q);
+    }
+
+    /**
+     * @param ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getReportingMethodCount(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams): int
+    {
         try {
-            
-            $q = Doctrine_Query::create()->from('ReportingMethod')
-                                         ->orderBy('name');
-            
-            return $q->execute(); 
-            
+            $paginator = $this->getReportingMethodListPaginator($reportingMethodSearchFilterParams);
+            return $paginator->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }        
-        
+        }
     }
-    
-    public function deleteReportingMethods($toDeleteIds) {
-        
-        try {
-            
-            $q = Doctrine_Query::create()->delete('ReportingMethod')
-                            ->whereIn('id', $toDeleteIds);
 
-            return $q->execute();            
-            
+    /**
+     * @param ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
+     * @return int|mixed|string
+     * @throws DaoException
+     */
+    public function getReportingMethodList(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams)
+    {
+        try {
+            $paginator = $this->getReportingMethodListPaginator($reportingMethodSearchFilterParams);
+            return $paginator->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }        
-        
+        }
     }
-    
-    public function isExistingReportingMethodName($reportingMethodName) {
-        
-        try {
-            
-            $q = Doctrine_Query:: create()->from('ReportingMethod rm')
-                            ->where('rm.name = ?', trim($reportingMethodName));
 
-            if ($q->count() > 0) {
+    /**
+     * @param $toDeleteIds
+     * @return int
+     * @throws DaoException
+     */
+    public function deleteReportingMethods($toDeleteIds): int
+    {
+        try {
+            $q = $this->createQueryBuilder(ReportingMethod::class, 'rm');
+            $q->delete();
+            $q->where($q->expr()->in('rm.id', ':ids'))
+                ->setParameter('ids', $toDeleteIds);
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param string $reportingMethodName
+     * @return bool
+     * @throws DaoException
+     */
+    public function isExistingReportingMethodName(string $reportingMethodName): bool
+    {
+        try {
+            $q = $this->createQueryBuilder(ReportingMethod::class, 'rm');
+            $trimmed = trim($reportingMethodName, ' ');
+            $q->where('rm.name = :name');
+            $q->setParameter('name', $trimmed);
+            $count = $this->count($q);
+            if ($count > 0) {
                 return true;
             }
-            
             return false;
-            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }       
-        
+        }
     }
-    
-    }
+}

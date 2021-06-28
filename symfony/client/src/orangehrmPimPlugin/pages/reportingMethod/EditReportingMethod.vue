@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit Nationality</oxd-text>
+      <oxd-text tag="orangehrm-main-title">Edit Reporting Method</oxd-text>
 
       <oxd-divider />
 
@@ -29,7 +29,7 @@
         <oxd-form-row>
           <oxd-input-field
             label="Name"
-            v-model="nationality.name"
+            v-model="reportingMethod.name"
             :rules="rules.name"
             required
           />
@@ -62,7 +62,7 @@ import {
 
 export default {
   props: {
-    nationalityId: {
+    reportingMethodId: {
       type: Number,
       required: true,
     },
@@ -70,7 +70,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/admin/nationalities',
+      '/api/v2/pim/reporting-methods',
     );
     return {
       http,
@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      nationality: {
+      reportingMethod: {
         id: '',
         name: '',
       },
@@ -94,8 +94,8 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.nationalityId, {
-          name: this.nationality.name,
+        .update(this.reportingMethodId, {
+          name: this.reportingMethod.name,
         })
         .then(() => {
           return this.$toast.updateSuccess();
@@ -105,18 +105,18 @@ export default {
         });
     },
     onCancel() {
-      navigate('/admin/nationality');
+      navigate('/pim/viewReportingMethods');
     },
   },
 
   created() {
     this.isLoading = true;
     this.http
-      .get(this.nationalityId)
+      .get(this.reportingMethodId)
       .then(response => {
         const {data} = response.data;
-        this.nationality.id = data.id;
-        this.nationality.name = data.name;
+        this.reportingMethod.id = data.id;
+        this.reportingMethod.name = data.name;
         // Fetch list data for unique test
         return this.http.getAll({limit: 0});
       })
@@ -126,7 +126,7 @@ export default {
           const index = data.findIndex(item => item.name === v);
           if (index > -1) {
             const {id} = data[index];
-            return id !== this.nationality.id ? 'Already exists' : true;
+            return id !== this.reportingMethod.id ? 'Already exists' : true;
           } else {
             return true;
           }

@@ -20,9 +20,10 @@
 namespace OrangeHRM\Pim\Api;
 
 use Exception;
-use OrangeHRM\Pim\Api\Model\NationalityModel;
-use OrangeHRM\Pim\Dto\NationalitySearchFilterParams;
-use OrangeHRM\Pim\Service\NationalityService;
+use OrangeHRM\Entity\ReportingMethod;
+use OrangeHRM\Pim\Api\Model\ReportingMethodConfigurationModel;
+use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
+use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -37,7 +38,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\Nationality;
 
 class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
 {
@@ -45,19 +45,19 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     public const PARAM_RULE_NAME_MAX_LENGTH = 100;
 
     /**
-     * @var null|NationalityService
+     * @var null|ReportingMethodConfigurationService
      */
-    protected ?NationalityService $nationalityService = null;
+    protected ?ReportingMethodConfigurationService $reportingMethodService = null;
 
     /**
-     * @return NationalityService
+     * @return ReportingMethodConfigurationService
      */
-    public function getNationalityService(): NationalityService
+    public function getReportingMethodService(): ReportingMethodConfigurationService
     {
-        if (!$this->nationalityService instanceof NationalityService) {
-            $this->nationalityService = new NationalityService();
+        if (!$this->reportingMethodService instanceof ReportingMethodConfigurationService) {
+            $this->reportingMethodService = new ReportingMethodConfigurationService();
         }
-        return $this->nationalityService;
+        return $this->reportingMethodService;
     }
 
     /**
@@ -69,9 +69,9 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $nationality = $this->getNationalityService()->getNationalityById($id);
-        $this->throwRecordNotFoundExceptionIfNotExist($nationality, Nationality::class);
-        return new EndpointResourceResult(NationalityModel::class, $nationality);
+        $reportingMethod = $this->getReportingMethodService()->getReportingMethodById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($reportingMethod, ReportingMethod::class);
+        return new EndpointResourceResult(ReportingMethodConfigurationModel::class, $reportingMethod);
     }
 
     /**
@@ -93,13 +93,13 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     public function getAll(): EndpointCollectionResult
     {
         // TODO:: Check data group permission
-        $nationalityParamHolder = new NationalitySearchFilterParams();
-        $this->setSortingAndPaginationParams($nationalityParamHolder);
-        $nationalities = $this->getNationalityService()->getNationalityList($nationalityParamHolder);
-        $count = $this->getNationalityService()->getNationalityCount($nationalityParamHolder);
+        $reportingMethodParamHolder = new ReportingMethodSearchFilterParams();
+        $this->setSortingAndPaginationParams($reportingMethodParamHolder);
+        $reportingMethods = $this->getReportingMethodService()->getReportingMethodList($reportingMethodParamHolder);
+        $count = $this->getReportingMethodService()->getReportingMethodCount($reportingMethodParamHolder);
         return new EndpointCollectionResult(
-            NationalityModel::class,
-            $nationalities,
+            ReportingMethodConfigurationModel::class,
+            $reportingMethods,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
     }
@@ -110,7 +110,7 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getSortingAndPaginationParamsRules(NationalitySearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules(ReportingMethodSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -121,27 +121,27 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     public function create(): EndpointResourceResult
     {
         // TODO:: Check data group permission
-        $nationality = $this->saveNationality();
-        return new EndpointResourceResult(NationalityModel::class, $nationality);
+        $reportingMethod = $this->saveReportingMethod();
+        return new EndpointResourceResult(ReportingMethodConfigurationModel::class, $reportingMethod);
     }
 
     /**
-     * @return Nationality
+     * @return ReportingMethod
      * @throws DaoException
      * @throws RecordNotFoundException
      */
-    public function saveNationality(): Nationality
+    public function saveReportingMethod(): ReportingMethod
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if ($id) {
-            $nationality = $this->getNationalityService()->getNationalityById($id);
-            $this->throwRecordNotFoundExceptionIfNotExist($nationality, Nationality::class);
+            $reportingMethod = $this->getReportingMethodService()->getReportingMethodById($id);
+            $this->throwRecordNotFoundExceptionIfNotExist($reportingMethod, ReportingMethod::class);
         } else {
-            $nationality = new Nationality();
+            $reportingMethod = new ReportingMethod();
         }
-        $nationality->setName($name);
-        return $this->getNationalityService()->saveNationality($nationality);
+        $reportingMethod->setName($name);
+        return $this->getReportingMethodService()->saveReportingMethod($reportingMethod);
     }
 
     /**
@@ -165,8 +165,8 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         // TODO:: Check data group permission
-        $nationalities = $this->saveNationality();
-        return new EndpointResourceResult(NationalityModel::class, $nationalities);
+        $reportingMethod = $this->saveReportingMethod();
+        return new EndpointResourceResult(ReportingMethodConfigurationModel::class, $reportingMethod);
     }
 
     /**
@@ -188,7 +188,7 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     /**
      * @return ParamRuleCollection
      */
-    public function getValidationRuleForSaveNationality(): ParamRuleCollection
+    public function getValidationRuleForSaveReportingMethod(): ParamRuleCollection
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID),
@@ -207,7 +207,7 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     {
         // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getNationalityService()->deleteNationalities($ids);
+        $this->getReportingMethodService()->deleteReportingMethods($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
