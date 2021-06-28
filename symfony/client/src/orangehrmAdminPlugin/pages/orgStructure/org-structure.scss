@@ -26,7 +26,7 @@
     align-items: center;
   }
 
-  & .oxd-text::after {
+  & .oxd-text.--parent::after {
     content: '';
     border-left: 0.15rem solid $oxd-primary-one-color;
     height: 2rem;
@@ -35,7 +35,7 @@
     left: 0;
   }
 
-  & .oxd-text::before {
+  & .oxd-text.--parent::before {
     content: '';
     border-top: 0.15rem solid $oxd-primary-one-color;
     width: 1rem;

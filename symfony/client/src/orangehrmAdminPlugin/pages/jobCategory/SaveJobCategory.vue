@@ -92,7 +92,7 @@ export default {
           name: this.category.name,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();

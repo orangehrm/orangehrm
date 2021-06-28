@@ -145,7 +145,7 @@ export default {
           ...this.contact,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.contact = {...emergencyContactModel};

@@ -89,7 +89,7 @@ export default {
           name: this.license.name,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.license.name = '';
