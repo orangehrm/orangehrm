@@ -19,7 +19,11 @@
  -->
 
 <template>
-  <edit-employee-layout :employee-id="empNumber" screen="job">
+  <edit-employee-layout
+    :employee-id="empNumber"
+    screen="job"
+    :allowed-file-types="allowedFileTypes"
+  >
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-text tag="h6" class="orangehrm-main-title">Job Details</oxd-text>
       <oxd-divider />
@@ -181,6 +185,13 @@ import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayo
 import JobSpecDownload from '@/orangehrmPimPlugin/components/JobSpecDownload';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
 import TerminateModal from '@/orangehrmPimPlugin/components/TerminateModal';
+import {
+  required,
+  maxFileSize,
+  validFileTypes,
+  validDateFormat,
+  endDateShouldBeAfterStartDate,
+} from '@orangehrm/core/util/validation/rules';
 
 const jobDetailsModel = {
   joinedDate: '',
@@ -238,6 +249,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    allowedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    maxFileSize: {
+      type: Number,
+      required: true,
+    },
   },
 
   setup(props) {
@@ -260,20 +279,21 @@ export default {
       termination: null,
       showTerminateModal: false,
       rules: {
-        startDate: [],
-        endDate: [],
+        startDate: [validDateFormat()],
+        endDate: [
+          validDateFormat(),
+          endDateShouldBeAfterStartDate(() => this.contract.startDate),
+        ],
         contractAttachment: [
           v => {
             if (this.contract.method == 'replaceCurrent') {
-              return !!v || 'Required';
+              return required(v);
             } else {
               return true;
             }
           },
-          v =>
-            v === null ||
-            (v && v.size && v.size <= 1024 * 1024) ||
-            'Attachment size exceeded',
+          validFileTypes(this.allowedFileTypes),
+          maxFileSize(this.maxFileSize),
         ],
       },
     };

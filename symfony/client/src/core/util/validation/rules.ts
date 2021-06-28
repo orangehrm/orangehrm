@@ -52,7 +52,7 @@ export const shouldNotExceedCharLength = function(charLength: number) {
   };
 };
 
-export const validDateFormat = function(dateFormat: string) {
+export const validDateFormat = function(dateFormat = 'yyyy-MM-dd') {
   return function(value: string): boolean | string {
     if (!value) return true;
     const parsed = parseDate(value, dateFormat);
@@ -91,15 +91,37 @@ export const beforeDate = function(
 };
 
 export const afterDate = function(
-  dateFormat: string,
+  dateFormat = 'yyyy-MM-dd',
   date1: string,
   date2: string,
 ) {
-  // Skip assersion on unset values
+  // Skip assertion on unset values
   if (!date1 || !date2) {
     return true;
   }
   return isAfter(date1, date2, dateFormat);
+};
+
+/**
+ * @param {string} startDate
+ * @param {string|undefined} message
+ * @param {string} dateFormat
+ */
+export const endDateShouldBeAfterStartDate = (
+  startDate: string | Function,
+  message?: string,
+  dateFormat = 'yyyy-MM-dd',
+) => {
+  return (value: string): boolean | string => {
+    const resolvedStartDate =
+      typeof startDate === 'function' ? startDate() : startDate;
+    return (
+      afterDate(dateFormat, value, resolvedStartDate) ||
+      (typeof message === 'string'
+        ? message
+        : 'End date should be after start date')
+    );
+  };
 };
 
 /**

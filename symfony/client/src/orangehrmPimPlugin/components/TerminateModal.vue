@@ -123,7 +123,7 @@ export default {
       termination: {...terminationModel},
       rules: {
         terminationReasonId: [required],
-        date: [required, validDateFormat('yyyy-MM-dd')],
+        date: [required, validDateFormat()],
         note: [shouldNotExceedCharLength(250)],
       },
     };

@@ -102,7 +102,7 @@ import {
   required,
   shouldNotExceedCharLength,
   validDateFormat,
-  afterDate,
+  endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
 
 const workExpModel = {
@@ -132,15 +132,13 @@ export default {
       rules: {
         company: [required, shouldNotExceedCharLength(100)],
         jobTitle: [required, shouldNotExceedCharLength(100)],
-        fromDate: [validDateFormat('yyyy-MM-dd')],
+        fromDate: [validDateFormat()],
         toDate: [
-          validDateFormat('yyyy-MM-dd'),
-          value => {
-            return (
-              afterDate('yyyy-MM-dd', value, this.workExperience.fromDate) ||
-              'To date should be after From date'
-            );
-          },
+          validDateFormat(),
+          endDateShouldBeAfterStartDate(
+            this.workExperience.fromDate,
+            'To date should be after From date',
+          ),
         ],
         comment: [shouldNotExceedCharLength(200)],
       },
