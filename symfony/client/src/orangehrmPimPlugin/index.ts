@@ -26,9 +26,9 @@ import EmployeeProfilePicture from './pages/employee/EmployeeProfilePicture.vue'
 import EmployeeSalary from './pages/employee/EmployeeSalary.vue';
 import EmployeeJob from './pages/employee/EmployeeJob.vue';
 import EmployeeQualifications from './pages/employee/EmployeeQualifications.vue';
-import TerminationReason from './pages/TerminationReason/TerminationReason.vue';
-import EditTerminationReason from './pages/TerminationReason/EditTerminationReason.vue';
-import SaveTerminationReason from './pages/TerminationReason/SaveTerminationReason.vue';
+import TerminationReason from './pages/terminationReason/TerminationReason.vue';
+import EditTerminationReason from './pages/terminationReason/EditTerminationReason.vue';
+import SaveTerminationReason from './pages/terminationReason/SaveTerminationReason.vue';
 
 export default {
   'employee-save': SaveEmployee,
