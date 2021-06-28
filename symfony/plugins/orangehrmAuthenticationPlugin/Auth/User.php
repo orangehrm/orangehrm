@@ -41,15 +41,8 @@ class User
      */
     protected static ?User $instance = null;
 
-    /**
-     * @var Session
-     */
-    protected $session = null;
-
     private function __construct()
     {
-        /** @var Session $session */
-        $this->session = $this->getContainer()->get(Services::SESSION);
     }
 
     /**
@@ -68,7 +61,7 @@ class User
      */
     protected function getSession(): Session
     {
-        return $this->session;
+        return $this->getContainer()->get(Services::SESSION);
     }
 
     /**

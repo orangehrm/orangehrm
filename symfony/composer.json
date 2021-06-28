@@ -65,6 +65,7 @@
         "psr-4": {
             "OrangeHRM\\Tests\\": "./test/phpunit",
             "OrangeHRM\\Tests\\Admin\\": "./plugins/orangehrmAdminPlugin/test",
+            "OrangeHRM\\Tests\\Authentication\\": "./plugins/orangehrmAuthenticationPlugin/test",
             "OrangeHRM\\Tests\\Core\\": "./plugins/orangehrmCorePlugin/test",
             "OrangeHRM\\Tests\\Pim\\": "./plugins/orangehrmPimPlugin/test"
         }

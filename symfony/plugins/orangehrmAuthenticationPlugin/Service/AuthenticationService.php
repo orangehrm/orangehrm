@@ -54,7 +54,7 @@ class AuthenticationService
         if (!$user instanceof User) {
             return false;
         } else {
-            if ($user->getIsAdmin() == 'No' && is_null($user->getEmpNumber())) {
+            if (!$user->getDecorator()->isAdmin() && is_null($user->getEmpNumber())) {
                 throw AuthenticationException::employeeNotAssigned();
             } elseif ($user->getEmployee() instanceof Employee &&
                 !is_null($user->getEmployee()->getEmployeeTerminationRecord())
@@ -103,14 +103,5 @@ class AuthenticationService
     public function getLoggedInUserId(): ?int
     {
         return $this->getAuthUser()->getUserId();
-    }
-
-    /**
-     * @return User|null
-     * @throws ServiceException
-     */
-    public function getLoggedInUser(): ?User
-    {
-        return $this->getSystemUserService()->getSystemUser($this->getLoggedInUserId());
     }
 }
