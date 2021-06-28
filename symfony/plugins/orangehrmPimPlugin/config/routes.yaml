@@ -271,6 +271,20 @@ apiv2_pim_employees_license:
     empNumber: '\d+'
     id: '\d+'
 
+apiv2_pim_termination_reason:
+  path: /api/v2/pim/termination-reasons/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI
+
+apiv2_pim_termination_reasons:
+  path: /api/v2/pim/termination-reasons
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI
+
 ##########################
 #        Files
 ##########################
@@ -347,4 +361,19 @@ pim_employee_job:
 pim_employee_qualifications:
   path: /pim/viewQualifications/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeQualificationsController::handle
+  methods: [ GET ]
+
+view_termination_reason:
+  path: /pim/viewTerminationReasons
+  controller: OrangeHRM\Pim\Controller\TerminationReasonController::handle
+  methods: [ GET ]
+
+save_termination_reason:
+  path: /pim/saveTerminationReasons
+  controller: OrangeHRM\Pim\Controller\SaveTerminationReasonController::handle
+  methods: [ GET ]
+
+edit_termination_reason:
+  path: /pim/saveTerminationReasons/{id}
+  controller: OrangeHRM\Pim\Controller\SaveTerminationReasonController::handle
   methods: [ GET ]
