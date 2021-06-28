@@ -79,21 +79,27 @@ export const digitsOnly = function(value: string): boolean | string {
 };
 
 export const beforeDate = function(
-  dateFormat: string,
   date1: string,
   date2: string,
+  dateFormat = 'yyyy-MM-dd',
 ) {
-  // Skip assersion on unset values
+  // Skip assertion on unset values
   if (!date1 || !date2) {
     return true;
   }
   return isBefore(date1, date2, dateFormat);
 };
 
+/**
+ * Check whether date1 is after date2
+ * @param {string} date1
+ * @param {string} date2
+ * @param {string} dateFormat
+ */
 export const afterDate = function(
-  dateFormat = 'yyyy-MM-dd',
   date1: string,
   date2: string,
+  dateFormat = 'yyyy-MM-dd',
 ) {
   // Skip assertion on unset values
   if (!date1 || !date2) {
@@ -116,7 +122,7 @@ export const endDateShouldBeAfterStartDate = (
     const resolvedStartDate =
       typeof startDate === 'function' ? startDate() : startDate;
     return (
-      afterDate(dateFormat, value, resolvedStartDate) ||
+      afterDate(value, resolvedStartDate, dateFormat) ||
       (typeof message === 'string'
         ? message
         : 'End date should be after start date')
