@@ -61,7 +61,6 @@
               v-model="license.expiryDate"
               :rules="rules.expiryDate"
               type="date"
-              :years="[2021, 2022, 2023]"
               placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
