@@ -22,7 +22,11 @@ This is the main advantage of cypress over selenium. 
  ```
 
 ## How to execute the cypress tests on cli
-`./node_modules/.bin/cypress run`
+```bash
+yarn test
+```
 
 ## How to execute the cypress on browser 
-`./node_modules/.bin/cypress open`
+```bash
+yarn open
+```

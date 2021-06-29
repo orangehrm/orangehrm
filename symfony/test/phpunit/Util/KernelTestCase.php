@@ -43,7 +43,11 @@ abstract class KernelTestCase extends TestCase
      */
     protected function createKernel(): Framework
     {
-        $this->getContainer()->reset();
+        foreach ($this->getContainer()->getServiceIds() as $serviceId) {
+            $this->getContainer()->removeDefinition($serviceId);
+            $this->getContainer()->removeAlias($serviceId);
+        }
+
         return $this->getMockBuilder(Framework::class)
             ->onlyMethods(['handle'])
             ->setConstructorArgs(['test', true])

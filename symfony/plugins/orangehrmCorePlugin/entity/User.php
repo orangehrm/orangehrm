@@ -34,12 +34,6 @@ class User
 {
     use DecoratorTrait;
 
-    public const ADMIN_USER_ROLE_ID = 1;
-    public const ENABLED = 1;
-    public const DISABLED = 0;
-    public const DELETED = 1;
-    public const UNDELETED = 0;
-
     /**
      * @var int
      *
@@ -82,35 +76,35 @@ class User
      *
      * @ORM\Column(name="date_entered", type="datetime", length=25, nullable=true)
      */
-    private ?DateTime $dateEntered;
+    private ?DateTime $dateEntered = null;
 
     /**
      * @var DateTime|null
      *
      * @ORM\Column(name="date_modified", type="datetime", length=25, nullable=true)
      */
-    private ?DateTime $dateModified;
+    private ?DateTime $dateModified = null;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="modified_user_id", type="integer", nullable=true)
      */
-    private ?int $modifiedUserId;
+    private ?int $modifiedUserId = null;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="created_by", type="integer", nullable=true)
      */
-    private ?int $createdBy;
+    private ?int $createdBy = null;
 
     /**
      * @var Employee|null
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="users")
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
-    private ?Employee $employee;
+    private ?Employee $employee = null;
 
     /**
      * @var UserRole
@@ -308,61 +302,5 @@ class User
     public function setUserRole(UserRole $userRole): void
     {
         $this->userRole = $userRole;
-    }
-
-    /**
-     * @return string
-     * @since 4.x
-     * @deprecated
-     */
-    public function getTextStatus()
-    {
-        if ($this->getStatus()) {
-            return 'Enabled';
-        } else {
-            return 'Disabled';
-        }
-    }
-
-    /**
-     * @return string
-     * @since 4.x
-     * @deprecated
-     */
-    public function getIsAdmin()
-    {
-        if ($this->getUserRole()->getId() == User::ADMIN_USER_ROLE_ID) {
-            return 'Yes';
-        } else {
-            return 'No';
-        }
-    }
-
-    /**
-     * @return string|null
-     * @since 4.x
-     * @deprecated
-     */
-    public function getUsergId()
-    {
-        if ($this->getUserRole()->getId() == User::ADMIN_USER_ROLE_ID) {
-            return 'USG001';
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * @return string|null
-     * @since 4.x
-     * @deprecated
-     */
-    public function getName()
-    {
-        if ($this->getEmployee()->getFirstName() != '') {
-            return $this->getEmployee()->getFirstName();
-        } else {
-            return $this->getUserRole()->getName();
-        }
     }
 }

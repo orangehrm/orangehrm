@@ -108,7 +108,7 @@ import {
   shouldNotExceedCharLength,
   digitsOnly,
   validDateFormat,
-  afterDate,
+  endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
 
 const educationModel = {
@@ -146,15 +146,10 @@ export default {
         major: [shouldNotExceedCharLength(100)],
         score: [shouldNotExceedCharLength(25)],
         year: [shouldNotExceedCharLength(4), digitsOnly],
-        startDate: [validDateFormat('yyyy-MM-dd')],
+        startDate: [validDateFormat()],
         endDate: [
-          validDateFormat('yyyy-MM-dd'),
-          value => {
-            return (
-              afterDate('yyyy-MM-dd', value, this.education.startDate) ||
-              'End date should be after start date'
-            );
-          },
+          validDateFormat(),
+          endDateShouldBeAfterStartDate(() => this.education.startDate),
         ],
       },
     };

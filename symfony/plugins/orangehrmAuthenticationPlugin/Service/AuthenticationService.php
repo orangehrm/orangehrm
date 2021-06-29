@@ -21,7 +21,7 @@ namespace OrangeHRM\Authentication\Service;
 
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dto\UserCredential;
-use OrangeHRM\Authentication\Exception\AuthenticationServiceException;
+use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
@@ -47,23 +47,21 @@ class AuthenticationService
      * @param User|null $user
      * @param array $additionalData
      * @return bool
-     * @throws AuthenticationServiceException
+     * @throws AuthenticationException
      */
     public function setCredentialsForUser(?User $user, array $additionalData): bool
     {
         if (!$user instanceof User) {
             return false;
         } else {
-            if ($user->getIsAdmin() == 'No' &&
-                !$user->getEmployee() instanceof Employee &&
-                $user->getEmployee()->getEmpNumber() == '') {
-                throw new AuthenticationServiceException('Employee not assigned');
-            } elseif ($user->getEmployee() instanceof Employee && !is_null(
-                    $user->getEmployee()->getEmployeeTerminationRecord()
-                )) {
-                throw new AuthenticationServiceException('Employee is terminated');
-            } elseif ($user->getStatus() == 0) {
-                throw new AuthenticationServiceException('Account disabled');
+            if (!$user->getDecorator()->isAdmin() && is_null($user->getEmpNumber())) {
+                throw AuthenticationException::employeeNotAssigned();
+            } elseif ($user->getEmployee() instanceof Employee &&
+                !is_null($user->getEmployee()->getEmployeeTerminationRecord())
+            ) {
+                throw AuthenticationException::employeeTerminated();
+            } elseif (!$user->getStatus()) {
+                throw AuthenticationException::userDisabled();
             }
 
             $this->setUserAttributes($user);
@@ -76,7 +74,7 @@ class AuthenticationService
      * @param UserCredential $credentials
      * @param $additionalData
      * @return bool
-     * @throws AuthenticationServiceException
+     * @throws AuthenticationException
      * @throws DaoException
      * @throws ServiceException
      */
@@ -105,14 +103,5 @@ class AuthenticationService
     public function getLoggedInUserId(): ?int
     {
         return $this->getAuthUser()->getUserId();
-    }
-
-    /**
-     * @return User|null
-     * @throws ServiceException
-     */
-    public function getLoggedInUser(): ?User
-    {
-        return $this->getSystemUserService()->getSystemUser($this->getLoggedInUserId());
     }
 }
