@@ -61,7 +61,7 @@
               v-model="license.expiryDate"
               :rules="rules.expiryDate"
               type="date"
-              :years="testing"
+              :years="[2021, 2022, 2023]"
               placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
@@ -89,16 +89,6 @@ import {
   shouldNotExceedCharLength,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
-
-const testing = ["2021", "2022", "2023"];
-
-function futureYears(year, yearsToAdd) {
-  const numberOfYears = new Array(yearsToAdd);
-  for (let i = 0; i < yearsToAdd; i++) {
-    numberOfYears[i] = year + i + 1;
-  }
-  return numberOfYears;
-}
 
 const licenseModel = {
   name: '',

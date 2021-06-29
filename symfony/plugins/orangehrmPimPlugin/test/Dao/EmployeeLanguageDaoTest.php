@@ -68,7 +68,7 @@ class EmployeeLanguageDaoTest extends TestCase
         );
         $this->assertEquals('Tyler', $resultEmpLanguage->getEmployee()->getFirstName());
         $this->assertEquals('English', $resultEmpLanguage->getLanguage()->getName());
-        $this->assertEquals('Reading', $resultEmpLanguage->getDecorator()->getFluency());
+        $this->assertEquals('Writing', $resultEmpLanguage->getDecorator()->getFluency());
         $this->assertEquals('Poor', $resultEmpLanguage->getDecorator()->getCompetency());
         $this->assertEquals('Test', $resultEmpLanguage->getComment());
     }
@@ -78,7 +78,7 @@ class EmployeeLanguageDaoTest extends TestCase
         $resultEmpLanguage = $this->employeeLanguageDao->getEmployeeLanguage(1, 2, 1);
         $this->assertEquals('Kayla', $resultEmpLanguage->getEmployee()->getFirstName());
         $this->assertEquals('Spanish', $resultEmpLanguage->getLanguage()->getName());
-        $this->assertEquals('Reading', $resultEmpLanguage->getDecorator()->getFluency());
+        $this->assertEquals('Writing', $resultEmpLanguage->getDecorator()->getFluency());
         $this->assertEquals('Basic', $resultEmpLanguage->getDecorator()->getCompetency());
         $this->assertEquals('comment2', $resultEmpLanguage->getComment());
 

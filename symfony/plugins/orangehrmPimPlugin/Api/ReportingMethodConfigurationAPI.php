@@ -20,10 +20,6 @@
 namespace OrangeHRM\Pim\Api;
 
 use Exception;
-use OrangeHRM\Entity\ReportingMethod;
-use OrangeHRM\Pim\Api\Model\ReportingMethodConfigurationModel;
-use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
-use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -38,6 +34,10 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\ReportingMethod;
+use OrangeHRM\Pim\Api\Model\ReportingMethodConfigurationModel;
+use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
+use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
 class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
 {
@@ -81,7 +81,7 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID,
-            new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE)
             ),
         );
     }
@@ -176,7 +176,7 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_ID,
-            new Rule(Rules::POSITIVE)
+                new Rule(Rules::POSITIVE)
             ),
             new ParamRule(self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
@@ -191,7 +191,9 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForSaveReportingMethod(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
             new ParamRule(self::PARAMETER_NAME,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),

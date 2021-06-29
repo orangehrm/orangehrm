@@ -117,7 +117,7 @@ class EmployeeLanguageAPITest extends EndpointTestCase
                 ],
                 "fluency" => [
                     'id' => 3,
-                    'name' => 'Writing',
+                    'name' => 'Reading',
                 ],
                 "competency" => [
                     'id' => 2,
@@ -259,7 +259,7 @@ class EmployeeLanguageAPITest extends EndpointTestCase
                     ],
                     "fluency" => [
                         'id' => 3,
-                        'name' => 'Writing',
+                        'name' => 'Reading',
                     ],
                     "competency" => [
                         'id' => 2,
@@ -393,7 +393,7 @@ class EmployeeLanguageAPITest extends EndpointTestCase
                 ],
                 "fluency" => [
                     'id' => 1,
-                    'name' => 'Reading',
+                    'name' => 'Writing',
                 ],
                 "competency" => [
                     'id' => 1,
