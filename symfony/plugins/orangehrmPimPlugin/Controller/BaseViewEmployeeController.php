@@ -61,6 +61,7 @@ abstract class BaseViewEmployeeController extends AbstractVueController
             new Prop('tabs', Prop::TYPE_ARRAY, $menuTabs)
         );
         $this->getComponent()->addProp(new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes()));
+        $this->getComponent()->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
         return parent::render($request);
     }
 }

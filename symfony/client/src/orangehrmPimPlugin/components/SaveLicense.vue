@@ -88,7 +88,7 @@ import {
   required,
   validDateFormat,
   shouldNotExceedCharLength,
-  afterDate,
+  endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
 
 const licenseModel = {
@@ -125,15 +125,13 @@ export default {
       rules: {
         licenseId: [required],
         licenseNo: [shouldNotExceedCharLength(50)],
-        issuedDate: [validDateFormat('yyyy-MM-dd')],
+        issuedDate: [validDateFormat()],
         expiryDate: [
-          validDateFormat('yyyy-MM-dd'),
-          value => {
-            return (
-              afterDate('yyyy-MM-dd', value, this.license.issuedDate) ||
-              'Expiry date should be after issued date'
-            );
-          },
+          validDateFormat(),
+          endDateShouldBeAfterStartDate(
+            () => this.license.issuedDate,
+            'Expiry date should be after issued date',
+          ),
         ],
       },
     };

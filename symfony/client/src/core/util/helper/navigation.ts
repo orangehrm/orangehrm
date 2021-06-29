@@ -30,3 +30,7 @@ export const navigate = function(
 ): void {
   window.location.href = urlFor(path, params, query);
 };
+
+export const reloadPage = function(): void {
+  window.location.reload();
+};

@@ -21,6 +21,7 @@ namespace OrangeHRM\Authentication\Controller;
 
 use OrangeHRM\Authentication\Auth\User as AuthUser;
 use OrangeHRM\Authentication\Dto\UserCredential;
+use OrangeHRM\Authentication\Exception\AuthenticationException;
 use OrangeHRM\Authentication\Service\AuthenticationService;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
 use OrangeHRM\Core\Controller\AbstractController;
@@ -74,25 +75,30 @@ class ValidateController extends AbstractController implements PublicControllerI
 
     public function handle(Request $request): RedirectResponse
     {
-        /** @var UrlGenerator $urlGenerator */
-        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
-
         $username = $request->get(self::PARAMETER_USERNAME, '');
         $password = $request->get(self::PARAMETER_PASSWORD, '');
-
         $credentials = new UserCredential($username, $password);
-        $success = $this->getAuthenticationService()->setCredentials($credentials, []);
-        $this->getAuthUser()->setIsAuthenticated($success);
-        $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
-        $logoutUrl = $urlGenerator->generate('auth_logout', [], UrlGenerator::ABSOLUTE_URL);
 
-        if (!$success) {
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
+        $loginUrl = $urlGenerator->generate('auth_login', [], UrlGenerator::ABSOLUTE_URL);
+
+        try {
+            $success = $this->getAuthenticationService()->setCredentials($credentials, []);
+            if (!$success) {
+                throw AuthenticationException::invalidCredentials();
+            }
+            $this->getAuthUser()->setIsAuthenticated($success);
+        } catch (AuthenticationException $e) {
+            $this->getAuthUser()->addFlash(AuthUser::FLASH_LOGIN_ERROR, $e->normalize());
             return new RedirectResponse($loginUrl);
         }
 
         if ($this->getAuthUser()->hasAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL)) {
             $redirectUrl = $this->getAuthUser()->getAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
             $this->getAuthUser()->removeAttribute(AuthUser::SESSION_TIMEOUT_REDIRECT_URL);
+            $logoutUrl = $urlGenerator->generate('auth_logout', [], UrlGenerator::ABSOLUTE_URL);
+
             if ($redirectUrl !== $loginUrl || $redirectUrl !== $logoutUrl) {
                 return new RedirectResponse($redirectUrl);
             }

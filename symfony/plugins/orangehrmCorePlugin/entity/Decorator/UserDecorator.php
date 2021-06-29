@@ -68,4 +68,12 @@ class UserDecorator
         $userRole = $this->getReference(UserRole::class, $id);
         $this->getUser()->setUserRole($userRole);
     }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->getUser()->getUserRole()->getName() === 'Admin';
+    }
 }

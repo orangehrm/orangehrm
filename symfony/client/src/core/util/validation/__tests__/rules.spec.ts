@@ -16,9 +16,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {required} from '../rules';
+import {required, afterDate, endDateShouldBeAfterStartDate} from '../rules';
 
-describe('core/util/validation/rules', () => {
+describe('core/util/validation/rules::required', () => {
   test('required::empty string', () => {
     const result = required('');
     expect(result).toBe('Required');
@@ -47,5 +47,110 @@ describe('core/util/validation/rules', () => {
   test('required::array', () => {
     const result = required(['test']);
     expect(result).toBeTruthy();
+  });
+
+  test('required::object', () => {
+    // @ts-expect-error
+    let result = required({test: 'Object'});
+    expect(result).toBeTruthy();
+
+    // @ts-expect-error
+    result = required(null);
+    expect(result).toBe('Required');
+  });
+
+  test('required::unsupported type', () => {
+    // @ts-expect-error
+    const result = required(true);
+    expect(result).toBe('Required');
+  });
+});
+
+describe('core/util/validation/rules::afterDate', () => {
+  test('afterDate::empty string', () => {
+    let result = afterDate('', '');
+    expect(result).toBeTruthy();
+
+    result = afterDate('2021-06-28', '');
+    expect(result).toBeTruthy();
+  });
+
+  test('afterDate::valid', () => {
+    const result = afterDate('2021-06-29', '2021-06-28');
+    expect(result).toBeTruthy();
+  });
+
+  test('afterDate::invalid', () => {
+    const result = afterDate('2021-06-28', '2021-06-29');
+    expect(result).toBeFalsy();
+  });
+
+  test('afterDate::equal', () => {
+    const result = afterDate('2021-06-28', '2021-06-28');
+    expect(result).toBeFalsy();
+  });
+
+  test('afterDate::invalid date format', () => {
+    const result = afterDate('2021-06-29', '2021-06-28', 'yyyy/MM/dd');
+    expect(result).toBeFalsy();
+  });
+
+  test('afterDate::valid date format', () => {
+    const result = afterDate('2021/06/29', '2021/06/28', 'yyyy/MM/dd');
+    expect(result).toBeTruthy();
+  });
+});
+
+describe('core/util/validation/rules::endDateShouldBeAfterStartDate', () => {
+  test('endDateShouldBeAfterStartDate::empty string', () => {
+    let result = endDateShouldBeAfterStartDate('')('');
+    expect(result).toBeTruthy();
+
+    result = endDateShouldBeAfterStartDate('2021-06-28')('');
+    expect(result).toBeTruthy();
+  });
+
+  test('endDateShouldBeAfterStartDate::valid', () => {
+    const result = endDateShouldBeAfterStartDate('2021-06-28')('2021-06-29');
+    expect(result).toBeTruthy();
+  });
+
+  test('endDateShouldBeAfterStartDate::invalid case', () => {
+    const result = endDateShouldBeAfterStartDate('2021-06-29')('2021-06-28');
+    expect(result).toBe('End date should be after start date');
+  });
+
+  test('endDateShouldBeAfterStartDate::valid (start date as function)', () => {
+    const result = endDateShouldBeAfterStartDate(() => '2021-06-28')(
+      '2021-06-29',
+    );
+    expect(result).toBeTruthy();
+  });
+
+  test('endDateShouldBeAfterStartDate::invalid case (custom message)', () => {
+    const result = endDateShouldBeAfterStartDate(
+      '2021-06-29',
+      'To date should be after From date',
+    )('2021-06-28');
+    expect(result).toBe('To date should be after From date');
+  });
+
+  test('endDateShouldBeAfterStartDate::invalid date format', () => {
+    const result = endDateShouldBeAfterStartDate(
+      '2021-06-29',
+      undefined,
+      'yyyy/MM/dd',
+    )('2021-06-28');
+    expect(result).toBe('End date should be after start date');
+  });
+
+  test('endDateShouldBeAfterStartDate::valid date format', () => {
+    const result = endDateShouldBeAfterStartDate(
+      '2021/06/29',
+      // @ts-expect-error
+      null,
+      'yyyy/MM/dd',
+    )('2021/06/28');
+    expect(result).toBe('End date should be after start date');
   });
 });

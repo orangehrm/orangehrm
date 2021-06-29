@@ -45,10 +45,12 @@ class CorePluginConfiguration implements PluginConfigurationInterface
     public function initialize(Request $request): void
     {
         $isSecure = $request->isSecure();
+        $path = $request->getBasePath();
         $options = [
             'name' => $isSecure ? 'orangehrm' : '_orangehrm',
             'cookie_secure' => $isSecure,
             'cookie_httponly' => true,
+            'cookie_path' => $path,
         ];
         $sessionStorage = new NativeSessionStorage($options, new NativeFileSessionHandler());
         $session = new Session($sessionStorage);
