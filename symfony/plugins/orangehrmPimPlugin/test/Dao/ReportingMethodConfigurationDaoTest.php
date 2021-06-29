@@ -16,115 +16,124 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
+
+namespace OrangeHRM\Tests\Pim\Dao;
+
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\ReportingMethod;
+use OrangeHRM\Pim\Dao\ReportingMethodConfigurationDao;
+use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group Admin
+ * @group Pim
  */
-class ReportingMethodConfigurationDaoTest extends PHPUnit_Framework_TestCase {
+class ReportingMethodConfigurationDaoTest extends TestCase
+{
 
-	private $reportingMethodConfigurationDao;
-	protected $fixture;
+    private ReportingMethodConfigurationDao $reportingMethodConfigurationDao;
+    protected string $fixture;
 
-	/**
-	 * Set up method
-	 */
-	protected function setUp() {
+    /**
+     * Set up method
+     */
+    protected function setUp(): void
+    {
+        $this->reportingMethodConfigurationDao = new ReportingMethodConfigurationDao();
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPimPlugin/test/fixtures/ReportingMethodConfigurationDao.yml';
+        TestDataService::populate($this->fixture);
+    }
 
-		$this->reportingMethodConfigurationDao = new ReportingMethodConfigurationDao();
-		$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/ReportingMethodConfigurationDao.yml';
-		TestDataService::populate($this->fixture);
-	}
-
-    public function testAddReportingMethod() {
-        
+    public function testAddReportingMethod(): void
+    {
         $reportingMethod = new ReportingMethod();
         $reportingMethod->setName('Finance');
-        
+
         $this->reportingMethodConfigurationDao->saveReportingMethod($reportingMethod);
-        
-        $savedReportingMethod = TestDataService::fetchLastInsertedRecord('ReportingMethod', 'id');
-        
+
+        $savedReportingMethod = TestDataService::fetchLastInsertedRecord('ReportingMethod', 'a.id');
+
         $this->assertTrue($savedReportingMethod instanceof ReportingMethod);
         $this->assertEquals('Finance', $savedReportingMethod->getName());
-        
     }
-    
-    public function testEditReportingMethod() {
-        
+
+    public function testEditReportingMethod(): void
+    {
         $reportingMethod = TestDataService::fetchObject('ReportingMethod', 3);
         $reportingMethod->setName('Finance HR');
-        
+
         $this->reportingMethodConfigurationDao->saveReportingMethod($reportingMethod);
-        
-        $savedReportingMethod = TestDataService::fetchLastInsertedRecord('ReportingMethod', 'id');
-        
+
+        $savedReportingMethod = TestDataService::fetchLastInsertedRecord('ReportingMethod', 'a.id');
+
         $this->assertTrue($savedReportingMethod instanceof ReportingMethod);
         $this->assertEquals('Finance HR', $savedReportingMethod->getName());
-        
     }
-    
-    public function testGetReportingMethodById() {
-        
-        $reportingMethod = $this->reportingMethodConfigurationDao->getReportingMethod(1);
-        
+
+    public function testGetReportingMethodById(): void
+    {
+        $reportingMethod = $this->reportingMethodConfigurationDao->getReportingMethodById(1);
+
         $this->assertTrue($reportingMethod instanceof ReportingMethod);
         $this->assertEquals('Indirect', $reportingMethod->getName());
-        
     }
-    
-    public function testGetReportingMethodList() {
-        
-        $reportingMethodList = $this->reportingMethodConfigurationDao->getReportingMethodList();
-        
-        foreach ($reportingMethodList as $reportingMethod) {
-            $this->assertTrue($reportingMethod instanceof ReportingMethod);
-        }
-        
-        $this->assertEquals(3, count($reportingMethodList));        
-        
-        /* Checking record order */
-        $this->assertEquals('Direct', $reportingMethodList[0]->getName());
-        $this->assertEquals('Indirect', $reportingMethodList[2]->getName());
-        
+
+    public function testGetReportingMethodList(): void
+    {
+        $reportingMethodFilterParams = new ReportingMethodSearchFilterParams();
+        $result = $this->reportingMethodConfigurationDao->getReportingMethodList($reportingMethodFilterParams);
+        $this->assertCount(3, $result);
+        $this->assertTrue($result[0] instanceof ReportingMethod);
     }
-    
-    public function testDeleteReportingMethods() {
-        
-        $result = $this->reportingMethodConfigurationDao->deleteReportingMethods(array(1, 2));
-        
+
+    public function testGetReportingMethodListWithLimit(): void
+    {
+        $reportingMethodFilterParams = new ReportingMethodSearchFilterParams();
+        $reportingMethodFilterParams->setLimit(2);
+
+        $result = $this->reportingMethodConfigurationDao->getReportingMethodList($reportingMethodFilterParams);
+        $this->assertCount(2, $result);
+    }
+
+    public function testGetReportingMethodCount(): void
+    {
+        $reportingMethodFilterParams = new ReportingMethodSearchFilterParams();
+
+        $result = $this->reportingMethodConfigurationDao->getReportingMethodCount($reportingMethodFilterParams);
+        $this->assertEquals(3, $result);
+    }
+
+    public function testDeleteReportingMethods(): void
+    {
+        $result = $this->reportingMethodConfigurationDao->deleteReportingMethods([1, 2]);
         $this->assertEquals(2, $result);
-        $this->assertEquals(1, count($this->reportingMethodConfigurationDao->getReportingMethodList()));       
-        
     }
-    
-    public function testDeleteWrongRecord() {
-        
-        $result = $this->reportingMethodConfigurationDao->deleteReportingMethods(array(4));
-        
+
+    public function testDeleteWrongRecord(): void
+    {
+        $result = $this->reportingMethodConfigurationDao->deleteReportingMethods([4]);
         $this->assertEquals(0, $result);
-        
     }
-    
-    public function testIsExistingReportingMethodName() {
-        
+
+    public function testIsExistingReportingMethodName(): void
+    {
         $this->assertTrue($this->reportingMethodConfigurationDao->isExistingReportingMethodName('Indirect'));
         $this->assertTrue($this->reportingMethodConfigurationDao->isExistingReportingMethodName('INDIRECT'));
         $this->assertTrue($this->reportingMethodConfigurationDao->isExistingReportingMethodName('indirect'));
         $this->assertTrue($this->reportingMethodConfigurationDao->isExistingReportingMethodName('  Indirect  '));
-        
     }
-    
-    public function testGetReportingMethodByName() {
-        
+
+    public function testGetReportingMethodByName(): void
+    {
         $object = $this->reportingMethodConfigurationDao->getReportingMethodByName('Indirect');
         $this->assertTrue($object instanceof ReportingMethod);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->reportingMethodConfigurationDao->getReportingMethodByName('INDIRECT');
         $this->assertTrue($object instanceof ReportingMethod);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->reportingMethodConfigurationDao->getReportingMethodByName('indirect');
         $this->assertTrue($object instanceof ReportingMethod);
         $this->assertEquals(1, $object->getId());
@@ -132,10 +141,8 @@ class ReportingMethodConfigurationDaoTest extends PHPUnit_Framework_TestCase {
         $object = $this->reportingMethodConfigurationDao->getReportingMethodByName('  Indirect  ');
         $this->assertTrue($object instanceof ReportingMethod);
         $this->assertEquals(1, $object->getId());
-        
+
         $object = $this->reportingMethodConfigurationDao->getReportingMethodByName('Supervisor');
-        $this->assertFalse($object);        
-        
-    }      
-    
+        $this->assertFalse($object instanceof ReportingMethod);
+    }
 }

@@ -17,59 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Pim\Dto;
 
-use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Core\Dto\FilterParams;
 
-/**
- * @ORM\Table(name="ohrm_emp_reporting_method")
- * @ORM\Entity
- */
-class ReportingMethod
+class ReportingMethodSearchFilterParams extends FilterParams
 {
-    /**
-     * @var int
-     * @ORM\Column(name="reporting_method_id", type="integer", length=7)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
+    public const ALLOWED_SORT_FIELDS = ['rm.name'];
 
-    /**
-     * @var string
-     * @ORM\Column(name="reporting_method_name", type="string", length=100, nullable=false)
-     */
-    private string $name;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function __construct()
     {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+        $this->setSortField('rm.name');
     }
 }

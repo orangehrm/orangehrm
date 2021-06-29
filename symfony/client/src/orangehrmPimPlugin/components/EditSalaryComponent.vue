@@ -149,6 +149,7 @@
       </oxd-form-row>
 
       <oxd-form-actions>
+        <required-text />
         <oxd-button
           type="button"
           displayType="ghost"

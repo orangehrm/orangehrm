@@ -128,8 +128,8 @@ export default {
         {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
         {name: 'relationship', title: 'Relationship', style: {flex: 1}},
         {name: 'homePhone', title: 'Home Telephone', style: {flex: 1}},
-        {name: 'officePhone', title: 'Work Telephone', style: {flex: 1}},
         {name: 'mobilePhone', title: 'Mobile', style: {flex: 1}},
+        {name: 'officePhone', title: 'Work Telephone', style: {flex: 1}},
         {
           name: 'actions',
           slot: 'action',

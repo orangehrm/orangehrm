@@ -17,59 +17,28 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Entity;
+namespace OrangeHRM\Tests\Pim\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\ReportingMethod;
+use OrangeHRM\Tests\Util\EntityTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
-/**
- * @ORM\Table(name="ohrm_emp_reporting_method")
- * @ORM\Entity
- */
-class ReportingMethod
+class ReportingMethodTest extends EntityTestCase
 {
-    /**
-     * @var int
-     * @ORM\Column(name="reporting_method_id", type="integer", length=7)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
-
-    /**
-     * @var string
-     * @ORM\Column(name="reporting_method_name", type="string", length=100, nullable=false)
-     */
-    private string $name;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    protected function setUp(): void
     {
-        return $this->id;
+        TestDataService::truncateSpecificTables([ReportingMethod::class]);
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
+    public function testReportingMethodEntity(): void
     {
-        $this->id = $id;
-    }
+        $reportingMethod = new ReportingMethod();
+        $reportingMethod->setName('Indirect');
+        $this->persist($reportingMethod);
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+        /** @var ReportingMethod $reportingMethod */
+        $reportingMethod = $this->getRepository(ReportingMethod::class)->find(1);
+        $this->assertEquals('Indirect', $reportingMethod->getName());
+        $this->assertEquals(1, $reportingMethod->getId());
     }
 }
