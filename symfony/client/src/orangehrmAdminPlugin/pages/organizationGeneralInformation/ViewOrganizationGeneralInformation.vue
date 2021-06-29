@@ -183,6 +183,7 @@
         <oxd-divider />
 
         <oxd-form-actions>
+          <required-text />
           <submit-button v-if="editable" />
         </oxd-form-actions>
       </oxd-form>
