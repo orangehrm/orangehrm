@@ -285,6 +285,20 @@ apiv2_pim_termination_reasons:
   defaults:
     _api: OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI
 
+apiv2_pim_reporting_method:
+  path: /api/v2/pim/reporting-methods/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI
+
+apiv2_pim_reporting_methods:
+  path: /api/v2/pim/reporting-methods
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI
+
 ##########################
 #        Files
 ##########################
@@ -376,4 +390,18 @@ save_termination_reason:
 edit_termination_reason:
   path: /pim/saveTerminationReasons/{id}
   controller: OrangeHRM\Pim\Controller\SaveTerminationReasonController::handle
+
+view_reporting_method:
+  path: /pim/viewReportingMethods
+  controller: OrangeHRM\Pim\Controller\ReportingMethodController::handle
+  methods: [ GET ]
+
+save_reporting_method:
+  path: /pim/saveReportingMethod
+  controller: OrangeHRM\Pim\Controller\SaveReportingMethodController::handle
+  methods: [ GET ]
+
+edit_reporting_method:
+  path: /pim/saveReportingMethod/{id}
+  controller: OrangeHRM\Pim\Controller\SaveReportingMethodController::handle
   methods: [ GET ]
