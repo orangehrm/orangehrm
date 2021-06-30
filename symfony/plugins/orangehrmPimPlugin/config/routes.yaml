@@ -377,6 +377,11 @@ pim_employee_qualifications:
   controller: OrangeHRM\Pim\Controller\EmployeeQualificationsController::handle
   methods: [ GET ]
 
+pim_employee_report_to:
+  path: /pim/viewReportToDetails/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeReportToController::handle
+  methods: [ GET ]
+
 view_termination_reason:
   path: /pim/viewTerminationReasons
   controller: OrangeHRM\Pim\Controller\TerminationReasonController::handle
