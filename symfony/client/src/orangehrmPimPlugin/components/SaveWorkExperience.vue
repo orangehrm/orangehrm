@@ -136,7 +136,7 @@ export default {
         toDate: [
           validDateFormat(),
           endDateShouldBeAfterStartDate(
-            this.workExperience.fromDate,
+            () => this.workExperience.fromDate,
             'To date should be after From date',
           ),
         ],
