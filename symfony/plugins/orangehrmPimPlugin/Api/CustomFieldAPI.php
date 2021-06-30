@@ -116,7 +116,6 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
         $customFields = $this->getCustomFieldService()->getCustomFieldDao()->searchCustomField(
             $customFieldSearchParams
         );
-        var_dump('kokokokokokkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
         return new EndpointCollectionResult(
             CustomFieldModel::class,
             $customFields,
