@@ -16,19 +16,17 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {futureYears} from '../future-years';
+import {YearRange} from '../year-range';
 
-describe('core/util/helper/futureYears', () => {
-
-  const value = new Array(120);
-  for (let i = 0; i < 120; i++) {
-    value[i] = 1971 + i;
+describe('core/util/helper/year-range', () => {
+  const currentTime = new Date();
+  const value = new Array(100);
+  for (let i = 0; i < 100; i++) {
+    value[i] = currentTime.getFullYear() - 50 + i;
   }
 
   test('all the years', () => {
-    const result = futureYears();
+    const result = YearRange();
     expect(result).toStrictEqual(value);
   });
-
-  
 });
