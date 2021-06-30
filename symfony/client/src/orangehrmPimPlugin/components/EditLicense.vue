@@ -89,7 +89,7 @@ import {
   shouldNotExceedCharLength,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
-import {futureYears} from '@orangehrm/core/util/validation/futureYears/futureYears';
+import {futureYears} from '@orangehrm/core/util/helper/future-years';
 
 const licenseModel = {
   name: '',

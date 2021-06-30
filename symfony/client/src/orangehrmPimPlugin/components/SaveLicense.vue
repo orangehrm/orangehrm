@@ -61,6 +61,7 @@
               v-model="license.expiryDate"
               :rules="rules.expiryDate"
               type="date"
+              :years="endYear"
               placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
@@ -90,6 +91,7 @@ import {
   shouldNotExceedCharLength,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
+import {futureYears} from '@orangehrm/core/util/helper/future-years';
 
 const licenseModel = {
   licenseId: [],
@@ -122,6 +124,7 @@ export default {
     return {
       isLoading: false,
       license: {...licenseModel},
+      endYear: [...futureYears()],
       rules: {
         licenseId: [required],
         licenseNo: [shouldNotExceedCharLength(50)],
