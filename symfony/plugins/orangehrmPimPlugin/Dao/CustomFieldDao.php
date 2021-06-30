@@ -20,12 +20,12 @@
 namespace OrangeHRM\Pim\Dao;
 
 use Exception;
+use InvalidArgumentException;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\CustomField;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\CustomFieldSearchFilterParams;
-use InvalidArgumentException;
 
 class CustomFieldDao extends BaseDao
 {

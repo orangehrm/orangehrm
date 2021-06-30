@@ -21,7 +21,6 @@ namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\CustomField;
-use OrangeHRM\Entity\Screen;
 
 class CustomFieldDecorator
 {

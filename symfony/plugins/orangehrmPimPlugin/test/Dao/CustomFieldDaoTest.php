@@ -44,7 +44,9 @@ class CustomFieldDaoTest extends TestCase
     protected function setUp(): void
     {
         $this->customFieldDao = new CustomFieldDao();
-        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPimPlugin/test/fixtures/CustomFieldConfigurationDao.yml';
+        $this->fixture = Config::get(
+                Config::PLUGINS_DIR
+            ) . '/orangehrmPimPlugin/test/fixtures/CustomFieldConfigurationDao.yml';
         TestDataService::populate($this->fixture);
     }
 

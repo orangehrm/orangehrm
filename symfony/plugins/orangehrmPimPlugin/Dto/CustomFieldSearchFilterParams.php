@@ -23,7 +23,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class CustomFieldSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['cf.name','cf.screen','cf.type'];
+    public const ALLOWED_SORT_FIELDS = ['cf.name', 'cf.screen', 'cf.type'];
 
     public function __construct()
     {
