@@ -183,24 +183,6 @@ export default {
         {id: 2, label: 'Disabled'},
       ],
       checkedItems: [],
-      order: [
-        {
-          id: 0,
-          default: 'desc',
-        },
-        {
-          id: 1,
-          default: '',
-        },
-        {
-          id: 2,
-          default: '',
-        },
-        {
-          id: 3,
-          default: '',
-        },
-      ],
     };
   },
 
