@@ -23,8 +23,9 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">Custom Fields</oxd-text>
-        <oxd-text tag="p">Remaining Number of Custom Fields: {{ remainingFields }}</oxd-text>
-        <div>
+        <oxd-text tag="p" v-if="remainingFields>0">Remaining Number of Custom Fields: {{ remainingFields }}</oxd-text>
+        <oxd-text tag="p" v-if="remainingFields<=0">All Customs Fields are in use</oxd-text>
+        <div v-if="remainingFields>0">
           <oxd-button
             label="Add"
             iconName="plus"

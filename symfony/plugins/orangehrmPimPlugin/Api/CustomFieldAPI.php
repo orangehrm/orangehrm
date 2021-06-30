@@ -146,6 +146,14 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
+        $customFieldSearchParams = new CustomFieldSearchFilterParams();
+        $this->setSortingAndPaginationParams($customFieldSearchParams);
+        $customFieldsCount = $this->getCustomFieldService()->getCustomFieldDao()->getSearchCustomFieldsCount(
+            $customFieldSearchParams
+        );
+        if ($customFieldsCount > 10) {
+            throw $this->getBadRequestException();
+        }
         $customField = new CustomField();
         $customField = $this->saveCustomField($customField);
         return new EndpointResourceResult(
