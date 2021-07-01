@@ -39,11 +39,13 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\TerminationReason;
+use phpDocumentor\Reflection\Types\Self_;
 
 class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
     public const PARAM_RULE_NAME_MAX_LENGTH = 100;
+    public const PARAMETER_ISINUSE = 'isInUse';
 
     /**
      * @var TerminationReasonConfigurationService|null
@@ -136,7 +138,9 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getTerminationReasonConfigurationService()->deleteTerminationReasons($ids);
-        return new EndpointResourceResult(ArrayModel::class, $ids);
+        $isinuse = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ISINUSE);
+        $this->getTerminationReasonConfigurationService()->isReasonInUse($isinuse);
+        return new EndpointResourceResult(ArrayModel::class, [$ids,$isinuse]);
     }
 
     /**
@@ -146,6 +150,8 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(self::PARAMETER_ISINUSE
+            ),
         );
     }
 
