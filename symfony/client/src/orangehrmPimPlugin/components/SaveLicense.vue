@@ -91,7 +91,7 @@ import {
   shouldNotExceedCharLength,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
-import {YearRange} from '@orangehrm/core/util/helper/year-range';
+import {yearRange} from '@orangehrm/core/util/helper/year-range';
 
 const licenseModel = {
   licenseId: [],
@@ -124,7 +124,7 @@ export default {
     return {
       isLoading: false,
       license: {...licenseModel},
-      yearArray: [...YearRange()],
+      yearArray: [...yearRange()],
       rules: {
         licenseId: [required],
         licenseNo: [shouldNotExceedCharLength(50)],

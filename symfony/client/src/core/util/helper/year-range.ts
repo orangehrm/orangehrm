@@ -16,11 +16,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-export const YearRange = function() {
-  const numberOfYears = new Array(100);
-  const currentTime = new Date();
-  for (let i = 0; i < 100; i++) {
-    numberOfYears[i] = currentTime.getFullYear() - 50 + i;
+export const yearRange = function(range = 100, fromYear = new Date().getFullYear()) {
+  const numberOfYears = new Array(range);
+  for (let i = 0; i < numberOfYears.length; i++) {
+    numberOfYears[i] = fromYear - Math.floor(range/2) + i;
   }
   return numberOfYears;
 };
