@@ -16,7 +16,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {required, afterDate, endDateShouldBeAfterStartDate} from '../rules';
+import {
+  required,
+  afterDate,
+  endDateShouldBeAfterStartDate,
+  validPhoneNumberFormat,
+} from '../rules';
 
 describe('core/util/validation/rules::required', () => {
   test('required::empty string', () => {
@@ -152,5 +157,62 @@ describe('core/util/validation/rules::endDateShouldBeAfterStartDate', () => {
       'yyyy/MM/dd',
     )('2021/06/28');
     expect(result).toBe('End date should be after start date');
+  });
+});
+
+describe('core/util/validation/rules::validPhoneNumberFormat', () => {
+  test('validPhoneNumberFormat::number', () => {
+    let result = validPhoneNumberFormat('1234563');
+    expect(result).toBeTruthy();
+  });
+
+  test('validPhoneNumberFormat::numberWithStar', () => {
+    let result = validPhoneNumberFormat('123*');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithDollar', () => {
+    let result = validPhoneNumberFormat('123$');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWith!', () => {
+    let result = validPhoneNumberFormat('123!');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWith#', () => {
+    let result = validPhoneNumberFormat('123#');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWith#', () => {
+    let result = validPhoneNumberFormat('123#');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWith%', () => {
+    let result = validPhoneNumberFormat('123%');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithinvalidCharacters', () => {
+    let result = validPhoneNumberFormat('123$^&*_,:;{}[]');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithValidCharacters', () => {
+    let result = validPhoneNumberFormat('+-/()');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('validPhoneNumberFormat::numberWithSpace', () => {
+    let result = validPhoneNumberFormat('456 ');
+    expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+
+  test('validPhoneNumberFormat::numberWithfullStop', () => {
+    let result = validPhoneNumberFormat('456.');
+    expect(result).toBe('Allows numbers and only + - / ( )');
   });
 });
