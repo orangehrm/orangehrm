@@ -55,6 +55,7 @@
         :headers="headers"
         :items="items?.data"
         :selectable="true"
+        :disabled="isDisabled"
         :clickable="false"
         :loading="isLoading"
         v-model:selected="checkedItems"
@@ -258,6 +259,12 @@ export default {
       this.showEditModal = false;
       this.editModalState = null;
       this.resetDataTable();
+    },
+  },
+
+  computed: {
+    isDisabled() {
+      return this.showSaveModal || this.showEditModal;
     },
   },
 };

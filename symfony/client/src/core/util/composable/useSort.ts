@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,31 +16,40 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Controller;
+import {computed, ref, watch} from 'vue';
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Admin\Service\UserService;
+type Order = 'ASC' | 'DESC' | 'DEFAULT';
 
-class SystemUserController extends AbstractVueController
-{
-    use ServiceContainerTrait;
+interface SortDefinition {
+  [column: string]: Order;
+}
 
-    /**
-     * @return UserService
-     */
-    public function getSystemUserService(): UserService
-    {
-        return $this->getContainer()->get(Services::USER_SERVICE);
-    }
+interface SortParams {
+  sortDefinition: SortDefinition;
+}
 
-    public function init(): void
-    {
-        $component = new Component('system-user-list');
-        $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $this->getSystemUserService()->getUndeletableUserIds()));
-        $this->setComponent($component);
-    }
+export default function useSort(sortParams: SortParams) {
+  const sortDefinition = ref({
+    ...JSON.parse(JSON.stringify(sortParams.sortDefinition)),
+  });
+
+  const sortField = computed(() => {
+    return Object.keys(sortDefinition.value).filter(column => {
+      const order = sortDefinition.value[column];
+      return order && order != 'DEFAULT';
+    })[0];
+  });
+
+  const sortOrder = computed(() => {
+    return sortDefinition.value[sortField.value];
+  });
+
+  const onSort = (func: () => void) => watch(sortDefinition, func);
+
+  return {
+    sortDefinition,
+    sortField,
+    sortOrder,
+    onSort,
+  };
 }

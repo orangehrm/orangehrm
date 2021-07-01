@@ -112,18 +112,6 @@ import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
 
-const userdataNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      userName: item.userName,
-      role: item.userRole?.displayName,
-      empName: `${item.employee?.firstName} ${item.employee?.lastName}`,
-      status: item.status ? 'Enabled' : 'Disabled',
-    };
-  });
-};
-
 const defaultFilters = {
   username: '',
   userRoleId: [{id: 0, label: 'All'}],
@@ -132,6 +120,13 @@ const defaultFilters = {
 };
 
 export default {
+  props: {
+    unselectableIds: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
     'employee-dropdown': EmployeeDropdown,
@@ -183,28 +178,24 @@ export default {
         {id: 2, label: 'Disabled'},
       ],
       checkedItems: [],
-      order: [
-        {
-          id: 0,
-          default: 'desc',
-        },
-        {
-          id: 1,
-          default: '',
-        },
-        {
-          id: 2,
-          default: '',
-        },
-        {
-          id: 3,
-          default: '',
-        },
-      ],
     };
   },
 
-  setup() {
+  setup(props) {
+    const userdataNormalizer = data => {
+      return data.map(item => {
+        const selectable = props.unselectableIds.findIndex(id => id == item.id);
+        return {
+          id: item.id,
+          userName: item.userName,
+          role: item.userRole?.displayName,
+          empName: `${item.employee?.firstName} ${item.employee?.lastName}`,
+          status: item.status ? 'Enabled' : 'Disabled',
+          isSelectable: selectable === -1,
+        };
+      });
+    };
+
     const filters = ref({...defaultFilters});
     const serializedFilters = computed(() => {
       return {
@@ -257,6 +248,10 @@ export default {
       });
     },
     onClickDelete(item) {
+      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      if (isSelectable > -1) {
+        return this.$toast.cannotDelete();
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
