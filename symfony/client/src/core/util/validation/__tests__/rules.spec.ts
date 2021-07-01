@@ -203,7 +203,7 @@ describe('core/util/validation/rules::validPhoneNumberFormat', () => {
 
   test('validPhoneNumberFormat::numberWithValidCharacters', () => {
     let result = validPhoneNumberFormat('+-/()');
-    expect(result).toBeTruthy();
+    expect(result).toStrictEqual(true);
   });
 
   test('validPhoneNumberFormat::numberWithSpace', () => {
