@@ -382,6 +382,11 @@ export default {
         : null;
       this.contract.newAttachment = null;
       this.contract.method = 'keepCurrent';
+      if (data.startDate || data.endDate || data.contractAttachment?.id) {
+        this.showContractDetails = true;
+      } else {
+        this.showContractDetails = false;
+      }
     },
 
     updateJobModel(response) {
