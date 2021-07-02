@@ -81,8 +81,7 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...
-            $this->getSortingAndPaginationParamsRules(TerminationReasonConfigurationSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...$this->getSortingAndPaginationParamsRules(TerminationReasonConfigurationSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -154,7 +153,7 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
                     [
                         new Rules\Composite\AllOf(
                             new Rule(Rules::POSITIVE),
-                            new Rule(Rules::NOT_IN,[$isinuse])
+                            new Rule(Rules::NOT_IN, [$isinuse])
                         )
                     ]
                 )
