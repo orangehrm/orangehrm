@@ -45,11 +45,11 @@ export default {
   'employee-salary': EmployeeSalary,
   'employee-job': EmployeeJob,
   'employee-qualifications': EmployeeQualifications,
-  'employee-report-to': EmployeeReportTo,
   'termination-reason-list': TerminationReason,
   'termination-reason-edit': EditTerminationReason,
   'termination-reason-save': SaveTerminationReason,
   'reporting-method-list': ReportingMethod,
   'reporting-method-edit': EditReportingMethod,
   'reporting-method-save': SaveReportingMethod,
+  'employee-report-to': EmployeeReportTo,
 };

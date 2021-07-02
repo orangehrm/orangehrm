@@ -20,38 +20,38 @@
 
 <template>
   <div>
-    <save-skill
-        v-if="showSaveModal"
-        :http="http"
-        :api="skillsEndpoint"
-        @close="onSaveModalClose"
-    ></save-skill>
-    <edit-skill
-        v-if="showEditModal"
-        :http="http"
-        :data="editModalState"
-        @close="onEditModalClose"
-    ></edit-skill>
+    <save-supervisor
+      v-if="showSaveModal"
+      :http="http"
+      :reporting-methods="reportingMethods"
+      @close="onSaveModalClose"
+    ></save-supervisor>
+    <edit-supervisor
+      v-if="showEditModal"
+      :http="http"
+      :reporting-methods="reportingMethods"
+      @close="onEditModalClose"
+    ></edit-supervisor>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
         Assigned Subordinates
       </profile-action-header>
     </div>
     <table-header
-        :selected="checkedItems.length"
-        :total="total"
-        :loading="isLoading"
-        @delete="onClickDeleteSelected"
+      :selected="checkedItems.length"
+      :total="total"
+      :loading="isLoading"
+      @delete="onClickDeleteSelected"
     ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
-          :headers="headers"
-          :items="items?.data"
-          :selectable="selectable"
-          :clickable="false"
-          :loading="isLoading"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+        :headers="headers"
+        :items="items?.data"
+        :selectable="selectable"
+        :clickable="false"
+        :loading="isLoading"
+        v-model:selected="checkedItems"
+        rowDecorator="oxd-table-decorator-card"
       />
     </div>
     <div v-if="showPaginator" class="orangehrm-bottom-container">
@@ -65,28 +65,17 @@
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
-import SaveSkill from '@/orangehrmPimPlugin/components/SaveSkill';
-import EditSkill from '@/orangehrmPimPlugin/components/EditSkill';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
-
-const skillNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.skill.id,
-      name: item.skill.name,
-      yearsOfExperience: item.yearsOfExperience,
-      comments: item.comments,
-    };
-  });
-};
+import SaveSupervisor from '@/orangehrmPimPlugin/components/SaveSupervisor';
+import EditSupervisor from '@/orangehrmPimPlugin/components/EditSupervisor';
 
 export default {
   name: 'employee-subordinates',
 
   components: {
     'profile-action-header': ProfileActionHeader,
-    'save-skill': SaveSkill,
-    'edit-skill': EditSkill,
+    'save-supervisor': SaveSupervisor,
+    'edit-supervisor': EditSupervisor,
     'delete-confirmation': DeleteConfirmationDialog,
   },
 
@@ -95,47 +84,23 @@ export default {
       type: String,
       required: true,
     },
+    reportingMethods: {
+      type: Array,
+      required: true,
+    },
   },
 
   setup(props) {
-    const http = new APIService(
-        window.appGlobal.baseUrl,
-        `api/v2/pim/employees/${props.employeeId}/skills`,
-    );
-
-    const skillsEndpoint = `api/v2/pim/employees/${props.employeeId}/skills/allowed?limit=0`;
-
-    const {
-      showPaginator,
-      currentPage,
-      total,
-      pages,
-      pageSize,
-      response,
-      isLoading,
-      execQuery,
-    } = usePaginate(http, {}, skillNormalizer);
-    return {
-      http,
-      showPaginator,
-      currentPage,
-      isLoading,
-      total,
-      pages,
-      pageSize,
-      execQuery,
-      items: response,
-      skillsEndpoint,
-    };
+    console.log('Setup Called')
   },
 
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Skill', style: {flex: 1}},
+        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
         {
-          name: 'yearsOfExperience',
-          title: 'Years of Experience',
+          name: 'reportingMethod',
+          title: 'Reporting Method',
           style: {flex: 1},
         },
         {
@@ -192,16 +157,16 @@ export default {
       if (items instanceof Array) {
         this.isLoading = true;
         this.http
-            .deleteAll({
-              ids: items,
-            })
-            .then(() => {
-              return this.$toast.deleteSuccess();
-            })
-            .then(() => {
-              this.isLoading = false;
-              this.resetDataTable();
-            });
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
       }
     },
     async resetDataTable() {

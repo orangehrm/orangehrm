@@ -26,32 +26,17 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field
-                label="Skill"
-                v-model="skill.name"
-                required
-                readonly
-                disabled
-            />
+            <employee-dropdown v-model="reportTo.employee" />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-                label="Years of Experience"
-                v-model="skill.yearsOfExperience"
-                :rules="rules.yearsOfExperience"
-            />
-          </oxd-grid-item>
-        </oxd-grid>
-      </oxd-form-row>
-
-      <oxd-form-row>
-        <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-          <oxd-grid-item class="--span-column-2">
-            <oxd-input-field
-                type="textarea"
-                label="Comments"
-                v-model="skill.comments"
-                :rules="rules.comments"
+                type="dropdown"
+                label="Reporting Method"
+                v-model="reportTo.reportingMethod"
+                :rules="rules.reportingMethod"
+                :clear="false"
+                :options="reportingMethods"
+                required
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -73,16 +58,11 @@
 </template>
 
 <script>
-import {
-  shouldNotExceedCharLength,
-  max,
-  digitsOnly,
-} from '@orangehrm/core/util/validation/rules';
+import {required} from "../../core/util/validation/rules";
 
-const skillModel = {
-  yearsOfExperience: 0,
-  comments: '',
-  name: '',
+const reportToModel = {
+  employee: '',
+  reportingMethod: '',
 };
 
 export default {
@@ -95,8 +75,8 @@ export default {
       type: Object,
       required: true,
     },
-    data: {
-      type: Object,
+    reportingMethods: {
+      type: Array,
       required: true,
     },
   },
@@ -104,28 +84,17 @@ export default {
   data() {
     return {
       isLoading: false,
-      skill: {...skillModel},
+      reportTo: {...reportToModel},
       rules: {
-        yearsOfExperience: [digitsOnly, max(100)],
-        comments: [shouldNotExceedCharLength(100)],
+        employee: [required],
+        reportingMethod: [required],
       },
     };
   },
 
   methods: {
     onSave() {
-      this.isLoading = true;
-      this.http
-          .update(this.data.id, {
-            yearsOfExperience: parseInt(this.skill.yearsOfExperience),
-            comments: this.skill.comments !== '' ? this.skill.comments : ' ',
-          })
-          .then(() => {
-            return this.$toast.updateSuccess();
-          })
-          .then(() => {
-            this.onCancel();
-          });
+      console.log('On Save Called')
     },
     onCancel() {
       this.$emit('close', true);
@@ -134,17 +103,6 @@ export default {
 
   beforeMount() {
     this.isLoading = true;
-    this.http
-        .get(this.data.id)
-        .then(response => {
-          const {data} = response.data;
-          this.skill.name = data.skill.name;
-          this.skill.comments = data.comments;
-          this.skill.yearsOfExperience = data.yearsOfExperience;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
   },
 };
 </script>

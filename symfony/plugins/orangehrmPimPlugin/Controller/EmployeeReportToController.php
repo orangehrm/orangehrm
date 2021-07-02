@@ -19,35 +19,52 @@
 
 namespace OrangeHRM\Pim\Controller;
 
+use OrangeHRM\Core\Controller\Exception\VueControllerException;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Entity\EmployeeLanguage;
+use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
+use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
 class EmployeeReportToController extends BaseViewEmployeeController
 {
+
+    /**
+     * @var ReportingMethodConfigurationService|null
+     */
+    protected ?ReportingMethodConfigurationService $reportingMethodService = null;
+
+    /**
+     * @return ReportingMethodConfigurationService
+     */
+    public function getReportingMethodConfigurationService(): ReportingMethodConfigurationService
+    {
+        if (!$this->reportingMethodService instanceof ReportingMethodConfigurationService) {
+            $this->reportingMethodService = new ReportingMethodConfigurationService();
+        }
+        return $this->reportingMethodService;
+    }
+
+    /**
+     * @throws VueControllerException
+     * @throws DaoException
+     */
     public function preRender(Request $request): void
     {
         $empNumber = $request->get('empNumber');
         if ($empNumber) {
             $component = new Component('employee-report-to');
-            $fluencies = array_map(function ($item, $index) {
+            $reportingMethodParamHolder = new ReportingMethodSearchFilterParams();
+            $reportingMethodsObjectArray = $this->getReportingMethodConfigurationService()->getReportingMethodList($reportingMethodParamHolder);
+            $reportingMethods = array_map(function ($item, $index) {
                 return [
                     "id" => $index,
-                    "label" => $item,
+                    "label" => $item->getName(),
                 ];
-            }, EmployeeLanguage::FLUENCIES, array_keys(EmployeeLanguage::FLUENCIES));
-            $competencies = array_map(function ($item, $index) {
-                return [
-                    "id" => $index,
-                    "label" => $item,
-                ];
-            }, EmployeeLanguage::COMPETENCIES, array_keys(EmployeeLanguage::COMPETENCIES));
-
+            }, $reportingMethodsObjectArray, array_keys($reportingMethodsObjectArray));
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
-            $component->addProp(new Prop('fluencies', Prop::TYPE_ARRAY, $fluencies));
-            $component->addProp(new Prop('competencies', Prop::TYPE_ARRAY, $competencies));
-
+            $component->addProp(new Prop('reporting-methods', Prop::TYPE_ARRAY, $reportingMethods));
             $this->setComponent($component);
         } else {
             $this->handleBadRequest();

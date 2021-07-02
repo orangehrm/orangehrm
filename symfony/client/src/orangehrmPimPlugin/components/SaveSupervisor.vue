@@ -26,22 +26,18 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <qualification-dropdown
-                label="Name"
-                v-model="skill.skillId"
-                :rules="rules.skillId"
-                :api="api"
-                required
-            ></qualification-dropdown>
+            <employee-dropdown v-model="reportTo.employee" />
           </oxd-grid-item>
           <oxd-grid-item>
-            <qualification-dropdown
-                label="Reporting Method"
-                v-model="skill.skillId"
-                :rules="rules.skillId"
-                :api="api"
-                required
-            ></qualification-dropdown>
+            <oxd-input-field
+              type="dropdown"
+              label="Reporting Method"
+              v-model="reportTo.reportingMethod"
+              :rules="rules.reportingMethod"
+              :clear="false"
+              :options="reportingMethods"
+              required
+            />
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
@@ -49,10 +45,10 @@
       <oxd-form-actions>
         <required-text />
         <oxd-button
-            type="button"
-            displayType="ghost"
-            label="Cancel"
-            @click="onCancel"
+          type="button"
+          displayType="ghost"
+          label="Cancel"
+          @click="onCancel"
         />
         <submit-button />
       </oxd-form-actions>
@@ -62,18 +58,12 @@
 </template>
 
 <script>
-import QualificationDropdown from '@/orangehrmPimPlugin/components/QualificationDropdown';
-import {
-  required,
-  shouldNotExceedCharLength,
-  max,
-  digitsOnly,
-} from '@orangehrm/core/util/validation/rules';
+import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
+import {required} from '@orangehrm/core/util/validation/rules';
 
-const skillModel = {
-  yearsOfExperience: 0,
-  comments: '',
-  skillId: [],
+const reportToModel = {
+  employee: '',
+  reportingMethod: '',
 };
 
 export default {
@@ -86,43 +76,30 @@ export default {
       type: Object,
       required: true,
     },
-    api: {
-      type: String,
+    reportingMethods: {
+      type: Array,
       required: true,
     },
   },
 
   components: {
-    'qualification-dropdown': QualificationDropdown,
+    'employee-dropdown': EmployeeDropdown,
   },
 
   data() {
     return {
       isLoading: false,
-      skill: {...skillModel},
+      reportTo: {...reportToModel},
       rules: {
-        skillId: [required],
-        yearsOfExperience: [digitsOnly, max(100)],
-        comments: [shouldNotExceedCharLength(100)],
+        employee: [required],
+        reportingMethod: [required],
       },
     };
   },
 
   methods: {
     onSave() {
-      this.isLoading = true;
-      this.http
-          .create({
-            skillId: this.skill.skillId.map(item => item.id)[0],
-            yearsOfExperience: parseInt(this.skill.yearsOfExperience),
-            comments: this.skill.comments !== '' ? this.skill.comments : ' ',
-          })
-          .then(() => {
-            return this.$toast.saveSuccess();
-          })
-          .then(() => {
-            this.onCancel();
-          });
+      console.log('On Save Called')
     },
     onCancel() {
       this.$emit('close', true);
