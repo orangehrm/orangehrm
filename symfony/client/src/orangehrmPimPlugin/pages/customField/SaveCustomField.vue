@@ -145,11 +145,11 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      const fieldType = this.customField.fieldType[0]?.id;
+      const fieldType = this.customField.fieldType.map(item => item.id)[0];
       this.http
         .create({
           fieldName: this.customField.fieldName,
-          screen: this.customField.screen[0]?.id,
+          screen: this.customField.screen.map(item => item.id)[0],
           fieldType: fieldType,
           extraData: fieldType === 1 ? this.customField.extraData : null,
         })
@@ -167,6 +167,9 @@ export default {
 
   computed: {
     isDropDownField() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.rules.extraData[1] =
+        this.customField.fieldType[0]?.id === 1 ? required : null;
       return this.customField.fieldType[0]?.id === 1;
     },
   },

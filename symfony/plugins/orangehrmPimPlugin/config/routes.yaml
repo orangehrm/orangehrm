@@ -298,14 +298,14 @@ apiv2_pim_reporting_methods:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI
-apiv2_pim_employees_custom_fields:
+apiv2_pim_custom_fields:
   path: /api/v2/pim/custom-fields
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Pim\Api\CustomFieldAPI
 
-apiv2_pim_employees_custom_field:
+apiv2_pim_custom_field:
   path: /api/v2/pim/custom-fields/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]

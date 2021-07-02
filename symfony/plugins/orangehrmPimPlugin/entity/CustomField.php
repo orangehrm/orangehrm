@@ -21,11 +21,8 @@ namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
-use OrangeHRM\Entity\Decorator\CustomFieldDecorator;
 
 /**
- * @method CustomFieldDecorator getDecorator()
- *
  * @ORM\Table(name="hs_hr_custom_fields")
  * @ORM\Entity
  */
@@ -43,18 +40,18 @@ class CustomField
     private int $fieldNum = 0;
 
     /**
-     * @var string | null
+     * @var string
      *
      * @ORM\Column(name="name", type="string", length=250, nullable=false)
      */
-    private ?string $name;
+    private string $name;
 
     /**
-     * @var int | null
+     * @var int
      *
      * @ORM\Column(name="type", type="string", length=11, nullable=false)
      */
-    private ?int $type;
+    private int $type;
 
 
     /**
@@ -89,33 +86,33 @@ class CustomField
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string|null $name
+     * @param string $name
      */
-    public function setName(?string $name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getType(): ?int
+    public function getType(): int
     {
         return $this->type;
     }
 
     /**
-     * @param int|null $type
+     * @param int $type
      */
-    public function setType(?int $type): void
+    public function setType(int $type): void
     {
         $this->type = $type;
     }

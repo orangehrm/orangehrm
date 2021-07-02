@@ -38,12 +38,4 @@ class CustomFieldService
         }
         return $this->customFieldDao;
     }
-
-    /**
-     * @param $customFieldDao
-     */
-    public function setCustomFieldDao(CustomFieldDao $customFieldDao): void
-    {
-        $this->customFieldDao = $customFieldDao;
-    }
 }

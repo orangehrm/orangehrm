@@ -100,7 +100,10 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
         );
     }
 
@@ -151,7 +154,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
         $customFieldsCount = $this->getCustomFieldService()->getCustomFieldDao()->getSearchCustomFieldsCount(
             $customFieldSearchParams
         );
-        if ($customFieldsCount > 10) {
+        if ($customFieldsCount >= 10) {
             throw $this->getBadRequestException();
         }
         $customField = new CustomField();
@@ -261,7 +264,10 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
+            )
         );
     }
 
