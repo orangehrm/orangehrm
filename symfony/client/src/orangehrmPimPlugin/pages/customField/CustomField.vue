@@ -224,7 +224,7 @@ export default {
         };
       });
     },
-    remainingFields(){
+    remainingFields() {
       return 10 - this.items?.data?.length;
     },
   },

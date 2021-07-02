@@ -32,9 +32,9 @@ import SaveTerminationReason from './pages/terminationReason/SaveTerminationReas
 import ReportingMethod from './pages/reportingMethod/ReportingMethod.vue';
 import EditReportingMethod from './pages/reportingMethod/EditReportingMethod.vue';
 import SaveReportingMethod from './pages/reportingMethod/SaveReportingMethod.vue';
-import CustomField from "./pages/customField/CustomField.vue";
-import EditCustomField from "./pages/customField/EditCustomField.vue";
-import SaveCustomField from "./pages/customField/SaveCustomField.vue";
+import CustomField from './pages/customField/CustomField.vue';
+import EditCustomField from './pages/customField/EditCustomField.vue';
+import SaveCustomField from './pages/customField/SaveCustomField.vue';
 
 export default {
   'employee-save': SaveEmployee,

@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Custom Field</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title"
+        >Add Custom Field</oxd-text
+      >
 
       <oxd-divider />
 
@@ -93,7 +95,10 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import { required, shouldNotExceedCharLength } from '@/core/util/validation/rules'
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@/core/util/validation/rules';
 
 const customFieldModel = {
   fieldName: '',
