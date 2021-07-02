@@ -177,7 +177,7 @@ class TerminationReasonConfigurationDao extends BaseDao
             $query->leftJoin('et.terminationReason', 'tr');
             $query->select('tr.id');
             $result = $query->getQuery()->getScalarResult();
-            return array_unique(array_column($result, 'id'));
+            return array_column($result, 'id');
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
