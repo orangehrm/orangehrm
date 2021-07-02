@@ -20,15 +20,12 @@
 namespace OrangeHRM\Pim\Api;
 
 use Exception;
-use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Pim\Api\Model\TerminationReasonConfigurationModel;
-use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
-use OrangeHRM\Pim\Service\TerminationReasonConfigurationService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -39,13 +36,14 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\TerminationReason;
-use phpDocumentor\Reflection\Types\Self_;
+use OrangeHRM\Pim\Api\Model\TerminationReasonConfigurationModel;
+use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
+use OrangeHRM\Pim\Service\TerminationReasonConfigurationService;
 
 class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
 {
     public const PARAMETER_NAME = 'name';
     public const PARAM_RULE_NAME_MAX_LENGTH = 100;
-    public const PARAMETER_ISINUSE = 'isInUse';
 
     /**
      * @var TerminationReasonConfigurationService|null
@@ -83,7 +81,8 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            ...$this->getSortingAndPaginationParamsRules(TerminationReasonConfigurationSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...
+            $this->getSortingAndPaginationParamsRules(TerminationReasonConfigurationSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -138,19 +137,27 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getTerminationReasonConfigurationService()->deleteTerminationReasons($ids);
-        $isinuse = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_ISINUSE);
-        $this->getTerminationReasonConfigurationService()->isReasonInUse($isinuse);
-        return new EndpointResourceResult(ArrayModel::class, [$ids,$isinuse]);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
      * @inheritDoc
+     * @throws DaoException
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
+        $isinuse = $this->getTerminationReasonConfigurationService()->reasonInUse();
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
-            new ParamRule(self::PARAMETER_ISINUSE
+            new ParamRule(CommonParams::PARAMETER_IDS,
+                new Rule(
+                    Rules::EACH,
+                    [
+                        new Rules\Composite\AllOf(
+                            new Rule(Rules::POSITIVE),
+                            new Rule(Rules::NOT_IN,[$isinuse])
+                        )
+                    ]
+                )
             ),
         );
     }
