@@ -1,6 +1,4 @@
-<?php
-
-/**
+/*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -18,14 +16,18 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Description of timesheetPeriodNotDefinedAction
- *
- */
-class timesheetPeriodNotDefinedAction extends baseTimeAction {
-    
-    public function execute($request) {
-        
-    }
-}
+import {yearRange} from '../year-range';
 
+describe('core/util/helper/year-range', () => {
+  const currentTime = new Date();
+  const range = 100;
+  const value = new Array(range);
+  for (let i = 0; i < range; i++) {
+    value[i] = currentTime.getFullYear() - Math.floor(range/2) + i;
+  }
+
+  test('all the years', () => {
+    const result = yearRange();
+    expect(result).toStrictEqual(value);
+  });
+});

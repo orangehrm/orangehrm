@@ -1,6 +1,4 @@
-<?php
 /*
- *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,31 +14,12 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-class viewTimeModuleAction extends sfAction {
-    
-    protected $homePageService;
-    
-    public function getHomePageService() {
-        
-        if (!$this->homePageService instanceof HomePageService) {
-            $this->homePageService = new HomePageService($this->getUser());
-        }
-        
-        return $this->homePageService;
-        
-    }
-
-    public function setHomePageService($homePageService) {
-        $this->homePageService = $homePageService;
-    }    
-
-    public function execute($request) {
-
-        $this->redirect($this->getHomePageService()->getTimeModuleDefaultPath());
-        
-    }
-
-}
+export const yearRange = function(range = 100, fromYear = new Date().getFullYear()) {
+  const numberOfYears = new Array(range);
+  for (let i = 0; i < numberOfYears.length; i++) {
+    numberOfYears[i] = fromYear - Math.floor(range/2) + i;
+  }
+  return numberOfYears;
+};

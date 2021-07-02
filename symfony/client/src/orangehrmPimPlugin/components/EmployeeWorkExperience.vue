@@ -46,9 +46,10 @@
       <oxd-card-table
         :headers="headers"
         :items="items?.data"
-        :selectable="selectable"
+        :selectable="true"
         :clickable="false"
         :loading="isLoading"
+        :disabled="isDisabled"
         v-model:selected="checkedItems"
         rowDecorator="oxd-table-decorator-card"
       />
@@ -126,7 +127,7 @@ export default {
           name: 'actions',
           slot: 'action',
           title: 'Actions',
-          style: {flex: 1},
+          style: {'flex-basis': '10em'},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
             delete: {
@@ -154,7 +155,6 @@ export default {
 
   methods: {
     onClickDeleteSelected() {
-      if (!this.selectable) return;
       const ids = this.checkedItems.map(index => {
         return this.items?.data[index].id;
       });
@@ -165,7 +165,6 @@ export default {
       });
     },
     onClickDelete(item) {
-      if (!this.selectable) return;
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
@@ -214,8 +213,8 @@ export default {
   },
 
   computed: {
-    selectable() {
-      return !(this.showSaveModal || this.showEditModal);
+    isDisabled() {
+      return this.showSaveModal || this.showEditModal;
     },
   },
 };

@@ -1,5 +1,4 @@
-<?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,19 +15,41 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-/**
- * myDetailsAction
- *
- */
-class viewMyDetailsAction extends basePimAction {
 
-    public function execute($request) {
-        
-        $request->setParameter('empNumber', $this->getUser()->getAttribute('auth.empNumber'));
-        $request->setParameter('initialActionName', 'viewMyDetails');
-        $this->forward('pim', 'viewPersonalDetails');
-        
-    }
+import {computed, ref, watch} from 'vue';
 
+type Order = 'ASC' | 'DESC' | 'DEFAULT';
 
+interface SortDefinition {
+  [column: string]: Order;
+}
+
+interface SortParams {
+  sortDefinition: SortDefinition;
+}
+
+export default function useSort(sortParams: SortParams) {
+  const sortDefinition = ref({
+    ...JSON.parse(JSON.stringify(sortParams.sortDefinition)),
+  });
+
+  const sortField = computed(() => {
+    return Object.keys(sortDefinition.value).filter(column => {
+      const order = sortDefinition.value[column];
+      return order && order != 'DEFAULT';
+    })[0];
+  });
+
+  const sortOrder = computed(() => {
+    return sortDefinition.value[sortField.value];
+  });
+
+  const onSort = (func: () => void) => watch(sortDefinition, func);
+
+  return {
+    sortDefinition,
+    sortField,
+    sortOrder,
+    onSort,
+  };
 }
