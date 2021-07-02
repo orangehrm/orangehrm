@@ -21,12 +21,26 @@ namespace OrangeHRM\Pim\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Pim\Service\TerminationReasonConfigurationService;
 
 class TerminationReasonController extends AbstractVueController
 {
+    protected ?TerminationReasonConfigurationService $terminationReasonService = null;
+
+    protected function getTerminationReasonService(): TerminationReasonConfigurationService
+    {
+        if (!$this->terminationReasonService instanceof TerminationReasonConfigurationService) {
+            $this->terminationReasonService = new TerminationReasonConfigurationService();
+        }
+        return $this->terminationReasonService;
+    }
+
     public function init(): void
     {
         $component = new Component('termination-reason-list');
+        $reasonesInUse = $this->getTerminationReasonService()->reasonInUse();
+        $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $reasonesInUse));
         $this->setComponent($component);
     }
 }
