@@ -171,6 +171,7 @@ abstract class AbstractRestController extends AbstractController
             );
             $response->setStatusCode(404);
         } catch (InvalidParamException $e) {
+            $this->getLogger()->info($e->getMessage());
             $this->getLogger()->info($e->getTraceAsString());
 
             // TODO:: should format to show multiple errors
@@ -180,6 +181,7 @@ abstract class AbstractRestController extends AbstractController
                 )
             );
             $response->setStatusCode(202);
+        } catch (NotImplementedException $e) {
             $this->getLogger()->info($e->getMessage());
             $this->getLogger()->info($e->getTraceAsString());
 
