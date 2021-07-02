@@ -1,0 +1,16 @@
+@import '@orangehrm/oxd/styles/_mixins.scss';
+.orangehrm-custom-field-title {
+  display: block;
+  @include oxd-respond-to('md') {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    & .--infotext {
+      margin-right: 1rem;
+    }
+  }
+}
+.select-options-hint {
+  font-size: 0.75rem;
+  margin-top: -0.625rem;
+}

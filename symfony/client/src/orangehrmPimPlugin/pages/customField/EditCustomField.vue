@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title"> Edit Custom Field</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">Edit Custom Field</oxd-text>
 
       <oxd-divider />
 
@@ -66,6 +66,9 @@
                 :rules="rules.extraData"
                 :required="isDropDownField"
               />
+              <oxd-text tag="p" class="select-options-hint">
+                Enter allowed options separated by commas
+              </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -195,3 +198,5 @@ export default {
   },
 };
 </script>
+
+<style src="./customField.scss" lang="scss" scoped></style>

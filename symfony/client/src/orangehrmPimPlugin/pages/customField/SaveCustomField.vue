@@ -66,6 +66,9 @@
                 :rules="rules.extraData"
                 :required="isDropDownField"
               />
+              <oxd-text tag="p" class="select-options-hint">
+                Enter allowed options separated by commas
+              </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -164,3 +167,5 @@ export default {
   },
 };
 </script>
+
+<style src="./customField.scss" lang="scss" scoped></style>

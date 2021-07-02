@@ -22,17 +22,23 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">Custom Fields</oxd-text>
-        <oxd-text tag="p" v-if="remainingFields>0">Remaining Number of Custom Fields: {{ remainingFields }}</oxd-text>
-        <oxd-text tag="p" v-if="remainingFields<=0">All Customs Fields are in use</oxd-text>
-        <div v-if="remainingFields>0">
-          <oxd-button
-            label="Add"
-            iconName="plus"
-            displayType="secondary"
-            @click="onClickAdd"
-          />
+        <div class="orangehrm-custom-field-title">
+          <oxd-text tag="h6" class="orangehrm-main-title">
+            Custom Fields
+          </oxd-text>
+          <oxd-text class="--infotext" tag="p" v-if="remainingFields > 0">
+            Remaining Number of Custom Fields: {{ remainingFields }}
+          </oxd-text>
+          <oxd-text class="--infotext" tag="p" v-else>
+            All Customs Fields are in use
+          </oxd-text>
         </div>
+        <oxd-button
+          label="Add"
+          iconName="plus"
+          displayType="secondary"
+          @click="onClickAdd"
+        />
       </div>
       <table-header
         :selected="checkedItems.length"
@@ -44,7 +50,7 @@
         <oxd-card-table
           :loading="isLoading"
           :headers="headers"
-          :items="updateItemsDataWithFieldType"
+          :items="items?.data"
           :selectable="true"
           :clickable="false"
           v-model:selected="checkedItems"
@@ -70,9 +76,22 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 
+const dataNormalizer = data => {
+  return data.map(item => {
+    return {
+      id: item.id,
+      fieldName: item.fieldName,
+      screen: item.screen,
+      fieldType: item.fieldType === 0 ? 'Text or Number' : 'Drop Down',
+      extraData: item.extraData,
+    };
+  });
+};
+
 export default {
   data() {
     return {
+      screenWidth: screen.width,
       headers: [
         {
           name: 'fieldName',
@@ -127,7 +146,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http);
+    } = usePaginate(http, {}, dataNormalizer);
 
     return {
       http,
@@ -211,3 +230,5 @@ export default {
   },
 };
 </script>
+
+<style src="./customField.scss" lang="scss" scoped></style>
