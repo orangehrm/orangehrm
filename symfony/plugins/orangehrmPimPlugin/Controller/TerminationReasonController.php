@@ -26,8 +26,14 @@ use OrangeHRM\Pim\Service\TerminationReasonConfigurationService;
 
 class TerminationReasonController extends AbstractVueController
 {
+    /**
+     * @var TerminationReasonConfigurationService|null
+     */
     protected ?TerminationReasonConfigurationService $terminationReasonService = null;
 
+    /**
+     * @return TerminationReasonConfigurationService
+     */
     protected function getTerminationReasonService(): TerminationReasonConfigurationService
     {
         if (!$this->terminationReasonService instanceof TerminationReasonConfigurationService) {
@@ -39,8 +45,8 @@ class TerminationReasonController extends AbstractVueController
     public function init(): void
     {
         $component = new Component('termination-reason-list');
-        $reasonesInUse = $this->getTerminationReasonService()->reasonInUse();
-        $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $reasonesInUse));
+        $reasonsInUse = $this->getTerminationReasonService()->reasonsInUse();
+        $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $reasonsInUse));
         $this->setComponent($component);
     }
 }
