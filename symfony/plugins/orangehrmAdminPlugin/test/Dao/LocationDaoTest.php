@@ -52,6 +52,12 @@ class LocationDaoTest extends TestCase
         $this->assertEquals($result->getName(), 'location 1');
     }
 
+    public function testGetLocationByIdForNonExistingId(): void
+    {
+        $result = $this->locationDao->getLocationById(1002);
+        $this->assertNull($result);
+    }
+
     public function testGetNumberOfEmployeesForLocation(): void
     {
         $result = $this->locationDao->getNumberOfEmployeesForLocation(1);
