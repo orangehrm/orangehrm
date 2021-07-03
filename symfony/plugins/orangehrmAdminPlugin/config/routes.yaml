@@ -357,3 +357,8 @@ edit_nationality:
   path: /admin/saveNationality/{id}
   controller: OrangeHRM\Admin\Controller\SaveNationalityController::handle
   methods: [ GET ]
+
+view_location:
+  path: /admin/viewLocations
+  controller: OrangeHRM\Admin\Controller\ViewLocationController::handle
+  methods: [ GET ]
