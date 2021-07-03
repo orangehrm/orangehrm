@@ -1,0 +1,33 @@
+GetValidationRuleForGetOne:
+  'valid id':
+    params: { id: 1 }
+    isValid: true
+  'negative id':
+    params: { id: -1 }
+    isValid: false
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'zero id':
+    params: { id: 0 }
+    isValid: false
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'empty id':
+    params: { id: '' }
+    isValid: false
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'empty params':
+    params: { }
+    isValid: false
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'missing id param':
+    params: { val: 1 }
+    isValid: false
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+
+GetOne:
+  'get one by existing id':
+    params: { id: 1 }
+    result: { id: 1, name: location 1 }
+  'get one by non-existing id':
+    params: { id: 2910 }
+    result: false
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException', message: 'Record Not Found' }
