@@ -3576,3 +3576,7 @@ UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-recruitment\
 -- Should remove once implement dashboard screen
 UPDATE `ohrm_home_page` SET action='pim/viewPimModule' WHERE `user_role_id`=1;
 UPDATE `ohrm_home_page` SET action='pim/viewPimModule' WHERE `user_role_id`=2;
+
+CREATE TABLE ohrm_api_permission (id INT AUTO_INCREMENT NOT NULL, module_id INT DEFAULT NULL, data_group_id INT DEFAULT NULL, api_name VARCHAR(255) NOT NULL, UNIQUE INDEX api_name (api_name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
+ALTER TABLE ohrm_api_permission ADD CONSTRAINT `fk_ohrm_module_module_id` FOREIGN KEY (module_id) REFERENCES ohrm_module (id);
+ALTER TABLE ohrm_api_permission ADD CONSTRAINT `fk_ohrm_data_group_data_group_id` FOREIGN KEY (data_group_id) REFERENCES ohrm_data_group (id);

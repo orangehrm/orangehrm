@@ -20,9 +20,11 @@
 namespace OrangeHRM\Core\Authorization\Service;
 
 use OrangeHRM\Core\Authorization\Dao\DataGroupDao;
+use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\DataGroup;
 use OrangeHRM\Entity\DataGroupPermission;
+use OrangeHRM\Entity\UserRole;
 
 class DataGroupService
 {
@@ -88,5 +90,38 @@ class DataGroupService
     public function getDataGroup(string $name): ?DataGroup
     {
         return $this->getDao()->getDataGroup($name);
+    }
+
+    /**
+     * @param string $apiClassName
+     * @param string[]|UserRole[] $roles Array of Role names or Array of UserRole objects
+     * @return ResourcePermission
+     * @throws DaoException
+     */
+    public function getApiPermissions(string $apiClassName, array $roles): ResourcePermission
+    {
+        $apiPermissions = $this->getDao()->getApiPermissions($apiClassName, $roles);
+
+        $read = false;
+        $create = false;
+        $update = false;
+        $delete = false;
+
+        foreach ($apiPermissions as $apiPermission) {
+            if ($apiPermission->canRead()) {
+                $read = true;
+            }
+            if ($apiPermission->canCreate()) {
+                $create = true;
+            }
+            if ($apiPermission->canUpdate()) {
+                $update = true;
+            }
+            if ($apiPermission->canDelete()) {
+                $delete = true;
+            }
+        }
+
+        return new ResourcePermission($read, $create, $update, $delete);
     }
 }

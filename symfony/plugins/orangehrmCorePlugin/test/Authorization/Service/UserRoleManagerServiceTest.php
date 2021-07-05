@@ -326,6 +326,11 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         return new ResourcePermission(false, false, false, false);
     }
 
+    public function getApiPermissions(string $apiClassName): ResourcePermission
+    {
+        return new ResourcePermission(false, false, false, false);
+    }
+
     public function isFieldAccessible(string $module, string $screen, string $field): bool
     {
         return false;

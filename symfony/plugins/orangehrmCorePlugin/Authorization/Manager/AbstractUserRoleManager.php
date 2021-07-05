@@ -197,6 +197,13 @@ abstract class AbstractUserRoleManager
     abstract public function getScreenPermissions(string $module, string $screen): ResourcePermission;
 
     /**
+     * @param string $apiClassName
+     * @return ResourcePermission
+     * @since 5.0
+     */
+    abstract public function getApiPermissions(string $apiClassName): ResourcePermission;
+
+    /**
      * @param string $module
      * @param string $screen
      * @param string $field

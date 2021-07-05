@@ -650,6 +650,14 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @inheritDoc
      */
+    public function getApiPermissions(string $apiClassName): ResourcePermission
+    {
+        return $this->getDataGroupService()->getApiPermissions($apiClassName, $this->userRoles);
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function getUserRoles(User $user): array
     {
         $roles = [$user->getUserRole()];

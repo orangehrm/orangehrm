@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -24,6 +24,7 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\DataGroup;
 use OrangeHRM\Entity\DataGroupPermission;
+use OrangeHRM\Entity\UserRole;
 
 class DataGroupDao extends BaseDao
 {
@@ -87,6 +88,40 @@ class DataGroupDao extends BaseDao
         try {
             $q = $this->createQueryBuilder(DataGroup::class, 'd');
             $q->addOrderBy('d.description');
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param string $apiClassName
+     * @param string[]|UserRole[] $roles Array of UserRole objects or user role names
+     * @return DataGroupPermission[]
+     * @throws DaoException
+     */
+    public function getApiPermissions(string $apiClassName, array $roles): array
+    {
+        try {
+            $roleNames = [];
+
+            foreach ($roles as $role) {
+                if ($role instanceof UserRole) {
+                    $roleNames[] = $role->getName();
+                } elseif (is_string($role)) {
+                    $roleNames[] = $role;
+                }
+            }
+
+            $q = $this->createQueryBuilder(DataGroupPermission::class, 'dgp');
+            $q->leftJoin('dgp.dataGroup', 'dg');
+            $q->leftJoin('dgp.userRole', 'ur');
+            $q->leftJoin('dg.apiPermissions', 'ap');
+            $q->andWhere($q->expr()->in('ur.name', ':userRoleNames'))
+                ->setParameter('userRoleNames', $roleNames);
+            $q->andWhere('ap.apiName = :apiClassName')
+                ->setParameter('apiClassName', $apiClassName);
+
             return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
