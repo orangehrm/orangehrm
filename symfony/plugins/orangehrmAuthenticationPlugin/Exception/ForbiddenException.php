@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,10 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
-import Login from './pages/Login.vue';
-import Forbidden from './pages/Forbidden.vue';
+namespace OrangeHRM\Authentication\Exception;
 
-export default {
-  'auth-login': Login,
-  'auth-forbidden': Forbidden,
-};
+use Exception;
+
+class ForbiddenException extends Exception
+{
+
+}
