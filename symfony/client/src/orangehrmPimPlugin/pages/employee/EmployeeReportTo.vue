@@ -5,11 +5,11 @@
       <oxd-divider />
     </div>
     <employee-supervisors
-      :employee-id="empNumber"
+      :emp-number="empNumber"
       :reporting-methods="reportingMethods"
     ></employee-supervisors>
     <employee-subordinates
-      :employee-id="empNumber"
+      :emp-number="empNumber"
       :reporting-methods="reportingMethods"
     ></employee-subordinates>
   </edit-employee-layout>

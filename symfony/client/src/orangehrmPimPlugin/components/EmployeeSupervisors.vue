@@ -66,6 +66,17 @@ import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHe
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 import SaveSupervisor from '@/orangehrmPimPlugin/components/SaveSupervisor';
 import EditSupervisor from '@/orangehrmPimPlugin/components/EditSupervisor';
+import {APIService} from '@/core/util/services/api.service';
+import usePaginate from '@/core/util/composable/usePaginate';
+
+const supervisorNormalizer = data => {
+  return data.map(item => {
+    return {
+      name: `${item.supervisor?.firstName} ${item.supervisor?.lastName}`,
+      reportingMethod: item.reportingMethod.name,
+    };
+  });
+};
 
 export default {
   name: 'employee-supervisors',
@@ -78,7 +89,7 @@ export default {
   },
 
   props: {
-    employeeId: {
+    empNumber: {
       type: String,
       required: true,
     },
@@ -89,7 +100,32 @@ export default {
   },
 
   setup(props) {
-    console.log('Setup Called')
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `api/v2/pim/employees/${props.empNumber}/supervisors`,
+    );
+
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, {}, supervisorNormalizer);
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+    };
   },
 
   data() {
