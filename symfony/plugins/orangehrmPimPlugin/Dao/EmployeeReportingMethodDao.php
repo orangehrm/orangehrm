@@ -23,6 +23,7 @@ use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmpDependent;
+use OrangeHRM\Entity\EmployeeEducation;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Entity\ReportTo;
@@ -34,6 +35,22 @@ use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 
 class EmployeeReportingMethodDao extends BaseDao
 {
+
+    /**
+     * @param ReportTo $reportTo
+     * @return ReportTo
+     * @throws DaoException
+     */
+    public function saveEmployeeReportTo(ReportTo $reportTo): ReportTo
+    {
+        try {
+            $this->persist($reportTo);
+            return $reportTo;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
     /**
      * Search
      *

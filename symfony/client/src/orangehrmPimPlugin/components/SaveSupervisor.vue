@@ -32,7 +32,7 @@
             <oxd-input-field
               type="dropdown"
               label="Reporting Method"
-              v-model="reportTo.reportingMethod"
+              v-model="reportTo.reportingMethodId"
               :rules="rules.reportingMethod"
               :clear="false"
               :options="reportingMethods"
@@ -63,7 +63,7 @@ import {required} from '@orangehrm/core/util/validation/rules';
 
 const reportToModel = {
   employee: '',
-  reportingMethod: '',
+  reportingMethodId: '',
 };
 
 export default {
@@ -92,14 +92,27 @@ export default {
       reportTo: {...reportToModel},
       rules: {
         employee: [required],
-        reportingMethod: [required],
+        reportingMethodId: [required],
       },
     };
   },
 
   methods: {
     onSave() {
-      console.log('On Save Called')
+      this.isLoading = true;
+      this.http
+        .create({
+          empNumber: this.reportTo.employee.map(item => item.id)[0],
+          reportingMethodId: this.reportTo.reportingMethodId.map(
+            item => item.id,
+          )[0],
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
     },
     onCancel() {
       this.$emit('close', true);

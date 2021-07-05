@@ -20,13 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\ReportToDecorator;
 
 /**
+ * @method ReportToDecorator getDecorator()
+ *
  * @ORM\Table(name="hs_hr_emp_reportto")
  * @ORM\Entity
  */
 class ReportTo
 {
+    use DecoratorTrait;
+
     /**
      * @var Employee
      *

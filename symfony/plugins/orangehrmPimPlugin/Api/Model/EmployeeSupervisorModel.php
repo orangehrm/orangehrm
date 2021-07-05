@@ -28,9 +28,9 @@ class EmployeeSupervisorModel implements Normalizable
 {
     use ModelTrait;
 
-    public function __construct(ReportTo $ReportTo)
+    public function __construct(ReportTo $reportTo)
     {
-        $this->setEntity($ReportTo);
+        $this->setEntity($reportTo);
         $this->setFilters(
             [
                 ['getSupervisor', 'getEmpNumber'],

@@ -59,7 +59,7 @@ class EmployeeReportToController extends BaseViewEmployeeController
             $reportingMethodsObjectArray = $this->getReportingMethodConfigurationService()->getReportingMethodList($reportingMethodParamHolder);
             $reportingMethods = array_map(function ($item, $index) {
                 return [
-                    "id" => $index,
+                    "id" => $item->getId(),
                     "label" => $item->getName(),
                 ];
             }, $reportingMethodsObjectArray, array_keys($reportingMethodsObjectArray));
