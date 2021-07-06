@@ -315,6 +315,13 @@ apiv2_pim_custom_field:
   requirements:
     id: '\d+'
 
+apiv2_pim_configure:
+  path: /api/v2/pim/configures
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\ConfigAPI
+
 ##########################
 #        Files
 ##########################
@@ -435,3 +442,8 @@ save_custom_fields:
 edit_custom_fields:
   path: /pim/saveCustomFields/{id}
   controller: OrangeHRM\Pim\Controller\SaveCustomFieldController::handle
+
+view_config:
+  path: /pim/configurePim
+  controller: OrangeHRM\Pim\Controller\ConfigController::handle
+  methods: [ GET ]

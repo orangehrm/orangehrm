@@ -134,7 +134,7 @@ class ConfigService
      * @return Config
      * @throws CoreServiceException
      */
-    protected function _setConfigValue(string $key, string $value): Config
+    public function setConfigValue(string $key, string $value): Config
     {
         try {
             return $this->getConfigDao()->setValue($key, $value);
