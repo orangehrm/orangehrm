@@ -195,4 +195,27 @@ class EmployeeReportingMethodDao extends BaseDao
         }
     }
 
+    /**
+     * @param int $reportFromEmployeeId
+     * @param int $reportToEmployeeId
+     * @return ReportTo|null
+     * @throws DaoException
+     */
+    public function getEmployeeReportToByEmpNumbers(int $reportFromEmployeeId, int $reportToEmployeeId): ?ReportTo
+    {
+        try {
+            $employeeSupervisor = $this->getRepository(ReportTo::class)->findOneBy(
+                [
+                    'supervisor' => $reportToEmployeeId,
+                    'subordinate' => $reportFromEmployeeId,
+                ]
+            );
+            if ($employeeSupervisor instanceof ReportTo) {
+                return $employeeSupervisor;
+            }
+            return null;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }

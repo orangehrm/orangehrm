@@ -299,12 +299,30 @@ apiv2_pim_reporting_methods:
   defaults:
     _api: OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI
 
+apiv2_pim_employees_supervisor:
+  path: /api/v2/pim/employees/{empNumber}/supervisors/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSupervisorAPI
+  requirements:
+    empNumber: '\d+'
+
 apiv2_pim_reporto_supervisors:
   path: /api/v2/pim/employees/{empNumber}/supervisors
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeeSupervisorAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_subordinate:
+  path: /api/v2/pim/employees/{empNumber}/subordinates/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSubordinateAPI
   requirements:
     empNumber: '\d+'
 

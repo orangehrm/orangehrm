@@ -163,10 +163,36 @@ class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws DaoException
      */
-    public function getOne(): EndpointResult
+    public function getOne(): EndpointResourceResult
     {
-        // TODO: Implement getOne() method.
+        list($empNumber, $subordinateId) = $this->getUrlAttributes();
+
+        $empSSubordinate = $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->getEmployeeReportToByEmpNumbers($subordinateId, $empNumber);
+        $this->throwRecordNotFoundExceptionIfNotExist($empSSubordinate, ReportTo::class);
+
+        return new EndpointResourceResult(
+            EmployeeSubordinateModel::class, $empSSubordinate,
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+        );
+
+    }
+
+    /**
+     * @return array
+     */
+    private function getUrlAttributes(): array
+    {
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $id = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+        return [$empNumber, $id];
     }
 
     /**
@@ -174,15 +200,39 @@ class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForGetOne() method.
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
+        );
     }
 
     /**
      * @inheritDoc
+     * @throws DaoException
      */
-    public function update(): EndpointResult
+    public function update(): EndpointResourceResult
     {
-        // TODO: Implement update() method.
+        list($empNumber, $subordinateId) = $this->getUrlAttributes();
+        $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORTING_METHOD);
+
+        $employeeSubordinate = $this->getEmployeeReportingMethodService()
+            ->getEmployeeReportingMethodDao()
+            ->getEmployeeReportToByEmpNumbers($subordinateId, $empNumber);
+        $this->throwRecordNotFoundExceptionIfNotExist($employeeSubordinate, ReportTo::class);
+
+        $employeeSubordinate->getDecorator()->setReportingMethodByReportingMethodId($reportingMethodId);
+        $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->saveEmployeeReportTo($employeeSubordinate);
+
+        return new EndpointResourceResult(
+            EmployeeSubordinateModel::class, $employeeSubordinate,
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+        );
     }
 
     /**
@@ -190,7 +240,11 @@ class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForUpdate() method.
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED), new Rule(Rules::POSITIVE)),
+            $this->getEmpNumberRule(),
+            $this->getReportingMethodIdRule()
+        );
     }
 
     /**

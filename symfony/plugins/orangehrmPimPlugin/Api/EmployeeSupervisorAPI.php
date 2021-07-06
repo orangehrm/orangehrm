@@ -17,7 +17,11 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Entity\EmpDependent;
+use OrangeHRM\Entity\EmployeeEducation;
 use OrangeHRM\Entity\ReportTo;
+use OrangeHRM\Pim\Api\Model\EmployeeDependentModel;
+use OrangeHRM\Pim\Api\Model\EmployeeEducationModel;
 use OrangeHRM\Pim\Api\Model\EmployeeSupervisorModel;
 use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeReportingMethodService;
@@ -44,6 +48,42 @@ class EmployeeSupervisorAPI  extends Endpoint implements CrudEndpoint
             $this->employeeReportingMethodService = new EmployeeReportingMethodService();
         }
         return $this->employeeReportingMethodService;
+    }
+
+
+    /**
+     * @inheritDoc
+     * @throws DaoException
+     */
+    public function getOne(): EndpointResourceResult
+    {
+        list($empNumber, $supervisorId) = $this->getUrlAttributes();
+
+        $empSupervisor = $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->getEmployeeReportToByEmpNumbers($empNumber, $supervisorId);
+        $this->throwRecordNotFoundExceptionIfNotExist($empSupervisor, ReportTo::class);
+
+        return new EndpointResourceResult(
+            EmployeeSupervisorModel::class, $empSupervisor,
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+        );
+
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
+        );
     }
 
 
@@ -159,26 +199,41 @@ class EmployeeSupervisorAPI  extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws DaoException
      */
-    public function getOne(): EndpointResult
+    public function update(): EndpointResourceResult
     {
-        // TODO: Implement getOne() method.
+        list($empNumber, $supervisorId) = $this->getUrlAttributes();
+        $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORTING_METHOD);
+
+        $employeeSupervisor = $this->getEmployeeReportingMethodService()
+            ->getEmployeeReportingMethodDao()
+            ->getEmployeeReportToByEmpNumbers($empNumber, $supervisorId);
+        $this->throwRecordNotFoundExceptionIfNotExist($employeeSupervisor, ReportTo::class);
+
+        $employeeSupervisor->getDecorator()->setReportingMethodByReportingMethodId($reportingMethodId);
+        $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->saveEmployeeReportTo($employeeSupervisor);
+
+        return new EndpointResourceResult(
+            EmployeeSupervisorModel::class, $employeeSupervisor,
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+        );
     }
 
     /**
-     * @inheritDoc
+     * @return array
      */
-    public function getValidationRuleForGetOne(): ParamRuleCollection
+    private function getUrlAttributes(): array
     {
-        // TODO: Implement getValidationRuleForGetOne() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function update(): EndpointResult
-    {
-        // TODO: Implement update() method.
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $id = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
+        return [$empNumber, $id];
     }
 
     /**
@@ -186,7 +241,11 @@ class EmployeeSupervisorAPI  extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForUpdate() method.
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED), new Rule(Rules::POSITIVE)),
+            $this->getEmpNumberRule(),
+            $this->getReportingMethodIdRule()
+        );
     }
 
     /**

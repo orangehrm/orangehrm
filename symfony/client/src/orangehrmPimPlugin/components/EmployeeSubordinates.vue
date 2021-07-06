@@ -20,18 +20,23 @@
 
 <template>
   <div>
-    <save-supervisor
+    <save-employee-report-to
         v-if="showSaveModal"
         :http="http"
+        :type="'Subordinate'"
         :reporting-methods="reportingMethods"
         @close="onSaveModalClose"
-    ></save-supervisor>
-    <edit-supervisor
+    ></save-employee-report-to>
+    <edit-employee-report-to
         v-if="showEditModal"
         :http="http"
+        :emp-number="empNumber"
+        :data="editModalState"
+        :type="'Subordinate'"
+        :api="subordinateEndpoint"
         :reporting-methods="reportingMethods"
         @close="onEditModalClose"
-    ></edit-supervisor>
+    ></edit-employee-report-to>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
         Assigned Subordinates
@@ -64,10 +69,10 @@
 <script>
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
-import SaveSupervisor from '@/orangehrmPimPlugin/components/SaveSupervisor';
-import EditSupervisor from '@/orangehrmPimPlugin/components/EditSupervisor';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@/core/util/composable/usePaginate';
+import SaveEmployeeReportTo from "@/orangehrmPimPlugin/components/SaveEmployeeReportTo";
+import EditEmployeeReportTo from "@/orangehrmPimPlugin/components/EditEmployeeReportTo";
 
 const subordinateNormalizer = data => {
   return data.map(item => {
@@ -83,9 +88,9 @@ export default {
   name: 'employee-subordinates',
 
   components: {
+    'edit-employee-report-to': EditEmployeeReportTo,
+    'save-employee-report-to': SaveEmployeeReportTo,
     'profile-action-header': ProfileActionHeader,
-    'save-supervisor': SaveSupervisor,
-    'edit-supervisor': EditSupervisor,
     'delete-confirmation': DeleteConfirmationDialog,
   },
 
@@ -105,7 +110,7 @@ export default {
         window.appGlobal.baseUrl,
         `api/v2/pim/employees/${props.empNumber}/subordinates`,
     );
-
+    const subordinateEndpoint = `api/v2/pim/employees/${props.empNumber}/subordinates/`;
     const {
       showPaginator,
       currentPage,
@@ -126,6 +131,7 @@ export default {
       pageSize,
       execQuery,
       items: response,
+      subordinateEndpoint
     };
   },
 
