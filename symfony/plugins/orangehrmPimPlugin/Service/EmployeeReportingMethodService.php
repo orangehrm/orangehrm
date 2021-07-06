@@ -19,17 +19,11 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Pim\Dao\EmployeeReportingMethodDao;
-use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
-use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSubordinateSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
-use OrangeHRM\Pim\Service\Model\TerminationReasonModel;
 use Exception;
 
 class EmployeeReportingMethodService

@@ -71,8 +71,8 @@ import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHe
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@/core/util/composable/usePaginate';
-import SaveEmployeeReportTo from "@/orangehrmPimPlugin/components/SaveEmployeeReportTo";
-import EditEmployeeReportTo from "@/orangehrmPimPlugin/components/EditEmployeeReportTo";
+import SaveEmployeeReportTo from '@/orangehrmPimPlugin/components/SaveEmployeeReportTo';
+import EditEmployeeReportTo from '@/orangehrmPimPlugin/components/EditEmployeeReportTo';
 
 const supervisorNormalizer = data => {
   return data.map(item => {
@@ -131,7 +131,7 @@ export default {
       pageSize,
       execQuery,
       items: response,
-      supervisorEndpoint
+      supervisorEndpoint,
     };
   },
 

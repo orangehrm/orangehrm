@@ -1,6 +1,22 @@
 <?php
 
-
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 namespace OrangeHRM\Pim\Api;
 
 
@@ -10,12 +26,8 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\AbstractEndpointResult;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -24,7 +36,6 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\Pim\Api\Model\EmployeeSubordinateModel;
-use OrangeHRM\Pim\Api\Model\EmployeeSupervisorModel;
 use OrangeHRM\Pim\Dto\EmployeeSubordinateSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeReportingMethodService;
@@ -33,7 +44,6 @@ use OrangeHRM\Core\Api\V2\ParameterBag;
 class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_REPORTING_METHOD = 'reportingMethodId';
-    public const PARAMETER_SUBORDINATE_EMP_NUMBER = 'empNumber';
 
     /**
      * @var EmployeeReportingMethodService|null
@@ -114,7 +124,7 @@ class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
     public function setSubordinateParams(ReportTo $subordinate): void
     {
         $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORTING_METHOD);
-        $subordinateEmpNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SUBORDINATE_EMP_NUMBER);
+        $subordinateEmpNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_EMP_NUMBER);
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER

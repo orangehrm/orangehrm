@@ -26,7 +26,12 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <employee-dropdown v-model="reportTo.employee" required disabled :clear="false"/>
+            <employee-dropdown
+              v-model="reportTo.employee"
+              required
+              disabled
+              :clear="false"
+            />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
@@ -58,13 +63,7 @@
 </template>
 
 <script>
-import {
-  shouldNotExceedCharLength,
-  digitsOnly,
-  validDateFormat,
-  endDateShouldBeAfterStartDate,
-} from '@orangehrm/core/util/validation/rules';
-import {required} from '../../core/util/validation/rules';
+import {required} from '@orangehrm/core/util/validation/rules';
 import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
 
 const reportToModel = {

@@ -22,15 +22,8 @@ namespace OrangeHRM\Pim\Dao;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\EmpDependent;
-use OrangeHRM\Entity\EmployeeEducation;
-use OrangeHRM\Entity\EmployeeTerminationRecord;
-use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Entity\ReportTo;
-use OrangeHRM\Entity\TerminationReason;
-use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSubordinateSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 

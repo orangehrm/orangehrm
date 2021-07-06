@@ -21,7 +21,6 @@ namespace OrangeHRM\Pim\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\ReportingMethod;
 use OrangeHRM\Entity\ReportTo;
 
 class EmployeeSupervisorModel implements Normalizable

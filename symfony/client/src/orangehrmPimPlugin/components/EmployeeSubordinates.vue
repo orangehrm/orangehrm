@@ -21,21 +21,21 @@
 <template>
   <div>
     <save-employee-report-to
-        v-if="showSaveModal"
-        :http="http"
-        :type="'Subordinate'"
-        :reporting-methods="reportingMethods"
-        @close="onSaveModalClose"
+      v-if="showSaveModal"
+      :http="http"
+      :type="'Subordinate'"
+      :reporting-methods="reportingMethods"
+      @close="onSaveModalClose"
     ></save-employee-report-to>
     <edit-employee-report-to
-        v-if="showEditModal"
-        :http="http"
-        :emp-number="empNumber"
-        :data="editModalState"
-        :type="'Subordinate'"
-        :api="subordinateEndpoint"
-        :reporting-methods="reportingMethods"
-        @close="onEditModalClose"
+      v-if="showEditModal"
+      :http="http"
+      :emp-number="empNumber"
+      :data="editModalState"
+      :type="'Subordinate'"
+      :api="subordinateEndpoint"
+      :reporting-methods="reportingMethods"
+      @close="onEditModalClose"
     ></edit-employee-report-to>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
@@ -43,20 +43,20 @@
       </profile-action-header>
     </div>
     <table-header
-        :selected="checkedItems.length"
-        :total="total"
-        :loading="isLoading"
-        @delete="onClickDeleteSelected"
+      :selected="checkedItems.length"
+      :total="total"
+      :loading="isLoading"
+      @delete="onClickDeleteSelected"
     ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
-          :headers="headers"
-          :items="items?.data"
-          :selectable="selectable"
-          :clickable="false"
-          :loading="isLoading"
-          v-model:selected="checkedItems"
-          rowDecorator="oxd-table-decorator-card"
+        :headers="headers"
+        :items="items?.data"
+        :selectable="selectable"
+        :clickable="false"
+        :loading="isLoading"
+        v-model:selected="checkedItems"
+        rowDecorator="oxd-table-decorator-card"
       />
     </div>
     <div v-if="showPaginator" class="orangehrm-bottom-container">
@@ -71,8 +71,8 @@ import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHe
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 import {APIService} from '@/core/util/services/api.service';
 import usePaginate from '@/core/util/composable/usePaginate';
-import SaveEmployeeReportTo from "@/orangehrmPimPlugin/components/SaveEmployeeReportTo";
-import EditEmployeeReportTo from "@/orangehrmPimPlugin/components/EditEmployeeReportTo";
+import SaveEmployeeReportTo from '@/orangehrmPimPlugin/components/SaveEmployeeReportTo';
+import EditEmployeeReportTo from '@/orangehrmPimPlugin/components/EditEmployeeReportTo';
 
 const subordinateNormalizer = data => {
   return data.map(item => {
@@ -107,8 +107,8 @@ export default {
 
   setup(props) {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        `api/v2/pim/employees/${props.empNumber}/subordinates`,
+      window.appGlobal.baseUrl,
+      `api/v2/pim/employees/${props.empNumber}/subordinates`,
     );
     const subordinateEndpoint = `api/v2/pim/employees/${props.empNumber}/subordinates/`;
     const {
@@ -131,7 +131,7 @@ export default {
       pageSize,
       execQuery,
       items: response,
-      subordinateEndpoint
+      subordinateEndpoint,
     };
   },
 
@@ -198,16 +198,16 @@ export default {
       if (items instanceof Array) {
         this.isLoading = true;
         this.http
-            .deleteAll({
-              ids: items,
-            })
-            .then(() => {
-              return this.$toast.deleteSuccess();
-            })
-            .then(() => {
-              this.isLoading = false;
-              this.resetDataTable();
-            });
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
       }
     },
     async resetDataTable() {

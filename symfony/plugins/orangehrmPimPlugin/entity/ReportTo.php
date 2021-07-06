@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\ReportToDecorator;
 

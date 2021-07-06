@@ -26,17 +26,17 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <employee-dropdown v-model="reportTo.employee" required/>
+            <employee-dropdown v-model="reportTo.employee" required />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-                type="dropdown"
-                label="Reporting Method"
-                v-model="reportTo.reportingMethodId"
-                :rules="rules.reportingMethod"
-                :clear="false"
-                :options="reportingMethods"
-                required
+              type="dropdown"
+              label="Reporting Method"
+              v-model="reportTo.reportingMethodId"
+              :rules="rules.reportingMethod"
+              :clear="false"
+              :options="reportingMethods"
+              required
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -45,10 +45,10 @@
       <oxd-form-actions>
         <required-text />
         <oxd-button
-            type="button"
-            displayType="ghost"
-            label="Cancel"
-            @click="onCancel"
+          type="button"
+          displayType="ghost"
+          label="Cancel"
+          @click="onCancel"
         />
         <submit-button />
       </oxd-form-actions>
@@ -105,18 +105,18 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-          .create({
-            empNumber: this.reportTo.employee.map(item => item.id)[0],
-            reportingMethodId: this.reportTo.reportingMethodId.map(
-                item => item.id,
-            )[0],
-          })
-          .then(() => {
-            return this.$toast.saveSuccess();
-          })
-          .then(() => {
-            this.onCancel();
-          });
+        .create({
+          empNumber: this.reportTo.employee.map(item => item.id)[0],
+          reportingMethodId: this.reportTo.reportingMethodId.map(
+            item => item.id,
+          )[0],
+        })
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
     },
     onCancel() {
       this.$emit('close', true);
