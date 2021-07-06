@@ -40,11 +40,4 @@ class CustomFieldServiceTest extends TestCase
     {
         $this->assertTrue($this->customFieldService->getCustomFieldDao() instanceof CustomFieldDao);
     }
-
-    public function testGetCustomFieldDaoBySetter()
-    {
-        $customFieldDao = new CustomFieldDao();
-        $this->customFieldService->setCustomFieldDao($customFieldDao);
-        $this->assertTrue($this->customFieldService->getCustomFieldDao() instanceof CustomFieldDao);
-    }
 }
