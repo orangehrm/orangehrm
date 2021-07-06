@@ -75,7 +75,7 @@
               </oxd-text>
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-switch-input v-model="usTax" />
+              <oxd-switch-input v-model="usTax" :checked="showDeprecatedFields" />
             </oxd-grid-item>
             <oxd-grid-item> </oxd-grid-item>
           </oxd-grid>
@@ -105,6 +105,21 @@ export default {
         value: '',
       },
     };
+  },
+
+  props: {
+    showDeprecatedFields: {
+      type: Boolean,
+      default: false,
+    },
+    showSSNField: {
+      type: Boolean,
+      default: false,
+    },
+    showSINField: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup() {

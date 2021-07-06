@@ -21,6 +21,7 @@ namespace OrangeHRM\Pim\Api;
 
 use Exception;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Pim\Api\Model\ConfigModel;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Api\CommonParams;
@@ -39,7 +40,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Config;
 
-class ConfigAPI extends EndPoint implements CrudEndpoint
+class ConfigAPI extends EndPoint implements ResourceEndpoint
 {
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_VALUE = 'value';
@@ -58,14 +59,6 @@ class ConfigAPI extends EndPoint implements CrudEndpoint
         return $this->configService;
     }
 
-    /**
-     * @inheritDoc
-     * @throws Exception
-     */
-    public function getAll(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
 
     /**
      * @inheritDoc
@@ -75,14 +68,7 @@ class ConfigAPI extends EndPoint implements CrudEndpoint
         throw $this->getNotImplementedException();
     }
 
-    /**
-     * @inheritDoc
-     * @throws Exception
-     */
-    public function create(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
+
 
     /**
      * @return Config
@@ -103,22 +89,6 @@ class ConfigAPI extends EndPoint implements CrudEndpoint
         throw $this->getNotImplementedException();
     }
 
-    /**
-     * @inheritDoc
-     * @throws Exception
-     */
-    public function delete(): EndpointResult
-    {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForDelete(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
-    }
 
     /**
      * @inheritDoc
