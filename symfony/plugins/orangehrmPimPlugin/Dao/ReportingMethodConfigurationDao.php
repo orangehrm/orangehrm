@@ -163,10 +163,10 @@ class ReportingMethodConfigurationDao extends BaseDao
     }
 
     /**
-     * @return array
+     * @return int[]
      * @throws DaoException
      */
-    public function reasonsInUse(): array
+    public function reportingMethodsInUse(): array
     {
         try {
             $query = $this->createQueryBuilder(ReportTo::class, 'rt');

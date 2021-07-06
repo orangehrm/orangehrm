@@ -125,11 +125,11 @@ class ReportingMethodConfigurationService
     }
 
     /**
-     * @return array
+     * @return int[]
      * @throws DaoException
      */
-    public function reasonsInUse(): array
+    public function reportingMethodsInUse(): array
     {
-        return $this->getReportingMethodDao()->reasonsInUse();
+        return $this->getReportingMethodDao()->reportingMethodsInUse();
     }
 }
