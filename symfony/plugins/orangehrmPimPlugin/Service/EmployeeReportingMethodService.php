@@ -27,6 +27,7 @@ use OrangeHRM\Entity\EmpDependent;
 use OrangeHRM\Pim\Dao\EmployeeReportingMethodDao;
 use OrangeHRM\Pim\Dao\EmployeeTerminationDao;
 use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
+use OrangeHRM\Pim\Dto\EmployeeSubordinateSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Pim\Service\Model\TerminationReasonModel;
 use Exception;
@@ -53,7 +54,7 @@ class EmployeeReportingMethodService
 
     /**
      * @param EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams
-     * @return EmpDependent[]
+     * @return array
      * @throws ServiceException
      */
     public function getImmediateSupervisorListForEmployee(EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams): array
@@ -78,4 +79,33 @@ class EmployeeReportingMethodService
             throw new ServiceException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @param EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
+     * @return array
+     * @throws ServiceException
+     */
+    public function getSubordinateListForEmployee(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams): array
+    {
+        try {
+            return $this->getEmployeeReportingMethodDao()->searchEmployeeSubordinates($employeeSubordinateSearchFilterParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
+     * @return int
+     * @throws ServiceException
+     */
+    public function getSubordinateListCountForEmployee(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
+    ): int {
+        try {
+            return $this->getEmployeeReportingMethodDao()->getSearchEmployeeSubordinatesCount($employeeSubordinateSearchFilterParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
 }

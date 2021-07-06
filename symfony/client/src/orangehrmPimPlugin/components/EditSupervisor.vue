@@ -30,13 +30,13 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-                type="dropdown"
-                label="Reporting Method"
-                v-model="reportTo.reportingMethod"
-                :rules="rules.reportingMethod"
-                :clear="false"
-                :options="reportingMethods"
-                required
+              type="dropdown"
+              label="Reporting Method"
+              v-model="reportTo.reportingMethod"
+              :rules="rules.reportingMethod"
+              :clear="false"
+              :options="reportingMethods"
+              required
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -45,10 +45,10 @@
       <oxd-form-actions>
         <required-text />
         <oxd-button
-            type="button"
-            displayType="ghost"
-            label="Cancel"
-            @click="onCancel"
+          type="button"
+          displayType="ghost"
+          label="Cancel"
+          @click="onCancel"
         />
         <submit-button />
       </oxd-form-actions>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import {required} from "../../core/util/validation/rules";
+import {required} from '../../core/util/validation/rules';
 
 const reportToModel = {
   employee: '',
@@ -94,7 +94,7 @@ export default {
 
   methods: {
     onSave() {
-      console.log('On Save Called')
+      console.log('On Save Called');
     },
     onCancel() {
       this.$emit('close', true);

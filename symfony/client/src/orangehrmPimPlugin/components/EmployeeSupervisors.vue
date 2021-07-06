@@ -74,6 +74,7 @@ const supervisorNormalizer = data => {
     return {
       name: `${item.supervisor?.firstName} ${item.supervisor?.lastName}`,
       reportingMethod: item.reportingMethod.name,
+      supervisorEmpNumber: item.supervisor.empNumber,
     };
   });
 };
@@ -171,7 +172,7 @@ export default {
     onClickDeleteSelected() {
       if (!this.selectable) return;
       const ids = this.checkedItems.map(index => {
-        return this.items?.data[index].id;
+        return this.items?.data[index].supervisorEmpNumber;
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -183,7 +184,7 @@ export default {
       if (!this.selectable) return;
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
-          this.deleteItems([item.id]);
+          this.deleteItems([item.supervisorEmpNumber]);
         }
       });
     },

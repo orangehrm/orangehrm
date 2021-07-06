@@ -31,6 +31,7 @@ use OrangeHRM\Entity\TerminationReason;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\EmployeeDependentSearchFilterParams;
+use OrangeHRM\Pim\Dto\EmployeeSubordinateSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 
 class EmployeeReportingMethodDao extends BaseDao
@@ -85,6 +86,23 @@ class EmployeeReportingMethodDao extends BaseDao
     }
 
     /**
+     * @param EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
+     * @return Paginator
+     */
+    private function getSearchEmployeeSubordinatePaginator(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams): Paginator
+    {
+        $q = $this->createQueryBuilder(ReportTo::class, 'rt');
+        $q->leftJoin('rt.reportingMethod', 'rpm')
+            ->leftJoin('rt.supervisor', 'sup')
+            ->andWhere('sup.empNumber = :empNumber')
+            ->setParameter('empNumber', $employeeSubordinateSearchFilterParams->getEmpNumber());
+        $this->setSortingAndPaginationParams($q, $employeeSubordinateSearchFilterParams);
+
+        return $this->getPaginator($q);
+    }
+
+
+    /**
      * Get Count of Search Query
      *
      * @param EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams
@@ -100,4 +118,81 @@ class EmployeeReportingMethodDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @param int $empNumber
+     * @param array $toDeleteIds
+     * @return int
+     * @throws DaoException
+     */
+    public function deleteEmployeeSupervisors(int $empNumber, array $toDeleteIds): int
+    {
+        try {
+            $q = $this->createQueryBuilder(ReportTo::class, 'rt');
+            $q->delete()
+                ->andWhere('rt.subordinate = :empNumber')
+                ->setParameter('empNumber', $empNumber)
+                ->andWhere($q->expr()->in('rt.supervisor', ':ids'))
+                ->setParameter('ids', $toDeleteIds);
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param int $empNumber
+     * @param array $toDeleteIds
+     * @return int
+     * @throws DaoException
+     */
+    public function deleteEmployeeSubordinates(int $empNumber, array $toDeleteIds): int
+    {
+        try {
+            $q = $this->createQueryBuilder(ReportTo::class, 'rt');
+            $q->delete()
+                ->andWhere('rt.supervisor = :empNumber')
+                ->setParameter('empNumber', $empNumber)
+                ->andWhere($q->expr()->in('rt.subordinate', ':ids'))
+                ->setParameter('ids', $toDeleteIds);
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Search
+     *
+     * @param EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
+     * @return array
+     * @throws DaoException
+     */
+    public function searchEmployeeSubordinates(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams): array
+    {
+        try {
+            $paginator = $this->getSearchEmployeeSubordinatePaginator($employeeSubordinateSearchFilterParams);
+            return $paginator->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * Get Count of Search Query
+     *
+     * @param EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getSearchEmployeeSubordinatesCount(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams): int
+    {
+        try {
+            $paginator = $this->getSearchEmployeeSubordinatePaginator($employeeSubordinateSearchFilterParams);
+            return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
 }

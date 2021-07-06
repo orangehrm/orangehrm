@@ -21,16 +21,16 @@
 <template>
   <div>
     <save-supervisor
-      v-if="showSaveModal"
-      :http="http"
-      :reporting-methods="reportingMethods"
-      @close="onSaveModalClose"
+        v-if="showSaveModal"
+        :http="http"
+        :reporting-methods="reportingMethods"
+        @close="onSaveModalClose"
     ></save-supervisor>
     <edit-supervisor
-      v-if="showEditModal"
-      :http="http"
-      :reporting-methods="reportingMethods"
-      @close="onEditModalClose"
+        v-if="showEditModal"
+        :http="http"
+        :reporting-methods="reportingMethods"
+        @close="onEditModalClose"
     ></edit-supervisor>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header @click="onClickAdd">
@@ -38,20 +38,20 @@
       </profile-action-header>
     </div>
     <table-header
-      :selected="checkedItems.length"
-      :total="total"
-      :loading="isLoading"
-      @delete="onClickDeleteSelected"
+        :selected="checkedItems.length"
+        :total="total"
+        :loading="isLoading"
+        @delete="onClickDeleteSelected"
     ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
-        :headers="headers"
-        :items="items?.data"
-        :selectable="selectable"
-        :clickable="false"
-        :loading="isLoading"
-        v-model:selected="checkedItems"
-        rowDecorator="oxd-table-decorator-card"
+          :headers="headers"
+          :items="items?.data"
+          :selectable="selectable"
+          :clickable="false"
+          :loading="isLoading"
+          v-model:selected="checkedItems"
+          rowDecorator="oxd-table-decorator-card"
       />
     </div>
     <div v-if="showPaginator" class="orangehrm-bottom-container">
@@ -62,18 +62,19 @@
 </template>
 
 <script>
-import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import {APIService} from '@orangehrm/core/util/services/api.service';
 import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 import SaveSupervisor from '@/orangehrmPimPlugin/components/SaveSupervisor';
 import EditSupervisor from '@/orangehrmPimPlugin/components/EditSupervisor';
+import {APIService} from '@/core/util/services/api.service';
+import usePaginate from '@/core/util/composable/usePaginate';
 
-const supervisorNormalizer = data => {
+const subordinateNormalizer = data => {
   return data.map(item => {
     return {
-      name: `${item.supervisor?.firstName} ${item.supervisor?.lastName}`,
+      name: `${item.subordinate?.firstName} ${item.subordinate?.lastName}`,
       reportingMethod: item.reportingMethod.name,
+      subordinateEmpNumber: item.subordinate.empNumber,
     };
   });
 };
@@ -101,8 +102,8 @@ export default {
 
   setup(props) {
     const http = new APIService(
-      window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.empNumber}/supervisors`,
+        window.appGlobal.baseUrl,
+        `api/v2/pim/employees/${props.empNumber}/subordinates`,
     );
 
     const {
@@ -114,7 +115,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, supervisorNormalizer);
+    } = usePaginate(http, {}, subordinateNormalizer);
     return {
       http,
       showPaginator,
@@ -171,7 +172,7 @@ export default {
     onClickDeleteSelected() {
       if (!this.selectable) return;
       const ids = this.checkedItems.map(index => {
-        return this.items?.data[index].id;
+        return this.items?.data[index].subordinateEmpNumber;
       });
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
@@ -183,7 +184,7 @@ export default {
       if (!this.selectable) return;
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
-          this.deleteItems([item.id]);
+          this.deleteItems([item.subordinateEmpNumber]);
         }
       });
     },
@@ -191,16 +192,16 @@ export default {
       if (items instanceof Array) {
         this.isLoading = true;
         this.http
-          .deleteAll({
-            ids: items,
-          })
-          .then(() => {
-            return this.$toast.deleteSuccess();
-          })
-          .then(() => {
-            this.isLoading = false;
-            this.resetDataTable();
-          });
+            .deleteAll({
+              ids: items,
+            })
+            .then(() => {
+              return this.$toast.deleteSuccess();
+            })
+            .then(() => {
+              this.isLoading = false;
+              this.resetDataTable();
+            });
       }
     },
     async resetDataTable() {

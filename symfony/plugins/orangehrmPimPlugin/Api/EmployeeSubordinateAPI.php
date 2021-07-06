@@ -3,14 +3,19 @@
 
 namespace OrangeHRM\Pim\Api;
 
+
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Serializer\AbstractEndpointResult;
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
@@ -18,17 +23,17 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Entity\ReportTo;
+use OrangeHRM\Pim\Api\Model\EmployeeSubordinateModel;
 use OrangeHRM\Pim\Api\Model\EmployeeSupervisorModel;
+use OrangeHRM\Pim\Dto\EmployeeSubordinateSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeReportingMethodService;
 use OrangeHRM\Core\Api\V2\ParameterBag;
-use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 
-class EmployeeSupervisorAPI  extends Endpoint implements CrudEndpoint
+class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
 {
-
     public const PARAMETER_REPORTING_METHOD = 'reportingMethodId';
-    public const PARAMETER_SUPERVISOR_EMP_NUMBER = 'empNumber';
+    public const PARAMETER_SUBORDINATE_EMP_NUMBER = 'empNumber';
 
     /**
      * @var EmployeeReportingMethodService|null
@@ -46,34 +51,33 @@ class EmployeeSupervisorAPI  extends Endpoint implements CrudEndpoint
         return $this->employeeReportingMethodService;
     }
 
-
     /**
      * @inheritDoc
      * @throws ServiceException
      */
     public function getAll(): EndpointCollectionResult
     {
-        $employeeSupervisorSearchFilterParams = new EmployeeSupervisorSearchFilterParams();
-        $this->setSortingAndPaginationParams($employeeSupervisorSearchFilterParams);
+        $employeeSubordinateSearchFilterParams = new EmployeeSubordinateSearchFilterParams();
+        $this->setSortingAndPaginationParams($employeeSubordinateSearchFilterParams);
 
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
 
-        $employeeSupervisorSearchFilterParams->setEmpNumber(
+        $employeeSubordinateSearchFilterParams->setEmpNumber(
             $empNumber
         );
 
-        $empSupervisors = $this->getEmployeeReportingMethodService()->getImmediateSupervisorListForEmployee($employeeSupervisorSearchFilterParams);
+        $empSubordinates = $this->getEmployeeReportingMethodService()->getSubordinateListForEmployee($employeeSubordinateSearchFilterParams);
         return new EndpointCollectionResult(
-            EmployeeSupervisorModel::class, $empSupervisors,
+            EmployeeSubordinateModel::class, $empSubordinates,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
                     CommonParams::PARAMETER_TOTAL => $this->getEmployeeReportingMethodService(
-                    )->getImmediateSupervisorListCountForEmployee(
-                        $employeeSupervisorSearchFilterParams
+                    )->getSubordinateListCountForEmployee(
+                        $employeeSubordinateSearchFilterParams
                     )
                 ]
             )
@@ -100,24 +104,24 @@ class EmployeeSupervisorAPI  extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        $supervisor = new ReportTo();
-        $this->setSupervisorParams($supervisor);
+        $subordinate = new ReportTo();
+        $this->setSubordinateParams($subordinate);
 
-        $supervisor = $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->saveEmployeeReportTo($supervisor);
-        return new EndpointResourceResult(EmployeeSupervisorModel::class, $supervisor);
+        $subordinate = $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->saveEmployeeReportTo($subordinate);
+        return new EndpointResourceResult(EmployeeSubordinateModel::class, $subordinate);
     }
 
-    public function setSupervisorParams(ReportTo $supervisor): void
+    public function setSubordinateParams(ReportTo $subordinate): void
     {
         $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORTING_METHOD);
-        $supervisorEmpNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SUPERVISOR_EMP_NUMBER);
+        $subordinateEmpNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SUBORDINATE_EMP_NUMBER);
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
         );
-        $supervisor->getDecorator()->setReportingMethodByReportingMethodId($reportingMethodId);
-        $supervisor->getDecorator()->setSubordinateEmployeeByEmpNumber($empNumber);
-        $supervisor->getDecorator()->setSupervisorEmployeeByEmpNumber($supervisorEmpNumber);
+        $subordinate->getDecorator()->setReportingMethodByReportingMethodId($reportingMethodId);
+        $subordinate->getDecorator()->setSupervisorEmployeeByEmpNumber($empNumber);
+        $subordinate->getDecorator()->setSubordinateEmployeeByEmpNumber($subordinateEmpNumber);
     }
 
     /**
@@ -142,7 +146,7 @@ class EmployeeSupervisorAPI  extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_EMP_NUMBER
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->deleteEmployeeSupervisors($empNumber, $ids);
+        $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->deleteEmployeeSubordinates($empNumber, $ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -153,7 +157,7 @@ class EmployeeSupervisorAPI  extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             $this->getEmpNumberRule(),
-            $this->getSupervisorIdsRule()
+            $this->getSubordinateIdsRule()
         );
     }
 
@@ -208,7 +212,7 @@ class EmployeeSupervisorAPI  extends Endpoint implements CrudEndpoint
         return new ParamRule(self::PARAMETER_REPORTING_METHOD, new Rule(Rules::POSITIVE));
     }
 
-    private function getSupervisorIdsRule(): ParamRule
+    private function getSubordinateIdsRule(): ParamRule
     {
         return new ParamRule(CommonParams::PARAMETER_IDS, new Rule(Rules::ARRAY_TYPE));
     }
