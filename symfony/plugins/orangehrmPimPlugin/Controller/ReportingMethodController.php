@@ -21,12 +21,33 @@ namespace OrangeHRM\Pim\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
 class ReportingMethodController extends AbstractVueController
 {
+
+    /**
+     * @var ReportingMethodConfigurationService|null
+     */
+    protected ?ReportingMethodConfigurationService $reportingMethodService = null;
+
+    /**
+     * @return ReportingMethodConfigurationService
+     */
+    protected function getReportingMethodService(): ReportingMethodConfigurationService
+    {
+        if (!$this->reportingMethodService instanceof ReportingMethodConfigurationService) {
+            $this->reportingMethodService = new ReportingMethodConfigurationService();
+        }
+        return $this->reportingMethodService;
+    }
+
     public function init(): void
     {
         $component = new Component('reporting-method-list');
+        $reasonsInUse = $this->getReportingMethodService()->getReportingMethodIdsInUse();
+        $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $reasonsInUse));
         $this->setComponent($component);
     }
 }

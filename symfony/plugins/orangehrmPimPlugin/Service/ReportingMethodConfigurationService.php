@@ -19,11 +19,11 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Pim\Dao\ReportingMethodConfigurationDao;
-use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\ReportingMethod;
+use OrangeHRM\Pim\Dao\ReportingMethodConfigurationDao;
+use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
 
 class ReportingMethodConfigurationService
 {
@@ -39,7 +39,6 @@ class ReportingMethodConfigurationService
      */
     public function getReportingMethodDao(): ReportingMethodConfigurationDao
     {
-
         if (!($this->reportingMethodDao instanceof ReportingMethodConfigurationDao)) {
             $this->reportingMethodDao = new ReportingMethodConfigurationDao();
         }
@@ -62,7 +61,7 @@ class ReportingMethodConfigurationService
      */
     public function saveReportingMethod(ReportingMethod $reportingMethod): ReportingMethod
     {
-        return $this->getReportingMethodDao()->saveReportingMethod($reportingMethod);        
+        return $this->getReportingMethodDao()->saveReportingMethod($reportingMethod);
     }
 
     /**
@@ -90,7 +89,7 @@ class ReportingMethodConfigurationService
      * @return array
      * @throws DaoException
      */
-    public function getReportingMethodList(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams ): array
+    public function getReportingMethodList(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams): array
     {
         return $this->getReportingMethodDao()->getReportingMethodList($reportingMethodSearchFilterParams);
     }
@@ -123,5 +122,14 @@ class ReportingMethodConfigurationService
     public function isExistingReportingMethodName(string $reportingMethodName): bool
     {
         return $this->getReportingMethodDao()->isExistingReportingMethodName($reportingMethodName);
+    }
+
+    /**
+     * @return int[]
+     * @throws DaoException
+     */
+    public function getReportingMethodIdsInUse(): array
+    {
+        return $this->getReportingMethodDao()->getReportingMethodIdsInUse();
     }
 }
