@@ -19,11 +19,13 @@
 
 namespace OrangeHRM\Pim\Service;
 
+use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Pim\Dao\ReportingMethodConfigurationDao;
 use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\ReportingMethod;
+use OrangeHRM\Pim\Service\Model\ReportingMethodModel;
 
 class ReportingMethodConfigurationService
 {
@@ -123,5 +125,17 @@ class ReportingMethodConfigurationService
     public function isExistingReportingMethodName(string $reportingMethodName): bool
     {
         return $this->getReportingMethodDao()->isExistingReportingMethodName($reportingMethodName);
+    }
+
+    /**
+     * @param ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams
+     * @return array
+     * @throws DaoException
+     * @throws NormalizeException
+     */
+    public function getReportingMethodArray(ReportingMethodSearchFilterParams $reportingMethodSearchFilterParams): array
+    {
+        $reportingMethods = $this->getReportingMethodDao()->getReportingMethodList($reportingMethodSearchFilterParams);
+        return $this->getNormalizerService()->normalizeArray(ReportingMethodModel::class, $reportingMethods);
     }
 }

@@ -70,8 +70,7 @@ class EmployeeReportingMethodDao extends BaseDao
     {
         $q = $this->createQueryBuilder(ReportTo::class, 'rt');
         $q->leftJoin('rt.reportingMethod', 'rpm')
-            ->leftJoin('rt.subordinate', 'sub')
-            ->andWhere('sub.empNumber = :empNumber')
+            ->andWhere('rt.subordinate = :empNumber')
             ->setParameter('empNumber', $employeeSupervisorSearchFilterParams->getEmpNumber());
         $this->setSortingAndPaginationParams($q, $employeeSupervisorSearchFilterParams);
 
@@ -86,8 +85,7 @@ class EmployeeReportingMethodDao extends BaseDao
     {
         $q = $this->createQueryBuilder(ReportTo::class, 'rt');
         $q->leftJoin('rt.reportingMethod', 'rpm')
-            ->leftJoin('rt.supervisor', 'sup')
-            ->andWhere('sup.empNumber = :empNumber')
+            ->andWhere('rt.supervisor = :empNumber')
             ->setParameter('empNumber', $employeeSubordinateSearchFilterParams->getEmpNumber());
         $this->setSortingAndPaginationParams($q, $employeeSubordinateSearchFilterParams);
 

@@ -30,6 +30,7 @@
               v-model="reportTo.employee"
               required
               disabled
+              :rules="reportTo.employee"
               :clear="false"
             />
           </oxd-grid-item>
@@ -38,7 +39,7 @@
               type="dropdown"
               label="Reporting Method"
               v-model="reportTo.reportingMethodId"
-              :rules="rules.reportingMethod"
+              :rules="rules.reportingMethodId"
               :clear="false"
               :options="reportingMethods"
               required

@@ -52,7 +52,8 @@
       <oxd-card-table
         :headers="headers"
         :items="items?.data"
-        :selectable="selectable"
+        :selectable="true"
+        :disabled="isDisabled"
         :clickable="false"
         :loading="isLoading"
         v-model:selected="checkedItems"
@@ -236,7 +237,7 @@ export default {
   },
 
   computed: {
-    selectable() {
+    isDisabled() {
       return !(this.showSaveModal || this.showEditModal);
     },
   },

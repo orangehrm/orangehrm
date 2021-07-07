@@ -17,6 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 namespace OrangeHRM\Pim\Api;
 
 
@@ -41,7 +42,7 @@ use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeReportingMethodService;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 
-class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
+class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_REPORTING_METHOD = 'reportingMethodId';
 
@@ -85,8 +86,7 @@ class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeReportingMethodService(
-                    )->getSubordinateListCountForEmployee(
+                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeReportingMethodService()->getSubordinateListCountForEmployee(
                         $employeeSubordinateSearchFilterParams
                     )
                 ]
@@ -123,8 +123,10 @@ class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
 
     public function setSubordinateParams(ReportTo $subordinate): void
     {
-        $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORTING_METHOD);
-        $subordinateEmpNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_EMP_NUMBER);
+        $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_REPORTING_METHOD);
+        $subordinateEmpNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_EMP_NUMBER);
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_EMP_NUMBER
@@ -156,7 +158,8 @@ class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_EMP_NUMBER
         );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->deleteEmployeeSubordinates($empNumber, $ids);
+        $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->deleteEmployeeSubordinates($empNumber,
+            $ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
@@ -179,7 +182,8 @@ class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
     {
         list($empNumber, $subordinateId) = $this->getUrlAttributes();
 
-        $empSSubordinate = $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->getEmployeeReportToByEmpNumbers($subordinateId, $empNumber);
+        $empSSubordinate = $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->getEmployeeReportToByEmpNumbers($subordinateId,
+            $empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($empSSubordinate, ReportTo::class);
 
         return new EndpointResourceResult(
@@ -229,7 +233,8 @@ class EmployeeSubordinateAPI  extends Endpoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         list($empNumber, $subordinateId) = $this->getUrlAttributes();
-        $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REPORTING_METHOD);
+        $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_REPORTING_METHOD);
 
         $employeeSubordinate = $this->getEmployeeReportingMethodService()
             ->getEmployeeReportingMethodDao()

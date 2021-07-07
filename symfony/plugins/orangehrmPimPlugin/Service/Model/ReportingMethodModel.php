@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,44 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Pim\Service\Model;
 
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\ReportingMethod;
 
-use OrangeHRM\Core\Dto\FilterParams;
-
-class EmployeeSubordinateSearchFilterParams extends FilterParams
+class ReportingMethodModel implements Normalizable
 {
-
-    public const ALLOWED_SORT_FIELDS = ['rt.reportingMethod'];
-
+    use ModelTrait;
 
     /**
-     * @var string|null
+     * @param ReportingMethod $reportingMethod
      */
-    protected ?string $empNumber = null;
-
-    /**
-     * EmployeeSubordinateSearchFilterParams constructor.
-     */
-    public function __construct()
+    public function __construct(ReportingMethod $reportingMethod)
     {
-        $this->setSortField('rt.reportingMethod');
+        $this->setEntity($reportingMethod);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'label'
+            ]
+        );
     }
-
-    /**
-     * @return string|null
-     */
-    public function getEmpNumber(): ?string
-    {
-        return $this->empNumber;
-    }
-
-    /**
-     * @param string|null $empNumber
-     */
-    public function setEmpNumber(?string $empNumber): void
-    {
-        $this->empNumber = $empNumber;
-    }
-
 }

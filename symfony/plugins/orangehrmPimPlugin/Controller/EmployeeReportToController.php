@@ -19,11 +19,12 @@
 
 namespace OrangeHRM\Pim\Controller;
 
-use OrangeHRM\Core\Controller\Exception\VueControllerException;
-use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Admin\Service\PayGradeService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
 use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
@@ -47,8 +48,7 @@ class EmployeeReportToController extends BaseViewEmployeeController
     }
 
     /**
-     * @throws VueControllerException
-     * @throws DaoException
+     * @inheritDoc
      */
     public function preRender(Request $request): void
     {
@@ -56,13 +56,7 @@ class EmployeeReportToController extends BaseViewEmployeeController
         if ($empNumber) {
             $component = new Component('employee-report-to');
             $reportingMethodParamHolder = new ReportingMethodSearchFilterParams();
-            $reportingMethodsObjectArray = $this->getReportingMethodConfigurationService()->getReportingMethodList($reportingMethodParamHolder);
-            $reportingMethods = array_map(function ($item, $index) {
-                return [
-                    "id" => $item->getId(),
-                    "label" => $item->getName(),
-                ];
-            }, $reportingMethodsObjectArray, array_keys($reportingMethodsObjectArray));
+            $reportingMethods = $this->getReportingMethodConfigurationService()->getReportingMethodArray($reportingMethodParamHolder);
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
             $component->addProp(new Prop('reporting-methods', Prop::TYPE_ARRAY, $reportingMethods));
             $this->setComponent($component);
