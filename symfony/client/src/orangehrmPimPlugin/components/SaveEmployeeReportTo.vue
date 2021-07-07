@@ -26,7 +26,11 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <employee-dropdown v-model="reportTo.employee" :rules="rules.employee" required />
+            <employee-dropdown
+              v-model="reportTo.employee"
+              :rules="rules.employee"
+              required
+            />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
