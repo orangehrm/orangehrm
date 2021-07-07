@@ -32,7 +32,7 @@ class ApplicationSetupUtility {
      * @return string
      */
     public static function getErrorLogPath() {
-        return realpath(__DIR__ . '/../symfony/log/installer.log');
+        return realpath(__DIR__ . '/../symfony/log') . DIRECTORY_SEPARATOR.  'installer.log';
     }
 
     public static function createDB() {
