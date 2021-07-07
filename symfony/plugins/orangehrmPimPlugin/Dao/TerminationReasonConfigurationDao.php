@@ -169,7 +169,7 @@ class TerminationReasonConfigurationDao extends BaseDao
      * @return array
      * @throws DaoException
      */
-    public function reasonsInUse(): array
+    public function getReasonIdsInUse(): array
     {
         try {
             $query = $this->createQueryBuilder(Employee::class, 'e');

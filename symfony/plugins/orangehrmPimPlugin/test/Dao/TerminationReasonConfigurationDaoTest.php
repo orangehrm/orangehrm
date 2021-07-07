@@ -114,7 +114,7 @@ class TerminationReasonConfigurationDaoTest extends TestCase
 
     public function testReasonsInUse(): void
     {
-        $result = $this->terminationReasonConfigurationDao->reasonsInUse();
+        $result = $this->terminationReasonConfigurationDao->getReasonIdsInUse();
         $this->assertEquals(2, count($result));
         $this->assertEquals([0,1], $result);
     }

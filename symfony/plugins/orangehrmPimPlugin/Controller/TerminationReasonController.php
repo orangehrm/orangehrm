@@ -45,7 +45,7 @@ class TerminationReasonController extends AbstractVueController
     public function init(): void
     {
         $component = new Component('termination-reason-list');
-        $reasonsInUse = $this->getTerminationReasonService()->reasonsInUse();
+        $reasonsInUse = $this->getTerminationReasonService()->getReasonIdsInUse();
         $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $reasonsInUse));
         $this->setComponent($component);
     }

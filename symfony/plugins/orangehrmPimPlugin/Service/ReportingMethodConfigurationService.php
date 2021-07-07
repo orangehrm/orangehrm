@@ -130,6 +130,6 @@ class ReportingMethodConfigurationService
      */
     public function getReportingMethodIdsInUse(): array
     {
-        return $this->getReportingMethodDao()->reportingMethodsInUse();
+        return $this->getReportingMethodDao()->getReportingMethodIdsInUse();
     }
 }

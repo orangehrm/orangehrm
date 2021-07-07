@@ -128,6 +128,6 @@ class TerminationReasonConfigurationService
      */
     public function getReasonIdsInUse(): array
     {
-        return $this->getTerminationReasonDao()->reasonsInUse();
+        return $this->getTerminationReasonDao()->getReasonIdsInUse();
     }
 }

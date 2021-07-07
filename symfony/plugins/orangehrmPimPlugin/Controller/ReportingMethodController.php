@@ -46,7 +46,7 @@ class ReportingMethodController extends AbstractVueController
     public function init(): void
     {
         $component = new Component('reporting-method-list');
-        $reasonsInUse = $this->getReportingMethodService()->reasonsInUse();
+        $reasonsInUse = $this->getReportingMethodService()->getReportingMethodIdsInUse();
         $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $reasonsInUse));
         $this->setComponent($component);
     }
