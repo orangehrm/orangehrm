@@ -298,6 +298,7 @@ apiv2_pim_reporting_methods:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI
+
 apiv2_pim_custom_fields:
   path: /api/v2/pim/custom-fields
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -420,6 +421,7 @@ edit_reporting_method:
   path: /pim/saveReportingMethod/{id}
   controller: OrangeHRM\Pim\Controller\SaveReportingMethodController::handle
   methods: [ GET ]
+
 view_custom_fields:
   path: /pim/listCustomFields
   controller: OrangeHRM\Pim\Controller\CustomFieldController::handle

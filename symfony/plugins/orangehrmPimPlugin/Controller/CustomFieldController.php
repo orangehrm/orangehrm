@@ -21,12 +21,51 @@ namespace OrangeHRM\Pim\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\CustomField;
 
 class CustomFieldController extends AbstractVueController
 {
+    public const SCREEN_PERSONAL_DETAILS = 'Personal Details';
+    public const SCREEN_CONTACT_DETAILS = 'Contact Details';
+    public const SCREEN_EMERGENCY_CONTACTS = 'Emergency Contacts';
+    public const SCREEN_DEPENDENTS = 'Dependents';
+    public const SCREEN_IMMIGRATION = 'Immigration';
+    public const SCREEN_JOB = 'Job';
+    public const SCREEN_SALARY = 'Salary';
+    public const SCREEN_TAX_EXEMPTIONS = 'Tax Exemptions';
+    public const SCREEN_REPORT_TO = 'Report-to';
+    public const SCREEN_QUALIFICATIONS = 'Qualifications';
+    public const SCREEN_MEMBERSHIP = 'Memberships';
+
+    Const DROP_DOWN = 'Drop Down';
+    Const TEXT_NUMBER = 'Text or Number';
+
+    public const SCREEN_LIST = [
+        ['id' => CustomField::SCREEN_PERSONAL_DETAILS, 'label' => self::SCREEN_PERSONAL_DETAILS],
+        ['id' => CustomField::SCREEN_CONTACT_DETAILS, 'label' => self::SCREEN_CONTACT_DETAILS],
+        ['id' => CustomField::SCREEN_EMERGENCY_CONTACTS, 'label' => self::SCREEN_EMERGENCY_CONTACTS],
+        ['id' => CustomField::SCREEN_DEPENDENTS, 'label' => self::SCREEN_DEPENDENTS],
+        ['id' => CustomField::SCREEN_IMMIGRATION, 'label' => self::SCREEN_IMMIGRATION],
+        ['id' => CustomField::SCREEN_JOB, 'label' => self::SCREEN_JOB],
+        ['id' => CustomField::SCREEN_SALARY, 'label' => self::SCREEN_SALARY],
+        ['id' => CustomField::SCREEN_TAX_EXEMPTIONS, 'label' => self::SCREEN_TAX_EXEMPTIONS],
+        ['id' => CustomField::SCREEN_REPORT_TO, 'label' => self::SCREEN_REPORT_TO],
+        ['id' => CustomField::SCREEN_QUALIFICATIONS, 'label' => self::SCREEN_QUALIFICATIONS],
+        ['id' => CustomField::SCREEN_MEMBERSHIP, 'label' => self::SCREEN_MEMBERSHIP]
+    ];
+
+    public const FIELD_TYPE_LIST = [
+        ['id' => CustomField::FIELD_TYPE_STRING, 'label' => self::TEXT_NUMBER],
+        ['id' => CustomField::FIELD_TYPE_SELECT, 'label' => self::DROP_DOWN]
+    ];
+
     public function init(): void
     {
         $component = new Component('custom-field-list');
+        $component->addProp(new Prop('custom-field-limit', Prop::TYPE_NUMBER, CustomField::MAX_FIELD_NUM));
+        $component->addProp(new Prop('screen-list', Prop::TYPE_ARRAY, self::SCREEN_LIST));
+        $component->addProp(new Prop('field-type-list', Prop::TYPE_ARRAY, self::FIELD_TYPE_LIST));
         $this->setComponent($component);
     }
 }

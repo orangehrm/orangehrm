@@ -20,7 +20,6 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use OrangeHRM\Entity\Decorator\DecoratorTrait;
 
 /**
  * @ORM\Table(name="hs_hr_custom_fields")
@@ -28,7 +27,40 @@ use OrangeHRM\Entity\Decorator\DecoratorTrait;
  */
 class CustomField
 {
-    use DecoratorTrait;
+    const FIELD_TYPE_STRING = 0;
+    const FIELD_TYPE_SELECT = 1;
+    const MAX_FIELD_NUM = 10;
+
+    const SCREEN_PERSONAL_DETAILS   = 'personal';
+    const SCREEN_CONTACT_DETAILS    = 'contact';
+    const SCREEN_EMERGENCY_CONTACTS = 'emergency';
+    const SCREEN_DEPENDENTS         = 'dependents';
+    const SCREEN_IMMIGRATION        = 'immigration';
+    const SCREEN_QUALIFICATIONS     = 'qualifications';
+    const SCREEN_TAX_EXEMPTIONS     = 'tax';
+    const SCREEN_SALARY             = 'salary';
+    const SCREEN_JOB                = 'job';
+    const SCREEN_REPORT_TO          = 'report-to';
+    const SCREEN_MEMBERSHIP         = 'membership';
+
+    public const SCREENS = [
+        self::SCREEN_PERSONAL_DETAILS,
+        self::SCREEN_CONTACT_DETAILS,
+        self::SCREEN_EMERGENCY_CONTACTS,
+        self::SCREEN_DEPENDENTS,
+        self::SCREEN_IMMIGRATION,
+        self::SCREEN_QUALIFICATIONS,
+        self::SCREEN_TAX_EXEMPTIONS,
+        self::SCREEN_SALARY,
+        self::SCREEN_JOB,
+        self::SCREEN_REPORT_TO,
+        self::SCREEN_MEMBERSHIP,
+    ];
+
+    public const FIELD_TYPES = [
+        self::FIELD_TYPE_STRING,
+        self::FIELD_TYPE_SELECT,
+    ];
 
     /**
      * @var int

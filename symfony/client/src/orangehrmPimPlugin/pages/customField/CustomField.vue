@@ -81,14 +81,33 @@ const dataNormalizer = data => {
     return {
       id: item.id,
       fieldName: item.fieldName,
-      screen: item.screen,
-      fieldType: item.fieldType === 0 ? 'Text or Number' : 'Drop Down',
+      screen: this.screenList.filter(screen => {
+        return item.screen === screen.id;
+      })[0].label,
+      fieldType: this.fieldTypeList.filter(fieldType => {
+        return item.fieldType === fieldType.id;
+      })[0].label,
       extraData: item.extraData,
     };
   });
 };
 
 export default {
+  props: {
+    customFieldLimit: {
+      type: Number,
+      required: true,
+    },
+    screenList: {
+      type: Array,
+      required: true,
+    },
+    fieldTypeList: {
+      type: Array,
+      required: true,
+    },
+  },
+
   data() {
     return {
       screenWidth: screen.width,
@@ -225,7 +244,7 @@ export default {
       });
     },
     remainingFields() {
-      return 10 - this.items?.data?.length;
+      return this.customFieldLimit - this.items?.data?.length;
     },
   },
 };

@@ -192,6 +192,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_TYPE,
                     new Rule(Rules::INT_TYPE),
+                    new Rule(Rules::IN, [CustomField::FIELD_TYPES]),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TYPE_MAX_LENGTH]),
                 ),
                 false
@@ -201,6 +202,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
                     self::PARAMETER_SCREEN,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SCREEN_MAX_LENGTH]),
+                    new Rule(Rules::IN, [CustomField::SCREENS]),
                 ),
                 true
             ),
