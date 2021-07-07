@@ -177,7 +177,6 @@ export default {
 
   methods: {
     onClickDeleteSelected() {
-      if (!this.selectable) return;
       const ids = this.checkedItems.map(index => {
         return this.items?.data[index].supervisorEmpNumber;
       });
@@ -188,7 +187,6 @@ export default {
       });
     },
     onClickDelete(item) {
-      if (!this.selectable) return;
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.supervisorEmpNumber]);
