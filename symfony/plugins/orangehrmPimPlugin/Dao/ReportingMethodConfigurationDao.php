@@ -23,6 +23,7 @@ use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\ReportingMethod;
+use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
 
@@ -156,6 +157,23 @@ class ReportingMethodConfigurationDao extends BaseDao
                 return true;
             }
             return false;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @return int[]
+     * @throws DaoException
+     */
+    public function getReportingMethodIdsInUse(): array
+    {
+        try {
+            $query = $this->createQueryBuilder(ReportTo::class, 'rt');
+            $query->leftJoin('rt.reportingMethod', 'rm');
+            $query->select('rm.id');
+            $result = $query->getQuery()->getScalarResult();
+            return array_column($result, 'id');
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
