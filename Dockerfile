@@ -25,7 +25,6 @@ RUN set -ex \
 
 ARG OHRM_VERSION=4.8
 ARG OHRM_MD5=55c9a4657334ad6051f009a8a41fad02
-
 RUN cd .. \
 	&& rm -r html \
 	&& curl -fSL -o orangehrm.zip "https://sourceforge.net/projects/orangehrm/files/stable/${OHRM_VERSION}/orangehrm-${OHRM_VERSION}.zip" \
@@ -38,11 +37,9 @@ ARG UID=1001
 RUN groupadd -g ${UID} -r orangehrm \
 	&& useradd -u ${UID} -r -g orangehrm -M orangehrm \
 	&& cd .. \
-	&& chown 1001:1001 html \
-	&& chown -R 1001:1001 html/symfony/cache html/symfony/log \
+	&& chown ${UID}:${UID} html \
+	&& chown -R ${UID}:${UID} html/symfony/cache html/symfony/log \
 	&& chmod -R 775 html/symfony/cache html/symfony/log
-
-USER 1001
 
 RUN { \
 		echo 'opcache.memory_consumption=128'; \
@@ -56,5 +53,7 @@ RUN { \
 	if command -v a2enmod; then \
 		a2enmod rewrite; \
 	fi;
+
+USER 1001
 
 VOLUME ["/var/www/html"]
