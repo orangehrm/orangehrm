@@ -17,24 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Api\Model;
+namespace OrangeHRM\Pim\Controller;
 
-use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\Config;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
 
-class ConfigModel implements Normalizable
+class OptionalFieldController extends AbstractVueController
 {
-    use ModelTrait;
-
-    public function __construct(Config $config)
+    public function init(): void
     {
-        $this->setEntity($config);
-        $this->setFilters(
-            [
-                'name',
-                'value',
-            ]
-        );
+        $component = new Component('config-list');
+        $this->setComponent($component);
     }
 }

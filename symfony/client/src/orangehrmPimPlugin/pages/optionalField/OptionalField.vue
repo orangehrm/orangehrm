@@ -37,7 +37,9 @@
               </oxd-text>
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-switch-input v-model="nikeNames" />
+              <oxd-switch-input
+                v-model="optionalField.pimShowDeprecatedFields"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -55,7 +57,7 @@
               </oxd-text>
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-switch-input v-model="ssn" />
+              <oxd-switch-input v-model="optionalField.showSSN" />
             </oxd-grid-item>
             <oxd-grid-item> </oxd-grid-item>
 
@@ -65,7 +67,7 @@
               </oxd-text>
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-switch-input v-model="sin" />
+              <oxd-switch-input v-model="optionalField.showSIN" />
             </oxd-grid-item>
             <oxd-grid-item> </oxd-grid-item>
 
@@ -75,7 +77,7 @@
               </oxd-text>
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-switch-input v-model="usTax" :checked="showDeprecatedFields" />
+              <oxd-switch-input v-model="optionalField.showTaxExemptions" />
             </oxd-grid-item>
             <oxd-grid-item> </oxd-grid-item>
           </oxd-grid>
@@ -92,34 +94,22 @@
 </template>
 
 <script>
-import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import SwitchInput from '@orangehrm/oxd/src/core/components/Input/SwitchInput';
+
+const optionalFieldModel = {
+  pimShowDeprecatedFields: false,
+  showSSN: false,
+  showSIN: false,
+  showTaxExemptions: false,
+};
 
 export default {
   data() {
     return {
       isLoading: false,
-      OptionalField: {
-        name: '',
-        value: '',
-      },
+      optionalField: {...optionalFieldModel},
     };
-  },
-
-  props: {
-    showDeprecatedFields: {
-      type: Boolean,
-      default: false,
-    },
-    showSSNField: {
-      type: Boolean,
-      default: false,
-    },
-    showSINField: {
-      type: Boolean,
-      default: false,
-    },
   },
 
   setup() {
@@ -140,33 +130,26 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .create({
-          value: this.OptionalField.value,
+        .request({
+          method: 'PUT',
+          data: {...this.optionalField},
         })
-        .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
-          this.onCancel();
+        .then(response => {
+          const {data} = response.data;
+          this.optionalField = {...data};
+          this.$toast.saveSuccess();
+          this.isLoading = false;
         });
-    },
-    onCancel() {
-      navigate('/pim/configurePim');
     },
   },
 
   created() {
     this.isLoading = true;
     this.http
-      .getAll({
-        limit: 0,
-      })
+      .getAll()
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(v => {
-          const index = data.findIndex(item => item.name === v);
-          return index === -1 || 'Already exists';
-        });
+        this.optionalField = {...data};
       })
       .finally(() => {
         this.isLoading = false;

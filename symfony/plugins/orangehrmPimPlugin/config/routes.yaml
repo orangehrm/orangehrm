@@ -318,9 +318,11 @@ apiv2_pim_custom_field:
 apiv2_pim_configure:
   path: /api/v2/pim/configures
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, POST, PUT ]
+  methods: [ GET, PUT ]
   defaults:
-    _api: OrangeHRM\Pim\Api\ConfigAPI
+    id: 0
+    _api: OrangeHRM\Pim\Api\OptionalFieldAPI
+
 
 ##########################
 #        Files
