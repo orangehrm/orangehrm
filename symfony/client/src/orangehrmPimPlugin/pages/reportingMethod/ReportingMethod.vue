@@ -69,6 +69,13 @@ import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 
 export default {
+  props: {
+    unselectableIds: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
   data() {
     return {
       headers: [
@@ -109,7 +116,18 @@ export default {
     'delete-confirmation': DeleteConfirmationDialog,
   },
 
-  setup() {
+  setup(props) {
+    const reportingMethodNormalizer = data => {
+      return data.map(item => {
+        const selectable = props.unselectableIds.findIndex(id => id == item.id);
+        return {
+          id: item.id,
+          name: item.name,
+          isSelectable: selectable === -1,
+        };
+      });
+    };
+
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/pim/reporting-methods',
@@ -123,7 +141,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http);
+    } = usePaginate(http, {}, reportingMethodNormalizer);
     return {
       http,
       showPaginator,
@@ -156,6 +174,10 @@ export default {
       });
     },
     onClickDelete(item) {
+      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      if (isSelectable > -1) {
+        return this.$toast.cannotDelete();
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);

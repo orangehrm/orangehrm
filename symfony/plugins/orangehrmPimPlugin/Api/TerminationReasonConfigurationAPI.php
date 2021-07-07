@@ -20,15 +20,12 @@
 namespace OrangeHRM\Pim\Api;
 
 use Exception;
-use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Pim\Api\Model\TerminationReasonConfigurationModel;
-use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
-use OrangeHRM\Pim\Service\TerminationReasonConfigurationService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -39,6 +36,9 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\TerminationReason;
+use OrangeHRM\Pim\Api\Model\TerminationReasonConfigurationModel;
+use OrangeHRM\Pim\Dto\TerminationReasonConfigurationSearchFilterParams;
+use OrangeHRM\Pim\Service\TerminationReasonConfigurationService;
 
 class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
 {
@@ -141,11 +141,23 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws DaoException
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
+        $reasonIdsInUse = $this->getTerminationReasonConfigurationService()->getReasonIdsInUse();
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(CommonParams::PARAMETER_IDS,
+                new Rule(
+                    Rules::EACH,
+                    [
+                        new Rules\Composite\AllOf(
+                            new Rule(Rules::POSITIVE),
+                            new Rule(Rules::NOT_IN, [$reasonIdsInUse])
+                        )
+                    ]
+                )
+            ),
         );
     }
 
