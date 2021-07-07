@@ -19,8 +19,10 @@
 
 namespace OrangeHRM\Pim\Service;
 
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Pim\Dao\EmployeeDependentDao;
 use OrangeHRM\Pim\Dao\EmployeeReportingMethodDao;
 use OrangeHRM\Pim\Dto\EmployeeSubordinateSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
@@ -47,59 +49,51 @@ class EmployeeReportingMethodService
     }
 
     /**
+     * @param EmployeeReportingMethodDao|null $employeeReportingMethodDao
+     */
+    public function setEmployeeReportingMethodDao(?EmployeeReportingMethodDao $employeeReportingMethodDao): void
+    {
+        $this->employeeReportingMethodDao = $employeeReportingMethodDao;
+    }
+
+    /**
      * @param EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams
      * @return array
-     * @throws ServiceException
+     * @throws DaoException
      */
     public function getImmediateSupervisorListForEmployee(EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams): array
     {
-        try {
-            return $this->getEmployeeReportingMethodDao()->searchImmediateEmployeeSupervisors($employeeSupervisorSearchFilterParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getEmployeeReportingMethodDao()->searchImmediateEmployeeSupervisors($employeeSupervisorSearchFilterParams);
     }
 
     /**
      * @param EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams
      * @return int
-     * @throws ServiceException
+     * @throws DaoException
      */
-    public function getImmediateSupervisorListCountForEmployee(EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams
-    ): int {
-        try {
-            return $this->getEmployeeReportingMethodDao()->getSearchImmediateEmployeeSupervisorsCount($employeeSupervisorSearchFilterParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+    public function getImmediateSupervisorListCountForEmployee(EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams): int
+    {
+        return $this->getEmployeeReportingMethodDao()->getSearchImmediateEmployeeSupervisorsCount($employeeSupervisorSearchFilterParams);
     }
 
     /**
      * @param EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
      * @return array
-     * @throws ServiceException
+     * @throws DaoException
      */
     public function getSubordinateListForEmployee(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams): array
     {
-        try {
-            return $this->getEmployeeReportingMethodDao()->searchEmployeeSubordinates($employeeSubordinateSearchFilterParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getEmployeeReportingMethodDao()->searchEmployeeSubordinates($employeeSubordinateSearchFilterParams);
     }
 
     /**
      * @param EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
      * @return int
-     * @throws ServiceException
+     * @throws DaoException
      */
-    public function getSubordinateListCountForEmployee(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams
-    ): int {
-        try {
-            return $this->getEmployeeReportingMethodDao()->getSearchEmployeeSubordinatesCount($employeeSubordinateSearchFilterParams);
-        } catch (Exception $e) {
-            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
-        }
+    public function getSubordinateListCountForEmployee(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams): int
+    {
+        return $this->getEmployeeReportingMethodDao()->getSearchEmployeeSubordinatesCount($employeeSubordinateSearchFilterParams);
     }
 
 }
