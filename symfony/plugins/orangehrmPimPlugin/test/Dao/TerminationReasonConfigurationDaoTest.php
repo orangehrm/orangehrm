@@ -112,16 +112,11 @@ class TerminationReasonConfigurationDaoTest extends TestCase
         $this->assertTrue($this->terminationReasonConfigurationDao->isExistingTerminationReasonName('  Resigned  '));
     }
 
-    public function testIsReasonInUse(): void
+    public function testReasonsInUse(): void
     {
-        $empTermination = new Employee();
-        $empTermination->setEmpNumber(2);
-        $empTermination = TestDataService::fetchObject('TerminationReason', 1);
-        $this->terminationReasonConfigurationDao->saveTerminationReason($empTermination);
-
-        $this->assertTrue($this->terminationReasonConfigurationDao->isReasonInUse([1]));
-        $this->assertFalse($this->terminationReasonConfigurationDao->isReasonInUse([2]));
-        $this->assertFalse($this->terminationReasonConfigurationDao->isReasonInUse([3]));
+        $result = $this->terminationReasonConfigurationDao->getReasonIdsInUse();
+        $this->assertEquals(2, count($result));
+        $this->assertEquals([0,1], $result);
     }
 
     public function testGetTerminationReasonByName(): void

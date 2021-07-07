@@ -218,8 +218,19 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
+        $reportingMethodIdsInUse = $this->getReportingMethodService()->getReportingMethodIdsInUse();
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(CommonParams::PARAMETER_IDS,
+                new Rule(
+                    Rules::EACH,
+                    [
+                        new Rules\Composite\AllOf(
+                            new Rule(Rules::POSITIVE),
+                            new Rule(Rules::NOT_IN, [$reportingMethodIdsInUse])
+                        )
+                    ]
+                )
+            ),
         );
     }
 }

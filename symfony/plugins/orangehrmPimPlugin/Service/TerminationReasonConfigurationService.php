@@ -123,11 +123,11 @@ class TerminationReasonConfigurationService
     }
 
     /**
-     * @param $idArray
-     * @return bool
+     * @return array
+     * @throws DaoException
      */
-    public function isReasonInUse($idArray): bool
+    public function getReasonIdsInUse(): array
     {
-        return $this->getTerminationReasonDao()->isReasonInUse($idArray);
+        return $this->getTerminationReasonDao()->getReasonIdsInUse();
     }
 }

@@ -30,7 +30,7 @@ Please describe what you expected to happen.
 Provide error logs depending on the issue.
 
 If issue related to installation:
-- installer/log.txt
+- symfony/log/installer.log
 - logInsatall.log
 
 If issue related to any other
