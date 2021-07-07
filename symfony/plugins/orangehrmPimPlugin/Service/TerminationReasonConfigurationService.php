@@ -126,7 +126,7 @@ class TerminationReasonConfigurationService
      * @return array
      * @throws DaoException
      */
-    public function reasonsInUse(): array
+    public function getReasonIdsInUse(): array
     {
         return $this->getTerminationReasonDao()->reasonsInUse();
     }

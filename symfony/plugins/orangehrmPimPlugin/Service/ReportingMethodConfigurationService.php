@@ -128,7 +128,7 @@ class ReportingMethodConfigurationService
      * @return int[]
      * @throws DaoException
      */
-    public function reportingMethodsInUse(): array
+    public function getReportingMethodIdsInUse(): array
     {
         return $this->getReportingMethodDao()->reportingMethodsInUse();
     }

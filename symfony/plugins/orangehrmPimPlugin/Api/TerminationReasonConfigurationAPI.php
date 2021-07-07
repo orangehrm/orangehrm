@@ -145,7 +145,7 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        $reasonsInUse = $this->getTerminationReasonConfigurationService()->reasonsInUse();
+        $reasonIdsInUse = $this->getTerminationReasonConfigurationService()->getReasonIdsInUse();
         return new ParamRuleCollection(
             new ParamRule(CommonParams::PARAMETER_IDS,
                 new Rule(
@@ -153,7 +153,7 @@ class TerminationReasonConfigurationAPI extends EndPoint implements CrudEndpoint
                     [
                         new Rules\Composite\AllOf(
                             new Rule(Rules::POSITIVE),
-                            new Rule(Rules::NOT_IN, [$reasonsInUse])
+                            new Rule(Rules::NOT_IN, [$reasonIdsInUse])
                         )
                     ]
                 )
