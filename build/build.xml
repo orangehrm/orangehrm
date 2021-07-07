@@ -66,7 +66,7 @@
   <target name="build.client">
     <exec command="yarn build" dir="${project.dir}/symfony/client" checkreturn="false" passthru="true" />
   </target>
- 
+
   <target name="build" depends="prepare,clean">
     <echo>Copying files...</echo>
     <copy todir="${package.dir}" includeemptydirs="true">
@@ -88,7 +88,6 @@
             <exclude name="lib/confs/Conf.php"/>
             <exclude name="lib/confs/cryptokeys/key.ohrm"/>
             <exclude name="lib/confs/mailConf.php"/>
-            <exclude name="installer/log.txt"/>
             <exclude name="lib/logs/logDB.txt"/>
             <exclude name="lib/logs/notification_mails.log"/>
             <exclude name="upgrade.php"/>
@@ -208,7 +207,7 @@
     </copy>
   	<echo message="Creating the directories..." />
   </target>
-  
+
   <fileset dir="./" id="deleteFiles">
     <include name="release-revision-*.txt" />
   </fileset>
@@ -241,7 +240,7 @@
         <phingcall target="fix-ids"/>
   </target>
 
- 
+
   <!-- Coverage task that uses phpunit's built in coverage feature -->
   <target name="coverage" depends="coverage-lib, coverage-symfony">
   </target>
@@ -295,13 +294,13 @@
               </fileset>
               <fileset dir="${project.dir}/symfony/lib/model/doctrine/orangehrmPimPlugin">
                   <include name="Employee.class.php" />
-              </fileset>              
+              </fileset>
               <fileset dir="${project.dir}/symfony/lib/model/doctrine/orangehrmPimPlugin/base">
                   <include name="BaseEmployee.class.php" />
-              </fileset>              
+              </fileset>
               <fileset dir="${project.dir}/symfony/plugins/orangehrmPimPlugin/lib/model/doctrine">
                   <include name="PluginEmployee.class.php" />
-              </fileset>              
+              </fileset>
           </phpdoc2>
   </target>
 

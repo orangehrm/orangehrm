@@ -6,7 +6,6 @@ symfony/log/
 web/dist/
 symfony/vendor
 apidoc
-installer/log.txt
 logInsatall.log
 .phpunit.result.cache
 symfony/test/functional/node_modules
