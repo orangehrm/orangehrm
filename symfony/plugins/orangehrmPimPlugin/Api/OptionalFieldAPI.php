@@ -44,9 +44,10 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_DEPRECATED_FIELDS = 'pimShowDeprecatedFields';
 
     /**
-     * @inheritDoc
+     * @return array
+     * @throws CoreServiceException
      */
-    public function getOne(): EndpointResourceResult
+    private function ParameterArray(): array
     {
         $parameters = [
             self::PARAMETER_DEPRECATED_FIELDS => $this->getConfigService()->showPimDeprecatedFields(),
@@ -54,6 +55,15 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
             self::PARAMETER_SSN => $this->getConfigService()->showPimSSN(),
             self::PARAMETER_TAX_EXEMPTIONS => $this->getConfigService()->showPimTaxExemptions(),
         ];
+        return $parameters;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOne(): EndpointResourceResult
+    {
+        $parameters = $this->ParameterArray();
         return new EndpointResourceResult(ArrayModel::class, $parameters);
     }
 
@@ -94,13 +104,7 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
         $this->getConfigService()->setShowPimSIN($showSIN);
         $this->getConfigService()->setShowPimTaxExemptions($showTaxExemptions);
         $this->getConfigService()->setShowPimDeprecatedFields($showDeprecatedFields);
-        $parameters = [
-            self::PARAMETER_DEPRECATED_FIELDS => $this->getConfigService()->showPimDeprecatedFields(),
-            self::PARAMETER_SIN => $this->getConfigService()->showPimSIN(),
-            self::PARAMETER_SSN => $this->getConfigService()->showPimSSN(),
-            self::PARAMETER_TAX_EXEMPTIONS => $this->getConfigService()->showPimTaxExemptions(),
-        ];
-        return $parameters;
+        return $this->ParameterArray();
     }
 
     /**
