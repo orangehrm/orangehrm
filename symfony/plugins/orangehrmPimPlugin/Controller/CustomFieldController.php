@@ -38,8 +38,8 @@ class CustomFieldController extends AbstractVueController
     public const SCREEN_QUALIFICATIONS = 'Qualifications';
     public const SCREEN_MEMBERSHIP = 'Memberships';
 
-    Const DROP_DOWN = 'Drop Down';
-    Const TEXT_NUMBER = 'Text or Number';
+    public const DROP_DOWN = 'Drop Down';
+    public const TEXT_NUMBER = 'Text or Number';
 
     public const SCREEN_LIST = [
         ['id' => CustomField::SCREEN_PERSONAL_DETAILS, 'label' => self::SCREEN_PERSONAL_DETAILS],

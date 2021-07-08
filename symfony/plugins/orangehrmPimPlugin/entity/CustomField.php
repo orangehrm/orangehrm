@@ -27,21 +27,21 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CustomField
 {
-    const FIELD_TYPE_STRING = 0;
-    const FIELD_TYPE_SELECT = 1;
-    const MAX_FIELD_NUM = 10;
+    public const FIELD_TYPE_STRING = 0;
+    public const FIELD_TYPE_SELECT = 1;
+    public const MAX_FIELD_NUM = 10;
 
-    const SCREEN_PERSONAL_DETAILS   = 'personal';
-    const SCREEN_CONTACT_DETAILS    = 'contact';
-    const SCREEN_EMERGENCY_CONTACTS = 'emergency';
-    const SCREEN_DEPENDENTS         = 'dependents';
-    const SCREEN_IMMIGRATION        = 'immigration';
-    const SCREEN_QUALIFICATIONS     = 'qualifications';
-    const SCREEN_TAX_EXEMPTIONS     = 'tax';
-    const SCREEN_SALARY             = 'salary';
-    const SCREEN_JOB                = 'job';
-    const SCREEN_REPORT_TO          = 'report-to';
-    const SCREEN_MEMBERSHIP         = 'membership';
+    public const SCREEN_PERSONAL_DETAILS   = 'personal';
+    public const SCREEN_CONTACT_DETAILS    = 'contact';
+    public const SCREEN_EMERGENCY_CONTACTS = 'emergency';
+    public const SCREEN_DEPENDENTS         = 'dependents';
+    public const SCREEN_IMMIGRATION        = 'immigration';
+    public const SCREEN_QUALIFICATIONS     = 'qualifications';
+    public const SCREEN_TAX_EXEMPTIONS     = 'tax';
+    public const SCREEN_SALARY             = 'salary';
+    public const SCREEN_JOB                = 'job';
+    public const SCREEN_REPORT_TO          = 'report-to';
+    public const SCREEN_MEMBERSHIP         = 'membership';
 
     public const SCREENS = [
         self::SCREEN_PERSONAL_DETAILS,
