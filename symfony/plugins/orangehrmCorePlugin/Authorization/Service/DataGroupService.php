@@ -20,6 +20,8 @@
 namespace OrangeHRM\Core\Authorization\Service;
 
 use OrangeHRM\Core\Authorization\Dao\DataGroupDao;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\DataGroup;
@@ -57,7 +59,7 @@ class DataGroupService
     /**
      * Get Data Group permissions
      *
-     * @param string[]|string $dataGroup A single data group name (string), an array of data group names or null (to return all data group permissions)
+     * @param string[]|string $dataGroups A single data group name (string), an array of data group names or null (to return all data group permissions)
      * @param int $userRoleId User role id
      * @param bool $selfPermission If true, self permissions are returned. If false non-self permissions are returned
      *
@@ -123,5 +125,39 @@ class DataGroupService
         }
 
         return new ResourcePermission($read, $create, $update, $delete);
+    }
+
+    /**
+     * @param UserRole[] $userRoles
+     * @return DataGroupPermissionCollection|array<string, ResourcePermission>
+     * @throws DaoException
+     */
+    public function getDataGroupPermissionCollection(array $userRoles): DataGroupPermissionCollection
+    {
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setUserRoles($userRoles);
+        $dataGroupPermissions = $this->getDao()->getDataGroupPermissions($dataGroupPermissionFilterParams);
+        $dataGroupPermissionCollection = new DataGroupPermissionCollection();
+
+        foreach ($dataGroupPermissions as $dataGroupPermission) {
+            $dataGroup = $dataGroupPermission->getDataGroup()->getName();
+            $resourcePermission = new ResourcePermission(
+                $dataGroupPermission->canRead(),
+                $dataGroupPermission->canCreate(),
+                $dataGroupPermission->canUpdate(),
+                $dataGroupPermission->canDelete()
+            );
+            if ($dataGroupPermissionCollection->has($dataGroup)) {
+                $currentResourcePermission = $dataGroupPermissionCollection->get($dataGroup);
+                $dataGroupPermissionCollection->set(
+                    $dataGroup,
+                    $currentResourcePermission->orWith($resourcePermission)
+                );
+            } else {
+                $dataGroupPermissionCollection->set($dataGroup, $resourcePermission);
+            }
+        }
+
+        return $dataGroupPermissionCollection;
     }
 }

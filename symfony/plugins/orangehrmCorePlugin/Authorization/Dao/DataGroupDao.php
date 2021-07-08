@@ -20,6 +20,7 @@
 namespace OrangeHRM\Core\Authorization\Dao;
 
 use Exception;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\DataGroup;
@@ -121,6 +122,52 @@ class DataGroupDao extends BaseDao
                 ->setParameter('userRoleNames', $roleNames);
             $q->andWhere('ap.apiName = :apiClassName')
                 ->setParameter('apiClassName', $apiClassName);
+
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param DataGroupPermissionFilterParams $dataGroupPermissionFilterParams
+     * @return DataGroupPermission[]
+     * @throws DaoException
+     */
+    public function getDataGroupPermissions(DataGroupPermissionFilterParams $dataGroupPermissionFilterParams): array
+    {
+        $roleIds = [];
+        foreach ($dataGroupPermissionFilterParams->getUserRoles() as $role) {
+            if ($role instanceof UserRole) {
+                $roleIds[] = $role->getId();
+            }
+        }
+
+        try {
+            $q = $this->createQueryBuilder(DataGroupPermission::class, 'p');
+            $q->leftJoin('p.dataGroup', 'dg');
+            $q->leftJoin('p.userRole', 'ur');
+
+            $q->andWhere($q->expr()->in('ur.id', ':userRoleIds'))
+                ->setParameter('userRoleIds', $roleIds);
+
+            if (!$dataGroupPermissionFilterParams->isWithApiDataGroups()) {
+                $q->leftJoin('dg.apiPermissions', 'ap');
+                $q->andWhere($q->expr()->isNull('ap.id'));
+            }
+
+            if ($dataGroupPermissionFilterParams->isOnlyAccessible()) {
+                $or = $q->expr()->orX();
+                $or->add($q->expr()->eq('p.canRead', ':canRead'));
+                $or->add($q->expr()->eq('p.canCreate', ':canCreate'));
+                $or->add($q->expr()->eq('p.canUpdate', ':canUpdate'));
+                $or->add($q->expr()->eq('p.canDelete', ':canDelete'));
+                $q->andWhere($or)
+                    ->setParameter('canRead', true)
+                    ->setParameter('canCreate', true)
+                    ->setParameter('canUpdate', true)
+                    ->setParameter('canDelete', true);
+            }
 
             return $q->getQuery()->execute();
         } catch (Exception $e) {

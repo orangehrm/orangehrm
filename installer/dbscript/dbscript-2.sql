@@ -3580,3 +3580,12 @@ UPDATE `ohrm_home_page` SET action='pim/viewPimModule' WHERE `user_role_id`=2;
 CREATE TABLE ohrm_api_permission (id INT AUTO_INCREMENT NOT NULL, module_id INT DEFAULT NULL, data_group_id INT DEFAULT NULL, api_name VARCHAR(255) NOT NULL, UNIQUE INDEX api_name (api_name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
 ALTER TABLE ohrm_api_permission ADD CONSTRAINT `fk_ohrm_module_module_id` FOREIGN KEY (module_id) REFERENCES ohrm_module (id);
 ALTER TABLE ohrm_api_permission ADD CONSTRAINT `fk_ohrm_data_group_data_group_id` FOREIGN KEY (data_group_id) REFERENCES ohrm_data_group (id);
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES ('apiv2_core_data_groups', 'API-v2 Core - Data Groups', 1, 0, 0, 0);
+SET @core_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'core' LIMIT 1);
+SET @data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_core_data_groups');
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`) VALUES ('OrangeHRM\\Core\\Api\\Rest\\DataGroupAPI', @core_module_id, @data_group_id);
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');
+SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS');
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`) VALUES (1, 0, 0, 0, 0, @data_group_id, @admin_role_id);
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`) VALUES (1, 0, 0, 0, 0, @data_group_id, @ess_role_id);

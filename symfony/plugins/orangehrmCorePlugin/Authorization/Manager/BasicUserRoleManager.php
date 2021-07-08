@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Authorization\Manager;
 
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Core\Authorization\Dao\HomePageDao;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
 use OrangeHRM\Core\Authorization\Service\DataGroupService;
@@ -940,6 +941,15 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             $finalPermission ['update'],
             $finalPermission ['delete']
         );
+    }
+
+    /**
+     * @return DataGroupPermissionCollection
+     * @throws DaoException
+     */
+    public function getDataGroupPermissionCollection(): DataGroupPermissionCollection
+    {
+        return $this->getDataGroupService()->getDataGroupPermissionCollection($this->userRoles);
     }
 
     public function getModuleDefaultPage(string $module): ?string
