@@ -85,7 +85,7 @@ class EmployeePersonalDetailModel implements Normalizable
             $filter[] = ['getDecorator', 'getSmoker'];
             $filter[] = 'militaryService';
 
-            $attributeNames[] = 'nickName';
+            $attributeNames[] = 'nickname';
             $attributeNames[] = 'smoker';
             $attributeNames[] = 'militaryService';
         }
