@@ -7,7 +7,7 @@ describe('employment status page', function () {
     it('check employemnt status list page', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/employmentStatus')
-        cy.get('.oxd-text--h6').should('include.text', "Employment Status List")
+        cy.get('.oxd-text--h6').should('include.text', "Employment Status")
     })
 })
 
@@ -50,10 +50,9 @@ describe('adding a duplicate employment status', function () {
         cy.visit('/admin/saveEmploymentStatus')
         cy.get(':nth-child(2) > .oxd-input').type('Part Time')
         cy.get('form').submit()
-        cy.get('.oxd-input-group__message').should('include.text', 'Employment Status should be unique')
+        cy.get('.oxd-input-group__message').should('include.text', 'Already exist')
     })
 })
-
 
 //Updating an employment status and the toast message 
 describe('updating an employment status and the toast message', function () {
@@ -63,22 +62,20 @@ describe('updating an employment status and the toast message', function () {
         cy.get(':nth-child(1) > .oxd-table-row > .card-center > .card-header-slot > .--right > .oxd-table-cell > .oxd-table-cell-actions > :nth-child(2) > .oxd-icon').click()
         cy.get(':nth-child(2) > .oxd-input').click().clear().type('Contract')
         cy.get('form').submit()
+        cy.get('.oxd-toast').should('include.text', 'Successfully Updated')
     })
 })
 
-
-
-//Delete employment status
-describe('delete an employment status', function () {
-    it('delete an employment status', () => {
+//Delete employment status and the toast message
+describe('delete an employment status and the toast message', function () {
+    it('delete an employment status and the toast message', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/employmentStatus')
         cy.get(':nth-child(1) > .oxd-table-row > .card-center > .card-header-slot > .--right > .oxd-table-cell > .oxd-table-cell-actions > :nth-child(1)').click()
         cy.get('.oxd-button--label-danger').click()
-        cy.get('.oxd-toast').should('include.text', 'Employment Status deleted successfully!')
+        cy.get('.oxd-toast').should('include.text', 'Successfully Deleted')
     })
 })
-
 
 //Add a new employment status and check the success toast.
 describe('add new employment status and check the success toast', function () {
@@ -88,7 +85,7 @@ describe('add new employment status and check the success toast', function () {
         cy.get(':nth-child(2) > .oxd-input').type('Fulltime')
         cy.get('form').submit()
         cy.wait(2000)
-        cy.get('.oxd-toast').should('include.text', 'Employment Status added successfully!')
+        cy.get('.oxd-toast').should('include.text', "Successfully Saved")
     })
 })
 
@@ -112,12 +109,22 @@ describe('visiting add a new employment status and click cancel', function () {
     })
 })
 
+describe('add new employment status and check the success toast', function () {
+    it('check add new employment status and check the success toast', () => {
+        cy.login(user.admin.userName, user.admin.password)
+        cy.visit('/admin/saveEmploymentStatus')
+        cy.get(':nth-child(2) > .oxd-input').type('Fulltime2')
+        cy.get('form').submit()
+    })
+})
+
 //List count increment
 const getStatuscount = async () => {
     cy.wait(3000)
-    let num = await promisify(cy.get('.oxd-text').contains('Employment Status Found').invoke('text'))
-    cy.log(num)
-    return parseInt(num.split(' ')[0])
+    let num = await promisify(cy.get('.oxd-text').contains('Records Found').invoke('text'))
+    var line = num.match(/\((.*)\)/);
+    cy.log(line[1])
+    return parseInt(line[1])
 }
 describe('list count increment', function () {
     it('list count increment', async () => {
@@ -144,7 +151,7 @@ describe('Bulk delete check the success toast', function () {
         cy.get('.oxd-table-header > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon').click()
         cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click()
         cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click()
-        cy.get('.oxd-toast').should('include.text', 'Success')
+        cy.get('.oxd-toast').should('include.text', 'Successfully Deleted')
     })
 })
 
