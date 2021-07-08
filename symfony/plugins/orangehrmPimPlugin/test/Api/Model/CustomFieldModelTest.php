@@ -17,25 +17,37 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Service;
+namespace OrangeHRM\Tests\Pim\Api\Model;
 
-use OrangeHRM\Pim\Dao\EmployeeWorkExperienceDao;
+use OrangeHRM\Entity\CustomField;
+use OrangeHRM\Pim\Api\Model\CustomFieldModel;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
-class EmployeeWorkExperienceService
+/**
+ * @group Pim
+ * @group Model
+ */
+class CustomFieldModelTest extends KernelTestCase
 {
-    /**
-     * @var EmployeeWorkExperienceDao|null
-     */
-    private ?EmployeeWorkExperienceDao $employeeWorkExperienceDao = null;
-
-    /**
-     * @return EmployeeWorkExperienceDao|null
-     */
-    public function getEmployeeWorkExperienceDao(): EmployeeWorkExperienceDao
+    public function testToArray()
     {
-        if (!($this->employeeWorkExperienceDao instanceof EmployeeWorkExperienceDao)) {
-            $this->employeeWorkExperienceDao = new EmployeeWorkExperienceDao();
-        }
-        return $this->employeeWorkExperienceDao;
+        $resultArray = [
+            "id" => 1,
+            "fieldName" => "Level",
+            "fieldType" => 1,
+            "extraData" => 'level1, level2',
+            "screen" => "Personal"
+        ];
+
+        $customField = new CustomField();
+        $customField->setFieldNum(1);
+        $customField->setName('Level');
+        $customField->setType(1);
+        $customField->setScreen('Personal');
+        $customField->setExtraData('level1, level2');
+
+        $employeeModel = new CustomFieldModel($customField);
+
+        $this->assertEquals($resultArray, $employeeModel->toArray());
     }
 }

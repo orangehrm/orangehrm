@@ -17,25 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Service;
+namespace OrangeHRM\Pim\Dto;
 
-use OrangeHRM\Pim\Dao\EmployeeWorkExperienceDao;
+use OrangeHRM\Core\Dto\FilterParams;
 
-class EmployeeWorkExperienceService
+class CustomFieldSearchFilterParams extends FilterParams
 {
-    /**
-     * @var EmployeeWorkExperienceDao|null
-     */
-    private ?EmployeeWorkExperienceDao $employeeWorkExperienceDao = null;
+    public const ALLOWED_SORT_FIELDS = ['cf.name', 'cf.screen', 'cf.type'];
 
-    /**
-     * @return EmployeeWorkExperienceDao|null
-     */
-    public function getEmployeeWorkExperienceDao(): EmployeeWorkExperienceDao
+    public function __construct()
     {
-        if (!($this->employeeWorkExperienceDao instanceof EmployeeWorkExperienceDao)) {
-            $this->employeeWorkExperienceDao = new EmployeeWorkExperienceDao();
-        }
-        return $this->employeeWorkExperienceDao;
+        $this->setSortField('cf.name');
     }
 }

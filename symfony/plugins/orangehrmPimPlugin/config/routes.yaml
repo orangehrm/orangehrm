@@ -299,6 +299,22 @@ apiv2_pim_reporting_methods:
   defaults:
     _api: OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI
 
+apiv2_pim_custom_fields:
+  path: /api/v2/pim/custom-fields
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\CustomFieldAPI
+
+apiv2_pim_custom_field:
+  path: /api/v2/pim/custom-fields/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\CustomFieldAPI
+  requirements:
+    id: '\d+'
+
 ##########################
 #        Files
 ##########################
@@ -405,3 +421,17 @@ edit_reporting_method:
   path: /pim/saveReportingMethod/{id}
   controller: OrangeHRM\Pim\Controller\SaveReportingMethodController::handle
   methods: [ GET ]
+
+view_custom_fields:
+  path: /pim/listCustomFields
+  controller: OrangeHRM\Pim\Controller\CustomFieldController::handle
+  methods: [ GET ]
+
+save_custom_fields:
+  path: /pim/saveCustomFields
+  controller: OrangeHRM\Pim\Controller\SaveCustomFieldController::handle
+  methods: [ GET ]
+
+edit_custom_fields:
+  path: /pim/saveCustomFields/{id}
+  controller: OrangeHRM\Pim\Controller\SaveCustomFieldController::handle
