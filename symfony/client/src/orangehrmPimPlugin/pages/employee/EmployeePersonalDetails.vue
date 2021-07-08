@@ -88,18 +88,18 @@
             </oxd-grid-item>
           </oxd-grid>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item v-if="showSSNField">
+            <oxd-grid-item v-if="showSsnField">
               <oxd-input-field
                 label="SSN Number"
-                v-model="employee.ssnNumb"
-                :rules="rules.ssnNumb"
+                v-model="employee.ssnNumber"
+                :rules="rules.ssnNumber"
               />
             </oxd-grid-item>
-            <oxd-grid-item v-if="showSINField">
+            <oxd-grid-item v-if="showSinField">
               <oxd-input-field
                 label="SIN Number"
-                v-model="employee.sinNumb"
-                :rules="rules.sinNumb"
+                v-model="employee.sinNumber"
+                :rules="rules.sinNumber"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -206,8 +206,8 @@ const employeeModel = {
   otherId: '',
   drivingLicenseNo: '',
   drivingLicenseExpiredDate: '',
-  ssnNumb: '',
-  sinNumb: '',
+  ssnNumber: '',
+  sinNumber: '',
   nationality: [],
   maritalStatus: [],
   birthday: '',
@@ -236,11 +236,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    showSSNField: {
+    showSsnField: {
       type: Boolean,
       default: false,
     },
-    showSINField: {
+    showSinField: {
       type: Boolean,
       default: false,
     },
@@ -268,8 +268,8 @@ export default {
         employeeId: [shouldNotExceedCharLength(10)],
         otherId: [shouldNotExceedCharLength(30)],
         drivingLicenseNo: [shouldNotExceedCharLength(30)],
-        ssnNumb: [shouldNotExceedCharLength(30)],
-        sinNumb: [shouldNotExceedCharLength(30)],
+        ssnNumber: [shouldNotExceedCharLength(30)],
+        sinNumber: [shouldNotExceedCharLength(30)],
         nickname: [shouldNotExceedCharLength(30)],
         militaryService: [shouldNotExceedCharLength(30)],
       },
@@ -299,6 +299,17 @@ export default {
             maritalStatus: this.employee.maritalStatus.map(item => item.id)[0],
             birthday: this.employee.birthday,
             nationalityId: this.employee.nationality.map(item => item.id)[0],
+            ssnNumber: this.showSsnField ? this.employee.ssnNumber : undefined,
+            sinNumber: this.showSinField ? this.employee.sinNumber : undefined,
+            nickname: this.showDeprecatedFields
+              ? this.employee.nickname
+              : undefined,
+            smoker: this.showDeprecatedFields
+              ? this.employee.smoker
+              : undefined,
+            militaryService: this.showDeprecatedFields
+              ? this.employee.militaryService
+              : undefined,
           },
         })
         .then(response => {

@@ -35,6 +35,7 @@ import SaveReportingMethod from './pages/reportingMethod/SaveReportingMethod.vue
 import CustomField from './pages/customField/CustomField.vue';
 import EditCustomField from './pages/customField/EditCustomField.vue';
 import SaveCustomField from './pages/customField/SaveCustomField.vue';
+import OptionalField from './pages/optionalField/OptionalField.vue';
 
 export default {
   'employee-save': SaveEmployee,
@@ -56,4 +57,5 @@ export default {
   'custom-field-list': CustomField,
   'custom-field-edit': EditCustomField,
   'custom-field-save': SaveCustomField,
+  'optional-field-list': OptionalField,
 };
