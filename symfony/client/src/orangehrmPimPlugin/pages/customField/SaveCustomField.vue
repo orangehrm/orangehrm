@@ -1,0 +1,176 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
+<template>
+  <div class="orangehrm-background-container">
+    <div class="orangehrm-card-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        Add Custom Field
+      </oxd-text>
+
+      <oxd-divider />
+
+      <oxd-form :loading="isLoading" @submitValid="onSave">
+        <oxd-form-row>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item class="organization-name-container">
+              <oxd-input-field
+                label="Field Name"
+                v-model="customField.fieldName"
+                :rules="rules.fieldName"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Screen"
+                type="dropdown"
+                v-model="customField.screen"
+                :rules="rules.screen"
+                :options="screenList"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item class="organization-name-container">
+              <oxd-input-field
+                label="Type"
+                type="dropdown"
+                v-model="customField.fieldType"
+                :rules="rules.fieldType"
+                :options="fieldTypeList"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item v-if="isDropDownField">
+              <oxd-input-field
+                label="Select Options"
+                v-model="customField.extraData"
+                :rules="rules.extraData"
+                :required="isDropDownField"
+              />
+              <oxd-text tag="p" class="select-options-hint">
+                Enter allowed options separated by commas
+              </oxd-text>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-divider />
+
+        <oxd-form-actions>
+          <required-text />
+          <oxd-button
+            type="button"
+            displayType="ghost"
+            label="Cancel"
+            @click="onCancel"
+          />
+          <submit-button />
+        </oxd-form-actions>
+      </oxd-form>
+    </div>
+  </div>
+</template>
+
+<script>
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@orangehrm/core/util/services/api.service';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
+
+const customFieldModel = {
+  fieldName: '',
+  screen: '',
+  fieldType: '',
+  extraData: '',
+};
+
+export default {
+  props: {
+    screenList: {
+      type: Array,
+      required: true,
+    },
+    fieldTypeList: {
+      type: Array,
+      required: true,
+    },
+  },
+
+  data() {
+    return {
+      isLoading: false,
+      customField: {...customFieldModel},
+      rules: {
+        fieldName: [required, shouldNotExceedCharLength(250)],
+        screen: [shouldNotExceedCharLength(100)],
+        fieldType: [required, shouldNotExceedCharLength(15)],
+        extraData: [required, shouldNotExceedCharLength(250)],
+      },
+    };
+  },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/pim/custom-fields',
+    );
+    return {
+      http,
+    };
+  },
+
+  methods: {
+    onSave() {
+      this.isLoading = true;
+      const fieldType = this.customField.fieldType.map(item => item.id)[0];
+      this.http
+        .create({
+          fieldName: this.customField.fieldName,
+          screen: this.customField.screen.map(item => item.id)[0],
+          fieldType: fieldType,
+          extraData: fieldType === 1 ? this.customField.extraData : null,
+        })
+        .then(() => {
+          return this.$toast.updateSuccess();
+        })
+        .then(() => {
+          this.onCancel();
+        });
+    },
+    onCancel() {
+      navigate('/pim/listCustomFields');
+    },
+  },
+
+  computed: {
+    isDropDownField() {
+      return this.customField.fieldType[0]?.id === 1;
+    },
+  },
+};
+</script>
+
+<style src="./customField.scss" lang="scss" scoped></style>

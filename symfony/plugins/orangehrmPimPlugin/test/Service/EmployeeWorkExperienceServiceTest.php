@@ -40,11 +40,4 @@ class EmployeeWorkExperienceServiceTest extends TestCase
     {
         $this->assertTrue($this->employeeWorkExperienceService->getEmployeeWorkExperienceDao() instanceof EmployeeWorkExperienceDao);
     }
-
-    public function testGetEmployeeWorkExperienceDaoBySetter()
-    {
-        $employeeWorkExperienceDao = new EmployeeWorkExperienceDao();
-        $this->employeeWorkExperienceService->setEmployeeWorkExperienceDao($employeeWorkExperienceDao);
-        $this->assertTrue($this->employeeWorkExperienceService->getEmployeeWorkExperienceDao() instanceof EmployeeWorkExperienceDao);
-    }
 }
