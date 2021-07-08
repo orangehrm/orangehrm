@@ -246,7 +246,7 @@ export default {
           }
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.employee = {...employeeModel};

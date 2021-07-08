@@ -32,7 +32,7 @@ class ApplicationSetupUtility {
      * @return string
      */
     public static function getErrorLogPath() {
-        return realpath(dirname(__FILE__)). DIRECTORY_SEPARATOR . 'log.txt';
+        return realpath(__DIR__ . '/../symfony/log') . DIRECTORY_SEPARATOR.  'installer.log';
     }
 
     public static function createDB() {
@@ -146,8 +146,8 @@ public static function fillData($phase=1, $source='/installer/dbscript/dbscript-
 	error_log (date("r")." Fill Data Phase $phase - Read DB script\n",3, self::getErrorLogPath());
 
 	// Match ; followed by whitespaces and new line. Does not match ; inside a query.
-        $dbScriptStatements   = preg_split('/;\s*$/m', $query);  
-    
+        $dbScriptStatements   = preg_split('/;\s*$/m', $query);
+
 	error_log (date("r")." Fill Data Phase $phase - There are ".count($dbScriptStatements)." Statements in the DB script\n",3, self::getErrorLogPath());
 
 	for($c=0;(count($dbScriptStatements)-1)>$c;$c++) {
@@ -177,7 +177,7 @@ public static function fillData($phase=1, $source='/installer/dbscript/dbscript-
         }
 
         error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, self::getErrorLogPath());
-        
+
         $query = "INSERT INTO `hs_hr_config` ( `name`, `value`) VALUES ('csrf_secret', '{$csrfKey}');";
 
         if (!mysqli_query(self::$conn, $query)) {
@@ -331,15 +331,15 @@ public static function writeSymfonyDbConfigFile() {
 		$dbOHRMUser = $_SESSION['dbInfo']['dbUserName'];
 		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
 	}
-    
+
     $dsn = "mysql:host=$dbHost;dbname=$dbName;charset=utf8mb4";
     $testDsn = "mysql:host=$dbHost;dbname=test_$dbName;charset=utf8mb4";
-    
+
     if (is_numeric($dbHostPort)) {
         $dsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=$dbName;charset=utf8mb4";
         $testDsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=test_$dbName;charset=utf8mb4";
     }
-	
+
     $confContent = <<< CONFCONT
 all:
   doctrine:
@@ -386,7 +386,7 @@ public static function writeLog() {
 
 	$Content .= "OrangeHRM Installation Log\n\n";
 
-	$filename = 'installer/log.txt';
+	$filename = 'symfony/log/installer.log';
 	$handle = fopen($filename, 'w');
 	fwrite($handle, $Content);
 	fclose($handle);
@@ -427,7 +427,7 @@ public static function writeLog() {
         );
     }
 
-public static function install() { 
+public static function install() {
    if (isset($_SESSION['INSTALLING'])) {
 	switch ($_SESSION['INSTALLING']) {
 		case 0	:	self::writeLog();
@@ -445,7 +445,7 @@ public static function install() {
 					break;
 
 		case 1	:	error_log (date("r")." Fill Data Phase 1 - Starting\n",3, self::getErrorLogPath());
-					self::fillData();                                        
+					self::fillData();
                                         self::createMysqlProcedures();
 					error_log (date("r")." Fill Data Phase 1 - Done\n",3, self::getErrorLogPath());
 					if (!isset($_SESSION['error'])) {
@@ -514,11 +514,11 @@ public static function install() {
 	}
   }
 }
- 
+
     public static function createMysqlEvents() {
-        
+
         self::connectDB();
-        
+
         $eventTime = date('Y-m-d') . " 00:00:00";
         $query = "CREATE EVENT leave_taken_status_change
                     ON SCHEDULE EVERY 1 HOUR STARTS '$eventTime'
@@ -526,22 +526,22 @@ public static function install() {
                       BEGIN
                         UPDATE hs_hr_leave SET leave_status = 3 WHERE leave_status = 2 AND leave_date < DATE(NOW());
                       END";
-        
+
         if (!mysqli_query(self::$conn, $query)) {
             error_log (date("r")." MySQL Event Error:".mysqli_error(self::$conn)."\n",3, self::getErrorLogPath());
             return false;
         }
-        
+
         return true;
-        
+
     }
-    
+
     public static function createMysqlProcedures(){
         self::connectDB();
-        
+
         $sql = array();
         $sql[] = "DROP FUNCTION IF EXISTS dashboard_get_subunit_parent_id;";
-        
+
         $sql[] = "CREATE FUNCTION  dashboard_get_subunit_parent_id
                 (
                   id INT
@@ -559,14 +559,14 @@ public static function install() {
                 RETURN @parent;
 
                 END;";
-        
+
         foreach($sql as $query){
             if (!mysqli_query(self::$conn, $query)) {
                 error_log (date("r")." MySQL Procedure Error:".mysqli_error(self::$conn)."\n",3, self::getErrorLogPath());
                 return false;
             }
         }
-        
+
         return true;
     }
 

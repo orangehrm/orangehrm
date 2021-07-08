@@ -125,6 +125,7 @@
 
         <oxd-divider />
         <oxd-form-actions>
+          <required-text />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -214,7 +215,7 @@ export default {
         })
         .then(response => {
           this.updateModel(response);
-          return this.$toast.saveSuccess();
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.isLoading = false;

@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "test": "cypress run",
+    "open": "cypress open"
+  },
   "devDependencies": {
     "cypress": "^7.3.0",
     "cypress-xpath": "^1.6.2"

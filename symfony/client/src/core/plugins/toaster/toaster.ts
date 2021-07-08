@@ -51,6 +51,7 @@ export interface ToasterAPI {
   addSuccess: () => Promise<string>;
   updateSuccess: () => Promise<string>;
   deleteSuccess: () => Promise<string>;
+  cannotDelete: () => Promise<string>;
 }
 
 const state: ToasterState = reactive({
@@ -214,6 +215,12 @@ export default {
         message: 'Successfully Deleted',
       });
 
+    const cannotDelete = () =>
+      error({
+        title: 'Error',
+        message: 'Cannot be deleted',
+      });
+
     state.class = options.class ? options.class : 'oxd-toast-container--toast';
     state.transition = options.animation ? options.animation : 'oxd-toast-list';
     state.position = options.position ? options.position : 'bottom';
@@ -235,6 +242,7 @@ export default {
       addSuccess,
       updateSuccess,
       deleteSuccess,
+      cannotDelete,
     };
     app.config.globalProperties.$toast = toasterAPI;
   },

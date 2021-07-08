@@ -149,6 +149,7 @@
       </oxd-form-row>
 
       <oxd-form-actions>
+        <required-text />
         <oxd-button
           type="button"
           displayType="ghost"
@@ -296,7 +297,7 @@ export default {
             : undefined,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();

@@ -36,6 +36,14 @@ class EmpEmergencyContactSearchFilterParams extends FilterParams
     protected ?string $name = null;
 
     /**
+     * EmpEmergencyContactSearchFilterParams constructor.
+     */
+    public function __construct()
+    {
+        $this->setSortField('eec.name');
+    }
+
+    /**
      * @return int
      */
     public function getEmpNumber(): int

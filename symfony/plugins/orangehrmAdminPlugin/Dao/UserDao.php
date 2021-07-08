@@ -303,15 +303,15 @@ class UserDao extends BaseDao
     {
         $q = $this->createQueryBuilder(User::class, 'u');
         $q->leftJoin('u.userRole', 'ur');
-        $q->andWhere('ur.id = :userRoleId');
-        $q->setParameter('userRoleId', User::ADMIN_USER_ROLE_ID);
+        $q->andWhere('ur.name = :userRoleName');
+        $q->setParameter('userRoleName', 'Admin');
         if ($enabledOnly) {
             $q->andWhere('u.status = :status');
-            $q->setParameter('status', User::ENABLED);
+            $q->setParameter('status', true);
         }
         if ($undeletedOnly) {
             $q->andWhere('u.deleted = :deleted');
-            $q->setParameter('deleted', User::UNDELETED);
+            $q->setParameter('deleted', false);
         }
 
         $paginator = new Paginator($q);

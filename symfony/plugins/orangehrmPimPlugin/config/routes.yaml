@@ -271,6 +271,59 @@ apiv2_pim_employees_license:
     empNumber: '\d+'
     id: '\d+'
 
+apiv2_pim_termination_reason:
+  path: /api/v2/pim/termination-reasons/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI
+
+apiv2_pim_termination_reasons:
+  path: /api/v2/pim/termination-reasons
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\TerminationReasonConfigurationAPI
+
+apiv2_pim_reporting_method:
+  path: /api/v2/pim/reporting-methods/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI
+
+apiv2_pim_reporting_methods:
+  path: /api/v2/pim/reporting-methods
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI
+
+apiv2_pim_custom_fields:
+  path: /api/v2/pim/custom-fields
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\CustomFieldAPI
+
+apiv2_pim_custom_field:
+  path: /api/v2/pim/custom-fields/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\CustomFieldAPI
+  requirements:
+    id: '\d+'
+
+apiv2_pim_optional_field:
+  path: /api/v2/pim/optional-field
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Pim\Api\OptionalFieldAPI
+
+
 ##########################
 #        Files
 ##########################
@@ -347,4 +400,52 @@ pim_employee_job:
 pim_employee_qualifications:
   path: /pim/viewQualifications/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeQualificationsController::handle
+  methods: [ GET ]
+
+view_termination_reason:
+  path: /pim/viewTerminationReasons
+  controller: OrangeHRM\Pim\Controller\TerminationReasonController::handle
+  methods: [ GET ]
+
+save_termination_reason:
+  path: /pim/saveTerminationReasons
+  controller: OrangeHRM\Pim\Controller\SaveTerminationReasonController::handle
+  methods: [ GET ]
+
+edit_termination_reason:
+  path: /pim/saveTerminationReasons/{id}
+  controller: OrangeHRM\Pim\Controller\SaveTerminationReasonController::handle
+
+view_reporting_method:
+  path: /pim/viewReportingMethods
+  controller: OrangeHRM\Pim\Controller\ReportingMethodController::handle
+  methods: [ GET ]
+
+save_reporting_method:
+  path: /pim/saveReportingMethod
+  controller: OrangeHRM\Pim\Controller\SaveReportingMethodController::handle
+  methods: [ GET ]
+
+edit_reporting_method:
+  path: /pim/saveReportingMethod/{id}
+  controller: OrangeHRM\Pim\Controller\SaveReportingMethodController::handle
+  methods: [ GET ]
+
+view_custom_fields:
+  path: /pim/listCustomFields
+  controller: OrangeHRM\Pim\Controller\CustomFieldController::handle
+  methods: [ GET ]
+
+save_custom_fields:
+  path: /pim/saveCustomFields
+  controller: OrangeHRM\Pim\Controller\SaveCustomFieldController::handle
+  methods: [ GET ]
+
+edit_custom_fields:
+  path: /pim/saveCustomFields/{id}
+  controller: OrangeHRM\Pim\Controller\SaveCustomFieldController::handle
+
+view_optional_field:
+  path: /pim/configurePim
+  controller: OrangeHRM\Pim\Controller\OptionalFieldController::handle
   methods: [ GET ]

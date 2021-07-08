@@ -7,10 +7,10 @@
     "dev": "vue-cli-service build --watch --mode development --dest ../../web/dist",
     "build": "vue-cli-service build --dest ../../web/dist",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint --max-warnings=0 --mode production"
   },
   "dependencies": {
-    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=5c6d1cef16bedf5892b8f1938c652c77477012fd",
+    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=7e3e093f25d7223404066f39f74904f8662cdc8f",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "date-fns": "^2.22.1",

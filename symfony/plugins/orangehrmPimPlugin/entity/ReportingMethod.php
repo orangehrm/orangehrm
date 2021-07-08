@@ -29,7 +29,6 @@ class ReportingMethod
 {
     /**
      * @var int
-     *
      * @ORM\Column(name="reporting_method_id", type="integer", length=7)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -38,7 +37,6 @@ class ReportingMethod
 
     /**
      * @var string
-     *
      * @ORM\Column(name="reporting_method_name", type="string", length=100, nullable=false)
      */
     private string $name;

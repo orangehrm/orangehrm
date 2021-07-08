@@ -77,7 +77,13 @@
 
         <oxd-divider />
         <oxd-form-actions>
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <required-text />
+          <oxd-button
+            type="button"
+            displayType="ghost"
+            label="Cancel"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -157,7 +163,7 @@ export default {
           empNumber: this.user.employee[0].id,
         })
         .then(() => {
-          return this.$toast.addSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           // go back

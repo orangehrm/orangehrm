@@ -38,12 +38,4 @@ class EmployeeWorkExperienceService
         }
         return $this->employeeWorkExperienceDao;
     }
-
-    /**
-     * @param $employeeWorkExperienceDao
-     */
-    public function setEmployeeWorkExperienceDao(EmployeeWorkExperienceDao $employeeWorkExperienceDao): void
-    {
-        $this->employeeWorkExperienceDao = $employeeWorkExperienceDao;
-    }
 }

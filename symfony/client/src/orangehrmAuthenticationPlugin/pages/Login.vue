@@ -23,7 +23,11 @@
     <oxd-text class="orangehrm-login-title" tag="h5">Login</oxd-text>
     <div class="orangehrm-login-form">
       <div class="orangehrm-login-error">
-        <!-- Login Errors Here -->
+        <oxd-alert
+          :show="error !== null"
+          type="error"
+          :message="error?.message"
+        ></oxd-alert>
       </div>
       <oxd-form
         @submitValid="onSubmit"
@@ -76,13 +80,23 @@
 
 <script>
 import LoginLayout from '../components/LoginLayout';
+import Alert from '@orangehrm/oxd/core/components/Alert/Alert';
 import {required} from '@orangehrm/core/util/validation/rules';
 import {urlFor} from '@orangehrm/core/util/helper/url';
 
 export default {
   components: {
     'login-layout': LoginLayout,
+    'oxd-alert': Alert,
   },
+
+  props: {
+    error: {
+      type: Object,
+      default: () => null,
+    },
+  },
+
   data() {
     return {
       username: '',
