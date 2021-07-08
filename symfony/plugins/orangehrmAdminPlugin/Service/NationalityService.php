@@ -22,7 +22,6 @@ namespace OrangeHRM\Admin\Service;
 use OrangeHRM\Admin\Dao\NationalityDao;
 use OrangeHRM\Admin\Dto\NationalitySearchFilterParams;
 use OrangeHRM\Admin\Service\Model\NationalityModel;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Nationality;
@@ -128,7 +127,6 @@ class NationalityService
     /**
      * @return array
      * @throws DaoException
-     * @throws NormalizeException
      */
     public function getNationalityArray(): array
     {

@@ -26,8 +26,6 @@ use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Http\Response;
-use OrangeHRM\Framework\Logger\Logger;
-use OrangeHRM\Framework\Services;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -95,9 +93,6 @@ class ApiAuthorizationSubscriber extends AbstractEventSubscriber
             $response->setStatusCode($code);
             $event->setResponse($response);
             $event->stopPropagation();
-
-            $this->getLogger()->error($exception->getMessage());
-            $this->getLogger()->error($exception->getTraceAsString());
         }
     }
 
@@ -108,14 +103,6 @@ class ApiAuthorizationSubscriber extends AbstractEventSubscriber
     private function getControllerInstance(ControllerEvent $event)
     {
         return $event->getController()[0];
-    }
-
-    /**
-     * @return Logger
-     */
-    private function getLogger(): Logger
-    {
-        return $this->getContainer()->get(Services::LOGGER);
     }
 
     /**
