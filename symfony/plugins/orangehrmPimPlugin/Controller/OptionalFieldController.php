@@ -26,7 +26,7 @@ class OptionalFieldController extends AbstractVueController
 {
     public function init(): void
     {
-        $component = new Component('config-list');
+        $component = new Component('optional-field-list');
         $this->setComponent($component);
     }
 }

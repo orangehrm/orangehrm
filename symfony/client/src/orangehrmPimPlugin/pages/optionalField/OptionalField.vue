@@ -102,7 +102,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      '/api/v2/pim/configures',
+      '/api/v2/pim/optional-field',
     );
     return {
       http,

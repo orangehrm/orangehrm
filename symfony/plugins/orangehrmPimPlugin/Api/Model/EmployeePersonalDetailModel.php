@@ -81,11 +81,11 @@ class EmployeePersonalDetailModel implements Normalizable
             $attributeNames[] = 'sinNumber';
         }
         if ($showDeprecatedFields) {
-            $filter[] = 'nickName';
+            $filter[] = 'nickname';
             $filter[] = ['getDecorator', 'getSmoker'];
             $filter[] = 'militaryService';
 
-            $attributeNames[] = 'nickName';
+            $attributeNames[] = 'nickname';
             $attributeNames[] = 'smoker';
             $attributeNames[] = 'militaryService';
         }

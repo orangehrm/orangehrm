@@ -316,7 +316,7 @@ apiv2_pim_custom_field:
     id: '\d+'
 
 apiv2_pim_optional_field:
-  path: /api/v2/pim/configures
+  path: /api/v2/pim/optional-field
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:

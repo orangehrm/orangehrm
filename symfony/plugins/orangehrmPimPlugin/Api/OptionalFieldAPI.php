@@ -32,30 +32,16 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\CoreServiceException;
-use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
 class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
 {
-    public const PARAMETER_SSN = 'showSIN';
-    public const PARAMETER_SIN = 'showSSN';
+    use ConfigServiceTrait;
+
+    public const PARAMETER_SSN = 'showSSN';
+    public const PARAMETER_SIN = 'showSIN';
     public const PARAMETER_TAX_EXEMPTIONS = 'showTaxExemptions';
     public const PARAMETER_DEPRECATED_FIELDS = 'pimShowDeprecatedFields';
-
-    /**
-     * @var ConfigService|null
-     */
-    protected ?ConfigService $configService = null;
-
-    /**
-     * @return ConfigService
-     */
-    public function getConfigService(): ConfigService
-    {
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
 
     /**
      * @inheritDoc
@@ -89,8 +75,32 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
      */
     public function update(): EndpointResult
     {
-        $saveConfig = $this->saveConfig();
+        $saveConfig = $this->saveOptionalFields();
         return new EndpointResourceResult(ArrayModel::class, $saveConfig);
+    }
+
+    /**
+     * @throws CoreServiceException
+     */
+    private function saveOptionalFields(): array
+    {
+        $showSIN = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SIN);
+        $showSSN = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SSN);
+        $showTaxExemptions = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_TAX_EXEMPTIONS);
+        $showDeprecatedFields = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_DEPRECATED_FIELDS);
+        $this->getConfigService()->setShowPimSSN($showSSN);
+        $this->getConfigService()->setShowPimSIN($showSIN);
+        $this->getConfigService()->setShowPimTaxExemptions($showTaxExemptions);
+        $this->getConfigService()->setShowPimDeprecatedFields($showDeprecatedFields);
+        $parameters = [
+            self::PARAMETER_DEPRECATED_FIELDS => $this->getConfigService()->showPimDeprecatedFields(),
+            self::PARAMETER_SIN => $this->getConfigService()->showPimSIN(),
+            self::PARAMETER_SSN => $this->getConfigService()->showPimSSN(),
+            self::PARAMETER_TAX_EXEMPTIONS => $this->getConfigService()->showPimTaxExemptions(),
+        ];
+        return $parameters;
     }
 
     /**
@@ -115,30 +125,6 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
                 new Rule(Rules::BOOL_VAL),
             ),
         );
-    }
-
-    /**
-     * @throws CoreServiceException
-     */
-    public function saveConfig(): array
-    {
-        $showSIN = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SIN);
-        $showSSN = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SSN);
-        $showTaxExemptions = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_TAX_EXEMPTIONS);
-        $showDeprecatedFields = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_DEPRECATED_FIELDS);
-        $this->getConfigService()->setShowPimSSN($showSSN);
-        $this->getConfigService()->setShowPimSIN($showSIN);
-        $this->getConfigService()->setShowPimTaxExemptions($showTaxExemptions);
-        $this->getConfigService()->setShowPimDeprecatedFields($showDeprecatedFields);
-        $parameters = [
-            self::PARAMETER_DEPRECATED_FIELDS => $this->getConfigService()->showPimDeprecatedFields(),
-            self::PARAMETER_SIN => $this->getConfigService()->showPimSIN(),
-            self::PARAMETER_SSN => $this->getConfigService()->showPimSSN(),
-            self::PARAMETER_TAX_EXEMPTIONS => $this->getConfigService()->showPimTaxExemptions(),
-        ];
-        return $parameters;
     }
 
     /**

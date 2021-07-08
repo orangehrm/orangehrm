@@ -58,4 +58,5 @@ export default {
   'custom-field-edit': EditCustomField,
   'custom-field-save': SaveCustomField,
   'config-list': OptionalField,
+  'optional-field-list': OptionalField,
 };
