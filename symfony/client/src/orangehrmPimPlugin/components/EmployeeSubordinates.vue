@@ -24,6 +24,7 @@
       v-if="showSaveModal"
       :http="http"
       :type="'Subordinate'"
+      :emp-number="empNumber"
       :reporting-methods="reportingMethods"
       @close="onSaveModalClose"
     ></save-employee-report-to>

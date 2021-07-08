@@ -121,4 +121,26 @@ class EmployeeReportingMethodServiceTest extends TestCase
         $this->assertEquals(2, $result[0]->getSubordinate()->getEmpNumber());
         $this->assertEquals(2, $result[1]->getSubordinate()->getEmpNumber());
     }
+
+    public function testGetAccessibleAndAvailableSupervisorsIdCombinedList(): void
+    {
+        $accessibleIds = [1, 2, 3, 4, 5];
+        $alreadyAssignedIds = [1, 2];
+        $result = $this->employeeReportingMethodService->getAccessibleAndAvailableSupervisorsIdCombinedList($accessibleIds, $alreadyAssignedIds);
+        $this->assertEquals([3, 4, 5], $result);
+
+        $accessibleIds = [1, 2, 3, 4, 5];
+        $alreadyAssignedIds = [];
+        $result = $this->employeeReportingMethodService->getAccessibleAndAvailableSupervisorsIdCombinedList($accessibleIds, $alreadyAssignedIds);
+        $this->assertEquals([1, 2, 3, 4, 5], $result);
+    }
+
+    public function testGetAlreadyAssignedSupervisorsSubordinatesAndSelfIdCombinedList(): void
+    {
+        $supervisors = [1, 2, 3, 4, 5];
+        $subordinates = [3, 4, 5];
+        $empNumber = 7;
+        $result = $this->employeeReportingMethodService->getAlreadyAssignedSupervisorsSubordinatesAndSelfIdCombinedList($supervisors, $subordinates, $empNumber);
+        $this->assertEquals([1, 2, 3, 4, 5, 3, 4, 5, 7], $result);
+    }
 }

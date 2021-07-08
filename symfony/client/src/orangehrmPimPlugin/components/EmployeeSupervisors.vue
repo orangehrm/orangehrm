@@ -25,6 +25,7 @@
       :http="http"
       :reporting-methods="reportingMethods"
       :type="'Supervisor'"
+      :emp-number="empNumber"
       @close="onSaveModalClose"
     ></save-employee-report-to>
     <edit-employee-report-to

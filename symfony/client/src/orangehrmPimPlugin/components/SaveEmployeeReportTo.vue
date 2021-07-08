@@ -26,9 +26,10 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <employee-dropdown
+            <report-to-employee-dropdown
               v-model="reportTo.employee"
               :rules="rules.employee"
+              :api="api"
               required
             />
           </oxd-grid-item>
@@ -62,7 +63,7 @@
 </template>
 
 <script>
-import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
+import ReportToEmployeeDropdown from '@/orangehrmPimPlugin/components/ReportToEmployeeDropdown';
 import {required} from '@orangehrm/core/util/validation/rules';
 
 const reportToModel = {
@@ -88,10 +89,14 @@ export default {
       type: String,
       required: true,
     },
+    empNumber: {
+      type: String,
+      required: true,
+    },
   },
 
   components: {
-    'employee-dropdown': EmployeeDropdown,
+    'report-to-employee-dropdown': ReportToEmployeeDropdown,
   },
 
   data() {
@@ -102,6 +107,13 @@ export default {
         employee: [required],
         reportingMethodId: [required],
       },
+    };
+  },
+
+  setup(props) {
+    const api = `api/v2/pim/employees/${props.empNumber}/reportTo/allowed`;
+    return {
+      api,
     };
   },
 

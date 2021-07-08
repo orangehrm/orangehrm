@@ -96,4 +96,14 @@ class EmployeeReportingMethodService
         return $this->getEmployeeReportingMethodDao()->getSearchEmployeeSubordinatesCount($employeeSubordinateSearchFilterParams);
     }
 
+    public function getAccessibleAndAvailableSupervisorsIdCombinedList(array $accessibleEmpNumbers, array $alreadyAssignedEmpNumbers): array
+    {
+        return array_values(array_diff($accessibleEmpNumbers, $alreadyAssignedEmpNumbers));
+    }
+
+    public function getAlreadyAssignedSupervisorsSubordinatesAndSelfIdCombinedList(array $supervisors, array $subordinates, int $empNumber): array
+    {
+        return array_merge($supervisors, $subordinates, [$empNumber]);
+    }
+
 }
