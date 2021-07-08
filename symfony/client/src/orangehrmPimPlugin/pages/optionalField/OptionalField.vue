@@ -26,60 +26,47 @@
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
-        <oxd-text class="orangehrm-sub-title" tag="h6"
-          >Show Deprecated Fields</oxd-text
-        >
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-text tag="p">
+          <oxd-text class="orangehrm-sub-title" tag="h6">
+            Show Deprecated Fields
+          </oxd-text>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <div class="orangehrm-optional-field-row">
+              <oxd-text tag="p" class="orangehrm-optional-field-label">
                 Show Nick Name, Smoker and Military Service in Personal Details
               </oxd-text>
-            </oxd-grid-item>
-            <oxd-grid-item>
               <oxd-switch-input
                 v-model="optionalField.pimShowDeprecatedFields"
               />
-            </oxd-grid-item>
+            </div>
           </oxd-grid>
         </oxd-form-row>
 
         <oxd-divider />
 
-        <oxd-text class="orangehrm-sub-title" tag="h6"
-          >Country Specific Information</oxd-text
-        >
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-text tag="p">
+          <oxd-text class="orangehrm-sub-title" tag="h6">
+            Country Specific Information
+          </oxd-text>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <div class="orangehrm-optional-field-row">
+              <oxd-text tag="p" class="orangehrm-optional-field-label">
                 Show SSN field in Personal Details
               </oxd-text>
-            </oxd-grid-item>
-            <oxd-grid-item>
               <oxd-switch-input v-model="optionalField.showSSN" />
-            </oxd-grid-item>
-            <oxd-grid-item> </oxd-grid-item>
-
-            <oxd-grid-item>
-              <oxd-text tag="p">
+            </div>
+            <div class="orangehrm-optional-field-row">
+              <oxd-text tag="p" class="orangehrm-optional-field-label">
                 Show SIN field in Personal Details
               </oxd-text>
-            </oxd-grid-item>
-            <oxd-grid-item>
               <oxd-switch-input v-model="optionalField.showSIN" />
-            </oxd-grid-item>
-            <oxd-grid-item> </oxd-grid-item>
-
-            <oxd-grid-item>
-              <oxd-text tag="p">
+            </div>
+            <div class="orangehrm-optional-field-row">
+              <oxd-text tag="p" class="orangehrm-optional-field-label">
                 Show US Tax Exemptions menu
               </oxd-text>
-            </oxd-grid-item>
-            <oxd-grid-item>
               <oxd-switch-input v-model="optionalField.showTaxExemptions" />
-            </oxd-grid-item>
-            <oxd-grid-item> </oxd-grid-item>
+            </div>
           </oxd-grid>
         </oxd-form-row>
 
@@ -157,3 +144,19 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '@orangehrm/oxd/styles/_mixins.scss';
+.orangehrm-optional-field-row {
+  grid-column-start: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.orangehrm-optional-field-label {
+  @include oxd-input-control();
+  padding: 0;
+  flex-basis: 75%;
+}
+</style>
