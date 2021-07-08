@@ -18,8 +18,8 @@
  */
 
 namespace OrangeHRM\Entity;
-use Doctrine\ORM\Mapping as ORM;
 
+use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\ReportToDecorator;
 
@@ -36,7 +36,7 @@ class ReportTo
     /**
      * @var Employee
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", cascade={"persist"})
      * @ORM\JoinColumn(name="erep_sup_emp_number", referencedColumnName="emp_number", nullable=false)
      * @ORM\Id
      */
@@ -45,7 +45,7 @@ class ReportTo
     /**
      * @var Employee
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", cascade={"persist"})
      * @ORM\JoinColumn(name="erep_sub_emp_number", referencedColumnName="emp_number", nullable=false)
      * @ORM\Id
      */
@@ -54,7 +54,7 @@ class ReportTo
     /**
      * @var ReportingMethod
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ReportingMethod")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\ReportingMethod", cascade={"persist"})
      * @ORM\JoinColumn(name="erep_reporting_mode", referencedColumnName="reporting_method_id", nullable=false)
      * @ORM\Id
      */
