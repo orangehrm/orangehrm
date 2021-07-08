@@ -47,7 +47,7 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
      * @return array
      * @throws CoreServiceException
      */
-    private function ParameterArray(): array
+    private function getParameterArray(): array
     {
         $parameters = [
             self::PARAMETER_DEPRECATED_FIELDS => $this->getConfigService()->showPimDeprecatedFields(),
@@ -63,7 +63,7 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        $parameters = $this->ParameterArray();
+        $parameters = $this->getParameterArray();
         return new EndpointResourceResult(ArrayModel::class, $parameters);
     }
 
@@ -104,7 +104,7 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
         $this->getConfigService()->setShowPimSIN($showSIN);
         $this->getConfigService()->setShowPimTaxExemptions($showTaxExemptions);
         $this->getConfigService()->setShowPimDeprecatedFields($showDeprecatedFields);
-        return $this->ParameterArray();
+        return $this->getParameterArray();
     }
 
     /**
