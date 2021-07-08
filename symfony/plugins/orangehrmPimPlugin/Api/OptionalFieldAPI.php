@@ -122,8 +122,8 @@ class OptionalFieldAPI extends Endpoint implements ResourceEndpoint
      */
     public function saveConfig(): array
     {
-        $showSIN = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SSN);
-        $showSSN = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SIN);
+        $showSIN = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SIN);
+        $showSSN = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_SSN);
         $showTaxExemptions = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_TAX_EXEMPTIONS);
         $showDeprecatedFields = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY,
