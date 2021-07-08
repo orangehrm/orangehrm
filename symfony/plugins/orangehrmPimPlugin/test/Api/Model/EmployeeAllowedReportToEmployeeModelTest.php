@@ -27,7 +27,6 @@ use OrangeHRM\Tests\Util\TestCase;
 /**
  * @group Pim
  * @group Model
- * @group Yasiru
  */
 class EmployeeAllowedReportToEmployeeModelTest extends TestCase
 {

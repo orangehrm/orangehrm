@@ -41,6 +41,7 @@ use OrangeHRM\Pim\Dto\EmployeeSubordinateSearchFilterParams;
 use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeReportingMethodService;
 use OrangeHRM\Core\Api\V2\ParameterBag;
+use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
 class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
 {
@@ -52,6 +53,12 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
     protected ?EmployeeReportingMethodService $employeeReportingMethodService = null;
 
     /**
+     * @var ReportingMethodConfigurationService|null
+     */
+    protected ?ReportingMethodConfigurationService $reportingMethodService = null;
+
+
+    /**
      * @return EmployeeReportingMethodService
      */
     public function getEmployeeReportingMethodService(): EmployeeReportingMethodService
@@ -61,6 +68,18 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
         }
         return $this->employeeReportingMethodService;
     }
+
+    /**
+     * @return ReportingMethodConfigurationService
+     */
+    public function getReportingMethodConfigurationService(): ReportingMethodConfigurationService
+    {
+        if (!$this->reportingMethodService instanceof ReportingMethodConfigurationService) {
+            $this->reportingMethodService = new ReportingMethodConfigurationService();
+        }
+        return $this->reportingMethodService;
+    }
+
 
     /**
      * @inheritDoc
@@ -240,8 +259,8 @@ class EmployeeSubordinateAPI extends Endpoint implements CrudEndpoint
             ->getEmployeeReportingMethodDao()
             ->getEmployeeReportToByEmpNumbers($subordinateId, $empNumber);
         $this->throwRecordNotFoundExceptionIfNotExist($employeeSubordinate, ReportTo::class);
-
-        $employeeSubordinate->getDecorator()->setReportingMethodByReportingMethodId($reportingMethodId);
+        $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethodById($reportingMethodId);
+        $employeeSubordinate->setReportingMethod($reportingMethod);
         $this->getEmployeeReportingMethodService()->getEmployeeReportingMethodDao()->saveEmployeeReportTo($employeeSubordinate);
 
         return new EndpointResourceResult(
