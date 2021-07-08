@@ -19,23 +19,23 @@
 
 namespace OrangeHRM\Pim\Service;
 
-use OrangeHRM\Pim\Dao\EmployeeWorkExperienceDao;
+use OrangeHRM\Pim\Dao\CustomFieldDao;
 
-class EmployeeWorkExperienceService
+class CustomFieldService
 {
     /**
-     * @var EmployeeWorkExperienceDao|null
+     * @var CustomFieldDao|null
      */
-    private ?EmployeeWorkExperienceDao $employeeWorkExperienceDao = null;
+    private ?CustomFieldDao $customFieldDao = null;
 
     /**
-     * @return EmployeeWorkExperienceDao|null
+     * @return CustomFieldDao|null
      */
-    public function getEmployeeWorkExperienceDao(): EmployeeWorkExperienceDao
+    public function getCustomFieldDao(): CustomFieldDao
     {
-        if (!($this->employeeWorkExperienceDao instanceof EmployeeWorkExperienceDao)) {
-            $this->employeeWorkExperienceDao = new EmployeeWorkExperienceDao();
+        if (!($this->customFieldDao instanceof CustomFieldDao)) {
+            $this->customFieldDao = new CustomFieldDao();
         }
-        return $this->employeeWorkExperienceDao;
+        return $this->customFieldDao;
     }
 }

@@ -299,51 +299,30 @@ apiv2_pim_reporting_methods:
   defaults:
     _api: OrangeHRM\Pim\Api\ReportingMethodConfigurationAPI
 
-apiv2_pim_reporto_supervisors:
-  path: /api/v2/pim/employees/{empNumber}/supervisors
+apiv2_pim_custom_fields:
+  path: /api/v2/pim/custom-fields
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
   defaults:
-    _api: OrangeHRM\Pim\Api\EmployeeSupervisorAPI
-  requirements:
-    empNumber: '\d+'
+    _api: OrangeHRM\Pim\Api\CustomFieldAPI
 
-apiv2_pim_reporto_supervisor:
-  path: /api/v2/pim/employees/{empNumber}/supervisors/{id}
+apiv2_pim_custom_field:
+  path: /api/v2/pim/custom-fields/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
-    _api: OrangeHRM\Pim\Api\EmployeeSupervisorAPI
+    _api: OrangeHRM\Pim\Api\CustomFieldAPI
   requirements:
-    empNumber: '\d+'
     id: '\d+'
 
-apiv2_pim_reporto_subordinate:
-  path: /api/v2/pim/employees/{empNumber}/subordinates/{id}
+apiv2_pim_optional_field:
+  path: /api/v2/pim/optional-field
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
-    _api: OrangeHRM\Pim\Api\EmployeeSubordinateAPI
-  requirements:
-    empNumber: '\d+'
+    id: 0
+    _api: OrangeHRM\Pim\Api\OptionalFieldAPI
 
-apiv2_pim_reporto_subordinates:
-  path: /api/v2/pim/employees/{empNumber}/subordinates
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET, POST, DELETE ]
-  defaults:
-    _api: OrangeHRM\Pim\Api\EmployeeSubordinateAPI
-  requirements:
-    empNumber: '\d+'
-
-apiv2_pim_reporto_allowed_employees:
-  path: /api/v2/pim/employees/{empNumber}/reportTo/allowed
-  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
-  methods: [ GET ]
-  defaults:
-    _api: OrangeHRM\Pim\Api\EmployeeAllowedReportToEmployeeAPI
-  requirements:
-    empNumber: '\d+'
 
 ##########################
 #        Files
@@ -455,4 +434,23 @@ save_reporting_method:
 edit_reporting_method:
   path: /pim/saveReportingMethod/{id}
   controller: OrangeHRM\Pim\Controller\SaveReportingMethodController::handle
+  methods: [ GET ]
+
+view_custom_fields:
+  path: /pim/listCustomFields
+  controller: OrangeHRM\Pim\Controller\CustomFieldController::handle
+  methods: [ GET ]
+
+save_custom_fields:
+  path: /pim/saveCustomFields
+  controller: OrangeHRM\Pim\Controller\SaveCustomFieldController::handle
+  methods: [ GET ]
+
+edit_custom_fields:
+  path: /pim/saveCustomFields/{id}
+  controller: OrangeHRM\Pim\Controller\SaveCustomFieldController::handle
+
+view_optional_field:
+  path: /pim/configurePim
+  controller: OrangeHRM\Pim\Controller\OptionalFieldController::handle
   methods: [ GET ]

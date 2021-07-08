@@ -17,25 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Service;
+namespace OrangeHRM\Tests\Pim\Service;
 
-use OrangeHRM\Pim\Dao\EmployeeWorkExperienceDao;
+use OrangeHRM\Pim\Dao\CustomFieldDao;
+use OrangeHRM\Pim\Service\CustomFieldService;
+use OrangeHRM\Tests\Util\TestCase;
 
-class EmployeeWorkExperienceService
+/**
+ * @group Pim
+ * @group Service
+ */
+class CustomFieldServiceTest extends TestCase
 {
-    /**
-     * @var EmployeeWorkExperienceDao|null
-     */
-    private ?EmployeeWorkExperienceDao $employeeWorkExperienceDao = null;
+    private CustomFieldService $customFieldService;
 
-    /**
-     * @return EmployeeWorkExperienceDao|null
-     */
-    public function getEmployeeWorkExperienceDao(): EmployeeWorkExperienceDao
+    protected function setUp(): void
     {
-        if (!($this->employeeWorkExperienceDao instanceof EmployeeWorkExperienceDao)) {
-            $this->employeeWorkExperienceDao = new EmployeeWorkExperienceDao();
-        }
-        return $this->employeeWorkExperienceDao;
+        $this->customFieldService = new CustomFieldService();
+    }
+
+    public function testGetCustomFieldDao()
+    {
+        $this->assertTrue($this->customFieldService->getCustomFieldDao() instanceof CustomFieldDao);
     }
 }

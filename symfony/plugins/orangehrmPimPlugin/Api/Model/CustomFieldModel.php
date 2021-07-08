@@ -17,25 +17,39 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Service;
+namespace OrangeHRM\Pim\Api\Model;
 
-use OrangeHRM\Pim\Dao\EmployeeWorkExperienceDao;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\CustomField;
 
-class EmployeeWorkExperienceService
+class CustomFieldModel implements Normalizable
 {
-    /**
-     * @var EmployeeWorkExperienceDao|null
-     */
-    private ?EmployeeWorkExperienceDao $employeeWorkExperienceDao = null;
+    use ModelTrait;
 
     /**
-     * @return EmployeeWorkExperienceDao|null
+     * @param CustomField $customField
      */
-    public function getEmployeeWorkExperienceDao(): EmployeeWorkExperienceDao
+    public function __construct(CustomField $customField)
     {
-        if (!($this->employeeWorkExperienceDao instanceof EmployeeWorkExperienceDao)) {
-            $this->employeeWorkExperienceDao = new EmployeeWorkExperienceDao();
-        }
-        return $this->employeeWorkExperienceDao;
+        $this->setEntity($customField);
+        $this->setFilters(
+            [
+                'fieldNum',
+                'name',
+                'type',
+                'extraData',
+                'screen'
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'fieldName',
+                'fieldType',
+                'extraData',
+                'screen'
+            ]
+        );
     }
 }

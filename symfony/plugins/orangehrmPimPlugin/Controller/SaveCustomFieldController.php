@@ -17,25 +17,26 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Service;
+namespace OrangeHRM\Pim\Controller;
 
-use OrangeHRM\Pim\Dao\EmployeeWorkExperienceDao;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
 
-class EmployeeWorkExperienceService
+class SaveCustomFieldController extends AbstractVueController
 {
-    /**
-     * @var EmployeeWorkExperienceDao|null
-     */
-    private ?EmployeeWorkExperienceDao $employeeWorkExperienceDao = null;
-
-    /**
-     * @return EmployeeWorkExperienceDao|null
-     */
-    public function getEmployeeWorkExperienceDao(): EmployeeWorkExperienceDao
+    public function preRender(Request $request): void
     {
-        if (!($this->employeeWorkExperienceDao instanceof EmployeeWorkExperienceDao)) {
-            $this->employeeWorkExperienceDao = new EmployeeWorkExperienceDao();
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component('custom-field-edit');
+            $component->addProp(new Prop('custom-field-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('custom-field-save');
         }
-        return $this->employeeWorkExperienceDao;
+        $component->addProp(new Prop('screen-list', Prop::TYPE_ARRAY, CustomFieldController::SCREEN_LIST));
+        $component->addProp(new Prop('field-type-list', Prop::TYPE_ARRAY, CustomFieldController::FIELD_TYPE_LIST));
+        $this->setComponent($component);
     }
 }

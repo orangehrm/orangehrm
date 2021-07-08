@@ -17,25 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Service;
+namespace OrangeHRM\Pim\Controller;
 
-use OrangeHRM\Pim\Dao\EmployeeWorkExperienceDao;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
 
-class EmployeeWorkExperienceService
+class OptionalFieldController extends AbstractVueController
 {
-    /**
-     * @var EmployeeWorkExperienceDao|null
-     */
-    private ?EmployeeWorkExperienceDao $employeeWorkExperienceDao = null;
-
-    /**
-     * @return EmployeeWorkExperienceDao|null
-     */
-    public function getEmployeeWorkExperienceDao(): EmployeeWorkExperienceDao
+    public function init(): void
     {
-        if (!($this->employeeWorkExperienceDao instanceof EmployeeWorkExperienceDao)) {
-            $this->employeeWorkExperienceDao = new EmployeeWorkExperienceDao();
-        }
-        return $this->employeeWorkExperienceDao;
+        $component = new Component('optional-field-list');
+        $this->setComponent($component);
     }
 }
