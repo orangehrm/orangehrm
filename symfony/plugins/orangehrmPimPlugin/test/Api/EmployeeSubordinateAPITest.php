@@ -33,6 +33,12 @@ class EmployeeSubordinateAPITest extends EndpointTestCase
         $this->assertTrue($api->getEmployeeReportingMethodService() instanceof EmployeeReportingMethodService);
     }
 
+    public function testGetReportingMethodConfigurationService(): void
+    {
+        $api = new EmployeeSubordinateAPI($this->getRequest());
+        $this->assertTrue($api->getReportingMethodConfigurationService() instanceof ReportingMethodConfigurationService);
+    }
+
     public function testGetOne(): void
     {
         $reportingMethod = new ReportingMethod();
