@@ -35,6 +35,32 @@ class LocationModel implements Normalizable
             [
                 'id',
                 'name',
+                ['getCountry', 'getCountryCode'],
+                ['getCountry', 'getName'],
+                ['getCountry', 'getCountryName'],
+                'province',
+                'city',
+                'address',
+                'zipCode',
+                'phone',
+                'fax',
+                'note',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'name',
+                ['country', 'countryCode'],
+                ['country', 'name'],
+                ['country', 'countryName'],
+                'province',
+                'city',
+                'address',
+                'zipCode',
+                'phone',
+                'fax',
+                'note',
             ]
         );
     }

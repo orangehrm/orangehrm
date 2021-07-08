@@ -25,6 +25,7 @@ use OrangeHRM\Admin\Api\NationalityAPI;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -67,15 +68,15 @@ class LocationAPITest extends EndpointTestCase
         }
     }
 
-    public function dataProviderForTestOne()
+    public function dataProviderForTestGetOne()
     {
         return $this->getTestCasesByKey('GetOne');
     }
 
     /**
-     * @dataProvider dataProviderForTestOne
+     * @dataProvider dataProviderForTestGetOne
      */
-    public function testOne($params, $result, $exception = false)
+    public function testGetOne($params, $result, $exception = false)
     {
         if ($exception) {
             $this->expectException($exception['class']);
@@ -103,5 +104,25 @@ class LocationAPITest extends EndpointTestCase
         $validationRule = $this->locationApi->getValidationRuleForGetOne();
         $this->assertTrue($this->validate($params, $validationRule));
     }
+
+    public function dataProviderForTestGetAll()
+    {
+        return $this->getTestCasesByKey('GetAll');
+    }
+
+    /**
+     * @dataProvider dataProviderForTestGetAll
+     */
+    public function testGetAll($params, $result, $exception = false)
+    {
+        if ($exception) {
+            $this->expectException($exception['class']);
+            $this->expectExceptionMessage($exception['message']);
+        }
+        $this->locationApi = new LocationAPI($this->getRequest($params));
+        $locations = $this->locationApi->getAll();
+        $this->assertEquals($result, $locations->normalize());
+    }
+
 
 }

@@ -25,9 +25,11 @@ use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -36,9 +38,14 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Location;
+use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
 
 class LocationAPI extends Endpoint implements CrudEndpoint
 {
+
+    const FILTER_LOCATION_NAME = 'name';
+    const FILTER_LOCATION_CITY_NAME = 'city';
+    const FILTER_LOCATION_COUNTRY_CODE = 'countryCode';
 
     /**
      * @var null|LocationService
@@ -86,14 +93,59 @@ class LocationAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(LocationModel::class, $location);
     }
 
+    /**
+     * @return EndpointResult
+     * @throws DaoException
+     * @throws NormalizeException
+     */
     public function getAll(): EndpointResult
     {
-        // TODO: Implement getAll() method.
+        $locationSearchFilterParams = new LocationSearchFilterParams();
+
+        $this->setSortingAndPaginationParams($locationSearchFilterParams);
+
+        $locationSearchFilterParams->setName(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_LOCATION_NAME
+            )
+        );
+        $locationSearchFilterParams->setCity(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_LOCATION_CITY_NAME
+            )
+        );
+        $locationSearchFilterParams->setCountryCode(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_LOCATION_COUNTRY_CODE
+            )
+        );
+
+        $locations = $this->getLocationService()->searchLocations($locationSearchFilterParams);
+
+        return new EndpointCollectionResult(
+            LocationModel::class,
+            $locations,
+            new ParameterBag(
+                [
+                    CommonParams::PARAMETER_TOTAL => $this->getLocationService()->getSearchLocationListCount(
+                        $locationSearchFilterParams
+                    )
+                ]
+            )
+        );
     }
 
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForGetAll() method.
+        return new ParamRuleCollection(
+            new ParamRule(self::FILTER_LOCATION_NAME),
+            new ParamRule(self::FILTER_LOCATION_CITY_NAME),
+            new ParamRule(self::FILTER_LOCATION_COUNTRY_CODE),
+            ...$this->getSortingAndPaginationParamsRules(LocationSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
     }
 
     public function create(): EndpointResult
