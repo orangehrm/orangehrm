@@ -127,7 +127,7 @@ export default {
         fieldName: [required, shouldNotExceedCharLength(250)],
         screen: [shouldNotExceedCharLength(100)],
         fieldType: [required, shouldNotExceedCharLength(15)],
-        extraData: [shouldNotExceedCharLength(250)],
+        extraData: [required, shouldNotExceedCharLength(250)],
       },
     };
   },
@@ -167,9 +167,6 @@ export default {
 
   computed: {
     isDropDownField() {
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.rules.extraData[1] =
-        this.customField.fieldType[0]?.id === 1 ? required : null;
       return this.customField.fieldType[0]?.id === 1;
     },
   },

@@ -76,22 +76,6 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 
-const dataNormalizer = data => {
-  return data.map(item => {
-    return {
-      id: item.id,
-      fieldName: item.fieldName,
-      screen: this.screenList.filter(screen => {
-        return item.screen === screen.id;
-      })[0].label,
-      fieldType: this.fieldTypeList.filter(fieldType => {
-        return item.fieldType === fieldType.id;
-      })[0].label,
-      extraData: item.extraData,
-    };
-  });
-};
-
 export default {
   props: {
     customFieldLimit: {
@@ -151,11 +135,26 @@ export default {
     'delete-confirmation': DeleteConfirmationDialog,
   },
 
-  setup() {
+  setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/pim/custom-fields',
     );
+    const dataNormalizer = data => {
+      return data.map(item => {
+        return {
+          id: item.id,
+          fieldName: item.fieldName,
+          screen: props.screenList.filter(screen => {
+            return item.screen === screen.id;
+          })[0].label,
+          fieldType: props.fieldTypeList.filter(fieldType => {
+            return item.fieldType === fieldType.id;
+          })[0].label,
+          extraData: item.extraData,
+        };
+      });
+    };
     const {
       showPaginator,
       currentPage,
@@ -226,23 +225,6 @@ export default {
   },
 
   computed: {
-    updateItemsDataWithFieldType() {
-      return this.items?.data?.map(item => {
-        let fieldType = '';
-        if (item.fieldType === 0) {
-          fieldType = 'Text or Number';
-        } else if (item.fieldType === 1) {
-          fieldType = 'Drop Down';
-        }
-        return {
-          id: item.id,
-          fieldName: item.fieldName,
-          screen: item.screen,
-          fieldType: fieldType,
-          extraData: item.extraData,
-        };
-      });
-    },
     remainingFields() {
       return this.customFieldLimit - this.items?.data?.length;
     },
