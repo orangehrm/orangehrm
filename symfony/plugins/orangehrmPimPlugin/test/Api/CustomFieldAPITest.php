@@ -19,23 +19,14 @@
 
 namespace OrangeHRM\Tests\Pim\Api;
 
-use DateTime;
-use OrangeHRM\Authentication\Auth\User;
-use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
-use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\CustomField;
-use OrangeHRM\Entity\Education;
-use OrangeHRM\Entity\Employee;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\CustomFieldAPI;
 use OrangeHRM\Pim\Dao\CustomFieldDao;
 use OrangeHRM\Pim\Service\CustomFieldService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
-use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Pim
