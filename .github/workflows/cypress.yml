@@ -1,0 +1,52 @@
+name: Cypress
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Environment
+        uses: actions/checkout@v2
+        with:
+          repository: orangehrm/orangehrm-os-dev-environment
+
+      - name: Checkout OrangeHRM
+        uses: actions/checkout@v2
+        with:
+          path: html
+
+      - name: Configure Docker Environment
+        run: |
+          pwd
+          ls -la
+          ls html
+          cp .env.dist .env
+          sed -i "s~LOCAL_SRC=/your/src/path~LOCAL_SRC=$PWD/html~g" .env
+          echo "127.0.0.1 php56 php70 php71 php72 php73 php74 php80" | sudo tee -a /etc/hosts
+          docker-compose -f docker-compose.yml -f docker-compose-build.yml build nginx php-8.0
+          docker-compose up -d php-8.0 mysql55
+          docker ps
+
+      - name: Install dependencies
+        run: |
+          docker exec os_dev_php80 bash -c 'cd symfony/client && yarn install'
+          docker exec os_dev_php80 bash -c 'cd symfony && composer install'
+
+      - name: Install OrangeHRM
+        run: |
+          docker exec os_dev_php80 bash -c 'cd symfony/client && yarn build'
+          docker exec os_dev_php80 bash -c 'sed -i 's/127.0.0.1/mysql55/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c 'sed -i 's/Ohrm@1423/Admin@123/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c 'sed -i 's/1234/root/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c 'sed -i 's/ABCD/Samantha/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c 'sed -i 's/XYZ/Jayasinghe/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c 'php installer/cli_install.php 0'
+
+      - name: Run tests
+        run: |
+          cd html/symfony/test/functional
+          sed -i 's~http://php80/orangehrm/web/index.php~http://php80/web/index.php~g' cypress.json
+          yarn install
+          yarn test
