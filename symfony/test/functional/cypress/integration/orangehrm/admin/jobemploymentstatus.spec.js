@@ -1,5 +1,5 @@
 
-import user from '../../../fixtures/user.json'
+import user from '../../../fixtures/admin.json'
 import promisify from 'cypress-promise'
 
 //check employment status page
@@ -120,10 +120,9 @@ describe('add new employment status and check the success toast', function () {
 
 //List count increment
 const getStatuscount = async () => {
-    cy.wait(3000)
+    cy.wait(2000)
     let num = await promisify(cy.get('.oxd-text').contains('Records Found').invoke('text'))
     var line = num.match(/\((.*)\)/);
-    cy.log(line[1])
     return parseInt(line[1])
 }
 describe('list count increment', function () {
@@ -136,7 +135,7 @@ describe('list count increment', function () {
         cy.get(':nth-child(2) > .oxd-input').type('probation')
         cy.get('form').submit()
         cy.viewport(1024, 768)
-        cy.wait(3000)
+        cy.wait(2000)
         const newStatusno = await getStatuscount()
         expect(newStatusno).to.eq(currentStatusno + 1)
     })
