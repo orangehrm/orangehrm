@@ -1,5 +1,5 @@
 
-import user from '../../../fixtures/admin.json'
+import user from '../../../fixtures/admin-user.json'
 import promisify from 'cypress-promise'
 
 //check employment status page
@@ -7,11 +7,11 @@ describe('employment status page', function () {
     it('check employemnt status list page', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/employmentStatus')
-        cy.get('.oxd-text--h6').should('include.text', "Employment Status")
+        cy.get('.oxd-text--h5').should('include.text', "Employment Status")
     })
 })
 
-//Add a new employment status   
+//Add a new employment status
 describe('add new employment status', function () {
     it('check add new employment status', () => {
         cy.login(user.admin.userName, user.admin.password)
@@ -54,7 +54,7 @@ describe('adding a duplicate employment status', function () {
     })
 })
 
-//Updating an employment status and the toast message 
+//Updating an employment status and the toast message
 describe('updating an employment status and the toast message', function () {
     it('updating an employment status and the toast message', () => {
         cy.login(user.admin.userName, user.admin.password)
@@ -89,7 +89,7 @@ describe('add new employment status and check the success toast', function () {
     })
 })
 
-//Visiting update an employment status and click cancel 
+//Visiting update an employment status and click cancel
 describe('visiting update an employment status and click cancel', function () {
     it('visiting update an employment status and click cancel', () => {
         cy.login(user.admin.userName, user.admin.password)
@@ -99,7 +99,7 @@ describe('visiting update an employment status and click cancel', function () {
     })
 })
 
-//Visiting add a new employment status and click cancel 
+//Visiting add a new employment status and click cancel
 describe('visiting add a new employment status and click cancel', function () {
     it('visiting add a new employment status and click cancel', () => {
         cy.login(user.admin.userName, user.admin.password)
