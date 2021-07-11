@@ -1,4 +1,4 @@
-import user from '../../../fixtures/user.json'
+import user from '../../../fixtures/admin-user.json'
 
 describe('Job title page', function () {
 
@@ -7,7 +7,7 @@ describe('Job title page', function () {
 
         cy.visit('/admin/viewJobTitleList')
 
-        cy.get('.oxd-text--h6').should('include.text', "Job Title List")
+        cy.get('.oxd-text--h5').should('include.text', "Job Title List")
 
     })
 })

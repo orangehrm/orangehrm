@@ -1,4 +1,4 @@
-import user from '../../../fixtures/user.json'
+import user from '../../../fixtures/admin-user.json'
 
 describe('Add Employee', function () {
 
@@ -10,7 +10,7 @@ describe('Add Employee', function () {
         cy.get('input[name="First Name"]').type('John')
 
         cy.get('input[name="Last Name"]').type('mike')
-    
+
         cy.get('form').submit()
 
     })
