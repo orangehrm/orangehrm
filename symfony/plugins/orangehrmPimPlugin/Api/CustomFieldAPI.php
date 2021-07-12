@@ -197,14 +197,13 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
                 ),
                 false
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
+            $this->getValidationDecorator()->requiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SCREEN,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SCREEN_MAX_LENGTH]),
                     new Rule(Rules::IN, [CustomField::SCREENS]),
                 ),
-                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -289,7 +288,7 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
             )
         );
         $customField->setScreen(
-            $this->getRequestParams()->getStringOrNull(
+            $this->getRequestParams()->getString(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SCREEN
             )

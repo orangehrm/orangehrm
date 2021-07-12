@@ -1429,18 +1429,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=7e3e093f25d7223404066f39f74904f8662cdc8f":
+"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=9e16e34599ea99784c89f98093f3cffd4e3d9216":
   version: 1.0.0
-  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=7e3e093f25d7223404066f39f74904f8662cdc8f"
+  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=9e16e34599ea99784c89f98093f3cffd4e3d9216"
   dependencies:
     bootstrap-icons: ^1.3.0
     core-js: ^3.6.5
     date-fns: ^2.22.1
     mitt: ^2.1.0
     nanoid: ^3.1.21
-    vue: ^3.0.5
-    vue-class-component: ^8.0.0-0
-  checksum: 00a183f70f700bf3dade1da930b4a1102f61a4b7a29fe45c816e31482e471b22808c2ffd05fe8174a55df7bc331036fc199957fdb523c720bff01b4e32b687ab
+    vue: ^3.1.2
+  checksum: 64cfb3e19ab0bc7e378c1dcb2303545a38b2e6d4b76d6c147dd2cbaddd16a1f03115072f336e0d26c7e49afdcff40a0435b032413239afe5c3e5109d2471d26b
   languageName: node
   linkType: hard
 
@@ -2295,6 +2294,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vue/compiler-core@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@vue/compiler-core@npm:3.1.4"
+  dependencies:
+    "@babel/parser": ^7.12.0
+    "@babel/types": ^7.12.0
+    "@vue/shared": 3.1.4
+    estree-walker: ^2.0.1
+    source-map: ^0.6.1
+  checksum: 78b3eaa2811a5c1223c8fa848938d3b29d1ee0c91941058969b0d660be8ac114dc53857054e036dc7a12c35b757b7901182234fc34ab9e441c380266e5cb6917
+  languageName: node
+  linkType: hard
+
 "@vue/compiler-dom@npm:3.0.5":
   version: 3.0.5
   resolution: "@vue/compiler-dom@npm:3.0.5"
@@ -2302,6 +2314,16 @@ __metadata:
     "@vue/compiler-core": 3.0.5
     "@vue/shared": 3.0.5
   checksum: b2320f953e8ab585425cfdcb9cbe3ecca4fef3e7d4f1200bf806b81b29cb863c24e08f4310fbcb4843b8304e515680c58e0e018d8f3edc484768428f51ca704c
+  languageName: node
+  linkType: hard
+
+"@vue/compiler-dom@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@vue/compiler-dom@npm:3.1.4"
+  dependencies:
+    "@vue/compiler-core": 3.1.4
+    "@vue/shared": 3.1.4
+  checksum: 7904fdd56b8766b70ad14dcd8d656b522c629dd1a0873156baf9fb71c998b97c145e85d8707e52d97c69c2eac35f37d28fbf9fdc109ab088b86048f6d9a47951
   languageName: node
   linkType: hard
 
@@ -2398,33 +2420,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/reactivity@npm:3.0.5":
-  version: 3.0.5
-  resolution: "@vue/reactivity@npm:3.0.5"
+"@vue/reactivity@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@vue/reactivity@npm:3.1.4"
   dependencies:
-    "@vue/shared": 3.0.5
-  checksum: 7ea18fbf2ebfaf2f6038a8741d1a5848bb06b1db0fafc2ddf87984160c368b4cc484d7edb7efeef0724cf2497f2123693b708ad2d85f89d37ad28f3d0b16d29b
+    "@vue/shared": 3.1.4
+  checksum: 6c82d4dbf269a701c4e14bcf74d86a53d7ac871d2ebc142aab6dce85d18b667b378f1e3911eb537e1537cc624841e5d516e84c8adc60f0892e4718c5113fac0b
   languageName: node
   linkType: hard
 
-"@vue/runtime-core@npm:3.0.5":
-  version: 3.0.5
-  resolution: "@vue/runtime-core@npm:3.0.5"
+"@vue/runtime-core@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@vue/runtime-core@npm:3.1.4"
   dependencies:
-    "@vue/reactivity": 3.0.5
-    "@vue/shared": 3.0.5
-  checksum: 801120943f2c93f5c1cad79b89acf58e9d90b8bda4c4c79f8f646dac26f50bae491897efe59955b984432480ee4ff19fce123f5190b7630424baeba7f4a95dc3
+    "@vue/reactivity": 3.1.4
+    "@vue/shared": 3.1.4
+  checksum: f2ed8ca9d47b71751505f5ad0010d2cb7e12abfad91f005d79a5bc2997c91b33bf0bf735d0cc7981c3dfc45e9ee2a54d0ebd38fce7c1448006df6c2a3ea836db
   languageName: node
   linkType: hard
 
-"@vue/runtime-dom@npm:3.0.5":
-  version: 3.0.5
-  resolution: "@vue/runtime-dom@npm:3.0.5"
+"@vue/runtime-dom@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@vue/runtime-dom@npm:3.1.4"
   dependencies:
-    "@vue/runtime-core": 3.0.5
-    "@vue/shared": 3.0.5
+    "@vue/runtime-core": 3.1.4
+    "@vue/shared": 3.1.4
     csstype: ^2.6.8
-  checksum: 74db9cb3c6934e4f66e6bb787873e67cdaa234b43ec21d19456571a00419d9a6f6ff7cc71d705271fcecf51d6fd9fdda5b9e6aaf9284c4b20c4550e2a7fb8ec6
+  checksum: 53dfa4fa52a352ef27c081f15856460b134146512994585513a9d6925ebdf8e612e56e214dc746aa8ef6cd315c582ffc760bbfe7dcb5642eb77cd5fddd5cdd72
   languageName: node
   linkType: hard
 
@@ -2432,6 +2454,13 @@ __metadata:
   version: 3.0.5
   resolution: "@vue/shared@npm:3.0.5"
   checksum: 9305884d862787fd05b0689accf4a70cd0cbc9c026cb60210fa7fcf0fb05e207575ac82b1962be77575544ae2fb2d56d1835e5e44f15f9a32fceea4db5e35f6a
+  languageName: node
+  linkType: hard
+
+"@vue/shared@npm:3.1.4":
+  version: 3.1.4
+  resolution: "@vue/shared@npm:3.1.4"
+  checksum: 3fb7e5c171d447d7f2a75d045a6a780359200dad2ff7b62ff8d4f66588c871f32822a06c1cc7ff13ff2a3f50f5e872118ed8837a48c22415ac5e152e6cf9717e
   languageName: node
   linkType: hard
 
@@ -10034,7 +10063,7 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=7e3e093f25d7223404066f39f74904f8662cdc8f"
+    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=9e16e34599ea99784c89f98093f3cffd4e3d9216"
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0
@@ -10057,8 +10086,7 @@ fsevents@~2.3.1:
     sass: ^1.26.5
     sass-loader: ^8.0.2
     typescript: ~3.9.3
-    vue: 3.0.5
-    vue-class-component: ^8.0.0-0
+    vue: ^3.1.2
     vue-jest: ^5.0.0-0
   languageName: unknown
   linkType: soft
@@ -13624,15 +13652,6 @@ typescript@~3.9.3:
   languageName: node
   linkType: hard
 
-"vue-class-component@npm:^8.0.0-0":
-  version: 8.0.0-rc.1
-  resolution: "vue-class-component@npm:8.0.0-rc.1"
-  peerDependencies:
-    vue: ^3.0.0
-  checksum: 8406bc931c30c6395bd098ffdce69ab7e9635f09b2b64f48c19810c07aa60504e4d30b87340a93a005dd798a95d68b1298b690fbdfc26dc8b4b3298653e008a0
-  languageName: node
-  linkType: hard
-
 "vue-eslint-parser@npm:^7.0.0, vue-eslint-parser@npm:^7.4.1":
   version: 7.4.1
   resolution: "vue-eslint-parser@npm:7.4.1"
@@ -13753,14 +13772,14 @@ typescript@~3.9.3:
   languageName: node
   linkType: hard
 
-"vue@npm:3.0.5, vue@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "vue@npm:3.0.5"
+"vue@npm:^3.1.2":
+  version: 3.1.4
+  resolution: "vue@npm:3.1.4"
   dependencies:
-    "@vue/compiler-dom": 3.0.5
-    "@vue/runtime-dom": 3.0.5
-    "@vue/shared": 3.0.5
-  checksum: ed84a0afcfdb74d4f39efe8ef8eaba803ba94e9164bad97cd343b7a2d806f94eee6b3c471a39e80e8ef7df05fc9bc915f68e1cf964d651a8c9bef9063b4d180f
+    "@vue/compiler-dom": 3.1.4
+    "@vue/runtime-dom": 3.1.4
+    "@vue/shared": 3.1.4
+  checksum: 5b256d788c12cbd74ba3ca7a83456696cbacc2b7ef02e54a9f587c7bf5c42d7892e8d896aac96554056263c87f21e956a9636696bbd0843b05a92bc040fe3ffa
   languageName: node
   linkType: hard
 
