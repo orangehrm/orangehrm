@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
     <oxd-text tag="h6" class="orangehrm-main-title"
-      >Edit Immigration</oxd-text
+      >Add Immigration</oxd-text
     >
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -29,7 +29,7 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Name"
+              label="Document"
               v-model="contact.name"
               :rules="rules.name"
               required
@@ -37,7 +37,7 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Relationship"
+              label="Number"
               v-model="contact.relationship"
               :rules="rules.relationship"
               required
@@ -102,16 +102,12 @@ const emergencyContactModel = {
 };
 
 export default {
-  name: 'edit-immigration',
+  name: 'save-immigration',
 
   emits: ['close'],
 
   props: {
     http: {
-      type: Object,
-      required: true,
-    },
-    data: {
       type: Object,
       required: true,
     },
@@ -146,11 +142,11 @@ export default {
     onSave() {
       this.isLoading = true;
       this.http
-        .update(this.data.id, {
+        .create({
           ...this.contact,
         })
         .then(() => {
-          return this.$toast.updateSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.contact = {...emergencyContactModel};
@@ -160,19 +156,6 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
-  },
-
-  beforeMount() {
-    this.isLoading = true;
-    this.http
-      .get(this.data.id)
-      .then(response => {
-        const {data} = response.data;
-        this.contact = {...emergencyContactModel, ...data};
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
   },
 };
 </script>
