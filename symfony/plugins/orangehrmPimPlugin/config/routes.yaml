@@ -21,6 +21,16 @@ apiv2_pim_employee_picture:
     _api: OrangeHRM\Pim\Api\EmployeePictureAPI
     _key: empNumber
 
+apiv2_pim_employee_custom_fields:
+  path: /api/v2/pim/employees/{empNumber}/custom-fields
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeCustomFieldAPI
+    _key: empNumber
+  requirements:
+    empNumber: '\d+'
+
 apiv2_pim_employees_personal_details:
   path: /api/v2/pim/employees/{empNumber}/personal-details
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
