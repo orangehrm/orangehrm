@@ -118,4 +118,26 @@ class CustomFieldDaoTest extends TestCase
         $result = $this->customFieldDao->getSearchCustomFieldsCount($customFieldSearchParams);
         $this->assertEquals(5, $result);
     }
+
+    public function testSearchCustomFieldWithScreen(): void
+    {
+        $customFieldSearchParams = new CustomFieldSearchFilterParams();
+        $customFieldSearchParams->setScreen(CustomField::SCREEN_EMERGENCY_CONTACTS);
+
+        $result = $this->customFieldDao->searchCustomField($customFieldSearchParams);
+        $this->assertCount(2, $result);
+        $this->assertEquals('Emergency Type', $result[0]->getName());
+        $this->assertEquals('Level', $result[1]->getName());
+    }
+
+    public function testSearchCustomFieldWithFieldNumbers(): void
+    {
+        $customFieldSearchParams = new CustomFieldSearchFilterParams();
+        $customFieldSearchParams->setFieldNumbers([1, 2]);
+
+        $result = $this->customFieldDao->searchCustomField($customFieldSearchParams);
+        $this->assertCount(2, $result);
+        $this->assertEquals('Age', $result[0]->getName());
+        $this->assertEquals('Medium', $result[1]->getName());
+    }
 }
