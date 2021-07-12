@@ -1,4 +1,4 @@
-import user from '../../../fixtures/user.json'
+import user from '../../../fixtures/admin-user.json'
 
 describe('Automation Test Suite - Fixtures', function () {
 
@@ -14,7 +14,7 @@ describe('Automation Test Suite - Fixtures', function () {
         cy.get('.oxd-userdropdown').should('include.text', user.admin.fullName)
 
     })
-      
+
     it('Visits the login page and check validations', () => {
         cy.visit('/auth/login')
 
@@ -26,5 +26,5 @@ describe('Automation Test Suite - Fixtures', function () {
 
         cy.get('.oxd-text').should('include.text', 'Required')
 
-    })  
+    })
 })
