@@ -237,7 +237,7 @@ export default {
 
   computed: {
     isDisabled() {
-      return !(this.showSaveModal || this.showEditModal);
+      return this.showSaveModal || this.showEditModal;
     },
   },
 };
