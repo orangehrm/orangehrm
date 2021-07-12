@@ -21,19 +21,27 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\EmployeeImmigrationRecordDecorator;
 
 /**
+ *
+ * @method EmployeeImmigrationRecordDecorator getDecorator()
+ *
  * @ORM\Table(name="hs_hr_emp_passport")
  * @ORM\Entity
  */
 class EmployeeImmigrationRecord
 {
+
+    use DecoratorTrait;
+
     /**
      * @var Employee
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="immigrationRecords")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="immigrationRecords", cascade={"persist"})
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
     private Employee $employee;
@@ -78,7 +86,7 @@ class EmployeeImmigrationRecord
     /**
      * @var int|null
      *
-     * @ORM\Column(name="ep_passport_type_flg", type="smallint", nullable=true)
+     * @ORM\Column(name="ep_passport_type_flg", type="smallint")
      */
     private ?int $type;
 

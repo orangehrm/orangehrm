@@ -20,20 +20,20 @@
 
 <template>
   <edit-employee-layout :employee-id="empNumber" screen="immigration">
-    <save-emergency-contact
+    <save-immigration
       v-if="showSaveModal"
       :http="http"
       @close="onSaveModalClose"
-    ></save-emergency-contact>
-    <edit-emergency-contact
+    ></save-immigration>
+    <edit-immigration
       v-if="showEditModal"
       :http="http"
       :data="editModalState"
       @close="onEditModalClose"
-    ></edit-emergency-contact>
+    ></edit-immigration>
     <div class="orangehrm-horizontal-padding orangehrm-top-padding">
       <profile-action-header @click="onClickAdd">
-        Assigned Emergency Contacts
+        Assigned Immigration Records
       </profile-action-header>
     </div>
     <table-header
@@ -126,11 +126,11 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
-        {name: 'relationship', title: 'Relationship', style: {flex: 1}},
-        {name: 'homePhone', title: 'Home Telephone', style: {flex: 1}},
-        {name: 'mobilePhone', title: 'Mobile', style: {flex: 1}},
-        {name: 'officePhone', title: 'Work Telephone', style: {flex: 1}},
+        {name: 'document', slot: 'title', title: 'Document', style: {flex: 1}},
+        {name: 'number', title: 'Number', style: {flex: 1}},
+        {name: 'issuedBy', title: 'Issued By', style: {flex: 1}},
+        {name: 'issuedDate', title: 'Issued Date', style: {flex: 1}},
+        {name: 'expiryDate', title: 'Expiry Date', style: {flex: 1}},
         {
           name: 'actions',
           slot: 'action',
