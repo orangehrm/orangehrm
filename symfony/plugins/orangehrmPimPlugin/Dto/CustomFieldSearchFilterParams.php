@@ -25,8 +25,50 @@ class CustomFieldSearchFilterParams extends FilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['cf.name', 'cf.screen', 'cf.type'];
 
+    /**
+     * @var string|null
+     */
+    private ?string $screen = null;
+
+    /**
+     * @var int[]|null
+     */
+    private ?array $fieldNumbers = null;
+
     public function __construct()
     {
         $this->setSortField('cf.name');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getScreen(): ?string
+    {
+        return $this->screen;
+    }
+
+    /**
+     * @param string|null $screen
+     */
+    public function setScreen(?string $screen): void
+    {
+        $this->screen = $screen;
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function getFieldNumbers(): ?array
+    {
+        return $this->fieldNumbers;
+    }
+
+    /**
+     * @param int[]|null $fieldNumbers
+     */
+    public function setFieldNumbers(?array $fieldNumbers): void
+    {
+        $this->fieldNumbers = $fieldNumbers;
     }
 }

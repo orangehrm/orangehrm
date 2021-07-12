@@ -36,8 +36,40 @@ class CustomFieldServiceTest extends TestCase
         $this->customFieldService = new CustomFieldService();
     }
 
-    public function testGetCustomFieldDao()
+    public function testGetCustomFieldDao(): void
     {
         $this->assertTrue($this->customFieldService->getCustomFieldDao() instanceof CustomFieldDao);
+    }
+
+    public function testGenerateGettersByFieldNumbers(): void
+    {
+        $this->assertEquals(
+            [1 => 'getCustom1', 2 => 'getCustom2', 10 => 'getCustom10'],
+            $this->customFieldService->generateGettersByFieldNumbers([1, 2, 10])
+        );
+    }
+
+    public function testGenerateFieldKeyByFieldId(): void
+    {
+        $this->assertEquals(
+            'custom1',
+            $this->customFieldService->generateFieldKeyByFieldId(1)
+        );
+    }
+
+    public function testGenerateSetterByFieldKey(): void
+    {
+        $this->assertEquals(
+            'setCustom1',
+            $this->customFieldService->generateSetterByFieldKey('custom1')
+        );
+    }
+
+    public function testExtractFieldNumbersFromFieldKeys(): void
+    {
+        $this->assertEquals(
+            [1, 2],
+            $this->customFieldService->extractFieldNumbersFromFieldKeys(['custom1', 'custom2'])
+        );
     }
 }
