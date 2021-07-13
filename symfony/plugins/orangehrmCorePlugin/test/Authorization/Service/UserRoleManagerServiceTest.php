@@ -21,6 +21,8 @@ namespace OrangeHRM\Tests\Core\Authorization\Service;
 
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Service\UserRoleManagerService;
@@ -385,5 +387,11 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
     public function getHomePage(): ?string
     {
         return null;
+    }
+
+    public function getDataGroupPermissionCollection(
+        DataGroupPermissionFilterParams $dataGroupPermissionFilterParams = null
+    ): DataGroupPermissionCollection {
+        return new DataGroupPermissionCollection();
     }
 }

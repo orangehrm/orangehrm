@@ -19,10 +19,12 @@
 
 namespace OrangeHRM\Core\Authorization\Dto;
 
+use OrangeHRM\Entity\UserRole;
+
 class DataGroupPermissionFilterParams
 {
     /**
-     * @var array
+     * @var UserRole[]
      */
     private array $userRoles = [];
 
@@ -38,7 +40,7 @@ class DataGroupPermissionFilterParams
     private bool $onlyAccessible = true;
 
     /**
-     * @return array
+     * @return UserRole[]
      */
     public function getUserRoles(): array
     {
@@ -46,7 +48,7 @@ class DataGroupPermissionFilterParams
     }
 
     /**
-     * @param array $userRoles
+     * @param UserRole[] $userRoles
      */
     public function setUserRoles(array $userRoles): void
     {

@@ -128,14 +128,12 @@ class DataGroupService
     }
 
     /**
-     * @param UserRole[] $userRoles
+     * @param DataGroupPermissionFilterParams $dataGroupPermissionFilterParams
      * @return DataGroupPermissionCollection|array<string, ResourcePermission>
      * @throws DaoException
      */
-    public function getDataGroupPermissionCollection(array $userRoles): DataGroupPermissionCollection
+    public function getDataGroupPermissionCollection(DataGroupPermissionFilterParams $dataGroupPermissionFilterParams): DataGroupPermissionCollection
     {
-        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
-        $dataGroupPermissionFilterParams->setUserRoles($userRoles);
         $dataGroupPermissions = $this->getDao()->getDataGroupPermissions($dataGroupPermissionFilterParams);
         $dataGroupPermissionCollection = new DataGroupPermissionCollection();
 

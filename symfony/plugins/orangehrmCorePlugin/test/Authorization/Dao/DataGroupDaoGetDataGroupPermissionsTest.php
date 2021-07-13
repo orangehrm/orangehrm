@@ -126,4 +126,29 @@ class DataGroupDaoGetDataGroupPermissionsTest extends TestCase
         $this->assertTrue($permissions[1]->canDelete());
         $this->assertFalse($permissions[1]->isSelf());
     }
+
+    public function testGetDataGroupPermissionsNotOnlyAccessible(): void
+    {
+        $supervisorUserRole = $this->getEntityReference(UserRole::class, 3);
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setUserRoles([$supervisorUserRole]);
+        $dataGroupPermissionFilterParams->setOnlyAccessible(false);
+        $permissions = $this->dao->getDataGroupPermissions($dataGroupPermissionFilterParams);
+
+        $this->assertCount(2, $permissions);
+        $this->assertEquals('emergency_contacts', $permissions[0]->getDataGroup()->getName());
+        $this->assertEquals('contact_details', $permissions[1]->getDataGroup()->getName());
+    }
+
+    public function testGetDataGroupPermissionsWithOnlyAccessible(): void
+    {
+        $supervisorUserRole = $this->getEntityReference(UserRole::class, 3);
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setUserRoles([$supervisorUserRole]);
+        $dataGroupPermissionFilterParams->setOnlyAccessible(true);
+        $permissions = $this->dao->getDataGroupPermissions($dataGroupPermissionFilterParams);
+
+        $this->assertCount(1, $permissions);
+        $this->assertEquals('emergency_contacts', $permissions[0]->getDataGroup()->getName());
+    }
 }

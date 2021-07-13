@@ -25,28 +25,11 @@ use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Authorization\Service\DataGroupService;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 
 class DataGroupAPI extends Endpoint implements CollectionEndpoint
 {
     use UserRoleManagerTrait;
-
-    /**
-     * @var DataGroupService|null
-     */
-    private ?DataGroupService $dataGroupService = null;
-
-    /**
-     * @return DataGroupService
-     */
-    public function getDataGroupService(): DataGroupService
-    {
-        if (!$this->dataGroupService instanceof DataGroupService) {
-            $this->dataGroupService = new DataGroupService();
-        }
-        return $this->dataGroupService;
-    }
 
     /**
      * @inheritDoc
