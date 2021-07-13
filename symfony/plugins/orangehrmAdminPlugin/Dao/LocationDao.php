@@ -38,7 +38,11 @@ class LocationDao extends BaseDao
     public function getLocationById(int $locationId): ?Location
     {
         try {
-            return $this->getRepository(Location::class)->find($locationId);
+            $location = $this->getRepository(Location::class)->find($locationId);
+            if ($location instanceof Location) {
+                return $location;
+            }
+            return null;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
