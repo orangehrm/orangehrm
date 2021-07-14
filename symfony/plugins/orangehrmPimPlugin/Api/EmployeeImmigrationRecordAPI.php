@@ -73,8 +73,9 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     /**
      * @param EmployeeImmigrationRecordService|null $employeeImmigrationRecordService
      */
-    public function setEmployeeImmigrationRecordService(?EmployeeImmigrationRecordService $employeeImmigrationRecordService): void
-    {
+    public function setEmployeeImmigrationRecordService(
+        ?EmployeeImmigrationRecordService $employeeImmigrationRecordService
+    ): void {
         $this->employeeImmigrationRecordService = $employeeImmigrationRecordService;
     }
 
@@ -106,8 +107,7 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeImmigrationRecordService(
-                    )->getSearchEmployeeImmigrationRecordsCount($employeeImmigrationRecordSearchParams)
+                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeImmigrationRecordService()->getSearchEmployeeImmigrationRecordsCount($employeeImmigrationRecordSearchParams)
                 ]
             )
         );
@@ -130,7 +130,8 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
                     new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DEFAULT_MAX_LENGTH]),
                 ),
             ),
-            ...$this->getSortingAndPaginationParamsRules(EmployeeImmigrationRecordSearchFilterParams::ALLOWED_SORT_FIELDS)
+            ...
+            $this->getSortingAndPaginationParamsRules(EmployeeImmigrationRecordSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
 
@@ -168,57 +169,39 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DEFAULT_MAX_LENGTH])
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_ISSUE_DATE,
                     new Rule(Rules::API_DATE),
                 ),
-            ),
             new ParamRule(
                 self::PARAMETER_TYPE,
                 new Rule(Rules::NUMBER),
-                new Rule(Rules::BOOL_VAL,)
+            //new Rule(Rules::BOOL_VAL)
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_STATUS,
-                    new Rule(Rules::API_DATE),
-                ),
+            new ParamRule(
+                self::PARAMETER_EXPIRY_DATE,
+                new Rule(Rules::API_DATE),
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_EXPIRY_DATE,
-                    new Rule(Rules::API_DATE),
-                ),
+            new ParamRule(
+                self::PARAMETER_STATUS,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DEFAULT_MAX_LENGTH])
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_STATUS,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DEFAULT_MAX_LENGTH])
-                ),
+            new ParamRule(
+                self::PARAMETER_COUNTRY_CODE,
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COUNTRY_MAX_LENGTH]),
+                new Rule(Rules::COUNTRY_CODE),
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_COUNTRY_CODE,
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COUNTRY_MAX_LENGTH]),
-                    new Rule(Rules::COUNTRY_CODE),
-                ),
-                true
+            new ParamRule(
+                self::PARAMETER_REVIEW_DATE,
+                new Rule(Rules::API_DATE),
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_REVIEW_DATE,
-                    new Rule(Rules::API_DATE),
-                ),
+            new ParamRule(
+                self::PARAMETER_COMMENT,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH])
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_COMMENT,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH])
-                ),
-            ),
+
         ];
     }
 
@@ -272,7 +255,8 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
             CommonParams::PARAMETER_EMP_NUMBER
         );
         $recordId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        $immigrationRecord = $this->getEmployeeImmigrationRecordService()->getEmployeeImmigrationRecord($empNumber, $recordId);
+        $immigrationRecord = $this->getEmployeeImmigrationRecordService()->getEmployeeImmigrationRecord($empNumber,
+            $recordId);
         $this->throwRecordNotFoundExceptionIfNotExist($immigrationRecord, EmployeeImmigrationRecord::class);
 
         return new EndpointResourceResult(
@@ -365,7 +349,8 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_COMMENT
         );
-        $country = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_COUNTRY_CODE);
+        $country = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_COUNTRY_CODE);
         if ($recordId) {
             $employeeImmigrationRecord = $this->getEmployeeImmigrationRecordService()->getEmployeeImmigrationRecord(
                 $empNumber,
@@ -383,7 +368,7 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
         $employeeImmigrationRecord->setType($type);
         $employeeImmigrationRecord->setStatus($status);
         $employeeImmigrationRecord->setComment($comment);
-        $employeeImmigrationRecord->setComment($country);
+        $employeeImmigrationRecord->setCountryCode($country);
         return $this->getEmployeeImmigrationRecordService()->saveEmployeeImmigrationRecord($employeeImmigrationRecord);
     }
 }

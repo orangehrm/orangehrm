@@ -74,6 +74,19 @@ import SaveImmigration from '@/orangehrmPimPlugin/components/SaveImmigration';
 import EditImmigration from '@/orangehrmPimPlugin/components/EditImmigration';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 
+const immigrationNormalizer = data => {
+  return data.map(item => {
+    return {
+      id: item.id,
+      type: item.type,
+      number: item.number,
+      countryCode: item.countryCode,
+      issuedDate: item.issuedDate,
+      expiryDate: item.expiryDate,
+    };
+  });
+};
+
 export default {
   components: {
     'profile-action-header': ProfileActionHeader,
@@ -97,7 +110,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.empNumber}/immigration`,
+      `api/v2/pim/employees/${props.empNumber}/immigrations`,
     );
 
     const {
@@ -109,7 +122,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http);
+    } = usePaginate(http, {}, immigrationNormalizer);
     return {
       http,
       showPaginator,
@@ -126,9 +139,9 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'document', slot: 'title', title: 'Document', style: {flex: 1}},
+        {name: 'type', slot: 'title', title: 'Document', style: {flex: 1}},
         {name: 'number', title: 'Number', style: {flex: 1}},
-        {name: 'issuedBy', title: 'Issued By', style: {flex: 1}},
+        {name: 'countryCode', title: 'Issued By', style: {flex: 1}},
         {name: 'issuedDate', title: 'Issued Date', style: {flex: 1}},
         {name: 'expiryDate', title: 'Expiry Date', style: {flex: 1}},
         {
