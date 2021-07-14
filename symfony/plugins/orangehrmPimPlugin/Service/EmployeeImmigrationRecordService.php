@@ -46,7 +46,7 @@ class EmployeeImmigrationRecordService
     /**
      * @param EmployeeImmigrationRecordDao|null $employeeImmigrationRecordDao
      */
-    public function setEmpEmergencyContactDao(?EmployeeImmigrationRecordDao $employeeImmigrationRecordDao): void
+    public function setEmployeeImmigrationRecordDao(?EmployeeImmigrationRecordDao $employeeImmigrationRecordDao): void
     {
         $this->employeeImmigrationRecordDao = $employeeImmigrationRecordDao;
     }

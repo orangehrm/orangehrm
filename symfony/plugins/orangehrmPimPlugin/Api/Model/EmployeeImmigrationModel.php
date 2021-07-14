@@ -37,11 +37,11 @@ class EmployeeImmigrationModel implements Normalizable
             [
                 'recordId',
                 'number',
-                ['getDecorator', 'issuedDate'],
-                ['getDecorator', 'expiryDate'],
+                ['getDecorator', 'getIssuedDate'],
+                ['getDecorator', 'getExpiryDate'],
                 'type',
                 'status',
-                ['getDecorator', 'reviewDate'],
+                ['getDecorator', 'getReviewDate'],
                 'countryCode',
                 'comment',
             ]
