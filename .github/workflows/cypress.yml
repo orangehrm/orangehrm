@@ -48,5 +48,14 @@ jobs:
         run: |
           cd html/symfony/test/functional
           sed -i 's~http://php80/orangehrm/web/index.php~http://php80/web/index.php~g' cypress.json
+          sed -i 's~2000~4000~g' cypress.json
+          sed -i 's~false~true~g' cypress.json
           yarn install
           yarn test
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: videos
+          path: html/symfony/test/functional/cypress/videos
