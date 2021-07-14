@@ -7,7 +7,7 @@ describe('employment status page', function () {
     it('check employemnt status list page', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/employmentStatus')
-        cy.get('.oxd-text--h5').should('include.text', "Employment Status")
+        cy.get('.orangehrm-main-title').should('include.text', "Employment Status")
     })
 })
 

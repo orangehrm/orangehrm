@@ -17,7 +17,7 @@ describe('Skill title page', function () {
     it('Check Qualification Skills title view page', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('admin/viewSkills')
-        cy.get('.oxd-text--h5').should('include.text', "Qualification Skills List")
+        cy.get('.orangehrm-main-title').should('include.text', "Skills")
 
     })
 })
@@ -63,7 +63,7 @@ describe('Cancel when add Skill', function () {
                 cy.visit('/admin/saveSkills')
                 cy.xpath('//*[@id="app"]/div[1]/div/div[2]/div/div/form/div[1]/div/div[2]/input').type('skill11w')
                 cy.get('.oxd-button--ghost').click()
-                cy.get('.oxd-text--h5').should('include.text', "Qualification Skills List")
+                cy.get('.orangehrm-main-title').should('include.text', "Skills")
             })
 
 })
@@ -75,7 +75,7 @@ describe('Cancel when edit Skill', function () {
                 cy.xpath('//body[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[4]/div[1]/button[2]/i[1]').click()
                 cy.xpath('//*[@id="app"]/div[1]/div/div[2]/div/div/form/div[1]/div/div[2]/input').type('edit neww')
                 cy.get('.oxd-button--ghost').click()
-                cy.get('.oxd-text--h5').should('include.text', "Qualification Skills List")
+                cy.get('.orangehrm-main-title').should('include.text', "Skills")
             })
 
 })

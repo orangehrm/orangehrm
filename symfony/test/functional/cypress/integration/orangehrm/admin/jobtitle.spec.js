@@ -7,7 +7,7 @@ describe('Job title page', function () {
 
         cy.visit('/admin/viewJobTitleList')
 
-        cy.get('.oxd-text--h5').should('include.text', "Job Title List")
+        cy.get('.orangehrm-main-title').should('include.text', "Job Title")
 
     })
 })
