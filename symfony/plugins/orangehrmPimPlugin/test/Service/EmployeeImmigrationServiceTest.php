@@ -62,7 +62,7 @@ class EmployeeImmigrationServiceTest extends TestCase
         $employeeImmigrationRecord2 = new EmployeeImmigrationRecord();
         $employeeImmigrationRecord2->getDecorator()->setEmployeeByEmpNumber(1);
         $employeeImmigrationRecord2->setRecordId('2');
-        $employeeImmigrationRecord1->setNumber('RTF33323411');
+        $employeeImmigrationRecord2->setNumber('RTF33323411');
         $employeeImmigrationRecord2->setType(2);
         $employeeImmigrationRecord2->setIssuedDate(new DateTime('2020-12-12'));
         $employeeImmigrationRecord2->setExpiryDate(new DateTime('2021-12-12'));
@@ -145,7 +145,7 @@ class EmployeeImmigrationServiceTest extends TestCase
         $this->assertEquals("some status", $employeeImmigrationRecordObj->getStatus());
         $this->assertEquals("test Comment", $employeeImmigrationRecordObj->getComment());
         $this->assertEquals("UK", $employeeImmigrationRecordObj->getCountryCode());
-        $this->assertEquals(1, $employeeImmigrationRecordObj->getEmployee()->getEmployeeId());
+        $this->assertEquals("E001", $employeeImmigrationRecordObj->getEmployee()->getEmployeeId());
         $this->assertEquals("Kayla", $employeeImmigrationRecordObj->getEmployee()->getFirstName());
     }
 

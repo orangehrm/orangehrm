@@ -62,7 +62,7 @@ class EmployeeImmigrationRecordDaoTest extends TestCase
 
         $result = $this->employeeImmigrationRecordDao->saveEmployeeImmigrationRecord($employeeImmigrationRecord);
         $this->assertTrue($result instanceof EmployeeImmigrationRecord);
-        $this->assertEquals('0001', $result->getEmployee()->getEmployeeId());
+        $this->assertEquals('E001', $result->getEmployee()->getEmployeeId());
         $this->assertEquals('1', $result->getRecordId());
         $this->assertEquals('HVN0003472', $result->getNumber());
         $this->assertEquals(1, $result->getType());
@@ -74,10 +74,10 @@ class EmployeeImmigrationRecordDaoTest extends TestCase
         $this->assertEquals("UK", $result->getCountryCode());
     }
 
-    public function testEditEmployeeEducation(): void
+    public function testEditEmployeeImmigrationRecord(): void
     {
         $employeeImmigrationRecord = $this->employeeImmigrationRecordDao->getEmployeeImmigrationRecord(1, 1);
-
+        $employeeImmigrationRecord->setRecordId('1');
         $employeeImmigrationRecord->setNumber('RTF33323411');
         $employeeImmigrationRecord->setType(2);
         $employeeImmigrationRecord->setIssuedDate(new DateTime('2020-12-12'));
@@ -118,7 +118,7 @@ class EmployeeImmigrationRecordDaoTest extends TestCase
     {
         $toTobedeletedIds = [1, 2];
         $result = $this->employeeImmigrationRecordDao->deleteEmployeeImmigrationRecords(1, $toTobedeletedIds);
-        $this->assertEquals(2, $result);
+        $this->assertEquals(1, $result);
     }
 
     public function testSearchEmployeeImmigrationRecords(): void
@@ -126,7 +126,7 @@ class EmployeeImmigrationRecordDaoTest extends TestCase
         $employeeImmigrationSearchParams = new EmployeeImmigrationRecordSearchFilterParams();
         $employeeImmigrationSearchParams->setEmpNumber(1);
         $result = $this->employeeImmigrationRecordDao->searchEmployeeImmigrationRecords($employeeImmigrationSearchParams);
-        $this->assertCount(2, $result);
+        $this->assertCount(1, $result);
         $this->assertTrue($result[0] instanceof EmployeeImmigrationRecord);
     }
 
@@ -144,6 +144,6 @@ class EmployeeImmigrationRecordDaoTest extends TestCase
         $employeeImmigrationSearchParams = new EmployeeImmigrationRecordSearchFilterParams();
         $employeeImmigrationSearchParams->setEmpNumber(1);
         $result = $this->employeeImmigrationRecordDao->getSearchEmployeeImmigrationRecordsCount($employeeImmigrationSearchParams);
-        $this->assertEquals(2, $result);
+        $this->assertEquals(1, $result);
     }
 }
