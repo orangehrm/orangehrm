@@ -39,7 +39,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <employee-dropdown
+              <employee-autocomplete
                 v-model="user.employee"
                 :rules="rules.employee"
                 required
@@ -107,7 +107,7 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
-import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import PasswordInput from '@/core/components/inputs/PasswordInput';
 import {required} from '@orangehrm/core/util/validation/rules';
 
@@ -115,7 +115,7 @@ const userModel = {
   id: '',
   username: '',
   role: [],
-  employee: [],
+  employee: null,
   status: [],
   changePassword: false,
   password: '',
@@ -131,7 +131,7 @@ export default {
   },
 
   components: {
-    'employee-dropdown': EmployeeDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
     'password-input': PasswordInput,
   },
 
@@ -155,7 +155,7 @@ export default {
             (v && v.trim().length <= 40) || 'Should not exceed 40 characters',
         ],
         role: [v => (!!v && v.length != 0) || 'Required'],
-        employee: [v => (!!v && v.length != 0) || 'Required'],
+        employee: [required],
         status: [v => (!!v && v.length != 0) || 'Required'],
       },
       userRoles: [
@@ -182,7 +182,7 @@ export default {
           status:
             this.user.status[0] && this.user.status[0].label === 'Enabled',
           userRoleId: this.user.role[0].id,
-          empNumber: this.user.employee[0].id,
+          empNumber: this.user.employee?.id,
           changePassword: this.user.changePassword,
         })
         .then(() => {
@@ -205,12 +205,10 @@ export default {
         this.user.role = this.userRoles.filter(
           item => item.id === data.userRole.id,
         );
-        this.user.employee = [
-          {
-            id: data.employee.empNumber,
-            label: `${data.employee.firstName} ${data.employee.lastName}`,
-          },
-        ];
+        this.user.employee = {
+          id: data.employee.empNumber,
+          label: `${data.employee.firstName} ${data.employee.middleName} ${data.employee.lastName}`,
+        };
         if (data.status) {
           this.user.status = [{id: 1, label: 'Enabled'}];
         } else {

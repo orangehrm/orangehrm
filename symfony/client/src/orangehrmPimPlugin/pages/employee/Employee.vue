@@ -25,7 +25,7 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-dropdown v-model="filters.employee" />
+              <employee-autocomplete v-model="filters.employee" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -117,7 +117,7 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import SupervisorDropdown from '@/core/components/inputs/SupervisorDropdown';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
@@ -146,7 +146,7 @@ const userdataNormalizer = data => {
 };
 
 const defaultFilters = {
-  employee: [],
+  employee: null,
   employeeId: '',
   empStatusId: [{id: 0, label: 'All'}],
   includeEmployees: [{id: 1, label: 'Current Employees Only'}],
@@ -167,7 +167,7 @@ const defaultSortOrder = {
 export default {
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
-    'employee-dropdown': EmployeeDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
     'supervisor-dropdown': SupervisorDropdown,
     'jobtitle-dropdown': JobtitleDropdown,
     'subunit-dropdown': SubunitDropdown,
@@ -182,7 +182,7 @@ export default {
           slot: 'title',
           title: 'Id',
           sortField: 'employee.employeeId',
-          style: {width: '3rem'},
+          style: {flex: 1},
         },
         {
           name: 'firstAndMiddleName',
@@ -257,7 +257,7 @@ export default {
     const serializedFilters = computed(() => {
       return {
         model: 'detailed',
-        empNumber: filters.value.employee.map(item => item.id)[0],
+        empNumber: filters.value.employee?.id,
         employeeId: filters.value.employeeId,
         empStatusId: filters.value.empStatusId.map(item => item.id)[0],
         includeEmployees: filters.value.includeEmployees.map(item => {

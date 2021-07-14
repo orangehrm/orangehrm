@@ -37,7 +37,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <employee-dropdown v-model="filters.empNumber" />
+              <employee-autocomplete v-model="filters.empNumber" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -89,7 +89,6 @@
           v-model:selected="checkedItems"
           :loading="isLoading"
           rowDecorator="oxd-table-decorator-card"
-          :order="order"
         />
       </div>
       <div class="orangehrm-bottom-container">
@@ -110,12 +109,12 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 
 const defaultFilters = {
   username: '',
   userRoleId: [{id: 0, label: 'All'}],
-  empNumber: [],
+  empNumber: null,
   status: [{id: 0, label: 'All'}],
 };
 
@@ -129,7 +128,7 @@ export default {
 
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
-    'employee-dropdown': EmployeeDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
   },
 
   data() {
@@ -201,7 +200,7 @@ export default {
       return {
         username: filters.value.username,
         userRoleId: filters.value.userRoleId.map(item => item.id)[0],
-        empNumber: filters.value.empNumber.map(item => item.id)[0],
+        empNumber: filters.value.empNumber?.id,
         status: filters.value.status.map(item => item.id)[0],
       };
     });
