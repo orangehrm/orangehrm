@@ -29,11 +29,10 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="User Role"
                 v-model="user.role"
                 :rules="rules.role"
-                :clear="false"
                 :options="userRoles"
                 required
               />
@@ -48,11 +47,10 @@
 
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Status"
                 v-model="user.status"
                 :rules="rules.status"
-                :clear="false"
                 :options="userStatuses"
                 required
               />
@@ -114,9 +112,9 @@ import {required} from '@orangehrm/core/util/validation/rules';
 const userModel = {
   id: '',
   username: '',
-  role: [],
+  role: null,
   employee: null,
-  status: [],
+  status: null,
   changePassword: false,
   password: '',
   passwordConfirm: '',
@@ -179,9 +177,8 @@ export default {
         .update(this.systemUserId, {
           username: this.user.username.trim(),
           password: this.user.password,
-          status:
-            this.user.status[0] && this.user.status[0].label === 'Enabled',
-          userRoleId: this.user.role[0].id,
+          status: this.user.status && this.user.status.label === 'Enabled',
+          userRoleId: this.user.role?.id,
           empNumber: this.user.employee?.id,
           changePassword: this.user.changePassword,
         })
@@ -202,7 +199,7 @@ export default {
         const {data} = response.data;
         this.user.id = data.id;
         this.user.username = data.userName;
-        this.user.role = this.userRoles.filter(
+        this.user.role = this.userRoles.find(
           item => item.id === data.userRole.id,
         );
         this.user.employee = {
@@ -210,9 +207,9 @@ export default {
           label: `${data.employee.firstName} ${data.employee.middleName} ${data.employee.lastName}`,
         };
         if (data.status) {
-          this.user.status = [{id: 1, label: 'Enabled'}];
+          this.user.status = {id: 1, label: 'Enabled'};
         } else {
-          this.user.status = [{id: 2, label: 'Disabled'}];
+          this.user.status = {id: 2, label: 'Disabled'};
         }
         return this.http.getAll();
       })

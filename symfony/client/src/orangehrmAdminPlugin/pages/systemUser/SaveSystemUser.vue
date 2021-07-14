@@ -29,11 +29,10 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="User Role"
                 v-model="user.role"
                 :rules="rules.role"
-                :clear="false"
                 :options="userRoles"
                 required
               />
@@ -48,11 +47,10 @@
 
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Status"
                 v-model="user.status"
                 :rules="rules.status"
-                :clear="false"
                 :options="userStatuses"
                 required
               />
@@ -100,9 +98,9 @@ import {required} from '@orangehrm/core/util/validation/rules';
 
 const userModel = {
   username: '',
-  role: [{id: 1, label: 'Admin'}],
+  role: null,
   employee: null,
-  status: [{id: 1, label: 'Enabled'}],
+  status: null,
   password: '',
   passwordConfirm: '',
 };
@@ -157,9 +155,8 @@ export default {
         .create({
           username: this.user.username.trim(),
           password: this.user.password,
-          status:
-            this.user.status[0] && this.user.status[0].label === 'Enabled',
-          userRoleId: this.user.role[0].id,
+          status: this.user.status && this.user.status.label === 'Enabled',
+          userRoleId: this.user.role?.id,
           empNumber: this.user.employee?.id,
         })
         .then(() => {
