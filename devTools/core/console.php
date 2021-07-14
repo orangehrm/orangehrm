@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,10 +17,31 @@
  * Boston, MA  02110-1301, USA
  */
 
-import Login from './pages/Login.vue';
-import Forbidden from './pages/Forbidden.vue';
+$pathToAutoload = realpath(__DIR__ . '/../../symfony/vendor/autoload.php');
+$pathToDevAutoload = realpath(__DIR__ . '/vendor/autoload.php');
 
-export default {
-  'auth-login': Login,
-  'auth-forbidden': Forbidden,
-};
+$errorMessage = "
+Cannot find all composer dependencies.
+Run below command and try again;\n
+$ cd %s
+$ composer install -d symfony
+$ composer install -d devTools/core\n
+";
+
+if (!($pathToAutoload && $pathToDevAutoload)) {
+    die(sprintf($errorMessage, realpath(__DIR__ . '/../../')));
+}
+
+require_once $pathToAutoload;
+require_once $pathToDevAutoload;
+
+use OrangeHRM\DevTools\Command\AddDataGroupCommand;
+use OrangeHRM\DevTools\Command\AddRolePermissionCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+$application->add(new AddDataGroupCommand());
+$application->add(new AddRolePermissionCommand());
+
+$application->run();

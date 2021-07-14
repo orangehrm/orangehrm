@@ -17,66 +17,62 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2;
+namespace OrangeHRM\Entity;
 
-class Response
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="ohrm_operational_country")
+ * @ORM\Entity
+ */
+class OperationalCountry
 {
-    public const CONTENT_TYPE_KEY = 'Content-Type';
-    public const CONTENT_TYPE_JSON = 'application/json';
     /**
-     * @var array
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", length=10, options={"unsigned":true})
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected array $data;
+    private int $id;
 
     /**
-     * @var array
+     * @var Country
+     *
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\Country")
+     * @ORM\JoinColumn(name="country_code", referencedColumnName="cou_code")
      */
-    protected array $rels;
+    private Country $country;
 
     /**
-     * @var array
+     * @return int
      */
-    protected array $meta;
-
-    /**
-     * @param array $data
-     * @param array $meta
-     * @param array $rels
-     */
-    public function __construct($data = [], $meta = [], $rels = [])
+    public function getId(): int
     {
-        $this->data = $data;
-        $this->meta = $meta;
-        $this->rels = $rels;
+        return $this->id;
     }
 
     /**
-     * @return string
+     * @param int $id
      */
-    public function format(): string
+    public function setId(int $id): void
     {
-        return json_encode($this->data, true);
+        $this->id = $id;
     }
 
     /**
-     * @return string
+     * @return Country
      */
-    public function formatData(): string
+    public function getCountry(): Country
     {
-        $responseFormat = [
-            'data' => $this->data,
-            'meta' => $this->meta,
-            'rels' => $this->rels,
-        ];
-        return json_encode($responseFormat, true);
+        return $this->country;
     }
 
     /**
-     * @param $error
-     * @return string
+     * @param Country $country
      */
-    public static function formatError($error): string
+    public function setCountry(Country $country): void
     {
-        return json_encode($error, true);
+        $this->country = $country;
     }
 }

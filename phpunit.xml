@@ -32,6 +32,7 @@
       <directory>symfony/plugins/orangehrmCorePlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Authorization</directory>
+      <directory>symfony/plugins/orangehrmCorePlugin/test/Essential</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Api</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Helper</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Vue</directory>

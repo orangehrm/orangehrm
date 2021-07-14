@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Core\Authorization\Manager;
 
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
@@ -197,6 +199,13 @@ abstract class AbstractUserRoleManager
     abstract public function getScreenPermissions(string $module, string $screen): ResourcePermission;
 
     /**
+     * @param string $apiClassName
+     * @return ResourcePermission
+     * @since 5.0
+     */
+    abstract public function getApiPermissions(string $apiClassName): ResourcePermission;
+
+    /**
      * @param string $module
      * @param string $screen
      * @param string $field
@@ -274,6 +283,15 @@ abstract class AbstractUserRoleManager
         array $rolesToInclude = [],
         array $entities = []
     ): array;
+
+    /**
+     * @param DataGroupPermissionFilterParams|null $dataGroupPermissionFilterParams
+     * @return DataGroupPermissionCollection
+     * @since 5.0
+     */
+    abstract public function getDataGroupPermissionCollection(
+        DataGroupPermissionFilterParams $dataGroupPermissionFilterParams = null
+    ): DataGroupPermissionCollection;
 
     /**
      * @param string $module

@@ -21,6 +21,7 @@
 namespace OrangeHRM\Tests\Core\Authorization\Service;
 
 use OrangeHRM\Core\Authorization\Dao\DataGroupDao;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Service\DataGroupService;
 use OrangeHRM\Entity\DataGroup;
 use OrangeHRM\Entity\DataGroupPermission;
@@ -112,5 +113,182 @@ class DataGroupServiceTest extends TestCase
         $this->service->setDao($dao);
         $result = $this->service->getDataGroup('xyz');
         $this->assertEquals($expected, $result);
+    }
+
+    public function testGetDataGroupPermissionCollectionWithOnlyOnePermissionForDataGroup(): void
+    {
+        $dataGroupJobTitle = new DataGroup();
+        $dataGroupJobTitle->setId(2);
+        $dataGroupJobTitle->setName('job_titles');
+        $dataGroupJobTitle->setCanRead(true);
+        $dataGroupJobTitle->setCanCreate(true);
+        $dataGroupJobTitle->setCanUpdate(true);
+        $dataGroupJobTitle->setCanDelete(true);
+
+        $dataGroupPermission = new DataGroupPermission();
+        $dataGroupPermission->setDataGroup($dataGroupJobTitle);
+        $dataGroupPermission->setCanRead(true);
+        $dataGroupPermission->setCanCreate(true);
+        $dataGroupPermission->setCanUpdate(true);
+        $dataGroupPermission->setCanDelete(true);
+
+
+        $dataGroupPermissions = [$dataGroupPermission];
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dao = $this->getMockBuilder(DataGroupDao::class)
+            ->onlyMethods(['getDataGroupPermissions'])
+            ->getMock();
+        $dao->expects($this->once())
+            ->method('getDataGroupPermissions')
+            ->with($dataGroupPermissionFilterParams)
+            ->willReturn($dataGroupPermissions);
+
+        $this->service->setDao($dao);
+        $result = $this->service->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                'job_titles' => [
+                    'canRead' => true,
+                    'canCreate' => true,
+                    'canUpdate' => true,
+                    'canDelete' => true,
+                ]
+            ],
+            $result->toArray()
+        );
+    }
+
+    public function testGetDataGroupPermissionCollectionWithTwoPermissionsForDataGroup(): void
+    {
+        $dataGroupJobTitle = new DataGroup();
+        $dataGroupJobTitle->setId(2);
+        $dataGroupJobTitle->setName('job_titles');
+        $dataGroupJobTitle->setCanRead(true);
+        $dataGroupJobTitle->setCanCreate(true);
+        $dataGroupJobTitle->setCanUpdate(true);
+        $dataGroupJobTitle->setCanDelete(true);
+
+        $dataGroupPermission = new DataGroupPermission();
+        $dataGroupPermission->setDataGroup($dataGroupJobTitle);
+        $dataGroupPermission->setCanRead(true);
+        $dataGroupPermission->setCanCreate(false);
+        $dataGroupPermission->setCanUpdate(false);
+        $dataGroupPermission->setCanDelete(false);
+
+        $dataGroupPermissionSupervisor = new DataGroupPermission();
+        $dataGroupPermissionSupervisor->setDataGroup($dataGroupJobTitle);
+        $dataGroupPermissionSupervisor->setCanRead(false);
+        $dataGroupPermissionSupervisor->setCanCreate(true);
+        $dataGroupPermissionSupervisor->setCanUpdate(true);
+        $dataGroupPermissionSupervisor->setCanDelete(false);
+
+        $dataGroupPermissions = [$dataGroupPermission, $dataGroupPermissionSupervisor];
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dao = $this->getMockBuilder(DataGroupDao::class)
+            ->onlyMethods(['getDataGroupPermissions'])
+            ->getMock();
+        $dao->expects($this->once())
+            ->method('getDataGroupPermissions')
+            ->with($dataGroupPermissionFilterParams)
+            ->willReturn($dataGroupPermissions);
+
+        $this->service->setDao($dao);
+        $result = $this->service->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                'job_titles' => [
+                    'canRead' => true,
+                    'canCreate' => true,
+                    'canUpdate' => true,
+                    'canDelete' => false,
+                ]
+            ],
+            $result->toArray()
+        );
+    }
+
+    public function testGetDataGroupPermissionCollectionWithMultiplePermissionsForDataGroup(): void
+    {
+        $dataGroupJobTitle = new DataGroup();
+        $dataGroupJobTitle->setId(2);
+        $dataGroupJobTitle->setName('job_titles');
+        $dataGroupJobTitle->setCanRead(true);
+        $dataGroupJobTitle->setCanCreate(true);
+        $dataGroupJobTitle->setCanUpdate(true);
+        $dataGroupJobTitle->setCanDelete(true);
+
+        $dataGroupPermission = new DataGroupPermission();
+        $dataGroupPermission->setDataGroup($dataGroupJobTitle);
+        $dataGroupPermission->setCanRead(true);
+        $dataGroupPermission->setCanCreate(false);
+        $dataGroupPermission->setCanUpdate(false);
+        $dataGroupPermission->setCanDelete(false);
+
+        $dataGroupPermissionSupervisor = new DataGroupPermission();
+        $dataGroupPermissionSupervisor->setDataGroup($dataGroupJobTitle);
+        $dataGroupPermissionSupervisor->setCanRead(false);
+        $dataGroupPermissionSupervisor->setCanCreate(true);
+        $dataGroupPermissionSupervisor->setCanUpdate(true);
+        $dataGroupPermissionSupervisor->setCanDelete(false);
+
+        $dataGroupPermissionEss = new DataGroupPermission();
+        $dataGroupPermissionEss->setDataGroup($dataGroupJobTitle);
+        $dataGroupPermissionEss->setCanRead(false);
+        $dataGroupPermissionEss->setCanCreate(false);
+        $dataGroupPermissionEss->setCanUpdate(false);
+        $dataGroupPermissionEss->setCanDelete(false);
+
+        $dataGroupJobTitleApi = new DataGroup();
+        $dataGroupJobTitleApi->setId(3);
+        $dataGroupJobTitleApi->setName('apiv2_job_titles');
+        $dataGroupJobTitleApi->setCanRead(true);
+        $dataGroupJobTitleApi->setCanCreate(true);
+        $dataGroupJobTitleApi->setCanUpdate(true);
+        $dataGroupJobTitleApi->setCanDelete(true);
+
+        $dataGroupPermissionApi = new DataGroupPermission();
+        $dataGroupPermissionApi->setDataGroup($dataGroupJobTitleApi);
+        $dataGroupPermissionApi->setCanRead(true);
+        $dataGroupPermissionApi->setCanCreate(false);
+        $dataGroupPermissionApi->setCanUpdate(false);
+        $dataGroupPermissionApi->setCanDelete(false);
+
+        $dataGroupPermissions = [
+            $dataGroupPermission,
+            $dataGroupPermissionSupervisor,
+            $dataGroupPermissionEss,
+            $dataGroupPermissionApi
+        ];
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dao = $this->getMockBuilder(DataGroupDao::class)
+            ->onlyMethods(['getDataGroupPermissions'])
+            ->getMock();
+        $dao->expects($this->once())
+            ->method('getDataGroupPermissions')
+            ->with($dataGroupPermissionFilterParams)
+            ->willReturn($dataGroupPermissions);
+
+        $this->service->setDao($dao);
+        $result = $this->service->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                'job_titles' => [
+                    'canRead' => true,
+                    'canCreate' => true,
+                    'canUpdate' => true,
+                    'canDelete' => false,
+                ],
+                'apiv2_job_titles' => [
+                    'canRead' => true,
+                    'canCreate' => false,
+                    'canUpdate' => false,
+                    'canDelete' => false,
+                ]
+            ],
+            $result->toArray()
+        );
     }
 }

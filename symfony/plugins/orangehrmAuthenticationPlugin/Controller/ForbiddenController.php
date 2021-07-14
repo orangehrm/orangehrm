@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,10 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-import Login from './pages/Login.vue';
-import Forbidden from './pages/Forbidden.vue';
+namespace OrangeHRM\Authentication\Controller;
 
-export default {
-  'auth-login': Login,
-  'auth-forbidden': Forbidden,
-};
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Vue\Component;
+
+class ForbiddenController extends AbstractVueController implements PublicControllerInterface
+{
+    /**
+     * @inheritDoc
+     */
+    public function init(): void
+    {
+        $component = new Component('auth-forbidden');
+        $this->setComponent($component);
+    }
+}

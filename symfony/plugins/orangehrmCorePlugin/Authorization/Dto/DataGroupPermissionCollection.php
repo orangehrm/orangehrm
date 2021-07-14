@@ -17,36 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Service;
+namespace OrangeHRM\Core\Authorization\Dto;
 
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizerTrait;
+use OrangeHRM\Core\Dto\AttributeBag;
 
-class NormalizerService
+/**
+ * @method ResourcePermission get(string $key, $default = null)
+ * @method set(string $key, ResourcePermission $value)
+ */
+class DataGroupPermissionCollection extends AttributeBag
 {
-    use NormalizerTrait;
-
     /**
-     * @param string $modelClass
-     * @param object $data
-     * @return array
+     * @return array<int, array{canRead: bool, canCreate: bool, canUpdate: bool, canDelete: bool}>
      */
-    public function normalize(string $modelClass, object $data): array
+    public function toArray(): array
     {
-        $this->setModelClass($modelClass);
-        $this->setData($data);
-        return $this->normalizeObject();
+        $permissionsArray = [];
+        /** @var array<string, ResourcePermission> $permissions */
+        $permissions = $this->all();
+        foreach ($permissions as $dataGroup => $permission) {
+            $permissionsArray[$dataGroup] = [
+                'canRead' => $permission->canRead(),
+                'canCreate' => $permission->canCreate(),
+                'canUpdate' => $permission->canUpdate(),
+                'canDelete' => $permission->canDelete(),
+            ];
+        }
+        return $permissionsArray;
     }
 
-    /**
-     * @param string $modelClass
-     * @param array $data
-     * @return array
-     */
-    public function normalizeArray(string $modelClass, array $data): array
-    {
-        $this->setModelClass($modelClass);
-        $this->setData($data);
-        return $this->normalizeObjectsArray();
-    }
 }

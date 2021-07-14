@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,11 +16,22 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-import Login from './pages/Login.vue';
-import Forbidden from './pages/Forbidden.vue';
+<template>
+  <oxd-alert
+    :show="true"
+    type="error"
+    message="Credential Required"
+  ></oxd-alert>
+</template>
+
+<script>
+import Alert from '@orangehrm/oxd/core/components/Alert/Alert';
 
 export default {
-  'auth-login': Login,
-  'auth-forbidden': Forbidden,
+  components: {
+    'oxd-alert': Alert,
+  },
 };
+</script>

@@ -17,36 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Service;
+namespace OrangeHRM\Tests\Core\Essential;
 
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizerTrait;
+use Exception;
+use OrangeHRM\Tests\Util\TestCase;
 
-class NormalizerService
+/**
+ * @group Core
+ * @group Essential
+ */
+class UnitTestsNamespaceTest extends TestCase
 {
-    use NormalizerTrait;
-
-    /**
-     * @param string $modelClass
-     * @param object $data
-     * @return array
-     */
-    public function normalize(string $modelClass, object $data): array
+    public function testUnitTestsNamespace(): void
     {
-        $this->setModelClass($modelClass);
-        $this->setData($data);
-        return $this->normalizeObject();
-    }
-
-    /**
-     * @param string $modelClass
-     * @param array $data
-     * @return array
-     */
-    public function normalizeArray(string $modelClass, array $data): array
-    {
-        $this->setModelClass($modelClass);
-        $this->setData($data);
-        return $this->normalizeObjectsArray();
+        $invalidNamespaceClasses = [];
+        foreach (get_declared_classes() as $class) {
+            preg_match('/^OrangeHRM\\\[\p{L}\p{N}\p{S}]+\\\test\\\[\p{L}\p{N}\p{S}\\\]+$/', $class, $matches);
+            if (!empty($matches)) {
+                $invalidNamespaceClasses[] = $class;
+            }
+        }
+        if (empty($invalidNamespaceClasses)) {
+            $this->assertTrue(true);
+        } else {
+            $invalidClasses = implode(", \n", $invalidNamespaceClasses);
+            throw new Exception(
+                "Following test classes having invalid namespace;\n\n" .
+                $invalidClasses . "\n\n" . str_repeat('_ ', 20)
+            );
+        }
     }
 }

@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,10 +17,48 @@
  * Boston, MA  02110-1301, USA
  */
 
-import Login from './pages/Login.vue';
-import Forbidden from './pages/Forbidden.vue';
+namespace OrangeHRM\DevTools\Command\Util;
 
-export default {
-  'auth-login': Login,
-  'auth-forbidden': Forbidden,
-};
+use Doctrine\DBAL\Logging\SQLLogger;
+
+/**
+ * @experimental
+ */
+class EchoSqlLogger implements SQLLogger
+{
+    private $replace;
+
+    public function __construct($replace = false)
+    {
+        $this->replace = $replace;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function startQuery($sql, ?array $params = null, ?array $types = null)
+    {
+        echo $sql . "\n\n";
+
+        if ($params) {
+            echo "Params: \n";
+            var_export($params);
+            echo "\n\n";
+        }
+
+        if (!$types) {
+            return;
+        }
+
+        echo "Types: \n";
+        var_export($types);
+        echo "\n\n";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function stopQuery()
+    {
+    }
+}

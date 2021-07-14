@@ -38,7 +38,7 @@ class LoggerSubscriber extends AbstractEventSubscriber
     {
         return [
             KernelEvents::EXCEPTION => [
-                ['onExceptionEvent', -64],
+                ['onExceptionEvent', 100000],
             ],
         ];
     }

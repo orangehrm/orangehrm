@@ -102,6 +102,20 @@ class ResourcePermission
     }
 
     /**
+     * @param ResourcePermission $permission
+     * @return self
+     */
+    public function orWith(ResourcePermission $permission): self
+    {
+        return new ResourcePermission(
+            $this->canRead() || $permission->canRead(),
+            $this->canCreate() || $permission->canCreate(),
+            $this->canUpdate() || $permission->canUpdate(),
+            $this->canDelete() || $permission->canDelete()
+        );
+    }
+
+    /**
      * @param array $permissions
      * @param bool $default
      * @return self

@@ -21,6 +21,8 @@ namespace OrangeHRM\Core\Authorization\Manager;
 
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Core\Authorization\Dao\HomePageDao;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
 use OrangeHRM\Core\Authorization\Service\DataGroupService;
@@ -317,6 +319,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         array $requiredPermissions = []
     ): array {
         // TODO
+        throw AuthorizationException::methodNotImplemented(__METHOD__);
 
         $allPropertyList = [];
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
@@ -650,6 +653,14 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @inheritDoc
      */
+    public function getApiPermissions(string $apiClassName): ResourcePermission
+    {
+        return $this->getDataGroupService()->getApiPermissions($apiClassName, $this->userRoles);
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function getUserRoles(User $user): array
     {
         $roles = [$user->getUserRole()];
@@ -932,6 +943,17 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             $finalPermission ['update'],
             $finalPermission ['delete']
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getDataGroupPermissionCollection(
+        DataGroupPermissionFilterParams $dataGroupPermissionFilterParams = null
+    ): DataGroupPermissionCollection {
+        $dataGroupPermissionFilterParams = $dataGroupPermissionFilterParams ?? new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setUserRoles($this->userRoles);
+        return $this->getDataGroupService()->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
     }
 
     public function getModuleDefaultPage(string $module): ?string
