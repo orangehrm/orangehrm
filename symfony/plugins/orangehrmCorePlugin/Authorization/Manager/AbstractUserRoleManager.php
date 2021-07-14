@@ -287,6 +287,7 @@ abstract class AbstractUserRoleManager
     /**
      * @param DataGroupPermissionFilterParams|null $dataGroupPermissionFilterParams
      * @return DataGroupPermissionCollection
+     * @since 5.0
      */
     abstract public function getDataGroupPermissionCollection(
         DataGroupPermissionFilterParams $dataGroupPermissionFilterParams = null

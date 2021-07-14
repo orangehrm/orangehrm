@@ -169,7 +169,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
 
         $this->assertFalse($this->manager->areEntitiesAccessible(Employee::class, $empIds));
 
-        // Admin user 
+        // Admin user
         $admin = $users[0];
         $this->manager->setUser($admin);
         $this->assertTrue($this->manager->areEntitiesAccessible(Employee::class, $allIds));
@@ -284,7 +284,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             $this->assertTrue($this->manager->isEntityAccessible(Employee::class, $id));
         }
 
-        // Admin user 
+        // Admin user
         $admin = $users[0];
         $this->manager->setUser($admin);
         foreach ($allIds as $id) {
@@ -936,16 +936,16 @@ class BasicUserRoleManagerTest extends KernelTestCase
         // id is not preserved in loadObjectList()
         $users[0]->setId(11);
 
-        // 0 - Admin (also ESS?)        
+        // 0 - Admin (also ESS?)
         $roles = $this->manager->getUserRolesPublic($users[0]);
         $this->compareUserRoles(['Admin', 'ESS'], $roles);
 
-        // 1 - ESS, Supervisor   
+        // 1 - ESS, Supervisor
         $users[1]->setId(12);
         $roles = $this->manager->getUserRolesPublic($users[1]);
         $this->compareUserRoles(['ESS', 'Supervisor'], $roles);
 
-        // 2 - ESS        
+        // 2 - ESS
         $users[2]->setId(13);
         $roles = $this->manager->getUserRolesPublic($users[2]);
         $this->compareUserRoles(['ESS'], $roles);
@@ -1078,7 +1078,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         );
         $testManager->setUser($user);
 
-        // Test that supervisor role is returned for Employee who is a subordinate 
+        // Test that supervisor role is returned for Employee who is a subordinate
         $roles = $testManager->filterUserRolesPublic($userRoles, $rolesToExclude, $rolesToInclude, ['Employee' => 3]);
         $this->assertEquals($userRoles, $roles);
 
