@@ -1,16 +1,6 @@
-import user from '../../../fixtures/user.json'
+import user from '../../../fixtures/admin.json'
 import charLength from '../../../fixtures/charLength.json'
 import promisify from 'cypress-promise'
-
-//Get the current education list count
-const getEducationListCount = async () => {
-    let txt = await promisify(cy.get('.oxd-text').contains('Found').invoke('text'))
-    return parseInt(txt.split(' ')[0])
-}
-
-describe('Qualification - Education', function () {
-    const educationName = "Certificate Level"
-    const updatedEducationName = "Advanced Level"
 
     //View Education List Page
     it('Check education view page', () => {
@@ -19,21 +9,14 @@ describe('Qualification - Education', function () {
         cy.get('.oxd-text--h6').should('include.text', "Education")
     })
 
-    //Add Education record to the list
-    //check the Successfully Added toast message 
-    //Check whether count of the list has increased by 1 after addding a new record to the list
-    it('Add education', async () => {
+    //Add Education record to the list and toast message 
+    it ('Add Education record to the list and toast message', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
-        const previousCount = await getEducationListCount()
-        cy.log(previousCount)
-        cy.get('.oxd-text--span').should('include.text', "Found")
-        cy.get('.oxd-button--medium').should('include.text', "Add").click()
-        cy.get('.oxd-input-group').type(educationName)
+        cy.get('.oxd-button').click()
+        cy.get(':nth-child(2) > .oxd-input').type("Degree")
         cy.get('.oxd-button--secondary').click()
-        cy.get('.oxd-toast').should('include.text', 'Success')
-        const updatedCount = await getEducationListCount()
-        expect(updatedCount).to.eq(previousCount + 1)
+        cy.get('.oxd-toast').should('include.text', 'Successfully Saved')
     })
 
     //Validate required fields in Save Education Screen
@@ -51,66 +34,112 @@ describe('Qualification - Education', function () {
         cy.visit('/admin/viewEducation')
         cy.get('.oxd-button--medium').should('include.text', "Add").click()
         cy.get('.oxd-input-group').type(charLength.chars100.text)
-        cy.get('.oxd-input-group__message').should('include.text', 'Should not exceed 50 characters')
+        cy.get('.oxd-input-group__message').should('include.text', 'Should not exceed 100 characters')
         cy.get('.oxd-button--secondary').click()
-        cy.url().should('include', '/admin/saveEducation')
+    })
+
+    //Get the current education list count
+    const getEducationListCount = async () => {
+    cy.wait(2000)
+    let txt = await promisify(cy.get('.oxd-text').contains('Found').invoke('text'))
+    var line = txt.match(/\((.*)\)/);
+    return parseInt(line[1])
+}
+    //Check whether count of the list has increased by 1 after addding a new record to the list
+    it('Education list increment', async () => {
+        cy.login(user.admin.userName, user.admin.password)
+        cy.visit('/admin/viewEducation')
+        const previousCount = await getEducationListCount()
+        cy.log(previousCount)
+        cy.get('.oxd-text--span').should('include.text', "Found")
+        cy.get('.oxd-button--medium').should('include.text', "Add").click()
+        cy.get('.oxd-input-group').type("Certificate Level")
+        cy.get('.oxd-button--secondary').click()
+        cy.wait(3000)
+        const updatedCount = await getEducationListCount()
+        expect(updatedCount).to.eq(previousCount + 1)
     })
 
     //Validation check for the duplicated records
     it('Duplicate Records Validation', () => {
         cy.login(user.admin.userName, user.admin.password)
-        cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
         cy.get('.oxd-button--medium').should('include.text', "Add").click()
-        cy.get('.oxd-input-group').type(educationName)
+        cy.get('.oxd-input-group').type("Certificate Level")
         cy.get('.oxd-button--secondary').click()
-        cy.get('.oxd-input-group__message').should('include.text', 'Qualification name should be unique')
+        cy.get('.oxd-input-group__message').should('include.text', 'Already exist')
         cy.get('.oxd-button--secondary').click()
-        cy.url().should('include', '/admin/saveEducation')
     })
 
-    //Update an existing education record from the list
-    //check the Updated toast message 
-    //Check whether count of the list remains the same after updating 
-    it('Edit education', async () => {
+    //Update an existing education record from the list and toast message
+    it('Edit education and toast message', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
-        const previousCount = await getEducationListCount()
-        cy.log(previousCount)
-        cy.get('.bi-pencil-fill').first().click()
-        cy.get('.oxd-input-group').type(updatedEducationName)
+        cy.get(':nth-child(1) > .oxd-table-row > .card-center > .card-header-slot > .--right > .oxd-table-cell > .oxd-table-cell-actions > :nth-child(2)').click()
+        cy.get(':nth-child(2) > .oxd-input').click().clear().type("Advanced Level")
         cy.get('.oxd-button--secondary').click()
-        cy.get('.oxd-toast').should('include.text', 'Updated')
-        const updatedCount = await getEducationListCount()
-        expect(updatedCount).to.eq(previousCount)
+        cy.get('.oxd-toast').should('include.text', 'Successfully Updated')    
     })
 
-    //Delete an Education record from the list
-    //check the Deleted toast message 
+    //Visiting edit education and clicking cancel
+    it('Visiting edit education and clicking cancel', () =>{
+        cy.login(user.admin.userName, user.admin.password)
+        cy.visit('/admin/viewEducation')
+        cy.get(':nth-child(1) > .oxd-table-row > .card-center > .card-header-slot > .--right > .oxd-table-cell > .oxd-table-cell-actions > :nth-child(2) > .oxd-icon').click()
+        cy.get('.oxd-button--ghost').click()
+        cy.get('.oxd-text').should('include.text', 'Education')
+    })
+
+    //Delete an Education record from the list and toast message
     //Check whether count of the list has reduced by 1 after deleting a record from the list
-    it('Delete education', async () => {
+    it('Delete education and toast message', async () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
         const previousCount = await getEducationListCount()
         cy.log(previousCount)
         cy.get('.bi-trash').first().click()
         cy.get('.oxd-button--label-danger').click()
-        cy.get('.oxd-toast').should('include.text', 'Deleted')
+        cy.get('.oxd-toast').should('include.text', 'Successfully Deleted')
+        cy.wait(3000)
         const updatedCount = await getEducationListCount()
         expect(updatedCount).to.eq(previousCount - 1)
     })
 
     //Bulk Delete records from the list
-    it('Bulk Delete education', async () => {
+    it('Bulk Delete education', () => {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewEducation')
-        const previousCount = await getEducationListCount()
-        cy.log(previousCount)
-        cy.get('.bi-check').eq(1).click()
+        cy.viewport(1024, 768)
+        cy.get('.oxd-table-header > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon').click()
         cy.get('.oxd-button--label-danger').should('include.text', 'Selected').click()
-        cy.get('.orangehrm-button-margin').eq(1).should('include.text', 'Yes').click()
-        await cy.get('.oxd-toast').should('include.text', 'Deleted')
-        const updatedCount = await getEducationListCount()
-        expect(updatedCount).to.eq(previousCount - 1)
+        cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click()
+        cy.get('.oxd-toast').should('include.text', 'Successfully Deleted')  
     })
-})
+
+    //No records found text validation
+    it('No records found text validation', () => {
+        cy.login(user.admin.userName, user.admin.password)
+        cy.visit('/admin/viewEducation')
+        cy.get('.oxd-text').should('include.text', 'No Records Found') 
+    })
+
+    //Visiting add new education and clicking cancel
+    it('Visiting add new education and clicking cancel', () =>{
+        cy.login(user.admin.userName, user.admin.password)
+        cy.visit('/admin/viewEducation')
+        cy.get('.oxd-button').click()
+        cy.get('.oxd-button--ghost').click()
+        cy.get('.oxd-text').should('include.text', 'Education')
+    })
+
+    //Verify header and field name
+    it('Verify header', () => {
+        cy.login(user.admin.userName, user.admin.password)
+        cy.visit('/admin/viewEducation')
+        cy.get('.orangehrm-header-container > .oxd-text').should('include.text', 'Education')
+    })
+    it('Verify field name', () => {
+        cy.login(user.admin.userName, user.admin.password)
+        cy.visit('/admin/saveEducation')
+        cy.get('.oxd-label').should('include.text', 'Level')
+    })
