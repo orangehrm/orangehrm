@@ -24,13 +24,28 @@
     label="Employee Name"
     :clear="false"
     :create-options="loadEmployees"
-  />
+  >
+    <template v-slot:afterSelected="{data}">
+      <template v-if="data.isPastEmployee">(Past Employee)</template>
+    </template>
+    <template v-slot:option="{data, text}">
+      <span v-html="text"></span>
+      <div v-if="data.isPastEmployee" class="past-employee-tag">
+        (Past Employee)
+      </div>
+    </template>
+  </oxd-input-field>
 </template>
 
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 export default {
   name: 'employee-autocomplete',
+  props: {
+    params: {
+      type: Object,
+    },
+  },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
@@ -47,6 +62,7 @@ export default {
           this.http
             .getAll({
               nameOrId: serachParam,
+              ...this.params,
             })
             .then(({data}) => {
               resolve(
@@ -54,6 +70,7 @@ export default {
                   return {
                     id: employee.empNumber,
                     label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
+                    isPastEmployee: employee.terminationId ? true : false,
                   };
                 }),
               );
@@ -66,3 +83,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.past-employee-tag {
+  margin-left: auto;
+}
+</style>
