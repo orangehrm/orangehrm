@@ -39,6 +39,11 @@
         </div>
         <div class="orangehrm-edit-employee-content">
           <slot></slot>
+          <profile-custom-fields
+            v-if="screen !== 'default'"
+            :employee-id="employeeId"
+            :screen="screen"
+          ></profile-custom-fields>
           <profile-attachments
             v-if="screen !== 'default'"
             :employee-id="employeeId"
@@ -57,6 +62,7 @@ import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import TabsNavigation from '@/orangehrmPimPlugin/components/TabsNavigation';
 import ProfileAttachments from '@/orangehrmPimPlugin/components/ProfileAttachments';
+import ProfileCustomFields from '@/orangehrmPimPlugin/components/ProfileCustomFields';
 
 const defaultPic = `${window.appGlobal.baseUrl}/../dist/img/user-default-400.png`;
 
@@ -65,6 +71,7 @@ export default {
   components: {
     'tabs-navigation': TabsNavigation,
     'profile-attachments': ProfileAttachments,
+    'profile-custom-fields': ProfileCustomFields,
   },
   props: {
     employeeId: {
