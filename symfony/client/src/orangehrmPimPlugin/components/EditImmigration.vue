@@ -20,28 +20,31 @@
 
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-    <oxd-text tag="h6" class="orangehrm-main-title"
-      >Edit Immigration</oxd-text
-    >
+    <oxd-text tag="h6" class="orangehrm-main-title">
+      Edit Immigration
+    </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field
-              label="Name"
-              v-model="contact.name"
-              :rules="rules.name"
-              required
-            />
-          </oxd-grid-item>
-          <oxd-grid-item>
-            <oxd-input-field
-              label="Relationship"
-              v-model="contact.relationship"
-              :rules="rules.relationship"
-              required
-            />
+            <oxd-input-group
+              label="Document"
+              :classes="{wrapper: '--gender-grouped-field'}"
+            >
+              <oxd-input-field
+                type="radio"
+                v-model="immigration.type"
+                optionLabel="Passport"
+                value="1"
+              />
+              <oxd-input-field
+                type="radio"
+                v-model="immigration.type"
+                optionLabel="VISA"
+                value="2"
+              />
+            </oxd-input-group>
           </oxd-grid-item>
         </oxd-grid>
       </oxd-form-row>
@@ -49,23 +52,62 @@
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              label="Home Telephone"
-              v-model="contact.homePhone"
-              :rules="rules.homePhone"
+              label="Number"
+              v-model="immigration.number"
+              :rules="rules.number"
+              required
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Mobile"
-              v-model="contact.mobilePhone"
-              :rules="rules.mobilePhone"
+              label="Issued Date"
+              v-model="immigration.issuedDate"
+              type="date"
+              placeholder="yyyy-mm-dd"
+              :rules="rules.issuedDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              label="Work Telephone"
-              v-model="contact.officePhone"
-              :rules="rules.officePhone"
+              label="Expiry Date"
+              v-model="immigration.expiryDate"
+              type="date"
+              :years="yearArray"
+              placeholder="yyyy-mm-dd"
+              :rules="rules.expiryDate"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              label="Eligible Status"
+              v-model="immigration.status"
+              :rules="rules.status"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              type="dropdown"
+              label="Issued by"
+              v-model="immigration.countryCode"
+              :options="countries"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              label="Eligible Review Date"
+              v-model="immigration.reviewDate"
+              type="date"
+              placeholder="yyyy-mm-dd"
+              :rules="rules.reviewDate"
+            />
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-field
+              type="textarea"
+              label="Comments"
+              placeholder="Type Comments here"
+              v-model="immigration.comment"
+              :rules="rules.comment"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -90,15 +132,20 @@
 import {
   required,
   shouldNotExceedCharLength,
-  validPhoneNumberFormat,
+  validDateFormat,
+  endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
+import {yearRange} from '@orangehrm/core/util/helper/year-range';
 
-const emergencyContactModel = {
-  name: '',
-  relationship: '',
-  homePhone: '',
-  officePhone: '',
-  mobilePhone: '',
+const immigrationModel = {
+  number: '',
+  issuedDate: '',
+  expiryDate: '',
+  type: 1,
+  status: '',
+  reviewDate: '',
+  countryCode: [],
+  comment: '',
 };
 
 export default {
@@ -115,29 +162,29 @@ export default {
       type: Object,
       required: true,
     },
+    countries: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   data() {
     return {
       isLoading: false,
-      contact: {...emergencyContactModel},
+      immigration: {...immigrationModel},
+      yearArray: [...yearRange()],
       rules: {
-        name: [required, shouldNotExceedCharLength(100)],
-        relationship: [required, shouldNotExceedCharLength(100)],
-        homePhone: [
-          validPhoneNumberFormat,
-          shouldNotExceedCharLength(30),
-          v => {
-            return (
-              v !== '' ||
-              this.contact.mobilePhone !== '' ||
-              this.contact.officePhone !== '' ||
-              'At least one phone number is required'
-            );
-          },
+        number: [required, shouldNotExceedCharLength(30)],
+        expiryDate: [
+          validDateFormat(),
+          endDateShouldBeAfterStartDate(
+            () => this.immigration.issuedDate,
+            'Expiry date should be after issued date',
+          ),
         ],
-        mobilePhone: [validPhoneNumberFormat, shouldNotExceedCharLength(30)],
-        officePhone: [validPhoneNumberFormat, shouldNotExceedCharLength(30)],
+        status: [shouldNotExceedCharLength(30)],
+        reviewDate: [validDateFormat()],
+        comment: [shouldNotExceedCharLength(250)],
       },
     };
   },
@@ -147,13 +194,14 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.data.id, {
-          ...this.contact,
+          ...this.immigration,
+          countryCode: this.immigration.countryCode.map(item => item.id)[0],
         })
         .then(() => {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          this.contact = {...emergencyContactModel};
+          this.immigration = {...immigrationModel};
           this.onCancel();
         });
     },
@@ -168,7 +216,10 @@ export default {
       .get(this.data.id)
       .then(response => {
         const {data} = response.data;
-        this.contact = {...emergencyContactModel, ...data};
+        this.immigration = {...immigrationModel, ...data};
+        this.immigration.countryCode = this.countries.filter(
+          item => item.id === data.countryCode,
+        );
       })
       .finally(() => {
         this.isLoading = false;

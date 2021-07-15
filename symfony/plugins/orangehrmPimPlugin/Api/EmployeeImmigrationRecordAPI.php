@@ -71,15 +71,6 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param EmployeeImmigrationRecordService|null $employeeImmigrationRecordService
-     */
-    public function setEmployeeImmigrationRecordService(
-        ?EmployeeImmigrationRecordService $employeeImmigrationRecordService
-    ): void {
-        $this->employeeImmigrationRecordService = $employeeImmigrationRecordService;
-    }
-
-    /**
      * @inheritDoc
      * @throws DaoException
      */
@@ -169,14 +160,14 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DEFAULT_MAX_LENGTH])
             ),
-                new ParamRule(
-                    self::PARAMETER_ISSUE_DATE,
-                    new Rule(Rules::API_DATE),
-                ),
+            new ParamRule(
+                self::PARAMETER_ISSUE_DATE,
+                new Rule(Rules::API_DATE),
+            ),
             new ParamRule(
                 self::PARAMETER_TYPE,
                 new Rule(Rules::NUMBER),
-            //new Rule(Rules::BOOL_VAL)
+                new Rule(Rules::BETWEEN, [0, 3]),
             ),
             new ParamRule(
                 self::PARAMETER_EXPIRY_DATE,
@@ -207,7 +198,6 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws DaoException
      */
     public function delete(): EndpointResourceResult
     {

@@ -86,7 +86,7 @@ class EmployeeImmigrationRecord
     /**
      * @var int|null
      *
-     * @ORM\Column(name="ep_passport_type_flg", type="smallint")
+     * @ORM\Column(name="ep_passport_type_flg", type="smallint", nullable=true)
      */
     private ?int $type;
 
