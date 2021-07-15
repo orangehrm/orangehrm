@@ -1,0 +1,33 @@
+apiv2_admin_oauth_client:
+  path: /api/v2/admin/oauth-client
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\OAuth\Api\OAuthClientAPI
+    _key: clientId
+
+apiv2_admin_oauth_clients:
+  path: /api/v2/admin/oauth-clients
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\OAuth\Api\OAuthClientAPI
+
+##########################
+#        Screens
+##########################
+
+view_oauth_client:
+  path: /admin/registerOAuthClient
+  controller: OrangeHRM\OAuth\Controller\OAuthClientController::handle
+  methods: [ GET ]
+
+edit_oauth_client:
+  path: /admin/editOAuthClient
+  controller: OrangeHRM\OAuth\Controller\SaveOAuthClientController::handle
+  methods: [ GET ]
+
+save_oauth_client:
+  path: /admin/saveOAuthClient
+  controller: OrangeHRM\OAuth\Controller\SaveOAuthClientController::handle
+  methods: [ GET ]
