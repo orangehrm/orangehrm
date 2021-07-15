@@ -29,6 +29,7 @@ class OAuthClientController  extends AbstractVueController
     public function init(): void
     {
         $component = new Component('oauth-client-list');
+        // TODO move the hard coded mobile client id to some central place
         $component->addProp(new Prop('unselectable-client-ids', Prop::TYPE_ARRAY, ['orangehrm_mobile_app']));
         $this->setComponent($component);
     }

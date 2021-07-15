@@ -20,12 +20,10 @@
 namespace OrangeHRM\OAuth\test\Service;
 
 
-use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Dao\OAuthClientDao;
 use OrangeHRM\OAuth\Service\OAuthService;
 use OrangeHRM\Tests\Util\TestCase;
-use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group OAuth

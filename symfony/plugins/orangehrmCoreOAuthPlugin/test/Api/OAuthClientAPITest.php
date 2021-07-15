@@ -199,7 +199,7 @@ class OAuthClientAPITest extends EndpointTestCase
         $this->assertTrue(
             $this->validate(
                 [
-                    CommonParams::PARAMETER_IDS => [1],
+                    CommonParams::PARAMETER_IDS => ['client1'],
                 ],
                 $rules
             )
@@ -213,7 +213,7 @@ class OAuthClientAPITest extends EndpointTestCase
             ->getMock();
         $oAuthService->expects($this->exactly(1))
             ->method('deleteOAuthClients')
-            ->with([1])
+            ->with(['client1'])
             ->willReturn(1);
 
         /** @var MockObject&OAuthClientAPI $api */
@@ -222,7 +222,7 @@ class OAuthClientAPITest extends EndpointTestCase
             [
 
                 RequestParams::PARAM_TYPE_BODY => [
-                    CommonParams::PARAMETER_IDS => [1],
+                    CommonParams::PARAMETER_IDS => ['client1'],
                 ]
             ]
         )->onlyMethods(['getOAuthService'])
@@ -234,7 +234,166 @@ class OAuthClientAPITest extends EndpointTestCase
         $result = $api->delete();
         $this->assertEquals(
             [
-                1
+                'client1'
+            ],
+            $result->normalize()
+        );
+    }
+
+    public function testGetValidationRuleForGetOne(): void
+    {
+        $api = new OAuthClientAPI($this->getRequest());
+        $rules = $api->getValidationRuleForGetOne();
+        $this->assertTrue(
+            $this->validate(
+                [OAuthClientAPI::PARAMETER_CLIENT_ID => 'client1'],
+                $rules
+            )
+        );
+    }
+
+    public function testGetOne(): void
+    {
+        $oAuthClient = new OAuthClient();
+        $oAuthClient->setClientId('client1');
+        $oAuthClient->setClientSecret('clientsecret');
+        $oAuthClient->setRedirectUri('');
+        $oAuthClient->setGrantTypes('password');
+        $oAuthClient->setScope('user');
+
+        $oAuthService = $this->getMockBuilder(OAuthService::class)
+            ->onlyMethods(['getOAuthClientByClientId'])
+            ->getMock();
+        $oAuthService->expects($this->exactly(1))
+            ->method('getOAuthClientByClientId')
+            ->with('client1')
+            ->willReturn($oAuthClient);
+
+        /** @var MockObject&OAuthClientAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            OAuthClientAPI::class,
+            [
+                RequestParams::PARAM_TYPE_QUERY => [
+                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'client1'
+                ]
+            ]
+        )->onlyMethods(['getOAuthService'])
+            ->getMock();
+        $api->expects($this->once())
+            ->method('getOAuthService')
+            ->will($this->returnValue($oAuthService));
+
+        $result = $api->getOne();
+        $this->assertEquals(
+            [
+                "clientId" => 'client1',
+                "clientSecret" => 'clientsecret',
+                "redirectUri" => '',
+            ],
+            $result->normalize()
+        );
+    }
+
+    public function testGetOneWhenRecordNotFound(): void
+    {
+        $oAuthService = $this->getMockBuilder(OAuthService::class)
+            ->onlyMethods(['getOAuthClientByClientId'])
+            ->getMock();
+        $oAuthService->expects($this->exactly(1))
+            ->method('getOAuthClientByClientId')
+            ->with('client2')
+            ->willReturn(null);
+
+        /** @var MockObject&OAuthClientAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            OAuthClientAPI::class,
+            [
+                RequestParams::PARAM_TYPE_QUERY => [
+                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'client2'
+                ]
+            ]
+        )->onlyMethods(['getOAuthService'])
+            ->getMock();
+        $api->expects($this->once())
+            ->method('getOAuthService')
+            ->will($this->returnValue($oAuthService));
+
+        $this->expectRecordNotFoundException();
+        $api->getOne();
+    }
+
+    public function testGetValidationRuleForUpdate(): void
+    {
+        $api = new OAuthClientAPI($this->getRequest());
+        $rules = $api->getValidationRuleForUpdate();
+        $this->assertTrue(
+            $this->validate(
+                [
+                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'client2',
+                    OAuthClientAPI::PARAMETER_CLIENT_SECRET => 'newsecret',
+                    OAuthClientAPI::PARAMETER_REDIRECT_URI => 'https://facebook.com',
+                ],
+                $rules
+            )
+        );
+    }
+
+    public function testUpdate()
+    {
+        $oAuthService = $this->getMockBuilder(OAuthService::class)
+            ->onlyMethods(['saveOAuthClient', 'getOAuthClientByClientId'])
+            ->getMock();
+        $oAuthService->expects($this->once())
+            ->method('saveOAuthClient')
+            ->will(
+                $this->returnCallback(
+                    function (OAuthClient $authClient) {
+                        $authClient->setClientId('TestNew');
+                        $authClient->setClientSecret('TESTNEW');
+                        $authClient->setRedirectUri('');
+                        return $authClient;
+                    }
+                )
+            );
+
+        $existingOAuthClient = new OAuthClient();
+        $existingOAuthClient->setClientId('Test');
+        $existingOAuthClient->setClientSecret('TEST');
+        $existingOAuthClient->setRedirectUri('');
+        $existingOAuthClient->setGrantTypes('password');
+        $existingOAuthClient->setScope('user');
+
+        $oAuthService->expects($this->exactly(1))
+            ->method('getOAuthClientByClientId')
+            ->with('Test')
+            ->willReturn($existingOAuthClient);
+
+
+        /** @var MockObject&OAuthClientAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            OAuthClientAPI::class,
+            [
+                RequestParams::PARAM_TYPE_BODY => [
+                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'TestNew',
+                    OAuthClientAPI::PARAMETER_CLIENT_SECRET=> 'TESTNEW',
+                    OAuthClientAPI::PARAMETER_REDIRECT_URI=> '',
+                ],
+                RequestParams::PARAM_TYPE_QUERY => [
+                    OAuthClientAPI::PARAMETER_CLIENT_ID => 'Test',
+                ]
+            ]
+        )->onlyMethods(['getOAuthService'])
+            ->getMock();
+        $api->expects($this->exactly(2))
+            ->method('getOAuthService')
+            ->will($this->returnValue($oAuthService));
+
+        $result = $api->update();
+        $this->assertEquals(
+            [
+                "clientId" => 'TestNew',
+                "clientSecret" => 'TESTNEW',
+                "redirectUri" => ''
             ],
             $result->normalize()
         );

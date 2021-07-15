@@ -20,27 +20,17 @@
 namespace OrangeHRM\OAuth\Api;
 
 
-use OrangeHRM\Admin\Api\Model\JobTitleModel;
-use OrangeHRM\Admin\Api\Model\SkillModel;
-use OrangeHRM\Admin\Dto\JobTitleSearchFilterParams;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\AbstractEndpointResult;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
-use OrangeHRM\Core\Api\V2\Validator\Rule;
-use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\OAuthClient;
-use OrangeHRM\Entity\Skill;
 use OrangeHRM\OAuth\Api\Model\OAuthClientModel;
 use OrangeHRM\OAuth\Constant\GrantType;
 use OrangeHRM\OAuth\Constant\Scope;
@@ -63,13 +53,6 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      */
     protected ?OAuthService $oAuthService = null;
 
-    /**
-     * @param OAuthService $oAuthService
-     */
-    public function setOAuthService(OAuthService $oAuthService)
-    {
-        $this->oAuthService = $oAuthService;
-    }
 
     /**
      * @return OAuthService
@@ -221,7 +204,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
         $clientSecret = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CLIENT_SECRET);
         $redirectUri = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REDIRECT_URI);
         if (!empty($existingClientId)) {
-            $oAuthClient = $this->getOAuthService()->getOAuthClientByClientId($clientId);
+            $oAuthClient = $this->getOAuthService()->getOAuthClientByClientId($existingClientId);
             if ($oAuthClient == null) {
                 throw new RecordNotFoundException();
             }
