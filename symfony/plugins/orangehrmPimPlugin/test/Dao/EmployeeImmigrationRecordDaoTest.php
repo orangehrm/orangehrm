@@ -41,7 +41,7 @@ class EmployeeImmigrationRecordDaoTest extends TestCase
         $this->employeeImmigrationRecordDao = new EmployeeImmigrationRecordDao();
         $this->fixture = Config::get(
                 Config::PLUGINS_DIR
-            ) . '/orangehrmPimPlugin/test/fixtures/EmployeeDao.yml';
+            ) . '/orangehrmPimPlugin/test/fixtures/EmployeeImmigrationRecordDao.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -76,7 +76,7 @@ class EmployeeImmigrationRecordDaoTest extends TestCase
 
     public function testEditEmployeeImmigrationRecord(): void
     {
-        $employeeImmigrationRecord = $this->employeeImmigrationRecordDao->getEmployeeImmigrationRecord(1, 1);
+        $employeeImmigrationRecord = $this->employeeImmigrationRecordDao->getEmployeeImmigrationRecord(2, 1);
         $employeeImmigrationRecord->setRecordId('1');
         $employeeImmigrationRecord->setNumber('RTF33323411');
         $employeeImmigrationRecord->setType(2);
@@ -101,23 +101,23 @@ class EmployeeImmigrationRecordDaoTest extends TestCase
 
     public function testGetEmployeeImmigrationRecord(): void
     {
-        $result = $this->employeeImmigrationRecordDao->getEmployeeImmigrationRecord(1, 1);
-        $this->assertEquals('0001', $result->getEmployee()->getEmployeeId());
+        $result = $this->employeeImmigrationRecordDao->getEmployeeImmigrationRecord(2, 1);
+        $this->assertEquals('E002', $result->getEmployee()->getEmployeeId());
         $this->assertEquals('1', $result->getRecordId());
-        $this->assertEquals('HVN0003472', $result->getNumber());
-        $this->assertEquals(1, $result->getType());
+        $this->assertEquals('RTF33323411', $result->getNumber());
+        $this->assertEquals(2, $result->getType());
         $this->assertEquals(new DateTime("2010-12-12"), $result->getIssuedDate());
         $this->assertEquals(new DateTime("2011-12-12"), $result->getExpiryDate());
         $this->assertEquals(new DateTime("2011-12-30"), $result->getReviewDate());
         $this->assertEquals("some status", $result->getStatus());
-        $this->assertEquals("test Comment", $result->getComment());
+        $this->assertEquals("i modify this", $result->getComment());
         $this->assertEquals("UK", $result->getCountryCode());
     }
 
     public function testDeleteEmployeeImmigrationRecords(): void
     {
         $toTobedeletedIds = [1, 2];
-        $result = $this->employeeImmigrationRecordDao->deleteEmployeeImmigrationRecords(1, $toTobedeletedIds);
+        $result = $this->employeeImmigrationRecordDao->deleteEmployeeImmigrationRecords(2, $toTobedeletedIds);
         $this->assertEquals(1, $result);
     }
 
