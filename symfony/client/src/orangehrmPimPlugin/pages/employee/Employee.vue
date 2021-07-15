@@ -25,7 +25,12 @@
         <oxd-form-row>
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <employee-dropdown v-model="filters.employee" />
+              <employee-autocomplete
+                v-model="filters.employee"
+                :params="{
+                  includeEmployees: filters.includeEmployees?.param,
+                }"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -38,7 +43,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Include"
                 v-model="filters.includeEmployees"
                 :clear="false"
@@ -46,7 +51,10 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <supervisor-dropdown v-model="filters.supervisor" />
+              <employee-autocomplete
+                label="Supervisor Name"
+                v-model="filters.supervisor"
+              />
             </oxd-grid-item>
             <oxd-grid-item>
               <jobtitle-dropdown v-model="filters.jobTitleId" />
@@ -117,8 +125,7 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
-import SupervisorDropdown from '@/core/components/inputs/SupervisorDropdown';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import JobtitleDropdown from '@/orangehrmPimPlugin/components/JobtitleDropdown';
 import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
 import EmploymentStatusDropdown from '@/orangehrmPimPlugin/components/EmploymentStatusDropdown';
@@ -146,13 +153,13 @@ const userdataNormalizer = data => {
 };
 
 const defaultFilters = {
-  employee: [],
+  employee: null,
   employeeId: '',
-  empStatusId: [{id: 0, label: 'All'}],
-  includeEmployees: [{id: 1, label: 'Current Employees Only'}],
-  supervisor: [],
-  jobTitleId: [{id: 0, label: 'All'}],
-  subunitId: [{id: 0, label: 'All'}],
+  empStatusId: null,
+  includeEmployees: null,
+  supervisor: null,
+  jobTitleId: null,
+  subunitId: null,
 };
 
 const defaultSortOrder = {
@@ -167,8 +174,7 @@ const defaultSortOrder = {
 export default {
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
-    'employee-dropdown': EmployeeDropdown,
-    'supervisor-dropdown': SupervisorDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
     'jobtitle-dropdown': JobtitleDropdown,
     'subunit-dropdown': SubunitDropdown,
     'employment-status-dropdown': EmploymentStatusDropdown,
@@ -182,7 +188,7 @@ export default {
           slot: 'title',
           title: 'Id',
           sortField: 'employee.employeeId',
-          style: {width: '3rem'},
+          style: {flex: 1},
         },
         {
           name: 'firstAndMiddleName',
@@ -239,9 +245,9 @@ export default {
         },
       ],
       includeOpts: [
-        {id: 1, label: 'Current Employees Only'},
-        {id: 2, label: 'Current and Past Employees'},
-        {id: 3, label: 'Past Employees Only'},
+        {id: 1, param: 'onlyCurrent', label: 'Current Employees Only'},
+        {id: 2, param: 'currentAndPast', label: 'Current and Past Employees'},
+        {id: 3, param: 'onlyPast', label: 'Past Employees Only'},
       ],
       checkedItems: [],
     };
@@ -257,19 +263,15 @@ export default {
     const serializedFilters = computed(() => {
       return {
         model: 'detailed',
-        empNumber: filters.value.employee.map(item => item.id)[0],
+        empNumber: filters.value.employee?.id,
         employeeId: filters.value.employeeId,
-        empStatusId: filters.value.empStatusId.map(item => item.id)[0],
-        includeEmployees: filters.value.includeEmployees.map(item => {
-          return item.id === 1
-            ? 'onlyCurrent'
-            : item.id === 2
-            ? 'currentAndPast'
-            : 'onlyPast';
-        })[0],
-        supervisorEmpNumbers: filters.value.supervisor.map(item => item.id),
-        jobTitleId: filters.value.jobTitleId.map(item => item.id)[0],
-        subunitId: filters.value.subunitId.map(item => item.id)[0],
+        empStatusId: filters.value.empStatusId?.id,
+        includeEmployees: filters.value.includeEmployees?.param,
+        supervisorEmpNumbers: filters.value.supervisor
+          ? [filters.value.supervisor.id]
+          : undefined,
+        jobTitleId: filters.value.jobTitleId?.id,
+        subunitId: filters.value.subunitId?.id,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
       };
