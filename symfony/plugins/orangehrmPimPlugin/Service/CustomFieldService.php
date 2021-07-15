@@ -23,6 +23,8 @@ use OrangeHRM\Pim\Dao\CustomFieldDao;
 
 class CustomFieldService
 {
+    public const EMPLOYEE_CUSTOM_FIELD_PREFIX = 'custom';
+
     /**
      * @var CustomFieldDao|null
      */
@@ -37,5 +39,51 @@ class CustomFieldService
             $this->customFieldDao = new CustomFieldDao();
         }
         return $this->customFieldDao;
+    }
+
+    /**
+     * @param int[] $fieldNumbers
+     * @return array<int, string>
+     */
+    public function generateGettersByFieldNumbers(array $fieldNumbers): array
+    {
+        $getters = [];
+        $getterPrefix = "get" . ucfirst(self::EMPLOYEE_CUSTOM_FIELD_PREFIX);
+        foreach ($fieldNumbers as $fieldNum) {
+            $getters[$fieldNum] = $getterPrefix . $fieldNum;
+        }
+        return $getters;
+    }
+
+    /**
+     * @param int $fieldNum
+     * @return string
+     */
+    public function generateFieldKeyByFieldId(int $fieldNum): string
+    {
+        return self::EMPLOYEE_CUSTOM_FIELD_PREFIX . $fieldNum;
+    }
+
+    /**
+     * @param string $fieldKey e.g. 'custom1'
+     * @return string
+     */
+    public function generateSetterByFieldKey(string $fieldKey): string
+    {
+        return "set" . ucfirst($fieldKey);
+    }
+
+    /**
+     * @param string[] $fieldKeys e.g. ['custom1', 'custom2']
+     * @return int[]
+     */
+    public function extractFieldNumbersFromFieldKeys(array $fieldKeys): array
+    {
+        return array_map(
+            function (string $fieldKey) {
+                return (int)str_replace(self::EMPLOYEE_CUSTOM_FIELD_PREFIX, '', $fieldKey);
+            },
+            $fieldKeys
+        );
     }
 }

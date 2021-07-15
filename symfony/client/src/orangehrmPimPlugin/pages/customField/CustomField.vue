@@ -38,6 +38,7 @@
           iconName="plus"
           displayType="secondary"
           @click="onClickAdd"
+          v-if="remainingFields > 0"
         />
       </div>
       <table-header

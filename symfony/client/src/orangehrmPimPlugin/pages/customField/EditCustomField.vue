@@ -45,6 +45,7 @@
                 v-model="customField.screen"
                 :rules="rules.screen"
                 :options="screenList"
+                required
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -129,7 +130,7 @@ export default {
       customField: {...customFieldModel},
       rules: {
         fieldName: [required, shouldNotExceedCharLength(250)],
-        screen: [shouldNotExceedCharLength(100)],
+        screen: [required, shouldNotExceedCharLength(100)],
         fieldType: [required, shouldNotExceedCharLength(15)],
         extraData: [required, shouldNotExceedCharLength(250)],
       },
