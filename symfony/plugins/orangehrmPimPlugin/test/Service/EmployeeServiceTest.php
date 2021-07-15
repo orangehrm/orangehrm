@@ -141,4 +141,53 @@ class EmployeeServiceTest extends TestCase
         $result = $this->employeeService->deleteEmployees($employeesToDelete);
         $this->assertEquals($numEmployees, $result);
     }
+
+    public function testGetSupervisorIdListBySubordinateId(): void
+    {
+        $supervisorIdList = [1, 2, 3];
+
+        // includeChain = true
+        $employeeService = $this->getMockBuilder(EmployeeService::class)
+            ->onlyMethods(['getConfigService'])
+            ->getMock();
+
+        $mockDao = $this->getMockBuilder(EmployeeDao::class)
+            ->onlyMethods(['getSupervisorIdListBySubordinateId'])
+            ->getMock();
+        $mockDao->expects($this->once())
+            ->method('getSupervisorIdListBySubordinateId')
+            ->with(5, true)
+            ->will($this->returnValue($supervisorIdList));
+
+        $employeeService->setEmployeeDao($mockDao);
+        $result = $employeeService->getSupervisorIdListBySubordinateId(5, true);
+        $this->assertEquals($supervisorIdList, $result);
+
+        // includeChain = null
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['isSupervisorChainSupported'])
+            ->getMock();
+        $configService->expects($this->once())
+            ->method('isSupervisorChainSupported')
+            ->will($this->returnValue(true));
+
+        $employeeService = $this->getMockBuilder(EmployeeService::class)
+            ->onlyMethods(['getConfigService'])
+            ->getMock();
+        $employeeService->expects($this->once())
+            ->method('getConfigService')
+            ->will($this->returnValue($configService));
+
+        $mockDao = $this->getMockBuilder(EmployeeDao::class)
+            ->onlyMethods(['getSupervisorIdListBySubordinateId'])
+            ->getMock();
+        $mockDao->expects($this->once())
+            ->method('getSupervisorIdListBySubordinateId')
+            ->with(5, true)
+            ->will($this->returnValue($supervisorIdList));
+
+        $employeeService->setEmployeeDao($mockDao);
+        $result = $employeeService->getSupervisorIdListBySubordinateId(5);
+        $this->assertEquals($supervisorIdList, $result);
+    }
 }

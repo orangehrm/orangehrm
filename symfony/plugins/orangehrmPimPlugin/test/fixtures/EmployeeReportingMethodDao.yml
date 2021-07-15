@@ -1,0 +1,19 @@
+ReportingMethod:
+  0: {id: 1, name: 'Indirect'}
+  1: {id: 2, name: 'Direct'}
+  2: {id: 3, name: 'HR'}
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+  - { empNumber: 3, firstName: 'John', lastName: 'Wayne', middleName: '', employeeId: 'E003' }
+  - { empNumber: 4, firstName: 'Edgar', lastName: 'Allen', middleName: '', employeeId: 'E004', emp_work_email: '', emp_oth_email: '' }
+  - { empNumber: 5, firstName: 'Judie', lastName: 'Foster', middleName: '', employeeId: 'E005', emp_work_email: '', emp_oth_email: '' }
+  - { empNumber: 6, firstName: 'Andrew', lastName: 'Roberts', middleName: '', employeeId: 'E006', emp_work_email: '', emp_oth_email: '' }
+
+ReportTo:
+  0: { erep_sup_emp_number: 1, erep_sub_emp_number: 2, erep_reporting_mode: 1}
+  1: { erep_sup_emp_number: 1, erep_sub_emp_number: 3, erep_reporting_mode: 1}
+  2: { erep_sup_emp_number: 1, erep_sub_emp_number: 4, erep_reporting_mode: 2}
+  3: { erep_sup_emp_number: 2, erep_sub_emp_number: 5, erep_reporting_mode: 1}
+  4: { erep_sup_emp_number: 4, erep_sub_emp_number: 5, erep_reporting_mode: 2}
