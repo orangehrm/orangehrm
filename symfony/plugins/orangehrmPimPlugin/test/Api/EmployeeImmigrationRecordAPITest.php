@@ -20,15 +20,17 @@
 namespace OrangeHRM\Tests\Pim\Api;
 
 use DateTime;
+use OrangeHRM\Authentication\Auth\User;
+use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeImmigrationRecord;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI;
 use OrangeHRM\Pim\Dao\EmployeeImmigrationRecordDao;
 use OrangeHRM\Pim\Service\EmployeeImmigrationRecordService;
-use OrangeHRM\Core\Service\DateTimeHelperService;
-use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
 
@@ -67,7 +69,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
 
         $employeeImmigrationRecordDao->expects($this->exactly(1))
             ->method('getEmployeeImmigrationRecord')
-            ->with(1,1)
+            ->with(1, 1)
             ->will($this->returnValue($immigrationRecord));
         $employeeImmigrationRecordService = $this->getMockBuilder(EmployeeImmigrationRecordService::class)
             ->onlyMethods(['getEmployeeImmigrationRecordDao'])
@@ -117,11 +119,34 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForGetOne(): void
     {
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->onlyMethods(['getAccessibleEntityIds'])
+            ->getMock();
+        $userRoleManager->expects($this->exactly(0))
+            ->method('getAccessibleEntityIds')
+            ->willReturn([1, 2]);
+
+        $authUser = $this->getMockBuilder(User::class)
+            ->onlyMethods(['getEmpNumber'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->expects($this->once())
+            ->method('getEmpNumber')
+            ->willReturn(1);
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::AUTH_USER => $authUser
+            ]
+        );
         $api = new EmployeeImmigrationRecordAPI($this->getRequest());
         $rules = $api->getValidationRuleForGetOne();
         $this->assertTrue(
             $this->validate(
-                [CommonParams::PARAMETER_EMP_NUMBER => 1,CommonParams::PARAMETER_ID => 1],
+                [
+                    CommonParams::PARAMETER_EMP_NUMBER => 1,
+                    CommonParams::PARAMETER_ID => 1
+                ],
                 $rules
             )
         );
@@ -150,7 +175,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
 
         $employeeImmigrationRecordDao->expects($this->exactly(1))
             ->method('deleteEmployeeImmigrationRecords')
-            ->with(1,[1])
+            ->with(1, [1])
             ->willReturn(1);
         $employeeImmigrationRecordService = $this->getMockBuilder(EmployeeImmigrationRecordService::class)
             ->onlyMethods(['getEmployeeImmigrationRecordDao'])
@@ -193,6 +218,26 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForDelete(): void
     {
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->onlyMethods(['getAccessibleEntityIds'])
+            ->getMock();
+        $userRoleManager->expects($this->exactly(0))
+            ->method('getAccessibleEntityIds')
+            ->willReturn([1, 2]);
+
+        $authUser = $this->getMockBuilder(User::class)
+            ->onlyMethods(['getEmpNumber'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->expects($this->once())
+            ->method('getEmpNumber')
+            ->willReturn(1);
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::AUTH_USER => $authUser
+            ]
+        );
         $api = new EmployeeImmigrationRecordAPI($this->getRequest());
         $rules = $api->getValidationRuleForDelete();
         $this->assertTrue(
@@ -229,7 +274,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
 
         $employeeImmigrationRecordDao->expects($this->exactly(1))
             ->method('getEmployeeImmigrationRecord')
-            ->with(1,1)
+            ->with(1, 1)
             ->willReturn($immigrationRecord);
 
         $employeeImmigrationRecordDao->expects($this->exactly(1))
@@ -302,6 +347,26 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForUpdate(): void
     {
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->onlyMethods(['getAccessibleEntityIds'])
+            ->getMock();
+        $userRoleManager->expects($this->exactly(0))
+            ->method('getAccessibleEntityIds')
+            ->willReturn([1, 2]);
+
+        $authUser = $this->getMockBuilder(User::class)
+            ->onlyMethods(['getEmpNumber'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->expects($this->once())
+            ->method('getEmpNumber')
+            ->willReturn(1);
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::AUTH_USER => $authUser
+            ]
+        );
         $api = new EmployeeImmigrationRecordAPI($this->getRequest());
         $rules = $api->getValidationRuleForUpdate();
         $this->assertTrue(
@@ -309,9 +374,9 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
                     CommonParams::PARAMETER_ID => 1,
-                    EmployeeImmigrationRecordAPI::PARAMETER_NUMBER => "RTF33323415",
-                    EmployeeImmigrationRecordAPI::PARAMETER_ISSUE_DATE => "2020-12-13",
-                    EmployeeImmigrationRecordAPI::PARAMETER_EXPIRY_DATE => "2021-12-13",
+                    EmployeeImmigrationRecordAPI::PARAMETER_NUMBER => 'RTF33323415',
+                    EmployeeImmigrationRecordAPI::PARAMETER_ISSUE_DATE => '2020-12-13',
+                    EmployeeImmigrationRecordAPI::PARAMETER_EXPIRY_DATE => '2021-12-13',
                     EmployeeImmigrationRecordAPI::PARAMETER_TYPE => 1,
                     EmployeeImmigrationRecordAPI::PARAMETER_STATUS => 'some status',
                     EmployeeImmigrationRecordAPI::PARAMETER_REVIEW_DATE => '2021-12-31',
@@ -327,7 +392,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
     {
         $empNumber = 1;
         $employeeImmigrationRecordDao = $this->getMockBuilder(EmployeeImmigrationRecordDao::class)
-            ->onlyMethods(['saveEmployeeImmigrationRecord','getEmployeeImmigrationRecord'])
+            ->onlyMethods(['saveEmployeeImmigrationRecord', 'getEmployeeImmigrationRecord'])
             ->getMock();
 
         $employee = new Employee();
@@ -368,7 +433,6 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
                 Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
             ]
         );
-
 
 
         /** @var MockObject&EmployeeImmigrationRecordAPI $api */
@@ -421,12 +485,41 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForCreate(): void
     {
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->onlyMethods(['getAccessibleEntityIds'])
+            ->getMock();
+        $userRoleManager->expects($this->exactly(0))
+            ->method('getAccessibleEntityIds')
+            ->willReturn([1, 2]);
+
+        $authUser = $this->getMockBuilder(User::class)
+            ->onlyMethods(['getEmpNumber'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->expects($this->once())
+            ->method('getEmpNumber')
+            ->willReturn(1);
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::AUTH_USER => $authUser
+            ]
+        );
         $api = new EmployeeImmigrationRecordAPI($this->getRequest());
         $rules = $api->getValidationRuleForCreate();
         $this->assertTrue(
             $this->validate(
                 [
-                    EmployeeImmigrationRecordAPI::PARAMETER_NAME => 'Dismissed',
+                    CommonParams::PARAMETER_EMP_NUMBER => 1,
+                    CommonParams::PARAMETER_ID => 1,
+                    EmployeeImmigrationRecordAPI::PARAMETER_NUMBER => "RTF33323415",
+                    EmployeeImmigrationRecordAPI::PARAMETER_ISSUE_DATE => "2020-12-13",
+                    EmployeeImmigrationRecordAPI::PARAMETER_EXPIRY_DATE => "2021-12-13",
+                    EmployeeImmigrationRecordAPI::PARAMETER_TYPE => 1,
+                    EmployeeImmigrationRecordAPI::PARAMETER_STATUS => 'some status',
+                    EmployeeImmigrationRecordAPI::PARAMETER_REVIEW_DATE => '2021-12-31',
+                    EmployeeImmigrationRecordAPI::PARAMETER_COUNTRY_CODE => 'LK',
+                    EmployeeImmigrationRecordAPI::PARAMETER_COMMENT => 'test Comment',
                 ],
                 $rules
             )
@@ -546,11 +639,33 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForGetAll(): void
     {
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->onlyMethods(['getAccessibleEntityIds'])
+            ->getMock();
+        $userRoleManager->expects($this->exactly(0))
+            ->method('getAccessibleEntityIds')
+            ->willReturn([1, 2]);
+
+        $authUser = $this->getMockBuilder(User::class)
+            ->onlyMethods(['getEmpNumber'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->expects($this->once())
+            ->method('getEmpNumber')
+            ->willReturn(1);
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::AUTH_USER => $authUser
+            ]
+        );
         $api = new EmployeeImmigrationRecordAPI($this->getRequest());
         $rules = $api->getValidationRuleForGetAll();
         $this->assertTrue(
             $this->validate(
-                [],
+                [
+                    CommonParams::PARAMETER_EMP_NUMBER => 1
+                ],
                 $rules
             )
         );
