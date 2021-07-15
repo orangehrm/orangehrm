@@ -22,7 +22,9 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">OAuth Clients</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title"
+          >OAuth Client List</oxd-text
+        >
         <div>
           <oxd-button
             label="Add"

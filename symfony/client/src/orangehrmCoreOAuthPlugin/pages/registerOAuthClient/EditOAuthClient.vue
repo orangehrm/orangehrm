@@ -60,10 +60,10 @@
 
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-            <oxd-text tag="span"
+            <oxd-text tag="span" class="orangehrm-link"
               >API Documentation:
               <a
-                :class="{'orangehrm-link': true}"
+                class="orangehrm-link-url"
                 href="https://orangehrm.github.io/orangehrm-api-doc"
                 >https://orangehrm.github.io/orangehrm-api-doc</a
               ></oxd-text
@@ -72,10 +72,10 @@
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-            <oxd-text tag="span"
+            <oxd-text tag="span" class="orangehrm-link"
               >PHP Sample App:
               <a
-                :class="{'orangehrm-link': true}"
+                class="orangehrm-link-url"
                 href="https://github.com/orangehrm/api-sample-app-php"
                 >https://github.com/orangehrm/api-sample-app-php</a
               ></oxd-text
@@ -205,10 +205,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
-
-.orangehrm-link {
-  color: $oxd-primary-one-color;
-}
-</style>
+<style src="./oauth-client.scss" lang="scss" scoped></style>
