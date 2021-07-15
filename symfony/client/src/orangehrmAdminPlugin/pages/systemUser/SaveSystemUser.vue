@@ -29,17 +29,16 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="User Role"
                 v-model="user.role"
                 :rules="rules.role"
-                :clear="false"
                 :options="userRoles"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <employee-dropdown
+              <employee-autocomplete
                 v-model="user.employee"
                 :rules="rules.employee"
                 required
@@ -48,11 +47,10 @@
 
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Status"
                 v-model="user.status"
                 :rules="rules.status"
-                :clear="false"
                 :options="userStatuses"
                 required
               />
@@ -94,22 +92,22 @@
 <script>
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
-import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import PasswordInput from '@/core/components/inputs/PasswordInput';
 import {required} from '@orangehrm/core/util/validation/rules';
 
 const userModel = {
   username: '',
-  role: [{id: 1, label: 'Admin'}],
-  employee: [],
-  status: [{id: 1, label: 'Enabled'}],
+  role: null,
+  employee: null,
+  status: null,
   password: '',
   passwordConfirm: '',
 };
 
 export default {
   components: {
-    'employee-dropdown': EmployeeDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
     'password-input': PasswordInput,
   },
 
@@ -133,7 +131,7 @@ export default {
             (v && v.trim().length <= 40) || 'Should not exceed 40 characters',
         ],
         role: [v => (!!v && v.length != 0) || 'Required'],
-        employee: [v => (!!v && v.length != 0) || 'Required'],
+        employee: [required],
         status: [v => (!!v && v.length != 0) || 'Required'],
       },
       userRoles: [
@@ -157,10 +155,9 @@ export default {
         .create({
           username: this.user.username.trim(),
           password: this.user.password,
-          status:
-            this.user.status[0] && this.user.status[0].label === 'Enabled',
-          userRoleId: this.user.role[0].id,
-          empNumber: this.user.employee[0].id,
+          status: this.user.status && this.user.status.label === 'Enabled',
+          userRoleId: this.user.role?.id,
+          empNumber: this.user.employee?.id,
         })
         .then(() => {
           return this.$toast.saveSuccess();

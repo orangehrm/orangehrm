@@ -19,44 +19,34 @@
  -->
 
 <template>
-  <oxd-input-field
-    type="dropdown"
-    label="Sub Unit"
-    :create-options="loadOptions"
-    :lazyLoad="false"
-    :clear="false"
-  />
+  <oxd-input-field type="select" label="Sub Unit" :options="options" />
 </template>
 
 <script>
+import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 export default {
   name: 'subunit-dropdown',
   setup() {
+    const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/admin/subunits',
     );
-    return {
-      http,
-    };
-  },
-  methods: {
-    async loadOptions() {
-      return new Promise(resolve => {
-        this.http.getAll().then(({data}) => {
-          const options = data.data.map(item => {
-            return {
-              id: item.id,
-              label: item.name,
-              indent: item.level ? item.level + 1 : 1,
-            };
-          });
-          options.unshift({id: 0, label: 'All'});
-          resolve(options);
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+            _indent: item.level ? item.level + 1 : 1,
+          };
         });
       });
-    },
+    });
+    return {
+      options,
+    };
   },
 };
 </script>

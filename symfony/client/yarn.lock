@@ -1429,9 +1429,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=9e16e34599ea99784c89f98093f3cffd4e3d9216":
+"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=f00370d50d8390571653941767effb618ec1180a":
   version: 1.0.0
-  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=9e16e34599ea99784c89f98093f3cffd4e3d9216"
+  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=f00370d50d8390571653941767effb618ec1180a"
   dependencies:
     bootstrap-icons: ^1.3.0
     core-js: ^3.6.5
@@ -1439,7 +1439,7 @@ __metadata:
     mitt: ^2.1.0
     nanoid: ^3.1.21
     vue: ^3.1.2
-  checksum: 64cfb3e19ab0bc7e378c1dcb2303545a38b2e6d4b76d6c147dd2cbaddd16a1f03115072f336e0d26c7e49afdcff40a0435b032413239afe5c3e5109d2471d26b
+  checksum: 906db0b592e1c936bdd6682392358212bb145cb01e0b4f72cbcbc122ebf4e7a790d892c0700dbd5cce41af0031c7e6f6b4751362f58a45231ebd5d9f9f56fec4
   languageName: node
   linkType: hard
 
@@ -10063,7 +10063,7 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=9e16e34599ea99784c89f98093f3cffd4e3d9216"
+    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=f00370d50d8390571653941767effb618ec1180a"
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0
