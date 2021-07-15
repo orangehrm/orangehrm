@@ -29,22 +29,20 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="User Role"
                 v-model="filters.userRoleId"
-                :clear="false"
                 :options="userRoles"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <employee-dropdown v-model="filters.empNumber" />
+              <employee-autocomplete v-model="filters.empNumber" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Status"
                 v-model="filters.status"
-                :clear="false"
                 :options="userStatuses"
               />
             </oxd-grid-item>
@@ -89,7 +87,6 @@
           v-model:selected="checkedItems"
           :loading="isLoading"
           rowDecorator="oxd-table-decorator-card"
-          :order="order"
         />
       </div>
       <div class="orangehrm-bottom-container">
@@ -110,13 +107,13 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import EmployeeDropdown from '@/core/components/inputs/EmployeeDropdown';
+import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 
 const defaultFilters = {
   username: '',
-  userRoleId: [{id: 0, label: 'All'}],
-  empNumber: [],
-  status: [{id: 0, label: 'All'}],
+  userRoleId: null,
+  empNumber: null,
+  status: null,
 };
 
 export default {
@@ -129,7 +126,7 @@ export default {
 
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
-    'employee-dropdown': EmployeeDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
   },
 
   data() {
@@ -168,12 +165,10 @@ export default {
         },
       ],
       userRoles: [
-        {id: 0, label: 'All'},
         {id: 1, label: 'Admin'},
         {id: 2, label: 'ESS'},
       ],
       userStatuses: [
-        {id: 0, label: 'All'},
         {id: 1, label: 'Enabled'},
         {id: 2, label: 'Disabled'},
       ],
@@ -200,9 +195,9 @@ export default {
     const serializedFilters = computed(() => {
       return {
         username: filters.value.username,
-        userRoleId: filters.value.userRoleId.map(item => item.id)[0],
-        empNumber: filters.value.empNumber.map(item => item.id)[0],
-        status: filters.value.status.map(item => item.id)[0],
+        userRoleId: filters.value.userRoleId?.id,
+        empNumber: filters.value.empNumber?.id,
+        status: filters.value.status?.id,
       };
     });
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/admin/users');
