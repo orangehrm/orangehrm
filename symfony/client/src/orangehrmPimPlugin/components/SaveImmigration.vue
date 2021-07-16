@@ -86,7 +86,7 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Issued by"
               v-model="immigration.countryCode"
               :options="countries"
@@ -142,7 +142,7 @@ const immigrationModel = {
   type: 1,
   status: '',
   reviewDate: '',
-  countryCode: '',
+  countryCode: null,
   comment: '',
 };
 
@@ -182,7 +182,7 @@ export default {
       this.http
         .create({
           ...this.immigration,
-          //countryCode: this.immigration.countryCode.map(item => item.id)[0],
+          countryCode: this.immigration.countryCode?.id,
         })
         .then(() => {
           return this.$toast.saveSuccess();

@@ -91,11 +91,11 @@ class EmployeeImmigrationRecord
     private ?int $type;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="ep_i9_status", type="string", length=100, options={"default" : ""})
+     * @ORM\Column(name="ep_i9_status", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private string $status = "";
+    private ?string $status = "";
 
     /**
      * @var DateTime|null
@@ -224,17 +224,17 @@ class EmployeeImmigrationRecord
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
     /**
-     * @param string $status
+     * @param string|null $status
      */
-    public function setStatus(string $status): void
+    public function setStatus(?string $status): void
     {
         $this->status = $status;
     }

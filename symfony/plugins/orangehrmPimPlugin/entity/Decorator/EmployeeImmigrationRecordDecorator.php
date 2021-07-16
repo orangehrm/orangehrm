@@ -20,25 +20,25 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Entity\EmployeeImmigrationRecord;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeImmigrationRecord;
+use OrangeHRM\Framework\Services;
+
 
 class EmployeeImmigrationRecordDecorator
 {
     use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
+    use ServiceContainerTrait;
 
     /**
      * @var EmployeeImmigrationRecord
      */
     protected EmployeeImmigrationRecord $employeeImmigrationRecord;
-
-    /**
-     * @var CountryService
-     */
-    protected CountryService $countryService;
 
     /**
      * EmployeeImmigrationRecordDecorator constructor.
@@ -55,25 +55,6 @@ class EmployeeImmigrationRecordDecorator
     protected function getEmployeeImmigrationRecord(): EmployeeImmigrationRecord
     {
         return $this->employeeImmigrationRecord;
-    }
-
-    /**
-     * @return CountryService
-     */
-    public function getCountryService(): CountryService
-    {
-        if (is_null($this->countryService)) {
-            $this->countryService = new CountryService();
-        }
-        return $this->countryService;
-    }
-
-    /**
-     * @param $countryService
-     */
-    public function setCountryService($countryService)
-    {
-        $this->countryService = $countryService;
     }
 
     /**
@@ -113,10 +94,16 @@ class EmployeeImmigrationRecordDecorator
         return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
     }
 
-    public function getCountryName()
+    /**
+     * @return string|null
+     * @throws DaoException
+     * @throws \Exception
+     */
+    public function getCountryName(): ?string
     {
         $countryCode = $this->getEmployeeImmigrationRecord()->getCountryCode();
-        $countryService = new CountryService();
+        /** @var CountryService $countryService */
+        $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
         $country = $countryService->getCountryByCountryCode($countryCode);
         return $country->getCountryName();
     }

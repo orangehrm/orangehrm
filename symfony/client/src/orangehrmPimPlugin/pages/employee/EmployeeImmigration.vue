@@ -23,11 +23,13 @@
     <save-immigration
       v-if="showSaveModal"
       :http="http"
+      :countries="countries"
       @close="onSaveModalClose"
     ></save-immigration>
     <edit-immigration
       v-if="showEditModal"
       :http="http"
+      :countries="countries"
       :data="editModalState"
       @close="onEditModalClose"
     ></edit-immigration>

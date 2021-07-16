@@ -160,37 +160,48 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DEFAULT_MAX_LENGTH])
             ),
-            new ParamRule(
-                self::PARAMETER_ISSUE_DATE,
-                new Rule(Rules::API_DATE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ISSUE_DATE,
+                    new Rule(Rules::API_DATE),
+                ),
             ),
             new ParamRule(
                 self::PARAMETER_TYPE,
                 new Rule(Rules::NUMBER),
                 new Rule(Rules::BETWEEN, [0, 3]),
             ),
-            new ParamRule(
-                self::PARAMETER_EXPIRY_DATE,
-                new Rule(Rules::API_DATE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_EXPIRY_DATE,
+                    new Rule(Rules::API_DATE),
+                ),
             ),
             new ParamRule(
                 self::PARAMETER_STATUS,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DEFAULT_MAX_LENGTH])
             ),
-            new ParamRule(
-                self::PARAMETER_COUNTRY_CODE,
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COUNTRY_MAX_LENGTH]),
-                new Rule(Rules::COUNTRY_CODE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_COUNTRY_CODE,
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COUNTRY_MAX_LENGTH]),
+                    new Rule(Rules::COUNTRY_CODE),
+                ),
             ),
-            new ParamRule(
-                self::PARAMETER_REVIEW_DATE,
-                new Rule(Rules::API_DATE),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_REVIEW_DATE,
+                    new Rule(Rules::API_DATE),
+                ),
             ),
-            new ParamRule(
-                self::PARAMETER_COMMENT,
-                new Rule(Rules::STRING_TYPE),
-                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH])
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_COMMENT,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH])
+                ),
+                true
             ),
 
         ];

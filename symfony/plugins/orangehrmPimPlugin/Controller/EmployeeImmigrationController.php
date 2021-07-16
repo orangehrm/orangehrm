@@ -29,6 +29,7 @@ use OrangeHRM\Framework\Services;
 class EmployeeImmigrationController extends BaseViewEmployeeController
 {
     use ServiceContainerTrait;
+
     public function preRender(Request $request): void
     {
         $empNumber = $request->get('empNumber');

@@ -28,10 +28,7 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-group
-              label="Document"
-              :classes="{wrapper: '--gender-grouped-field'}"
-            >
+            <oxd-input-group label="Document" :classes="immigrationTypeClasses">
               <oxd-input-field
                 type="radio"
                 v-model="immigration.type"
@@ -86,7 +83,7 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Issued by"
               v-model="immigration.countryCode"
               :options="countries"
@@ -144,7 +141,7 @@ const immigrationModel = {
   type: 1,
   status: '',
   reviewDate: '',
-  countryCode: '',
+  countryCode: null,
   comment: '',
 };
 
@@ -186,15 +183,29 @@ export default {
         reviewDate: [validDateFormat()],
         comment: [shouldNotExceedCharLength(250)],
       },
+      immigrationTypeClasses: {
+        wrapper: '--gender-grouped-field',
+        label: {
+          'oxd-input-field-required': true,
+        },
+      },
     };
   },
 
   methods: {
     onSave() {
+      console.log(this.countries);
       this.isLoading = true;
       this.http
         .update(this.data.id, {
-          ...this.immigration,
+          number: this.immigration.number,
+          issuedDate: this.immigration.issuedDate,
+          expiryDate: this.immigration.expiryDate,
+          type: this.immigration.type,
+          status: this.immigration.status,
+          reviewDate: this.immigration.reviewDate,
+          comment: this.immigration.comment,
+          countryCode: this.immigration.countryCode?.id,
         })
         .then(() => {
           return this.$toast.updateSuccess();
@@ -216,6 +227,9 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.immigration = {...immigrationModel, ...data};
+        this.immigration.countryCode = this.countries.find(
+          item => item.id === data.country?.code,
+        );
       })
       .finally(() => {
         this.isLoading = false;
