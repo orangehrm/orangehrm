@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <div class="orangehrm-custom-fields">
+  <div v-if="fields.length !== 0" class="orangehrm-custom-fields">
     <oxd-divider />
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">Custom Fields</oxd-text>
@@ -53,9 +53,12 @@ import {shouldNotExceedCharLength} from '@orangehrm/core/util/validation/rules';
 
 const formatExtraData = data => {
   return typeof data === 'string'
-    ? data.split(',').map((item, i) => {
-        return {id: i, label: item};
-      })
+    ? data
+        .split(',')
+        .map((item, i) => {
+          return {id: i, label: item};
+        })
+        .filter(item => item.label.trim() != '')
     : [];
 };
 
