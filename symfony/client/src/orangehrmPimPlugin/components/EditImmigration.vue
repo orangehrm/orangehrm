@@ -194,7 +194,6 @@ export default {
 
   methods: {
     onSave() {
-      console.log(this.countries);
       this.isLoading = true;
       this.http
         .update(this.data.id, {
