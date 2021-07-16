@@ -144,7 +144,7 @@ const immigrationModel = {
   type: 1,
   status: '',
   reviewDate: '',
-  countryCode: [],
+  countryCode: '',
   comment: '',
 };
 
@@ -195,7 +195,6 @@ export default {
       this.http
         .update(this.data.id, {
           ...this.immigration,
-          countryCode: this.immigration.countryCode.map(item => item.id)[0],
         })
         .then(() => {
           return this.$toast.updateSuccess();
@@ -217,9 +216,6 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.immigration = {...immigrationModel, ...data};
-        this.immigration.countryCode = this.countries.filter(
-          item => item.id === data.countryCode,
-        );
       })
       .finally(() => {
         this.isLoading = false;

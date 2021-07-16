@@ -78,9 +78,10 @@ const immigrationNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      type: item.type,
+      type: item.type == 1 ? 'Passport' : 'VISA',
       number: item.number,
-      countryCode: item.countryCode,
+      countryCode: item.country.code,
+      countryName: item.country.name,
       issuedDate: item.issuedDate,
       expiryDate: item.expiryDate,
     };
@@ -141,7 +142,7 @@ export default {
       headers: [
         {name: 'type', slot: 'title', title: 'Document', style: {flex: 1}},
         {name: 'number', title: 'Number', style: {flex: 1}},
-        {name: 'countryCode', title: 'Issued By', style: {flex: 1}},
+        {name: 'countryName', title: 'Issued By', style: {flex: 1}},
         {name: 'issuedDate', title: 'Issued Date', style: {flex: 1}},
         {name: 'expiryDate', title: 'Expiry Date', style: {flex: 1}},
         {

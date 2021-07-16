@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\EmployeeImmigrationRecord;
@@ -35,6 +36,11 @@ class EmployeeImmigrationRecordDecorator
     protected EmployeeImmigrationRecord $employeeImmigrationRecord;
 
     /**
+     * @var CountryService
+     */
+    protected CountryService $countryService;
+
+    /**
      * EmployeeImmigrationRecordDecorator constructor.
      * @param EmployeeImmigrationRecord $employeeImmigrationRecord
      */
@@ -49,6 +55,25 @@ class EmployeeImmigrationRecordDecorator
     protected function getEmployeeImmigrationRecord(): EmployeeImmigrationRecord
     {
         return $this->employeeImmigrationRecord;
+    }
+
+    /**
+     * @return CountryService
+     */
+    public function getCountryService(): CountryService
+    {
+        if (is_null($this->countryService)) {
+            $this->countryService = new CountryService();
+        }
+        return $this->countryService;
+    }
+
+    /**
+     * @param $countryService
+     */
+    public function setCountryService($countryService)
+    {
+        $this->countryService = $countryService;
     }
 
     /**
@@ -86,5 +111,13 @@ class EmployeeImmigrationRecordDecorator
     {
         $date = $this->getEmployeeImmigrationRecord()->getReviewDate();
         return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+    }
+
+    public function getCountryName()
+    {
+        $countryCode = $this->getEmployeeImmigrationRecord()->getCountryCode();
+        $countryService = new CountryService();
+        $country = $countryService->getCountryByCountryCode($countryCode);
+        return $country->getCountryName();
     }
 }

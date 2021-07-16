@@ -43,6 +43,7 @@ class EmployeeImmigrationModel implements Normalizable
                 'status',
                 ['getDecorator', 'getReviewDate'],
                 'countryCode',
+                ['getDecorator', 'getCountryName'],
                 'comment',
             ]
         );
@@ -55,7 +56,8 @@ class EmployeeImmigrationModel implements Normalizable
                 'type',
                 'status',
                 'reviewDate',
-                'countryCode',
+                ['country', 'code'],
+                ['country', 'name'],
                 'comment',
             ]
         );
