@@ -104,7 +104,10 @@ class EmployeeImmigrationRecordDecorator
         $countryCode = $this->getEmployeeImmigrationRecord()->getCountryCode();
         /** @var CountryService $countryService */
         $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
-        $country = $countryService->getCountryByCountryCode($countryCode);
-        return $country->getCountryName();
+        if (is_null(($countryCode)) ){
+            return null;
+        }
+            $country = $countryService->getCountryByCountryCode($countryCode);
+            return $country->getCountryName();
     }
 }

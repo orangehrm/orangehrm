@@ -41,7 +41,7 @@
               <oxd-input-field
                 type="radio"
                 v-model="immigration.type"
-                optionLabel="VISA"
+                optionLabel="Visa"
                 value="2"
               />
             </oxd-input-group>
@@ -132,6 +132,8 @@
 import {
   required,
   shouldNotExceedCharLength,
+  validDateFormat,
+  endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
 import {yearRange} from '@orangehrm/core/util/helper/year-range';
 
@@ -169,8 +171,15 @@ export default {
       yearArray: [...yearRange()],
       rules: {
         number: [required, shouldNotExceedCharLength(30)],
-        expiryDate: [],
+        expiryDate: [
+          validDateFormat(),
+          endDateShouldBeAfterStartDate(
+            () => this.immigration.issuedDate,
+            'Expiry date should be after issued date',
+          ),
+        ],
         status: [shouldNotExceedCharLength(30)],
+        reviewDate: [validDateFormat()],
         comment: [shouldNotExceedCharLength(250)],
       },
     };

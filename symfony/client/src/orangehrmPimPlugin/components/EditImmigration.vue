@@ -38,7 +38,7 @@
               <oxd-input-field
                 type="radio"
                 v-model="immigration.type"
-                optionLabel="VISA"
+                optionLabel="Visa"
                 value="2"
               />
             </oxd-input-group>

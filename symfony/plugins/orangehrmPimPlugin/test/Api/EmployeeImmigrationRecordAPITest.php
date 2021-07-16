@@ -20,11 +20,13 @@
 namespace OrangeHRM\Tests\Pim\Api;
 
 use DateTime;
+use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeImmigrationRecord;
 use OrangeHRM\Framework\Services;
@@ -52,7 +54,6 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $employeeImmigrationRecordDao = $this->getMockBuilder(EmployeeImmigrationRecordDao::class)
             ->onlyMethods(['getEmployeeImmigrationRecord'])
             ->getMock();
-
         $employee = new Employee();
         $employee->setEmpNumber($empNumber);
         $immigrationRecord = new EmployeeImmigrationRecord();
@@ -82,6 +83,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             [
                 Services::EMPLOYEE_SERVICE => $employeeImmigrationRecordService,
                 Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+                Services::COUNTRY_SERVICE => new CountryService(),
             ]
         );
 
@@ -110,7 +112,10 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
                 "type" => 2,
                 "status" => "some status1",
                 "reviewDate" => "2021-12-30",
-                "countryCode" => "LK",
+                "country" => [
+                    "code" => "LK",
+                    "name" => "Sri Lanka",
+                ],
                 "comment" => "test Comment1",
             ],
             $result->normalize()
@@ -294,6 +299,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             [
                 Services::EMPLOYEE_SERVICE => $employeeImmigrationRecordService,
                 Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+                Services::COUNTRY_SERVICE => new CountryService(),
             ]
         );
 
@@ -332,7 +338,10 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
                 "type" => 1,
                 "status" => "some status",
                 "reviewDate" => "2021-12-31",
-                "countryCode" => "LK",
+                "country" => [
+                    "code" => "LK",
+                    "name" => "Sri Lanka",
+                ],
                 "comment" => "test Comment",
             ],
             $result->normalize()
@@ -431,6 +440,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             [
                 Services::EMPLOYEE_SERVICE => $employeeImmigrationRecordService,
                 Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+                Services::COUNTRY_SERVICE => new CountryService(),
             ]
         );
 
@@ -470,7 +480,10 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
                 "type" => 1,
                 "status" => "some status",
                 "reviewDate" => "2021-12-31",
-                "countryCode" => "LK",
+                "country" => [
+                    "code" => "LK",
+                    "name" => "Sri Lanka",
+                ],
                 "comment" => "test Comment",
             ],
             $result->normalize()
@@ -499,10 +512,12 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $authUser->expects($this->once())
             ->method('getEmpNumber')
             ->willReturn(1);
+
         $this->createKernelWithMockServices(
             [
                 Services::USER_ROLE_MANAGER => $userRoleManager,
-                Services::AUTH_USER => $authUser
+                Services::AUTH_USER => $authUser,
+                Services::COUNTRY_SERVICE => new CountryService(),
             ]
         );
         $api = new EmployeeImmigrationRecordAPI($this->getRequest());
@@ -545,19 +560,19 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $immigrationRecord1->setStatus('some status1');
         $immigrationRecord1->setComment('test Comment1');
         $immigrationRecord1->setReviewDate(new DateTime('2021-12-30'));
-        $immigrationRecord1->setCountryCode('LK');
+        $immigrationRecord1->setCountryCode( 'LK');
 
         $immigrationRecord2 = new EmployeeImmigrationRecord();
         $immigrationRecord2->setEmployee($employee);
         $immigrationRecord2->setRecordId(2);
         $immigrationRecord2->setNumber('RTF33323412');
-        $immigrationRecord2->setType(1);
-        $immigrationRecord2->setIssuedDate(new DateTime('2020-12-12'));
-        $immigrationRecord2->setExpiryDate(new DateTime('2021-12-12'));
-        $immigrationRecord2->setStatus('some status2');
-        $immigrationRecord2->setComment('test Comment2');
-        $immigrationRecord2->setReviewDate(new DateTime('2021-12-31'));
-        $immigrationRecord2->setCountryCode('LK');
+        $immigrationRecord1->setType(1);
+        $immigrationRecord1->setIssuedDate(new DateTime('2020-12-11'));
+        $immigrationRecord1->setExpiryDate(new DateTime('2021-12-11'));
+        $immigrationRecord1->setStatus('some status1');
+        $immigrationRecord1->setComment('test Comment1');
+        $immigrationRecord1->setReviewDate(new DateTime('2021-12-30'));
+        $immigrationRecord1->setCountryCode('LK');
 
         $employeeImmigrationRecordDao->expects($this->exactly(1))
             ->method('getEmployeeImmigrationRecordList')
@@ -590,7 +605,13 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
                 ],
                 RequestParams::PARAM_TYPE_BODY => [
+                    EmployeeImmigrationRecordAPI::PARAMETER_ISSUE_DATE => "2020-12-11",
+                    EmployeeImmigrationRecordAPI::PARAMETER_EXPIRY_DATE => "2021-12-11",
+                    EmployeeImmigrationRecordAPI::PARAMETER_TYPE => 1,
+                    EmployeeImmigrationRecordAPI::PARAMETER_STATUS => 'some status1',
+                    EmployeeImmigrationRecordAPI::PARAMETER_REVIEW_DATE => '2021-12-30',
                     EmployeeImmigrationRecordAPI::PARAMETER_COUNTRY_CODE => 'LK',
+                    EmployeeImmigrationRecordAPI::PARAMETER_COMMENT => 'test Comment1',
                 ]
 
             ]
@@ -611,19 +632,25 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
                     "type" => 1,
                     "status" => "some status1",
                     "reviewDate" => "2021-12-30",
-                    "countryCode" => "LK",
+                    "country" => [
+                        "code" => "LK",
+                        "name" => "Sri Lanka",
+                    ],
                     "comment" => "test Comment1",
                 ],
                 [
                     'id' => '2',
                     "number" => "RTF33323412",
-                    "issuedDate" => "2020-12-12",
-                    "expiryDate" => "2021-12-12",
-                    "type" => 2,
-                    "status" => "some status2",
-                    "reviewDate" => "2021-12-31",
-                    "countryCode" => "LK",
-                    "comment" => "test Comment2",
+                    "issuedDate" => "2020-12-11",
+                    "expiryDate" => "2021-12-11",
+                    "type" => 1,
+                    "status" => "some status1",
+                    "reviewDate" => "2021-12-30",
+                    "country" => [
+                        "code" => "LK",
+                        "name" => "Sri Lanka",
+                    ],
+                    "comment" => "test Comment1",
                 ]
             ],
             $result->normalize()

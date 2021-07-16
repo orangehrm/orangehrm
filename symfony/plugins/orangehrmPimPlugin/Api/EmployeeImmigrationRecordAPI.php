@@ -203,7 +203,6 @@ class EmployeeImmigrationRecordAPI extends Endpoint implements CrudEndpoint
                 ),
                 true
             ),
-
         ];
     }
 
