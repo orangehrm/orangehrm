@@ -41,8 +41,21 @@ class EmployeeContactDetailsController extends BaseViewEmployeeController
             $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
             $component->addProp(new Prop('countries', Prop::TYPE_ARRAY, $countryService->getCountryArray()));
             $this->setComponent($component);
+
+            $this->setPermissionsForEmployee(
+                ['contact_details', 'contact_attachment', 'contact_custom_fields'],
+                $empNumber
+            );
         } else {
             $this->handleBadRequest();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['contact_details'];
     }
 }

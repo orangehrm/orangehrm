@@ -17,6 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
@@ -66,6 +67,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(Services::TEXT_HELPER_SERVICE, TextHelperService::class);
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)
             ->setFactory([UserRoleManagerFactory::class, 'getUserRoleManager']);
+        $this->getContainer()->register(Services::USER_ROLE_MANAGER_HELPER, UserRoleManagerHelper::class);
 
         $this->registerCoreSubscribers();
     }

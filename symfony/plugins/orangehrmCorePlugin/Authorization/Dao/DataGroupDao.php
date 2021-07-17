@@ -168,6 +168,13 @@ class DataGroupDao extends BaseDao
                     ->setParameter('canUpdate', true)
                     ->setParameter('canDelete', true);
             }
+            $q->andWhere('p.self = :self')
+                ->setParameter('self', $dataGroupPermissionFilterParams->isSelfPermissions());
+
+            if (!empty($dataGroupPermissionFilterParams->getDataGroups())) {
+                $q->andWhere($q->expr()->in('dg.name', ':dataGroups'))
+                    ->setParameter('dataGroups', $dataGroupPermissionFilterParams->getDataGroups());
+            }
 
             return $q->getQuery()->execute();
         } catch (Exception $e) {

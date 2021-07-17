@@ -40,6 +40,10 @@ use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
+/**
+ * @group Core
+ * @group Manager
+ */
 class BasicUserRoleManagerTest extends KernelTestCase
 {
     /**
@@ -1079,11 +1083,11 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $testManager->setUser($user);
 
         // Test that supervisor role is returned for Employee who is a subordinate
-        $roles = $testManager->filterUserRolesPublic($userRoles, $rolesToExclude, $rolesToInclude, ['Employee' => 3]);
+        $roles = $testManager->filterUserRolesPublic($userRoles, $rolesToExclude, $rolesToInclude, [Employee::class => 3]);
         $this->assertEquals($userRoles, $roles);
 
         // Test that supervisor role is not returned for Employee who is not a subordinate
-        $roles = $testManager->filterUserRolesPublic($userRoles, $rolesToExclude, $rolesToInclude, ['Employee' => 13]);
+        $roles = $testManager->filterUserRolesPublic($userRoles, $rolesToExclude, $rolesToInclude, [Employee::class => 13]);
         $this->assertEquals([$userRoles[1], $userRoles[2]], $roles);
     }
 

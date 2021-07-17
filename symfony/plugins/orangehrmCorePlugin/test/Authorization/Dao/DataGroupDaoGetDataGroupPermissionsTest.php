@@ -76,18 +76,12 @@ class DataGroupDaoGetDataGroupPermissionsTest extends TestCase
         $dataGroupPermissionFilterParams->setUserRoles([$essUserRole]);
         $permissions = $this->dao->getDataGroupPermissions($dataGroupPermissionFilterParams);
 
-        $this->assertCount(2, $permissions);
+        $this->assertCount(1, $permissions);
         $this->assertTrue($permissions[0]->canRead());
         $this->assertFalse($permissions[0]->canCreate());
         $this->assertFalse($permissions[0]->canUpdate());
         $this->assertFalse($permissions[0]->canDelete());
         $this->assertFalse($permissions[0]->isSelf());
-
-        $this->assertFalse($permissions[1]->canRead());
-        $this->assertFalse($permissions[1]->canCreate());
-        $this->assertTrue($permissions[1]->canUpdate());
-        $this->assertFalse($permissions[1]->canDelete());
-        $this->assertTrue($permissions[1]->isSelf());
     }
 
     public function testGetDataGroupPermissionsWithoutApi(): void

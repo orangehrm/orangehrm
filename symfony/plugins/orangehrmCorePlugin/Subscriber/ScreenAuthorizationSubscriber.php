@@ -21,6 +21,7 @@ namespace OrangeHRM\Core\Subscriber;
 
 use OrangeHRM\Authentication\Controller\ForbiddenController;
 use OrangeHRM\Authentication\Exception\ForbiddenException;
+use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Controller\AbstractViewController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
@@ -76,11 +77,17 @@ class ScreenAuthorizationSubscriber extends AbstractEventSubscriber
             return;
         }
 
-        if ($this->getControllerInstance($event) instanceof AbstractViewController) {
+        if (($controller = $this->getControllerInstance($event)) instanceof AbstractViewController) {
             $permissions = $this->getUserRoleManager()->getScreenPermissions($module, $screen);
 
             if (!$permissions instanceof ResourcePermission || !$permissions->canRead()) {
                 throw new ForbiddenException();
+            }
+
+            if ($controller instanceof CapableViewController) {
+                if (!$controller->isCapable($event->getRequest())) {
+                    throw new ForbiddenException();
+                }
             }
         }
     }

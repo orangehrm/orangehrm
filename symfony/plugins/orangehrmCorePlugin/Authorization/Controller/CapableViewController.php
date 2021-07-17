@@ -17,37 +17,15 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Controller;
+namespace OrangeHRM\Core\Authorization\Controller;
 
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 
-class EmployeeEmergencyContactsController extends BaseViewEmployeeController
+interface CapableViewController
 {
-    public function preRender(Request $request): void
-    {
-        $empNumber = $request->get('empNumber');
-        if ($empNumber) {
-            $component = new Component('employee-emergency-contacts');
-            $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
-
-            $this->setComponent($component);
-
-            $this->setPermissionsForEmployee(
-                ['emergency_contacts', 'emergency_attachment', 'emergency_custom_fields'],
-                $empNumber
-            );
-        } else {
-            $this->handleBadRequest();
-        }
-    }
-
     /**
-     * @inheritDoc
+     * @param Request $request
+     * @return bool
      */
-    protected function getDataGroupsForCapabilityCheck(): array
-    {
-        return ['emergency_contacts'];
-    }
+    public function isCapable(Request $request): bool;
 }

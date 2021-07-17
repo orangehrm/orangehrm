@@ -84,15 +84,14 @@ class AddDataGroupCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $thiz = $this;
         $dataGroup = $this->io->ask(
             'Enter data group name (e.g. <fg=yellow>job_titles, apiv2_job_titles</>)',
             null,
-            function (string $value = null) use ($thiz) {
+            function (string $value = null) {
                 if (null === $value || '' === $value) {
                     throw new InvalidArgumentException('This value cannot be blank.');
                 }
-                $dataGroup = $thiz->getRepository(DataGroup::class)->findOneBy(['name' => $value]);
+                $dataGroup = $this->getRepository(DataGroup::class)->findOneBy(['name' => $value]);
                 if ($dataGroup) {
                     throw new InvalidArgumentException("`${value}` already in use.");
                 }

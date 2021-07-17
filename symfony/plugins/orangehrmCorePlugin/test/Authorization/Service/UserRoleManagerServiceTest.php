@@ -394,4 +394,14 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
     ): DataGroupPermissionCollection {
         return new DataGroupPermissionCollection();
     }
+
+    public function getDataGroupPermissions(
+        $dataGroupName,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        bool $selfPermission = false,
+        array $entities = []
+    ): ResourcePermission {
+        return new ResourcePermission(false, false, false, false);
+    }
 }
