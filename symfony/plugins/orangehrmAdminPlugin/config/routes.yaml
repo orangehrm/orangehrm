@@ -357,3 +357,32 @@ edit_nationality:
   path: /admin/saveNationality/{id}
   controller: OrangeHRM\Admin\Controller\SaveNationalityController::handle
   methods: [ GET ]
+
+view_pay_grades:
+  path: /admin/viewPayGrades
+  controller: OrangeHRM\Admin\Controller\PayGradeController::handle
+  methods: [ GET ]
+
+add_pay_grade:
+  path: /admin/addPayGrade
+  controller: OrangeHRM\Admin\Controller\SavePayGradeController::handle
+  methods: [ GET ]
+
+edit_pay_grade:
+  path: /admin/editPayGrade/{id}
+  controller: OrangeHRM\Admin\Controller\SavePayGradeController::handle
+  methods: [ GET ]
+
+apiv2_admin_pay_grades:
+  path: /api/v2/admin/pay-grades
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAPI
+
+apiv2_admin_pay_grade:
+  path: /api/v2/admin/pay-grades/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAPI
