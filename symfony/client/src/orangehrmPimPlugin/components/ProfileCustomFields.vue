@@ -34,14 +34,17 @@
                 v-model="customFieldsModel[field.model]"
                 :options="field.extraData"
                 :rules="rules.default"
+                :disabled="!$can.update(`${screen}_custom_fields`)"
               />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-divider />
-        <oxd-form-actions>
-          <submit-button />
-        </oxd-form-actions>
+        <template v-if="$can.update(`${screen}_custom_fields`)">
+          <oxd-divider />
+          <oxd-form-actions>
+            <submit-button />
+          </oxd-form-actions>
+        </template>
       </oxd-form>
     </div>
   </div>
