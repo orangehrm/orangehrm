@@ -67,7 +67,12 @@ class EmployeePersonalDetailController extends BaseViewEmployeeController
             $this->setComponent($component);
 
             $this->setPermissionsForEmployee(
-                ['personal_information', 'personal_attachment', 'personal_custom_fields'],
+                [
+                    'personal_information',
+                    'personal_attachment',
+                    'personal_custom_fields',
+                    'personal_sensitive_information'
+                ],
                 $empNumber
             );
         } else {

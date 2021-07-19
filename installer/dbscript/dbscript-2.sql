@@ -3586,16 +3586,23 @@ SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS' LIMIT 
 SET @supervisor_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Supervisor' LIMIT 1);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
-VALUES ('apiv2_core_data_groups', 'API-v2 Core - Data Groups', 1, 0, 0, 0);
+VALUES ('personal_sensitive_information', 'PIM - PIM - Personal Details - Sensitive', 1, 0, 1, 0),
+       ('apiv2_core_data_groups', 'API-v2 Core - Data Groups', 1, 0, 0, 0);
 
 SET @core_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'core' LIMIT 1);
+SET @personal_sensitive_information_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'personal_sensitive_information' LIMIT 1);
 SET @apiv2_core_data_groups_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_core_data_groups' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Core\\Api\\Rest\\DataGroupAPI', @core_module_id, @apiv2_core_data_groups_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
-VALUES (1, 0, 0, 0, 0, @apiv2_core_data_groups_data_group_id, @admin_role_id),
+VALUES (1, 0, 1, 0, 0, @personal_sensitive_information_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 1, @personal_sensitive_information_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @personal_sensitive_information_data_group_id, @ess_role_id),
+       (1, 0, 1, 0, 0, @personal_sensitive_information_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 1, @personal_sensitive_information_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 0, @apiv2_core_data_groups_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_core_data_groups_data_group_id, @ess_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
