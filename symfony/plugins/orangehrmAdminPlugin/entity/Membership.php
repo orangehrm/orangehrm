@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,6 +46,22 @@ class Membership
      * @ORM\Column(name="name", type="string", length=100)
      */
     private string $name;
+
+    /**
+     * @var Collection
+     *
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeMembership", mappedBy="membership")
+     * @ORM\JoinColumn(name="id", referencedColumnName="membshipCode")
+     */
+    private $employeeMembership;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->employeeMembership = new ArrayCollection();
+    }
 
     /**
      * @return int
