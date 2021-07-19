@@ -1,10 +1,6 @@
-<<<<<<< e0e330c4cc79b7dc0e369215f90e5aad5e705f8a
-import user from '../../../fixtures/admin-user.json'
-=======
 import user from '../../../fixtures/admin.json'
 import charLength from '../../../fixtures/charLength.json'
 import promisify from 'cypress-promise'
->>>>>>> OHRM5X-271 : Skills screen test scripts
 
 //check skills page
 describe('Skills page', function () {
