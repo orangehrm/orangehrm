@@ -22,11 +22,15 @@ namespace OrangeHRM\Tests\Core\Authorization\Manager;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Dao\HomePageDao;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
 use OrangeHRM\Core\HomePage\HomePageEnablerInterface;
 use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Entity\ApiPermission;
+use OrangeHRM\Entity\DataGroup;
+use OrangeHRM\Entity\DataGroupPermission;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\HomePage;
 use OrangeHRM\Entity\Location;
@@ -1083,11 +1087,21 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $testManager->setUser($user);
 
         // Test that supervisor role is returned for Employee who is a subordinate
-        $roles = $testManager->filterUserRolesPublic($userRoles, $rolesToExclude, $rolesToInclude, [Employee::class => 3]);
+        $roles = $testManager->filterUserRolesPublic(
+            $userRoles,
+            $rolesToExclude,
+            $rolesToInclude,
+            [Employee::class => 3]
+        );
         $this->assertEquals($userRoles, $roles);
 
         // Test that supervisor role is not returned for Employee who is not a subordinate
-        $roles = $testManager->filterUserRolesPublic($userRoles, $rolesToExclude, $rolesToInclude, [Employee::class => 13]);
+        $roles = $testManager->filterUserRolesPublic(
+            $userRoles,
+            $rolesToExclude,
+            $rolesToInclude,
+            [Employee::class => 13]
+        );
         $this->assertEquals([$userRoles[1], $userRoles[2]], $roles);
     }
 
@@ -1472,6 +1486,244 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->assertTrue(is_array($states));
 
         $this->assertEquals(0, count($states));
+    }
+
+    public function testGetDataGroupPermissionCollectionForEss(): void
+    {
+        $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
+
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::USER_SERVICE => new UserService()
+            ]
+        );
+        $ess = $users[1];
+        $this->manager->setUser($ess);
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $permissionCollection = $this->manager->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                "personal_information" => [
+                    "canRead" => true,
+                    "canCreate" => false,
+                    "canUpdate" => false,
+                    "canDelete" => false,
+                ],
+                "emergency_contacts" => [
+                    "canRead" => true,
+                    "canCreate" => false,
+                    "canUpdate" => false,
+                    "canDelete" => false,
+                ],
+            ],
+            $permissionCollection->toArray()
+        );
+    }
+
+    public function testGetDataGroupPermissionCollectionForAdmin(): void
+    {
+        $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
+
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::USER_SERVICE => new UserService()
+            ]
+        );
+        $admin = $users[0];
+        $this->manager->setUser($admin);
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $permissionCollection = $this->manager->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                "personal_information" => [
+                    "canRead" => true,
+                    "canCreate" => true,
+                    "canUpdate" => false,
+                    "canDelete" => false,
+                ],
+            ],
+            $permissionCollection->toArray()
+        );
+    }
+
+    public function testGetDataGroupPermissionCollectionSelf(): void
+    {
+        $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
+
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::USER_SERVICE => new UserService()
+            ]
+        );
+        $essUser = $users[0];
+        $this->manager->setUser($essUser);
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setSelfPermissions(true);
+        $permissionCollection = $this->manager->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                "contact_details" => [
+                    "canRead" => false,
+                    "canCreate" => false,
+                    "canUpdate" => true,
+                    "canDelete" => false,
+                ],
+            ],
+            $permissionCollection->toArray()
+        );
+    }
+
+    public function testGetDataGroupPermissionCollectionForEssExcludeSupervisor(): void
+    {
+        $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
+
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::USER_SERVICE => new UserService()
+            ]
+        );
+        $ess = $users[1];
+        $this->manager->setUser($ess);
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setRolesToExclude(['Supervisor']);
+        $permissionCollection = $this->manager->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                "personal_information" => [
+                    "canRead" => true,
+                    "canCreate" => false,
+                    "canUpdate" => false,
+                    "canDelete" => false,
+                ],
+            ],
+            $permissionCollection->toArray()
+        );
+    }
+
+    public function testGetDataGroupPermissionCollectionForEssIncludeSupervisor(): void
+    {
+        $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
+
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::USER_SERVICE => new UserService()
+            ]
+        );
+        $ess = $users[1];
+        $this->manager->setUser($ess);
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setRolesToInclude(['Supervisor']);
+        $permissionCollection = $this->manager->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                "emergency_contacts" => [
+                    "canRead" => true,
+                    "canCreate" => false,
+                    "canUpdate" => false,
+                    "canDelete" => false,
+                ]
+            ],
+            $permissionCollection->toArray()
+        );
+    }
+
+    public function testGetDataGroupPermissionCollectionFilterDataGroups(): void
+    {
+        $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
+
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::USER_SERVICE => new UserService()
+            ]
+        );
+        $ess = $users[1];
+        $this->manager->setUser($ess);
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setDataGroups(['personal_information']);
+        $permissionCollection = $this->manager->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                "personal_information" => [
+                    "canRead" => true,
+                    "canCreate" => false,
+                    "canUpdate" => false,
+                    "canDelete" => false,
+                ],
+            ],
+            $permissionCollection->toArray()
+        );
+    }
+
+    public function testGetDataGroupPermissionCollectionWithEntities(): void
+    {
+        $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
+
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::USER_SERVICE => new UserService(),
+                Services::CONFIG_SERVICE => new ConfigService(),
+            ]
+        );
+        $ess = $users[1];
+        $this->manager->setUser($ess);
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setEntities([Employee::class => 3]);
+        $permissionCollection = $this->manager->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                "emergency_contacts" => [
+                    "canRead" => true,
+                    "canCreate" => false,
+                    "canUpdate" => false,
+                    "canDelete" => false,
+                ],
+            ],
+            $permissionCollection->toArray()
+        );
+    }
+
+    public function testGetDataGroupPermissionCollectionWithEntitiesSelf(): void
+    {
+        $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
+
+        $this->createKernelWithMockServices(
+            [
+                Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::USER_SERVICE => new UserService(),
+                Services::CONFIG_SERVICE => new ConfigService(),
+            ]
+        );
+        $ess = $users[1];
+        $this->manager->setUser($ess);
+
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setEntities([Employee::class => 2]);
+        $permissionCollection = $this->manager->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+        $this->assertEquals(
+            [
+                "personal_information" => [
+                    "canRead" => true,
+                    "canCreate" => false,
+                    "canUpdate" => false,
+                    "canDelete" => false,
+                ],
+            ],
+            $permissionCollection->toArray()
+        );
     }
 }
 

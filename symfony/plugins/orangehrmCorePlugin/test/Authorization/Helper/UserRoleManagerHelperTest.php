@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Core\Authorization\Helper;
 
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
@@ -161,5 +162,48 @@ class UserRoleManagerHelperTest extends KernelTestCase
         $this->assertFalse($permission->canCreate());
         $this->assertFalse($permission->canUpdate());
         $this->assertFalse($permission->canDelete());
+    }
+
+    public function testGetDataGroupPermissionCollectionForEmployee(): void
+    {
+        $resourcePermission = new ResourcePermission(true, false, false, false);
+        $collection = new DataGroupPermissionCollection(['personal_information' => $resourcePermission]);
+        $employee = new Employee();
+        $employee->setEmpNumber(2);
+        $userRole = new UserRole();
+        $userRole->setId(1);
+        $userRole->setName('Admin');
+        $user = new User();
+        $user->setId(1);
+        $user->setUserRole($userRole);
+        $user->setEmployee($employee);
+
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->onlyMethods(['getDataGroupPermissionCollection', 'getUser'])
+            ->getMock();
+        $userRoleManager->expects($this->once())
+            ->method('getDataGroupPermissionCollection')
+            ->willReturn($collection);
+        $userRoleManager->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
+
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $userRoleManagerHelper = new UserRoleManagerHelper();
+        $permissionCollection = $userRoleManagerHelper->getDataGroupPermissionCollectionForEmployee(
+            ['personal_information'],
+            1
+        );
+        $this->assertEquals(
+            [
+                'personal_information' => [
+                    'canRead' => true,
+                    'canCreate' => false,
+                    'canUpdate' => false,
+                    'canDelete' => false,
+                ]
+            ],
+            $permissionCollection->toArray()
+        );
     }
 }

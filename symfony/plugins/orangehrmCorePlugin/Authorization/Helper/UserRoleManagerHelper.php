@@ -36,13 +36,11 @@ class UserRoleManagerHelper
      */
     public function getDataGroupPermissionsForEmployee($dataGroupName, ?int $empNumber = null): ResourcePermission
     {
-        $loggedInEmpNumber = $this->getUserRoleManager()->getUser()->getEmpNumber();
-        $self = ($loggedInEmpNumber === $empNumber) && null !== $empNumber;
         return $this->getUserRoleManager()->getDataGroupPermissions(
             $dataGroupName,
             [],
             [],
-            $self,
+            $this->isSelf($empNumber),
             is_null($empNumber) ? [] : [Employee::class => $empNumber]
         );
     }
@@ -56,13 +54,20 @@ class UserRoleManagerHelper
         array $dataGroups,
         ?int $empNumber = null
     ): DataGroupPermissionCollection {
-        $loggedInEmpNumber = $this->getUserRoleManager()->getUser()->getEmpNumber();
-        $self = ($loggedInEmpNumber === $empNumber) && null !== $empNumber;
-
         $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
         $dataGroupPermissionFilterParams->setDataGroups($dataGroups);
         $dataGroupPermissionFilterParams->setEntities(is_null($empNumber) ? [] : [Employee::class => $empNumber]);
-        $dataGroupPermissionFilterParams->setSelfPermissions($self);
+        $dataGroupPermissionFilterParams->setSelfPermissions($this->isSelf($empNumber));
         return $this->getUserRoleManager()->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+    }
+
+    /**
+     * @param int|null $empNumber
+     * @return bool
+     */
+    protected function isSelf(?int $empNumber = null): bool
+    {
+        $loggedInEmpNumber = $this->getUserRoleManager()->getUser()->getEmpNumber();
+        return ($loggedInEmpNumber === $empNumber) && null !== $empNumber;
     }
 }
