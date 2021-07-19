@@ -78,7 +78,6 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $employeeImmigrationRecordService->expects($this->exactly(1))
             ->method('getEmployeeImmigrationRecordDao')
             ->willReturn($employeeImmigrationRecordDao);
-
         $country = new Country();
         $country->setCountryCode('LK');
         $country->setCountryName('Sri Lanka');
@@ -89,7 +88,6 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             ->method('getCountryByCountryCode')
             ->with('LK')
             ->willReturn($country);
-
         $this->createKernelWithMockServices(
             [
                 Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
@@ -227,9 +225,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
 
         $result = $api->delete();
         $this->assertEquals(
-            [
-                1
-            ],
+            [1],
             $result->normalize()
         );
         $this->assertEquals(
@@ -586,7 +582,6 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
-                    //CommonParams::PARAMETER_ID => 1,
                     EmployeeImmigrationRecordAPI::PARAMETER_NUMBER => "RTF33323415",
                     EmployeeImmigrationRecordAPI::PARAMETER_ISSUE_DATE => "2020-12-13",
                     EmployeeImmigrationRecordAPI::PARAMETER_EXPIRY_DATE => "2021-12-13",
@@ -605,7 +600,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
     {
         $empNumber = 1;
         $employeeImmigrationRecordDao = $this->getMockBuilder(EmployeeImmigrationRecordDao::class)
-            ->onlyMethods(['getEmployeeImmigrationRecordList', 'getSearchEmployeeImmigrationRecordsCount'])
+            ->onlyMethods(['searchEmployeeImmigrationRecords', 'getSearchEmployeeImmigrationRecordsCount'])
             ->getMock();
 
         $employee = new Employee();
@@ -635,7 +630,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $immigrationRecord2->setCountryCode('UK');
 
         $employeeImmigrationRecordDao->expects($this->exactly(1))
-            ->method('getEmployeeImmigrationRecordList')
+            ->method('searchEmployeeImmigrationRecords')
             ->willReturn([$immigrationRecord1, $immigrationRecord2]);
 
         $employeeImmigrationRecordDao->expects($this->exactly(1))
@@ -656,7 +651,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $countryService = $this->getMockBuilder(CountryService::class)
             ->onlyMethods(['getCountryByCountryCode'])
             ->getMock();
-        $countryService->expects($this->once())
+        $countryService->expects($this->exactly(2))
             ->method('getCountryByCountryCode')
             ->with('UK')
             ->willReturn($country);
