@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Entity\Decorator;
 
+use Exception;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
@@ -97,17 +98,17 @@ class EmployeeImmigrationRecordDecorator
     /**
      * @return string|null
      * @throws DaoException
-     * @throws \Exception
+     * @throws Exception
      */
     public function getCountryName(): ?string
     {
         $countryCode = $this->getEmployeeImmigrationRecord()->getCountryCode();
         /** @var CountryService $countryService */
         $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
-        if (is_null(($countryCode)) ){
+        if (is_null($countryCode)) {
             return null;
         }
-            $country = $countryService->getCountryByCountryCode($countryCode);
-            return $country->getCountryName();
+        $country = $countryService->getCountryByCountryCode($countryCode);
+        return $country->getCountryName();
     }
 }

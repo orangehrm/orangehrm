@@ -66,7 +66,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $immigrationRecord->setStatus('some status1');
         $immigrationRecord->setComment('test Comment1');
         $immigrationRecord->setReviewDate(new DateTime('2021-12-30'));
-        $immigrationRecord->setCountryCode('LK');
+        $immigrationRecord->setCountryCode("LK");
 
         $employeeImmigrationRecordDao->expects($this->exactly(1))
             ->method('getEmployeeImmigrationRecord')
@@ -79,11 +79,21 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             ->method('getEmployeeImmigrationRecordDao')
             ->willReturn($employeeImmigrationRecordDao);
 
+        $country = new Country();
+        $country->setCountryCode('LK');
+        $country->setCountryName('Sri Lanka');
+        $countryService = $this->getMockBuilder(CountryService::class)
+            ->onlyMethods(['getCountryByCountryCode'])
+            ->getMock();
+        $countryService->expects($this->once())
+            ->method('getCountryByCountryCode')
+            ->with('LK')
+            ->willReturn($country);
+
         $this->createKernelWithMockServices(
             [
-                Services::EMPLOYEE_SERVICE => $employeeImmigrationRecordService,
                 Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
-                Services::COUNTRY_SERVICE => new CountryService(),
+                Services::COUNTRY_SERVICE => $countryService,
             ]
         );
 
@@ -138,10 +148,19 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $authUser->expects($this->once())
             ->method('getEmpNumber')
             ->willReturn(1);
+
+        $country = new Country();
+        $country->setCountryCode('LK');
+        $country->setCountryName('Sri Lanka');
+        $countryService = $this->getMockBuilder(CountryService::class)
+            ->onlyMethods(['getCountryByCountryCode'])
+            ->getMock();
+
         $this->createKernelWithMockServices(
             [
                 Services::USER_ROLE_MANAGER => $userRoleManager,
-                Services::AUTH_USER => $authUser
+                Services::AUTH_USER => $authUser,
+                Services::COUNTRY_SERVICE => $countryService,
             ]
         );
         $api = new EmployeeImmigrationRecordAPI($this->getRequest());
@@ -294,12 +313,21 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $employeeImmigrationRecordService->expects($this->exactly(2))
             ->method('getEmployeeImmigrationRecordDao')
             ->willReturn($employeeImmigrationRecordDao);
+        $country = new Country();
+        $country->setCountryCode('LK');
+        $country->setCountryName('Sri Lanka');
+        $countryService = $this->getMockBuilder(CountryService::class)
+            ->onlyMethods(['getCountryByCountryCode'])
+            ->getMock();
+        $countryService->expects($this->once())
+            ->method('getCountryByCountryCode')
+            ->with('LK')
+            ->willReturn($country);
 
         $this->createKernelWithMockServices(
             [
-                Services::EMPLOYEE_SERVICE => $employeeImmigrationRecordService,
                 Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
-                Services::COUNTRY_SERVICE => new CountryService(),
+                Services::COUNTRY_SERVICE => $countryService,
             ]
         );
 
@@ -370,10 +398,22 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $authUser->expects($this->once())
             ->method('getEmpNumber')
             ->willReturn(1);
+        $country = new Country();
+        $country->setCountryCode('LK');
+        $country->setCountryName('Sri Lanka');
+        $countryService = $this->getMockBuilder(CountryService::class)
+            ->onlyMethods(['getCountryByCountryCode'])
+            ->getMock();
+        $countryService->expects($this->once())
+            ->method('getCountryByCountryCode')
+            ->with('LK')
+            ->willReturn($country);
+
         $this->createKernelWithMockServices(
             [
                 Services::USER_ROLE_MANAGER => $userRoleManager,
-                Services::AUTH_USER => $authUser
+                Services::AUTH_USER => $authUser,
+                Services::COUNTRY_SERVICE => $countryService,
             ]
         );
         $api = new EmployeeImmigrationRecordAPI($this->getRequest());
@@ -436,14 +476,23 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             ->method('getEmployeeImmigrationRecordDao')
             ->willReturn($employeeImmigrationRecordDao);
 
+        $country = new Country();
+        $country->setCountryCode('LK');
+        $country->setCountryName('Sri Lanka');
+        $countryService = $this->getMockBuilder(CountryService::class)
+            ->onlyMethods(['getCountryByCountryCode'])
+            ->getMock();
+        $countryService->expects($this->once())
+            ->method('getCountryByCountryCode')
+            ->with('LK')
+            ->willReturn($country);
+
         $this->createKernelWithMockServices(
             [
-                Services::EMPLOYEE_SERVICE => $employeeImmigrationRecordService,
                 Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
-                Services::COUNTRY_SERVICE => new CountryService(),
+                Services::COUNTRY_SERVICE => $countryService,
             ]
         );
-
 
         /** @var MockObject&EmployeeImmigrationRecordAPI $api */
         $api = $this->getApiEndpointMockBuilder(
@@ -513,11 +562,22 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             ->method('getEmpNumber')
             ->willReturn(1);
 
+        $country = new Country();
+        $country->setCountryCode('LK');
+        $country->setCountryName('Sri Lanka');
+        $countryService = $this->getMockBuilder(CountryService::class)
+            ->onlyMethods(['getCountryByCountryCode'])
+            ->getMock();
+        $countryService->expects($this->once())
+            ->method('getCountryByCountryCode')
+            ->with('LK')
+            ->willReturn($country);
+
         $this->createKernelWithMockServices(
             [
                 Services::USER_ROLE_MANAGER => $userRoleManager,
                 Services::AUTH_USER => $authUser,
-                Services::COUNTRY_SERVICE => new CountryService(),
+                Services::COUNTRY_SERVICE => $countryService,
             ]
         );
         $api = new EmployeeImmigrationRecordAPI($this->getRequest());
@@ -526,7 +586,7 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
-                    CommonParams::PARAMETER_ID => 1,
+                    //CommonParams::PARAMETER_ID => 1,
                     EmployeeImmigrationRecordAPI::PARAMETER_NUMBER => "RTF33323415",
                     EmployeeImmigrationRecordAPI::PARAMETER_ISSUE_DATE => "2020-12-13",
                     EmployeeImmigrationRecordAPI::PARAMETER_EXPIRY_DATE => "2021-12-13",
@@ -553,26 +613,26 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
         $immigrationRecord1 = new EmployeeImmigrationRecord();
         $immigrationRecord1->setEmployee($employee);
         $immigrationRecord1->setRecordId(1);
-        $immigrationRecord1->setNumber('RTF33323411');
+        $immigrationRecord1->setNumber('HVN0003472');
         $immigrationRecord1->setType(1);
-        $immigrationRecord1->setIssuedDate(new DateTime('2020-12-11'));
-        $immigrationRecord1->setExpiryDate(new DateTime('2021-12-11'));
-        $immigrationRecord1->setStatus('some status1');
-        $immigrationRecord1->setComment('test Comment1');
-        $immigrationRecord1->setReviewDate(new DateTime('2021-12-30'));
-        $immigrationRecord1->setCountryCode( 'LK');
+        $immigrationRecord1->setIssuedDate(new DateTime('2010-12-12'));
+        $immigrationRecord1->setExpiryDate(new DateTime('2011-12-12'));
+        $immigrationRecord1->setStatus('some status');
+        $immigrationRecord1->setComment('test Comment');
+        $immigrationRecord1->setReviewDate(new DateTime('2011-12-30'));
+        $immigrationRecord1->setCountryCode('UK');
 
         $immigrationRecord2 = new EmployeeImmigrationRecord();
         $immigrationRecord2->setEmployee($employee);
         $immigrationRecord2->setRecordId(2);
         $immigrationRecord2->setNumber('RTF33323412');
-        $immigrationRecord1->setType(1);
-        $immigrationRecord1->setIssuedDate(new DateTime('2020-12-11'));
-        $immigrationRecord1->setExpiryDate(new DateTime('2021-12-11'));
-        $immigrationRecord1->setStatus('some status1');
-        $immigrationRecord1->setComment('test Comment1');
-        $immigrationRecord1->setReviewDate(new DateTime('2021-12-30'));
-        $immigrationRecord1->setCountryCode('LK');
+        $immigrationRecord2->setType(1);
+        $immigrationRecord2->setIssuedDate(new DateTime('2010-12-12'));
+        $immigrationRecord2->setExpiryDate(new DateTime('2011-12-12'));
+        $immigrationRecord2->setStatus('some status');
+        $immigrationRecord2->setComment('test Comment');
+        $immigrationRecord2->setReviewDate(new DateTime('2011-12-30'));
+        $immigrationRecord2->setCountryCode('UK');
 
         $employeeImmigrationRecordDao->expects($this->exactly(1))
             ->method('getEmployeeImmigrationRecordList')
@@ -590,10 +650,22 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             ->method('getEmployeeImmigrationRecordDao')
             ->willReturn($employeeImmigrationRecordDao);
 
+        $country = new Country();
+        $country->setCountryCode('UK');
+        $country->setCountryName('United Kingdom');
+        $countryService = $this->getMockBuilder(CountryService::class)
+            ->onlyMethods(['getCountryByCountryCode'])
+            ->getMock();
+        $countryService->expects($this->once())
+            ->method('getCountryByCountryCode')
+            ->with('UK')
+            ->willReturn($country);
+
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => $employeeImmigrationRecordService,
                 Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+                Services::COUNTRY_SERVICE => $countryService,
             ]
         );
 
@@ -605,15 +677,14 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
                 ],
                 RequestParams::PARAM_TYPE_BODY => [
-                    EmployeeImmigrationRecordAPI::PARAMETER_ISSUE_DATE => "2020-12-11",
-                    EmployeeImmigrationRecordAPI::PARAMETER_EXPIRY_DATE => "2021-12-11",
+                    EmployeeImmigrationRecordAPI::PARAMETER_ISSUE_DATE => "2010-12-12",
+                    EmployeeImmigrationRecordAPI::PARAMETER_EXPIRY_DATE => "2011-12-12",
                     EmployeeImmigrationRecordAPI::PARAMETER_TYPE => 1,
-                    EmployeeImmigrationRecordAPI::PARAMETER_STATUS => 'some status1',
-                    EmployeeImmigrationRecordAPI::PARAMETER_REVIEW_DATE => '2021-12-30',
-                    EmployeeImmigrationRecordAPI::PARAMETER_COUNTRY_CODE => 'LK',
-                    EmployeeImmigrationRecordAPI::PARAMETER_COMMENT => 'test Comment1',
+                    EmployeeImmigrationRecordAPI::PARAMETER_STATUS => 'some status',
+                    EmployeeImmigrationRecordAPI::PARAMETER_REVIEW_DATE => '2011-12-30',
+                    EmployeeImmigrationRecordAPI::PARAMETER_COUNTRY_CODE => 'UK',
+                    EmployeeImmigrationRecordAPI::PARAMETER_COMMENT => 'test Comment',
                 ]
-
             ]
         )->onlyMethods(['getEmployeeImmigrationRecordService'])
             ->getMock();
@@ -626,31 +697,31 @@ class EmployeeImmigrationRecordAPITest extends EndpointTestCase
             [
                 [
                     'id' => '1',
-                    "number" => "RTF33323411",
-                    "issuedDate" => "2020-12-11",
-                    "expiryDate" => "2021-12-11",
+                    "number" => "HVN0003472",
+                    "issuedDate" => "2010-12-12",
+                    "expiryDate" => "2011-12-12",
                     "type" => 1,
-                    "status" => "some status1",
-                    "reviewDate" => "2021-12-30",
+                    "status" => "some status",
+                    "reviewDate" => "2011-12-30",
                     "country" => [
-                        "code" => "LK",
-                        "name" => "Sri Lanka",
+                        "code" => "UK",
+                        "name" => "United Kingdom",
                     ],
-                    "comment" => "test Comment1",
+                    "comment" => "test Comment",
                 ],
                 [
                     'id' => '2',
                     "number" => "RTF33323412",
-                    "issuedDate" => "2020-12-11",
-                    "expiryDate" => "2021-12-11",
+                    "issuedDate" => "2010-12-12",
+                    "expiryDate" => "2011-12-12",
                     "type" => 1,
-                    "status" => "some status1",
-                    "reviewDate" => "2021-12-30",
+                    "status" => "some status",
+                    "reviewDate" => "2011-12-30",
                     "country" => [
-                        "code" => "LK",
-                        "name" => "Sri Lanka",
+                        "code" => "UK",
+                        "name" => "United Kingdom",
                     ],
-                    "comment" => "test Comment1",
+                    "comment" => "test Comment",
                 ]
             ],
             $result->normalize()
