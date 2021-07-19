@@ -93,7 +93,6 @@ describe('list count increment', function () {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewLicenses')
         const currentLicenseno = await getLicensecount()
-        cy.log(currentLicenseno)
         cy.get('.oxd-button').click()
         cy.get(':nth-child(2) > .oxd-input').type('CCNP')
         cy.get('.oxd-button--secondary').click()
@@ -161,7 +160,3 @@ describe('Verify header and field name', function (){
         cy.get('.oxd-label').should('include.text', 'Name')
     })
 })
-
-
-
-
