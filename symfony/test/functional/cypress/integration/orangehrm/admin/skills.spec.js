@@ -63,7 +63,6 @@ describe('list count increment', function () {
         cy.login(user.admin.userName, user.admin.password)
         cy.visit('/admin/viewSkills')
         const currentSkillno = await getSkillcount()
-        cy.log(currentSkillno)
         cy.get('.oxd-button').click()
         cy.get(':nth-child(2) > .oxd-input').type('Springboot')
         cy.get('.oxd-button--secondary').click()
