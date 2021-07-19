@@ -19,12 +19,9 @@
 
 namespace OrangeHRM\Pim\Controller;
 
-use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Dto\ReportingMethodSearchFilterParams;
 use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
@@ -56,7 +53,9 @@ class EmployeeReportToController extends BaseViewEmployeeController
         if ($empNumber) {
             $component = new Component('employee-report-to');
             $reportingMethodParamHolder = new ReportingMethodSearchFilterParams();
-            $reportingMethods = $this->getReportingMethodConfigurationService()->getReportingMethodArray($reportingMethodParamHolder);
+            $reportingMethods = $this->getReportingMethodConfigurationService()->getReportingMethodArray(
+                $reportingMethodParamHolder
+            );
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
             $component->addProp(new Prop('reporting-methods', Prop::TYPE_ARRAY, $reportingMethods));
             $this->setComponent($component);

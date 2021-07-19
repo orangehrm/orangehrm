@@ -119,7 +119,7 @@ export default {
     };
   },
   setup(props) {
-    const allowedEmployeesApi = `api/v2/pim/employees/${props.empNumber}/reportTo/allowed`;
+    const allowedEmployeesApi = `api/v2/pim/employees/${props.empNumber}/report-to/allowed`;
     return {
       allowedEmployeesApi,
     };

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -46,7 +45,6 @@ class EmployeeAllowedReportToEmployeeAPI extends Endpoint implements CollectionE
     use EmployeeServiceTrait;
 
     public const FILTER_NAME_OR_ID = 'nameOrId';
-    public const FILTER_EMP_NUMBER = 'empNumber';
 
     public const PARAM_RULE_FILTER_NAME_OR_ID_MAX_LENGTH = 100;
 
@@ -71,9 +69,9 @@ class EmployeeAllowedReportToEmployeeAPI extends Endpoint implements CollectionE
      */
     public function getAll(): EndpointResult
     {
-        $empNumber = $this->getRequestParams()->getIntOrNull(
+        $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
-            self::FILTER_EMP_NUMBER
+            CommonParams::PARAMETER_EMP_NUMBER
         );
         $employeeParamHolder = new EmployeeSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeParamHolder);

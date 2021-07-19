@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -175,6 +174,10 @@ class EmployeeSupervisorAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(EmployeeSupervisorModel::class, $supervisor);
     }
 
+    /**
+     * @param ReportTo $supervisor
+     * @return void
+     */
     public function setSupervisorParams(ReportTo $supervisor): void
     {
         $reportingMethodId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,

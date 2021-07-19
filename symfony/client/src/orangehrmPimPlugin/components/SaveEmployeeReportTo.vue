@@ -111,7 +111,7 @@ export default {
   },
 
   setup(props) {
-    const api = `api/v2/pim/employees/${props.empNumber}/reportTo/allowed`;
+    const api = `api/v2/pim/employees/${props.empNumber}/report-to/allowed`;
     return {
       api,
     };

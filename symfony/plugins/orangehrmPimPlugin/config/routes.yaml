@@ -371,7 +371,7 @@ apiv2_pim_reporto_subordinates:
     empNumber: '\d+'
 
 apiv2_pim_reporto_allowed_employees:
-  path: /api/v2/pim/employees/{empNumber}/reportTo/allowed
+  path: /api/v2/pim/employees/{empNumber}/report-to/allowed
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:

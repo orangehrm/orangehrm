@@ -1,23 +1,34 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
-
-namespace Api;
+namespace OrangeHRM\Tests\Pim\Api;;
 
 
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\Skill;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Api\EmployeeAllowedReportToEmployeeAPI;
-use OrangeHRM\Pim\Api\EmployeeAllowedSkillAPI;
-use OrangeHRM\Pim\Dao\EmployeeSkillDao;
 use OrangeHRM\Pim\Service\EmployeeReportingMethodService;
 use OrangeHRM\Pim\Service\EmployeeService;
-use OrangeHRM\Pim\Service\EmployeeSkillService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
 
@@ -28,7 +39,6 @@ use OrangeHRM\Tests\Util\MockObject;
  */
 class EmployeeAllowedReportToEmployeeAPITest extends EndpointTestCase
 {
-    public const FILTER_NAME_OR_ID = 'nameOrId';
 
 
     public function testDelete(): void
@@ -208,7 +218,7 @@ class EmployeeAllowedReportToEmployeeAPITest extends EndpointTestCase
 
         $this->assertTrue(
             $this->validate(
-                [CommonParams::PARAMETER_EMP_NUMBER => 1, self::FILTER_NAME_OR_ID => 'Andrea'],
+                [CommonParams::PARAMETER_EMP_NUMBER => 1, EmployeeAllowedReportToEmployeeAPI::FILTER_NAME_OR_ID => 'Andrea'],
                 $rules
             )
         );
