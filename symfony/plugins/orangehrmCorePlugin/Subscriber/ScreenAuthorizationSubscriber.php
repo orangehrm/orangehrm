@@ -25,6 +25,7 @@ use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Controller\AbstractViewController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
+use OrangeHRM\Core\Traits\ControllerTrait;
 use OrangeHRM\Core\Traits\ModuleScreenHelperTrait;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
@@ -45,6 +46,7 @@ class ScreenAuthorizationSubscriber extends AbstractEventSubscriber
     use UserRoleManagerTrait;
     use TextHelperTrait;
     use ModuleScreenHelperTrait;
+    use ControllerTrait;
 
     /**
      * @inheritDoc
@@ -112,31 +114,5 @@ class ScreenAuthorizationSubscriber extends AbstractEventSubscriber
     private function getControllerInstance(ControllerEvent $event)
     {
         return $event->getController()[0];
-    }
-
-    /**
-     * Forwards the request to another controller.
-     *
-     * @param string $controller The controller name (a string like OrangeHRM\Controller\PostController::handle)
-     */
-    protected function forward(string $controller, array $path = [], array $query = []): Response
-    {
-        $request = $this->getCurrentRequest();
-        $path['_controller'] = $controller;
-        $subRequest = $request->duplicate($query, null, $path);
-
-        /** @var Framework $kernel */
-        $kernel = $this->getContainer()->get(Services::HTTP_KERNEL);
-        return $kernel->handle($subRequest, Framework::SUB_REQUEST);
-    }
-
-    /**
-     * @return Request|null
-     */
-    protected function getCurrentRequest(): ?Request
-    {
-        /** @var RequestStack $requestStack */
-        $requestStack = $this->getContainer()->get(Services::REQUEST_STACK);
-        return $requestStack->getCurrentRequest();
     }
 }
