@@ -21,6 +21,7 @@ import components from './components';
 import pages from './pages';
 import toaster, {ToasterAPI} from './core/plugins/toaster/toaster';
 import loader, {LoaderAPI} from './core/plugins/loader/loader';
+import translate, {TranslateAPI} from './core/plugins/i18n/translate';
 import './core/plugins/toaster/toaster.scss';
 import './core/plugins/loader/loader.scss';
 
@@ -40,6 +41,9 @@ app.use(toaster, {
 });
 
 app.use(loader);
+app.use(translate, {
+  langugePack: require('../messages.en_US.json'),
+});
 
 // @ts-expect-error
 const baseUrl = window.appGlobal.baseUrl;
@@ -49,6 +53,7 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $toast: ToasterAPI;
     $loader: LoaderAPI;
+    $t: TranslateAPI;
   }
 }
 
