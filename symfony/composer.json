@@ -57,6 +57,7 @@
                 "./plugins/orangehrmAdminPlugin/entity",
                 "./plugins/orangehrmPerformancePlugin/entity",
                 "./plugins/orangehrmPimPlugin/entity",
+                "./plugins/orangehrmLeavePlugin/entity",
                 "./plugins/orangehrmCorePlugin/entity"
             ]
         }
