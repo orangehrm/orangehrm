@@ -30,6 +30,9 @@ class EmployeeImmigrationController extends BaseViewEmployeeController
 {
     use ServiceContainerTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function preRender(Request $request): void
     {
         $empNumber = $request->get('empNumber');
@@ -42,6 +45,15 @@ class EmployeeImmigrationController extends BaseViewEmployeeController
             $component->addProp(new Prop('countries', Prop::TYPE_ARRAY, $countryService->getCountryArray()));
 
             $this->setComponent($component);
+
+            $this->setPermissionsForEmployee(
+                [
+                    'immigration',
+                    'immigration_attachment',
+                    'immigration_custom_fields',
+                ],
+                $empNumber
+            );
         } else {
             $this->handleBadRequest();
         }
