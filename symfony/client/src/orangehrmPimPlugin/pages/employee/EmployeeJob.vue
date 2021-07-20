@@ -37,6 +37,7 @@
                 :rules="rules.joinedDate"
                 type="date"
                 placeholder="yyyy-mm-dd"
+                :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -45,6 +46,7 @@
                 label="Job Title"
                 v-model="job.jobTitleId"
                 :options="jobTitles"
+                :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -59,6 +61,7 @@
                 label="Job Catergory"
                 v-model="job.jobCategoryId"
                 :options="jobCategories"
+                :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -67,6 +70,7 @@
                 label="Sub Unit"
                 v-model="job.subunitId"
                 :options="subunits"
+                :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -75,6 +79,7 @@
                 label="Location"
                 v-model="job.locationId"
                 :options="locations"
+                :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -83,6 +88,7 @@
                 label="Employment Status"
                 v-model="job.empStatusId"
                 :options="employmentStatuses"
+                :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -106,6 +112,7 @@
                   :rules="rules.startDate"
                   type="date"
                   placeholder="yyyy-mm-dd"
+                  :disabled="!hasUpdatePermissions"
                 />
               </oxd-grid-item>
 
@@ -116,6 +123,7 @@
                   :rules="rules.endDate"
                   type="date"
                   placeholder="yyyy-mm-dd"
+                  :disabled="!hasUpdatePermissions"
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -132,23 +140,28 @@
                   :rules="rules.contractAttachment"
                   :url="`pim/viewAttachment/empNumber/${empNumber}/attachId`"
                   hint="Accepts up to 1MB"
+                  :disabled="!hasUpdatePermissions"
                 />
               </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
         </template>
 
-        <oxd-divider />
-
-        <oxd-form-actions>
-          <submit-button />
-        </oxd-form-actions>
+        <template v-if="hasUpdatePermissions">
+          <oxd-divider />
+          <oxd-form-actions>
+            <submit-button />
+          </oxd-form-actions>
+        </template>
       </oxd-form>
     </div>
 
-    <oxd-divider />
+    <oxd-divider v-if="hasUpdatePermissions" />
 
-    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+    <div
+      v-if="hasUpdatePermissions"
+      class="orangehrm-horizontal-padding orangehrm-vertical-padding"
+    >
       <profile-action-header
         iconName=""
         :displayType="terminationActionType"
@@ -423,6 +436,9 @@ export default {
     },
     terminationActionType() {
       return this.termination?.id ? 'ghost-success' : 'label-danger';
+    },
+    hasUpdatePermissions() {
+      return this.$can.update(`job_details`);
     },
   },
 
