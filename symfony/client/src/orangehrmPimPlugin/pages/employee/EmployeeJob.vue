@@ -156,7 +156,7 @@
       </oxd-form>
     </div>
 
-    <oxd-divider v-if="hasUpdatePermissions"/>
+    <oxd-divider v-if="hasUpdatePermissions" />
 
     <div
       v-if="hasUpdatePermissions"
