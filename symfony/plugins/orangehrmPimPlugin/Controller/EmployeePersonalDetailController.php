@@ -65,8 +65,26 @@ class EmployeePersonalDetailController extends BaseViewEmployeeController
             $nationalities = $this->getNationalityService()->getNationalityArray();
             $component->addProp(new Prop('nationalities', Prop::TYPE_ARRAY, $nationalities));
             $this->setComponent($component);
+
+            $this->setPermissionsForEmployee(
+                [
+                    'personal_information',
+                    'personal_attachment',
+                    'personal_custom_fields',
+                    'personal_sensitive_information'
+                ],
+                $empNumber
+            );
         } else {
             $this->handleBadRequest();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['personal_information'];
     }
 }

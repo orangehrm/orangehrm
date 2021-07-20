@@ -21,6 +21,8 @@ namespace OrangeHRM\Core\Api\V2;
 
 class Response
 {
+    public const CONTENT_TYPE_KEY = 'Content-Type';
+    public const CONTENT_TYPE_JSON = 'application/json';
     /**
      * @var array
      */

@@ -3576,3 +3576,255 @@ UPDATE `ohrm_menu_item` SET `additional_params` = '{\"icon\":\"icon-recruitment\
 -- Should remove once implement dashboard screen
 UPDATE `ohrm_home_page` SET action='pim/viewPimModule' WHERE `user_role_id`=1;
 UPDATE `ohrm_home_page` SET action='pim/viewPimModule' WHERE `user_role_id`=2;
+
+CREATE TABLE ohrm_api_permission (id INT AUTO_INCREMENT NOT NULL, module_id INT DEFAULT NULL, data_group_id INT DEFAULT NULL, api_name VARCHAR(255) NOT NULL, UNIQUE INDEX api_name (api_name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
+ALTER TABLE ohrm_api_permission ADD CONSTRAINT `fk_ohrm_module_module_id` FOREIGN KEY (module_id) REFERENCES ohrm_module (id);
+ALTER TABLE ohrm_api_permission ADD CONSTRAINT `fk_ohrm_data_group_data_group_id` FOREIGN KEY (data_group_id) REFERENCES ohrm_data_group (id);
+
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin' LIMIT 1);
+SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS' LIMIT 1);
+SET @supervisor_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Supervisor' LIMIT 1);
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('personal_sensitive_information', 'PIM - PIM - Personal Details - Sensitive', 1, 0, 1, 0),
+       ('apiv2_core_data_groups', 'API-v2 Core - Data Groups', 1, 0, 0, 0);
+
+SET @core_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'core' LIMIT 1);
+SET @personal_sensitive_information_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'personal_sensitive_information' LIMIT 1);
+SET @apiv2_core_data_groups_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_core_data_groups' LIMIT 1);
+
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
+VALUES ('OrangeHRM\\Core\\Api\\Rest\\DataGroupAPI', @core_module_id, @apiv2_core_data_groups_data_group_id);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 0, 1, 0, 0, @personal_sensitive_information_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 1, @personal_sensitive_information_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @personal_sensitive_information_data_group_id, @ess_role_id),
+       (1, 0, 1, 0, 0, @personal_sensitive_information_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 1, @personal_sensitive_information_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 0, @apiv2_core_data_groups_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_core_data_groups_data_group_id, @ess_role_id);
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('apiv2_admin_education', 'API-v2 Admin - Education', 1, 1, 1, 1),
+       ('apiv2_admin_employment_status', 'API-v2 Admin - Employment Status', 1, 1, 1, 1),
+       ('apiv2_admin_job_category', 'API-v2 Admin - Job Categories', 1, 1, 1, 1),
+       ('apiv2_admin_job_specification', 'API-v2 Admin - Job Specification', 1, 0, 0, 0),
+       ('apiv2_admin_job_title', 'API-v2 Admin - Job Titles', 1, 1, 1, 1),
+       ('apiv2_admin_language', 'API-v2 Admin - Languages', 1, 1, 1, 1),
+       ('apiv2_admin_license', 'API-v2 Admin - Licenses', 1, 1, 1, 1),
+       ('apiv2_admin_membership', 'API-v2 Admin - Memberships', 1, 1, 1, 1),
+       ('apiv2_admin_nationality', 'API-v2 Admin - Nationalities', 1, 1, 1, 1),
+       ('apiv2_admin_organization', 'API-v2 Admin - General Information', 1, 0, 1, 0),
+       ('apiv2_admin_paygrade_currency', 'API-v2 Admin - Pay Grade Currencies', 1, 1, 1, 1),
+       ('apiv2_admin_skill', 'API-v2 Admin - Skills', 1, 1, 1, 1),
+       ('apiv2_admin_subunit', 'API-v2 Admin - Organization Structure', 1, 1, 1, 1),
+       ('apiv2_admin_user', 'API-v2 Admin - Users', 1, 1, 1, 1);
+
+SET @admin_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'admin' LIMIT 1);
+SET @apiv2_admin_education_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_education' LIMIT 1);
+SET @apiv2_admin_employment_status_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_employment_status' LIMIT 1);
+SET @apiv2_admin_job_category_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_job_category' LIMIT 1);
+SET @apiv2_admin_job_specification_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_job_specification' LIMIT 1);
+SET @apiv2_admin_job_title_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_job_title' LIMIT 1);
+SET @apiv2_admin_language_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_language' LIMIT 1);
+SET @apiv2_admin_license_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_license' LIMIT 1);
+SET @apiv2_admin_membership_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_membership' LIMIT 1);
+SET @apiv2_admin_nationality_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_nationality' LIMIT 1);
+SET @apiv2_admin_organization_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_organization' LIMIT 1);
+SET @apiv2_admin_paygrade_currency_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_paygrade_currency' LIMIT 1);
+SET @apiv2_admin_skill_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_skill' LIMIT 1);
+SET @apiv2_admin_subunit_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_subunit' LIMIT 1);
+SET @apiv2_admin_user_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_user' LIMIT 1);
+
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
+VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_education_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\EmploymentStatusAPI', @admin_module_id, @apiv2_admin_employment_status_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\JobCategoryAPI', @admin_module_id, @apiv2_admin_job_category_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\JobSpecificationAPI', @admin_module_id, @apiv2_admin_job_specification_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\JobTitleAPI', @admin_module_id, @apiv2_admin_job_title_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\LanguageAPI', @admin_module_id, @apiv2_admin_language_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\LicenseAPI', @admin_module_id, @apiv2_admin_license_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\MembershipAPI', @admin_module_id, @apiv2_admin_membership_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\NationalityAPI', @admin_module_id, @apiv2_admin_nationality_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\OrganizationAPI', @admin_module_id, @apiv2_admin_organization_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\PayGradeCurrencyAPI', @admin_module_id, @apiv2_admin_paygrade_currency_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\SkillAPI', @admin_module_id, @apiv2_admin_skill_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\SubunitAPI', @admin_module_id, @apiv2_admin_subunit_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\UserAPI', @admin_module_id, @apiv2_admin_user_data_group_id);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_employment_status_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_job_category_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_admin_job_specification_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_admin_job_specification_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_job_title_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_admin_job_title_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_language_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_license_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_membership_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_nationality_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 0, @apiv2_admin_organization_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_paygrade_currency_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_skill_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_subunit_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_admin_subunit_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_user_data_group_id, @admin_role_id);
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
+       ('apiv2_pim_optional_field', 'API-v2 PIM - Optional Fields', 1, 1, 1, 1),
+       ('apiv2_pim_reporting_method', 'API-v2 PIM - Reporting Methods', 1, 1, 1, 1),
+       ('apiv2_pim_termination_reason', 'API-v2 PIM - Termination Reasons', 1, 1, 1, 1),
+       ('apiv2_pim_employee', 'API-v2 PIM - Employees', 1, 1, 0, 1),
+       ('apiv2_pim_employee_emergency_contact', 'API-v2 PIM - Employee Emergency Contacts', 1, 1, 1, 1),
+       ('apiv2_pim_employee_contact_detail', 'API-v2 PIM - Employee Contact Details', 1, 0, 1, 0),
+       ('apiv2_pim_employee_dependent', 'API-v2 PIM - Employee Dependents', 1, 1, 1, 1),
+       ('apiv2_pim_employee_education', 'API-v2 PIM - Employee Education', 1, 1, 1, 1),
+       ('apiv2_pim_employee_job_detail', 'API-v2 PIM - Employee Job Details', 1, 0, 1, 0),
+       ('apiv2_pim_employee_language', 'API-v2 PIM - Employee Languages', 1, 1, 1, 1),
+       ('apiv2_pim_employee_license', 'API-v2 PIM - Employee License', 1, 1, 1, 1),
+       ('apiv2_pim_employee_personal_detail', 'API-v2 PIM - Employee Personal Details', 1, 0, 1, 0),
+       ('apiv2_pim_employee_picture', 'API-v2 PIM - Employee Photograph', 1, 0, 1, 0),
+       ('apiv2_pim_employee_salary_component', 'API-v2 PIM - Employee Salary Components', 1, 1, 1, 1),
+       ('apiv2_pim_employee_skill', 'API-v2 PIM - Employee Skills', 1, 1, 1, 1),
+       ('apiv2_pim_employee_termination', 'API-v2 PIM - Employee Termination', 1, 1, 1, 1),
+       ('apiv2_pim_employee_work_experience', 'API-v2 PIM - Employee Work Experience', 1, 1, 1, 1),
+       ('apiv2_pim_employee_employment_contract', 'API-v2 PIM - Employee Employment Contract', 1, 0, 1, 0),
+       ('apiv2_pim_employee_attachment', 'API-v2 PIM - Employee Attachments', 1, 1, 1, 1),
+       ('apiv2_pim_employee_custom_field', 'API-v2 PIM - Employee Custom Field', 1, 0, 1, 0),
+       ('apiv2_pim_employee_allowed_language', 'API-v2 PIM - Employee Allowed Language', 1, 0, 0, 0),
+       ('apiv2_pim_employee_allowed_license', 'API-v2 PIM - Employee Allowed Licenses', 1, 0, 0, 0),
+       ('apiv2_pim_employee_allowed_skill', 'API-v2 PIM - Employee Allowed Skills', 1, 0, 0, 0);
+
+SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
+SET @apiv2_pim_custom_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_custom_field' LIMIT 1);
+SET @apiv2_pim_optional_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_optional_field' LIMIT 1);
+SET @apiv2_pim_reporting_method_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_reporting_method' LIMIT 1);
+SET @apiv2_pim_termination_reason_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_termination_reason' LIMIT 1);
+SET @apiv2_pim_employee_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee' LIMIT 1);
+SET @apiv2_pim_employee_emergency_contact_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_emergency_contact' LIMIT 1);
+SET @apiv2_pim_employee_contact_detail_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_contact_detail' LIMIT 1);
+SET @apiv2_pim_employee_dependent_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_dependent' LIMIT 1);
+SET @apiv2_pim_employee_education_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_education' LIMIT 1);
+SET @apiv2_pim_employee_job_detail_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_job_detail' LIMIT 1);
+SET @apiv2_pim_employee_language_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_language' LIMIT 1);
+SET @apiv2_pim_employee_license_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_license' LIMIT 1);
+SET @apiv2_pim_employee_personal_detail_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_personal_detail' LIMIT 1);
+SET @apiv2_pim_employee_picture_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_picture' LIMIT 1);
+SET @apiv2_pim_employee_salary_component_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_salary_component' LIMIT 1);
+SET @apiv2_pim_employee_skill_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_skill' LIMIT 1);
+SET @apiv2_pim_employee_termination_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_termination' LIMIT 1);
+SET @apiv2_pim_employee_work_experience_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_work_experience' LIMIT 1);
+SET @apiv2_pim_employee_employment_contract_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_employment_contract' LIMIT 1);
+SET @apiv2_pim_employee_attachment_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_attachment' LIMIT 1);
+SET @apiv2_pim_employee_custom_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_custom_field' LIMIT 1);
+SET @apiv2_pim_employee_allowed_language_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_allowed_language' LIMIT 1);
+SET @apiv2_pim_employee_allowed_license_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_allowed_license' LIMIT 1);
+SET @apiv2_pim_employee_allowed_skill_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_allowed_skill' LIMIT 1);
+
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
+VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom_field_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\OptionalFieldAPI', @pim_module_id, @apiv2_pim_optional_field_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\ReportingMethodConfigurationAPI', @pim_module_id, @apiv2_pim_reporting_method_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\TerminationReasonConfigurationAPI', @pim_module_id, @apiv2_pim_termination_reason_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeAPI', @pim_module_id, @apiv2_pim_employee_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmpEmergencyContactAPI', @pim_module_id, @apiv2_pim_employee_emergency_contact_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeContactDetailsAPI', @pim_module_id, @apiv2_pim_employee_contact_detail_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeDependentAPI', @pim_module_id, @apiv2_pim_employee_dependent_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeEducationAPI', @pim_module_id, @apiv2_pim_employee_education_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeJobDetailAPI', @pim_module_id, @apiv2_pim_employee_job_detail_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeLanguageAPI', @pim_module_id, @apiv2_pim_employee_language_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeLicenseAPI', @pim_module_id, @apiv2_pim_employee_license_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeePersonalDetailAPI', @pim_module_id, @apiv2_pim_employee_personal_detail_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeePictureAPI', @pim_module_id, @apiv2_pim_employee_picture_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeSalaryComponentAPI', @pim_module_id, @apiv2_pim_employee_salary_component_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeSkillAPI', @pim_module_id, @apiv2_pim_employee_skill_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeTerminationAPI', @pim_module_id, @apiv2_pim_employee_termination_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeWorkExperienceAPI', @pim_module_id, @apiv2_pim_employee_work_experience_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmploymentContractAPI', @pim_module_id, @apiv2_pim_employee_employment_contract_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeAttachmentAPI', @pim_module_id, @apiv2_pim_employee_attachment_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeCustomFieldAPI', @pim_module_id, @apiv2_pim_employee_custom_field_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeAllowedLanguageAPI', @pim_module_id, @apiv2_pim_employee_allowed_language_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeAllowedLicenseAPI', @pim_module_id, @apiv2_pim_employee_allowed_license_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeAllowedSkillAPI', @pim_module_id, @apiv2_pim_employee_allowed_skill_data_group_id);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_optional_field_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_reporting_method_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_termination_reason_data_group_id, @admin_role_id),
+       (1, 1, 0, 1, 0, @apiv2_pim_employee_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_emergency_contact_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_emergency_contact_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_emergency_contact_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_emergency_contact_data_group_id, @supervisor_role_id),
+       (1, 0, 1, 0, 0, @apiv2_pim_employee_contact_detail_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 1, @apiv2_pim_employee_contact_detail_data_group_id, @ess_role_id),
+       (1, 0, 1, 0, 0, @apiv2_pim_employee_contact_detail_data_group_id, @supervisor_role_id),
+       (1, 0, 1, 0, 1, @apiv2_pim_employee_contact_detail_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_dependent_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_dependent_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_dependent_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_dependent_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_education_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_education_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_education_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_education_data_group_id, @supervisor_role_id),
+       (1, 0, 1, 0, 0, @apiv2_pim_employee_job_detail_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_job_detail_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_job_detail_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_job_detail_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_language_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_language_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_language_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_language_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_license_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_license_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_license_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_license_data_group_id, @supervisor_role_id),
+       (1, 0, 1, 0, 0, @apiv2_pim_employee_personal_detail_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 1, @apiv2_pim_employee_personal_detail_data_group_id, @ess_role_id),
+       (1, 0, 1, 0, 0, @apiv2_pim_employee_personal_detail_data_group_id, @supervisor_role_id),
+       (1, 0, 1, 0, 1, @apiv2_pim_employee_personal_detail_data_group_id, @supervisor_role_id),
+       (1, 0, 1, 0, 0, @apiv2_pim_employee_picture_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 1, @apiv2_pim_employee_picture_data_group_id, @ess_role_id),
+       (1, 0, 1, 0, 0, @apiv2_pim_employee_picture_data_group_id, @supervisor_role_id),
+       (1, 0, 1, 0, 1, @apiv2_pim_employee_picture_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_salary_component_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_salary_component_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_salary_component_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_skill_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_skill_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_skill_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_skill_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_termination_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_termination_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_termination_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_termination_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_work_experience_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_work_experience_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_work_experience_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_work_experience_data_group_id, @supervisor_role_id),
+       (1, 0, 1, 0, 0, @apiv2_pim_employee_employment_contract_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_employment_contract_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_employment_contract_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_employment_contract_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_attachment_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_attachment_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_attachment_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_attachment_data_group_id, @supervisor_role_id),
+       (1, 0, 1, 0, 0, @apiv2_pim_employee_custom_field_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 1, @apiv2_pim_employee_custom_field_data_group_id, @ess_role_id),
+       (1, 0, 1, 0, 0, @apiv2_pim_employee_custom_field_data_group_id, @supervisor_role_id),
+       (1, 0, 1, 0, 1, @apiv2_pim_employee_custom_field_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_allowed_language_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_allowed_language_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_allowed_license_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_allowed_license_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_allowed_skill_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_allowed_skill_data_group_id, @ess_role_id);

@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Traits;
 
+use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Framework\Services;
@@ -30,8 +31,16 @@ trait UserRoleManagerTrait
     /**
      * @return AbstractUserRoleManager|BasicUserRoleManager
      */
-    public function getUserRoleManager(): AbstractUserRoleManager
+    protected function getUserRoleManager(): AbstractUserRoleManager
     {
         return $this->getContainer()->get(Services::USER_ROLE_MANAGER);
+    }
+
+    /**
+     * @return UserRoleManagerHelper
+     */
+    protected function getUserRoleManagerHelper(): UserRoleManagerHelper
+    {
+        return $this->getContainer()->get(Services::USER_ROLE_MANAGER_HELPER);
     }
 }

@@ -1,0 +1,6 @@
+apiv2_core_data_groups:
+  path: /api/v2/core/data-groups
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Core\Api\Rest\DataGroupAPI

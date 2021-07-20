@@ -19,7 +19,10 @@
 
 namespace OrangeHRM\Core\Authorization\Manager;
 
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
@@ -197,6 +200,13 @@ abstract class AbstractUserRoleManager
     abstract public function getScreenPermissions(string $module, string $screen): ResourcePermission;
 
     /**
+     * @param string $apiClassName
+     * @return ResourcePermission
+     * @since 5.0
+     */
+    abstract public function getApiPermissions(string $apiClassName): ResourcePermission;
+
+    /**
      * @param string $module
      * @param string $screen
      * @param string $field
@@ -274,6 +284,36 @@ abstract class AbstractUserRoleManager
         array $rolesToInclude = [],
         array $entities = []
     ): array;
+
+    /**
+     * get data group permissions - if permissions not defined, should return object with all rights set to false.
+     * merge the permissions
+     * return merged data group permission object.
+     *
+     * @param string[]|string $dataGroupName
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param bool $selfPermission
+     * @param array $entities
+     * @return ResourcePermission
+     * @throws DaoException
+     */
+    abstract public function getDataGroupPermissions(
+        $dataGroupName,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        bool $selfPermission = false,
+        array $entities = []
+    ): ResourcePermission;
+
+    /**
+     * @param DataGroupPermissionFilterParams|null $dataGroupPermissionFilterParams
+     * @return DataGroupPermissionCollection
+     * @since 5.0
+     */
+    abstract public function getDataGroupPermissionCollection(
+        DataGroupPermissionFilterParams $dataGroupPermissionFilterParams = null
+    ): DataGroupPermissionCollection;
 
     /**
      * @param string $module

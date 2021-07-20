@@ -43,14 +43,14 @@ class HomePage
      *
      * @ORM\Column(name="action", type="string", length=255, nullable=true)
      */
-    private ?string $action;
+    private ?string $action = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="enable_class", type="string", length=100, nullable=true)
      */
-    private ?string $enableClass;
+    private ?string $enableClass = null;
 
     /**
      * @var int

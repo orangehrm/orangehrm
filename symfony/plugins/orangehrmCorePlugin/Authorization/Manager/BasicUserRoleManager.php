@@ -21,6 +21,8 @@ namespace OrangeHRM\Core\Authorization\Manager;
 
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Core\Authorization\Dao\HomePageDao;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Exception\AuthorizationException;
 use OrangeHRM\Core\Authorization\Service\DataGroupService;
@@ -32,6 +34,7 @@ use OrangeHRM\Core\HomePage\HomePageEnablerInterface;
 use OrangeHRM\Core\Service\AccessFlowStateMachineService;
 use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Entity\WorkflowStateMachine;
@@ -317,6 +320,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         array $requiredPermissions = []
     ): array {
         // TODO
+        throw AuthorizationException::methodNotImplemented(__METHOD__);
 
         $allPropertyList = [];
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
@@ -650,6 +654,14 @@ class BasicUserRoleManager extends AbstractUserRoleManager
     /**
      * @inheritDoc
      */
+    public function getApiPermissions(string $apiClassName): ResourcePermission
+    {
+        return $this->getDataGroupService()->getApiPermissions($apiClassName, $this->userRoles);
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function getUserRoles(User $user): array
     {
         $roles = [$user->getUserRole()];
@@ -781,16 +793,16 @@ class BasicUserRoleManager extends AbstractUserRoleManager
                 if ($role->getName() == 'Supervisor') {
                     // If Employee entity is given, supervisor role will only
                     // apply if current employee is the supervisor for the given employee
-                    if (isset($entities['Employee'])) {
-                        if (!$this->isSupervisorFor($entities['Employee'])) {
+                    if (isset($entities[Employee::class])) {
+                        if (!$this->isSupervisorFor($entities[Employee::class])) {
                             $include = false;
                         }
                     }
                 } elseif ($role->getName() == 'ESS') {
                     // If Employee entity is given, the ESS role will only apply
                     // If current logged in employee is the same as the passed entity.
-                    if (isset($entities['Employee'])) {
-                        if ($this->getUser()->getEmpNumber() != $entities['Employee']) {
+                    if (isset($entities[Employee::class])) {
+                        if ($this->getUser()->getEmpNumber() != $entities[Employee::class]) {
                             $include = false;
                         }
                     }
@@ -870,23 +882,8 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         $this->dataGroupService = $dataGroupService;
     }
 
-
     /**
-     * Get user roles
-     * for each user role,
-     * get data group permissions - if permissions not defined, should return object with all rights set to false.
-     * merge the permissions
-     * return merged data group permission object.
-     *
-     * For testing, move service object into member variable.
-     *
-     * @param string[]|string $dataGroupName
-     * @param array $rolesToExclude
-     * @param array $rolesToInclude
-     * @param bool $selfPermission
-     * @param array $entities
-     * @return ResourcePermission
-     * @throws DaoException
+     * @inheritDoc
      */
     public function getDataGroupPermissions(
         $dataGroupName,
@@ -932,6 +929,23 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             $finalPermission ['update'],
             $finalPermission ['delete']
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getDataGroupPermissionCollection(
+        DataGroupPermissionFilterParams $dataGroupPermissionFilterParams = null
+    ): DataGroupPermissionCollection {
+        $dataGroupPermissionFilterParams = $dataGroupPermissionFilterParams ?? new DataGroupPermissionFilterParams();
+        $filteredRoles = $this->filterRoles(
+            $this->userRoles,
+            $dataGroupPermissionFilterParams->getRolesToExclude(),
+            $dataGroupPermissionFilterParams->getRolesToInclude(),
+            $dataGroupPermissionFilterParams->getEntities()
+        );
+        $dataGroupPermissionFilterParams->setUserRoles($filteredRoles);
+        return $this->getDataGroupService()->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
     }
 
     public function getModuleDefaultPage(string $module): ?string

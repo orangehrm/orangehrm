@@ -46,7 +46,7 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
     use NormalizerServiceTrait;
 
     public const PARAMETER_SCREEN = 'screen';
-    public const PARAMETER_FIELDS = 'fields';
+    public const META_PARAMETER_FIELDS = 'fields';
 
     public const PARAM_RULE_CUSTOM_FIELD_MAX_LENGTH = 250;
 
@@ -94,8 +94,7 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    self::PARAMETER_SCREEN => $screen,
-                    self::PARAMETER_FIELDS => $customFieldsArray,
+                    self::META_PARAMETER_FIELDS => $customFieldsArray,
                 ]
             )
         );
@@ -181,23 +180,34 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($employee, Employee::class);
 
         $customFieldKeys = $this->getRequest()->getBody()->keys();
-        foreach ($customFieldKeys as $customFieldKey) {
-            $customFieldValue = $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                $customFieldKey
-            );
-            $setter = $this->getCustomFieldService()->generateSetterByFieldKey($customFieldKey);
-            $employee->$setter($customFieldValue);
-        }
-        $this->getEmployeeService()->saveEmployee($employee);
+        $customFieldNumbers = $this->getCustomFieldService()->extractFieldNumbersFromFieldKeys($customFieldKeys);
 
         $customFieldSearchParams = new CustomFieldSearchFilterParams();
         $customFieldSearchParams->setLimit(0);
-        $customFieldNumbers = $this->getCustomFieldService()->extractFieldNumbersFromFieldKeys($customFieldKeys);
         $customFieldSearchParams->setFieldNumbers($customFieldNumbers);
         $customFields = $this->getCustomFieldService()
             ->getCustomFieldDao()
             ->searchCustomField($customFieldSearchParams);
+        $customFieldsAssoc = array_combine($this->extractFieldNumbersFromCustomFields($customFields), $customFields);
+
+        foreach ($customFieldKeys as $index => $customFieldKey) {
+            $customFieldValue = $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_BODY,
+                $customFieldKey
+            );
+            $customFieldNumber = $customFieldNumbers[$index];
+            $customFieldScreen = $customFieldsAssoc[$customFieldNumber]->getScreen();
+            $permission = $this->getUserRoleManagerHelper()->getDataGroupPermissionsForEmployee(
+                "${customFieldScreen}_custom_fields",
+                $empNumber
+            );
+            if (!$permission->canUpdate()) {
+                throw $this->getForbiddenException();
+            }
+            $setter = $this->getCustomFieldService()->generateSetterByFieldKey($customFieldKey);
+            $employee->$setter($customFieldValue);
+        }
+        $this->getEmployeeService()->saveEmployee($employee);
         $customFieldsArray = $this->getNormalizerService()
             ->normalizeArray(CustomFieldModel::class, $customFields);
 
@@ -207,7 +217,7 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    self::PARAMETER_FIELDS => $customFieldsArray,
+                    self::META_PARAMETER_FIELDS => $customFieldsArray,
                 ]
             )
         );
@@ -230,7 +240,7 @@ class EmployeeCustomFieldAPI extends Endpoint implements ResourceEndpoint
     private function getCustomFieldsParamsRules(): array
     {
         $rules = [];
-        for ($i = 0; $i < CustomField::MAX_FIELD_NUM; $i++) {
+        for ($i = 1; $i <= CustomField::MAX_FIELD_NUM; $i++) {
             $rules[] = $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     CustomFieldService::EMPLOYEE_CUSTOM_FIELD_PREFIX . $i,
