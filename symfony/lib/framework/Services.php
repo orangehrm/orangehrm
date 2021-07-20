@@ -110,6 +110,11 @@ final class Services
      */
     public const USER_ROLE_MANAGER = 'core.authorization.user_role_manager';
 
+    /**
+     * @see \OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper
+     */
+    public const USER_ROLE_MANAGER_HELPER = 'core.authorization.user_role_manager_helper';
+
     ///////////////////////////////////////////////////////////////
     /// Authentication plugin services
     ///////////////////////////////////////////////////////////////

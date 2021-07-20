@@ -52,6 +52,16 @@ trait EndpointExceptionTrait
     }
 
     /**
+     * @param string $message
+     * @return ForbiddenException
+     */
+    protected function getForbiddenException(
+        string $message = ForbiddenException::DEFAULT_ERROR_MESSAGE
+    ): ForbiddenException {
+        return new ForbiddenException($message);
+    }
+
+    /**
      * @param object|null $entity
      * @param string|null $entityClass
      * @param string $message
