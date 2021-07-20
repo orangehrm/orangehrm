@@ -20,20 +20,20 @@
 namespace OrangeHRM\Tests\Pim\Entity;
 
 use DateTime;
-use OrangeHRM\Entity\Education;
+use OrangeHRM\Entity\Membership;
 use OrangeHRM\Entity\Employee;
-use OrangeHRM\Entity\EmployeeEducation;
+use OrangeHRM\Entity\EmployeeMembership;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
-class EmployeeEducationTest extends EntityTestCase
+class EmployeeMembershipTest extends EntityTestCase
 {
     protected function setUp(): void
     {
-        TestDataService::truncateSpecificTables([EmployeeEducation::class, Employee::class, Education::class]);
+        TestDataService::truncateSpecificTables([EmployeeMembership::class, Employee::class, Membership::class]);
     }
 
-    public function testEmployeeEducationEntity(): void
+    public function testEmployeeMembershipEntity(): void
     {
         $employee = new Employee();
         $employee->setFirstName('Kayla');
@@ -41,34 +41,32 @@ class EmployeeEducationTest extends EntityTestCase
         $employee->setEmployeeId('0001');
         $this->persist($employee);
 
-        $education = new Education();
-        $education->setId(1);
-        $education->setName('BSc');
-        $this->persist($education);
+        $membership = new Membership();
+        $membership->setId(1);
+        $membership->setName('membership1');
+        $this->persist($membership);
 
-        $employeeEducation = new EmployeeEducation();
-        $employeeEducation->setEmployee($employee);
-        $employeeEducation->setEducation($education);
-        $employeeEducation->setInstitute('UCSC');
-        $employeeEducation->setMajor('CS');
-        $employeeEducation->setYear(2020);
-        $employeeEducation->setScore('First Class');
-        $employeeEducation->setStartDate(new DateTime('2017-01-01'));
-        $employeeEducation->setEndDate(new DateTime('2020-12-31'));
-        $this->persist($employeeEducation);
+        $employeeMembership = new EmployeeMembership();
+        $employeeMembership->setEmployee($employee);
+        $employeeMembership->setMembership($membership);
+        $employeeMembership->setSubscriptionFee('4');
+        $employeeMembership->setSubscriptionPaidBy('individual');
+        $employeeMembership->setSubscriptionCurrency('Rs');
+        $employeeMembership->setSubscriptionCommenceDate(new DateTime('2011-05-20'));
+        $employeeMembership->setSubscriptionRenewalDate(new DateTime('2011-05-22'));
+        $this->persist($employeeMembership);
 
-        /** @var EmployeeEducation[] $employeeEducations */
-        $employeeEducations = $this->getRepository(EmployeeEducation::class)->findBy(
-            ['employee' => 1, 'education' => 1]
+        /** @var EmployeeMembership[] $employeeMemberships */
+        $employeeMemberships = $this->getRepository(EmployeeMembership::class)->findBy(
+            ['employee' => 1, 'membership' => 1]
         );
-        $employeeEducation = $employeeEducations[0];
-        $this->assertEquals('0001', $employeeEducation->getEmployee()->getEmployeeId());
-        $this->assertEquals(1, $employeeEducation->getEducation()->getId());
-        $this->assertEquals("UCSC", $employeeEducation->getInstitute());
-        $this->assertEquals("CS", $employeeEducation->getMajor());
-        $this->assertEquals("First Class", $employeeEducation->getScore());
-        $this->assertEquals(2020, $employeeEducation->getYear());
-        $this->assertEquals(new DateTime("2017-01-01"), $employeeEducation->getStartDate());
-        $this->assertEquals(new DateTime("2020-12-31"), $employeeEducation->getEndDate());
+        $employeeMembership = $employeeMemberships[0];
+        $this->assertEquals('0001', $employeeMembership->getEmployee()->getEmployeeId());
+        $this->assertEquals(1, $employeeMembership->getMembership()->getId());
+        $this->assertEquals("4", $employeeMembership->getSubscriptionFee());
+        $this->assertEquals("individual", $employeeMembership->getSubscriptionPaidBy());
+        $this->assertEquals("Rs", $employeeMembership->getSubscriptionCurrency());
+        $this->assertEquals(new DateTime('2011-05-20'), $employeeMembership->getSubscriptionCommenceDate());
+        $this->assertEquals(new DateTime('2011-05-22'), $employeeMembership->getSubscriptionRenewalDate());
     }
 }

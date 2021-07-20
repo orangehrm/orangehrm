@@ -22,9 +22,9 @@ namespace OrangeHRM\Tests\Pim\Dao;
 use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Entity\EmployeeEducation;
-use OrangeHRM\Pim\Dao\EmployeeEducationDao;
-use OrangeHRM\Pim\Dto\EmployeeEducationSearchFilterParams;
+use OrangeHRM\Entity\EmployeeMembership;
+use OrangeHRM\Pim\Dao\EmployeeMembershipDao;
+use OrangeHRM\Pim\Dto\EmployeeMembershipSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -32,10 +32,10 @@ use OrangeHRM\Tests\Util\TestDataService;
  * @group Pim
  * @group Dao
  */
-class EmployeeEducationDaoTest extends TestCase
+class EmployeeMembershipDaoTest extends TestCase
 {
 
-    private EmployeeEducationDao $employeeEducationDao;
+    private EmployeeMembershipDao $employeeMembershipDao;
     protected string $fixture;
 
     /**
@@ -44,91 +44,88 @@ class EmployeeEducationDaoTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->employeeEducationDao = new EmployeeEducationDao();
+        $this->employeeMembershipDao = new EmployeeMembershipDao();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmPimPlugin/test/fixtures/EmployeeMembershipDao.yml';
         TestDataService::populate($this->fixture);
     }
 
-    public function testGetEmployeeEducationById(): void
+    public function testGetEmployeeMembershipById(): void
     {
-        $result = $this->employeeEducationDao->getEmployeeEducationById(1,1);
-        $this->assertEquals('UoM', $result->getInstitute());
-        $this->assertEquals('CSE', $result->getMajor());
-        $this->assertEquals('First Class', $result->getScore());
-        $this->assertEquals(2020, $result->getYear());
+        $result = $this->employeeMembershipDao->getEmployeeMembershipById(1,1);
+        $this->assertEquals('4', $result->getSubscriptionFee());
+        $this->assertEquals('individual', $result->getSubscriptionPaidBy());
+        $this->assertEquals('Rs', $result->getSubscriptionCurrency());
+        $this->assertEquals(new DateTime('2011-05-20'), $result->getSubscriptionCommenceDate());
+        $this->assertEquals(new DateTime('2011-05-22'), $result->getSubscriptionRenewalDate());
     }
 
-    public function testDeleteEmployeeEducation(): void
+    public function testDeleteEmployeeMembership(): void
     {
         $toTobedeletedIds = [1, 2];
-        $result = $this->employeeEducationDao->deleteEmployeeEducations(1,$toTobedeletedIds);
+        $result = $this->employeeMembershipDao->deleteEmployeeMemberships(1,$toTobedeletedIds);
         $this->assertEquals(2, $result);
     }
 
-    public function testSearchEmployeeEducation(): void
+    public function testSearchEmployeeMembership(): void
     {
-        $employeeEducationSearchParams = new EmployeeEducationSearchFilterParams();
-        $employeeEducationSearchParams->setEmpNumber(1);
-        $result = $this->employeeEducationDao->searchEmployeeEducation($employeeEducationSearchParams);
+        $employeeMembershipSearchParams = new EmployeeMembershipSearchFilterParams();
+        $employeeMembershipSearchParams->setEmpNumber(1);
+        $result = $this->employeeMembershipDao->searchEmployeeMembership($employeeMembershipSearchParams);
         $this->assertCount(2, $result);
-        $this->assertTrue($result[0] instanceof EmployeeEducation);
+        $this->assertTrue($result[0] instanceof EmployeeMembership);
     }
 
-    public function testSearchEmployeeEducationWithLimit(): void
+    public function testSearchEmployeeMembershipWithLimit(): void
     {
-        $employeeEducationSearchParams = new EmployeeEducationSearchFilterParams();
-        $employeeEducationSearchParams->setEmpNumber(1);
-        $employeeEducationSearchParams->setLimit(1);
+        $employeeMembershipSearchParams = new EmployeeMembershipSearchFilterParams();
+        $employeeMembershipSearchParams->setEmpNumber(1);
+        $employeeMembershipSearchParams->setLimit(1);
 
-        $result = $this->employeeEducationDao->searchEmployeeEducation($employeeEducationSearchParams);
+        $result = $this->employeeMembershipDao->searchEmployeeMembership($employeeMembershipSearchParams);
         $this->assertCount(1, $result);
     }
 
-    public function testSaveEmployeeEducation(): void
+    public function testSaveEmployeeMembership(): void
     {
-        $employeeEducation = new EmployeeEducation();
-        $employeeEducation->getDecorator()->setEducationByEducationId(1);
-        $employeeEducation->getDecorator()->setEmployeeByEmpNumber(3);
-        $employeeEducation->setInstitute('UCSC');
-        $employeeEducation->setMajor('CS');
-        $employeeEducation->setYear(2020);
-        $employeeEducation->setScore('First Class');
-        $employeeEducation->setStartDate(new DateTime('2017-01-01'));
-        $employeeEducation->setEndDate(new DateTime('2020-12-31'));
-        $result = $this->employeeEducationDao->saveEmployeeEducation($employeeEducation);
-        $this->assertTrue($result instanceof EmployeeEducation);
-        $this->assertEquals("UCSC", $result->getInstitute());
-        $this->assertEquals("CS", $result->getMajor());
-        $this->assertEquals("First Class", $result->getScore());
-        $this->assertEquals(2020, $result->getYear());
-        $this->assertEquals(new DateTime("2017-01-01"), $result->getStartDate());
-        $this->assertEquals(new DateTime("2020-12-31"), $result->getEndDate());
+        $employeeMembership = new EmployeeMembership();
+        $employeeMembership->getDecorator()->setMembershipByMembershipId(1);
+        $employeeMembership->getDecorator()->setEmployeeByEmpNumber(3);
+        $employeeMembership->setSubscriptionFee('4');
+        $employeeMembership->setSubscriptionPaidBy('individual');
+        $employeeMembership->setSubscriptionCurrency('Rs');
+        $employeeMembership->setSubscriptionCommenceDate(new DateTime('2011-05-20'));
+        $employeeMembership->setSubscriptionRenewalDate(new DateTime('2011-05-22'));
+        $result = $this->employeeMembershipDao->saveEmployeeMembership($employeeMembership);
+        $this->assertTrue($result instanceof EmployeeMembership);
+        $this->assertEquals("4", $result->getSubscriptionFee());
+        $this->assertEquals("individual", $result->getSubscriptionPaidBy());
+        $this->assertEquals("Rs", $result->getSubscriptionCurrency());
+        $this->assertEquals(new DateTime('2011-05-20'), $result->getSubscriptionCommenceDate());
+        $this->assertEquals(new DateTime('2011-05-22'), $result->getSubscriptionRenewalDate());
     }
 
-    public function testEditEmployeeEducation(): void
+    public function testEditEmployeeMembership(): void
     {
-        $employeeEducation = $this->employeeEducationDao->getEmployeeEducationById(1,1);
-        $employeeEducation->setInstitute('UCSC');
-        $employeeEducation->setMajor('CS');
-        $employeeEducation->setYear(2020);
-        $employeeEducation->setScore('First Class');
-        $employeeEducation->setStartDate(new DateTime('2017-01-01'));
-        $employeeEducation->setEndDate(new DateTime('2020-12-31'));
-        $result = $this->employeeEducationDao->saveEmployeeEducation($employeeEducation);
-        $this->assertTrue($result instanceof EmployeeEducation);
-        $this->assertEquals("UCSC", $result->getInstitute());
-        $this->assertEquals("CS", $result->getMajor());
-        $this->assertEquals("First Class", $result->getScore());
-        $this->assertEquals(2020, $result->getYear());
-        $this->assertEquals(new DateTime("2017-01-01"), $result->getStartDate());
-        $this->assertEquals(new DateTime("2020-12-31"), $result->getEndDate());
+        $employeeMembership = $this->employeeMembershipDao->getEmployeeMembershipById(1,1);
+        $employeeMembership->setSubscriptionFee('5');
+        $employeeMembership->setSubscriptionPaidBy('company');
+        $employeeMembership->setSubscriptionCurrency('Rb');
+        $employeeMembership->setSubscriptionCommenceDate(new DateTime('2011-05-21'));
+        $employeeMembership->setSubscriptionRenewalDate(new DateTime('2011-05-24'));
+        $result = $this->employeeMembershipDao->saveEmployeeMembership($employeeMembership);
+        $this->assertTrue($result instanceof EmployeeMembership);
+        $this->assertEquals("4", $result->getSubscriptionFee());
+        $this->assertEquals("company", $result->getSubscriptionPaidBy());
+        $this->assertEquals("Rb", $result->getSubscriptionCurrency());
+        $this->assertEquals(new DateTime('2011-05-21'), $result->getSubscriptionCommenceDate());
+        $this->assertEquals(new DateTime('2011-05-24'), $result->getSubscriptionRenewalDate());
     }
 
-    public function testGetSearchEmployeeEducationsCount(): void
+    public function testGetSearchEmployeeMembershipsCount(): void
     {
-        $employeeEducationSearchParams = new EmployeeEducationSearchFilterParams();
-        $employeeEducationSearchParams->setEmpNumber(1);
-        $result = $this->employeeEducationDao->getSearchEmployeeEducationsCount($employeeEducationSearchParams);
+        $employeeMembershipSearchParams = new EmployeeMembershipSearchFilterParams();
+        $employeeMembershipSearchParams->setEmpNumber(1);
+        $result = $this->employeeMembershipDao->getSearchEmployeeMembershipsCount($employeeMembershipSearchParams);
         $this->assertEquals(2, $result);
     }
 }

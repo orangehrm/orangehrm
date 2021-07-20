@@ -49,7 +49,7 @@ class EmployeeMembership
      * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\Employee", inversedBy="memberships", cascade={"persist"} )
      * @ORM\JoinColumns(name="emp_number", referencedColumnName="emp_number")
      */
-    private Employee $Employee;
+    private Employee $employee;
 
     /**
      * @var Membership
@@ -115,15 +115,15 @@ class EmployeeMembership
      */
     public function getEmployee(): Employee
     {
-        return $this->Employee;
+        return $this->employee;
     }
 
     /**
-     * @param Employee $Employee
+     * @param Employee $employee
      */
-    public function setEmployee(Employee $Employee): void
+    public function setEmployee(Employee $employee): void
     {
-        $this->Employee = $Employee;
+        $this->employee = $employee;
     }
 
     /**
