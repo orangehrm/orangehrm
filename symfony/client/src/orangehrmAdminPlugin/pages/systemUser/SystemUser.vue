@@ -184,7 +184,8 @@ export default {
           id: item.id,
           userName: item.userName,
           role: item.userRole?.displayName,
-          empName: `${item.employee?.firstName} ${item.employee?.lastName}`,
+          empName: `${item.employee?.firstName} ${item.employee?.lastName} 
+          ${item.employee?.terminationId ? ' (Past Employee)' : ''}`,
           status: item.status ? 'Enabled' : 'Disabled',
           isSelectable: selectable === -1,
         };
