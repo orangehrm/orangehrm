@@ -3656,6 +3656,7 @@ VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_ed
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_employment_status_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_admin_employment_status_data_group_id, @supervisor_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_job_category_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_admin_job_specification_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_admin_job_specification_data_group_id, @ess_role_id),
