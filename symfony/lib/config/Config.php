@@ -21,6 +21,7 @@ namespace OrangeHRM\Config;
 
 class Config
 {
+    public const PLUGINS = 'ohrm_plugins';
     public const BASE_DIR = 'ohrm_base_dir';
     public const PLUGINS_DIR = 'ohrm_plugins_dir';
     public const PUBLIC_DIR = 'ohrm_public_dir';

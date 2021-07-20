@@ -33,8 +33,21 @@ class EmployeeDependentsController extends BaseViewEmployeeController
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
 
             $this->setComponent($component);
+
+            $this->setPermissionsForEmployee(
+                ['dependents', 'dependents_attachment', 'dependents_custom_fields'],
+                $empNumber
+            );
         } else {
             $this->handleBadRequest();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['dependents'];
     }
 }

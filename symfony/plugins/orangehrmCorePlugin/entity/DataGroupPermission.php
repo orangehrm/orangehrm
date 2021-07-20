@@ -22,8 +22,6 @@ namespace OrangeHRM\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DataGroupPermission
- *
  * @ORM\Table(name="ohrm_user_role_data_group")
  * @ORM\Entity
  */
@@ -76,7 +74,7 @@ class DataGroupPermission
     /**
      * @var DataGroup
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\DataGroup")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\DataGroup", inversedBy="dataGroupPermissions")
      * @ORM\JoinColumn(name="data_group_id", referencedColumnName="id")
      */
     private DataGroup $dataGroup;

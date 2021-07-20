@@ -48,6 +48,7 @@ class VueControllerHelper
     public const CONTEXT_ICON = 'contextIcon';
     public const COPYRIGHT_YEAR = 'copyrightYear';
     public const PRODUCT_VERSION = 'productVersion';
+    public const PERMISSIONS = 'permissions';
 
     /**
      * @var Request|null

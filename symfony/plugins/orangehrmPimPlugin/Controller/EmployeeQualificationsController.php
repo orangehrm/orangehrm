@@ -19,38 +19,71 @@
 
 namespace OrangeHRM\Pim\Controller;
 
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeLanguage;
+use OrangeHRM\Framework\Http\Request;
 
 class EmployeeQualificationsController extends BaseViewEmployeeController
 {
+    use UserRoleManagerTrait;
+
     public function preRender(Request $request): void
     {
         $empNumber = $request->get('empNumber');
         if ($empNumber) {
             $component = new Component('employee-qualifications');
-            $fluencies = array_map(function ($item, $index) {
-                return [
-                    "id" => $index,
-                    "label" => $item,
-                ];
-            }, EmployeeLanguage::FLUENCIES, array_keys(EmployeeLanguage::FLUENCIES));
-            $competencies = array_map(function ($item, $index) {
-                return [
-                    "id" => $index,
-                    "label" => $item,
-                ];
-            }, EmployeeLanguage::COMPETENCIES, array_keys(EmployeeLanguage::COMPETENCIES));
+            $fluencies = array_map(
+                function ($item, $index) {
+                    return [
+                        "id" => $index,
+                        "label" => $item,
+                    ];
+                },
+                EmployeeLanguage::FLUENCIES,
+                array_keys(EmployeeLanguage::FLUENCIES)
+            );
+            $competencies = array_map(
+                function ($item, $index) {
+                    return [
+                        "id" => $index,
+                        "label" => $item,
+                    ];
+                },
+                EmployeeLanguage::COMPETENCIES,
+                array_keys(EmployeeLanguage::COMPETENCIES)
+            );
 
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
             $component->addProp(new Prop('fluencies', Prop::TYPE_ARRAY, $fluencies));
             $component->addProp(new Prop('competencies', Prop::TYPE_ARRAY, $competencies));
 
             $this->setComponent($component);
+
+            $this->setPermissionsForEmployee(
+                [
+                    'qualification_work',
+                    'qualification_education',
+                    'qualification_skills',
+                    'qualification_languages',
+                    'qualification_license',
+                    'qualification_license',
+                    'qualifications_custom_fields'
+                ],
+                $empNumber
+            );
         } else {
             $this->handleBadRequest();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isCapable(Request $request): bool
+    {
+        return $this->getUserRoleManager()->isEntityAccessible(Employee::class, $request->get('empNumber'));
     }
 }

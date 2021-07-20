@@ -51,7 +51,7 @@ class AdminUserRole extends AbstractUserRole {
     public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = []):array {
 
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
-        $employeeSearchFilterParams->setSortField('e.empNumber');
+        $employeeSearchFilterParams->setSortField('employee.empNumber');
         $employeeSearchFilterParams->setSortOrder(ListSorter::ASCENDING);
         $employeeSearchFilterParams->setIncludeEmployees(EmployeeSearchFilterParams::INCLUDE_EMPLOYEES_CURRENT_AND_PAST);
         $employees = $this->getEmployeeService()->getEmployeeList($employeeSearchFilterParams);

@@ -50,7 +50,7 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
     {
         return [
             KernelEvents::CONTROLLER => [
-                ['onControllerEvent', 0],
+                ['onControllerEvent', 100000],
             ],
             KernelEvents::EXCEPTION => [
                 ['onExceptionEvent', 0],
@@ -90,6 +90,10 @@ class AuthenticationSubscriber extends AbstractEventSubscriber
                 )
             );
             $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
+            $response->headers->set(
+                \OrangeHRM\Core\Api\V2\Response::CONTENT_TYPE_KEY,
+                \OrangeHRM\Core\Api\V2\Response::CONTENT_TYPE_JSON
+            );
             throw new UnauthorizedException($response, $message);
         }
 
