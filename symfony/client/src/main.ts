@@ -19,6 +19,7 @@
 import {createApp} from 'vue';
 import components from './components';
 import pages from './pages';
+import acl, {AclAPI} from './core/plugins/acl/acl';
 import toaster, {ToasterAPI} from './core/plugins/toaster/toaster';
 import loader, {LoaderAPI} from './core/plugins/loader/loader';
 import './core/plugins/toaster/toaster.scss';
@@ -40,6 +41,7 @@ app.use(toaster, {
 });
 
 app.use(loader);
+app.use(acl);
 
 // @ts-expect-error
 const baseUrl = window.appGlobal.baseUrl;
@@ -49,6 +51,7 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $toast: ToasterAPI;
     $loader: LoaderAPI;
+    $can: AclAPI;
   }
 }
 
