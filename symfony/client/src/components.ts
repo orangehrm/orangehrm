@@ -17,7 +17,6 @@
  */
 
 import {App} from 'vue';
-import Layout from '@orangehrm/oxd/src/core/components/Layout/Layout.vue';
 import CardTable from '@orangehrm/oxd/src/core/components/CardTable/CardTable.vue';
 import Button from '@orangehrm/oxd/src/core/components/Button/Button.vue';
 import IconButton from '@orangehrm/oxd/src/core/components/Button/Icon.vue';
@@ -36,6 +35,7 @@ import GridItem from '@orangehrm/oxd/core/components/Grid/GridItem.vue';
 import SubmitButton from '@orangehrm/components/buttons/SubmitButton.vue';
 import TableHeader from '@orangehrm/components/table/TableHeader.vue';
 import RequiredText from '@orangehrm/components/labels/RequiredText.vue';
+import Layout from '@orangehrm/components/layout/Layout.vue';
 
 export default {
   install: (app: App) => {

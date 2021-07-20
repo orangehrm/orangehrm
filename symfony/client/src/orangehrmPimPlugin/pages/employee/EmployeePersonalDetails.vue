@@ -60,6 +60,7 @@
                 label="Employee Id"
                 v-model="employee.employeeId"
                 :rules="rules.employeeId"
+                :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -76,6 +77,7 @@
                 label="Driver's License Number"
                 v-model="employee.drivingLicenseNo"
                 :rules="rules.drivingLicenseNo"
+                :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -93,6 +95,7 @@
                 label="SSN Number"
                 v-model="employee.ssnNumber"
                 :rules="rules.ssnNumber"
+                :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
             <oxd-grid-item v-if="showSinField">
@@ -100,6 +103,7 @@
                 label="SIN Number"
                 v-model="employee.sinNumber"
                 :rules="rules.sinNumber"
+                :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -134,6 +138,7 @@
                 v-model="employee.birthday"
                 type="date"
                 placeholder="yyyy-mm-dd"
+                :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>
             <oxd-grid-item>
