@@ -30,7 +30,6 @@ class NormalizerService
      * @param string $modelClass
      * @param object $data
      * @return array
-     * @throws NormalizeException
      */
     public function normalize(string $modelClass, object $data): array
     {
@@ -43,7 +42,6 @@ class NormalizerService
      * @param string $modelClass
      * @param array $data
      * @return array
-     * @throws NormalizeException
      */
     public function normalizeArray(string $modelClass, array $data): array
     {

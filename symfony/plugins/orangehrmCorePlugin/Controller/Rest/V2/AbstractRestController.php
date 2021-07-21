@@ -134,7 +134,7 @@ abstract class AbstractRestController extends AbstractController
         $request = new Request($httpRequest);
         $this->init($request);
         $response = new HttpResponse();
-        $response->headers->set('Content-type', 'application/json');
+        $response->headers->set(Response::CONTENT_TYPE_KEY, Response::CONTENT_TYPE_JSON);
         try {
             $validationRule = $this->getValidationRule($request);
             if ($validationRule instanceof ParamRuleCollection) {

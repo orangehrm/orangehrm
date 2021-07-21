@@ -21,6 +21,8 @@ namespace OrangeHRM\Tests\Core\Authorization\Service;
 
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Service\AuthenticationService;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
+use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Service\UserRoleManagerService;
@@ -326,6 +328,11 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         return new ResourcePermission(false, false, false, false);
     }
 
+    public function getApiPermissions(string $apiClassName): ResourcePermission
+    {
+        return new ResourcePermission(false, false, false, false);
+    }
+
     public function isFieldAccessible(string $module, string $screen, string $field): bool
     {
         return false;
@@ -380,5 +387,21 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
     public function getHomePage(): ?string
     {
         return null;
+    }
+
+    public function getDataGroupPermissionCollection(
+        DataGroupPermissionFilterParams $dataGroupPermissionFilterParams = null
+    ): DataGroupPermissionCollection {
+        return new DataGroupPermissionCollection();
+    }
+
+    public function getDataGroupPermissions(
+        $dataGroupName,
+        array $rolesToExclude = [],
+        array $rolesToInclude = [],
+        bool $selfPermission = false,
+        array $entities = []
+    ): ResourcePermission {
+        return new ResourcePermission(false, false, false, false);
     }
 }
