@@ -27,6 +27,7 @@ import EmployeeSalary from './pages/employee/EmployeeSalary.vue';
 import EmployeeJob from './pages/employee/EmployeeJob.vue';
 import EmployeeQualifications from './pages/employee/EmployeeQualifications.vue';
 import EmployeeImmigration from './pages/employee/EmployeeImmigration.vue';
+import EmployeeReportTo from './pages/employee/EmployeeReportTo.vue';
 import TerminationReason from './pages/terminationReason/TerminationReason.vue';
 import EditTerminationReason from './pages/terminationReason/EditTerminationReason.vue';
 import SaveTerminationReason from './pages/terminationReason/SaveTerminationReason.vue';
@@ -56,6 +57,7 @@ export default {
   'reporting-method-list': ReportingMethod,
   'reporting-method-edit': EditReportingMethod,
   'reporting-method-save': SaveReportingMethod,
+  'employee-report-to': EmployeeReportTo,
   'custom-field-list': CustomField,
   'custom-field-edit': EditCustomField,
   'custom-field-save': SaveCustomField,

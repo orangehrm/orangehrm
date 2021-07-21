@@ -351,6 +351,53 @@ apiv2_pim_employees_immigrations:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_report_to_supervisors:
+  path: /api/v2/pim/employees/{empNumber}/supervisors
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSupervisorAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_report_to_supervisor:
+  path: /api/v2/pim/employees/{empNumber}/supervisors/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSupervisorAPI
+  requirements:
+    empNumber: '\d+'
+    id: '\d+'
+
+apiv2_pim_report_to_subordinate:
+  path: /api/v2/pim/employees/{empNumber}/subordinates/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSubordinateAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_report_to_subordinates:
+  path: /api/v2/pim/employees/{empNumber}/subordinates
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSubordinateAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_report_to_allowed_employees:
+  path: /api/v2/pim/employees/{empNumber}/report-to/allowed
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeAllowedReportToEmployeeAPI
+  requirements:
+    empNumber: '\d+'
+
+
 ##########################
 #        Files
 ##########################
@@ -427,6 +474,11 @@ pim_employee_job:
 pim_employee_qualifications:
   path: /pim/viewQualifications/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeQualificationsController::handle
+  methods: [ GET ]
+
+pim_employee_report_to:
+  path: /pim/viewReportToDetails/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeReportToController::handle
   methods: [ GET ]
 
 view_termination_reason:
