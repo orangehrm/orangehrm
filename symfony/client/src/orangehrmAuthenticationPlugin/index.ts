@@ -17,7 +17,9 @@
  */
 
 import Login from './pages/Login.vue';
+import Forbidden from './pages/Forbidden.vue';
 
 export default {
   'auth-login': Login,
+  'auth-forbidden': Forbidden,
 };

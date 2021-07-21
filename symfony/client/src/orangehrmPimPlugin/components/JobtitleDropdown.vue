@@ -19,43 +19,33 @@
  -->
 
 <template>
-  <oxd-input-field
-    type="dropdown"
-    label="Job Title"
-    :create-options="loadOptions"
-    :lazyLoad="false"
-    :clear="false"
-  />
+  <oxd-input-field type="select" label="Job Title" :options="options" />
 </template>
 
 <script>
+import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 export default {
   name: 'jobtitle-dropdown',
   setup() {
+    const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/admin/job-titles',
     );
-    return {
-      http,
-    };
-  },
-  methods: {
-    async loadOptions() {
-      return new Promise(resolve => {
-        this.http.getAll().then(({data}) => {
-          const options = data.data.map(item => {
-            return {
-              id: item.id,
-              label: item.title,
-            };
-          });
-          options.unshift({id: 0, label: 'All'});
-          resolve(options);
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.title,
+          };
         });
       });
-    },
+    });
+    return {
+      options,
+    };
   },
 };
 </script>

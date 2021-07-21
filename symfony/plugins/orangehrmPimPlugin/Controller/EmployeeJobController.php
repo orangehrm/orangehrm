@@ -124,8 +124,18 @@ class EmployeeJobController extends BaseViewEmployeeController
             $component->addProp(new Prop('termination-reasons', Prop::TYPE_ARRAY, $terminationReasons));
 
             $this->setComponent($component);
+
+            $this->setPermissionsForEmployee(['job_details', 'job_attachment', 'job_custom_fields'], $empNumber);
         } else {
             $this->handleBadRequest();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['job_details'];
     }
 }

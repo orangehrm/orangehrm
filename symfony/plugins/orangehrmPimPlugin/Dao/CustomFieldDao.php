@@ -123,6 +123,16 @@ class CustomFieldDao extends BaseDao
         $q = $this->createQueryBuilder(CustomField::class, 'cf');
         $this->setSortingAndPaginationParams($q, $customFieldSearchParams);
 
+        if (!empty($customFieldSearchParams->getScreen())) {
+            $q->andWhere('cf.screen = :screen')
+                ->setParameter('screen', $customFieldSearchParams->getScreen());
+        }
+
+        if (!empty($customFieldSearchParams->getFieldNumbers())) {
+            $q->andWhere($q->expr()->in('cf.fieldNum', ':fieldNumbers'))
+                ->setParameter('fieldNumbers', $customFieldSearchParams->getFieldNumbers());
+        }
+
         return $this->getPaginator($q);
     }
 

@@ -19,11 +19,10 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DataGroup
- *
  * @ORM\Table(name="ohrm_data_group")
  * @ORM\Entity
  */
@@ -79,6 +78,20 @@ class DataGroup
      * @ORM\Column(name="can_delete", type="boolean", nullable=true)
      */
     private ?bool $canDelete = null;
+
+    /**
+     * @var DataGroupPermission[]|Collection
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\DataGroupPermission", mappedBy="dataGroup")
+     */
+    private $dataGroupPermissions;
+
+    /**
+     * @var ApiPermission[]|Collection
+     *
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\ApiPermission", mappedBy="dataGroup")
+     */
+    private $apiPermissions;
 
     /**
      * @return int

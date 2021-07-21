@@ -27,6 +27,8 @@ use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Location;
+use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
@@ -221,9 +223,7 @@ abstract class AbstractUserRole
                 case Employee::class:
                     $ids = $this->getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions);
                     break;
-                case 'SystemUser':
-                    // TODO:: implement and remove below line
-                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
+                case User::class:
                     $ids = $this->getAccessibleSystemUserIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'OperationalCountry':
@@ -231,9 +231,7 @@ abstract class AbstractUserRole
                     throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
                     $ids = $this->getAccessibleOperationalCountryIds($operation, $returnType, $requiredPermissions);
                     break;
-                case 'UserRole':
-                    // TODO
-                    throw AuthorizationException::entityNotImplemented($entityType, __METHOD__);
+                case UserRole::class:
                     $ids = $this->getAccessibleUserRoleIds($operation, $returnType, $requiredPermissions);
                     break;
                 case Location::class:

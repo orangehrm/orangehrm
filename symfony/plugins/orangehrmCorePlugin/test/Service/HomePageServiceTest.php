@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\test\Service;
+namespace OrangeHRM\Tests\Core\Service;
 
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Authorization\Service\HomePageService;

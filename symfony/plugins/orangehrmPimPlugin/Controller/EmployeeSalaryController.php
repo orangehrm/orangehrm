@@ -19,12 +19,12 @@
 
 namespace OrangeHRM\Pim\Controller;
 
+use OrangeHRM\Admin\Service\PayGradeService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
 
 class EmployeeSalaryController extends BaseViewEmployeeController
 {
@@ -48,9 +48,9 @@ class EmployeeSalaryController extends BaseViewEmployeeController
             $paygrades = $this->getPayGradeService()->getPayGradeArray();
             $payFrequencies = $this->getPayGradeService()->getPayPeriodArray();
             $accountTypes = [
-                [ "id" => 'SAVINGS', "label" => "Savings" ],
-                [ "id" => 'CHECKING', "label" => "Checking" ],
-                [ "id" => 'OTHER', "label" => "Other" ]
+                ["id" => 'SAVINGS', "label" => "Savings"],
+                ["id" => 'CHECKING', "label" => "Checking"],
+                ["id" => 'OTHER', "label" => "Other"]
             ];
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
             $component->addProp(new Prop('currencies', Prop::TYPE_ARRAY, $currencies));
@@ -59,8 +59,21 @@ class EmployeeSalaryController extends BaseViewEmployeeController
             $component->addProp(new Prop('account-types', Prop::TYPE_ARRAY, $accountTypes));
 
             $this->setComponent($component);
+
+            $this->setPermissionsForEmployee(
+                ['salary_details', 'salary_attachment', 'salary_custom_fields'],
+                $empNumber
+            );
         } else {
             $this->handleBadRequest();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['salary_details'];
     }
 }
