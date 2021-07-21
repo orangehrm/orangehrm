@@ -20,6 +20,7 @@
 
 namespace OrangeHRM\Admin\Api;
 
+use OrangeHRM\Admin\Api\Model\JobTitleModel;
 use OrangeHRM\Admin\Api\Model\LocationModel;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Api\CommonParams;
@@ -31,12 +32,15 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
+use OrangeHRM\Core\Api\V2\Serializer\AbstractEndpointResult;
 use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\JobSpecificationAttachment;
+use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
 
@@ -46,6 +50,25 @@ class LocationAPI extends Endpoint implements CrudEndpoint
     const FILTER_LOCATION_NAME = 'name';
     const FILTER_LOCATION_CITY_NAME = 'city';
     const FILTER_LOCATION_COUNTRY_CODE = 'countryCode';
+
+    const PARAMETER_NAME = 'name';
+    const PARAMETER_COUNTRY_CODE = 'countryCode';
+    const PARAMETER_PROVINCE = 'province';
+    const PARAMETER_CITY = 'city';
+    const PARAMETER_ADDRESS = 'address';
+    const PARAMETER_ZIP_CODE = 'zipCode';
+    const PARAMETER_PHONE = 'phone';
+    const PARAMETER_FAX = 'fax';
+    const PARAMETER_NOTE = 'note';
+
+    const PARAM_RULE_NAME_MAX_LENGTH = 100;
+    const PARAM_RULE_PROVINCE_MAX_LENGTH = 50;
+    const PARAM_RULE_CITY_MAX_LENGTH = 50;
+    const PARAM_RULE_ADDRESS_MAX_LENGTH = 250;
+    const PARAM_RULE_ZIP_CODE_MAX_LENGTH = 30;
+    const PARAM_RULE_PHONE_MAX_LENGTH = 30;
+    const PARAM_RULE_FAX_MAX_LENGTH = 30;
+    const PARAM_RULE_NOTE_MAX_LENGTH = 250;
 
     /**
      * @var null|LocationService
@@ -71,6 +94,9 @@ class LocationAPI extends Endpoint implements CrudEndpoint
         $this->locationService = $locationService;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -79,10 +105,7 @@ class LocationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResourceResult
-     * @throws RecordNotFoundException
-     * @throws NormalizeException
-     * @throws DaoException
+     * @inheritDoc
      */
     public function getOne(): EndpointResourceResult
     {
@@ -94,9 +117,7 @@ class LocationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
-     * @throws DaoException
-     * @throws NormalizeException
+     * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
@@ -138,6 +159,9 @@ class LocationAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -148,14 +172,98 @@ class LocationAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(): EndpointResult
     {
-        // TODO: Implement create() method.
+        // TODO:: Check data group permission
+        $location = new Location();
+        $this->setLocationData($location);
+        $location = $this->getLocationService()->saveLocation($location);
+        return new EndpointResourceResult(LocationModel::class, $location);
     }
 
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForCreate() method.
+        return new ParamRuleCollection(
+            ...$this->getCommonBodyValidationRules(),
+        );
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    public function getCommonBodyValidationRules(): array {
+        return [
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
+            new ParamRule(
+                self::PARAMETER_COUNTRY_CODE,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::COUNTRY_CODE),
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PROVINCE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PROVINCE_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_CITY,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CITY_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ADDRESS,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ADDRESS_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_ZIP_CODE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_ZIP_CODE_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_PHONE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_PHONE_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_FAX,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_FAX_MAX_LENGTH]),
+                ),
+                true
+            ),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(
+                    self::PARAMETER_NOTE,
+                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NOTE_MAX_LENGTH]),
+                ),
+                true
+            ),
+        ];
+
     }
 
     public function delete(): EndpointResult
@@ -177,4 +285,68 @@ class LocationAPI extends Endpoint implements CrudEndpoint
     {
         // TODO: Implement getValidationRuleForUpdate() method.
     }
+
+    /**
+     * @param Location $location
+     *
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
+    private function setLocationData(Location $location): void
+    {
+        $location->setName(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_NAME
+            )
+        );
+        $location->getDecorator()->setCountryByCountryCode(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_COUNTRY_CODE
+            )
+        );
+        $location->setProvince(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_PROVINCE
+            )
+        );
+        $location->setCity(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_CITY
+            )
+        );
+        $location->setAddress(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_ADDRESS
+            )
+        );
+        $location->setZipCode(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_ZIP_CODE
+            )
+        );
+        $location->setPhone(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_PHONE
+            )
+        );
+        $location->setFax(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_FAX
+            )
+        );
+        $location->setNote(
+            $this->getRequestParams()->getString(
+                RequestParams::PARAM_TYPE_BODY,
+                self::PARAMETER_NOTE
+            )
+        );
+    }
+
 }

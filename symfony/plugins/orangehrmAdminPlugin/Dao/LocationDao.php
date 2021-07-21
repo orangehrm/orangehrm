@@ -184,4 +184,21 @@ class LocationDao extends BaseDao
             throw new DaoException($e->getMessage());
         }
     }
+
+    /**
+     * @param Location $location
+     *
+     * @return Location
+     * @throws DaoException
+     */
+    public function saveLocation(Location $location): Location
+    {
+        try {
+            $this->persist($location);
+            return $location;
+        } catch(Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
 }

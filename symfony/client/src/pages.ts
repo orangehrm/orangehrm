@@ -50,6 +50,8 @@ import ViewOrganizationGeneralInformation from '@/orangehrmAdminPlugin/pages/org
 import Nationality from '@/orangehrmAdminPlugin/pages/nationality/Nationality.vue';
 import EditNationality from '@/orangehrmAdminPlugin/pages/nationality/EditNationality.vue';
 import SaveNationality from '@/orangehrmAdminPlugin/pages/nationality/SaveNationality.vue';
+import LocationList from '@/orangehrmAdminPlugin/pages/location/LocationList.vue';
+import SaveLocation from '@/orangehrmAdminPlugin/pages/location/SaveLocation.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -86,4 +88,6 @@ export default {
   'nationality-list': Nationality,
   'nationality-edit': EditNationality,
   'nationality-save': SaveNationality,
+  'location-list': LocationList,
+  'location-save': SaveLocation,
 };

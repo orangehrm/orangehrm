@@ -145,4 +145,16 @@ class LocationService
         $accessibleLocations = $this->getLocationDao()->getLocationsByIds($accessibleLocationIds);
         return $this->getNormalizerService()->normalizeArray(LocationModel::class, $accessibleLocations);
     }
+
+    /**
+     * @param Location  $location
+     *
+     * @return Location
+     * @throws DaoException
+     */
+    public function saveLocation(Location $location): Location
+    {
+        return $this->getLocationDao()->saveLocation($location);
+    }
+
 }
