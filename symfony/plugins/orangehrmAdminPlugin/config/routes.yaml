@@ -182,6 +182,14 @@ apiv2_admin_nationalities:
   defaults:
     _api: OrangeHRM\Admin\Api\NationalityAPI
 
+apiv2_email_configuration:
+  path: /api/v2/admin/email-configuration
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Admin\Api\EmailConfigurationAPI
+
 ##########################
 #        Files
 ##########################
@@ -356,4 +364,9 @@ save_nationality:
 edit_nationality:
   path: /admin/saveNationality/{id}
   controller: OrangeHRM\Admin\Controller\SaveNationalityController::handle
+  methods: [ GET ]
+
+view_email_configuration:
+  path: /admin/viewEmailConfiguration
+  controller: OrangeHRM\Admin\Controller\ViewEmailConfigurationController::handle
   methods: [ GET ]
