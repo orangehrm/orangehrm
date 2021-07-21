@@ -69,7 +69,7 @@ class EmployeeReportingMethodDao extends BaseDao
     private function getSearchEmployeeSupervisorPaginator(EmployeeSupervisorSearchFilterParams $employeeSupervisorSearchFilterParams): Paginator
     {
         $q = $this->createQueryBuilder(ReportTo::class, 'rt');
-        $q->leftJoin('rt.reportingMethod', 'rpm')
+        $q->leftJoin('rt.supervisor', 'supervisor')
             ->andWhere('rt.subordinate = :empNumber')
             ->setParameter('empNumber', $employeeSupervisorSearchFilterParams->getEmpNumber());
         $this->setSortingAndPaginationParams($q, $employeeSupervisorSearchFilterParams);
@@ -84,7 +84,7 @@ class EmployeeReportingMethodDao extends BaseDao
     private function getSearchEmployeeSubordinatePaginator(EmployeeSubordinateSearchFilterParams $employeeSubordinateSearchFilterParams): Paginator
     {
         $q = $this->createQueryBuilder(ReportTo::class, 'rt');
-        $q->leftJoin('rt.reportingMethod', 'rpm')
+        $q->leftJoin('rt.subordinate', 'subordinate')
             ->andWhere('rt.supervisor = :empNumber')
             ->setParameter('empNumber', $employeeSubordinateSearchFilterParams->getEmpNumber());
         $this->setSortingAndPaginationParams($q, $employeeSubordinateSearchFilterParams);

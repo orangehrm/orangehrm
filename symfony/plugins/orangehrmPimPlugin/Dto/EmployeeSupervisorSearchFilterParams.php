@@ -25,7 +25,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 class EmployeeSupervisorSearchFilterParams extends FilterParams
 {
 
-    public const ALLOWED_SORT_FIELDS = ['rt.reportingMethod'];
+    public const ALLOWED_SORT_FIELDS = ['supervisor.lastName'];
 
 
     /**
@@ -38,7 +38,7 @@ class EmployeeSupervisorSearchFilterParams extends FilterParams
      */
     public function __construct()
     {
-        $this->setSortField('rt.reportingMethod');
+        $this->setSortField('supervisor.lastName');
     }
 
     /**

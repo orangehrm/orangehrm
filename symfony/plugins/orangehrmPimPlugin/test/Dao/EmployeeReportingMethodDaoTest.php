@@ -31,6 +31,7 @@ use OrangeHRM\Tests\Util\TestDataService;
 /**
  * @group Pim
  * @group Dao
+ * @group Yasiru
  */
 class EmployeeReportingMethodDaoTest extends TestCase
 {
@@ -134,11 +135,11 @@ class EmployeeReportingMethodDaoTest extends TestCase
         $this->assertEquals(2, $result[0]->getSubordinate()->getEmpNumber());
         $this->assertEquals('Indirect', $result[0]->getReportingMethod()->getName());
         $this->assertEquals(1, $result[1]->getSupervisor()->getEmpNumber());
-        $this->assertEquals(3, $result[1]->getSubordinate()->getEmpNumber());
-        $this->assertEquals('Indirect', $result[1]->getReportingMethod()->getName());
+        $this->assertEquals(4, $result[1]->getSubordinate()->getEmpNumber());
+        $this->assertEquals('Direct', $result[1]->getReportingMethod()->getName());
         $this->assertEquals(1, $result[2]->getSupervisor()->getEmpNumber());
-        $this->assertEquals(4, $result[2]->getSubordinate()->getEmpNumber());
-        $this->assertEquals('Direct', $result[2]->getReportingMethod()->getName());
+        $this->assertEquals(3, $result[2]->getSubordinate()->getEmpNumber());
+        $this->assertEquals('Indirect', $result[2]->getReportingMethod()->getName());
     }
 
     public function testSearchEmployeeSubordinates_WhenSubordinatesNotAvailable(): void
