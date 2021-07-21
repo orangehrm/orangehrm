@@ -41,7 +41,7 @@
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <profile-action-header
         @click="onClickAdd"
-        :action-button-shown="!$can.create(`supervisor`)"
+        :action-button-shown="$can.create(`supervisor`)"
       >
         Assigned Supervisors
       </profile-action-header>
