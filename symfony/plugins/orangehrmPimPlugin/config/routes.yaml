@@ -333,6 +333,23 @@ apiv2_pim_optional_field:
     id: 0
     _api: OrangeHRM\Pim\Api\OptionalFieldAPI
 
+apiv2_pim_employees_immigration:
+  path: /api/v2/pim/employees/{empNumber}/immigrations/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_immigrations:
+  path: /api/v2/pim/employees/{empNumber}/immigrations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI
+  requirements:
+    empNumber: '\d+'
 
 ##########################
 #        Files
@@ -458,4 +475,9 @@ edit_custom_fields:
 view_optional_field:
   path: /pim/configurePim
   controller: OrangeHRM\Pim\Controller\OptionalFieldController::handle
+  methods: [ GET ]
+
+pim_employee_immigration:
+  path: /pim/viewImmigration/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeImmigrationController::handle
   methods: [ GET ]
