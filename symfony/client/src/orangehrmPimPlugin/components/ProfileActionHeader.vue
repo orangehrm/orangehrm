@@ -4,6 +4,7 @@
       <slot></slot>
     </oxd-text>
     <oxd-button
+      v-if="actionButtonShown"
       label="Add"
       iconName="plus"
       displayType="text"
@@ -16,6 +17,13 @@
 export default {
   name: 'profile-action-header',
   inheritAttrs: false,
+  props: {
+    actionButtonShown: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+  },
 };
 </script>
 
