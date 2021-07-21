@@ -3727,6 +3727,8 @@ SET @apiv2_pim_employee_allowed_language_data_group_id := (SELECT `id` FROM ohrm
 SET @apiv2_pim_employee_allowed_license_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_allowed_license' LIMIT 1);
 SET @apiv2_pim_employee_allowed_skill_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_allowed_skill' LIMIT 1);
 SET @apiv2_pim_report_to_supervisor_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_report_to_supervisor' LIMIT 1);
+SET @apiv2_pim_report_to_supervisor_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_report_to_supervisor' LIMIT 1);
+SET @apiv2_pim_report_to_subordinate_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_report_to_subordinate' LIMIT 1);
 SET @apiv2_pim_report_to_allowed_employees_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_report_to_allowed_employees' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
@@ -3755,6 +3757,7 @@ VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom
        ('OrangeHRM\\Pim\\Api\\EmployeeAllowedLicenseAPI', @pim_module_id, @apiv2_pim_employee_allowed_license_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeAllowedSkillAPI', @pim_module_id, @apiv2_pim_employee_allowed_skill_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeSupervisorAPI', @pim_module_id, @apiv2_pim_report_to_supervisor_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeSubordinateAPI', @pim_module_id, @apiv2_pim_report_to_subordinate_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeAllowedReportToEmployeeAPI', @pim_module_id, @apiv2_pim_report_to_allowed_employees_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
