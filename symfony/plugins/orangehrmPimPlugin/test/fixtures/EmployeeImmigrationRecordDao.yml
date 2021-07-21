@@ -1,0 +1,7 @@
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002' }
+
+EmployeeImmigrationRecord:
+  - {emp_number: 1, recordId: '0', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', comment: 'test comment'}
+  - {emp_number: 2, recordId: '1', type: 2, number: 'RTF33323411', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', comment: 'i modify this'}

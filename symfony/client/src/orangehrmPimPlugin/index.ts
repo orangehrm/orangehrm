@@ -26,6 +26,7 @@ import EmployeeProfilePicture from './pages/employee/EmployeeProfilePicture.vue'
 import EmployeeSalary from './pages/employee/EmployeeSalary.vue';
 import EmployeeJob from './pages/employee/EmployeeJob.vue';
 import EmployeeQualifications from './pages/employee/EmployeeQualifications.vue';
+import EmployeeImmigration from './pages/employee/EmployeeImmigration.vue';
 import EmployeeReportTo from './pages/employee/EmployeeReportTo.vue';
 import TerminationReason from './pages/terminationReason/TerminationReason.vue';
 import EditTerminationReason from './pages/terminationReason/EditTerminationReason.vue';
@@ -49,6 +50,7 @@ export default {
   'employee-salary': EmployeeSalary,
   'employee-job': EmployeeJob,
   'employee-qualifications': EmployeeQualifications,
+  'employee-immigration': EmployeeImmigration,
   'termination-reason-list': TerminationReason,
   'termination-reason-edit': EditTerminationReason,
   'termination-reason-save': SaveTerminationReason,
