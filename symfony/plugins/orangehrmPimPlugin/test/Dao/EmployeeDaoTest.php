@@ -184,4 +184,32 @@ class EmployeeDaoTest extends TestCase
         $retVal = $this->employeeDao->deleteEmployees([]);
         $this->assertEquals(0, $retVal);
     }
+
+    public function testGetSupervisorIdListBySubordinateId(): void
+    {
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(3, true);
+        $this->assertEquals(2, count($supervisorIdList));
+
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(3, false);
+        $this->assertEquals(2, count($supervisorIdList));
+
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(2, true);
+        $this->assertEquals(3, count($supervisorIdList));
+
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(1, true);
+        $this->assertEquals(3, count($supervisorIdList));
+
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(1, false);
+        $this->assertEquals(1, count($supervisorIdList));
+
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(4, true);
+        $this->assertEquals(0, count($supervisorIdList));
+
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(5, true);
+        $this->assertEquals(0, count($supervisorIdList));
+
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(3, true);
+        $subordinateIdArray = [4, 5];
+        $this->assertEquals($subordinateIdArray, $supervisorIdList);
+    }
 }

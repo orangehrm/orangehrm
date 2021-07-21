@@ -360,4 +360,58 @@ class EmployeeDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+
+    /**
+     * @param int $subordinateId
+     * @param bool $includeChain
+     * @param array $subordinateIdStack
+     * @param int|null $maxDepth
+     * @param int $depth
+     * @return int[]
+     * @throws DaoException
+     */
+    public function getSupervisorIdListBySubordinateId(
+        int $subordinateId,
+        bool $includeChain = false,
+        array $subordinateIdStack = [],
+        ?int $maxDepth = null,
+        int $depth = 1
+    ): array {
+        try {
+            $employeeIdList = [];
+            $q = $this->createQueryBuilder(ReportTo::class, 'r');
+            $q->andWhere('r.subordinate = :subordinateId')
+                ->setParameter('subordinateId', $subordinateId);
+
+            /** @var ReportTo[] $reportToArray */
+            $reportToArray = $q->getQuery()->execute();
+
+            foreach ($reportToArray as $reportTo) {
+                $supervisorEmpNumber = $reportTo->getSupervisor()->getEmpNumber();
+                array_push($employeeIdList, $supervisorEmpNumber);
+
+                if ($includeChain || (!is_null($maxDepth) && ($depth < $maxDepth))) {
+                    if (!in_array($supervisorEmpNumber, $subordinateIdStack)) {
+                        $subordinateIdStack[] = $supervisorEmpNumber;
+                        $supervisorIdList = $this->getSupervisorIdListBySubordinateId(
+                            $supervisorEmpNumber,
+                            $includeChain,
+                            $subordinateIdStack,
+                            $maxDepth,
+                            $depth + 1
+                        );
+                        if (count($supervisorIdList) > 0) {
+                            foreach ($supervisorIdList as $id) {
+                                array_push($employeeIdList, $id);
+                            }
+                        }
+                    }
+                }
+            }
+            return $employeeIdList;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }
