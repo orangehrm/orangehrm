@@ -262,4 +262,27 @@ class EmployeeService
     {
         return $this->getEmployeeDao()->deleteEmployees($empNumbers);
     }
+
+    /**
+     * Returns an array of empNumbers of supervisors for given subordinate ID
+     *
+     * empNumbers of whole chain under given subordinate are returned.
+     *
+     * @param int $subordinateId
+     * @param bool|null $includeChain Include Supervisor chain or not
+     * @param int|null $maxDepth
+     * @return int[] An array of empNumbers
+     * @throws CoreServiceException
+     * @throws DaoException
+     */
+    public function getSupervisorIdListBySubordinateId(
+        int $subordinateId,
+        ?bool $includeChain = null,
+        int $maxDepth = null
+    ): array {
+        if (is_null($includeChain)) {
+            $includeChain = $this->getConfigService()->isSupervisorChainSupported();
+        }
+        return $this->getEmployeeDao()->getSupervisorIdListBySubordinateId($subordinateId, $includeChain, [], $maxDepth);
+    }
 }

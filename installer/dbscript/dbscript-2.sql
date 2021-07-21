@@ -3698,7 +3698,10 @@ VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
        ('apiv2_pim_employee_custom_field', 'API-v2 PIM - Employee Custom Field', 1, 0, 1, 0),
        ('apiv2_pim_employee_allowed_language', 'API-v2 PIM - Employee Allowed Language', 1, 0, 0, 0),
        ('apiv2_pim_employee_allowed_license', 'API-v2 PIM - Employee Allowed Licenses', 1, 0, 0, 0),
-       ('apiv2_pim_employee_allowed_skill', 'API-v2 PIM - Employee Allowed Skills', 1, 0, 0, 0);
+       ('apiv2_pim_employee_allowed_skill', 'API-v2 PIM - Employee Allowed Skills', 1, 0, 0, 0),
+       ('apiv2_pim_report_to_supervisor', 'API-v2 PIM - Employee Report To Supervisors', 1, 1, 1, 1),
+       ('apiv2_pim_report_to_subordinate', 'API-v2 PIM - Employee Report To Subordinates', 1, 1, 1, 1),
+       ('apiv2_pim_report_to_allowed_employees', 'API-v2 PIM - Employee Allowed Supervisors/Subordinates', 1, 0, 0, 0);
 
 SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
 SET @apiv2_pim_custom_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_custom_field' LIMIT 1);
@@ -3726,6 +3729,10 @@ SET @apiv2_pim_employee_custom_field_data_group_id := (SELECT `id` FROM ohrm_dat
 SET @apiv2_pim_employee_allowed_language_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_allowed_language' LIMIT 1);
 SET @apiv2_pim_employee_allowed_license_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_allowed_license' LIMIT 1);
 SET @apiv2_pim_employee_allowed_skill_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_allowed_skill' LIMIT 1);
+SET @apiv2_pim_report_to_supervisor_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_report_to_supervisor' LIMIT 1);
+SET @apiv2_pim_report_to_supervisor_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_report_to_supervisor' LIMIT 1);
+SET @apiv2_pim_report_to_subordinate_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_report_to_subordinate' LIMIT 1);
+SET @apiv2_pim_report_to_allowed_employees_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_report_to_allowed_employees' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom_field_data_group_id),
@@ -3752,7 +3759,10 @@ VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom
        ('OrangeHRM\\Pim\\Api\\EmployeeCustomFieldAPI', @pim_module_id, @apiv2_pim_employee_custom_field_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeAllowedLanguageAPI', @pim_module_id, @apiv2_pim_employee_allowed_language_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeAllowedLicenseAPI', @pim_module_id, @apiv2_pim_employee_allowed_license_data_group_id),
-       ('OrangeHRM\\Pim\\Api\\EmployeeAllowedSkillAPI', @pim_module_id, @apiv2_pim_employee_allowed_skill_data_group_id);
+       ('OrangeHRM\\Pim\\Api\\EmployeeAllowedSkillAPI', @pim_module_id, @apiv2_pim_employee_allowed_skill_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeSupervisorAPI', @pim_module_id, @apiv2_pim_report_to_supervisor_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeSubordinateAPI', @pim_module_id, @apiv2_pim_report_to_subordinate_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeAllowedReportToEmployeeAPI', @pim_module_id, @apiv2_pim_report_to_allowed_employees_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
@@ -3835,4 +3845,14 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_employee_allowed_license_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_employee_allowed_license_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_employee_allowed_skill_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 1, @apiv2_pim_employee_allowed_skill_data_group_id, @ess_role_id);
+       (1, 0, 0, 0, 1, @apiv2_pim_employee_allowed_skill_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_report_to_supervisor_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_report_to_supervisor_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_report_to_supervisor_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_report_to_supervisor_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_report_to_subordinate_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_report_to_subordinate_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_report_to_subordinate_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_report_to_subordinate_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_report_to_allowed_employees_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 1, @apiv2_pim_report_to_allowed_employees_data_group_id, @ess_role_id);
