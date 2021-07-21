@@ -96,7 +96,6 @@ abstract class BaseViewEmployeeController extends AbstractVueController implemen
     /**
      * @param array $dataGroups
      * @param int $empNumber
-     * @throws Exception
      */
     protected function setPermissionsForEmployee(array $dataGroups, int $empNumber)
     {
