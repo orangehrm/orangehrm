@@ -39,7 +39,10 @@
       @close="onEditModalClose"
     ></edit-employee-report-to>
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <profile-action-header @click="onClickAdd">
+      <profile-action-header
+        @click="onClickAdd"
+        :action-button-shown="!$can.create(`subordinates`)"
+      >
         Assigned Subordinates
       </profile-action-header>
     </div>

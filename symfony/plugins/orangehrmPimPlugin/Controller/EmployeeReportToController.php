@@ -59,6 +59,10 @@ class EmployeeReportToController extends BaseViewEmployeeController
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
             $component->addProp(new Prop('reporting-methods', Prop::TYPE_ARRAY, $reportingMethods));
             $this->setComponent($component);
+            $this->setPermissionsForEmployee(
+                ['supervisor', 'subordinates', 'report-to_attachment', 'report-to_custom_fields'],
+                $empNumber
+            );
         } else {
             $this->handleBadRequest();
         }

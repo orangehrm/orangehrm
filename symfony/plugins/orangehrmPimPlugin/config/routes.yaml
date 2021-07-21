@@ -333,7 +333,7 @@ apiv2_pim_optional_field:
     id: 0
     _api: OrangeHRM\Pim\Api\OptionalFieldAPI
 
-apiv2_pim_reporto_supervisors:
+apiv2_pim_report_to_supervisors:
   path: /api/v2/pim/employees/{empNumber}/supervisors
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
@@ -342,7 +342,7 @@ apiv2_pim_reporto_supervisors:
   requirements:
     empNumber: '\d+'
 
-apiv2_pim_reporto_supervisor:
+apiv2_pim_report_to_supervisor:
   path: /api/v2/pim/employees/{empNumber}/supervisors/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
@@ -352,7 +352,7 @@ apiv2_pim_reporto_supervisor:
     empNumber: '\d+'
     id: '\d+'
 
-apiv2_pim_reporto_subordinate:
+apiv2_pim_report_to_subordinate:
   path: /api/v2/pim/employees/{empNumber}/subordinates/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
@@ -361,7 +361,7 @@ apiv2_pim_reporto_subordinate:
   requirements:
     empNumber: '\d+'
 
-apiv2_pim_reporto_subordinates:
+apiv2_pim_report_to_subordinates:
   path: /api/v2/pim/employees/{empNumber}/subordinates
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
@@ -370,7 +370,7 @@ apiv2_pim_reporto_subordinates:
   requirements:
     empNumber: '\d+'
 
-apiv2_pim_reporto_allowed_employees:
+apiv2_pim_report_to_allowed_employees:
   path: /api/v2/pim/employees/{empNumber}/report-to/allowed
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
