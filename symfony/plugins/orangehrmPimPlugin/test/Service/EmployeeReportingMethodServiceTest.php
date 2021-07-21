@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\test\Service;
+namespace OrangeHRM\Tests\Pim\Service;
 
 
 use OrangeHRM\Config\Config;
