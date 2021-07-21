@@ -83,6 +83,7 @@
           :clickable="false"
           :loading="isLoading"
           v-model:selected="checkedItems"
+          v-model:order="sortDefinition"
           rowDecorator="oxd-table-decorator-card"
         />
       </div>
@@ -104,6 +105,22 @@ import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
+import {computed, ref} from 'vue';
+import useSort from '@orangehrm/core/util/composable/useSort';
+
+const defaultFilters = {
+  name: '',
+  city: '',
+  countryCode: [],
+};
+
+const defaultSortOrder = {
+  'location.name': 'ASC',
+  'location.city': 'DEFAULT',
+  'location.countryCode': 'DEFAULT',
+  'location.phone': 'DEFAULT',
+  'location.noOfEmployees': 'DEFAULT',
+};
 
 const locationDataNormalizer = data => {
   return data.map(location => {
@@ -119,14 +136,46 @@ const locationDataNormalizer = data => {
 };
 
 export default {
+  props: {
+    countries: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'name', title: 'Name', style: {flex: 4}},
-        {name: 'city', title: 'City', style: {flex: 2}},
-        {name: 'country', title: 'Country', style: {flex: 2}},
-        {name: 'phone', title: 'Phone', style: {flex: 2}},
-        {name: 'noOfEmployees', title: 'Number of Employees', style: {flex: 3}},
+        {
+          name: 'name',
+          slot: 'name',
+          title: 'Name',
+          style: {flex: 4},
+          sortField: 'location.name',
+        },
+        {
+          name: 'city',
+          title: 'City',
+          style: {flex: 2},
+          sortField: 'location.city',
+        },
+        {
+          name: 'country',
+          title: 'Country',
+          style: {flex: 2},
+          sortField: 'location.countryCode',
+        },
+        {
+          name: 'phone',
+          title: 'Phone',
+          style: {flex: 2},
+          sortField: 'location.phone',
+        },
+        {
+          name: 'noOfEmployees',
+          title: 'Number of Employees',
+          style: {flex: 3},
+          sortField: 'location.noOfEmployees',
+        },
         {
           name: 'actions',
           title: 'Actions',
@@ -159,7 +208,19 @@ export default {
   },
 
   setup() {
-    const filters = {};
+    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
+      sortDefinition: defaultSortOrder,
+    });
+    const filters = ref({...defaultFilters});
+    const serializedFilters = computed(() => {
+      return {
+        name: filters.value.name,
+        city: filters.value.city,
+        countryCode: filters.value.countryCode.map(item => item.id)[0],
+        sortField: sortField.value,
+        sortOrder: sortOrder.value,
+      };
+    });
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/locations',
@@ -173,7 +234,10 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, locationDataNormalizer);
+    } = usePaginate(http, serializedFilters, locationDataNormalizer);
+
+    onSort(execQuery);
+
     return {
       http,
       showPaginator,
@@ -185,6 +249,7 @@ export default {
       execQuery,
       items: response,
       filters,
+      sortDefinition,
     };
   },
 
@@ -234,10 +299,11 @@ export default {
       await this.execQuery();
     },
     async filterItems() {
-      return true;
+      await this.execQuery();
     },
-    async onClickReset() {
-      return true;
+    onClickReset() {
+      this.filters = {...defaultFilters};
+      this.filterItems();
     },
   },
 };

@@ -157,4 +157,16 @@ class LocationService
         return $this->getLocationDao()->saveLocation($location);
     }
 
+    /**
+     * This will flag the Locations as deleted
+     *
+     * @param array $ids
+     *
+     * @return int number of affected rows
+     * @throws DaoException
+     */
+    public function deleteLocations(array $ids): int {
+        return $this->getLocationDao()->deleteLocations($ids);
+    }
+
 }

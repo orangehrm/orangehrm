@@ -14,13 +14,13 @@
  * Customer shall remain vested in OrangeHRM Inc. Any rights not expressly granted herein are
  * reserved to OrangeHRM Inc.
  *
- * Please refer http://www.orangehrm.com/Files/OrangeHRM_Commercial_License.pdf for the license which includes terms and conditions on using this software.
+ * Please refer http://www.orangehrm.com/Files/OrangeHRM_Commercial_License.pdf for the license which includes terms
+ * and conditions on using this software.
  *
  */
 
 namespace OrangeHRM\Admin\Api;
 
-use OrangeHRM\Admin\Api\Model\JobTitleModel;
 use OrangeHRM\Admin\Api\Model\LocationModel;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Api\CommonParams;
@@ -29,18 +29,13 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\AbstractEndpointResult;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Entity\JobSpecificationAttachment;
-use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
 
@@ -48,26 +43,43 @@ class LocationAPI extends Endpoint implements CrudEndpoint
 {
 
     public const FILTER_LOCATION_NAME = 'name';
+
     public const FILTER_LOCATION_CITY_NAME = 'city';
+
     public const FILTER_LOCATION_COUNTRY_CODE = 'countryCode';
 
     public const PARAMETER_NAME = 'name';
+
     public const PARAMETER_COUNTRY_CODE = 'countryCode';
+
     public const PARAMETER_PROVINCE = 'province';
+
     public const PARAMETER_CITY = 'city';
+
     public const PARAMETER_ADDRESS = 'address';
+
     public const PARAMETER_ZIP_CODE = 'zipCode';
+
     public const PARAMETER_PHONE = 'phone';
+
     public const PARAMETER_FAX = 'fax';
+
     public const PARAMETER_NOTE = 'note';
 
     public const PARAM_RULE_NAME_MAX_LENGTH = 100;
+
     public const PARAM_RULE_PROVINCE_MAX_LENGTH = 50;
+
     public const PARAM_RULE_CITY_MAX_LENGTH = 50;
+
     public const PARAM_RULE_ADDRESS_MAX_LENGTH = 250;
+
     public const PARAM_RULE_ZIP_CODE_MAX_LENGTH = 30;
+
     public const PARAM_RULE_PHONE_MAX_LENGTH = 30;
+
     public const PARAM_RULE_FAX_MAX_LENGTH = 30;
+
     public const PARAM_RULE_NOTE_MAX_LENGTH = 250;
 
     /**
@@ -87,7 +99,7 @@ class LocationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param LocationService $locationService
+     * @param   LocationService  $locationService
      */
     public function setLocationService(LocationService $locationService): void
     {
@@ -106,6 +118,7 @@ class LocationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getOne(): EndpointResourceResult
     {
@@ -118,6 +131,7 @@ class LocationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getAll(): EndpointResult
     {
@@ -153,7 +167,7 @@ class LocationAPI extends Endpoint implements CrudEndpoint
                 [
                     CommonParams::PARAMETER_TOTAL => $this->getLocationService()->getSearchLocationListCount(
                         $locationSearchFilterParams
-                    )
+                    ),
                 ]
             )
         );
@@ -174,6 +188,7 @@ class LocationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function create(): EndpointResult
     {
@@ -194,7 +209,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
     /**
      * @return ParamRule[]
      */
-    public function getCommonBodyValidationRules(): array {
+    public function getCommonBodyValidationRules(): array
+    {
         return [
             new ParamRule(
                 self::PARAMETER_NAME,
@@ -263,31 +279,57 @@ class LocationAPI extends Endpoint implements CrudEndpoint
                 true
             ),
         ];
-
     }
 
+    /**
+     * @inheritDoc
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
     public function delete(): EndpointResult
     {
-        // TODO: Implement delete() method.
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getLocationService()->deleteLocations($ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForDelete() method.
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS, new Rule(Rules::ARRAY_TYPE)),
+        );
     }
 
+    /**
+     * @inheritDoc
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
     public function update(): EndpointResult
     {
-        // TODO: Implement update() method.
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        if ($id) {
+            $location = $this->getLocationService()->getLocationById($id);
+            $this->throwRecordNotFoundExceptionIfNotExist($location, Location::class);
+        } else {
+            $location = new Location();
+        }
+        $this->setLocationData($location);
+        $location = $this->getLocationService()->saveLocation($location);
+        return new EndpointResourceResult(LocationModel::class, $location);
     }
 
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForUpdate() method.
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            ...$this->getCommonBodyValidationRules(),
+        );
     }
 
     /**
-     * @param Location $location
+     * @param   Location  $location
      *
      * @throws \OrangeHRM\Core\Exception\DaoException
      */

@@ -201,4 +201,25 @@ class LocationDao extends BaseDao
         }
     }
 
+    /**
+     * Deletes the Locations having the given ids
+     *
+     * @param array $toDeleteIds
+     *
+     * @return int|mixed|string
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
+    public function deleteLocations(array $toDeleteIds) {
+        try {
+            $q = $this->createQueryBuilder(Location::class, 'l');
+            $q->delete()
+              ->where($q->expr()->in('l.id', ':ids'))
+              ->setParameter('ids', $toDeleteIds);
+
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
 }

@@ -52,6 +52,7 @@ import EditNationality from '@/orangehrmAdminPlugin/pages/nationality/EditNation
 import SaveNationality from '@/orangehrmAdminPlugin/pages/nationality/SaveNationality.vue';
 import LocationList from '@/orangehrmAdminPlugin/pages/location/LocationList.vue';
 import SaveLocation from '@/orangehrmAdminPlugin/pages/location/SaveLocation.vue';
+import EditLocation from '@/orangehrmAdminPlugin/pages/location/EditLocation.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -90,4 +91,5 @@ export default {
   'nationality-save': SaveNationality,
   'location-list': LocationList,
   'location-save': SaveLocation,
+  'location-edit': EditLocation,
 };
