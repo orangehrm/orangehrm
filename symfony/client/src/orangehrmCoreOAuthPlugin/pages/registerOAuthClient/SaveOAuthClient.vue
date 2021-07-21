@@ -21,65 +21,65 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title"
-        >Add OAuth Client</oxd-text
-      >
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        Add OAuth Client
+      </oxd-text>
 
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
-        <div>
-          <oxd-form-row>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <oxd-input-field
-                  label="ID"
-                  v-model="oAuthClient.clientId"
-                  :rules="rules.clientId"
-                  required
-                />
-              </oxd-grid-item>
-              <oxd-grid-item>
-                <oxd-input-field
-                  label="Secret"
-                  v-model="oAuthClient.clientSecret"
-                  :rules="rules.clientSecret"
-                  required
-                />
-              </oxd-grid-item>
-              <oxd-grid-item>
-                <oxd-input-field
-                  label="Redirect URI"
-                  v-model="oAuthClient.redirectUri"
-                  :rules="rules.redirectUri"
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-        </div>
+        <oxd-form-row>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="ID"
+                v-model="oAuthClient.clientId"
+                :rules="rules.clientId"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Secret"
+                v-model="oAuthClient.clientSecret"
+                :rules="rules.clientSecret"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Redirect URI"
+                v-model="oAuthClient.redirectUri"
+                :rules="rules.redirectUri"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-            <oxd-text tag="span" class="orangehrm-link"
-              >API Documentation:
+            <oxd-text tag="span" class="orangehrm-link">
+              API Documentation:
               <a
                 class="orangehrm-link-url"
                 href="https://orangehrm.github.io/orangehrm-api-doc"
-                >https://orangehrm.github.io/orangehrm-api-doc</a
-              ></oxd-text
-            >
+              >
+                https://orangehrm.github.io/orangehrm-api-doc
+              </a>
+            </oxd-text>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row>
           <oxd-grid :cols="1" class="orangehrm-full-width-grid">
-            <oxd-text tag="span" class="orangehrm-link"
-              >PHP Sample App:
+            <oxd-text tag="span" class="orangehrm-link">
+              PHP Sample App:
               <a
                 class="orangehrm-link-url"
                 href="https://github.com/orangehrm/api-sample-app-php"
-                >https://github.com/orangehrm/api-sample-app-php</a
-              ></oxd-text
-            >
+              >
+                https://github.com/orangehrm/api-sample-app-php
+              </a>
+            </oxd-text>
           </oxd-grid>
         </oxd-form-row>
 
