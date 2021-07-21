@@ -47,28 +47,28 @@ use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
 class LocationAPI extends Endpoint implements CrudEndpoint
 {
 
-    const FILTER_LOCATION_NAME = 'name';
-    const FILTER_LOCATION_CITY_NAME = 'city';
-    const FILTER_LOCATION_COUNTRY_CODE = 'countryCode';
+    public const FILTER_LOCATION_NAME = 'name';
+    public const FILTER_LOCATION_CITY_NAME = 'city';
+    public const FILTER_LOCATION_COUNTRY_CODE = 'countryCode';
 
-    const PARAMETER_NAME = 'name';
-    const PARAMETER_COUNTRY_CODE = 'countryCode';
-    const PARAMETER_PROVINCE = 'province';
-    const PARAMETER_CITY = 'city';
-    const PARAMETER_ADDRESS = 'address';
-    const PARAMETER_ZIP_CODE = 'zipCode';
-    const PARAMETER_PHONE = 'phone';
-    const PARAMETER_FAX = 'fax';
-    const PARAMETER_NOTE = 'note';
+    public const PARAMETER_NAME = 'name';
+    public const PARAMETER_COUNTRY_CODE = 'countryCode';
+    public const PARAMETER_PROVINCE = 'province';
+    public const PARAMETER_CITY = 'city';
+    public const PARAMETER_ADDRESS = 'address';
+    public const PARAMETER_ZIP_CODE = 'zipCode';
+    public const PARAMETER_PHONE = 'phone';
+    public const PARAMETER_FAX = 'fax';
+    public const PARAMETER_NOTE = 'note';
 
-    const PARAM_RULE_NAME_MAX_LENGTH = 100;
-    const PARAM_RULE_PROVINCE_MAX_LENGTH = 50;
-    const PARAM_RULE_CITY_MAX_LENGTH = 50;
-    const PARAM_RULE_ADDRESS_MAX_LENGTH = 250;
-    const PARAM_RULE_ZIP_CODE_MAX_LENGTH = 30;
-    const PARAM_RULE_PHONE_MAX_LENGTH = 30;
-    const PARAM_RULE_FAX_MAX_LENGTH = 30;
-    const PARAM_RULE_NOTE_MAX_LENGTH = 250;
+    public const PARAM_RULE_NAME_MAX_LENGTH = 100;
+    public const PARAM_RULE_PROVINCE_MAX_LENGTH = 50;
+    public const PARAM_RULE_CITY_MAX_LENGTH = 50;
+    public const PARAM_RULE_ADDRESS_MAX_LENGTH = 250;
+    public const PARAM_RULE_ZIP_CODE_MAX_LENGTH = 30;
+    public const PARAM_RULE_PHONE_MAX_LENGTH = 30;
+    public const PARAM_RULE_FAX_MAX_LENGTH = 30;
+    public const PARAM_RULE_NOTE_MAX_LENGTH = 250;
 
     /**
      * @var null|LocationService
