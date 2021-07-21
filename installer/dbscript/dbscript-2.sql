@@ -3656,6 +3656,7 @@ VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_ed
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_employment_status_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_admin_employment_status_data_group_id, @supervisor_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_job_category_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_admin_job_specification_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_admin_job_specification_data_group_id, @ess_role_id),
@@ -3682,6 +3683,7 @@ VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
        ('apiv2_pim_employee_contact_detail', 'API-v2 PIM - Employee Contact Details', 1, 0, 1, 0),
        ('apiv2_pim_employee_dependent', 'API-v2 PIM - Employee Dependents', 1, 1, 1, 1),
        ('apiv2_pim_employee_education', 'API-v2 PIM - Employee Education', 1, 1, 1, 1),
+       ('apiv2_pim_employee_immigration', 'API-v2 PIM - Employee Immigration Records', 1, 1, 1, 1),
        ('apiv2_pim_employee_job_detail', 'API-v2 PIM - Employee Job Details', 1, 0, 1, 0),
        ('apiv2_pim_employee_language', 'API-v2 PIM - Employee Languages', 1, 1, 1, 1),
        ('apiv2_pim_employee_license', 'API-v2 PIM - Employee License', 1, 1, 1, 1),
@@ -3708,6 +3710,7 @@ SET @apiv2_pim_employee_emergency_contact_data_group_id := (SELECT `id` FROM ohr
 SET @apiv2_pim_employee_contact_detail_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_contact_detail' LIMIT 1);
 SET @apiv2_pim_employee_dependent_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_dependent' LIMIT 1);
 SET @apiv2_pim_employee_education_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_education' LIMIT 1);
+SET @apiv2_pim_employee_immigration_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_immigration' LIMIT 1);
 SET @apiv2_pim_employee_job_detail_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_job_detail' LIMIT 1);
 SET @apiv2_pim_employee_language_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_language' LIMIT 1);
 SET @apiv2_pim_employee_license_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_license' LIMIT 1);
@@ -3734,6 +3737,7 @@ VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom
        ('OrangeHRM\\Pim\\Api\\EmployeeContactDetailsAPI', @pim_module_id, @apiv2_pim_employee_contact_detail_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeDependentAPI', @pim_module_id, @apiv2_pim_employee_dependent_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeEducationAPI', @pim_module_id, @apiv2_pim_employee_education_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeImmigrationRecordAPI', @pim_module_id, @apiv2_pim_employee_immigration_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeJobDetailAPI', @pim_module_id, @apiv2_pim_employee_job_detail_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeLanguageAPI', @pim_module_id, @apiv2_pim_employee_language_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeLicenseAPI', @pim_module_id, @apiv2_pim_employee_license_data_group_id),
@@ -3775,6 +3779,10 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 1, @apiv2_pim_employee_education_data_group_id, @ess_role_id),
        (1, 1, 1, 1, 0, @apiv2_pim_employee_education_data_group_id, @supervisor_role_id),
        (1, 1, 1, 1, 1, @apiv2_pim_employee_education_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_immigration_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_immigration_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_immigration_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_immigration_data_group_id, @supervisor_role_id),
        (1, 0, 1, 0, 0, @apiv2_pim_employee_job_detail_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_employee_job_detail_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_employee_job_detail_data_group_id, @supervisor_role_id),

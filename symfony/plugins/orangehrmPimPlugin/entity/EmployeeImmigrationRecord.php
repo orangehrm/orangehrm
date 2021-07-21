@@ -21,19 +21,27 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\EmployeeImmigrationRecordDecorator;
 
 /**
+ *
+ * @method EmployeeImmigrationRecordDecorator getDecorator()
+ *
  * @ORM\Table(name="hs_hr_emp_passport")
  * @ORM\Entity
  */
 class EmployeeImmigrationRecord
 {
+
+    use DecoratorTrait;
+
     /**
      * @var Employee
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="immigrationRecords")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="immigrationRecords", cascade={"persist"})
      * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
     private Employee $employee;
@@ -83,11 +91,11 @@ class EmployeeImmigrationRecord
     private ?int $type;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="ep_i9_status", type="string", length=100, options={"default" : ""})
+     * @ORM\Column(name="ep_i9_status", type="string", length=100, nullable=true, options={"default" : ""})
      */
-    private string $status = "";
+    private ?string $status = "";
 
     /**
      * @var DateTime|null
@@ -216,17 +224,17 @@ class EmployeeImmigrationRecord
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
     /**
-     * @param string $status
+     * @param string|null $status
      */
-    public function setStatus(string $status): void
+    public function setStatus(?string $status): void
     {
         $this->status = $status;
     }
