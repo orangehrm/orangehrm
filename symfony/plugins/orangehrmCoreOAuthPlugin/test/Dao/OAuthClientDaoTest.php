@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\OAuth\test\Dao;
+namespace OrangeHRM\Tests\OAuth\Dao;
 
 
 use OrangeHRM\Config\Config;
