@@ -3673,7 +3673,7 @@ VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_skill_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_subunit_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_admin_subunit_data_group_id, @supervisor_role_id),
-       (1, 1, 1, 1, 0, @apiv2_admin_user_data_group_id, @admin_role_id);
+       (1, 1, 1, 1, 0, @apiv2_admin_user_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_oauth_client_data_group_id, @admin_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
