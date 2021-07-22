@@ -33,3 +33,13 @@ Cypress.Commands.add('login', (username, password) => {
 
   cy.get('form').submit();
 });
+
+Cypress.Commands.add(
+  'loginTo',
+  (username, password, url, options = undefined) => {
+    cy.visit(url, options);
+    cy.get('input[name=username]').type(username);
+    cy.get('input[name=password]').type(password);
+    cy.get('form').submit();
+  },
+);
