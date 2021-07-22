@@ -176,7 +176,6 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        // TODO:: Check data group permission
         $oAuthClient = $this->saveOAuthClient();
 
         return new EndpointResourceResult(OAuthClientModel::class, $oAuthClient);
