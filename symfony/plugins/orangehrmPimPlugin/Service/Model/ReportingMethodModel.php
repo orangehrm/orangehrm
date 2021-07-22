@@ -1,4 +1,5 @@
-/*
+<?php
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,13 +17,33 @@
  * Boston, MA  02110-1301, USA
  */
 
-export const yearRange = function(
-  range = 100,
-  fromYear = new Date().getFullYear(),
-) {
-  const numberOfYears = new Array(range);
-  for (let i = 0; i < numberOfYears.length; i++) {
-    numberOfYears[i] = fromYear - Math.floor(range / 2) + i;
-  }
-  return numberOfYears;
-};
+namespace OrangeHRM\Pim\Service\Model;
+
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\ReportingMethod;
+
+class ReportingMethodModel implements Normalizable
+{
+    use ModelTrait;
+
+    /**
+     * @param ReportingMethod $reportingMethod
+     */
+    public function __construct(ReportingMethod $reportingMethod)
+    {
+        $this->setEntity($reportingMethod);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'label'
+            ]
+        );
+    }
+}

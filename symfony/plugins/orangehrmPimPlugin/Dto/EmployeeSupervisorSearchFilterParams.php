@@ -1,4 +1,5 @@
-/*
+<?php
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,13 +17,44 @@
  * Boston, MA  02110-1301, USA
  */
 
-export const yearRange = function(
-  range = 100,
-  fromYear = new Date().getFullYear(),
-) {
-  const numberOfYears = new Array(range);
-  for (let i = 0; i < numberOfYears.length; i++) {
-    numberOfYears[i] = fromYear - Math.floor(range / 2) + i;
-  }
-  return numberOfYears;
-};
+namespace OrangeHRM\Pim\Dto;
+
+
+use OrangeHRM\Core\Dto\FilterParams;
+
+class EmployeeSupervisorSearchFilterParams extends FilterParams
+{
+
+    public const ALLOWED_SORT_FIELDS = ['supervisor.lastName'];
+
+
+    /**
+     * @var string|null
+     */
+    protected ?string $empNumber = null;
+
+    /**
+     * EmployeeSupervisorSearchFilterParams constructor.
+     */
+    public function __construct()
+    {
+        $this->setSortField('supervisor.lastName');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmpNumber(): ?string
+    {
+        return $this->empNumber;
+    }
+
+    /**
+     * @param string|null $empNumber
+     */
+    public function setEmpNumber(?string $empNumber): void
+    {
+        $this->empNumber = $empNumber;
+    }
+
+}
