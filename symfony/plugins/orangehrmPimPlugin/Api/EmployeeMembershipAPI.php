@@ -41,17 +41,11 @@ use OrangeHRM\Pim\Service\EmployeeMembershipService;
 class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
 {
     public const PARAMETER_MEMBERSHIP_ID = 'membershipId';
-    public const PARAMETER_INSTITUTE = 'institute';
     public const PARAMETER_SUBSCRIPTION_FEE = 'subscriptionFee';
     public const PARAMETER_SUBSCRIPTION_PAID_BY = 'subscriptionPaidBy';
     public const PARAMETER_SUBSCRIPTION_CURRENCY = 'subscriptionCurrency';
     public const PARAMETER_SUBSCRIPTION_COMMENCE_DATE = 'subscriptionCommenceDate';
     public const PARAMETER_SUBSCRIPTION_RENEWAL_DATE = 'subscriptionRenewalDate';
-
-    public const PARAM_RULE_INSTITUTE_MAX_LENGTH = 100;
-    public const PARAM_RULE_MAJOR_MAX_LENGTH = 100;
-    public const PARAM_RULE_YEAR_MAX_LENGTH = 4;
-    public const PARAM_RULE_SCORE_MAX_LENGTH = 25;
 
     /**
      * @var null|EmployeeMembershipService
@@ -195,27 +189,18 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_INSTITUTE,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_INSTITUTE_MAX_LENGTH]),
-                ),
-                true
-            ),
+
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_FEE,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_MAJOR_MAX_LENGTH]),
                 ),
                 true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_PAID_BY,
-                    new Rule(Rules::INT_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_YEAR_MAX_LENGTH]),
+                    new Rule(Rules::STRING_TYPE),
                 ),
                 true
             ),
@@ -223,7 +208,6 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_CURRENCY,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_SCORE_MAX_LENGTH]),
                 ),
                 true
             ),
@@ -314,37 +298,33 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
      */
     public function saveEmployeeMembership(EmployeeMembership $employeeMembership): EmployeeMembership
     {
-        $year = $this->getRequestParams()->getIntOrNull(
+        $paidBy = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SUBSCRIPTION_PAID_BY
         );
-        $score = $this->getRequestParams()->getStringOrNull(
+        $currency = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SUBSCRIPTION_CURRENCY
         );
-        $institute = $this->getRequestParams()->getStringOrNull(
-            RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_INSTITUTE
-        );
-        $major = $this->getRequestParams()->getStringOrNull(
+
+        $fee = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SUBSCRIPTION_FEE
         );
-        $startDate = $this->getRequestParams()->getDateTimeOrNull(
+        $commenceDate = $this->getRequestParams()->getDateTimeOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SUBSCRIPTION_COMMENCE_DATE
         );
-        $endDate = $this->getRequestParams()->getDateTimeOrNull(
+        $renewalDate = $this->getRequestParams()->getDateTimeOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SUBSCRIPTION_RENEWAL_DATE
         );
 
-        $employeeMembership->setYear($year);
-        $employeeMembership->setScore($score);
-        $employeeMembership->setInstitute($institute);
-        $employeeMembership->setMajor($major);
-        $employeeMembership->setStartDate($startDate);
-        $employeeMembership->setEndDate($endDate);
+        $employeeMembership->setSubscriptionPaidBy($paidBy);
+        $employeeMembership->setSubscriptionCurrency($currency);
+        $employeeMembership->setSubscriptionFee($fee);
+        $employeeMembership->setSubscriptionCommenceDate($commenceDate);
+        $employeeMembership->setSubscriptionRenewalDate($renewalDate);
 
         return $this->getEmployeeMembershipService()
             ->getEmployeeMembershipDao()

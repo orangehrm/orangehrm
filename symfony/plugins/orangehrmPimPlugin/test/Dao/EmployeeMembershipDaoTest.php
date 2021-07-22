@@ -34,7 +34,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class EmployeeMembershipDaoTest extends TestCase
 {
-
     private EmployeeMembershipDao $employeeMembershipDao;
     protected string $fixture;
 
@@ -51,8 +50,8 @@ class EmployeeMembershipDaoTest extends TestCase
 
     public function testGetEmployeeMembershipById(): void
     {
-        $result = $this->employeeMembershipDao->getEmployeeMembershipById(1,1);
-        $this->assertEquals('4', $result->getSubscriptionFee());
+        $result = $this->employeeMembershipDao->getEmployeeMembershipById(1, 1);
+        $this->assertEquals('4.00', $result->getSubscriptionFee());
         $this->assertEquals('individual', $result->getSubscriptionPaidBy());
         $this->assertEquals('Rs', $result->getSubscriptionCurrency());
         $this->assertEquals(new DateTime('2011-05-20'), $result->getSubscriptionCommenceDate());
@@ -62,7 +61,7 @@ class EmployeeMembershipDaoTest extends TestCase
     public function testDeleteEmployeeMembership(): void
     {
         $toTobedeletedIds = [1, 2];
-        $result = $this->employeeMembershipDao->deleteEmployeeMemberships(1,$toTobedeletedIds);
+        $result = $this->employeeMembershipDao->deleteEmployeeMemberships(1, $toTobedeletedIds);
         $this->assertEquals(2, $result);
     }
 
@@ -106,7 +105,7 @@ class EmployeeMembershipDaoTest extends TestCase
 
     public function testEditEmployeeMembership(): void
     {
-        $employeeMembership = $this->employeeMembershipDao->getEmployeeMembershipById(1,1);
+        $employeeMembership = $this->employeeMembershipDao->getEmployeeMembershipById(1, 1);
         $employeeMembership->setSubscriptionFee('5');
         $employeeMembership->setSubscriptionPaidBy('company');
         $employeeMembership->setSubscriptionCurrency('Rb');
@@ -114,7 +113,7 @@ class EmployeeMembershipDaoTest extends TestCase
         $employeeMembership->setSubscriptionRenewalDate(new DateTime('2011-05-24'));
         $result = $this->employeeMembershipDao->saveEmployeeMembership($employeeMembership);
         $this->assertTrue($result instanceof EmployeeMembership);
-        $this->assertEquals("4", $result->getSubscriptionFee());
+        $this->assertEquals("5", $result->getSubscriptionFee());
         $this->assertEquals("company", $result->getSubscriptionPaidBy());
         $this->assertEquals("Rb", $result->getSubscriptionCurrency());
         $this->assertEquals(new DateTime('2011-05-21'), $result->getSubscriptionCommenceDate());

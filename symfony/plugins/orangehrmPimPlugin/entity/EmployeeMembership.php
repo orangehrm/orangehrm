@@ -46,8 +46,8 @@ class EmployeeMembership
     /**
      * @var Employee
      *
-     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\Employee", inversedBy="memberships", cascade={"persist"} )
-     * @ORM\JoinColumns(name="emp_number", referencedColumnName="emp_number")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee", inversedBy="memberships", cascade={"persist"})
+     * @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      */
     private Employee $employee;
 

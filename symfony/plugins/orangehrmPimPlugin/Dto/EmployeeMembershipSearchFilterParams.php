@@ -23,7 +23,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class EmployeeMembershipSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['e.name'];
+    public const ALLOWED_SORT_FIELDS = ['m.name'];
 
     /**
      * @var string|null
@@ -32,7 +32,7 @@ class EmployeeMembershipSearchFilterParams extends FilterParams
 
     public function __construct()
     {
-        $this->setSortField('e.name');
+        $this->setSortField('m.name');
     }
 
     /**

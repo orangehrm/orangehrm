@@ -20,9 +20,9 @@
 namespace OrangeHRM\Tests\Pim\Entity;
 
 use DateTime;
-use OrangeHRM\Entity\Membership;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeMembership;
+use OrangeHRM\Entity\Membership;
 use OrangeHRM\Tests\Util\EntityTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
