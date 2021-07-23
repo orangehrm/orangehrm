@@ -26,7 +26,9 @@ class LocationSearchFilterParams extends FilterParams
     public const ALLOWED_SORT_FIELDS = [
         'location.name',
         'location.city',
-        'country.name',
+        'location.phone',
+        'country.countryCode',
+        'noOfEmployees',
     ];
 
     /**

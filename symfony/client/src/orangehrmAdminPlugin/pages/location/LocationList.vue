@@ -66,6 +66,7 @@
             iconName="plus"
             displayType="secondary"
             @click="onClickAdd"
+            v-if="$can.create(`locations`)"
           />
         </div>
       </div>
@@ -79,7 +80,7 @@
         <oxd-card-table
           :headers="headers"
           :items="items?.data"
-          :selectable="true"
+          :selectable="$can.delete(`locations`)"
           :clickable="false"
           :loading="isLoading"
           v-model:selected="checkedItems"
@@ -117,9 +118,9 @@ const defaultFilters = {
 const defaultSortOrder = {
   'location.name': 'ASC',
   'location.city': 'DEFAULT',
-  'location.countryCode': 'DEFAULT',
+  'country.countryCode': 'DEFAULT',
   'location.phone': 'DEFAULT',
-  'location.noOfEmployees': 'DEFAULT',
+  'noOfEmployees': 'DEFAULT',
 };
 
 const locationDataNormalizer = data => {
@@ -143,6 +144,26 @@ export default {
     },
   },
   data() {
+    const cellConfig = {};
+
+    if (this.$can.delete('locations')) {
+      cellConfig['delete'] = {
+        onClick: this.onClickDelete,
+        component: 'oxd-icon-button',
+        props: {
+          name: 'trash',
+        },
+      };
+    }
+    if (this.$can.update('locations')) {
+      cellConfig['edit'] = {
+        onClick: this.onClickEdit,
+        props: {
+          name: 'pencil-fill',
+        },
+      };
+    }
+
     return {
       headers: [
         {
@@ -162,7 +183,7 @@ export default {
           name: 'country',
           title: 'Country',
           style: {flex: 2},
-          sortField: 'location.countryCode',
+          sortField: 'country.countryCode',
         },
         {
           name: 'phone',
@@ -174,7 +195,7 @@ export default {
           name: 'noOfEmployees',
           title: 'Number of Employees',
           style: {flex: 3},
-          sortField: 'location.noOfEmployees',
+          sortField: 'noOfEmployees',
         },
         {
           name: 'actions',
@@ -182,21 +203,7 @@ export default {
           slot: 'action',
           style: {flex: 2},
           cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
+          cellConfig: cellConfig,
         },
       ],
       checkedItems: [],

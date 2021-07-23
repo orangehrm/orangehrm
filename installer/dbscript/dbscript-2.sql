@@ -1395,7 +1395,8 @@ INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (99, 'Change Leave Status', 4, 'changeLeaveStatus'),
 (100, 'Terminate Employment', 3, 'terminateEmployement'),
 (101, 'View Attendance Summary Report', 5, 'displayAttendanceSummaryReport'),
-(102, 'View Project Activity Details Report', 5, 'displayProjectActivityDetailsReport');
+(102, 'View Project Activity Details Report', 5, 'displayProjectActivityDetailsReport'),
+(103, 'Save Location', 2, 'saveLocation');
 
 INSERT INTO ohrm_menu_item (`id`, `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 (1, 'Admin', 74, NULL, 1, 100, NULL, 1),
@@ -1608,7 +1609,8 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (1, 101, 1, 1, 1, 1),
 (3, 101, 1, 1, 1, 1),
 (1, 102, 1, 1, 1, 1),
-(4, 102, 1, 1, 1, 1);
+(4, 102, 1, 1, 1, 1),
+(1, 103, 1, 1, 1, 1);
 
 INSERT INTO `ohrm_data_group` (`id`, `name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
 (1, 'personal_information', 'PIM - Personal Details', 1, NULL, 1, NULL),
@@ -1670,7 +1672,8 @@ INSERT INTO `ohrm_data_group` (`id`, `name`, `description`, `can_read`, `can_cre
 (57, 'recruitment_candidates', 'Recruitment - Candidates', 1, 1, 1, 1),
 (58, 'time_employee_timesheets', 'Time - Employee Timesheets', 1, 0, 0, 0),
 (59, 'leave_list', 'Leave - Leave List', 1, 0, 0, 0),
-(60, 'leave_list_comments', 'Leave - Leave List - Comments', 0, 1, 0, 0);
+(60, 'leave_list_comments', 'Leave - Leave List - Comments', 0, 1, 0, 0),
+(61, 'locations', 'Admin - Locations', 1, 1, 1, 1);
 
 INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
 (1, 1, 1, NULL, 1, NULL, 0),
@@ -1922,7 +1925,11 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 
 (1, 60, 0, 1, 0, 0, 0),
 (2, 60, 0, 1, 0, 0, 1),
-(3, 60, 0, 1, 0, 0, 0);
+(3, 60, 0, 1, 0, 0, 0),
+
+(1, 61, 1, 1, 1, 1, 0),
+(2, 61, 0, 0, 0, 0, 0),
+(3, 61, 0, 0, 0, 0, 0);
 
 INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`) VALUES
 (40, 69, 1),
@@ -3618,7 +3625,8 @@ VALUES ('apiv2_admin_education', 'API-v2 Admin - Education', 1, 1, 1, 1),
        ('apiv2_admin_paygrade_currency', 'API-v2 Admin - Pay Grade Currencies', 1, 1, 1, 1),
        ('apiv2_admin_skill', 'API-v2 Admin - Skills', 1, 1, 1, 1),
        ('apiv2_admin_subunit', 'API-v2 Admin - Organization Structure', 1, 1, 1, 1),
-       ('apiv2_admin_user', 'API-v2 Admin - Users', 1, 1, 1, 1);
+       ('apiv2_admin_user', 'API-v2 Admin - Users', 1, 1, 1, 1),
+       ('apiv2_admin_location', 'API-v2 Admin - Locations', 1, 1, 1, 1);
 
 SET @admin_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'admin' LIMIT 1);
 SET @apiv2_admin_education_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_education' LIMIT 1);
@@ -3635,6 +3643,7 @@ SET @apiv2_admin_paygrade_currency_data_group_id := (SELECT `id` FROM ohrm_data_
 SET @apiv2_admin_skill_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_skill' LIMIT 1);
 SET @apiv2_admin_subunit_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_subunit' LIMIT 1);
 SET @apiv2_admin_user_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_user' LIMIT 1);
+SET @apiv2_admin_location_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_location' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_education_data_group_id),
@@ -3650,7 +3659,8 @@ VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_ed
        ('OrangeHRM\\Admin\\Api\\PayGradeCurrencyAPI', @admin_module_id, @apiv2_admin_paygrade_currency_data_group_id),
        ('OrangeHRM\\Admin\\Api\\SkillAPI', @admin_module_id, @apiv2_admin_skill_data_group_id),
        ('OrangeHRM\\Admin\\Api\\SubunitAPI', @admin_module_id, @apiv2_admin_subunit_data_group_id),
-       ('OrangeHRM\\Admin\\Api\\UserAPI', @admin_module_id, @apiv2_admin_user_data_group_id);
+       ('OrangeHRM\\Admin\\Api\\UserAPI', @admin_module_id, @apiv2_admin_user_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\LocationAPI', @admin_module_id, @apiv2_admin_location_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
@@ -3670,7 +3680,8 @@ VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_skill_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_subunit_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_admin_subunit_data_group_id, @supervisor_role_id),
-       (1, 1, 1, 1, 0, @apiv2_admin_user_data_group_id, @admin_role_id);
+       (1, 1, 1, 1, 0, @apiv2_admin_user_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_location_data_group_id, @admin_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),

@@ -25,6 +25,7 @@ use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Location;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
@@ -78,7 +79,35 @@ class LocationService
      */
     public function searchLocations(LocationSearchFilterParams $locationSearchFilterParams): array
     {
-        return $this->getLocationDao()->searchLocations($locationSearchFilterParams);
+        $isSortedByEmpCount = $locationSearchFilterParams->getSortField() === 'noOfEmployees';
+
+        if ($isSortedByEmpCount) {
+            $sortOrder = $locationSearchFilterParams->getSortOrder();
+            $locationSearchFilterParams->setSortField(null);
+            $locationSearchFilterParams->setSortOrder(ListSorter::ASCENDING);
+        }
+        $locations = $this->getLocationDao()->searchLocations($locationSearchFilterParams);
+        if ($isSortedByEmpCount) {
+            $locations = $this->sortLocationsByEmployeeCount($locations, $sortOrder);
+        }
+        return $locations;
+    }
+
+    public function sortLocationsByEmployeeCount(array $locations, string $sortOrder): array
+    {
+        usort(
+            $locations,
+            function ($location1, $location2) use ($sortOrder) {
+                if ($sortOrder === ListSorter::ASCENDING) {
+                    return $location1->getDecorator()->getNoOfEmployees() > $location2->getDecorator()
+                                                                                      ->getNoOfEmployees();
+                } else {
+                    return $location1->getDecorator()->getNoOfEmployees() < $location2->getDecorator()
+                                                                                      ->getNoOfEmployees();
+                }
+            }
+        );
+        return $locations;
     }
 
     /**

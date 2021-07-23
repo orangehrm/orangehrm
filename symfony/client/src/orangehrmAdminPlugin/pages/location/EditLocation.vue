@@ -36,6 +36,7 @@
                     v-model="location.name"
                     :rules="rules.name"
                     required
+                    :disabled="!hasUpdatePermissions"
                   />
                 </oxd-grid-item>
                 <oxd-grid-item>
@@ -47,6 +48,7 @@
                     :clear="false"
                     :options="countries"
                     required
+                    :disabled="!hasUpdatePermissions"
                   />
                 </oxd-grid-item>
                 <oxd-grid-item>
@@ -54,6 +56,7 @@
                     label="Province"
                     v-model="location.province"
                     :rules="rules.province"
+                    :disabled="!hasUpdatePermissions"
                   />
                 </oxd-grid-item>
               </oxd-grid>
@@ -66,6 +69,7 @@
                     label="City"
                     v-model="location.city"
                     :rules="rules.city"
+                    :disabled="!hasUpdatePermissions"
                   />
                 </oxd-grid-item>
                 <oxd-grid-item>
@@ -74,6 +78,7 @@
                     label="Address"
                     v-model="location.address"
                     :rules="rules.address"
+                    :disabled="!hasUpdatePermissions"
                   />
                 </oxd-grid-item>
                 <oxd-grid-item>
@@ -81,6 +86,7 @@
                     label="Zip/Postal Code"
                     v-model="location.zipCode"
                     :rules="rules.zipCode"
+                    :disabled="!hasUpdatePermissions"
                   />
                 </oxd-grid-item>
               </oxd-grid>
@@ -93,6 +99,7 @@
                     label="Phone"
                     v-model="location.phone"
                     :rules="rules.phone"
+                    :disabled="!hasUpdatePermissions"
                   />
                 </oxd-grid-item>
                 <oxd-grid-item>
@@ -100,6 +107,7 @@
                     label="Fax"
                     v-model="location.fax"
                     :rules="rules.fax"
+                    :disabled="!hasUpdatePermissions"
                   />
                 </oxd-grid-item>
                 <oxd-grid-item>
@@ -108,6 +116,7 @@
                     label="Note"
                     v-model="location.note"
                     :rules="rules.note"
+                    :disabled="!hasUpdatePermissions"
                   />
                 </oxd-grid-item>
               </oxd-grid>
@@ -120,7 +129,7 @@
         <oxd-form-actions>
           <required-text/>
           <oxd-button displayType="ghost" label="Cancel" @click="onCancel"/>
-          <submit-button/>
+          <submit-button v-if="hasUpdatePermissions"/>
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -212,6 +221,12 @@ export default {
         .then(() => {
           this.onCancel();
         });
+    },
+  },
+
+  computed: {
+    hasUpdatePermissions() {
+      return this.$can.update(`locations`);
     },
   },
 

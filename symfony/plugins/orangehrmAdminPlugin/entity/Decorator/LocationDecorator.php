@@ -24,6 +24,7 @@ namespace OrangeHRM\Entity\Decorator;
 
 
 use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\JobTitle;
@@ -33,6 +34,7 @@ class LocationDecorator {
 
     use EntityManagerHelperTrait;
     protected ?CountryService $countryService = null;
+    protected ?LocationService $locationService = null;
 
     /**
      * Set Country Service
@@ -54,6 +56,28 @@ class LocationDecorator {
             $this->countryService = new CountryService();
         }
         return $this->countryService;
+    }
+
+    /**
+     * Set Location Service
+     *
+     * @param LocationService $locationService
+     */
+    public function setLocationService(LocationService $locationService)
+    {
+        $this->locationService = $locationService;
+    }
+
+    /**
+     * Returns Location Service
+     * @returns LocationService
+     */
+    public function getLocationService(): LocationService
+    {
+        if (is_null($this->locationService)) {
+            $this->locationService = new LocationService();
+        }
+        return $this->locationService;
     }
 
     /**
@@ -88,6 +112,15 @@ class LocationDecorator {
         /** @var Country|null $country */
         $country = is_null($countryCode) ? null : $this->getCountryService()->getCountryByCountryCode($countryCode);
         $this->getLocation()->setCountry($country);
+    }
+
+    /**
+     * @return int - The number of employees in the given location
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
+    public function getNoOfEmployees(): int
+    {
+        return $this->getLocationService()->getNumberOfEmplyeesForLocation($this->getLocation()->getId());
     }
 
 }

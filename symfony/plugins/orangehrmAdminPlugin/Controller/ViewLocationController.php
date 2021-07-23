@@ -20,12 +20,11 @@
 namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Admin\Service\CountryService;
-use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Services;
 
-class ViewLocationController extends AbstractVueController
+class ViewLocationController extends BaseAdminController
 {
 
     public function init(): void
@@ -34,6 +33,20 @@ class ViewLocationController extends AbstractVueController
         /** @var CountryService $countryService */
         $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
         $component->addProp(new Prop('countries', Prop::TYPE_ARRAY, $countryService->getCountryArray()));
+        $this->setPermissionsForController(
+            [
+                'locations',
+            ]
+        );
         $this->setComponent($component);
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['locations'];
+    }
+
 }

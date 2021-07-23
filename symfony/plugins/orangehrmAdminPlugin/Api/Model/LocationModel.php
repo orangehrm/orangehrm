@@ -26,7 +26,9 @@ use OrangeHRM\Entity\Location;
 
 class LocationModel implements Normalizable
 {
-    use ModelTrait;
+    use ModelTrait {
+        toArray as traitToArray;
+    }
 
     public function __construct(Location $location)
     {
@@ -64,4 +66,18 @@ class LocationModel implements Normalizable
             ]
         );
     }
+
+    /**
+     * @return array
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
+    public function toArray(): array
+    {
+        $locationDataArray = $this->traitToArray();
+        /** @var Location $location */
+        $location = $this->entity;
+        $locationDataArray['noOfEmployees'] = $location->getDecorator()->getNoOfEmployees();
+        return $locationDataArray;
+    }
+
 }

@@ -28,8 +28,9 @@ use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Framework\Services;
 
-class SaveLocationController extends AbstractVueController
+class SaveLocationController extends BaseAdminController
 {
+
     use ConfigServiceTrait;
 
     public function preRender(Request $request): void
@@ -44,6 +45,20 @@ class SaveLocationController extends AbstractVueController
         /** @var CountryService $countryService */
         $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
         $component->addProp(new Prop('countries', Prop::TYPE_ARRAY, $countryService->getCountryArray()));
+        $this->setPermissionsForController(
+            [
+                'locations',
+            ]
+        );
         $this->setComponent($component);
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['locations'];
+    }
+
 }
