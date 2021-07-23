@@ -29,6 +29,10 @@ class LocationModel implements Normalizable
         toArray as traitToArray;
     }
 
+    /**
+     *
+     * @param Location $location
+     */
     public function __construct(Location $location)
     {
         $this->setEntity($location);
