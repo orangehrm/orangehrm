@@ -233,7 +233,7 @@ export default {
   created() {
     this.isLoading = true;
     this.http
-      .get(this.locationId)
+      .get(parseInt(this.locationId, 10))
       .then(response => {
         const {data} = response.data;
         this.location.name = data.name;
