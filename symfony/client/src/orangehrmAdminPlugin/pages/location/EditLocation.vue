@@ -23,7 +23,7 @@
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">Edit Location</oxd-text>
 
-      <oxd-divider/>
+      <oxd-divider />
 
       <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
         <oxd-grid :cols="1">
@@ -124,12 +124,12 @@
           </div>
         </oxd-grid>
 
-        <oxd-divider/>
+        <oxd-divider />
 
         <oxd-form-actions>
-          <required-text/>
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel"/>
-          <submit-button v-if="hasUpdatePermissions"/>
+          <required-text />
+          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <submit-button v-if="hasUpdatePermissions" />
         </oxd-form-actions>
       </oxd-form>
     </div>

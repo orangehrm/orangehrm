@@ -25,10 +25,10 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field label="Name" v-model="filters.name"/>
+              <oxd-input-field label="Name" v-model="filters.name" />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field label="City" v-model="filters.city"/>
+              <oxd-input-field label="City" v-model="filters.city" />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
@@ -42,10 +42,10 @@
           </oxd-grid>
         </oxd-form-row>
 
-        <oxd-divider/>
+        <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button displayType="ghost" label="Reset" @click="onClickReset"/>
+          <oxd-button displayType="ghost" label="Reset" @click="onClickReset" />
           <oxd-button
             class="orangehrm-left-space"
             displayType="secondary"
@@ -56,7 +56,7 @@
       </oxd-form>
     </oxd-table-filter>
 
-    <br/>
+    <br />
 
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
@@ -120,7 +120,7 @@ const defaultSortOrder = {
   'location.city': 'DEFAULT',
   'country.countryCode': 'DEFAULT',
   'location.phone': 'DEFAULT',
-  'noOfEmployees': 'DEFAULT',
+  noOfEmployees: 'DEFAULT',
 };
 
 const locationDataNormalizer = data => {
