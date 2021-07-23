@@ -34,8 +34,18 @@ class EmployeeProfilePictureController extends BaseViewEmployeeController
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
             $component->addProp(new Prop('allowed-image-types', Prop::TYPE_ARRAY, EmpPicture::ALLOWED_IMAGE_TYPES));
             $this->setComponent($component);
+
+            $this->setPermissionsForEmployee(['photograph'], $empNumber);
         } else {
             $this->handleBadRequest();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['photograph'];
     }
 }

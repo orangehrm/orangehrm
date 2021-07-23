@@ -19,43 +19,34 @@
  -->
 
 <template>
-  <oxd-input-field
-    type="dropdown"
-    label="Employment Status"
-    :create-options="loadOptions"
-    :lazyLoad="false"
-    :clear="false"
-  />
+  <oxd-input-field type="select" label="Employment Status" :options="options" />
 </template>
 
 <script>
+import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@orangehrm/core/util/services/api.service';
+
 export default {
   name: 'employment-status-dropdown',
   setup() {
+    const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/admin/employment-statuses',
     );
-    return {
-      http,
-    };
-  },
-  methods: {
-    async loadOptions() {
-      return new Promise(resolve => {
-        this.http.getAll().then(({data}) => {
-          const options = data.data.map(item => {
-            return {
-              id: item.id,
-              label: item.name,
-            };
-          });
-          options.unshift({id: 0, label: 'All'});
-          resolve(options);
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
         });
       });
-    },
+    });
+    return {
+      options,
+    };
   },
 };
 </script>

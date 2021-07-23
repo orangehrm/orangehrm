@@ -21,6 +21,16 @@ apiv2_pim_employee_picture:
     _api: OrangeHRM\Pim\Api\EmployeePictureAPI
     _key: empNumber
 
+apiv2_pim_employee_custom_fields:
+  path: /api/v2/pim/employees/{empNumber}/custom-fields
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeCustomFieldAPI
+    _key: empNumber
+  requirements:
+    empNumber: '\d+'
+
 apiv2_pim_employees_personal_details:
   path: /api/v2/pim/employees/{empNumber}/personal-details
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -323,6 +333,70 @@ apiv2_pim_optional_field:
     id: 0
     _api: OrangeHRM\Pim\Api\OptionalFieldAPI
 
+apiv2_pim_employees_immigration:
+  path: /api/v2/pim/employees/{empNumber}/immigrations/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_immigrations:
+  path: /api/v2/pim/employees/{empNumber}/immigrations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeImmigrationRecordAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_report_to_supervisors:
+  path: /api/v2/pim/employees/{empNumber}/supervisors
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSupervisorAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_report_to_supervisor:
+  path: /api/v2/pim/employees/{empNumber}/supervisors/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSupervisorAPI
+  requirements:
+    empNumber: '\d+'
+    id: '\d+'
+
+apiv2_pim_report_to_subordinate:
+  path: /api/v2/pim/employees/{empNumber}/subordinates/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSubordinateAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_report_to_subordinates:
+  path: /api/v2/pim/employees/{empNumber}/subordinates
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeSubordinateAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_report_to_allowed_employees:
+  path: /api/v2/pim/employees/{empNumber}/report-to/allowed
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeAllowedReportToEmployeeAPI
+  requirements:
+    empNumber: '\d+'
+
 
 ##########################
 #        Files
@@ -402,6 +476,11 @@ pim_employee_qualifications:
   controller: OrangeHRM\Pim\Controller\EmployeeQualificationsController::handle
   methods: [ GET ]
 
+pim_employee_report_to:
+  path: /pim/viewReportToDetails/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeReportToController::handle
+  methods: [ GET ]
+
 view_termination_reason:
   path: /pim/viewTerminationReasons
   controller: OrangeHRM\Pim\Controller\TerminationReasonController::handle
@@ -448,4 +527,9 @@ edit_custom_fields:
 view_optional_field:
   path: /pim/configurePim
   controller: OrangeHRM\Pim\Controller\OptionalFieldController::handle
+  methods: [ GET ]
+
+pim_employee_immigration:
+  path: /pim/viewImmigration/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeImmigrationController::handle
   methods: [ GET ]

@@ -1,0 +1,247 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
+<template>
+  <div>
+    <save-employee-report-to
+      v-if="showSaveModal"
+      :http="http"
+      :reporting-methods="reportingMethods"
+      :type="'Supervisor'"
+      :emp-number="empNumber"
+      @close="onSaveModalClose"
+    ></save-employee-report-to>
+    <edit-employee-report-to
+      v-if="showEditModal"
+      :http="http"
+      :emp-number="empNumber"
+      :data="editModalState"
+      :type="'Supervisor'"
+      :api="supervisorEndpoint"
+      :reporting-methods="reportingMethods"
+      @close="onEditModalClose"
+    ></edit-employee-report-to>
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+      <profile-action-header
+        @click="onClickAdd"
+        :action-button-shown="$can.create(`supervisor`)"
+      >
+        Assigned Supervisors
+      </profile-action-header>
+    </div>
+    <table-header
+      :selected="checkedItems.length"
+      :total="total"
+      :loading="isLoading"
+      @delete="onClickDeleteSelected"
+    ></table-header>
+    <div class="orangehrm-container">
+      <oxd-card-table
+        :headers="headers"
+        :items="items?.data"
+        :selectable="true"
+        :disabled="isDisabled"
+        :clickable="false"
+        :loading="isLoading"
+        v-model:selected="checkedItems"
+        rowDecorator="oxd-table-decorator-card"
+      />
+    </div>
+    <div v-if="showPaginator" class="orangehrm-bottom-container">
+      <oxd-pagination :length="pages" v-model:current="currentPage" />
+    </div>
+    <delete-confirmation ref="deleteDialog"></delete-confirmation>
+  </div>
+</template>
+
+<script>
+import ProfileActionHeader from '@/orangehrmPimPlugin/components/ProfileActionHeader';
+import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
+import {APIService} from '@/core/util/services/api.service';
+import usePaginate from '@/core/util/composable/usePaginate';
+import SaveEmployeeReportTo from '@/orangehrmPimPlugin/components/SaveEmployeeReportTo';
+import EditEmployeeReportTo from '@/orangehrmPimPlugin/components/EditEmployeeReportTo';
+
+const supervisorNormalizer = data => {
+  return data.map(item => {
+    return {
+      name: `${item.supervisor?.firstName} ${item.supervisor?.lastName}`,
+      reportingMethod: item.reportingMethod.name,
+      supervisorEmpNumber: item.supervisor.empNumber,
+    };
+  });
+};
+
+export default {
+  name: 'employee-supervisors',
+
+  components: {
+    'edit-employee-report-to': EditEmployeeReportTo,
+    'profile-action-header': ProfileActionHeader,
+    'save-employee-report-to': SaveEmployeeReportTo,
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
+
+  props: {
+    empNumber: {
+      type: String,
+      required: true,
+    },
+    reportingMethods: {
+      type: Array,
+      required: true,
+    },
+  },
+
+  setup(props) {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      `api/v2/pim/employees/${props.empNumber}/supervisors`,
+    );
+    const supervisorEndpoint = `api/v2/pim/employees/${props.empNumber}/supervisors/`;
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, {}, supervisorNormalizer);
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+      supervisorEndpoint,
+    };
+  },
+
+  data() {
+    return {
+      headers: [
+        {name: 'name', slot: 'title', title: 'Name', style: {flex: 1}},
+        {
+          name: 'reportingMethod',
+          title: 'Reporting Method',
+          style: {flex: 1},
+        },
+        {
+          name: 'actions',
+          slot: 'action',
+          title: 'Actions',
+          style: {flex: 1},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            delete: {
+              onClick: this.onClickDelete,
+              component: 'oxd-icon-button',
+              props: {
+                name: 'trash',
+              },
+            },
+            edit: {
+              onClick: this.onClickEdit,
+              props: {
+                name: 'pencil-fill',
+              },
+            },
+          },
+        },
+      ],
+      checkedItems: [],
+      showSaveModal: false,
+      showEditModal: false,
+      editModalState: null,
+    };
+  },
+
+  methods: {
+    onClickDeleteSelected() {
+      const ids = this.checkedItems.map(index => {
+        return this.items?.data[index].supervisorEmpNumber;
+      });
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems(ids);
+        }
+      });
+    },
+    onClickDelete(item) {
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems([item.supervisorEmpNumber]);
+        }
+      });
+    },
+    deleteItems(items) {
+      if (items instanceof Array) {
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
+      }
+    },
+    async resetDataTable() {
+      this.checkedItems = [];
+      await this.execQuery();
+    },
+    onClickAdd() {
+      this.showEditModal = false;
+      this.editModalState = null;
+      this.showSaveModal = true;
+    },
+    onClickEdit(item) {
+      this.showSaveModal = false;
+      this.editModalState = item;
+      this.showEditModal = true;
+    },
+    onSaveModalClose() {
+      this.showSaveModal = false;
+      this.resetDataTable();
+    },
+    onEditModalClose() {
+      this.showEditModal = false;
+      this.editModalState = null;
+      this.resetDataTable();
+    },
+  },
+
+  computed: {
+    isDisabled() {
+      return this.showSaveModal || this.showEditModal;
+    },
+  },
+};
+</script>

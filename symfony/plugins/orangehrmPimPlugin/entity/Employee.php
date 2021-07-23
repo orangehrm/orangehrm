@@ -503,16 +503,6 @@ class Employee
      */
     private $employeeTerminationRecords;
 
-//    /**
-//     * @var Collection
-//     *
-//     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Country")
-//     * @ORM\JoinColumns({
-//     *   @ORM\JoinColumn(name="coun_code", referencedColumnName="cou_code")
-//     * })
-//     */
-//    private $EmployeeCountry;
-
     /**
      * @var User[]|Collection
      *
@@ -566,7 +556,6 @@ class Employee
         $this->attachments = new ArrayCollection();
         $this->projectAdmin = new ArrayCollection();
         $this->employeeTerminationRecords = new ArrayCollection();
-//        $this->EmployeeCountry = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->subordinates = new ArrayCollection();
         $this->supervisors = new ArrayCollection();

@@ -33,8 +33,21 @@ class EmployeeEmergencyContactsController extends BaseViewEmployeeController
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
 
             $this->setComponent($component);
+
+            $this->setPermissionsForEmployee(
+                ['emergency_contacts', 'emergency_attachment', 'emergency_custom_fields'],
+                $empNumber
+            );
         } else {
             $this->handleBadRequest();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['emergency_contacts'];
     }
 }
