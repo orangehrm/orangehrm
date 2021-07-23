@@ -31,6 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Location
 {
+
     use DecoratorTrait;
 
     /**
@@ -265,4 +266,5 @@ class Location
     {
         $this->note = $note;
     }
+
 }

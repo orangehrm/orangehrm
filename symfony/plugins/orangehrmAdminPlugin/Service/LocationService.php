@@ -31,6 +31,7 @@ use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class LocationService
 {
+
     use UserRoleManagerTrait;
     use NormalizerServiceTrait;
     use EmployeeServiceTrait;
@@ -61,7 +62,9 @@ class LocationService
 
     /**
      * Get Location by id
+     *
      * @param int $locationId
+     *
      * @return Location|null
      * @throws DaoException
      */
@@ -74,8 +77,10 @@ class LocationService
      * Search location by location name, city and country.
      *
      * @param LocationSearchFilterParams $locationSearchFilterParams
+     *
      * @return Location[]
-     * @throws DaoException
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @throws \OrangeHRM\Core\Exception\SearchParamException
      */
     public function searchLocations(LocationSearchFilterParams $locationSearchFilterParams): array
     {
@@ -93,18 +98,25 @@ class LocationService
         return $locations;
     }
 
+    /**
+     * This function sorts the given array of locations by the number of employees in those locations
+     *
+     * @param Location[] $locations
+     * @param string     $sortOrder
+     *
+     * @return Location[]
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
     public function sortLocationsByEmployeeCount(array $locations, string $sortOrder): array
     {
         usort(
             $locations,
-            function ($location1, $location2) use ($sortOrder) {
-                if ($sortOrder === ListSorter::ASCENDING) {
-                    return $location1->getDecorator()->getNoOfEmployees() > $location2->getDecorator()
-                                                                                      ->getNoOfEmployees();
-                } else {
-                    return $location1->getDecorator()->getNoOfEmployees() < $location2->getDecorator()
-                                                                                      ->getNoOfEmployees();
-                }
+            function (Location $location1, Location $location2) use ($sortOrder) {
+                $location1EmployeeCount = $location1->getDecorator()->getNoOfEmployees();
+                $location2EmployeeCount = $location2->getDecorator()->getNoOfEmployees();
+                return $sortOrder === ListSorter::ASCENDING ?
+                    $location1EmployeeCount > $location2EmployeeCount
+                    : $location1EmployeeCount < $location2EmployeeCount;
             }
         );
         return $locations;
@@ -114,6 +126,7 @@ class LocationService
      * Get location count of the search results.
      *
      * @param LocationSearchFilterParams $locationSearchFilterParams
+     *
      * @return int
      * @throws DaoException
      */
@@ -126,10 +139,11 @@ class LocationService
      * Get total number of employees in a location.
      *
      * @param int $locationId
+     *
      * @return int
      * @throws DaoException
      */
-    public function getNumberOfEmplyeesForLocation(int $locationId): int
+    public function getNumberOfEmployeesForLocation(int $locationId): int
     {
         return $this->getLocationDao()->getNumberOfEmployeesForLocation($locationId);
     }
@@ -138,6 +152,7 @@ class LocationService
      * Get all locations
      *
      * @return Location[]
+     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getLocationList(): array
     {
@@ -148,7 +163,9 @@ class LocationService
      * Get LocationIds for Employees with the given employee numbers
      *
      * @param int[] $empNumbers Array of employee numbers
+     *
      * @return int[] of locationIds of the given employees
+     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getLocationIdsForEmployees(array $empNumbers): array
     {
@@ -156,7 +173,10 @@ class LocationService
     }
 
     /**
+     * Returns the accessible location list
+     *
      * @param int|null $empNumber
+     *
      * @return array
      * @throws DaoException
      */
@@ -176,7 +196,9 @@ class LocationService
     }
 
     /**
-     * @param Location  $location
+     * Save Location in the database
+     *
+     * @param Location $location
      *
      * @return Location
      * @throws DaoException
@@ -194,7 +216,8 @@ class LocationService
      * @return int number of affected rows
      * @throws DaoException
      */
-    public function deleteLocations(array $ids): int {
+    public function deleteLocations(array $ids): int
+    {
         return $this->getLocationDao()->deleteLocations($ids);
     }
 

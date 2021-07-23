@@ -28,24 +28,33 @@ use OrangeHRM\Entity\Country;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Location;
 
-class LocationDecorator {
+class LocationDecorator
+{
 
     use EntityManagerHelperTrait;
+
     protected ?CountryService $countryService = null;
+
     protected ?LocationService $locationService = null;
+
+    /**
+     * @var Location
+     */
+    protected Location $location;
 
     /**
      * Set Country Service
      *
      * @param CountryService $countryService
      */
-    public function setCountryService(CountryService $countryService)
+    public function setCountryService(CountryService $countryService): void
     {
         $this->countryService = $countryService;
     }
 
     /**
      * Returns Country Service
+     *
      * @returns CountryService
      */
     public function getCountryService(): CountryService
@@ -61,13 +70,14 @@ class LocationDecorator {
      *
      * @param LocationService $locationService
      */
-    public function setLocationService(LocationService $locationService)
+    public function setLocationService(LocationService $locationService): void
     {
         $this->locationService = $locationService;
     }
 
     /**
      * Returns Location Service
+     *
      * @returns LocationService
      */
     public function getLocationService(): LocationService
@@ -79,12 +89,8 @@ class LocationDecorator {
     }
 
     /**
-     * @var Location
-     */
-    protected Location $location;
-
-    /**
      * LocationDecorator constructor.
+     *
      * @param Location $location
      */
     public function __construct(Location $location)
@@ -101,7 +107,9 @@ class LocationDecorator {
     }
 
     /**
-     * @param string|null  $countryCode
+     * Sets the given country code as the related country of the Location entity
+     *
+     * @param string|null $countryCode
      *
      * @throws \OrangeHRM\Core\Exception\DaoException
      */
@@ -113,12 +121,14 @@ class LocationDecorator {
     }
 
     /**
-     * @return int - The number of employees in the given location
+     * Returns the number of employees in the given location.
+     *
+     * @return int
      * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getNoOfEmployees(): int
     {
-        return $this->getLocationService()->getNumberOfEmplyeesForLocation($this->getLocation()->getId());
+        return $this->getLocationService()->getNumberOfEmployeesForLocation($this->getLocation()->getId());
     }
 
 }

@@ -125,7 +125,7 @@ class LocationServiceTest extends TestCase
 
         $this->locationService->setLocationDao($locationDao);
 
-        $result = $this->locationService->getNumberOfEmplyeesForLocation(1);
+        $result = $this->locationService->getNumberOfEmployeesForLocation(1);
         $this->assertEquals($result, 2);
     }
 

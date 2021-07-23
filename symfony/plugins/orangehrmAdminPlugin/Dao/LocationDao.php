@@ -30,8 +30,12 @@ use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 
 class LocationDao extends BaseDao
 {
+
     /**
+     * Returns the Location having the given id (or null, if not exist)
+     *
      * @param int $locationId
+     *
      * @return Location|null
      * @throws DaoException
      */
@@ -51,7 +55,10 @@ class LocationDao extends BaseDao
     }
 
     /**
+     * Returns the count of Locations that matches the given search filters
+     *
      * @param LocationSearchFilterParams $locationSearchFilterParams
+     *
      * @return int
      * @throws DaoException
      */
@@ -67,7 +74,10 @@ class LocationDao extends BaseDao
     }
 
     /**
+     * Searches the Locations matching the given search filters
+     *
      * @param LocationSearchFilterParams $locationSearchFilterParams
+     *
      * @return Location[]
      * @throws DaoException
      */
@@ -83,7 +93,11 @@ class LocationDao extends BaseDao
     }
 
     /**
+     *
+     * Set up the query with the paginator to search the locations using the given filters
+     *
      * @param LocationSearchFilterParams $locationSearchFilterParams
+     *
      * @return Paginator
      */
     private function searchLocationsPaginator(LocationSearchFilterParams $locationSearchFilterParams
@@ -94,32 +108,36 @@ class LocationDao extends BaseDao
 
         if (!empty($locationSearchFilterParams->getName())) {
             $q->andWhere($q->expr()->like('location.name', ':name'))
-                ->setParameter('name', '%' . $locationSearchFilterParams->getName() . '%');
+              ->setParameter('name', '%' . $locationSearchFilterParams->getName() . '%');
         }
 
         if (!empty($locationSearchFilterParams->getCity())) {
             $q->andWhere($q->expr()->like('location.city', ':city'))
-                ->setParameter('city', '%' . $locationSearchFilterParams->getCity() . '%');
+              ->setParameter('city', '%' . $locationSearchFilterParams->getCity() . '%');
         }
 
         if (!empty($locationSearchFilterParams->getCountryCode())) {
             $q->andWhere('country.countryCode = :countryCode')
-                ->setParameter('countryCode', $locationSearchFilterParams->getCountryCode());
+              ->setParameter('countryCode', $locationSearchFilterParams->getCountryCode());
         }
 
         return $this->getPaginator($q);
     }
 
     /**
+     * Returns the number of employees in the given location
+     *
      * @param int $locationId
+     *
      * @return int
+     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getNumberOfEmployeesForLocation(int $locationId): int
     {
         try {
             $q = $this->createQueryBuilder(EmpLocations::class, 'el');
             $q->andWhere('el.location = :locationId')
-                ->setParameter('locationId', $locationId);
+              ->setParameter('locationId', $locationId);
 
             return $this->count($q);
             // @codeCoverageIgnoreStart
@@ -130,7 +148,10 @@ class LocationDao extends BaseDao
     }
 
     /**
+     * Returns all the Locations in the system
+     *
      * @return Location[]
+     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getLocationList(): array
     {
@@ -149,19 +170,21 @@ class LocationDao extends BaseDao
      * Get LocationIds for Employees with the given employee numbers
      *
      * @param int[] $empNumbers Array of employee numbers
+     *
      * @return int[] of locationIds of the given employees
+     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getLocationIdsForEmployees(array $empNumbers): array
     {
         try {
             $locationIds = [];
 
-            if (count($empNumbers) > 0) {
+            if (!empty($empNumbers)) {
                 $q = $this->createQueryBuilder(EmpLocations::class, 'el');
                 $q->distinct()
-                    ->addGroupBy('el.location');
+                  ->addGroupBy('el.location');
                 $q->andWhere($q->expr()->in('el.employee', ':empNumbers'))
-                    ->setParameter('empNumbers', $empNumbers);
+                  ->setParameter('empNumbers', $empNumbers);
 
                 /** @var EmpLocations[] $locations */
                 $locations = $q->getQuery()->execute();
@@ -180,7 +203,10 @@ class LocationDao extends BaseDao
     }
 
     /**
+     * Returns the Locations having the given ids
+     *
      * @param int[] $ids
+     *
      * @return Location[]
      * @throws DaoException
      */
@@ -189,7 +215,7 @@ class LocationDao extends BaseDao
         try {
             $q = $this->createQueryBuilder(Location::class, 'l');
             $q->andWhere($q->expr()->in('l.id', ':ids'))
-                ->setParameter('ids', $ids);
+              ->setParameter('ids', $ids);
             $q->addOrderBy('l.name', ListSorter::ASCENDING);
             return $q->getQuery()->execute();
             // @codeCoverageIgnoreStart
@@ -200,6 +226,8 @@ class LocationDao extends BaseDao
     }
 
     /**
+     * Save Location into the database
+     *
      * @param Location $location
      *
      * @return Location
@@ -211,7 +239,7 @@ class LocationDao extends BaseDao
             $this->persist($location);
             return $location;
             // @codeCoverageIgnoreStart
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
         // @codeCoverageIgnoreEnd
@@ -225,7 +253,8 @@ class LocationDao extends BaseDao
      * @return int|mixed|string
      * @throws \OrangeHRM\Core\Exception\DaoException
      */
-    public function deleteLocations(array $toDeleteIds) {
+    public function deleteLocations(array $toDeleteIds)
+    {
         try {
             $q = $this->createQueryBuilder(Location::class, 'l');
             $q->delete()
