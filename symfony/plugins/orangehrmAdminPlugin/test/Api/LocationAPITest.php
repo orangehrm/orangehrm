@@ -58,7 +58,7 @@ class LocationAPITest extends EndpointTestCase
         return [];
     }
 
-    public function testGettersAndSetters()
+    public function testGettersAndSetters(): void
     {
         $classFieldTypeMap = [
             'locationService' => LocationService::class,
@@ -80,7 +80,7 @@ class LocationAPITest extends EndpointTestCase
     /**
      * @dataProvider dataProviderForTestGetOne
      */
-    public function testGetOne($params, $result, $exception = false)
+    public function testGetOne($params, $result, $exception = false): void
     {
         if ($exception) {
             $this->expectException($exception['class']);
@@ -99,7 +99,7 @@ class LocationAPITest extends EndpointTestCase
     /**
      * @dataProvider dataProviderForTestGetValidationRuleForGetOne
      */
-    public function testGetValidationRuleForGetOne($params, $exception = false)
+    public function testGetValidationRuleForGetOne($params, $exception = false): void
     {
         if ($exception) {
             $this->expectException($exception['class']);
@@ -117,7 +117,7 @@ class LocationAPITest extends EndpointTestCase
     /**
      * @dataProvider dataProviderForTestGetAll
      */
-    public function testGetAll($params, $result, $exception = false)
+    public function testGetAll($params, $result, $exception = false): void
     {
         if ($exception) {
             $this->expectException($exception['class']);
@@ -136,7 +136,7 @@ class LocationAPITest extends EndpointTestCase
     /**
      * @dataProvider dataProviderForTestGetValidationRuleForGetAll
      */
-    public function testGetValidationRuleForGetAll($params, $exception = false)
+    public function testGetValidationRuleForGetAll($params, $exception = false): void
     {
         if ($exception) {
             $this->expectException($exception['class']);
@@ -154,7 +154,7 @@ class LocationAPITest extends EndpointTestCase
     /**
      * @dataProvider dataProviderForTestCreate
      */
-    public function testCreate($params, $result, $exception = false)
+    public function testCreate($params, $result, $exception = false): void
     {
         if ($exception) {
             $this->expectException($exception['class']);
@@ -173,7 +173,7 @@ class LocationAPITest extends EndpointTestCase
     /**
      * @dataProvider dataProviderForTestGetValidationRuleForCreate
      */
-    public function testGetValidationRuleForCreate($params, $exception = false)
+    public function testGetValidationRuleForCreate($params, $exception = false): void
     {
         if ($exception) {
             $this->expectException($exception['class']);
@@ -191,7 +191,7 @@ class LocationAPITest extends EndpointTestCase
     /**
      * @dataProvider dataProviderForTestUpdate
      */
-    public function testUpdate($params, $result, $exception = false)
+    public function testUpdate($params, $result, $exception = false): void
     {
         if ($exception) {
             $this->expectException($exception['class']);
@@ -212,7 +212,7 @@ class LocationAPITest extends EndpointTestCase
     /**
      * @dataProvider dataProviderForTestGetValidationRuleForUpdate
      */
-    public function testGetValidationRuleForUpdate($params, $exception = false)
+    public function testGetValidationRuleForUpdate($params, $exception = false): void
     {
         if ($exception) {
             $this->expectException($exception['class']);
@@ -230,7 +230,7 @@ class LocationAPITest extends EndpointTestCase
     /**
      * @dataProvider dataProviderForTestDelete
      */
-    public function testDelete($params, $result, $exception = false)
+    public function testDelete($params, $result, $exception = false): void
     {
         if ($exception) {
             $this->expectException($exception['class']);
@@ -238,9 +238,19 @@ class LocationAPITest extends EndpointTestCase
         }
         $this->locationApi = new LocationAPI($this->getRequest([], $params));
         $locationSearchFilterParams = new LocationSearchFilterParams();
-        $this->assertEquals($result['preCount'], count($this->locationApi->getLocationService()->searchLocations($locationSearchFilterParams)));
+        $this->assertEquals(
+            $result['preCount'],
+            count(
+                $this->locationApi->getLocationService()->searchLocations($locationSearchFilterParams)
+            )
+        );
         $location = $this->locationApi->delete();
-        $this->assertEquals($result['postCount'], count($this->locationApi->getLocationService()->searchLocations($locationSearchFilterParams)));
+        $this->assertEquals(
+            $result['postCount'],
+            count(
+                $this->locationApi->getLocationService()->searchLocations($locationSearchFilterParams)
+            )
+        );
         $this->assertEquals($result['ids'], $location->normalize());
     }
 
@@ -252,7 +262,7 @@ class LocationAPITest extends EndpointTestCase
     /**
      * @dataProvider dataProviderForTestGetValidationRuleForDelete
      */
-    public function testGetValidationRuleForDelete($params, $exception = false)
+    public function testGetValidationRuleForDelete($params, $exception = false): void
     {
         if ($exception) {
             $this->expectException($exception['class']);
