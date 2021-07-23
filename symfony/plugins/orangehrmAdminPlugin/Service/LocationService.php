@@ -26,7 +26,7 @@ use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\ORM\ListSorter;
-use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
+use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class LocationService

@@ -30,7 +30,7 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
+use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use Symfony\Component\Yaml\Yaml;

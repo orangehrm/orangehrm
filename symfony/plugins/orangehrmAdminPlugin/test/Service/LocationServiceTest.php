@@ -23,7 +23,7 @@ use OrangeHRM\Admin\Dao\LocationDao;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Location;
-use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
+use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 

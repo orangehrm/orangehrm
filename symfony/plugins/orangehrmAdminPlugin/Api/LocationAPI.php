@@ -37,7 +37,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Location;
-use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
+use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 
 class LocationAPI extends Endpoint implements CrudEndpoint
 {
@@ -306,12 +306,8 @@ class LocationAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResult
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
-        if ($id) {
-            $location = $this->getLocationService()->getLocationById($id);
-            $this->throwRecordNotFoundExceptionIfNotExist($location, Location::class);
-        } else {
-            $location = new Location();
-        }
+        $location = $this->getLocationService()->getLocationById($id);
+        $this->throwRecordNotFoundExceptionIfNotExist($location, Location::class);
         $this->setLocationData($location);
         $location = $this->getLocationService()->saveLocation($location);
         return new EndpointResourceResult(LocationModel::class, $location);

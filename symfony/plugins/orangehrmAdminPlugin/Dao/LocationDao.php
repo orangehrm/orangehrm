@@ -26,7 +26,7 @@ use OrangeHRM\Entity\EmpLocations;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
-use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
+use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 
 class LocationDao extends BaseDao
 {
@@ -43,9 +43,11 @@ class LocationDao extends BaseDao
                 return $location;
             }
             return null;
+            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -57,9 +59,11 @@ class LocationDao extends BaseDao
     {
         try {
             return $this->searchLocationsPaginator($locationSearchFilterParams)->count();
+            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -71,9 +75,11 @@ class LocationDao extends BaseDao
     {
         try {
             return $this->searchLocationsPaginator($locationSearchFilterParams)->getQuery()->execute();
+            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -116,9 +122,11 @@ class LocationDao extends BaseDao
                 ->setParameter('locationId', $locationId);
 
             return $this->count($q);
+            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -130,9 +138,11 @@ class LocationDao extends BaseDao
             $q = $this->createQueryBuilder(Location::class, 'l');
             $q->addOrderBy('l.name', ListSorter::ASCENDING);
             return $q->getQuery()->execute();
+            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -162,9 +172,11 @@ class LocationDao extends BaseDao
             }
 
             return $locationIds;
+            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -180,9 +192,11 @@ class LocationDao extends BaseDao
                 ->setParameter('ids', $ids);
             $q->addOrderBy('l.name', ListSorter::ASCENDING);
             return $q->getQuery()->execute();
+            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -196,9 +210,11 @@ class LocationDao extends BaseDao
         try {
             $this->persist($location);
             return $location;
+            // @codeCoverageIgnoreStart
         } catch(Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -217,9 +233,11 @@ class LocationDao extends BaseDao
               ->setParameter('ids', $toDeleteIds);
 
             return $q->getQuery()->execute();
+            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
 }
