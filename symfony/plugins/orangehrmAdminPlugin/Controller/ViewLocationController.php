@@ -27,6 +27,9 @@ use OrangeHRM\Framework\Services;
 class ViewLocationController extends BaseAdminController
 {
 
+    /**
+     * @inheritDoc
+     */
     public function init(): void
     {
         $component = new Component('location-list');
