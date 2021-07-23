@@ -367,6 +367,6 @@ edit_nationality:
   methods: [ GET ]
 
 view_email_configuration:
-  path: /admin/viewEmailConfiguration
+  path: /admin/listEmailConfiguration
   controller: OrangeHRM\Admin\Controller\ViewEmailConfigurationController::handle
   methods: [ GET ]

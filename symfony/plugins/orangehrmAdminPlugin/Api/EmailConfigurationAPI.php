@@ -35,6 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmailConfiguration;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 
 class EmailConfigurationAPI extends Endpoint implements CrudEndpoint
 {
@@ -57,6 +58,8 @@ class EmailConfigurationAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_SMTP_AUTH_TYPE_MAX_LENGTH = 50;
     public const PARAM_RULE_SMTP_SECURITY_TYPE_MAX_LENGTH = 50;
     public const PARAM_RULE_TEST_EMAIL_ADDRESS_MAX_LENGTH = 250;
+
+    public const TEST_EMAIL_STATUS = 'testEmailStatus';
 
     /**
      * @var null|EmailConfigurationService
@@ -164,15 +167,25 @@ class EmailConfigurationAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_TEST_EMAIL_ADDRESS
         );
+        $testEmailStatus = 1;
         if (!empty($testEmail)) {
-            $result = $this->getEmailConfigurationService()->sendTestMail($testEmail);
+            $result = false;//$this->getEmailConfigurationService()->sendTestMail($testEmail);
             if ($result) {
-                //TODO:: Condition
+                $testEmailStatus = 1;
             } else {
-                //TODO:: Condition
+                $testEmailStatus = 0;
             }
         }
-        return new EndpointResourceResult(EmailConfigurationModel::class, $emailConfiguration);
+//        return new EndpointResourceResult(EmailConfigurationModel::class, $emailConfiguration);
+        return new EndpointResourceResult(
+            EmailConfigurationModel::class,
+            $emailConfiguration,
+            new ParameterBag(
+                [
+                    self::TEST_EMAIL_STATUS => $testEmailStatus,
+                ]
+            )
+        );
     }
 
     /**

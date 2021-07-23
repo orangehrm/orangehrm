@@ -31,7 +31,6 @@ use OrangeHRM\Framework\Util\MailTransport;
 
 class EmailService
 {
-
     public const SMTP_SECURITY_NONE = 'none';
     public const SMTP_SECURITY_TLS = 'tls';
     public const SMTP_SECURITY_SSL = 'ssl';

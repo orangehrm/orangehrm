@@ -25,11 +25,6 @@
         <oxd-text tag="h6" class="orangehrm-main-title">
           Email Configuration
         </oxd-text>
-<!--        <oxd-switch-input-->
-<!--          v-model="editable"-->
-<!--          optionLabel="Edit"-->
-<!--          labelPosition="left"-->
-<!--        />-->
       </div>
       <oxd-divider />
 
@@ -41,7 +36,6 @@
                 label="Mail Sent As"
                 v-model="emailConfiguration.sentAs"
                 :rules="rules.sentAs"
-                :disabled="!editable"
                 required
               />
             </oxd-grid-item>
@@ -49,6 +43,7 @@
               <oxd-input-group
                 label="Sending Method"
                 :classes="{wrapper: '--status-grouped-field'}"
+                :style="{maxWidth: '12rem'}"
               >
                 <oxd-input-field
                   type="radio"
@@ -71,7 +66,7 @@
             <oxd-grid :cols="2" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <oxd-input-group label="Path to Sendmail">
-                  <oxd-text tag="p" class="no-of-employees-value">
+                  <oxd-text tag="p" class="sendmail-path-value">
                     {{ emailConfiguration.pathToSendmail }}
                   </oxd-text>
                 </oxd-input-group>
@@ -87,7 +82,6 @@
                   label="SMTP Host"
                   v-model="emailConfiguration.smtpHost"
                   :rules="rules.smtpHost"
-                  :disabled="!editable"
                   required
                 />
               </oxd-grid-item>
@@ -96,7 +90,6 @@
                   label="SMTP Port"
                   v-model="emailConfiguration.smtpPort"
                   :rules="rules.smtpPort"
-                  :disabled="!editable"
                   required
                 />
               </oxd-grid-item>
@@ -108,6 +101,7 @@
                 <oxd-input-group
                   label="Use SMTP Authentication"
                   :classes="{wrapper: '--status-grouped-field'}"
+                  :style="{maxWidth: '12rem'}"
                 >
                   <oxd-input-field
                     type="radio"
@@ -133,7 +127,6 @@
                     label="SMTP User"
                     v-model="emailConfiguration.smtpUsername"
                     :rules="rules.smtpUsername"
-                    :disabled="!editable"
                     required
                   />
                 </oxd-grid-item>
@@ -142,7 +135,6 @@
                     label="SMTP Password"
                     v-model="emailConfiguration.smtpPassword"
                     :rules="rules.smtpPassword"
-                    :disabled="!editable"
                     type="password"
                     required
                   />
@@ -151,14 +143,13 @@
             </oxd-form-row>
           </div>
           <oxd-form-row>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <oxd-switch-input
-                  v-model="userSecureConnection"
-                  optionLabel="User Secure Connection"
-                  labelPosition="left"
-                />
-              </oxd-grid-item>
+            <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+              <div class="orangehrm-optional-field-row">
+                <oxd-text tag="p" class="orangehrm-optional-field-label">
+                  User Secure Connection
+                </oxd-text>
+                <oxd-switch-input v-model="userSecureConnection" />
+              </div>
             </oxd-grid>
           </oxd-form-row>
           <div v-if="userSecureConnection">
@@ -167,8 +158,9 @@
                 <oxd-grid-item>
                   <oxd-input-group
                     :classes="{wrapper: '--status-grouped-field'}"
+                    :style="{maxWidth: '12rem'}"
                   >
-                    <oxd-input-field style="width: 10px"
+                    <oxd-input-field
                       type="radio"
                       v-model="emailConfiguration.smtpSecurityType"
                       optionLabel="SSL"
@@ -190,14 +182,13 @@
         <oxd-divider />
 
         <oxd-form-row>
-          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-switch-input
-                v-model="sendTestMailEditable"
-                optionLabel="Send Test Mail"
-                labelPosition="left"
-              />
-            </oxd-grid-item>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <div class="orangehrm-optional-field-row">
+              <oxd-text tag="p" class="orangehrm-optional-field-label">
+                Send Test Mail
+              </oxd-text>
+              <oxd-switch-input v-model="sendTestMailEditable" />
+            </div>
           </oxd-grid>
         </oxd-form-row>
         <oxd-form-row v-if="sendTestMailEditable">
@@ -207,7 +198,7 @@
                 label="Test Email Address"
                 v-model="emailConfiguration.testEmailAddress"
                 :rules="rules.testEmailAddress"
-                :disabled="!editable || !sendTestMailEditable"
+                :disabled="!sendTestMailEditable"
                 required
               />
             </oxd-grid-item>
@@ -218,7 +209,7 @@
 
         <oxd-form-actions>
           <required-text />
-          <submit-button v-if="editable" />
+          <submit-button/>
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -236,12 +227,12 @@ export default {
     pathToSendmail: {
       type: String,
       required: true,
-    }
+    },
   },
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/organization',
+      'api/v2/admin/email-configuration',
     );
     return {
       http,
@@ -255,15 +246,14 @@ export default {
   data() {
     return {
       userSecureConnection: false,
-      sendTestMailEditable: false, //check
-      editable: true,
+      sendTestMailEditable: false,
       isLoading: false,
       emailConfiguration: {
         mailType: '',
         sentAs: '',
         pathToSendmail: this.pathToSendmail,
         smtpHost: '',
-        smtpPort: '',
+        smtpPort: null,
         smtpUsername: '',
         smtpPassword: '',
         smtpAuthType: '',
@@ -304,7 +294,8 @@ export default {
             : 'none',
           testEmailAddress: this.emailConfiguration.testEmailAddress,
         })
-        .then(() => {
+        .then((response) => {
+          console.log(response)
           return this.$toast.updateSuccess();
         })
         .then(() => {
@@ -336,11 +327,20 @@ export default {
 
 </script>
 
-<style>
-::v-deep(.--status-grouped-field) {
+<style src="./emailConfiguration.scss" lang="scss" scoped></style>
+
+<style lang="scss" scoped>
+@import '@orangehrm/oxd/styles/_mixins.scss';
+.orangehrm-optional-field-row {
+  grid-column-start: 1;
   display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.orangehrm-optional-field-label {
+  @include oxd-input-control();
+  padding: 0;
+  flex-basis: 50%;
 }
 </style>
-
-<style src="../organizationGeneralInformation/general-info.scss" lang="scss" scoped></style>
-<style src="../../../orangehrmPimPlugin/pages/employee/employee.scss" lang="scss" scoped></style>
