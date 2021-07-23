@@ -97,7 +97,7 @@ class LocationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param   LocationService  $locationService
+     * @param LocationService $locationService
      */
     public function setLocationService(LocationService $locationService): void
     {
@@ -120,7 +120,6 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO: Check data group permissions
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $location = $this->getLocationService()->getLocationById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($location, Location::class);
@@ -190,13 +189,15 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        // TODO:: Check data group permission
         $location = new Location();
         $this->setLocationData($location);
         $location = $this->getLocationService()->saveLocation($location);
         return new EndpointResourceResult(LocationModel::class, $location);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -290,6 +291,9 @@ class LocationAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -311,6 +315,9 @@ class LocationAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(LocationModel::class, $location);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -323,7 +330,9 @@ class LocationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @param   Location  $location
+     * This function populates the location entity with the request data.
+     *
+     * @param Location $location
      *
      * @throws \OrangeHRM\Core\Exception\DaoException
      */
