@@ -22,13 +22,10 @@
 namespace Api;
 
 use OrangeHRM\Admin\Api\LocationAPI;
-use OrangeHRM\Admin\Api\NationalityAPI;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\Endpoint;
-use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Tests\Util\EndpointTestCase;

@@ -22,8 +22,13 @@ namespace OrangeHRM\Tests\Admin\Service;
 use OrangeHRM\Admin\Dao\LocationDao;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Service\EmployeeService;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -35,6 +40,7 @@ class LocationServiceTest extends TestCase
 {
     private LocationService $locationService;
     private string $fixture;
+    use ServiceContainerTrait;
 
     /**
      * Set up method
@@ -44,6 +50,18 @@ class LocationServiceTest extends TestCase
         $this->locationService = new LocationService();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/LocationDao.yml';
         TestDataService::populate($this->fixture);
+        $this->getContainer()->register(
+            Services::USER_ROLE_MANAGER,
+            BasicUserRoleManager::class
+        );
+        $this->getContainer()->register(
+            Services::NORMALIZER_SERVICE,
+            NormalizerService::class
+        );
+        $this->getContainer()->register(
+            Services::EMPLOYEE_SERVICE,
+            EmployeeService::class
+        );
     }
 
     public function testGetLocationById(): void
@@ -141,5 +159,13 @@ class LocationServiceTest extends TestCase
 
         $result = $this->locationService->getLocationIdsForEmployees($empNumbers);
         $this->assertEquals($locationIds, $result);
+    }
+
+    public function testGetAccessibleLocationsArray()
+    {
+        $locations = $this->locationService->getAccessibleLocationsArray();
+        $this->assertCount(0, $locations);
+        $locations = $this->locationService->getAccessibleLocationsArray(1);
+        $this->assertCount(1, $locations);
     }
 }
