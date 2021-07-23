@@ -20,8 +20,6 @@
 namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Admin\Service\CountryService;
-use OrangeHRM\Admin\Service\NationalityService;
-use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
@@ -33,6 +31,9 @@ class SaveLocationController extends BaseAdminController
 
     use ConfigServiceTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
