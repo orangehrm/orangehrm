@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Job Title</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('admin.add_job_title') }}
+      </oxd-text>
 
       <oxd-divider />
 
@@ -30,7 +32,7 @@
           <div>
             <oxd-form-row>
               <oxd-input-field
-                label="Job Title"
+                :label="$t('general.job_title')"
                 v-model="jobTitle.title"
                 :rules="rules.title"
                 required
@@ -40,7 +42,7 @@
             <oxd-form-row>
               <oxd-input-field
                 type="textarea"
-                label="Job Description"
+                :label="$t('general.job_description')"
                 placeholder="Type description here"
                 v-model="jobTitle.description"
                 :rules="rules.description"
@@ -50,20 +52,20 @@
             <oxd-form-row>
               <oxd-input-field
                 type="file"
-                label="Job Specification"
+                :label="$t('general.job_specification')"
                 buttonLabel="Browse"
                 v-model="jobTitle.specification"
                 :rules="rules.specification"
               />
-              <oxd-text class="orangehrm-input-hint" tag="p"
-                >Accepts up to 1MB</oxd-text
-              >
+              <oxd-text class="orangehrm-input-hint" tag="p">
+                {{ $t('general.file_upload_notice') }}
+              </oxd-text>
             </oxd-form-row>
 
             <oxd-form-row>
               <oxd-input-field
                 type="textarea"
-                label="Note"
+                :label="$t('general.note')"
                 placeholder="Add note"
                 v-model="jobTitle.note"
                 labelIcon="pencil-square"
@@ -77,7 +79,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button
+            displayType="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
