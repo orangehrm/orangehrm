@@ -19,7 +19,9 @@
  -->
 
 <template>
-  <oxd-text tag="p" class="orangehrm-form-hint">* Required</oxd-text>
+  <oxd-text tag="p" class="orangehrm-form-hint">
+    * {{ $t('general.required') }}
+  </oxd-text>
 </template>
 
 <script>

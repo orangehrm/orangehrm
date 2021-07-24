@@ -1,0 +1,77 @@
+{
+  "source_language": "en_US",
+  "target_language": "en_US",
+  "date": "2021-07-19T16:21:30Z",
+  "modules": {
+    "general": {
+      "version": "5.0",
+      "messages": {
+        "add": {
+          "source": "Add",
+          "target": "Add",
+          "description": "Add in the system"
+        },
+        "job_title": {
+          "source": "Job Title",
+          "target": "Job Title",
+          "description": "The job titles specific to the company can be defined in this option. To add an entry, go to Admin&gt;&gt; Job&gt;&gt; Job Titles and click “Add”"
+        },
+        "job_description": {
+          "source": "Job Description",
+          "target": "Job Description",
+          "description": "You could describe the role of the employee in the company through this feature"
+        },
+        "job_specification": {
+          "source": "Job Specification",
+          "target": "Job Specification",
+          "description": "You could describe the job role of the employee in the company through this feature which appears under job details. The default will be Not defined."
+        },
+        "file_upload_notice": {
+          "source": "Accepts up to 1MB",
+          "target": "Accepts up to 1MB",
+          "description": "The files uploading cannot be over 1MB"
+        },
+        "note": {
+          "source": "Note",
+          "target": "Note",
+          "description": "You may add a note and click “Hire” to confirm the action."
+        },
+        "cancel": {
+          "source": "Cancel",
+          "target": "Cancel",
+          "description": "Cancel a leave request , session etc.."
+        },
+        "save": {
+          "source": "Save",
+          "target": "Save",
+          "description": "Click Save to submit"
+        },
+        "required": {
+          "source": "Required",
+          "target": "Required",
+          "description": "Admin can create a document template body for employees by using tokens required"
+        }
+      }
+    },
+    "admin": {
+      "version": "5.0",
+      "messages": {
+        "job_titles": {
+          "source": "Job Titles",
+          "target": "Job Titles",
+          "description": "The job titles specific to the company can be defined in this option. To add an entry, go to Admin&gt;&gt; Job&gt;&gt; Job Titles and click “Add”"
+        },
+        "add_job_title": {
+          "source": "Add Job Title",
+          "target": "Add Job Title",
+          "description": "The position that is needed by the company ex: Manager IT"
+        },
+        "edit_job_title": {
+          "source": "Edit Job Title",
+          "target": "Edit Job Title",
+          "description": "Alter the position that is needed by the company ex: Manager IT"
+        }
+      }
+    }
+  }
+}
