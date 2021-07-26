@@ -21,7 +21,7 @@
 <template>
   <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
     <oxd-text tag="h6" class="orangehrm-main-title">
-      Add Immigration
+      Add Membership
     </oxd-text>
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -31,50 +31,51 @@
             <oxd-input-field
               type="select"
               label="Membership"
-              v-model="immigration.countryCode"
-              :options="countries"
+              v-model="membership.membershipId"
+              :api="api"
+              required
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               type="select"
               label="Subscription Paid By"
-              v-model="immigration.countryCode"
-              :options="countries"
+              v-model="membership.subscriptionPaidBy"
+              :options="paidBy"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Subscription Amount"
-              v-model="immigration.status"
-              :rules="rules.status"
+              v-model="membership.subscriptionFee"
+              :rules="rules.subscriptionFee"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               type="select"
               label="Currency"
-              v-model="immigration.countryCode"
-              :options="countries"
+              v-model="membership.currencyTypeId"
+              :options="currencies"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Subscription Commence Date"
-              v-model="immigration.issuedDate"
+              v-model="membership.subscriptionCommenceDate"
               type="date"
               placeholder="yyyy-mm-dd"
-              :rules="rules.issuedDate"
+              :rules="rules.subscriptionCommenceDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Subscription Renewal Date"
-              v-model="immigration.expiryDate"
+              v-model="membership.subscriptionRenewalDate"
               type="date"
               :years="yearArray"
               placeholder="yyyy-mm-dd"
-              :rules="rules.expiryDate"
+              :rules="rules.subscriptionRenewalDate"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -104,15 +105,13 @@ import {
 } from '@orangehrm/core/util/validation/rules';
 import {yearRange} from '@orangehrm/core/util/helper/year-range';
 
-const immigrationModel = {
-  number: '',
-  issuedDate: '',
-  expiryDate: '',
-  type: 1,
-  status: '',
-  reviewDate: '',
-  countryCode: null,
-  comment: '',
+const membershipModel = {
+  membershipId: [],
+  subscriptionFee: '',
+  subscriptionPaidBy: '',
+  currencyTypeId: [],
+  subscriptionCommenceDate: '',
+  subscriptionRenewalDate: '',
 };
 
 export default {
@@ -125,23 +124,31 @@ export default {
       type: Object,
       required: true,
     },
-    countries: {
+    currencies: {
       type: Array,
       default: () => [],
+    },
+    paidBy: {
+      type: Array,
+      default: () => [],
+    },
+    api: {
+      type: String,
+      required: true,
     },
   },
 
   data() {
     return {
       isLoading: false,
-      immigration: {...immigrationModel},
+      membership: {...membershipModel},
       yearArray: [...yearRange()],
       rules: {
         number: [required, shouldNotExceedCharLength(30)],
         expiryDate: [
           validDateFormat(),
           endDateShouldBeAfterStartDate(
-            () => this.immigration.issuedDate,
+            () => this.membership.issuedDate,
             'Expiry date should be after issued date',
           ),
         ],
@@ -157,14 +164,16 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          ...this.immigration,
-          countryCode: this.immigration.countryCode?.id,
+          ...this.membership,
+          membershipId: this.membership.membership.id,
+          subscriptionPaidBy: this.membership.subscriptionPaidBy,
+          currencyTypeId: this.membership.currencyType?.id,
         })
         .then(() => {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.immigration = {...immigrationModel};
+          this.membership = {...membershipModel};
           this.onCancel();
         });
     },

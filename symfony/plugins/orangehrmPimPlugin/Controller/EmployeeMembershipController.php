@@ -19,7 +19,7 @@
 
 namespace OrangeHRM\Pim\Controller;
 
-use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
@@ -31,6 +31,14 @@ class EmployeeMembershipController extends BaseViewEmployeeController
     use ServiceContainerTrait;
 
     /**
+     * @return PayGradeService
+     */
+    public function getPayGradeService(): PayGradeService
+    {
+        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
+    }
+
+    /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
@@ -39,11 +47,13 @@ class EmployeeMembershipController extends BaseViewEmployeeController
         if ($empNumber) {
             $component = new Component('employee-membership');
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
-
-            /** @var CountryService $countryService */
-            $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
-            $component->addProp(new Prop('countries', Prop::TYPE_ARRAY, $countryService->getCountryArray()));
-
+            $currencies = $this->getPayGradeService()->getCurrencyArray();
+            $paidBy = [
+                ["id" => "Company", "label" => "Company"],
+                ["id" => "Individual", "label" => "Individual"]
+            ];
+            $component->addProp(new Prop('currencies', Prop::TYPE_ARRAY, $currencies));
+            $component->addProp(new Prop('paid-by', Prop::TYPE_ARRAY, $paidBy));
             $this->setComponent($component);
 
             $this->setPermissionsForEmployee(

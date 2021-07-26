@@ -43,7 +43,7 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_MEMBERSHIP_ID = 'membershipId';
     public const PARAMETER_SUBSCRIPTION_FEE = 'subscriptionFee';
     public const PARAMETER_SUBSCRIPTION_PAID_BY = 'subscriptionPaidBy';
-    public const PARAMETER_SUBSCRIPTION_CURRENCY = 'subscriptionCurrency';
+    public const PARAMETER_SUBSCRIPTION_CURRENCY = 'currencyTypeId';
     public const PARAMETER_SUBSCRIPTION_COMMENCE_DATE = 'subscriptionCommenceDate';
     public const PARAMETER_SUBSCRIPTION_RENEWAL_DATE = 'subscriptionRenewalDate';
 
@@ -133,8 +133,7 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeMembershipService()->getEmployeeMembershipDao(
-                    )->getSearchEmployeeMembershipsCount(
+                    CommonParams::PARAMETER_TOTAL => $this->getEmployeeMembershipService()->getEmployeeMembershipDao()->getSearchEmployeeMembershipsCount(
                         $employeeMembershipSearchParams
                     )
                 ]
@@ -160,7 +159,8 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     public function create(): EndpointResourceResult
     {
         list($empNumber) = $this->getUrlAttributes();
-        $membershipId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_MEMBERSHIP_ID);
+        $membershipId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_MEMBERSHIP_ID);
         $employeeMembership = new EmployeeMembership();
         $employeeMembership->getDecorator()->setEmployeeByEmpNumber($empNumber);
         $employeeMembership->getDecorator()->setMembershipByMembershipId($membershipId);
@@ -207,7 +207,7 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_CURRENCY,
-                    new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::CURRENCY),
                 ),
                 true
             ),

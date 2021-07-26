@@ -24,14 +24,16 @@
       v-if="showSaveModal"
       :http="http"
       :api="membershipEndpoint"
-      :countries="countries"
+      :currencies="currencies"
+      :paidBy="paidBy"
       @close="onSaveModalClose"
     ></save-membership>
     <edit-membership
       v-if="showEditModal"
       :http="http"
       :api="educationEndpoint"
-      :countries="countries"
+      :currencies="currencies"
+      :paidBy="paidBy"
       :data="editModalState"
       @close="onEditModalClose"
     ></edit-membership>
@@ -85,7 +87,7 @@ const membershipNormalizer = data => {
       membership: item.membership.name,
       subscriptionPaidBy: item.subscriptionPaidBy,
       subscriptionFee: item.subscriptionFee,
-      subscriptionCurrency: item.subscriptionCurrency,
+      subscriptionCurrency: item.currencyType.name,
       subscriptionCommenceDate: item.subscriptionCommenceDate,
       subscriptionRenewalDate: item.subscriptionRenewalDate,
     };
@@ -106,7 +108,11 @@ export default {
       type: String,
       required: true,
     },
-    countries: {
+    currencies: {
+      type: Array,
+      default: () => [],
+    },
+    paidBy: {
       type: Array,
       default: () => [],
     },
@@ -140,6 +146,7 @@ export default {
       pageSize,
       execQuery,
       items: response,
+      membershipEndpoint,
     };
   },
 

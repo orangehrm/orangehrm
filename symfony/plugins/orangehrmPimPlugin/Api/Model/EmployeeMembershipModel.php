@@ -41,6 +41,7 @@ class EmployeeMembershipModel implements Normalizable
                 'subscriptionFee',
                 'subscriptionPaidBy',
                 'subscriptionCurrency',
+                ['getDecorator', 'getCurrencyName'],
                 ['getDecorator', 'getSubscriptionCommenceDate'],
                 ['getDecorator', 'getSubscriptionRenewalDate'],
             ]
@@ -52,7 +53,8 @@ class EmployeeMembershipModel implements Normalizable
                 ['membership', 'name'],
                 'subscriptionFee',
                 'subscriptionPaidBy',
-                'subscriptionCurrency',
+                ['currencyType', 'id'],
+                ['currencyType', 'name'],
                 'subscriptionCommenceDate',
                 'subscriptionRenewalDate',
             ]

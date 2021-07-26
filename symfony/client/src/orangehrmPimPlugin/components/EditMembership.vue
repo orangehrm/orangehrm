@@ -36,13 +36,13 @@
               required
             />
           </oxd-grid-item>
-          <!-- <oxd-grid-item>
+          <oxd-grid-item>
             <oxd-input-field
               type="select"
               label="Subscription Paid By"
               v-model="membership.subscriptionPaidBy"
             />
-          </oxd-grid-item> -->
+          </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Subscription Amount"
@@ -50,13 +50,13 @@
               :rules="rules.subscriptionFee"
             />
           </oxd-grid-item>
-          <!-- <oxd-grid-item>
+          <oxd-grid-item>
             <oxd-input-field
               type="select"
               label="Currency"
               v-model="membership.subscriptionCurrency"
             />
-          </oxd-grid-item> -->
+          </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Subscription Commence Date"
