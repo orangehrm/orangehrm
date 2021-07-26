@@ -31,50 +31,49 @@
             <oxd-input-field
               type="select"
               label="Membership"
-              v-model="immigration.countryCode"
-              :options="countries"
+              v-model="membership.membershipId"
+              :api="api"
+              required
             />
           </oxd-grid-item>
-          <oxd-grid-item>
+          <!-- <oxd-grid-item>
             <oxd-input-field
               type="select"
               label="Subscription Paid By"
-              v-model="immigration.countryCode"
-              :options="countries"
+              v-model="membership.subscriptionPaidBy"
             />
-          </oxd-grid-item>
+          </oxd-grid-item> -->
           <oxd-grid-item>
             <oxd-input-field
               label="Subscription Amount"
-              v-model="immigration.status"
-              :rules="rules.status"
+              v-model="membership.subscriptionFee"
+              :rules="rules.subscriptionFee"
             />
           </oxd-grid-item>
-          <oxd-grid-item>
+          <!-- <oxd-grid-item>
             <oxd-input-field
               type="select"
               label="Currency"
-              v-model="immigration.countryCode"
-              :options="countries"
+              v-model="membership.subscriptionCurrency"
             />
-          </oxd-grid-item>
+          </oxd-grid-item> -->
           <oxd-grid-item>
             <oxd-input-field
               label="Subscription Commence Date"
-              v-model="immigration.issuedDate"
+              v-model="membership.subscriptionCommenceDate"
               type="date"
               placeholder="yyyy-mm-dd"
-              :rules="rules.issuedDate"
+              :rules="rules.subscriptionCommenceDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
               label="Subscription Renewal Date"
-              v-model="immigration.expiryDate"
+              v-model="membership.subscriptionRenewalDate"
               type="date"
               :years="yearArray"
               placeholder="yyyy-mm-dd"
-              :rules="rules.expiryDate"
+              :rules="rules.subscriptionRenewalDate"
             />
           </oxd-grid-item>
         </oxd-grid>
@@ -97,22 +96,20 @@
 
 <script>
 import {
-  required,
   shouldNotExceedCharLength,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
 import {yearRange} from '@orangehrm/core/util/helper/year-range';
 
-const immigrationModel = {
-  number: '',
-  issuedDate: '',
-  expiryDate: '',
-  type: 1,
-  status: '',
-  reviewDate: '',
-  countryCode: null,
-  comment: '',
+const membershipModel = {
+  name: '',
+  subscriptionPaidBy: '',
+  subscriptionFee: '',
+  subscriptionCurrency: '',
+  subscriptionCommenceDate: '',
+  subscriptionRenewalDate: '',
+  membershipId: [],
 };
 
 export default {
@@ -138,20 +135,17 @@ export default {
   data() {
     return {
       isLoading: false,
-      immigration: {...immigrationModel},
+      membership: {...membershipModel},
       yearArray: [...yearRange()],
       rules: {
-        number: [required, shouldNotExceedCharLength(30)],
-        expiryDate: [
+        subscriptionRenewalDate: [
           validDateFormat(),
           endDateShouldBeAfterStartDate(
-            () => this.immigration.issuedDate,
+            () => this.membership.subscriptionCommenceDate,
             'Expiry date should be after issued date',
           ),
         ],
-        status: [shouldNotExceedCharLength(30)],
-        reviewDate: [validDateFormat()],
-        comment: [shouldNotExceedCharLength(250)],
+        reviesubscriptionCommenceDate: [validDateFormat()],
       },
     };
   },
@@ -161,20 +155,18 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.data.id, {
-          number: this.immigration.number,
-          issuedDate: this.immigration.issuedDate,
-          expiryDate: this.immigration.expiryDate,
-          type: this.immigration.type,
-          status: this.immigration.status,
-          reviewDate: this.immigration.reviewDate,
-          comment: this.immigration.comment,
-          countryCode: this.immigration.countryCode?.id,
+          membershipId: this.membership.membershipId.map(item => item.id)[0],
+          subscriptionPaidBy: this.membership.subscriptionPaidBy,
+          subscriptionFee: this.membership.subscriptionFee,
+          subscriptionCurrency: this.membership.subscriptionCurrency,
+          subscriptionCommenceDate: this.membership.subscriptionCommenceDate,
+          subscriptionRenewalDate: this.membership.subscriptionRenewalDate,
         })
         .then(() => {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          this.immigration = {...immigrationModel};
+          this.membership = {...membershipModel};
           this.onCancel();
         });
     },
@@ -189,9 +181,18 @@ export default {
       .get(this.data.id)
       .then(response => {
         const {data} = response.data;
-        this.immigration = {...immigrationModel, ...data};
-        this.immigration.countryCode = this.countries.find(
-          item => item.id === data.country?.code,
+        this.membership.membershipId = data.membership.membershipId;
+        this.membership.subscriptionPaidBy = data.subscriptionPaidBy;
+        this.membership.subscriptionFee = data.subscriptionFee;
+        this.membership.subscriptionCurrency = data.subscriptionCurrency;
+        this.membership.subscriptionCommenceDate = data.subscriptionCommenceDate
+          ? data.subscriptionCommenceDate
+          : '';
+        this.membership.subscriptionRenewalDate = data.subscriptionRenewalDate
+          ? data.subscriptionRenewalDate
+          : '';
+        this.membership.membershipId = this.membership.find(
+          item => item.id === data.membership?.id,
         );
       })
       .finally(() => {

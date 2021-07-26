@@ -23,12 +23,14 @@
     <save-membership
       v-if="showSaveModal"
       :http="http"
+      :api="membershipEndpoint"
       :countries="countries"
       @close="onSaveModalClose"
     ></save-membership>
     <edit-membership
       v-if="showEditModal"
       :http="http"
+      :api="educationEndpoint"
       :countries="countries"
       :data="editModalState"
       @close="onEditModalClose"
@@ -76,16 +78,16 @@ import SaveMembership from '@/orangehrmPimPlugin/components/SaveMembership';
 import EditMembership from '@/orangehrmPimPlugin/components/EditMembership';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 
-const immigrationNormalizer = data => {
+const membershipNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      type: item.type == 1 ? 'Passport' : 'VISA',
-      number: item.number,
-      countryCode: item.country.code,
-      countryName: item.country.name,
-      issuedDate: item.issuedDate,
-      expiryDate: item.expiryDate,
+      membership: item.membership.name,
+      subscriptionPaidBy: item.subscriptionPaidBy,
+      subscriptionFee: item.subscriptionFee,
+      subscriptionCurrency: item.subscriptionCurrency,
+      subscriptionCommenceDate: item.subscriptionCommenceDate,
+      subscriptionRenewalDate: item.subscriptionRenewalDate,
     };
   });
 };
@@ -113,8 +115,10 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `api/v2/pim/employees/${props.empNumber}/immigrations`,
+      `api/v2/pim/employees/${props.empNumber}/memberships`,
     );
+
+    const membershipEndpoint = 'api/v2/admin/memberships?limit=0';
 
     const {
       showPaginator,
@@ -125,7 +129,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, immigrationNormalizer);
+    } = usePaginate(http, {}, membershipNormalizer);
     return {
       http,
       showPaginator,
@@ -142,17 +146,30 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'type', slot: 'title', title: 'Membership', style: {flex: 1}},
-        {name: 'number', title: 'Subscription Paid By', style: {flex: 1}},
-        {name: 'countryName', title: 'Subscription Amount', style: {flex: 1}},
-        {name: 'issuedDate', title: 'Currency', style: {flex: 1}},
         {
-          name: 'expiryDate',
+          name: 'membership',
+          slot: 'title',
+          title: 'Membership',
+          style: {flex: 1},
+        },
+        {
+          name: 'subscriptionPaidBy',
+          title: 'Subscription Paid By',
+          style: {flex: 1},
+        },
+        {
+          name: 'subscriptionFee',
+          title: 'Subscription Amount',
+          style: {flex: 1},
+        },
+        {name: 'subscriptionCurrency', title: 'Currency', style: {flex: 1}},
+        {
+          name: 'subscriptionCommenceDate',
           title: 'Subscription Commence Date',
           style: {flex: 1},
         },
         {
-          name: 'expiryDate',
+          name: 'subscriptionRenewalDate',
           title: 'Subscription Renewal Date',
           style: {flex: 1},
         },
