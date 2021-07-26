@@ -19,14 +19,32 @@
 
 namespace OrangeHRM\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\HolidayDecorator;
 
 /**
+ * @method HolidayDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_holiday")
  * @ORM\Entity
  */
 class Holiday
 {
+    use DecoratorTrait;
+
+    public const HOLIDAY_FULL_DAY_LENGTH = 0;
+    public const HOLIDAY_HALF_DAY_LENGTH = 4;
+
+    public const HOLIDAY_FULL_DAY_LENGTH_NAME = 'Full Day';
+    public const HOLIDAY_HALF_DAY_LENGTH_NAME = 'Half Day';
+
+    public const HOLIDAY_LENGTH_MAP = [
+        self::HOLIDAY_FULL_DAY_LENGTH => self::HOLIDAY_FULL_DAY_LENGTH_NAME,
+        self::HOLIDAY_HALF_DAY_LENGTH => self::HOLIDAY_HALF_DAY_LENGTH_NAME,
+    ];
+
     /**
      * @var int
      *
@@ -48,14 +66,14 @@ class Holiday
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private string $description;
+    private string $name;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="date", type="date", nullable=true)
      */
-    private \DateTime $date;
+    private DateTime $date;
 
     /**
      * @var int
@@ -107,31 +125,31 @@ class Holiday
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getName(): string
     {
-        return $this->description;
+        return $this->name;
     }
 
     /**
-     * @param string $description
+     * @param string $name
      */
-    public function setDescription(string $description): void
+    public function setName(string $name): void
     {
-        $this->description = $description;
+        $this->name = $name;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getDate(): \DateTime
+    public function getDate(): DateTime
     {
         return $this->date;
     }
 
     /**
-     * @param \DateTime $date
+     * @param DateTime $date
      */
-    public function setDate(\DateTime $date): void
+    public function setDate(DateTime $date): void
     {
         $this->date = $date;
     }

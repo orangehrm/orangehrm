@@ -27,6 +27,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class WorkWeek
 {
+    public const WORKWEEK_LENGTH_FULL_DAY = 0;
+    public const WORKWEEK_LENGTH_HALF_DAY = 4;
+    public const WORKWEEK_LENGTH_NON_WORKING_DAY = 8;
+
+    public const WORKWEEK_LENGTHS = [
+        self::WORKWEEK_LENGTH_FULL_DAY,
+        self::WORKWEEK_LENGTH_HALF_DAY,
+        self::WORKWEEK_LENGTH_NON_WORKING_DAY,
+    ];
+
     /**
      * @var int
      *
