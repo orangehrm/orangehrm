@@ -52,17 +52,26 @@
       </oxd-form>
     </div>
   </div>
+  <pay-grade-currency :pay-grade-id="payGradeId"></pay-grade-currency>
 </template>
 
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
+import PayGradeCurrency from '@/orangehrmAdminPlugin/pages/payGrade/PayGradeCurrency.vue';
 
 export default {
+  components: {
+    'pay-grade-currency': PayGradeCurrency,
+  },
+
   props: {
     payGradeId: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
@@ -85,7 +94,7 @@ export default {
         name: '',
       },
       rules: {
-        name: [],
+        name: [required, shouldNotExceedCharLength(50)],
       },
       errors: [],
     };
