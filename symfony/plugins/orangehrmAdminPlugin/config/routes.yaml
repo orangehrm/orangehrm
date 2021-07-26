@@ -154,6 +154,13 @@ apiv2_organization:
     id: 0
     _api: OrangeHRM\Admin\Api\OrganizationAPI
 
+apiv2_admin_pay_grade_allowed_currencies:
+  path: /api/v2/admin/pay-grades/{payGradeId}/currencies/allowed
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAllowedCurrencyAPI
+
 apiv2_admin_paygrades_currency:
   path: /api/v2/admin/pay-grades/{payGradeId}/currencies/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

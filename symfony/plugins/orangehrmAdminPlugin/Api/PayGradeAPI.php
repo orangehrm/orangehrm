@@ -149,9 +149,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $payGrade = $this->getPayGradeService()->getPayGradeById($id);
-        if (!$payGrade instanceof PayGrade) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($payGrade,PayGrade::class);
         return new EndpointResourceResult(PayGradeModel::class, $payGrade);
     }
 
