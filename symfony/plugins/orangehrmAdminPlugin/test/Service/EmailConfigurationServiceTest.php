@@ -47,7 +47,12 @@ class EmailConfigurationServiceTest extends TestCase
 
     public function testGetEmailService()
     {
-        $this->assertTrue($this->emailConfigurationService->getEmailService() instanceof EmailService);
+        $emailConfigurationService = $this->getMockBuilder(EmailConfigurationService::class)
+            ->onlyMethods(['loadConfiguration'])
+            ->getMock();
+        $emailConfigurationService->expects($this->once())
+            ->method('loadConfiguration');
+        $this->assertTrue($emailConfigurationService->getEmailService() instanceof EmailService);
     }
 
     public function testSendTestMail(): void
@@ -60,6 +65,9 @@ class EmailConfigurationServiceTest extends TestCase
             ->method('sendTestEmail')
             ->with('test1@orangehrm.com')
             ->willReturn(true);
+
+//        $emailService->expects($this->once())
+//            ->method('loadConfiguration');
 
         $this->emailConfigurationService->setEmailService($emailService);
         $result = $this->emailConfigurationService->sendTestMail('test1@orangehrm.com');

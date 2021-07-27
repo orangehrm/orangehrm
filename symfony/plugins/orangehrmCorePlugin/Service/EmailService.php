@@ -23,14 +23,18 @@ use OrangeHRM\Admin\Service\EmailConfigurationService;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException as Exception;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Framework\Logger\Logger;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Framework\Util\Mailer;
 use OrangeHRM\Framework\Util\MailMessage;
 use OrangeHRM\Framework\Util\MailTransport;
 
 class EmailService
 {
+    use ServiceContainerTrait;
+
     public const SMTP_SECURITY_NONE = 'none';
     public const SMTP_SECURITY_TLS = 'tls';
     public const SMTP_SECURITY_SSL = 'ssl';
@@ -101,9 +105,9 @@ class EmailService
     protected Mailer $mailer;
 
     /**
-     * @var MailTransport
+     * @var MailTransport|null
      */
-    private MailTransport $transport;
+    private ?MailTransport $transport = null;
 
     /**
      * @var EmailConfigurationService|null
@@ -120,6 +124,14 @@ class EmailService
             $this->configService = new ConfigService();
         }
         return $this->configService;
+    }
+
+    /**
+     * @return Logger
+     */
+    private function getLogger(): Logger
+    {
+        return $this->getContainer()->get(Services::LOGGER);
     }
 
     /**
@@ -194,15 +206,23 @@ class EmailService
      */
     public function loadConfiguration()
     {
-        $this->emailConfig = $this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration();
-
+        $emailConfig = $this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration();
+        $this->setEmailConfig($emailConfig);
         $this->sendmailPath = $this->getConfigService()->getSendmailPath();
 
         if ($this->getEmailConfig()->getMailType() == 'smtp' ||
             $this->getEmailConfig()->getMailType() == 'sendmail') {
             $this->configSet = true;
         }
-        $this->logger = new Logger('core.email');
+        $this->logger = $this->getLogger();
+    }
+
+    /**
+     * @param EmailConfiguration $emailConfiguration
+     */
+    public function setEmailConfig(EmailConfiguration $emailConfiguration): void
+    {
+        $this->emailConfig = $emailConfiguration;
     }
 
     /**
@@ -214,6 +234,14 @@ class EmailService
             $this->emailConfigurationService = new EmailConfigurationService();
         }
         return $this->emailConfigurationService;
+    }
+
+    /**
+     * @param EmailConfigurationService $emailConfigurationService
+     */
+    public function setEmailConfigurationService(EmailConfigurationService $emailConfigurationService): void
+    {
+        $this->emailConfigurationService = $emailConfigurationService;
     }
 
     /**

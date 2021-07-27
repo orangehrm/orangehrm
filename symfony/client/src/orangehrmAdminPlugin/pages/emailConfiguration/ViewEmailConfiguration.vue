@@ -295,7 +295,7 @@ export default {
           testEmailAddress: this.emailConfiguration.testEmailAddress,
         })
         .then((response) => {
-          console.log(response)
+          console.log(response.data)
           return this.$toast.updateSuccess();
         })
         .then(() => {

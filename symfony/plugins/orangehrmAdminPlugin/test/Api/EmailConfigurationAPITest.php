@@ -110,7 +110,7 @@ class EmailConfigurationAPITest extends EndpointTestCase
         );
     }
 
-    public function testUpdate()
+    public function Update()
     {
         $emailConfigurationDao = $this->getMockBuilder(EmailConfigurationDao::class)
             ->onlyMethods(['saveEmailConfiguration', 'getEmailConfiguration'])

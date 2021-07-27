@@ -52,9 +52,13 @@ class EmailConfigurationService
     {
         if (is_null($this->emailService)) {
             $this->emailService = new EmailService();
-            $this->emailService->loadConfiguration();
+            $this->loadConfiguration();
         }
         return $this->emailService;
+    }
+
+    public function loadConfiguration(){
+        $this->getEmailService()->loadConfiguration();
     }
 
     /**
@@ -71,6 +75,7 @@ class EmailConfigurationService
      */
     public function sendTestMail(string $testEmail)
     {
+//        $this->getEmailService()->loadConfiguration();
         return $this->getEmailService()->sendTestEmail($testEmail);
     }
 }

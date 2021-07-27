@@ -199,7 +199,6 @@ admin_job_specification_attachment:
   controller: OrangeHRM\Admin\Controller\File\JobSpecification::handle
   methods: [ GET ]
 
-
 ##########################
 #        Screens
 ##########################
@@ -367,6 +366,6 @@ edit_nationality:
   methods: [ GET ]
 
 view_email_configuration:
-  path: /admin/listEmailConfiguration
+  path: /admin/listMailConfiguration
   controller: OrangeHRM\Admin\Controller\ViewEmailConfigurationController::handle
   methods: [ GET ]
