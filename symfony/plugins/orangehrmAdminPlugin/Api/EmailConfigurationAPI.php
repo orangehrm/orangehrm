@@ -169,10 +169,12 @@ class EmailConfigurationAPI extends Endpoint implements CrudEndpoint
         );
         $testEmailStatus = 1;
         if (!empty($testEmail)) {
-            $result = $this->getEmailConfigurationService()->sendTestMail($testEmail);
-            if (!$result) {
+            try {
+                $this->getEmailConfigurationService()->sendTestMail($testEmail);
+            } catch (Exception $e){
                 $testEmailStatus = 0;
             }
+
         }
         return new EndpointResourceResult(
             EmailConfigurationModel::class,

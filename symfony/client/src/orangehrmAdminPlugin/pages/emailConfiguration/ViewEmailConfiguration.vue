@@ -281,7 +281,7 @@ export default {
           mailType: this.emailConfiguration.mailType,
           sentAs: this.emailConfiguration.sentAs,
           smtpHost: this.emailConfiguration.smtpHost,
-          smtpPort: this.emailConfiguration.smtpPort,
+          smtpPort: parseInt(this.emailConfiguration.smtpPort),
           smtpUsername:
             this.emailConfiguration.smtpAuthType === 'login'
               ? this.emailConfiguration.smtpUsername
