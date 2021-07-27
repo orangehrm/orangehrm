@@ -1,0 +1,26 @@
+apiv2_leave_holiday:
+  path: /api/v2/leave/holidays/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\HolidayAPI
+
+apiv2_leave_holidays:
+  path: /api/v2/leave/holidays
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\HolidayAPI
+
+apiv2_leave_workweek:
+  path: /api/v2/leave/workweek
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\WorkWeekAPI
+    id: 1
+
+
+##########################
+#        Screens
+##########################

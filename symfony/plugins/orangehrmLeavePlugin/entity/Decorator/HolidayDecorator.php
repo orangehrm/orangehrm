@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,19 +16,51 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <oxd-button
-    class="orangehrm-left-space"
-    displayType="secondary"
-    :label="$t('general.save')"
-    type="submit"
-  />
-</template>
+namespace OrangeHRM\Entity\Decorator;
 
-<script>
-export default {
-  name: 'submit-button',
-};
-</script>
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Holiday;
+
+class HolidayDecorator
+{
+    use DateTimeHelperTrait;
+
+    /**
+     * @var Holiday
+     */
+    protected Holiday $holiday;
+
+    /**
+     * @param Holiday $holiday
+     */
+    public function __construct(Holiday $holiday)
+    {
+        $this->holiday = $holiday;
+    }
+
+    /**
+     * @return Holiday
+     */
+    protected function getHoliday(): Holiday
+    {
+        return $this->holiday;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate(): string
+    {
+        $date = $this->getHoliday()->getDate();
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($date);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLengthName(): ?string
+    {
+        return Holiday::HOLIDAY_LENGTH_MAP[$this->getHoliday()->getLength()] ?? null;
+    }
+}

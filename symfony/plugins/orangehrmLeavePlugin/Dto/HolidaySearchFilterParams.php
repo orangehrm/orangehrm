@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,19 +16,38 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <oxd-button
-    class="orangehrm-left-space"
-    displayType="secondary"
-    :label="$t('general.save')"
-    type="submit"
-  />
-</template>
+namespace OrangeHRM\Leave\Dto;
 
-<script>
-export default {
-  name: 'submit-button',
-};
-</script>
+use OrangeHRM\Core\Dto\FilterParams;
+
+class HolidaySearchFilterParams extends DateRangeSearchFilterParams
+{
+    public const ALLOWED_SORT_FIELDS = ['holiday.date'];
+
+    /**
+     * @var bool
+     */
+    private bool $excludeRecurring = false;
+
+    public function __construct()
+    {
+        $this->setSortField('holiday.date');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExcludeRecurring(): bool
+    {
+        return $this->excludeRecurring;
+    }
+
+    /**
+     * @param bool $excludeRecurring
+     */
+    public function setExcludeRecurring(bool $excludeRecurring): void
+    {
+        $this->excludeRecurring = $excludeRecurring;
+    }
+}

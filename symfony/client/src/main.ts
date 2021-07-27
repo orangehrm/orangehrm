@@ -22,6 +22,7 @@ import pages from './pages';
 import acl, {AclAPI} from './core/plugins/acl/acl';
 import toaster, {ToasterAPI} from './core/plugins/toaster/toaster';
 import loader, {LoaderAPI} from './core/plugins/loader/loader';
+import translate, {TranslateAPI} from './core/plugins/i18n/translate';
 import './core/plugins/toaster/toaster.scss';
 import './core/plugins/loader/loader.scss';
 
@@ -42,6 +43,9 @@ app.use(toaster, {
 
 app.use(loader);
 app.use(acl);
+app.use(translate, {
+  langugePack: require('../messages.en_US.json'),
+});
 
 // @ts-expect-error
 const baseUrl = window.appGlobal.baseUrl;
@@ -52,6 +56,7 @@ declare module '@vue/runtime-core' {
     $toast: ToasterAPI;
     $loader: LoaderAPI;
     $can: AclAPI;
+    $t: TranslateAPI;
   }
 }
 

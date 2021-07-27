@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,19 +16,12 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <oxd-button
-    class="orangehrm-left-space"
-    displayType="secondary"
-    :label="$t('general.save')"
-    type="submit"
-  />
-</template>
+namespace OrangeHRM\Framework\Cache;
 
-<script>
-export default {
-  name: 'submit-button',
-};
-</script>
+use Symfony\Component\Cache\Adapter\FilesystemAdapter as BaseFilesystemAdapter;
+
+class FilesystemAdapter extends BaseFilesystemAdapter
+{
+
+}

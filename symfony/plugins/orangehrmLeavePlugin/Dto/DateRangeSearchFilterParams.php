@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,19 +16,53 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <oxd-button
-    class="orangehrm-left-space"
-    displayType="secondary"
-    :label="$t('general.save')"
-    type="submit"
-  />
-</template>
+namespace OrangeHRM\Leave\Dto;
 
-<script>
-export default {
-  name: 'submit-button',
-};
-</script>
+use DateTime;
+use OrangeHRM\Core\Dto\FilterParams;
+
+class DateRangeSearchFilterParams extends FilterParams
+{
+    /**
+     * @var DateTime|null
+     */
+    private ?DateTime $fromDate = null;
+
+    /**
+     * @var DateTime|null
+     */
+    private ?DateTime $toDate = null;
+
+    /**
+     * @return DateTime|null
+     */
+    public function getFromDate(): ?DateTime
+    {
+        return $this->fromDate;
+    }
+
+    /**
+     * @param DateTime|null $fromDate
+     */
+    public function setFromDate(?DateTime $fromDate): void
+    {
+        $this->fromDate = $fromDate;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getToDate(): ?DateTime
+    {
+        return $this->toDate;
+    }
+
+    /**
+     * @param DateTime|null $toDate
+     */
+    public function setToDate(?DateTime $toDate): void
+    {
+        $this->toDate = $toDate;
+    }
+}
