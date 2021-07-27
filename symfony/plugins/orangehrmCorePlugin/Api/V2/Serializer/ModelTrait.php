@@ -78,8 +78,7 @@ trait ModelTrait
         $array = [];
         if (!is_null($this->entity)) {
             foreach ($this->filter as $index => $attribute) {
-                $key = empty($this->attributeNames[$index]) ? $attribute :
-                    $this->attributeNames[$index];
+                $key = $this->attributeNames[$index] ?? $attribute;
 
                 if (is_array($attribute)) {
                     $value = $this->entity;

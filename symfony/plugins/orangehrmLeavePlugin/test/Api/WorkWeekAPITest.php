@@ -94,7 +94,82 @@ class WorkWeekAPITest extends EndpointTestCase
         $this->assertNull($result->getMeta());
     }
 
+    public function testGetOneWithIndexedModel(): void
+    {
+        $workWeek = new WorkWeek();
+        $workWeek->setId(1);
+        $workWeek->setFriday(WorkWeek::WORKWEEK_LENGTH_HALF_DAY);
+        $workWeek->setSaturday(WorkWeek::WORKWEEK_LENGTH_NON_WORKING_DAY);
+
+        $dao = $this->getMockBuilder(WorkWeekDao::class)
+            ->onlyMethods(['getWorkWeekById'])
+            ->getMock();
+        $dao->expects($this->once())
+            ->method('getWorkWeekById')
+            ->with(1)
+            ->willReturn($workWeek);
+        $service = $this->getMockBuilder(WorkWeekService::class)
+            ->onlyMethods(['getWorkWeekDao'])
+            ->getMock();
+        $service->expects($this->once())
+            ->method('getWorkWeekDao')
+            ->willReturn($dao);
+
+        /** @var MockObject&WorkWeekAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            WorkWeekAPI::class,
+            [
+                RequestParams::PARAM_TYPE_ATTRIBUTE => [CommonParams::PARAMETER_ID => 1],
+                RequestParams::PARAM_TYPE_QUERY => [WorkWeekAPI::FILTER_MODEL => WorkWeekAPI::MODEL_INDEXED],
+            ]
+        )
+            ->onlyMethods(['getWorkWeekService'])
+            ->getMock();
+        $api->expects($this->once())
+            ->method('getWorkWeekService')
+            ->willReturn($service);
+
+        $result = $api->getOne();
+        $this->assertEquals(
+            [
+                0 => 0,
+                1 => 0,
+                2 => 0,
+                3 => 0,
+                4 => 0,
+                5 => 4,
+                6 => 8,
+            ],
+            $result->normalize()
+        );
+        $this->assertNull($result->getMeta());
+    }
+
     public function testGetValidationRuleForGetOne(): void
+    {
+        $api = new WorkWeekAPI($this->getRequest());
+        $rules = $api->getValidationRuleForGetOne();
+        $this->assertTrue(
+            $this->validate(
+                [
+                    CommonParams::PARAMETER_ID => 1,
+                    WorkWeekAPI::FILTER_MODEL => WorkWeekAPI::MODEL_INDEXED
+                ],
+                $rules
+            )
+        );
+
+        $this->expectInvalidParamException();
+        $this->validate(
+            [
+                CommonParams::PARAMETER_ID => 1,
+                WorkWeekAPI::FILTER_MODEL => 'invalid model'
+            ],
+            $rules
+        );
+    }
+
+    public function testGetValidationRuleForGetOneWithModel(): void
     {
         $api = new WorkWeekAPI($this->getRequest());
         $rules = $api->getValidationRuleForGetOne();

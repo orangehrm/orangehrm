@@ -30,6 +30,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\WorkWeek;
+use OrangeHRM\Leave\Api\Model\WorkWeekIndexedModel;
 use OrangeHRM\Leave\Api\Model\WorkWeekModel;
 use OrangeHRM\Leave\Service\WorkWeekService;
 
@@ -42,6 +43,15 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_FRIDAY = 'friday';
     public const PARAMETER_SATURDAY = 'saturday';
     public const PARAMETER_SUNDAY = 'sunday';
+
+    public const FILTER_MODEL = 'model';
+
+    public const MODEL_DEFAULT = 'default';
+    public const MODEL_INDEXED = 'indexed';
+    public const MODEL_MAP = [
+        self::MODEL_DEFAULT => WorkWeekModel::class,
+        self::MODEL_INDEXED => WorkWeekIndexedModel::class,
+    ];
 
     public const PARAMETER_WORKWEEK = [
         self::PARAMETER_MONDAY,
@@ -79,7 +89,33 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
             ->getWorkWeekById($this->getIdFromUrlAttributes());
         $this->throwRecordNotFoundExceptionIfNotExist($workWeek, WorkWeek::class);
 
-        return new EndpointResourceResult(WorkWeekModel::class, $workWeek);
+        return new EndpointResourceResult($this->getModelClass(), $workWeek);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getModelClass(): string
+    {
+        $model = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::FILTER_MODEL,
+            self::MODEL_DEFAULT
+        );
+        return self::MODEL_MAP[$model];
+    }
+
+    /**
+     * @return ParamRule
+     */
+    protected function getModelParamRule(): ParamRule
+    {
+        return $this->getValidationDecorator()->notRequiredParamRule(
+            new ParamRule(
+                self::FILTER_MODEL,
+                new Rule(Rules::IN, [array_keys(self::MODEL_MAP)])
+            )
+        );
     }
 
     /**
@@ -103,7 +139,7 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        return new ParamRuleCollection($this->getIdParamRule());
+        return new ParamRuleCollection($this->getIdParamRule(), $this->getModelParamRule());
     }
 
     /**
@@ -124,7 +160,7 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
             ->getWorkWeekDao()
             ->saveWorkWeek($workWeek);
 
-        return new EndpointResourceResult(WorkWeekModel::class, $workWeek);
+        return new EndpointResourceResult($this->getModelClass(), $workWeek);
     }
 
     /**
@@ -132,7 +168,7 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        $paramRules = new ParamRuleCollection($this->getIdParamRule());
+        $paramRules = new ParamRuleCollection($this->getIdParamRule(), $this->getModelParamRule());
         foreach (self::PARAMETER_WORKWEEK as $workWeekKey) {
             $paramRules->addParamValidation(
                 new ParamRule($workWeekKey, new Rule(Rules::IN, [WorkWeek::WORKWEEK_LENGTHS, true]))
