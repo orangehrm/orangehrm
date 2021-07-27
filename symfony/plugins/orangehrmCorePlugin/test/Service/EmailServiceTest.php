@@ -24,11 +24,11 @@ use OrangeHRM\Admin\Service\EmailConfigurationService;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Entity\EmailConfiguration;
+use OrangeHRM\Framework\Logger\Logger;
 use OrangeHRM\Framework\Util\Mailer;
+use OrangeHRM\Framework\Util\MailMessage;
 use OrangeHRM\Framework\Util\MailTransport;
 use OrangeHRM\Tests\Util\TestCase;
-use phpDocumentor\Reflection\Types\Null_;
-use phpDocumentor\Reflection\Types\Nullable;
 
 /**
  * @group Admin
@@ -80,7 +80,7 @@ class EmailServiceTest extends TestCase
     }
 
     public function testLoadConfiguration()
-    { //TODO:: need to be completed
+    {
         $emailConfiguration = new EmailConfiguration();
         $emailConfiguration->setId(1);
         $emailConfiguration->setMailType("smtp");
@@ -96,53 +96,41 @@ class EmailServiceTest extends TestCase
             ->onlyMethods(['getEmailConfiguration'])
             ->getMock();
 
-//        $emailConfigDao->expects($this->once())
-//            ->method('getEmailConfiguration')
-//            ->willReturn($emailConfiguration);
+        $emailConfigDao->expects($this->once())
+            ->method('getEmailConfiguration')
+            ->willReturn($emailConfiguration);
 
-//        $emailConfigService = new EmailConfigurationService();
-//        $emailConfigService->
         $emailConfigService = $this->getMockBuilder(EmailConfigurationService::class)
             ->onlyMethods(['getEmailConfigurationDao'])
             ->getMock();
 
-//        $emailConfigService->expects($this->once())
-//            ->method('getEmailConfigurationDao')
-//            ->willReturn($emailConfigDao);
+        $emailConfigService->expects($this->once())
+            ->method('getEmailConfigurationDao')
+            ->willReturn($emailConfigDao);
 
-//        $emailService = $this->getMockBuilder(EmailService::class)
-//            ->onlyMethods(['getEmailConfigurationService', 'getConfigService','getEmailConfig'])
-//            ->getMock();
-//
-//        $emailService->expects($this->once())
-//            ->method('getEmailConfigurationService')
-//            ->willReturn($emailConfigService);
-//
-//        $emailService->expects($this->once())
-//            ->method('getEmailConfig')
-//            ->willReturn($emailConfiguration);
-        $this->emailService->setEmailConfigurationService($emailConfigService);
-        $this->emailService->setEmailConfig($emailConfiguration);
+        $emailService = $this->getMockBuilder(EmailService::class)
+            ->onlyMethods(['getLogger'])
+            ->getMock();
+
+        $emailService->expects($this->once())
+            ->method('getLogger')
+            ->willReturn(new Logger('email'));
+
+        $emailService->setEmailConfigurationService($emailConfigService);
 
         $configService = $this->getMockBuilder(ConfigService::class)
             ->onlyMethods(['getSendmailPath'])
             ->getMock();
 
-//        $configService->expects($this->once())
-//            ->method('getSendmailPath')
-//            ->willReturn('test path');
+        $configService->expects($this->once())
+            ->method('getSendmailPath')
+            ->willReturn('test path');
 
-//        $emailService = $this->getMockBuilder(EmailService::class)
-//            ->onlyMethods(['getConfigService', 'getEmailConfig'])
-//            ->getMock();
-//
-//        $emailService->expects($this->once())
-//            ->method('getConfigService')
-//            ->willReturn($configService);
-
-        $this->emailService->setConfigService($configService);
-
-        $this->assertEquals('smtp', $this->emailService->getEmailConfig()->getMailType());
+        $emailService->setConfigService($configService);
+        $emailService->loadConfiguration();
+        $this->assertEquals('smtp', $emailService->getEmailConfig()->getMailType());
+        $this->assertEquals('test@orangehrm.com', $emailService->getEmailConfig()->getSentAs());
+        $this->assertEquals('test path', $emailService->getSendmailPath());
     }
 
     public function testGetMailer()
@@ -159,8 +147,8 @@ class EmailServiceTest extends TestCase
         $this->assertTrue($emailService->getMailer() instanceof Mailer);
     }
 
-    public function GetTransport()
-    { //TODO:: need to be completed
+    public function testGetTransport()
+    {
         $emailConfiguration = new EmailConfiguration();
         $emailConfiguration->setId(1);
         $emailConfiguration->setMailType("smtp");
@@ -172,15 +160,19 @@ class EmailServiceTest extends TestCase
         $emailConfiguration->setSmtpAuthType("login");
         $emailConfiguration->setSmtpSecurityType("tls");
 
-//        $emailService = $this->getMockBuilder(EmailService::class)
-//            ->onlyMethods(['getEmailConfig'])
-//            ->getMock();
-
-//        $emailService->expects($this->once())
-//            ->method('getEmailConfig')
-//            ->willReturn($emailConfiguration);
         $this->emailService->setEmailConfig($emailConfiguration);
-
+        $this->emailService->setConfigSet(true);
         $this->assertTrue($this->emailService->getTransport() instanceof MailTransport);
+    }
+
+    public function testGetMessage()
+    {
+        $this->emailService->setMessageSubject('test subject');
+        $this->emailService->setMessageFrom(['testFrom@orangehrm.com']);
+        $this->emailService->setMessageTo(['testTo@orangehrm.com']);
+        $this->emailService->setMessageBody('test body');
+        $this->emailService->setMessageCc('testCc@orangehrm.com');
+        $this->emailService->setMessageBcc('testBcc@orangehrm.com');
+        $this->assertTrue($this->emailService->getMessage() instanceof MailMessage);
     }
 }

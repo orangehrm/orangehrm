@@ -169,14 +169,11 @@ class EmailConfigurationAPI extends Endpoint implements CrudEndpoint
         );
         $testEmailStatus = 1;
         if (!empty($testEmail)) {
-            $result = false;//$this->getEmailConfigurationService()->sendTestMail($testEmail);
-            if ($result) {
-                $testEmailStatus = 1;
-            } else {
+            $result = $this->getEmailConfigurationService()->sendTestMail($testEmail);
+            if (!$result) {
                 $testEmailStatus = 0;
             }
         }
-//        return new EndpointResourceResult(EmailConfigurationModel::class, $emailConfiguration);
         return new EndpointResourceResult(
             EmailConfigurationModel::class,
             $emailConfiguration,
@@ -278,7 +275,6 @@ class EmailConfigurationAPI extends Endpoint implements CrudEndpoint
      */
     public function saveEmailConfigurationInfo(): EmailConfiguration
     {
-        // TODO:: Check data group permission
         $emailConfiguration = $this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration(
         );
         if ($emailConfiguration == null) {
@@ -312,7 +308,7 @@ class EmailConfigurationAPI extends Endpoint implements CrudEndpoint
             )
         );
         $emailConfiguration->setSmtpPort(
-            $this->getRequestParams()->getStringOrNull(
+            $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SMTP_PORT
 

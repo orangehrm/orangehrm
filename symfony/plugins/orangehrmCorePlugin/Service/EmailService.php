@@ -115,6 +115,46 @@ class EmailService
     private ?EmailConfigurationService $emailConfigurationService = null;
 
     /**
+     * @return Logger
+     */
+    protected function getLogger(): Logger
+    {
+        return $this->getContainer()->get(Services::LOGGER);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSendmailPath(): ?string
+    {
+        return $this->sendmailPath;
+    }
+
+    /**
+     * @param string|null $sendmailPath
+     */
+    public function setSendmailPath(?string $sendmailPath): void
+    {
+        $this->sendmailPath = $sendmailPath;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConfigSet(): bool
+    {
+        return $this->configSet;
+    }
+
+    /**
+     * @param bool $configSet
+     */
+    public function setConfigSet(bool $configSet): void
+    {
+        $this->configSet = $configSet;
+    }
+
+    /**
      * to get configuration service
      * @return ConfigService
      */
@@ -124,14 +164,6 @@ class EmailService
             $this->configService = new ConfigService();
         }
         return $this->configService;
-    }
-
-    /**
-     * @return Logger
-     */
-    private function getLogger(): Logger
-    {
-        return $this->getContainer()->get(Services::LOGGER);
     }
 
     /**
@@ -208,11 +240,11 @@ class EmailService
     {
         $emailConfig = $this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration();
         $this->setEmailConfig($emailConfig);
-        $this->sendmailPath = $this->getConfigService()->getSendmailPath();
+        $this->setSendmailPath($this->getConfigService()->getSendmailPath());
 
         if ($this->getEmailConfig()->getMailType() == 'smtp' ||
             $this->getEmailConfig()->getMailType() == 'sendmail') {
-            $this->configSet = true;
+            $this->setConfigSet(true);
         }
         $this->logger = $this->getLogger();
     }
@@ -270,8 +302,7 @@ class EmailService
     public function getTransport()
     {
         $transport = null;
-
-        if ($this->configSet) {
+        if ($this->isConfigSet()) {
             switch ($this->getEmailConfig()->getMailType()) {
                 case 'smtp':
                     $transport = new MailTransport(
@@ -341,7 +372,6 @@ class EmailService
         if (!empty($this->messageBcc)) {
             $message->setBcc($this->messageBcc);
         }
-
         return $message;
     }
 
@@ -350,7 +380,7 @@ class EmailService
      */
     public function sendEmail()
     {
-        if ($this->configSet) {
+        if ($this->isConfigSet()) {
             try {
                 $mailer = $this->getMailer();
                 $message = $this->getMessage();
@@ -411,7 +441,7 @@ class EmailService
      */
     public function sendTestEmail($toEmail)
     {
-        $mailType = $this->emailConfig->getMailType();
+        $mailType = $this->getEmailConfig()->getMailType();
 
         if ($mailType == 'smtp') {
             $subject = "SMTP Configuration Test Email";

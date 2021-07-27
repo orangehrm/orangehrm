@@ -20,7 +20,7 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <div class="orangehrm-card-container">
+    <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
           Email Configuration
@@ -90,7 +90,6 @@
                   label="SMTP Port"
                   v-model="emailConfiguration.smtpPort"
                   :rules="rules.smtpPort"
-                  required
                 />
               </oxd-grid-item>
             </oxd-grid>
@@ -264,7 +263,7 @@ export default {
         mailType: [required, shouldNotExceedCharLength(50)],
         sentAs: [required, shouldNotExceedCharLength(250), validEmailFormat],
         smtpHost: [required, shouldNotExceedCharLength(250)],
-        smtpPort: [required, shouldNotExceedCharLength(10)],
+        smtpPort: [shouldNotExceedCharLength(10)],
         smtpUsername: [required, shouldNotExceedCharLength(250)],
         smtpPassword: [required, shouldNotExceedCharLength(250)],
         smtpAuthType: [shouldNotExceedCharLength(50)],
@@ -286,7 +285,7 @@ export default {
           smtpUsername:
             this.emailConfiguration.smtpAuthType === 'login'
               ? this.emailConfiguration.smtpUsername
-              : '', //check
+              : '',
           smtpPassword: this.emailConfiguration.smtpPassword,
           smtpAuthType: this.emailConfiguration.smtpAuthType,
           smtpSecurityType: this.userSecureConnection
@@ -295,8 +294,14 @@ export default {
           testEmailAddress: this.emailConfiguration.testEmailAddress,
         })
         .then((response) => {
-          console.log(response.data)
-          return this.$toast.updateSuccess();
+          const testEmailStatus = response.data.meta?.testEmailStatus;
+          if (testEmailStatus === 1 && this.sendTestMailEditable) {
+            return this.$toast.success({title: 'Success', message: 'Successfully Saved. Test Email Sent'});
+          } else if (testEmailStatus === 0 && this.sendTestMailEditable) {
+            return this.$toast.warn({title: 'Success', message: 'Successfully Saved. Test Email Not Sent'});
+          } else {
+            return this.$toast.updateSuccess();
+          }
         })
         .then(() => {
           this.isLoading = false;

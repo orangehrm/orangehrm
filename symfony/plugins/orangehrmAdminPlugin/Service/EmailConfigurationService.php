@@ -19,7 +19,9 @@
 
 namespace OrangeHRM\Admin\Service;
 
+use Doctrine\DBAL\Driver\Exception;
 use OrangeHRM\Admin\Dao\EmailConfigurationDao;
+use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Service\EmailService;
 
 class EmailConfigurationService
@@ -72,10 +74,14 @@ class EmailConfigurationService
     /**
      * @param string $testEmail
      * @return bool
+     * @throws ServiceException
      */
     public function sendTestMail(string $testEmail)
     {
-//        $this->getEmailService()->loadConfiguration();
-        return $this->getEmailService()->sendTestEmail($testEmail);
+        try {
+            return $this->getEmailService()->sendTestEmail($testEmail);
+        } catch (ServiceException $exception){
+            throw new ServiceException($exception);
+        }
     }
 }
