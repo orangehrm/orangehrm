@@ -150,7 +150,7 @@ export default {
             'Renewal date should be after the commencing date',
           ),
         ],
-        subscriptionFee: [digitsOnly()],
+        subscriptionFee: [digitsOnly],
       },
     };
   },

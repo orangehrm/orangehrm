@@ -44,6 +44,14 @@ class EmployeeMembershipService
     }
 
     /**
+     * @param EmployeeMembershipDao|null $employeeMembershipDao
+     */
+    public function setEmployeeMembershipDao(?EmployeeMembershipDao $employeeMembershipDao): void
+    {
+        $this->employeeMembershipDao = $employeeMembershipDao;
+    }
+
+    /**
      * @param EmployeeMembership $employeeMembership
      * @return EmployeeMembership
      * @throws DaoException

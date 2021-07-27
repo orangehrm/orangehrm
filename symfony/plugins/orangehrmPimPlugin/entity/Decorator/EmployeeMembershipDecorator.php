@@ -107,7 +107,6 @@ class EmployeeMembershipDecorator
             return null;
         }
         $currency = $payGradeService->getCurrencyById($currencyCode);
-        //return "india" ;
         return $currency->getName();
     }
 }
