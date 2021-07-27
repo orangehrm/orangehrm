@@ -31,8 +31,8 @@
             <oxd-input-field
               type="select"
               label="Membership"
-              v-model="membership.membershipId"
-              :api="api"
+              v-model="membership.membership"
+              :options="memberships"
               required
             />
           </oxd-grid-item>
@@ -41,6 +41,7 @@
               type="select"
               label="Subscription Paid By"
               v-model="membership.subscriptionPaidBy"
+              :options="paidBy"
             />
           </oxd-grid-item>
           <oxd-grid-item>
@@ -54,7 +55,8 @@
             <oxd-input-field
               type="select"
               label="Currency"
-              v-model="membership.subscriptionCurrency"
+              v-model="membership.currencyType"
+              :options="currencies"
             />
           </oxd-grid-item>
           <oxd-grid-item>
@@ -96,20 +98,19 @@
 
 <script>
 import {
-  shouldNotExceedCharLength,
+  digitsOnly,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
 import {yearRange} from '@orangehrm/core/util/helper/year-range';
 
 const membershipModel = {
-  name: '',
-  subscriptionPaidBy: '',
+  membership: [],
   subscriptionFee: '',
-  subscriptionCurrency: '',
+  subscriptionPaidBy: null,
+  currencyType: [],
   subscriptionCommenceDate: '',
   subscriptionRenewalDate: '',
-  membershipId: [],
 };
 
 export default {
@@ -126,7 +127,15 @@ export default {
       type: Object,
       required: true,
     },
-    countries: {
+    currencies: {
+      type: Array,
+      default: () => [],
+    },
+    paidBy: {
+      type: Array,
+      default: () => [],
+    },
+    memberships: {
       type: Array,
       default: () => [],
     },
@@ -142,10 +151,10 @@ export default {
           validDateFormat(),
           endDateShouldBeAfterStartDate(
             () => this.membership.subscriptionCommenceDate,
-            'Expiry date should be after issued date',
+            'Renewal date should be after the commencing date',
           ),
         ],
-        reviesubscriptionCommenceDate: [validDateFormat()],
+        subscriptionFee: [digitsOnly()],
       },
     };
   },
@@ -155,12 +164,12 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.data.id, {
-          membershipId: this.membership.membershipId.map(item => item.id)[0],
-          subscriptionPaidBy: this.membership.subscriptionPaidBy,
           subscriptionFee: this.membership.subscriptionFee,
-          subscriptionCurrency: this.membership.subscriptionCurrency,
           subscriptionCommenceDate: this.membership.subscriptionCommenceDate,
           subscriptionRenewalDate: this.membership.subscriptionRenewalDate,
+          membershipId: this.membership.membership.id,
+          subscriptionPaidBy: this.membership.subscriptionPaidBy?.id,
+          subscriptionType: this.membership.currencyType?.id,
         })
         .then(() => {
           return this.$toast.updateSuccess();
@@ -181,18 +190,21 @@ export default {
       .get(this.data.id)
       .then(response => {
         const {data} = response.data;
-        this.membership.membershipId = data.membership.membershipId;
-        this.membership.subscriptionPaidBy = data.subscriptionPaidBy;
         this.membership.subscriptionFee = data.subscriptionFee;
-        this.membership.subscriptionCurrency = data.subscriptionCurrency;
         this.membership.subscriptionCommenceDate = data.subscriptionCommenceDate
           ? data.subscriptionCommenceDate
           : '';
         this.membership.subscriptionRenewalDate = data.subscriptionRenewalDate
           ? data.subscriptionRenewalDate
           : '';
-        this.membership.membershipId = this.membership.find(
-          item => item.id === data.membership?.id,
+        this.membership.membership = this.memberships.find(
+          item => item.id === data.membership.id,
+        );
+        this.membership.subscriptionPaidBy = this.paidBy.find(
+          item => item.id === data.subscriptionPaidBy,
+        );
+        this.membership.subscriptionType = this.currencies.find(
+          item => item.id === data.currencyType?.id,
         );
       })
       .finally(() => {

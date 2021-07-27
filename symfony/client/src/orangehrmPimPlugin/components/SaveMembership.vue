@@ -31,8 +31,8 @@
             <oxd-input-field
               type="select"
               label="Membership"
-              v-model="membership.membershipId"
-              :api="api"
+              v-model="membership.membership"
+              :options="memberships"
               required
             />
           </oxd-grid-item>
@@ -55,7 +55,7 @@
             <oxd-input-field
               type="select"
               label="Currency"
-              v-model="membership.currencyTypeId"
+              v-model="membership.currencyType"
               :options="currencies"
             />
           </oxd-grid-item>
@@ -98,8 +98,7 @@
 
 <script>
 import {
-  required,
-  shouldNotExceedCharLength,
+  digitsOnly,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
@@ -108,7 +107,7 @@ import {yearRange} from '@orangehrm/core/util/helper/year-range';
 const membershipModel = {
   membershipId: [],
   subscriptionFee: '',
-  subscriptionPaidBy: '',
+  subscriptionPaidBy: null,
   currencyTypeId: [],
   subscriptionCommenceDate: '',
   subscriptionRenewalDate: '',
@@ -132,9 +131,9 @@ export default {
       type: Array,
       default: () => [],
     },
-    api: {
-      type: String,
-      required: true,
+    memberships: {
+      type: Array,
+      default: () => [],
     },
   },
 
@@ -144,17 +143,14 @@ export default {
       membership: {...membershipModel},
       yearArray: [...yearRange()],
       rules: {
-        number: [required, shouldNotExceedCharLength(30)],
-        expiryDate: [
+        subscriptionRenewalDate: [
           validDateFormat(),
           endDateShouldBeAfterStartDate(
-            () => this.membership.issuedDate,
-            'Expiry date should be after issued date',
+            () => this.membership.subscriptionCommenceDate,
+            'Renewal date should be after the commencing date',
           ),
         ],
-        status: [shouldNotExceedCharLength(30)],
-        reviewDate: [validDateFormat()],
-        comment: [shouldNotExceedCharLength(250)],
+        subscriptionFee: [digitsOnly()],
       },
     };
   },
@@ -164,9 +160,11 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          ...this.membership,
+          subscriptionFee: this.membership.subscriptionFee,
+          subscriptionCommenceDate: this.membership.subscriptionCommenceDate,
+          subscriptionRenewalDate: this.membership.subscriptionRenewalDate,
           membershipId: this.membership.membership.id,
-          subscriptionPaidBy: this.membership.subscriptionPaidBy,
+          subscriptionPaidBy: this.membership.subscriptionPaidBy?.id,
           currencyTypeId: this.membership.currencyType?.id,
         })
         .then(() => {

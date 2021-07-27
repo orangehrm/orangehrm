@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Pim\Controller;
 
+use OrangeHRM\Admin\Service\MembershipService;
 use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
@@ -29,6 +30,22 @@ use OrangeHRM\Framework\Services;
 class EmployeeMembershipController extends BaseViewEmployeeController
 {
     use ServiceContainerTrait;
+
+    /**
+     * @var MembershipService|null
+     */
+    protected ?MembershipService $membershipService = null;
+
+    /**
+     * @return MembershipService
+     */
+    protected function getMembershipService(): MembershipService
+    {
+        if (!$this->membershipService instanceof MembershipService) {
+            $this->membershipService = new MembershipService();
+        }
+        return $this->membershipService;
+    }
 
     /**
      * @return PayGradeService
@@ -48,12 +65,14 @@ class EmployeeMembershipController extends BaseViewEmployeeController
             $component = new Component('employee-membership');
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
             $currencies = $this->getPayGradeService()->getCurrencyArray();
+            $memberships = $this->getMembershipService()->getMembershipArray();
             $paidBy = [
                 ["id" => "Company", "label" => "Company"],
                 ["id" => "Individual", "label" => "Individual"]
             ];
             $component->addProp(new Prop('currencies', Prop::TYPE_ARRAY, $currencies));
             $component->addProp(new Prop('paid-by', Prop::TYPE_ARRAY, $paidBy));
+            $component->addProp(new Prop('memberships', Prop::TYPE_ARRAY, $memberships));
             $this->setComponent($component);
 
             $this->setPermissionsForEmployee(

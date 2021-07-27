@@ -23,17 +23,17 @@
     <save-membership
       v-if="showSaveModal"
       :http="http"
-      :api="membershipEndpoint"
       :currencies="currencies"
       :paidBy="paidBy"
+      :memberships="memberships"
       @close="onSaveModalClose"
     ></save-membership>
     <edit-membership
       v-if="showEditModal"
       :http="http"
-      :api="educationEndpoint"
       :currencies="currencies"
       :paidBy="paidBy"
+      :memberships="memberships"
       :data="editModalState"
       @close="onEditModalClose"
     ></edit-membership>
@@ -84,10 +84,12 @@ const membershipNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      membership: item.membership.name,
+      membershipId: item.membership.id,
+      membershipName: item.membership.name,
       subscriptionPaidBy: item.subscriptionPaidBy,
       subscriptionFee: item.subscriptionFee,
-      subscriptionCurrency: item.currencyType.name,
+      subscriptionTypeId: item.currencyType.id,
+      subscriptionCurrencyName: item.currencyType.name,
       subscriptionCommenceDate: item.subscriptionCommenceDate,
       subscriptionRenewalDate: item.subscriptionRenewalDate,
     };
@@ -116,6 +118,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    memberships: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   setup(props) {
@@ -123,8 +129,6 @@ export default {
       window.appGlobal.baseUrl,
       `api/v2/pim/employees/${props.empNumber}/memberships`,
     );
-
-    const membershipEndpoint = 'api/v2/admin/memberships?limit=0';
 
     const {
       showPaginator,
@@ -146,7 +150,6 @@ export default {
       pageSize,
       execQuery,
       items: response,
-      membershipEndpoint,
     };
   },
 
@@ -154,7 +157,7 @@ export default {
     return {
       headers: [
         {
-          name: 'membership',
+          name: 'membershipName',
           slot: 'title',
           title: 'Membership',
           style: {flex: 1},
@@ -169,7 +172,7 @@ export default {
           title: 'Subscription Amount',
           style: {flex: 1},
         },
-        {name: 'subscriptionCurrency', title: 'Currency', style: {flex: 1}},
+        {name: 'subscriptionCurrencyName', title: 'Currency', style: {flex: 1}},
         {
           name: 'subscriptionCommenceDate',
           title: 'Subscription Commence Date',

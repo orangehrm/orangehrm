@@ -146,12 +146,7 @@ class PayGradeDao extends BaseDao
     public function getCurrencyById(string $id): ?CurrencyType
     {
         try {
-            //return $this->getRepository(CurrencyType::class)->find($id);
-            $q = $this->createQueryBuilder(CurrencyType::class, 'ct');
-            $q->where('ct.id = :id')
-                ->setParameter('id', $id);
-
-            return $this->fetchOne($q);
+            return $this->getRepository(CurrencyType::class)->find($id);
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
