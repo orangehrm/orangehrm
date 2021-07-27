@@ -37,6 +37,12 @@
       <directory>symfony/plugins/orangehrmCorePlugin/test/Helper</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Vue</directory>
     </testsuite>
+    <testsuite name="Leave Tests">
+      <directory>symfony/plugins/orangehrmLeavePlugin/test/Service</directory>
+      <directory>symfony/plugins/orangehrmLeavePlugin/test/Dao</directory>
+      <directory>symfony/plugins/orangehrmLeavePlugin/test/Api</directory>
+      <directory>symfony/plugins/orangehrmLeavePlugin/test/Entity</directory>
+    </testsuite>
     <testsuite name="Pim Tests">
       <directory>symfony/plugins/orangehrmPimPlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmPimPlugin/test/Dao</directory>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,20 +15,24 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
+
+namespace OrangeHRM\Tests\Leave\Service;
+
+use OrangeHRM\Leave\WorkSchedule\WorkScheduleInterface;
+use OrangeHRM\Tests\Util\TestCase;
 
 /**
  * @group Leave
  */
-class WorkScheduleServiceTest extends PHPUnit_Framework_TestCase {
+class WorkScheduleServiceTest extends TestCase {
 
     private $service;
 
     /**
      * Set up method
      */
-    protected function setUp() {
+    protected function setUp():void {
         $this->service = new WorkScheduleService();
     }
     
