@@ -63,7 +63,6 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
         return $this->employeeMembershipService;
     }
 
-
     /**
      * @inheritDoc
      */

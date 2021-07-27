@@ -21,8 +21,8 @@ namespace OrangeHRM\Tests\Pim\Service;
 
 use DateTime;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Entity\EmployeeMembership;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeMembership;
 use OrangeHRM\Pim\Dao\EmployeeMembershipDao;
 use OrangeHRM\Pim\Dto\EmployeeMembershipSearchFilterParams;
 use OrangeHRM\Pim\Service\EmployeeMembershipService;
@@ -57,8 +57,6 @@ class EmployeeMembershipServiceTest extends TestCase
         $employeeMembership1->setSubscriptionRenewalDate(new DateTime('2011-05-22'));
 
         $employeeMembershipDao = $this->getMockBuilder(EmployeeMembershipDao::class)->getMock();
-
-
         $employeeMembershipDao->expects($this->once())
             ->method('getEmployeeMembershipById')
             ->with(1, 1)
@@ -101,14 +99,12 @@ class EmployeeMembershipServiceTest extends TestCase
     public function testDeleteEmployeeMemberships(): void
     {
         $employeeMembershipDao = $this->getMockBuilder(EmployeeMembershipDao::class)->getMock();
-
         $employeeMembershipDao->expects($this->once())
             ->method('deleteEmployeeMemberships')
             ->with(1, [1, 2])
             ->will($this->returnValue(2));
 
         $this->employeeMembershipService->setEmployeeMembershipDao($employeeMembershipDao);
-
         $rows = $this->employeeMembershipService->deleteEmployeeMemberships(1, [1, 2]);
         $this->assertEquals(2, $rows);
     }
@@ -120,7 +116,7 @@ class EmployeeMembershipServiceTest extends TestCase
         $employeeMembership1->setSubscriptionFee('4');
         $employeeMembership1->setSubscriptionPaidBy('Individual');
 
-        $employeeMembership2 =new EmployeeMembership();
+        $employeeMembership2 = new EmployeeMembership();
         $employeeMembership2->getDecorator()->setEmployeeByEmpNumber(1);
         $employeeMembership2->setSubscriptionPaidBy('Company');
 

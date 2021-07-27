@@ -93,8 +93,8 @@ class EmployeeMembershipDao extends BaseDao
      * @return array
      * @throws DaoException
      */
-    public function searchEmployeeMembership(EmployeeMembershipSearchFilterParams $employeeMembershipSearchParams): array
-    {
+    public function searchEmployeeMembership(EmployeeMembershipSearchFilterParams $employeeMembershipSearchParams
+    ): array {
         try {
             $paginator = $this->getSearchEmployeeMembershipPaginator($employeeMembershipSearchParams);
             return $paginator->getQuery()->execute();
@@ -124,7 +124,8 @@ class EmployeeMembershipDao extends BaseDao
      * @return int
      * @throws DaoException
      */
-    public function getSearchEmployeeMembershipsCount(EmployeeMembershipSearchFilterParams $employeeMembershipSearchParams
+    public function getSearchEmployeeMembershipsCount(
+        EmployeeMembershipSearchFilterParams $employeeMembershipSearchParams
     ): int {
         try {
             $paginator = $this->getSearchEmployeeMembershipPaginator($employeeMembershipSearchParams);

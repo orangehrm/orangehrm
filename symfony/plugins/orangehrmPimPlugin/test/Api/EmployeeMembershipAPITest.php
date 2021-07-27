@@ -523,7 +523,6 @@ class EmployeeMembershipAPITest extends EndpointTestCase
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    CommonParams::PARAMETER_ID => 1
                 ],
                 RequestParams::PARAM_TYPE_BODY => [
                     EmployeeMembershipAPI::PARAMETER_MEMBERSHIP_ID => 1,
@@ -608,7 +607,6 @@ class EmployeeMembershipAPITest extends EndpointTestCase
             $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
-                    CommonParams::PARAMETER_ID => 1,
                     EmployeeMembershipAPI::PARAMETER_MEMBERSHIP_ID => 1,
                     EmployeeMembershipAPI::PARAMETER_SUBSCRIPTION_PAID_BY => "Individual",
                     EmployeeMembershipAPI::PARAMETER_SUBSCRIPTION_FEE => "4",

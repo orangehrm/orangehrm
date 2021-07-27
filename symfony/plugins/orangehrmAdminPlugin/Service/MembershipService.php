@@ -19,9 +19,9 @@
 
 namespace OrangeHRM\Admin\Service;
 
-use OrangeHRM\Admin\Service\Model\MembershipModel;
 use OrangeHRM\Admin\Dao\MembershipDao;
 use OrangeHRM\Admin\Dto\MembershipSearchFilterParams;
+use OrangeHRM\Admin\Service\Model\MembershipModel;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Membership;

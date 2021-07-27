@@ -23,7 +23,6 @@ use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Entity\Education;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeMembership;
 use OrangeHRM\Entity\Membership;
@@ -100,7 +99,7 @@ class EmployeeMembershipDecorator
      */
     public function getCurrencyName(): ?string
     {
-        $currencyCode = $this -> getEmployeeMembership()->getSubscriptionCurrency();
+        $currencyCode = $this->getEmployeeMembership()->getSubscriptionCurrency();
         /** @var PayGradeService $payGradeService */
         $payGradeService = $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
         if (is_null($currencyCode)) {
