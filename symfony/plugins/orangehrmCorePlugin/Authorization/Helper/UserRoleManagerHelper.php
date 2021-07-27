@@ -22,12 +22,24 @@ namespace OrangeHRM\Core\Authorization\Helper;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
+use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Framework\Services;
 
 class UserRoleManagerHelper
 {
-    use UserRoleManagerTrait;
+    use ServiceContainerTrait;
+
+    /**
+     * @return AbstractUserRoleManager|BasicUserRoleManager
+     */
+    private function getUserRoleManager(): AbstractUserRoleManager
+    {
+        return $this->getContainer()->get(Services::USER_ROLE_MANAGER);
+    }
 
     /**
      * @param string|string[] $dataGroupName

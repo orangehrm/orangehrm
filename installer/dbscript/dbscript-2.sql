@@ -3856,3 +3856,22 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_report_to_subordinate_data_group_id, @supervisor_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_report_to_allowed_employees_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_report_to_allowed_employees_data_group_id, @ess_role_id);
+
+INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),
+       ('apiv2_leave_workweek', 'API-v2 Leave - Work Week', 1, 0, 1, 0);
+
+SET @leave_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'leave' LIMIT 1);
+
+SET @apiv2_leave_holiday_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_holiday' LIMIT 1);
+SET @apiv2_leave_workweek_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_workweek' LIMIT 1);
+
+INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
+VALUES ('OrangeHRM\\Leave\\Api\\HolidayAPI', @leave_module_id, @apiv2_leave_holiday_data_group_id),
+       ('OrangeHRM\\Leave\\Api\\WorkWeekAPI', @leave_module_id, @apiv2_leave_workweek_data_group_id);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_leave_holiday_data_group_id, @ess_role_id),
+       (1, 0, 1, 0, 0, @apiv2_leave_workweek_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_leave_workweek_data_group_id, @ess_role_id),
