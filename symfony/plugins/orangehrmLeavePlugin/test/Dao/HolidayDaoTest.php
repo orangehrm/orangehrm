@@ -1,7 +1,5 @@
 <?php
-
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,205 +15,155 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
+
+namespace OrangeHRM\Tests\Leave\Dao;
+
+use DateTime;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Holiday;
+use OrangeHRM\Leave\Dao\HolidayDao;
+use OrangeHRM\Leave\Dto\HolidaySearchFilterParams;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group Leave 
+ * @group Leave
+ * @group Dao
  */
-class HolidayDaoTest extends PHPUnit_Framework_TestCase {
+class HolidayDaoTest extends TestCase
+{
 
-    private $holidayDao;
-    private $fixture;
+    private HolidayDao $holidayDao;
+    private string $fixture;
 
-    protected function setUp() {
+    protected function setUp(): void
+    {
         $this->holidayDao = new HolidayDao();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmLeavePlugin/test/fixtures/HolidayDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmLeavePlugin/test/fixtures/HolidayDao.yml';
         TestDataService::populate($this->fixture);
     }
 
-    /* test readHoliday */
-
-    public function testReadHoliday() {
-
-        $holiday = $this->holidayDao->readHoliday(1);
+    public function testGetHolidayById(): void
+    {
+        $holiday = $this->holidayDao->getHolidayById(1);
 
         $this->assertTrue($holiday instanceof Holiday);
-        $this->assertEquals(1, $holiday->getRecurring());
-        $this->assertEquals("2010-05-27", $holiday->getDate());
+        $this->assertEquals(1, $holiday->isRecurring());
+        $this->assertEquals("2010-05-27", $holiday->getDate()->format('Y-m-d'));
     }
 
-    /**
-     * @cover getHolidayList()
-     */
-    public function testGetHolidayList_RecurringHolidays() {
-
-        $holidayList = $this->holidayDao->getHolidayList(2011);
-
-        $this->assertTrue($holidayList instanceof Doctrine_Collection);
-        $this->assertEquals(2, $holidayList->count());
-
-        $holiday1 = $holidayList->get(0);
-        $this->assertTrue($holiday1 instanceof Holiday);
-        $this->assertEquals(1, $holiday1->getId());
-        $this->assertEquals('Public Holiday', $holiday1->getDescription());
-
-        $holiday1 = $holidayList->get(1);
-        $this->assertTrue($holiday1 instanceof Holiday);
-        $this->assertEquals(3, $holiday1->getId());
-        $this->assertEquals('Home Holiday', $holiday1->getDescription());
-    }
-
-    /**
-     * @cover getHolidayList()
-     */
-    public function testGetHolidayList_NonRecurringHolidays() {
-
-        $holidayList = $this->holidayDao->getHolidayList(2010);
-
-        $this->assertTrue($holidayList instanceof Doctrine_Collection);
-        $this->assertEquals(4, $holidayList->count());
-
-        $sampleData = sfYaml::load($this->fixture);
-        $sampleData = $sampleData['Holiday'];
-
-        foreach ($holidayList as $index => $holiday) {
-            $this->assertTrue($holiday instanceof Holiday);
-            $this->assertEquals($sampleData[$index]['id'], $holiday->getId());
-            $this->assertEquals($sampleData[$index]['date'], $holiday->getDate());
-            $this->assertEquals($sampleData[$index]['length'], $holiday->getLength());
-        }
-    }
-
-    /**
-     * @cover getHolidayList()
-     */
-    public function testGetHolidayList_WithOperationalCountryFilter() {
-        $sriLanka = new OperationalCountry();
-        $sriLanka->setId(1);
-        $sriLanka->setCountryCode('LK');
-
-        $holidayList = $this->holidayDao->getHolidayList(2010, $sriLanka);
-
-        $this->assertTrue($holidayList instanceof Doctrine_Collection);
-        $this->assertEquals(1, $holidayList->count());
-
-        $holiday1 = $holidayList->get(0);
-        $this->assertTrue($holiday1 instanceof Holiday);
-        $this->assertEquals(2, $holiday1->getId());
-        $this->assertEquals('Fullmoon Day', $holiday1->getDescription());
-    }
-
-    /* test getHolidayList without passing year */
-
-    public function testGetHolidayListWithoutPassingYear() {
-
-        $holidayList = $this->holidayDao->getHolidayList();
-
-        $this->assertTrue($holidayList instanceof Doctrine_Collection);
-        $this->assertEquals(2, $holidayList->count());
-
-        $holiday1 = $holidayList->get(0);
-        $this->assertTrue($holiday1 instanceof Holiday);
-        $this->assertEquals(1, $holiday1->getId());
-        $this->assertEquals('Public Holiday', $holiday1->getDescription());
-
-        $holiday1 = $holidayList->get(1);
-        $this->assertTrue($holiday1 instanceof Holiday);
-        $this->assertEquals(3, $holiday1->getId());
-        $this->assertEquals('Home Holiday', $holiday1->getDescription());
-    }
-
-    /* count getHolidayList */
-
-    public function testCountGetHolidayListWithYear() {
-
-        $holidayList = $this->holidayDao->getHolidayList($year = "2010");
-        $this->assertEquals(4, count($holidayList));
-    }
-
-    public function testCountGetHolidayListWithoutYear() {
-
-        $holidayList = $this->holidayDao->getHolidayList();
-        $this->assertEquals(2, count($holidayList));
-    }
-
-    /* test saveHoliday */
-
-    public function testSaveHoliday() {
-
-        $holiday = TestDataService::fetchObject('Holiday', 1);
+    public function testSaveHoliday(): void
+    {
+        /** @var Holiday $holiday */
+        $holiday = TestDataService::fetchObject(Holiday::class, 1);
 
         $holiday->setLength(4);
-        $holiday->setRecurring(0);
-        $holiday->setDate("2010-05-30");
+        $holiday->setRecurring(false);
+        $holiday->setDate(new DateTime("2010-05-30"));
 
         $this->holidayDao->saveHoliday($holiday);
-        $savedHoliday = TestDataService::fetchObject('Holiday', $holiday->getId());
+        /** @var Holiday $savedHoliday */
+        $savedHoliday = TestDataService::fetchObject(Holiday::class, $holiday->getId());
 
         $this->assertEquals($holiday->getLength(), $savedHoliday->getLength());
-        $this->assertEquals($holiday->getRecurring(), $savedHoliday->getRecurring());
+        $this->assertEquals($holiday->isRecurring(), $savedHoliday->isRecurring());
         $this->assertEquals($holiday->getDate(), $savedHoliday->getDate());
     }
 
-    /* test saveHoliday without an Id */
-
-    public function testSaveHolidayWithNoId() {
-
+    public function testSaveHolidayWithNoId(): void
+    {
         $holiday = new Holiday();
         $holiday->setLength(4);
-        $holiday->setDescription("for dummies");
+        $holiday->setName("for dummies");
 
         $savedHoliday = $this->holidayDao->saveHoliday($holiday);
 
-        $this->assertEquals($holiday, $savedHoliday);
+        $this->assertEquals($holiday->getName(), $savedHoliday->getName());
+        $this->assertIsInt($holiday->getId());
     }
 
-    /* test deleteHoliday */
+    public function testSearchHolidaysWithoutFromToDates(): void
+    {
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidays = $this->holidayDao->searchHolidays($holidaySearchFilterParams);
 
-    public function testDeleteHoliday() {
-
-        $this->assertTrue($this->holidayDao->deleteHoliday(array(1, 2)));
-        $holiday = TestDataService::fetchObject('Holiday', 2);
-
-        $this->assertFalse($holiday instanceof Holiday);
-    }
-
-    /* test readHolidayByDate */
-
-    public function testReadHolidayByDate() {
-
-        $matchedHoliday = $this->holidayDao->readHolidayByDate('2010-05-27');
-        $this->assertTrue($matchedHoliday instanceof Holiday);
-        $this->assertEquals(1, $matchedHoliday->getId());
-
-        $sriLanka = new OperationalCountry();
-        $sriLanka->setId(1);
-        $sriLanka->setCountryCode('LK');
-
-        $matchedHoliday = $this->holidayDao->readHolidayByDate('2010-05-28', $sriLanka);
-        $this->assertTrue($matchedHoliday instanceof Holiday);
-        $this->assertEquals(2, $matchedHoliday->getId());
-    }
-
-    /* test getFullHolidayList */
-
-    public function testGetFullHolidayList() {
-
-        $holidayList = $this->holidayDao->getFullHolidayList();
-        foreach ($holidayList as $holiday) {
-
-            $this->assertTrue($holiday instanceof Holiday);
+        $this->assertCount(5, $holidays);
+        foreach ($holidays as $holiday) {
+            $this->assertTrue($holiday->isRecurring());
         }
     }
 
-    /* test SearchHolidays */
+    public function testSearchHolidaysWithoutFromToDatesAndExcludeRecurring(): void
+    {
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setExcludeRecurring(true);
+        $holidays = $this->holidayDao->searchHolidays($holidaySearchFilterParams);
 
-    public function testSearchHolidays() {
-        $holidayList = $this->holidayDao->searchHolidays('2010-01-01', '2010-12-31');
-        foreach ($holidayList as $holiday) {
-            $this->assertTrue($holiday instanceof Holiday);
-        }
+        $this->assertCount(0, $holidays);
     }
 
+    public function testSearchHolidaysWithoutFromDateAndExcludeRecurring(): void
+    {
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setToDate(new DateTime('2021-07-25'));
+        $holidaySearchFilterParams->setExcludeRecurring(true);
+        $holidays = $this->holidayDao->searchHolidays($holidaySearchFilterParams);
+
+        $this->assertCount(0, $holidays);
+    }
+
+    public function testSearchHolidaysWithoutToDateAndExcludeRecurring(): void
+    {
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime('2021-07-23'));
+        $holidaySearchFilterParams->setExcludeRecurring(true);
+        $holidays = $this->holidayDao->searchHolidays($holidaySearchFilterParams);
+
+        $this->assertCount(0, $holidays);
+    }
+
+    public function testSearchHolidaysExcludeRecurring(): void
+    {
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime('2010-05-28'));
+        $holidaySearchFilterParams->setToDate(new DateTime('2010-08-28'));
+        $holidaySearchFilterParams->setExcludeRecurring(true);
+        $holidays = $this->holidayDao->searchHolidays($holidaySearchFilterParams);
+
+        $this->assertCount(2, $holidays);
+        $this->assertEquals('Fullmoon Day', $holidays[0]->getName());
+        $this->assertEquals('Personal Holiday', $holidays[1]->getName());
+
+        $holidaySearchFilterParams->setFromDate(new DateTime('2010-05-28'));
+        $holidaySearchFilterParams->setToDate(new DateTime('2010-08-27'));
+        $holidaySearchFilterParams->setExcludeRecurring(true);
+        $holidays = $this->holidayDao->searchHolidays($holidaySearchFilterParams);
+        $this->assertCount(1, $holidays);
+        $this->assertEquals('Fullmoon Day', $holidays[0]->getName());
+
+        $holidaySearchFilterParams->setFromDate(new DateTime('2010-08-28'));
+        $holidaySearchFilterParams->setToDate(new DateTime('2010-08-28'));
+        $holidaySearchFilterParams->setExcludeRecurring(true);
+        $holidays = $this->holidayDao->searchHolidays($holidaySearchFilterParams);
+        $this->assertCount(1, $holidays);
+        $this->assertEquals('Personal Holiday', $holidays[0]->getName());
+    }
+
+    public function testSearchHolidays(): void
+    {
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime('2010-05-27'));
+        $holidaySearchFilterParams->setToDate(new DateTime('2010-08-28'));
+        $holidays = $this->holidayDao->searchHolidays($holidaySearchFilterParams);
+
+        $this->assertCount(7, $holidays);
+        $this->assertEquals('Public Holiday', $holidays[0]->getName());
+        $this->assertEquals('Fullmoon Day', $holidays[1]->getName());
+        $this->assertEquals('Home Holiday', $holidays[2]->getName());
+        $this->assertEquals('Personal Holiday', $holidays[3]->getName());
+        $this->assertEquals('Sports Day', $holidays[4]->getName());
+        $this->assertEquals('Father`s Day', $holidays[5]->getName());
+        $this->assertEquals('Christmas Day', $holidays[6]->getName());
+    }
 }

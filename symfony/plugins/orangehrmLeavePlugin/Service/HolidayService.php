@@ -57,7 +57,7 @@ class HolidayService
      */
     public function saveHoliday(Holiday $holiday): Holiday
     {
-        $this->getCache()->clear('leave');
+        $this->getCache()->clear(self::LEAVE_HOLIDAYS_CACHE_KEY_PREFIX);
         return $this->getHolidayDao()->saveHoliday($holiday);
     }
 

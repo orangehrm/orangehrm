@@ -1,6 +1,5 @@
 <?php
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,490 +15,670 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
-*/
-/**
- * @group Leave 
  */
-class HolidayServiceTest extends PHPUnit_Framework_TestCase {
 
-    private $holidayService;
+namespace OrangeHRM\Tests\Leave\Service;
+
+use DateTime;
+use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Holiday;
+use OrangeHRM\Framework\Cache\FilesystemAdapter;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Leave\Dao\HolidayDao;
+use OrangeHRM\Leave\Dto\HolidaySearchFilterParams;
+use OrangeHRM\Leave\Service\HolidayService;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
+
+/**
+ * @group Leave
+ */
+class HolidayServiceTest extends KernelTestCase
+{
+    private HolidayService $holidayService;
     private $fixture;
 
-
-    protected function setUp() {
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmLeavePlugin/test/fixtures/HolidayService.yml';
-        $this->holidayService	=	new HolidayService();
+    protected function setUp(): void
+    {
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmLeavePlugin/test/fixtures/HolidayService.yml';
+        $this->holidayService = new HolidayService();
+        $cache = new FilesystemAdapter();
+        $cache->clear();
+        $this->createKernelWithMockServices([Services::CACHE => $cache]);
     }
 
-    /* testing setHolidayDao and getHolidayDao */
-
-    public function testGetSetHolidayDao() {
-
-        $holidayDao = new HolidayDao();
-        $this->holidayService->setHolidayDao($holidayDao);
-
+    public function testGetSetHolidayDao(): void
+    {
         $this->assertTrue($this->holidayService->getHolidayDao() instanceof HolidayDao);
-
     }
 
-    /* test saveHoliday */
+    public function testSaveHoliday(): void
+    {
+        $holidays = TestDataService::loadObjectList(Holiday::class, $this->fixture, 'Holiday');
+        $holiday = $holidays[0];
 
-    public function testSaveHoliday() {
-
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-        $holiday    = $holidays[0];
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('saveHoliday'))
-			->getMock();
+        $holidayDao = $this->getMockBuilder(HolidayDao::class)
+            ->onlyMethods(['saveHoliday'])
+            ->getMock();
         $holidayDao->expects($this->once())
-                ->method('saveHoliday')
-                ->with($holiday)
-                ->will($this->returnValue($holiday));
+            ->method('saveHoliday')
+            ->with($holiday)
+            ->will($this->returnValue($holiday));
 
-        $this->holidayService->setHolidayDao($holidayDao);
+        $holidayService = $this->getMockBuilder(HolidayService::class)
+            ->onlyMethods(['getHolidayDao'])
+            ->getMock();
+        $holidayService->expects($this->once())
+            ->method('getHolidayDao')
+            ->willReturn($holidayDao);
 
-        $this->assertTrue($this->holidayService->saveHoliday($holiday) instanceof Holiday);
-
+        $this->assertTrue($holidayService->saveHoliday($holiday) instanceof Holiday);
     }
 
-    /* test readHoliday */
+    public function testSearchHolidaysNoneRecurring(): void
+    {
+        $fixture = [
+            [
+                'id' => 1,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2009-03-22'),
+                'length' => 4
+            ],
+            [
+                'id' => 2,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-05-22'),
+                'length' => 8
+            ],
+            [
+                'id' => 3,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-05-27'),
+                'length' => 4
+            ],
+            [
+                'id' => 4,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-06-27'),
+                'length' => 8
+            ]
+        ];
 
-    public function testReadHoliday() {
+        $holidays = TestDataService::loadObjectListFromArray(Holiday::class, $fixture);
 
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('readHoliday'))
-			->getMock();
+        $holidayDao = $this->getMockBuilder(HolidayDao::class)
+            ->onlyMethods(['searchHolidays'])
+            ->getMock();
         $holidayDao->expects($this->once())
-                ->method('readHoliday')
-                ->with(1)
-                ->will($this->returnValue($holidays[0]));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-        $readHoliday = $this->holidayService->readHoliday(1);
-
-        $this->assertTrue($readHoliday instanceof Holiday);
-        $this->assertEquals($holidays[0], $readHoliday);
-
-    }
-
-    /* test readHoliday returns null in Dao */
-
-    public function testReadHolidayReturnsNullInDao() {
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('readHoliday'))
-			->getMock();
-        $holidayDao->expects($this->once())
-                ->method('readHoliday')
-                ->with(10)
-                ->will($this->returnValue(null));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-        $readHoliday = $this->holidayService->readHoliday(10);
-
-        $this->assertTrue($readHoliday instanceof Holiday);
-
-    }
-
-    /* test deleteHoliday */
-
-    public function testDeleteHoliday() {
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('deleteHoliday'))
-			->getMock();
-        $holidayDao->expects($this->once())
-                ->method('deleteHoliday')
-                ->with(array(1,2))
-                ->will($this->returnValue(true));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-        $this->assertTrue($this->holidayService->deleteHoliday(array(1, 2)));
-
-    }
-
-    /* test readHolidayByDate */
-
-    public function testReadHolidayByDate() {
-
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('readHolidayByDate'))
-			->getMock();
-        $holidayDao->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with("2010-05-27")
-                ->will($this->returnValue($holidays[0]));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-        $this->assertTrue($this->holidayService->readHolidayByDate("2010-05-27") instanceof Holiday);
-
-    }
-
-    /* test readHolidayByDate returns null in Dao */
-
-    public function testReadHolidayByDateReturnsNullInDao() {
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('readHolidayByDate'))
-			->getMock();
-        $holidayDao->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with("5555-10-21")
-                ->will($this->returnValue(null));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-        $this->assertTrue($this->holidayService->readHolidayByDate("5555-10-21") instanceof Holiday);
-
-    }
-
-    /* test isHoliday */
-
-    public function testIsHoliday() {
-
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
-        $holidayDao->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with("2010-05-28")
-                ->will($this->returnValue($holidays[1]));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-
-        $this->assertTrue($this->holidayService->isHoliday("2010-05-28"));
-    }
-
-    /* test isHoliday made to return false */
-
-    public function testIsHolidayReturnsFalse() {
-
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
-        $holidayDao->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with("5555-10-21")
-                ->will($this->returnValue(null));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-
-        $this->assertFalse($this->holidayService->isHoliday("5555-10-21"));
-    }
-
-    /* test getHolidayList */
-
-    public function testGetHolidayList() {
-
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('getHolidayList'))
-			->getMock();
-        $holidayDao->expects($this->once())
-                ->method('getHolidayList')
-                ->will($this->returnValue($holidays));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-
-        $list = $this->holidayService->getHolidayList();
-        $this->assertEquals(4, count($list));
-        foreach($list as $holiday) {
-            $this->assertTrue($holiday instanceof Holiday);
-        }
-
-    }
-
-    /* test getFullHolidayList */
-
-    public function testGetFullHolidayList() {
-
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('getFullHolidayList'))
-			->getMock();
-        $holidayDao->expects($this->once())
-                ->method('getFullHolidayList')
-                ->will($this->returnValue($holidays));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-
-        $list = $this->holidayService->getFullHolidayList();
-        $this->assertEquals(4, count($list));
-
-        foreach($list as $holiday) {
-            $this->assertTrue($holiday instanceof Holiday);
-        }
-
-    }
-
-    /* test isHalfDay */
-
-    public function testIsHalfDay() {
-
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
-        $holidayDao->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with("2010-05-28")
-                ->will($this->returnValue($holidays[0]));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-        $this->assertTrue($this->holidayService->isHalfDay("2010-05-28"));
-
-    }
-
-    /* test isHalfDay returns false */
-
-    public function testIsHalfDayReturnsFalse() {
-
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
-        $holidayDao->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with("5555-10-21")
-                ->will($this->returnValue(null));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-        $this->assertFalse($this->holidayService->isHalfDay("5555-10-21"));
-
-    }
-
-    /* test isHalfdayHoliday */
-
-    public function testIsHalfdayHoliday() {
-
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
-        $holidayDao->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with("2010-05-27")
-                ->will($this->returnValue($holidays[0]));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-        $this->assertTrue($this->holidayService->isHalfdayHoliday("2010-05-27"));
-
-    }
-
-    /* test isHalfdayHoliday */
-
-    public function testIsHalfdayHolidayReturnsFalse() {
-
-        $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
-        $holidayDao->expects($this->once())
-                ->method('readHolidayByDate')
-                ->with("2010-05-28")
-                ->will($this->returnValue($holidays[1]));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-        $this->assertFalse($this->holidayService->isHalfdayHoliday("2010-05-28"));
-
-    }
-
-    /* test searchHolidays */
-
-    public function testSearchHolidaysNoneRecurring() {
-        
-        $fixture = array(
-            array('id' => 1, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2009-03-22', 'length' => 4),
-            array('id' => 2, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-05-22', 'length' => 8),
-            array('id' => 3, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-05-27', 'length' => 4),
-            array('id' => 4, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8));      
-
-        $holidays = TestDataService::loadObjectListFromArray('Holiday', $fixture);
-
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('searchHolidays'))
-			->getMock();
-        $holidayDao->expects($this->once())
-                ->method('searchHolidays')
-                ->will($this->returnValue($holidays));
-
-        $this->holidayService->setHolidayDao($holidayDao);
-        $result = $this->holidayService->searchHolidays("2009-01-01", "2010-12-31");
+            ->method('searchHolidays')
+            ->will($this->returnValue($holidays));
+
+        $holidayService = $this->getMockBuilder(HolidayService::class)
+            ->onlyMethods(['getHolidayDao'])
+            ->getMock();
+        $holidayService->expects($this->once())
+            ->method('getHolidayDao')
+            ->willReturn($holidayDao);
+
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime("2009-01-01"));
+        $holidaySearchFilterParams->setToDate(new DateTime("2010-12-31"));
+        $result = $holidayService->searchHolidays($holidaySearchFilterParams);
 
         $this->compareHolidays($holidays, $result);
     }
-    
-    public function testSearchHolidaysRecurringCurrentYear() {
 
-        $fixture = array(
-            array('id' => 1, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-03-22', 'length' => 4),
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-04-01', 'length' => 8),
-            array('id' => 3, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-05-27', 'length' => 4),
-            array('id' => 4, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8));   
-        
-        $holidays = TestDataService::loadObjectListFromArray('Holiday', $fixture);
+    public function testSearchHolidaysRecurringCurrentYear(): void
+    {
+        $fixture = [
+            [
+                'id' => 1,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-03-22'),
+                'length' => 4
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 3,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-05-27'),
+                'length' => 4
+            ],
+            [
+                'id' => 4,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-06-27'),
+                'length' => 8
+            ]
+        ];
 
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('searchHolidays'))
-			->getMock();
+        $holidays = TestDataService::loadObjectListFromArray(Holiday::class, $fixture);
+
+        $holidayDao = $this->getMockBuilder(HolidayDao::class)
+            ->onlyMethods(['searchHolidays'])
+            ->getMock();
         $holidayDao->expects($this->once())
-                ->method('searchHolidays')
-                ->will($this->returnValue($holidays));
+            ->method('searchHolidays')
+            ->will($this->returnValue($holidays));
 
-        $this->holidayService->setHolidayDao($holidayDao);
-        $result = $this->holidayService->searchHolidays("2010-01-01", "2010-12-31");
+        $holidayService = $this->getMockBuilder(HolidayService::class)
+            ->onlyMethods(['getHolidayDao'])
+            ->getMock();
+        $holidayService->expects($this->once())
+            ->method('getHolidayDao')
+            ->willReturn($holidayDao);
+
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime("2010-01-01"));
+        $holidaySearchFilterParams->setToDate(new DateTime("2010-12-31"));
+        $result = $holidayService->searchHolidays($holidaySearchFilterParams);
 
         $this->compareHolidays($holidays, $result);
-    }    
-    
-    public function testSearchHolidaysRecurringOtherYear() {
+    }
 
-        $fixture = array(
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2008-04-01', 'length' => 8),
-            array('id' => 3, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-05-27', 'length' => 4),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8),
-            array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2012-09-13', 'length' => 8)
-            );   
-        
-        $holidays = TestDataService::loadObjectListFromArray('Holiday', $fixture);
+    public function testSearchHolidaysRecurringOtherYear(): void
+    {
+        $fixture = [
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 3,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-05-27'),
+                'length' => 4
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 5,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2012-09-13'),
+                'length' => 8
+            ]
+        ];
 
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('searchHolidays'))
-			->getMock();
+        $holidays = TestDataService::loadObjectListFromArray(Holiday::class, $fixture);
+
+        $holidayDao = $this->getMockBuilder(HolidayDao::class)
+            ->onlyMethods(['searchHolidays'])
+            ->getMock();
         $holidayDao->expects($this->once())
-                ->method('searchHolidays')
-                ->will($this->returnValue($holidays));
+            ->method('searchHolidays')
+            ->will($this->returnValue($holidays));
 
-        $this->holidayService->setHolidayDao($holidayDao);
-        $result = $this->holidayService->searchHolidays("2010-01-01", "2010-12-31");
-        
-        $expectedArray = array(
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-04-01', 'length' => 8),
-            array('id' => 3, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-05-27', 'length' => 4),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8),
-            array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8)
-            );
-        $expected = TestDataService::loadObjectListFromArray('Holiday', $expectedArray);
+        $holidayService = $this->getMockBuilder(HolidayService::class)
+            ->onlyMethods(['getHolidayDao'])
+            ->getMock();
+        $holidayService->expects($this->once())
+            ->method('getHolidayDao')
+            ->willReturn($holidayDao);
+
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime("2010-01-01"));
+        $holidaySearchFilterParams->setToDate(new DateTime("2010-12-31"));
+        $result = $holidayService->searchHolidays($holidaySearchFilterParams);
+
+        $expectedArray = [
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 3,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-05-27'),
+                'length' => 4
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 5,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ]
+        ];
+        $expected = TestDataService::loadObjectListFromArray(Holiday::class, $expectedArray);
 
         $this->compareHolidays($expected, $result);
     }
-    
-    public function testSearchHolidaysRecurringMultiYear() {
 
-        $fixture = array(
-            array('id' => 1, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2008-03-22', 'length' => 4),
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2008-04-01', 'length' => 8),
-            array('id' => 3, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-05-27', 'length' => 4),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8),
-            array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),
-            array('id' => 6, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2011-01-13', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2012-09-13', 'length' => 8)
-            );   
-        
-        $holidays = TestDataService::loadObjectListFromArray('Holiday', $fixture);
+    public function testSearchHolidaysRecurringMultiYear(): void
+    {
+        $fixture = [
+            [
+                'id' => 1,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-03-22'),
+                'length' => 4
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 3,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-05-27'),
+                'length' => 4
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 5,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 6,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2011-01-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2012-09-13'),
+                'length' => 8
+            ]
+        ];
 
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('searchHolidays'))
-			->getMock();
+        $holidays = TestDataService::loadObjectListFromArray(Holiday::class, $fixture);
+
+        $holidayDao = $this->getMockBuilder(HolidayDao::class)
+            ->onlyMethods(['searchHolidays'])
+            ->getMock();
         $holidayDao->expects($this->once())
-                ->method('searchHolidays')
-                ->will($this->returnValue($holidays));
+            ->method('searchHolidays')
+            ->will($this->returnValue($holidays));
 
-        $this->holidayService->setHolidayDao($holidayDao);
-        $result = $this->holidayService->searchHolidays("2005-01-01", "2013-07-01");
-        
-        $expectedArray = array(
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2005-04-01', 'length' => 8),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2005-06-27', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2005-09-13', 'length' => 8),
-            
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2006-04-01', 'length' => 8),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2006-06-27', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2006-09-13', 'length' => 8),
-            
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2007-04-01', 'length' => 8),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2007-06-27', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2007-09-13', 'length' => 8),
-            
-            array('id' => 1, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2008-03-22', 'length' => 4),
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2008-04-01', 'length' => 8),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2008-06-27', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2008-09-13', 'length' => 8),
-            
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2009-04-01', 'length' => 8),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2009-06-27', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2009-09-13', 'length' => 8),
-            
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-04-01', 'length' => 8),
-            array('id' => 3, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-05-27', 'length' => 4),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8),
-            array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),            
+        $holidayService = $this->getMockBuilder(HolidayService::class)
+            ->onlyMethods(['getHolidayDao'])
+            ->getMock();
+        $holidayService->expects($this->once())
+            ->method('getHolidayDao')
+            ->willReturn($holidayDao);
 
-            array('id' => 6, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2011-01-13', 'length' => 8),
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2011-04-01', 'length' => 8),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2011-06-27', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2011-09-13', 'length' => 8),            
-            
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2012-04-01', 'length' => 8),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2012-06-27', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2012-09-13', 'length' => 8),
-            
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2013-04-01', 'length' => 8),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2013-06-27', 'length' => 8)            
-            ); 
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime("2005-01-01"));
+        $holidaySearchFilterParams->setToDate(new DateTime("2013-07-01"));
+        $result = $holidayService->searchHolidays($holidaySearchFilterParams);
 
-        $expected = TestDataService::loadObjectListFromArray('Holiday', $expectedArray);        
+        $expectedArray = [
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2005-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2005-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2005-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2006-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2006-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2006-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2007-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2007-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2007-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 1,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-03-22'),
+                'length' => 4
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2008-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2009-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2009-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2009-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 3,
+                'recurring' => 0,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-05-27'),
+                'length' => 4
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 5,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 6,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2011-01-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2011-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2011-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2011-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2012-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2012-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2012-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2013-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2013-06-27'),
+                'length' => 8
+            ]
+        ];
+
+        $expected = TestDataService::loadObjectListFromArray(Holiday::class, $expectedArray);
         $this->compareHolidays($expected, $result);
-    }  
-    
-    public function testSearchHolidaysRecurringPartYear() {
+    }
 
-        $fixture = array(
-            array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2008-04-01', 'length' => 8),
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8),
-            array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2012-09-13', 'length' => 8)
-            );   
-        
-        $holidays = TestDataService::loadObjectListFromArray('Holiday', $fixture);
+    public function testSearchHolidaysRecurringPartYear(): void
+    {
+        $fixture = [
+            [
+                'id' => 2,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2008-04-01'),
+                'length' => 8
+            ],
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 5,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2012-09-13'),
+                'length' => 8
+            ]
+        ];
 
-        $holidayDao = $this->getMockBuilder('HolidayDao')
-			->setMethods( array('searchHolidays'))
-			->getMock();
+        $holidays = TestDataService::loadObjectListFromArray(Holiday::class, $fixture);
+
+        $holidayDao = $this->getMockBuilder(HolidayDao::class)
+            ->onlyMethods(['searchHolidays'])
+            ->getMock();
         $holidayDao->expects($this->once())
-                ->method('searchHolidays')
-                ->will($this->returnValue($holidays));
+            ->method('searchHolidays')
+            ->will($this->returnValue($holidays));
 
-        $this->holidayService->setHolidayDao($holidayDao);
-        $result = $this->holidayService->searchHolidays("2010-06-11", "2010-11-02");
-        
-        $expectedArray = array(
-            array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8),
-            array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8)
-            );
+        $holidayService = $this->getMockBuilder(HolidayService::class)
+            ->onlyMethods(['getHolidayDao'])
+            ->getMock();
+        $holidayService->expects($this->once())
+            ->method('getHolidayDao')
+            ->willReturn($holidayDao);
 
-        $expected = TestDataService::loadObjectListFromArray('Holiday', $expectedArray);        
+        $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $holidaySearchFilterParams->setFromDate(new DateTime("2010-06-11"));
+        $holidaySearchFilterParams->setToDate(new DateTime("2010-11-02"));
+        $result = $holidayService->searchHolidays($holidaySearchFilterParams);
+
+        $expectedArray = [
+            [
+                'id' => 4,
+                'recurring' => 1,
+                'name' => 'Public Holiday',
+                'date' => new DateTime('2010-06-27'),
+                'length' => 8
+            ],
+            [
+                'id' => 5,
+                'recurring' => 0,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ],
+            [
+                'id' => 7,
+                'recurring' => 1,
+                'name' => 'Another Holiday',
+                'date' => new DateTime('2010-09-13'),
+                'length' => 8
+            ]
+        ];
+
+        $expected = TestDataService::loadObjectListFromArray(Holiday::class, $expectedArray);
         $this->compareHolidays($expected, $result);
-    }      
-    
-    
-    protected function compareHolidays($expected, $actual) {
+    }
+
+    protected function compareHolidays($expected, $actual): void
+    {
         $this->assertEquals(count($expected), count($actual));
         for ($i = 0; $i < count($expected); $i++) {
             $this->compareHoliday($expected[$i], $actual[$i]);
         }
     }
-    
-    protected function compareHoliday($expected, $actual) {
-        //$this->assertEquals($expected->getId(), $actual->getId());
-        $this->assertEquals($expected->getRecurring(), $actual->getRecurring());
-        $this->assertEquals($expected->getDescription(), $actual->getDescription());
+
+    protected function compareHoliday(Holiday $expected, Holiday $actual): void
+    {
+        $this->assertEquals($expected->isRecurring(), $actual->isRecurring());
+        $this->assertEquals($expected->getName(), $actual->getName());
         $this->assertEquals($expected->getDate(), $actual->getDate());
         $this->assertEquals($expected->getLength(), $actual->getLength());
-    }    
-
+    }
 }
-
