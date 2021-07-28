@@ -84,6 +84,8 @@ class EmployeeQualificationsController extends BaseViewEmployeeController
      */
     public function isCapable(Request $request): bool
     {
-        return $this->getUserRoleManager()->isEntityAccessible(Employee::class, $request->get('empNumber'));
+        $empNumber = $request->get('empNumber');
+        return $this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber) ||
+            $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);
     }
 }
