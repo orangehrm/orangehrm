@@ -20,12 +20,9 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <div class="orangehrm-paper-container">
-      <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">
-          Email Configuration
-        </oxd-text>
-      </div>
+    <div class="orangehrm-card-container">
+      <oxd-text class="orangehrm-main-title">Email Configuration</oxd-text>
+
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
@@ -100,7 +97,6 @@
                 <oxd-input-group
                   label="Use SMTP Authentication"
                   :classes="{wrapper: '--status-grouped-field'}"
-                  :style="{maxWidth: '12rem'}"
                 >
                   <oxd-input-field
                     type="radio"
@@ -157,7 +153,6 @@
                 <oxd-grid-item>
                   <oxd-input-group
                     :classes="{wrapper: '--status-grouped-field'}"
-                    :style="{maxWidth: '12rem'}"
                   >
                     <oxd-input-field
                       type="radio"
@@ -276,22 +271,25 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.http.http
-        .put('api/v2/admin/email-configuration', {
-          mailType: this.emailConfiguration.mailType,
-          sentAs: this.emailConfiguration.sentAs,
-          smtpHost: this.emailConfiguration.smtpHost,
-          smtpPort: parseInt(this.emailConfiguration.smtpPort),
-          smtpUsername:
-            this.emailConfiguration.smtpAuthType === 'login'
-              ? this.emailConfiguration.smtpUsername
-              : '',
-          smtpPassword: this.emailConfiguration.smtpPassword,
-          smtpAuthType: this.emailConfiguration.smtpAuthType,
-          smtpSecurityType: this.userSecureConnection
-            ? this.emailConfiguration.smtpSecurityType
-            : 'none',
-          testEmailAddress: this.emailConfiguration.testEmailAddress,
+      this.http
+        .request({
+          method: 'PUT',
+          data: {
+            mailType: this.emailConfiguration.mailType,
+            sentAs: this.emailConfiguration.sentAs,
+            smtpHost: this.emailConfiguration.smtpHost,
+            smtpPort: parseInt(this.emailConfiguration.smtpPort),
+            smtpUsername:
+              this.emailConfiguration.smtpAuthType === 'login'
+                ? this.emailConfiguration.smtpUsername
+                : '',
+            smtpPassword: this.emailConfiguration.smtpPassword,
+            smtpAuthType: this.emailConfiguration.smtpAuthType,
+            smtpSecurityType: this.userSecureConnection
+              ? this.emailConfiguration.smtpSecurityType
+              : 'none',
+            testEmailAddress: this.emailConfiguration.testEmailAddress,
+          },
         })
         .then((response) => {
           const testEmailStatus = response.data.meta?.testEmailStatus;
@@ -310,8 +308,11 @@ export default {
   },
   created() {
     this.isLoading = true;
-    this.http.http
-      .get('api/v2/admin/email-configuration')
+    this.http
+      .request({
+        method: 'GET',
+        url: 'api/v2/admin/email-configuration',
+      })
       .then(response => {
         const {data} = response.data;
         this.emailConfiguration.mailType = data.mailType;
@@ -323,29 +324,13 @@ export default {
         this.emailConfiguration.smtpAuthType = data.smtpAuthType;
         this.emailConfiguration.smtpSecurityType = data.smtpSecurityType;
         this.emailConfiguration.testEmailAddress = data.testEmailAddress;
+        this.userSecureConnection = data.smtpSecurityType !== 'none';
       })
       .finally(() => {
         this.isLoading = false;
       });
   },
 };
-
 </script>
 
-<style src="./emailConfiguration.scss" lang="scss" scoped></style>
-
-<style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
-.orangehrm-optional-field-row {
-  grid-column-start: 1;
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0;
-}
-
-.orangehrm-optional-field-label {
-  @include oxd-input-control();
-  padding: 0;
-  flex-basis: 50%;
-}
-</style>
+<style src="./email-configuration.scss" lang="scss" scoped></style>
