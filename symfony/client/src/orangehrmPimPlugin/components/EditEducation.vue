@@ -68,21 +68,17 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="Start Date"
               v-model="education.startDate"
               :rules="rules.startDate"
-              type="date"
-              placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="End Date"
               v-model="education.endDate"
               :rules="rules.endDate"
-              type="date"
-              placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
         </oxd-grid>
