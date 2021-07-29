@@ -81,11 +81,9 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-input-field
+              <date-input
                 label="License Expiry Date"
                 v-model="employee.drivingLicenseExpiredDate"
-                type="date"
-                placeholder="yyyy-mm-dd"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -133,11 +131,9 @@
           </oxd-grid>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field
+              <date-input
                 label="Date of Birth"
                 v-model="employee.birthday"
-                type="date"
-                placeholder="yyyy-mm-dd"
                 :disabled="!$can.update(`personal_sensitive_information`)"
               />
             </oxd-grid-item>

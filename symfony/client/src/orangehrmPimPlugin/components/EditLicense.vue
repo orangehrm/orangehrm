@@ -47,22 +47,18 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="Issued Date"
               v-model="license.issuedDate"
               :rules="rules.issuedDate"
-              type="date"
-              placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="Expiry Date"
               v-model="license.expiryDate"
               :rules="rules.expiryDate"
-              type="date"
               :years="yearArray"
-              placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
         </oxd-grid>
