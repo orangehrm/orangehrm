@@ -174,3 +174,11 @@ export const validPhoneNumberFormat = function(
     'Allows numbers and only + - / ( )'
   );
 };
+
+export const decimalsOnly = function(value: string): boolean | string {
+  return (
+    value == '' ||
+    (/^\d+(\.\d{1,2})?$/.test(value) && !Number.isNaN(parseFloat(value))) ||
+    'Should be a number'
+  );
+};

@@ -26,6 +26,7 @@ use OrangeHRM\Admin\Service\Model\PayGradeModel;
 use OrangeHRM\Admin\Service\Model\PayPeriodModel;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
+use OrangeHRM\Entity\CurrencyType;
 use OrangeHRM\Entity\PayGrade;
 use OrangeHRM\Entity\PayGradeCurrency;
 
@@ -152,5 +153,15 @@ class PayGradeService
     {
         $currencies = $this->getPayGradeDao()->getCurrencies();
         return $this->getNormalizerService()->normalizeArray(CurrencyModel::class, $currencies);
+    }
+
+    /**
+     * @param string $id
+     * @return CurrencyType|null
+     * @throws DaoException
+     */
+    public function getCurrencyById(string $id): ?CurrencyType
+    {
+        return $this->getPayGradeDao()->getCurrencyById($id);
     }
 }
