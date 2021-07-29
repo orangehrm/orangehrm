@@ -67,7 +67,6 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $reportingMethod = $this->getReportingMethodService()->getReportingMethodById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($reportingMethod, ReportingMethod::class);
@@ -92,7 +91,6 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission
         $reportingMethodParamHolder = new ReportingMethodSearchFilterParams();
         $this->setSortingAndPaginationParams($reportingMethodParamHolder);
         $reportingMethods = $this->getReportingMethodService()->getReportingMethodList($reportingMethodParamHolder);
@@ -120,7 +118,6 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $reportingMethod = $this->saveReportingMethod();
         return new EndpointResourceResult(ReportingMethodConfigurationModel::class, $reportingMethod);
     }
@@ -164,7 +161,6 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $reportingMethod = $this->saveReportingMethod();
         return new EndpointResourceResult(ReportingMethodConfigurationModel::class, $reportingMethod);
     }
@@ -207,7 +203,6 @@ class ReportingMethodConfigurationAPI extends EndPoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getReportingMethodService()->deleteReportingMethods($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);

@@ -19,31 +19,20 @@
 
 namespace OrangeHRM\Pim\Controller;
 
-use Exception;
 use OrangeHRM\Core\Controller\AbstractModuleController;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
-use OrangeHRM\Framework\Http\RedirectResponse;
-use OrangeHRM\Framework\Routing\UrlGenerator;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Framework\Http\Response;
 
 class ViewMyDetailsController extends AbstractModuleController
 {
     use AuthUserTrait;
 
     /**
-     * @return RedirectResponse
-     * @throws Exception
+     * @return Response
      */
-    public function handle(): RedirectResponse
+    public function handle(): Response
     {
         $empNumber = $this->getAuthUser()->getEmpNumber();
-        /** @var UrlGenerator $urlGenerator */
-        $urlGenerator = $this->getContainer()->get(Services::URL_GENERATOR);
-        $url = $urlGenerator->generate(
-            'pim_employee_personal_details',
-            ['empNumber' => $empNumber],
-            UrlGenerator::ABSOLUTE_URL
-        );
-        return new RedirectResponse($url);
+        return $this->forward(EmployeePersonalDetailController::class . '::handle', ['empNumber' => $empNumber]);
     }
 }

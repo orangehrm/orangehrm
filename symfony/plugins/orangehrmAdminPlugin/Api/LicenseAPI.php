@@ -76,7 +76,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $license = $this->getLicenseService()->getLicenseById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($license, License::class);
@@ -102,7 +101,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission
         $licenseParamHolder = new LicenseSearchFilterParams();
         $this->setSortingAndPaginationParams($licenseParamHolder);
         $licenses = $this->getLicenseService()->getLicenseList($licenseParamHolder);
@@ -130,7 +128,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $licenses = $this->saveLicense();
         return new EndpointResourceResult(LicenseModel::class, $licenses);
     }
@@ -174,7 +171,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $licenses = $this->saveLicense();
         return new EndpointResourceResult(LicenseModel::class, $licenses);
     }
@@ -217,7 +213,6 @@ class LicenseAPI extends EndPoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getLicenseService()->deleteLicenses($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);

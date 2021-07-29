@@ -67,7 +67,6 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $nationality = $this->getNationalityService()->getNationalityById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($nationality, Nationality::class);
@@ -92,7 +91,6 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission
         $nationalityParamHolder = new NationalitySearchFilterParams();
         $this->setSortingAndPaginationParams($nationalityParamHolder);
         $nationalities = $this->getNationalityService()->getNationalityList($nationalityParamHolder);
@@ -120,7 +118,6 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $nationality = $this->saveNationality();
         return new EndpointResourceResult(NationalityModel::class, $nationality);
     }
@@ -164,7 +161,6 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $nationalities = $this->saveNationality();
         return new EndpointResourceResult(NationalityModel::class, $nationalities);
     }
@@ -205,7 +201,6 @@ class NationalityAPI extends EndPoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getNationalityService()->deleteNationalities($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);

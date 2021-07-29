@@ -278,6 +278,13 @@ class MenuService
                 $subMenuItemsArray[$menuItem['id']] = $menuItem['subMenuItems'];
             }
             $active = $menuItem['module'] === $moduleScreen->getModule();
+            // TODO:: Should fix with OHRM5X-171
+            if ($moduleScreen->getScreen() == 'viewMyDetails') {
+                $active = $menuItem['action'] === $moduleScreen->getScreen();
+            } elseif ($moduleScreen->getModule() == 'pim') {
+                $active = $menuItem['module'] === $moduleScreen->getModule() && $menuItem['action'] != 'viewMyDetails';
+            }
+
             if ($active) {
                 $selectedSidePanelMenuId = $menuItem['id'];
             }
@@ -295,7 +302,7 @@ class MenuService
             $topMenuItemsArray[$parentId] = $topMenuItems;
         }
 
-        $topMenuItems = is_null($selectedSidePanelMenuId) ? [] : $topMenuItemsArray[$selectedSidePanelMenuId];
+        $topMenuItems = is_null($selectedSidePanelMenuId) ? [] : ($topMenuItemsArray[$selectedSidePanelMenuId] ?? []);
         return [
             $sidePanelMenuItems,
             $topMenuItems,

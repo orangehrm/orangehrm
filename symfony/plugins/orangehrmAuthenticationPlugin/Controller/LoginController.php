@@ -48,7 +48,10 @@ class LoginController extends AbstractVueController implements PublicControllerI
         return $this->homePageService;
     }
 
-    public function init(): void
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
         $component = new Component('auth-login');
         if ($this->getAuthUser()->hasFlash(AuthUser::FLASH_LOGIN_ERROR)) {

@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,21 +16,22 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-namespace OrangeHRM\Admin\Controller;
+<template>
+  <oxd-alert
+      :show="true"
+      type="warn"
+      message="No Records Found"
+  ></oxd-alert>
+</template>
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
+<script>
+import Alert from '@orangehrm/oxd/src/core/components/Alert/Alert';
 
-class QualificationSkillController extends AbstractVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('qualification-skill-list');
-        $this->setComponent($component);
-    }
-}
+export default {
+  components: {
+    'oxd-alert': Alert,
+  },
+};
+</script>

@@ -27,16 +27,21 @@ use OrangeHRM\Framework\Services;
 
 trait ControllerTrait
 {
+    use ServiceContainerTrait;
+
     /**
      * Forwards the request to another controller.
      *
      * @param string $controller The controller name (a string like OrangeHRM\Controller\PostController::handle)
+     * @param array $attributes
+     * @param array $query
+     * @return Response
      */
-    protected function forward(string $controller, array $path = [], array $query = []): Response
+    protected function forward(string $controller, array $attributes = [], array $query = []): Response
     {
         $request = $this->getCurrentRequest();
-        $path['_controller'] = $controller;
-        $subRequest = $request->duplicate($query, null, $path);
+        $attributes['_controller'] = $controller;
+        $subRequest = $request->duplicate($query, null, $attributes);
 
         /** @var Framework $kernel */
         $kernel = $this->getContainer()->get(Services::HTTP_KERNEL);

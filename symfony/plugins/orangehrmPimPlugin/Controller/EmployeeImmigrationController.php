@@ -58,4 +58,12 @@ class EmployeeImmigrationController extends BaseViewEmployeeController
             $this->handleBadRequest();
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['immigration'];
+    }
 }

@@ -19,17 +19,13 @@
 
 namespace OrangeHRM\Pim\Controller;
 
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeLanguage;
 use OrangeHRM\Framework\Http\Request;
 
 class EmployeeQualificationsController extends BaseViewEmployeeController
 {
-    use UserRoleManagerTrait;
-
     public function preRender(Request $request): void
     {
         $empNumber = $request->get('empNumber');
@@ -70,6 +66,7 @@ class EmployeeQualificationsController extends BaseViewEmployeeController
                     'qualification_languages',
                     'qualification_license',
                     'qualification_license',
+                    'qualifications_attachment',
                     'qualifications_custom_fields'
                 ],
                 $empNumber
@@ -82,8 +79,15 @@ class EmployeeQualificationsController extends BaseViewEmployeeController
     /**
      * @inheritDoc
      */
-    public function isCapable(Request $request): bool
+    protected function getDataGroupsForCapabilityCheck(): array
     {
-        return $this->getUserRoleManager()->isEntityAccessible(Employee::class, $request->get('empNumber'));
+        return [
+            'qualification_work',
+            'qualification_education',
+            'qualification_skills',
+            'qualification_languages',
+            'qualification_license',
+            'qualification_license',
+        ];
     }
 }

@@ -74,7 +74,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $membership = $this->getMembershipService()->getMembershipById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($membership, Membership::class);
@@ -100,8 +99,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission
-
         $membershipParamHolder = new MembershipSearchFilterParams();
         $this->setSortingAndPaginationParams($membershipParamHolder);
         $memberships = $this->getMembershipService()->getMembershipList($membershipParamHolder);
@@ -129,7 +126,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $memberships = $this->saveMembership();
         return new EndpointResourceResult(MembershipModel::class, $memberships);
     }
@@ -173,7 +169,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $memberships = $this->saveMembership();
         return new EndpointResourceResult(MembershipModel::class, $memberships);
     }
@@ -218,7 +213,6 @@ class MembershipAPI extends EndPoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getMembershipService()->deleteMemberships($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);

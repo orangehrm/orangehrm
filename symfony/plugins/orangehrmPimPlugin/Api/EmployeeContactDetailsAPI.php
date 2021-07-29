@@ -70,7 +70,6 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $empNumber = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_EMP_NUMBER
@@ -133,7 +132,6 @@ class EmployeeContactDetailsAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $employee = $this->saveContactDetails();
 
         return new EndpointResourceResult(EmployeeContactDetailsModel::class, $employee);

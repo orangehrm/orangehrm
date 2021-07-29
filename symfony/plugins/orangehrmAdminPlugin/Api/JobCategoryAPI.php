@@ -74,7 +74,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $jobCategory = $this->getJobCategoryService()->getJobCategoryById($id);
         if (!$jobCategory instanceof JobCategory) {
@@ -102,7 +101,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission
         $sortField = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_SORT_FIELD,
@@ -147,7 +145,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $jobCategory = $this->saveJobCategory();
 
         return new EndpointResourceResult(JobCategoryModel::class, $jobCategory);
@@ -168,7 +165,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $jobCategory = $this->saveJobCategory();
 
         return new EndpointResourceResult(JobCategoryModel::class, $jobCategory);
@@ -212,7 +208,6 @@ class JobCategoryAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getJobCategoryService()->deleteJobCategory($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);

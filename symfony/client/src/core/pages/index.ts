@@ -1,4 +1,3 @@
-<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,20 +16,10 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Controller;
+import NoRecordsFound from './NoRecordsFound.vue';
+import BadRequest from './BadRequest.vue';
 
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
-
-class QualificationSkillController extends AbstractVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
-    {
-        $component = new Component('qualification-skill-list');
-        $this->setComponent($component);
-    }
-}
+export default {
+    'bad-request': BadRequest,
+    'no-records-found': NoRecordsFound,
+};

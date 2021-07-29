@@ -89,7 +89,6 @@ class UserAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission
         $userSearchParamHolder = new UserSearchFilterParams();
         $this->setSortingAndPaginationParams($userSearchParamHolder);
         $userSearchParamHolder->setStatus(

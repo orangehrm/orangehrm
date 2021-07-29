@@ -22,6 +22,7 @@ namespace OrangeHRM\Pim\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Pim\Service\ReportingMethodConfigurationService;
 
 class ReportingMethodController extends AbstractVueController
@@ -43,7 +44,10 @@ class ReportingMethodController extends AbstractVueController
         return $this->reportingMethodService;
     }
 
-    public function init(): void
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
         $component = new Component('reporting-method-list');
         $reasonsInUse = $this->getReportingMethodService()->getReportingMethodIdsInUse();
