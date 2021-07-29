@@ -28,7 +28,7 @@
           {{ file.filename }}
         </oxd-text>
       </div>
-      <div class="orangehrm-file-options">
+      <div v-if="!disabled" class="orangehrm-file-options">
         <oxd-input-field
           type="radio"
           optionLabel="Keep Current"
@@ -59,6 +59,7 @@
       type="file"
       :label="label"
       :modelValue="newFile"
+      :disabled="disabled"
       @update:modelValue="$emit('update:newFile', $event)"
     />
     <oxd-text class="orangehrm-input-hint" tag="p">{{ hint }}</oxd-text>
@@ -96,6 +97,10 @@ export default {
     },
     newFile: {
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
