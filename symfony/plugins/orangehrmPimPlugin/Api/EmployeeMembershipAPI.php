@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -68,7 +69,14 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        list($empNumber, $id) = $this->getUrlAttributes();
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $id = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_ID
+        );
         $employeeMembership = $this->getEmployeeMembershipService()
             ->getEmployeeMembershipDao()
             ->getEmployeeMembershipById($empNumber, $id);
@@ -81,21 +89,6 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
         );
     }
 
-    /**
-     * @return array
-     */
-    private function getUrlAttributes(): array
-    {
-        $empNumber = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_EMP_NUMBER
-        );
-        $id = $this->getRequestParams()->getInt(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
-            CommonParams::PARAMETER_ID
-        );
-        return [$empNumber, $id];
-    }
 
     /**
      * @inheritDoc
@@ -104,10 +97,13 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(
-                CommonParams::PARAMETER_ID,
-                new Rule(Rules::POSITIVE)
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
             ),
-            $this->getEmpNumberRule(),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::BETWEEN, [0, 100])
+            ),
         );
     }
 
@@ -117,7 +113,10 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        list($empNumber) = $this->getUrlAttributes();
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
         $employeeMembershipSearchParams = new EmployeeMembershipSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeMembershipSearchParams);
         $employeeMembershipSearchParams->setEmpNumber($empNumber);
@@ -146,7 +145,10 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getEmpNumberRule(),
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
             ...$this->getSortingAndPaginationParamsRules(EmployeeMembershipSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -157,16 +159,10 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        list($empNumber) = $this->getUrlAttributes();
-        $membershipId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_MEMBERSHIP_ID);
-        $employeeMembership = new EmployeeMembership();
-        $employeeMembership->getDecorator()->setEmployeeByEmpNumber($empNumber);
-        $employeeMembership->getDecorator()->setMembershipByMembershipId($membershipId);
-        $employeeMembership = $this->saveEmployeeMembership($employeeMembership);
+        $employeeMembership = $this->saveEmployeeMembership();
         return new EndpointResourceResult(
             EmployeeMembershipModel::class, $employeeMembership,
-            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $employeeMembership->getEmployee()->getEmpNumber()])
         );
     }
 
@@ -176,8 +172,10 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_MEMBERSHIP_ID, new Rule(Rules::REQUIRED), new Rule(Rules::POSITIVE)),
-            $this->getEmpNumberRule(),
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -188,7 +186,7 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-
+            new ParamRule(self::PARAMETER_MEMBERSHIP_ID, new Rule(Rules::REQUIRED), new Rule(Rules::POSITIVE)),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_FEE,
@@ -231,16 +229,10 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        list($empNumber, $id) = $this->getUrlAttributes();
-        $employeeMembership = $this->getEmployeeMembershipService()
-            ->getEmployeeMembershipDao()
-            ->getEmployeeMembershipById($empNumber, $id);
-        $this->throwRecordNotFoundExceptionIfNotExist($employeeMembership, EmployeeMembership::class);
-        $this->saveEmployeeMembership($employeeMembership);
-
+        $employeeMembership = $this->saveEmployeeMembership();
         return new EndpointResourceResult(
             EmployeeMembershipModel::class, $employeeMembership,
-            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $employeeMembership->getEmployee()->getEmpNumber()])
         );
     }
 
@@ -250,8 +242,14 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID, new Rule(Rules::REQUIRED), new Rule(Rules::POSITIVE)),
-            $this->getEmpNumberRule(),
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::BETWEEN, [0, 100])
+            ),
             ...$this->getCommonBodyValidationRules(),
         );
     }
@@ -263,7 +261,10 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        list($empNumber) = $this->getUrlAttributes();
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmployeeMembershipService()->getEmployeeMembershipDao()->deleteEmployeeMemberships($empNumber, $ids);
         return new EndpointResourceResult(
@@ -282,21 +283,31 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getEmpNumberRule(),
+            new ParamRule(
+                CommonParams::PARAMETER_EMP_NUMBER,
+                new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
+            ),
             new ParamRule(
                 CommonParams::PARAMETER_IDS,
                 new Rule(Rules::ARRAY_TYPE)
-            )
+            ),
         );
     }
 
     /**
-     * @param EmployeeMembership $employeeMembership
      * @return EmployeeMembership
      * @throws DaoException
+     * @throws RecordNotFoundException
      */
-    public function saveEmployeeMembership(EmployeeMembership $employeeMembership): EmployeeMembership
+    public function saveEmployeeMembership(): EmployeeMembership
     {
+        $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $membershipId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_MEMBERSHIP_ID);
         $paidBy = $this->getRequestParams()->getStringOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SUBSCRIPTION_PAID_BY
@@ -318,7 +329,16 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SUBSCRIPTION_RENEWAL_DATE
         );
+        if ($id) {
+            $employeeMembership = $this->getEmployeeMembershipService()->getEmployeeMembershipDao()->getEmployeeMembershipById($empNumber,
+                $id);
+            $this->throwRecordNotFoundExceptionIfNotExist($employeeMembership, EmployeeMembership::class);
+        } else {
+            $employeeMembership = new EmployeeMembership();
+            $employeeMembership->getDecorator()->setEmployeeByEmpNumber($empNumber);
+        }
 
+        $employeeMembership->getDecorator()->setMembershipByMembershipId($membershipId);
         $employeeMembership->setSubscriptionPaidBy($paidBy);
         $employeeMembership->setSubscriptionCurrency($currency);
         $employeeMembership->setSubscriptionFee($fee);
@@ -328,16 +348,5 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
         return $this->getEmployeeMembershipService()
             ->getEmployeeMembershipDao()
             ->saveEmployeeMembership($employeeMembership);
-    }
-
-    /**
-     * @return ParamRule
-     */
-    private function getEmpNumberRule(): ParamRule
-    {
-        return new ParamRule(
-            CommonParams::PARAMETER_EMP_NUMBER,
-            new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
-        );
     }
 }

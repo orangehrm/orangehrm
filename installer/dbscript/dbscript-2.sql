@@ -3858,7 +3858,11 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_report_to_subordinate_data_group_id, @supervisor_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_report_to_subordinate_data_group_id, @supervisor_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_report_to_allowed_employees_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 1, @apiv2_pim_report_to_allowed_employees_data_group_id, @ess_role_id);
+       (1, 0, 0, 0, 1, @apiv2_pim_report_to_allowed_employees_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_memberships_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_memberships_data_group_id, @ess_role_id),
+       (1, 1, 1, 1, 1, @apiv2_pim_employee_memberships_data_group_id, @supervisor_role_id),
+       (1, 1, 1, 1, 0, @apiv2_pim_employee_memberships_data_group_id, @supervisor_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),
@@ -3880,7 +3884,4 @@ VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_leave_workweek_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_leave_workweek_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_report_to_allowed_employees_data_group_id, @ess_role_id),
-       (1, 1, 1, 1, 0, @apiv2_pim_employee_memberships_data_group_id, @admin_role_id),
-       (1, 1, 1, 1, 1, @apiv2_pim_employee_memberships_data_group_id, @ess_role_id),
-       (1, 1, 1, 1, 1, @apiv2_pim_employee_memberships_data_group_id, @supervisor_role_id),
-       (1, 1, 1, 1, 0, @apiv2_pim_employee_memberships_data_group_id, @supervisor_role_id);
+       (1, 0, 0, 0, 1, @apiv2_pim_report_to_allowed_employees_data_group_id, @ess_role_id);

@@ -169,7 +169,7 @@ export default {
           subscriptionRenewalDate: this.membership.subscriptionRenewalDate,
           membershipId: this.membership.membership.id,
           subscriptionPaidBy: this.membership.subscriptionPaidBy?.id,
-          subscriptionType: this.membership.currencyType?.id,
+          currencyTypeId: this.membership.currencyType?.id,
         })
         .then(() => {
           return this.$toast.updateSuccess();
@@ -203,7 +203,7 @@ export default {
         this.membership.subscriptionPaidBy = this.paidBy.find(
           item => item.id === data.subscriptionPaidBy,
         );
-        this.membership.subscriptionType = this.currencies.find(
+        this.membership.currencyType = this.currencies.find(
           item => item.id === data.currencyType?.id,
         );
       })

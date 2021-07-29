@@ -317,6 +317,7 @@ class EmployeeMembershipAPITest extends EndpointTestCase
             ->method('saveEmployeeMembership')
             ->will($this->returnCallback(
                 function (EmployeeMembership $employeeMembership) {
+                    $employeeMembership->setId(1);
                     return $employeeMembership;
                 }
             )
@@ -428,6 +429,7 @@ class EmployeeMembershipAPITest extends EndpointTestCase
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
                     CommonParams::PARAMETER_ID => 1,
+                    EmployeeMembershipAPI::PARAMETER_MEMBERSHIP_ID => 1,
                     EmployeeMembershipAPI::PARAMETER_SUBSCRIPTION_PAID_BY => "Individual",
                     EmployeeMembershipAPI::PARAMETER_SUBSCRIPTION_FEE => "4",
                     EmployeeMembershipAPI::PARAMETER_SUBSCRIPTION_COMMENCE_DATE => '2011-05-20',

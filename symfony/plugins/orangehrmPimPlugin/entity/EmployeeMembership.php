@@ -54,7 +54,7 @@ class EmployeeMembership
     /**
      * @var Membership
      *
-     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\Membership", inversedBy="employeeMembership")
+     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\Membership")
      * @ORM\JoinColumn(name="membship_code", referencedColumnName="id")
      */
     private Membership $membership;
@@ -62,7 +62,7 @@ class EmployeeMembership
     /**
      * @var string | null
      *
-     * @ORM\Column(name="ememb_subscript_amount", type="decimal", length=15, nullable=true)
+     * @ORM\Column(name="ememb_subscript_amount", type="decimal", precision=15, scale=2, nullable=true)
      */
     private ?string $subscriptionFee;
 

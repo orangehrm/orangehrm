@@ -51,9 +51,7 @@ class Membership
      * @var Collection
      *
      * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmployeeMembership", mappedBy="membership")
-     * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="id", referencedColumnName="membshipCode")
-     * })
+     *
      */
     private $employeeMembership;
 

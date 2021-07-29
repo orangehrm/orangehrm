@@ -71,8 +71,11 @@ class EmployeeMembershipDecorator
      */
     public function setMembershipByMembershipId(int $membershipId): void
     {
-        /** @var Membership|null $membership */
-        $membership = $this->getReference(Membership::class, $membershipId);
+        $membership = null;
+        if (!is_null($membershipId)) {
+            /** @var Membership|null $membership */
+            $membership = $this->getReference(Membership::class, $membershipId);
+        }
         $this->getEmployeeMembership()->setMembership($membership);
     }
 
