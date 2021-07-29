@@ -36,6 +36,7 @@ import SubmitButton from '@orangehrm/components/buttons/SubmitButton.vue';
 import TableHeader from '@orangehrm/components/table/TableHeader.vue';
 import RequiredText from '@orangehrm/components/labels/RequiredText.vue';
 import Layout from '@orangehrm/components/layout/Layout.vue';
+import DateInput from '@orangehrm/components/inputs/DateInput.vue';
 
 export default {
   install: (app: App) => {
@@ -57,5 +58,6 @@ export default {
     app.component('submit-button', SubmitButton);
     app.component('table-header', TableHeader);
     app.component('required-text', RequiredText);
+    app.component('date-input', DateInput);
   },
 };

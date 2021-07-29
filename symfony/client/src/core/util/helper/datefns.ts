@@ -1,4 +1,11 @@
-import {parse, format, isDate, compareAsc} from 'date-fns';
+import {
+  parse,
+  format,
+  isDate,
+  compareAsc,
+  startOfYear,
+  endOfYear,
+} from 'date-fns';
 
 const freshDate = () => {
   return new Date(new Date().setHours(0, 0, 0, 0));
@@ -66,4 +73,14 @@ const isEqual = (
   return false;
 };
 
-export {isDate, freshDate, parseDate, formatDate, isAfter, isBefore, isEqual};
+export {
+  isDate,
+  freshDate,
+  parseDate,
+  formatDate,
+  isAfter,
+  isBefore,
+  isEqual,
+  startOfYear,
+  endOfYear,
+};

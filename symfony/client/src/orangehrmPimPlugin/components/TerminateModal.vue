@@ -29,12 +29,10 @@
     <oxd-divider />
     <oxd-form :loading="isLoading" @submitValid="onSave">
       <oxd-form-row>
-        <oxd-input-field
+        <date-input
           label="Termination Date"
           v-model="termination.date"
           :rules="rules.date"
-          type="date"
-          placeholder="yyyy-mm-dd"
           required
         />
       </oxd-form-row>

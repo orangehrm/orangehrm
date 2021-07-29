@@ -49,21 +49,17 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="From"
               v-model="workExperience.fromDate"
               :rules="rules.fromDate"
-              type="date"
-              placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="To"
               v-model="workExperience.toDate"
               :rules="rules.toDate"
-              type="date"
-              placeholder="yyyy-mm-dd"
             />
           </oxd-grid-item>
         </oxd-grid>

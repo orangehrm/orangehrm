@@ -31,12 +31,10 @@
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-field
+              <date-input
                 label="Joined Date"
                 v-model="job.joinedDate"
                 :rules="rules.joinedDate"
-                type="date"
-                placeholder="yyyy-mm-dd"
                 :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
@@ -106,23 +104,19 @@
           <oxd-form-row>
             <oxd-grid :cols="3" class="orangehrm-full-width-grid">
               <oxd-grid-item>
-                <oxd-input-field
+                <date-input
                   label="Contract Start Date"
                   v-model="contract.startDate"
                   :rules="rules.startDate"
-                  type="date"
-                  placeholder="yyyy-mm-dd"
                   :disabled="!hasUpdatePermissions"
                 />
               </oxd-grid-item>
 
               <oxd-grid-item>
-                <oxd-input-field
+                <date-input
                   label="Contract End Date"
                   v-model="contract.endDate"
                   :rules="rules.endDate"
-                  type="date"
-                  placeholder="yyyy-mm-dd"
                   :disabled="!hasUpdatePermissions"
                 />
               </oxd-grid-item>

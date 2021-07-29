@@ -58,11 +58,9 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="Date of Birth"
               v-model="dependent.dateOfBirth"
-              type="date"
-              placeholder="yyyy-mm-dd"
               :rules="rules.dateOfBirth"
             />
           </oxd-grid-item>
