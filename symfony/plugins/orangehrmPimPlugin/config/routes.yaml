@@ -394,6 +394,22 @@ apiv2_pim_report_to_allowed_employees:
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeeAllowedReportToEmployeeAPI
+
+apiv2_pim_employees_memberships:
+  path: /api/v2/pim/employees/{empNumber}/memberships
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeMembershipAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_pim_employees_membership:
+  path: /api/v2/pim/employees/{empNumber}/memberships/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeMembershipAPI
   requirements:
     empNumber: '\d+'
 
@@ -532,4 +548,8 @@ view_optional_field:
 pim_employee_immigration:
   path: /pim/viewImmigration/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeImmigrationController::handle
+  
+pim_employee_membership:
+  path: /pim/viewMemberships/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmployeeMembershipController::handle
   methods: [ GET ]
