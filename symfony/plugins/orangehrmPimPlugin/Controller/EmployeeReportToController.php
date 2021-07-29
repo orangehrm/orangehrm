@@ -67,4 +67,12 @@ class EmployeeReportToController extends BaseViewEmployeeController
             $this->handleBadRequest();
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['supervisor', 'subordinates'];
+    }
 }

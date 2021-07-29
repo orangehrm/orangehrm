@@ -27,6 +27,7 @@ use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
+use OrangeHRM\Core\Subscriber\RequestForwardableExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\ScreenAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
@@ -87,6 +88,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
             ]
         );
         $dispatcher->addSubscriber(new SessionSubscriber());
+        $dispatcher->addSubscriber(new RequestForwardableExceptionSubscriber());
         $dispatcher->addSubscriber(new ScreenAuthorizationSubscriber());
         $dispatcher->addSubscriber(new ApiAuthorizationSubscriber());
         $dispatcher->addSubscriber(new RequestBodySubscriber());

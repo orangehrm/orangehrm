@@ -20,7 +20,6 @@
 namespace OrangeHRM\Pim\Service;
 
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmpPicture;
@@ -44,14 +43,6 @@ class EmployeePictureService
             $this->employeePictureDao = new EmployeePictureDao();
         }
         return $this->employeePictureDao;
-    }
-
-    /**
-     * @param EmployeePictureDao $employeePictureDao
-     */
-    public function setEmployeePictureDao(EmployeePictureDao $employeePictureDao): void
-    {
-        $this->employeePictureDao = $employeePictureDao;
     }
 
     /**
@@ -113,12 +104,12 @@ class EmployeePictureService
      * @param int $empNumber
      * @return EmpPicture|null
      * @throws DaoException
-     * @throws ServiceException
      */
     public function getAccessibleEmpPictureByEmpNumber(int $empNumber): ?EmpPicture
     {
         $accessibleEmpNumbers = $this->getUserRoleManager()->getAccessibleEntityIds(Employee::class);
-        if (in_array($empNumber, $accessibleEmpNumbers)) {
+        $self = $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);
+        if (in_array($empNumber, $accessibleEmpNumbers) || $self) {
             return $this->getEmpPictureByEmpNumber($empNumber);
         }
         return null;

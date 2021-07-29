@@ -23,6 +23,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\CustomField;
+use OrangeHRM\Framework\Http\Request;
 
 class CustomFieldController extends AbstractVueController
 {
@@ -60,7 +61,10 @@ class CustomFieldController extends AbstractVueController
         ['id' => CustomField::FIELD_TYPE_SELECT, 'label' => self::DROP_DOWN]
     ];
 
-    public function init(): void
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
         $component = new Component('custom-field-list');
         $component->addProp(new Prop('custom-field-limit', Prop::TYPE_NUMBER, CustomField::MAX_FIELD_NUM));

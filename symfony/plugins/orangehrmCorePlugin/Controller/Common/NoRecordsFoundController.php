@@ -17,20 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Controller;
+namespace OrangeHRM\Core\Controller\Common;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 
-class QualificationSkillController extends AbstractVueController
+class NoRecordsFoundController extends AbstractVueController
 {
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('qualification-skill-list');
+        $component = new Component('no-records-found');
         $this->setComponent($component);
     }
 }

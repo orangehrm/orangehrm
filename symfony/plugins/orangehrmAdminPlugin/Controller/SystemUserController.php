@@ -23,6 +23,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Admin\Service\UserService;
 
@@ -38,7 +39,10 @@ class SystemUserController extends AbstractVueController
         return $this->getContainer()->get(Services::USER_SERVICE);
     }
 
-    public function init(): void
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
         $component = new Component('system-user-list');
         $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $this->getSystemUserService()->getUndeletableUserIds()));

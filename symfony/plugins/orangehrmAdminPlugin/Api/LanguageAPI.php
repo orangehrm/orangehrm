@@ -76,7 +76,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $language = $this->getLanguageService()->getLanguageById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($language, Language::class);
@@ -102,8 +101,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission
-
         $languageParamHolder = new LanguageSearchFilterParams();
         $this->setSortingAndPaginationParams($languageParamHolder);
         $languages = $this->getLanguageService()->getLanguageList($languageParamHolder);
@@ -131,7 +128,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $languages = $this->saveLanguage();
         return new EndpointResourceResult(LanguageModel::class, $languages);
     }
@@ -191,7 +187,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $languages = $this->saveLanguage();
         return new EndpointResourceResult(LanguageModel::class, $languages);
     }
@@ -221,7 +216,6 @@ class LanguageAPI extends EndPoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getLanguageService()->deleteLanguages($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);

@@ -150,7 +150,6 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        // TODO:: Check data group permission
         $jobTitle = new JobTitle();
         $this->setJobTitle($jobTitle);
         $jobSpecification = $this->setJobSpecification(new JobSpecificationAttachment());
@@ -280,7 +279,6 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $currentJobSpecification = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,

@@ -160,7 +160,6 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission & get employees using UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties
         $employeeParamHolder = new EmployeeSearchFilterParams();
         $this->setSortingAndPaginationParams($employeeParamHolder);
 
@@ -324,7 +323,6 @@ class EmployeeAPI extends Endpoint implements CrudEndpoint
             throw new BadRequestException('Logged in User Not Allowed to Create an Employee');
         }
 
-        // TODO:: Check data group permission
         $employee = new Employee();
         $this->setParamsToEmployee($employee);
 
