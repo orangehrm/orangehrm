@@ -3874,4 +3874,4 @@ INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `
 VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_leave_holiday_data_group_id, @ess_role_id),
        (1, 0, 1, 0, 0, @apiv2_leave_workweek_data_group_id, @admin_role_id),
-       (1, 0, 0, 0, 0, @apiv2_leave_workweek_data_group_id, @ess_role_id),
+       (1, 0, 0, 0, 0, @apiv2_leave_workweek_data_group_id, @ess_role_id);
