@@ -43,7 +43,6 @@ class InvalidParamException extends Exception
         $code = 0,
         Throwable $previous = null
     ) {
-        var_dump($errorBag);
         $this->errorBag = $errorBag;
         parent::__construct($message, $code, $previous);
     }

@@ -66,9 +66,6 @@ class EmailConfigurationServiceTest extends TestCase
             ->with('test1@orangehrm.com')
             ->willReturn(true);
 
-//        $emailService->expects($this->once())
-//            ->method('loadConfiguration');
-
         $this->emailConfigurationService->setEmailService($emailService);
         $result = $this->emailConfigurationService->sendTestMail('test1@orangehrm.com');
         $this->assertEquals(true, $result);

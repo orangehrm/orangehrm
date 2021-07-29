@@ -229,32 +229,4 @@ class EmailConfigurationAPITest extends EndpointTestCase
         $this->expectNotImplementedException();
         $api->getValidationRuleForDelete();
     }
-
-    public function testCreate(): void
-    {
-        $api = new EmailConfigurationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->create();
-    }
-
-    public function testGetValidationRuleForCreate(): void
-    {
-        $api = new EmailConfigurationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForCreate();
-    }
-
-    public function testGetAll()
-    {
-        $api = new EmailConfigurationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getAll();
-    }
-
-    public function testGetValidationRuleForGetAll(): void
-    {
-        $api = new EmailConfigurationAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForGetAll();
-    }
 }

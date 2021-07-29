@@ -25,9 +25,9 @@ use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\EmailService;
 use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Framework\Logger\Logger;
-use OrangeHRM\Framework\Util\Mailer;
-use OrangeHRM\Framework\Util\MailMessage;
-use OrangeHRM\Framework\Util\MailTransport;
+use OrangeHRM\Core\Utility\Mailer;
+use OrangeHRM\Core\Utility\MailMessage;
+use OrangeHRM\Core\Utility\MailTransport;
 use OrangeHRM\Tests\Util\TestCase;
 
 /**

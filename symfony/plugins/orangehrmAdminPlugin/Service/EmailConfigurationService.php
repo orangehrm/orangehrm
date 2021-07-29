@@ -21,7 +21,8 @@ namespace OrangeHRM\Admin\Service;
 
 use Exception;
 use OrangeHRM\Admin\Dao\EmailConfigurationDao;
-use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Exception\CoreServiceException;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Service\EmailService;
 
 class EmailConfigurationService
@@ -59,7 +60,12 @@ class EmailConfigurationService
         return $this->emailService;
     }
 
-    public function loadConfiguration(){
+    /**
+     * @throws CoreServiceException
+     * @throws DaoException
+     */
+    public function loadConfiguration(): void
+    {
         $this->getEmailService()->loadConfiguration();
     }
 

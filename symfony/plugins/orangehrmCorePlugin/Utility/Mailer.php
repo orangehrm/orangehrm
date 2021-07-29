@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Framework\Util;
+namespace OrangeHRM\Core\Utility;
 
 use Swift_Mailer;
 
@@ -27,31 +27,6 @@ class Mailer extends Swift_Mailer
      * @var null|Swift_Mailer
      */
     protected ?Swift_Mailer $mailer = null;
-
-    /**
-     * @var null|MailMessage
-     */
-    protected ?MailMessage $message = null;
-
-    /**
-     * Set message to mailer
-     *
-     * @param MailMessage $message
-     */
-    public function setMessage(MailMessage $message)
-    {
-        $this->message = $message;
-    }
-
-    /**
-     * Return mailer message
-     *
-     * @return MailMessage
-     */
-    public function getMessage(): MailMessage
-    {
-        return $this->message;
-    }
 
     /**
      * Return new empty message
@@ -64,16 +39,12 @@ class Mailer extends Swift_Mailer
     }
 
     /**
-     * Send given message or mailer message
-     *
-     * @param null|MailMessage $message
+     * Send given message
+     * @param MailMessage $message
      * @return int
      */
-    public function sendMail(?MailMessage $message = null): int
+    public function sendMail(MailMessage $message): int
     {
-        if ($message instanceof MailMessage) {
-            $this->message = $message;
-        }
-        return $this->send($this->message);
+        return $this->send($message);
     }
 }

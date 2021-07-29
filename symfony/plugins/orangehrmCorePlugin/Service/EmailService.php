@@ -27,9 +27,9 @@ use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Framework\Logger\Logger;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Framework\Util\Mailer;
-use OrangeHRM\Framework\Util\MailMessage;
-use OrangeHRM\Framework\Util\MailTransport;
+use OrangeHRM\Core\Utility\Mailer;
+use OrangeHRM\Core\Utility\MailMessage;
+use OrangeHRM\Core\Utility\MailTransport;
 
 class EmailService
 {
@@ -236,7 +236,7 @@ class EmailService
      * @throws CoreServiceException
      * @throws DaoException
      */
-    public function loadConfiguration()
+    public function loadConfiguration(): void
     {
         $emailConfig = $this->getEmailConfigurationService()->getEmailConfigurationDao()->getEmailConfiguration();
         $this->setEmailConfig($emailConfig);

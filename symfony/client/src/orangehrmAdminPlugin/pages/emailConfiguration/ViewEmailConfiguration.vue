@@ -204,8 +204,11 @@
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import SwitchInput from '@orangehrm/oxd/src/core/components/Input/SwitchInput';
-import { required, validEmailFormat } from '@orangehrm/core/util/validation/rules'
-import { shouldNotExceedCharLength } from '@/core/util/validation/rules'
+import {
+  required,
+  validEmailFormat,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 export default {
   props: {
@@ -262,8 +265,7 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.http
-        .request({
+      this.http.request({
           method: 'PUT',
           data: {
             mailType: this.emailConfiguration.mailType,
@@ -282,20 +284,25 @@ export default {
             testEmailAddress: this.emailConfiguration.testEmailAddress,
           },
         })
-        .then((response) => {
+        .then(response => {
           const testEmailStatus = response.data.meta?.testEmailStatus;
           if (testEmailStatus === 1 && this.sendTestMailEditable) {
-            return this.$toast.success({title: 'Success', message: 'Successfully Saved. Test Email Sent'});
+            this.$toast.success({
+              title: 'Success',
+              message: 'Test Email Sent',
+            });
           } else if (testEmailStatus === 0 && this.sendTestMailEditable) {
-            return this.$toast.warn({title: 'Success', message: 'Successfully Saved. Test Email Not Sent'});
-          } else {
-            return this.$toast.updateSuccess();
+            this.$toast.warn({
+              title: 'Success',
+              message: 'Test Email Not Sent',
+            });
           }
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.isLoading = false;
         });
-    },
+    }
   },
   created() {
     this.isLoading = true;

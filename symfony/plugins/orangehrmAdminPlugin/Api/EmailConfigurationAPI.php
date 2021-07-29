@@ -23,7 +23,7 @@ use Exception;
 use OrangeHRM\Admin\Api\Model\EmailConfigurationModel;
 use OrangeHRM\Admin\Service\EmailConfigurationService;
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\CrudEndpoint;
+use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -36,8 +36,9 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmailConfiguration;
 use OrangeHRM\Core\Api\V2\ParameterBag;
+use Swift_TransportException;
 
-class EmailConfigurationAPI extends Endpoint implements CrudEndpoint
+class EmailConfigurationAPI extends Endpoint implements ResourceEndpoint
 {
     public const PARAMETER_MAIL_TYPE = 'mailType';
     public const PARAMETER_SENT_AS = 'sentAs';
@@ -121,42 +122,6 @@ class EmailConfigurationAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointCollectionResult
-     * @throws NotImplementedException
-     */
-    public function getAll(): EndpointCollectionResult
-    {
-        throw new NotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     * @throws NotImplementedException
-     */
-    public function getValidationRuleForGetAll(): ParamRuleCollection
-    {
-        throw new NotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     * @throws NotImplementedException
-     */
-    public function create(): EndpointResourceResult
-    {
-        throw new NotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     * @throws NotImplementedException
-     */
-    public function getValidationRuleForCreate(): ParamRuleCollection
-    {
-        throw new NotImplementedException();
-    }
-
-    /**
      * @inheritDoc
      * @throws Exception
      */
@@ -171,10 +136,9 @@ class EmailConfigurationAPI extends Endpoint implements CrudEndpoint
         if (!empty($testEmail)) {
             try {
                 $this->getEmailConfigurationService()->sendTestMail($testEmail);
-            } catch (Exception $e){
+            } catch (Swift_TransportException $e){
                 $testEmailStatus = 0;
             }
-
         }
         return new EndpointResourceResult(
             EmailConfigurationModel::class,
