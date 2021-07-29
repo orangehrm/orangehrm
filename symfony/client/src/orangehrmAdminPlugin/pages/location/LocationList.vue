@@ -32,7 +32,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Country"
                 v-model="filters.countryCode"
                 :clear="false"
@@ -112,7 +112,7 @@ import useSort from '@orangehrm/core/util/composable/useSort';
 const defaultFilters = {
   name: '',
   city: '',
-  countryCode: [],
+  countryCode: {},
 };
 
 const defaultSortOrder = {
@@ -223,7 +223,7 @@ export default {
       return {
         name: filters.value.name,
         city: filters.value.city,
-        countryCode: filters.value.countryCode.map(item => item.id)[0],
+        countryCode: filters.value.countryCode?.id,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
       };
