@@ -47,7 +47,7 @@ class LocationAPITest extends EndpointTestCase
         );
     }
 
-    protected function getTestCasesByKey($testCaseKey)
+    protected function getTestCasesByKey($testCaseKey): array
     {
         $testCases = Yaml::parseFile(
             Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/testcases/LocationAPI.yml'
@@ -72,7 +72,7 @@ class LocationAPITest extends EndpointTestCase
         }
     }
 
-    public function dataProviderForTestGetOne()
+    public function dataProviderForTestGetOne(): array
     {
         return $this->getTestCasesByKey('GetOne');
     }
@@ -91,7 +91,7 @@ class LocationAPITest extends EndpointTestCase
         $this->assertEquals($result, $location->normalize());
     }
 
-    public function dataProviderForTestGetValidationRuleForGetOne()
+    public function dataProviderForTestGetValidationRuleForGetOne(): array
     {
         return $this->getTestCasesByKey('GetValidationRuleForGetOne');
     }
@@ -109,7 +109,7 @@ class LocationAPITest extends EndpointTestCase
         $this->assertTrue($this->validate($params, $validationRule));
     }
 
-    public function dataProviderForTestGetAll()
+    public function dataProviderForTestGetAll(): array
     {
         return $this->getTestCasesByKey('GetAll');
     }
@@ -128,7 +128,7 @@ class LocationAPITest extends EndpointTestCase
         $this->assertEquals($result, $locations->normalize());
     }
 
-    public function dataProviderForTestGetValidationRuleForGetAll()
+    public function dataProviderForTestGetValidationRuleForGetAll(): array
     {
         return $this->getTestCasesByKey('GetValidationRuleForGetAll');
     }
@@ -146,7 +146,7 @@ class LocationAPITest extends EndpointTestCase
         $this->assertTrue($this->validate($params, $validationRule));
     }
 
-    public function dataProviderForTestCreate()
+    public function dataProviderForTestCreate(): array
     {
         return $this->getTestCasesByKey('Create');
     }
@@ -165,7 +165,7 @@ class LocationAPITest extends EndpointTestCase
         $this->assertEquals($result, $location->normalize());
     }
 
-    public function dataProviderForTestGetValidationRuleForCreate()
+    public function dataProviderForTestGetValidationRuleForCreate(): array
     {
         return $this->getTestCasesByKey('GetValidationRuleForCreate');
     }
@@ -183,7 +183,7 @@ class LocationAPITest extends EndpointTestCase
         $this->assertTrue($this->validate($params, $validationRule));
     }
 
-    public function dataProviderForTestUpdate()
+    public function dataProviderForTestUpdate(): array
     {
         return $this->getTestCasesByKey('Update');
     }
@@ -204,7 +204,7 @@ class LocationAPITest extends EndpointTestCase
         $this->assertEquals($result, $location->normalize());
     }
 
-    public function dataProviderForTestGetValidationRuleForUpdate()
+    public function dataProviderForTestGetValidationRuleForUpdate(): array
     {
         return $this->getTestCasesByKey('GetValidationRuleForUpdate');
     }
@@ -222,7 +222,7 @@ class LocationAPITest extends EndpointTestCase
         $this->assertTrue($this->validate($params, $validationRule));
     }
 
-    public function dataProviderForTestDelete()
+    public function dataProviderForTestDelete(): array
     {
         return $this->getTestCasesByKey('Delete');
     }
@@ -254,7 +254,7 @@ class LocationAPITest extends EndpointTestCase
         $this->assertEquals($result['ids'], $location->normalize());
     }
 
-    public function dataProviderForTestGetValidationRuleForDelete()
+    public function dataProviderForTestGetValidationRuleForDelete(): array
     {
         return $this->getTestCasesByKey('GetValidationRuleForDelete');
     }

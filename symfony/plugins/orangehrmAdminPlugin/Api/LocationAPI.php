@@ -116,7 +116,6 @@ class LocationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getOne(): EndpointResourceResult
     {
@@ -128,7 +127,6 @@ class LocationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function getAll(): EndpointResult
     {
@@ -185,7 +183,6 @@ class LocationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function create(): EndpointResult
     {
@@ -282,7 +279,6 @@ class LocationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function delete(): EndpointResult
     {
@@ -303,7 +299,6 @@ class LocationAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     public function update(): EndpointResult
     {
@@ -334,7 +329,6 @@ class LocationAPI extends Endpoint implements CrudEndpoint
      *
      * @param Location $location
      *
-     * @throws \OrangeHRM\Core\Exception\DaoException
      */
     private function setLocationData(Location $location): void
     {
