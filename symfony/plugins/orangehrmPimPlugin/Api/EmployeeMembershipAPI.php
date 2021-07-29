@@ -19,13 +19,11 @@
 
 namespace OrangeHRM\Pim\Api;
 
-use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
-use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -33,7 +31,6 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\EmployeeMembership;
 use OrangeHRM\Pim\Api\Model\EmployeeMembershipModel;
 use OrangeHRM\Pim\Dto\EmployeeMembershipSearchFilterParams;
@@ -108,8 +105,7 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointCollectionResult
-     * @throws Exception
+     * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
     {
@@ -155,7 +151,6 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function create(): EndpointResourceResult
     {
@@ -191,6 +186,7 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_FEE,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::BETWEEN,[0, 1000000000]),
                 ),
                 true
             ),
@@ -198,15 +194,14 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_PAID_BY,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::IN, [[EmployeeMembership::COMPANY,EmployeeMembership::INDIVIDUAL]]),
                 ),
-                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     self::PARAMETER_SUBSCRIPTION_CURRENCY,
                     new Rule(Rules::CURRENCY),
                 ),
-                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
@@ -225,7 +220,6 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function update(): EndpointResourceResult
     {
@@ -256,8 +250,6 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws DaoException
-     * @throws Exception
      */
     public function delete(): EndpointResourceResult
     {
@@ -296,10 +288,8 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @return EmployeeMembership
-     * @throws DaoException
-     * @throws RecordNotFoundException
      */
-    public function saveEmployeeMembership(): EmployeeMembership
+    private function saveEmployeeMembership(): EmployeeMembership
     {
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $empNumber = $this->getRequestParams()->getInt(
