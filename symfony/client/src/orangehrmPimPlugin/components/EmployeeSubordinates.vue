@@ -54,9 +54,9 @@
     ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
-        :headers="headers"
+        :headers="tableHeaders"
         :items="items?.data"
-        :selectable="true"
+        :selectable="$can.delete(`subordinates`)"
         :disabled="isDisabled"
         :clickable="false"
         :loading="isLoading"
@@ -149,28 +149,6 @@ export default {
           title: 'Reporting Method',
           style: {flex: 1},
         },
-        {
-          name: 'actions',
-          slot: 'action',
-          title: 'Actions',
-          style: {flex: 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
       ],
       checkedItems: [],
       showSaveModal: false,
@@ -241,6 +219,36 @@ export default {
   computed: {
     isDisabled() {
       return this.showSaveModal || this.showEditModal;
+    },
+    tableHeaders() {
+      const headerActions = {
+        name: 'actions',
+        slot: 'action',
+        title: 'Actions',
+        style: {flex: 1},
+        cellType: 'oxd-table-cell-actions',
+        cellConfig: {},
+      };
+      if (this.$can.update(`subordinates`)) {
+        headerActions.cellConfig.edit = {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'pencil-fill',
+          },
+        };
+      }
+      if (this.$can.delete(`subordinates`)) {
+        headerActions.cellConfig.delete = {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        };
+      }
+      return Object.keys(headerActions.cellConfig).length > 0
+        ? this.headers.concat([headerActions])
+        : this.headers;
     },
   },
 };

@@ -80,7 +80,6 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $skill = $this->getSkillService()->getSkillById($id);
         if (!$skill instanceof Skill) {
@@ -108,7 +107,6 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission
         $skillSearchParams = new SkillSearchFilterParams();
         $this->setSortingAndPaginationParams($skillSearchParams);
         $skillSearchParams->setName(
@@ -157,7 +155,6 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $skill = $this->saveSkill();
 
         return new EndpointResourceResult(SkillModel::class, $skill);
@@ -190,7 +187,6 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $skill = $this->saveSkill();
 
         return new EndpointResourceResult(SkillModel::class, $skill);
@@ -217,7 +213,6 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getSkillService()->deleteSkills($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
@@ -239,7 +234,6 @@ class SkillAPI extends Endpoint implements CrudEndpoint
      */
     public function saveSkill(): Skill
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $description = $this->getRequestParams()->getString(

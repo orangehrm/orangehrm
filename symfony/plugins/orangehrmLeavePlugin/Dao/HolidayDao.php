@@ -46,10 +46,10 @@ class HolidayDao extends BaseDao
 
     /**
      * @param int $holidayId
-     * @return Holiday
+     * @return Holiday|null
      * @throws DaoException
      */
-    public function getHolidayById(int $holidayId): Holiday
+    public function getHolidayById(int $holidayId): ?Holiday
     {
         try {
             return $this->getRepository(Holiday::class)->find($holidayId);

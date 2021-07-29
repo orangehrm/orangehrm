@@ -22,10 +22,13 @@ namespace OrangeHRM\Pim\Controller;
 use Exception;
 use OrangeHRM\Core\Authorization\Controller\CapableViewController;
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
 use OrangeHRM\Core\Helper\VueControllerHelper;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Pim\Service\PIMLeftMenuService;
 
@@ -52,7 +55,6 @@ abstract class BaseViewEmployeeController extends AbstractVueController implemen
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function render(Request $request): string
     {
@@ -76,19 +78,20 @@ abstract class BaseViewEmployeeController extends AbstractVueController implemen
     /**
      * @return string[]
      */
-    protected function getDataGroupsForCapabilityCheck(): array
-    {
-        return [];
-    }
+    abstract protected function getDataGroupsForCapabilityCheck(): array;
 
     /**
      * @inheritDoc
      */
     public function isCapable(Request $request): bool
     {
+        $empNumber = $request->get('empNumber');
+        if (!$this->isEmployeeAccessible($empNumber)) {
+            throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+        }
         $permission = $this->getUserRoleManagerHelper()->getDataGroupPermissionsForEmployee(
             $this->getDataGroupsForCapabilityCheck(),
-            $request->get('empNumber')
+            $empNumber
         );
         return $permission->canRead();
     }
@@ -107,5 +110,15 @@ abstract class BaseViewEmployeeController extends AbstractVueController implemen
             VueControllerHelper::PERMISSIONS,
             $permissions->toArray()
         );
+    }
+
+    /**
+     * @param int|null $empNumber
+     * @return bool
+     */
+    protected function isEmployeeAccessible(?int $empNumber): bool
+    {
+        return $this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber) ||
+            $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber);
     }
 }

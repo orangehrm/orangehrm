@@ -22,13 +22,14 @@ namespace OrangeHRM\Authentication\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Controller\PublicControllerInterface;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
 class ForbiddenController extends AbstractVueController implements PublicControllerInterface
 {
     /**
      * @inheritDoc
      */
-    public function init(): void
+    public function preRender(Request $request): void
     {
         $component = new Component('auth-forbidden');
         $this->setComponent($component);

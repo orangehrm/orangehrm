@@ -56,21 +56,17 @@
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="Issued Date"
               v-model="immigration.issuedDate"
-              type="date"
-              placeholder="yyyy-mm-dd"
               :rules="rules.issuedDate"
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="Expiry Date"
               v-model="immigration.expiryDate"
-              type="date"
               :years="yearArray"
-              placeholder="yyyy-mm-dd"
               :rules="rules.expiryDate"
             />
           </oxd-grid-item>
@@ -90,11 +86,9 @@
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="Eligible Review Date"
               v-model="immigration.reviewDate"
-              type="date"
-              placeholder="yyyy-mm-dd"
               :rules="rules.reviewDate"
             />
           </oxd-grid-item>
