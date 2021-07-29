@@ -24,6 +24,7 @@ use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Entity\EmployeeMembership;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 
@@ -67,8 +68,8 @@ class EmployeeMembershipController extends BaseViewEmployeeController
             $currencies = $this->getPayGradeService()->getCurrencyArray();
             $memberships = $this->getMembershipService()->getMembershipArray();
             $paidBy = [
-                ["id" => "Company", "label" => "Company"],
-                ["id" => "Individual", "label" => "Individual"]
+                ["id" => EmployeeMembership::COMPANY, "label" => EmployeeMembership::COMPANY],
+                ["id" => EmployeeMembership::INDIVIDUAL, "label" => EmployeeMembership::INDIVIDUAL]
             ];
             $component->addProp(new Prop('currencies', Prop::TYPE_ARRAY, $currencies));
             $component->addProp(new Prop('paid-by', Prop::TYPE_ARRAY, $paidBy));

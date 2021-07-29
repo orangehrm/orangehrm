@@ -102,7 +102,7 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::BETWEEN, [0, 100])
+                new Rule(Rules::POSITIVE)
             ),
         );
     }
@@ -248,7 +248,7 @@ class EmployeeMembershipAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::BETWEEN, [0, 100])
+                new Rule(Rules::POSITIVE)
             ),
             ...$this->getCommonBodyValidationRules(),
         );

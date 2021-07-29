@@ -34,6 +34,9 @@ class EmployeeMembership
 {
     use DecoratorTrait;
 
+    public const COMPANY = 'Company';
+    public const INDIVIDUAL = 'Individual';
+
     /**
      * @var int
      *
@@ -54,7 +57,7 @@ class EmployeeMembership
     /**
      * @var Membership
      *
-     * @ORM\ManyToOne (targetEntity="OrangeHRM\Entity\Membership")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Membership")
      * @ORM\JoinColumn(name="membship_code", referencedColumnName="id")
      */
     private Membership $membership;

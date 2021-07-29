@@ -100,7 +100,7 @@
 import {
   max,
   required,
-  digitsOnly,
+  decimalsOnly,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
@@ -149,7 +149,7 @@ export default {
       membership: {...membershipModel},
       yearArray: [...yearRange()],
       rules: {
-        membership: required,
+        membership: [required],
         subscriptionRenewalDate: [
           validDateFormat(),
           endDateShouldBeAfterStartDate(
@@ -157,7 +157,7 @@ export default {
             'Renewal date should be after the commencing date',
           ),
         ],
-        subscriptionFee: [digitsOnly, max(1000000000)],
+        subscriptionFee: [decimalsOnly, max(1000000000)],
       },
     };
   },
