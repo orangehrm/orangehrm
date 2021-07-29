@@ -288,6 +288,8 @@ class EmployeeMembershipAPITest extends EndpointTestCase
 
     public function testUpdate()
     {
+        $this->loadFixtures();
+
         $empNumber = 1;
         $employeeMembershipDao = $this->getMockBuilder(EmployeeMembershipDao::class)
             ->onlyMethods(['saveEmployeeMembership', 'getEmployeeMembershipById'])
@@ -322,7 +324,6 @@ class EmployeeMembershipAPITest extends EndpointTestCase
                 }
             )
             );
-
 
         $employeeMembershipRecordService = $this->getMockBuilder(EmployeeMembershipService::class)
             ->onlyMethods(['getEmployeeMembershipDao'])
