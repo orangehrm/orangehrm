@@ -1,0 +1,15 @@
+Membership:
+  0: {id: 1, name: 'membership1'}
+  1: {id: 2, name: 'membership2'}
+  2: {id: 3, name: 'membership3'}
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com' }
+  - { empNumber: 3, firstName: 'John', lastName: 'Wayne', middleName: '', employeeId: 'E003' }
+  - { empNumber: 4, firstName: 'Edgar', lastName: 'Allen', middleName: '', employeeId: 'E004', emp_work_email: '', emp_oth_email: '' }
+  - { empNumber: 5, firstName: 'Judie', lastName: 'Foster', middleName: '', employeeId: 'E005', emp_work_email: '', emp_oth_email: '' }
+
+EmployeeMembership:
+  - { id: 1, emp_number: 1, membship_code: 1, ememb_subscript_amount: '4', ememb_subscript_ownership: 'individual', ememb_subs_currency: 'Rs', ememb_commence_date: '2011-05-20', ememb_renewal_date: '2011-05-22' }
+  - { id: 2, emp_number: 1, membship_code: 2, ememb_subscript_amount: '6', ememb_subscript_ownership: 'company', ememb_subs_currency: 'Rb', ememb_commence_date: '2011-05-21', ememb_renewal_date: '2011-05-24' }

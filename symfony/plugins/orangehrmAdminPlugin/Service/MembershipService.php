@@ -21,11 +21,15 @@ namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\MembershipDao;
 use OrangeHRM\Admin\Dto\MembershipSearchFilterParams;
+use OrangeHRM\Admin\Service\Model\MembershipModel;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Membership;
 
 class MembershipService
 {
+    use NormalizerServiceTrait;
+
     /**
      * @var MembershipDao|null
      */
@@ -116,9 +120,21 @@ class MembershipService
      * @return bool
      * @throws DaoException
      */
-    public function isExistingLicenseName(string $membershipName): bool
+    public function isExistingMembershipName(string $membershipName): bool
     {
         return $this->getMembershipDao()->isExistingMembershipName($membershipName);
+    }
+
+    /**
+     * @return array
+     * @throws DaoException
+     */
+    public function getMembershipArray(): array
+    {
+        $membershipSearchParamsHolder = new MembershipSearchFilterParams();
+        $membershipSearchParamsHolder->setLimit(0);
+        $memberships = $this->getMembershipList($membershipSearchParamsHolder);
+        return $this->getNormalizerService()->normalizeArray(MembershipModel::class, $memberships);
     }
 }
 
