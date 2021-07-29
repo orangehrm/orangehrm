@@ -27,6 +27,8 @@ use OrangeHRM\Framework\Services;
 
 trait ControllerTrait
 {
+    use ServiceContainerTrait;
+
     /**
      * Forwards the request to another controller.
      *
