@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Core\Authorization\Helper;
 
+use Generator;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
@@ -205,5 +206,47 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ],
             $permissionCollection->toArray()
         );
+    }
+
+    /**
+     * @dataProvider getIsSelfByEmpNumberDataProvider
+     */
+    public function testIsSelfByEmpNumber(User $user, ?int $empNumber, bool $expected): void
+    {
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->onlyMethods(['getUser'])
+            ->getMock();
+        $userRoleManager->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
+
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $userRoleManagerHelper = new UserRoleManagerHelper();
+        $this->assertEquals($expected, $userRoleManagerHelper->isSelfByEmpNumber($empNumber));
+    }
+
+    /**
+     * @return Generator
+     */
+    public function getIsSelfByEmpNumberDataProvider(): Generator
+    {
+        $employee = new Employee();
+        $employee->setEmpNumber(2);
+        $userRole = new UserRole();
+        $userRole->setId(1);
+        $userRole->setName('Admin');
+        $user = new User();
+        $user->setId(1);
+        $user->setUserRole($userRole);
+        $user->setEmployee($employee);
+
+        yield [$user, null, false];
+        yield [$user, 1, false];
+        yield [$user, 2, true];
+        $user2 = clone $user;
+        $user2->setEmployee(null);
+        yield [$user2, null, false];
+        yield [$user2, 1, false];
+        yield [$user2, 2, false];
     }
 }

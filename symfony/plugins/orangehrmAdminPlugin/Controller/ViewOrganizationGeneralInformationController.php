@@ -24,6 +24,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
@@ -32,7 +33,10 @@ class ViewOrganizationGeneralInformationController extends AbstractVueController
     use EmployeeServiceTrait;
     use ServiceContainerTrait;
 
-    public function init(): void
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
         $noOfEmployees = $this->getEmployeeService()->getNumberOfEmployees();
         /** @var CountryService $countryService */

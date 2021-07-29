@@ -54,7 +54,6 @@ class EmployeePictureController extends AbstractFileController
      * @param Request $request
      * @return BinaryFileResponse|Response
      * @throws DaoException
-     * @throws ServiceException
      */
     public function handle(Request $request)
     {

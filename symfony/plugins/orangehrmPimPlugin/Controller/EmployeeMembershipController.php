@@ -88,4 +88,12 @@ class EmployeeMembershipController extends BaseViewEmployeeController
             $this->handleBadRequest();
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getDataGroupsForCapabilityCheck(): array
+    {
+        return ['membership'];
+    }
 }
