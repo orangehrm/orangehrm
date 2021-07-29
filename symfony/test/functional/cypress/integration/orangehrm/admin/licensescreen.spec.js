@@ -1,138 +1,162 @@
 import user from '../../../fixtures/admin.json'
 import charLength from '../../../fixtures/charLength.json'
-import promisify from 'cypress-promise'
 
-describe('Add license and Field validations testing', function () {
-    //Add a new license file and check the toast
-    it('add a new license file and check the toast', () => {
+describe('Qualifications - License test script', function () {
+    beforeEach(() => {
         cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get('.oxd-button').click()
-        cy.get(':nth-child(2) > .oxd-input').type("ITIL")
-        cy.get('.oxd-button--secondary').click()
-        cy.get('.oxd-toast-container--bottom').should('include.text', "Successfully Saved")
-    })
-    //Required field verification
-    it('required field verification', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get('.oxd-button').click()
-        cy.get(':nth-child(2) > .oxd-input').type(' ')
-        cy.get('.oxd-button--secondary').click()
-        cy.get('.oxd-input-group > .oxd-text').should('include.text', 'Required')
-    })
-    //Maximum length validation
-    it('maximum length validation', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get('.oxd-button').click()
-        cy.get(':nth-child(2) > .oxd-input').type(charLength.chars100.text)
-        cy.get('.oxd-button--secondary').click()
-        cy.get('.oxd-input-group > .oxd-text').should('include.text', 'Should not exceed 100 characters')
-    })
-    //Adding duplicate license file
-    it('adding a duplicate license file', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get('.oxd-button').click()
-        cy.get(':nth-child(2) > .oxd-input').type("ITIL")
-        cy.get('.oxd-input-group__message').should('include.text', "Already exist")
-    })
-    //List count increment
-    const getLicensecount = async () => {
-        cy.wait(2000)
-        let num = await promisify(cy.get('.oxd-text').contains('Found').invoke('text'))
-        var line = num.match(/\((.*)\)/);
-        return parseInt(line[1])
-    }
-    it('list count increment', async () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        const currentLicenseno = await getLicensecount()
-        cy.get('.oxd-button').click()
-        cy.get(':nth-child(2) > .oxd-input').type('CCNP')
-        cy.get('.oxd-button--secondary').click()
         cy.viewport(1024, 768)
-        cy.wait(3000)
-        const newLicenseno = await getLicensecount()
-        expect(newLicenseno).to.eq(currentLicenseno + 1)
+        cy.visit('/admin/viewLicenses')
     })
-})
 
-describe('Update license testing', function () {
-    //Update an exising license file and check the toast
-    it('update an existing license file and check the toast', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get(':nth-child(1) > .oxd-table-row > .card-center > .card-header-slot > .--right > .oxd-table-cell > .oxd-table-cell-actions > :nth-child(2)').click()
-        cy.get(':nth-child(2) > .oxd-input').click().clear().type('IESL')
-        cy.get('.oxd-button--secondary').click()
-        cy.get('.oxd-toast-container--bottom').should('include.text', "Successfully Updated")
+    describe('Add license and Duplicate record validations testing', function () {
+        it('add license file, check toast message and duplicate license', () => {
+            cy.get('.oxd-button').click()
+            cy.get(':nth-child(2) > .oxd-input').type("ITIL")
+            cy.get('.oxd-button--secondary').click()
+            cy.get('.oxd-toast-container--bottom').should('include.text', "Successfully Saved")
+            cy.visit('/admin/viewLicenses')
+            cy.get('.oxd-button').click()
+            cy.get(':nth-child(2) > .oxd-input').type("ITIL")
+            cy.get('.oxd-input-group__message').should('include.text', "Already exist")
+        })
+        after(() => {
+            cy.visit('/admin/viewLicenses')
+            cy.get('.oxd-table-header > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon').click()
+            cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click()
+            cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click()
+        })
     })
-})
 
-describe('Cancel button testing', function () {
-    //Visiting edit license and clicking cancel
-    it('visiting edit license and clicking cancel', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get(':nth-child(1) > .oxd-table-row > .card-center > .card-header-slot > .--right > .oxd-table-cell > .oxd-table-cell-actions > :nth-child(2) > .oxd-icon').click()
-        cy.get('.oxd-button--ghost').click()
-        cy.get('.oxd-text').should('include.text', 'Licenses')
+    describe('Text field validation testing', function () {
+        it('required field verification', () => {
+            cy.get('.oxd-button').click()
+            cy.get(':nth-child(2) > .oxd-input').type(' ')
+            cy.get('.oxd-button--secondary').click()
+            cy.get('.oxd-input-group > .oxd-text').should('include.text', 'Required')
+        })
+        it('maximum length validation', () => {
+            cy.get('.oxd-button').click()
+            cy.get(':nth-child(2) > .oxd-input').type(charLength.chars100.text)
+            cy.get('.oxd-button--secondary').click()
+            cy.get('.oxd-input-group > .oxd-text').should('include.text', 'Should not exceed 100 characters')
+        })
     })
-    //Visiting add new license and clicking cancel
-    it('visiting add new license and clicking cancel', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get('.oxd-button').click()
-        cy.get('.oxd-button--ghost').click()
-        cy.get('.oxd-text').should('include.text', 'Licenses')
-    })
-})
 
-describe('Deleting license testing', function () {
-    //Deleting a license file and check the toast
-    it('deleting a license file and check the toast', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get(':nth-child(1) > .oxd-table-row > .card-center > .card-header-slot > .--right > .oxd-table-cell > .oxd-table-cell-actions > :nth-child(1)').click()
-        cy.get('.oxd-button--label-danger').click()
-        cy.get('.oxd-toast-container--bottom').should('include.text', "Successfully Deleted")
-    })
-    //Bulk delete license files and check the toast
-    it('bulk delete license files and check the toast', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.viewport(1024, 768)
-        cy.get('.oxd-table-header > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon').click()
-        cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click()
-        cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click()
-        cy.get('.oxd-toast').should('include.text', 'Successfully Deleted')
-    })
-    //No records found message
-    it('no records found message', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get('.oxd-text').should('include.text', 'No Records Found')
-    })
-})
+    describe('List count increment testing', function () {
+        it('list count increment', () => {
+            cy.get('.oxd-button').click()
+            cy.get(':nth-child(2) > .oxd-input').type("ITIL")
+            cy.get('.oxd-button--secondary').click()
+            cy.visit('/admin/viewLicenses')
+            cy.get('.orangehrm-horizontal-padding > .oxd-text')
+                .contains('Found')
+                .invoke('text')
+                .then((line) => {
+                    const num = line.match(/\((.*)\)/);
+                    const currentLicenseno = parseInt(num[1]);
 
-describe('UI testing', function () {
-    //check license page
-    it('license page', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get('.oxd-text--h6').should('include.text', "License")
+                    cy.get('.oxd-button').click()
+                    cy.get(':nth-child(2) > .oxd-input').type("IESL")
+                    cy.get('.oxd-button--secondary').click()
+
+                    cy.visit('/admin/viewLicenses')
+                    cy.get('.orangehrm-horizontal-padding > .oxd-text')
+                        .contains('Found')
+                        .invoke('text')
+                        .then((line) => {
+                            const num = line.match(/\((.*)\)/);
+                            const newLicenseno = parseInt(num[1]);
+                            expect(newLicenseno).to.eq(currentLicenseno + 1)
+                        })
+                })
+        })
+        after(() => {
+            cy.visit('/admin/viewLicenses')
+            cy.get('.oxd-table-header > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon').click()
+            cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click()
+            cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click()
+        })
     })
-    //Verify header and field name
-    it('verify header', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/viewLicenses')
-        cy.get('.orangehrm-header-container > .oxd-text').should('include.text', 'License')
+
+    describe('Update license testing', function () {
+        it('update an existing license file and check toast message', () => {
+            cy.get('.oxd-button').click()
+            cy.get(':nth-child(2) > .oxd-input').type("IESL")
+            cy.get('.oxd-button--secondary').click()
+            cy.visit('/admin/viewLicenses')
+            cy.get(':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)').click()
+            cy.get(':nth-child(2) > .oxd-input').click().clear().type('CIPM')
+            cy.get('.oxd-button--secondary').click()
+            cy.get('.oxd-toast-container--bottom').should('include.text', "Successfully Updated")
+        })
+        after(() => {
+            cy.visit('/admin/viewLicenses')
+            cy.get('.oxd-table-header > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon').click()
+            cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click()
+            cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click()
+        })
     })
-    it('field name', () => {
-        cy.login(user.admin.userName, user.admin.password)
-        cy.visit('/admin/saveLicense')
-        cy.get('.oxd-label').should('include.text', 'Name')
+
+    describe('Cancel button testing', function () {
+        it('visiting edit license and clicking cancel', () => {
+            cy.get('.oxd-button').click()
+            cy.get(':nth-child(2) > .oxd-input').type("MCSC")
+            cy.get('.oxd-button--secondary').click()
+            cy.visit('/admin/viewLicenses')
+            cy.get(':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(2)').click()
+            cy.get('.oxd-button--ghost').click()
+            cy.get('.oxd-text').should('include.text', 'Licenses')
+        })
+        it('visiting add new license and clicking cancel', () => {
+            cy.get('.oxd-button').click()
+            cy.get('.oxd-button--ghost').click()
+            cy.get('.oxd-text').should('include.text', 'Licenses')
+        })
+        after(() => {
+            cy.visit('/admin/viewLicenses')
+            cy.get('.oxd-table-header > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon').click()
+            cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click()
+            cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click()
+        })
+    })
+
+    describe('Deleting license testing', function () {
+        it('no records found message', () => {
+            cy.get('.oxd-text').should('include.text', 'No Records Found')
+        })
+        it('deleting a license file and check the toast', () => {
+            cy.get('.oxd-button').click()
+            cy.get(':nth-child(2) > .oxd-input').type("IESL")
+            cy.get('.oxd-button--secondary').click()
+            cy.visit('/admin/viewLicenses')
+            cy.get(':nth-child(1) > .oxd-table-row > [style="flex-shrink: 1;"] > .oxd-table-cell-actions > :nth-child(1)').click()
+            cy.get('.oxd-button--label-danger').click()
+            cy.get('.oxd-toast-container--bottom').should('include.text', "Successfully Deleted")
+        })
+        it('bulk delete license files and check the toast', () => {
+            cy.get('.oxd-button').click()
+            cy.get(':nth-child(2) > .oxd-input').type("MCSC")
+            cy.get('.oxd-button--secondary').click()
+            cy.visit('/admin/viewLicenses')
+            cy.get('.oxd-table-header > .oxd-table-row > :nth-child(1) > .oxd-checkbox-wrapper > label > .oxd-checkbox-input > .oxd-icon').click()
+            cy.get('.orangehrm-horizontal-padding > div > .oxd-button').click()
+            cy.get('.orangehrm-modal-footer > .oxd-button--label-danger').click()
+            cy.get('.oxd-toast').should('include.text', 'Successfully Deleted')
+        })
+    })
+
+    describe('UI testing', function () {
+        it('Add license page', () => {
+            cy.visit('/admin/saveLicense')
+            cy.get('.orangehrm-card-container > .oxd-text--h6').should('include.text', "Add License")
+        })
+        it('verify header', () => {
+            cy.visit('/admin/viewLicenses')
+            cy.get('.orangehrm-header-container > .oxd-text').should('include.text', 'License')
+        })
+        it('field name', () => {
+            cy.visit('/admin/saveLicense')
+            cy.get('.oxd-label').should('include.text', 'Name')
+        })
     })
 })
