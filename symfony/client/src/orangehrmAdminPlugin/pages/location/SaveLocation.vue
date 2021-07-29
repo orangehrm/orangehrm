@@ -39,7 +39,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Country"
                 v-model="location.countryCode"
                 :rules="rules.countryCode"
@@ -143,7 +143,7 @@ import {
 
 const initialLocation = {
   name: '',
-  countryCode: '',
+  countryCode: null,
   province: '',
   city: '',
   address: '',
@@ -198,7 +198,7 @@ export default {
       this.http
         .create({
           ...this.location,
-          countryCode: this.location.countryCode.map(item => item.id)[0],
+          countryCode: this.location.countryCode.id,
         })
         .then(() => {
           return this.$toast.saveSuccess();
