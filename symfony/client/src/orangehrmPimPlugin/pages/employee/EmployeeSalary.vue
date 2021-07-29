@@ -40,7 +40,10 @@
       @close="onEditModalClose"
     ></edit-salary-component>
     <div class="orangehrm-horizontal-padding orangehrm-top-padding">
-      <profile-action-header @click="onClickAdd">
+      <profile-action-header
+        @click="onClickAdd"
+        :action-button-shown="this.$can.update(`salary_details`)"
+      >
         Assigned Salary Components
       </profile-action-header>
     </div>
@@ -52,9 +55,9 @@
     ></table-header>
     <div class="orangehrm-container">
       <oxd-card-table
-        :headers="headers"
+        :headers="tableHeaders"
         :items="items?.data"
-        :selectable="true"
+        :selectable="$can.delete(`salary_details`)"
         :disabled="isDisabled"
         :clickable="false"
         :loading="isLoading"
@@ -173,28 +176,6 @@ export default {
           title: 'Direct Deposit Amount',
           style: {flex: 1},
         },
-        {
-          name: 'actions',
-          slot: 'action',
-          title: 'Actions',
-          style: {flex: 1},
-          cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            delete: {
-              onClick: this.onClickDelete,
-              component: 'oxd-icon-button',
-              props: {
-                name: 'trash',
-              },
-            },
-            edit: {
-              onClick: this.onClickEdit,
-              props: {
-                name: 'pencil-fill',
-              },
-            },
-          },
-        },
       ],
       checkedItems: [],
       showSaveModal: false,
@@ -265,6 +246,36 @@ export default {
   computed: {
     isDisabled() {
       return this.showSaveModal || this.showEditModal;
+    },
+    tableHeaders() {
+      const headerActions = {
+        name: 'actions',
+        slot: 'action',
+        title: 'Actions',
+        style: {flex: 1},
+        cellType: 'oxd-table-cell-actions',
+        cellConfig: {},
+      };
+      if (this.$can.update(`salary_details`)) {
+        headerActions.cellConfig.edit = {
+          onClick: this.onClickEdit,
+          props: {
+            name: 'pencil-fill',
+          },
+        };
+      }
+      if (this.$can.delete(`salary_details`)) {
+        headerActions.cellConfig.delete = {
+          onClick: this.onClickDelete,
+          component: 'oxd-icon-button',
+          props: {
+            name: 'trash',
+          },
+        };
+      }
+      return Object.keys(headerActions.cellConfig).length > 0
+        ? this.headers.concat([headerActions])
+        : this.headers;
     },
   },
 };

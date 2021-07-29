@@ -205,6 +205,7 @@ export default {
         this.user.employee = {
           id: data.employee.empNumber,
           label: `${data.employee.firstName} ${data.employee.middleName} ${data.employee.lastName}`,
+          isPastEmployee: data.employee.terminationId,
         };
         if (data.status) {
           this.user.status = {id: 1, label: 'Enabled'};
