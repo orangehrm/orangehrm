@@ -22,10 +22,40 @@ jobs:
           pwd
           ls -la
           ls html
+          git rev-parse HEAD
+          echo "git_hash=$(git rev-parse HEAD)" >> $GITHUB_ENV
           cp .env.dist .env
           sed -i "s~LOCAL_SRC=/your/src/path~LOCAL_SRC=$PWD/html~g" .env
           echo "127.0.0.1 php56 php70 php71 php72 php73 php74 php80" | sudo tee -a /etc/hosts
+          docker version
+          docker info
+          docker images
+
+      - name: Cache docker image
+        id: cache-docker-images
+        uses: actions/cache@v2
+        with:
+          path: image-cache
+          key: images-${{ env.git_hash }}
+
+      - name: Build docker image
+        if: steps.cache-docker-images.outputs.cache-hit != 'true'
+        run: |
+          set -ex
           docker-compose -f docker-compose.yml -f docker-compose-build.yml build nginx php-8.0
+          docker images
+          mkdir image-cache
+          docker save --output image-cache/images.tar samanthajayasinghe/ohrm-nginx samanthajayasinghe/ohrm-php80
+          ls -sh image-cache/images.tar
+
+      - name: Load docker image from cache
+        if: steps.cache-docker-images.outputs.cache-hit == 'true'
+        run: |
+          ls image-cache
+          docker load --input image-cache/images.tar
+
+      - name: Start docker containers
+        run: |
           docker-compose up -d php-8.0 mysql55
           docker ps
 
@@ -43,7 +73,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd html/symfony/client && yarn install
+          cd html
+          git rev-parse HEAD
+          cd symfony/client && yarn install
           docker exec os_dev_php80 bash -c 'cd symfony && composer install'
 
       - name: Install OrangeHRM
