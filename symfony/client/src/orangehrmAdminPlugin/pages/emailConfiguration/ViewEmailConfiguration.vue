@@ -40,7 +40,6 @@
               <oxd-input-group
                 label="Sending Method"
                 :classes="{wrapper: '--status-grouped-field'}"
-                :style="{maxWidth: '12rem'}"
               >
                 <oxd-input-field
                   type="radio"
@@ -58,120 +57,112 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <div v-if="emailConfiguration.mailType === 'sendmail'">
-          <oxd-form-row>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <oxd-input-group label="Path to Sendmail">
-                  <oxd-text tag="p" class="sendmail-path-value">
-                    {{ emailConfiguration.pathToSendmail }}
-                  </oxd-text>
-                </oxd-input-group>
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-        </div>
-        <div v-if="emailConfiguration.mailType === 'smtp'">
-          <oxd-form-row>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <oxd-input-field
-                  label="SMTP Host"
-                  v-model="emailConfiguration.smtpHost"
-                  :rules="rules.smtpHost"
-                  required
-                />
-              </oxd-grid-item>
-              <oxd-grid-item>
-                <oxd-input-field
-                  label="SMTP Port"
-                  v-model="emailConfiguration.smtpPort"
-                  :rules="rules.smtpPort"
-                />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-          <oxd-form-row>
-            <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <oxd-input-group
-                  label="Use SMTP Authentication"
-                  :classes="{wrapper: '--status-grouped-field'}"
-                >
-                  <oxd-input-field
-                    type="radio"
-                    v-model="emailConfiguration.smtpAuthType"
-                    optionLabel="Yes"
-                    value="login"
-                  />
-                  <oxd-input-field
-                    type="radio"
-                    v-model="emailConfiguration.smtpAuthType"
-                    optionLabel="No"
-                    value="none"
-                  />
-                </oxd-input-group>
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
-          <div v-if="emailConfiguration.smtpAuthType === 'login'">
-            <oxd-form-row>
-              <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-                <oxd-grid-item>
-                  <oxd-input-field
-                    label="SMTP User"
-                    v-model="emailConfiguration.smtpUsername"
-                    :rules="rules.smtpUsername"
-                    required
-                  />
-                </oxd-grid-item>
-                <oxd-grid-item>
-                  <oxd-input-field
-                    label="SMTP Password"
-                    v-model="emailConfiguration.smtpPassword"
-                    :rules="rules.smtpPassword"
-                    type="password"
-                    required
-                  />
-                </oxd-grid-item>
-              </oxd-grid>
-            </oxd-form-row>
-          </div>
-          <oxd-form-row>
-            <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-              <div class="orangehrm-optional-field-row">
-                <oxd-text tag="p" class="orangehrm-optional-field-label">
-                  User Secure Connection
+        <oxd-form-row v-if="emailConfiguration.mailType === 'sendmail'">
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-group label="Path to Sendmail">
+                <oxd-text tag="p" class="sendmail-path-value">
+                  {{ emailConfiguration.pathToSendmail }}
                 </oxd-text>
-                <oxd-switch-input v-model="userSecureConnection" />
-              </div>
-            </oxd-grid>
-          </oxd-form-row>
-          <div v-if="userSecureConnection">
-            <oxd-form-row>
-              <oxd-grid :cols="2" class="orangehrm-full-width-grid">
-                <oxd-grid-item>
-                  <oxd-input-group
-                    :classes="{wrapper: '--status-grouped-field'}"
-                  >
-                    <oxd-input-field
-                      type="radio"
-                      v-model="emailConfiguration.smtpSecurityType"
-                      optionLabel="SSL"
-                      value="ssl"
-                    />
-                    <oxd-input-field
-                      type="radio"
-                      v-model="emailConfiguration.smtpSecurityType"
-                      optionLabel="TLS"
-                      value="tls"
-                    />
-                  </oxd-input-group>
-                </oxd-grid-item>
-              </oxd-grid>
-            </oxd-form-row>
-          </div>
-        </div>
+              </oxd-input-group>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp'">
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="SMTP Host"
+                v-model="emailConfiguration.smtpHost"
+                :rules="rules.smtpHost"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="SMTP Port"
+                v-model="emailConfiguration.smtpPort"
+                :rules="rules.smtpPort"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp'">
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-group
+                label="Use SMTP Authentication"
+                :classes="{wrapper: '--status-grouped-field'}"
+              >
+                <oxd-input-field
+                  type="radio"
+                  v-model="emailConfiguration.smtpAuthType"
+                  optionLabel="Yes"
+                  value="login"
+                />
+                <oxd-input-field
+                  type="radio"
+                  v-model="emailConfiguration.smtpAuthType"
+                  optionLabel="No"
+                  value="none"
+                />
+              </oxd-input-group>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp' && emailConfiguration.smtpAuthType === 'login'">
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="SMTP User"
+                v-model="emailConfiguration.smtpUsername"
+                :rules="rules.smtpUsername"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="SMTP Password"
+                v-model="emailConfiguration.smtpPassword"
+                :rules="rules.smtpPassword"
+                type="password"
+                required
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp'">
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <div class="orangehrm-optional-field-row">
+              <oxd-text tag="p" class="orangehrm-optional-field-label">
+                User Secure Connection
+              </oxd-text>
+              <oxd-switch-input v-model="userSecureConnection" />
+            </div>
+          </oxd-grid>
+        </oxd-form-row>
+        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp' && userSecureConnection">
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-group
+                :classes="{wrapper: '--status-grouped-field'}"
+              >
+                <oxd-input-field
+                  type="radio"
+                  v-model="emailConfiguration.smtpSecurityType"
+                  optionLabel="SSL"
+                  value="ssl"
+                />
+                <oxd-input-field
+                  type="radio"
+                  v-model="emailConfiguration.smtpSecurityType"
+                  optionLabel="TLS"
+                  value="tls"
+                />
+              </oxd-input-group>
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
 
         <oxd-divider />
 
