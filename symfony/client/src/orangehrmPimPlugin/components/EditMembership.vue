@@ -60,7 +60,7 @@
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="Subscription Commence Date"
               v-model="membership.subscriptionCommenceDate"
               type="date"
@@ -69,7 +69,7 @@
             />
           </oxd-grid-item>
           <oxd-grid-item>
-            <oxd-input-field
+            <date-input
               label="Subscription Renewal Date"
               v-model="membership.subscriptionRenewalDate"
               type="date"
@@ -98,6 +98,8 @@
 
 <script>
 import {
+  max,
+  required,
   digitsOnly,
   validDateFormat,
   endDateShouldBeAfterStartDate,
@@ -147,6 +149,7 @@ export default {
       membership: {...membershipModel},
       yearArray: [...yearRange()],
       rules: {
+        membership: required,
         subscriptionRenewalDate: [
           validDateFormat(),
           endDateShouldBeAfterStartDate(
@@ -154,7 +157,7 @@ export default {
             'Renewal date should be after the commencing date',
           ),
         ],
-        subscriptionFee: [digitsOnly],
+        subscriptionFee: [digitsOnly, max(1000000000)],
       },
     };
   },
