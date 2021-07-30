@@ -27,10 +27,10 @@
             Custom Fields
           </oxd-text>
           <oxd-text class="--infotext" tag="p" v-if="remainingFields > 0">
-            Remaining Number of Custom Fields: {{ remainingFields }}
+            Remaining number of custom fields: {{ remainingFields }}
           </oxd-text>
           <oxd-text class="--infotext" tag="p" v-else>
-            All Customs Fields are in use
+            All custom fields are in use
           </oxd-text>
         </div>
         <oxd-button
