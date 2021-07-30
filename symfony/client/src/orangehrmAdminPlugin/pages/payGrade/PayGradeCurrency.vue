@@ -124,7 +124,7 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'name', slot: 'title', title: 'Currency', style: {flex: 3}},
+        {name: 'name', slot: 'title', title: 'Currency', style: {flex: 2}},
         {name: 'minSalary', title: 'Minimum Salary', style: {flex: 1}},
         {name: 'maxSalary', title: 'Maximum Salary', style: {flex: 1}},
         {

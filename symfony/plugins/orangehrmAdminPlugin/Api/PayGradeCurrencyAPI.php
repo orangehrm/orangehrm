@@ -262,6 +262,7 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
         $payGradeCurrency = $this->getPayGradeService()->getCurrencyByCurrencyIdAndPayGradeId($currencyId, $payGradeId);
         $currencyType = $this->getReference(CurrencyType::class, $currencyId);
         $payGrade = $this->getReference(PayGrade::class, $payGradeId);
+        $this->throwRecordNotFoundExceptionIfNotExist($payGrade, PayGrade::class);
         if(!$payGradeCurrency instanceof PayGradeCurrency){
             $payGradeCurrency = new PayGradeCurrency();
             $payGradeCurrency->setPayGrade($payGrade);
@@ -269,7 +270,6 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
         }
         $payGradeCurrency->setMinSalary($minSalary);
         $payGradeCurrency->setMaxSalary($maxSalary);
-
         $payGradeCurrency = $this->getPayGradeService()->savePayGradeCurrency($payGradeCurrency);
         return  $payGradeCurrency;
     }
