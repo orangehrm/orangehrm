@@ -1,17 +1,17 @@
 {
-    "admin": {
-        "userName": "Admin",
-        "password": "admin@OHRM123",
-        "fullName": "Jacqueline White"
-    },
-    "john": {
-        "userName": "John",
-        "password": "John@123",
-        "fullName": "John Perera"
-    },
-    "mike": {
-        "userName": "Mike",
-        "password": "Mike@123",
-        "fullName": "Mike Combas"
-    }
+  "admin": {
+    "userName": "Admin",
+    "password": "admin@OHRM123",
+    "fullName": "Jacqueline White"
+  },
+  "john": {
+    "userName": "John",
+    "password": "John@123",
+    "fullName": "John Perera"
+  },
+  "mike": {
+    "userName": "Mike",
+    "password": "Mike@123",
+    "fullName": "Mike Combas"
+  }
 }
