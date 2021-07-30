@@ -20,6 +20,7 @@
 namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\PayGradeDao;
+use OrangeHRM\Admin\Dto\PayGradeCurrencySearchFilterParams;
 use OrangeHRM\Admin\Dto\PayGradeSearchFilterParams;
 use OrangeHRM\Admin\Service\Model\CurrencyModel;
 use OrangeHRM\Admin\Service\Model\PayGradeModel;
@@ -89,6 +90,16 @@ class PayGradeService
     public function getCurrencyListByPayGradeId(int $payGradeId): array
     {
         return $this->getPayGradeDao()->getCurrencyListByPayGradeId($payGradeId);
+    }
+
+    /**
+     * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getCurrencyCountByPayGradeId(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams): int
+    {
+        return $this->getPayGradeDao()->getCurrencyCountByPayGradeId($payGradeCurrencySearchFilterParams);
     }
 
     /**
@@ -176,6 +187,16 @@ class PayGradeService
     }
 
     /**
+     * @param PayGradeCurrency $payGradeCurrency
+     * @return PayGradeCurrency
+     * @throws DaoException
+     */
+    public function savePayGradeCurrency(PayGradeCurrency $payGradeCurrency): PayGradeCurrency
+    {
+        return $this->getPayGradeDao()->savePayGradeCurrency($payGradeCurrency);
+    }
+
+    /**
      * @param array $toBeDeletedIds
      * @return int
      * @throws DaoException
@@ -183,5 +204,31 @@ class PayGradeService
     public function deletePayGrade(array $toBeDeletedIds): int
     {
         return $this->getPayGradeDao()->deletePayGrade($toBeDeletedIds);
+    }
+
+    /**
+     * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
+     * @return int|mixed|string
+     * @throws DaoException
+     */
+    public function getAllowedPayCurrencies(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams)
+    {
+        return $this->getPayGradeDao()->getAllowedPayCurrencies($payGradeCurrencySearchFilterParams);
+    }
+
+    public function getAllowedPayCurrenciesCount(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams)
+    {
+        return $this->getPayGradeDao()->getAllowedPayCurrenciesCount($payGradeCurrencySearchFilterParams);
+    }
+
+    /**
+     * @param int $payGradeId
+     * @param array $toBeDeletedIds
+     * @return int|mixed|string
+     * @throws DaoException
+     */
+    public function deletePayGradeCurrency(int $payGradeId, array $toBeDeletedIds): int
+    {
+        return $this->getPayGradeDao()->deletePayGradeCurrency($payGradeId, $toBeDeletedIds);
     }
 }

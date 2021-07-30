@@ -18,6 +18,17 @@
  */
  -->
 <template>
+  <save-pay-currency
+    v-if="showSaveModal"
+    :payGradeId="payGradeId"
+    @close="onSaveModalClose"
+  ></save-pay-currency>
+  <edit-pay-currency
+    v-if="showEditModal"
+    :data="editModalState"
+    :payGradeId="payGradeId"
+    @close="onEditModalClose"
+  ></edit-pay-currency>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <inline-action-button @click="onclickAdd">
@@ -52,6 +63,7 @@ import InlineActionButton from '@/orangehrmAdminPlugin/components/InlineActionBu
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import SavePayCurrency from '@/orangehrmAdminPlugin/pages/payGrade/SavePayCurrency.vue';
+import EditPayCurrency from '@/orangehrmAdminPlugin/pages/payGrade/EditPayCurrency.vue';
 import DeleteConfirmationDialog from '@/core/components/dialogs/DeleteConfirmationDialog';
 
 const PayGradeCurrencyNormalizer = data => {
@@ -70,6 +82,7 @@ export default {
   components: {
     'inline-action-button': InlineActionButton,
     'save-pay-currency': SavePayCurrency,
+    'edit-pay-currency': EditPayCurrency,
     'delete-confirmation': DeleteConfirmationDialog,
   },
   props: {
@@ -149,6 +162,59 @@ export default {
       this.showEditModal = false;
       this.editModalState = null;
       this.showSaveModal = true;
+    },
+    onClickDelete(item) {
+      if (!this.selectable) return;
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems([item.id]);
+        }
+      });
+    },
+    onClickDeleteSelected() {
+      if (!this.selectable) return;
+      const ids = this.checkedItems.map(index => {
+        return this.items?.data[index].id;
+      });
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems(ids);
+        }
+      });
+    },
+    deleteItems(items) {
+      if (items instanceof Array) {
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
+      }
+    },
+    onSaveModalClose() {
+      this.showSaveModal = false;
+      this.resetDataTable();
+    },
+    async resetDataTable() {
+      this.checkedItems = [];
+      await this.execQuery();
+    },
+    onClickEdit(item) {
+      this.showSaveModal = false;
+      this.editModalState = item;
+      this.showEditModal = true;
+    },
+    onEditModalClose() {
+      this.showEditModal = false;
+      this.editModalState = null;
+      this.resetDataTable();
     },
   },
 
