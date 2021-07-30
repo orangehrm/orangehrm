@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Add Nationality</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        Add Nationality
+      </oxd-text>
 
       <oxd-divider />
 

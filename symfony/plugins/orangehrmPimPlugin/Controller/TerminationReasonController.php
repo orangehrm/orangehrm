@@ -22,6 +22,7 @@ namespace OrangeHRM\Pim\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Pim\Service\TerminationReasonConfigurationService;
 
 class TerminationReasonController extends AbstractVueController
@@ -42,7 +43,10 @@ class TerminationReasonController extends AbstractVueController
         return $this->terminationReasonService;
     }
 
-    public function init(): void
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
         $component = new Component('termination-reason-list');
         $reasonsInUse = $this->getTerminationReasonService()->getReasonIdsInUse();

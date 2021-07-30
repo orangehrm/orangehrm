@@ -21,8 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6">Edit Nationality</oxd-text>
-
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        Edit Nationality
+      </oxd-text>
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
