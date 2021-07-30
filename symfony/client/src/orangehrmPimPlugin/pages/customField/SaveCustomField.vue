@@ -155,7 +155,7 @@ export default {
           extraData: fieldType === 1 ? this.customField.extraData : null,
         })
         .then(() => {
-          return this.$toast.updateSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();
