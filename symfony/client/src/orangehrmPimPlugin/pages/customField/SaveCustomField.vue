@@ -165,7 +165,21 @@ export default {
       navigate('/pim/listCustomFields');
     },
   },
-
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.fieldName.push(v => {
+          const index = data.findIndex(item => item.fieldName == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
   computed: {
     isDropDownField() {
       return this.customField.fieldType[0]?.id === 1;

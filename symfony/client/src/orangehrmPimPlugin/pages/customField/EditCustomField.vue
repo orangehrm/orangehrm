@@ -197,6 +197,16 @@ export default {
           ];
         }
         this.customField.extraData = data.extraData;
+
+        // Fetch list data for unique test
+        return this.http.getAll();
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.fieldName.push(v => {
+          const index = data.findIndex(item => item.fieldName == v);
+          return index === -1 || 'Already exists';
+        });
       })
       .finally(() => {
         this.isLoading = false;
