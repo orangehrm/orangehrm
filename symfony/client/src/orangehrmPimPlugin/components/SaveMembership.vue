@@ -33,6 +33,7 @@
               label="Membership"
               v-model="membership.membership"
               :options="memberships"
+              :rules="rules.membership"
               required
             />
           </oxd-grid-item>
