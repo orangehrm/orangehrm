@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Pim\Service;
 
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Pim\Dao\CustomFieldDao;
 
 class CustomFieldService
@@ -85,5 +86,37 @@ class CustomFieldService
             },
             $fieldKeys
         );
+    }
+
+    /**
+     * @param array $toDeleteIds
+     * @return bool
+     * @throws DaoException
+     */
+    public function isDeleteCustomFieldsPossible(array $toDeleteIds): bool
+    {
+        foreach ($toDeleteIds as $id) {
+            if ($this->getCustomFieldDao()->isCustomFieldInUse($id)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param int $customFieldId
+     * @param string $newExtraData
+     * @throws DaoException
+     */
+    public function deleteRelatedEmployeeCustomFieldsExtraData(int $customFieldId, string $newExtraData): void
+    {
+        $prevExtraData = $this->getCustomFieldDao()->getCustomFieldById($customFieldId)->getExtraData();
+        $prevExtraDataArray = array_map('trim', explode(',', $prevExtraData));
+        $newExtraDataArray = array_map('trim', explode(',', $newExtraData));
+        foreach ($prevExtraDataArray as $extraData) {
+            if (!in_array($extraData, $newExtraDataArray)) {
+                $this->getCustomFieldDao()->updateEmployeesIfDropDownValueInUse($customFieldId, $extraData);
+            }
+        }
     }
 }

@@ -158,8 +158,15 @@ export default {
           fieldType: fieldType,
           extraData: fieldType === 1 ? this.customField.extraData : null,
         })
-        .then(() => {
-          return this.$toast.updateSuccess();
+        .then(response => {
+          if (response.data.meta.inUse === 0) {
+            return this.$toast.updateSuccess();
+          } else {
+            return this.$toast.warn({
+              title: 'Warning',
+              message: 'Custom field in use',
+            });
+          }
         })
         .then(() => {
           this.onCancel();

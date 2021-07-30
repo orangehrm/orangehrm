@@ -50,6 +50,8 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_SCREEN_MAX_LENGTH = 100;
     public const PARAM_RULE_EXTRA_DATA_MAX_LENGTH = 250;
 
+    public const IN_USE = 'inUse';
+
     /**
      * @var null|CustomFieldService
      */
@@ -92,6 +94,28 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
         );
+    }
+
+    private function getBodyParameters(): array
+    {
+        $name = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_NAME
+
+        );
+        $type = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_TYPE
+        );
+        $screen = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_SCREEN
+        );
+        $extraData = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_EXTRA_DATA
+        );
+        return [$name, $type, $screen, $extraData];
     }
 
     /**
@@ -223,14 +247,29 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         $id = $this->getUrlAttributes();
+        list($name, $type, $screen, $extraData) = $this->getBodyParameters();
         $customField = $this->getCustomFieldService()
             ->getCustomFieldDao()
             ->getCustomFieldById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($customField, CustomField::class);
-        $this->saveCustomField($customField);
-
+        if ($extraData !== $customField->getExtraData() && is_string($extraData)) {
+            $this->getCustomFieldService()->deleteRelatedEmployeeCustomFieldsExtraData($id, $extraData);
+        }
+        $inUse = 0;
+        if ($type !== $customField->getType() && $this->getCustomFieldService()->getCustomFieldDao(
+            )->isCustomFieldInUse($id)) {
+            $inUse = 1;
+        } else {
+            $this->saveCustomField($customField);
+        }
         return new EndpointResourceResult(
-            CustomFieldModel::class, $customField,
+            CustomFieldModel::class,
+            $customField,
+            new ParameterBag(
+                [
+                    self::IN_USE => $inUse,
+                ]
+            )
         );
     }
 
@@ -253,9 +292,20 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResourceResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getCustomFieldService()->getCustomFieldDao()->deleteCustomFields($ids);
+        $inUse = 0;
+        if ($this->getCustomFieldService()->isDeleteCustomFieldsPossible($ids)) {
+            $this->getCustomFieldService()->getCustomFieldDao()->deleteCustomFields($ids);
+        } else {
+            $inUse = 1;
+        }
         return new EndpointResourceResult(
-            ArrayModel::class, $ids,
+            ArrayModel::class,
+            $ids,
+            new ParameterBag(
+                [
+                    self::IN_USE => $inUse,
+                ]
+            )
         );
     }
 
@@ -274,31 +324,11 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
 
     public function setCustomField(CustomField $customField)
     {
-        $customField->setName(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_NAME
-
-            )
-        );
-        $customField->setType(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_TYPE
-            )
-        );
-        $customField->setScreen(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_SCREEN
-            )
-        );
-        $customField->setExtraData(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_EXTRA_DATA
-            )
-        );
+        list($name, $type, $screen, $extraData) = $this->getBodyParameters();
+        $customField->setName($name);
+        $customField->setType($type);
+        $customField->setScreen($screen);
+        $customField->setExtraData($extraData);
     }
 
     /**
