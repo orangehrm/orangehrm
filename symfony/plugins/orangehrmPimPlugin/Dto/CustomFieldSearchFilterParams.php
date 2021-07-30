@@ -35,6 +35,69 @@ class CustomFieldSearchFilterParams extends FilterParams
      */
     private ?array $fieldNumbers = null;
 
+    /**
+     * @var string|null
+     */
+    private ?string $type = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $name = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $extraData = null;
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string|null $type
+     */
+    public function setType(?string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getExtraData(): ?string
+    {
+        return $this->extraData;
+    }
+
+    /**
+     * @param string|null $extraData
+     */
+    public function setExtraData(?string $extraData): void
+    {
+        $this->extraData = $extraData;
+    }
+
     public function __construct()
     {
         $this->setSortField('cf.name');
