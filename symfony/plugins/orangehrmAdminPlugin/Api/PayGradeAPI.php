@@ -62,10 +62,9 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      * @param PayGradeService $payGradeService
      * @return $this
      */
-    public function setPayGradeService(PayGradeService $payGradeService)
+    public function setPayGradeService(PayGradeService $payGradeService): void
     {
         $this->payGradeService = $payGradeService;
-        return $this;
     }
 
     /**

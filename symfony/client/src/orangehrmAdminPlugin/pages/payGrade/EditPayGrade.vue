@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import {reloadPage} from '@orangehrm/core/util/helper/navigation';
+import {navigate, reloadPage} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {
   required,
@@ -111,11 +111,11 @@ export default {
           return this.$toast.updateSuccess();
         })
         .then(() => {
-          this.onCancel();
+          reloadPage();
         });
     },
     onCancel() {
-      reloadPage();
+      navigate('/admin/viewPayGrades');
     },
   },
   created() {
