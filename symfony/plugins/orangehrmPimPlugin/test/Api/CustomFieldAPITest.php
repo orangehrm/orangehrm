@@ -290,7 +290,7 @@ class CustomFieldAPITest extends EndpointTestCase
             ->onlyMethods(['getCustomFieldDao'])
             ->getMock();
 
-        $customFieldService->expects($this->exactly(2))
+        $customFieldService->expects($this->exactly(3))
             ->method('getCustomFieldDao')
             ->willReturn($customFieldDao);
 
@@ -309,7 +309,7 @@ class CustomFieldAPITest extends EndpointTestCase
             ]
         )->onlyMethods(['getCustomFieldService'])
             ->getMock();
-        $api->expects($this->exactly(2))
+        $api->expects($this->exactly(3))
             ->method('getCustomFieldService')
             ->will($this->returnValue($customFieldService));
 
