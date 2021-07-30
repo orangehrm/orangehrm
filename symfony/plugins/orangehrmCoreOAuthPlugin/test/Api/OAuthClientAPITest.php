@@ -21,7 +21,6 @@ namespace OrangeHRM\Tests\OAuth\Api;
 
 
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Api\OAuthClientAPI;
@@ -171,8 +170,8 @@ class OAuthClientAPITest extends EndpointTestCase
             [
                 RequestParams::PARAM_TYPE_BODY => [
                     OAuthClientAPI::PARAMETER_CLIENT_ID => 'Test',
-                    OAuthClientAPI::PARAMETER_CLIENT_SECRET=> 'TEST',
-                    OAuthClientAPI::PARAMETER_REDIRECT_URI=> '',
+                    OAuthClientAPI::PARAMETER_CLIENT_SECRET => 'TEST',
+                    OAuthClientAPI::PARAMETER_REDIRECT_URI => '',
                 ]
             ]
         )->onlyMethods(['getOAuthService'])
@@ -375,8 +374,8 @@ class OAuthClientAPITest extends EndpointTestCase
             [
                 RequestParams::PARAM_TYPE_BODY => [
                     OAuthClientAPI::PARAMETER_CLIENT_ID => 'TestNew',
-                    OAuthClientAPI::PARAMETER_CLIENT_SECRET=> 'TESTNEW',
-                    OAuthClientAPI::PARAMETER_REDIRECT_URI=> '',
+                    OAuthClientAPI::PARAMETER_CLIENT_SECRET => 'TESTNEW',
+                    OAuthClientAPI::PARAMETER_REDIRECT_URI => '',
                 ],
                 RequestParams::PARAM_TYPE_QUERY => [
                     OAuthClientAPI::PARAMETER_CLIENT_ID => 'Test',

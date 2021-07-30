@@ -24,7 +24,7 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 
-class OAuthClientController  extends AbstractVueController
+class OAuthClientController extends AbstractVueController
 {
     public function init(): void
     {

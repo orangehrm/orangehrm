@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -49,6 +48,20 @@ class OAuthClient
      * @ORM\Column(name="redirect_uri", type="string", length=2000, nullable=false)
      */
     private string $redirectUri;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="scope", nullable=true, type="string", length=4000)
+     */
+    private ?string $scope;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="grant_types", nullable=true, type="string", length=80)
+     */
+    private ?string $grantTypes;
 
     /**
      * @return string
@@ -129,18 +142,4 @@ class OAuthClient
     {
         $this->grantTypes = $grantTypes;
     }
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="scope", type="string", length=4000)
-     */
-    private string $scope;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="grant_types", type="string", length=80)
-     */
-    private string $grantTypes;
 }

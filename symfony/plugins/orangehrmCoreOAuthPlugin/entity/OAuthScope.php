@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -36,11 +35,11 @@ class OAuthScope
     private string $scope;
 
     /**
-     * @var string
+     * @var bool
      *
      * @ORM\Column(name="is_default", type="boolean", nullable=true, options={"default":0})
      */
-    private string $isDefault;
+    private bool $isDefault;
 
     /**
      * @return string
@@ -59,20 +58,18 @@ class OAuthScope
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getIsDefault(): string
+    public function isDefault(): bool
     {
         return $this->isDefault;
     }
 
     /**
-     * @param string $isDefault
+     * @param bool $isDefault
      */
-    public function setIsDefault(string $isDefault): void
+    public function setIsDefault(bool $isDefault): void
     {
         $this->isDefault = $isDefault;
     }
-
-
 }

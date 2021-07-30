@@ -23,12 +23,17 @@ namespace OrangeHRM\OAuth\Api;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
+use OrangeHRM\Core\Api\V2\Validator\Rule;
+use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\OAuthClient;
 use OrangeHRM\OAuth\Api\Model\OAuthClientModel;
@@ -36,9 +41,6 @@ use OrangeHRM\OAuth\Constant\GrantType;
 use OrangeHRM\OAuth\Constant\Scope;
 use OrangeHRM\OAuth\Dto\OAuthClientSearchFilterParams;
 use OrangeHRM\OAuth\Service\OAuthService;
-use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
-use OrangeHRM\Core\Api\V2\ParameterBag;
-use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 
 
 class OAuthClientAPI extends Endpoint implements CrudEndpoint
@@ -47,6 +49,10 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_CLIENT_ID = 'clientId';
     public const PARAMETER_CLIENT_SECRET = 'clientSecret';
     public const PARAMETER_REDIRECT_URI = 'redirectUri';
+
+    public const PARAM_RULE_CLIENT_ID_MAX_LENGTH = 80;
+    public const PARAM_RULE_CLIENT_SECRET_MAX_LENGTH = 80;
+    public const PARAM_RULE_REDIRECT_URI_MAX_LENGTH = 2000;
 
     /**
      * @var null|OAuthService
@@ -98,7 +104,6 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResult
     {
-        // TODO:: Check data group permission
         $oAuthClient = $this->saveOAuthClient();
 
         return new EndpointResourceResult(OAuthClientModel::class, $oAuthClient);
@@ -120,9 +125,18 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     private function getCommonBodyValidationRules(): array
     {
         return [
-            new ParamRule(self::PARAMETER_CLIENT_ID),
-            new ParamRule(self::PARAMETER_CLIENT_SECRET),
-            new ParamRule(self::PARAMETER_REDIRECT_URI),
+            new ParamRule(
+                self::PARAMETER_CLIENT_ID, new Rule(Rules::STRING_TYPE), new Rule(Rules::REQUIRED),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_ID_MAX_LENGTH])
+            ),
+            new ParamRule(
+                self::PARAMETER_CLIENT_SECRET, new Rule(Rules::STRING_TYPE), new Rule(Rules::REQUIRED),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_CLIENT_SECRET_MAX_LENGTH])
+            ),
+            new ParamRule(
+                self::PARAMETER_REDIRECT_URI, new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_REDIRECT_URI_MAX_LENGTH])
+            ),
         ];
     }
 
@@ -153,9 +167,7 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
     {
         $id = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_CLIENT_ID);
         $oAuthClient = $this->getOAuthService()->getOAuthClientByClientId($id);
-        if (!$oAuthClient instanceof OAuthClient) {
-            throw new RecordNotFoundException();
-        }
+        $this->throwRecordNotFoundExceptionIfNotExist($oAuthClient, OAuthClient::class);
 
         return new EndpointResourceResult(OAuthClientModel::class, $oAuthClient);
     }
@@ -197,16 +209,22 @@ class OAuthClientAPI extends Endpoint implements CrudEndpoint
      */
     public function saveOAuthClient(): OAuthClient
     {
-        // TODO:: Check data group permission
         $clientId = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CLIENT_ID);
-        $existingClientId = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_QUERY, self::PARAMETER_CLIENT_ID);
-        $clientSecret = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CLIENT_SECRET);
-        $redirectUri = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_REDIRECT_URI);
+        $existingClientId = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_QUERY,
+            self::PARAMETER_CLIENT_ID
+        );
+        $clientSecret = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_CLIENT_SECRET
+        );
+        $redirectUri = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_REDIRECT_URI
+        );
         if (!empty($existingClientId)) {
             $oAuthClient = $this->getOAuthService()->getOAuthClientByClientId($existingClientId);
-            if ($oAuthClient == null) {
-                throw new RecordNotFoundException();
-            }
+            $this->throwRecordNotFoundExceptionIfNotExist($oAuthClient, OAuthClient::class);
         } else {
             $oAuthClient = new OAuthClient();
             $oAuthClient->setGrantTypes(GrantType::CLIENT_CREDENTIALS);
