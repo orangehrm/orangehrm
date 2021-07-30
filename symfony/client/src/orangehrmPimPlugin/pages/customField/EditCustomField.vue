@@ -40,8 +40,8 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                type="select"
                 label="Screen"
-                type="dropdown"
                 v-model="customField.screen"
                 :rules="rules.screen"
                 :options="screenList"
@@ -54,8 +54,8 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item class="organization-name-container">
               <oxd-input-field
+                type="select"
                 label="Type"
-                type="dropdown"
                 v-model="customField.fieldType"
                 :rules="rules.fieldType"
                 :options="fieldTypeList"
@@ -94,14 +94,12 @@
 </template>
 
 <script>
-import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@orangehrm/core/util/services/api.service';
-import {
-  required,
-  shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+import { navigate } from '@orangehrm/core/util/helper/navigation'
+import { APIService } from '@orangehrm/core/util/services/api.service'
+import { required, shouldNotExceedCharLength } from '@orangehrm/core/util/validation/rules'
 
 const customFieldModel = {
+  id: null,
   fieldName: '',
   screen: '',
   fieldType: '',
@@ -153,8 +151,8 @@ export default {
       this.http
         .update(this.customFieldId, {
           fieldName: this.customField.fieldName,
-          screen: this.customField.screen.map(item => item.id)[0],
-          fieldType: this.customField.fieldType.map(item => item.id)[0],
+          screen: this.customField.screen.id,
+          fieldType: this.customField.fieldType.id,
           extraData: this.customField.extraData,
         })
         .then(response => {
@@ -183,18 +181,14 @@ export default {
         const {data} = response.data;
         this.customField.fieldName = data.fieldName;
         if (data.screen !== '' && data.screen !== null) {
-          this.customField.screen = [
-            this.screenList.find(c => {
-              return c.id === data.screen;
-            }),
-          ];
+          this.customField.screen = this.screenList.find(c => {
+            return c.id === data.screen;
+          });
         }
         if (data.fieldType !== '' && data.fieldType !== null) {
-          this.customField.fieldType = [
-            this.fieldTypeList.find(c => {
-              return c.id === data.fieldType;
-            }),
-          ];
+          this.customField.fieldType = this.fieldTypeList.find(c => {
+            return c.id === data.fieldType;
+          });
         }
         this.customField.extraData = data.extraData;
 
@@ -204,8 +198,13 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.rules.fieldName.push(v => {
-          const index = data.findIndex(item => item.fieldName == v);
-          return index === -1 || 'Already exists';
+          const index = data.findIndex(item => item.fieldName === v);
+          if (index > -1) {
+            const id = data[index].id;
+            return id != this.customFieldId ? 'Already exists' : true;
+          } else {
+            return true;
+          }
         });
       })
       .finally(() => {
@@ -215,7 +214,7 @@ export default {
 
   computed: {
     isDropDownField() {
-      return this.customField.fieldType[0]?.id === 1;
+      return this.customField.fieldType?.id === 1;
     },
   },
 };
