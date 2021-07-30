@@ -19,11 +19,7 @@
  -->
 
 <template>
-  <oxd-alert
-      :show="true"
-      type="warn"
-      message="Bad Request"
-  ></oxd-alert>
+  <oxd-alert :show="true" type="warn" message="Bad Request"></oxd-alert>
 </template>
 
 <script>

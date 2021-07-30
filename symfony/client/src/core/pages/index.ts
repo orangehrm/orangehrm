@@ -20,6 +20,6 @@ import NoRecordsFound from './NoRecordsFound.vue';
 import BadRequest from './BadRequest.vue';
 
 export default {
-    'bad-request': BadRequest,
-    'no-records-found': NoRecordsFound,
+  'bad-request': BadRequest,
+  'no-records-found': NoRecordsFound,
 };

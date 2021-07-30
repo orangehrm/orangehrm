@@ -23,7 +23,7 @@ describe('core/util/helper/year-range', () => {
   const range = 100;
   const value = new Array(range);
   for (let i = 0; i < range; i++) {
-    value[i] = currentTime.getFullYear() - Math.floor(range/2) + i;
+    value[i] = currentTime.getFullYear() - Math.floor(range / 2) + i;
   }
 
   test('all the years', () => {

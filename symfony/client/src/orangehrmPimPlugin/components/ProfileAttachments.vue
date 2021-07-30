@@ -229,7 +229,7 @@ export default {
         cellType: 'oxd-table-cell-actions',
         cellConfig: {},
       };
-      if (this.$can.update(`${screen}_attachment`)) {
+      if (this.$can.update(`${this.screen}_attachment`)) {
         headerActions.cellConfig.edit = {
           onClick: this.onClickEdit,
           props: {
@@ -237,7 +237,7 @@ export default {
           },
         };
       }
-      if (this.$can.delete(`${screen}_attachment`)) {
+      if (this.$can.delete(`${this.screen}_attachment`)) {
         headerActions.cellConfig.delete = {
           onClick: this.onClickDelete,
           component: 'oxd-icon-button',
@@ -246,7 +246,7 @@ export default {
           },
         };
       }
-      if (this.$can.read(`${screen}_attachment`)) {
+      if (this.$can.read(`${this.screen}_attachment`)) {
         headerActions.cellConfig.download = {
           onClick: this.onClickDownload,
           props: {
