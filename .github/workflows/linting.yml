@@ -8,7 +8,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Install npm dependencies
+      - name: Install node dependencies
         run: cd symfony/client && yarn install
+
       - name: Lint
         run: cd symfony/client && yarn lint
+
+      - name: Lint Cypress tests
+        run: cd symfony/test/functional && yarn install && yarn lint

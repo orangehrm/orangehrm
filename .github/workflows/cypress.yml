@@ -1,0 +1,106 @@
+name: Cypress
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Environment
+        uses: actions/checkout@v2
+        with:
+          repository: orangehrm/orangehrm-os-dev-environment
+
+      - name: Checkout OrangeHRM
+        uses: actions/checkout@v2
+        with:
+          path: html
+
+      - name: Configure Docker Environment
+        run: |
+          pwd
+          ls -la
+          ls html
+          git rev-parse HEAD
+          echo "git_hash=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          cp .env.dist .env
+          sed -i "s~LOCAL_SRC=/your/src/path~LOCAL_SRC=$PWD/html~g" .env
+          echo "127.0.0.1 php56 php70 php71 php72 php73 php74 php80" | sudo tee -a /etc/hosts
+          docker version
+          docker info
+          docker images
+
+      - name: Cache docker image
+        id: cache-docker-images
+        uses: actions/cache@v2
+        with:
+          path: image-cache
+          key: images-${{ env.git_hash }}
+
+      - name: Build docker image
+        if: steps.cache-docker-images.outputs.cache-hit != 'true'
+        run: |
+          set -ex
+          docker-compose -f docker-compose.yml -f docker-compose-build.yml build nginx php-8.0
+          docker images
+          mkdir image-cache
+          docker save --output image-cache/images.tar samanthajayasinghe/ohrm-nginx samanthajayasinghe/ohrm-php80
+          ls -sh image-cache/images.tar
+
+      - name: Load docker image from cache
+        if: steps.cache-docker-images.outputs.cache-hit == 'true'
+        run: |
+          ls image-cache
+          docker load --input image-cache/images.tar
+
+      - name: Start docker containers
+        run: |
+          docker-compose up -d php-8.0 mysql55
+          docker ps
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: |
+          cd html
+          git rev-parse HEAD
+          cd symfony/client && yarn install
+          docker exec os_dev_php80 bash -c 'cd symfony && composer install'
+
+      - name: Install OrangeHRM
+        run: |
+          docker exec os_dev_php80 bash -c 'cd symfony/client && yarn build'
+          docker exec os_dev_php80 bash -c 'sed -i 's/127.0.0.1/mysql55/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c 'sed -i 's/Ohrm@1423/Admin@123/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c 'sed -i 's/1234/root/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c 'sed -i 's/ABCD/Samantha/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c 'sed -i 's/XYZ/Jayasinghe/g' installer/config.ini'
+          docker exec os_dev_php80 bash -c 'chmod -R 777 symfony/log'
+          docker exec os_dev_php80 bash -c 'chmod -R 777 symfony/config'
+          docker exec os_dev_php80 bash -c 'php installer/cli_install.php 0'
+
+      - name: Run tests
+        run: |
+          cd html/symfony/test/functional
+          sed -i 's~http://php80/orangehrm/web/index.php~http://php80/web/index.php~g' cypress.json
+          sed -i 's~false~true~g' cypress.json
+          yarn install
+          yarn test
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: videos-${{ github.sha }}
+          path: html/symfony/test/functional/cypress/videos

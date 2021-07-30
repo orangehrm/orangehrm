@@ -1,7 +1,5 @@
 {
-    "baseUrl": "http://php80/orangehrm/web/index.php",
-    "defaultCommandTimeout": 2000,
-    "video": false
+  "baseUrl": "http://php80/orangehrm/web/index.php",
+  "defaultCommandTimeout": 6000,
+  "video": false
 }
-
-
