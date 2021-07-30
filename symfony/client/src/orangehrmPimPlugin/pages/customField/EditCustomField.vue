@@ -150,13 +150,12 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      const fieldType = this.customField.fieldType.map(item => item.id)[0];
       this.http
         .update(this.customFieldId, {
           fieldName: this.customField.fieldName,
           screen: this.customField.screen.map(item => item.id)[0],
-          fieldType: fieldType,
-          extraData: fieldType === 1 ? this.customField.extraData : null,
+          fieldType: this.customField.fieldType.map(item => item.id)[0],
+          extraData: this.customField.extraData,
         })
         .then(response => {
           if (response.data.meta.inUse === 0) {
