@@ -89,6 +89,10 @@ class PayGradeDao extends BaseDao
         }
     }
 
+    /**
+     * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
+     * @return Paginator
+     */
     public function getPayGradeCurrencyPaginator(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams): Paginator
     {
         $q = $this->createQueryBuilder(PayGradeCurrency::class, 'pgc');
@@ -311,7 +315,6 @@ class PayGradeDao extends BaseDao
         $q->setParameter('payGradeId', $payGradeCurrencySearchFilterParams->getPayGradeId());
         $this->setSortingAndPaginationParams($q, $payGradeCurrencySearchFilterParams);
         return $this->getPaginator($q);
-
 
     }
 }
