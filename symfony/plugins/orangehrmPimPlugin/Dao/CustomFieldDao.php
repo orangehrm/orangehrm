@@ -146,21 +146,6 @@ class CustomFieldDao extends BaseDao
                 ->setParameter('fieldNumbers', $customFieldSearchParams->getFieldNumbers());
         }
 
-        if (!empty($customFieldSearchParams->getName())) {
-            $q->andWhere('cf.name = :name')
-                ->setParameter('name', $customFieldSearchParams->getName());
-        }
-
-        if (!empty($customFieldSearchParams->getType())) {
-            $q->andWhere('cf.type = :type')
-                ->setParameter('type', $customFieldSearchParams->getType());
-        }
-
-        if (!empty($customFieldSearchParams->getExtraData())) {
-            $q->andWhere('cf.extraData = :extraData')
-                ->setParameter('extraData', $customFieldSearchParams->getExtraData());
-        }
-
         return $this->getPaginator($q);
     }
 

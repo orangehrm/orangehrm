@@ -154,15 +154,8 @@ export default {
           fieldType: fieldType,
           extraData: fieldType === 1 ? this.customField.extraData : null,
         })
-        .then(response => {
-          if (response.data.meta.duplicate === 1) {
-            return this.$toast.warn({
-              title: 'Warning',
-              message: 'Duplicate custom fields not allowed',
-            });
-          } else {
-            return this.$toast.saveSuccess();
-          }
+        .then(() => {
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();

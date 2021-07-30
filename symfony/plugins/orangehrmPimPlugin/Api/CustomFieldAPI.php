@@ -51,7 +51,6 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_EXTRA_DATA_MAX_LENGTH = 250;
 
     public const IN_USE = 'inUse';
-    public const DUPLICATE = 'duplicate';
 
     /**
      * @var null|CustomFieldService
@@ -182,37 +181,10 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
         if ($customFieldsCount >= 10) {
             throw $this->getBadRequestException();
         }
-        // check for duplicates
-        list($name, $type, $screen, $extraData) = $this->getBodyParameters();
-        $customFieldSearchParams = new CustomFieldSearchFilterParams();
-        $customFieldSearchParams->setName($name);
-        $customFieldSearchParams->setScreen($screen);
-        $customFieldSearchParams->setType($type);
-        $customFieldSearchParams->setExtraData($extraData);
-        $this->setSortingAndPaginationParams($customFieldSearchParams);
-        $customFieldsCount = $this->getCustomFieldService()->getCustomFieldDao()->getSearchCustomFieldsCount(
-            $customFieldSearchParams
-        );
-
-        $duplicate = 0;
         $customField = new CustomField();
-        if ($customFieldsCount > 0) {
-            $duplicate = 1;
-            $customField->setName('');
-            $customField->setType(0);
-            $customField->setScreen(null);
-        } else {
-            $customField = $this->saveCustomField($customField);
-        }
-
+        $customField = $this->saveCustomField($customField);
         return new EndpointResourceResult(
-            CustomFieldModel::class,
-            $customField,
-            new ParameterBag(
-                [
-                    self::DUPLICATE => $duplicate
-                ]
-            )
+            CustomFieldModel::class, $customField,
         );
     }
 
