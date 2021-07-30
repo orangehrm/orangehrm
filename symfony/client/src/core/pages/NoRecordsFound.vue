@@ -19,11 +19,7 @@
  -->
 
 <template>
-  <oxd-alert
-      :show="true"
-      type="warn"
-      message="No Records Found"
-  ></oxd-alert>
+  <oxd-alert :show="true" type="warn" message="No Records Found"></oxd-alert>
 </template>
 
 <script>
