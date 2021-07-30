@@ -67,10 +67,8 @@ class DataGroupDao extends BaseDao
             $q->leftJoin('p.userRole', 'ur');
             $q->andWhere('ur.id = :userRoleId');
             $q->setParameter('userRoleId', $userRoleId);
-            if ($dataGroups != null) {
-                $q->andWhere($q->expr()->in('d.name', ':dataGroups'))
-                    ->setParameter('dataGroups', $dataGroups);
-            }
+            $q->andWhere($q->expr()->in('d.name', ':dataGroups'))
+                ->setParameter('dataGroups', $dataGroups);
             $q->andWhere('p.self = :self')
                 ->setParameter('self', $selfPermission);
 

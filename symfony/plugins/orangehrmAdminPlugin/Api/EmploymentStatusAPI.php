@@ -76,7 +76,6 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $employmentStatus = $this->getEmploymentStatusService()->getEmploymentStatusById($id);
         if (!$employmentStatus instanceof EmploymentStatus) {
@@ -104,7 +103,6 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission
         $employmentStatusSearchParams = new EmploymentStatusSearchFilterParams();
         $this->setSortingAndPaginationParams($employmentStatusSearchParams);
         $employmentStatusSearchParams->setName(
@@ -146,7 +144,6 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $employmentStatus = $this->saveEmploymentStatus();
 
         return new EndpointResourceResult(EmploymentStatusModel::class, $employmentStatus);
@@ -168,7 +165,6 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $employmentStatus = $this->saveEmploymentStatus();
 
         return new EndpointResourceResult(EmploymentStatusModel::class, $employmentStatus);
@@ -195,7 +191,6 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      */
     public function saveEmploymentStatus(): EmploymentStatus
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
@@ -218,7 +213,6 @@ class EmploymentStatusAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEmploymentStatusService()->deleteEmploymentStatus($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);

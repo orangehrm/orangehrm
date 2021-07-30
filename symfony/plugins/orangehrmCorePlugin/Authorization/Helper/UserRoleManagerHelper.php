@@ -22,12 +22,23 @@ namespace OrangeHRM\Core\Authorization\Helper;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
 use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
+use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Framework\Services;
 
 class UserRoleManagerHelper
 {
-    use UserRoleManagerTrait;
+    use ServiceContainerTrait;
+
+    /**
+     * @return AbstractUserRoleManager|BasicUserRoleManager
+     */
+    private function getUserRoleManager(): AbstractUserRoleManager
+    {
+        return $this->getContainer()->get(Services::USER_ROLE_MANAGER);
+    }
 
     /**
      * @param string|string[] $dataGroupName
@@ -40,7 +51,7 @@ class UserRoleManagerHelper
             $dataGroupName,
             [],
             [],
-            $this->isSelf($empNumber),
+            $this->isSelfByEmpNumber($empNumber),
             is_null($empNumber) ? [] : [Employee::class => $empNumber]
         );
     }
@@ -57,7 +68,7 @@ class UserRoleManagerHelper
         $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
         $dataGroupPermissionFilterParams->setDataGroups($dataGroups);
         $dataGroupPermissionFilterParams->setEntities(is_null($empNumber) ? [] : [Employee::class => $empNumber]);
-        $dataGroupPermissionFilterParams->setSelfPermissions($this->isSelf($empNumber));
+        $dataGroupPermissionFilterParams->setSelfPermissions($this->isSelfByEmpNumber($empNumber));
         return $this->getUserRoleManager()->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
     }
 
@@ -65,7 +76,7 @@ class UserRoleManagerHelper
      * @param int|null $empNumber
      * @return bool
      */
-    protected function isSelf(?int $empNumber = null): bool
+    public function isSelfByEmpNumber(?int $empNumber = null): bool
     {
         $loggedInEmpNumber = $this->getUserRoleManager()->getUser()->getEmpNumber();
         return ($loggedInEmpNumber === $empNumber) && null !== $empNumber;

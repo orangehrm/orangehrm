@@ -146,7 +146,7 @@ export default {
           },
         })
         .then(() => {
-          return this.$toast.saveSuccess();
+          return this.$toast.updateSuccess();
         })
         .then(() => {
           this.onCancel();

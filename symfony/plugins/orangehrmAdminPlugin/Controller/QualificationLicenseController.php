@@ -21,10 +21,14 @@ namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Framework\Http\Request;
 
 class QualificationLicenseController extends AbstractVueController
 {
-    public function init(): void
+    /**
+     * @inheritDoc
+     */
+    public function preRender(Request $request): void
     {
         $component = new Component('license-list');
         $this->setComponent($component);

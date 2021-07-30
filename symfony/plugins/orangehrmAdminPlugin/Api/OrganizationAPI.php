@@ -95,7 +95,6 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $orgInfo = $this->getOrganizationService()->getOrganizationGeneralInformation();
         if (!$orgInfo instanceof Organization) {
             $orgInfo = new Organization();
@@ -171,7 +170,6 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $orgInfo = $this->saveOrganizationInfo();
 
         return new EndpointResourceResult(OrganizationModel::class, $orgInfo);
@@ -298,7 +296,6 @@ class OrganizationAPI extends Endpoint implements CrudEndpoint
      */
     public function saveOrganizationInfo(): Organization
     {
-        // TODO:: Check data group permission
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $taxId = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_TAX_ID);
         $registrationNumber = $this->getRequestParams()->getStringOrNull(

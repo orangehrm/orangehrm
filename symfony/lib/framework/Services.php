@@ -115,6 +115,12 @@ final class Services
      */
     public const USER_ROLE_MANAGER_HELPER = 'core.authorization.user_role_manager_helper';
 
+    /**
+     * @see \OrangeHRM\Framework\Cache\FilesystemAdapter
+     * @see \Symfony\Component\Cache\Adapter\AbstractAdapter
+     */
+    public const CACHE = 'core.cache';
+
     ///////////////////////////////////////////////////////////////
     /// Authentication plugin services
     ///////////////////////////////////////////////////////////////

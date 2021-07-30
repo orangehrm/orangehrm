@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Util;
 
+use DateTime;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\MappingException;
 use Exception;
@@ -401,6 +402,10 @@ class TestDataService
      * @param string $orderBy
      * @param bool $clearEntities
      * @return object|null
+     *
+     * @template T
+     * @psalm-param class-string<T> $alias
+     * @psalm-return ?T
      */
     public static function fetchLastInsertedRecord(string $alias, string $orderBy, bool $clearEntities = true): ?object
     {
@@ -464,6 +469,10 @@ class TestDataService
                         $setMethodName = "set" . ucfirst($fieldName);
                     }
                 }
+                $fieldType = self::getTypeForField($classMetadata, $attribute);
+                if ($fieldType === 'date' && !$value instanceof DateTime) {
+                    $value = new DateTime($value);
+                }
                 $object->$setMethodName($value);
             }
 
@@ -482,6 +491,25 @@ class TestDataService
     {
         try {
             return $classMetadata->getFieldForColumn($columnName);
+        } catch (\Doctrine\ORM\Mapping\MappingException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * @param ClassMetadata $classMetadata
+     * @param string $alias
+     * @return string|null
+     */
+    public static function getTypeForField(ClassMetadata $classMetadata, string $alias): ?string
+    {
+        try {
+            $fieldName = self::getFieldForColumn($classMetadata, $alias);
+            $fieldMapping = $classMetadata->getFieldMapping($fieldName ?? $alias);
+            if ($fieldMapping) {
+                return $fieldMapping['type'];
+            }
+            return null;
         } catch (\Doctrine\ORM\Mapping\MappingException $e) {
             return null;
         }
