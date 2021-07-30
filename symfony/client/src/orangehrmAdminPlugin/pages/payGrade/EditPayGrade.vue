@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {reloadPage} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import {
   required,
@@ -115,7 +115,7 @@ export default {
         });
     },
     onCancel() {
-      navigate('/admin/viewPayGrades');
+      reloadPage();
     },
   },
   created() {
@@ -126,7 +126,6 @@ export default {
         const {data} = response.data;
         this.grade.id = data.id;
         this.grade.name = data.name;
-        // Fetch list data for unique test
         return this.http.getAll();
       })
       .then(response => {

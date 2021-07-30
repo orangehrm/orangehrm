@@ -91,11 +91,10 @@ export default {
         .create({
           name: this.grade.name,
         })
-        .then(() => {
-          return this.$toast.addSuccess();
-        })
-        .then(() => {
-          this.onCancel();
+        .then(response => {
+          const {data} = response.data;
+          this.$toast.addSuccess();
+          navigate('/admin/editPayGrade/{id}', {id: data.id});
         });
     },
     onCancel() {
