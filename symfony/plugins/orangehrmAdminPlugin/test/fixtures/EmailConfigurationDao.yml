@@ -1,0 +1,2 @@
+EmailConfiguration:
+  0: {id: 1, mail_type: 'smtp', sent_as: 'test@orangehrm.com', smtp_host: 'smtp.gmail.com', smtp_port: 587, smtp_username: 'testUN', smtp_password: 'testPW', smtp_auth_type: 'login', smtp_security_type: 'tls'}

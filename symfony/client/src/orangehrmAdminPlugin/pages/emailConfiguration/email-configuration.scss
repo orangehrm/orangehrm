@@ -1,0 +1,23 @@
+::v-deep(.--status-grouped-field) {
+  display: flex;
+  max-width: 13rem;
+}
+
+.sendmail-path-value {
+  font-size : 12px;
+  padding: 0.675rem 0.5rem;
+}
+
+@import '@orangehrm/oxd/styles/_mixins.scss';
+.orangehrm-optional-field-row {
+  grid-column-start: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.orangehrm-optional-field-label {
+  @include oxd-input-control();
+  padding: 0;
+  flex-basis: 50%;
+}
