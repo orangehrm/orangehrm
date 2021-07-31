@@ -136,10 +136,10 @@ class PayGradeDaoTest extends TestCase
         $this->assertTrue($result instanceof PayGradeCurrency);
     }
 
-    public function testDeletePayGrade(): void
+    public function testDeletePayGrades(): void
     {
         $ids = [1,2];
-        $results = $this->payGradeDao->deletePayGrade($ids);
+        $results = $this->payGradeDao->deletePayGrades($ids);
         $this->assertEquals(2, $results);
     }
 

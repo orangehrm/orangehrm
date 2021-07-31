@@ -245,17 +245,17 @@ class PayGradeServiceTest extends TestCase
         $this->assertTrue($result instanceof PayGradeCurrency);
     }
 
-    public function testDeletePayGrade(): void
+    public function testDeletePayGrades(): void
     {
         $payGradeIds = [1];
 
         $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
         $payGradeDao->expects($this->once())
-            ->method('deletePayGrade')
+            ->method('deletePayGrades')
             ->with($payGradeIds)
             ->will($this->returnValue(1));
         $this->payGradeService->setPayGradeDao($payGradeDao);
-        $result = $this->payGradeService->deletePayGrade($payGradeIds);
+        $result = $this->payGradeService->deletePayGrades($payGradeIds);
         $this->assertEquals(1,$result);
     }
 
