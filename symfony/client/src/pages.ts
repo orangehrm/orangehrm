@@ -95,5 +95,5 @@ export default {
   'email-configuration-view': ViewEmailConfiguration,
   'pay-grade-list' : PayGrade,
   'pay-grade-add' : AddPayGrade,
-  'pay-grade-edit' : EditPayGrade
+  'pay-grade-edit' : EditPayGrade,
 };
