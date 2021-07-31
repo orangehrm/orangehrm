@@ -100,7 +100,6 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $payGrade = $this->savePayGrade();
         return new EndpointResourceResult(PayGradeModel::class, $payGrade);
     }
@@ -122,7 +121,6 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getPayGradeService()->deletePayGrades($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);
