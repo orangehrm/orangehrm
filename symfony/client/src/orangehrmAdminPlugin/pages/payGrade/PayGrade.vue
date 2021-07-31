@@ -27,10 +27,10 @@
         </oxd-text>
         <div>
         <oxd-button
-            label="Add"
-            iconName="plus"
-            displayType="secondary"
-            @click="onClickAdd"
+          label="Add"
+          iconName="plus"
+          displayType="secondary"
+          @click="onClickAdd"
           />
         </div>
       </div>

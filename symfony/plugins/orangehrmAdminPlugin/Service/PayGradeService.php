@@ -201,9 +201,9 @@ class PayGradeService
      * @return int
      * @throws DaoException
      */
-    public function deletePayGrade(array $toBeDeletedIds): int
+    public function deletePayGrades(array $toBeDeletedIds): int
     {
-        return $this->getPayGradeDao()->deletePayGrade($toBeDeletedIds);
+        return $this->getPayGradeDao()->deletePayGrades($toBeDeletedIds);
     }
 
     /**

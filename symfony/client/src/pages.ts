@@ -93,7 +93,7 @@ export default {
   'nationality-edit': EditNationality,
   'nationality-save': SaveNationality,
   'email-configuration-view': ViewEmailConfiguration,
-  'pay-grade-list' : PayGrade,
-  'pay-grade-add' : AddPayGrade,
-  'pay-grade-edit' : EditPayGrade,
+  'pay-grade-list': PayGrade,
+  'pay-grade-add': AddPayGrade,
+  'pay-grade-edit': EditPayGrade,
 };

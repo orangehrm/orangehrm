@@ -234,7 +234,7 @@ class PayGradeDao extends BaseDao
      * @return int
      * @throws DaoException
      */
-    public function deletePayGrade(array $tobeDeletedIds): int
+    public function deletePayGrades(array $tobeDeletedIds): int
     {
         try{
             $q = $this->createQueryBuilder(PayGrade::class,'pg');
@@ -250,7 +250,7 @@ class PayGradeDao extends BaseDao
     /**
      * @param int $payGradeId
      * @param array $toBeDeletedIds
-     * @return int|mixed|string
+     * @return int
      * @throws DaoException
      */
     public function deletePayGradeCurrency(int $payGradeId, array $toBeDeletedIds): int

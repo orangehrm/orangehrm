@@ -34,6 +34,9 @@ class PayGradeModel implements Normalizable
         $this->setEntity($payGrade);
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         $payGrade = $this->getEntity();
