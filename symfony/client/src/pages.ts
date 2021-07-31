@@ -52,7 +52,9 @@ import Nationality from '@/orangehrmAdminPlugin/pages/nationality/Nationality.vu
 import EditNationality from '@/orangehrmAdminPlugin/pages/nationality/EditNationality.vue';
 import SaveNationality from '@/orangehrmAdminPlugin/pages/nationality/SaveNationality.vue';
 import ViewEmailConfiguration from '@/orangehrmAdminPlugin/pages/emailConfiguration/ViewEmailConfiguration.vue';
-
+import PayGrade from '@/orangehrmAdminPlugin/pages/payGrade/PayGrade.vue';
+import AddPayGrade from '@/orangehrmAdminPlugin/pages/payGrade/AddPayGrade.vue';
+import EditPayGrade from '@/orangehrmAdminPlugin/pages/payGrade/EditPayGrade.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -91,5 +93,7 @@ export default {
   'nationality-edit': EditNationality,
   'nationality-save': SaveNationality,
   'email-configuration-view': ViewEmailConfiguration,
-
+  'pay-grade-list' : PayGrade,
+  'pay-grade-add' : AddPayGrade,
+  'pay-grade-edit' : EditPayGrade
 };

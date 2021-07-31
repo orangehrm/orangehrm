@@ -164,4 +164,24 @@ class PayGradeService
     {
         return $this->getPayGradeDao()->getCurrencyById($id);
     }
+
+    /**
+     * @param PayGrade $payGrade
+     * @return PayGrade
+     * @throws DaoException
+     */
+    public function savePayGrade(PayGrade $payGrade): PayGrade
+    {
+        return $this->getPayGradeDao()->savePayGrade($payGrade);
+    }
+
+    /**
+     * @param array $toBeDeletedIds
+     * @return int
+     * @throws DaoException
+     */
+    public function deletePayGrade(array $toBeDeletedIds): int
+    {
+        return $this->getPayGradeDao()->deletePayGrade($toBeDeletedIds);
+    }
 }

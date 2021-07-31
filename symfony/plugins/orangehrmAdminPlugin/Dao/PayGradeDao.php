@@ -151,4 +151,51 @@ class PayGradeDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * @param PayGradeSearchFilterParams $payGradeSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getPayGradesCount(PayGradeSearchFilterParams $payGradeSearchFilterParams):int
+    {
+        try{
+            return $this->getPayGradesPaginator($payGradeSearchFilterParams)->count();
+        }catch (Exception $e){
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param PayGrade $payGrade
+     * @return PayGrade
+     * @throws DaoException
+     */
+    public function savePayGrade(PayGrade $payGrade): PayGrade
+    {
+        try {
+            $this->persist($payGrade);
+            return $payGrade;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param array $tobeDeletedIds
+     * @return int
+     * @throws DaoException
+     */
+    public function deletePayGrade(array $tobeDeletedIds): int
+    {
+        try{
+            $q = $this->createQueryBuilder(PayGrade::class,'pg');
+            $q->delete()
+                ->where($q->expr()->in('pg.id', ':ids'))
+                ->setParameter('ids', $tobeDeletedIds);
+            return $q->getQuery()->execute();
+        }catch (Exception $e){
+            throw new DaoException($e->getMessage());
+        }
+    }
 }
