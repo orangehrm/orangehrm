@@ -36,35 +36,22 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\PayGrade;
+use OrangeHRM\Framework\Services;
 
 class PayGradeAPI extends Endpoint implements CrudEndpoint
 {
-    public const PARAMETER_NAME = 'name';
+    use ServiceContainerTrait;
 
-    /**
-     * @var null|PayGradeService
-     */
-    protected ?PayGradeService $payGradeService = null;
+    public const PARAMETER_NAME = 'name';
 
     /**
      * @return PayGradeService
      */
     public function getPayGradeService() : PayGradeService
     {
-        if(is_null($this->payGradeService)){
-            $this->payGradeService = new PayGradeService();
-        }
-        return $this->payGradeService;
-    }
-
-    /**
-     * @param PayGradeService $payGradeService
-     * @return $this
-     */
-    public function setPayGradeService(PayGradeService $payGradeService): void
-    {
-        $this->payGradeService = $payGradeService;
+        return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
     }
 
     /**

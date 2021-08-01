@@ -24,6 +24,9 @@ use OrangeHRM\Core\Vue\Component;
 
 class PayGradeController extends AbstractVueController
 {
+    /**
+     * @throws \OrangeHRM\Core\Controller\Exception\VueControllerException
+     */
     public function init(): void
     {
         $component = new Component('pay-grade-list');

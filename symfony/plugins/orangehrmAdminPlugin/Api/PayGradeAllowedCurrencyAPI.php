@@ -18,9 +18,7 @@
  *
  */
 
-
 namespace OrangeHRM\Admin\Api;
-
 
 use OrangeHRM\Admin\Api\Model\CurrencyTypeModel;
 use OrangeHRM\Admin\Dto\PayGradeCurrencySearchFilterParams;
@@ -52,6 +50,11 @@ class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
         return $this->getContainer()->get(Services::PAY_GRADE_SERVICE);
     }
 
+    /**
+     * @return EndpointCollectionResult
+     * @throws \OrangeHRM\Core\Api\V2\Serializer\NormalizeException
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
     public function getAll(): EndpointResult
     {
         $payGradeId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE,PayGradeCurrencySearchFilterParams::PARAMETER_PAY_GRADE_ID);
@@ -71,6 +74,9 @@ class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
         );
     }
 
+    /**
+     * @return ParamRuleCollection
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
