@@ -160,7 +160,7 @@ class CustomFieldDaoTest extends TestCase
         $this->assertTrue($result = $this->customFieldDao->isCustomFieldInUse(1));
         $this->assertFalse($result = $this->customFieldDao->isCustomFieldInUse(0));
         $this->assertFalse($result = $this->customFieldDao->isCustomFieldInUse(11));
-//        $this->assertFalse($result = $this->customFieldDao->isCustomFieldInUse(2));
+        $this->assertFalse($result = $this->customFieldDao->isCustomFieldInUse(2));
         $this->assertTrue($result = $this->customFieldDao->isCustomFieldInUse(5));
     }
 
