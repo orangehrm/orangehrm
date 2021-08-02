@@ -29,14 +29,14 @@ use OrangeHRM\Entity\Location;
 use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Pim\Service\EmployeeService;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
  * @group Service
  */
-class LocationServiceTest extends TestCase
+class LocationServiceTest extends KernelTestCase
 {
     private LocationService $locationService;
     private string $fixture;
@@ -50,17 +50,17 @@ class LocationServiceTest extends TestCase
         $this->locationService = new LocationService();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/LocationDao.yml';
         TestDataService::populate($this->fixture);
-        $this->getContainer()->register(
-            Services::USER_ROLE_MANAGER,
-            BasicUserRoleManager::class
-        );
-        $this->getContainer()->register(
-            Services::NORMALIZER_SERVICE,
-            NormalizerService::class
-        );
-        $this->getContainer()->register(
-            Services::EMPLOYEE_SERVICE,
-            EmployeeService::class
+
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)->getMock();
+        $normalizerService = $this->getMockBuilder(NormalizerService::class)->getMock();
+        $employeeService = $this->getMockBuilder(EmployeeService::class)->getMock();
+
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::NORMALIZER_SERVICE => $normalizerService,
+                Services::EMPLOYEE_SERVICE => $employeeService,
+            ]
         );
     }
 
