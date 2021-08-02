@@ -177,31 +177,9 @@ class CustomFieldDao extends BaseDao
             if (0 >= $fieldId || $fieldId > 10) {
                 return false;
             }
-
             $q = $this->createQueryBuilder(Employee::class, 'e');
             $q->select()
                 ->where("e.custom{$fieldId} IS NOT NULL");
-
-            return count($q->getQuery()->execute()) > 0;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-    }
-
-    /**
-     * @param int $fieldId
-     * @param string $value
-     * @return bool
-     * @throws DaoException
-     */
-    public function isCustomFieldDropDownValueInUse(int $fieldId, string $value): bool
-    {
-        try {
-            $q = $this->createQueryBuilder(Employee::class, 'e');
-            $q->select()
-                ->where("e.custom{$fieldId} = :value")
-                ->setParameter('value', $value);
-
             return count($q->getQuery()->execute()) > 0;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

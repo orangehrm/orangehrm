@@ -293,7 +293,8 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $inUse = 0;
-        if ($this->getCustomFieldService()->isDeleteCustomFieldsPossible($ids)) {
+
+        if (count(array_intersect($ids, $this->getCustomFieldService()->getAllFieldsInUse()))==0) {
             $this->getCustomFieldService()->getCustomFieldDao()->deleteCustomFields($ids);
         } else {
             $inUse = 1;

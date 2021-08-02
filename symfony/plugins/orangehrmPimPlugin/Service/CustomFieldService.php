@@ -89,21 +89,6 @@ class CustomFieldService
     }
 
     /**
-     * @param array $toDeleteIds
-     * @return bool
-     * @throws DaoException
-     */
-    public function isDeleteCustomFieldsPossible(array $toDeleteIds): bool
-    {
-        foreach ($toDeleteIds as $id) {
-            if ($this->getCustomFieldDao()->isCustomFieldInUse($id)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * @param int $customFieldId
      * @param string $newExtraData
      * @throws DaoException
@@ -118,5 +103,20 @@ class CustomFieldService
                 $this->getCustomFieldDao()->updateEmployeesIfDropDownValueInUse($customFieldId, $extraData);
             }
         }
+    }
+
+    /**
+     * @return array
+     * @throws DaoException
+     */
+    public function getAllFieldsInUse(): array
+    {
+        $fieldsInUse = array();
+        for ($i=1; $i<=10;$i++){
+            if($this->getCustomFieldDao()->isCustomFieldInUse($i)){
+                array_push($fieldsInUse,$i);
+            }
+        }
+        return $fieldsInUse;
     }
 }

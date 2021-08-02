@@ -140,4 +140,10 @@ class CustomFieldDaoTest extends TestCase
         $this->assertEquals('Age', $result[0]->getName());
         $this->assertEquals('Medium', $result[1]->getName());
     }
+
+    public function testIsCustomFieldInUse(){
+        $this->assertTrue($result = $this->customFieldDao->isCustomFieldInUse(1));
+//        $this->assertFalse($result = $this->customFieldDao->isCustomFieldInUse(2));
+        $this->assertTrue($result = $this->customFieldDao->isCustomFieldInUse(5));
+    }
 }

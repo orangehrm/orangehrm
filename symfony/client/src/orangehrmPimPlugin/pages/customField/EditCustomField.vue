@@ -60,6 +60,7 @@
                 :rules="rules.fieldType"
                 :options="fieldTypeList"
                 required
+                :disabled="fieldInUse"
               />
             </oxd-grid-item>
             <oxd-grid-item v-if="isDropDownField">
@@ -118,6 +119,10 @@ export default {
     },
     fieldTypeList: {
       type: Array,
+      required: true,
+    },
+    fieldInUse: {
+      type: Boolean,
       required: true,
     },
   },

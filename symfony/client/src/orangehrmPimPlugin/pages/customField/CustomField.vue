@@ -91,6 +91,10 @@ export default {
       type: Array,
       required: true,
     },
+    unselectableIds: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   data() {
@@ -143,6 +147,7 @@ export default {
     );
     const dataNormalizer = data => {
       return data.map(item => {
+        const selectable = props.unselectableIds.findIndex(id => id == item.id);
         return {
           id: item.id,
           fieldName: item.fieldName,
@@ -153,6 +158,7 @@ export default {
             return item.fieldType === fieldType.id;
           })[0].label,
           extraData: item.extraData,
+          isSelectable: selectable === -1,
         };
       });
     };
@@ -197,6 +203,10 @@ export default {
       });
     },
     onClickDelete(item) {
+      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      if (isSelectable > -1) {
+        return this.$toast.cannotDelete();
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
