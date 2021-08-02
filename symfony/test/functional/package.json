@@ -8,7 +8,6 @@
   "devDependencies": {
     "cypress": "^7.4.0",
     "cypress-promise": "^1.1.0",
-    "cypress-xpath": "^1.6.2",
     "eslint": "^7.31.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.11.3",
