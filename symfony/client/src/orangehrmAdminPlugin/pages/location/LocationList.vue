@@ -81,6 +81,7 @@
           :headers="headers"
           :items="items?.data"
           :selectable="$can.delete(`locations`)"
+          :disabled="!($can.delete(`locations`) && $can.update('locations'))"
           :clickable="false"
           :loading="isLoading"
           v-model:selected="checkedItems"
@@ -144,25 +145,21 @@ export default {
     },
   },
   data() {
-    const cellConfig = {};
-
-    if (this.$can.delete('locations')) {
-      cellConfig['delete'] = {
+    const cellConfig = {
+      delete: {
         onClick: this.onClickDelete,
         component: 'oxd-icon-button',
         props: {
           name: 'trash',
         },
-      };
-    }
-    if (this.$can.update('locations')) {
-      cellConfig['edit'] = {
+      },
+      edit: {
         onClick: this.onClickEdit,
         props: {
           name: 'pencil-fill',
         },
-      };
-    }
+      },
+    };
 
     return {
       headers: [
