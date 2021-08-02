@@ -69,7 +69,7 @@ class CustomFieldDaoTest extends TestCase
     {
         $customFieldSearchParams = new CustomFieldSearchFilterParams();
         $result = $this->customFieldDao->searchCustomField($customFieldSearchParams);
-        $this->assertCount(5, $result);
+        $this->assertCount(6, $result);
         $this->assertTrue($result[0] instanceof CustomField);
     }
 
@@ -91,6 +91,20 @@ class CustomFieldDaoTest extends TestCase
         $customField->setExtraData('level1, level2');
         $result = $this->customFieldDao->saveCustomField($customField);
         $this->assertTrue($result instanceof CustomField);
+        $this->assertEquals(6, $result->getFieldNum()); // should fill a missed field
+        $this->assertEquals("Level", $result->getName());
+        $this->assertEquals(1, $result->getType());
+        $this->assertEquals("Personal", $result->getScreen());
+        $this->assertEquals('level1, level2', $result->getExtraData());
+
+        // add new one
+        $customField1 = new CustomField();
+        $customField1->setName('Level');
+        $customField1->setType(1);
+        $customField1->setScreen('Personal');
+        $customField1->setExtraData('level1, level2');
+        $result = $this->customFieldDao->saveCustomField($customField1);
+        $this->assertEquals(8, $result->getFieldNum()); // should fill the next field
         $this->assertEquals("Level", $result->getName());
         $this->assertEquals(1, $result->getType());
         $this->assertEquals("Personal", $result->getScreen());
@@ -116,7 +130,7 @@ class CustomFieldDaoTest extends TestCase
     {
         $customFieldSearchParams = new CustomFieldSearchFilterParams();
         $result = $this->customFieldDao->getSearchCustomFieldsCount($customFieldSearchParams);
-        $this->assertEquals(5, $result);
+        $this->assertEquals(6, $result);
     }
 
     public function testSearchCustomFieldWithScreen(): void
@@ -139,5 +153,22 @@ class CustomFieldDaoTest extends TestCase
         $this->assertCount(2, $result);
         $this->assertEquals('Age', $result[0]->getName());
         $this->assertEquals('Medium', $result[1]->getName());
+    }
+
+    public function testIsCustomFieldInUse()
+    {
+        $this->assertTrue($result = $this->customFieldDao->isCustomFieldInUse(1));
+        $this->assertFalse($result = $this->customFieldDao->isCustomFieldInUse(0));
+        $this->assertFalse($result = $this->customFieldDao->isCustomFieldInUse(11));
+        $this->assertFalse($result = $this->customFieldDao->isCustomFieldInUse(2));
+        $this->assertTrue($result = $this->customFieldDao->isCustomFieldInUse(5));
+    }
+
+    public function testUpdateEmployeesIfDropDownValueInUse()
+    {
+        $this->assertEquals(0, $this->customFieldDao->updateEmployeesIfDropDownValueInUse(0, 'yes'));
+        $this->assertEquals(0, $this->customFieldDao->updateEmployeesIfDropDownValueInUse(11, 'yes'));
+        $this->assertEquals(1, $this->customFieldDao->updateEmployeesIfDropDownValueInUse(5, 'Visa 1'));
+        $this->assertEquals(0, $this->customFieldDao->updateEmployeesIfDropDownValueInUse(5, 'Visa 2'));
     }
 }

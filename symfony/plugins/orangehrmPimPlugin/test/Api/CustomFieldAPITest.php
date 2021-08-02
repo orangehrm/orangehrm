@@ -107,7 +107,6 @@ class CustomFieldAPITest extends EndpointTestCase
 
     public function testUpdate()
     {
-        $empNumber = 1;
         $customFieldDao = $this->getMockBuilder(CustomFieldDao::class)
             ->onlyMethods(['saveCustomField', 'getCustomFieldById'])
             ->getMock();
@@ -175,6 +174,123 @@ class CustomFieldAPITest extends EndpointTestCase
         );
     }
 
+    public function testUpdateChangeExtraData()
+    {
+        $customFieldDao = $this->getMockBuilder(CustomFieldDao::class)
+            ->onlyMethods(['saveCustomField', 'getCustomFieldById','isCustomFieldInUse'])
+            ->getMock();
+
+        $customField = new CustomField();
+        $customField->setFieldNum(1);
+        $customField->setName('Level');
+        $customField->setType(1);
+        $customField->setScreen('Personal');
+        $customField->setExtraData('level1, level2');
+
+        $customFieldDao->expects($this->exactly(1))
+            ->method('getCustomFieldById')
+            ->with(1)
+            ->willReturn($customField);
+
+        $customFieldService = $this->getMockBuilder(CustomFieldService::class)
+            ->onlyMethods(['getCustomFieldDao','deleteRelatedEmployeeCustomFieldsExtraData'])
+            ->getMock();
+
+        $customFieldService->expects($this->exactly(2))
+            ->method('getCustomFieldDao')
+            ->willReturn($customFieldDao);
+        $customFieldService->expects($this->exactly(1))
+            ->method('deleteRelatedEmployeeCustomFieldsExtraData');
+
+        /** @var MockObject&CustomFieldAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            CustomFieldAPI::class,
+            [
+                RequestParams::PARAM_TYPE_ATTRIBUTE => [
+                    CommonParams::PARAMETER_ID => 1
+                ],
+                RequestParams::PARAM_TYPE_BODY => [
+                    CustomFieldAPI::PARAMETER_NAME => "Level",
+                    CustomFieldAPI::PARAMETER_TYPE => 1,
+                    CustomFieldAPI::PARAMETER_SCREEN => "Personal",
+                    CustomFieldAPI::PARAMETER_EXTRA_DATA => 'level1',
+                ]
+            ]
+        )->onlyMethods(['getCustomFieldService'])
+            ->getMock();
+        $api->expects($this->exactly(3))
+            ->method('getCustomFieldService')
+            ->will($this->returnValue($customFieldService));
+
+        $result = $api->update();
+        $this->assertEquals(
+            [
+                "id" => 1,
+                "fieldName" => "Level",
+                "fieldType" => 1,
+                "extraData" => 'level1',
+                "screen" => "Personal"
+            ],
+            $result->normalize()
+        );
+    }
+
+    public function testUpdateChangeType()
+    {
+        $customFieldDao = $this->getMockBuilder(CustomFieldDao::class)
+            ->onlyMethods(['saveCustomField', 'getCustomFieldById','isCustomFieldInUse'])
+            ->getMock();
+
+        $customField = new CustomField();
+        $customField->setFieldNum(1);
+        $customField->setName('Level');
+        $customField->setType(1);
+        $customField->setScreen('Personal');
+        $customField->setExtraData('level1, level2');
+
+        $customFieldDao->expects($this->exactly(1))
+            ->method('getCustomFieldById')
+            ->with(1)
+            ->willReturn($customField);
+
+        $customFieldDao->expects($this->exactly(1))
+            ->method('isCustomFieldInUse')
+            ->with(1)
+            ->willReturn(true);
+
+        $customFieldService = $this->getMockBuilder(CustomFieldService::class)
+            ->onlyMethods(['getCustomFieldDao','deleteRelatedEmployeeCustomFieldsExtraData'])
+            ->getMock();
+
+        $customFieldService->expects($this->exactly(2))
+            ->method('getCustomFieldDao')
+            ->willReturn($customFieldDao);
+        $customFieldService->expects($this->exactly(0))
+            ->method('deleteRelatedEmployeeCustomFieldsExtraData');
+
+        /** @var MockObject&CustomFieldAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            CustomFieldAPI::class,
+            [
+                RequestParams::PARAM_TYPE_ATTRIBUTE => [
+                    CommonParams::PARAMETER_ID => 1
+                ],
+                RequestParams::PARAM_TYPE_BODY => [
+                    CustomFieldAPI::PARAMETER_NAME => "Level",
+                    CustomFieldAPI::PARAMETER_TYPE => 0,
+                    CustomFieldAPI::PARAMETER_SCREEN => "Personal",
+                    CustomFieldAPI::PARAMETER_EXTRA_DATA => 'level1, level2',
+                ]
+            ]
+        )->onlyMethods(['getCustomFieldService'])
+            ->getMock();
+        $api->expects($this->exactly(2))
+            ->method('getCustomFieldService')
+            ->will($this->returnValue($customFieldService));
+        $this->expectBadRequestException();
+        $api->update();
+    }
+
     public function testGetValidationRuleForUpdate(): void
     {
         $api = new CustomFieldAPI($this->getRequest());
@@ -199,25 +315,17 @@ class CustomFieldAPITest extends EndpointTestCase
             ->onlyMethods(['deleteCustomFields'])
             ->getMock();
 
-        $customField = new CustomField();
-        $customField->setName('Level');
-        $customField->setType(1);
-        $customField->setScreen('Personal');
-        $customField->setExtraData('level1, level2');
-
-
-        $customFieldDao->expects($this->exactly(1))
-            ->method('deleteCustomFields')
-            ->with([1])
-            ->willReturn(1);
-
         $customFieldService = $this->getMockBuilder(CustomFieldService::class)
-            ->onlyMethods(['getCustomFieldDao'])
+            ->onlyMethods(['getCustomFieldDao','getAllFieldsInUse'])
             ->getMock();
 
-        $customFieldService->expects($this->exactly(1))
+        $customFieldService->expects($this->exactly(0))
             ->method('getCustomFieldDao')
             ->willReturn($customFieldDao);
+
+        $customFieldService->expects($this->exactly(1))
+            ->method('getAllFieldsInUse')
+            ->willReturn([1,5]);
 
         /** @var MockObject&CustomFieldAPI $api */
         $api = $this->getApiEndpointMockBuilder(
@@ -233,11 +341,47 @@ class CustomFieldAPITest extends EndpointTestCase
         $api->expects($this->exactly(1))
             ->method('getCustomFieldService')
             ->will($this->returnValue($customFieldService));
+        $this->expectBadRequestException();
+        $result = $api->delete();
+    }
+
+    public function testDeleteNoInUse()
+    {
+        $customFieldDao = $this->getMockBuilder(CustomFieldDao::class)
+            ->onlyMethods(['deleteCustomFields'])
+            ->getMock();
+
+        $customFieldService = $this->getMockBuilder(CustomFieldService::class)
+            ->onlyMethods(['getCustomFieldDao','getAllFieldsInUse'])
+            ->getMock();
+
+        $customFieldService->expects($this->exactly(1))
+            ->method('getCustomFieldDao')
+            ->willReturn($customFieldDao);
+
+        $customFieldService->expects($this->exactly(1))
+            ->method('getAllFieldsInUse')
+            ->willReturn([1,5]);
+
+        /** @var MockObject&CustomFieldAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            CustomFieldAPI::class,
+            [
+                RequestParams::PARAM_TYPE_ATTRIBUTE => [],
+                RequestParams::PARAM_TYPE_BODY => [
+                    CommonParams::PARAMETER_IDS => [2],
+                ]
+            ]
+        )->onlyMethods(['getCustomFieldService'])
+            ->getMock();
+        $api->expects($this->exactly(2))
+            ->method('getCustomFieldService')
+            ->will($this->returnValue($customFieldService));
 
         $result = $api->delete();
         $this->assertEquals(
             [
-                1
+                2
             ],
             $result->normalize()
         );
@@ -410,12 +554,6 @@ class CustomFieldAPITest extends EndpointTestCase
                 ]
             ],
             $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "total" => 2
-            ],
-            $result->getMeta()->all()
         );
     }
 

@@ -27,7 +27,8 @@
         "twig/twig": "^3.0",
         "symfony/error-handler": "^4.4",
         "symfony/dependency-injection": "^5.2",
-        "symfony/cache": "^5.3"
+        "symfony/cache": "^5.3",
+        "swiftmailer/swiftmailer": "~5.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

@@ -220,32 +220,32 @@ describe('core/util/validation/rules::validPhoneNumberFormat', () => {
 
 describe('core/util/validation/rules::decimalsOnly', () => {
   test('validPhoneNumberFormat::number', () => {
-    let result = validPhoneNumberFormat('1234563');
+    const result = validPhoneNumberFormat('1234563');
     expect(result).toBeTruthy();
   });
 
   test('decimalsOnly::numberWith.', () => {
-    let result = decimalsOnly('123.');
+    const result = decimalsOnly('123.');
     expect(result).toBe('Should be a number');
   });
 
   test('decimalsOnly::numberWithcharater', () => {
-    let result = decimalsOnly('123c');
+    const result = decimalsOnly('123c');
     expect(result).toBe('Should be a number');
   });
 
   test('decimalsOnly::numberonly', () => {
-    let result = decimalsOnly('4420');
+    const result = decimalsOnly('4420');
     expect(result).toStrictEqual(true);
   });
 
   test('decimalsOnly::numberonlywithonedecimalpoint', () => {
-    let result = decimalsOnly('456.0');
+    const result = decimalsOnly('456.0');
     expect(result).toStrictEqual(true);
   });
 
   test('decimalsOnly::numberonlywithtwodecimalpoint', () => {
-    let result = decimalsOnly('456.00');
+    const result = decimalsOnly('456.00');
     expect(result).toStrictEqual(true);
   });
 });
