@@ -26,12 +26,14 @@
           <oxd-text tag="h6" class="orangehrm-main-title">
             Custom Fields
           </oxd-text>
-          <oxd-text class="--infotext" tag="p" v-if="remainingFields > 0">
-            Remaining number of custom fields: {{ remainingFields }}
-          </oxd-text>
-          <oxd-text class="--infotext" tag="p" v-else>
-            All custom fields are in use
-          </oxd-text>
+          <template v-if="!isLoading">
+            <oxd-text class="--infotext" tag="p" v-if="remainingFields > 0">
+              Remaining number of custom fields: {{ remainingFields }}
+            </oxd-text>
+            <oxd-text class="--infotext" tag="p" v-else>
+              All custom fields are in use
+            </oxd-text>
+          </template>
         </div>
         <oxd-button
           label="Add"
@@ -236,6 +238,9 @@ export default {
   },
 
   computed: {
+    isLoaded() {
+      return !this.isLoading;
+    },
     remainingFields() {
       return this.customFieldLimit - this.items?.data?.length;
     },
