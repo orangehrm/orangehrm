@@ -233,12 +233,6 @@ class CustomFieldAPITest extends EndpointTestCase
             ],
             $result->normalize()
         );
-        $this->assertEquals(
-            [
-                "inUse" => 0
-            ],
-            $result->getMeta()->all()
-        );
     }
 
     public function testUpdateChangeType()
@@ -305,12 +299,6 @@ class CustomFieldAPITest extends EndpointTestCase
             ],
             $result->normalize()
         );
-        $this->assertEquals(
-            [
-                "inUse" => 1
-            ],
-            $result->getMeta()->all()
-        );
     }
 
     public function testGetValidationRuleForUpdate(): void
@@ -371,12 +359,6 @@ class CustomFieldAPITest extends EndpointTestCase
             ],
             $result->normalize()
         );
-        $this->assertEquals(
-            [
-                "inUse" => 1
-            ],
-            $result->getMeta()->all()
-        );
     }
 
     public function testDeleteNoInUse()
@@ -418,12 +400,6 @@ class CustomFieldAPITest extends EndpointTestCase
                 2
             ],
             $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "inUse" => 0
-            ],
-            $result->getMeta()->all()
         );
     }
 
@@ -594,12 +570,6 @@ class CustomFieldAPITest extends EndpointTestCase
                 ]
             ],
             $result->normalize()
-        );
-        $this->assertEquals(
-            [
-                "total" => 2
-            ],
-            $result->getMeta()->all()
         );
     }
 

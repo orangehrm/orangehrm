@@ -112,9 +112,9 @@ class CustomFieldService
     public function getAllFieldsInUse(): array
     {
         $fieldsInUse = array();
-        for ($i=1; $i<=10;$i++){
-            if($this->getCustomFieldDao()->isCustomFieldInUse($i)){
-                array_push($fieldsInUse,$i);
+        for ($i = 1; $i <= 10; $i++) {
+            if ($this->getCustomFieldDao()->isCustomFieldInUse($i)) {
+                array_push($fieldsInUse, $i);
             }
         }
         return $fieldsInUse;

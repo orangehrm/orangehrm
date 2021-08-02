@@ -178,8 +178,7 @@ class CustomFieldDao extends BaseDao
                 return false;
             }
             $q = $this->createQueryBuilder(Employee::class, 'e');
-            $q->select()
-                ->where("e.custom{$fieldId} IS NOT NULL");
+            $q->where($q->expr()->isNotNull("e.custom{$fieldId}"));
             return count($q->getQuery()->execute()) > 0;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -189,15 +188,18 @@ class CustomFieldDao extends BaseDao
     /**
      * @param int $fieldId
      * @param string $dropDownValue
-     * @return bool
+     * @return int
      * @throws DaoException
      */
-    public function updateEmployeesIfDropDownValueInUse(int $fieldId, string $dropDownValue): bool
+    public function updateEmployeesIfDropDownValueInUse(int $fieldId, string $dropDownValue): int
     {
         try {
+            if (0 >= $fieldId || $fieldId > 10) {
+                return 0;
+            }
             $q = $this->createQueryBuilder(Employee::class, 'e');
             $q->update()
-                ->set('e.custom1', 'NULL')
+                ->set("e.custom{$fieldId}", 'NULL')
                 ->where("e.custom{$fieldId} = :dropDownValue")
                 ->setParameter('dropDownValue', $dropDownValue);
             return $q->getQuery()->execute();

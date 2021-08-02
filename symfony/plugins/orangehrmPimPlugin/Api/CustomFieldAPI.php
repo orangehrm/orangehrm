@@ -50,8 +50,6 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     public const PARAM_RULE_SCREEN_MAX_LENGTH = 100;
     public const PARAM_RULE_EXTRA_DATA_MAX_LENGTH = 250;
 
-    public const IN_USE = 'inUse';
-
     /**
      * @var null|CustomFieldService
      */
@@ -255,22 +253,11 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
         if ($extraData !== $customField->getExtraData() && is_string($extraData)) {
             $this->getCustomFieldService()->deleteRelatedEmployeeCustomFieldsExtraData($id, $extraData);
         }
-        $inUse = 0;
-        if ($type !== $customField->getType() && $this->getCustomFieldService()->getCustomFieldDao(
+        if ($type == $customField->getType() || !$this->getCustomFieldService()->getCustomFieldDao(
             )->isCustomFieldInUse($id)) {
-            $inUse = 1;
-        } else {
             $this->saveCustomField($customField);
         }
-        return new EndpointResourceResult(
-            CustomFieldModel::class,
-            $customField,
-            new ParameterBag(
-                [
-                    self::IN_USE => $inUse,
-                ]
-            )
-        );
+        return new EndpointResourceResult(CustomFieldModel::class, $customField);
     }
 
     /**
@@ -292,22 +279,11 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResourceResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $inUse = 0;
 
         if (count(array_intersect($ids, $this->getCustomFieldService()->getAllFieldsInUse()))==0) {
             $this->getCustomFieldService()->getCustomFieldDao()->deleteCustomFields($ids);
-        } else {
-            $inUse = 1;
         }
-        return new EndpointResourceResult(
-            ArrayModel::class,
-            $ids,
-            new ParameterBag(
-                [
-                    self::IN_USE => $inUse,
-                ]
-            )
-        );
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**

@@ -220,15 +220,8 @@ export default {
           .deleteAll({
             ids: items,
           })
-          .then(response => {
-            if (response.data.meta.inUse === 0) {
-              return this.$toast.deleteSuccess();
-            } else {
-              return this.$toast.warn({
-                title: 'Warning',
-                message: 'Custom field in use',
-              });
-            }
+          .then(() => {
+            return this.$toast.deleteSuccess();
           })
           .then(() => {
             this.isLoading = false;
