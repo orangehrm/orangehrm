@@ -40,8 +40,8 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                type="select"
                 label="Screen"
-                type="dropdown"
                 v-model="customField.screen"
                 :rules="rules.screen"
                 :options="screenList"
@@ -54,8 +54,8 @@
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item class="organization-name-container">
               <oxd-input-field
+                type="select"
                 label="Type"
-                type="dropdown"
                 v-model="customField.fieldType"
                 :rules="rules.fieldType"
                 :options="fieldTypeList"
@@ -146,16 +146,16 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      const fieldType = this.customField.fieldType.map(item => item.id)[0];
+      const fieldType = this.customField.fieldType.id;
       this.http
         .create({
           fieldName: this.customField.fieldName,
-          screen: this.customField.screen.map(item => item.id)[0],
+          screen: this.customField.screen.id,
           fieldType: fieldType,
           extraData: fieldType === 1 ? this.customField.extraData : null,
         })
         .then(() => {
-          return this.$toast.updateSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.onCancel();
@@ -165,10 +165,24 @@ export default {
       navigate('/pim/listCustomFields');
     },
   },
-
+  created() {
+    this.isLoading = true;
+    this.http
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.rules.fieldName.push(v => {
+          const index = data.findIndex(item => item.fieldName == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
   computed: {
     isDropDownField() {
-      return this.customField.fieldType[0]?.id === 1;
+      return this.customField.fieldType?.id === 1;
     },
   },
 };
