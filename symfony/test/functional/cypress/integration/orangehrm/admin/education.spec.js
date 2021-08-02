@@ -1,10 +1,11 @@
 import user from '../../../fixtures/admin.json';
 import charLength from '../../../fixtures/charLength.json';
+import size from '../../../fixtures/viewport.json';
 
 describe('Qualifications - Education test script', function () {
   beforeEach(() => {
     cy.login(user.admin.userName, user.admin.password);
-    cy.viewport(1024, 768);
+    cy.viewport(size.viewport1.width, size.viewport1.height);
     cy.visit('/admin/viewEducation');
   });
 
