@@ -24,16 +24,17 @@ namespace OrangeHRM\Entity\Decorator;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Entity\Country;
-use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Location;
+use OrangeHRM\Framework\Services;
 
 class LocationDecorator
 {
 
     use EntityManagerHelperTrait;
+    use ServiceContainerTrait;
 
-    protected ?CountryService $countryService = null;
 
     protected ?LocationService $locationService = null;
 
@@ -41,29 +42,6 @@ class LocationDecorator
      * @var Location
      */
     protected Location $location;
-
-    /**
-     * Set Country Service
-     *
-     * @param CountryService $countryService
-     */
-    public function setCountryService(CountryService $countryService): void
-    {
-        $this->countryService = $countryService;
-    }
-
-    /**
-     * Returns Country Service
-     *
-     * @returns CountryService
-     */
-    public function getCountryService(): CountryService
-    {
-        if (is_null($this->countryService)) {
-            $this->countryService = new CountryService();
-        }
-        return $this->countryService;
-    }
 
     /**
      * Set Location Service
@@ -115,8 +93,10 @@ class LocationDecorator
      */
     public function setCountryByCountryCode(?string $countryCode): void
     {
+        /** @var CountryService $countryService */
+        $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
         /** @var Country|null $country */
-        $country = is_null($countryCode) ? null : $this->getCountryService()->getCountryByCountryCode($countryCode);
+        $country = is_null($countryCode) ? null : $countryService->getCountryByCountryCode($countryCode);
         $this->getLocation()->setCountry($country);
     }
 
