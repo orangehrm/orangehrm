@@ -23,15 +23,33 @@ use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Pim\Service\CustomFieldService;
 
 class SaveCustomFieldController extends AbstractVueController
 {
+    /**
+     * @var null|CustomFieldService
+     */
+    protected ?CustomFieldService $customFieldService = null;
+
+    /**
+     * @return CustomFieldService
+     */
+    public function getCustomFieldService(): CustomFieldService
+    {
+        if (is_null($this->customFieldService)) {
+            $this->customFieldService = new CustomFieldService();
+        }
+        return $this->customFieldService;
+    }
+
     public function preRender(Request $request): void
     {
         $id = $request->get('id');
         if ($id) {
             $component = new Component('custom-field-edit');
             $component->addProp(new Prop('custom-field-id', Prop::TYPE_NUMBER, $id));
+            $component->addProp(new Prop('field-in-use', Prop::TYPE_ARRAY, $this->getCustomFieldService()->getCustomFieldDao()->isCustomFieldInUse($id)));
         } else {
             $component = new Component('custom-field-save');
         }
