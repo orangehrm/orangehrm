@@ -94,6 +94,28 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
         );
     }
 
+    private function getBodyParameters(): array
+    {
+        $name = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_NAME
+
+        );
+        $type = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_TYPE
+        );
+        $screen = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_SCREEN
+        );
+        $extraData = $this->getRequestParams()->getStringOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_EXTRA_DATA
+        );
+        return [$name, $type, $screen, $extraData];
+    }
+
     /**
      * @inheritDoc
      */
@@ -223,15 +245,21 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     public function update(): EndpointResourceResult
     {
         $id = $this->getUrlAttributes();
+        list($name, $type, $screen, $extraData) = $this->getBodyParameters();
         $customField = $this->getCustomFieldService()
             ->getCustomFieldDao()
             ->getCustomFieldById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($customField, CustomField::class);
-        $this->saveCustomField($customField);
-
-        return new EndpointResourceResult(
-            CustomFieldModel::class, $customField,
-        );
+        if ($extraData !== $customField->getExtraData() && is_string($extraData)) {
+            $this->getCustomFieldService()->deleteRelatedEmployeeCustomFieldsExtraData($id, $extraData);
+        }
+        if ($type == $customField->getType() || !$this->getCustomFieldService()->getCustomFieldDao(
+            )->isCustomFieldInUse($id)) {
+            $this->saveCustomField($customField);
+        } else {
+            throw $this->getBadRequestException();
+        }
+        return new EndpointResourceResult(CustomFieldModel::class, $customField);
     }
 
     /**
@@ -253,10 +281,13 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
     public function delete(): EndpointResourceResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
-        $this->getCustomFieldService()->getCustomFieldDao()->deleteCustomFields($ids);
-        return new EndpointResourceResult(
-            ArrayModel::class, $ids,
-        );
+
+        if (count(array_intersect($ids, $this->getCustomFieldService()->getAllFieldsInUse()))==0) {
+            $this->getCustomFieldService()->getCustomFieldDao()->deleteCustomFields($ids);
+        } else {
+            throw $this->getBadRequestException();
+        }
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -274,31 +305,11 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
 
     public function setCustomField(CustomField $customField)
     {
-        $customField->setName(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_NAME
-
-            )
-        );
-        $customField->setType(
-            $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_TYPE
-            )
-        );
-        $customField->setScreen(
-            $this->getRequestParams()->getString(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_SCREEN
-            )
-        );
-        $customField->setExtraData(
-            $this->getRequestParams()->getStringOrNull(
-                RequestParams::PARAM_TYPE_BODY,
-                self::PARAMETER_EXTRA_DATA
-            )
-        );
+        list($name, $type, $screen, $extraData) = $this->getBodyParameters();
+        $customField->setName($name);
+        $customField->setType($type);
+        $customField->setScreen($screen);
+        $customField->setExtraData($extraData);
     }
 
     /**

@@ -24,6 +24,7 @@ use InvalidArgumentException;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\CustomField;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\CustomFieldSearchFilterParams;
 
@@ -32,20 +33,32 @@ class CustomFieldDao extends BaseDao
     /**
      * @param CustomField $customField
      * @return CustomField
-     * @throws DaoException
      */
     public function saveCustomField(CustomField $customField): CustomField
     {
-        // increment seqNo if not set explicitly
         if ($customField->getFieldNum() === 0) {
             $q = $this->createQueryBuilder(CustomField::class, 'cf');
-            $q->select($q->expr()->max('cf.fieldNum'));
-            $maxSeqNo = $q->getQuery()->getSingleScalarResult();
-            $seqNo = 1;
-            if (!is_null($maxSeqNo)) {
-                $seqNo += intval($maxSeqNo);
+            $q->select(['cf.fieldNum'])
+                ->orderBy('cf.fieldNum');
+            $fieldNumbers = $q->getQuery()->execute();
+
+            $i = 1;
+            foreach ($fieldNumbers as $num) {
+                if ($num['fieldNum'] > $i) {
+                    $freeNum = $i;
+                    break;
+                }
+                $i++;
+
+                if ($i > 10) {
+                    break;
+                }
             }
-            $customField->setFieldNum($seqNo);
+
+            if (empty($freeNum) && ($i <= 10)) {
+                $freeNum = $i;
+            }
+            $customField->setFieldNum($freeNum);
         }
         $seqNo = intval($customField->getFieldNum());
         if (!(strlen((string)$seqNo) <= 10 && $seqNo > 0)) {
@@ -148,6 +161,49 @@ class CustomFieldDao extends BaseDao
         try {
             $paginator = $this->getSearchCustomFieldPaginator($customFieldSearchParams);
             return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param int $fieldId
+     * @return bool
+     * @throws DaoException
+     */
+    public function isCustomFieldInUse(int $fieldId): bool
+    {
+        try {
+            if (0 >= $fieldId || $fieldId > 10) {
+                return false;
+            }
+            $q = $this->createQueryBuilder(Employee::class, 'e');
+            $q->where($q->expr()->isNotNull("e.custom{$fieldId}"));
+            return count($q->getQuery()->execute()) > 0;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param int $fieldId
+     * @param string $dropDownValue
+     * @return int
+     * @throws DaoException
+     */
+    public function updateEmployeesIfDropDownValueInUse(int $fieldId, string $dropDownValue): int
+    {
+        try {
+            if (0 >= $fieldId || $fieldId > 10) {
+                return 0;
+            }
+            $q = $this->createQueryBuilder(Employee::class, 'e');
+            $q->update()
+                ->set("e. custom{$fieldId}", ':customField')
+                ->where("e.custom{$fieldId} = :dropDownValue")
+                ->setParameter('customField', null)
+                ->setParameter('dropDownValue', $dropDownValue);
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }

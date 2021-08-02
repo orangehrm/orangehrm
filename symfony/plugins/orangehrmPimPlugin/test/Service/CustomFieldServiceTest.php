@@ -19,9 +19,12 @@
 
 namespace OrangeHRM\Tests\Pim\Service;
 
+use OrangeHRM\Entity\CustomField;
 use OrangeHRM\Pim\Dao\CustomFieldDao;
 use OrangeHRM\Pim\Service\CustomFieldService;
 use OrangeHRM\Tests\Util\TestCase;
+
+use function Webmozart\Assert\Tests\StaticAnalysis\true;
 
 /**
  * @group Pim
@@ -71,5 +74,94 @@ class CustomFieldServiceTest extends TestCase
             [1, 2],
             $this->customFieldService->extractFieldNumbersFromFieldKeys(['custom1', 'custom2'])
         );
+    }
+
+    public function testGetAllFieldsInUse(){
+        $customFieldDao = $this->getMockBuilder(CustomFieldDao::class)
+            ->onlyMethods(['isCustomFieldInUse'])
+            ->getMock();
+
+        $customFieldDao
+            ->method('isCustomFieldInUse')
+            ->will($this->returnCallback(function(){
+                $args = func_get_args();
+                if($args[0] ==1 || $args[0] ==5){
+                    return true;
+                } else {
+                    return false;
+                }
+            }));
+
+        $customFieldService = $this->getMockBuilder(CustomFieldService::class)
+            ->onlyMethods(['getCustomFieldDao'])
+            ->getMock();
+        $customFieldService
+            ->method('getCustomFieldDao')
+            ->willReturn($customFieldDao);
+        $result = $customFieldService->getAllFieldsInUse();
+        $this->assertEquals([1,5], $result);
+    }
+
+    public function testDeleteRelatedEmployeeCustomFieldsExtraDataWhenNotDeleteOption(){
+        $customFieldDao = $this->getMockBuilder(CustomFieldDao::class)
+            ->onlyMethods(['getCustomFieldById','updateEmployeesIfDropDownValueInUse'])
+            ->getMock();
+
+        $customField = new CustomField();
+        $customField->setFieldNum(1);
+        $customField->setName('Level');
+        $customField->setType(1);
+        $customField->setScreen('Personal');
+        $customField->setExtraData('level1, level2');
+
+        $customFieldDao->expects($this->exactly(1))
+            ->method('getCustomFieldById')
+            ->with(1)
+            ->willReturn($customField);
+
+        $customFieldDao->expects($this->exactly(0)) // if success this function not will be called
+            ->method('updateEmployeesIfDropDownValueInUse');
+
+        $customFieldService = $this->getMockBuilder(CustomFieldService::class)
+            ->onlyMethods(['getCustomFieldDao'])
+            ->getMock();
+        $customFieldService
+            ->method('getCustomFieldDao')
+            ->willReturn($customFieldDao);
+
+        $customFieldService->deleteRelatedEmployeeCustomFieldsExtraData(1,'level1, level2');
+        $this->assertTrue(true); // to avoid risky msg, check handled in method call counting
+    }
+
+
+    public function testDeleteRelatedEmployeeCustomFieldsExtraDataWhenDeleteOption(){
+        $customFieldDao = $this->getMockBuilder(CustomFieldDao::class)
+            ->onlyMethods(['getCustomFieldById','updateEmployeesIfDropDownValueInUse'])
+            ->getMock();
+
+        $customField = new CustomField();
+        $customField->setFieldNum(1);
+        $customField->setName('Level');
+        $customField->setType(1);
+        $customField->setScreen('Personal');
+        $customField->setExtraData('level1, level2');
+
+        $customFieldDao->expects($this->exactly(1))
+            ->method('getCustomFieldById')
+            ->with(1)
+            ->willReturn($customField);
+
+        $customFieldDao->expects($this->exactly(1)) // if success this function will be called exactly once
+            ->method('updateEmployeesIfDropDownValueInUse');
+
+        $customFieldService = $this->getMockBuilder(CustomFieldService::class)
+            ->onlyMethods(['getCustomFieldDao'])
+            ->getMock();
+        $customFieldService
+            ->method('getCustomFieldDao')
+            ->willReturn($customFieldDao);
+
+        $customFieldService->deleteRelatedEmployeeCustomFieldsExtraData(1,'level1');
+        $this->assertTrue(true); // to avoid risky msg, check handled in method call counting
     }
 }

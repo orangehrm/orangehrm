@@ -4,3 +4,8 @@ CustomField:
   2: {field_num: 3, name: 'Level', type: 0, screen: 'emergency'}
   3: {field_num: 4, name: 'Emergency Type', type: 1, screen: 'emergency', extra_data: 'Type 1, Type 2'}
   4: {field_num: 5, name: 'Document Type', type: 1, screen: 'immigration', extra_data: 'Visa 1, Visa 2'}
+  5: {field_num: 7, name: 'Document Type', type: 1, screen: 'immigration', extra_data: 'Visa 1, Visa 2'}
+
+Employee:
+  E_001: { firstName: myname1, lastName: last1, employeeId: '0003',custom1: '23',custom3: NULL,custom4: NULL,custom5: NULL,custom6: NULL,custom7: NULL,custom8: NULL,custom9: NULL,custom10: NULL}
+  E_002: { firstName: myname2, lastName: last2, employeeId: '0004',custom1: NULL,custom3: NULL,custom4: NULL,custom5: 'Visa 1',custom6: NULL,custom7: NULL,custom8: NULL,custom9: NULL,custom10: NULL }
