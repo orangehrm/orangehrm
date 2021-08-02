@@ -97,6 +97,16 @@ class CountryService
     }
 
     /**
+     * @param string $provinceCode
+     * @return Province|null
+     * @throws DaoException
+     */
+    public function getProvinceByProvinceCode(string $provinceCode): ?Province
+    {
+        return $this->getCountryDao()->getProvinceByProvinceCode($provinceCode);
+    }
+
+    /**
      * @return array
      */
     public function getCountryArray(): array
