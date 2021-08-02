@@ -199,8 +199,9 @@ class CustomFieldDao extends BaseDao
             }
             $q = $this->createQueryBuilder(Employee::class, 'e');
             $q->update()
-                ->set("e.custom{$fieldId}", 'NULL')
+                ->set("e. custom{$fieldId}", ':customField')
                 ->where("e.custom{$fieldId} = :dropDownValue")
+                ->setParameter('customField', null)
                 ->setParameter('dropDownValue', $dropDownValue);
             return $q->getQuery()->execute();
         } catch (Exception $e) {
