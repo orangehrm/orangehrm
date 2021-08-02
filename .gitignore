@@ -9,3 +9,4 @@ apidoc
 logInsatall.log
 .phpunit.result.cache
 coverage/
+symfony/test/functional/cypress/fixtures/admin.json
