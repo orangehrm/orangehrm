@@ -82,7 +82,7 @@ class LocationDaoTest extends TestCase
         $locationSearchFilterParams = new LocationSearchFilterParams();
         $locationSearchFilterParams->setName('location 1');
         $result = $this->locationDao->searchLocations($locationSearchFilterParams);
-        $this->assertEquals(2, count($result));
+        $this->assertCount(2, $result);
         $this->assertEquals($result[0]->getId(), 1);
     }
 
@@ -91,7 +91,7 @@ class LocationDaoTest extends TestCase
         $locationSearchFilterParams = new LocationSearchFilterParams();
         $locationSearchFilterParams->setCity('city 1');
         $result = $this->locationDao->searchLocations($locationSearchFilterParams);
-        $this->assertEquals(2, count($result));
+        $this->assertCount(2, $result);
     }
 
     public function testSearchLocationsForCountry(): void
