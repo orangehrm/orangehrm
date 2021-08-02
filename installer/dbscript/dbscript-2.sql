@@ -1395,8 +1395,7 @@ INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (99, 'Change Leave Status', 4, 'changeLeaveStatus'),
 (100, 'Terminate Employment', 3, 'terminateEmployement'),
 (101, 'View Attendance Summary Report', 5, 'displayAttendanceSummaryReport'),
-(102, 'View Project Activity Details Report', 5, 'displayProjectActivityDetailsReport'),
-(103, 'Save Location', 2, 'saveLocation');
+(102, 'View Project Activity Details Report', 5, 'displayProjectActivityDetailsReport');
 
 INSERT INTO ohrm_menu_item (`id`, `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 (1, 'Admin', 74, NULL, 1, 100, NULL, 1),
@@ -1609,8 +1608,7 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (1, 101, 1, 1, 1, 1),
 (3, 101, 1, 1, 1, 1),
 (1, 102, 1, 1, 1, 1),
-(4, 102, 1, 1, 1, 1),
-(1, 103, 1, 1, 1, 1);
+(4, 102, 1, 1, 1, 1);
 
 INSERT INTO `ohrm_data_group` (`id`, `name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
 (1, 'personal_information', 'PIM - Personal Details', 1, NULL, 1, NULL),
@@ -3894,3 +3892,13 @@ VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_leave_holiday_data_group_id, @ess_role_id),
        (1, 0, 1, 0, 0, @apiv2_leave_workweek_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_leave_workweek_data_group_id, @ess_role_id);
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`)
+VALUES ('Save Location', 2, 'saveLocation');
+SET @saveLocationScreenId := (SELECT `id`
+                              FROM ohrm_screen
+                              WHERE name = 'Save Location'
+                                AND `action_url` = 'saveLocation'
+                              LIMIT 1);
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete)
+VALUES (1, @saveLocationScreenId, 1, 1, 1, 1);
