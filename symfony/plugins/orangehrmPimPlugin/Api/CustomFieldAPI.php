@@ -256,6 +256,8 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
         if ($type == $customField->getType() || !$this->getCustomFieldService()->getCustomFieldDao(
             )->isCustomFieldInUse($id)) {
             $this->saveCustomField($customField);
+        } else {
+            throw $this->getBadRequestException();
         }
         return new EndpointResourceResult(CustomFieldModel::class, $customField);
     }
@@ -282,6 +284,8 @@ class CustomFieldAPI extends Endpoint implements CrudEndpoint
 
         if (count(array_intersect($ids, $this->getCustomFieldService()->getAllFieldsInUse()))==0) {
             $this->getCustomFieldService()->getCustomFieldDao()->deleteCustomFields($ids);
+        } else {
+            throw $this->getBadRequestException();
         }
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

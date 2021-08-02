@@ -287,18 +287,8 @@ class CustomFieldAPITest extends EndpointTestCase
         $api->expects($this->exactly(2))
             ->method('getCustomFieldService')
             ->will($this->returnValue($customFieldService));
-
-        $result = $api->update();
-        $this->assertEquals(
-            [
-                "id" => 1,
-                "fieldName" => "Level",
-                "fieldType" => 1,
-                "extraData" => 'level1, level2',
-                "screen" => "Personal"
-            ],
-            $result->normalize()
-        );
+        $this->expectBadRequestException();
+        $api->update();
     }
 
     public function testGetValidationRuleForUpdate(): void
@@ -351,14 +341,8 @@ class CustomFieldAPITest extends EndpointTestCase
         $api->expects($this->exactly(1))
             ->method('getCustomFieldService')
             ->will($this->returnValue($customFieldService));
-
+        $this->expectBadRequestException();
         $result = $api->delete();
-        $this->assertEquals(
-            [
-                1
-            ],
-            $result->normalize()
-        );
     }
 
     public function testDeleteNoInUse()
