@@ -413,6 +413,15 @@ apiv2_pim_employees_membership:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_tax_exemption:
+  path: /api/v2/pim/employees/{empNumber}/tax-exemption
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Pim\Api\EmpUsTaxExemptionAPI
+  requirements:
+    empNumber: '\d+'
 
 ##########################
 #        Files

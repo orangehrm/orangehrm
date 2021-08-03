@@ -38,11 +38,11 @@ class EmpUsTaxExemptionDecorator
 
     /**
      * EmpUsTaxExemptionDecorator constructor.
-     * @param EmpUsTaxExemption $EmpUsTaxExemption
+     * @param EmpUsTaxExemption $empUsTaxExemption
      */
-    public function __construct(EmpUsTaxExemption $EmpUsTaxExemption)
+    public function __construct(EmpUsTaxExemption $empUsTaxExemption)
     {
-        $this->EmpUsTaxExemption = $EmpUsTaxExemption;
+        $this->EmpUsTaxExemption = $empUsTaxExemption;
     }
 
     /**
