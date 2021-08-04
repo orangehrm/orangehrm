@@ -30,10 +30,12 @@
     @close="onEditModalClose"
   ></edit-pay-currency>
   <div class="orangehrm-background-container">
-    <div class="orangehrm-card-container">
-      <inline-action-button @click="onclickAdd">
-        Currencies
-      </inline-action-button>
+    <div class="orangehrm-paper-container">
+      <div class="orangehrm-header-container">
+        <inline-action-button @click="onclickAdd">
+          Currencies
+        </inline-action-button>
+      </div>
       <table-header
         :selected="checkedItems.length"
         :total="total"
@@ -51,8 +53,12 @@
           rowDecorator="oxd-table-decorator-card"
         />
       </div>
-      <div v-if="showPaginator" class="orangehrm-bottom-container">
-        <oxd-pagination :length="pages" v-model:current="currentPage" />
+      <div class="orangehrm-bottom-container">
+        <oxd-pagination
+          v-if="showPaginator"
+          :length="pages"
+          v-model:current="currentPage"
+        />
       </div>
       <delete-confirmation ref="deleteDialog"></delete-confirmation>
     </div>

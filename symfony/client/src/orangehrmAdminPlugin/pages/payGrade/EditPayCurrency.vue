@@ -90,15 +90,11 @@ export default {
     },
   },
   setup(props) {
-    const httpAllowed = new APIService(
-      window.appGlobal.baseUrl,
-      `api/v2/admin/pay-grades/${props.payGradeId}/currencies/allowed?limit=0`,
-    );
     const http = new APIService(
       window.appGlobal.baseUrl,
       `api/v2/admin/pay-grades/${props.payGradeId}/currencies`,
     );
-    return {httpAllowed, http};
+    return {http};
   },
 
   data() {

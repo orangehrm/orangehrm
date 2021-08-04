@@ -26,11 +26,11 @@
           Pay Grades
         </oxd-text>
         <div>
-        <oxd-button
-          label="Add"
-          iconName="plus"
-          displayType="secondary"
-          @click="onClickAdd"
+          <oxd-button
+            label="Add"
+            iconName="plus"
+            displayType="secondary"
+            @click="onClickAdd"
           />
         </div>
       </div>

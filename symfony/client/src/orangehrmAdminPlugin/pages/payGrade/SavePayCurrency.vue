@@ -26,13 +26,11 @@
         <oxd-grid :cols="1" class="orangehrm-full-width-grid">
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Currency"
+              :options="currencies"
               v-model="payCurrency.currencyId"
               :rules="rules.currencyId"
-              :create-options="loadOptions"
-              :lazyLoad="false"
-              :clear="false"
               required
             />
           </oxd-grid-item>
@@ -89,21 +87,18 @@ export default {
     },
   },
   setup(props) {
-    const httpAllowed = new APIService(
-      window.appGlobal.baseUrl,
-      `api/v2/admin/pay-grades/${props.payGradeId}/currencies/allowed?limit=0`,
-    );
     const http = new APIService(
       window.appGlobal.baseUrl,
       `api/v2/admin/pay-grades/${props.payGradeId}/currencies`,
     );
-    return {httpAllowed, http};
+    return {http};
   },
 
   data() {
     return {
       isLoading: false,
       payCurrency: {...payCurrencyModel},
+      currencies: [],
       rules: {
         currencyId: [required],
         minSalary: [max(1000000000), digitsOnly],
@@ -111,27 +106,36 @@ export default {
       },
     };
   },
-  methods: {
-    async loadOptions() {
-      return new Promise(resolve => {
-        this.httpAllowed.getAll().then(({data}) => {
-          resolve(
-            data.data.map(item => {
-              return {
-                id: item.id,
-                label: item.id + ' - ' + item.name,
-              };
-            }),
-          );
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .request({
+        method: 'GET',
+        url: `api/v2/admin/pay-grades/${this.payGradeId}/currencies/allowed?limit=0`,
+        params: {
+          limit: 0,
+        },
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.currencies = data.map(item => {
+          return {
+            id: item.id,
+            label: item.id + ' - ' + item.name,
+          };
         });
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
-    },
+  },
+  methods: {
     onSave() {
       this.isLoading = true;
       this.http
         .create({
           ...this.payCurrency,
-          currencyId: this.payCurrency.currencyId.map(item => item.id)[0],
+          currencyId: this.payCurrency.currencyId.id,
         })
         .then(() => {
           return this.$toast.saveSuccess();
