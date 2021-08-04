@@ -137,9 +137,8 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             self::PARAMETER_UNEMPLOYMENT_STATE_CODE);
         $workStateCode = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_WORK_STATE_CODE);
-        if ($empNumber) {
-            $empUsTaxExemption = $this->getEmpUsTaxExemptionService()->getEmpUsTaxExemptionDao()->getEmployeeTaxExemption($empNumber);
-        }else {
+        $empUsTaxExemption = $this->getEmpUsTaxExemptionService()->getEmpUsTaxExemptionDao()->getEmployeeTaxExemption($empNumber);
+        if (!$empUsTaxExemption instanceof EmpUsTaxExemption) {
             $empUsTaxExemption = new EmpUsTaxExemption();
             $empUsTaxExemption->getDecorator()->setEmployeeByEmpNumber($empNumber);
         }
@@ -170,7 +169,14 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_FEDERAL_STATUS,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::IN, [[EmpUsTaxExemption::FILTER_SINGLE,EmpUsTaxExemption::FILTER_MARRIED,EmpUsTaxExemption::FILTER_NON_RESIDENT_ALIEN,EmpUsTaxExemption::FILTER_NOT_APPLICABLE]]),
+                    new Rule(Rules::IN, [
+                        [
+                            EmpUsTaxExemption::FILTER_SINGLE,
+                            EmpUsTaxExemption::FILTER_MARRIED,
+                            EmpUsTaxExemption::FILTER_NON_RESIDENT_ALIEN,
+                            EmpUsTaxExemption::FILTER_NOT_APPLICABLE
+                        ]
+                    ]),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -181,12 +187,20 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_TAX_STATE_CODE,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::PROVINCE_CODE),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_STATE_STATUS,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::IN, [[EmpUsTaxExemption::FILTER_SINGLE,EmpUsTaxExemption::FILTER_MARRIED,EmpUsTaxExemption::FILTER_NON_RESIDENT_ALIEN,EmpUsTaxExemption::FILTER_NOT_APPLICABLE]]),
+                    new Rule(Rules::IN, [
+                        [
+                            EmpUsTaxExemption::FILTER_SINGLE,
+                            EmpUsTaxExemption::FILTER_MARRIED,
+                            EmpUsTaxExemption::FILTER_NON_RESIDENT_ALIEN,
+                            EmpUsTaxExemption::FILTER_NOT_APPLICABLE
+                        ]
+                    ]),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -197,11 +211,13 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_UNEMPLOYMENT_STATE_CODE,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::PROVINCE_CODE),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_WORK_STATE_CODE,
                     new Rule(Rules::STRING_TYPE),
+                    new Rule(Rules::PROVINCE_CODE),
                 ),
             ),
         );

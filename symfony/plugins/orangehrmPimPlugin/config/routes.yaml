@@ -562,3 +562,8 @@ pim_employee_membership:
   path: /pim/viewMemberships/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeMembershipController::handle
   methods: [ GET ]
+
+pim_employee_tax_exemption:
+  path: /pim/viewUsTaxExemptions/empNumber/{empNumber}
+  controller: OrangeHRM\Pim\Controller\EmpUsTaxExemptionController::handle
+  methods: [ GET ]
