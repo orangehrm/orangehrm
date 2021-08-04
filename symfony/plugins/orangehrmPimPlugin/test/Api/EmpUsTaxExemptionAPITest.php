@@ -324,11 +324,21 @@ class EmpUsTaxExemptionAPITest extends EndpointTestCase
         $authUser->expects($this->once())
             ->method('getEmpNumber')
             ->willReturn(1);
-
+        $province = new Province();
+        $province->setProvinceCode('AK');
+        $province->setProvinceName('Alaska');
+        $countryService = $this->getMockBuilder(CountryService::class)
+            ->onlyMethods(['getProvinceByProvinceCode'])
+            ->getMock();
+        $countryService->expects($this->exactly(3))
+            ->method('getProvinceByProvinceCode')
+            ->with('AK')
+            ->willReturn($province);
         $this->createKernelWithMockServices(
             [
                 Services::USER_ROLE_MANAGER => $userRoleManager,
                 Services::AUTH_USER => $authUser,
+                Services::COUNTRY_SERVICE => $countryService,
             ]
         );
         $api = new EmpUsTaxExemptionAPI($this->getRequest());
