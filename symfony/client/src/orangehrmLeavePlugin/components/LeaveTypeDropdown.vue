@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,11 +16,40 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-import LeavePeriod from './pages/configure/LeavePeriod.vue';
-import LeaveApply from './pages/leave/LeaveApply.vue';
+<template>
+  <oxd-input-field
+    type="select"
+    :label="$t('leave.leave_type')"
+    :options="options"
+  />
+</template>
 
+<script>
+import {ref, onBeforeMount} from 'vue';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 export default {
-  'leave-period': LeavePeriod,
-  'leave-apply': LeaveApply,
+  name: 'leave-type-dropdown',
+  setup() {
+    const options = ref([]);
+    const http = new APIService(
+      window.appGlobal.mockUrl,
+      'api/v2/leave/leave-types',
+    );
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.type,
+          };
+        });
+      });
+    });
+    return {
+      options,
+    };
+  },
 };
+</script>

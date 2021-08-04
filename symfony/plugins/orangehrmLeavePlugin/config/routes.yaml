@@ -65,4 +65,8 @@ apiv2_leave_leave_requests:
 define_leave_period:
   path: /leave/defineLeavePeriod
   controller: OrangeHRM\Leave\Controller\LeavePeriodController::handle
+
+apply_leave:
+  path: /leave/applyLeave
+  controller: OrangeHRM\Leave\Controller\ApplyLeaveController::handle
   methods: [ GET ]
