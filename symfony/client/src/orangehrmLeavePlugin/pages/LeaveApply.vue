@@ -283,6 +283,6 @@ export default {
 
 <style lang="scss" scoped>
 .orangehrm-leave-duration {
-  padding: 0.675rem 0rem;
+  padding: $oxd-input-control-vertical-padding 0rem;
 }
 </style>

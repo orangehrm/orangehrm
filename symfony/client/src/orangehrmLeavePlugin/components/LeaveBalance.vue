@@ -131,6 +131,6 @@ export default {
   }
 }
 .orangehrm-leave-balance-text {
-  padding: 0.675rem 0rem;
+  padding: $oxd-input-control-vertical-padding 0rem;
 }
 </style>
