@@ -425,6 +425,7 @@ class UserServiceTest extends KernelTestCase
         $user = new User();
         $user->setId(1);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getUser'])
             ->getMock();
         $userRoleManager->expects($this->exactly(2))
