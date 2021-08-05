@@ -117,4 +117,196 @@ class LeaveEntitlement
      * @ORM\JoinColumn(name="created_by_id", referencedColumnName="id")
      */
     private User $createdBy;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return Employee
+     */
+    public function getEmployee(): Employee
+    {
+        return $this->employee;
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    public function setEmployee(Employee $employee): void
+    {
+        $this->employee = $employee;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNoOfDays(): string
+    {
+        return $this->noOfDays;
+    }
+
+    /**
+     * @param string $noOfDays
+     */
+    public function setNoOfDays(string $noOfDays): void
+    {
+        $this->noOfDays = $noOfDays;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDaysUsed(): string
+    {
+        return $this->daysUsed;
+    }
+
+    /**
+     * @param string $daysUsed
+     */
+    public function setDaysUsed(string $daysUsed): void
+    {
+        $this->daysUsed = $daysUsed;
+    }
+
+    /**
+     * @return LeaveType
+     */
+    public function getLeaveType(): LeaveType
+    {
+        return $this->leaveType;
+    }
+
+    /**
+     * @param LeaveType $leaveType
+     */
+    public function setLeaveType(LeaveType $leaveType): void
+    {
+        $this->leaveType = $leaveType;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getFromDate(): DateTime
+    {
+        return $this->fromDate;
+    }
+
+    /**
+     * @param DateTime $fromDate
+     */
+    public function setFromDate(DateTime $fromDate): void
+    {
+        $this->fromDate = $fromDate;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getToDate(): DateTime
+    {
+        return $this->toDate;
+    }
+
+    /**
+     * @param DateTime $toDate
+     */
+    public function setToDate(DateTime $toDate): void
+    {
+        $this->toDate = $toDate;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreditedDate(): DateTime
+    {
+        return $this->creditedDate;
+    }
+
+    /**
+     * @param DateTime $creditedDate
+     */
+    public function setCreditedDate(DateTime $creditedDate): void
+    {
+        $this->creditedDate = $creditedDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNote(): string
+    {
+        return $this->note;
+    }
+
+    /**
+     * @param string $note
+     */
+    public function setNote(string $note): void
+    {
+        $this->note = $note;
+    }
+
+    /**
+     * @return LeaveEntitlementType
+     */
+    public function getEntitlementType(): LeaveEntitlementType
+    {
+        return $this->entitlementType;
+    }
+
+    /**
+     * @param LeaveEntitlementType $entitlementType
+     */
+    public function setEntitlementType(LeaveEntitlementType $entitlementType): void
+    {
+        $this->entitlementType = $entitlementType;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted(): bool
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @param bool $deleted
+     */
+    public function setDeleted(bool $deleted): void
+    {
+        $this->deleted = $deleted;
+    }
+
+    /**
+     * @return User
+     */
+    public function getCreatedBy(): User
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param User $createdBy
+     */
+    public function setCreatedBy(User $createdBy): void
+    {
+        $this->createdBy = $createdBy;
+    }
 }

@@ -1,6 +1,5 @@
 <?php
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,24 +15,31 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
+
+namespace OrangeHRM\Tests\Leave\Service;
+
+use OrangeHRM\Entity\LeavePeriodHistory;
+use OrangeHRM\Leave\Service\LeavePeriodService;
+use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * Leave period service test
- * @group Leave 
+ * @group Leave
+ * @group Service
  */
-class LeavePeriodHistoryServiceTest extends PHPUnit_Framework_TestCase {
+class LeavePeriodHistoryServiceTest //extends TestCase
+{
 
-    private $leavePeriodService;
+    private LeavePeriodService $leavePeriodService;
     private $fixture;
 
-    protected function setUp() {
+    protected function setUp():void {
 
         $this->leavePeriodService = new LeavePeriodService();
-        $leaveEntitlementService = new LeaveEntitlementService();
-        $leaveEntitlementService->setLeaveEntitlementStrategy(new FIFOEntitlementConsumptionStrategy());
-        $this->leavePeriodService->setLeaveEntitlementService($leaveEntitlementService);
+//        $leaveEntitlementService = new LeaveEntitlementService();
+//        $leaveEntitlementService->setLeaveEntitlementStrategy(new FIFOEntitlementConsumptionStrategy());
+//        $this->leavePeriodService->setLeaveEntitlementService($leaveEntitlementService);
         
         TestDataService::truncateTables(array('LeavePeriodHistory'));
     }
@@ -48,9 +54,9 @@ class LeavePeriodHistoryServiceTest extends PHPUnit_Framework_TestCase {
     
     public function testGetGeneratedLeavePeriodListDefineAs2012Jan1st(){
         $leavePeriodHistory = new LeavePeriodHistory();
-        $leavePeriodHistory->setLeavePeriodStartMonth(1);
-        $leavePeriodHistory->setLeavePeriodStartDay(1);
-        $leavePeriodHistory->setCreatedAt('2010-01-02');
+        $leavePeriodHistory->setStartMonth(1);
+        $leavePeriodHistory->setStartDay(1);
+        $leavePeriodHistory->setCreatedAt(new \DateTime('2010-01-02'));
         
         $this->leavePeriodService->saveLeavePeriodHistory( $leavePeriodHistory );
         

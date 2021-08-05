@@ -28,8 +28,10 @@ use OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager;
 use OrangeHRM\Core\Authorization\Service\UserRoleManagerService;
 use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
@@ -120,6 +122,7 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->method('getAuthenticationService')
             ->willReturn($authenticationService);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $manager = $this->service->getUserRoleManager();
         $this->assertNotNull($manager);
         $this->assertTrue($manager instanceof AbstractUserRoleManager);
@@ -144,6 +147,7 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->method('getConfigDao')
             ->willReturn($configDao);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $this->service = $this->getMockBuilder(UserRoleManagerService::class)
             ->onlyMethods(['getConfigService'])->getMock();
         $this->service->expects($this->once())
@@ -182,6 +186,7 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->method('getConfigService')
             ->willReturn($configService);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         try {
             $manager = $this->service->getUserRoleManager();
             $this->fail("Should throw exception if user role manager class does not exist.");
@@ -231,6 +236,7 @@ class UserRoleManagerServiceTest extends KernelTestCase
             ->method('getAuthenticationService')
             ->willReturn($authenticationService);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         try {
             $manager = $this->service->getUserRoleManager();
             $this->fail("User id should be null when no logged in user");

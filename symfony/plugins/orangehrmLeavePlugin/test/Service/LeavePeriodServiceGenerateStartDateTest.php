@@ -16,15 +16,25 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+namespace OrangeHRM\Tests\Leave\Service;
+
+use OrangeHRM\Leave\Service\LeavePeriodService;
+use OrangeHRM\Tests\Util\TestCase;
+
 /**
- * @group Leave 
+ * @group Leave
+ * @group Service
  */
-class LeavePeriodServiceGenerateStartDateTest extends PHPUnit_Framework_TestCase {
+class LeavePeriodServiceGenerateStartDateTest //extends TestCase
+{
+    /**
+     * @var LeavePeriodService
+     */
+    private LeavePeriodService $leavePeriodService;
 
-    protected function setUp() {
-
+    protected function setUp():void {
         $this->leavePeriodService = new LeavePeriodService();
-
     }
 
     /*
