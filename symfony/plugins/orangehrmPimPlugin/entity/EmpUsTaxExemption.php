@@ -62,49 +62,49 @@ class EmpUsTaxExemption
      *
      * @ORM\Column(name="tax_federal_status", type="string", length=13, nullable=true)
      */
-    private ?string $federalStatus;
+    private ?string $federalStatus = null;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="tax_federal_exceptions", type="integer", length=2, nullable=true, options={"default" : 0})
      */
-    private ?int $federalExemptions = 0;
+    private ?int $federalExemptions = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="tax_state", type="string", length=13, nullable=true)
      */
-    private ?string $state;
+    private ?string $state = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="tax_state_status", type="string", length=13, nullable=true)
      */
-    private ?string $stateStatus;
+    private ?string $stateStatus = null;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="tax_state_exceptions", type="integer", length=2, nullable=true, options={"default" : 0})
      */
-    private ?int $stateExemptions = 0;
+    private ?int $stateExemptions = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="tax_unemp_state", type="string", length=13, nullable=true)
      */
-    private ?string $unemploymentState;
+    private ?string $unemploymentState= null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="tax_work_state", type="string", length=13, nullable=true)
      */
-    private ?string $workState;
+    private ?string $workState= null;
 
     /**
      * @return Employee

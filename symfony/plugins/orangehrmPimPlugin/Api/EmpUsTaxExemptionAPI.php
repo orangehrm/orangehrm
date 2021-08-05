@@ -74,8 +74,10 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             CommonParams::PARAMETER_EMP_NUMBER
         );
         $empUsTaxExemption = $this->getEmpUsTaxExemptionService()->getEmpUsTaxExemptionDao()->getEmployeeTaxExemption($empNumber);
-        $this->throwRecordNotFoundExceptionIfNotExist($empUsTaxExemption, EmpUsTaxExemption::class);
-
+        if (!$empUsTaxExemption instanceof EmpUsTaxExemption) {
+            $empUsTaxExemption = new EmpUsTaxExemption();
+            $empUsTaxExemption->getDecorator()->setEmployeeByEmpNumber($empNumber);
+        }
         return new EndpointResourceResult(
             EmpUsTaxExemptionModel::class, $empUsTaxExemption,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
