@@ -32,6 +32,7 @@ use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Leave
+ * @group Service
  */
 class HolidayServiceTest extends KernelTestCase
 {

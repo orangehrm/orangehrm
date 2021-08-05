@@ -17,25 +17,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Service;
+namespace OrangeHRM\Tests\Leave\Service;
 
 use OrangeHRM\Leave\Dao\LeaveTypeDao;
+use OrangeHRM\Leave\Service\LeaveTypeService;
+use OrangeHRM\Tests\Util\TestCase;
 
-class LeaveTypeService
+/**
+ * @group Leave
+ * @group Service
+ */
+class LeaveTypeServiceTest extends TestCase
 {
     /**
-     * @var LeaveTypeDao|null
+     * @var LeaveTypeService
      */
-    private ?LeaveTypeDao $leaveTypeDao = null;
+    private LeaveTypeService $leaveTypeService;
 
-    /**
-     * @return LeaveTypeDao|null
-     */
-    public function getLeaveTypeDao(): LeaveTypeDao
+    public function setup(): void
     {
-        if (!($this->leaveTypeDao instanceof LeaveTypeDao)) {
-            $this->leaveTypeDao = new LeaveTypeDao();
-        }
-        return $this->leaveTypeDao;
+        $this->leaveTypeService = new LeaveTypeService();
+    }
+
+    public function testGetLeaveTypeDao(): void
+    {
+        $this->assertTrue($this->leaveTypeService->getLeaveTypeDao() instanceof LeaveTypeDao);
     }
 }
