@@ -177,7 +177,7 @@ class EmpUsTaxExemptionAPITest extends EndpointTestCase
             $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
-                    CommonParams::PARAMETER_ID => 1
+                    CommonParams::PARAMETER_ID => 0
                 ],
                 $rules
             )
@@ -260,7 +260,7 @@ class EmpUsTaxExemptionAPITest extends EndpointTestCase
             [
                 RequestParams::PARAM_TYPE_ATTRIBUTE => [
                     CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
-                    CommonParams::PARAMETER_ID => 1,
+                    CommonParams::PARAMETER_ID => 0,
                 ],
                 RequestParams::PARAM_TYPE_BODY => [
                     EmpUsTaxExemptionAPI::PARAMETER_FEDERAL_STATUS => "S",
@@ -347,7 +347,7 @@ class EmpUsTaxExemptionAPITest extends EndpointTestCase
             $this->validate(
                 [
                     CommonParams::PARAMETER_EMP_NUMBER => 1,
-                    CommonParams::PARAMETER_ID => 1,
+                    CommonParams::PARAMETER_ID => 0,
                     EmpUsTaxExemptionAPI::PARAMETER_FEDERAL_STATUS => "S",
                     EmpUsTaxExemptionAPI::PARAMETER_FEDERAL_EXEMPTIONS => 2,
                     EmpUsTaxExemptionAPI::PARAMETER_TAX_STATE_CODE => "AK",

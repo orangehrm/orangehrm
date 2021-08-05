@@ -181,7 +181,7 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_FEDERAL_EXEMPTIONS,
-                    new Rule(Rules::BETWEEN, [0, 99]),
+                    new Rule(Rules::LESS_THAN, [100]),
                 ),
                 true
             ),
@@ -198,7 +198,7 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_STATE_EXEMPTIONS,
-                    new Rule(Rules::LESS_THAN, [0, 99]),
+                    new Rule(Rules::LESS_THAN, [100]),
                 ),
                 true
             ),
