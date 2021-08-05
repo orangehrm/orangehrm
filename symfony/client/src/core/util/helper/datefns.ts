@@ -103,7 +103,6 @@ const compareTime = (
   const comparableTime = parseDate(comparable, timeFormat);
 
   if (referenceTime && comparableTime) {
-    console.log(referenceTime, comparableTime);
     if (referenceTime.valueOf() < comparableTime.valueOf()) {
       return 1;
     }
