@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,45 +15,40 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Description of LeaveConfigurationService
- */
-class LeaveConfigurationService extends ConfigService {
-    
-    const KEY_LEAVE_ENTITLEMENT_CONSUMPTION_STRATEGY = "leave.entitlement_consumption_algorithm";
-    const KEY_LEAVE_WORK_SCHEDULE_IMPLEMENTATION = "leave.work_schedule_implementation";
-    const KEY_INCLUDE_PENDING_LEAVE_IN_BALANCE = 'leave.include_pending_leave_in_balance';
-    
-    protected static $includePendingLeaveInBalance = null;
-    
-    protected static $leaveConsumptionStrategy = null;
-    
-    public function getLeaveEntitlementConsumptionStrategy($forceReload = false) {
-        if ($forceReload || is_null(self::$leaveConsumptionStrategy)) {
-            self::$leaveConsumptionStrategy = $this->_getConfigValue(self::KEY_LEAVE_ENTITLEMENT_CONSUMPTION_STRATEGY);
-        }
-        
-        return self::$leaveConsumptionStrategy;        
+namespace OrangeHRM\Leave\Service;
+
+use OrangeHRM\Core\Service\ConfigService;
+
+class LeaveConfigurationService extends ConfigService
+{
+    public const KEY_LEAVE_ENTITLEMENT_CONSUMPTION_STRATEGY = "leave.entitlement_consumption_algorithm";
+    public const KEY_LEAVE_WORK_SCHEDULE_IMPLEMENTATION = "leave.work_schedule_implementation";
+    public const KEY_INCLUDE_PENDING_LEAVE_IN_BALANCE = 'leave.include_pending_leave_in_balance';
+
+    /**
+     * @return string
+     */
+    public function getLeaveEntitlementConsumptionStrategy(): string
+    {
+        return $this->_getConfigValue(self::KEY_LEAVE_ENTITLEMENT_CONSUMPTION_STRATEGY);
     }
-    
-    public function getWorkScheduleImplementation() {
+
+    /**
+     * @return string
+     */
+    public function getWorkScheduleImplementation(): string
+    {
         return $this->_getConfigValue(self::KEY_LEAVE_WORK_SCHEDULE_IMPLEMENTATION);
     }
-    
-    public function includePendingLeaveInBalance($forceReload = false) {
-        $include = true;
-        
-        if ($forceReload || is_null(self::$includePendingLeaveInBalance)) {
-            self::$includePendingLeaveInBalance = $this->_getConfigValue(self::KEY_INCLUDE_PENDING_LEAVE_IN_BALANCE);
-        }
-        
-        if (self::$includePendingLeaveInBalance == 0) {
-            $include = false;
-        }
-        
-        return $include;
+
+    /**
+     * @return bool
+     */
+    public function includePendingLeaveInBalance(): bool
+    {
+        $includePendingLeaveInBalance = $this->_getConfigValue(self::KEY_INCLUDE_PENDING_LEAVE_IN_BALANCE);
+        return $includePendingLeaveInBalance !== '0';
     }
 }
