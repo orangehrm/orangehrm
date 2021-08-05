@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,161 +15,139 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Description of NewLeaveTypeDao
- */
-class LeaveTypeDao {
-    
-    public function getLeaveTypeList($operationalCountryId = null) {
-        try {
-            $q = Doctrine_Query::create()
-                            ->from('LeaveType lt')
-                            ->where('lt.deleted = 0')
-                            ->orderBy('lt.name');
-            
-            if (!is_null($operationalCountryId)) {
-                if (is_array($operationalCountryId)) {
-                    $q->andWhereIn('lt.operational_country_id', $operationalCountryId);
-                } else {
-                    $q->andWhere('lt.operational_country_id = ? ', $operationalCountryId);
-                }
-            }
-            $leaveTypeList = $q->execute();
+namespace OrangeHRM\Leave\Dao;
 
-            return $leaveTypeList;
-        } catch (Exception $e) {
-            $this->getLogger()->error("Exception in getLeaveTypeList:" . $e);
-            throw new DaoException($e->getMessage(), 0, $e);
-        }        
-    }    
-    
-    /**
-     * Get Leave Type by ID
-     * @return LeaveType
-     */
-    public function readLeaveType($id) {
-        try {
-            return Doctrine::getTable('LeaveType')->find($id);
-        } catch (Exception $e) {
-            $this->getLogger()->error("Exception in readLeaveType:" . $e);
-            throw new DaoException($e->getMessage(), 0, $e);
-        }
-    }    
-    
-    /**
-     * Get Logger instance. Creates if not already created.
-     *
-     * @return Logger
-     */
-    protected function getLogger() {
-        if (is_null($this->logger)) {
-            $this->logger = Logger::getLogger('leave.LeaveTypeDao');
-        }
+use Exception;
+use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\LeaveType;
 
-        return($this->logger);
-    }    
-    
+class LeaveTypeDao extends BaseDao
+{
     /**
-     *
-     * @param LeaveType $leaveType
-     * @return boolean
-     */
-    public function saveLeaveType(LeaveType $leaveType) {
-        try {
-            $leaveType->save();
-
-            return true;
-        } catch (Exception $e) {
-            $this->getLogger()->error("Exception in saveLeaveType:" . $e);
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     * Delete Leave Type
-     * @param array leaveTypeList
-     * @returns boolean
+     * @return LeaveType[]
      * @throws DaoException
      */
-    public function deleteLeaveType($leaveTypeList) {
-
+    public function getLeaveTypeList(): array
+    {
         try {
+            $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
+            $q->andWhere('leaveType.deleted = :deleted')
+                ->setParameter('deleted', false);
+            $q->orderBy('leaveType.name');
 
-            $q = Doctrine_Query::create()
-                            ->update('LeaveType lt')
-                            ->set('lt.deleted', '?', 1)
-                            ->whereIn('lt.id', $leaveTypeList);
-            $numDeleted = $q->execute();
-            if ($numDeleted > 0) {
-                return true;
-            }
-            return false;
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
-            $this->getLogger()->error("Exception in deleteLeaveType:" . $e);
+            throw new DaoException($e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return LeaveType|null
+     * @throws DaoException
+     */
+    public function getLeaveTypeById(int $id): ?LeaveType
+    {
+        try {
+            return $this->getRepository(LeaveType::class)->find($id);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), 0, $e);
+        }
+    }
+
+    /**
+     * @param LeaveType $leaveType
+     * @return LeaveType
+     * @throws DaoException
+     */
+    public function saveLeaveType(LeaveType $leaveType): LeaveType
+    {
+        try {
+            $this->persist($leaveType);
+            return $leaveType;
+        } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
 
-
-
-    public function getDeletedLeaveTypeList($operationalCountryId = null) {
+    /**
+     * @param int[] $idsToDelete
+     * @return int
+     * @throws DaoException
+     */
+    public function deleteLeaveType(array $idsToDelete): int
+    {
         try {
-            $q = Doctrine_Query::create()
-                            ->from('LeaveType lt')
-                            ->where('lt.deleted = 1')
-                            ->orderBy('lt.id');
+            $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
+            $q->update();
+            $q->where($q->expr()->in('leaveType.id', ':ids'))
+                ->setParameter('ids', $idsToDelete);
+            $q->set('leaveType.deleted', ':deleted')
+                ->setParameter('deleted', true);
 
-            if (!is_null($operationalCountryId)) {
-                $q->andWhere('lt.operational_country_id = ? ', $operationalCountryId);
-            }
-            
-            $leaveTypeList = $q->execute();
-
-            return $leaveTypeList;
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
-            $this->getLogger()->error("Exception in getDeletedLeaveTypeList:" . $e);
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function readLeaveTypeByName($leaveTypeName) {
+    /**
+     * @return LeaveType[]
+     * @throws DaoException
+     */
+    public function getDeletedLeaveTypeList(): array
+    {
         try {
-            $q = Doctrine_Query::create()
-                            ->from('LeaveType lt')
-                            ->where("lt.name = ?", $leaveTypeName)
-                            ->andWhere('lt.deleted = 0');
+            $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
+            $q->andWhere('leaveType.deleted = :deleted')
+                ->setParameter('deleted', true);
+            $q->orderBy('leaveType.name');
 
-            $leaveTypeCollection = $q->execute();
-
-            return $leaveTypeCollection[0];
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
-            $this->getLogger()->error("Exception in readLeaveTypeByName:" . $e);
             throw new DaoException($e->getMessage());
         }
     }
 
-    public function undeleteLeaveType($leaveTypeId) {
-
+    /**
+     * @param $leaveTypeName
+     * @return LeaveType|null
+     * @throws DaoException
+     */
+    public function getLeaveTypeByName($leaveTypeName): ?LeaveType
+    {
         try {
+            $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
+            $q->andWhere('leaveType.name = :name')
+                ->setParameter('name', $leaveTypeName);
+            $q->andWhere('leaveType.deleted = :deleted')
+                ->setParameter('deleted', false);
 
-            $q = Doctrine_Query::create()
-                            ->update('LeaveType lt')
-                            ->set('lt.deleted', 0)
-                            ->where("lt.id = ?", $leaveTypeId);
-
-            $numUpdated = $q->execute();
-
-            if ($numUpdated > 0) {
-                return true;
-            }
-
-            return false;
+            return $this->fetchOne($q);
         } catch (Exception $e) {
-            $this->getLogger()->error("Exception in undeleteLeaveType:" . $e);
             throw new DaoException($e->getMessage());
         }
-    }    
+    }
+
+    /**
+     * @param int $leaveTypeId
+     * @return LeaveType|null
+     * @throws DaoException
+     */
+    public function undeleteLeaveType(int $leaveTypeId): ?LeaveType
+    {
+        try {
+            $leaveType = $this->getLeaveTypeById($leaveTypeId);
+            if ($leaveType instanceof LeaveType) {
+                $leaveType->setDeleted(false);
+                $this->persist($leaveType);
+            }
+            return $leaveType;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }
