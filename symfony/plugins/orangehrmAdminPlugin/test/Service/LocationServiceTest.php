@@ -25,6 +25,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Framework\Services;
@@ -51,9 +52,22 @@ class LocationServiceTest extends KernelTestCase
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/LocationDao.yml';
         TestDataService::populate($this->fixture);
 
-        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)->getMock();
-        $normalizerService = $this->getMockBuilder(NormalizerService::class)->getMock();
-        $employeeService = $this->getMockBuilder(EmployeeService::class)->getMock();
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+                                ->onlyMethods(['getAccessibleEntityIds'])
+                                ->getMock();
+        $userRoleManager->expects($this->any())
+                        ->method('getAccessibleEntityIds')
+                        ->willReturn([1, 2, 3]);
+
+        $normalizerService = $this->getMockBuilder(NormalizerService::class)
+                                  ->getMock();
+
+        $employeeService = $this->getMockBuilder(EmployeeService::class)
+                                ->onlyMethods(['getEmployeeByEmpNumber'])
+                                ->getMock();
+        $employeeService->expects($this->any())
+                        ->method('getEmployeeByEmpNumber')
+                        ->willReturn(new Employee());
 
         $this->createKernelWithMockServices(
             [
@@ -166,6 +180,6 @@ class LocationServiceTest extends KernelTestCase
         $locations = $this->locationService->getAccessibleLocationsArray();
         $this->assertCount(0, $locations);
         $locations = $this->locationService->getAccessibleLocationsArray(1);
-        $this->assertCount(1, $locations);
+        $this->assertCount(0, $locations);
     }
 }
