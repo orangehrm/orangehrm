@@ -182,3 +182,11 @@ export const decimalsOnly = function(value: string): boolean | string {
     'Should be a number'
   );
 };
+
+export const positiveNumber = function(value: string): boolean | string {
+  return (
+    value == '' ||
+    (/^\d+$/.test(value) && !Number.isNaN(parseFloat(value))) ||
+    'Should be a positive number'
+  );
+};

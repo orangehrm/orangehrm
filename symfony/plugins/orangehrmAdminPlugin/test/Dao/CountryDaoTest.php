@@ -114,4 +114,15 @@ class CountryDaoTest extends TestCase
         $this->assertEquals('SGP', $result->getIso3());
         $this->assertEquals(702, $result->getNumCode());
     }
+
+    public function testGetProvinceByProvinceCode(): void
+    {
+        $result = $this->dao->getProvinceByProvinceCode('NotExists');
+        $this->assertNull($result);
+
+        $result = $this->dao->getProvinceByProvinceCode('AK');
+        $this->assertTrue($result instanceof Province);
+        $this->assertEquals('Alaska', $result->getProvinceName());
+        $this->assertEquals('US', $result->getCountryCode());
+    }
 }

@@ -406,7 +406,7 @@ class Employee
     /**
      * @var Collection|EmpEmergencyContact[]
      *
-     * @ORM\OneToMany (targetEntity="OrangeHRM\Entity\EmpEmergencyContact", mappedBy="Employee")
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\EmpEmergencyContact", mappedBy="employee")
      */
     private $emergencyContacts;
 
@@ -420,7 +420,7 @@ class Employee
     /**
      * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpWorkExperience", mappedBy="Employee")
+     * @ORM\ManyToMany(targetEntity="OrangeHRM\Entity\EmpWorkExperience", mappedBy="employee")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="emp_number", referencedColumnName="emp_number")
      * })
@@ -533,6 +533,13 @@ class Employee
      * )
      */
     private $supervisors;
+
+    /**
+     * @var EmpUsTaxExemption
+     *
+     * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmpUsTaxExemption" , mappedBy="employee")
+     */
+    private EmpUsTaxExemption $empUsTax;
 
     /**
      * Constructor

@@ -39,6 +39,7 @@ import CustomField from './pages/customField/CustomField.vue';
 import EditCustomField from './pages/customField/EditCustomField.vue';
 import SaveCustomField from './pages/customField/SaveCustomField.vue';
 import OptionalField from './pages/optionalField/OptionalField.vue';
+import EmployeeTaxExemption from './pages/employee/EmployeeTaxExemption.vue';
 
 export default {
   'employee-save': SaveEmployee,
@@ -64,4 +65,5 @@ export default {
   'custom-field-edit': EditCustomField,
   'custom-field-save': SaveCustomField,
   'optional-field-list': OptionalField,
+  'employee-tax-exemption': EmployeeTaxExemption,
 };

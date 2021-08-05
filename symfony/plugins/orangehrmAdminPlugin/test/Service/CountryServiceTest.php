@@ -153,6 +153,32 @@ class CountryServiceTest extends TestCase
         $this->assertNull($country);
     }
 
+    public function testGetProvinceByProvinceCode(): void
+    {
+        $province = new Province();
+        $province->setProvinceCode('AK');
+        $province->setProvinceName('Alaska');
+
+        $provinceMap = [
+            ['AK', $province],
+            ['NotExists', null],
+        ];
+        $countryDao = $this->getMockBuilder(CountryDao::class)
+            ->onlyMethods(['getProvinceByProvinceCode'])
+            ->getMock();
+        $countryDao->expects($this->exactly(2))
+            ->method('getProvinceByProvinceCode')
+            ->will($this->returnValueMap($provinceMap));
+
+        $this->service->setCountryDao($countryDao);
+        $province = $this->service->getProvinceByProvinceCode('AK');
+        $this->assertEquals('AK', $province->getProvinceCode());
+        $this->assertEquals('Alaska', $province->getProvinceName());
+
+        $province = $this->service->getProvinceByProvinceCode('NotExists');
+        $this->assertNull($province);
+    }
+
     public function testGetCountryArray(): void
     {
         $country = new Country();
