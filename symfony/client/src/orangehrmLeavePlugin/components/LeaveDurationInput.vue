@@ -19,18 +19,19 @@
  -->
 
 <template>
-  <!-- Always use inside OXD-Grid within OXD-Form -->
-  <oxd-grid-item v-if="duration?.label === 'Half Day'">
+  <!-- Always use inside within OXD-Grid inside OXD-Form -->
+  <oxd-grid-item style="grid-column-start: 1">
     <oxd-input-field
       type="select"
-      label="&nbsp;"
-      :modelValue="halfday"
-      :rules="rules.halfday"
-      :options="halfdayOptions"
-      @update:modelValue="$emit('update:halfday', $event)"
+      v-bind="$attrs"
+      :options="options"
+      :modelValue="duration"
+      :rules="rules.duration"
+      @update:modelValue="$emit('update:duration', $event)"
+      required
     />
   </oxd-grid-item>
-  <template v-if="duration?.label === 'Specify Time'">
+  <template v-if="duration && duration.id === 4">
     <oxd-grid-item>
       <oxd-input-field
         type="time"
@@ -63,16 +64,17 @@
 
 <script>
 import {diffInTime, secondsTohhmm} from '@orangehrm/core/util/helper/datefns';
+import {
+  endTimeShouldBeAfterStartTime,
+  required,
+  validTimeFormat,
+} from '@/core/util/validation/rules';
 
 export default {
   name: 'leave-duration-input',
   inheritAttrs: false,
   props: {
     duration: {
-      type: Object,
-      required: false,
-    },
-    halfday: {
       type: Object,
       required: false,
     },
@@ -84,23 +86,40 @@ export default {
       type: String,
       required: false,
     },
-    rules: {
-      type: Object,
-      required: true,
+    partial: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
     return {
-      halfdayOptions: [
-        {id: 1, label: 'Morning'},
-        {id: 2, label: 'Afternoon'},
-      ],
+      rules: {
+        duration: [required],
+        fromTime: [required, validTimeFormat()],
+        toTime: [
+          required,
+          validTimeFormat(),
+          endTimeShouldBeAfterStartTime(
+            () => this.fromTime,
+            'To time should be after from time',
+          ),
+        ],
+      },
     };
   },
   computed: {
     selectedTimeDuration() {
       const timeDifference = diffInTime(this.fromTime, this.toTime);
       return secondsTohhmm(timeDifference);
+    },
+    options() {
+      const durations = [
+        {id: 1, label: 'Full Day', key: 'full_day'},
+        {id: 2, label: 'Half Day - Morning', key: 'half_day_morning'},
+        {id: 3, label: 'Half Day - Afternoon', key: 'half_day_afternoon'},
+        {id: 4, label: 'Specify Time', key: 'specify_time'},
+      ];
+      return this.partial ? durations.filter(i => i.id != 1) : durations;
     },
   },
 };

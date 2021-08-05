@@ -94,6 +94,30 @@ const parseTime = (value: string, timeFormat: string): Date | null => {
   return parseDate(value, timeFormat);
 };
 
+const compareTime = (
+  reference: string,
+  comparable: string,
+  timeFormat: string,
+): number => {
+  const referenceTime = parseDate(reference, timeFormat);
+  const comparableTime = parseDate(comparable, timeFormat);
+
+  if (referenceTime && comparableTime) {
+    console.log(referenceTime, comparableTime);
+    if (referenceTime.valueOf() < comparableTime.valueOf()) {
+      return 1;
+    }
+    if (referenceTime.valueOf() > comparableTime.valueOf()) {
+      return -1;
+    }
+    if (referenceTime.valueOf() === comparableTime.valueOf()) {
+      return 0;
+    }
+  }
+
+  return NaN;
+};
+
 const diffInDays = (
   fromDate: string,
   toDate: string,
@@ -145,4 +169,5 @@ export {
   diffInDays,
   diffInTime,
   secondsTohhmm,
+  compareTime,
 };

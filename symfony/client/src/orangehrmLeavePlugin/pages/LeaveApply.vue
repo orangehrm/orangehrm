@@ -71,22 +71,11 @@
         <!-- Single Day|Duration -->
         <oxd-form-row v-if="appliedLeaveDuration <= 1">
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                type="select"
-                :label="$t('general.duration')"
-                v-model="leave.singleType"
-                :rules="rules.singleType"
-                :options="singleTypeOptions"
-                required
-              />
-            </oxd-grid-item>
             <leave-duration-input
-              :rules="rules"
-              :duration="leave.singleType"
-              v-model:halfday="leave.singleAMPM"
-              v-model:fromTime="leave.singleFromTime"
-              v-model:toTime="leave.singleToTime"
+              :label="$t('general.duration')"
+              v-model:duration="leave.duration.type"
+              v-model:fromTime="leave.duration.fromTime"
+              v-model:toTime="leave.duration.toTime"
             ></leave-duration-input>
           </oxd-grid>
         </oxd-form-row>
@@ -99,11 +88,34 @@
               <oxd-input-field
                 type="select"
                 :label="$t('leave.partial_days')"
-                v-model="leave.partialOption"
-                :rules="rules.partialOption"
                 :options="partialOptions"
+                v-model="leave.partialOptions"
               />
             </oxd-grid-item>
+            <leave-duration-input
+              :partial="true"
+              :label="$t('general.duration')"
+              v-if="showDuration"
+              v-model:duration="leave.duration.type"
+              v-model:fromTime="leave.duration.fromTime"
+              v-model:toTime="leave.duration.toTime"
+            ></leave-duration-input>
+            <leave-duration-input
+              :partial="true"
+              :label="$t('leave.start_day')"
+              v-if="showStartDay"
+              v-model:duration="leave.duration.type"
+              v-model:fromTime="leave.duration.fromTime"
+              v-model:toTime="leave.duration.toTime"
+            ></leave-duration-input>
+            <leave-duration-input
+              :partial="true"
+              :label="$t('leave.end_day')"
+              v-if="showEndDay"
+              v-model:duration="leave.endDuration.type"
+              v-model:fromTime="leave.endDuration.fromTime"
+              v-model:toTime="leave.endDuration.toTime"
+            ></leave-duration-input>
           </oxd-grid>
         </oxd-form-row>
         <!-- Partial Day|Duration -->
@@ -133,34 +145,34 @@
 </template>
 
 <script>
+import {
+  required,
+  validDateFormat,
+  shouldNotExceedCharLength,
+  endDateShouldBeAfterStartDate,
+} from '@/core/util/validation/rules';
 import {diffInDays} from '@orangehrm/core/util/helper/datefns';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationInput';
 import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
-import {
-  endDateShouldBeAfterStartDate,
-  required,
-  shouldNotExceedCharLength,
-  validDateFormat,
-} from '@/core/util/validation/rules';
 
 const leaveModel = {
   type: null,
   fromDate: null,
   toDate: null,
   comment: '',
-  singleType: null,
-  singleAMPM: null,
-  singleFromTime: null,
-  singleToTime: null,
-  partialOption: null,
-  startDayType: null,
-  startDayFromTime: null,
-  startDayToTime: null,
-  endDayType: null,
-  endDayFromTime: null,
-  endDayToTime: null,
+  partialOptions: null,
+  duration: {
+    type: null,
+    fromTime: null,
+    toTime: null,
+  },
+  endDuration: {
+    type: null,
+    fromTime: null,
+    toTime: null,
+  },
 };
 
 export default {
@@ -169,7 +181,7 @@ export default {
   components: {
     'leave-type-dropdown': LeaveTypeDropdown,
     'leave-duration-input': LeaveDurationInput,
-    'leave-balance': LeaveBalance
+    'leave-balance': LeaveBalance,
   },
 
   setup() {
@@ -196,20 +208,11 @@ export default {
           endDateShouldBeAfterStartDate(
             () => this.leave.fromDate,
             'To date should be after from date',
+            true,
           ),
         ],
-        singleType: [required],
         comment: [shouldNotExceedCharLength(250)],
-        fromTime: [required],
-        toTime: [required],
-        halfday: [required],
-        partialOption: [required],
       },
-      singleTypeOptions: [
-        {id: 1, label: 'Full Day', key: 'full_day'},
-        {id: 2, label: 'Half Day', key: 'half_day'},
-        {id: 3, label: 'Specify Time', key: 'specify_time'},
-      ],
       partialOptions: [
         {id: 1, label: 'All Days'},
         {id: 2, label: 'Start Day Only'},
@@ -221,13 +224,58 @@ export default {
 
   methods: {
     onSave() {
-      console.log('here');
+      this.isLoading = true;
+      const payload = {
+        id: this.leave.type?.id,
+        fromDate: this.leave.fromDate,
+        toDate: this.leave.toDate,
+        comment: this.leave.comment,
+        duration: {
+          type: this.leave.duration.type?.key,
+          fromTime: this.leave.duration.fromTime,
+          toTime: this.leave.duration.toTime,
+        },
+        partialOptions: null,
+        endDuration: null,
+      };
+      if (this.leave.partialOptions?.id) {
+        payload.partialOptions = this.leave.partialOptions;
+        payload.endDuration = {
+          type: this.leave.endDuration.type?.key,
+          fromTime: this.leave.endDuration.fromTime,
+          toTime: this.leave.endDuration.toTime,
+        };
+      }
+      console.log(payload);
+      this.http
+        .create(payload)
+        .then(response => {
+          const {data} = response;
+          console.log(data);
+        })
+        .finally(() => {
+          this.$toast.saveSuccess();
+          this.leave = {...leaveModel};
+          this.isLoading = false;
+        });
     },
   },
 
   computed: {
     appliedLeaveDuration() {
       return diffInDays(this.leave.fromDate, this.leave.toDate);
+    },
+    showDuration() {
+      const id = this.leave.partialOptions?.id;
+      return id && id === 1;
+    },
+    showStartDay() {
+      const id = this.leave.partialOptions?.id;
+      return id && (id === 2 || id === 4);
+    },
+    showEndDay() {
+      const id = this.leave.partialOptions?.id;
+      return id && (id === 3 || id === 4);
     },
   },
 };

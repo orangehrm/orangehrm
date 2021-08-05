@@ -70,3 +70,8 @@ apply_leave:
   path: /leave/applyLeave
   controller: OrangeHRM\Leave\Controller\ApplyLeaveController::handle
   methods: [ GET ]
+
+assign_leave:
+  path: /leave/assignLeave
+  controller: OrangeHRM\Leave\Controller\AssignLeaveController::handle
+  methods: [ GET ]

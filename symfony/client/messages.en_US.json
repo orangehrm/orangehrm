@@ -156,6 +156,11 @@
           "target": "Apply Leave",
           "description": "Allows a user to apply for leave.In the dashboard module all the employees who have applied for leave will be shown in the form of a pictorial representation, e.g. bar graph, pie chart etc."
         },
+        "assign_leave": {
+          "source": "Assign Leave",
+          "target": "Assign Leave",
+          "description": "Admin can assign leave to employee"
+        },
         "leave_type": {
           "source": "Leave Type",
           "target": "Leave Type",
@@ -205,6 +210,16 @@
           "source": "As of Date",
           "target": "As of Date",
           "description": ""
+        },
+        "start_day": {
+          "source": "Start Day",
+          "target": "Start Day",
+          "description": "Start date of current leave period."
+        },
+        "end_day": {
+          "source": "End Day",
+          "target": "End Day",
+          "description": "When applying leave for a date range with desired partial days the employee has to select this option."
         }
       }
     }
