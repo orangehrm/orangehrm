@@ -25,6 +25,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmpUsTaxExemption;
 use OrangeHRM\Entity\Province;
@@ -165,10 +166,18 @@ class EmpUsTaxExemptionAPITest extends EndpointTestCase
             ->method('getEmpNumber')
             ->willReturn(1);
 
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['showPimTaxExemptions'])
+            ->getMock();
+        $configService->expects($this->once())
+            ->method('showPimTaxExemptions')
+            ->willReturn(true);
+
         $this->createKernelWithMockServices(
             [
                 Services::USER_ROLE_MANAGER => $userRoleManager,
                 Services::AUTH_USER => $authUser,
+                Services::CONFIG_SERVICE => $configService,
             ]
         );
         $api = new EmpUsTaxExemptionAPI($this->getRequest());
@@ -334,11 +343,20 @@ class EmpUsTaxExemptionAPITest extends EndpointTestCase
             ->method('getProvinceByProvinceCode')
             ->with('AK')
             ->willReturn($province);
+
+        $configService = $this->getMockBuilder(ConfigService::class)
+            ->onlyMethods(['showPimTaxExemptions'])
+            ->getMock();
+        $configService->expects($this->once())
+            ->method('showPimTaxExemptions')
+            ->willReturn(true);
+
         $this->createKernelWithMockServices(
             [
                 Services::USER_ROLE_MANAGER => $userRoleManager,
                 Services::AUTH_USER => $authUser,
                 Services::COUNTRY_SERVICE => $countryService,
+                Services::CONFIG_SERVICE => $configService,
             ]
         );
         $api = new EmpUsTaxExemptionAPI($this->getRequest());

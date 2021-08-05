@@ -89,6 +89,7 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
+        $this->throwIfDisabled();
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_EMP_NUMBER,
@@ -99,6 +100,13 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
                 new Rule(Rules::EQUALS, [0])
             ),
         );
+    }
+
+    private function throwIfDisabled(): void
+    {
+        if (!($this->getConfigService()->showPimTaxExemptions())) {
+            throw $this->getForbiddenException();
+        }
     }
 
     /**
@@ -159,6 +167,7 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
+        $this->throwIfDisabled();
         return new ParamRuleCollection(
             new ParamRule(
                 CommonParams::PARAMETER_EMP_NUMBER,
