@@ -74,7 +74,6 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="select"
                 label="Exemptions"
                 v-model="taxExemption.stateExemptions"
                 :rules="rules.stateExemptions"
@@ -90,6 +89,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
+                type="select"
                 label="Work State"
                 v-model="taxExemption.workStateCode"
                 :options="provinces"
@@ -200,16 +200,13 @@ export default {
       this.taxExemption.federalExemptions = data.federalExemptions;
       this.taxExemption.stateExemptions = data.stateExemptions;
       this.taxExemption.taxStateCode = this.provinces.find(
-        item => item.id === data.taxStateCode,
+        item => item.id === data.taxState.code,
       );
       this.taxExemption.unemploymentStateCode = this.provinces.find(
-        item => item.id === data.unemploymentStateCode,
+        item => item.id === data.unemploymentState.code,
       );
       this.taxExemption.workStateCode = this.provinces.find(
-        item => item.id === data.workStateCode,
-      );
-      this.taxExemption.federalStatus = this.status.find(
-        item => item.id === data.federalStatus,
+        item => item.id === data.workState.code,
       );
       this.taxExemption.federalStatus = this.status.find(
         item => item.id === data.federalStatus,
