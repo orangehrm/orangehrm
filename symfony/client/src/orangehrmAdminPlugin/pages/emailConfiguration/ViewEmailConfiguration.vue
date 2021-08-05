@@ -298,7 +298,7 @@ export default {
             });
           } else if (testEmailStatus === 0 && this.sendTestMailEditable) {
             this.$toast.warn({
-              title: 'Success',
+              title: 'Failed',
               message: 'Test Email Not Sent',
             });
           }
