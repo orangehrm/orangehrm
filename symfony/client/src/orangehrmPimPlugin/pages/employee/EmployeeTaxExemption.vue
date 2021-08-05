@@ -60,7 +60,7 @@
               <oxd-input-field
                 type="select"
                 label="State"
-                v-model="taxExemption.taxStateCode"
+                v-model="taxExemption.taxState"
                 :options="provinces"
               />
             </oxd-grid-item>
@@ -83,7 +83,7 @@
               <oxd-input-field
                 type="select"
                 label="Unemployment State"
-                v-model="taxExemption.unemploymentStateCode"
+                v-model="taxExemption.unemploymentState"
                 :options="provinces"
               />
             </oxd-grid-item>
@@ -91,7 +91,7 @@
               <oxd-input-field
                 type="select"
                 label="Work State"
-                v-model="taxExemption.workStateCode"
+                v-model="taxExemption.workState"
                 :options="provinces"
               />
             </oxd-grid-item>
@@ -174,15 +174,13 @@ export default {
         .request({
           method: 'PUT',
           data: {
-            //...this.taxExemption,
-            // membershipId: this.membership.membership.id,
-            federalStatus: this.taxExemption.federalStatus,
+            federalStatus: this.taxExemption.federalStatus?.id,
             federalExemptions: this.taxExemption.federalExemptions,
-            taxStateCode: this.taxExemption.taxState?.code,
-            stateStatus: this.taxExemption.stateStatus,
+            taxStateCode: this.taxExemption.taxState?.id,
+            stateStatus: this.taxExemption.stateStatus?.id,
             stateExemptions: this.taxExemption.stateExemptions,
-            unemploymentStateCode: this.taxExemption.unemploymentState?.code,
-            workStateCode: this.taxExemption.workState?.Code,
+            unemploymentStateCode: this.taxExemption.unemploymentState?.id,
+            workStateCode: this.taxExemption.workState?.id,
           },
         })
         .then(response => {
@@ -196,16 +194,15 @@ export default {
 
     updateModel(response) {
       const {data} = response.data;
-      //this.taxExemption = {...taxExemptionModel, ...data};
       this.taxExemption.federalExemptions = data.federalExemptions;
       this.taxExemption.stateExemptions = data.stateExemptions;
-      this.taxExemption.taxStateCode = this.provinces.find(
+      this.taxExemption.taxState = this.provinces.find(
         item => item.id === data.taxState.code,
       );
-      this.taxExemption.unemploymentStateCode = this.provinces.find(
+      this.taxExemption.unemploymentState = this.provinces.find(
         item => item.id === data.unemploymentState.code,
       );
-      this.taxExemption.workStateCode = this.provinces.find(
+      this.taxExemption.workState = this.provinces.find(
         item => item.id === data.workState.code,
       );
       this.taxExemption.federalStatus = this.status.find(
@@ -214,9 +211,6 @@ export default {
       this.taxExemption.stateStatus = this.status.find(
         item => item.id === data.stateStatus,
       );
-      //  this.membership.membership = this.memberships.find(
-      //       item => item.id === data.membership.id,
-      //     );
     },
   },
 
