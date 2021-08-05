@@ -82,7 +82,7 @@ import {
 } from '@orangehrm/core/util/validation/rules';
 
 const skillModel = {
-  yearsOfExperience: 0,
+  yearsOfExperience: '',
   comments: '',
   skillId: [],
 };
