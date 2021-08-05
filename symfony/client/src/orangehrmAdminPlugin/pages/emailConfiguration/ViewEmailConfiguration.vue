@@ -194,6 +194,7 @@
 
         <oxd-form-actions>
           <required-text />
+          <oxd-button displayType="ghost" label="Reset" @click="onReset" />
           <submit-button/>
         </oxd-form-actions>
       </oxd-form>
@@ -247,6 +248,10 @@ export default {
         smtpAuthType: '',
         smtpSecurityType: '',
         testEmailAddress: '',
+      },
+      initialEmailConfiguration: {
+        ...this.emailConfiguration,
+        userSecureConnection: false,
       },
       rules: {
         mailType: [required, shouldNotExceedCharLength(50)],
@@ -302,7 +307,11 @@ export default {
         .then(() => {
           this.isLoading = false;
         });
-    }
+    },
+    onReset() {
+      this.emailConfiguration = {...this.initialEmailConfiguration};
+      this.userSecureConnection = this.initialEmailConfiguration.userSecureConnection;
+    },
   },
   created() {
     this.isLoading = true;
@@ -323,6 +332,10 @@ export default {
         this.emailConfiguration.smtpSecurityType = data.smtpSecurityType;
         this.emailConfiguration.testEmailAddress = data.testEmailAddress;
         this.userSecureConnection = data.smtpSecurityType !== 'none';
+        this.initialEmailConfiguration = {
+          ...this.emailConfiguration,
+          userSecureConnection: this.userSecureConnection,
+        };
       })
       .finally(() => {
         this.isLoading = false;
