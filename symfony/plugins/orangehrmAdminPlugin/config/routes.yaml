@@ -203,7 +203,6 @@ apiv2_admin_locations:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Admin\Api\LocationAPI
-
 ##########################
 #        Files
 ##########################
