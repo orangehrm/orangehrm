@@ -60,51 +60,6 @@ class ConfigServiceTest extends KernelTestCase
     }
 
     /**
-     * Test the setIsLeavePeriodDefined() method
-     */
-    public function testSetIsLeavePeriodDefined(): void
-    {
-        $value = 'Yes';
-
-        $mockDao = $this->getMockBuilder(ConfigDao::class)->getMock();
-        $mockDao->expects($this->once())
-            ->method('setValue')
-            ->with(ConfigService::KEY_LEAVE_PERIOD_DEFINED, $value);
-
-        $this->configService->setConfigDao($mockDao);
-
-        $this->configService->setIsLeavePeriodDefined($value);
-
-        // with invalid parameters        
-        try {
-            $this->configService->setIsLeavePeriodDefined('test');
-            $this->fail("Exception expected when invalid value passed to setisLeavePeriodDefined()");
-        } catch (Exception $e) {
-            // expected
-        }
-    }
-
-    /**
-     * Test isLeavePeriodDefined()
-     */
-    public function testIsLeavePeriodDefined(): void
-    {
-        $value = 'Yes';
-
-        $mockDao = $this->getMockBuilder(ConfigDao::class)->getMock();
-        $mockDao->expects($this->once())
-            ->method('getValue')
-            ->with(ConfigService::KEY_LEAVE_PERIOD_DEFINED)
-            ->will($this->returnValue($value));
-
-        $this->configService->setConfigDao($mockDao);
-
-        $returnVal = $this->configService->isLeavePeriodDefined();
-
-        $this->assertTrue($returnVal);
-    }
-
-    /**
      * Test setShowPimDeprecatedFields() method
      */
     public function testSetShowPimDeprecatedFields(): void

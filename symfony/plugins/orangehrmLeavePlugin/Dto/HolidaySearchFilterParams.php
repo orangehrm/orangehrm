@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Leave\Dto;
 
-use OrangeHRM\Core\Dto\FilterParams;
-
 class HolidaySearchFilterParams extends DateRangeSearchFilterParams
 {
     public const ALLOWED_SORT_FIELDS = ['holiday.date'];

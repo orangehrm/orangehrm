@@ -66,4 +66,18 @@ class DateTimeHelperService
 
         return $this->formatDateTimeToYmd($dateTime1) === $this->formatDateTimeToYmd($dateTime2);
     }
+
+    /**
+     * @see https://www.php.net/manual/en/datetime.diff.php
+     * @see https://www.php.net/manual/en/dateinterval.format.php
+     *
+     * @param DateTime|null $baseDateTime
+     * @param DateTime|null $targetDateTime
+     * @return float
+     */
+    public function dateDiffInHours(?DateTime $baseDateTime, ?DateTime $targetDateTime): float
+    {
+        $dateInterval = $baseDateTime->diff($targetDateTime);
+        return $dateInterval->days * 24 + $dateInterval->h + $dateInterval->i / 60;
+    }
 }

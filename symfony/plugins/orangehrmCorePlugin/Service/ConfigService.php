@@ -19,10 +19,11 @@
 
 namespace OrangeHRM\Core\Service;
 
-use Exception;
+use DateTime;
 use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Config;
 use OrangeHRM\Framework\Logger;
 
@@ -32,12 +33,13 @@ use OrangeHRM\Framework\Logger;
  */
 class ConfigService
 {
+    use DateTimeHelperTrait;
+
     /**
      * @var ConfigDao|null
      */
     protected ?ConfigDao $configDao = null;
 
-    public const KEY_LEAVE_PERIOD_DEFINED = "leave_period_defined";
     public const KEY_PIM_SHOW_DEPRECATED = "pim_show_deprecated_fields";
     public const KEY_PIM_SHOW_SSN = 'pim_show_ssn';
     public const KEY_PIM_SHOW_SIN = 'pim_show_sin';
@@ -50,10 +52,9 @@ class ConfigService
     public const KEY_ADMIN_LOCALIZATION_DEFAULT_DATE_FORMAT = 'admin.localization.default_date_format';
 //    const KEY_NON_LEAP_YEAR_LEAVE_PERIOD_START_DATE = 'leave.nonLeapYearLeavePeriodStartDate';
 //    const KEY_IS_LEAVE_PERIOD_START_ON_FEB_29 = 'leave.isLeavePeriodStartOnFeb29th';
-    public const KEY_LEAVE_PERIOD_START_DATE = 'leave.leavePeriodStartDate';
+//    public const KEY_LEAVE_PERIOD_START_DATE = 'leave.leavePeriodStartDate';
     public const KEY_INCLUDE_SUPERVISOR_CHAIN = 'include_supervisor_chain';
     public const KEY_THEME_NAME = 'themeName';
-    public const KEY_LEAVE_PERIOD_STATUS = 'leave.leavePeriodStatus';
     public const KEY_ADMIN_DEFAULT_WORKSHIFT_START_TIME = 'admin.default_workshift_start_time';
     public const KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME = 'admin.default_workshift_end_time';
 //    const KEY_AUTH_LOGINS = 'auth.logins';
@@ -143,29 +144,6 @@ class ConfigService
             Logger::getLogger()->error($e->getTraceAsString());
             throw new CoreServiceException($e->getMessage(), $e->getCode(), $e);
         }
-    }
-
-    /**
-     * @param string $value
-     * @throws CoreServiceException
-     */
-    public function setIsLeavePeriodDefined(string $value): void
-    {
-        if ($value != 'Yes' && $value != 'No') {
-            throw new Exception("Given value for setIsLeavePeriodDefined should be 'Yes' or 'No'");
-        }
-        $this->_setConfigValue(self::KEY_LEAVE_PERIOD_DEFINED, $value);
-    }
-
-    /**
-     * Get Value: Whether leave period has been set
-     * @return bool Returns true if leave period has been set
-     * @throws CoreServiceException
-     */
-    public function isLeavePeriodDefined(): bool
-    {
-        $val = $this->_getConfigValue(self::KEY_LEAVE_PERIOD_DEFINED);
-        return ($val == 'Yes');
     }
 
     /**
@@ -307,24 +285,6 @@ class ConfigService
      * @param string $value
      * @throws CoreServiceException
      */
-    public function setLeavePeriodStatus(string $value): void
-    {
-        $this->_setConfigValue(self::KEY_LEAVE_PERIOD_STATUS, $value);
-    }
-
-    /**
-     * @return string
-     * @throws CoreServiceException
-     */
-    public function getLeavePeriodStatus(): string
-    {
-        return $this->_getConfigValue(self::KEY_LEAVE_PERIOD_STATUS);
-    }
-
-    /**
-     * @param string $value
-     * @throws CoreServiceException
-     */
     public function setAdminLocalizationDefaultLanguage(string $value): void
     {
         $this->_setConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE, $value);
@@ -398,29 +358,28 @@ class ConfigService
 //    public function setIsLeavePeriodStartOnFeb29th($value) {
 //        $this->_setConfigValue(self::KEY_IS_LEAVE_PERIOD_START_ON_FEB_29, $value);
 //    }
-
-    /**
-     * @return string
-     * @throws CoreServiceException
-     */
-    public function getLeavePeriodStartDate(): string
-    {
-        return $this->_getConfigValue(self::KEY_LEAVE_PERIOD_START_DATE);
-    }
-
-    /**
-     * @param string $startDate
-     * @throws CoreServiceException
-     */
-    public function setLeavePeriodStartDate(string $startDate): void
-    {
-        $this->_setConfigValue(self::KEY_LEAVE_PERIOD_START_DATE, $startDate);
-    }
+//
+//    /**
+//     * @return string
+//     * @throws CoreServiceException
+//     */
+//    public function getLeavePeriodStartDate(): string
+//    {
+//        return $this->_getConfigValue(self::KEY_LEAVE_PERIOD_START_DATE);
+//    }
+//
+//    /**
+//     * @param string $startDate
+//     * @throws CoreServiceException
+//     */
+//    public function setLeavePeriodStartDate(string $startDate): void
+//    {
+//        $this->_setConfigValue(self::KEY_LEAVE_PERIOD_START_DATE, $startDate);
+//    }
 
     /**
      * Get default workshift start time
      * @return string
-     * @throws CoreServiceException
      */
     public function getDefaultWorkShiftStartTime(): string
     {
@@ -452,6 +411,17 @@ class ConfigService
     public function setDefaultWorkShiftEndTime(string $endTime): void
     {
         $this->_setConfigValue(self::KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME, $endTime);
+    }
+
+    /**
+     * @return float
+     */
+    public function getDefaultWorkShiftLength(): float
+    {
+        return $this->getDateTimeHelper()->dateDiffInHours(
+            new DateTime($this->getDefaultWorkShiftStartTime()),
+            new DateTime($this->getDefaultWorkShiftEndTime())
+        );
     }
 
     /**

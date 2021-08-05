@@ -1,7 +1,5 @@
 <?php
-
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,97 +15,78 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Leave Period Service
- */
-class LeavePeriodService extends BaseService {
+namespace OrangeHRM\Leave\Service;
 
-    const LEAVE_PERIOD_STATUS_FORCED = 1;
-    const LEAVE_PERIOD_STATUS_NOT_FORCED = 2;
-    const LEAVE_PERIOD_STATUS_NOT_APPLICABLE = 3;
-    
-    private $leavePeriodDao;
-    private $leavePeriodList = null;
-    protected $leaveEntitlementService = null;
-    
-    private static $leavePeriodStatus = null;
-    private static $currentLeavePeriodStartDateAndMonth = null;
-    private static $leavePeriodHistoryList = null;
-    
-    
-    /**
-     * Sets the instance of LeaveEntitlementService class
-     *
-     * @param LeaveEntitlementService $leaveEntitlementService
-     * @return void
-     */
-    public function setLeaveEntitlementService(LeaveEntitlementService $leaveEntitlementService) {
-        $this->leaveEntitlementService = $leaveEntitlementService;
-    }
+use DateInterval;
+use DateTime;
+use InvalidArgumentException;
+use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Entity\LeavePeriodHistory;
+use OrangeHRM\Leave\Dao\LeavePeriodDao;
+use OrangeHRM\Leave\Dto\LeavePeriod;
+use OrangeHRM\Leave\Dto\LeavePeriodDataHolder;
+use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 
-    /**
-     * Returns the instance of LeaveEntitlementService
-     *
-     * @return LeaveEntitlementService LeaveEntitlementService object
-     */
-    public function getLeaveEntitlementService() {
+class LeavePeriodService
+{
+    use LeaveConfigServiceTrait;
+    use LeaveEntitlementServiceTrait;
 
-        if (!($this->leaveEntitlementService instanceof LeaveEntitlementService)) {
-            $this->leaveEntitlementService = new LeaveEntitlementService();
-        }
+    public const LEAVE_PERIOD_STATUS_FORCED = 1;
+    public const LEAVE_PERIOD_STATUS_NOT_FORCED = 2;
+    public const LEAVE_PERIOD_STATUS_NOT_APPLICABLE = 3;
 
-        return $this->leaveEntitlementService;
-    }
-    
-    /**
-     * Sets the instance of LeavePeriodDao class
-     *
-     * @param LeavePeriodDao $leavePeriodDao
-     * @return void
-     */
-    public function setLeavePeriodDao(LeavePeriodDao $leavePeriodDao) {
-        $this->leavePeriodDao = $leavePeriodDao;
-    }
+    private ?LeavePeriodDao $leavePeriodDao = null;
+    private ?LeavePeriodHistory $currentLeavePeriodStartDateAndMonth = null;
+    private ?array $leavePeriodList = null;
+    private ?array $leavePeriodHistoryList = null;
 
     /**
-     * Returns the instance of LeavePeriodDao class of LeavePeriodService
-     *
-     * @return LeavePeriodDao LeavePeriodDao object
+     * @return LeavePeriodDao
      */
-    public function getLeavePeriodDao() {
-
+    public function getLeavePeriodDao(): LeavePeriodDao
+    {
         if (!($this->leavePeriodDao instanceof LeavePeriodDao)) {
             $this->leavePeriodDao = new LeavePeriodDao();
         }
-
         return $this->leavePeriodDao;
     }
 
     /**
      * Returns the list of month names in year
      *
-     * @return array Array of month names
+     * @return string[] Array of month names
      */
-    public function getListOfMonths() {
-        $monthNames = array();
-        for ($i = 1; $i <= 12; $i++) {
-            $monthNames[] = date('F', mktime(0, 0, 0, ($i + 1), 0, 0));
+    public function getListOfMonths(): array
+    {
+        $monthNames = [];
+        foreach ($this->getMonthNumberList() as $monthNumber) {
+            $monthNames[] = date('F', mktime(0, 0, 0, $monthNumber));
         }
 
         return $monthNames;
     }
 
     /**
+     * @return int[]
+     */
+    public function getMonthNumberList(): array
+    {
+        return range(1, 12);
+    }
+
+    /**
      * Returns the array of dates that can have for the given month
      *
      * @param int $month Month to which the list of dates be created
-     *
-     * @return array Array of dates that can fall in the given month
+     * @param bool $isLeapYear
+     * @return int[] Array of dates that can fall in the given month
      */
-    public function getListOfDates($month, $isLeapYear = true) {
+    public function getListOfDates(int $month, bool $isLeapYear = true): array
+    {
         switch ($month) {
             case 1 :
             case 3 :
@@ -117,23 +96,19 @@ class LeavePeriodService extends BaseService {
             case 10 :
             case 12 :
                 return range(1, 31);
-                break;
 
             case 4:
             case 6:
             case 9:
             case 11:
                 return range(1, 30);
-                break;
 
             case 2 :
                 $lastDayOfFebruary = ($isLeapYear) ? 29 : 28;
                 return range(1, $lastDayOfFebruary);
-                break;
 
             default :
-                throw new LeaveServiceException('Invalid value passed for month in LeavePeriodService::getListOfDates()');
-                break;
+                throw new InvalidArgumentException('Invalid value passed for month in ' . __METHOD__);
         }
     }
 
@@ -142,11 +117,12 @@ class LeavePeriodService extends BaseService {
      *
      * @param int $month Start month
      * @param int $date Start date
-     * @param int $year Start year (Default: current year)
+     * @param int|null $year Start year (Default: current year)
      *
      * @return string End date of the leave period in the pre-defined format
      */
-    public function calculateEndDate($month, $date, $year = null, $format = 'Y-m-d') {
+    public function calculateEndDate(int $month, int $date, ?int $year = null, string $format = 'Y-m-d'):string {
+        // TODO
         $year = empty($year) ? date('Y') : $year;
 
         /* TODO: Add validations of paramerter combinations creating invalid dates */
@@ -160,8 +136,12 @@ class LeavePeriodService extends BaseService {
         return date($format, $endDateTimestamp);
     }
 
-    public function generateEndDate(LeavePeriodDataHolder $leavePeriodDataHolder) {
-
+    /**
+     * @param LeavePeriodDataHolder $leavePeriodDataHolder
+     * @return string
+     */
+    public function generateEndDate(LeavePeriodDataHolder $leavePeriodDataHolder):string {
+        // TODO
         $isLeavePeriodStartOnFeb29th = $leavePeriodDataHolder->getIsLeavePeriodStartOnFeb29th();
         $nonLeapYearLeavePeriodStartDate = $leavePeriodDataHolder->getNonLeapYearLeavePeriodStartDate();
         $dateFormat = $leavePeriodDataHolder->getDateFormat();
@@ -192,11 +172,12 @@ class LeavePeriodService extends BaseService {
      *
      * @param int $month Start month
      * @param int $date Start date
-     * @param int $year Start year (Default: current year)
+     * @param int|null $year Start year (Default: current year)
      *
      * @return string Start date of the leave period in the pre-defined format
      */
-    public function calculateStartDate($month, $date, $year = null, $format = 'Y-m-d') {
+    public function calculateStartDate(int $month, int $date, ?int $year = null, string $format = 'Y-m-d'):string {
+        // TODO
         $year = empty($year) ? date('Y') : $year;
         $startDateTimestamp = strtotime("{$year}-{$month}-{$date}");
         $currentTimestamp = strtotime(date('Y-m-d'), true);
@@ -207,8 +188,12 @@ class LeavePeriodService extends BaseService {
         return date($format, $startDateTimestamp);
     }
 
-    public function generateStartDate(LeavePeriodDataHolder $leavePeriodDataHolder) {
-
+    /**
+     * @param LeavePeriodDataHolder $leavePeriodDataHolder
+     * @return string
+     */
+    public function generateStartDate(LeavePeriodDataHolder $leavePeriodDataHolder):string {
+        // TODO
         $dateFormat = $leavePeriodDataHolder->getDateFormat();
         $isLeavePeriodStartOnFeb29th = $leavePeriodDataHolder->getIsLeavePeriodStartOnFeb29th();
         $nonLeapYearLeavePeriodStartDate = $leavePeriodDataHolder->getNonLeapYearLeavePeriodStartDate();
@@ -238,155 +223,116 @@ class LeavePeriodService extends BaseService {
         return date($dateFormat, $leavePeriodStartDateTimestamp);
     }
 
-    
-    
-    
     /**
-     * 
-     * @param LeavePeriodHistory $leavePeriodHistory
-     * @return LeavePeriodHistory
-     */
-    public function saveLeavePeriodHistory(LeavePeriodHistory $leavePeriodHistory) {
-
-        $conn = Doctrine_Manager::connection();
-        $conn->beginTransaction();
-
-        try {
-            $currentLeavePeriod = $this->getCurrentLeavePeriodStartDateAndMonth();
-
-            $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
-
-            $leavePeriodHistory = $this->getLeavePeriodDao()->saveLeavePeriodHistory($leavePeriodHistory);
-            $isLeavePeriodDefined = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_LEAVE_PERIOD_DEFINED);
-            OrangeConfig::getInstance()->setAppConfValue(ConfigService::KEY_LEAVE_PERIOD_DEFINED, 'Yes');
-
-            if ($isLeavePeriodDefined && !empty($currentLeavePeriod)) {
-                $leavePeriodForToday = $this->getCurrentLeavePeriodByDate(date('Y-m-d'), true);
-                $oldStartMonth = $currentLeavePeriod->getLeavePeriodStartMonth();
-                $oldStartDay = $currentLeavePeriod->getLeavePeriodStartDay();
-                $newStartMonth = $leavePeriodHistory->getLeavePeriodStartMonth();
-                $newStartDay = $leavePeriodHistory->getLeavePeriodStartDay();
-                
-                $strategy->handleLeavePeriodChange($leavePeriodForToday, $oldStartMonth, $oldStartDay, $newStartMonth, $newStartDay);
-            }
-            $conn->commit();
-            return true;
-        } catch (Exception $e) {
-            $conn->rollback();
-            throw new DaoException($e->getMessage());
-        }
-        
-        return $leavePeriodHistory;
-    }
-    
-    /**
-     * Get Latest Leave period start date and month 
+     * Get the latest Leave period start date and month
      * @param bool $forceReload (if false, will use cached value from previous method call)
-     * value is cached in a static constant.
-     * @return type
+     * @return null|LeavePeriodHistory
      */
-    public function getCurrentLeavePeriodStartDateAndMonth($forceReload = false){
-        
-        if ($forceReload || is_null(self::$currentLeavePeriodStartDateAndMonth)) {
-            self::$currentLeavePeriodStartDateAndMonth = $this->getLeavePeriodDao()->getCurrentLeavePeriodStartDateAndMonth();
+    public function getCurrentLeavePeriodStartDateAndMonth(bool $forceReload = false): ?LeavePeriodHistory
+    {
+        if ($forceReload || is_null($this->currentLeavePeriodStartDateAndMonth)) {
+            $this->currentLeavePeriodStartDateAndMonth = $this->getLeavePeriodDao()
+                ->getCurrentLeavePeriodStartDateAndMonth();
         }
-        
-        return self::$currentLeavePeriodStartDateAndMonth;
+
+        return $this->currentLeavePeriodStartDateAndMonth;
     }
-    
-    protected function _getLeavePeriodHistoryList($forceReload = false) {
-        
-        if ($forceReload || is_null(self::$leavePeriodHistoryList)) {
-            self::$leavePeriodHistoryList = $this->getLeavePeriodDao()->getLeavePeriodHistoryList();
+
+    /**
+     * @param bool $forceReload
+     * @return LeavePeriodHistory[]
+     */
+    protected function _getLeavePeriodHistoryList(bool $forceReload = false): array
+    {
+        if ($forceReload || is_null($this->leavePeriodHistoryList)) {
+            $this->leavePeriodHistoryList = $this->getLeavePeriodDao()->getLeavePeriodHistoryList();
         }
-        
-        return self::$leavePeriodHistoryList;
+        return $this->leavePeriodHistoryList;
     }
-    
+
     /**
      * Get Generated Leave Period List
-     * @return type
+     * @param null $toDate
+     * @param false $forceReload
+     * @return LeavePeriod[]
      */
-    public function getGeneratedLeavePeriodList($toDate = null, $forceReload = false){
-        $leavePeriodList = array();
+    public function getGeneratedLeavePeriodList($toDate = null, bool $forceReload = false): array
+    {
+        $leavePeriodList = [];
         $leavePeriodHistoryList = $this->_getLeavePeriodHistoryList($forceReload);
-        
-        if(count($leavePeriodHistoryList) == 0)
+
+        if (empty($leavePeriodHistoryList)) {
             throw new ServiceException("Leave Period Start Date Is Not Defined.");
-        
-        if(empty($this->leavePeriodList)){
-        
-            $endDate = ($toDate != null)? new DateTime($toDate): new DateTime();
+        }
+
+        if (empty($this->leavePeriodList)) {
+            $endDate = ($toDate != null) ? new DateTime($toDate) : new DateTime();
             //If To Date is not specified return leave type till next leave period 
-            if(is_null( $toDate)){
+            if (is_null($toDate)) {
                 $endDate->add(new DateInterval('P1Y'));
             }
-            
 
-            $firstCreatedDate = new DateTime($leavePeriodHistoryList->getFirst()->getCreatedAt());
-            $startDate = new DateTime($firstCreatedDate->format('Y')."-".$leavePeriodHistoryList->getFirst()->getLeavePeriodStartMonth()."-".$leavePeriodHistoryList->getFirst()->getLeavePeriodStartDay());
-            if($firstCreatedDate < $startDate){
+
+            $firstCreatedDate = $leavePeriodHistoryList[0]->getCreatedAt();
+            $startDate = new DateTime(
+                $firstCreatedDate->format('Y') . "-" . $leavePeriodHistoryList[0]->getStartMonth(
+                ) . "-" . $leavePeriodHistoryList[0]->getStartDay()
+            );
+            if ($firstCreatedDate < $startDate) {
                 $startDate->sub(new DateInterval('P1Y'));
             }
             $tempDate = $startDate;
-            $i= 0;
-            while( $tempDate <=  $endDate){
+            $i = 0;
+            while ($tempDate <= $endDate) {
+                $projectedStartDate = ($i == 0) ? $tempDate : new DateTime(
+                    date('Y-m-d', strtotime($tempDate->format('Y-m-d') . "+1 day"))
+                );
+                $projectedEndDate = new DateTime(
+                    date('Y-m-d', strtotime($projectedStartDate->format('Y-m-d') . " +1 year -1 day"))
+                );
 
-               $projectedSatrtDate = ($i==0)?$tempDate:new DateTime(date('Y-m-d',  strtotime($tempDate->format('Y-m-d')."+1 day")));
-               $projectedEndDate = new DateTime(date('Y-m-d',  strtotime($projectedSatrtDate->format('Y-m-d')." +1 year -1 day")));
+                foreach ($leavePeriodHistoryList as $leavePeriodHistory) {
+                    $createdDate = $leavePeriodHistory->getCreatedAt();
 
-                foreach( $leavePeriodHistoryList as $leavePeriodHistory){
-
-                    $createdDate = new DateTime( $leavePeriodHistory->getCreatedAt());
-
-                    if( ($projectedSatrtDate < $createdDate) && ($createdDate < $projectedEndDate)) {
-                        $newSatrtDate = new DateTime($createdDate->format('Y')."-".$leavePeriodHistory->getLeavePeriodStartMonth()."-".$leavePeriodHistory->getLeavePeriodStartDay());
-                        if($createdDate <  $newSatrtDate){
-                            $newSatrtDate->sub(new DateInterval('P1Y'));
+                    if (($projectedStartDate < $createdDate) && ($createdDate < $projectedEndDate)) {
+                        $newStartDate = new DateTime(
+                            $createdDate->format('Y') . "-" .
+                            $leavePeriodHistory->getStartMonth() . "-" . $leavePeriodHistory->getStartDay()
+                        );
+                        if ($createdDate < $newStartDate) {
+                            $newStartDate->sub(new DateInterval('P1Y'));
                         }
-                        $projectedEndDate = $newSatrtDate->add(DateInterval::createFromDateString('+1 year -1 day'));
-
+                        $projectedEndDate = $newStartDate->add(DateInterval::createFromDateString('+1 year -1 day'));
                     }
-
                 }
 
-               $tempDate = $projectedEndDate;
+                $tempDate = $projectedEndDate;
 
-                $leavePeriodList[] = array($projectedSatrtDate->format('Y-m-d') , $projectedEndDate->format('Y-m-d'));
+                $leavePeriodList[] = new LeavePeriod($projectedStartDate, $projectedEndDate);
                 $i++;
             }
             $this->leavePeriodList = $leavePeriodList;
         }
         return $this->leavePeriodList;
     }
-    
+
     /**
-     * Get Current Leave Period a
-     * @param type $date
+     * @param DateTime $currentDate
+     * @param bool $forceReload
+     * @return LeavePeriod|null
+     * @throws ServiceException
      */
-    public function getCurrentLeavePeriodByDate($date, $forceReload = false){
+    public function getCurrentLeavePeriodByDate(DateTime $currentDate, bool $forceReload = false): ?LeavePeriod
+    {
         $matchLeavePeriod = null;
         $this->leavePeriodList = $this->getGeneratedLeavePeriodList(null, $forceReload);
-        $currentDate = new DateTime($date);
-        foreach( $this->leavePeriodList as $leavePeriod){
-            $startDate = new DateTime($leavePeriod[0]);
-            $endDate = new DateTime($leavePeriod[1]);
-            if(($startDate <= $currentDate) && ($currentDate <= $endDate)){
+        foreach ($this->leavePeriodList as $leavePeriod) {
+            if (($leavePeriod->getStartDate() <= $currentDate) && ($currentDate <= $leavePeriod->getEndDate())) {
                 $matchLeavePeriod = $leavePeriod;
                 break;
-                
             }
-            
         }
         return $matchLeavePeriod;
-    }
-    
-    public static function getLeavePeriodStatus($forceReload = false) {
-        
-        if ($forceReload || is_null(self::$leavePeriodStatus)) {
-            self::$leavePeriodStatus = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_LEAVE_PERIOD_STATUS);
-        }
-        return self::$leavePeriodStatus;
     }
 
     /**
@@ -394,11 +340,12 @@ class LeavePeriodService extends BaseService {
      * @param type $time
      */
     public function getCalenderYearByDate( $time ){
+        // TODO
             $year = date('Y', $time);
             $fromDate = $year . '-1-1';
             $toDate = $year . '-12-31';
             
-            return array($fromDate,$toDate);
+            return [$fromDate,$toDate];
     }
 }
 

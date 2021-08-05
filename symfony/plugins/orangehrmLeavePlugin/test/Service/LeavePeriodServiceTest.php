@@ -1,8 +1,5 @@
 <?php
-
-
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -18,23 +15,26 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
+
+namespace OrangeHRM\Tests\Leave\Service;
+
+use OrangeHRM\Leave\Service\LeavePeriodService;
+use OrangeHRM\Tests\Util\TestCase;
 
 /**
- * Leave period service test
- * @group Leave 
+ * @group Leave
+ * @group Service
  */
-class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
+class LeavePeriodServiceTest //extends TestCase
+{
 
-    private $leavePeriodService;
+    private LeavePeriodService $leavePeriodService;
    private $fixture;
 
-    protected function setUp() {
-
+    protected function setUp():void {
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmLeavePlugin/test/fixtures/LeavePeriodService.yml';
         $this->leavePeriodService = new LeavePeriodService();
-      
     }
 
    /* Test get list of months */
@@ -555,4 +555,3 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($retrievedLeavePeriod instanceof LeavePeriod);
     }
 }
-?>

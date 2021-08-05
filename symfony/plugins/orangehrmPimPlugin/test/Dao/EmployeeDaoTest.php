@@ -21,6 +21,7 @@ namespace OrangeHRM\Tests\Pim\Dao;
 
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeWorkShift;
 use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -211,5 +212,15 @@ class EmployeeDaoTest extends TestCase
         $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(3, true);
         $subordinateIdArray = [4, 5];
         $this->assertEquals($subordinateIdArray, $supervisorIdList);
+    }
+
+    public function testGetEmployeeWorkShift(): void
+    {
+        $workShift = $this->employeeDao->getEmployeeWorkShift(1);
+        $this->assertTrue($workShift instanceof EmployeeWorkShift);
+        $this->assertEquals('General', $workShift->getWorkShift()->getName());
+
+        $workShift = $this->employeeDao->getEmployeeWorkShift(2);
+        $this->assertNull($workShift);
     }
 }

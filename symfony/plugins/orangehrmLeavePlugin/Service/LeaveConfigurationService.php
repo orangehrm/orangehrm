@@ -26,6 +26,8 @@ class LeaveConfigurationService extends ConfigService
     public const KEY_LEAVE_ENTITLEMENT_CONSUMPTION_STRATEGY = "leave.entitlement_consumption_algorithm";
     public const KEY_LEAVE_WORK_SCHEDULE_IMPLEMENTATION = "leave.work_schedule_implementation";
     public const KEY_INCLUDE_PENDING_LEAVE_IN_BALANCE = 'leave.include_pending_leave_in_balance';
+    public const KEY_LEAVE_PERIOD_STATUS = 'leave.leavePeriodStatus';
+    public const KEY_LEAVE_PERIOD_DEFINED = "leave_period_defined";
 
     /**
      * @return string
@@ -50,5 +52,43 @@ class LeaveConfigurationService extends ConfigService
     {
         $includePendingLeaveInBalance = $this->_getConfigValue(self::KEY_INCLUDE_PENDING_LEAVE_IN_BALANCE);
         return $includePendingLeaveInBalance !== '0';
+    }
+
+    /**
+     * @param int $value
+     */
+    public function setLeavePeriodStatus(int $value): void
+    {
+        $this->_setConfigValue(self::KEY_LEAVE_PERIOD_STATUS, $value);
+    }
+
+    /**
+     * @return int
+     *
+     * @see LeavePeriodService::LEAVE_PERIOD_STATUS_FORCED
+     * @see LeavePeriodService::LEAVE_PERIOD_STATUS_NOT_FORCED
+     * @see LeavePeriodService::LEAVE_PERIOD_STATUS_NOT_APPLICABLE
+     */
+    public function getLeavePeriodStatus(): int
+    {
+        return $this->_getConfigValue(self::KEY_LEAVE_PERIOD_STATUS);
+    }
+
+    /**
+     * @param bool $value
+     */
+    public function setLeavePeriodDefined(bool $value): void
+    {
+        $this->_setConfigValue(self::KEY_LEAVE_PERIOD_DEFINED, $value ? 'Yes' : 'No');
+    }
+
+    /**
+     * Get Value: Whether leave period has been set
+     * @return bool Returns true if leave period has been set
+     */
+    public function isLeavePeriodDefined(): bool
+    {
+        $val = $this->_getConfigValue(self::KEY_LEAVE_PERIOD_DEFINED);
+        return ($val == 'Yes');
     }
 }

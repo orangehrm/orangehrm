@@ -26,11 +26,9 @@ use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionFilterParams;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Authorization\Service\ScreenPermissionService;
+use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\HomePage\HomePageEnablerInterface;
 use OrangeHRM\Core\Service\ConfigService;
-use OrangeHRM\Entity\ApiPermission;
-use OrangeHRM\Entity\DataGroup;
-use OrangeHRM\Entity\DataGroupPermission;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\HomePage;
 use OrangeHRM\Entity\Location;
@@ -165,6 +163,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Default Admin user  (no employee)
@@ -207,6 +206,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -234,6 +234,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Supervisor with multiple subordinates
@@ -262,6 +263,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // ESS user
@@ -283,6 +285,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Default Admin user  (no employee)
@@ -312,6 +315,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Admin + supervisor
@@ -341,6 +345,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Supervisor with one subordinate
@@ -368,6 +373,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Supervisor with multiple subordinates
@@ -397,6 +403,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // ESS user
@@ -416,6 +423,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -432,6 +440,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Admin user
@@ -455,6 +464,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Admin + supervisor
@@ -484,6 +494,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -509,6 +520,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Supervisor with multiple subordinates
@@ -533,6 +545,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Supervisor with one subordinate
@@ -551,6 +564,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Default Admin user  (no employee)
@@ -565,6 +579,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Admin user
@@ -617,6 +632,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Supervisor with one subordinate
@@ -641,6 +657,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::USER_SERVICE => new UserService(),
                 Services::AUTH_USER => $authUser,
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Supervisor with multiple subordinates
@@ -664,6 +681,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -683,6 +701,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -718,6 +737,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -750,6 +770,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -790,6 +811,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -825,6 +847,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -860,6 +883,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Default Admin user  (no employee)
@@ -895,6 +919,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         // Supervisor with one subordinate
@@ -920,6 +945,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $essUser = $users[4];
@@ -938,6 +964,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -1003,6 +1030,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
 
         $this->manager->setScreenPermissionService($mockScreenPermissionService);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $result = $this->manager->getScreenPermissions($module, $action);
 
         $this->assertEquals($permission, $result);
@@ -1017,6 +1045,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $rolesToExclude = [];
         $rolesToInclude = [];
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $roles = $testManager->filterUserRolesPublic($userRoles, $rolesToExclude, $rolesToInclude);
         $this->assertEquals($userRoles, $roles);
 
@@ -1082,6 +1111,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => $employeeService,
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $testManager->setUser($user);
@@ -1113,6 +1143,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::USER_SERVICE => new UserService(),
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -1182,6 +1213,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::USER_SERVICE => new UserService(),
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
 
@@ -1364,6 +1396,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $defaultAdmin = $users[5];
         $this->manager->setUser($defaultAdmin);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $workflow = 3;
         $state = 'ACTIVE';
         $result = $this->manager->getAllowedActions($workflow, $state);
@@ -1388,6 +1421,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $defaultAdmin = $users[5];
         $this->manager->setUser($defaultAdmin);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $workflow = 3;
         $state = 'NOT EXIST';
         $action = '1';
@@ -1403,6 +1437,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $defaultAdmin = $users[5];
         $this->manager->setUser($defaultAdmin);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $workflow = 3;
         $state = 'ACTIVE';
         $action = '1';
@@ -1416,6 +1451,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $employees = $this->manager->getEmployeesWithRole('Admin');
@@ -1437,6 +1473,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $defaultAdmin = $users[5];
         $this->manager->setUser($defaultAdmin);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $workflow = 3;
         $actions = ['1', '2', '3'];
         $expected = ['ACTIVE', 'NOT EXIST'];
@@ -1455,6 +1492,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $defaultAdmin = $users[5];
         $this->manager->setUser($defaultAdmin);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $workflow = 3;
         $actions = ['11'];
         $expected = [];
@@ -1471,6 +1509,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
             [
                 Services::USER_SERVICE => new UserService(),
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $users = TestDataService::loadObjectList(User::class, $this->fixture, 'User');
@@ -1495,7 +1534,8 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
-                Services::USER_SERVICE => new UserService()
+                Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $ess = $users[1];
@@ -1529,7 +1569,8 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
-                Services::USER_SERVICE => new UserService()
+                Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $admin = $users[0];
@@ -1557,7 +1598,8 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
-                Services::USER_SERVICE => new UserService()
+                Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $essUser = $users[0];
@@ -1586,7 +1628,8 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
-                Services::USER_SERVICE => new UserService()
+                Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $ess = $users[1];
@@ -1615,7 +1658,8 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
-                Services::USER_SERVICE => new UserService()
+                Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $ess = $users[1];
@@ -1644,7 +1688,8 @@ class BasicUserRoleManagerTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
-                Services::USER_SERVICE => new UserService()
+                Services::USER_SERVICE => new UserService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $ess = $users[1];
@@ -1675,6 +1720,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $ess = $users[1];
@@ -1705,6 +1751,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
                 Services::EMPLOYEE_SERVICE => new EmployeeService(),
                 Services::USER_SERVICE => new UserService(),
                 Services::CONFIG_SERVICE => new ConfigService(),
+                Services::CLASS_HELPER => new ClassHelper(),
             ]
         );
         $ess = $users[1];

@@ -102,6 +102,7 @@ class EmployeeEventServiceTest extends TestCase
     public function testGetUserRole(?User $user, string $expected): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getUser'])
             ->getMock();
         $userRoleManager->expects($this->once())

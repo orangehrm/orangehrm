@@ -30,31 +30,33 @@ class ClassHelperTest extends TestCase
 {
     public function testGetClass()
     {
-        $className = ClassHelper::getClass('ClassHelperTestClass', 'OrangeHRM\\Tests\\Core\\Helper\\');
+        $classHelper = new ClassHelper();
+        $className = $classHelper->getClass('ClassHelperTestClass', 'OrangeHRM\\Tests\\Core\\Helper\\');
         $this->assertEquals('OrangeHRM\\Tests\\Core\\Helper\\ClassHelperTestClass', $className);
 
-        $className = ClassHelper::getClass('OrangeHRM\\Tests\\Core\\Helper\\ClassHelperTestClass');
+        $className = $classHelper->getClass('OrangeHRM\\Tests\\Core\\Helper\\ClassHelperTestClass');
         $this->assertEquals('OrangeHRM\\Tests\\Core\\Helper\\ClassHelperTestClass', $className);
 
-        $className = ClassHelper::getClass('ClassHelperTestClass');
+        $className = $classHelper->getClass('ClassHelperTestClass');
         $this->assertNull($className);
 
-        $className = ClassHelper::getClass('ClassHelperTestClass_Test', 'OrangeHRM\\Tests\\Core\\Helper\\');
+        $className = $classHelper->getClass('ClassHelperTestClass_Test', 'OrangeHRM\\Tests\\Core\\Helper\\');
         $this->assertNull($className);
     }
 
     public function testClassExists()
     {
-        $classExists = ClassHelper::classExists('ClassHelperTestClass', 'OrangeHRM\\Tests\\Core\\Helper\\');
+        $classHelper = new ClassHelper();
+        $classExists = $classHelper->classExists('ClassHelperTestClass', 'OrangeHRM\\Tests\\Core\\Helper\\');
         $this->assertTrue($classExists);
 
-        $classExists = ClassHelper::classExists('OrangeHRM\\Tests\\Core\\Helper\\ClassHelperTestClass');
+        $classExists = $classHelper->classExists('OrangeHRM\\Tests\\Core\\Helper\\ClassHelperTestClass');
         $this->assertTrue($classExists);
 
-        $classExists = ClassHelper::classExists('ClassHelperTestClass');
+        $classExists = $classHelper->classExists('ClassHelperTestClass');
         $this->assertFalse($classExists);
 
-        $classExists = ClassHelper::classExists('ClassHelperTestClass_Test', 'OrangeHRM\\Tests\\Core\\Helper\\');
+        $classExists = $classHelper->classExists('ClassHelperTestClass_Test', 'OrangeHRM\\Tests\\Core\\Helper\\');
         $this->assertFalse($classExists);
     }
 }

@@ -28,6 +28,40 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Leave
 {
+    public const LEAVE_STATUS_LEAVE_REJECTED = -1;
+    public const LEAVE_STATUS_LEAVE_CANCELLED = 0;
+    public const LEAVE_STATUS_LEAVE_PENDING_APPROVAL = 1;
+    public const LEAVE_STATUS_LEAVE_APPROVED = 2;
+    public const LEAVE_STATUS_LEAVE_TAKEN = 3;
+    public const LEAVE_STATUS_LEAVE_WEEKEND = 4;
+    public const LEAVE_STATUS_LEAVE_HOLIDAY = 5;
+
+    const LEAVE_STATUS_LEAVE_TYPE_DELETED_TEXT = 'LEAVE TYPE DELETED';
+
+    const LEAVE_STATUS_LEAVE_PENDING_APPROVAL_TEXT = 'Pending Approval';
+
+    const PENDING_APPROVAL_STATUS_PREFIX = 'PENDING APPROVAL';
+
+    const DURATION_TYPE_FULL_DAY = 0;
+    const DURATION_TYPE_HALF_DAY_AM = 1;
+    const DURATION_TYPE_HALF_DAY_PM = 2;
+    const DURATION_TYPE_SPECIFY_TIME = 3;
+
+    private static $leaveStatusText = array(
+        self::LEAVE_STATUS_LEAVE_REJECTED => 'REJECTED',
+        self::LEAVE_STATUS_LEAVE_CANCELLED => 'CANCELLED',
+        self::LEAVE_STATUS_LEAVE_PENDING_APPROVAL => 'PENDING APPROVAL',
+        self::LEAVE_STATUS_LEAVE_APPROVED => 'SCHEDULED',
+        self::LEAVE_STATUS_LEAVE_TAKEN => 'TAKEN'
+    );
+
+    private static $nonWorkingDayStatuses = array(
+        self::LEAVE_STATUS_LEAVE_WEEKEND,
+        self::LEAVE_STATUS_LEAVE_HOLIDAY,
+    );
+
+    private static $leaveStatusListFromDb;
+
     /**
      * @var int
      *

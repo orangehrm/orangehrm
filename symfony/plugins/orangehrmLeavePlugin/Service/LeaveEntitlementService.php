@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,100 +15,63 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * LeaveEntitlement service
- */
-class LeaveEntitlementService extends BaseService {
+namespace OrangeHRM\Leave\Service;
 
-    protected $leaveConfigService;
-    protected $leaveEntitlementDao;
-    protected $leaveEntitlementStrategy;    
-    protected $leavePeriodService;
+use DateTime;
+use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\ClassHelperTrait;
+use OrangeHRM\Entity\LeaveEntitlement;
+use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
+use OrangeHRM\Leave\Entitlement\EntitlementConsumptionStrategy;
+use OrangeHRM\Leave\Entitlement\FIFOEntitlementConsumptionStrategy;
+use OrangeHRM\Leave\Entitlement\LeaveBalance;
+use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
+
+class LeaveEntitlementService {
+    use LeaveConfigServiceTrait;
+    use ClassHelperTrait;
 
     /**
-     * Returns Leave Period
-     * @return LeavePeriodService
+     * @var LeaveEntitlementDao|null
      */
-    public function getLeavePeriodService() {
+    protected ?LeaveEntitlementDao $leaveEntitlementDao = null;
 
-        if (is_null($this->leavePeriodService)) {
-            $leavePeriodService = new LeavePeriodService();
-            $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
-            $this->leavePeriodService = $leavePeriodService;
-        }
-
-        return $this->leavePeriodService;
-    }
-    
     /**
-     * Set Leave Period
+     * @var EntitlementConsumptionStrategy|null
      */
-    public function setLeavePeriodService($leavePeriodService) {
-        $this->leavePeriodService = $leavePeriodService;
-    }    
-    
-    public function getLeaveEntitlementStrategy() {
-        if (!isset($this->leaveEntitlementStrategy)) {
-            
-            $strategyClass = $this->getLeaveConfigService()->getLeaveEntitlementConsumptionStrategy();            
-            $this->leaveEntitlementStrategy = new $strategyClass;
+    protected ?EntitlementConsumptionStrategy $leaveEntitlementStrategy = null;
+
+    /**
+     * @return EntitlementConsumptionStrategy|FIFOEntitlementConsumptionStrategy
+     */
+    public function getLeaveEntitlementStrategy():EntitlementConsumptionStrategy {
+        if (!$this->leaveEntitlementStrategy instanceof EntitlementConsumptionStrategy) {
+            $strategyClass = $this->getLeaveConfigService()->getLeaveEntitlementConsumptionStrategy();
+            $strategyClass = $this->getClassHelper()->getClass($strategyClass, 'OrangeHRM\\Leave\\Entitlement\\');
+            $this->leaveEntitlementStrategy = new $strategyClass();
         }
-        
         return $this->leaveEntitlementStrategy;
     }
-    
-    public function setLeaveEntitlementStrategy($leaveEntitlementStrategy) {
-        $this->leaveEntitlementStrategy = $leaveEntitlementStrategy;
-    }
-    
-    public function getLeaveConfigService() {
-        if (!($this->leaveConfigService instanceof LeaveConfigurationService)) {
-            $this->leaveConfigService = new LeaveConfigurationService();
-        }        
-        return $this->leaveConfigService;
-    }
 
-    public function setLeaveConfigService($leaveConfigService) {
-        $this->leaveConfigService = $leaveConfigService;
-    }
-
-    
-    public function getLeaveEntitlementDao() {
+    /**
+     * @return LeaveEntitlementDao
+     */
+    public function getLeaveEntitlementDao():LeaveEntitlementDao {
         if (!($this->leaveEntitlementDao instanceof LeaveEntitlementDao)) {
             $this->leaveEntitlementDao = new LeaveEntitlementDao();
         }
         return $this->leaveEntitlementDao;
     }
-
-    public function setLeaveEntitlementDao(LeaveEntitlementDao $leaveEntitlementDao) {
-        $this->leaveEntitlementDao = $leaveEntitlementDao;
-    }
     
     public function searchLeaveEntitlements(LeaveEntitlementSearchParameterHolder $searchParameters) {
+        // TODO
         return $this->getLeaveEntitlementDao()->searchLeaveEntitlements($searchParameters);
     }
     
-    public function saveLeaveEntitlement(LeaveEntitlement $leaveEntitlement) {
-
-        return $this->getLeaveEntitlementDao()->saveLeaveEntitlement($leaveEntitlement);
-    }
-    
-    /**
-     * Save Leave Adjustment and linked to relevent leave entitlement 
-     * 
-     * @param LeaveAdjustment $leaveAdjustment
-     * @return type
-     * @throws DaoException
-     */
-    public function saveLeaveAdjustment( LeaveAdjustment $leaveAdjustment){
-        return $this->getLeaveEntitlementDao()->saveLeaveAdjustment($leaveAdjustment);
-    }
-    
     public function deleteLeaveEntitlements($ids) {
-        
+        // TODO
         $deleted = 0;
         
         $allDeleted = true;
@@ -138,39 +100,60 @@ class LeaveEntitlementService extends BaseService {
     }    
     
     public function getLeaveEntitlement($id) {
+        // TODO
         return $this->getLeaveEntitlementDao()->getLeaveEntitlement($id);
     }    
     
     public function bulkAssignLeaveEntitlements($employeeNumbers, LeaveEntitlement $leaveEntitlement) {
+        // TODO
         return $this->getLeaveEntitlementDao()->bulkAssignLeaveEntitlements($employeeNumbers, $leaveEntitlement);
     }
     
     public function getAvailableEntitlements(LeaveParameterObject $leaveParameterObject) {
+        // TODO
         return $this->getLeaveEntitlementStrategy()->getAvailableEntitlements($leaveParameterObject);
     }
     
     public function getValidLeaveEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate, $orderField, $order) {
+        // TODO
         return $this->getLeaveEntitlementDao()->getValidLeaveEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate, $orderField, $order);
     }
     
     public function getLinkedLeaveRequests($entitlementIds, $statuses) {
+        // TODO
         return $this->getLeaveEntitlementDao()->getLinkedLeaveRequests($entitlementIds, $statuses);
-    }    
-    
-    public function getLeaveBalance($empNumber, $leaveTypeId, $asAtDate = NULL, $date = NULL) {
-        if (empty($asAtDate)) {
-            $asAtDate = date('Y-m-d', time());
+    }
+
+    /**
+     * @param int $empNumber
+     * @param int $leaveTypeId
+     * @param DateTime|null $asAtDate
+     * @param DateTime|null $date
+     * @return LeaveBalance
+     * @throws ServiceException
+     */
+    public function getLeaveBalance(
+        int $empNumber,
+        int $leaveTypeId,
+        ?DateTime $asAtDate = null,
+        ?DateTime $date = null
+    ): LeaveBalance {
+        if (is_null($asAtDate)) {
+            $asAtDate = new DateTime();
         }
-        
         // If end date is not defined, and leave period is forced, use end date of current leave period
         // as the end date for leave balance calculation
         if (empty($date)) {
-            $leavePeriodStatus = LeavePeriodService::getLeavePeriodStatus();
+            $leavePeriodStatus = $this->getLeaveConfigService()->getLeavePeriodStatus();
             if ($leavePeriodStatus == LeavePeriodService::LEAVE_PERIOD_STATUS_FORCED) {
-                $leavePeriod = $this->getLeaveEntitlementStrategy()->getLeavePeriod($asAtDate, $empNumber, $leaveTypeId);
-                
-                if (is_array($leavePeriod) && isset($leavePeriod[1])) {
-                    $date = $leavePeriod[1];
+                $leavePeriod = $this->getLeaveEntitlementStrategy()->getLeavePeriod(
+                    $asAtDate,
+                    $empNumber,
+                    $leaveTypeId
+                );
+
+                if (!is_null($leavePeriod) && !is_null($leavePeriod->getEndDate())) {
+                    $date = $leavePeriod->getEndDate();
                 }
             }
         }
@@ -179,14 +162,17 @@ class LeaveEntitlementService extends BaseService {
     }
     
     public function getEntitlementUsageForLeave($leaveId) {
+        // TODO
         return $this->getLeaveEntitlementDao()->getEntitlementUsageForLeave($leaveId);
     }
     
     public function getLeaveWithoutEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate) {
+        // TODO
         return $this->getLeaveEntitlementDao()->getLeaveWithoutEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate);
     }
     
     public function getMatchingEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate) {
+        // TODO
         return $this->getLeaveEntitlementDao()->getMatchingEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate);
     }
 
@@ -199,6 +185,7 @@ class LeaveEntitlementService extends BaseService {
      * @throws DaoException on an error
      */    
     public function getLeaveEntitlementTypeList($orderField = 'name', $orderBy = 'ASC') {
+        // TODO
         return $this->getLeaveEntitlementDao()->getLeaveEntitlementTypeList($orderField, $orderBy);
     }    
 }

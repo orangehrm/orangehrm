@@ -19,9 +19,8 @@
 
 namespace OrangeHRM\Leave\Dao;
 
-use Exception;
+use DateTime;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\WorkWeek;
 
 class WorkWeekDao extends BaseDao
@@ -29,29 +28,38 @@ class WorkWeekDao extends BaseDao
     /**
      * @param WorkWeek $workWeek
      * @return WorkWeek
-     * @throws DaoException
      */
     public function saveWorkWeek(WorkWeek $workWeek): WorkWeek
     {
-        try {
-            $this->persist($workWeek);
-            return $workWeek;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($workWeek);
+        return $workWeek;
     }
 
     /**
      * @param int $id
      * @return WorkWeek|null
-     * @throws DaoException
      */
     public function getWorkWeekById(int $id): ?WorkWeek
     {
-        try {
-            return $this->getRepository(WorkWeek::class)->find($id);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        return $this->getRepository(WorkWeek::class)->find($id);
+    }
+
+    /**
+     * @param DateTime $date
+     * @param bool $isFullDay
+     * @return bool
+     */
+    public function isNonWorkingDay(DateTime $date, bool $isFullDay = true): bool
+    {
+        $q = $this->createQueryBuilder(WorkWeek::class, 'workWeek');
+        /** @var WorkWeek $workWeek */
+        $workWeek = $this->fetchOne($q);
+
+        $getter = 'get' . $date->format('l');
+        if ($isFullDay) {
+            return ($workWeek->$getter() == WorkWeek::WORKWEEK_LENGTH_NON_WORKING_DAY);
+        } else {
+            return ($workWeek->$getter() == WorkWeek::WORKWEEK_LENGTH_HALF_DAY);
         }
     }
 }

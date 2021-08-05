@@ -28,34 +28,24 @@ class LeaveTypeDao extends BaseDao
 {
     /**
      * @return LeaveType[]
-     * @throws DaoException
      */
     public function getLeaveTypeList(): array
     {
-        try {
-            $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
-            $q->andWhere('leaveType.deleted = :deleted')
-                ->setParameter('deleted', false);
-            $q->orderBy('leaveType.name');
+        $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
+        $q->andWhere('leaveType.deleted = :deleted')
+            ->setParameter('deleted', false);
+        $q->orderBy('leaveType.name');
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param int $id
      * @return LeaveType|null
-     * @throws DaoException
      */
     public function getLeaveTypeById(int $id): ?LeaveType
     {
-        try {
-            return $this->getRepository(LeaveType::class)->find($id);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
-        }
+        return $this->getRepository(LeaveType::class)->find($id);
     }
 
     /**

@@ -108,4 +108,28 @@ trait EntityManagerHelperTrait
     {
         return $this->getEntityManager()->getReference($entityName, $id);
     }
+
+    /**
+     * @return bool
+     */
+    protected function beginTransaction(): bool
+    {
+        return $this->getEntityManager()->getConnection()->beginTransaction();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function commitTransaction(): bool
+    {
+        return $this->getEntityManager()->getConnection()->commit();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function rollBackTransaction(): bool
+    {
+        return $this->getEntityManager()->getConnection()->rollBack();
+    }
 }

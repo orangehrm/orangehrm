@@ -22,13 +22,16 @@ namespace OrangeHRM\Leave\Service;
 use DateTime;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\CacheTrait;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Holiday;
+use OrangeHRM\Entity\WorkWeek;
 use OrangeHRM\Leave\Dao\HolidayDao;
 use OrangeHRM\Leave\Dto\HolidaySearchFilterParams;
 
 class HolidayService
 {
     use CacheTrait;
+    use ConfigServiceTrait;
 
     public const LEAVE_HOLIDAYS_CACHE_KEY_PREFIX = 'leave.holidays';
     public const PARAMETER_DATA = 'data';
@@ -165,5 +168,46 @@ class HolidayService
         );
 
         return array_values($results);
+    }
+
+    /**
+     * @param DateTime $day
+     * @return bool
+     */
+    public function isHoliday(DateTime $day): bool
+    {
+        $holiday = $this->getHolidayDao()->getHolidayByDate($day);
+        if ($holiday != null && $holiday->getLength() == Holiday::HOLIDAY_FULL_DAY_LENGTH) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param DateTime $day
+     * @return bool
+     */
+    public function isHalfDay(DateTime $day): bool
+    {
+        $holiday = $this->getHolidayDao()->getHolidayByDate($day);
+        if ($holiday != null &&
+            $holiday->getLength() >= WorkWeek::WORKWEEK_LENGTH_HALF_DAY &&
+            $holiday->getLength() < $this->getConfigService()->getDefaultWorkShiftLength()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param DateTime $day
+     * @return bool
+     */
+    public function isHalfDayHoliday(DateTime $day): bool
+    {
+        $holiday = $this->getHolidayDao()->getHolidayByDate($day);
+        if ($holiday != null && $holiday->getLength() == Holiday::HOLIDAY_HALF_DAY_LENGTH) {
+            return true;
+        }
+        return false;
     }
 }

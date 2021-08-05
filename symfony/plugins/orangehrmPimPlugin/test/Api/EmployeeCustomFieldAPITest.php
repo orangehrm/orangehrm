@@ -131,6 +131,7 @@ class EmployeeCustomFieldAPITest extends EndpointTestCase
     public function testGetValidationRuleForGetOne(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(2))
@@ -348,6 +349,7 @@ class EmployeeCustomFieldAPITest extends EndpointTestCase
     public function testGetValidationRuleForUpdate(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(3))
