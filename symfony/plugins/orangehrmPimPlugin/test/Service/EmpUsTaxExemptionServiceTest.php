@@ -40,11 +40,4 @@ class EmpUsTaxExemptionServiceTest extends TestCase
     {
         $this->assertTrue($this->empUsTaxExemptionService->getEmpUsTaxExemptionDao() instanceof EmpUsTaxExemptionDao);
     }
-
-    public function testGetEmpUsTaxExemptionDaoBySetter()
-    {
-        $empUsTaxExemptionDao = new EmpUsTaxExemptionDao();
-        $this->empUsTaxExemptionService->setEmpUsTaxExemptionDao($empUsTaxExemptionDao);
-        $this->assertTrue($this->empUsTaxExemptionService->getEmpUsTaxExemptionDao() instanceof EmpUsTaxExemptionDao);
-    }
 }

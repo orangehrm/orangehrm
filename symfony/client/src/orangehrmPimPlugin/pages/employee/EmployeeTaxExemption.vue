@@ -37,7 +37,8 @@
                 type="select"
                 label="Status"
                 v-model="taxExemption.federalStatus"
-                :options="status"
+                :options="statuses"
+                :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -45,6 +46,7 @@
                 label="Exemptions"
                 v-model="taxExemption.federalExemptions"
                 :rules="rules.federalExemptions"
+                :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -62,6 +64,7 @@
                 label="State"
                 v-model="taxExemption.taxState"
                 :options="provinces"
+                :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -69,7 +72,8 @@
                 type="select"
                 label="Status"
                 v-model="taxExemption.stateStatus"
-                :options="status"
+                :options="statuses"
+                :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -77,6 +81,7 @@
                 label="Exemptions"
                 v-model="taxExemption.stateExemptions"
                 :rules="rules.stateExemptions"
+                :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -85,6 +90,7 @@
                 label="Unemployment State"
                 v-model="taxExemption.unemploymentState"
                 :options="provinces"
+                :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -93,6 +99,7 @@
                 label="Work State"
                 v-model="taxExemption.workState"
                 :options="provinces"
+                :disabled="!$can.update('tax_exemptions')"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -112,7 +119,7 @@ import {APIService} from '@orangehrm/core/util/services/api.service';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
 import {
   positiveNumber,
-  lessthancharaters,
+  shouldNotExceedCharLength,
 } from '@orangehrm/core/util/validation/rules';
 
 const taxExemptionModel = {
@@ -139,7 +146,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    status: {
+    statuses: {
       type: Array,
       default: () => [],
     },
@@ -148,7 +155,7 @@ export default {
   setup(props) {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      `/api/v2/pim/employees/${props.empNumber}/tax-exemption`,
+      `/api/v2/pim/employees/${props.empNumber}/us-tax-exemption`,
     );
 
     return {
@@ -161,8 +168,8 @@ export default {
       isLoading: false,
       taxExemption: {...taxExemptionModel},
       rules: {
-        federalExemptions: [positiveNumber, lessthancharaters(2)],
-        stateExemptions: [positiveNumber, lessthancharaters(2)],
+        federalExemptions: [positiveNumber, shouldNotExceedCharLength(2)],
+        stateExemptions: [positiveNumber, shouldNotExceedCharLength(2)],
       },
     };
   },
@@ -205,10 +212,10 @@ export default {
       this.taxExemption.workState = this.provinces.find(
         item => item.id === data.workState.code,
       );
-      this.taxExemption.federalStatus = this.status.find(
+      this.taxExemption.federalStatus = this.statuses.find(
         item => item.id === data.federalStatus,
       );
-      this.taxExemption.stateStatus = this.status.find(
+      this.taxExemption.stateStatus = this.statuses.find(
         item => item.id === data.stateStatus,
       );
     },

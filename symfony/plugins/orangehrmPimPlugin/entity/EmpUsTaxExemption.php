@@ -37,10 +37,16 @@ class EmpUsTaxExemption
     public const MARRIED = 'Married';
     public const NON_RESIDENT_ALIEN = 'Non Resident Alien';
     public const NOT_APPLICABLE = 'Not Applicable';
-    public const FILTER_SINGLE = 'S';
-    public const FILTER_MARRIED = 'M';
-    public const FILTER_NON_RESIDENT_ALIEN = 'NRA';
-    public const FILTER_NOT_APPLICABLE = 'NA';
+    public const STATUS_SINGLE = 'S';
+    public const STATUS_MARRIED = 'M';
+    public const STATUS_NON_RESIDENT_ALIEN = 'NRA';
+    public const STATUS_NOT_APPLICABLE = 'NA';
+    public const STATUSES = [
+        self::STATUS_SINGLE,
+        self::STATUS_MARRIED,
+        self::STATUS_NON_RESIDENT_ALIEN,
+        self::STATUS_NOT_APPLICABLE
+    ];
 
     /**
      * @var Employee

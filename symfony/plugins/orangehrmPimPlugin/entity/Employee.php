@@ -539,7 +539,7 @@ class Employee
      *
      * @ORM\OneToOne(targetEntity="OrangeHRM\Entity\EmpUsTaxExemption" , mappedBy="employee")
      */
-    private $empUsTax;
+    private EmpUsTaxExemption $empUsTax;
 
     /**
      * Constructor

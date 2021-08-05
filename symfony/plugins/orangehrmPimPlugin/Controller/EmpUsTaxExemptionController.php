@@ -31,7 +31,6 @@ class EmpUsTaxExemptionController extends BaseViewEmployeeController
 {
     use ServiceContainerTrait;
 
-
     /**
      * @return CountryService
      */
@@ -51,13 +50,16 @@ class EmpUsTaxExemptionController extends BaseViewEmployeeController
             $component->addProp(new Prop('emp-number', Prop::TYPE_NUMBER, $empNumber));
             $provinces = $this->getCountryService()->getProvinceArray();
             $status = [
-                ["id" => EmpUsTaxExemption::FILTER_SINGLE, "label" => EmpUsTaxExemption::SINGLE],
-                ["id" => EmpUsTaxExemption::FILTER_MARRIED, "label" => EmpUsTaxExemption::MARRIED],
-                ["id" => EmpUsTaxExemption::FILTER_NON_RESIDENT_ALIEN, "label" => EmpUsTaxExemption::NON_RESIDENT_ALIEN],
-                ["id" => EmpUsTaxExemption::FILTER_NOT_APPLICABLE, "label" => EmpUsTaxExemption::NOT_APPLICABLE]
+                ["id" => EmpUsTaxExemption::STATUS_SINGLE, "label" => EmpUsTaxExemption::SINGLE],
+                ["id" => EmpUsTaxExemption::STATUS_MARRIED, "label" => EmpUsTaxExemption::MARRIED],
+                [
+                    "id" => EmpUsTaxExemption::STATUS_NON_RESIDENT_ALIEN,
+                    "label" => EmpUsTaxExemption::NON_RESIDENT_ALIEN
+                ],
+                ["id" => EmpUsTaxExemption::STATUS_NOT_APPLICABLE, "label" => EmpUsTaxExemption::NOT_APPLICABLE]
             ];
             $component->addProp(new Prop('provinces', Prop::TYPE_ARRAY, $provinces));
-            $component->addProp(new Prop('status', Prop::TYPE_ARRAY, $status));
+            $component->addProp(new Prop('statuses', Prop::TYPE_ARRAY, $status));
             $this->setComponent($component);
 
             $this->setPermissionsForEmployee(

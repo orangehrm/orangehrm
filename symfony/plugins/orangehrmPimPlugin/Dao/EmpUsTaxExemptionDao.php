@@ -49,9 +49,9 @@ class EmpUsTaxExemptionDao extends BaseDao
     public function getEmployeeTaxExemption(int $empNumber): ?EmpUsTaxExemption
     {
         try {
-            $UsTaxExemption = $this->getRepository(EmpUsTaxExemption::class)->find($empNumber);
-            if ($UsTaxExemption instanceof EmpUsTaxExemption) {
-                return $UsTaxExemption;
+            $usTaxExemption = $this->getRepository(EmpUsTaxExemption::class)->find($empNumber);
+            if ($usTaxExemption instanceof EmpUsTaxExemption) {
+                return $usTaxExemption;
             }
             return null;
         } catch (Exception $e) {

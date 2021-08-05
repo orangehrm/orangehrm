@@ -94,7 +94,7 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             ),
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::BETWEEN, [0, 100])
+                new Rule(Rules::EQUALS, [0])
             ),
         );
     }
@@ -164,59 +164,51 @@ class EmpUsTaxExemptionAPI extends Endpoint implements ResourceEndpoint
             ),
             new ParamRule(
                 CommonParams::PARAMETER_ID,
-                new Rule(Rules::BETWEEN, [0, 100])
+                new Rule(Rules::EQUALS, [0])
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_FEDERAL_STATUS,
                     new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::IN, [
                         [
-                            EmpUsTaxExemption::FILTER_SINGLE,
-                            EmpUsTaxExemption::FILTER_MARRIED,
-                            EmpUsTaxExemption::FILTER_NON_RESIDENT_ALIEN,
-                            EmpUsTaxExemption::FILTER_NOT_APPLICABLE
+                            EmpUsTaxExemption::STATUS_SINGLE,
+                            EmpUsTaxExemption::STATUS_MARRIED,
+                            EmpUsTaxExemption::STATUS_NON_RESIDENT_ALIEN,
+                            EmpUsTaxExemption::STATUS_NOT_APPLICABLE
                         ]
                     ]),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_FEDERAL_EXEMPTIONS,
-                    new Rule(Rules::BETWEEN, [0, 100]),
+                    new Rule(Rules::BETWEEN, [0, 99]),
                 ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_TAX_STATE_CODE,
-                    new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::PROVINCE_CODE),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_STATE_STATUS,
                     new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::IN, [
-                        [
-                            EmpUsTaxExemption::FILTER_SINGLE,
-                            EmpUsTaxExemption::FILTER_MARRIED,
-                            EmpUsTaxExemption::FILTER_NON_RESIDENT_ALIEN,
-                            EmpUsTaxExemption::FILTER_NOT_APPLICABLE
-                        ]
-                    ]),
+                    new Rule(Rules::IN, [EmpUsTaxExemption::STATUSES]),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_STATE_EXEMPTIONS,
-                    new Rule(Rules::BETWEEN, [0, 100]),
+                    new Rule(Rules::LESS_THAN, [0, 99]),
                 ),
+                true
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_UNEMPLOYMENT_STATE_CODE,
-                    new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::PROVINCE_CODE),
                 ),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_WORK_STATE_CODE,
-                    new Rule(Rules::STRING_TYPE),
                     new Rule(Rules::PROVINCE_CODE),
                 ),
             ),

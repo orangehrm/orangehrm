@@ -190,13 +190,3 @@ export const positiveNumber = function(value: string): boolean | string {
     'Should be a positive number'
   );
 };
-
-export const lessthancharaters = function(power: number) {
-  return function(value: string): boolean | string {
-    return (
-      Number.isNaN(parseFloat(value)) ||
-      parseFloat(value) < Math.pow(10, power) ||
-      `Should be less than ${power} characters`
-    );
-  };
-};

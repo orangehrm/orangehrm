@@ -34,7 +34,7 @@ class EmpUsTaxExemptionDecorator
     /**
      * @var EmpUsTaxExemption
      */
-    protected EmpUsTaxExemption $EmpUsTaxExemption;
+    protected EmpUsTaxExemption $empUsTaxExemption;
 
     /**
      * EmpUsTaxExemptionDecorator constructor.
@@ -42,7 +42,7 @@ class EmpUsTaxExemptionDecorator
      */
     public function __construct(EmpUsTaxExemption $empUsTaxExemption)
     {
-        $this->EmpUsTaxExemption = $empUsTaxExemption;
+        $this->empUsTaxExemption = $empUsTaxExemption;
     }
 
     /**
@@ -50,7 +50,7 @@ class EmpUsTaxExemptionDecorator
      */
     protected function getEmpUsTaxExemption(): EmpUsTaxExemption
     {
-        return $this->EmpUsTaxExemption;
+        return $this->empUsTaxExemption;
     }
 
     /**
@@ -70,12 +70,12 @@ class EmpUsTaxExemptionDecorator
     public function getTaxState(): ?string
     {
         $stateCode = $this->getEmpUsTaxExemption()->getState();
-        /** @var CountryService $CountryService */
-        $CountryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
+        /** @var CountryService $countryService */
+        $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
         if (is_null($stateCode)) {
             return null;
         }
-        $state = $CountryService->getProvinceByProvinceCode($stateCode);
+        $state = $countryService->getProvinceByProvinceCode($stateCode);
         return $state->getProvinceName();
     }
 
@@ -85,12 +85,12 @@ class EmpUsTaxExemptionDecorator
     public function getUnemploymentState(): ?string
     {
         $stateCode = $this->getEmpUsTaxExemption()->getUnemploymentState();
-        /** @var CountryService $CountryService */
-        $CountryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
+        /** @var CountryService $countryService */
+        $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
         if (is_null($stateCode)) {
             return null;
         }
-        $state = $CountryService->getProvinceByProvinceCode($stateCode);
+        $state = $countryService->getProvinceByProvinceCode($stateCode);
         return $state->getProvinceName();
     }
 
@@ -100,12 +100,12 @@ class EmpUsTaxExemptionDecorator
     public function getWorkState(): ?string
     {
         $stateCode = $this->getEmpUsTaxExemption()->getWorkState();
-        /** @var CountryService $CountryService */
-        $CountryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
+        /** @var CountryService $countryService */
+        $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
         if (is_null($stateCode)) {
             return null;
         }
-        $state = $CountryService->getProvinceByProvinceCode($stateCode);
+        $state = $countryService->getProvinceByProvinceCode($stateCode);
         return $state->getProvinceName();
     }
 }

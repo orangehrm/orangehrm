@@ -38,12 +38,4 @@ class EmpUsTaxExemptionService
         }
         return $this->empUsTaxExemptionDao;
     }
-
-    /**
-     * @param $empUsTaxExemptionDao
-     */
-    public function setEmpUsTaxExemptionDao(EmpUsTaxExemptionDao $empUsTaxExemptionDao): void
-    {
-        $this->empUsTaxExemptionDao = $empUsTaxExemptionDao;
-    }
 }
