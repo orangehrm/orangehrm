@@ -100,7 +100,7 @@ EmployeeAttachment:
     1: {emp_number: '1', attach_id: '2', size: '2024', description: '2nd file', filename: 'test2.mdb', attachment: '', file_type: 'file/mdb', screen: 'personal', attached_by: '0' attached_by_name:'admin'}
 
 WorkShift:
-    0: {id: 1, name: 'John Conner', hoursPerDay: 8}
+    0: {id: 1, name: 'John Conner', hoursPerDay: 8, startTime: '09:00:00', endTime: '17:00:00'}
 
 EmployeeWorkShift:
     0: {workShiftId: 1, emp_number: 1}

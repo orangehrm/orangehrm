@@ -45,11 +45,11 @@ class WorkShift
     private string $name;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="hours_per_day", type="decimal", precision=4, scale=2)
      */
-    private string $hoursPerDay;
+    private float $hoursPerDay;
 
     /**
      * @var DateTime
@@ -98,17 +98,17 @@ class WorkShift
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getHoursPerDay(): string
+    public function getHoursPerDay(): float
     {
         return $this->hoursPerDay;
     }
 
     /**
-     * @param string $hoursPerDay
+     * @param float $hoursPerDay
      */
-    public function setHoursPerDay(string $hoursPerDay): void
+    public function setHoursPerDay(float $hoursPerDay): void
     {
         $this->hoursPerDay = $hoursPerDay;
     }

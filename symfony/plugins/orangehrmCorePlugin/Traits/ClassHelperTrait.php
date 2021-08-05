@@ -20,26 +20,17 @@
 namespace OrangeHRM\Core\Traits;
 
 use OrangeHRM\Core\Helper\ClassHelper;
+use OrangeHRM\Framework\Services;
 
 trait ClassHelperTrait
 {
-    /**
-     * @param string $className
-     * @param string|null $fallbackNamespace
-     * @return bool
-     */
-    protected function classExists(string $className, ?string $fallbackNamespace = null): bool
-    {
-        return ClassHelper::classExists($className, $fallbackNamespace);
-    }
+    use ServiceContainerTrait;
 
     /**
-     * @param string $className
-     * @param string|null $fallbackNamespace e.g. 'OrangeHRM\\Core\\', 'OrangeHRM\\Core\\Service\\'
-     * @return string|null
+     * @return ClassHelper
      */
-    public function getClass(string $className, ?string $fallbackNamespace = null): ?string
+    protected function getClassHelper(): ClassHelper
     {
-        return ClassHelper::getClass($className, $fallbackNamespace);
+        return $this->getContainer()->get(Services::CLASS_HELPER);
     }
 }

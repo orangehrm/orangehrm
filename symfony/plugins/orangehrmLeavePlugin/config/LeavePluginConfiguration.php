@@ -17,15 +17,49 @@
  * Boston, MA  02110-1301, USA
  */
 
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Leave\Service\HolidayService;
+use OrangeHRM\Leave\Service\LeaveConfigurationService;
+use OrangeHRM\Leave\Service\LeaveEntitlementService;
+use OrangeHRM\Leave\Service\LeavePeriodService;
+use OrangeHRM\Leave\Service\LeaveTypeService;
+use OrangeHRM\Leave\Service\WorkWeekService;
 
 class LeavePluginConfiguration implements PluginConfigurationInterface
 {
+    use ServiceContainerTrait;
+
     /**
      * @inheritDoc
      */
     public function initialize(Request $request): void
     {
+        $this->getContainer()->register(
+            Services::LEAVE_CONFIG_SERVICE,
+            LeaveConfigurationService::class
+        );
+        $this->getContainer()->register(
+            Services::LEAVE_TYPE_SERVICE,
+            LeaveTypeService::class
+        );
+        $this->getContainer()->register(
+            Services::LEAVE_ENTITLEMENT_SERVICE,
+            LeaveEntitlementService::class
+        );
+        $this->getContainer()->register(
+            Services::LEAVE_PERIOD_SERVICE,
+            LeavePeriodService::class
+        );
+        $this->getContainer()->register(
+            Services::HOLIDAY_SERVICE,
+            HolidayService::class
+        );
+        $this->getContainer()->register(
+            Services::WORK_WEEK_SERVICE,
+            WorkWeekService::class
+        );
     }
 }

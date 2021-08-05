@@ -19,10 +19,14 @@
 
 namespace OrangeHRM\Leave\Service;
 
+use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Dao\LeaveTypeDao;
+use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 
 class LeaveTypeService
 {
+    use LeaveEntitlementServiceTrait;
+
     /**
      * @var LeaveTypeDao|null
      */
@@ -37,5 +41,24 @@ class LeaveTypeService
             $this->leaveTypeDao = new LeaveTypeDao();
         }
         return $this->leaveTypeDao;
+    }
+
+    /**
+     * @param int $empNumber
+     * @return LeaveType[]
+     */
+    public function getEligibleLeaveTypesByEmpNumber(int $empNumber): array
+    {
+        $leaveTypes = $this->getLeaveTypeDao()->getLeaveTypeList();
+        $leaveTypeList = [];
+
+        foreach ($leaveTypes as $leaveType) {
+            $balance = $this->getLeaveEntitlementService()->getLeaveBalance($empNumber, $leaveType->getId());
+
+            if ($balance->getEntitled() > 0) {
+                array_push($leaveTypeList, $leaveType);
+            }
+        }
+        return $leaveTypeList;
     }
 }

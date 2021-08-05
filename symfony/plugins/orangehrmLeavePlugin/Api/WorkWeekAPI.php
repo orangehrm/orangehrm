@@ -32,10 +32,12 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\WorkWeek;
 use OrangeHRM\Leave\Api\Model\WorkWeekIndexedModel;
 use OrangeHRM\Leave\Api\Model\WorkWeekModel;
-use OrangeHRM\Leave\Service\WorkWeekService;
+use OrangeHRM\Leave\Traits\Service\WorkWeekServiceTrait;
 
 class WorkWeekAPI extends Endpoint implements ResourceEndpoint
 {
+    use WorkWeekServiceTrait;
+
     public const PARAMETER_MONDAY = 'monday';
     public const PARAMETER_TUESDAY = 'tuesday';
     public const PARAMETER_WEDNESDAY = 'wednesday';
@@ -62,22 +64,6 @@ class WorkWeekAPI extends Endpoint implements ResourceEndpoint
         self::PARAMETER_SATURDAY,
         self::PARAMETER_SUNDAY,
     ];
-
-    /**
-     * @var WorkWeekService|null
-     */
-    private ?WorkWeekService $workWeekService = null;
-
-    /**
-     * @return WorkWeekService
-     */
-    protected function getWorkWeekService(): WorkWeekService
-    {
-        if (!$this->workWeekService instanceof WorkWeekService) {
-            $this->workWeekService = new WorkWeekService();
-        }
-        return $this->workWeekService;
-    }
 
     /**
      * @inheritDoc
