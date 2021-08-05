@@ -35,6 +35,7 @@ final class Rules
     public const IN_ACCESSIBLE_EMP_NUMBERS = OHRMRules\InAccessibleEmpNumbers::class;
     public const BASE_64_ATTACHMENT = OHRMRules\Base64Attachment::class;
     public const COUNTRY_CODE = OHRMRules\CountryCode::class;
+    public const PROVINCE_CODE = OHRMRules\ProvinceCode::class;
     public const CURRENCY = OHRMRules\Currency::class;
     public const API_DATE = OHRMRules\ApiDate::class;
     public const EACH = OHRMRules\Each::class;

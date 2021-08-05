@@ -22,6 +22,7 @@ import {
   afterDate,
   endDateShouldBeAfterStartDate,
   validPhoneNumberFormat,
+  positiveNumber,
 } from '../rules';
 
 describe('core/util/validation/rules::required', () => {
@@ -247,5 +248,32 @@ describe('core/util/validation/rules::decimalsOnly', () => {
   test('decimalsOnly::numberonlywithtwodecimalpoint', () => {
     const result = decimalsOnly('456.00');
     expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::positiveNumber', () => {
+  test('positiveNumber::number', () => {
+    const result = positiveNumber('12');
+    expect(result).toBeTruthy();
+  });
+
+  test('positiveNumber::numberWith.', () => {
+    const result = positiveNumber('13.');
+    expect(result).toBe('Should be a positive number');
+  });
+
+  test('positiveNumber::numberWithCharater', () => {
+    const result = positiveNumber('123c');
+    expect(result).toBe('Should be a positive number');
+  });
+
+  test('decimalsOnly::numberOnly', () => {
+    const result = positiveNumber('4420');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('positiveNumber::negativeNumber', () => {
+    const result = positiveNumber('-456');
+    expect(result).toBe('Should be a positive number');
   });
 });
