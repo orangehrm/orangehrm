@@ -149,14 +149,18 @@ export const sameDate = function(
 /**
  * @param {string} startDate
  * @param {string|undefined} message
- * @param {boolean} allowSameDate
- * @param {string} dateFormat
+ * @param {object} options
  */
 export const endDateShouldBeAfterStartDate = (
   startDate: string | Function,
   message?: string,
-  allowSameDate = false,
-  dateFormat = 'yyyy-MM-dd',
+  options: {
+    allowSameDate?: boolean;
+    dateFormat?: string;
+  } = {
+    allowSameDate: false,
+    dateFormat: 'yyyy-MM-dd',
+  },
 ) => {
   return (value: string): boolean | string => {
     const resolvedStartDate =
@@ -165,14 +169,17 @@ export const endDateShouldBeAfterStartDate = (
       typeof message === 'string'
         ? message
         : 'End date should be after start date';
-    if (allowSameDate) {
+    if (options.allowSameDate) {
       return (
         sameDate(value, resolvedStartDate) ||
-        afterDate(value, resolvedStartDate, dateFormat) ||
+        afterDate(value, resolvedStartDate, options.dateFormat) ||
         resolvedMessage
       );
     } else {
-      return afterDate(value, resolvedStartDate, dateFormat) || resolvedMessage;
+      return (
+        afterDate(value, resolvedStartDate, options.dateFormat) ||
+        resolvedMessage
+      );
     }
   };
 };
@@ -234,14 +241,18 @@ export const sameTime = function(
 /**
  * @param {string} startTime
  * @param {string|undefined} message
- * @param {boolean} allowSameTime
- * @param {string} timeFormat
+ * @param {object} options
  */
 export const endTimeShouldBeAfterStartTime = (
   startTime: string | Function,
   message?: string,
-  allowSameTime = false,
-  timeFormat = 'hh:mm a',
+  options: {
+    allowSameTime?: boolean;
+    timeFormat?: string;
+  } = {
+    allowSameTime: false,
+    timeFormat: 'hh:mm a',
+  },
 ) => {
   return (value: string): boolean | string => {
     const resolvedStartTime =
@@ -250,14 +261,17 @@ export const endTimeShouldBeAfterStartTime = (
       typeof message === 'string'
         ? message
         : 'End time should be after start time';
-    if (allowSameTime) {
+    if (options.allowSameTime) {
       return (
         sameTime(value, resolvedStartTime) ||
-        afterTime(value, resolvedStartTime, timeFormat) ||
+        afterTime(value, resolvedStartTime, options.timeFormat) ||
         resolvedMessage
       );
     } else {
-      return afterTime(value, resolvedStartTime, timeFormat) || resolvedMessage;
+      return (
+        afterTime(value, resolvedStartTime, options.timeFormat) ||
+        resolvedMessage
+      );
     }
   };
 };

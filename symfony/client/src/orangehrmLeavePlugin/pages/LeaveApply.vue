@@ -69,7 +69,7 @@
         </oxd-form-row>
 
         <!-- Single Day|Duration -->
-        <oxd-form-row v-if="appliedLeaveDuration <= 1">
+        <oxd-form-row v-if="appliedLeaveDuration == 1">
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <leave-duration-input
               :label="$t('general.duration')"
@@ -82,7 +82,7 @@
         <!-- Single Day|Duration -->
 
         <!-- Partial Day|Duration -->
-        <oxd-form-row v-else>
+        <oxd-form-row v-if="appliedLeaveDuration > 1">
           <oxd-grid :cols="4" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
@@ -208,7 +208,7 @@ export default {
           endDateShouldBeAfterStartDate(
             () => this.leave.fromDate,
             'To date should be after from date',
-            true,
+            {allowSameDate: true},
           ),
         ],
         comment: [shouldNotExceedCharLength(250)],
