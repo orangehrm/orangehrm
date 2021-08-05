@@ -85,9 +85,9 @@ class UserRoleManagerService
         $manager = null;
 
         $fallbackNamespace = 'OrangeHRM\\Core\\Authorization\\Manager\\';
-        if ($this->classExists($class, $fallbackNamespace)) {
+        if ($this->getClassHelper()->classExists($class, $fallbackNamespace)) {
             try {
-                $class = $this->getClass($class, $fallbackNamespace);
+                $class = $this->getClassHelper()->getClass($class, $fallbackNamespace);
                 $manager = new $class();
             } catch (Exception $e) {
                 throw new ServiceException('Exception when initializing user role manager:' . $e->getMessage());

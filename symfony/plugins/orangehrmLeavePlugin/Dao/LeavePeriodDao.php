@@ -19,19 +19,64 @@
 
 namespace OrangeHRM\Leave\Dao;
 
+use DateTime;
+use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\LeavePeriodHistory;
+use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 use OrangeHRM\ORM\ListSorter;
 
 class LeavePeriodDao extends BaseDao
 {
+    use LeavePeriodServiceTrait;
+    use LeaveEntitlementServiceTrait;
+    use LeaveConfigServiceTrait;
+
     /**
      * @param LeavePeriodHistory $leavePeriodHistory
      * @return LeavePeriodHistory
+     * @throws DaoException
      */
     public function saveLeavePeriodHistory(LeavePeriodHistory $leavePeriodHistory): LeavePeriodHistory
     {
-        $this->persist($leavePeriodHistory);
+        $this->beginTransaction();
+        try {
+            $currentLeavePeriod = $this->getCurrentLeavePeriodStartDateAndMonth();
+            $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
+
+            $this->persist($leavePeriodHistory);
+
+            $isLeavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
+            $this->getLeaveConfigService()->setLeavePeriodDefined(true);
+
+            if ($isLeavePeriodDefined && !empty($currentLeavePeriod)) {
+                $leavePeriodForToday = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(
+                    new DateTime(),
+                    true
+                );
+                $oldStartMonth = $currentLeavePeriod->getStartMonth();
+                $oldStartDay = $currentLeavePeriod->getStartDay();
+                $newStartMonth = $leavePeriodHistory->getStartMonth();
+                $newStartDay = $leavePeriodHistory->getStartDay();
+
+                $strategy->handleLeavePeriodChange(
+                    $leavePeriodForToday,
+                    $oldStartMonth,
+                    $oldStartDay,
+                    $newStartMonth,
+                    $newStartDay
+                );
+            }
+
+            $this->commitTransaction();
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+
         return $leavePeriodHistory;
     }
 

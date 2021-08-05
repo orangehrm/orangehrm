@@ -115,6 +115,7 @@ class EmployeeSkillAPITest extends EndpointTestCase
     public function testGetValidationRuleForGetOne(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(0))
@@ -225,6 +226,7 @@ class EmployeeSkillAPITest extends EndpointTestCase
     public function testGetValidationRuleForUpdate(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(0))
@@ -326,6 +328,7 @@ class EmployeeSkillAPITest extends EndpointTestCase
     public function testGetValidationRuleForDelete(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(0))
@@ -438,6 +441,7 @@ class EmployeeSkillAPITest extends EndpointTestCase
     public function testGetValidationRuleForCreate(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(0))
@@ -571,6 +575,7 @@ class EmployeeSkillAPITest extends EndpointTestCase
     public function testGetValidationRuleForGetAll(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(0))

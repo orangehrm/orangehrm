@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,64 +15,74 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Description of WorkScheduleService
- */
-class WorkScheduleService {
-    
-    protected $leaveConfigService;
-    protected $workScheduleImplementationClass;
-    protected $logger;
-    
-    public function __construct() {
-        $this->logger = Logger::getLogger('leave.WorkScheduleService');
-    }
+namespace OrangeHRM\Leave\Service;
 
-    public function getLeaveConfigurationService() {
-        if (!($this->leaveConfigService instanceof LeaveConfigurationService)) {
-            $this->leaveConfigService = new LeaveConfigurationService();
-        }        
-        return $this->leaveConfigService;
-    }
+use Exception;
+use OrangeHRM\Core\Exception\ConfigurationException;
+use OrangeHRM\Core\Traits\ClassHelperTrait;
+use OrangeHRM\Core\Traits\LoggerTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
+use OrangeHRM\Leave\WorkSchedule\BasicWorkSchedule;
+use OrangeHRM\Leave\WorkSchedule\WorkScheduleInterface;
 
-    public function setLeaveConfigurationService($leaveConfigService) {
-        $this->leaveConfigService = $leaveConfigService;
-    }   
-    
-    public function getWorkSchedule($empNumber) {
-        
-        if (!isset($this->workScheduleImplementationClass)) {            
-            $this->workScheduleImplementationClass = $this->getLeaveConfigurationService()->getWorkScheduleImplementation();  
-            
-            if (empty($this->workScheduleImplementationClass)) {
-                $this->logger->error('No work schedule implementation defined');
-                throw new ConfigurationException('Work Schedule implemenentation not defined');
-            }            
-            
-            if (!class_exists($this->workScheduleImplementationClass)) {
-                throw new ConfigurationException('Work Schedule implemenentation class ' .
-                        $this->workScheduleImplementationClass . ' does not exist.');
+class WorkScheduleService
+{
+    use LeaveConfigServiceTrait;
+    use ClassHelperTrait;
+    use LoggerTrait;
+
+    /**
+     * @var string|null
+     */
+    protected ?string $workScheduleImplementationClass = null;
+
+    /**
+     * @param int $empNumber
+     * @return WorkScheduleInterface|BasicWorkSchedule
+     */
+    public function getWorkSchedule(int $empNumber): WorkScheduleInterface
+    {
+        if (is_null($this->workScheduleImplementationClass)) {
+            $this->workScheduleImplementationClass = $this->getLeaveConfigService()->getWorkScheduleImplementation();
+
+            $fallbackNamespace = 'OrangeHRM\\Leave\\WorkSchedule\\';
+            if (!$this->getClassHelper()->classExists(
+                $this->workScheduleImplementationClass,
+                $fallbackNamespace
+            )) {
+                throw new ConfigurationException(
+                    'Work Schedule implementation class ' .
+                    $this->workScheduleImplementationClass . ' does not exist.'
+                );
             }
+
+            $this->workScheduleImplementationClass = $this->getClassHelper()->getClass(
+                $this->workScheduleImplementationClass,
+                $fallbackNamespace
+            );
         }
 
         try {
-            $workSchedule = new $this->workScheduleImplementationClass;                       
+            $workSchedule = new $this->workScheduleImplementationClass();
         } catch (Exception $e) {
-            $this->logger->error('Error constructing work schedule implementation ' . 
-                    $this->workScheduleImplementationClass, $e);
+            $this->getLogger()->error(
+                'Error constructing work schedule implementation ' .
+                $this->workScheduleImplementationClass,
+            );
+            $this->getLogger()->error($e->getTraceAsString());
             throw new ConfigurationException('Work schedule implementation not configured', 0, $e);
         }
-        
+
         if (!$workSchedule instanceof WorkScheduleInterface) {
-            throw new ConfigurationException('Invalid work schedule implemenentation class ' .
-                        $this->workScheduleImplementationClass);
+            throw new ConfigurationException(
+                'Invalid work schedule implementation class ' .
+                $this->workScheduleImplementationClass
+            );
         }
-        
+
         $workSchedule->setEmpNumber($empNumber);
-        
         return $workSchedule;
     }
 }

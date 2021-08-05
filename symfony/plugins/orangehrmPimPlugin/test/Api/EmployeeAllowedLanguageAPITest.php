@@ -155,6 +155,7 @@ class EmployeeAllowedLanguageAPITest extends EndpointTestCase
     public function testGetValidationRuleForGetAll(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(2))

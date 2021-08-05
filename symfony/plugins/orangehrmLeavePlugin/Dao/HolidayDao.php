@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Leave\Dao;
 
+use DateTime;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
@@ -93,5 +94,22 @@ class HolidayDao extends BaseDao
         }
 
         return $this->getPaginator($q);
+    }
+
+    /**
+     * @param DateTime $date
+     * @return Holiday|null
+     */
+    public function getHolidayByDate(DateTime $date): ?Holiday
+    {
+        $q = $this->createQueryBuilder(Holiday::class, 'holiday');
+        $q->andWhere($q->expr()->eq($q->expr()->substring('holiday.date', 6), ':datePortion'))
+            ->setParameter('datePortion', $date->format('m') . '-' . $date->format('d'));
+        $q->andWhere('holiday.recurring = :recurring')
+            ->setParameter('recurring', true);
+        $q->orWhere('holiday.date = :date')
+            ->setParameter('date', $date);
+
+        return $this->fetchOne($q);
     }
 }
