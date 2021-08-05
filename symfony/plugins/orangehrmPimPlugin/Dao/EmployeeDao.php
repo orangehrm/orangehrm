@@ -23,6 +23,7 @@ use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeWorkShift;
 use OrangeHRM\Entity\ReportTo;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
@@ -413,5 +414,18 @@ class EmployeeDao extends BaseDao
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * @param int $empNumber
+     * @return EmployeeWorkShift|null
+     */
+    public function getEmployeeWorkShift(int $empNumber): ?EmployeeWorkShift
+    {
+        $q = $this->createQueryBuilder(EmployeeWorkShift::class, 'ews');
+        $q->where('ews.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+
+        return $this->fetchOne($q);
     }
 }

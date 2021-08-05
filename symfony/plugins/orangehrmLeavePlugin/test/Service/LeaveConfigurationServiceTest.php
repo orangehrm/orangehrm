@@ -109,4 +109,45 @@ class LeaveConfigurationServiceTest extends TestCase
         yield ['1', true];
         yield [null, true];
     }
+
+    public function testSetIsLeavePeriodDefined(): void
+    {
+        $value = 'Yes';
+
+        $mockDao = $this->getMockBuilder(ConfigDao::class)->getMock();
+        $mockDao->expects($this->once())
+            ->method('setValue')
+            ->with(LeaveConfigurationService::KEY_LEAVE_PERIOD_DEFINED, $value);
+
+        $this->service = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['getConfigDao'])
+            ->getMock();
+        $this->service->expects($this->once())
+            ->method('getConfigDao')
+            ->willReturn($mockDao);
+
+        $this->service->setLeavePeriodDefined(true);
+    }
+
+    public function testIsLeavePeriodDefined(): void
+    {
+        $value = 'Yes';
+
+        $mockDao = $this->getMockBuilder(ConfigDao::class)->getMock();
+        $mockDao->expects($this->once())
+            ->method('getValue')
+            ->with(LeaveConfigurationService::KEY_LEAVE_PERIOD_DEFINED)
+            ->will($this->returnValue($value));
+
+        $this->service = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['getConfigDao'])
+            ->getMock();
+        $this->service->expects($this->once())
+            ->method('getConfigDao')
+            ->willReturn($mockDao);
+
+        $returnVal = $this->service->isLeavePeriodDefined();
+
+        $this->assertTrue($returnVal);
+    }
 }

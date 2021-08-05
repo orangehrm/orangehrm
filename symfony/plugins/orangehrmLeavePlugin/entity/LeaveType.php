@@ -48,7 +48,7 @@ class LeaveType
      *
      * @ORM\Column(name="exclude_in_reports_if_no_entitlement", type="boolean", options={"default": 0})
      */
-    private bool $excludeInReportsIfNoEntitlement = false;
+    private bool $situational = false;
 
     /**
      * @var bool
@@ -100,17 +100,17 @@ class LeaveType
     /**
      * @return bool
      */
-    public function isExcludeInReportsIfNoEntitlement(): bool
+    public function isSituational(): bool
     {
-        return $this->excludeInReportsIfNoEntitlement;
+        return $this->situational;
     }
 
     /**
-     * @param bool $excludeInReportsIfNoEntitlement
+     * @param bool $situational
      */
-    public function setExcludeInReportsIfNoEntitlement(bool $excludeInReportsIfNoEntitlement): void
+    public function setSituational(bool $situational): void
     {
-        $this->excludeInReportsIfNoEntitlement = $excludeInReportsIfNoEntitlement;
+        $this->situational = $situational;
     }
 
     /**

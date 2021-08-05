@@ -79,6 +79,7 @@ class PIMLeftMenuServiceTest extends TestCase
             ->will($this->returnValue(true));
 
         $mockUserRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getDataGroupPermissions'])
             ->getMock();
         $mockUserRoleManager->expects($this->any())
@@ -155,6 +156,7 @@ class PIMLeftMenuServiceTest extends TestCase
             return $permission;
         };
         $mockUserRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getDataGroupPermissions'])
             ->getMock();
         $mockUserRoleManager->expects($this->any())
@@ -311,6 +313,7 @@ class PIMLeftMenuServiceTest extends TestCase
             ->will($this->returnValue(true));
 
         $mockUserRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getDataGroupPermissions'])
             ->getMock();
         $mockUserRoleManager->expects($this->any())
@@ -369,6 +372,7 @@ class PIMLeftMenuServiceTest extends TestCase
             ->will($this->returnValue(true));
 
         $mockUserRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getDataGroupPermissions'])
             ->getMock();
         $mockUserRoleManager->expects($this->any())

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,16 +15,31 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
+
+namespace OrangeHRM\Tests\Leave\Dao;
+
+use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Helper\ClassHelper;
+use OrangeHRM\Core\Service\ConfigService;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
+use OrangeHRM\Leave\Entitlement\FIFOEntitlementConsumptionStrategy;
+use OrangeHRM\Leave\Entitlement\LeaveBalance;
+use OrangeHRM\Leave\Service\LeaveConfigurationService;
+use OrangeHRM\Leave\Service\LeaveEntitlementService;
+use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group Leave 
+ * @group Leave
+ * @group Dao
  */
-class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
+class LeaveEntitlementDaoTest //extends KernelTestCase
+{
 
     /**
-     * @var LeaveEntitlementDao 
+     * @var LeaveEntitlementDao
      */
     private $dao;
     private $fixture;
@@ -33,10 +47,10 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * Set up method
      */
-    protected function setUp() {
+    protected function setUp():void {
 
         $this->dao = new LeaveEntitlementDao();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmLeavePlugin/test/fixtures/LeaveEntitlement.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmLeavePlugin/test/fixtures/LeaveEntitlement.yml';
         TestDataService::populate($this->fixture);
     }
     
@@ -44,7 +58,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     public function testSearchLeaveEntitlementsWithNoFilters() {
         $parameterHolder = new LeaveEntitlementSearchParameterHolder();
         $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        $expected = array($entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]);
+        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);                
@@ -59,7 +73,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $parameterHolder->setOrderBy('Desc');
         $parameterHolder->setOrderField('leave_type');
 
-        $expected = array($entitlementList[1], $entitlementList[2], $entitlementList[3], $entitlementList[0], $entitlementList[5]);
+        $expected = [$entitlementList[1], $entitlementList[2], $entitlementList[3], $entitlementList[0], $entitlementList[5]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);  
         
@@ -68,7 +82,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $parameterHolder->setOrderBy('Asc');
         $parameterHolder->setOrderField('employee_name');
 
-        $expected = array($entitlementList[1], $entitlementList[5], $entitlementList[0], $entitlementList[2], $entitlementList[3]);
+        $expected = [$entitlementList[1], $entitlementList[5], $entitlementList[0], $entitlementList[2], $entitlementList[3]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);          
         
@@ -78,9 +92,9 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     public function testSearchLeaveEntitlementsWithIdList() {
         $parameterHolder = new LeaveEntitlementSearchParameterHolder();
         $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        $parameterHolder->setIdList(array(1,2));
+        $parameterHolder->setIdList([1,2]);
         
-        $expected = array($entitlementList[0],$entitlementList[1]);
+        $expected = [$entitlementList[0],$entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);           
@@ -94,7 +108,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $parameterHolder->setLeaveTypeId(6);
         $parameterHolder->setFromDate('2013-08-01');
         $parameterHolder->setToDate('2013-10-02');
-        $expected = array($entitlementList[1]);
+        $expected = [$entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);           
@@ -106,17 +120,17 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         
         $parameterHolder->setValidDate('2013-08-06');
         
-        $expected = array($entitlementList[1]);
+        $expected = [$entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $parameterHolder->setValidDate('2013-08-05');
         
-        $expected = array($entitlementList[1]);
+        $expected = [$entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $parameterHolder->setValidDate('2013-09-01');
         
-        $expected = array($entitlementList[1]);
+        $expected = [$entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $parameterHolder->setValidDate('2013-09-02');
@@ -135,7 +149,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         
         $parameterHolder->setLeaveTypeId(2);
 
-        $expected = array($entitlementList[2], $entitlementList[3]);
+        $expected = [$entitlementList[2], $entitlementList[3]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);          
         
@@ -158,14 +172,14 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         
         // employee with multiple records
         $parameterHolder->setEmpNumber(1);
-        $expected = array($entitlementList[0], $entitlementList[2], $entitlementList[3]);
+        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);           
         
         // employee with one record
         $parameterHolder->setEmpNumber(2);
-        $expected = array($entitlementList[1]);
+        $expected = [$entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);            
@@ -189,7 +203,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $parameterHolder->setFromDate('2012-03-01');
         $parameterHolder->setToDate('2012-07-01');
                 
-        $expected = array($entitlementList[2], $entitlementList[3]);
+        $expected = [$entitlementList[2], $entitlementList[3]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);         
@@ -197,14 +211,14 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         // from date matching entitlement from date
         $parameterHolder->setFromDate('2012-04-04');
         $parameterHolder->setToDate('2012-04-05');        
-        $expected = array($entitlementList[2]);
+        $expected = [$entitlementList[2]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);        
                 
         $parameterHolder->setFromDate('2012-01-01');
         $parameterHolder->setToDate('2012-01-02');        
-        $expected = array($entitlementList[0]);
+        $expected = [$entitlementList[0]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);   
@@ -212,7 +226,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         // to date matching entitlement to date
         $parameterHolder->setFromDate('2011-01-01');
         $parameterHolder->setToDate('2012-01-01');        
-        $expected = array($entitlementList[0]);
+        $expected = [$entitlementList[0]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);        
@@ -229,21 +243,21 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
         
         // default - non-deleted
-        $expected = array($entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]);
+        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);          
         
         // only deleted
         $parameterHolder->setDeletedFlag(true);
-        $expected = array($entitlementList[4]);
+        $expected = [$entitlementList[4]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);           
         
         // both deleted and non-deleted
         $parameterHolder->setDeletedFlag(NULL);
-        $expected = array($entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[4], $entitlementList[5], $entitlementList[1]);
+        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[4], $entitlementList[5], $entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);         
@@ -254,28 +268,28 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
         
         // default - all non deleted
-        $expected = array($entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]);
+        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);          
         
         // only entitlement type 1
-        $parameterHolder->setEntitlementTypes(array(1));
-        $expected = array($entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[1]);
+        $parameterHolder->setEntitlementTypes([1]);
+        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);           
         
         // only entitlement type 2
-        $parameterHolder->setEntitlementTypes(array(2));
-        $expected = array($entitlementList[5]);
+        $parameterHolder->setEntitlementTypes([2]);
+        $expected = [$entitlementList[5]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results); 
         
         // entitlement types 1 and 2
-        $parameterHolder->setEntitlementTypes(array(1, 2));
-        $expected = array($entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]);
+        $parameterHolder->setEntitlementTypes([1, 2]);
+        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);          
@@ -287,9 +301,9 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
          
         
         // only entitlement type 1 and leave type 1
-        $parameterHolder->setEntitlementTypes(array(1));
+        $parameterHolder->setEntitlementTypes([1]);
         $parameterHolder->setLeaveTypeId(1);
-        $expected = array($entitlementList[0]);
+        $expected = [$entitlementList[0]];
         $results = $this->dao->searchLeaveEntitlements($parameterHolder);
         
         $this->_compareEntitlements($expected, $results);                
@@ -353,7 +367,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $orderField = 'from_date';
         $order = 'ASC';
         
-        $expected = array($entitlementList[2], $entitlementList[3]);
+        $expected = [$entitlementList[2], $entitlementList[3]];
         $results = $this->dao->getValidLeaveEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate, $orderField, $order);
         $this->_compareEntitlements($expected, $results);
     }
@@ -379,17 +393,17 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     }    
     
     public function testDeleteLeaveEntitlementsMultiple() {
-        $deleted = array(5);
+        $deleted = [5];
                 
         // delete with invalid ids
-        $ids = array(21, 31);
+        $ids = [21, 31];
         $count = $this->dao->deleteLeaveEntitlements($ids);        
         $this->assertEquals(0, $count);                
         $this->_verifyDeletedFlags($deleted);
                
         
         // delete multiple 
-        $ids = array(2, 3);
+        $ids = [2, 3];
         $count = $this->dao->deleteLeaveEntitlements($ids);        
         $this->assertEquals(2, $count);                
         
@@ -398,7 +412,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $this->_verifyDeletedFlags($deleted);
         
         // delete one
-        $ids = array(4);
+        $ids = [4];
         
         $count = $this->dao->deleteLeaveEntitlements($ids);        
         $this->assertEquals(1, $count);
@@ -408,23 +422,37 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $this->_verifyDeletedFlags($deleted);
         
         // delete already deleted entry
-        $count = $this->dao->deleteLeaveEntitlements(array(2));  
+        $count = $this->dao->deleteLeaveEntitlements([2]);
         $this->_verifyDeletedFlags($deleted);        
     }
-        
-    public function testGetLeaveBalance() {
-        
-        $unlinkedDateLimits = array('2001-01-01', '2020-01-01');
-        
-        $mockStrategy = $this->getMockBuilder('FIFOEntitlementConsumptionStrategy')
-			->setMethods( array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'))
-			->getMock();
-        $mockStrategy->expects($this->any())
-                    ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
-                    //->with($parameterHolder)
-                    ->will($this->returnValue($unlinkedDateLimits));        
-        // Using AsAt
-        $this->dao->setLeaveEntitlementStrategy($mockStrategy);
+
+    /**
+     * @group testGetLeaveBalance
+     */
+    public function testGetLeaveBalance():void {
+        $unlinkedDateLimits = ['2001-01-01', '2020-01-01'];
+        $mockStrategy = $this->getMockBuilder(FIFOEntitlementConsumptionStrategy::class)
+            ->onlyMethods(['getLeaveWithoutEntitlementDateLimitsForLeaveBalance'])
+            ->getMock();
+        $mockStrategy->expects($this->exactly(31))
+            ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
+            ->will($this->returnValue($unlinkedDateLimits));
+
+        $leaveEntitlementService = $this->getMockBuilder(LeaveEntitlementService::class)
+            ->onlyMethods(['getLeaveEntitlementStrategy'])
+            ->getMock();
+        $leaveEntitlementService->expects($this->exactly(31))
+            ->method('getLeaveEntitlementStrategy')
+            ->willReturn($mockStrategy);
+
+        $this->createKernelWithMockServices(
+            [
+                Services::CONFIG_SERVICE => new ConfigService(),
+                Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
+                Services::CLASS_HELPER => new ClassHelper(),
+                Services::LEAVE_ENTITLEMENT_SERVICE => $leaveEntitlementService,
+            ]
+        );
         
         // As at before entitlement start:         
         $balance = $this->dao->getLeaveBalance(2, 6, '2013-08-01');
@@ -587,10 +615,10 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     
     public function testGetLeaveBalanceWithUnlinkedLeave() {
         
-        $unlinkedDateLimits = array('2013-01-01', '2013-12-31');
+        $unlinkedDateLimits = ['2013-01-01', '2013-12-31'];
         
         $mockStrategy = $this->getMockBuilder('FIFOEntitlementConsumptionStrategy')
-			->setMethods( array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'))
+			->setMethods(['getLeaveWithoutEntitlementDateLimitsForLeaveBalance'])
 			->getMock();
         $mockStrategy->expects($this->once())
                     ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
@@ -607,10 +635,10 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testGetLeaveBalanceExcludingUnlinkedLeaveWhenAfterPeriod() {
-        $unlinkedDateLimits = array('2013-01-01', '2014-12-31');
+        $unlinkedDateLimits = ['2013-01-01', '2014-12-31'];
         
         $mockStrategy = $this->getMockBuilder('FIFOEntitlementConsumptionStrategy')
-			->setMethods( array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'))
+			->setMethods(['getLeaveWithoutEntitlementDateLimitsForLeaveBalance'])
 			->getMock();
         $mockStrategy->expects($this->once())
                     ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
@@ -627,10 +655,10 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testGetLeaveBalanceExcludingUnlinkedBeforePeriod() {
-        $unlinkedDateLimits = array('2012-01-01', '2013-12-31');
+        $unlinkedDateLimits = ['2012-01-01', '2013-12-31'];
         
         $mockStrategy = $this->getMockBuilder('FIFOEntitlementConsumptionStrategy')
-			->setMethods( array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'))
+			->setMethods(['getLeaveWithoutEntitlementDateLimitsForLeaveBalance'])
 			->getMock();
         $mockStrategy->expects($this->once())
                     ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
@@ -649,7 +677,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetLeaveBalanceExcludingUnlinkedLeave() {
         
         $mockStrategy = $this->getMockBuilder('FIFOEntitlementConsumptionStrategy')
-			->setMethods( array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'))
+			->setMethods(['getLeaveWithoutEntitlementDateLimitsForLeaveBalance'])
 			->getMock();
         $mockStrategy->expects($this->once())
                     ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
@@ -666,15 +694,23 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     }    
     
     public function testGetLinkedLeaveRequests() {
-        $requests = $this->dao->getLinkedLeaveRequests(array(3, 4), 
-                array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL, 
-                      Leave::LEAVE_STATUS_LEAVE_REJECTED));
+        $requests = $this->dao->getLinkedLeaveRequests(
+            [3, 4],
+            [
+                Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
+                      Leave::LEAVE_STATUS_LEAVE_REJECTED
+            ]
+        );
         
         $this->assertEquals(0, count($requests));
         
-        $requests = $this->dao->getLinkedLeaveRequests(array(1, 2, 3, 4, 5), 
-                array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL, 
-                      Leave::LEAVE_STATUS_LEAVE_REJECTED));        
+        $requests = $this->dao->getLinkedLeaveRequests(
+            [1, 2, 3, 4, 5],
+            [
+                Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL,
+                      Leave::LEAVE_STATUS_LEAVE_REJECTED
+            ]
+        );
         $this->assertEquals(5, count($requests));      
         $this->assertEquals(1, $requests[0]->getId());
         $this->assertEquals(2, $requests[1]->getId());
@@ -682,8 +718,10 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(4, $requests[3]->getId());
         $this->assertEquals(5, $requests[4]->getId());
         
-        $requests = $this->dao->getLinkedLeaveRequests(array(1, 2, 3, 4, 5), 
-                array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL));        
+        $requests = $this->dao->getLinkedLeaveRequests(
+            [1, 2, 3, 4, 5],
+            [Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL]
+        );
         $this->assertEquals(2, count($requests));
         $this->assertEquals(1, $requests[0]->getId());
         $this->assertEquals(2, $requests[1]->getId());        
@@ -756,7 +794,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
  
     protected function _verifyDeletedFlags($deleted) {
         
-        $ids = array(1, 2, 3, 4, 5);
+        $ids = [1, 2, 3, 4, 5];
 
         $nonDeleted = array_diff($ids, $deleted);
     
@@ -796,7 +834,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     public function testSearchLeaveEntitlementsHydrationMode(){
          $parameterHolder = new LeaveEntitlementSearchParameterHolder();
          $parameterHolder->setHydrationMode(Doctrine::HYDRATE_ARRAY);
-         $parameterHolder->setEmpIdList(array(1,2,3));
+         $parameterHolder->setEmpIdList([1,2,3]);
          $parameterHolder->setFromDate('2012-01-01');
          $parameterHolder->setToDate('2012-08-01');
          
@@ -810,12 +848,16 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     public function testSearchLeaveEntitlementsSamePeriod() {
         Doctrine_Query::create()->delete()->from('LeaveEntitlement')->execute();
 
-        $leaveEntitlements = array(
-            array('id' => 1, 'leave_type_id' => 1, 'emp_number' => 1, 'no_of_days' => 3, 'from_date' => '2013-01-01 00:00:00',
-                'to_date' => '2013-12-31 00:00:00', 'entitlement_type' => 1, 'deleted' => 0),
-            array('id' => 2, 'leave_type_id' => 1, 'emp_number' => 2, 'no_of_days' => 3, 'from_date' => '2013-01-01 00:00:00',
-                'to_date' => '2013-12-31 00:00:00', 'entitlement_type' => 1, 'deleted' => 0),
-        );
+        $leaveEntitlements = [
+            [
+                'id' => 1, 'leave_type_id' => 1, 'emp_number' => 1, 'no_of_days' => 3, 'from_date' => '2013-01-01 00:00:00',
+                'to_date' => '2013-12-31 00:00:00', 'entitlement_type' => 1, 'deleted' => 0
+            ],
+            [
+                'id' => 2, 'leave_type_id' => 1, 'emp_number' => 2, 'no_of_days' => 3, 'from_date' => '2013-01-01 00:00:00',
+                'to_date' => '2013-12-31 00:00:00', 'entitlement_type' => 1, 'deleted' => 0
+            ],
+        ];
 
         foreach ($leaveEntitlements as $entitlement) {
             $leaveEntitlement = new LeaveEntitlement();
@@ -825,7 +867,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
 
         $fromDate = '2013-01-01';
         $toDate = '2013-12-31';
-        $employeeNumbers = array(1, 2);
+        $employeeNumbers = [1, 2];
         $leaveTypeId = 1;
         
         $leaveEntitlementSearchParameterHolder = new LeaveEntitlementSearchParameterHolder();
@@ -842,7 +884,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     
     public function testBulkAssignLeaveEntitlements() {
         
-        $empList = array(1,2,3);
+        $empList = [1,2,3];
        
        
         $leaveEntitlement = new LeaveEntitlement();
@@ -875,7 +917,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testBulkAssignLeaveEntitlementsLinkingOfUnlinkedLeave() {
-        $empList = array(7);
+        $empList = [7];
              
         $leaveEntitlement = new LeaveEntitlement();
         $leaveEntitlement->setLeaveTypeId(1);
@@ -892,10 +934,10 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         // verify unlinked leave is now linked
         $conn = Doctrine_Manager::connection()->getDbh();
         $statement = $conn->prepare('SELECT * FROM ohrm_leave_leave_entitlement e WHERE e.leave_id = ?');
-        $leaveIds = array(11, 12);
+        $leaveIds = [11, 12];
         
         foreach ($leaveIds as $leaveId) {
-            $this->assertTrue($statement->execute(array($leaveId)));
+            $this->assertTrue($statement->execute([$leaveId]));
             $results = $statement->fetchAll();
             $this->assertEquals(1, count($results));
             $this->assertEquals($leaveId, $results[0]['leave_id']);
@@ -905,14 +947,14 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     
     public function testGetLeaveEntitlementTypeListDefaultSort() {
         $entitlementTypeList = TestDataService::loadObjectList('LeaveEntitlementType', $this->fixture, 'LeaveEntitlementType');
-        $expected = array($entitlementTypeList[1], $entitlementTypeList[0]);
+        $expected = [$entitlementTypeList[1], $entitlementTypeList[0]];
         $result = $this->dao->getLeaveEntitlementTypeList();
         $this->compareEntitlementTypes($expected, $result);
     }
     
     public function testGetLeaveEntitlementTypeListSpecificSort() {
         $entitlementTypeList = TestDataService::loadObjectList('LeaveEntitlementType', $this->fixture, 'LeaveEntitlementType');
-        $expected = array($entitlementTypeList[0], $entitlementTypeList[1]);
+        $expected = [$entitlementTypeList[0], $entitlementTypeList[1]];
         $result = $this->dao->getLeaveEntitlementTypeList('id', 'ASC');
         $this->compareEntitlementTypes($expected, $result);
     }    
@@ -933,4 +975,3 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     }
 }
 
-    

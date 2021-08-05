@@ -20,6 +20,37 @@ apiv2_leave_workweek:
     _api: OrangeHRM\Leave\Api\WorkWeekAPI
     id: 1
 
+apiv2_leave_leave_period:
+  path: /api/v2/leave/leave-period
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeavePeriodAPI
+    id: 1
+
+apiv2_leave_leave_type:
+  path: /api/v2/leave/leave-types/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveTypeAPI
+  requirements:
+    id: '\d+'
+
+apiv2_leave_leave_types:
+  path: /api/v2/leave/leave-types
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveTypeAPI
+
+apiv2_leave_eligible_leave_types:
+  path: /api/v2/leave/leave-types/eligible
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\EligibleLeaveTypeAPI
+
 
 ##########################
 #        Screens

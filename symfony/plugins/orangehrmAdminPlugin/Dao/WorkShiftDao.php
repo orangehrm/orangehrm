@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,35 +16,36 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class WorkShiftDao extends BaseDao {
 
+namespace OrangeHRM\Admin\Dao;
+
+use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\WorkShift;
+use OrangeHRM\ORM\ListSorter;
+
+class WorkShiftDao extends BaseDao
+{
     /**
-     *
-     * @return type 
+     * @return WorkShift[]
      */
-    public function getWorkShiftList() {
-
-        try {
-            $q = Doctrine_Query :: create()
-                    ->from('WorkShift')
-                    ->orderBy('name ASC');
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+    public function getWorkShiftList(): array
+    {
+        $q = $this->createQueryBuilder(WorkShift::class, 'workShift');
+        $q->addOrderBy('workShift.name', ListSorter::ASCENDING);
+        return $q->getQuery()->execute();
     }
 
-    public function getWorkShiftById($workShiftId) {
-
-        try {
-            return Doctrine :: getTable('WorkShift')->find($workShiftId);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+    /**
+     * @param int $workShiftId
+     * @return WorkShift|null
+     */
+    public function getWorkShiftById(int $workShiftId): ?WorkShift
+    {
+        return $this->getRepository(WorkShift::class)->find($workShiftId);
     }
 
     public function getWorkShiftEmployeeListById($workShiftId) {
-
+        // TODO
         try {
             $q = Doctrine_Query :: create()
                     ->from('EmployeeWorkShift')
@@ -57,7 +57,7 @@ class WorkShiftDao extends BaseDao {
     }
 
     public function getWorkShiftEmployeeNameListById($workShiftId) {
-
+        // TODO
         try {
             $q = Doctrine_Query :: create()
                     ->select('w.emp_number as empNumber, e.firstName as firstName, e.lastName as lastName, e.middleName as middleName')
@@ -77,7 +77,7 @@ class WorkShiftDao extends BaseDao {
     }
 
     public function getWorkShiftEmployeeList() {
-
+        // TODO
         try {
             $q = Doctrine_Query :: create()
                     ->from('EmployeeWorkShift');
@@ -88,7 +88,7 @@ class WorkShiftDao extends BaseDao {
     }
 
     public function getWorkShiftEmployeeIdList() {
-
+        // TODO
         try {
             $q = Doctrine_Query :: create()
                     ->select('emp_number')
@@ -109,22 +109,8 @@ class WorkShiftDao extends BaseDao {
         // @codeCoverageIgnoreEnd
     }
 
-    public function updateWorkShift(WorkShift $workShift) {
-
-		try {
-			$q = Doctrine_Query:: create()->update('WorkShift')
-				->set('name', '?', $workShift->name)
-				->set('hours_per_day', '?', $workShift->hoursPerDay)
-                                ->set('start_time', '?', $workShift->getStartTime())
-                                ->set('end_time', '?', $workShift->getEndTime())
-				->where('id = ?', $workShift->id);
-			return $q->execute();
-		} catch (Exception $e) {
-			throw new DaoException($e->getMessage());
-		}
-    }
-
     public function saveEmployeeWorkShiftCollection(Doctrine_Collection $empWorkShiftCollection) {
+        // TODO
         try {
 
             $empWorkShiftCollection->save();
@@ -135,7 +121,4 @@ class WorkShiftDao extends BaseDao {
         }
         // @codeCoverageIgnoreEnd
     }
-
 }
-
-?>

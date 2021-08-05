@@ -1,10 +1,6 @@
 name: Test
 
-on:
-  push:
-    branches: [ '5.0' ]
-  pull_request:
-    branches: [ '5.0' ]
+on: [ push, pull_request ]
 
 jobs:
   test:

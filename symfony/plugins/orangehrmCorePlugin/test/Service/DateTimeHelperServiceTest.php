@@ -107,4 +107,31 @@ class DateTimeHelperServiceTest extends TestCase
         $this->assertFalse($this->dateTimeHelperService->isDatesEqual(null, null));
         $this->assertTrue($this->dateTimeHelperService->isDatesEqual(null, null, true));
     }
+
+    public function testDateDiffInHours(): void
+    {
+        $this->assertEquals(
+            8,
+            $this->dateTimeHelperService
+                ->dateDiffInHours(new DateTime('09:00'), new DateTime('17:00'))
+        );
+
+        $this->assertEquals(
+            8.25,
+            $this->dateTimeHelperService
+                ->dateDiffInHours(new DateTime('08:45'), new DateTime('17:00'))
+        );
+
+        $this->assertEquals(
+            32.25,
+            $this->dateTimeHelperService
+                ->dateDiffInHours(new DateTime('2021-08-04 08:45'), new DateTime('2021-08-05 17:00'))
+        );
+
+        $this->assertEquals(
+            776.25,
+            $this->dateTimeHelperService
+                ->dateDiffInHours(new DateTime('2021-08-04 08:45'), new DateTime('2021-09-05 17:00'))
+        );
+    }
 }
