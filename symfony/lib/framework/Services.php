@@ -106,6 +106,11 @@ final class Services
     public const TEXT_HELPER_SERVICE = 'core.text_helper_service';
 
     /**
+     * @see \OrangeHRM\Core\Helper\ClassHelper
+     */
+    public const CLASS_HELPER = 'core.class_helper';
+
+    /**
      * @see \OrangeHRM\Core\Authorization\Manager\AbstractUserRoleManager
      */
     public const USER_ROLE_MANAGER = 'core.authorization.user_role_manager';
@@ -148,6 +153,40 @@ final class Services
      * @see \OrangeHRM\Admin\Service\UserService
      */
     public const USER_SERVICE = 'admin.user_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Leave plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Leave\Service\LeaveConfigurationService
+     */
+    public const LEAVE_CONFIG_SERVICE = 'leave.leave_config_service';
+
+    /**
+     * @see \OrangeHRM\Leave\Service\LeaveTypeService
+     */
+    public const LEAVE_TYPE_SERVICE = 'leave.leave_type_service';
+
+    /**
+     * @see \OrangeHRM\Leave\Service\LeaveEntitlementService
+     */
+    public const LEAVE_ENTITLEMENT_SERVICE = 'leave.leave_entitlement_service';
+
+    /**
+     * @see \OrangeHRM\Leave\Service\LeavePeriodService
+     */
+    public const LEAVE_PERIOD_SERVICE = 'leave.leave_period_service';
+
+    /**
+     * @see \OrangeHRM\Leave\Service\HolidayService
+     */
+    public const HOLIDAY_SERVICE = 'leave.holiday_service';
+
+    /**
+     * @see \OrangeHRM\Leave\Service\WorkWeekService
+     */
+    public const WORK_WEEK_SERVICE = 'leave.work_week_service';
 
     ///////////////////////////////////////////////////////////////
     /// Pim plugin services

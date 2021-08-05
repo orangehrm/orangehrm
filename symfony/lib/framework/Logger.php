@@ -22,6 +22,9 @@ namespace OrangeHRM\Framework;
 use OrangeHRM\Framework\Exception\ServiceContainerException;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @deprecated
+ */
 class Logger implements LoggerInterface
 {
     /**

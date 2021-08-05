@@ -21,6 +21,7 @@ namespace OrangeHRM\Tests\Core\Service;
 
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Authorization\Service\HomePageService;
+use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\KernelTestCase;
 
@@ -40,7 +41,9 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getHomePage')
             ->willReturn($homepage);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $service = new HomePageService();
 
         $this->assertEquals($homepage, $service->getHomePagePath());
@@ -56,7 +59,9 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getModuleDefaultPage('admin'));
@@ -72,7 +77,9 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getTimeModuleDefaultPath());
@@ -88,7 +95,9 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getLeaveModuleDefaultPath());
@@ -104,7 +113,9 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getAdminModuleDefaultPath());
@@ -120,7 +131,9 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getPimModuleDefaultPath());
@@ -136,7 +149,9 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getRecruitmentModuleDefaultPath());
@@ -151,7 +166,9 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn(null);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $service = new HomePageService();
 
         $this->assertNull($service->getPerformanceModuleDefaultPath());

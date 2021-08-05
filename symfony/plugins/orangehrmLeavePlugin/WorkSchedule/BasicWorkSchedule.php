@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,133 +15,127 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Basic implementation of work schedule
- */
-class BasicWorkSchedule implements WorkScheduleInterface {
-    
-    const DEFAULT_WORK_SHIFT_LENGTH = 8;
-    
-    protected $empNumber;
-    
-    protected $employeeService;
-    protected $workWeekService;
-    protected $holidayService;    
-    protected $workShiftService;
-    
+namespace OrangeHRM\Leave\WorkSchedule;
+
+use DateTime;
+use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
+use OrangeHRM\Admin\Service\WorkShiftService;
+use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\EmployeeWorkShift;
+use OrangeHRM\Leave\Traits\Service\HolidayServiceTrait;
+use OrangeHRM\Leave\Traits\Service\WorkWeekServiceTrait;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
+
+class BasicWorkSchedule implements WorkScheduleInterface
+{
+    use EmployeeServiceTrait;
+    use WorkWeekServiceTrait;
+    use HolidayServiceTrait;
+    use ConfigServiceTrait;
+    use DateTimeHelperTrait;
+
     /**
-     * 
+     * @var int|null
+     */
+    protected ?int $empNumber = null;
+
+    /**
+     * @var WorkShiftService|null
+     */
+    protected ?WorkShiftService $workShiftService = null;
+
+    /**
+     *
      * @return WorkShiftService
      */
-    public function getWorkShiftService() {
+    public function getWorkShiftService(): WorkShiftService
+    {
         if (!($this->workShiftService instanceof WorkShiftService)) {
             $this->workShiftService = new WorkShiftService();
-        }             
+        }
         return $this->workShiftService;
     }
 
-    public function setWorkShiftService(WorkShiftService$workShiftService) {
-        $this->workShiftService = $workShiftService;
-    }    
-    
-    protected function getEmployeeService() {
-        if (!($this->employeeService instanceof EmployeeService)) {
-            $this->employeeService = new EmployeeService();
-        }        
-        return $this->employeeService;
-    }
-
-    protected function setEmployeeService($employeeService) {
-        $this->employeeService = $employeeService;
-    }    
-    
     /**
-     *
-     * @return WorkWeekService
+     * @return int|null
      */
-    public function getWorkWeekService() {
-        if (!($this->workWeekService instanceof WorkWeekService)) {
-            $this->workWeekService = new WorkWeekService();
-        }
-        return $this->workWeekService;
+    public function getEmpNumber(): ?int
+    {
+        return $this->empNumber;
     }
 
     /**
-     *
-     * @param WorkWeekService $service 
+     * @inheritDoc
      */
-    public function setWorkWeekService(WorkWeekService $service) {
-        $this->workWeekService = $service;
-    }
-
-    /**
-     *
-     * @return HolidayService
-     */
-    public function getHolidayService() {
-        if (!($this->holidayService instanceof HolidayService)) {
-            $this->holidayService = new HolidayService();
-        }
-        return $this->holidayService;
-    }
-
-    /**
-     *
-     * @param HolidayService $service 
-     */
-    public function setHolidayService(HolidayService $service) {
-        $this->holidayService = $service;
-    }
-    
-    public function setEmpNumber($empNumber) {
+    public function setEmpNumber(?int $empNumber): void
+    {
         $this->empNumber = $empNumber;
-    }    
-    
-    public function getWorkShiftLength() {
-        $workshift = $this->getEmployeeService()->getEmployeeWorkShift($this->empNumber);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getWorkShiftLength(): float
+    {
+        $workshift = $this->getEmployeeService()->getEmployeeDao()->getEmployeeWorkShift($this->getEmpNumber());
         if ($workshift != null) {
             $workShiftLength = $workshift->getWorkShift()->getHoursPerDay();
         } else {
-            // TODO
-            // Use $definedDuration = sfConfig::get('app_orangehrm_core_leave_plugin_default_work_shift_length_hours');
-            $workShiftLength = self::DEFAULT_WORK_SHIFT_LENGTH;
+            $workShiftLength = $this->getConfigService()->getDefaultWorkShiftLength();
         }
-        
+
         return $workShiftLength;
     }
-    
-    public function getWorkShiftStartEndTime() {
-        $workshift = $this->getEmployeeService()->getEmployeeWorkShift($this->empNumber);
-        if ($workshift == null) {
-            $startEndTime = $this->getWorkShiftService()->getWorkShiftDefaultStartAndEndTime();
-        } else {
+
+    /**
+     * @inheritDoc
+     */
+    public function getWorkShiftStartEndTime(): WorkShiftStartAndEndTime
+    {
+        $workshift = $this->getEmployeeService()->getEmployeeDao()->getEmployeeWorkShift($this->empNumber);
+        if ($workshift instanceof EmployeeWorkShift) {
             $workShift = $workshift->getWorkShift();
-            $startEndTime = array(
-                'start_time' => $workShift->getStartTime(),
-                'end_time' => $workShift->getEndTime()
+            return new WorkShiftStartAndEndTime(
+                $this->getDateTimeHelper()->formatDateTimeToTimeString($workShift->getStartTime()),
+                $this->getDateTimeHelper()->formatDateTimeToTimeString($workShift->getEndTime())
             );
         }
-        
-        return $startEndTime;
-    }    
-    
-    public function isWeekend($day, $fullDay) {
-        return $this->getWorkWeekService()->isWeekend($day, $fullDay);
-    }
-    
-    public function isHalfDay($day) {
-        return $this->getHolidayService()->isHalfDay($day);
-    }
-    
-    public function isHoliday($day) {
-        return $this->getHolidayService()->isHoliday($day);
-    }
-    
-    public function isHalfdayHoliday($day) {
-        return $this->getHolidayService()->isHalfdayHoliday($day);
+
+        return $this->getWorkShiftService()->getWorkShiftDefaultStartAndEndTime();
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function isNonWorkingDay(DateTime $day, bool $fullDay): bool
+    {
+        return $this->getWorkWeekService()->getWorkWeekDao()->isNonWorkingDay($day, $fullDay);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isHalfDay(DateTime $day): bool
+    {
+        return $this->getHolidayService()->isHalfDay($day);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isHoliday(DateTime $day): bool
+    {
+        return $this->getHolidayService()->isHoliday($day);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isHalfDayHoliday(DateTime $day): bool
+    {
+        return $this->getHolidayService()->isHalfDayHoliday($day);
+    }
 }

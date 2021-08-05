@@ -34,7 +34,7 @@ class Holiday
 {
     use DecoratorTrait;
 
-    public const HOLIDAY_FULL_DAY_LENGTH = 8;
+    public const HOLIDAY_FULL_DAY_LENGTH = 0;
     public const HOLIDAY_HALF_DAY_LENGTH = 4;
 
     public const HOLIDAY_FULL_DAY_LENGTH_NAME = 'Full Day';

@@ -24,6 +24,7 @@ use OrangeHRM\Core\Authorization\Dto\DataGroupPermissionCollection;
 use OrangeHRM\Core\Authorization\Dto\ResourcePermission;
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
@@ -57,7 +58,9 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $permission = $userRoleManagerHelper->getDataGroupPermissionsForEmployee('personal_information');
         $this->assertTrue($permission->canRead());
@@ -90,7 +93,9 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $permission = $userRoleManagerHelper->getDataGroupPermissionsForEmployee('personal_information');
         $this->assertTrue($permission->canRead());
@@ -123,7 +128,9 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $permission = $userRoleManagerHelper->getDataGroupPermissionsForEmployee('personal_information', 2);
         $this->assertTrue($permission->canRead());
@@ -156,7 +163,9 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $permission = $userRoleManagerHelper->getDataGroupPermissionsForEmployee('personal_information', 1);
         $this->assertTrue($permission->canRead());
@@ -189,7 +198,9 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $permissionCollection = $userRoleManagerHelper->getDataGroupPermissionCollectionForEmployee(
             ['personal_information'],
@@ -220,7 +231,9 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
+        $this->createKernelWithMockServices(
+            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
+        );
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $this->assertEquals($expected, $userRoleManagerHelper->isSelfByEmpNumber($empNumber));
     }

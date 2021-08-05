@@ -166,4 +166,23 @@ class HolidayDaoTest extends TestCase
         $this->assertEquals('Father`s Day', $holidays[5]->getName());
         $this->assertEquals('Christmas Day', $holidays[6]->getName());
     }
+
+    public function testGetHolidayByDate(): void
+    {
+        $holiday = $this->holidayDao->getHolidayByDate(new DateTime('2010-05-27'));
+        $this->assertEquals('Public Holiday',$holiday->getName());
+
+        $holiday = $this->holidayDao->getHolidayByDate(new DateTime('2011-05-27'));
+        $this->assertEquals('Public Holiday',$holiday->getName());
+
+        $holiday = $this->holidayDao->getHolidayByDate(new DateTime('2021-05-27'));
+        $this->assertEquals('Public Holiday',$holiday->getName());
+
+        $holiday = $this->holidayDao->getHolidayByDate(new DateTime('2000-07-25'));
+        $this->assertEquals('Father`s Day',$holiday->getName());
+
+        $holiday = $this->holidayDao->getHolidayByDate(new DateTime('2021-07-25'));
+        // Not getting `Constitution Day` since `Father`s Day` added as recurring but same date in fixtures
+        $this->assertEquals('Father`s Day',$holiday->getName());
+    }
 }

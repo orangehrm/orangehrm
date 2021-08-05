@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,62 +15,37 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Description of FIFOEntitlementConsumptionStrategy
- */
+namespace OrangeHRM\Leave\Entitlement;
+
+use DateTime;
+use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Entity\LeaveEntitlement;
+use OrangeHRM\Leave\Dao\FIFOEntitlementConsumptionStrategyDao;
+use OrangeHRM\Leave\Dto\LeavePeriod;
+use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
+
 class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrategy {
-    
-    protected $leaveEntitlementService;
-    protected $dao;
-    protected $leavePeriodService;
+    use LeavePeriodServiceTrait;
+    use LeaveEntitlementServiceTrait;
 
     /**
-     * Returns Leave Period
-     * @return LeavePeriodService
+     * @var FIFOEntitlementConsumptionStrategyDao|null
      */
-    public function getLeavePeriodService() {
+    protected ?FIFOEntitlementConsumptionStrategyDao $dao = null;
 
-        if (is_null($this->leavePeriodService)) {
-            $leavePeriodService = new LeavePeriodService();
-            $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
-            $this->leavePeriodService = $leavePeriodService;
-        }
-
-        return $this->leavePeriodService;
-    }
-    
     /**
-     * Set Leave Period
+     * @return FIFOEntitlementConsumptionStrategyDao
      */
-    public function setLeavePeriodService($leavePeriodService) {
-        $this->leavePeriodService = $leavePeriodService;
-    }   
-    
-    public function getDao() {
+    public function getDao():FIFOEntitlementConsumptionStrategyDao {
         if (empty($this->dao)) {
             $this->dao = new FIFOEntitlementConsumptionStrategyDao();
         }
         
         return $this->dao;
-    }
-
-    public function setDao($dao) {
-        $this->dao = $dao;
-    }
-
-    
-    public function getLeaveEntitlementService() {
-        if (empty($this->leaveEntitlementService)) {
-            $this->leaveEntitlementService = new LeaveEntitlementService();
-        }
-        return $this->leaveEntitlementService;
-    }
-
-    public function setLeaveEntitlementService($leaveEntitlementService) {
-        $this->leaveEntitlementService = $leaveEntitlementService;
     }
 
     /**
@@ -98,7 +72,7 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
      * @return Array or false As described above
      */    
     public function getAvailableEntitlements($empNumber, $leaveType, $leaveDates, $allowNoEntitlements = false) {
-
+        // TODO
         $result = false;
         $current = array();
         $change = array();
@@ -173,17 +147,15 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
                             }
                         }                        
 
-                        //echo('leaveLength = ' . $leaveLength . "\n");
                         if ($leaveLength <= 0) {
-                            //var_dump("leaveLength = 0");
                             $getNextDate = true;
                             $skipTemp = false;                           
-                        } else if (!$entitlement->withinPeriod($leaveDate->getDate())) {
+                        } elseif (!$entitlement->withinPeriod($leaveDate->getDate())) {
 
                             array_push($tmpArray, $entitlement);                            
                             $skipTemp = true;
 
-                        } else if ($leaveLength <= $availableDays) {
+                        } elseif ($leaveLength <= $availableDays) {
                             $entitlement->days_used += $leaveLength;
                             $availableDays -= $leaveLength;
                             
@@ -208,11 +180,9 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
                             } 
                             
                             array_unshift($entitlements, $entitlement);
-                            
-                            //var_dump("WORKED: " . $entitlement->id . ', ' . $entitlement->getAvailableDays());
-                            //var_dump("leaveNdx=" . $leaveNdx . ', NumDates=' . $numDates);
+
                         } else {
-                            //var_dump("LESS");
+
                             $entitlement->days_used = $entitlement->no_of_days;
                             $leaveLength -= $availableDays;
                             
@@ -234,20 +204,16 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
                             $availableDays = 0;
                             
                             $getNextDate = false;
-                            //echo('LESS leaveLength = ' . $leaveLength . "\n");
                         }
                     }
 
                     if ($entitlementsOk) {
-                        //var_dump("BREAK");
                         break;
                     }                   
                     
                     if (!$skipTemp && (count($tmpArray) > 0)) {
                         $entitlement = array_shift($tmpArray);
-                        //var_dump("T");
                     } else {
-                        //var_dump("E");
                         $entitlement = array_shift($entitlements);
                     }
                 }
@@ -278,7 +244,7 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
      * @return Array of entitlement id => length (days) 
      */
     public function getAvailableEntitlementsOld($empNumber, $leaveType, $leaveDates) {
-                
+        // TODO
         $numDates = count($leaveDates);
         
         if ($numDates > 0) {
@@ -307,16 +273,14 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
         }
 
         if ($entitlementsOk) {
-            //var_dump("OOOKKK");
             return $leaveDates;
         } else {
-            //var_dump("FALSE____");
             return false;
         }        
     }
     
     protected function mergeLeaveDates($leaveDates, $otherLeaveDates) {
-                
+        // TODO
         $result = array();
         
         foreach ($leaveDates as $date) {
@@ -358,6 +322,7 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
     }
 
     public function handleLeaveCreate($empNumber, $leaveType, $leaveDates, $allowNoEntitlements = false) {
+        // TODO
         $result = false;
         $current = array();
         $change = array();
@@ -502,11 +467,11 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
     }
 
     public function handleEntitlementStatusChange() {
-        
+        // TODO
     }
 
     public function handleLeaveCancel($leave) {
-        
+        // TODO
         $result = false;
         $current = array();
         $change = array();
@@ -677,23 +642,26 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
     }
     
     public function handleLeavePeriodChange($leavePeriodForToday, $oldMonth, $oldDay, $newMonth, $newDay) {
-        return $this->getDao()->handleLeavePeriodChange($leavePeriodForToday, $oldMonth, $oldDay, $newMonth, $newDay);        
+        $this->getDao()->handleLeavePeriodChange($leavePeriodForToday, $oldMonth, $oldDay, $newMonth, $newDay);
     }
 
-    public function getLeaveWithoutEntitlementDateLimitsForLeaveBalance($balanceStartDate, $balanceEndDate, $empNumber = null, $leaveTypeId = null) {
-        
-        $limits = false;
+    /**
+     * @inheritDoc
+     */
+    public function getLeaveWithoutEntitlementDateLimitsForLeaveBalance(\DateTime $balanceStartDate, \DateTime $balanceEndDate, ?int $empNumber = null, ?int $leaveTypeId = null) {
+        // TODO
+        $limits = null;
         
         $startPeriod = $this->getLeavePeriod($balanceStartDate, $empNumber, $leaveTypeId);
         
-        if (is_array($startPeriod) && count($startPeriod) == 2) {
-            $startDate = $startPeriod[0];
-            $endDate = $startPeriod[1];
+        if (!is_null($startPeriod) && !is_null($startPeriod->getEndDate())) {
+            $startDate = $startPeriod->getStartDate();
+            $endDate = $startPeriod->getEndDate();
 
             if (!empty($balanceEndDate)) {
                 $endPeriod = $this->getLeavePeriod($balanceEndDate, $empNumber, $leaveTypeId);
-                if (is_array($endPeriod) && isset($endPeriod[1])) {
-                    $endDate = $endPeriod[1];
+                if (!is_null($endPeriod) && !is_null($endPeriod->getEndDate())) {
+                    $endDate = $endPeriod->getEndDate();
                 }
             }
             $limits = array($startDate, $endDate);
@@ -701,9 +669,16 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
         
         return $limits;
     }
-    
-    public function getLeavePeriod($date, $empNumber = null, $leaveTypeId = null) {
-        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate($date);        
-        return $leavePeriod;
+
+    /**
+     * @param DateTime $date
+     * @param int|null $empNumber
+     * @param int|null $leaveTypeId
+     * @return LeavePeriod|null
+     * @throws ServiceException
+     */
+    public function getLeavePeriod(DateTime $date, ?int $empNumber = null, ?int $leaveTypeId = null): ?LeavePeriod
+    {
+        return $this->getLeavePeriodService()->getCurrentLeavePeriodByDate($date);
     }
 }

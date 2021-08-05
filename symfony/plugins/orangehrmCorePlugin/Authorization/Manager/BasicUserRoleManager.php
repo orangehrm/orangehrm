@@ -105,7 +105,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager
         ];
 
         foreach ($configurations as $roleName => $roleObj) {
-            $className = $this->getClass($roleObj['class'], 'OrangeHRM\\Core\\Authorization\\UserRole\\');
+            $className = $this->getClassHelper()->getClass($roleObj['class'], 'OrangeHRM\\Core\\Authorization\\UserRole\\');
             $this->userRoleClasses[$roleName] = new $className($roleName, $this);
         }
     }
@@ -963,8 +963,8 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             $enableClass = $defaultPage->getEnableClass();
             $fallbackNamespace = 'OrangeHRM\\Core\\HomePage\\';
 
-            if (!empty($enableClass) && $this->classExists($enableClass, $fallbackNamespace)) {
-                $enableClass = $this->getClass($enableClass, $fallbackNamespace);
+            if (!empty($enableClass) && $this->getClassHelper()->classExists($enableClass, $fallbackNamespace)) {
+                $enableClass = $this->getClassHelper()->getClass($enableClass, $fallbackNamespace);
                 $enableClassInstance = new $enableClass();
                 if ($enableClassInstance instanceof HomePageEnablerInterface) {
                     $enabled = $enableClassInstance->isEnabled($this->getUser());
@@ -995,8 +995,8 @@ class BasicUserRoleManager extends AbstractUserRoleManager
             $enableClass = $defaultPage->getEnableClass();
             $fallbackNamespace = 'OrangeHRM\\Core\\HomePage\\';
 
-            if (!empty($enableClass) && $this->classExists($enableClass, $fallbackNamespace)) {
-                $enableClass = $this->getClass($enableClass, $fallbackNamespace);
+            if (!empty($enableClass) && $this->getClassHelper()->classExists($enableClass, $fallbackNamespace)) {
+                $enableClass = $this->getClassHelper()->getClass($enableClass, $fallbackNamespace);
                 $enableClassInstance = new $enableClass();
                 if ($enableClassInstance instanceof HomePageEnablerInterface) {
                     $enabled = $enableClassInstance->isEnabled($this->getUser());
