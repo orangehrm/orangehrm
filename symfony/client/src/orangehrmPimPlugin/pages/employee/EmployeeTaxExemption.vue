@@ -100,7 +100,7 @@
 
         <oxd-divider />
         <oxd-form-actions>
-          <submit-button />
+          <submit-button v-if="$can.update('tax_exemptions')" />
         </oxd-form-actions>
       </oxd-form>
     </div>
