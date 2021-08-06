@@ -114,10 +114,10 @@ class LeaveEntitlementService {
         return $this->getLeaveEntitlementStrategy()->getAvailableEntitlements($leaveParameterObject);
     }
     
-    public function getValidLeaveEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate, $orderField, $order) {
-        // TODO
-        return $this->getLeaveEntitlementDao()->getValidLeaveEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate, $orderField, $order);
-    }
+//    public function getValidLeaveEntitlements(int $empNumber, int $leaveTypeId, \DateTime $fromDate, \DateTime $toDate, string $orderField, string $order) {
+//        // TODO
+//        return $this->getLeaveEntitlementDao()->getValidLeaveEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate, $orderField, $order);
+//    }
     
     public function getLinkedLeaveRequests($entitlementIds, $statuses) {
         // TODO
