@@ -51,6 +51,12 @@ apiv2_leave_eligible_leave_types:
   defaults:
     _api: OrangeHRM\Leave\Api\EligibleLeaveTypeAPI
 
+apiv2_leave_leave_requests:
+  path: /api/v2/leave/leave-requests
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\MyLeaveRequestAPI
 
 ##########################
 #        Screens
