@@ -46,6 +46,7 @@
               <leave-type-dropdown
                 v-model="leave.type"
                 :rules="rules.type"
+                :employee-id="leave.employee?.id"
                 required
               />
             </oxd-grid-item>
@@ -201,7 +202,7 @@ export default {
 
   setup() {
     const http = new APIService(
-      window.appGlobal.mockUrl,
+      window.appGlobal.baseUrl,
       'api/v2/leave/my-leave-request',
     );
 
@@ -263,18 +264,12 @@ export default {
           toTime: this.leave.endDuration.toTime,
         };
       }
-      console.log(payload);
-      this.http
-        .create(payload)
-        .then(response => {
-          const {data} = response;
-          console.log(data);
-        })
-        .finally(() => {
-          this.$toast.saveSuccess();
-          this.leave = {...leaveModel};
-          this.isLoading = false;
-        });
+      // TODO: Handle leave errors
+      this.http.create(payload).then(() => {
+        this.$toast.saveSuccess();
+        this.leave = {...leaveModel};
+        this.isLoading = false;
+      });
     },
   },
 
@@ -297,9 +292,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.orangehrm-leave-duration {
-  padding: $oxd-input-control-vertical-padding 0rem;
-}
-</style>
