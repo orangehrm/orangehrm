@@ -255,9 +255,9 @@ abstract class AbstractUserRoleManager
      * @param array $rolesToExclude
      * @param array $rolesToInclude
      * @param array $entities
-     * @return array|WorkflowStateMachine[] Array of workflow items with action name as array index
+     * @return WorkflowStateMachine[] Array of workflow items with action name as array index
      */
-    abstract protected function getAllowedActions(
+    abstract public function getAllowedActions(
         string $workflow,
         string $state,
         array $rolesToExclude = [],

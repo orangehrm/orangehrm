@@ -23,7 +23,6 @@ use DateTime;
 use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
 use OrangeHRM\Admin\Service\WorkShiftService;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\EmployeeWorkShift;
 use OrangeHRM\Leave\Traits\Service\HolidayServiceTrait;
 use OrangeHRM\Leave\Traits\Service\WorkWeekServiceTrait;
@@ -35,7 +34,6 @@ class BasicWorkSchedule implements WorkScheduleInterface
     use WorkWeekServiceTrait;
     use HolidayServiceTrait;
     use ConfigServiceTrait;
-    use DateTimeHelperTrait;
 
     /**
      * @var int|null
@@ -99,8 +97,8 @@ class BasicWorkSchedule implements WorkScheduleInterface
         if ($workshift instanceof EmployeeWorkShift) {
             $workShift = $workshift->getWorkShift();
             return new WorkShiftStartAndEndTime(
-                $this->getDateTimeHelper()->formatDateTimeToTimeString($workShift->getStartTime()),
-                $this->getDateTimeHelper()->formatDateTimeToTimeString($workShift->getEndTime())
+                $workShift->getStartTime(),
+                $workShift->getEndTime()
             );
         }
 

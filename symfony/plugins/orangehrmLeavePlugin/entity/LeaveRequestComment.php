@@ -21,13 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\LeaveRequestCommentDecorator;
 
 /**
+ * @method LeaveRequestCommentDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_leave_request_comment")
  * @ORM\Entity
  */
 class LeaveRequestComment
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -46,11 +52,11 @@ class LeaveRequestComment
     private LeaveRequest $leaveRequest;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
-     * @ORM\Column(name="created", type="datetime")
+     * @ORM\Column(name="created", type="datetime", nullable=true)
      */
-    private DateTime $created;
+    private ?DateTime $createdAt = null;
 
     /**
      * @var User|null
@@ -108,19 +114,19 @@ class LeaveRequestComment
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getCreated(): DateTime
+    public function getCreatedAt(): ?DateTime
     {
-        return $this->created;
+        return $this->createdAt;
     }
 
     /**
-     * @param DateTime $created
+     * @param DateTime|null $createdAt
      */
-    public function setCreated(DateTime $created): void
+    public function setCreatedAt(?DateTime $createdAt): void
     {
-        $this->created = $created;
+        $this->createdAt = $createdAt;
     }
 
     /**

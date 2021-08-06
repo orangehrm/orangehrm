@@ -17,61 +17,55 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Dto;
+namespace OrangeHRM\Entity\Decorator;
 
-use DateTime;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Entity\LeaveType;
 
-class WorkShiftStartAndEndTime
+class LeaveDecorator
 {
-    /**
-     * @var DateTime
-     */
-    private DateTime $startTime;
+    use EntityManagerHelperTrait;
 
     /**
-     * @var DateTime
+     * @var Leave
      */
-    private DateTime $endTime;
+    private Leave $leave;
 
     /**
-     * @param DateTime $startTime
-     * @param DateTime $endTime
+     * @param Leave $leave
      */
-    public function __construct(DateTime $startTime, DateTime $endTime)
+    public function __construct(Leave $leave)
     {
-        $this->startTime = $startTime;
-        $this->endTime = $endTime;
+        $this->leave = $leave;
     }
 
     /**
-     * @return DateTime
+     * @return Leave
      */
-    public function getStartTime(): DateTime
+    protected function getLeave(): Leave
     {
-        return $this->startTime;
+        return $this->leave;
     }
 
     /**
-     * @param DateTime $startTime
+     * @param int $empNumber
      */
-    public function setStartTime(DateTime $startTime): void
+    public function setEmployeeByEmpNumber(int $empNumber): void
     {
-        $this->startTime = $startTime;
+        /** @var Employee|null $employee */
+        $employee = $this->getReference(Employee::class, $empNumber);
+        $this->getLeave()->setEmployee($employee);
     }
 
     /**
-     * @return DateTime
+     * @param int $id
      */
-    public function getEndTime(): DateTime
+    public function setLeaveTypeById(int $id): void
     {
-        return $this->endTime;
-    }
-
-    /**
-     * @param DateTime $endTime
-     */
-    public function setEndTime(DateTime $endTime): void
-    {
-        $this->endTime = $endTime;
+        /** @var LeaveType|null $leaveType */
+        $leaveType = $this->getReference(LeaveType::class, $id);
+        $this->getLeave()->setLeaveType($leaveType);
     }
 }

@@ -17,61 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Dto;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
+use Closure;
 use DateTime;
 
-class WorkShiftStartAndEndTime
+class LessThanOrEqual extends AbstractRule
 {
-    /**
-     * @var DateTime
-     */
-    private DateTime $startTime;
+    private $targetObject;
 
     /**
-     * @var DateTime
+     * @param Closure|DateTime|float|int $targetObject
      */
-    private DateTime $endTime;
-
-    /**
-     * @param DateTime $startTime
-     * @param DateTime $endTime
-     */
-    public function __construct(DateTime $startTime, DateTime $endTime)
+    public function __construct($targetObject)
     {
-        $this->startTime = $startTime;
-        $this->endTime = $endTime;
+        $this->targetObject = $targetObject;
     }
 
     /**
-     * @return DateTime
+     * @inheritDoc
      */
-    public function getStartTime(): DateTime
+    public function validate($input): bool
     {
-        return $this->startTime;
-    }
-
-    /**
-     * @param DateTime $startTime
-     */
-    public function setStartTime(DateTime $startTime): void
-    {
-        $this->startTime = $startTime;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getEndTime(): DateTime
-    {
-        return $this->endTime;
-    }
-
-    /**
-     * @param DateTime $endTime
-     */
-    public function setEndTime(DateTime $endTime): void
-    {
-        $this->endTime = $endTime;
+        $targetObject = $this->targetObject;
+        if (is_callable($targetObject)) {
+            $targetObject = $targetObject();
+        }
+        return $input <= $targetObject;
     }
 }

@@ -50,7 +50,7 @@ class WorkShiftService
         $startTime = $this->getConfigService()->getDefaultWorkShiftStartTime();
         $endTime = $this->getConfigService()->getDefaultWorkShiftEndTime();
 
-        return new WorkShiftStartAndEndTime($startTime, $endTime);
+        return new WorkShiftStartAndEndTime(new \DateTime($startTime), new \DateTime($endTime));
     }
 }
 
