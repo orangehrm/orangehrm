@@ -24,6 +24,7 @@ use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Entity\CustomField;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Pim\Service\CustomFieldService;
 
 class CustomFieldController extends AbstractVueController
 {
@@ -41,6 +42,22 @@ class CustomFieldController extends AbstractVueController
 
     public const DROP_DOWN = 'Drop Down';
     public const TEXT_NUMBER = 'Text or Number';
+
+    /**
+     * @var null|CustomFieldService
+     */
+    protected ?CustomFieldService $customFieldService = null;
+
+    /**
+     * @return CustomFieldService
+     */
+    public function getCustomFieldService(): CustomFieldService
+    {
+        if (is_null($this->customFieldService)) {
+            $this->customFieldService = new CustomFieldService();
+        }
+        return $this->customFieldService;
+    }
 
     public const SCREEN_LIST = [
         ['id' => CustomField::SCREEN_PERSONAL_DETAILS, 'label' => self::SCREEN_PERSONAL_DETAILS],
@@ -67,9 +84,11 @@ class CustomFieldController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('custom-field-list');
+        $customFieldsInUse = $this->getCustomFieldService()->getAllFieldsInUse();
         $component->addProp(new Prop('custom-field-limit', Prop::TYPE_NUMBER, CustomField::MAX_FIELD_NUM));
         $component->addProp(new Prop('screen-list', Prop::TYPE_ARRAY, self::SCREEN_LIST));
         $component->addProp(new Prop('field-type-list', Prop::TYPE_ARRAY, self::FIELD_TYPE_LIST));
+        $component->addProp(new Prop('unselectable-ids', Prop::TYPE_ARRAY, $customFieldsInUse));
         $this->setComponent($component);
     }
 }

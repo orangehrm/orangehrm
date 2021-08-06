@@ -51,6 +51,7 @@ import ViewOrganizationGeneralInformation from '@/orangehrmAdminPlugin/pages/org
 import Nationality from '@/orangehrmAdminPlugin/pages/nationality/Nationality.vue';
 import EditNationality from '@/orangehrmAdminPlugin/pages/nationality/EditNationality.vue';
 import SaveNationality from '@/orangehrmAdminPlugin/pages/nationality/SaveNationality.vue';
+import ViewEmailConfiguration from '@/orangehrmAdminPlugin/pages/emailConfiguration/ViewEmailConfiguration.vue';
 import OAuthPages from '@/orangehrmCoreOAuthPlugin';
 
 export default {
@@ -89,5 +90,6 @@ export default {
   'nationality-list': Nationality,
   'nationality-edit': EditNationality,
   'nationality-save': SaveNationality,
+  'email-configuration-view': ViewEmailConfiguration,
   ...OAuthPages,
-};
+  };

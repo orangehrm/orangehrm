@@ -1,4 +1,5 @@
 .idea
+.vscode
 lib/confs/
 symfony/cache/
 symfony/config/
@@ -8,6 +9,5 @@ symfony/vendor
 apidoc
 logInsatall.log
 .phpunit.result.cache
-symfony/test/functional/node_modules
-symfony/tests/functional/yarn.lock
 coverage/
+symfony/test/functional/cypress/fixtures/admin.json
