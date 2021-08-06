@@ -265,51 +265,51 @@ describe('core/util/validation/rules::endTimeShouldBeAfterStartTime', () => {
     let result = endTimeShouldBeAfterStartTime('')('');
     expect(result).toEqual(true);
 
-    result = endTimeShouldBeAfterStartTime('2021-06-28')('');
+    result = endTimeShouldBeAfterStartTime('12:00')('');
     expect(result).toEqual(true);
   });
 
   test('endTimeShouldBeAfterStartTime:: should allow valid time', () => {
-    const result = endTimeShouldBeAfterStartTime('08:00 AM')('09:00 AM');
+    const result = endTimeShouldBeAfterStartTime('08:00')('09:00');
     expect(result).toEqual(true);
   });
 
   test('endTimeShouldBeAfterStartTime:: should return message on invalid time', () => {
-    const result = endTimeShouldBeAfterStartTime('08:00 AM')('07:00 AM');
+    const result = endTimeShouldBeAfterStartTime('08:00')('07:00');
     expect(result).toEqual('End time should be after start time');
   });
 
   test('endTimeShouldBeAfterStartTime:: should allow valid time given as function', () => {
-    const result = endTimeShouldBeAfterStartTime(() => '08:00 AM')('09:00 AM');
+    const result = endTimeShouldBeAfterStartTime(() => '08:00')('09:00');
     expect(result).toEqual(true);
   });
 
   test('endTimeShouldBeAfterStartTime:: should return custom message on invalid time', () => {
     const result = endTimeShouldBeAfterStartTime(
-      '08:00 AM',
+      '08:00',
       'Invalid time',
-    )('07:00 AM');
+    )('07:00');
     expect(result).toEqual('Invalid time');
   });
 
   test('endTimeShouldBeAfterStartTime:: should allow valid time with custom format', () => {
-    const result = endTimeShouldBeAfterStartTime('15:20', undefined, {
-      timeFormat: 'HH:mm',
-    })('17:00');
+    const result = endTimeShouldBeAfterStartTime('11:00 AM', undefined, {
+      timeFormat: 'hh:mm a',
+    })('07:00 PM');
     expect(result).toEqual(true);
   });
 
   test('endTimeShouldBeAfterStartTime:: should allow same time as start time when allowSameTime is true', () => {
-    const result = endTimeShouldBeAfterStartTime('11:00 AM', undefined, {
+    const result = endTimeShouldBeAfterStartTime('11:00', undefined, {
       allowSameTime: true,
-    })('11:00 AM');
+    })('11:00');
     expect(result).toEqual(true);
   });
 
   test('endTimeShouldBeAfterStartTime:: should not allow invalid time when allowSameTime is true', () => {
-    const result = endTimeShouldBeAfterStartTime('11:00 AM', undefined, {
+    const result = endTimeShouldBeAfterStartTime('11:00', undefined, {
       allowSameTime: true,
-    })('10:00 AM');
+    })('10:00');
     expect(result).toEqual('End time should be after start time');
   });
 });

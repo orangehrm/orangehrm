@@ -133,7 +133,7 @@ const diffInDays = (
 const diffInTime = (
   startTime: string,
   endTime: string,
-  timeFormat = 'hh:mm a',
+  timeFormat = 'HH:mm',
 ): number => {
   const start = parseTime(startTime, timeFormat);
   const end = parseTime(endTime, timeFormat);

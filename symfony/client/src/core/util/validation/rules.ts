@@ -211,7 +211,7 @@ export const beforeTime = function(
 export const afterTime = function(
   time1: string,
   time2: string,
-  timeFormat = 'hh:mm a',
+  timeFormat = 'HH:mm',
 ) {
   // Skip assertion on unset values
   if (!time1 || !time2) {
@@ -229,7 +229,7 @@ export const afterTime = function(
 export const sameTime = function(
   time1: string,
   time2: string,
-  timeFormat = 'hh:mm a',
+  timeFormat = 'HH:mm',
 ) {
   // Skip assertion on unset values
   if (!time1 || !time2) {
@@ -251,7 +251,7 @@ export const endTimeShouldBeAfterStartTime = (
     timeFormat?: string;
   } = {
     allowSameTime: false,
-    timeFormat: 'hh:mm a',
+    timeFormat: 'HH:mm',
   },
 ) => {
   return (value: string): boolean | string => {
