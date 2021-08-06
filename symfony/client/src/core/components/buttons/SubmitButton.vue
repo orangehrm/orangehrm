@@ -22,7 +22,7 @@
   <oxd-button
     class="orangehrm-left-space"
     displayType="secondary"
-    label="Save"
+    :label="$t('general.save')"
     type="submit"
   />
 </template>

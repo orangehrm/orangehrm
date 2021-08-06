@@ -556,11 +556,10 @@ class ConfigService
     }
 
     /**
-     * Get sendmail configuration path
-     * @return string
+     * @return string|null
      * @throws CoreServiceException
      */
-    public function getSendmailPath(): string
+    public function getSendmailPath(): ?string
     {
         return $this->_getConfigValue(self::KEY_SENDMAIL_PATH);
     }

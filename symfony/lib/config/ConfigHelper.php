@@ -43,7 +43,7 @@ class ConfigHelper
             'ohrm_config_dir' => realpath($pathToSymfonyDir . '/config'),
             Config::PLUGINS_DIR => realpath($pathToSymfonyDir . '/plugins'),
             Config::PUBLIC_DIR => realpath($pathToProjectBase . '/web'),
-            'ohrm_cache_dir' => realpath($pathToSymfonyDir . '/cache'),
+            Config::CACHE_DIR => realpath($pathToSymfonyDir . '/cache'),
             'ohrm_app_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm'),
             'ohrm_app_config_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/config'),
             'ohrm_app_lib_dir' => realpath($pathToSymfonyDir . '/apps/orangehrm/lib'),

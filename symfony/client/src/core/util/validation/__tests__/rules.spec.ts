@@ -17,10 +17,12 @@
  */
 
 import {
+  decimalsOnly,
   required,
   afterDate,
   endDateShouldBeAfterStartDate,
   validPhoneNumberFormat,
+  positiveNumber,
 } from '../rules';
 
 describe('core/util/validation/rules::required', () => {
@@ -162,57 +164,116 @@ describe('core/util/validation/rules::endDateShouldBeAfterStartDate', () => {
 
 describe('core/util/validation/rules::validPhoneNumberFormat', () => {
   test('validPhoneNumberFormat::number', () => {
-    let result = validPhoneNumberFormat('1234563');
+    const result = validPhoneNumberFormat('1234563');
     expect(result).toBeTruthy();
   });
 
   test('validPhoneNumberFormat::numberWithStar', () => {
-    let result = validPhoneNumberFormat('123*');
+    const result = validPhoneNumberFormat('123*');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 
   test('validPhoneNumberFormat::numberWithDollar', () => {
-    let result = validPhoneNumberFormat('123$');
+    const result = validPhoneNumberFormat('123$');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 
   test('validPhoneNumberFormat::numberWith!', () => {
-    let result = validPhoneNumberFormat('123!');
+    const result = validPhoneNumberFormat('123!');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 
   test('validPhoneNumberFormat::numberWith#', () => {
-    let result = validPhoneNumberFormat('123#');
+    const result = validPhoneNumberFormat('123#');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 
   test('validPhoneNumberFormat::numberWith#', () => {
-    let result = validPhoneNumberFormat('123#');
+    const result = validPhoneNumberFormat('123#');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 
   test('validPhoneNumberFormat::numberWith%', () => {
-    let result = validPhoneNumberFormat('123%');
+    const result = validPhoneNumberFormat('123%');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 
   test('validPhoneNumberFormat::numberWithinvalidCharacters', () => {
-    let result = validPhoneNumberFormat('123$^&*_,:;{}[]');
+    const result = validPhoneNumberFormat('123$^&*_,:;{}[]');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 
   test('validPhoneNumberFormat::numberWithValidCharacters', () => {
-    let result = validPhoneNumberFormat('+-/()');
+    const result = validPhoneNumberFormat('+-/()');
     expect(result).toStrictEqual(true);
   });
 
   test('validPhoneNumberFormat::numberWithSpace', () => {
-    let result = validPhoneNumberFormat('456 ');
+    const result = validPhoneNumberFormat('456 ');
     expect(result).toBe('Allows numbers and only + - / ( )');
   });
 
   test('validPhoneNumberFormat::numberWithfullStop', () => {
-    let result = validPhoneNumberFormat('456.');
+    const result = validPhoneNumberFormat('456.');
     expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+});
+
+describe('core/util/validation/rules::decimalsOnly', () => {
+  test('validPhoneNumberFormat::number', () => {
+    const result = validPhoneNumberFormat('1234563');
+    expect(result).toBeTruthy();
+  });
+
+  test('decimalsOnly::numberWith.', () => {
+    const result = decimalsOnly('123.');
+    expect(result).toBe('Should be a number');
+  });
+
+  test('decimalsOnly::numberWithcharater', () => {
+    const result = decimalsOnly('123c');
+    expect(result).toBe('Should be a number');
+  });
+
+  test('decimalsOnly::numberonly', () => {
+    const result = decimalsOnly('4420');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('decimalsOnly::numberonlywithonedecimalpoint', () => {
+    const result = decimalsOnly('456.0');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('decimalsOnly::numberonlywithtwodecimalpoint', () => {
+    const result = decimalsOnly('456.00');
+    expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::positiveNumber', () => {
+  test('positiveNumber::number', () => {
+    const result = positiveNumber('12');
+    expect(result).toBeTruthy();
+  });
+
+  test('positiveNumber::numberWith.', () => {
+    const result = positiveNumber('13.');
+    expect(result).toBe('Should be a positive number');
+  });
+
+  test('positiveNumber::numberWithCharater', () => {
+    const result = positiveNumber('123c');
+    expect(result).toBe('Should be a positive number');
+  });
+
+  test('decimalsOnly::numberOnly', () => {
+    const result = positiveNumber('4420');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('positiveNumber::negativeNumber', () => {
+    const result = positiveNumber('-456');
+    expect(result).toBe('Should be a positive number');
   });
 });

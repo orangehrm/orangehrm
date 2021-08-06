@@ -19,6 +19,7 @@
 
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
+use OrangeHRM\Core\Service\CacheService;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\NormalizerService;
@@ -26,6 +27,7 @@ use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\ExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\RequestBodySubscriber;
+use OrangeHRM\Core\Subscriber\RequestForwardableExceptionSubscriber;
 use OrangeHRM\Core\Subscriber\ScreenAuthorizationSubscriber;
 use OrangeHRM\Core\Subscriber\SessionSubscriber;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
@@ -68,6 +70,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)
             ->setFactory([UserRoleManagerFactory::class, 'getUserRoleManager']);
         $this->getContainer()->register(Services::USER_ROLE_MANAGER_HELPER, UserRoleManagerHelper::class);
+        $this->getContainer()->register(Services::CACHE)->setFactory([CacheService::class, 'getCache']);
 
         $this->registerCoreSubscribers();
     }
@@ -85,6 +88,7 @@ class CorePluginConfiguration implements PluginConfigurationInterface
             ]
         );
         $dispatcher->addSubscriber(new SessionSubscriber());
+        $dispatcher->addSubscriber(new RequestForwardableExceptionSubscriber());
         $dispatcher->addSubscriber(new ScreenAuthorizationSubscriber());
         $dispatcher->addSubscriber(new ApiAuthorizationSubscriber());
         $dispatcher->addSubscriber(new RequestBodySubscriber());

@@ -107,4 +107,22 @@ class CountryDao extends BaseDao
             throw new DaoException($exception->getMessage(), $exception->getCode(), $exception);
         }
     }
+
+    /**
+     * @param string $provinceCode
+     * @return Province|null
+     * @throws DaoException
+     */
+    public function getProvinceByProvinceCode(string $provinceCode): ?Province
+    {
+        try {
+            $q = $this->createQueryBuilder(Province::class, 'p');
+            $q->where('p.provinceCode = :provinceCode')
+                ->setParameter('provinceCode', $provinceCode);
+
+            return $this->fetchOne($q);
+        } catch (Exception $exception) {
+            throw new DaoException($exception->getMessage(), $exception->getCode(), $exception);
+        }
+    }
 }

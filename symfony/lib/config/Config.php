@@ -26,6 +26,7 @@ class Config
     public const PLUGINS_DIR = 'ohrm_plugins_dir';
     public const PUBLIC_DIR = 'ohrm_public_dir';
     public const LOG_DIR = 'ohrm_log_dir';
+    public const CACHE_DIR = 'ohrm_cache_dir';
     public const DOCTRINE_PROXY_DIR = 'ohrm_doctrine_proxy_dir';
 
     /**

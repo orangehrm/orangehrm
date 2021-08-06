@@ -28,6 +28,7 @@ import EmployeeJob from './pages/employee/EmployeeJob.vue';
 import EmployeeQualifications from './pages/employee/EmployeeQualifications.vue';
 import EmployeeImmigration from './pages/employee/EmployeeImmigration.vue';
 import EmployeeReportTo from './pages/employee/EmployeeReportTo.vue';
+import EmployeeMembership from './pages/employee/EmployeeMembership.vue';
 import TerminationReason from './pages/terminationReason/TerminationReason.vue';
 import EditTerminationReason from './pages/terminationReason/EditTerminationReason.vue';
 import SaveTerminationReason from './pages/terminationReason/SaveTerminationReason.vue';
@@ -38,6 +39,7 @@ import CustomField from './pages/customField/CustomField.vue';
 import EditCustomField from './pages/customField/EditCustomField.vue';
 import SaveCustomField from './pages/customField/SaveCustomField.vue';
 import OptionalField from './pages/optionalField/OptionalField.vue';
+import EmployeeTaxExemption from './pages/employee/EmployeeTaxExemption.vue';
 
 export default {
   'employee-save': SaveEmployee,
@@ -51,6 +53,7 @@ export default {
   'employee-job': EmployeeJob,
   'employee-qualifications': EmployeeQualifications,
   'employee-immigration': EmployeeImmigration,
+  'employee-membership': EmployeeMembership,
   'termination-reason-list': TerminationReason,
   'termination-reason-edit': EditTerminationReason,
   'termination-reason-save': SaveTerminationReason,
@@ -62,4 +65,5 @@ export default {
   'custom-field-edit': EditCustomField,
   'custom-field-save': SaveCustomField,
   'optional-field-list': OptionalField,
+  'employee-tax-exemption': EmployeeTaxExemption,
 };

@@ -56,7 +56,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      */
     public function getOne(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $education = $this->getEducationService()->getEducationById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($education, Education::class);
@@ -101,7 +100,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      */
     public function getAll(): EndpointCollectionResult
     {
-        // TODO:: Check data group permission
         $educationParamHolder = new QualificationEducationSearchFilterParams();
         $this->setSortingAndPaginationParams($educationParamHolder);
         $educations = $this->getEducationService()->getEducationList($educationParamHolder);
@@ -131,7 +129,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $educations = $this->saveEducation();
         return new EndpointResourceResult(EducationModel::class, $educations);
     }
@@ -175,7 +172,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $educations = $this->saveEducation();
         return new EndpointResourceResult(EducationModel::class, $educations);
     }
@@ -219,7 +215,6 @@ class EducationAPI extends EndPoint implements CrudEndpoint
      */
     public function delete(): EndpointResourceResult
     {
-        // TODO:: Check data group permission
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
         $this->getEducationService()->deleteEducations($ids);
         return new EndpointResourceResult(ArrayModel::class, $ids);

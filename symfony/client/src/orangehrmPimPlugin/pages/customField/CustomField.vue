@@ -26,12 +26,14 @@
           <oxd-text tag="h6" class="orangehrm-main-title">
             Custom Fields
           </oxd-text>
-          <oxd-text class="--infotext" tag="p" v-if="remainingFields > 0">
-            Remaining Number of Custom Fields: {{ remainingFields }}
-          </oxd-text>
-          <oxd-text class="--infotext" tag="p" v-else>
-            All Customs Fields are in use
-          </oxd-text>
+          <template v-if="!isLoading">
+            <oxd-text class="--infotext" tag="p" v-if="remainingFields > 0">
+              Remaining number of custom fields: {{ remainingFields }}
+            </oxd-text>
+            <oxd-text class="--infotext" tag="p" v-else>
+              All custom fields are in use
+            </oxd-text>
+          </template>
         </div>
         <oxd-button
           label="Add"
@@ -91,6 +93,10 @@ export default {
       type: Array,
       required: true,
     },
+    unselectableIds: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   data() {
@@ -143,6 +149,7 @@ export default {
     );
     const dataNormalizer = data => {
       return data.map(item => {
+        const selectable = props.unselectableIds.findIndex(id => id == item.id);
         return {
           id: item.id,
           fieldName: item.fieldName,
@@ -153,6 +160,7 @@ export default {
             return item.fieldType === fieldType.id;
           })[0].label,
           extraData: item.extraData,
+          isSelectable: selectable === -1,
         };
       });
     };
@@ -197,6 +205,10 @@ export default {
       });
     },
     onClickDelete(item) {
+      const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
+      if (isSelectable > -1) {
+        return this.$toast.cannotDelete();
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
@@ -226,6 +238,9 @@ export default {
   },
 
   computed: {
+    isLoaded() {
+      return !this.isLoading;
+    },
     remainingFields() {
       return this.customFieldLimit - this.items?.data?.length;
     },
