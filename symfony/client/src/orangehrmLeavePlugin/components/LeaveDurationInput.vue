@@ -33,8 +33,7 @@
   </oxd-grid-item>
   <template v-if="duration && duration.id === 4">
     <oxd-grid-item>
-      <oxd-input-field
-        type="time"
+      <time-input
         :label="$t('general.from')"
         :modelValue="fromTime"
         :rules="rules.fromTime"
@@ -43,8 +42,7 @@
       />
     </oxd-grid-item>
     <oxd-grid-item>
-      <oxd-input-field
-        type="time"
+      <time-input
         :label="$t('general.to')"
         :modelValue="toTime"
         :rules="rules.toTime"
@@ -124,3 +122,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.orangehrm-leave-duration {
+  padding: $oxd-input-control-vertical-padding 0rem;
+}
+</style>

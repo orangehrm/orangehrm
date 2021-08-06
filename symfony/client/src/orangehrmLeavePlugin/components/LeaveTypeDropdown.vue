@@ -27,26 +27,42 @@
 </template>
 
 <script>
-import {ref, onBeforeMount} from 'vue';
+import {ref, watchEffect} from 'vue';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 export default {
   name: 'leave-type-dropdown',
-  setup() {
+  props: {
+    eligibleOnly: {
+      type: Boolean,
+      default: true,
+    },
+    employeeId: {
+      type: Number,
+      required: false,
+    },
+  },
+  setup(props) {
     const options = ref([]);
     const http = new APIService(
-      window.appGlobal.mockUrl,
-      'api/v2/leave/leave-types',
+      window.appGlobal.baseUrl,
+      `api/v2/leave/leave-types${props.eligibleOnly ? '/eligible' : ''}`,
     );
-    onBeforeMount(() => {
-      http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
-          return {
-            id: item.id,
-            label: item.type,
-          };
+
+    watchEffect(async () => {
+      http
+        .getAll({
+          empNumber: props.employeeId,
+        })
+        .then(({data}) => {
+          options.value = data.data.map(item => {
+            return {
+              id: item.id,
+              label: item.type,
+            };
+          });
         });
-      });
     });
+
     return {
       options,
     };

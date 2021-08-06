@@ -77,7 +77,7 @@ export default {
       showModal: false,
     });
     const http = new APIService(
-      window.appGlobal.mockUrl,
+      window.appGlobal.baseUrl,
       'api/v2/leave/my-leave-entitlement',
     );
 
