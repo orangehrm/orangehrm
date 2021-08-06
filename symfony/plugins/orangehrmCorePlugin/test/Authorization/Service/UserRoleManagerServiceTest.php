@@ -365,7 +365,7 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager
         return false;
     }
 
-    protected function getAllowedActions(
+    public function getAllowedActions(
         string $workflow,
         string $state,
         array $rolesToExclude = [],

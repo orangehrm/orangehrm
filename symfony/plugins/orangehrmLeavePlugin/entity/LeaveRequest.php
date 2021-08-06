@@ -21,13 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\LeaveRequestDecorator;
 
 /**
+ * @method LeaveRequestDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_leave_request")
  * @ORM\Entity
  */
 class LeaveRequest
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -63,7 +69,7 @@ class LeaveRequest
     /**
      * @var string|null
      *
-     * @ORM\Column(name="comments", type="string", length=256, nullable=true)
+     * @ORM\Column(name="comments", type="string", length=255, nullable=true)
      */
     private ?string $comment;
 

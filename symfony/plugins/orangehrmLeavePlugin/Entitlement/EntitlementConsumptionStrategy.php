@@ -22,32 +22,56 @@ namespace OrangeHRM\Leave\Entitlement;
 use DateTime;
 use OrangeHRM\Leave\Dto\LeavePeriod;
 
-interface EntitlementConsumptionStrategy {
+interface EntitlementConsumptionStrategy
+{
     /**
      * @deprecated
      */
     public function getAvailableEntitlements($empNumber, $leaveType, $leaveDates, $allowNoEntitlements = false);
-    
-    public function handleLeaveCreate($empNumber, $leaveType, $leaveDates, $allowNoEntitlements = false);
-    
+
+    /**
+     * @param int $empNumber
+     * @param int $leaveTypeId
+     * @param array $leaveDates
+     * @param bool $allowNoEntitlements
+     * @return array
+     */
+    public function handleLeaveCreate(
+        int $empNumber,
+        int $leaveTypeId,
+        array $leaveDates,
+        bool $allowNoEntitlements = false
+    );
+
     public function handleLeaveCancel($leave);
-    
+
     public function handleEntitlementStatusChange();
-    
-    public function handleLeavePeriodChange($leavePeriodForToday, $oldStartMonth, $oldStartDay, $newStartMonth, $newStartDay);
+
+    public function handleLeavePeriodChange(
+        $leavePeriodForToday,
+        $oldStartMonth,
+        $oldStartDay,
+        $newStartMonth,
+        $newStartDay
+    );
 
     /**
      * Get date limits for considering leave without entitlements in leave balance for the given start, end date.
      *
-     * @param \DateTime $balanceStartDate Date string for balance start date
-     * @param \DateTime $balanceEndDate Date string for balance end date
+     * @param DateTime $balanceStartDate Date string for balance start date
+     * @param DateTime $balanceEndDate Date string for balance end date
      * @param int|null $empNumber
      * @param int|null $leaveTypeId
      *
      * @return Mixed Array with two dates giving period inside which leave without entitlements should count towards the leave balance.
      *               If false is returned, leave without entitlements are not considered for leave balance.
      */
-    public function getLeaveWithoutEntitlementDateLimitsForLeaveBalance(\DateTime $balanceStartDate, \DateTime $balanceEndDate, ?int $empNumber = null, ?int $leaveTypeId = null);
+    public function getLeaveWithoutEntitlementDateLimitsForLeaveBalance(
+        DateTime $balanceStartDate,
+        DateTime $balanceEndDate,
+        ?int $empNumber = null,
+        ?int $leaveTypeId = null
+    );
 
     /**
      * Get leave period

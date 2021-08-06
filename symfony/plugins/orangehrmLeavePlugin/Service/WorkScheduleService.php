@@ -39,11 +39,20 @@ class WorkScheduleService
     protected ?string $workScheduleImplementationClass = null;
 
     /**
+     * @var WorkScheduleInterface[]
+     */
+    protected array $employeeWorkSchedulePool = [];
+
+    /**
      * @param int $empNumber
      * @return WorkScheduleInterface|BasicWorkSchedule
      */
     public function getWorkSchedule(int $empNumber): WorkScheduleInterface
     {
+        if (isset($this->employeeWorkSchedulePool[$empNumber])) {
+            return $this->employeeWorkSchedulePool[$empNumber];
+        }
+
         if (is_null($this->workScheduleImplementationClass)) {
             $this->workScheduleImplementationClass = $this->getLeaveConfigService()->getWorkScheduleImplementation();
 
@@ -83,6 +92,7 @@ class WorkScheduleService
         }
 
         $workSchedule->setEmpNumber($empNumber);
+        $this->employeeWorkSchedulePool[$empNumber] = $workSchedule;
         return $workSchedule;
     }
 }

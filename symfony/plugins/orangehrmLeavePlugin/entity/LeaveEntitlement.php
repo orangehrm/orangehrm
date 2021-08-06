@@ -21,13 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\LeaveEntitlementDecorator;
 
 /**
+ * @method LeaveEntitlementDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_leave_entitlement")
  * @ORM\Entity
  */
 class LeaveEntitlement
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -46,18 +52,18 @@ class LeaveEntitlement
     private Employee $employee;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="no_of_days", type="decimal", precision=19, scale=15)
      */
-    private string $noOfDays;
+    private float $noOfDays;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="days_used", type="decimal", precision=8, scale=4, options={"default":0.0000})
      */
-    private string $daysUsed;
+    private float $daysUsed;
 
     /**
      * @var LeaveType
@@ -151,35 +157,35 @@ class LeaveEntitlement
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getNoOfDays(): string
+    public function getNoOfDays(): float
     {
         return $this->noOfDays;
     }
 
     /**
-     * @param string $noOfDays
+     * @param float $noOfDays
      */
-    public function setNoOfDays(string $noOfDays): void
+    public function setNoOfDays(float $noOfDays): void
     {
-        $this->noOfDays = $noOfDays;
+        $this->noOfDays = number_format($noOfDays, 15);
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getDaysUsed(): string
+    public function getDaysUsed(): float
     {
         return $this->daysUsed;
     }
 
     /**
-     * @param string $daysUsed
+     * @param float $daysUsed
      */
-    public function setDaysUsed(string $daysUsed): void
+    public function setDaysUsed(float $daysUsed): void
     {
-        $this->daysUsed = $daysUsed;
+        $this->daysUsed = number_format($daysUsed, 4);
     }
 
     /**

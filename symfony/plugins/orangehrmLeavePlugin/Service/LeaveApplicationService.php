@@ -19,15 +19,27 @@
 
 namespace OrangeHRM\Leave\Service;
 
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
+use DateTime;
+use Exception;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Entity\LeaveRequest;
+use OrangeHRM\Entity\LeaveRequestComment;
+use OrangeHRM\Entity\LeaveStatus;
+use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Leave\Dto\LeaveParameterObject;
+use OrangeHRM\Leave\Exception\LeaveAllocationServiceException;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 
 class LeaveApplicationService extends AbstractLeaveAllocationService
 {
     use LeaveEntitlementServiceTrait;
+    use EntityManagerHelperTrait;
+    use AuthUserTrait;
 
     protected $dispatcher;
-    protected $logger;
     protected $applyWorkflowItem = null;
     
     /**
@@ -44,146 +56,134 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
             $this->dispatcher = sfContext::getInstance()->getEventDispatcher();
         }
         return $this->dispatcher;
-    }      
+    }
 
     /**
      * Creates a new leave application
-     * 
+     *
      * @param LeaveParameterObject $leaveAssignmentData
-     * @return boolean True if leave request is saved else false
-     * @throws LeaveAllocationServiceException When leave request length exceeds work shift length. 
-     * 
-     * @todo Add LeaveParameterObject to the API
+     * @return LeaveRequest|null
+     * @throws LeaveAllocationServiceException When leave request length exceeds work shift length.
      */
-    public function applyLeave(LeaveParameterObject $leaveAssignmentData) {
+    public function applyLeave(LeaveParameterObject $leaveAssignmentData): ?LeaveRequest
+    {
+        // TODO
+//        if ($this->hasOverlapLeave($leaveAssignmentData)) {
+//            throw new LeaveAllocationServiceException('Overlapping Leave Request Found');
+//        }
 
-        if ($this->hasOverlapLeave($leaveAssignmentData)) {
-            return false;
-        }
-                
-        if ($this->applyMoreThanAllowedForADay($leaveAssignmentData)) {
-            throw new LeaveAllocationServiceException('Failed to Submit: Work Shift Length Exceeded');
-        }
+        // TODO
+//        if ($this->applyMoreThanAllowedForADay($leaveAssignmentData)) {
+//            throw new LeaveAllocationServiceException('Work Shift Length Exceeded');
+//        }
 
-        return $this->saveLeaveRequest($leaveAssignmentData);        
+        return $this->saveLeaveRequest($leaveAssignmentData);
     }
 
     /**
      * Saves Leave Request and Sends Email Notification
-     * 
-     * @param LeaveParameterObject $leaveAssignmentData 
-     * @return boolean True if leave request is saved else false
+     *
+     * @param LeaveParameterObject $leaveAssignmentData
+     * @return LeaveRequest|null True if leave request is saved else false
      * @throws LeaveAllocationServiceException
-     * 
+     *
      * @todo Don't catch general Exception. Catch specific one.
      */
-    protected function saveLeaveRequest(LeaveParameterObject $leaveAssignmentData) {
-
+    protected function saveLeaveRequest(LeaveParameterObject $leaveAssignmentData): ?LeaveRequest
+    {
         $leaveRequest = $this->generateLeaveRequest($leaveAssignmentData);
-
-        $leaveType = $this->getLeaveTypeService()->readLeaveType($leaveAssignmentData->getLeaveType());
-//        $leaveRequest->setLeaveTypeName($leaveType->getLeaveTypeName());
-//
-//        if (is_null($leaveRequest->getLeavePeriodId())) {
-//            if ($this->getLeavePeriodService()->isWithinNextLeavePeriod(strtotime($leaveRequest->getDateApplied()))) {
-//                $nextLeavePeriod = $this->getLeavePeriodService()->createNextLeavePeriod($leaveRequest->getDateApplied());
-//                $leaveRequest->setLeavePeriodId($nextLeavePeriod->getLeavePeriodId());
-//            }
-//        }
-
-        // TODO: Move into if block
+        $leaveType = $this->getLeaveTypeService()->getLeaveTypeDao()->getLeaveTypeById(
+            $leaveAssignmentData->getLeaveType()
+        );
         $leaves = $this->createLeaveObjectListForAppliedRange($leaveAssignmentData);
-        
+
         if ($this->isEmployeeAllowedToApply($leaveType)) {
-            
-            $nonHolidayLeaveDays = array();
+            $nonHolidayLeaveDays = [];
 
             $holidayCount = 0;
-            $holidays = array(Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
+            $holidays = [Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY];
             foreach ($leaves as $k => $leave) {
                 if (in_array($leave->getStatus(), $holidays)) {
                     $holidayCount++;
                 } else {
                     $nonHolidayLeaveDays[] = $leave;
                 }
-            }  
-            
-            if (count($nonHolidayLeaveDays) > 0) {
-                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();     
-                $employee = $this->getLoggedInEmployee();
-                $empNumber = $employee->getEmpNumber();
-                $entitlements = $strategy->handleLeaveCreate($empNumber, $leaveType->getId(), $nonHolidayLeaveDays, false);
+            }
 
-                if (!$this->allowToExceedLeaveBalance() && $entitlements == false) {
+            if (count($nonHolidayLeaveDays) > 0) {
+                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
+                $empNumber = $this->getAuthUser()->getEmpNumber();
+                $entitlements = $strategy->handleLeaveCreate(
+                    $empNumber,
+                    $leaveType->getId(),
+                    $nonHolidayLeaveDays,
+                    false
+                );
+
+                if (!$this->allowToExceedLeaveBalance() && $entitlements == null) {
                     throw new LeaveAllocationServiceException('Leave Balance Exceeded');
                 }
-            }            
-        
+            }
+
             if ($holidayCount != count($leaves)) {
-            //if ($this->isValidLeaveRequest($leaveRequest, $leaves)) {
                 try {
-                    $user = sfContext::getInstance()->getUser();
-                    $loggedInUserId = $user->getAttribute('auth.userId');
-                    $loggedInEmpNumber = $user->getAttribute('auth.empNumber');
-        
-                    $leaveRequest = $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest, $leaves, $entitlements);
-                    $leaveComment = trim($leaveRequest->getComments());
-                                   
-                    if (!empty($leaveComment)) {                                                       
-                        if (!empty($loggedInEmpNumber)) {
-                            $employee = $this->getEmployeeService()->getEmployee($loggedInEmpNumber);
-                            $createdBy = $employee->getFullName();
-                        } else {
-                            $createdBy = $user->getAttribute('auth.firstName');
-                        }
-                        $this->getLeaveRequestService()->saveLeaveRequestComment($leaveRequest->getId(), 
-                                $leaveComment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
-                    }
-//                    if ($this->isOverlapLeaveRequest($leaveAssignmentData)) {
-//                        $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
-//                    }
+                    $loggedInUserId = $this->getAuthUser()->getUserId();
+                    $loggedInEmpNumber = $this->getAuthUser()->getEmpNumber();
+
+                    $leaveRequest = $this->getLeaveRequestService()
+                        ->getLeaveRequestDao()
+                        ->saveLeaveRequest($leaveRequest, $leaves, $entitlements);
+
+                    $leaveRequestComment = new LeaveRequestComment();
+                    $leaveRequestComment->setLeaveRequest($leaveRequest);
+                    $leaveRequestComment->setCreatedAt(new DateTime());
+                    $leaveRequestComment->getDecorator()->setCreatedByUserById($loggedInUserId);
+                    $leaveRequestComment->getDecorator()->setCreatedByEmployeeByEmpNumber($loggedInEmpNumber);
+                    $leaveRequestComment->setComment($leaveRequest->getComment());
+                    $this->getLeaveRequestService()
+                        ->getLeaveRequestDao()
+                        ->saveLeaveRequestComment($leaveRequestComment);
 
                     //sending leave apply notification                   
-                    $workFlow = $this->getWorkflowItemForApplyAction($leaveAssignmentData);
-                    
-                    $employee = $this->getLoggedInEmployee();
-                    $eventData = array('request' => $leaveRequest, 'days' => $leaves, 'empNumber' => $employee->getEmpNumber(),
-                        'workFlow' => $workFlow);
-                    $this->getDispatcher()->notify(new sfEvent($this, LeaveEvents::LEAVE_CHANGE, $eventData));
-                    
+//                    $workFlow = $this->getWorkflowItemForApplyAction($leaveAssignmentData);
+//
+//                    $employee = $this->getLoggedInEmployee();
+//                    $eventData = [
+//                        'request' => $leaveRequest, 'days' => $leaves, 'empNumber' => $employee->getEmpNumber(),
+//                        'workFlow' => $workFlow
+//                    ];
+//                    $this->getDispatcher()->notify(new sfEvent($this, LeaveEvents::LEAVE_CHANGE, $eventData));
+
                     return $leaveRequest;
                 } catch (Exception $e) {
-                    $this->getLogger()->error('Exception while saving leave:' . $e);
+                    $this->getLogger()->error('Exception while saving leave:' . $e->getMessage());
                     throw new LeaveAllocationServiceException('Leave Quota will Exceed');
                 }
             } else {
                 throw new LeaveAllocationServiceException('No working days in leave request');
             }
         }
-        
-        return false;
-        
+
+        return null;
     }
 
     /**
      * Returns leave status based on weekend and holiday
-     * 
+     *
      * If weekend, returns Leave::LEAVE_STATUS_LEAVE_WEEKEND
      * If holiday, returns Leave::LEAVE_STATUS_LEAVE_HOLIDAY
-     * Else, returns LEAVE_STATUS_LEAVE_PENDING_APPROVAL
-     * 
-     * @param $isWeekend boolean
-     * @param $isHoliday boolean
-     * @param $leaveDate string 
-     * @return status
-     * 
-     * @todo Check usage of $leaveDate
-     * 
+     * Else, returns Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL
+     *
+     * @inheritDoc
      */
-    public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate, LeaveParameterObject $leaveAssignmentData) {
-
+    public function getLeaveRequestStatus(
+        bool $isWeekend,
+        bool $isHoliday,
+        DateTime $leaveDate,
+        LeaveParameterObject $leaveAssignmentData
+    ): int {
         $status = null;
-        
+
         if ($isWeekend) {
             $status = Leave::LEAVE_STATUS_LEAVE_WEEKEND;
         }
@@ -193,30 +193,45 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
         }
 
         if (is_null($status)) {
-            
             $workFlowItem = $this->getWorkflowItemForApplyAction($leaveAssignmentData);
-            
-            if (!is_null($workFlowItem)) {
-                $status = Leave::getLeaveStatusForText($workFlowItem->getResultingState());
-            } else {                
-                $status = Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;     
+            $status = Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
+            if ($workFlowItem instanceof WorkflowStateMachine) {
+                /** @var LeaveStatus|null $leaveStatus */
+                $leaveStatus = $this->getRepository(LeaveStatus::class)->findOneBy(
+                    ['name' => $workFlowItem->getResultingState()]
+                );
+                if ($leaveStatus instanceof LeaveStatus) {
+                    $status = $leaveStatus->getStatus();
+                }
             }
         }
 
         return $status;
     }
-    
-    protected function allowToExceedLeaveBalance() {
+
+    /**
+     * @inheritDoc
+     */
+    protected function allowToExceedLeaveBalance(): bool
+    {
         return false;
     }
-    
-    protected function getWorkflowItemForApplyAction(LeaveParameterObject $leaveAssignmentData) {
-        
-        if (is_null($this->applyWorkflowItem)) {
 
-            $empNumber = $leaveAssignmentData->getEmployeeNumber();            
-            $workFlowItems = $this->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_LEAVE, 
-                    'INITIAL', array(), array(), array('Employee' => $empNumber));
+    /**
+     * @param LeaveParameterObject $leaveAssignmentData
+     * @return WorkflowStateMachine|null
+     */
+    protected function getWorkflowItemForApplyAction(LeaveParameterObject $leaveAssignmentData): ?WorkflowStateMachine
+    {
+        if (is_null($this->applyWorkflowItem)) {
+            $empNumber = $leaveAssignmentData->getEmployeeNumber();
+            $workFlowItems = $this->getUserRoleManager()
+                ->getAllowedActions(
+                    WorkflowStateMachine::FLOW_LEAVE,
+                    'INITIAL', [],
+                    [],
+                    [Employee::class => $empNumber]
+                );
 
             // get apply action
             foreach ($workFlowItems as $item) {
@@ -224,13 +239,13 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
                     $this->applyWorkflowItem = $item;
                     break;
                 }
-            }        
+            }
         }
-        
+
         if (is_null($this->applyWorkflowItem)) {
             $this->getLogger()->error("No workflow item found for APPLY leave action!");
         }
-        
+
         return $this->applyWorkflowItem;
     }
 
@@ -242,8 +257,8 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
      */
     protected function isValidLeaveRequest($leaveRequest, $leaveRecords) {
         $holidayCount = 0;
-        $requestedLeaveDays = array();
-        $holidays = array(Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
+        $requestedLeaveDays = [];
+        $holidays = [Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY];
         foreach ($leaveRecords as $k => $leave) {
             if (in_array($leave->getStatus(), $holidays)) {
                 $holidayCount++;
@@ -295,9 +310,9 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
 
         return true;
     }
-    
+
     /**
-     *
+     * @deprecated
      * @return Employee
      * @todo Remove the use of session
      */
@@ -305,18 +320,4 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
         $employee = $this->getEmployeeService()->getEmployee($_SESSION['empNumber']);
         return $employee;
     }
-    
-    /**
-     * Get Logger instance. Creates if not already created.
-     *
-     * @return Logger
-     */
-    protected function getLogger() {
-        if (is_null($this->logger)) {
-            $this->logger = Logger::getLogger('leave.LeaveApplicationService');
-        }
-
-        return($this->logger);
-    }     
-
 }

@@ -21,13 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\LeaveCommentDecorator;
 
 /**
+ * @method LeaveCommentDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_leave_comment")
  * @ORM\Entity
  */
 class LeaveComment
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -46,17 +52,17 @@ class LeaveComment
     private Leave $leave;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
-     * @ORM\Column(name="created", type="datetime")
+     * @ORM\Column(name="created", type="datetime", nullable=true)
      */
-    private DateTime $created;
+    private ?DateTime $createdAt = null;
 
     /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\User")
-     * @ORM\JoinColumn(name="created_by_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="created_by_id", referencedColumnName="id", nullable=true)
      */
     private User $createdBy;
 
@@ -64,7 +70,7 @@ class LeaveComment
      * @var Employee
      *
      * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\Employee")
-     * @ORM\JoinColumn(name="created_by_emp_number", referencedColumnName="emp_number")
+     * @ORM\JoinColumn(name="created_by_emp_number", referencedColumnName="emp_number", nullable=true)
      */
     private Employee $createdByEmployee;
 
@@ -74,4 +80,100 @@ class LeaveComment
      * @ORM\Column(name="comments", type="string", length=255, nullable=true)
      */
     private ?string $comment;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return Leave
+     */
+    public function getLeave(): Leave
+    {
+        return $this->leave;
+    }
+
+    /**
+     * @param Leave $leave
+     */
+    public function setLeave(Leave $leave): void
+    {
+        $this->leave = $leave;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getCreatedAt(): ?DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime|null $createdAt
+     */
+    public function setCreatedAt(?DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return User
+     */
+    public function getCreatedBy(): User
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param User $createdBy
+     */
+    public function setCreatedBy(User $createdBy): void
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
+     * @return Employee
+     */
+    public function getCreatedByEmployee(): Employee
+    {
+        return $this->createdByEmployee;
+    }
+
+    /**
+     * @param Employee $createdByEmployee
+     */
+    public function setCreatedByEmployee(Employee $createdByEmployee): void
+    {
+        $this->createdByEmployee = $createdByEmployee;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string|null $comment
+     */
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
+    }
 }

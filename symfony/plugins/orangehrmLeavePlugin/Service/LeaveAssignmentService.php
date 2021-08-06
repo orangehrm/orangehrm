@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Leave\Service;
 
+use OrangeHRM\Leave\Dto\LeaveParameterObject;
+
 class LeaveAssignmentService extends AbstractLeaveAllocationService {
 
     protected $leaveEntitlementService;
@@ -186,7 +188,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
      * @param type $leaveDate
      * @return type 
      */
-    public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate, LeaveParameterObject $leaveAssignmentData) {
+    public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate, LeaveParameterObject $leaveAssignmentData):int {
         
         // TODO: Change here for leave workflow
         
@@ -217,7 +219,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
         return $status;
     }
     
-    protected function allowToExceedLeaveBalance() {
+    protected function allowToExceedLeaveBalance():bool {
         return true;
     }
     
@@ -243,19 +245,5 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
         }
         
         return $this->assignWorkflowItem;
-    }    
-    
-    /**
-     * Get Logger instance. Creates if not already created.
-     *
-     * @return Logger
-     */
-    protected function getLogger() {
-        if (is_null($this->logger)) {
-            $this->logger = Logger::getLogger('leave.LeaveAssignmentService');
-        }
-
-        return($this->logger);
-    }     
-
+    }
 }

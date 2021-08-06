@@ -40,6 +40,7 @@ final class Rules
     public const API_DATE = OHRMRules\ApiDate::class;
     public const EACH = OHRMRules\Each::class;
     public const NOT_IN = OHRMRules\NotIn::class;
+    public const LESS_THAN_OR_EQUAL = OHRMRules\LessThanOrEqual::class;
 
     public const ALNUM = RespectRules\Alnum::class;
     public const ALPHA = RespectRules\Alpha::class;
