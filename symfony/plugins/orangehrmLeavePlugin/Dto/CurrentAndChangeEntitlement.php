@@ -17,61 +17,70 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Dto;
+namespace OrangeHRM\Leave\Dto;
 
-use DateTime;
-
-class WorkShiftStartAndEndTime
+class CurrentAndChangeEntitlement
 {
     /**
-     * @var DateTime
+     * @var array
+     *
+     * array(
+     *   '2012-01-01' => array(1 => 1),
+     *   '2012-01-02' => array(4 => 1),
+     * )
      */
-    private DateTime $startTime;
+    private array $current;
 
     /**
-     * @var DateTime
+     * @var array
+     *
+     * array(
+     *   12 => array(3 => 1),
+     *   13 => array(4 => 0.5),
+     *   leave_id => array(entitlement_id => length),
+     * )
      */
-    private DateTime $endTime;
+    private array $change;
 
     /**
-     * @param DateTime $startTime
-     * @param DateTime $endTime
+     * @param array $current
+     * @param array $change
      */
-    public function __construct(DateTime $startTime, DateTime $endTime)
+    public function __construct(array $current = [], array $change = [])
     {
-        $this->startTime = $startTime;
-        $this->endTime = $endTime;
+        $this->current = $current;
+        $this->change = $change;
     }
 
     /**
-     * @return DateTime
+     * @return array
      */
-    public function getStartTime(): DateTime
+    public function getCurrent(): array
     {
-        return $this->startTime;
+        return $this->current;
     }
 
     /**
-     * @param DateTime $startTime
+     * @param array $current
      */
-    public function setStartTime(DateTime $startTime): void
+    public function setCurrent(array $current): void
     {
-        $this->startTime = $startTime;
+        $this->current = $current;
     }
 
     /**
-     * @return DateTime
+     * @return array
      */
-    public function getEndTime(): DateTime
+    public function getChange(): array
     {
-        return $this->endTime;
+        return $this->change;
     }
 
     /**
-     * @param DateTime $endTime
+     * @param array $change
      */
-    public function setEndTime(DateTime $endTime): void
+    public function setChange(array $change): void
     {
-        $this->endTime = $endTime;
+        $this->change = $change;
     }
 }

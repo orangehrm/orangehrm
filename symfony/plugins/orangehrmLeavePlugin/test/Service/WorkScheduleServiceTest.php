@@ -212,6 +212,6 @@ class TestWorkScheduleValidClass implements WorkScheduleInterface
 
     public function getWorkShiftStartEndTime(): WorkShiftStartAndEndTime
     {
-        return new WorkShiftStartAndEndTime('09:00', '17:00');
+        return new WorkShiftStartAndEndTime(new \DateTime('09:00'), new \DateTime('17:00'));
     }
 }

@@ -1,6 +1,5 @@
 <?php
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,11 +15,18 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
-*/
-class LeaveRequestService extends BaseService {
+ */
 
-    private $leaveRequestDao ;
+namespace OrangeHRM\Leave\Service;
+
+use OrangeHRM\Leave\Dao\LeaveRequestDao;
+
+class LeaveRequestService
+{
+    /**
+     * @var LeaveRequestDao|null
+     */
+    private ?LeaveRequestDao $leaveRequestDao = null;
     private $leaveTypeService;
     private $leaveEntitlementService;
     private $leavePeriodService;
@@ -35,23 +41,14 @@ class LeaveRequestService extends BaseService {
     const LEAVE_CHANGE_TYPE_LEAVE_REQUEST = 'change_leave_request';
 
     /**
-     *
      * @return LeaveRequestDao
      */
-    public function getLeaveRequestDao() {
+    public function getLeaveRequestDao(): LeaveRequestDao
+    {
         if (!($this->leaveRequestDao instanceof LeaveRequestDao)) {
             $this->leaveRequestDao = new LeaveRequestDao();
         }
         return $this->leaveRequestDao;
-    }
-
-    /**
-     *
-     * @param LeaveRequestDao $leaveRequestDao
-     * @return void
-     */
-    public function setLeaveRequestDao(LeaveRequestDao $leaveRequestDao) {
-        $this->leaveRequestDao = $leaveRequestDao;
     }
 
     /**
@@ -75,22 +72,6 @@ class LeaveRequestService extends BaseService {
     }
 
     /**
-     * Sets LeaveEntitlementService
-     * @param LeaveEntitlementService $leaveEntitlementService
-     */
-    public function setLeaveEntitlementService(LeaveEntitlementService $leaveEntitlementService) {
-        $this->leaveEntitlementService = $leaveEntitlementService;
-    }
-
-    /**
-     * Sets LeaveTypeService
-     * @param LeaveTypeService $leaveTypeService
-     */
-    public function setLeaveTypeService(LeaveTypeService $leaveTypeService) {
-        $this->leaveTypeService = $leaveTypeService;
-    }
-
-    /**
      * Returns LeavePeriodService
      * @return LeavePeriodService
      */
@@ -100,14 +81,6 @@ class LeaveRequestService extends BaseService {
             $this->leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
         }
         return $this->leavePeriodService;
-    }
-
-    /**
-     * Sets LeavePeriodService
-     * @param LeavePeriodService $leavePeriodService
-     */
-    public function setLeavePeriodService(LeavePeriodService $leavePeriodService) {
-        $this->leavePeriodService = $leavePeriodService;
     }
 
     /**
@@ -175,19 +148,19 @@ class LeaveRequestService extends BaseService {
         $this->accessFlowStateMachineService = $accessFlowStateMachineService;
     }
 
-    /**
-     *
-     * @param LeaveRequest $leaveRequest
-     * @param Leave $leave
-     * @return boolean
-     */
-    public function saveLeaveRequest( LeaveRequest $leaveRequest , $leaveList, $entitlements) {
-        return $this->getLeaveRequestDao()->saveLeaveRequest($leaveRequest, $leaveList, $entitlements);
-    }
+//    /**
+//     *
+//     * @param LeaveRequest $leaveRequest
+//     * @param Leave $leave
+//     * @return boolean
+//     */
+//    public function saveLeaveRequest( LeaveRequest $leaveRequest , $leaveList, $entitlements) {
+//        return $this->getLeaveRequestDao()->saveLeaveRequest($leaveRequest, $leaveList, $entitlements);
+//    }
 
-    public function saveLeaveRequestComment($leaveRequestId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber) {
-        return $this->getLeaveRequestDao()->saveLeaveRequestComment($leaveRequestId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
-    }
+//    public function saveLeaveRequestComment($leaveRequestId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber) {
+//        return $this->getLeaveRequestDao()->saveLeaveRequestComment($leaveRequestId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
+//    }
 
     public function saveLeaveComment($leaveId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber) {
         return $this->getLeaveRequestDao()->saveLeaveComment($leaveId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
