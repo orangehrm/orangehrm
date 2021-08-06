@@ -117,7 +117,7 @@ class EmployeeSubordinateAPITest extends EndpointTestCase
         $result = $api->getOne();
         $this->assertEquals(
             [
-                'subordinate' => ['empNumber' => 2, 'firstName' => 'Peter', 'lastName' => 'Samuel', 'middleName' => ''],
+                'subordinate' => ['empNumber' => 2, 'firstName' => 'Peter', 'lastName' => 'Samuel', 'middleName' => '', 'terminationId' => null],
                 'reportingMethod' => ['id' => 1, 'name' => 'Direct']
             ],
             $result->normalize()
@@ -266,7 +266,8 @@ class EmployeeSubordinateAPITest extends EndpointTestCase
                         'empNumber' => 2,
                         'firstName' => 'Peter',
                         'lastName' => 'Samuel',
-                        'middleName' => ''
+                        'middleName' => '',
+                        "terminationId" => null
                     ],
                     'reportingMethod' => ['id' => 1, 'name' => 'Direct']
                 ],
@@ -275,7 +276,8 @@ class EmployeeSubordinateAPITest extends EndpointTestCase
                         'empNumber' => 3,
                         'firstName' => 'Andrew',
                         'lastName' => 'Daniel',
-                        'middleName' => ''
+                        'middleName' => '',
+                        "terminationId" => null
                     ],
                     'reportingMethod' => ['id' => 1, 'name' => 'Direct']
                 ]
@@ -358,7 +360,8 @@ class EmployeeSubordinateAPITest extends EndpointTestCase
                     "empNumber" => 2,
                     "firstName" => "Peter",
                     "lastName" => "Samuel",
-                    "middleName" => ""
+                    "middleName" => "",
+                    "terminationId" => null
                 ],
                 "reportingMethod" => [
                     "id" => 1,
@@ -495,7 +498,8 @@ class EmployeeSubordinateAPITest extends EndpointTestCase
                     "empNumber" => 2,
                     "firstName" => "Peter",
                     "lastName" => "Samuel",
-                    "middleName" => ""
+                    "middleName" => "",
+                    "terminationId" => null
                 ],
                 "reportingMethod" => [
                     "id" => 1,
