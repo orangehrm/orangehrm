@@ -37,6 +37,7 @@ import TableHeader from '@orangehrm/components/table/TableHeader.vue';
 import RequiredText from '@orangehrm/components/labels/RequiredText.vue';
 import Layout from '@orangehrm/components/layout/Layout.vue';
 import DateInput from '@orangehrm/components/inputs/DateInput.vue';
+import TimeInput from '@orangehrm/components/inputs/TimeInput.vue';
 
 export default {
   install: (app: App) => {
@@ -59,5 +60,6 @@ export default {
     app.component('table-header', TableHeader);
     app.component('required-text', RequiredText);
     app.component('date-input', DateInput);
+    app.component('time-input', TimeInput);
   },
 };

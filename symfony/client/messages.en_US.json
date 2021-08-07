@@ -60,6 +60,51 @@
           "source": "End Date",
           "target": "End Date",
           "description": "When defining the current leave period, the system will automatically set the “End Date” as to have a one-calendar year leave period."
+        },
+        "from_date": {
+          "source": "From Date",
+          "target": "From Date",
+          "description": "The specific date from which employees time and attendance records are extracted."
+        },
+        "to_date": {
+          "source": "To Date",
+          "target": "To Date",
+          "description": "The specific date from which employees time and attendance records are extracted."
+        },
+        "duration": {
+          "source": "Duration",
+          "target": "Duration",
+          "description": "Calculate the duration of the leave period."
+        },
+        "comments": {
+          "source": "Comments",
+          "target": "Comments",
+          "description": "You may enter any important notes regarding some information."
+        },
+        "apply": {
+          "source": "Apply",
+          "target": "Apply",
+          "description": "Apply for leave/Job vacancy"
+        },
+        "from": {
+          "source": "From",
+          "target": "From",
+          "description": "Application from"
+        },
+        "to": {
+          "source": "To",
+          "target": "To",
+          "description": "Application to"
+        },
+        "ok": {
+          "source": "Ok",
+          "target": "Ok",
+          "description": ""
+        },
+        "employee_name": {
+          "source": "Employee Name",
+          "target": "Employee Name",
+          "description": "Name of the employee."
         }
       }
     },
@@ -105,6 +150,76 @@
           "source": "Following Year",
           "target": "Following Year",
           "description": " "
+        },
+        "apply_leave": {
+          "source": "Apply Leave",
+          "target": "Apply Leave",
+          "description": "Allows a user to apply for leave.In the dashboard module all the employees who have applied for leave will be shown in the form of a pictorial representation, e.g. bar graph, pie chart etc."
+        },
+        "assign_leave": {
+          "source": "Assign Leave",
+          "target": "Assign Leave",
+          "description": "Admin can assign leave to employee"
+        },
+        "leave_type": {
+          "source": "Leave Type",
+          "target": "Leave Type",
+          "description": "Leave types can be defined with country-based leave rules, custom/hire-date based leave periods, apply-restriction rules, leave accrual rules and leave carry forward rules."
+        },
+        "leave_balance": {
+          "source": "Leave Balance",
+          "target": "Leave Balance",
+          "description": "The number of leave available to be taken for an employee."
+        },
+        "partial_days": {
+          "source": "Partial Days",
+          "target": "Partial Days",
+          "description": "For multiple day applications, you can select any “Partial Days”."
+        },
+        "leave_balance_details": {
+          "source": "Leave Balance Details",
+          "target": "Leave Balance Details",
+          "description": "To view leave balance details, select the leave type from the drop down menu. Check the Leave Balance available."
+        },
+        "total_entitlement": {
+          "source": "Total Entitlement",
+          "target": "Total Entitlement",
+          "description": ""
+        },
+        "balance": {
+          "source": "Balance",
+          "target": "Balance",
+          "description": "Number of leave remaining."
+        },
+        "taken": {
+          "source": "Taken",
+          "target": "Taken",
+          "description": "Number of leave taken."
+        },
+        "scheduled": {
+          "source": "Scheduled",
+          "target": "Scheduled",
+          "description": "Number of leave scheduled."
+        },
+        "pending_approval": {
+          "source": "Pending Approval",
+          "target": "Pending Approval",
+          "description": "he Status of the session will be “Pending Approval” until an Admin user approves the session."
+        },
+        "as_of_date": {
+          "source": "As of Date",
+          "target": "As of Date",
+          "description": ""
+        },
+        "start_day": {
+          "source": "Start Day",
+          "target": "Start Day",
+          "description": "Start date of current leave period."
+        },
+        "end_day": {
+          "source": "End Day",
+          "target": "End Day",
+          "description": "When applying leave for a date range with desired partial days the employee has to select this option."
         }
       }
     }

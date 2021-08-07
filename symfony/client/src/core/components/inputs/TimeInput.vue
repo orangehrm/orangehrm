@@ -1,3 +1,4 @@
+<!--
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -15,13 +16,43 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+ -->
 
-import LeavePeriod from './pages/configure/LeavePeriod.vue';
-import LeaveApply from './pages/LeaveApply.vue';
-import LeaveAssign from './pages/LeaveAssign.vue';
+<template>
+  <oxd-input-field
+    type="time"
+    :step="15"
+    :modelValue="state"
+    @update:modelValue="onChange"
+  />
+</template>
+
+<script>
+import {computed} from 'vue';
+import {formatDate, parseDate} from '@orangehrm/core/util/helper/datefns';
 
 export default {
-  'leave-period': LeavePeriod,
-  'leave-apply': LeaveApply,
-  'leave-assign': LeaveAssign,
+  name: 'time-input',
+  props: {
+    modelValue: {
+      type: String,
+    },
+  },
+  setup(props, context) {
+    const state = computed(() => {
+      return formatDate(parseDate(props.modelValue, 'HH:mm'), 'hh:mm a');
+    });
+
+    const onChange = value => {
+      context.emit(
+        'update:modelValue',
+        formatDate(parseDate(value, 'hh:mm a'), 'HH:mm'),
+      );
+    };
+    return {
+      state,
+      onChange,
+    };
+  },
 };
+</script>
