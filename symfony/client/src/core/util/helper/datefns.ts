@@ -6,7 +6,10 @@ import {
   startOfYear,
   endOfYear,
   getDaysInMonth,
-  addDays
+  addDays,
+  isSameDay,
+  differenceInSeconds,
+  differenceInCalendarDays,
 } from 'date-fns';
 
 const freshDate = () => {
@@ -87,6 +90,68 @@ const numberOfDaysInMonth = (
   return 0;
 };
 
+const parseTime = (value: string, timeFormat: string): Date | null => {
+  return parseDate(value, timeFormat);
+};
+
+const compareTime = (
+  reference: string,
+  comparable: string,
+  timeFormat: string,
+): number => {
+  const referenceTime = parseDate(reference, timeFormat);
+  const comparableTime = parseDate(comparable, timeFormat);
+
+  if (referenceTime && comparableTime) {
+    if (referenceTime.valueOf() < comparableTime.valueOf()) {
+      return 1;
+    }
+    if (referenceTime.valueOf() > comparableTime.valueOf()) {
+      return -1;
+    }
+    if (referenceTime.valueOf() === comparableTime.valueOf()) {
+      return 0;
+    }
+  }
+
+  return NaN;
+};
+
+const diffInDays = (
+  fromDate: string,
+  toDate: string,
+  dateFormat = 'yyyy-MM-dd',
+): number => {
+  const from = parseDate(fromDate, dateFormat);
+  const to = parseDate(toDate, dateFormat);
+  if (from && to) {
+    return isSameDay(to, from) ? 1 : differenceInCalendarDays(to, from) + 1;
+  }
+  return 0;
+};
+
+const diffInTime = (
+  startTime: string,
+  endTime: string,
+  timeFormat = 'HH:mm',
+): number => {
+  const start = parseTime(startTime, timeFormat);
+  const end = parseTime(endTime, timeFormat);
+  if (start && end) {
+    const diffInSecs = differenceInSeconds(end, start);
+    if (diffInSecs > 0) return diffInSecs;
+  }
+  return 0;
+};
+
+const secondsTohhmm = (seconds: number): string => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds - hours * 3600) / 60);
+  return `${hours.toString().padStart(2, '0')}.${minutes
+    .toString()
+    .padStart(2, '0')}`;
+};
+
 export {
   isDate,
   freshDate,
@@ -98,5 +163,10 @@ export {
   startOfYear,
   endOfYear,
   numberOfDaysInMonth,
-  addDays
+  addDays,
+  parseTime,
+  diffInDays,
+  diffInTime,
+  secondsTohhmm,
+  compareTime,
 };

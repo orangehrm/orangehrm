@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,12 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 
-import LeavePeriod from './pages/configure/LeavePeriod.vue';
-import LeaveApply from './pages/LeaveApply.vue';
-import LeaveAssign from './pages/LeaveAssign.vue';
+namespace OrangeHRM\Leave\Controller;
 
-export default {
-  'leave-period': LeavePeriod,
-  'leave-apply': LeaveApply,
-  'leave-assign': LeaveAssign,
-};
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+
+class AssignLeaveController extends AbstractVueController
+{
+    public function init(): void
+    {
+        $component = new Component('leave-assign');
+        $this->setComponent($component);
+    }
+}

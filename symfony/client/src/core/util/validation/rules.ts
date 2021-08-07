@@ -16,7 +16,13 @@
  * Boston, MA  02110-1301, USA
  */
 
-import {parseDate, isBefore, isAfter} from '../helper/datefns';
+import {
+  parseDate,
+  isBefore,
+  isAfter,
+  isEqual,
+  compareTime,
+} from '../helper/datefns';
 
 /**
  * @param {string|number|Array} value
@@ -60,6 +66,14 @@ export const validDateFormat = function(dateFormat = 'yyyy-MM-dd') {
   };
 };
 
+export const validTimeFormat = function(timeFormat = 'hh:mm a') {
+  return function(value: string): boolean | string {
+    if (!value) return true;
+    const parsed = parseDate(value, timeFormat);
+    return parsed ? true : `Should be a valid time in ${timeFormat} format`;
+  };
+};
+
 export const max = function(maxValue: number) {
   return function(value: string): boolean | string {
     return (
@@ -78,6 +92,12 @@ export const digitsOnly = function(value: string): boolean | string {
   );
 };
 
+/**
+ * Check whether date1 is before date2
+ * @param {string} date1
+ * @param {string} date2
+ * @param {string} dateFormat
+ */
 export const beforeDate = function(
   date1: string,
   date2: string,
@@ -109,24 +129,150 @@ export const afterDate = function(
 };
 
 /**
+ * Check whether date1 is same as date2
+ * @param {string} date1
+ * @param {string} date2
+ * @param {string} dateFormat
+ */
+export const sameDate = function(
+  date1: string,
+  date2: string,
+  dateFormat = 'yyyy-MM-dd',
+) {
+  // Skip assertion on unset values
+  if (!date1 || !date2) {
+    return true;
+  }
+  return isEqual(date1, date2, dateFormat);
+};
+
+/**
  * @param {string} startDate
  * @param {string|undefined} message
- * @param {string} dateFormat
+ * @param {object} options
  */
 export const endDateShouldBeAfterStartDate = (
   startDate: string | Function,
   message?: string,
-  dateFormat = 'yyyy-MM-dd',
+  options: {
+    allowSameDate?: boolean;
+    dateFormat?: string;
+  } = {
+    allowSameDate: false,
+    dateFormat: 'yyyy-MM-dd',
+  },
 ) => {
   return (value: string): boolean | string => {
     const resolvedStartDate =
       typeof startDate === 'function' ? startDate() : startDate;
-    return (
-      afterDate(value, resolvedStartDate, dateFormat) ||
-      (typeof message === 'string'
+    const resolvedMessage =
+      typeof message === 'string'
         ? message
-        : 'End date should be after start date')
-    );
+        : 'End date should be after start date';
+    if (options.allowSameDate) {
+      return (
+        sameDate(value, resolvedStartDate) ||
+        afterDate(value, resolvedStartDate, options.dateFormat) ||
+        resolvedMessage
+      );
+    } else {
+      return (
+        afterDate(value, resolvedStartDate, options.dateFormat) ||
+        resolvedMessage
+      );
+    }
+  };
+};
+
+/**
+ * Check whether time1 is before time2
+ * @param {string} time1
+ * @param {string} time2
+ * @param {string} timeFormat
+ */
+export const beforeTime = function(
+  time1: string,
+  time2: string,
+  timeFormat = 'yyyy-MM-dd',
+) {
+  // Skip assertion on unset values
+  if (!time1 || !time2) {
+    return true;
+  }
+  return compareTime(time1, time2, timeFormat) === 1;
+};
+
+/**
+ * Check whether time1 is after time2
+ * @param {string} time1
+ * @param {string} time2
+ * @param {string} timeFormat
+ */
+export const afterTime = function(
+  time1: string,
+  time2: string,
+  timeFormat = 'HH:mm',
+) {
+  // Skip assertion on unset values
+  if (!time1 || !time2) {
+    return true;
+  }
+  return compareTime(time1, time2, timeFormat) === -1;
+};
+
+/**
+ * Check whether time1 is equal time2
+ * @param {string} time1
+ * @param {string} time2
+ * @param {string} timeFormat
+ */
+export const sameTime = function(
+  time1: string,
+  time2: string,
+  timeFormat = 'HH:mm',
+) {
+  // Skip assertion on unset values
+  if (!time1 || !time2) {
+    return true;
+  }
+  return compareTime(time1, time2, timeFormat) === 0;
+};
+
+/**
+ * @param {string} startTime
+ * @param {string|undefined} message
+ * @param {object} options
+ */
+export const endTimeShouldBeAfterStartTime = (
+  startTime: string | Function,
+  message?: string,
+  options: {
+    allowSameTime?: boolean;
+    timeFormat?: string;
+  } = {
+    allowSameTime: false,
+    timeFormat: 'HH:mm',
+  },
+) => {
+  return (value: string): boolean | string => {
+    const resolvedStartTime =
+      typeof startTime === 'function' ? startTime() : startTime;
+    const resolvedMessage =
+      typeof message === 'string'
+        ? message
+        : 'End time should be after start time';
+    if (options.allowSameTime) {
+      return (
+        sameTime(value, resolvedStartTime) ||
+        afterTime(value, resolvedStartTime, options.timeFormat) ||
+        resolvedMessage
+      );
+    } else {
+      return (
+        afterTime(value, resolvedStartTime, options.timeFormat) ||
+        resolvedMessage
+      );
+    }
   };
 };
 
