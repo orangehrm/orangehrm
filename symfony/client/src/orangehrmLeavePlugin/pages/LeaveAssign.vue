@@ -50,13 +50,21 @@
                 required
               />
             </oxd-grid-item>
+<<<<<<< HEAD
             <!-- <oxd-grid-item>
+=======
+            <oxd-grid-item>
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
               <leave-balance
                 :type="leave.type"
                 :fromDate="leave.fromDate"
                 :toDate="leave.toDate"
               ></leave-balance>
+<<<<<<< HEAD
             </oxd-grid-item> -->
+=======
+            </oxd-grid-item>
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
           </oxd-grid>
         </oxd-form-row>
 
@@ -168,7 +176,11 @@ import {diffInDays} from '@orangehrm/core/util/helper/datefns';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationInput';
+<<<<<<< HEAD
 // import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
+=======
+import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 
 const leaveModel = {
@@ -196,7 +208,11 @@ export default {
   components: {
     'leave-type-dropdown': LeaveTypeDropdown,
     'leave-duration-input': LeaveDurationInput,
+<<<<<<< HEAD
     // 'leave-balance': LeaveBalance,
+=======
+    'leave-balance': LeaveBalance,
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
     'employee-autocomplete': EmployeeAutocomplete,
   },
 

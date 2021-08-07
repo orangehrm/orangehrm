@@ -93,10 +93,17 @@ export default {
     return {
       rules: {
         duration: [required],
+<<<<<<< HEAD
         fromTime: [required, validTimeFormat],
         toTime: [
           required,
           validTimeFormat,
+=======
+        fromTime: [required, validTimeFormat()],
+        toTime: [
+          required,
+          validTimeFormat(),
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
           endTimeShouldBeAfterStartTime(
             () => this.fromTime,
             'To time should be after from time',

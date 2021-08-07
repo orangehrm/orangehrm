@@ -37,13 +37,21 @@
                 required
               />
             </oxd-grid-item>
+<<<<<<< HEAD
             <!-- <oxd-grid-item>
+=======
+            <oxd-grid-item>
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
               <leave-balance
                 :type="leave.type"
                 :fromDate="leave.fromDate"
                 :toDate="leave.toDate"
               ></leave-balance>
+<<<<<<< HEAD
             </oxd-grid-item> -->
+=======
+            </oxd-grid-item>
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
           </oxd-grid>
         </oxd-form-row>
 
@@ -155,7 +163,11 @@ import {diffInDays} from '@orangehrm/core/util/helper/datefns';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationInput';
+<<<<<<< HEAD
 // import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
+=======
+import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
 
 const leaveModel = {
   type: null,
@@ -181,13 +193,21 @@ export default {
   components: {
     'leave-type-dropdown': LeaveTypeDropdown,
     'leave-duration-input': LeaveDurationInput,
+<<<<<<< HEAD
     // 'leave-balance': LeaveBalance,
+=======
+    'leave-balance': LeaveBalance,
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
   },
 
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
+<<<<<<< HEAD
       'api/v2/leave/leave-requests',
+=======
+      'api/v2/leave/my-leave-request',
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
     );
 
     return {
@@ -226,16 +246,27 @@ export default {
     onSave() {
       this.isLoading = true;
       const payload = {
+<<<<<<< HEAD
         leaveTypeId: this.leave.type?.id,
         fromDate: this.leave.fromDate,
         toDate: this.leave.toDate,
         comment: this.leave.comment ? this.leave.comment : null,
+=======
+        id: this.leave.type?.id,
+        fromDate: this.leave.fromDate,
+        toDate: this.leave.toDate,
+        comment: this.leave.comment,
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
         duration: {
           type: this.leave.duration.type?.key,
           fromTime: this.leave.duration.fromTime,
           toTime: this.leave.duration.toTime,
         },
+<<<<<<< HEAD
         partialOption: null,
+=======
+        partialOptions: null,
+>>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
         endDuration: null,
       };
       if (this.leave.partialOptions?.id) {
