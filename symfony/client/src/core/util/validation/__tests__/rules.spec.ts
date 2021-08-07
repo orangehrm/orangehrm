@@ -21,6 +21,7 @@ import {
   afterDate,
   endDateShouldBeAfterStartDate,
   validPhoneNumberFormat,
+  endTimeShouldBeAfterStartTime,
 } from '../rules';
 
 describe('core/util/validation/rules::required', () => {
@@ -141,22 +142,31 @@ describe('core/util/validation/rules::endDateShouldBeAfterStartDate', () => {
   });
 
   test('endDateShouldBeAfterStartDate::invalid date format', () => {
-    const result = endDateShouldBeAfterStartDate(
-      '2021-06-29',
-      undefined,
-      'yyyy/MM/dd',
-    )('2021-06-28');
+    const result = endDateShouldBeAfterStartDate('2021-06-29', undefined, {
+      dateFormat: 'yyyy/MM/dd',
+    })('2021-06-28');
     expect(result).toBe('End date should be after start date');
   });
 
   test('endDateShouldBeAfterStartDate::valid date format', () => {
-    const result = endDateShouldBeAfterStartDate(
-      '2021/06/29',
-      // @ts-expect-error
-      null,
-      'yyyy/MM/dd',
-    )('2021/06/28');
+    const result = endDateShouldBeAfterStartDate('2021/06/29', undefined, {
+      dateFormat: 'yyyy/MM/dd',
+    })('2021/06/28');
     expect(result).toBe('End date should be after start date');
+  });
+
+  test('endDateShouldBeAfterStartDate:: should allow same day as start date when allowSameDate is true', () => {
+    const result = endDateShouldBeAfterStartDate('2021-08-05', undefined, {
+      allowSameDate: true,
+    })('2021-08-05');
+    expect(result).toEqual(true);
+  });
+
+  test('endDateShouldBeAfterStartDate:: should not allow invalid date when allowSameDate is true', () => {
+    const result = endDateShouldBeAfterStartDate('2021-08-05', undefined, {
+      allowSameDate: true,
+    })('2021-08-03');
+    expect(result).toEqual('End date should be after start date');
   });
 });
 
@@ -214,5 +224,91 @@ describe('core/util/validation/rules::validPhoneNumberFormat', () => {
   test('validPhoneNumberFormat::numberWithfullStop', () => {
     const result = validPhoneNumberFormat('456.');
     expect(result).toBe('Allows numbers and only + - / ( )');
+  });
+});
+
+describe('core/util/validation/rules::decimalsOnly', () => {
+  test('validPhoneNumberFormat::number', () => {
+    const result = validPhoneNumberFormat('1234563');
+    expect(result).toBeTruthy();
+  });
+
+  test('decimalsOnly::numberWith.', () => {
+    const result = decimalsOnly('123.');
+    expect(result).toBe('Should be a number');
+  });
+
+  test('decimalsOnly::numberWithcharater', () => {
+    const result = decimalsOnly('123c');
+    expect(result).toBe('Should be a number');
+  });
+
+  test('decimalsOnly::numberonly', () => {
+    const result = decimalsOnly('4420');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('decimalsOnly::numberonlywithonedecimalpoint', () => {
+    const result = decimalsOnly('456.0');
+    expect(result).toStrictEqual(true);
+  });
+
+  test('decimalsOnly::numberonlywithtwodecimalpoint', () => {
+    const result = decimalsOnly('456.00');
+    expect(result).toStrictEqual(true);
+  });
+});
+
+describe('core/util/validation/rules::endTimeShouldBeAfterStartTime', () => {
+  test('endTimeShouldBeAfterStartTime:: should not validate on empty string', () => {
+    let result = endTimeShouldBeAfterStartTime('')('');
+    expect(result).toEqual(true);
+
+    result = endTimeShouldBeAfterStartTime('12:00')('');
+    expect(result).toEqual(true);
+  });
+
+  test('endTimeShouldBeAfterStartTime:: should allow valid time', () => {
+    const result = endTimeShouldBeAfterStartTime('08:00')('09:00');
+    expect(result).toEqual(true);
+  });
+
+  test('endTimeShouldBeAfterStartTime:: should return message on invalid time', () => {
+    const result = endTimeShouldBeAfterStartTime('08:00')('07:00');
+    expect(result).toEqual('End time should be after start time');
+  });
+
+  test('endTimeShouldBeAfterStartTime:: should allow valid time given as function', () => {
+    const result = endTimeShouldBeAfterStartTime(() => '08:00')('09:00');
+    expect(result).toEqual(true);
+  });
+
+  test('endTimeShouldBeAfterStartTime:: should return custom message on invalid time', () => {
+    const result = endTimeShouldBeAfterStartTime(
+      '08:00',
+      'Invalid time',
+    )('07:00');
+    expect(result).toEqual('Invalid time');
+  });
+
+  test('endTimeShouldBeAfterStartTime:: should allow valid time with custom format', () => {
+    const result = endTimeShouldBeAfterStartTime('11:00 AM', undefined, {
+      timeFormat: 'hh:mm a',
+    })('07:00 PM');
+    expect(result).toEqual(true);
+  });
+
+  test('endTimeShouldBeAfterStartTime:: should allow same time as start time when allowSameTime is true', () => {
+    const result = endTimeShouldBeAfterStartTime('11:00', undefined, {
+      allowSameTime: true,
+    })('11:00');
+    expect(result).toEqual(true);
+  });
+
+  test('endTimeShouldBeAfterStartTime:: should not allow invalid time when allowSameTime is true', () => {
+    const result = endTimeShouldBeAfterStartTime('11:00', undefined, {
+      allowSameTime: true,
+    })('10:00');
+    expect(result).toEqual('End time should be after start time');
   });
 });
