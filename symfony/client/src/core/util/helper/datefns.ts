@@ -5,6 +5,8 @@ import {
   compareAsc,
   startOfYear,
   endOfYear,
+  getDaysInMonth,
+  addDays
 } from 'date-fns';
 
 const freshDate = () => {
@@ -73,6 +75,18 @@ const isEqual = (
   return false;
 };
 
+const numberOfDaysInMonth = (
+  month: number | undefined, // 1 - 12
+  discardLeapYear: boolean,
+): number => {
+  if (month && month > 0 && month <= 12) {
+    const days = getDaysInMonth(new Date().setMonth(month - 1));
+    return discardLeapYear && days === 29 ? 28 : days;
+  }
+
+  return 0;
+};
+
 export {
   isDate,
   freshDate,
@@ -83,4 +97,6 @@ export {
   isEqual,
   startOfYear,
   endOfYear,
+  numberOfDaysInMonth,
+  addDays
 };
