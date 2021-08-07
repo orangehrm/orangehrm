@@ -50,6 +50,16 @@
           "source": "Required",
           "target": "Required",
           "description": "Admin can create a document template body for employees by using tokens required"
+        },
+        "start_date": {
+          "source": "Start Date",
+          "target": "Start Date",
+          "description": "Start date of current leave period"
+        },
+        "end_date": {
+          "source": "End Date",
+          "target": "End Date",
+          "description": "When defining the current leave period, the system will automatically set the “End Date” as to have a one-calendar year leave period."
         }
       }
     },
@@ -70,6 +80,31 @@
           "source": "Edit Job Title",
           "target": "Edit Job Title",
           "description": "Alter the position that is needed by the company ex: Manager IT"
+        }
+      }
+    },
+    "leave": {
+      "version": "5.0",
+      "messages": {
+        "leave_period": {
+          "source": "Leave Period",
+          "target": "Leave Period",
+          "description": "leave period can be manually set by selecting a ‘Start Month’, ‘Start Date’ and ‘Duration’ Ex : Jan-01-2015 to Dec-31-2015 to the current year."
+        },
+        "start_month": {
+          "source": "Start Month",
+          "target": "Start Month",
+          "description": "Custom Leave Period - leave period can be manually set by selecting a ‘Start Month’, ‘Start Date’ and 'End Date'"
+        },
+        "current_leave_period": {
+          "source": "Current Leave Period",
+          "target": "Current Leave Period",
+          "description": " "
+        },
+        "following_year": {
+          "source": "Following Year",
+          "target": "Following Year",
+          "description": " "
         }
       }
     }
