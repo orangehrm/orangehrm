@@ -3540,7 +3540,6 @@ ALTER TABLE `hs_hr_config` CHANGE `key` `name` VARCHAR(100);
 
 ALTER TABLE `ohrm_menu_item` ADD additional_params LONGTEXT DEFAULT NULL COMMENT '(DC2Type:json)';
 
-UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'leave';
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'time';
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'attendance';
 UPDATE `ohrm_module` SET `status` = '0' WHERE `ohrm_module`.`name` = 'recruitment';
