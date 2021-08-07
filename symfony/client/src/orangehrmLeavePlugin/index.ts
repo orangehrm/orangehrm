@@ -17,7 +17,7 @@
  */
 
 import LeavePeriod from './pages/configure/LeavePeriod.vue';
-import LeaveApply from './pages/leave/LeaveApply.vue';
+import LeaveApply from './pages/LeaveApply.vue';
 import LeaveAssign from './pages/LeaveAssign.vue';
 
 export default {
