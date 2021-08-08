@@ -179,6 +179,16 @@ final class Services
      */
     public const WORK_SHIFT_SERVICE = 'admin.work_shift_service';
 
+    /**
+     * @see \OrangeHRM\Admin\Service\LocalizationService
+     */
+    public const LOCALIZATION_SERVICE = 'admin.localization_service';
+
+    /**
+     * @see \OrangeHRM\Admin\Service\I18NService
+     */
+    public const ADMIN_I18N_SERVICE = 'admin.i18n_service';
+
     ///////////////////////////////////////////////////////////////
     /// Leave plugin services
     ///////////////////////////////////////////////////////////////

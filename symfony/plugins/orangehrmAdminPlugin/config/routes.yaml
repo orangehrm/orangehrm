@@ -291,6 +291,14 @@ apiv2_admin_validate_user_name:
     _key: userName
     _api: OrangeHRM\Admin\Api\ValidationUserNameAPI
 
+apiv2_admin_localization:
+  path: /api/v2/admin/localization
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Admin\Api\LocalizationAPI
+
 ##########################
 #        Files
 ##########################
@@ -549,4 +557,9 @@ admin_open_id_provider: # remove this
 admin_register_oauth_client: # remove this
   path: /admin/registerOAuthClient
   controller: OrangeHRM\Core\Controller\Common\ModuleUnderDevelopmentController::handle
+  methods: [ GET ]
+
+configure_localization:
+  path: /admin/localization
+  controller: OrangeHRM\Admin\Controller\LocalizationController::handle
   methods: [ GET ]
