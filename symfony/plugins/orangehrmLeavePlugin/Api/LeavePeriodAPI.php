@@ -24,6 +24,7 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\ResourceEndpoint;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -32,14 +33,18 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\LeavePeriodHistory;
 use OrangeHRM\Leave\Api\Model\LeavePeriodModel;
+use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
 {
     use LeavePeriodServiceTrait;
+    use LeaveConfigServiceTrait;
 
     public const PARAMETER_START_MONTH = 'startMonth';
     public const PARAMETER_START_DAY = 'startDay';
+
+    public const META_PARAMETER_FIELDS = 'leavePeriodDefined';
 
     /**
      * @inheritDoc
@@ -47,8 +52,17 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
     public function getOne(): EndpointResult
     {
         $leavePeriodHistory = $this->getLeavePeriodService()->getCurrentLeavePeriodStartDateAndMonth();
-        $this->throwRecordNotFoundExceptionIfNotExist($leavePeriodHistory, LeavePeriodHistory::class);
-        return new EndpointResourceResult(LeavePeriodModel::class, $leavePeriodHistory);
+        $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
+        if (!$leavePeriodDefined) {
+            $leavePeriodHistory = new LeavePeriodHistory();
+            $leavePeriodHistory->setStartMonth(1);
+            $leavePeriodHistory->setStartDay(1);
+            $leavePeriodHistory->setCreatedAt(new DateTime());
+        }
+        return new EndpointResourceResult(
+            LeavePeriodModel::class, $leavePeriodHistory,
+            new ParameterBag([self::META_PARAMETER_FIELDS => $leavePeriodDefined])
+        );
     }
 
     /**
