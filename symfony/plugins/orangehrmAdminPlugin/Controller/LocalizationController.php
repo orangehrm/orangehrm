@@ -17,44 +17,34 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Admin\Service\CountryService;
-use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Admin\Service\UserService;
-use OrangeHRM\Admin\Service\LocalizationService;
-use OrangeHRM\Admin\Service\I18NService;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
+namespace OrangeHRM\Admin\Controller;
 
-class AdminPluginConfiguration implements PluginConfigurationInterface
+use OrangeHRM\Admin\Service\LocalizationService;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Exception\VueControllerException;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+
+class LocalizationController extends AbstractVueController
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @throws VueControllerException
+     * @throws \Exception
      */
-    public function initialize(Request $request): void
+    public function init(): void
     {
-        $this->getContainer()->register(
-            Services::COUNTRY_SERVICE,
-            CountryService::class
-        );
-        $this->getContainer()->register(
-            Services::USER_SERVICE,
-            UserService::class
-        );
-        $this->getContainer()->register(
-            Services::PAY_GRADE_SERVICE,
-            PayGradeService::class
-        );
-        $this->getContainer()->register(
-            Services::LOCALIZATION_SERVICE,
-            LocalizationService::class
-        );
-        $this->getContainer()->register(
-            Services::I18N_SERVICE,
-            I18NService::class
-        );
+        $component = new Component('localization-configuration');
+
+        /** @var LocalizationService $localizationService */
+        $localizationService = $this->getContainer()->get(Services::LOCALIZATION_SERVICE);
+        $component->addProp(new Prop('language-list', Prop::TYPE_ARRAY,
+            $localizationService->getSupportedLanguages()));
+        $component->addProp(new Prop('date-format-list', Prop::TYPE_ARRAY,
+            $localizationService->getLocalizationDateFormats()));
+        $this->setComponent($component);
     }
 }

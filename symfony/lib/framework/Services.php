@@ -159,6 +159,16 @@ final class Services
      */
     public const USER_SERVICE = 'admin.user_service';
 
+    /**
+     * @see \OrangeHRM\Admin\Service\LocalizationService
+     */
+    public const LOCALIZATION_SERVICE = 'admin.localization_service';
+
+    /**
+     * @see \OrangeHRM\Admin\Service\I18NService
+     */
+    public const I18N_SERVICE = 'admin.i18n_service';
+
     ///////////////////////////////////////////////////////////////
     /// Leave plugin services
     ///////////////////////////////////////////////////////////////

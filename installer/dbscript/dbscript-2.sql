@@ -3555,7 +3555,6 @@ UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` =
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Work Shifts';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Locations';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Email Subscriptions';
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Localization';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Language Packages';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Modules';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Social Media Authentication';

@@ -190,6 +190,14 @@ apiv2_admin_email_configuration:
     id: 0
     _api: OrangeHRM\Admin\Api\EmailConfigurationAPI
 
+apiv2_admin_localization:
+  path: /api/v2/admin/localization
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    id: 0
+    _api: OrangeHRM\Admin\Api\LocalizationAPI
+
 ##########################
 #        Files
 ##########################
@@ -368,4 +376,9 @@ edit_nationality:
 view_email_configuration:
   path: /admin/listMailConfiguration
   controller: OrangeHRM\Admin\Controller\ViewEmailConfigurationController::handle
+  methods: [ GET ]
+
+configure_localization:
+  path: /admin/localization
+  controller: OrangeHRM\Admin\Controller\LocalizationController::handle
   methods: [ GET ]

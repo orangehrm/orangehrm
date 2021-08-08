@@ -17,44 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-use OrangeHRM\Admin\Service\CountryService;
-use OrangeHRM\Admin\Service\PayGradeService;
-use OrangeHRM\Admin\Service\UserService;
+namespace OrangeHRM\Core\Traits\Service;
+
 use OrangeHRM\Admin\Service\LocalizationService;
-use OrangeHRM\Admin\Service\I18NService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
 use OrangeHRM\Framework\Services;
 
-class AdminPluginConfiguration implements PluginConfigurationInterface
+trait LocalizationServiceTrait
 {
     use ServiceContainerTrait;
 
     /**
-     * @inheritDoc
+     * @return LocalizationService
      */
-    public function initialize(Request $request): void
+    public function getLocalizationService(): LocalizationService
     {
-        $this->getContainer()->register(
-            Services::COUNTRY_SERVICE,
-            CountryService::class
-        );
-        $this->getContainer()->register(
-            Services::USER_SERVICE,
-            UserService::class
-        );
-        $this->getContainer()->register(
-            Services::PAY_GRADE_SERVICE,
-            PayGradeService::class
-        );
-        $this->getContainer()->register(
-            Services::LOCALIZATION_SERVICE,
-            LocalizationService::class
-        );
-        $this->getContainer()->register(
-            Services::I18N_SERVICE,
-            I18NService::class
-        );
+        return $this->getContainer()->get(Services::LOCALIZATION_SERVICE);
     }
 }
