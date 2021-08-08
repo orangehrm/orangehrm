@@ -187,7 +187,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/my-leave-request',
+      'api/v2/leave/leave-requests',
     );
 
     return {
@@ -226,16 +226,16 @@ export default {
     onSave() {
       this.isLoading = true;
       const payload = {
-        id: this.leave.type?.id,
+        leaveTypeId: this.leave.type?.id,
         fromDate: this.leave.fromDate,
         toDate: this.leave.toDate,
-        comment: this.leave.comment,
+        comment: this.leave.comment ? this.leave.comment : null,
         duration: {
           type: this.leave.duration.type?.key,
           fromTime: this.leave.duration.fromTime,
           toTime: this.leave.duration.toTime,
         },
-        partialOptions: null,
+        partialOption: null,
         endDuration: null,
       };
       if (this.leave.partialOptions?.id) {

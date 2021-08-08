@@ -95,9 +95,12 @@
 </template>
 
 <script>
-import { navigate } from '@orangehrm/core/util/helper/navigation'
-import { APIService } from '@orangehrm/core/util/services/api.service'
-import { required, shouldNotExceedCharLength } from '@orangehrm/core/util/validation/rules'
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@orangehrm/core/util/services/api.service';
+import {
+  required,
+  shouldNotExceedCharLength,
+} from '@orangehrm/core/util/validation/rules';
 
 const customFieldModel = {
   id: null,

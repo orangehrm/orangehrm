@@ -87,6 +87,7 @@
 
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
+import {reloadPage} from '@orangehrm/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
 import {enGB} from 'date-fns/locale';
 import {
@@ -106,6 +107,7 @@ export default {
     return {
       isLoading: false,
       leavePeriod: {...leavePeriodModel},
+      leavePeriodDefined: false,
       rules: {
         startMonth: [required],
         startDay: [required],
@@ -137,6 +139,9 @@ export default {
         .then(() => {
           this.$toast.saveSuccess();
           this.isLoading = false;
+          if (!this.leavePeriodDefined) {
+            reloadPage();
+          }
         });
     },
   },
@@ -201,7 +206,7 @@ export default {
         },
       })
       .then(response => {
-        const {data} = response.data;
+        const {data, meta} = response.data;
         this.leavePeriod.startMonth = this.months.find(m => {
           return m.id === data.startMonth;
         });
@@ -210,6 +215,7 @@ export default {
             return d.id === data.startDay;
           });
         });
+        this.leavePeriodDefined = meta?.leavePeriodDefined;
       })
       .finally(() => {
         this.isLoading = false;

@@ -31,7 +31,9 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Entity\LeavePeriodHistory;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\Model\LeavePeriodModel;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
@@ -44,7 +46,7 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
     public const PARAMETER_START_MONTH = 'startMonth';
     public const PARAMETER_START_DAY = 'startDay';
 
-    public const META_PARAMETER_FIELDS = 'leavePeriodDefined';
+    public const META_PARAMETER_LEAVE_PERIOD_DEFINED = 'leavePeriodDefined';
 
     /**
      * @inheritDoc
@@ -61,7 +63,7 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
         }
         return new EndpointResourceResult(
             LeavePeriodModel::class, $leavePeriodHistory,
-            new ParameterBag([self::META_PARAMETER_FIELDS => $leavePeriodDefined])
+            new ParameterBag([self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined])
         );
     }
 
@@ -88,6 +90,7 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
      */
     public function update(): EndpointResult
     {
+        $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
         $leavePeriodHistory = new LeavePeriodHistory();
         $leavePeriodHistory->setStartMonth(
             $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_START_MONTH)
@@ -99,6 +102,12 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
         $this->getLeavePeriodService()
             ->getLeavePeriodDao()
             ->saveLeavePeriodHistory($leavePeriodHistory);
+
+        if (!$leavePeriodDefined) {
+            /** @var MenuService $menuService */
+            $menuService = $this->getContainer()->get(Services::MENU_SERVICE);
+            $menuService->enableModuleMenuItems('leave');
+        }
         return new EndpointResourceResult(LeavePeriodModel::class, $leavePeriodHistory);
     }
 

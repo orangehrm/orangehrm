@@ -126,6 +126,11 @@ final class Services
      */
     public const CACHE = 'core.cache';
 
+    /**
+     * @see \OrangeHRM\Core\Service\MenuService
+     */
+    public const MENU_SERVICE = 'core.menu_service';
+
     ///////////////////////////////////////////////////////////////
     /// Authentication plugin services
     ///////////////////////////////////////////////////////////////
