@@ -58,21 +58,40 @@ apiv2_leave_leave_requests:
   defaults:
     _api: OrangeHRM\Leave\Api\MyLeaveRequestAPI
 
+apiv2_leave_employee_leave_requests:
+  path: /api/v2/leave/employees/{empNumber}/leave-requests
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI
+  requirements:
+    empNumber: '\d+'
+
 ##########################
 #        Screens
 ##########################
 
-define_leave_period:
+leave_module:
+  path: /leave/viewLeaveModule
+  controller: OrangeHRM\Leave\Controller\LeaveModuleController::handle
+  methods: [ GET ]
+
+leave_define_leave_period:
   path: /leave/defineLeavePeriod
   controller: OrangeHRM\Leave\Controller\LeavePeriodController::handle
   methods: [ GET ]
 
-apply_leave:
+leave_apply_leave:
   path: /leave/applyLeave
   controller: OrangeHRM\Leave\Controller\ApplyLeaveController::handle
   methods: [ GET ]
 
-assign_leave:
+leave_assign_leave:
   path: /leave/assignLeave
   controller: OrangeHRM\Leave\Controller\AssignLeaveController::handle
+  methods: [ GET ]
+
+leave_leave_list:
+  path: /leave/viewLeaveList/reset/1 # refactor 4.x route
+  controller: OrangeHRM\Leave\Controller\LeaveListController::handle
   methods: [ GET ]

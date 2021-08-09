@@ -57,7 +57,7 @@ export default {
           options.value = data.data.map(item => {
             return {
               id: item.id,
-              label: item.type,
+              label: item.name,
             };
           });
         });

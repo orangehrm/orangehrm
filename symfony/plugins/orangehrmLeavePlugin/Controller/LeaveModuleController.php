@@ -17,26 +17,21 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\HomePage;
+namespace OrangeHRM\Leave\Controller;
 
-use OrangeHRM\Core\Exception\CoreServiceException;
-use OrangeHRM\Core\Service\ConfigService;
-use OrangeHRM\Entity\User;
-use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
+use Exception;
+use OrangeHRM\Core\Controller\AbstractModuleController;
+use OrangeHRM\Framework\Http\RedirectResponse;
 
-class LeavePeriodDefinedHomePageEnabler implements HomePageEnablerInterface
+class LeaveModuleController extends AbstractModuleController
 {
-    use LeaveConfigServiceTrait;
-
     /**
-     * Returns true if leave period is not defined.
-     * This class is used to direct the user to the define leave period page if leave period is not defined.
-     *
-     * @param User $user
-     * @return bool
+     * @return RedirectResponse
+     * @throws Exception
      */
-    public function isEnabled(User $user): bool
+    public function handle(): RedirectResponse
     {
-        return !$this->getLeaveConfigService()->isLeavePeriodDefined();
+        $defaultPath = $this->getHomePageService()->getLeaveModuleDefaultPath();
+        return $this->redirect($defaultPath);
     }
 }

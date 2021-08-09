@@ -3918,3 +3918,7 @@ VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_leave_leave_period_data_group_id, @ess_role_id),
        (1, 1, 1, 0, 1, @apiv2_leave_leave_requests_data_group_id, @ess_role_id),
        (1, 1, 1, 0, 1, @apiv2_leave_leave_requests_data_group_id, @ess_role_id);
+
+ALTER TABLE `ohrm_leave_request_comment` DROP `created_by_name`;
+ALTER TABLE `ohrm_leave_comment` DROP `created_by_name`;
+ALTER TABLE `ohrm_leave_entitlement` DROP `created_by_name`;

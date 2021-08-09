@@ -24,18 +24,34 @@ use DateTime;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Leave\Dto\LeavePeriod;
 
 class FIFOEntitlementConsumptionStrategyDao extends BaseDao
 {
+    use DateTimeHelperTrait;
 
-    public function handleLeavePeriodChange($leavePeriodForToday, $oldMonth, $oldDay, $newMonth, $newDay)
-    {
+    /**
+     * @param LeavePeriod $leavePeriodForToday
+     * @param int $oldMonth
+     * @param int $oldDay
+     * @param int $newMonth
+     * @param int $newDay
+     * @throws DaoException
+     */
+    public function handleLeavePeriodChange(
+        LeavePeriod $leavePeriodForToday,
+        int $oldMonth,
+        int $oldDay,
+        int $newMonth,
+        int $newDay
+    ): void {
         try {
             // TODO:: move queries to doctrine query language
             $conn = $this->getEntityManager()->getConnection();
 
-            $leavePeriodStartDate = new DateTime($leavePeriodForToday[0]);
-            $leavePeriodEndDate = new DateTime($leavePeriodForToday[1]);
+            $leavePeriodStartDate = $leavePeriodForToday->getStartDate();
+            $leavePeriodEndDate = $leavePeriodForToday->getEndDate();
 
             // If current leave period start date is 1/1 and new date is 1/1, 
             if ($leavePeriodStartDate->format('n') == 1 &&
@@ -57,8 +73,9 @@ class FIFOEntitlementConsumptionStrategyDao extends BaseDao
             $stmt->executeQuery(
                 [
                     ':new_end_date' => $newEndDateForCurrentPeriod,
-                    ':fromDate' => $leavePeriodForToday[0],
-                    ':toDate' => $leavePeriodForToday[1]
+                    ':fromDate' => $this->getDateTimeHelper()
+                        ->formatDateTimeToYmd($leavePeriodForToday->getStartDate()),
+                    ':toDate' => $this->getDateTimeHelper()->formatDateTimeToYmd($leavePeriodForToday->getEndDate()),
                 ]
             );
 
@@ -74,7 +91,7 @@ class FIFOEntitlementConsumptionStrategyDao extends BaseDao
                     ':newDay' => $newDay,
                     ':oldMonth' => $oldMonth,
                     ':oldDay' => $oldDay,
-                    ':fromDate' => $leavePeriodForToday[1]
+                    ':fromDate' => $this->getDateTimeHelper()->formatDateTimeToYmd($leavePeriodForToday->getEndDate()),
                 ]
             );
         } catch (Exception $e) {
