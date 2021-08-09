@@ -66,12 +66,10 @@ export const validDateFormat = function(dateFormat = 'yyyy-MM-dd') {
   };
 };
 
-export const validTimeFormat = function(timeFormat = 'hh:mm a') {
-  return function(value: string): boolean | string {
-    if (!value) return true;
-    const parsed = parseDate(value, timeFormat);
-    return parsed ? true : `Should be a valid time in ${timeFormat} format`;
-  };
+export const validTimeFormat = function(value: string): boolean | string {
+  if (!value) return true;
+  const parsed = parseDate(value, 'HH:mm');
+  return parsed ? true : `Should be a valid time in hh:mm a format`;
 };
 
 export const max = function(maxValue: number) {

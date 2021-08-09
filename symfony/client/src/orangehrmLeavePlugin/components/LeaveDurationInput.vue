@@ -93,10 +93,10 @@ export default {
     return {
       rules: {
         duration: [required],
-        fromTime: [required, validTimeFormat()],
+        fromTime: [required, validTimeFormat],
         toTime: [
           required,
-          validTimeFormat(),
+          validTimeFormat,
           endTimeShouldBeAfterStartTime(
             () => this.fromTime,
             'To time should be after from time',
