@@ -23,7 +23,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 
 class JobTitleSearchFilterParams extends FilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['jt.jobTitleName'];
+    public const ALLOWED_SORT_FIELDS = ['jt.jobTitleName','jt.jobDescription'];
 
     private ?bool $activeOnly = null;
 

@@ -87,6 +87,7 @@
           v-model:selected="checkedItems"
           :loading="isLoading"
           rowDecorator="oxd-table-decorator-card"
+          v-model:order="sortDefinition"
         />
       </div>
       <div class="orangehrm-bottom-container">
@@ -108,12 +109,20 @@ import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
+import useSort from '@orangehrm/core/util/composable/useSort';
 
 const defaultFilters = {
   username: '',
   userRoleId: null,
   empNumber: null,
   status: null,
+};
+
+const defaultSortOrder = {
+  'u.userName': 'ASC',
+  'r.displayName': 'ASC',
+  'e.firstName': 'ASC',
+  'u.status': 'DEFAULT',
 };
 
 export default {
@@ -132,15 +141,31 @@ export default {
   data() {
     return {
       headers: [
-        {name: 'userName', title: 'Username', style: {flex: 1}},
-        {name: 'role', title: 'User Role', style: {flex: 1}},
+        {
+          name: 'userName',
+          title: 'Username',
+          sortField: 'u.userName',
+          style: {flex: 1},
+        },
+        {
+          name: 'role',
+          title: 'User Role',
+          style: {flex: 1},
+          sortField: 'r.displayName',
+        },
         {
           name: 'empName',
           slot: 'title',
           title: 'Employee Name',
+          sortField: 'e.firstName',
           style: {flex: 1},
         },
-        {name: 'status', title: 'Status', style: {flex: 1}},
+        {
+          name: 'status',
+          title: 'Status',
+          sortField: 'u.status',
+          style: {flex: 1},
+        },
         {
           name: 'actions',
           slot: 'action',
@@ -184,7 +209,7 @@ export default {
           id: item.id,
           userName: item.userName,
           role: item.userRole?.displayName,
-          empName: `${item.employee?.firstName} ${item.employee?.lastName} 
+          empName: `${item.employee?.firstName} ${item.employee?.lastName}
           ${item.employee?.terminationId ? ' (Past Employee)' : ''}`,
           status: item.status ? 'Enabled' : 'Disabled',
           isSelectable: selectable === -1,
@@ -193,12 +218,18 @@ export default {
     };
 
     const filters = ref({...defaultFilters});
+
+    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
+      sortDefinition: defaultSortOrder,
+    });
     const serializedFilters = computed(() => {
       return {
         username: filters.value.username,
         userRoleId: filters.value.userRoleId?.id,
         empNumber: filters.value.empNumber?.id,
         status: filters.value.status?.id,
+        sortField: sortField.value,
+        sortOrder: sortOrder.value,
       };
     });
     const http = new APIService(window.appGlobal.baseUrl, 'api/v2/admin/users');
@@ -212,6 +243,9 @@ export default {
       isLoading,
       execQuery,
     } = usePaginate(http, serializedFilters, userdataNormalizer);
+
+    onSort(execQuery);
+
     return {
       http,
       showPaginator,
@@ -223,6 +257,7 @@ export default {
       execQuery,
       items: response,
       filters,
+      sortDefinition,
     };
   },
 

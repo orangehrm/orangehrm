@@ -194,7 +194,12 @@
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import SwitchInput from '@orangehrm/oxd/src/core/components/Input/SwitchInput';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {
+  required,
+  shouldNotExceedCharLength,
+  validEmailFormat,
+  validPhoneNumberFormat,
+} from '@orangehrm/core/util/validation/rules'
 
 export default {
   props: {
@@ -242,90 +247,19 @@ export default {
         note: '',
       },
       rules: {
-        name: [
-          required,
-          v => {
-            return v.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
-        registrationNumber: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        taxId: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        phone: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
-        ],
-        fax: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v || v.match(/[0-9+()-]+$/)
-              ? true
-              : false || 'Allows numbers and only + - / ( )';
-          },
-        ],
-        email: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-          v => {
-            return !v ||
-              v.match(
-                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)+$/,
-              )
-              ? true
-              : false || 'Expected format: admin@example.com';
-          },
-        ],
-        street1: [
-          v => {
-            return !v || v?.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
-        street2: [
-          v => {
-            return !v || v?.length <= 100 || 'Should not exceed 100 characters';
-          },
-        ],
-        city: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        province: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        country: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        zipCode: [
-          v => {
-            return !v || v?.length <= 30 || 'Should not exceed 30 characters';
-          },
-        ],
-        note: [
-          v => {
-            return !v || v?.length <= 255 || 'Should not exceed 255 characters';
-          },
-        ],
+        name: [required, shouldNotExceedCharLength(100)],
+        registrationNumber: [shouldNotExceedCharLength(30)],
+        taxId: [shouldNotExceedCharLength(30)],
+        phone: [shouldNotExceedCharLength(30), validPhoneNumberFormat],
+        fax: [shouldNotExceedCharLength(30), validPhoneNumberFormat],
+        email: [shouldNotExceedCharLength(30), validEmailFormat],
+        street1: [shouldNotExceedCharLength(100)],
+        street2: [shouldNotExceedCharLength(100)],
+        city: [shouldNotExceedCharLength(30)],
+        province: [shouldNotExceedCharLength(30)],
+        country: [shouldNotExceedCharLength(30)],
+        zipCode: [shouldNotExceedCharLength(30)],
+        note: [shouldNotExceedCharLength(255)],
       },
       errors: [],
     };
