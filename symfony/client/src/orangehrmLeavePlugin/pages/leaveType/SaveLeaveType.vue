@@ -114,7 +114,7 @@ export default {
       this.http
         .create({
           name: this.leaveType.name,
-          description: this.leaveType.situational,
+          situational: this.leaveType.situational,
         })
         .then(() => {
           return this.$toast.saveSuccess();
