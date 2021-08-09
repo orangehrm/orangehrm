@@ -164,12 +164,17 @@ define_leave_period:
   controller: OrangeHRM\Leave\Controller\LeavePeriodController::handle
   methods: [ GET ]
 
-apply_leave:
+leave_apply_leave:
   path: /leave/applyLeave
   controller: OrangeHRM\Leave\Controller\ApplyLeaveController::handle
   methods: [ GET ]
 
-assign_leave:
+leave_assign_leave:
   path: /leave/assignLeave
   controller: OrangeHRM\Leave\Controller\AssignLeaveController::handle
+  methods: [ GET ]
+
+leave_leave_list:
+  path: /leave/viewLeaveList/reset/1 # refactor 4.x route
+  controller: OrangeHRM\Leave\Controller\LeaveListController::handle
   methods: [ GET ]

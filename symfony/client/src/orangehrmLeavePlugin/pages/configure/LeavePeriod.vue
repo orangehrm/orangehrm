@@ -108,9 +108,13 @@ export default {
       isLoading: false,
       leavePeriod: {...leavePeriodModel},
 <<<<<<< HEAD
+<<<<<<< HEAD
       leavePeriodDefined: false,
 =======
 >>>>>>> OHRM5X-407: Develop leave period screen (#867)
+=======
+      leavePeriodDefined: false,
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
       rules: {
         startMonth: [required],
         startDay: [required],
@@ -143,11 +147,17 @@ export default {
           this.$toast.saveSuccess();
           this.isLoading = false;
 <<<<<<< HEAD
+<<<<<<< HEAD
           if (!this.leavePeriodDefined) {
             reloadPage();
           }
 =======
 >>>>>>> OHRM5X-407: Develop leave period screen (#867)
+=======
+          if (!this.leavePeriodDefined) {
+            reloadPage();
+          }
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
         });
     },
   },
@@ -224,8 +234,12 @@ export default {
         },
       })
       .then(response => {
+<<<<<<< HEAD
         const {data} = response.data;
 >>>>>>> OHRM5X-407: Develop leave period screen (#867)
+=======
+        const {data, meta} = response.data;
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
         this.leavePeriod.startMonth = this.months.find(m => {
           return m.id === data.startMonth;
         });
@@ -234,6 +248,7 @@ export default {
             return d.id === data.startDay;
           });
         });
+<<<<<<< HEAD
 <<<<<<< HEAD
         if (meta?.leavePeriodDefined) {
           this.leavePeriodDefined = meta.leavePeriodDefined;
@@ -245,6 +260,9 @@ export default {
         }
 =======
 >>>>>>> OHRM5X-407: Develop leave period screen (#867)
+=======
+        this.leavePeriodDefined = meta?.leavePeriodDefined;
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
       })
       .finally(() => {
         this.isLoading = false;

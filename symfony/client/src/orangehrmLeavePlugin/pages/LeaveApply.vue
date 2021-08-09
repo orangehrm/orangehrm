@@ -204,10 +204,14 @@ export default {
     const http = new APIService(
       window.appGlobal.baseUrl,
 <<<<<<< HEAD
+<<<<<<< HEAD
       'api/v2/leave/leave-requests',
 =======
       'api/v2/leave/my-leave-request',
 >>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
+=======
+      'api/v2/leave/leave-requests',
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
     );
 
     return {
@@ -247,6 +251,7 @@ export default {
       this.isLoading = true;
       const payload = {
 <<<<<<< HEAD
+<<<<<<< HEAD
         leaveTypeId: this.leave.type?.id,
         fromDate: this.leave.fromDate,
         toDate: this.leave.toDate,
@@ -257,16 +262,26 @@ export default {
         toDate: this.leave.toDate,
         comment: this.leave.comment,
 >>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
+=======
+        leaveTypeId: this.leave.type?.id,
+        fromDate: this.leave.fromDate,
+        toDate: this.leave.toDate,
+        comment: this.leave.comment ? this.leave.comment : null,
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
         duration: {
           type: this.leave.duration.type?.key,
           fromTime: this.leave.duration.fromTime,
           toTime: this.leave.duration.toTime,
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
         partialOption: null,
 =======
         partialOptions: null,
 >>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
+=======
+        partialOption: null,
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
         endDuration: null,
       };
       if (this.leave.partialOptions?.id) {

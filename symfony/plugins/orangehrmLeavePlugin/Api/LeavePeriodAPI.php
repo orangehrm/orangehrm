@@ -33,10 +33,15 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\MenuService;
+<<<<<<< HEAD
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\LeavePeriodHistory;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\Model\LeavePeriodHistoryModel;
+=======
+use OrangeHRM\Entity\LeavePeriodHistory;
+use OrangeHRM\Framework\Services;
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
 use OrangeHRM\Leave\Api\Model\LeavePeriodModel;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
@@ -45,13 +50,19 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
 {
     use LeavePeriodServiceTrait;
     use LeaveConfigServiceTrait;
+<<<<<<< HEAD
     use NormalizerServiceTrait;
+=======
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
 
     public const PARAMETER_START_MONTH = 'startMonth';
     public const PARAMETER_START_DAY = 'startDay';
 
     public const META_PARAMETER_LEAVE_PERIOD_DEFINED = 'leavePeriodDefined';
+<<<<<<< HEAD
     public const META_PARAMETER_CURRENT_LEAVE_PERIOD = 'currentLeavePeriod';
+=======
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
 
     /**
      * @inheritDoc
@@ -67,6 +78,7 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
             $leavePeriodHistory->setCreatedAt(new DateTime());
         }
         return new EndpointResourceResult(
+<<<<<<< HEAD
             LeavePeriodHistoryModel::class, $leavePeriodHistory,
             new ParameterBag(
                 [
@@ -88,6 +100,11 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
                 LeavePeriodModel::class,
                 $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(new DateTime())
             ) : null;
+=======
+            LeavePeriodModel::class, $leavePeriodHistory,
+            new ParameterBag([self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined])
+        );
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
     }
 
     /**
@@ -142,6 +159,7 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
             $menuService = $this->getContainer()->get(Services::MENU_SERVICE);
             $menuService->enableModuleMenuItems('leave');
         }
+<<<<<<< HEAD
         return new EndpointResourceResult(
             LeavePeriodHistoryModel::class, $leavePeriodHistory,
             new ParameterBag(
@@ -151,6 +169,9 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
                 ]
             )
         );
+=======
+        return new EndpointResourceResult(LeavePeriodModel::class, $leavePeriodHistory);
+>>>>>>> OHRM5X-466: Fix leave period change issue (#871)
     }
 
     /**
