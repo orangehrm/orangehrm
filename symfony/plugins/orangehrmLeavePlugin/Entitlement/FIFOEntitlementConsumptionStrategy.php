@@ -638,9 +638,23 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
         return $result;
     }
 
-    public function handleLeavePeriodChange($leavePeriodForToday, $oldMonth, $oldDay, $newMonth, $newDay)
-    {
-        $this->getDao()->handleLeavePeriodChange($leavePeriodForToday, $oldMonth, $oldDay, $newMonth, $newDay);
+    /**
+     * @inheritDoc
+     */
+    public function handleLeavePeriodChange(
+        LeavePeriod $leavePeriodForToday,
+        int $oldStartMonth,
+        int $oldStartDay,
+        int $newStartMonth,
+        int $newStartDay
+    ) {
+        $this->getDao()->handleLeavePeriodChange(
+            $leavePeriodForToday,
+            $oldStartMonth,
+            $oldStartDay,
+            $newStartMonth,
+            $newStartDay
+        );
     }
 
     /**
