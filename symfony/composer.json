@@ -62,7 +62,8 @@
                 "./plugins/orangehrmPerformancePlugin/entity",
                 "./plugins/orangehrmPimPlugin/entity",
                 "./plugins/orangehrmLeavePlugin/entity",
-                "./plugins/orangehrmCorePlugin/entity"
+                "./plugins/orangehrmCorePlugin/entity",
+                "./plugins/orangehrmCoreOAuthPlugin/entity"
             ]
         }
     },
@@ -73,7 +74,8 @@
             "OrangeHRM\\Tests\\Authentication\\": "./plugins/orangehrmAuthenticationPlugin/test",
             "OrangeHRM\\Tests\\Core\\": "./plugins/orangehrmCorePlugin/test",
             "OrangeHRM\\Tests\\Leave\\": "./plugins/orangehrmLeavePlugin/test",
-            "OrangeHRM\\Tests\\Pim\\": "./plugins/orangehrmPimPlugin/test"
+            "OrangeHRM\\Tests\\Pim\\": "./plugins/orangehrmPimPlugin/test",
+            "OrangeHRM\\Tests\\OAuth\\": "./plugins/orangehrmCoreOAuthPlugin/test"
         }
     },
     "scripts": {
