@@ -200,10 +200,6 @@ export default {
     this.http
       .request({
         method: 'GET',
-        // Prevent triggering response interceptor on 404
-        validateStatus: status => {
-          return (status >= 200 && status < 300) || status == 404;
-        },
       })
       .then(response => {
         const {data, meta} = response.data;
