@@ -52,7 +52,7 @@ import Nationality from '@/orangehrmAdminPlugin/pages/nationality/Nationality.vu
 import EditNationality from '@/orangehrmAdminPlugin/pages/nationality/EditNationality.vue';
 import SaveNationality from '@/orangehrmAdminPlugin/pages/nationality/SaveNationality.vue';
 import ViewEmailConfiguration from '@/orangehrmAdminPlugin/pages/emailConfiguration/ViewEmailConfiguration.vue';
-
+import OAuthPages from '@/orangehrmCoreOAuthPlugin';
 
 export default {
   'job-title-list': JobTitle,
@@ -91,5 +91,5 @@ export default {
   'nationality-edit': EditNationality,
   'nationality-save': SaveNationality,
   'email-configuration-view': ViewEmailConfiguration,
-
-};
+  ...OAuthPages,
+  };
