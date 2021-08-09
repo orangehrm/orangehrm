@@ -26,7 +26,7 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <report-to-employee-dropdown
+            <report-to-employee-autocomplete
               v-model="reportTo.employee"
               :rules="rules.employee"
               :api="api"
@@ -63,11 +63,11 @@
 </template>
 
 <script>
-import ReportToEmployeeDropdown from '@/orangehrmPimPlugin/components/ReportToEmployeeDropdown';
+import ReportToEmployeeAutocomplete from '@/orangehrmPimPlugin/components/ReportToEmployeeAutocomplete';
 import {required} from '@orangehrm/core/util/validation/rules';
 
 const reportToModel = {
-  employee: [],
+  employee: null,
   reportingMethodId: [],
 };
 
@@ -96,7 +96,7 @@ export default {
   },
 
   components: {
-    'report-to-employee-dropdown': ReportToEmployeeDropdown,
+    'report-to-employee-autocomplete': ReportToEmployeeAutocomplete,
   },
 
   data() {
@@ -122,7 +122,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          empNumber: this.reportTo.employee.map(item => item.id)[0],
+          empNumber: this.reportTo.employee?.id,
           reportingMethodId: this.reportTo.reportingMethodId.map(
             item => item.id,
           )[0],
