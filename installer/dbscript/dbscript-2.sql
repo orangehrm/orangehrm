@@ -3560,7 +3560,6 @@ UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` =
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Language Packages';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Modules';
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Social Media Authentication';
-UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Register OAuth Client';
 
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Reports' AND `screen_id` IS NOT NULL;
 UPDATE `ohrm_menu_item` SET `status` = '0' WHERE `ohrm_menu_item`.`menu_title` = 'Data Import';
@@ -3617,8 +3616,10 @@ VALUES ('apiv2_admin_education', 'API-v2 Admin - Education', 1, 1, 1, 1),
        ('apiv2_admin_paygrade_currency', 'API-v2 Admin - Pay Grade Currencies', 1, 1, 1, 1),
        ('apiv2_admin_skill', 'API-v2 Admin - Skills', 1, 1, 1, 1),
        ('apiv2_admin_subunit', 'API-v2 Admin - Organization Structure', 1, 1, 1, 1),
-       ('apiv2_admin_user', 'API-v2 Admin - Users', 1, 1, 1, 1),
-       ('apiv2_admin_email_configuration', 'API-v2 Admin - Email Configuration', 1, 0, 1, 0);
+       ('apiv2_admin_user', 'API-v2 Admin - Users', 1, 1, 1, 1),       
+       ('apiv2_admin_email_configuration', 'API-v2 Admin - Email Configuration', 1, 0, 1, 0),
+       ('apiv2_admin_oauth_client', 'API-v2 Admin - OAuth Clients', 1, 1, 1, 1);
+
 
 SET @admin_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'admin' LIMIT 1);
 SET @apiv2_admin_education_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_education' LIMIT 1);
@@ -3636,6 +3637,8 @@ SET @apiv2_admin_skill_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE 
 SET @apiv2_admin_subunit_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_subunit' LIMIT 1);
 SET @apiv2_admin_user_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_user' LIMIT 1);
 SET @apiv2_admin_email_configuration_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_email_configuration' LIMIT 1);
+SET @apiv2_admin_oauth_client_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_oauth_client' LIMIT 1);
+
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_education_data_group_id),
@@ -3652,7 +3655,8 @@ VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_ed
        ('OrangeHRM\\Admin\\Api\\SkillAPI', @admin_module_id, @apiv2_admin_skill_data_group_id),
        ('OrangeHRM\\Admin\\Api\\SubunitAPI', @admin_module_id, @apiv2_admin_subunit_data_group_id),
        ('OrangeHRM\\Admin\\Api\\UserAPI', @admin_module_id, @apiv2_admin_user_data_group_id),
-       ('OrangeHRM\\Admin\\Api\\EmailConfigurationAPI', @admin_module_id, @apiv2_admin_email_configuration_data_group_id);
+       ('OrangeHRM\\Admin\\Api\\EmailConfigurationAPI', @admin_module_id, @apiv2_admin_email_configuration_data_group_id),
+       ('OrangeHRM\\OAuth\\Api\\OAuthClientAPI', @admin_module_id, @apiv2_admin_oauth_client_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
@@ -3674,7 +3678,8 @@ VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_subunit_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_admin_subunit_data_group_id, @supervisor_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_user_data_group_id, @admin_role_id),
-       (1, 0, 1, 0, 0, @apiv2_admin_email_configuration_data_group_id, @admin_role_id);
+       (1, 0, 1, 0, 0, @apiv2_admin_email_configuration_data_group_id, @admin_role_id),
+       (1, 1, 1, 1, 0, @apiv2_admin_oauth_client_data_group_id, @admin_role_id);       
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),

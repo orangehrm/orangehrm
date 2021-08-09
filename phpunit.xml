@@ -49,5 +49,11 @@
       <directory>symfony/plugins/orangehrmPimPlugin/test/Api</directory>
       <directory>symfony/plugins/orangehrmPimPlugin/test/Entity</directory>
     </testsuite>
+    <testsuite name="OAuth Tests">
+      <directory>symfony/plugins/orangehrmCoreOAuthPlugin/test/Service</directory>
+      <directory>symfony/plugins/orangehrmCoreOAuthPlugin/test/Dao</directory>
+      <directory>symfony/plugins/orangehrmCoreOAuthPlugin/test/Api</directory>
+      <directory>symfony/plugins/orangehrmCoreOAuthPlugin/test/Entity</directory>
+    </testsuite>
   </testsuites>
 </phpunit>
