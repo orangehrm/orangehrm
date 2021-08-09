@@ -36,6 +36,7 @@ class EmployeeSupervisorModel implements Normalizable
                 ['getSupervisor', 'getFirstName'],
                 ['getSupervisor', 'getLastName'],
                 ['getSupervisor', 'getMiddleName'],
+                ['getSupervisor', 'getEmployeeTerminationRecord', 'getId'],
                 ['getReportingMethod', 'getId'],
                 ['getReportingMethod', 'getName'],
             ]
@@ -46,6 +47,7 @@ class EmployeeSupervisorModel implements Normalizable
                 ['supervisor', 'firstName'],
                 ['supervisor', 'lastName'],
                 ['supervisor', 'middleName'],
+                ['supervisor', 'terminationId'],
                 ['reportingMethod', 'id'],
                 ['reportingMethod', 'name'],
             ]
