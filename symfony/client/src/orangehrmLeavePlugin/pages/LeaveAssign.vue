@@ -50,13 +50,13 @@
                 required
               />
             </oxd-grid-item>
-            <oxd-grid-item>
+            <!-- <oxd-grid-item>
               <leave-balance
                 :type="leave.type"
                 :fromDate="leave.fromDate"
                 :toDate="leave.toDate"
               ></leave-balance>
-            </oxd-grid-item>
+            </oxd-grid-item> -->
           </oxd-grid>
         </oxd-form-row>
 
@@ -168,7 +168,7 @@ import {diffInDays} from '@orangehrm/core/util/helper/datefns';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeaveDurationInput from '@/orangehrmLeavePlugin/components/LeaveDurationInput';
-import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
+// import LeaveBalance from '@/orangehrmLeavePlugin/components/LeaveBalance';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 
 const leaveModel = {
@@ -196,7 +196,7 @@ export default {
   components: {
     'leave-type-dropdown': LeaveTypeDropdown,
     'leave-duration-input': LeaveDurationInput,
-    'leave-balance': LeaveBalance,
+    // 'leave-balance': LeaveBalance,
     'employee-autocomplete': EmployeeAutocomplete,
   },
 

@@ -19,40 +19,11 @@
  -->
 
 <template>
-  <oxd-input-field
-    type="time"
-    :step="15"
-    :modelValue="state"
-    @update:modelValue="onChange"
-  />
+  <oxd-input-field type="time" :step="15" />
 </template>
 
 <script>
-import {computed} from 'vue';
-import {formatDate, parseDate} from '@orangehrm/core/util/helper/datefns';
-
 export default {
   name: 'time-input',
-  props: {
-    modelValue: {
-      type: String,
-    },
-  },
-  setup(props, context) {
-    const state = computed(() => {
-      return formatDate(parseDate(props.modelValue, 'HH:mm'), 'hh:mm a');
-    });
-
-    const onChange = value => {
-      context.emit(
-        'update:modelValue',
-        formatDate(parseDate(value, 'hh:mm a'), 'HH:mm'),
-      );
-    };
-    return {
-      state,
-      onChange,
-    };
-  },
 };
 </script>
