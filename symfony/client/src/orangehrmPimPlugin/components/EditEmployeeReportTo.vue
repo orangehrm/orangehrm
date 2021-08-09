@@ -26,7 +26,7 @@
       <oxd-form-row>
         <oxd-grid :cols="3" class="orangehrm-full-width-grid">
           <oxd-grid-item>
-            <report-to-employee-dropdown
+            <report-to-employee-autocomplete
               v-model="reportTo.employee"
               required
               disabled
@@ -66,10 +66,10 @@
 
 <script>
 import {required} from '@orangehrm/core/util/validation/rules';
-import ReportToEmployeeDropdown from '@/orangehrmPimPlugin/components/ReportToEmployeeDropdown';
+import ReportToEmployeeAutocomplete from '@/orangehrmPimPlugin/components/ReportToEmployeeAutocomplete';
 
 const reportToModel = {
-  employee: [],
+  employee: null,
   reportingMethodId: [],
 };
 export default {
@@ -105,7 +105,7 @@ export default {
   },
 
   components: {
-    'report-to-employee-dropdown': ReportToEmployeeDropdown,
+    'report-to-employee-autocomplete': ReportToEmployeeAutocomplete,
   },
 
   data() {
@@ -161,18 +161,20 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.reportTo.employee = [
-          {
-            id:
-              this.type === 'Supervisor'
-                ? data.supervisor.empNumber
-                : data.subordinate.empNumber,
-            label:
-              this.type === 'Supervisor'
-                ? `${data.supervisor.firstName} ${data.supervisor.lastName}`
-                : `${data.subordinate.firstName} ${data.subordinate.lastName}`,
-          },
-        ];
+        this.reportTo.employee = {
+          id:
+            this.type === 'Supervisor'
+              ? data.supervisor.empNumber
+              : data.subordinate.empNumber,
+          label:
+            this.type === 'Supervisor'
+              ? `${data.supervisor.firstName} ${data.supervisor.middleName} ${data.supervisor.lastName}`
+              : `${data.subordinate.firstName} ${data.subordinate.middleName} ${data.subordinate.lastName}`,
+          isPastEmployee:
+            this.type === 'Supervisor'
+              ? data.supervisor.terminationId
+              : data.subordinate.terminationId,
+        };
         this.reportTo.reportingMethodId = this.reportingMethods.filter(
           item => item.id === data.reportingMethod.id,
         );

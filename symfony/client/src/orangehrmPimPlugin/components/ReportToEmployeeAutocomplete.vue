@@ -20,22 +20,35 @@
 
 <template>
   <oxd-input-field
-    type="dropdown"
+    type="autocomplete"
     label="Name"
+    :clear="false"
     :create-options="loadEmployees"
-    :lazyLoad="true"
-  />
+  >
+    <template v-slot:afterSelected="{data}">
+      <template v-if="data.isPastEmployee">(Past Employee)</template>
+    </template>
+    <template v-slot:option="{data, text}">
+      <span v-html="text"></span>
+      <div v-if="data.isPastEmployee" class="past-employee-tag">
+        (Past Employee)
+      </div>
+    </template>
+  </oxd-input-field>
 </template>
 
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 export default {
-  name: 'report-to-employee-dropdown',
+  name: 'report-to-employee-autocomplete',
 
   props: {
     api: {
       type: String,
       required: true,
+    },
+    params: {
+      type: Object,
     },
   },
 
@@ -52,13 +65,15 @@ export default {
           this.http
             .getAll({
               nameOrId: serachParam,
+              ...this.params,
             })
             .then(({data}) => {
               resolve(
                 data.data.map(employee => {
                   return {
                     id: employee.empNumber,
-                    label: `${employee.firstName} ${employee.lastName}`,
+                    label: `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
+                    isPastEmployee: employee.terminationId ? true : false,
                   };
                 }),
               );
