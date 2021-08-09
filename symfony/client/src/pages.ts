@@ -52,10 +52,10 @@ import Nationality from '@/orangehrmAdminPlugin/pages/nationality/Nationality.vu
 import EditNationality from '@/orangehrmAdminPlugin/pages/nationality/EditNationality.vue';
 import SaveNationality from '@/orangehrmAdminPlugin/pages/nationality/SaveNationality.vue';
 import ViewEmailConfiguration from '@/orangehrmAdminPlugin/pages/emailConfiguration/ViewEmailConfiguration.vue';
+import OAuthPages from '@/orangehrmCoreOAuthPlugin';
 import LocationList from '@/orangehrmAdminPlugin/pages/location/LocationList.vue';
 import SaveLocation from '@/orangehrmAdminPlugin/pages/location/SaveLocation.vue';
 import EditLocation from '@/orangehrmAdminPlugin/pages/location/EditLocation.vue';
-
 
 export default {
   'job-title-list': JobTitle,
@@ -97,5 +97,5 @@ export default {
   'location-save': SaveLocation,
   'location-edit': EditLocation,
   'email-configuration-view': ViewEmailConfiguration,
-
-};
+  ...OAuthPages,
+  };

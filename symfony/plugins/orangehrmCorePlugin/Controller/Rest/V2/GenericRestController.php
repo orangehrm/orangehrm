@@ -194,7 +194,7 @@ class GenericRestController extends AbstractRestController
     private function isGetOneRequest(Request $request): bool
     {
         $idAttribute = $request->getAttributes()->get('_key', 'id');
-        return $request->getAttributes()->has($idAttribute);
+        return $request->getAttributes()->has($idAttribute) || $request->getQuery()->has($idAttribute);
     }
 
     /**
