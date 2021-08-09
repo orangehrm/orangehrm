@@ -35,6 +35,7 @@
                 :rules="rules.name"
                 required
                 :disabled="!hasCreatePermissions"
+                placeholder="Type here ..."
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -48,6 +49,7 @@
                 v-model="location.city"
                 :rules="rules.city"
                 :disabled="!hasCreatePermissions"
+                placeholder="Type here ..."
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -56,6 +58,7 @@
                 v-model="location.province"
                 :rules="rules.province"
                 :disabled="!hasCreatePermissions"
+                placeholder="Type here ..."
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -64,6 +67,7 @@
                 v-model="location.zipCode"
                 :rules="rules.zipCode"
                 :disabled="!hasCreatePermissions"
+                placeholder="Type here ..."
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -84,6 +88,7 @@
                 v-model="location.phone"
                 :rules="rules.phone"
                 :disabled="!hasCreatePermissions"
+                placeholder="Type here ..."
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -92,6 +97,7 @@
                 v-model="location.fax"
                 :rules="rules.fax"
                 :disabled="!hasCreatePermissions"
+                placeholder="Type here ..."
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -101,6 +107,7 @@
                 v-model="location.address"
                 :rules="rules.address"
                 :disabled="!hasCreatePermissions"
+                placeholder="Type here ..."
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -110,6 +117,7 @@
                 v-model="location.note"
                 :rules="rules.note"
                 :disabled="!hasCreatePermissions"
+                placeholder="Type here ..."
               />
             </oxd-grid-item>
           </oxd-grid>
