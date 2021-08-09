@@ -49,6 +49,7 @@
           :loading="isLoading"
           v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
+          v-model:order="sortDefinition"
         />
       </div>
       <div class="orangehrm-bottom-container">
@@ -65,17 +66,40 @@
 </template>
 
 <script>
+import {computed, ref} from 'vue';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
+import useSort from '@orangehrm/core/util/composable/useSort';
+
+const defaultFilters = {
+  jobTitleName: '',
+  jobDescription: '',
+};
+
+const defaultSortOrder = {
+  'jt.jobTitleName': 'ASC',
+  'jt.jobDescription': 'ASC',
+};
 
 export default {
   data() {
     return {
       headers: [
-        {name: 'title', slot: 'title', title: 'Job Title', style: {flex: 2}},
-        {name: 'description', title: 'Job Description', style: {flex: 4}},
+        {
+          name: 'title',
+          slot: 'title',
+          title: 'Job Title',
+          sortField: 'jt.jobTitleName',
+          style: {flex: 2},
+        },
+        {
+          name: 'description',
+          title: 'Job Description',
+          sortField: 'jt.jobDescription',
+          style: {flex: 4},
+        },
         {
           name: 'actions',
           title: 'Actions',
@@ -108,6 +132,21 @@ export default {
   },
 
   setup() {
+    const filters = ref({...defaultFilters});
+
+    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
+      sortDefinition: defaultSortOrder,
+    });
+
+    const serializedFilters = computed(() => {
+      return {
+        jobTitleName: filters.value.jobTitleName,
+        jobDescription: filters.value.jobDescription,
+        sortField: sortField.value,
+        sortOrder: sortOrder.value,
+      };
+    });
+
     const http = new APIService(
       window.appGlobal.baseUrl,
       '/api/v2/admin/job-titles',
@@ -121,7 +160,10 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http);
+    } = usePaginate(http, serializedFilters);
+
+    onSort(execQuery);
+
     return {
       http,
       showPaginator,
@@ -132,6 +174,8 @@ export default {
       pageSize,
       execQuery,
       items: response,
+      filters,
+      sortDefinition,
     };
   },
 
