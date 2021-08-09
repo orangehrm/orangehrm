@@ -47,12 +47,20 @@ interface EntitlementConsumptionStrategy
 
     public function handleEntitlementStatusChange();
 
+    /**
+     * @param LeavePeriod $leavePeriodForToday
+     * @param int $oldStartMonth
+     * @param int $oldStartDay
+     * @param int $newStartMonth
+     * @param int $newStartDay
+     * @return mixed
+     */
     public function handleLeavePeriodChange(
-        $leavePeriodForToday,
-        $oldStartMonth,
-        $oldStartDay,
-        $newStartMonth,
-        $newStartDay
+        LeavePeriod $leavePeriodForToday,
+        int $oldStartMonth,
+        int $oldStartDay,
+        int $newStartMonth,
+        int $newStartDay
     );
 
     /**

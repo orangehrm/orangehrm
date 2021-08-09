@@ -110,7 +110,12 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp' && emailConfiguration.smtpAuthType === 'login'">
+        <oxd-form-row
+          v-if="
+            emailConfiguration.mailType === 'smtp' &&
+              emailConfiguration.smtpAuthType === 'login'
+          "
+        >
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
@@ -141,12 +146,12 @@
             </div>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp' && userSecureConnection">
+        <oxd-form-row
+          v-if="emailConfiguration.mailType === 'smtp' && userSecureConnection"
+        >
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-group
-                :classes="{wrapper: '--status-grouped-field'}"
-              >
+              <oxd-input-group :classes="{wrapper: '--status-grouped-field'}">
                 <oxd-input-field
                   type="radio"
                   v-model="emailConfiguration.smtpSecurityType"
@@ -195,7 +200,7 @@
         <oxd-form-actions>
           <required-text />
           <oxd-button displayType="ghost" label="Reset" @click="onReset" />
-          <submit-button/>
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -262,7 +267,11 @@ export default {
         smtpPassword: [required, shouldNotExceedCharLength(100)],
         smtpAuthType: [shouldNotExceedCharLength(50)],
         smtpSecurityType: [shouldNotExceedCharLength(50)],
-        testEmailAddress: [required, shouldNotExceedCharLength(250), validEmailFormat],
+        testEmailAddress: [
+          required,
+          shouldNotExceedCharLength(250),
+          validEmailFormat,
+        ],
       },
     };
   },
@@ -270,7 +279,8 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.http.request({
+      this.http
+        .request({
           method: 'PUT',
           data: {
             mailType: this.emailConfiguration.mailType,
