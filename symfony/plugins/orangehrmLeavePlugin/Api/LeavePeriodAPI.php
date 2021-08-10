@@ -32,8 +32,10 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Service\MenuService;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\LeavePeriodHistory;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\Leave\Api\Model\LeavePeriodHistoryModel;
 use OrangeHRM\Leave\Api\Model\LeavePeriodModel;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
@@ -42,11 +44,13 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
 {
     use LeavePeriodServiceTrait;
     use LeaveConfigServiceTrait;
+    use NormalizerServiceTrait;
 
     public const PARAMETER_START_MONTH = 'startMonth';
     public const PARAMETER_START_DAY = 'startDay';
 
     public const META_PARAMETER_LEAVE_PERIOD_DEFINED = 'leavePeriodDefined';
+    public const META_PARAMETER_CURRENT_LEAVE_PERIOD = 'currentLeavePeriod';
 
     /**
      * @inheritDoc
@@ -62,9 +66,27 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
             $leavePeriodHistory->setCreatedAt(new DateTime());
         }
         return new EndpointResourceResult(
-            LeavePeriodModel::class, $leavePeriodHistory,
-            new ParameterBag([self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined])
+            LeavePeriodHistoryModel::class, $leavePeriodHistory,
+            new ParameterBag(
+                [
+                    self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined,
+                    self::META_PARAMETER_CURRENT_LEAVE_PERIOD => $this->getCurrentLeavePeriod($leavePeriodDefined),
+                ]
+            )
         );
+    }
+
+    /**
+     * @param bool $leavePeriodDefined
+     * @return array|null
+     */
+    private function getCurrentLeavePeriod(bool $leavePeriodDefined): ?array
+    {
+        return $leavePeriodDefined ?
+            $this->getNormalizerService()->normalize(
+                LeavePeriodModel::class,
+                $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(new DateTime())
+            ) : null;
     }
 
     /**
@@ -108,7 +130,7 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
             $menuService = $this->getContainer()->get(Services::MENU_SERVICE);
             $menuService->enableModuleMenuItems('leave');
         }
-        return new EndpointResourceResult(LeavePeriodModel::class, $leavePeriodHistory);
+        return new EndpointResourceResult(LeavePeriodHistoryModel::class, $leavePeriodHistory);
     }
 
     /**
