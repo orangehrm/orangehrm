@@ -20,9 +20,12 @@
 namespace OrangeHRM\Leave\Dto;
 
 use DateTime;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class LeavePeriod
 {
+    use DateTimeHelperTrait;
+
     /**
      * @var DateTime|null
      */
@@ -52,6 +55,14 @@ class LeavePeriod
     }
 
     /**
+     * @return string|null
+     */
+    public function getYmdStartDate(): ?string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getStartDate());
+    }
+
+    /**
      * @param DateTime|null $startDate
      */
     public function setStartDate(?DateTime $startDate): void
@@ -65,6 +76,14 @@ class LeavePeriod
     public function getEndDate(): ?DateTime
     {
         return $this->endDate;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYmdEndDate(): ?string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getEndDate());
     }
 
     /**
