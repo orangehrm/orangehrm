@@ -50,8 +50,7 @@ class EmployeeWorkShift
     /**
      * @return WorkShift
      */
-    public function
-    getWorkShift(): WorkShift
+    public function getWorkShift(): WorkShift
     {
         return $this->workShift;
     }
