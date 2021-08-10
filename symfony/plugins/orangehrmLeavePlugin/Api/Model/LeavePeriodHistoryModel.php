@@ -21,28 +21,30 @@ namespace OrangeHRM\Leave\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Leave\Dto\LeavePeriod;
+use OrangeHRM\Entity\LeavePeriodHistory;
 
-class LeavePeriodModel implements Normalizable
+class LeavePeriodHistoryModel implements Normalizable
 {
     use ModelTrait;
 
     /**
-     * @param LeavePeriod $leavePeriod
+     * @param LeavePeriodHistory $leavePeriodHistory
      */
-    public function __construct(LeavePeriod $leavePeriod)
+    public function __construct(LeavePeriodHistory $leavePeriodHistory)
     {
-        $this->setEntity($leavePeriod);
+        $this->setEntity($leavePeriodHistory);
         $this->setFilters(
             [
-                ['getYmdStartDate'],
-                ['getYmdEndDate'],
+                'startMonth',
+                'startDay',
+                ['getDecorator', 'getCreatedAt'],
             ]
         );
         $this->setAttributeNames(
             [
-                'startDate',
-                'endDate',
+                'startMonth',
+                'startDay',
+                'createdAt',
             ]
         );
     }
