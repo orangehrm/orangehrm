@@ -219,7 +219,19 @@ export default {
       .get(this.data.id)
       .then(response => {
         const {data} = response.data;
-        this.immigration = {...immigrationModel, ...data};
+        this.immigration.number = data.immigration.number;
+        this.immigration.issuedDate = data.immigration.issuedDate;
+        this.immigration.expiryDate = data.immigration.expiryDate;
+        this.immigration.type = data.immigration.type
+          ? data.immigration.type
+          : '';
+        this.immigration.status = data.immigration.status
+          ? data.immigration.status
+          : '';
+        this.immigration.reviewDate = data.immigration.reviewDate;
+        this.immigration.comment = data.immigration.comment
+          ? data.immigration.comment
+          : '';
         this.immigration.countryCode = this.countries.find(
           item => item.id === data.country?.code,
         );

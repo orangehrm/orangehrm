@@ -124,10 +124,10 @@ import {
 
 const taxExemptionModel = {
   federalStatus: null,
-  federalExemptions: null,
+  federalExemptions: '',
   taxStateCode: [],
   stateStatus: null,
-  stateExemptions: null,
+  stateExemptions: '',
   unemploymentStateCode: [],
   workStateCode: [],
 };
@@ -182,10 +182,14 @@ export default {
           method: 'PUT',
           data: {
             federalStatus: this.taxExemption.federalStatus?.id,
-            federalExemptions: this.taxExemption.federalExemptions,
+            federalExemptions: this.taxExemption.federalExemptions
+              ? this.taxExemption.federalExemptions
+              : '',
             taxStateCode: this.taxExemption.taxState?.id,
             stateStatus: this.taxExemption.stateStatus?.id,
-            stateExemptions: this.taxExemption.stateExemptions,
+            stateExemptions: this.taxExemption.stateExemptions
+              ? this.taxExemption.stateExemptions
+              : '',
             unemploymentStateCode: this.taxExemption.unemploymentState?.id,
             workStateCode: this.taxExemption.workState?.id,
           },
@@ -201,8 +205,12 @@ export default {
 
     updateModel(response) {
       const {data} = response.data;
-      this.taxExemption.federalExemptions = data.federalExemptions;
-      this.taxExemption.stateExemptions = data.stateExemptions;
+      this.taxExemption.federalExemptions = data.federalExemptions
+        ? data.federalExemptions
+        : '';
+      this.taxExemption.stateExemptions = data.stateExemptions
+        ? data.stateExemptions
+        : '';
       this.taxExemption.taxState = this.provinces.find(
         item => item.id === data.taxState.code,
       );

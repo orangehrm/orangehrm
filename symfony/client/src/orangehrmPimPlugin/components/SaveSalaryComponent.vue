@@ -167,6 +167,7 @@
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
 import {
   required,
+  decimalsOnly,
   shouldNotExceedCharLength,
 } from '@orangehrm/core/util/validation/rules';
 
@@ -230,9 +231,7 @@ export default {
         name: [required, shouldNotExceedCharLength(100)],
         salaryAmount: [
           required,
-          v => {
-            return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
-          },
+          decimalsOnly,
           v => {
             return v < 1000000000 || 'Should be less than 1000,000,000';
           },
@@ -245,9 +244,7 @@ export default {
         directDepositRoutingNumber: [
           required,
           shouldNotExceedCharLength(9),
-          v => {
-            return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
-          },
+          decimalsOnly,
         ],
         directDepositAmount: [
           required,

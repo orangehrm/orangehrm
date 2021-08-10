@@ -158,7 +158,12 @@ export default {
             'Renewal date should be after the commencing date',
           ),
         ],
-        subscriptionFee: [decimalsOnly, max(1000000000)],
+        subscriptionFee: [
+          decimalsOnly,
+          v => {
+            return v < 1000000000 || 'Should be less than 1000,000,000';
+          },
+        ],
       },
     };
   },
@@ -168,7 +173,9 @@ export default {
       this.isLoading = true;
       this.http
         .update(this.data.id, {
-          subscriptionFee: this.membership.subscriptionFee,
+          subscriptionFee: this.membership.subscriptionFee
+            ? this.membership.subscriptionFee
+            : '',
           subscriptionCommenceDate: this.membership.subscriptionCommenceDate,
           subscriptionRenewalDate: this.membership.subscriptionRenewalDate,
           membershipId: this.membership.membership.id,
@@ -194,7 +201,9 @@ export default {
       .get(this.data.id)
       .then(response => {
         const {data} = response.data;
-        this.membership.subscriptionFee = data.subscriptionFee;
+        this.membership.subscriptionFee = data.subscriptionFee
+          ? data.subscriptionFee
+          : '';
         this.membership.subscriptionCommenceDate = data.subscriptionCommenceDate
           ? data.subscriptionCommenceDate
           : '';
