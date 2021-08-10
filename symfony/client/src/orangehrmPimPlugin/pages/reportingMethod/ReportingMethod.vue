@@ -178,7 +178,7 @@ export default {
       if (isSelectable > -1) {
         return this.$toast.error({
           title: 'Error',
-          message: 'Termination Reason(s) in Use',
+          message: 'Reporting Method(s) in Use',
         });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
