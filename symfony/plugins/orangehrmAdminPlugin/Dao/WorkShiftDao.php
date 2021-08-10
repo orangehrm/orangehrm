@@ -19,21 +19,15 @@
 
 namespace OrangeHRM\Admin\Dao;
 
+use OrangeHRM\Admin\Dto\WorkShiftSearchFilterParams;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\WorkShift;
 use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\ORM\Paginator;
 
 class WorkShiftDao extends BaseDao
 {
-    /**
-     * @return WorkShift[]
-     */
-    public function getWorkShiftList(): array
-    {
-        $q = $this->createQueryBuilder(WorkShift::class, 'workShift');
-        $q->addOrderBy('workShift.name', ListSorter::ASCENDING);
-        return $q->getQuery()->execute();
-    }
 
     /**
      * @param int $workShiftId
@@ -41,7 +35,57 @@ class WorkShiftDao extends BaseDao
      */
     public function getWorkShiftById(int $workShiftId): ?WorkShift
     {
-        return $this->getRepository(WorkShift::class)->find($workShiftId);
+        try {
+            $workShift = $this->getRepository(WorkShift::class)->find($workShiftId);
+            if ($workShift instanceof WorkShift) {
+                return $workShift;
+            }
+            return null;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
+     * @return array
+     * @throws DaoException
+     */
+    public function getWorkShiftList(WorkShiftSearchFilterParams $workShiftSearchFilterParams): array
+    {
+        try {
+            $paginator = $this->getWorkShiftListPaginator($workShiftSearchFilterParams);
+            return $paginator->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
+     * @return Paginator
+     */
+    public function getWorkShiftListPaginator(WorkShiftSearchFilterParams $workShiftSearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(WorkShift::class, 'ws');
+        $this->setSortingAndPaginationParams($q, $workShiftSearchFilterParams);
+        return new Paginator($q);
+    }
+
+
+    /**
+     * @param WorkShiftSearchFilterParams $workShiftSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getWorkShiftCount(WorkShiftSearchFilterParams $workShiftSearchFilterParams): int
+    {
+        try {
+            $paginator = $this->getWorkShiftListPaginator($workShiftSearchFilterParams);
+            return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     public function getWorkShiftEmployeeListById($workShiftId) {

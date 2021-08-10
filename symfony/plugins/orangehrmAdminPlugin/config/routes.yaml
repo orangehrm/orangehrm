@@ -196,6 +196,20 @@ apiv2_admin_email_configuration:
   defaults:
     id: 0
     _api: OrangeHRM\Admin\Api\EmailConfigurationAPI
+    
+apiv2_admin_work_shift:
+  path: /api/v2/admin/work-shifts/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\WorkShiftAPI
+
+apiv2_admin_work_shifts:
+  path: /api/v2/admin/work-shifts
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\WorkShiftAPI
 
 apiv2_admin_location:
   path: /api/v2/admin/locations/{id}
