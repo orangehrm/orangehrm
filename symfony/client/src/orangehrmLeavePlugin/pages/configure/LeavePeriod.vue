@@ -187,10 +187,7 @@ export default {
 
   watch: {
     'leavePeriod.startMonth': function() {
-      this.$nextTick(() => {
-        this.leavePeriod.startDay =
-          this.dates.length > 0 ? this.dates[0] : null;
-      });
+      this.leavePeriod.startDay = this.dates.length > 0 ? this.dates[0] : null;
     },
   },
 
