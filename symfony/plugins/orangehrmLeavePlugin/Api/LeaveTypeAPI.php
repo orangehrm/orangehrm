@@ -115,6 +115,7 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
+            new ParamRule(self::FILTER_NAME),
             ...$this->getSortingAndPaginationParamsRules(LeaveTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
