@@ -227,7 +227,7 @@ describe('core/util/validation/rules::decimalsOnly', () => {
 
   test('decimalsOnly::numberWith.', () => {
     const result = decimalsOnly('123.');
-    expect(result).toBe('Should be a number');
+    expect(result).toStrictEqual(true);
   });
 
   test('decimalsOnly::numberWithcharater', () => {
@@ -259,7 +259,7 @@ describe('core/util/validation/rules::positiveNumber', () => {
 
   test('positiveNumber::numberWith.', () => {
     const result = positiveNumber('13.');
-    expect(result).toBeTruthy();
+    expect(result).toBe('Should be a positive number');
   });
 
   test('positiveNumber::numberWithCharater', () => {
