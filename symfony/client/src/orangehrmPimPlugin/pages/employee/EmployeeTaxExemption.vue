@@ -117,17 +117,14 @@
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
-import {
-  positiveNumber,
-  shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+import {shouldNotExceedCharLength} from '@orangehrm/core/util/validation/rules';
 
 const taxExemptionModel = {
   federalStatus: null,
-  federalExemptions: '',
+  federalExemptions: null,
   taxStateCode: [],
   stateStatus: null,
-  stateExemptions: '',
+  stateExemptions: null,
   unemploymentStateCode: [],
   workStateCode: [],
 };
@@ -168,8 +165,18 @@ export default {
       isLoading: false,
       taxExemption: {...taxExemptionModel},
       rules: {
-        federalExemptions: [positiveNumber, shouldNotExceedCharLength(2)],
-        stateExemptions: [positiveNumber, shouldNotExceedCharLength(2)],
+        federalExemptions: [
+          v => {
+            return v.match(/^\d*\.?\d*$/) || 'Should be a positive number';
+          },
+          shouldNotExceedCharLength(2),
+        ],
+        stateExemptions: [
+          v => {
+            return v.match(/^\d*\.?\d*$/) || 'Should be a positive number';
+          },
+          shouldNotExceedCharLength(2),
+        ],
       },
     };
   },
@@ -182,14 +189,10 @@ export default {
           method: 'PUT',
           data: {
             federalStatus: this.taxExemption.federalStatus?.id,
-            federalExemptions: this.taxExemption.federalExemptions
-              ? this.taxExemption.federalExemptions
-              : '',
+            federalExemptions: this.taxExemption.federalExemptions,
             taxStateCode: this.taxExemption.taxState?.id,
             stateStatus: this.taxExemption.stateStatus?.id,
-            stateExemptions: this.taxExemption.stateExemptions
-              ? this.taxExemption.stateExemptions
-              : '',
+            stateExemptions: this.taxExemption.stateExemptions,
             unemploymentStateCode: this.taxExemption.unemploymentState?.id,
             workStateCode: this.taxExemption.workState?.id,
           },

@@ -100,7 +100,6 @@
 <script>
 import {
   required,
-  decimalsOnly,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
@@ -158,7 +157,9 @@ export default {
           ),
         ],
         subscriptionFee: [
-          decimalsOnly,
+          v => {
+            return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
+          },
           v => {
             return v < 1000000000 || 'Should be less than 1000,000,000';
           },
