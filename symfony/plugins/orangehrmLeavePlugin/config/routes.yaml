@@ -97,7 +97,7 @@ leave_leave_list:
   methods: [ GET ]
 
 view_leave_type:
-  path: /leave/listLeaveTypes
+  path: /leave/leaveTypeList
   controller: OrangeHRM\Leave\Controller\LeaveTypeController::handle
   methods: [ GET ]
 

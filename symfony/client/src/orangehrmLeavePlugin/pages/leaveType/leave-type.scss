@@ -16,5 +16,12 @@
 
 ::v-deep(.--status-grouped-field) {
   display: flex;
-  max-width: 13rem;
+  max-width: 15rem;
 }
+.label-is-entitlement-situational {
+   display: flex;
+   align-items: center;
+   & .--help {
+     margin-left: 5px;
+   }
+ }

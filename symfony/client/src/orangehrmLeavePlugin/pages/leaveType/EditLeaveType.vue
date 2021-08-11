@@ -39,18 +39,29 @@
             <oxd-grid-item>
               <oxd-input-group
                 :classes="{wrapper: '--status-grouped-field'}"
-                label="Is Entitlement Situational"
               >
+                <template v-slot:label>
+                  <div class="label-is-entitlement-situational">
+                    <oxd-label
+                      :label="$t('leave.is_entitlement_situational')"
+                    />
+                    <oxd-icon-button
+                      class="--help"
+                      name="exclamation-circle"
+                      :withContainer="false"
+                    />
+                  </div>
+                </template>
                 <oxd-input-field
                   type="radio"
                   v-model="leaveType.situational"
-                  optionLabel="Yes"
+                  :optionLabel="$t('leave.yes')"
                   :value="true"
                 />
                 <oxd-input-field
                   type="radio"
                   v-model="leaveType.situational"
-                  optionLabel="No"
+                  :optionLabel="$t('leave.no')"
                   :value="false"
                 />
               </oxd-input-group>
@@ -82,6 +93,7 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@orangehrm/core/util/validation/rules';
+import Label from '@orangehrm/oxd/core/components/Label/Label';
 
 const leaveTypeModel = {
   id: '',
@@ -95,6 +107,9 @@ export default {
       type: Number,
       required: true,
     },
+  },
+  components: {
+    'oxd-label': Label,
   },
 
   data() {
@@ -134,7 +149,7 @@ export default {
         });
     },
     onCancel() {
-      navigate('/leave/listLeaveTypes');
+      navigate('/leave/leaveTypeList');
     },
   },
   created() {
@@ -152,12 +167,11 @@ export default {
       })
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push();
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
           if (index > -1) {
             const {id} = data[index];
-            return id != this.category.id ? 'Already exists' : true;
+            return id != this.leaveTypeId ? 'Already exists' : true;
           } else {
             return true;
           }

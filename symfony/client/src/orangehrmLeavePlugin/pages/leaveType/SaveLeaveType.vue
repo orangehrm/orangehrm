@@ -40,18 +40,29 @@
             <oxd-grid-item>
               <oxd-input-group
                 :classes="{wrapper: '--status-grouped-field'}"
-                label="Is Entitlement Situational"
               >
+                <template v-slot:label>
+                  <div class="label-is-entitlement-situational">
+                    <oxd-label
+                      :label="$t('leave.is_entitlement_situational')"
+                    />
+                    <oxd-icon-button
+                      class="--help"
+                      name="exclamation-circle"
+                      :withContainer="false"
+                    />
+                  </div>
+                </template>
                 <oxd-input-field
                   type="radio"
                   v-model="leaveType.situational"
-                  optionLabel="Yes"
+                  :optionLabel="$t('leave.yes')"
                   :value="true"
                 />
                 <oxd-input-field
                   type="radio"
                   v-model="leaveType.situational"
-                  optionLabel="No"
+                  :optionLabel="$t('leave.no')"
                   :value="false"
                 />
               </oxd-input-group>
@@ -78,14 +89,19 @@ import {
   required,
   shouldNotExceedCharLength,
 } from '@orangehrm/core/util/validation/rules';
+import Label from '@orangehrm/oxd/core/components/Label/Label';
 
 const leaveTypeModel = {
   id: '',
   name: '',
-  situational: '',
+  situational: false,
 };
 
 export default {
+  components: {
+    'oxd-label': Label,
+  },
+
   data() {
     return {
       isLoading: false,
@@ -120,13 +136,12 @@ export default {
           return this.$toast.saveSuccess();
         })
         .then(() => {
-          this.leaveType.name = '';
-          this.leaveType.situational = '';
+          this.leaveType = {...leaveTypeModel};
           this.onCancel();
         });
     },
     onCancel() {
-      navigate('/leave/listLeaveTypes');
+      navigate('/leave/leaveTypeList');
     },
   },
   created() {
