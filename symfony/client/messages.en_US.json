@@ -105,6 +105,11 @@
           "source": "Employee Name",
           "target": "Employee Name",
           "description": "Name of the employee."
+        },
+        "name": {
+          "source": "Name",
+          "target": "Name",
+          "description": "Name"
         }
       }
     },
@@ -235,6 +240,21 @@
           "source": "No",
           "target": "No",
           "description": "Is entitlement situational value"
+        },
+        "leave_types": {
+          "source": "Leave Types",
+          "target": "Leave Types",
+          "description": "The leave types can be defined in this option. To add an entry, go to Leave&gt;&gt; Configure&gt;&gt; Leave Types and click “Add”"
+        },
+        "add_leave_type": {
+          "source": "Add Leave Type",
+          "target": "Add Leave Type",
+          "description": "The leave types that is needed by the company."
+        },
+        "edit_leave_type": {
+          "source": "Edit Leave Type",
+          "target": "Edit Leave Type",
+          "description": "Alter the leave type that is needed by the company"
         }
       }
     }

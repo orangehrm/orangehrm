@@ -21,14 +21,16 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Add Leave Type</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('leave.add_leave_type') }}
+      </oxd-text>
 
       <oxd-divider />
 
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
           <oxd-input-field
-            label="Name"
+            :label="$t('general.name')"
             v-model="leaveType.name"
             :rules="rules.name"
             required
@@ -74,7 +76,7 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" label="Cancel" @click="onCancel" />
+          <oxd-button displayType="ghost" :label="$t('general.cancel')" @click="onCancel" />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -108,7 +110,6 @@ export default {
       leaveType: {...leaveTypeModel},
       rules: {
         name: [required, shouldNotExceedCharLength(50)],
-        situational: [],
       },
       errors: [],
     };

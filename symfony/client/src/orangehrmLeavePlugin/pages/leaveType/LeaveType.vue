@@ -22,10 +22,12 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">Leave Types</oxd-text>
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ $t('leave.leave_types') }}
+        </oxd-text>
         <div>
         <oxd-button
-            label="Add"
+            :label="$t('general.add')"
             iconName="plus"
             displayType="secondary"
             @click="onClickAdd"
