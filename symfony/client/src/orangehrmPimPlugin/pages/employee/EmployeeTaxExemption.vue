@@ -26,7 +26,7 @@
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
-        <oxd-text class="orangehrm-tax-exemption-label" tag="h6">
+        <oxd-text class="orangehrm-sub-title" tag="h6">
           Federal Income Tax
         </oxd-text>
         <oxd-divider />
@@ -52,7 +52,7 @@
           </oxd-grid>
         </oxd-form-row>
 
-        <oxd-text class="orangehrm-tax-exemption-label" tag="h6">
+        <oxd-text class="orangehrm-sub-title" tag="h6">
           State Income Tax
         </oxd-text>
         <oxd-divider />
