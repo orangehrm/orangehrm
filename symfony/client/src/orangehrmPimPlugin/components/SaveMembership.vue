@@ -100,7 +100,6 @@
 <script>
 import {
   required,
-  max,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';

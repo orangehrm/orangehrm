@@ -189,10 +189,14 @@ export default {
           method: 'PUT',
           data: {
             federalStatus: this.taxExemption.federalStatus?.id,
-            federalExemptions: this.taxExemption.federalExemptions,
+            federalExemptions: this.taxExemption.federalExemptions
+              ? this.taxExemption.federalExemptions
+              : null,
             taxStateCode: this.taxExemption.taxState?.id,
             stateStatus: this.taxExemption.stateStatus?.id,
-            stateExemptions: this.taxExemption.stateExemptions,
+            stateExemptions: this.taxExemption.stateExemptions
+              ? this.taxExemption.stateExemptions
+              : null,
             unemploymentStateCode: this.taxExemption.unemploymentState?.id,
             workStateCode: this.taxExemption.workState?.id,
           },
@@ -210,10 +214,10 @@ export default {
       const {data} = response.data;
       this.taxExemption.federalExemptions = data.federalExemptions
         ? data.federalExemptions
-        : '';
+        : null;
       this.taxExemption.stateExemptions = data.stateExemptions
         ? data.stateExemptions
-        : '';
+        : null;
       this.taxExemption.taxState = this.provinces.find(
         item => item.id === data.taxState.code,
       );
