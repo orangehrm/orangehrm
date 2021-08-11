@@ -244,10 +244,4 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@orangehrm/oxd/styles/_mixins.scss';
-
-.orangehrm-tax-exemption-label {
-  @include oxd-input-control();
-  padding: 0;
-  flex-basis: 75%;
-}
 </style>
