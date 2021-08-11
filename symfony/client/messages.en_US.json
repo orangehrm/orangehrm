@@ -255,6 +255,31 @@
           "source": "Edit Leave Type",
           "target": "Edit Leave Type",
           "description": "Alter the leave type that is needed by the company"
+        },
+        "add_leave_entitlement": {
+          "source": "Add Leave Entitlement",
+          "target": "Add Leave Entitlement",
+          "description": "Add the leave amount to which a person has a right to have."
+        },
+        "add_to": {
+          "source": "Add to",
+          "target": "Add to",
+          "description": ""
+        },
+        "individual_employee": {
+          "source": "Individual Employee",
+          "target": "Individual Employee",
+          "description": ""
+        },
+        "multiple_employees": {
+          "source": "Multiple Employees",
+          "target": "Multiple Employees",
+          "description": ""
+        },
+        "entitlement": {
+          "source": "Entitlement",
+          "target": "Entitlement",
+          "description": ""
         }
       }
     }

@@ -126,3 +126,8 @@ edit_leave_type:
   path: /leave/saveLeaveTypes/{id}
   controller: OrangeHRM\Leave\Controller\SaveLeaveTypeController::handle
   methods: [ GET ]
+  
+leave_add_leave_entitlement:
+  path: /leave/addLeaveEntitlement
+  controller: OrangeHRM\Leave\Controller\AddLeaveEntitlementController::handle
+  methods: [ GET ]
