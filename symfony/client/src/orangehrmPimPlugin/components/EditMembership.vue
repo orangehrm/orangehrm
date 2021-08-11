@@ -99,7 +99,6 @@
 
 <script>
 import {
-  max,
   required,
   decimalsOnly,
   validDateFormat,

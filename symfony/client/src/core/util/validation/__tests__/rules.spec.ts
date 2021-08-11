@@ -259,7 +259,7 @@ describe('core/util/validation/rules::positiveNumber', () => {
 
   test('positiveNumber::numberWith.', () => {
     const result = positiveNumber('13.');
-    expect(result).toBe('Should be a positive number');
+    expect(result).toBeTruthy();
   });
 
   test('positiveNumber::numberWithCharater', () => {
