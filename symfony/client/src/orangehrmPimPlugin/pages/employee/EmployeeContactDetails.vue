@@ -244,7 +244,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
-</style>
