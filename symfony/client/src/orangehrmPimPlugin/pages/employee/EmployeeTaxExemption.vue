@@ -26,7 +26,7 @@
       </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
-        <oxd-text class="orangehrm-sub-title" tag="h6">
+        <oxd-text class="orangehrm-tax-exemption-label" tag="h6">
           Federal Income Tax
         </oxd-text>
         <oxd-divider />
@@ -52,7 +52,7 @@
           </oxd-grid>
         </oxd-form-row>
 
-        <oxd-text class="orangehrm-sub-title" tag="h6">
+        <oxd-text class="orangehrm-tax-exemption-label" tag="h6">
           State Income Tax
         </oxd-text>
         <oxd-divider />
@@ -242,3 +242,12 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '@orangehrm/oxd/styles/_mixins.scss';
+
+.orangehrm-tax-exemption-label {
+  @include oxd-input-control();
+  padding: 0;
+  flex-basis: 75%;
+}
+</style>
