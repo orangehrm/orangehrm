@@ -66,7 +66,7 @@
 
             <oxd-grid-item v-if="leavePeriod.currentPeriod">
               <oxd-input-group :label="$t('leave.current_leave_period')">
-                <oxd-text class="orangehrm-leave-period" tag="p">
+                <oxd-text type="subtitle-2" class="orangehrm-leave-period">
                   {{ leavePeriod.currentPeriod }}
                 </oxd-text>
               </oxd-input-group>
@@ -187,16 +187,12 @@ export default {
 
   watch: {
     'leavePeriod.startMonth': function() {
-      this.$nextTick(() => {
-        this.leavePeriod.startDay =
-          this.dates.length > 0 ? this.dates[0] : null;
-      });
+      this.leavePeriod.startDay = this.dates.length > 0 ? this.dates[0] : null;
     },
   },
 
   beforeMount() {
     this.isLoading = true;
-    // TODO: get current period
     this.http
       .request({
         method: 'GET',
@@ -211,7 +207,14 @@ export default {
             return d.id === data.startDay;
           });
         });
-        this.leavePeriodDefined = meta?.leavePeriodDefined;
+        if (meta?.leavePeriodDefined) {
+          this.leavePeriodDefined = meta.leavePeriodDefined;
+          this.leavePeriod.currentPeriod = `
+            ${meta.currentLeavePeriod.startDate} 
+            ${this.$t('general.to').toLowerCase()} 
+            ${meta.currentLeavePeriod.endDate}
+          `;
+        }
       })
       .finally(() => {
         this.isLoading = false;
