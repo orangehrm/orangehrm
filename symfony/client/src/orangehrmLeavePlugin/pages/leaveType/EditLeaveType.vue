@@ -39,7 +39,13 @@
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
+<<<<<<< HEAD
               <oxd-input-group :classes="{wrapper: '--status-grouped-field'}">
+=======
+              <oxd-input-group
+                :classes="{wrapper: '--status-grouped-field'}"
+              >
+>>>>>>> OHRM5X-408: Develop leave type screen (#873)
                 <template v-slot:label>
                   <div class="label-is-entitlement-situational">
                     <oxd-label
