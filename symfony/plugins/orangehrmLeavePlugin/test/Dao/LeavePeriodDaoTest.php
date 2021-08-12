@@ -22,15 +22,21 @@ namespace OrangeHRM\Tests\Leave\Dao;
 use DateTime;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\LeavePeriodHistory;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeavePeriodDao;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Leave\Dto\LeavePeriod;
+use OrangeHRM\Leave\Entitlement\FIFOEntitlementConsumptionStrategy;
+use OrangeHRM\Leave\Service\LeaveConfigurationService;
+use OrangeHRM\Leave\Service\LeaveEntitlementService;
+use OrangeHRM\Leave\Service\LeavePeriodService;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Leave
  * @group Dao
  */
-class LeavePeriodDaoTest extends TestCase
+class LeavePeriodDaoTest extends KernelTestCase
 {
     /**
      * @var LeavePeriodDao
@@ -45,20 +51,104 @@ class LeavePeriodDaoTest extends TestCase
         );
     }
 
-    /**
-     * TODO
-     */
-    public function xtestSaveLeavePeriodHistory(): void
+    public function testSaveLeavePeriodHistoryFirstTime(): void
     {
+        TestDataService::truncateSpecificTables([LeavePeriodHistory::class]);
         $leavePeriodHistory = new LeavePeriodHistory();
         $leavePeriodHistory->setStartMonth(1);
         $leavePeriodHistory->setStartDay(1);
         $leavePeriodHistory->setCreatedAt(new DateTime('2012-01-01'));
 
+        $this->leavePeriodDao = $this->getMockBuilder(LeavePeriodDao::class)
+            ->onlyMethods(['getCurrentLeavePeriodStartDateAndMonth'])
+            ->getMock();
+        $this->leavePeriodDao->expects($this->once())
+            ->method('getCurrentLeavePeriodStartDateAndMonth')
+            ->willReturn(null);
+
+        $leaveEntitlementService = $this->getMockBuilder(LeaveEntitlementService::class)
+            ->onlyMethods(['getLeaveEntitlementStrategy'])
+            ->getMock();
+        $leaveEntitlementService->expects($this->never())
+            ->method('getLeaveEntitlementStrategy');
+
+        $leaveConfigService = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['isLeavePeriodDefined', 'setLeavePeriodDefined'])
+            ->getMock();
+        $leaveConfigService->expects($this->once())
+            ->method('isLeavePeriodDefined')
+            ->willReturn(false);
+        $leaveConfigService->expects($this->once())
+            ->method('setLeavePeriodDefined');
+
+        $leavePeriodService = $this->getMockBuilder(LeavePeriodService::class)
+            ->onlyMethods(['getCurrentLeavePeriodByDate'])
+            ->getMock();
+        $leavePeriodService->expects($this->never())
+            ->method('getCurrentLeavePeriodByDate');
+
+        $this->createKernelWithMockServices(
+            [
+                Services::LEAVE_CONFIG_SERVICE => $leaveConfigService,
+                Services::LEAVE_ENTITLEMENT_SERVICE => $leaveEntitlementService,
+                Services::LEAVE_PERIOD_SERVICE => $leavePeriodService,
+            ]
+        );
         $result = $this->leavePeriodDao->saveLeavePeriodHistory($leavePeriodHistory);
         $this->assertEquals(1, $result->getStartMonth());
         $this->assertEquals(1, $result->getStartDay());
         $this->assertEquals('2012-01-01', $result->getCreatedAt()->format('Y-m-d'));
+    }
+
+    public function testSaveLeavePeriodHistory(): void
+    {
+        $leavePeriodHistory = new LeavePeriodHistory();
+        $leavePeriodHistory->setStartMonth(1);
+        $leavePeriodHistory->setStartDay(1);
+        $leavePeriodHistory->setCreatedAt(new DateTime('2021-01-01'));
+
+        $currentLeavePeriod = new LeavePeriod(new DateTime('2020-01-01'), new DateTime('2020-12-31'));
+        $mockStrategy = $this->getMockBuilder(FIFOEntitlementConsumptionStrategy::class)
+            ->onlyMethods(['handleLeavePeriodChange'])
+            ->getMock();
+        $mockStrategy->expects($this->once())
+            ->method('handleLeavePeriodChange')
+            ->with($currentLeavePeriod, 1, 3, 1, 1);
+
+        $leaveEntitlementService = $this->getMockBuilder(LeaveEntitlementService::class)
+            ->onlyMethods(['getLeaveEntitlementStrategy'])
+            ->getMock();
+        $leaveEntitlementService->expects($this->once())
+            ->method('getLeaveEntitlementStrategy')
+            ->willReturn($mockStrategy);
+
+        $leaveConfigService = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['isLeavePeriodDefined', 'setLeavePeriodDefined'])
+            ->getMock();
+        $leaveConfigService->expects($this->once())
+            ->method('isLeavePeriodDefined')
+            ->willReturn(true);
+        $leaveConfigService->expects($this->never())
+            ->method('setLeavePeriodDefined');
+
+        $leavePeriodService = $this->getMockBuilder(LeavePeriodService::class)
+            ->onlyMethods(['getCurrentLeavePeriodByDate'])
+            ->getMock();
+        $leavePeriodService->expects($this->once())
+            ->method('getCurrentLeavePeriodByDate')
+            ->willReturn($currentLeavePeriod);
+
+        $this->createKernelWithMockServices(
+            [
+                Services::LEAVE_CONFIG_SERVICE => $leaveConfigService,
+                Services::LEAVE_ENTITLEMENT_SERVICE => $leaveEntitlementService,
+                Services::LEAVE_PERIOD_SERVICE => $leavePeriodService,
+            ]
+        );
+        $result = $this->leavePeriodDao->saveLeavePeriodHistory($leavePeriodHistory);
+        $this->assertEquals(1, $result->getStartMonth());
+        $this->assertEquals(1, $result->getStartDay());
+        $this->assertEquals('2021-01-01', $result->getCreatedAt()->format('Y-m-d'));
     }
 
     public function testGetCurrentLeavePeriodStartDateAndMonth(): void

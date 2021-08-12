@@ -20,10 +20,18 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use DateTime;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
+use OrangeHRM\Entity\LeaveEntitlementType;
+use OrangeHRM\Entity\LeaveType;
 
 class LeaveEntitlementDecorator
 {
+    use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
+
     /**
      * @var LeaveEntitlement
      */
@@ -71,5 +79,59 @@ class LeaveEntitlementDecorator
         $timestamp = $date->getTimestamp();
 
         return ($timestamp >= $fromTimestamp) && ($timestamp <= $toTimestamp);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setEntitlementTypeById(int $id): void
+    {
+        /** @var LeaveEntitlementType $entitlementType */
+        $entitlementType = $this->getReference(LeaveEntitlementType::class, $id);
+        $this->getLeaveEntitlement()->setEntitlementType($entitlementType);
+    }
+
+    /**
+     * @param int $empNumber
+     */
+    public function setEmployeeByEmpNumber(int $empNumber): void
+    {
+        /** @var Employee $employee */
+        $employee = $this->getReference(Employee::class, $empNumber);
+        $this->getLeaveEntitlement()->setEmployee($employee);
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setLeaveTypeById(int $id): void
+    {
+        /** @var LeaveType $leaveType */
+        $leaveType = $this->getReference(LeaveType::class, $id);
+        $this->getLeaveEntitlement()->setLeaveType($leaveType);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFromDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveEntitlement()->getFromDate());
+    }
+
+    /**
+     * @return string
+     */
+    public function getToDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveEntitlement()->getToDate());
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreditedDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveEntitlement()->getCreditedDate());
     }
 }
