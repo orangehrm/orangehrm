@@ -20,8 +20,10 @@
 namespace OrangeHRM\Leave\Service;
 
 use DateTime;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
 use OrangeHRM\Leave\Entitlement\EntitlementConsumptionStrategy;
@@ -29,8 +31,10 @@ use OrangeHRM\Leave\Entitlement\FIFOEntitlementConsumptionStrategy;
 use OrangeHRM\Leave\Entitlement\LeaveBalance;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 
-class LeaveEntitlementService {
+class LeaveEntitlementService
+{
     use LeaveConfigServiceTrait;
+    use UserRoleManagerTrait;
     use ClassHelperTrait;
 
     /**
@@ -46,7 +50,8 @@ class LeaveEntitlementService {
     /**
      * @return EntitlementConsumptionStrategy|FIFOEntitlementConsumptionStrategy
      */
-    public function getLeaveEntitlementStrategy():EntitlementConsumptionStrategy {
+    public function getLeaveEntitlementStrategy(): EntitlementConsumptionStrategy
+    {
         if (!$this->leaveEntitlementStrategy instanceof EntitlementConsumptionStrategy) {
             $strategyClass = $this->getLeaveConfigService()->getLeaveEntitlementConsumptionStrategy();
             $strategyClass = $this->getClassHelper()->getClass($strategyClass, 'OrangeHRM\\Leave\\Entitlement\\');
@@ -58,27 +63,28 @@ class LeaveEntitlementService {
     /**
      * @return LeaveEntitlementDao
      */
-    public function getLeaveEntitlementDao():LeaveEntitlementDao {
+    public function getLeaveEntitlementDao(): LeaveEntitlementDao
+    {
         if (!($this->leaveEntitlementDao instanceof LeaveEntitlementDao)) {
             $this->leaveEntitlementDao = new LeaveEntitlementDao();
         }
         return $this->leaveEntitlementDao;
     }
-    
+
     public function searchLeaveEntitlements(LeaveEntitlementSearchParameterHolder $searchParameters) {
         // TODO
         return $this->getLeaveEntitlementDao()->searchLeaveEntitlements($searchParameters);
     }
-    
+
     public function deleteLeaveEntitlements($ids) {
         // TODO
         $deleted = 0;
-        
+
         $allDeleted = true;
         $avaliableToDeleteIds = array();
         $leaveEntitlementSearchParameterHolder = new LeaveEntitlementSearchParameterHolder();
         $leaveEntitlementSearchParameterHolder->setIdList($ids);
-        
+
         $entitlementList = $this->searchLeaveEntitlements( $leaveEntitlementSearchParameterHolder );
         foreach( $entitlementList as $entitlement){
             if( $entitlement->getDaysUsed() > 0){
@@ -90,35 +96,30 @@ class LeaveEntitlementService {
         if(count($avaliableToDeleteIds) > 0){
             $deleted = $this->getLeaveEntitlementDao()->deleteLeaveEntitlements($avaliableToDeleteIds);
         }
-        
+
         if(!$allDeleted){
             throw new Exception("Entitlement/s will not be deleted since it's already in use");
         }
-        
+
         return $deleted;
-            
-    }    
-    
-    public function getLeaveEntitlement($id) {
-        // TODO
-        return $this->getLeaveEntitlementDao()->getLeaveEntitlement($id);
-    }    
-    
+
+    }
+
     public function bulkAssignLeaveEntitlements($employeeNumbers, LeaveEntitlement $leaveEntitlement) {
         // TODO
         return $this->getLeaveEntitlementDao()->bulkAssignLeaveEntitlements($employeeNumbers, $leaveEntitlement);
     }
-    
+
     public function getAvailableEntitlements(LeaveParameterObject $leaveParameterObject) {
         // TODO
         return $this->getLeaveEntitlementStrategy()->getAvailableEntitlements($leaveParameterObject);
     }
-    
-//    public function getValidLeaveEntitlements(int $empNumber, int $leaveTypeId, \DateTime $fromDate, \DateTime $toDate, string $orderField, string $order) {
-//        // TODO
-//        return $this->getLeaveEntitlementDao()->getValidLeaveEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate, $orderField, $order);
-//    }
-    
+
+    public function getValidLeaveEntitlements(int $empNumber, int $leaveTypeId, \DateTime $fromDate, \DateTime $toDate, string $orderField, string $order) {
+        // TODO
+        return $this->getLeaveEntitlementDao()->getValidLeaveEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate, $orderField, $order);
+    }
+
     public function getLinkedLeaveRequests($entitlementIds, $statuses) {
         // TODO
         return $this->getLeaveEntitlementDao()->getLinkedLeaveRequests($entitlementIds, $statuses);
@@ -160,32 +161,79 @@ class LeaveEntitlementService {
 
         return $this->getLeaveEntitlementDao()->getLeaveBalance($empNumber, $leaveTypeId, $asAtDate, $date);
     }
-    
+
     public function getEntitlementUsageForLeave($leaveId) {
         // TODO
         return $this->getLeaveEntitlementDao()->getEntitlementUsageForLeave($leaveId);
     }
-    
+
     public function getLeaveWithoutEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate) {
         // TODO
         return $this->getLeaveEntitlementDao()->getLeaveWithoutEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate);
     }
-    
-    public function getMatchingEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate) {
-        // TODO
-        return $this->getLeaveEntitlementDao()->getMatchingEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate);
-    }
 
     /**
      * Get List of LeaveEntitlementTypes
-     * 
+     *
      * @param string $orderField field to order by
      * @param string $orderBy order (ASC/DESC)
      * @return Collection of LeaveEntitlementType
      * @throws DaoException on an error
-     */    
+     */
     public function getLeaveEntitlementTypeList($orderField = 'name', $orderBy = 'ASC') {
         // TODO
         return $this->getLeaveEntitlementDao()->getLeaveEntitlementTypeList($orderField, $orderBy);
-    }    
+    }
+
+    /**
+     * @param int $empNumber
+     * @param int $leaveTypeId
+     * @param DateTime $fromDate
+     * @param DateTime $toDate
+     * @param float $entitlement
+     * @return LeaveEntitlement
+     * @throws DaoException
+     */
+    public function addEntitlementForEmployee(
+        int $empNumber,
+        int $leaveTypeId,
+        DateTime $fromDate,
+        DateTime $toDate,
+        float $entitlement
+    ): LeaveEntitlement {
+        $leaveEntitlement = null;
+        if ($this->getLeaveConfigService()->getLeavePeriodStatus() == LeavePeriodService::LEAVE_PERIOD_STATUS_FORCED) {
+            $entitlementList = $this->getLeaveEntitlementDao()->getMatchingEntitlements(
+                $empNumber,
+                $fromDate,
+                $toDate,
+                $leaveTypeId
+            );
+
+            // See if there is an added type entitlement
+            foreach ($entitlementList as $existingEntitlement) {
+                if (LeaveEntitlement::ENTITLEMENT_TYPE_ADD == $existingEntitlement->getEntitlementType()->getId()) {
+                    $leaveEntitlement = $existingEntitlement;
+                    $newValue = $leaveEntitlement->getNoOfDays() + $entitlement;
+                    $leaveEntitlement->setNoOfDays($newValue);
+                    break;
+                }
+            }
+        }
+
+        if (is_null($leaveEntitlement)) {
+            $leaveEntitlement = new LeaveEntitlement();
+            $leaveEntitlement->setNoOfDays($entitlement);
+            $leaveEntitlement->getDecorator()->setEmployeeByEmpNumber($empNumber);
+            $leaveEntitlement->getDecorator()->setLeaveTypeById($leaveTypeId);
+        }
+
+        $leaveEntitlement->setCreditedDate(new DateTime());
+        $leaveEntitlement->setCreatedBy($this->getUserRoleManager()->getUser());
+        $leaveEntitlement->getDecorator()->setEntitlementTypeById(LeaveEntitlement::ENTITLEMENT_TYPE_ADD);
+        $leaveEntitlement->setFromDate($fromDate);
+        $leaveEntitlement->setToDate($toDate);
+
+        return $this->getLeaveEntitlementDao()->saveLeaveEntitlement($leaveEntitlement);
+    }
 }
