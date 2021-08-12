@@ -30,7 +30,7 @@ use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
 
 /**
- * @group Pim
+ * @group Leave
  * @group APIv2
  */
 class WorkWeekAPITest extends EndpointTestCase

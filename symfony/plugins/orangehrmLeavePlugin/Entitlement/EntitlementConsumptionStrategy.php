@@ -67,7 +67,7 @@ interface EntitlementConsumptionStrategy
      * Get date limits for considering leave without entitlements in leave balance for the given start, end date.
      *
      * @param DateTime $balanceStartDate Date string for balance start date
-     * @param DateTime $balanceEndDate Date string for balance end date
+     * @param DateTime|null $balanceEndDate Date string for balance end date
      * @param int|null $empNumber
      * @param int|null $leaveTypeId
      *
@@ -76,7 +76,7 @@ interface EntitlementConsumptionStrategy
      */
     public function getLeaveWithoutEntitlementDateLimitsForLeaveBalance(
         DateTime $balanceStartDate,
-        DateTime $balanceEndDate,
+        ?DateTime $balanceEndDate = null,
         ?int $empNumber = null,
         ?int $leaveTypeId = null
     );

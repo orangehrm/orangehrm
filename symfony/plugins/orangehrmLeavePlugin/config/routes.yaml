@@ -67,6 +67,22 @@ apiv2_leave_employee_leave_requests:
   requirements:
     empNumber: '\d+'
 
+apiv2_leave_leave_entitlement:
+  path: /api/v2/leave/leave-entitlements/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveEntitlementAPI
+  requirements:
+    id: '\d+'
+
+apiv2_leave_leave_entitlements:
+  path: /api/v2/leave/leave-entitlements
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveEntitlementAPI
+
 ##########################
 #        Screens
 ##########################

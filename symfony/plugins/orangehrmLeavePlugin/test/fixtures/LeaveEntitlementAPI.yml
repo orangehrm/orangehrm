@@ -1,0 +1,8 @@
+LeaveType:
+  - { id: 50, name: 'Test', deleted: 0 }
+
+Employee:
+  - { empNumber: 100, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: '0001' }
+
+LeaveEntitlementType:
+  - { id: 3, name: 'Added' }

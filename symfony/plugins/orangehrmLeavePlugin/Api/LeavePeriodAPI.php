@@ -130,7 +130,15 @@ class LeavePeriodAPI extends Endpoint implements ResourceEndpoint
             $menuService = $this->getContainer()->get(Services::MENU_SERVICE);
             $menuService->enableModuleMenuItems('leave');
         }
-        return new EndpointResourceResult(LeavePeriodHistoryModel::class, $leavePeriodHistory);
+        return new EndpointResourceResult(
+            LeavePeriodHistoryModel::class, $leavePeriodHistory,
+            new ParameterBag(
+                [
+                    self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined,
+                    self::META_PARAMETER_CURRENT_LEAVE_PERIOD => $this->getCurrentLeavePeriod($leavePeriodDefined),
+                ]
+            )
+        );
     }
 
     /**

@@ -20,12 +20,14 @@
 namespace OrangeHRM\Leave\Dao;
 
 use DateTime;
+use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveEntitlement;
+use OrangeHRM\Entity\LeaveLeaveEntitlement;
 use OrangeHRM\Leave\Entitlement\LeaveBalance;
-use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 
@@ -35,26 +37,11 @@ class LeaveEntitlementDao extends BaseDao
     use LeaveEntitlementServiceTrait;
     use DateTimeHelperTrait;
 
-    protected ?LeaveConfigurationService $leaveConfigService = null;
-    protected $logger;
-
-    /**
-     * Get Logger instance. Creates if not already created.
-     *
-     * @return Logger
-     */
-    protected function getLogger() {
-        if (is_null($this->logger)) {
-            $this->logger = Logger::getLogger('leave.LeaveEntitlementDao');
-        }
-
-        return($this->logger);
-    }
-
     /**
      * @return int[]
      */
-    public function getPendingStatusIds(): array {
+    public function getPendingStatusIds(): array
+    {
         return [Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL];
     }
 
@@ -182,27 +169,33 @@ class LeaveEntitlementDao extends BaseDao
         }
     }
 
-    public function getLeaveEntitlement(int $id):?LeaveEntitlement {
-        // TODO:: not converted
+    /**
+     * @param int $id
+     * @return LeaveEntitlement|null
+     */
+    public function getLeaveEntitlement(int $id): ?LeaveEntitlement
+    {
         return $this->getRepository(LeaveEntitlement::class)->find($id);
     }
 
-    public function saveLeaveEntitlement(LeaveEntitlement $leaveEntitlement) {
-        // TODO:: not converted
-        $this->persist($leaveEntitlement);
-        return $leaveEntitlement;
-        $conn = Doctrine_Manager::connection();
-        $conn->beginTransaction();
+    /**
+     * @param LeaveEntitlement $leaveEntitlement
+     * @return LeaveEntitlement
+     * @throws DaoException
+     */
+    public function saveLeaveEntitlement(LeaveEntitlement $leaveEntitlement): LeaveEntitlement
+    {
+        $this->beginTransaction();
 
         try {
-            $leaveEntitlement->save();
-            $leaveEntitlement = $this->linkLeaveToUnusedLeaveEntitlement($leaveEntitlement);
+            $this->persist($leaveEntitlement);
+            $this->linkLeaveToUnusedLeaveEntitlement($leaveEntitlement);
 
-            $conn->commit();
+            $this->commitTransaction();
             return $leaveEntitlement;
         } catch (Exception $e) {
-            $conn->rollback();
-            throw new DaoException($e->getMessage(), 0, $e);
+            $this->rollBackTransaction();
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -283,15 +276,15 @@ class LeaveEntitlementDao extends BaseDao
 
         if ($balance > 0) {
             $leaveList = $this->getLeaveWithoutEntitlements(
-                $leaveEntitlement->getEmpNumber(),
-                $leaveEntitlement->getLeaveTypeId(),
+                [$leaveEntitlement->getEmployee()->getEmpNumber()],
+                $leaveEntitlement->getLeaveType()->getId(),
                 $leaveEntitlement->getFromDate(),
                 $leaveEntitlement->getToDate());
 
-            $query = Doctrine_Query::create()
-                        ->from('LeaveLeaveEntitlement l')
-                        ->where('l.leave_id = ?')
-                        ->andWhere('l.entitlement_id = ?');
+            $q = $this->createQueryBuilder(LeaveLeaveEntitlement::class, 'l')
+                ->andWhere('l.leave', ':leaveId')
+                ->andWhere('l.entitlement', ':entitlementId')
+                ->setParameter('entitlementId',$entitlementId);
 
             foreach ($leaveList as $leave) {
                 $daysLeft = $leave['days_left'];
@@ -301,20 +294,19 @@ class LeaveEntitlementDao extends BaseDao
                 $leaveEntitlement->setDaysUsed($leaveEntitlement->getDaysUsed() - $daysToAssign);
                 $balance -= $daysToAssign;
 
+                $q->setParameter('leaveId', $leaveId);
                 // assign to leave
-                $entitlementAssignment = $query->fetchOne([$leaveId, $entitlementId]);
+                $entitlementAssignment = $this->fetchOne($q);
 
                 if ($entitlementAssignment === false) {
                     $entitlementAssignment = new LeaveLeaveEntitlement();
-                    $entitlementAssignment->setLeaveId($leaveId);
-                    $entitlementAssignment->setEntitlementId($entitlementId);
-                    $lengthDays = NumberUtility::getPositiveDecimal($daysToAssign, 4);
+                    $entitlementAssignment->getDecorator()->setLeaveById($leaveId);
+                    $entitlementAssignment->setEntitlement($leaveEntitlement);
+                    $entitlementAssignment->setLengthDays($daysToAssign);
                 } else {
                     $lengthDays = NumberUtility::getPositiveDecimal($entitlementAssignment->getLengthDays() + $daysToAssign, 4);
                 }
-                $entitlementAssignment->setLengthDays($lengthDays);
-                $entitlementAssignment->save();
-                $entitlementAssignment->free();
+                $this->persist($entitlementAssignment);
 
                 if ($balance <= 0) {
                     break;
@@ -660,10 +652,10 @@ class LeaveEntitlementDao extends BaseDao
     /**
      * Get Leave without entitlements sorted by empNumber ASC and leave date ASC
      *
-     * @param mixed $empNumber integer employee number or array of integer employee numbers
+     * @param int[] $empNumbers integer employee number or array of integer employee numbers
      * @param int $leaveTypeId Leave type ID
-     * @param string $fromDate From Date
-     * @param string $toDate To Date
+     * @param DateTime $fromDate From Date
+     * @param DateTime $toDate To Date
      * @return array Array containing leave without entitlements. Each element of the array contains the following:
      *
      * id -> leave id
@@ -677,7 +669,7 @@ class LeaveEntitlementDao extends BaseDao
      *
      * @throws DaoException
      */
-    public function getLeaveWithoutEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate) {
+    public function getLeaveWithoutEntitlements(array $empNumbers, int $leaveTypeId, DateTime $fromDate, DateTime $toDate) {
         // TODO:: not converted
         try {
             $statusList = [
@@ -687,18 +679,13 @@ class LeaveEntitlementDao extends BaseDao
 
             $params = [];
 
-            if (is_array($empNumber)) {
-                $questionMarks = str_repeat("?,", count($empNumber) - 1) . "?";
-                $empClause = ' IN (' . $questionMarks . ') ';
-                $params = $empNumber;
-            } else {
-                $empClause = ' = ? ';
-                $params[] = $empNumber;
-            }
+            $questionMarks = str_repeat("?,", count($empNumbers) - 1) . "?";
+            $empClause = ' IN (' . $questionMarks . ') ';
+            $params = $empNumbers;
 
-            $params = array_merge($params, [$leaveTypeId, $fromDate, $toDate]);
+            $params = array_merge($params, [$leaveTypeId, $fromDate->format('Y-m-d'), $toDate->format('Y-m-d')]);
 
-            $conn = Doctrine_Manager::connection()->getDbh();
+            $conn = $this->getEntityManager()->getConnection();
             $query = "select * from (select l.id, l.date, l.length_hours, l.length_days, l.status, l.leave_type_id, l.emp_number, " .
                     "l.length_days - sum(COALESCE(lle.length_days, 0)) as days_left " .
                     "from ohrm_leave l left join ohrm_leave_leave_entitlement lle on lle.leave_id = l.id " .
@@ -716,38 +703,38 @@ class LeaveEntitlementDao extends BaseDao
     }
 
     /**
-     * Return any matching entitlements (with identical empNumber, leave type, from and to
-     * dates.
-     *
-     * @param int $empNumber Employee Number
-     * @param int $leaveTypeId Leave Type ID
-     * @param Date $fromDate From Date
-     * @param Date $toDate To Date
-     *
-     * @return array Array of Entitlement objects. Empty array if no matches
+     * @param int $empNumber
+     * @param DateTime|null $fromDate
+     * @param DateTime|null $toDate
+     * @param int|null $leaveTypeId
+     * @return LeaveEntitlement[]
      */
-    public function getMatchingEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate) {
-        // TODO:: not converted
-        try {
-            $params = [
-                ':leaveTypeId' => $leaveTypeId,
-                ':empNumber' => $empNumber,
-                ':fromDate' => $fromDate,
-                ':toDate' => $toDate
-            ];
+    public function getMatchingEntitlements(
+        int $empNumber,
+        ?DateTime $fromDate = null,
+        ?DateTime $toDate = null,
+        ?int $leaveTypeId = null
+    ): array {
+        $q = $this->createQueryBuilder(LeaveEntitlement::class, 'le')
+            ->andWhere('le.deleted = :deleted')
+            ->setParameter('deleted', false)
+            ->andWhere('le.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
 
-            $q = Doctrine_Query::create()->from('LeaveEntitlement le')
-                    ->addWhere('le.deleted = 0')
-                    ->addWhere('le.leave_type_id = :leaveTypeId')
-                    ->addWhere('le.emp_number = :empNumber')
-                    ->addWhere('le.from_date = :fromDate')
-                    ->addWhere('le.to_date = :toDate');
-
-            $results = $q->execute($params);
-            return $results;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
+        if ($fromDate) {
+            $q->andWhere('le.fromDate = :fromDate')
+                ->setParameter('fromDate', $fromDate);
         }
+        if ($toDate) {
+            $q->andWhere('le.toDate = :toDate')
+                ->setParameter('toDate', $toDate);
+        }
+        if ($leaveTypeId) {
+            $q->andWhere('le.leaveType = :leaveTypeId')
+                ->setParameter('leaveTypeId', $leaveTypeId);
+        }
+
+        return $q->getQuery()->execute();
     }
 
     /**
