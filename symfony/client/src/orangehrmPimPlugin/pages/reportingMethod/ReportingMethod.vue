@@ -176,7 +176,10 @@ export default {
     onClickDelete(item) {
       const isSelectable = this.unselectableIds.findIndex(id => id == item.id);
       if (isSelectable > -1) {
-        return this.$toast.cannotDelete();
+        return this.$toast.error({
+          title: 'Error',
+          message: 'Reporting Method(s) in Use',
+        });
       }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
