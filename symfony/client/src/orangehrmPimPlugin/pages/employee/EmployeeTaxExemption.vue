@@ -167,13 +167,17 @@ export default {
       rules: {
         federalExemptions: [
           v => {
-            return v.match(/^\d*\.?\d*$/) || 'Should be a positive number';
+            return (
+              v.match(/^\d*\.?\d*$/) !== null || 'Should be a positive number'
+            );
           },
           shouldNotExceedCharLength(2),
         ],
         stateExemptions: [
           v => {
-            return v.match(/^\d*\.?\d*$/) || 'Should be a positive number';
+            return (
+              v.match(/^\d*\.?\d*$/) !== null || 'Should be a positive number'
+            );
           },
           shouldNotExceedCharLength(2),
         ],
@@ -189,14 +193,10 @@ export default {
           method: 'PUT',
           data: {
             federalStatus: this.taxExemption.federalStatus?.id,
-            federalExemptions: this.taxExemption.federalExemptions
-              ? this.taxExemption.federalExemptions
-              : null,
+            federalExemptions: this.taxExemption.federalExemptions,
             taxStateCode: this.taxExemption.taxState?.id,
             stateStatus: this.taxExemption.stateStatus?.id,
-            stateExemptions: this.taxExemption.stateExemptions
-              ? this.taxExemption.stateExemptions
-              : null,
+            stateExemptions: this.taxExemption.stateExemptions,
             unemploymentStateCode: this.taxExemption.unemploymentState?.id,
             workStateCode: this.taxExemption.workState?.id,
           },

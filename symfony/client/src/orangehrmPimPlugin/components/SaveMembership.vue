@@ -169,9 +169,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          subscriptionFee: this.membership.subscriptionFee
-            ? this.membership.subscriptionFee
-            : '',
+          subscriptionFee: this.membership.subscriptionFee,
           subscriptionCommenceDate: this.membership.subscriptionCommenceDate,
           subscriptionRenewalDate: this.membership.subscriptionRenewalDate,
           membershipId: this.membership.membership.id,
