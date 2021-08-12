@@ -105,6 +105,11 @@
           "source": "Employee Name",
           "target": "Employee Name",
           "description": "Name of the employee."
+        },
+        "name": {
+          "source": "Name",
+          "target": "Name",
+          "description": "Name"
         }
       }
     },
@@ -220,6 +225,36 @@
           "source": "End Day",
           "target": "End Day",
           "description": "When applying leave for a date range with desired partial days the employee has to select this option."
+        },
+        "is_entitlement_situational": {
+          "source": "Is Entitlement Situational?",
+          "target": "Is Entitlement Situational?",
+          "description": "By clicking the “Is Entitlement Situational” option, the leave type will be excluded from reports unless there is some activity. For example: maternity leave, jury duty leave."
+        },
+        "yes": {
+          "source": "Yes",
+          "target": "Yes",
+          "description": "Is entitlement situational value"
+        },
+        "no": {
+          "source": "No",
+          "target": "No",
+          "description": "Is entitlement situational value"
+        },
+        "leave_types": {
+          "source": "Leave Types",
+          "target": "Leave Types",
+          "description": "The leave types can be defined in this option. To add an entry, go to Leave&gt;&gt; Configure&gt;&gt; Leave Types and click “Add”"
+        },
+        "add_leave_type": {
+          "source": "Add Leave Type",
+          "target": "Add Leave Type",
+          "description": "The leave types that is needed by the company."
+        },
+        "edit_leave_type": {
+          "source": "Edit Leave Type",
+          "target": "Edit Leave Type",
+          "description": "Alter the leave type that is needed by the company"
         }
       }
     }

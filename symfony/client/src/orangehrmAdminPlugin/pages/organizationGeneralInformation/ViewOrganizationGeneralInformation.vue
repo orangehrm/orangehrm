@@ -199,7 +199,7 @@ import {
   shouldNotExceedCharLength,
   validEmailFormat,
   validPhoneNumberFormat,
-} from '@orangehrm/core/util/validation/rules'
+} from '@orangehrm/core/util/validation/rules';
 
 export default {
   props: {
