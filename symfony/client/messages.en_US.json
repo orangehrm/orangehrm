@@ -110,6 +110,11 @@
           "source": "Name",
           "target": "Name",
           "description": "Name"
+        },
+        "search": {
+          "source": "Search",
+          "target": "Search",
+          "description": ""
         }
       }
     },
@@ -280,6 +285,16 @@
           "source": "Entitlement",
           "target": "Entitlement",
           "description": ""
+        },
+        "leave_entitlements": {
+          "source": "Leave Entitlements",
+          "target": "Leave Entitlements",
+          "description": "This feature enables the HR Admin with admin rights to Add and View Leave Entitlements for each leave type for all employees."
+        },
+        "my_leave_entitlements": {
+          "source": "My Leave Entitlements",
+          "target": "My Leave Entitlements",
+          "description": "If the user is an ESS User, then he will only see the “My Leave Entitlements and Usage Report” option under Leave&gt;&gt;Reports"
         }
       }
     }

@@ -131,3 +131,13 @@ leave_add_leave_entitlement:
   path: /leave/addLeaveEntitlement
   controller: OrangeHRM\Leave\Controller\AddLeaveEntitlementController::handle
   methods: [ GET ]
+
+leave_view_leave_entitlement:
+  path: /leave/viewLeaveEntitlements
+  controller: OrangeHRM\Leave\Controller\ViewLeaveEntitlementController::handle
+  methods: [ GET ]
+
+leave_view_my_leave_entitlement:
+  path: /leave/viewMyLeaveEntitlements
+  controller: OrangeHRM\Leave\Controller\ViewMyLeaveEntitlementController::handle
+  methods: [ GET ]
