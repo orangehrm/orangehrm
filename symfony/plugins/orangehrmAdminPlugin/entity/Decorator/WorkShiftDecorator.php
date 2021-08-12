@@ -19,36 +19,44 @@
  */
 
 
-namespace OrangeHRM\Admin\Api\Model;
+namespace OrangeHRM\entity\Decorator;
 
-use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\WorkShift;
 
-class WorkShiftModel  implements Normalizable
+class WorkShiftDecorator 
 {
-    use ModelTrait;
+    use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
+    
+    private WorkShift $workShift;
 
+    /**
+     * WorkShiftDecorator constructor.
+     * @param WorkShift $workShift
+     */
     public function __construct(WorkShift $workShift)
     {
-        $this->setEntity($workShift);
-        $this->setFilters(
-            [
-                'id',
-                'name',
-                'hoursPerDay',
-                ['getDecorator', 'getStartTime'],
-                ['getDecorator', 'getEndTime'],
-            ]
-        );
-        $this->setAttributeNames(
-            [
-                'id',
-                'name',
-                'hours_per_day',
-                'start_time',
-                'end_time'
-            ]
-        );
+        $this->workShift = $workShift;
+    }
+
+    /**
+     * @return WorkShift
+     */
+    protected function getWorkShift(): WorkShift 
+    {
+        return $this->workShift;
+    }
+    
+    public function getStartTime()
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getWorkShift()->getStartTime());
+    }
+    
+    public function getEndTime()
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getWorkShift()->getEndTime());
     }
 }
