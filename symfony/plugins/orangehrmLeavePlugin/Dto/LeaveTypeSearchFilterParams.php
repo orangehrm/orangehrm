@@ -1,3 +1,4 @@
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,18 +17,37 @@
  * Boston, MA  02110-1301, USA
  */
 
-import LeavePeriod from './pages/configure/LeavePeriod.vue';
-import LeaveApply from './pages/LeaveApply.vue';
-import LeaveAssign from './pages/LeaveAssign.vue';
-import LeaveType from './pages/leaveType/LeaveType.vue';
-import EditLeaveType from './pages/leaveType/EditLeaveType.vue';
-import SaveLeaveType from './pages/leaveType/SaveLeaveType.vue';
+namespace OrangeHRM\Leave\Dto;
 
-export default {
-  'leave-period': LeavePeriod,
-  'leave-apply': LeaveApply,
-  'leave-assign': LeaveAssign,
-  'leave-type-edit': EditLeaveType,
-  'leave-type-list': LeaveType,
-  'leave-type-save': SaveLeaveType,
-};
+use OrangeHRM\Core\Dto\FilterParams;
+
+class LeaveTypeSearchFilterParams extends FilterParams
+{
+    public const ALLOWED_SORT_FIELDS = ['leaveType.name'];
+
+    /**
+     * @var string|null
+     */
+    protected ?string $name = null;
+
+    public function __construct()
+    {
+        $this->setSortField('leaveType.name');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(?string $name): void
+    {
+        $this->name = $name;
+    }
+}

@@ -23,6 +23,8 @@ use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Leave\Dto\LeaveTypeSearchFilterParams;
+use OrangeHRM\ORM\Paginator;
 
 class LeaveTypeDao extends BaseDao
 {
@@ -138,6 +140,58 @@ class LeaveTypeDao extends BaseDao
             return $leaveType;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Search Leave Type
+     *
+     * @param LeaveTypeSearchFilterParams $leaveTypeSearchParams
+     * @return array
+     * @throws DaoException
+     */
+    public function searchLeaveType(LeaveTypeSearchFilterParams $leaveTypeSearchParams): array
+    {
+        try {
+            $paginator = $this->getSearchLeaveTypePaginator($leaveTypeSearchParams);
+            return $paginator->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param LeaveTypeSearchFilterParams $leaveTypeSearchParams
+     * @return Paginator
+     */
+    private function getSearchLeaveTypePaginator(LeaveTypeSearchFilterParams $leaveTypeSearchParams): Paginator
+    {
+        $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
+        $this->setSortingAndPaginationParams($q, $leaveTypeSearchParams);
+
+        if (!empty($leaveTypeSearchParams->getName())) {
+            $q->andWhere('leaveType.name = :name');
+            $q->setParameter('name', $leaveTypeSearchParams->getName());
+        }
+        $q->andWhere('leaveType.deleted = :deleted')
+            ->setParameter('deleted', false);
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * Get Count of Search Query
+     *
+     * @param LeaveTypeSearchFilterParams $leaveTypeSearchParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getSearchLeaveTypesCount(LeaveTypeSearchFilterParams $leaveTypeSearchParams): int
+    {
+        try {
+            $paginator = $this->getSearchLeaveTypePaginator($leaveTypeSearchParams);
+            return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }
