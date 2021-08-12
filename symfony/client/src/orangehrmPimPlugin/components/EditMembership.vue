@@ -199,15 +199,10 @@ export default {
       .get(this.data.id)
       .then(response => {
         const {data} = response.data;
-        this.membership.subscriptionFee = data.subscriptionFee
-          ? data.subscriptionFee
-          : '';
-        this.membership.subscriptionCommenceDate = data.subscriptionCommenceDate
-          ? data.subscriptionCommenceDate
-          : '';
-        this.membership.subscriptionRenewalDate = data.subscriptionRenewalDate
-          ? data.subscriptionRenewalDate
-          : '';
+        this.membership.subscriptionFee = data.subscriptionFee;
+        this.membership.subscriptionCommenceDate =
+          data.subscriptionCommenceDate;
+        this.membership.subscriptionRenewalDate = data.subscriptionRenewalDate;
         this.membership.membership = this.memberships.find(
           item => item.id === data.membership.id,
         );

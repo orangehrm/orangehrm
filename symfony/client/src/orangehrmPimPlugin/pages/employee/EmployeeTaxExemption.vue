@@ -212,12 +212,8 @@ export default {
 
     updateModel(response) {
       const {data} = response.data;
-      this.taxExemption.federalExemptions = data.federalExemptions
-        ? data.federalExemptions
-        : null;
-      this.taxExemption.stateExemptions = data.stateExemptions
-        ? data.stateExemptions
-        : null;
+      this.taxExemption.federalExemptions = data.federalExemptions;
+      this.taxExemption.stateExemptions = data.stateExemptions;
       this.taxExemption.taxState = this.provinces.find(
         item => item.id === data.taxState.code,
       );
