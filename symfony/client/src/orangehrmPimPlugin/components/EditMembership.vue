@@ -99,9 +99,7 @@
 
 <script>
 import {
-  max,
   required,
-  decimalsOnly,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
@@ -158,7 +156,14 @@ export default {
             'Renewal date should be after the commencing date',
           ),
         ],
-        subscriptionFee: [decimalsOnly, max(1000000000)],
+        subscriptionFee: [
+          v => {
+            return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
+          },
+          v => {
+            return v < 1000000000 || 'Should be less than 1000,000,000';
+          },
+        ],
       },
     };
   },
@@ -195,12 +200,9 @@ export default {
       .then(response => {
         const {data} = response.data;
         this.membership.subscriptionFee = data.subscriptionFee;
-        this.membership.subscriptionCommenceDate = data.subscriptionCommenceDate
-          ? data.subscriptionCommenceDate
-          : '';
-        this.membership.subscriptionRenewalDate = data.subscriptionRenewalDate
-          ? data.subscriptionRenewalDate
-          : '';
+        this.membership.subscriptionCommenceDate =
+          data.subscriptionCommenceDate;
+        this.membership.subscriptionRenewalDate = data.subscriptionRenewalDate;
         this.membership.membership = this.memberships.find(
           item => item.id === data.membership.id,
         );

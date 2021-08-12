@@ -117,10 +117,7 @@
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import EditEmployeeLayout from '@/orangehrmPimPlugin/components/EditEmployeeLayout';
-import {
-  positiveNumber,
-  shouldNotExceedCharLength,
-} from '@orangehrm/core/util/validation/rules';
+import {shouldNotExceedCharLength} from '@orangehrm/core/util/validation/rules';
 
 const taxExemptionModel = {
   federalStatus: null,
@@ -168,8 +165,22 @@ export default {
       isLoading: false,
       taxExemption: {...taxExemptionModel},
       rules: {
-        federalExemptions: [positiveNumber, shouldNotExceedCharLength(2)],
-        stateExemptions: [positiveNumber, shouldNotExceedCharLength(2)],
+        federalExemptions: [
+          v => {
+            return (
+              v.match(/^\d*\.?\d*$/) !== null || 'Should be a positive number'
+            );
+          },
+          shouldNotExceedCharLength(2),
+        ],
+        stateExemptions: [
+          v => {
+            return (
+              v.match(/^\d*\.?\d*$/) !== null || 'Should be a positive number'
+            );
+          },
+          shouldNotExceedCharLength(2),
+        ],
       },
     };
   },

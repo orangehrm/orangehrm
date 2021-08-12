@@ -99,9 +99,7 @@
 
 <script>
 import {
-  decimalsOnly,
   required,
-  max,
   validDateFormat,
   endDateShouldBeAfterStartDate,
 } from '@orangehrm/core/util/validation/rules';
@@ -154,7 +152,14 @@ export default {
             'Renewal date should be after the commencing date',
           ),
         ],
-        subscriptionFee: [decimalsOnly, max(1000000000)],
+        subscriptionFee: [
+          v => {
+            return v.match(/^\d*\.?\d*$/) !== null || 'Should be a number';
+          },
+          v => {
+            return v < 1000000000 || 'Should be less than 1000,000,000';
+          },
+        ],
       },
     };
   },
