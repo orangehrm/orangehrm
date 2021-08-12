@@ -45,14 +45,14 @@ class LeavePeriodDao extends BaseDao
         $this->beginTransaction();
         try {
             $currentLeavePeriod = $this->getCurrentLeavePeriodStartDateAndMonth();
-            $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
-
             $this->persist($leavePeriodHistory);
 
             $isLeavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
-            $this->getLeaveConfigService()->setLeavePeriodDefined(true);
+            if (!$isLeavePeriodDefined) {
+                $this->getLeaveConfigService()->setLeavePeriodDefined(true);
+            }
 
-            if ($isLeavePeriodDefined && !empty($currentLeavePeriod)) {
+            if (!empty($currentLeavePeriod) && $isLeavePeriodDefined) {
                 $leavePeriodForToday = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(
                     new DateTime(),
                     true
@@ -62,6 +62,7 @@ class LeavePeriodDao extends BaseDao
                 $newStartMonth = $leavePeriodHistory->getStartMonth();
                 $newStartDay = $leavePeriodHistory->getStartDay();
 
+                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
                 $strategy->handleLeavePeriodChange(
                     $leavePeriodForToday,
                     $oldStartMonth,

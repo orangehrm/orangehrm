@@ -662,7 +662,7 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
      */
     public function getLeaveWithoutEntitlementDateLimitsForLeaveBalance(
         DateTime $balanceStartDate,
-        DateTime $balanceEndDate,
+        ?DateTime $balanceEndDate = null,
         ?int $empNumber = null,
         ?int $leaveTypeId = null
     ) {

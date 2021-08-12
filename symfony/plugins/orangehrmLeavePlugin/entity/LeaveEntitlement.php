@@ -34,6 +34,8 @@ class LeaveEntitlement
 {
     use DecoratorTrait;
 
+    public const ENTITLEMENT_TYPE_ADD = 1;
+
     /**
      * @var int
      *
@@ -63,7 +65,7 @@ class LeaveEntitlement
      *
      * @ORM\Column(name="days_used", type="decimal", precision=8, scale=4, options={"default":0.0000})
      */
-    private float $daysUsed;
+    private float $daysUsed = 0.0000;
 
     /**
      * @var LeaveType
@@ -114,7 +116,7 @@ class LeaveEntitlement
      *
      * @ORM\Column(name="deleted", type="boolean", options={"default":0})
      */
-    private bool $deleted;
+    private bool $deleted = false;
 
     /**
      * @var User
