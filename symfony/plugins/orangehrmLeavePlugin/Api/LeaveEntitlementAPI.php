@@ -81,7 +81,7 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
         $empNumber = $leaveEntitlement->getEmployee()->getEmpNumber();
         if (!($this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber) ||
             $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber))) {
-            throw $this->getRecordNotFoundException();
+            throw $this->getForbiddenException();
         }
     }
 
@@ -145,20 +145,20 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
         if ($bulkAssign) {
             // TODO
             throw $this->getNotImplementedException();
-        } else {
-            $empNumber = $this->getRequestParams()->getInt(
-                RequestParams::PARAM_TYPE_BODY,
-                CommonParams::PARAMETER_EMP_NUMBER
-            );
-            $leaveEntitlement = $this->getLeaveEntitlementService()->addEntitlementForEmployee(
-                $empNumber,
-                $leaveTypeId,
-                $fromDate,
-                $toDate,
-                $entitlement
-            );
-            return new EndpointResourceResult(LeaveEntitlementModel::class, $leaveEntitlement);
         }
+
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        $leaveEntitlement = $this->getLeaveEntitlementService()->addEntitlementForEmployee(
+            $empNumber,
+            $leaveTypeId,
+            $fromDate,
+            $toDate,
+            $entitlement
+        );
+        return new EndpointResourceResult(LeaveEntitlementModel::class, $leaveEntitlement);
     }
 
     /**

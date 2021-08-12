@@ -96,7 +96,7 @@ class LeaveEntitlementAPITest extends EndpointTestCase
             [
                 'id' => 1,
                 'empNumber' => 100,
-                'noOfDays' => 5.0,
+                'entitlement' => 5.0,
                 'daysUsed' => 0.0,
                 'leaveType' => [
                     'id' => 50,
