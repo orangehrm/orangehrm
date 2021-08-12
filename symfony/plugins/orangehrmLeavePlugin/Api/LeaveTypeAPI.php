@@ -19,11 +19,15 @@
 
 namespace OrangeHRM\Leave\Api;
 
+use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -31,6 +35,7 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Api\Model\LeaveTypeModel;
+use OrangeHRM\Leave\Dto\LeaveTypeSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
 
 class LeaveTypeAPI extends Endpoint implements CrudEndpoint
@@ -39,6 +44,8 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_SITUATIONAL = 'situational';
+
+    public const FILTER_NAME = 'name';
 
     public const PARAM_RULE_NAME_MAX_LENGTH = 50;
 
@@ -72,11 +79,34 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @inheritDoc
+     * @return EndpointCollectionResult
+     * @throws Exception
      */
-    public function getAll(): EndpointResult
+    public function getAll(): EndpointCollectionResult
     {
-        throw $this->getNotImplementedException();
+        $leaveTypeSearchFilterParams = new LeaveTypeSearchFilterParams();
+        $this->setSortingAndPaginationParams($leaveTypeSearchFilterParams);
+        $leaveTypeSearchFilterParams->setName(
+            $this->getRequestParams()->getStringOrNull(
+                RequestParams::PARAM_TYPE_QUERY,
+                self::FILTER_NAME
+            )
+        );
+
+        $leaveTypes = $this->getLeaveTypeService()->getLeaveTypeDao()->searchLeaveType($leaveTypeSearchFilterParams);
+
+        return new EndpointCollectionResult(
+            LeaveTypeModel::class,
+            $leaveTypes,
+            new ParameterBag(
+                [
+                    CommonParams::PARAMETER_TOTAL => $this->getLeaveTypeService()->getLeaveTypeDao(
+                    )->getSearchLeaveTypesCount(
+                        $leaveTypeSearchFilterParams
+                    )
+                ]
+            )
+        );
     }
 
     /**
@@ -84,7 +114,10 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(self::FILTER_NAME),
+            ...$this->getSortingAndPaginationParamsRules(LeaveTypeSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
     }
 
     /**
@@ -153,10 +186,13 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
-    public function delete(): EndpointResult
+    public function delete(): EndpointResourceResult
     {
-        throw $this->getNotImplementedException();
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getLeaveTypeService()->getLeaveTypeDao()->deleteLeaveType($ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -164,6 +200,8 @@ class LeaveTypeAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 }

@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Leave\Dao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Dao\LeaveTypeDao;
+use OrangeHRM\Leave\Dto\LeaveTypeSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -281,5 +282,45 @@ class LeaveTypeDaoTest extends TestCase
         $this->assertEquals($expected->getId(), $actual->getId());
         $this->assertEquals($expected->getName(), $actual->getName());
         $this->assertEquals($expected->isDeleted(), $actual->isDeleted());
+    }
+
+    public function testGetSearchLeaveTypesCount(): void
+    {
+        $leaveTypeSearchParams = new LeaveTypeSearchFilterParams();
+        $result = $this->dao->getSearchLeaveTypesCount($leaveTypeSearchParams);
+        $this->assertEquals(5, $result);
+    }
+
+
+    public function testSearchLeaveType(): void
+    {
+        $leaveTypeSearchParams = new LeaveTypeSearchFilterParams();
+        $result = $this->dao->searchLeaveType($leaveTypeSearchParams);
+        $this->assertCount(5, $result);
+        $this->assertTrue($result[0] instanceof LeaveType);
+        $this->assertEquals('Annual',$result[0]->getName());
+        $this->assertEquals('Casual',$result[1]->getName());
+        $this->assertEquals('Christmas',$result[2]->getName());
+        $this->assertEquals('Medical',$result[3]->getName());
+        $this->assertEquals('Wesak',$result[4]->getName());
+    }
+
+    public function testSearchLeaveTypeSearchByName(): void
+    {
+        $leaveTypeSearchParams = new LeaveTypeSearchFilterParams();
+        $leaveTypeSearchParams->setName('Casual');
+        $result = $this->dao->searchLeaveType($leaveTypeSearchParams);
+        $this->assertCount(1, $result);
+        $this->assertTrue($result[0] instanceof LeaveType);
+        $this->assertEquals('Casual',$result[0]->getName());
+    }
+
+    public function testSearchLeaveTypeWithLimit(): void
+    {
+        $leaveTypeSearchParams = new LeaveTypeSearchFilterParams();
+        $leaveTypeSearchParams->setLimit(1);
+
+        $result = $this->dao->searchLeaveType($leaveTypeSearchParams);
+        $this->assertCount(1, $result);
     }
 }

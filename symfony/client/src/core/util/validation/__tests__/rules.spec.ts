@@ -227,38 +227,6 @@ describe('core/util/validation/rules::validPhoneNumberFormat', () => {
   });
 });
 
-describe('core/util/validation/rules::decimalsOnly', () => {
-  test('validPhoneNumberFormat::number', () => {
-    const result = validPhoneNumberFormat('1234563');
-    expect(result).toBeTruthy();
-  });
-
-  test('decimalsOnly::numberWith.', () => {
-    const result = decimalsOnly('123.');
-    expect(result).toBe('Should be a number');
-  });
-
-  test('decimalsOnly::numberWithcharater', () => {
-    const result = decimalsOnly('123c');
-    expect(result).toBe('Should be a number');
-  });
-
-  test('decimalsOnly::numberonly', () => {
-    const result = decimalsOnly('4420');
-    expect(result).toStrictEqual(true);
-  });
-
-  test('decimalsOnly::numberonlywithonedecimalpoint', () => {
-    const result = decimalsOnly('456.0');
-    expect(result).toStrictEqual(true);
-  });
-
-  test('decimalsOnly::numberonlywithtwodecimalpoint', () => {
-    const result = decimalsOnly('456.00');
-    expect(result).toStrictEqual(true);
-  });
-});
-
 describe('core/util/validation/rules::endTimeShouldBeAfterStartTime', () => {
   test('endTimeShouldBeAfterStartTime:: should not validate on empty string', () => {
     let result = endTimeShouldBeAfterStartTime('')('');
