@@ -40,7 +40,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Job Title"
                 v-model="job.jobTitleId"
                 :options="jobTitles"
@@ -55,7 +55,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Job Catergory"
                 v-model="job.jobCategoryId"
                 :options="jobCategories"
@@ -64,7 +64,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Sub Unit"
                 v-model="job.subunitId"
                 :options="subunits"
@@ -73,7 +73,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Location"
                 v-model="job.locationId"
                 :options="locations"
@@ -82,7 +82,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Employment Status"
                 v-model="job.empStatusId"
                 :options="employmentStatuses"
@@ -314,11 +314,11 @@ export default {
           method: 'PUT',
           data: {
             ...this.job,
-            jobTitleId: this.job.jobTitleId.map(item => item.id)[0],
-            jobCategoryId: this.job.jobCategoryId.map(item => item.id)[0],
-            subunitId: this.job.subunitId.map(item => item.id)[0],
-            empStatusId: this.job.empStatusId.map(item => item.id)[0],
-            locationId: this.job.locationId.map(item => item.id)[0],
+            jobTitleId: this.job.jobTitleId?.id,
+            jobCategoryId: this.job.jobCategoryId?.id,
+            subunitId: this.job.subunitId?.id,
+            empStatusId: this.job.empStatusId?.id,
+            locationId: this.job.locationId?.id,
           },
         })
         .then(response => {
@@ -399,19 +399,19 @@ export default {
     updateJobModel(response) {
       const {data} = response.data;
       this.job.joinedDate = data.joinedDate;
-      this.job.jobTitleId = this.jobTitles.filter(
+      this.job.jobTitleId = this.jobTitles.find(
         item => item.id === data.jobTitle?.id,
       );
-      this.job.jobCategoryId = this.jobCategories.filter(
+      this.job.jobCategoryId = this.jobCategories.find(
         item => item.id === data.jobCategory?.id,
       );
-      this.job.subunitId = this.subunits.filter(
+      this.job.subunitId = this.subunits.find(
         item => item.id === data.subunit?.id,
       );
-      this.job.empStatusId = this.employmentStatuses.filter(
+      this.job.empStatusId = this.employmentStatuses.find(
         item => item.id === data.empStatus?.id,
       );
-      this.job.locationId = this.locations.filter(
+      this.job.locationId = this.locations.find(
         item => item.id === data.location?.id,
       );
       this.termination = data.employeeTerminationRecord;
@@ -420,7 +420,7 @@ export default {
 
   computed: {
     selectedJobTitleId() {
-      const jobTitleId = this.job.jobTitleId.map(item => item.id)[0];
+      const jobTitleId = this.job.jobTitleId?.id;
       return jobTitleId || 0;
     },
     terminationActionLabel() {

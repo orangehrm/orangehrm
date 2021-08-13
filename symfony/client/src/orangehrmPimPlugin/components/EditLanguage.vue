@@ -45,7 +45,7 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Competency"
               v-model="language.competencyId"
               :options="competencies"
@@ -141,7 +141,7 @@ export default {
           method: 'PUT',
           url: `api/v2/pim/employees/${this.employeeId}/languages/${this.data.languageId}/fluencies/${this.data.fluencyId}`,
           data: {
-            competencyId: this.language.competencyId.map(item => item.id)[0],
+            competencyId: this.language.competencyId.id,
             comment: this.language.comment,
           },
         })
@@ -169,7 +169,7 @@ export default {
         this.language.name = data.language.name;
         this.language.fluency = data.fluency.name;
         this.language.comment = data.comment ? data.comment : '';
-        this.language.competencyId = this.competencies.filter(
+        this.language.competencyId = this.competencies.find(
           item => item.id === data.competency?.id,
         );
       })

@@ -126,3 +126,8 @@ edit_leave_type:
   path: /leave/saveLeaveTypes/{id}
   controller: OrangeHRM\Leave\Controller\SaveLeaveTypeController::handle
   methods: [ GET ]
+
+leave_work_week:
+  path: /leave/defineWorkWeek
+  controller: OrangeHRM\Leave\Controller\WorkWeekController::handle
+  methods: [ GET ]

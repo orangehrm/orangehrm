@@ -112,7 +112,7 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Nationality"
                 v-model="employee.nationality"
                 :clear="false"
@@ -121,7 +121,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Marital Status"
                 v-model="employee.maritalStatus"
                 :clear="false"
@@ -297,9 +297,9 @@ export default {
             drivingLicenseNo: this.employee.drivingLicenseNo,
             drivingLicenseExpiredDate: this.employee.drivingLicenseExpiredDate,
             gender: this.employee.gender,
-            maritalStatus: this.employee.maritalStatus.map(item => item.id)[0],
+            maritalStatus: this.employee.maritalStatus?.id,
             birthday: this.employee.birthday,
-            nationalityId: this.employee.nationality.map(item => item.id)[0],
+            nationalityId: this.employee.nationality?.id,
             ssnNumber: this.showSsnField ? this.employee.ssnNumber : undefined,
             sinNumber: this.showSinField ? this.employee.sinNumber : undefined,
             nickname: this.showDeprecatedFields
@@ -325,10 +325,10 @@ export default {
     updateModel(response) {
       const {data} = response.data;
       this.employee = {...employeeModel, ...data};
-      this.employee.maritalStatus = this.maritalStatuses.filter(
+      this.employee.maritalStatus = this.maritalStatuses.find(
         item => item.id === data.maritalStatus,
       );
-      this.employee.nationality = this.nationalities.filter(
+      this.employee.nationality = this.nationalities.find(
         item => item.id === data.nationality?.id,
       );
     },
