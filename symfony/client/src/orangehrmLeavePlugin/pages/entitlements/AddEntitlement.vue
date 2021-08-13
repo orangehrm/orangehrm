@@ -37,13 +37,13 @@
               >
                 <oxd-input-field
                   type="radio"
-                  v-model="leaveEntitlement.isMultiple"
+                  v-model="leaveEntitlement.bulkAssign"
                   :optionLabel="$t('leave.individual_employee')"
                   value="0"
                 />
                 <oxd-input-field
                   type="radio"
-                  v-model="leaveEntitlement.isMultiple"
+                  v-model="leaveEntitlement.bulkAssign"
                   :optionLabel="$t('leave.multiple_employees')"
                   value="1"
                 />
@@ -52,7 +52,7 @@
           </oxd-grid>
         </oxd-form-row>
 
-        <oxd-form-row v-if="leaveEntitlement.isMultiple == 0">
+        <oxd-form-row v-if="leaveEntitlement.bulkAssign == 0">
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <employee-autocomplete
@@ -67,21 +67,23 @@
         <oxd-form-row v-else>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <location-dropdown
+              <oxd-input-field
+                type="select"
+                label="Location"
                 v-model="leaveEntitlement.location"
-                :rules="rules.location"
-                required
+                :options="locations"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <subunit-dropdown
+              <oxd-input-field
+                type="select"
+                label="Sub Unit"
                 v-model="leaveEntitlement.subunit"
-                :rules="rules.subunit"
-                required
+                :options="subunits"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <oxd-text type="subtitle-2">
+              <oxd-text class="orangehrm-leave-entitled-text" type="subtitle-2">
                 Matches 40 Employees
               </oxd-text>
             </oxd-grid-item>
@@ -92,27 +94,24 @@
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <leave-type-dropdown
-                v-model="leaveEntitlement.type"
-                :rules="rules.type"
-                :eligible-only="true"
+                v-model="leaveEntitlement.leaveType"
+                :rules="rules.leaveType"
+                :eligible-only="false"
+                required
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <leave-period-dropdown
+                v-model="leaveEntitlement.leavePeriod"
+                :rules="rules.leavePeriod"
                 required
               />
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="select"
-                :rules="rules.period"
-                :options="leavePeriods"
-                :label="$t('leave.leave_period')"
-                v-model="leaveEntitlement.period"
-                required
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                :rules="rules.amount"
+                :rules="rules.entitlement"
                 :label="$t('leave.entitlement')"
-                v-model="leaveEntitlement.amount"
+                v-model="leaveEntitlement.entitlement"
                 required
               />
             </oxd-grid-item>
@@ -132,6 +131,11 @@
         </oxd-form-actions>
       </oxd-form>
     </div>
+
+    <entitlement-update-modal ref="updateModal"></entitlement-update-modal>
+    <entitlement-bulk-update-modal
+      ref="bulkUpdateModal"
+    ></entitlement-bulk-update-modal>
   </div>
 </template>
 
@@ -141,20 +145,50 @@ import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
-import SubunitDropdown from '@/orangehrmPimPlugin/components/SubunitDropdown';
-import LocationDropdown from '@/orangehrmLeavePlugin/components/LocationDropdown';
+import LeavePeriodDropdown from '@/orangehrmLeavePlugin/components/LeavePeriodDropdown';
+import EntitlementUpdateModal from '@/orangehrmLeavePlugin/components/EntitlementUpdateModal';
+import EntitlementBulkUpdateModal from '@/orangehrmLeavePlugin/components/EntitlementBulkUpdateModal';
 
 const leaveEntitlementModel = {
-  isMultiple: 0,
+  bulkAssign: 0,
   employee: null,
-  type: null,
-  period: null,
-  amount: '',
+  leaveType: null,
+  leavePeriod: null,
+  entitlement: '',
   subunit: null,
   location: null,
 };
 
 export default {
+  components: {
+    'leave-type-dropdown': LeaveTypeDropdown,
+    'leave-period-dropdown': LeavePeriodDropdown,
+    'employee-autocomplete': EmployeeAutocomplete,
+    'entitlement-update-modal': EntitlementUpdateModal,
+    'entitlement-bulk-update-modal': EntitlementBulkUpdateModal,
+  },
+
+  props: {
+    locations: {
+      type: Array,
+      default: () => [],
+    },
+    subunits: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/leave/leave-entitlements',
+    );
+    return {
+      http,
+    };
+  },
+
   data() {
     return {
       isLoading: false,
@@ -162,38 +196,63 @@ export default {
       leavePeriodDefined: false,
       rules: {
         employee: [required],
-        type: [required],
-        amount: [required],
-        subunit: [required],
-        location: [required],
+        leaveType: [required],
+        entitlement: [
+          required,
+          v => {
+            return (
+              /^\d+(\.\d{1,2})?$/.test(v) ||
+              'Should be a number with upto 2 decimal places'
+            );
+          },
+        ],
       },
-      leavePeriods: [],
-    };
-  },
-
-  components: {
-    'leave-type-dropdown': LeaveTypeDropdown,
-    'employee-autocomplete': EmployeeAutocomplete,
-    'subunit-dropdown': SubunitDropdown,
-    'location-dropdown': LocationDropdown,
-  },
-
-  setup() {
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      '/api/v2/leave/leave-period',
-    );
-    return {
-      http,
     };
   },
 
   methods: {
     onCancel() {
-      navigate('/');
+      navigate('/leave/applyLeave');
     },
-    onSave() {
+    async onSave() {
+      let confirmation = null;
+      const isBulkAssign = this.leaveEntitlement.bulkAssign == 1;
+
+      // TODO: Call validation API
+      if (isBulkAssign) {
+        confirmation = await this.$refs.bulkUpdateModal.showDialog();
+      } else {
+        confirmation = await this.$refs.updateModal.showDialog();
+      }
+
+      if (confirmation !== 'ok') {
+        return;
+      }
+
       this.isLoading = true;
+
+      const payload = {
+        empNumber: undefined,
+        bulkAssign: undefined,
+        locationId: undefined,
+        subunitId: undefined,
+        leaveTypeId: this.leaveEntitlement.leaveType?.id,
+        fromDate: this.leaveEntitlement.leavePeriod?.startDate,
+        toDate: this.leaveEntitlement.leavePeriod?.endDate,
+        entitlement: this.leaveEntitlement.entitlement,
+      };
+      if (isBulkAssign) {
+        payload.bulkAssign = true;
+        payload.locationId = this.leaveEntitlement.location?.id;
+        payload.subunitId = this.leaveEntitlement.subunit?.id;
+      } else {
+        payload.empNumber = this.leaveEntitlement.employee?.id;
+      }
+      this.http.create(payload).then(() => {
+        this.leaveEntitlement = {...leaveEntitlementModel};
+        this.$toast.saveSuccess();
+        this.isLoading = false;
+      });
     },
   },
 };
@@ -202,5 +261,10 @@ export default {
 <style lang="scss" scoped>
 ::v-deep(.--grouped-field) {
   display: flex;
+}
+.orangehrm-leave-entitled-text {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 </style>

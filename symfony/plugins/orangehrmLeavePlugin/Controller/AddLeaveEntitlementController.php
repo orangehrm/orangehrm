@@ -19,18 +19,63 @@
 
 namespace OrangeHRM\Leave\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Admin\Service\LocationService;
+use OrangeHRM\Admin\Service\CompanyStructureService;
+use OrangeHRM\Core\Controller\AbstractVueController;
 
 class AddLeaveEntitlementController extends AbstractVueController
 {
+    protected ?CompanyStructureService $companyStructureService = null;
+    protected ?LocationService $locationService = null;
+
+    /**
+     * @return LocationService
+     */
+    protected function getLocationService(): LocationService
+    {
+        if (!$this->locationService instanceof LocationService) {
+            $this->locationService = new LocationService();
+        }
+        return $this->locationService;
+    }
+
+    /**
+     * @return CompanyStructureService
+     */
+    protected function getCompanyStructureService(): CompanyStructureService
+    {
+        if (!$this->companyStructureService instanceof CompanyStructureService) {
+            $this->companyStructureService = new CompanyStructureService();
+        }
+        return $this->companyStructureService;
+    }
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $component = new Component('leave-add-entitlement');
+
+        $subunits = $this->getCompanyStructureService()->getSubunitArray();
+        $subunits = array_map(
+            function ($item) {
+                return [
+                    "id" => $item['id'],
+                    "label" => $item['label'],
+                    "_indent" => $item['indent'],
+                ];
+            },
+            $subunits
+        );
+        $component->addProp(new Prop('subunits', Prop::TYPE_ARRAY, $subunits));
+
+        $locations = $this->getLocationService()->getAccessibleLocationsArray();
+        $component->addProp(new Prop('locations', Prop::TYPE_ARRAY, $locations));
+
         $this->setComponent($component);
     }
 }

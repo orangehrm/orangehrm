@@ -35,15 +35,17 @@ export default {
     const options = ref([]);
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/leave-period',
+      'api/v2/leave/leave-periods',
     );
 
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
+        options.value = data.data.map((item, index) => {
           return {
-            id: item.id,
-            label: item.name,
+            id: index + 1,
+            label: `${item.startDate} - ${item.endDate}`,
+            startDate: item.startDate,
+            endDate: item.endDate,
           };
         });
       });

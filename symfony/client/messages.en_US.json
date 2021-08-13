@@ -115,6 +115,11 @@
           "source": "Search",
           "target": "Search",
           "description": ""
+        },
+        "confirm": {
+          "source": "Confirm",
+          "target": "Confirm",
+          "description": ""
         }
       }
     },
@@ -295,6 +300,16 @@
           "source": "My Leave Entitlements",
           "target": "My Leave Entitlements",
           "description": "If the user is an ESS User, then he will only see the “My Leave Entitlements and Usage Report” option under Leave&gt;&gt;Reports"
+        },
+        "updating_entitlement": {
+          "source": "Updating Entitlement",
+          "target": "Updating Entitlement",
+          "description": "Give the entitlements to the employee and update leave entitlements"
+        },
+        "matching_employees": {
+          "source": "Matching Employees",
+          "target": "Matching Employees",
+          "description": "This shows list of matching employees who match with best match rule criteria which used to filter candidates successfully."
         }
       }
     }
