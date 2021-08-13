@@ -31,12 +31,15 @@ use OrangeHRM\Leave\Dto\LeavePeriod;
 use OrangeHRM\Leave\Dto\LeavePeriodDataHolder;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class LeavePeriodService
 {
     use LeaveConfigServiceTrait;
     use LeaveEntitlementServiceTrait;
     use NormalizerServiceTrait;
+    use DateTimeHelperTrait;
 
     public const LEAVE_PERIOD_STATUS_FORCED = 1;
     public const LEAVE_PERIOD_STATUS_NOT_FORCED = 2;
@@ -361,7 +364,7 @@ class LeavePeriodService
         return $leavePeriodDefined ?
             $this->getNormalizerService()->normalize(
                 LeavePeriodModel::class,
-                $this->getCurrentLeavePeriodByDate(new DateTime())
+                $this->getCurrentLeavePeriodByDate($this->getDateTimeHelper()->getNow())
             ) : null;
     }
 }
