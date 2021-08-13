@@ -312,7 +312,7 @@ export default {
               message: 'Test Email Not Sent',
             });
           }
-          return this.$toast.updateSuccess();
+          return this.$toast.saveSuccess();
         })
         .then(() => {
           this.isLoading = false;
