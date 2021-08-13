@@ -53,6 +53,7 @@ class LocationServiceTest extends KernelTestCase
         TestDataService::populate($this->fixture);
 
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+                                ->disableOriginalConstructor()
                                 ->onlyMethods(['getAccessibleEntityIds'])
                                 ->getMock();
         $userRoleManager->expects($this->any())
