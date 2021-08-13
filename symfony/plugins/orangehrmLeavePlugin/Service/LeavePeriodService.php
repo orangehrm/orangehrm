@@ -23,7 +23,9 @@ use DateInterval;
 use DateTime;
 use InvalidArgumentException;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\LeavePeriodHistory;
+use OrangeHRM\Leave\Service\Model\LeavePeriodModel;
 use OrangeHRM\Leave\Dao\LeavePeriodDao;
 use OrangeHRM\Leave\Dto\LeavePeriod;
 use OrangeHRM\Leave\Dto\LeavePeriodDataHolder;
@@ -34,6 +36,7 @@ class LeavePeriodService
 {
     use LeaveConfigServiceTrait;
     use LeaveEntitlementServiceTrait;
+    use NormalizerServiceTrait;
 
     public const LEAVE_PERIOD_STATUS_FORCED = 1;
     public const LEAVE_PERIOD_STATUS_NOT_FORCED = 2;
@@ -267,7 +270,7 @@ class LeavePeriodService
 
         if (empty($this->leavePeriodList)) {
             $endDate = ($toDate != null) ? new DateTime($toDate) : new DateTime();
-            //If To Date is not specified return leave type till next leave period 
+            //If To Date is not specified return leave type till next leave period
             if (is_null($toDate)) {
                 $endDate->add(new DateInterval('P1Y'));
             }
@@ -344,8 +347,22 @@ class LeavePeriodService
             $year = date('Y', $time);
             $fromDate = $year . '-1-1';
             $toDate = $year . '-12-31';
-            
+
             return [$fromDate,$toDate];
+    }
+
+    /**
+     * @return array|null
+     * @throws ServiceException
+     */
+    public function getCurrentLeavePeriod(): ?array
+    {
+        $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
+        return $leavePeriodDefined ?
+            $this->getNormalizerService()->normalize(
+                LeavePeriodModel::class,
+                $this->getCurrentLeavePeriodByDate(new DateTime())
+            ) : null;
     }
 }
 

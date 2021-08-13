@@ -109,7 +109,7 @@
         "name": {
           "source": "Name",
           "target": "Name",
-          "description": "Name"
+          "description": "Name in the system"
         },
         "search": {
           "source": "Search",
@@ -155,6 +155,21 @@
           "source": "Sunday",
           "target": "Sunday",
           "description": "One of the days of the week"
+        },
+        "date": {
+          "source": "Date",
+          "target": "Date",
+          "description": "Date in the system"
+        },
+        "search": {
+          "source": "Search",
+          "target": "Search",
+          "description": "Search in the system"
+        },
+        "reset": {
+          "source": "Reset",
+          "target": "Reset",
+          "description": "Reset in the system"
         }
       }
     },
@@ -355,6 +370,31 @@
           "source": "Work Week",
           "target": "Work Week",
           "description": "The administrator will be able to define the work weeks for all employees based in different locations/countries.To define work week, go to Leave>> Configure>> Work Week"
+        },
+        "holidays": {
+          "source": "Holidays",
+          "target": "Holidays",
+          "description": "The holidays can be configured in this option. To add an entry, go to Leave&gt;&gt; Configure&gt;&gt; Holidays and click “Add”"
+        },
+        "add_holiday": {
+          "source": "Add Holiday",
+          "target": "Add Holiday",
+          "description": "The Holidays in the company"
+        },
+        "edit_holiday": {
+          "source": "Edit Holiday",
+          "target": "Edit Holiday",
+          "description": "Alter the holiday"
+        },
+        "full_day_half_day": {
+          "source": "Full Day/ Half Day",
+          "target": "Full Day/ Half Day",
+          "description": "Full Day/ Half Day in Edit/Save Holiday screens"
+        },
+        "repeats_annually": {
+          "source": "Repeats Annually",
+          "target": "Repeats Annually",
+          "description": "Repeats Annually in Edit/Save Holiday screens"
         }
       }
     }
