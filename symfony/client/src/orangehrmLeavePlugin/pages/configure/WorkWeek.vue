@@ -35,7 +35,7 @@
                 type="select"
                 :options="workWeeks"
                 :rules="rules.monday"
-                label="Monday"
+                :label="$t('general.monday')"
                 v-model="workWeek.monday"
                 required
               />
@@ -50,7 +50,7 @@
                 type="select"
                 :options="workWeeks"
                 :rules="rules.tuesday"
-                label="Tuesday"
+                :label="$t('general.tuesday')"
                 v-model="workWeek.tuesday"
                 required
               />
@@ -64,7 +64,7 @@
                 type="select"
                 :options="workWeeks"
                 :rules="rules.wednesday"
-                label="Wednesday"
+                :label="$t('general.wednesday')"
                 v-model="workWeek.wednesday"
                 required
               />
@@ -79,7 +79,7 @@
                 type="select"
                 :options="workWeeks"
                 :rules="rules.thursday"
-                label="Thursday"
+                :label="$t('general.thursday')"
                 v-model="workWeek.thursday"
                 required
               />
@@ -94,7 +94,7 @@
                 type="select"
                 :options="workWeeks"
                 :rules="rules.friday"
-                label="Friday"
+                :label="$t('general.friday')"
                 v-model="workWeek.friday"
                 required
               />
@@ -108,7 +108,7 @@
                 type="select"
                 :options="workWeeks"
                 :rules="rules.saturday"
-                label="Saturday"
+                :label="$t('general.saturday')"
                 v-model="workWeek.saturday"
                 required
               />
@@ -122,7 +122,7 @@
                 type="select"
                 :options="workWeeks"
                 :rules="rules.sunday"
-                label="Sunday"
+                :label="$t('general.sunday')"
                 v-model="workWeek.sunday"
                 required
               />
@@ -142,14 +142,7 @@
 
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import {reloadPage} from '@orangehrm/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
-import {enGB} from 'date-fns/locale';
-import {
-  numberOfDaysInMonth,
-  addDays,
-  formatDate,
-} from '@/core/util/helper/datefns';
 
 const workWeekModel = {
   monday: 0,
