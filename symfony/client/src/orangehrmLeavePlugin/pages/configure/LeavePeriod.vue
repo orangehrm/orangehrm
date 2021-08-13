@@ -107,14 +107,7 @@ export default {
     return {
       isLoading: false,
       leavePeriod: {...leavePeriodModel},
-<<<<<<< HEAD
-<<<<<<< HEAD
       leavePeriodDefined: false,
-=======
->>>>>>> OHRM5X-407: Develop leave period screen (#867)
-=======
-      leavePeriodDefined: false,
->>>>>>> OHRM5X-466: Fix leave period change issue (#871)
       rules: {
         startMonth: [required],
         startDay: [required],
@@ -146,18 +139,9 @@ export default {
         .then(() => {
           this.$toast.saveSuccess();
           this.isLoading = false;
-<<<<<<< HEAD
-<<<<<<< HEAD
           if (!this.leavePeriodDefined) {
             reloadPage();
           }
-=======
->>>>>>> OHRM5X-407: Develop leave period screen (#867)
-=======
-          if (!this.leavePeriodDefined) {
-            reloadPage();
-          }
->>>>>>> OHRM5X-466: Fix leave period change issue (#871)
         });
     },
   },
@@ -203,43 +187,18 @@ export default {
 
   watch: {
     'leavePeriod.startMonth': function() {
-<<<<<<< HEAD
       this.leavePeriod.startDay = this.dates.length > 0 ? this.dates[0] : null;
-=======
-      this.$nextTick(() => {
-        this.leavePeriod.startDay =
-          this.dates.length > 0 ? this.dates[0] : null;
-      });
->>>>>>> OHRM5X-407: Develop leave period screen (#867)
     },
   },
 
   beforeMount() {
     this.isLoading = true;
-<<<<<<< HEAD
     this.http
       .request({
         method: 'GET',
       })
       .then(response => {
         const {data, meta} = response.data;
-=======
-    // TODO: get current period
-    this.http
-      .request({
-        method: 'GET',
-        // Prevent triggering response interceptor on 404
-        validateStatus: status => {
-          return (status >= 200 && status < 300) || status == 404;
-        },
-      })
-      .then(response => {
-<<<<<<< HEAD
-        const {data} = response.data;
->>>>>>> OHRM5X-407: Develop leave period screen (#867)
-=======
-        const {data, meta} = response.data;
->>>>>>> OHRM5X-466: Fix leave period change issue (#871)
         this.leavePeriod.startMonth = this.months.find(m => {
           return m.id === data.startMonth;
         });
@@ -248,8 +207,6 @@ export default {
             return d.id === data.startDay;
           });
         });
-<<<<<<< HEAD
-<<<<<<< HEAD
         if (meta?.leavePeriodDefined) {
           this.leavePeriodDefined = meta.leavePeriodDefined;
           this.leavePeriod.currentPeriod = `
@@ -258,11 +215,6 @@ export default {
             ${meta.currentLeavePeriod.endDate}
           `;
         }
-=======
->>>>>>> OHRM5X-407: Develop leave period screen (#867)
-=======
-        this.leavePeriodDefined = meta?.leavePeriodDefined;
->>>>>>> OHRM5X-466: Fix leave period change issue (#871)
       })
       .finally(() => {
         this.isLoading = false;

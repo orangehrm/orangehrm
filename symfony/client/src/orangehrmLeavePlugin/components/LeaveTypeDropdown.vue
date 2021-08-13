@@ -57,15 +57,7 @@ export default {
           options.value = data.data.map(item => {
             return {
               id: item.id,
-<<<<<<< HEAD
-<<<<<<< HEAD
               label: item.name,
-=======
-              label: item.type,
->>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
-=======
-              label: item.name,
->>>>>>> OHRM5X-466: Fix leave period change issue (#871)
             };
           });
         });

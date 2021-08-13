@@ -21,8 +21,6 @@ namespace OrangeHRM\Leave\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
-<<<<<<< HEAD
-<<<<<<< HEAD
 use OrangeHRM\Framework\Http\Request;
 
 class ApplyLeaveController extends AbstractVueController
@@ -31,22 +29,6 @@ class ApplyLeaveController extends AbstractVueController
      * @inheritDoc
      */
     public function preRender(Request $request): void
-=======
-
-class ApplyLeaveController extends AbstractVueController
-{
-    public function init(): void
->>>>>>> OHRM5X-400: Develop apply leave, assign leave screens (#864)
-=======
-use OrangeHRM\Framework\Http\Request;
-
-class ApplyLeaveController extends AbstractVueController
-{
-    /**
-     * @inheritDoc
-     */
-    public function preRender(Request $request): void
->>>>>>> OHRM5X-466: Fix leave period change issue (#871)
     {
         $component = new Component('leave-apply');
         $this->setComponent($component);
