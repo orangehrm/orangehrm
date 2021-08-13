@@ -65,7 +65,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-input-field
-                type="dropdown"
+                type="select"
                 label="Country"
                 v-model="contact.countryCode"
                 :options="countries"
@@ -210,7 +210,7 @@ export default {
           method: 'PUT',
           data: {
             ...this.contact,
-            countryCode: this.contact.countryCode.map(item => item.id)[0],
+            countryCode: this.contact.countryCode?.id,
           },
         })
         .then(response => {
@@ -225,7 +225,7 @@ export default {
     updateModel(response) {
       const {data} = response.data;
       this.contact = {...contactDetailsModel, ...data};
-      this.contact.countryCode = this.countries.filter(
+      this.contact.countryCode = this.countries.find(
         item => item.id === data.countryCode,
       );
     },
