@@ -50,8 +50,8 @@
         <oxd-form-row>
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item class="switch-form-field">
-              <oxd-text class="switch-form-field-text" tag="p"
-                >Use Browser Language If Set
+              <oxd-text class="switch-form-field-text" tag="p">
+                Use Browser Language If Set
               </oxd-text>
               <oxd-switch-input
                 :disabled="!editable"
@@ -106,7 +106,7 @@ export default {
   setup() {
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/admin/organization',
+      'api/v2/admin/localization',
     );
     return {
       http,
