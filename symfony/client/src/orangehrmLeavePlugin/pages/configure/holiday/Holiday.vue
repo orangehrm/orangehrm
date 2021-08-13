@@ -260,6 +260,10 @@ export default {
       await this.execQuery();
     },
     onClickReset() {
+      this.filters = {
+        fromDate: this.leavePeriod.startDate,
+        toDate: this.leavePeriod.endDate,
+      };
       this.filterItems();
     },
   },
