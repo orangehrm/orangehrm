@@ -26,7 +26,14 @@ apiv2_leave_leave_period:
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Leave\Api\LeavePeriodAPI
-    id: 1
+    id: 0
+
+apiv2_leave_leave_periods:
+  path: /api/v2/leave/leave-periods
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeavePeriodAPI
 
 apiv2_leave_leave_type:
   path: /api/v2/leave/leave-types/{id}
