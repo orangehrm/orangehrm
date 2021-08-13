@@ -158,7 +158,7 @@
             <oxd-grid-item>
               <oxd-input-field
                 label="Country"
-                type="dropdown"
+                type="select"
                 v-model="organization.country"
                 :rules="rules.country"
                 :options="countryList"
@@ -280,7 +280,7 @@ export default {
           street2: this.organization.street2,
           city: this.organization.city,
           province: this.organization.province,
-          country: this.organization.countrymap(item => item.id)[0],
+          country: this.organization.country?.id,
           zipCode: this.organization.zipCode,
           note: this.organization.note,
         })
@@ -309,8 +309,8 @@ export default {
         this.organization.street2 = data.street2;
         this.organization.city = data.city;
         this.organization.province = data.province;
-        this.organization.country = this.countryList.filter(
-          item => item.id === data.country,
+        this.organization.country = this.countryList.find(
+          item => item.id === data.country?.id,
         );
         this.organization.zipCode = data.zipCode;
         this.organization.note = data.note;
