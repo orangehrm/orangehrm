@@ -22,32 +22,11 @@ namespace OrangeHRM\Core\HomePage;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 
 class LeavePeriodDefinedHomePageEnabler implements HomePageEnablerInterface
 {
-    /**
-     * @var ConfigService|null
-     */
-    protected ?ConfigService $configService = null;
-
-    /**
-     * @return ConfigService
-     */
-    public function getConfigService(): ConfigService
-    {
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
-
-    /**
-     * @param ConfigService $configService
-     */
-    public function setConfigService(ConfigService $configService): void
-    {
-        $this->configService = $configService;
-    }
+    use LeaveConfigServiceTrait;
 
     /**
      * Returns true if leave period is not defined.
@@ -55,10 +34,9 @@ class LeavePeriodDefinedHomePageEnabler implements HomePageEnablerInterface
      *
      * @param User $user
      * @return bool
-     * @throws CoreServiceException
      */
     public function isEnabled(User $user): bool
     {
-        return !$this->getConfigService()->isLeavePeriodDefined();
+        return !$this->getLeaveConfigService()->isLeavePeriodDefined();
     }
 }

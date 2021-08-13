@@ -110,7 +110,12 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp' && emailConfiguration.smtpAuthType === 'login'">
+        <oxd-form-row
+          v-if="
+            emailConfiguration.mailType === 'smtp' &&
+              emailConfiguration.smtpAuthType === 'login'
+          "
+        >
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
@@ -141,12 +146,12 @@
             </div>
           </oxd-grid>
         </oxd-form-row>
-        <oxd-form-row v-if="emailConfiguration.mailType === 'smtp' && userSecureConnection">
+        <oxd-form-row
+          v-if="emailConfiguration.mailType === 'smtp' && userSecureConnection"
+        >
           <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
-              <oxd-input-group
-                :classes="{wrapper: '--status-grouped-field'}"
-              >
+              <oxd-input-group :classes="{wrapper: '--status-grouped-field'}">
                 <oxd-input-field
                   type="radio"
                   v-model="emailConfiguration.smtpSecurityType"
@@ -194,7 +199,8 @@
 
         <oxd-form-actions>
           <required-text />
-          <submit-button/>
+          <oxd-button displayType="ghost" label="Reset" @click="onReset" />
+          <submit-button />
         </oxd-form-actions>
       </oxd-form>
     </div>
@@ -248,16 +254,24 @@ export default {
         smtpSecurityType: '',
         testEmailAddress: '',
       },
+      initialEmailConfiguration: {
+        ...this.emailConfiguration,
+        userSecureConnection: false,
+      },
       rules: {
         mailType: [required, shouldNotExceedCharLength(50)],
-        sentAs: [required, shouldNotExceedCharLength(250), validEmailFormat],
-        smtpHost: [required, shouldNotExceedCharLength(250)],
+        sentAs: [required, shouldNotExceedCharLength(100), validEmailFormat],
+        smtpHost: [required, shouldNotExceedCharLength(100)],
         smtpPort: [shouldNotExceedCharLength(10)],
-        smtpUsername: [required, shouldNotExceedCharLength(250)],
-        smtpPassword: [required, shouldNotExceedCharLength(250)],
+        smtpUsername: [required, shouldNotExceedCharLength(100)],
+        smtpPassword: [required, shouldNotExceedCharLength(100)],
         smtpAuthType: [shouldNotExceedCharLength(50)],
         smtpSecurityType: [shouldNotExceedCharLength(50)],
-        testEmailAddress: [required, shouldNotExceedCharLength(250), validEmailFormat],
+        testEmailAddress: [
+          required,
+          shouldNotExceedCharLength(250),
+          validEmailFormat,
+        ],
       },
     };
   },
@@ -265,7 +279,8 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      this.http.request({
+      this.http
+        .request({
           method: 'PUT',
           data: {
             mailType: this.emailConfiguration.mailType,
@@ -293,7 +308,7 @@ export default {
             });
           } else if (testEmailStatus === 0 && this.sendTestMailEditable) {
             this.$toast.warn({
-              title: 'Success',
+              title: 'Failed',
               message: 'Test Email Not Sent',
             });
           }
@@ -302,7 +317,11 @@ export default {
         .then(() => {
           this.isLoading = false;
         });
-    }
+    },
+    onReset() {
+      this.emailConfiguration = {...this.initialEmailConfiguration};
+      this.userSecureConnection = this.initialEmailConfiguration.userSecureConnection;
+    },
   },
   created() {
     this.isLoading = true;
@@ -323,6 +342,10 @@ export default {
         this.emailConfiguration.smtpSecurityType = data.smtpSecurityType;
         this.emailConfiguration.testEmailAddress = data.testEmailAddress;
         this.userSecureConnection = data.smtpSecurityType !== 'none';
+        this.initialEmailConfiguration = {
+          ...this.emailConfiguration,
+          userSecureConnection: this.userSecureConnection,
+        };
       })
       .finally(() => {
         this.isLoading = false;

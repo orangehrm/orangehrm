@@ -20,13 +20,19 @@
 namespace OrangeHRM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\LeaveLeaveEntitlementDecorator;
 
 /**
+ * @method LeaveLeaveEntitlementDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_leave_leave_entitlement")
  * @ORM\Entity
  */
 class LeaveLeaveEntitlement
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *

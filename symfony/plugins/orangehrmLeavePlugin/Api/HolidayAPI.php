@@ -34,10 +34,12 @@ use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Holiday;
 use OrangeHRM\Leave\Api\Model\HolidayModel;
 use OrangeHRM\Leave\Dto\HolidaySearchFilterParams;
-use OrangeHRM\Leave\Service\HolidayService;
+use OrangeHRM\Leave\Traits\Service\HolidayServiceTrait;
 
 class HolidayAPI extends Endpoint implements CrudEndpoint
 {
+    use HolidayServiceTrait;
+
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DATE = 'date';
     public const PARAMETER_RECURRING = 'recurring';
@@ -47,19 +49,6 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
     public const FILTER_TO_DATE = 'toDate';
 
     public const PARAM_RULE_NAME_MAX_LENGTH = 200;
-
-    private ?HolidayService $holidayService = null;
-
-    /**
-     * @return HolidayService
-     */
-    protected function getHolidayService(): HolidayService
-    {
-        if (!$this->holidayService instanceof HolidayService) {
-            $this->holidayService = new HolidayService();
-        }
-        return $this->holidayService;
-    }
 
     /**
      * @inheritDoc
@@ -123,8 +112,8 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_FROM_DATE, new Rule(Rules::API_DATE)),
-            new ParamRule(self::FILTER_TO_DATE, new Rule(Rules::API_DATE)),
+               new ParamRule(self::FILTER_FROM_DATE, new Rule(Rules::API_DATE)),
+               new ParamRule(self::FILTER_TO_DATE, new Rule(Rules::API_DATE)),
             ...$this->getSortingAndPaginationParamsRules()
         );
     }
@@ -183,7 +172,7 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
             ),
             new ParamRule(
                 self::PARAMETER_LENGTH,
-                new Rule(Rules::IN, [[4, 8]])
+                new Rule(Rules::IN, [array_keys(Holiday::HOLIDAY_LENGTH_MAP)])
             ),
         );
     }

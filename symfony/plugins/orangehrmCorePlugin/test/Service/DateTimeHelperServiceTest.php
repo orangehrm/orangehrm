@@ -107,4 +107,104 @@ class DateTimeHelperServiceTest extends TestCase
         $this->assertFalse($this->dateTimeHelperService->isDatesEqual(null, null));
         $this->assertTrue($this->dateTimeHelperService->isDatesEqual(null, null, true));
     }
+
+    public function testDateDiffInHours(): void
+    {
+        $this->assertEquals(
+            8,
+            $this->dateTimeHelperService
+                ->dateDiffInHours(new DateTime('09:00'), new DateTime('17:00'))
+        );
+
+        $this->assertEquals(
+            8.25,
+            $this->dateTimeHelperService
+                ->dateDiffInHours(new DateTime('08:45'), new DateTime('17:00'))
+        );
+
+        $this->assertEquals(
+            32.25,
+            $this->dateTimeHelperService
+                ->dateDiffInHours(new DateTime('2021-08-04 08:45'), new DateTime('2021-08-05 17:00'))
+        );
+
+        $this->assertEquals(
+            776.25,
+            $this->dateTimeHelperService
+                ->dateDiffInHours(new DateTime('2021-08-04 08:45'), new DateTime('2021-09-05 17:00'))
+        );
+    }
+
+    public function testDateRange(): void
+    {
+        $dates = $this->dateTimeHelperService
+            ->dateRange(new DateTime('2021-10-05'), new DateTime('2021-10-10'));
+        $this->assertDateArray(
+            [
+                '2021-10-05',
+                '2021-10-06',
+                '2021-10-07',
+                '2021-10-08',
+                '2021-10-09',
+                '2021-10-10',
+            ],
+            $dates
+        );
+
+        $dates = $this->dateTimeHelperService
+            ->dateRange(new DateTime('2020-02-27'), new DateTime('2020-03-02'));
+        $this->assertDateArray(
+            [
+                '2020-02-27',
+                '2020-02-28',
+                '2020-02-29',
+                '2020-03-01',
+                '2020-03-02',
+            ],
+            $dates
+        );
+
+        $dates = $this->dateTimeHelperService
+            ->dateRange(new DateTime('2021-02-27'), new DateTime('2021-03-02'));
+        $this->assertDateArray(
+            [
+                '2021-02-27',
+                '2021-02-28',
+                '2021-03-01',
+                '2021-03-02',
+            ],
+            $dates
+        );
+
+        $dates = $this->dateTimeHelperService
+            ->dateRange(new DateTime('2021-02-27'), new DateTime('2021-03-02'), 'P2D');
+        $this->assertDateArray(
+            [
+                '2021-02-27',
+                '2021-03-01',
+            ],
+            $dates
+        );
+
+        $dates = $this->dateTimeHelperService
+            ->dateRange(new DateTime('2021-02-27'), new DateTime('2021-02-27'));
+        $this->assertDateArray(
+            ['2021-02-27'],
+            $dates
+        );
+    }
+
+    /**
+     * @param array $expected
+     * @param DateTime[] $actual
+     */
+    private function assertDateArray(array $expected, array $actual): void
+    {
+        $this->assertEquals(
+            $expected,
+            array_map(function (DateTime $dateTime) {
+                return $dateTime->format('Y-m-d');
+            }, $actual)
+        );
+    }
 }

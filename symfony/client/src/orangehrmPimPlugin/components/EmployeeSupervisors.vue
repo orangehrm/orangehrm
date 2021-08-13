@@ -82,7 +82,9 @@ import EditEmployeeReportTo from '@/orangehrmPimPlugin/components/EditEmployeeRe
 const supervisorNormalizer = data => {
   return data.map(item => {
     return {
-      name: `${item.supervisor?.firstName} ${item.supervisor?.lastName}`,
+      name: `${item.supervisor?.firstName} ${item.supervisor?.lastName} ${
+        item.supervisor.terminationId ? ' (Past Employee)' : ''
+      }`,
       reportingMethod: item.reportingMethod.name,
       supervisorEmpNumber: item.supervisor.empNumber,
     };

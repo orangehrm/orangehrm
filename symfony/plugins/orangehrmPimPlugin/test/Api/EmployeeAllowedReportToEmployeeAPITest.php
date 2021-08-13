@@ -134,6 +134,7 @@ class EmployeeAllowedReportToEmployeeAPITest extends EndpointTestCase
 
 
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(1))
@@ -188,6 +189,7 @@ class EmployeeAllowedReportToEmployeeAPITest extends EndpointTestCase
     public function testGetValidationRuleForGetAll(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(3))

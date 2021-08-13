@@ -19,9 +19,11 @@
 
 use OrangeHRM\Core\Authorization\Helper\UserRoleManagerHelper;
 use OrangeHRM\Core\Authorization\Manager\UserRoleManagerFactory;
+use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\CacheService;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Service\MenuService;
 use OrangeHRM\Core\Service\NormalizerService;
 use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber;
@@ -67,10 +69,12 @@ class CorePluginConfiguration implements PluginConfigurationInterface
         $this->getContainer()->register(Services::NORMALIZER_SERVICE, NormalizerService::class);
         $this->getContainer()->register(Services::DATETIME_HELPER_SERVICE, DateTimeHelperService::class);
         $this->getContainer()->register(Services::TEXT_HELPER_SERVICE, TextHelperService::class);
+        $this->getContainer()->register(Services::CLASS_HELPER, ClassHelper::class);
         $this->getContainer()->register(Services::USER_ROLE_MANAGER)
             ->setFactory([UserRoleManagerFactory::class, 'getUserRoleManager']);
         $this->getContainer()->register(Services::USER_ROLE_MANAGER_HELPER, UserRoleManagerHelper::class);
         $this->getContainer()->register(Services::CACHE)->setFactory([CacheService::class, 'getCache']);
+        $this->getContainer()->register(Services::MENU_SERVICE, MenuService::class);
 
         $this->registerCoreSubscribers();
     }

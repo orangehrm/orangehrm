@@ -170,6 +170,7 @@ class EmploymentContractAPITest extends EndpointTestCase
     public function testGetValidationRuleForGetOne(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->exactly(0))
@@ -367,6 +368,7 @@ class EmploymentContractAPITest extends EndpointTestCase
         $user->setId(1);
         $user->setUserName('Admin');
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getUser'])
             ->getMock();
         $userRoleManager->expects($this->exactly(2))
@@ -637,6 +639,7 @@ class EmploymentContractAPITest extends EndpointTestCase
         $user->setId(1);
         $user->setUserName('Admin');
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getUser'])
             ->getMock();
         $userRoleManager->expects($this->exactly(2))

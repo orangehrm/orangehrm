@@ -20,8 +20,6 @@
 namespace OrangeHRM\Core\Traits\ORM;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
 use OrangeHRM\ORM\Paginator;
@@ -45,8 +43,6 @@ trait EntityManagerHelperTrait
 
     /**
      * @param $entity
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     protected function persist($entity): void
     {
@@ -56,8 +52,6 @@ trait EntityManagerHelperTrait
 
     /**
      * @param $entity
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     protected function remove($entity): void
     {
@@ -113,5 +107,29 @@ trait EntityManagerHelperTrait
     protected function getReference(string $entityName, $id)
     {
         return $this->getEntityManager()->getReference($entityName, $id);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function beginTransaction(): bool
+    {
+        return $this->getEntityManager()->getConnection()->beginTransaction();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function commitTransaction(): bool
+    {
+        return $this->getEntityManager()->getConnection()->commit();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function rollBackTransaction(): bool
+    {
+        return $this->getEntityManager()->getConnection()->rollBack();
     }
 }

@@ -53,6 +53,7 @@ import EditNationality from '@/orangehrmAdminPlugin/pages/nationality/EditNation
 import SaveNationality from '@/orangehrmAdminPlugin/pages/nationality/SaveNationality.vue';
 import ViewEmailConfiguration from '@/orangehrmAdminPlugin/pages/emailConfiguration/ViewEmailConfiguration.vue';
 import OAuthPages from '@/orangehrmCoreOAuthPlugin';
+import LeavePages from '@/orangehrmLeavePlugin';
 import LocationList from '@/orangehrmAdminPlugin/pages/location/LocationList.vue';
 import SaveLocation from '@/orangehrmAdminPlugin/pages/location/SaveLocation.vue';
 import EditLocation from '@/orangehrmAdminPlugin/pages/location/EditLocation.vue';
@@ -82,6 +83,7 @@ export default {
   'license-save': SaveQualificationLicense,
   'license-edit': EditQualificationLicense,
   ...PimPages,
+  ...LeavePages,
   ...CorePages,
   'qualification-language-list': QualificationLanguage,
   'qualification-language-edit': EditQualificationLanguage,
@@ -98,4 +100,5 @@ export default {
   'location-edit': EditLocation,
   'email-configuration-view': ViewEmailConfiguration,
   ...OAuthPages,
-  };
+  ...LeavePages,
+};

@@ -26,7 +26,7 @@ class ClassHelper
      * @param string|null $fallbackNamespace
      * @return bool
      */
-    public static function classExists(string $className, ?string $fallbackNamespace = null): bool
+    public function classExists(string $className, ?string $fallbackNamespace = null): bool
     {
         return !is_null(self::getClass($className, $fallbackNamespace));
     }
@@ -36,7 +36,7 @@ class ClassHelper
      * @param string|null $fallbackNamespace e.g. 'OrangeHRM\\Core\\', 'OrangeHRM\\Core\\Service\\'
      * @return string|null
      */
-    public static function getClass(string $className, ?string $fallbackNamespace = null): ?string
+    public function getClass(string $className, ?string $fallbackNamespace = null): ?string
     {
         if (class_exists($className)) {
             return $className;

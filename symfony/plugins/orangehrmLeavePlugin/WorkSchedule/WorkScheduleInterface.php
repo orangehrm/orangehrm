@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,19 +15,52 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-/**
- * Work schedule interface
- */
-interface WorkScheduleInterface {
-    
-    public function setEmpNumber($empNumber);
-    public function getWorkShiftLength();
-    public function getWorkShiftStartEndTime();
-    public function isWeekend($day, $fullDay);    
-    public function isHalfDay($day);
-    public function isHoliday($day);    
-    public function isHalfdayHoliday($day);
+namespace OrangeHRM\Leave\WorkSchedule;
+
+use DateTime;
+use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
+
+interface WorkScheduleInterface
+{
+    /**
+     * @param int|null $empNumber
+     */
+    public function setEmpNumber(?int $empNumber): void;
+
+    /**
+     * @return float e.g. 8, 8.25
+     */
+    public function getWorkShiftLength(): float;
+
+    /**
+     * @return WorkShiftStartAndEndTime
+     */
+    public function getWorkShiftStartEndTime(): WorkShiftStartAndEndTime;
+
+    /**
+     * @param DateTime $day
+     * @param bool $fullDay
+     * @return bool
+     */
+    public function isNonWorkingDay(DateTime $day, bool $fullDay): bool;
+
+    /**
+     * @param DateTime $day
+     * @return bool
+     */
+    public function isHalfDay(DateTime $day): bool;
+
+    /**
+     * @param DateTime $day
+     * @return bool
+     */
+    public function isHoliday(DateTime $day): bool;
+
+    /**
+     * @param DateTime $day
+     * @return bool
+     */
+    public function isHalfDayHoliday(DateTime $day): bool;
 }
