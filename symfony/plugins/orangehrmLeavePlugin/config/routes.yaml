@@ -170,7 +170,7 @@ list_holidays:
   methods: [ GET ]
 
 add_holiday:
-  path: /leave/saveHolidays/
+  path: /leave/saveHolidays
   controller: OrangeHRM\Leave\Controller\SaveHolidayController::handle
   methods: [ GET ]
 
