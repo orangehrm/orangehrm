@@ -69,7 +69,14 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 
 const entitlementNormalizer = data => {
   return data.map(item => {
-    return item;
+    return {
+      id: item.id,
+      leaveType: item.leaveType.name,
+      entitlementType: item.entitlementType.name,
+      fromDate: item.fromDate,
+      toDate: item.toDate,
+      days: item.entitlement,
+    };
   });
 };
 
@@ -90,7 +97,7 @@ export default {
     return {
       headers: [
         {
-          name: 'type',
+          name: 'leaveType',
           slot: 'title',
           title: 'Leave Type',
           style: {flex: 1},
@@ -101,12 +108,12 @@ export default {
           style: {flex: 1},
         },
         {
-          name: 'from',
+          name: 'fromDate',
           title: 'Valid From',
           style: {flex: 1},
         },
         {
-          name: 'to',
+          name: 'toDate',
           title: 'Valid To',
           style: {flex: 1},
         },
@@ -143,15 +150,17 @@ export default {
 
     const serializedFilters = computed(() => {
       return {
-        employeeId: filters.value.employeeId?.id,
+        employeeId: filters.value.employee?.id,
         leaveType: filters.value.leaveType?.id,
-        leavePeriod: filters.value.leavePeriod?.id,
+        fromDate: filters.value.leavePeriod?.startDate,
+        toDate: filters.value.leavePeriod?.endDate,
       };
     });
 
     const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/leave/entitlements',
+      // window.appGlobal.baseUrl,
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      'api/v2/leave/leave-entitlements',
     );
     const {
       showPaginator,

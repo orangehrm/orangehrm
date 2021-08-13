@@ -310,6 +310,11 @@
           "source": "Matching Employees",
           "target": "Matching Employees",
           "description": "This shows list of matching employees who match with best match rule criteria which used to filter candidates successfully."
+        },
+        "edit_leave_entitlement": {
+          "source": "Edit Leave Entitlement",
+          "target": "Edit Leave Entitlement",
+          "description": "Edit the leave amount to which a person has a right to have."
         }
       }
     }

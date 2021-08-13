@@ -23,6 +23,7 @@ import LeaveType from './pages/leaveType/LeaveType.vue';
 import EditLeaveType from './pages/leaveType/EditLeaveType.vue';
 import SaveLeaveType from './pages/leaveType/SaveLeaveType.vue';
 import AddEntitlement from './pages/entitlements/AddEntitlement.vue';
+import EditEntitlement from './pages/entitlements/EditEntitlement.vue';
 import LeaveEntitlements from './pages/entitlements/LeaveEntitlements.vue';
 import MyLeaveEntitlements from './pages/entitlements/MyLeaveEntitlements.vue';
 
@@ -34,6 +35,7 @@ export default {
   'leave-type-list': LeaveType,
   'leave-type-save': SaveLeaveType,
   'leave-add-entitlement': AddEntitlement,
+  'leave-edit-entitlement': EditEntitlement,
   'leave-view-entitlement': LeaveEntitlements,
   'leave-view-my-entitlement': MyLeaveEntitlements,
 };

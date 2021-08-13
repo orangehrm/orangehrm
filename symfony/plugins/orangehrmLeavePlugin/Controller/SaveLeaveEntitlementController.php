@@ -26,7 +26,7 @@ use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Core\Controller\AbstractVueController;
 
-class AddLeaveEntitlementController extends AbstractVueController
+class SaveLeaveEntitlementController extends AbstractVueController
 {
     protected ?CompanyStructureService $companyStructureService = null;
     protected ?LocationService $locationService = null;
@@ -58,7 +58,13 @@ class AddLeaveEntitlementController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('leave-add-entitlement');
+        $id = $request->get('id');
+        if ($id) {
+            $component = new Component('leave-edit-entitlement');
+            $component->addProp(new Prop('entitlement-id', Prop::TYPE_NUMBER, $id));
+        } else {
+            $component = new Component('leave-add-entitlement');
+        }
 
         $subunits = $this->getCompanyStructureService()->getSubunitArray();
         $subunits = array_map(

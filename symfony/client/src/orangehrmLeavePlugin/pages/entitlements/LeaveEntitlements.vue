@@ -27,8 +27,8 @@
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
                 <employee-autocomplete
-                  v-model="filters.employeeId"
-                  :rules="rules.employeeId"
+                  v-model="filters.employee"
+                  :rules="rules.employee"
                   required
                 />
               </oxd-grid-item>
@@ -75,7 +75,7 @@ export default {
   data() {
     return {
       rules: {
-        employeeId: [required],
+        employee: [required],
       },
     };
   },
