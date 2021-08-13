@@ -17,10 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\test\Service;
+namespace OrangeHRM\Tests\Admin\Service;
 
 use Exception;
-use OrangeHRM\Admin\Dto\I18NLanguageSearchFilterParams;
 use OrangeHRM\Admin\Service\I18NService;
 use OrangeHRM\Admin\Service\LocalizationService;
 use OrangeHRM\Tests\Util\TestCase;

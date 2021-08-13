@@ -17,12 +17,12 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Api\Model;
+namespace OrangeHRM\Core\Api\V2\Model;
 
 
 use OrangeHRM\Core\Api\V2\Serializer\CollectionNormalizable;
 
-class KeyValueModel implements CollectionNormalizable
+class ArrayCollectionModel implements CollectionNormalizable
 {
     /**
      * @var array

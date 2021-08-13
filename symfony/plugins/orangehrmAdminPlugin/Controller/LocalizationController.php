@@ -21,30 +21,37 @@ namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Admin\Service\LocalizationService;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Controller\Exception\VueControllerException;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Services;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Services;
 
 class LocalizationController extends AbstractVueController
 {
     use ServiceContainerTrait;
 
     /**
-     * @throws VueControllerException
-     * @throws \Exception
+     * @inheritDoc
      */
-    public function init(): void
+    public function preRender(Request $request): void
     {
         $component = new Component('localization-configuration');
 
         /** @var LocalizationService $localizationService */
         $localizationService = $this->getContainer()->get(Services::LOCALIZATION_SERVICE);
-        $component->addProp(new Prop('language-list', Prop::TYPE_ARRAY,
-            $localizationService->getSupportedLanguages()));
-        $component->addProp(new Prop('date-format-list', Prop::TYPE_ARRAY,
-            $localizationService->getLocalizationDateFormats()));
+        $component->addProp(
+            new Prop(
+                'language-list', Prop::TYPE_ARRAY,
+                $localizationService->getSupportedLanguages()
+            )
+        );
+        $component->addProp(
+            new Prop(
+                'date-format-list', Prop::TYPE_ARRAY,
+                $localizationService->getLocalizationDateFormats()
+            )
+        );
         $this->setComponent($component);
     }
 }

@@ -20,19 +20,17 @@
 namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\Model\ArrayCollectionModel;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
-use OrangeHRM\Core\Api\V2\EndpointResourceResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayCollectionModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
-use OrangeHRM\Core\Api\V2\Serializer\NormalizeException;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Core\Traits\Service\LocalizationServiceTrait;
 
@@ -79,10 +77,14 @@ class LocalizationAPI extends Endpoint implements CrudEndpoint
     {
         $language = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_LANGUAGE);
         $dateFormat = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DATE_FORMAT);
-        $browserLanguage = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_BROWSER_LANGUAGE);
-        $useBrowserLanguage = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_USE_BROWSER_LANGUAGE);
+        $browserLanguage = $this->getRequestParams()->getString(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_BROWSER_LANGUAGE
+        );
+        $useBrowserLanguage = $this->getRequestParams()->getBoolean(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_USE_BROWSER_LANGUAGE
+        );
 
         $languageArray = array_column($this->getLocalizationService()->getSupportedLanguages(), 'id');
 
