@@ -23,17 +23,46 @@
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">Edit Location</oxd-text>
 
-      <oxd-divider />
+      <oxd-divider/>
 
       <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 label="Name"
                 v-model="location.name"
                 :rules="rules.name"
                 required
+                :disabled="!hasUpdatePermissions"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-form-row>
+          <oxd-grid :cols="2" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field
+                label="City"
+                v-model="location.city"
+                :rules="rules.city"
+                :disabled="!hasUpdatePermissions"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="State/Province"
+                v-model="location.province"
+                :rules="rules.province"
+                :disabled="!hasUpdatePermissions"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                label="Zip/Postal Code"
+                v-model="location.zipCode"
+                :rules="rules.zipCode"
                 :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
@@ -49,49 +78,6 @@
                 :disabled="!hasUpdatePermissions"
               />
             </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                label="Province"
-                v-model="location.province"
-                :rules="rules.province"
-                :disabled="!hasUpdatePermissions"
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-
-        <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
-            <oxd-grid-item>
-              <oxd-input-field
-                label="City"
-                v-model="location.city"
-                :rules="rules.city"
-                :disabled="!hasUpdatePermissions"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                type="textarea"
-                label="Address"
-                v-model="location.address"
-                :rules="rules.address"
-                :disabled="!hasUpdatePermissions"
-              />
-            </oxd-grid-item>
-            <oxd-grid-item>
-              <oxd-input-field
-                label="Zip/Postal Code"
-                v-model="location.zipCode"
-                :rules="rules.zipCode"
-                :disabled="!hasUpdatePermissions"
-              />
-            </oxd-grid-item>
-          </oxd-grid>
-        </oxd-form-row>
-
-        <oxd-form-row>
-          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <oxd-grid-item>
               <oxd-input-field
                 label="Phone"
@@ -111,6 +97,15 @@
             <oxd-grid-item>
               <oxd-input-field
                 type="textarea"
+                label="Address"
+                v-model="location.address"
+                :rules="rules.address"
+                :disabled="!hasUpdatePermissions"
+              />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                type="textarea"
                 label="Note"
                 v-model="location.note"
                 :rules="rules.note"
@@ -119,8 +114,6 @@
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
-
-        <oxd-divider />
 
         <oxd-form-actions>
           <required-text />
