@@ -255,6 +255,11 @@
           "source": "Edit Leave Type",
           "target": "Edit Leave Type",
           "description": "Alter the leave type that is needed by the company"
+        },
+        "work_week": {
+          "source": "Work Week",
+          "target": "Work Week",
+          "description": "Work week can be manually set by selecting days"
         }
       }
     }

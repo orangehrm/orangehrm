@@ -22,6 +22,7 @@ import LeaveAssign from './pages/LeaveAssign.vue';
 import LeaveType from './pages/leaveType/LeaveType.vue';
 import EditLeaveType from './pages/leaveType/EditLeaveType.vue';
 import SaveLeaveType from './pages/leaveType/SaveLeaveType.vue';
+import WorkWeek from './pages/configure/WorkWeek.vue';
 
 export default {
   'leave-period': LeavePeriod,
@@ -30,4 +31,5 @@ export default {
   'leave-type-edit': EditLeaveType,
   'leave-type-list': LeaveType,
   'leave-type-save': SaveLeaveType,
+  'work-week': WorkWeek,
 };
