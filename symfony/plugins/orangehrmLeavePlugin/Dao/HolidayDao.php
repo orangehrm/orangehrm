@@ -112,4 +112,22 @@ class HolidayDao extends BaseDao
 
         return $this->fetchOne($q);
     }
+
+    /**
+     * @param array $toDeleteIds
+     * @return int
+     * @throws DaoException
+     */
+    public function deleteHolidays(array $toDeleteIds): int
+    {
+        try {
+            $q = $this->createQueryBuilder(Holiday::class, 'holiday');
+            $q->delete()
+                ->andWhere($q->expr()->in('holiday.id', ':ids'))
+                ->setParameter('ids', $toDeleteIds);
+            return $q->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }

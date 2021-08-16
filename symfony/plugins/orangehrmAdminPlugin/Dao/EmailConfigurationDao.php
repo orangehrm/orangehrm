@@ -33,7 +33,8 @@ class EmailConfigurationDao extends BaseDao
     public function getEmailConfiguration(): ?EmailConfiguration
     {
         try {
-            $emailConfig = $this->getRepository(EmailConfiguration::class)->find(1);
+            $q = $this->createQueryBuilder(EmailConfiguration::class, 'e');
+            $emailConfig = $this->fetchOne($q);
             if ($emailConfig instanceof EmailConfiguration) {
                 return $emailConfig;
             }
