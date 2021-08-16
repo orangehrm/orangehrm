@@ -37,7 +37,7 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="select"
+              type="dropdown"
               label="Pay Grade"
               v-model="salaryComponent.payGradeId"
               :options="paygrades"
@@ -45,7 +45,7 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="select"
+              type="dropdown"
               label="Pay Frequency"
               v-model="salaryComponent.payFrequencyId"
               :options="payFrequencies"
@@ -53,7 +53,7 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="select"
+              type="dropdown"
               label="Currency"
               v-model="salaryComponent.currencyId"
               :options="currenciesOpts"
@@ -273,9 +273,11 @@ export default {
           // Paygrade fields
           salaryComponent: this.salaryComponent.name,
           salaryAmount: this.salaryComponent.salaryAmount,
-          payGradeId: this.salaryComponent.payGradeId?.id,
-          currencyId: this.salaryComponent.currencyId.id,
-          payFrequencyId: this.salaryComponent.payFrequencyId?.id,
+          payGradeId: this.salaryComponent.payGradeId.map(item => item.id)[0],
+          currencyId: this.salaryComponent.currencyId.map(item => item.id)[0],
+          payFrequencyId: this.salaryComponent.payFrequencyId.map(
+            item => item.id,
+          )[0],
           comment: this.salaryComponent.comment
             ? this.salaryComponent.comment
             : null,
@@ -325,7 +327,9 @@ export default {
                 maxAmount: item.maxSalary,
               };
             });
-            const currency = this.salaryComponent.currencyId.id;
+            const currency = this.salaryComponent.currencyId.map(
+              item => item.id,
+            )[0];
             const currencyIndex = this.usableCurrencies.findIndex(
               item => item.id === currency,
             );
@@ -346,25 +350,25 @@ export default {
       return this.directDeposit.directDepositAccountType[0]?.id == 'OTHER';
     },
     minAmount() {
-      const currency = this.salaryComponent.currencyId.id;
+      const currency = this.salaryComponent.currencyId.map(item => item.id)[0];
       const currencyInfo = this.usableCurrencies.filter(
         item => item.id === currency,
       );
       return currencyInfo.length === 0 ? 0 : currencyInfo[0].minAmount;
     },
     maxAmount() {
-      const currency = this.salaryComponent.currencyId.id;
+      const currency = this.salaryComponent.currencyId.map(item => item.id)[0];
       const currencyInfo = this.usableCurrencies.filter(
         item => item.id === currency,
       );
       return currencyInfo.length === 0 ? 999999999 : currencyInfo[0].maxAmount;
     },
     currenciesOpts() {
-      const paygrade = this.salaryComponent.payGradeId.id;
+      const paygrade = this.salaryComponent.payGradeId.map(item => item.id)[0];
       if (!paygrade) {
         return this.currencies;
       } else if (paygrade && this.usableCurrencies.length > 0) {
-        return this.currencies.find(
+        return this.currencies.filter(
           item =>
             this.usableCurrencies.findIndex(
               currency => currency.id === item.id,
