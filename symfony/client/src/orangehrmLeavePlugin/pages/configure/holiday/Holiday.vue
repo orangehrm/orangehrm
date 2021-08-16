@@ -122,7 +122,7 @@ export default {
   },
   props: {
     leavePeriod: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
@@ -167,16 +167,11 @@ export default {
     filters.value.fromDate = props.leavePeriod.startDate;
     // eslint-disable-next-line vue/no-setup-props-destructure
     filters.value.toDate = props.leavePeriod.endDate;
-    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
-      sortDefinition: {},
-    });
 
     const serializedFilters = computed(() => {
       return {
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
-        sortField: sortField.value,
-        sortOrder: sortOrder.value,
       };
     });
 
@@ -195,8 +190,6 @@ export default {
       execQuery,
     } = usePaginate(http, serializedFilters, dataNormalizer);
 
-    onSort(execQuery);
-
     return {
       http,
       showPaginator,
@@ -208,7 +201,6 @@ export default {
       execQuery,
       items: response,
       filters,
-      sortDefinition,
     };
   },
 
