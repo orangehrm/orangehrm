@@ -31,10 +31,7 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <date-input
-                :label="$t('general.to')"
-                v-model="filters.toDate"
-              />
+              <date-input :label="$t('general.to')" v-model="filters.toDate" />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -42,7 +39,11 @@
         <oxd-divider />
 
         <oxd-form-actions>
-          <oxd-button displayType="ghost" :label="$t('general.reset')" @click="onClickReset" />
+          <oxd-button
+            displayType="ghost"
+            :label="$t('general.reset')"
+            @click="onClickReset"
+          />
           <oxd-button
             class="orangehrm-left-space"
             displayType="secondary"

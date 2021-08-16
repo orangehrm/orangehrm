@@ -85,7 +85,11 @@
 
         <oxd-form-actions>
           <required-text />
-          <oxd-button displayType="ghost" :label="$t('general.cancel')" @click="onCancel" />
+          <oxd-button
+            displayType="ghost"
+            :label="$t('general.cancel')"
+            @click="onCancel"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
