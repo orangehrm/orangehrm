@@ -110,6 +110,41 @@
           "source": "Name",
           "target": "Name",
           "description": "Name"
+        },
+        "monday": {
+          "source": "Monday",
+          "target": "Monday",
+          "description": "Start day of the week"
+        },
+        "tuesday": {
+          "source": "Tuesday",
+          "target": "Tuesday",
+          "description": "One of the days of the week"
+        },
+        "wednesday": {
+          "source": "Wednesday",
+          "target": "Wednesday",
+          "description": "One of the days of the week"
+        },
+        "thursday": {
+          "source": "Thursday",
+          "target": "Thursday",
+          "description": "One of the days of the week"
+        },
+        "friday": {
+          "source": "Friday",
+          "target": "Friday",
+          "description": "One of the days of the week"
+        },
+        "saturday": {
+          "source": "Saturday",
+          "target": "Saturday",
+          "description": "One of the days of the week"
+        },
+        "sunday": {
+          "source": "Sunday",
+          "target": "Sunday",
+          "description": "One of the days of the week"
         }
       }
     },
@@ -255,6 +290,11 @@
           "source": "Edit Leave Type",
           "target": "Edit Leave Type",
           "description": "Alter the leave type that is needed by the company"
+        },
+        "work_week": {
+          "source": "Work Week",
+          "target": "Work Week",
+          "description": "The administrator will be able to define the work weeks for all employees based in different locations/countries.To define work week, go to Leave>> Configure>> Work Week"
         }
       }
     }
