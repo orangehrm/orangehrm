@@ -185,4 +185,11 @@ class HolidayDaoTest extends TestCase
         // Not getting `Constitution Day` since `Father`s Day` added as recurring but same date in fixtures
         $this->assertEquals('Father`s Day',$holiday->getName());
     }
+
+    public function testDeleteHolidays(): void
+    {
+        $toTobedeletedIds = [1, 2];
+        $result = $this->holidayDao->deleteHolidays($toTobedeletedIds);
+        $this->assertEquals(2, $result);
+    }
 }

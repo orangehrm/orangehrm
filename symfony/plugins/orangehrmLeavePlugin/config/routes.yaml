@@ -158,3 +158,18 @@ leave_work_week:
   path: /leave/defineWorkWeek
   controller: OrangeHRM\Leave\Controller\WorkWeekController::handle
   methods: [ GET ]
+
+list_holidays:
+  path: /leave/viewHolidayList
+  controller: OrangeHRM\Leave\Controller\HolidayController::handle
+  methods: [ GET ]
+
+add_holiday:
+  path: /leave/saveHolidays
+  controller: OrangeHRM\Leave\Controller\SaveHolidayController::handle
+  methods: [ GET ]
+
+edit_holiday:
+  path: /leave/saveHolidays/{id}
+  controller: OrangeHRM\Leave\Controller\SaveHolidayController::handle
+  methods: [ GET ]
