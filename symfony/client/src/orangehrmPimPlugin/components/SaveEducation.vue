@@ -110,7 +110,7 @@ import {
 } from '@orangehrm/core/util/validation/rules';
 
 const educationModel = {
-  educationId: [],
+  educationId: null,
   institute: '',
   major: '',
   year: '',
@@ -164,7 +164,7 @@ export default {
       this.http
         .create({
           ...this.education,
-          educationId: this.education.educationId.map(item => item.id)[0],
+          educationId: this.education.educationId?.id,
           year: parseInt(this.education.year),
         })
         .then(() => {

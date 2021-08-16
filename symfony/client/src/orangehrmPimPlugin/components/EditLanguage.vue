@@ -94,7 +94,7 @@ import {
 const languageModel = {
   name: '',
   fluency: '',
-  competencyId: [],
+  competencyId: null,
   comment: '',
 };
 

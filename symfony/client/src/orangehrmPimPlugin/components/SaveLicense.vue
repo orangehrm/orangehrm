@@ -90,7 +90,7 @@ import {
 import {yearRange} from '@orangehrm/core/util/helper/year-range';
 
 const licenseModel = {
-  licenseId: [],
+  licenseId: null,
   licenseNo: '',
   issuedDate: '',
   expiryDate: '',
@@ -142,7 +142,7 @@ export default {
       this.http
         .create({
           ...this.license,
-          licenseId: this.license.licenseId.map(item => item.id)[0],
+          licenseId: this.license.licenseId?.id,
         })
         .then(() => {
           return this.$toast.saveSuccess();
