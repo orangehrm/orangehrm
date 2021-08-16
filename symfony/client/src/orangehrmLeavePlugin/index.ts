@@ -26,6 +26,7 @@ import AddEntitlement from './pages/entitlements/AddEntitlement.vue';
 import EditEntitlement from './pages/entitlements/EditEntitlement.vue';
 import LeaveEntitlements from './pages/entitlements/LeaveEntitlements.vue';
 import MyLeaveEntitlements from './pages/entitlements/MyLeaveEntitlements.vue';
+import WorkWeek from './pages/configure/WorkWeek.vue';
 
 export default {
   'leave-period': LeavePeriod,
@@ -38,4 +39,5 @@ export default {
   'leave-edit-entitlement': EditEntitlement,
   'leave-view-entitlement': LeaveEntitlements,
   'leave-view-my-entitlement': MyLeaveEntitlements,
+  'work-week': WorkWeek,
 };

@@ -153,3 +153,8 @@ leave_view_my_leave_entitlement:
   path: /leave/viewMyLeaveEntitlements
   controller: OrangeHRM\Leave\Controller\ViewMyLeaveEntitlementController::handle
   methods: [ GET ]
+  
+leave_work_week:
+  path: /leave/defineWorkWeek
+  controller: OrangeHRM\Leave\Controller\WorkWeekController::handle
+  methods: [ GET ]
