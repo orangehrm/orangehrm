@@ -41,6 +41,32 @@ class UserRoleManagerHelper
     }
 
     /**
+     * Returns the data group permissions without considering any employee or other entity
+     *
+     * @param $dataGroupNames
+     *
+     * @return \OrangeHRM\Core\Authorization\Dto\ResourcePermission
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
+    public function getEntityIndependentDataGroupPermissions($dataGroupNames): ResourcePermission
+    {
+        return $this->getUserRoleManager()->getDataGroupPermissions($dataGroupNames, [], [], false, []);
+    }
+
+    /**
+     * Returns the data group permission collection without considering any employee or other entity
+     *
+     * @param array $dataGroups
+     * @return DataGroupPermissionCollection
+     */
+    public function geEntityIndependentDataGroupPermissionCollection(array $dataGroups): DataGroupPermissionCollection
+    {
+        $dataGroupPermissionFilterParams = new DataGroupPermissionFilterParams();
+        $dataGroupPermissionFilterParams->setDataGroups($dataGroups);
+        return $this->getUserRoleManager()->getDataGroupPermissionCollection($dataGroupPermissionFilterParams);
+    }
+
+    /**
      * @param string|string[] $dataGroupName
      * @param int|null $empNumber
      * @return ResourcePermission

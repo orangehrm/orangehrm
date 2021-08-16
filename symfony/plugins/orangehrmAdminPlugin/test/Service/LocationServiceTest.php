@@ -22,19 +22,26 @@ namespace OrangeHRM\Tests\Admin\Service;
 use OrangeHRM\Admin\Dao\LocationDao;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Location;
-use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Service\EmployeeService;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
  * @group Service
  */
-class LocationServiceTest extends TestCase
+class LocationServiceTest extends KernelTestCase
 {
     private LocationService $locationService;
     private string $fixture;
+    use ServiceContainerTrait;
 
     /**
      * Set up method
@@ -44,6 +51,32 @@ class LocationServiceTest extends TestCase
         $this->locationService = new LocationService();
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/LocationDao.yml';
         TestDataService::populate($this->fixture);
+
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+                                ->disableOriginalConstructor()
+                                ->onlyMethods(['getAccessibleEntityIds'])
+                                ->getMock();
+        $userRoleManager->expects($this->any())
+                        ->method('getAccessibleEntityIds')
+                        ->willReturn([1, 2, 3]);
+
+        $normalizerService = $this->getMockBuilder(NormalizerService::class)
+                                  ->getMock();
+
+        $employeeService = $this->getMockBuilder(EmployeeService::class)
+                                ->onlyMethods(['getEmployeeByEmpNumber'])
+                                ->getMock();
+        $employeeService->expects($this->any())
+                        ->method('getEmployeeByEmpNumber')
+                        ->willReturn(new Employee());
+
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::NORMALIZER_SERVICE => $normalizerService,
+                Services::EMPLOYEE_SERVICE => $employeeService,
+            ]
+        );
     }
 
     public function testGetLocationById(): void
@@ -107,7 +140,7 @@ class LocationServiceTest extends TestCase
 
         $this->locationService->setLocationDao($locationDao);
 
-        $result = $this->locationService->getNumberOfEmplyeesForLocation(1);
+        $result = $this->locationService->getNumberOfEmployeesForLocation(1);
         $this->assertEquals($result, 2);
     }
 
@@ -141,5 +174,13 @@ class LocationServiceTest extends TestCase
 
         $result = $this->locationService->getLocationIdsForEmployees($empNumbers);
         $this->assertEquals($locationIds, $result);
+    }
+
+    public function testGetAccessibleLocationsArray()
+    {
+        $locations = $this->locationService->getAccessibleLocationsArray();
+        $this->assertCount(0, $locations);
+        $locations = $this->locationService->getAccessibleLocationsArray(1);
+        $this->assertCount(0, $locations);
     }
 }

@@ -19,14 +19,21 @@
 
 namespace OrangeHRM\Entity;
 
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\LocationDecorator;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @method LocationDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_location")
  * @ORM\Entity
  */
 class Location
 {
+
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -259,4 +266,5 @@ class Location
     {
         $this->note = $note;
     }
+
 }
