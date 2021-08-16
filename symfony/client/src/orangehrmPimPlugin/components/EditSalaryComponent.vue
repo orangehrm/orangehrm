@@ -58,7 +58,6 @@
               v-model="salaryComponent.currencyId"
               :options="currenciesOpts"
               :rules="rules.currencyId"
-              :clear="false"
               :key="currenciesOpts"
               required
             />
@@ -109,12 +108,11 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Account Type"
               v-model="directDeposit.directDepositAccountType"
               :rules="rules.directDepositAccountType"
               :options="accountTypes"
-              :clear="false"
               required
             />
           </oxd-grid-item>
@@ -174,14 +172,14 @@ const salComponentModel = {
   name: '',
   salaryAmount: '',
   comment: '',
-  payGradeId: [],
-  payFrequencyId: [],
-  currencyId: [],
+  payGradeId: null,
+  payFrequencyId: null,
+  currencyId: null,
 };
 
 const directDepositModel = {
   directDepositAccount: '',
-  directDepositAccountType: [],
+  directDepositAccountType: null,
   directDepositRoutingNumber: '',
   directDepositAmount: '',
 };
@@ -271,14 +269,14 @@ export default {
       this.isLoading = true;
       const accountType = this.showOptionalAccountType
         ? this.accountType
-        : this.directDeposit.directDepositAccountType.map(item => item.id)[0];
+        : this.directDeposit.directDepositAccountType?.id;
       this.http
         .update(this.data.id, {
           // Paygrade fields
           salaryComponent: this.salaryComponent.name,
           salaryAmount: this.salaryComponent.salaryAmount,
           payGradeId: this.salaryComponent.payGradeId?.id,
-          currencyId: this.salaryComponent.currencyId.id,
+          currencyId: this.salaryComponent.currencyId?.id,
           payFrequencyId: this.salaryComponent.payFrequencyId?.id,
           comment: this.salaryComponent.comment
             ? this.salaryComponent.comment
@@ -312,11 +310,11 @@ export default {
 
   watch: {
     'salaryComponent.payGradeId': function(newVal) {
-      if (Array.isArray(newVal) && newVal.length > 0) {
+      if (newVal?.id) {
         this.isLoading = true;
         this.http
           .request({
-            url: `/api/v2/admin/pay-grades/${newVal[0].id}/currencies`,
+            url: `/api/v2/admin/pay-grades/${newVal.id}/currencies`,
             method: 'GET',
           })
           .then(response => {
@@ -329,9 +327,9 @@ export default {
                 maxAmount: item.maxSalary,
               };
             });
-            const currency = this.salaryComponent.currencyId.id;
+            const currency = this.salaryComponent.currencyId;
             const currencyIndex = this.usableCurrencies.findIndex(
-              item => item.id === currency,
+              item => item.id === currency?.id,
             );
             this.salaryComponent.currencyId =
               currencyIndex === -1 ? [] : this.salaryComponent.currencyId;
@@ -347,19 +345,19 @@ export default {
 
   computed: {
     showOptionalAccountType() {
-      return this.directDeposit.directDepositAccountType[0]?.id == 'OTHER';
+      return this.directDeposit.directDepositAccountType?.id == 'OTHER';
     },
     minAmount() {
-      const currency = this.salaryComponent.currencyId.id;
+      const currency = this.salaryComponent.currencyId;
       const currencyInfo = this.usableCurrencies.filter(
-        item => item.id === currency,
+        item => item.id === currency?.id,
       );
       return currencyInfo.length === 0 ? 0 : currencyInfo[0].minAmount;
     },
     maxAmount() {
-      const currency = this.salaryComponent.currencyId.id;
+      const currency = this.salaryComponent.currencyId;
       const currencyInfo = this.usableCurrencies.filter(
-        item => item.id === currency,
+        item => item.id === currency?.id,
       );
       return currencyInfo.length === 0 ? 999999999 : currencyInfo[0].maxAmount;
     },
@@ -368,7 +366,7 @@ export default {
       if (!paygrade) {
         return this.currencies;
       } else if (paygrade && this.usableCurrencies.length > 0) {
-        return this.currencies.find(
+        return this.currencies.filter(
           item =>
             this.usableCurrencies.findIndex(
               currency => currency.id === item.id,
@@ -412,13 +410,12 @@ export default {
         if (data.directDebit.id !== null) {
           this.includeDirectDeposit = true;
           this.directDeposit.directDepositAccount = data.directDebit.account;
-          const accountType = this.accountTypes.filter(
+          const accountType = this.accountTypes.find(
             item => item.id === data.directDebit.accountType,
           );
-          this.directDeposit.directDepositAccountType =
-            accountType.length !== 0
-              ? accountType
-              : [{id: 'OTHER', label: 'Other'}];
+          this.directDeposit.directDepositAccountType = accountType
+            ? accountType
+            : {id: 'OTHER', label: 'Other'};
           this.accountType =
             accountType.length === 0 ? data.directDebit.accountType : '';
           this.directDeposit.directDepositRoutingNumber =
