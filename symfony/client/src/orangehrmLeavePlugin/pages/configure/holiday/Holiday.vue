@@ -111,11 +111,6 @@ const dataNormalizer = data => {
   });
 };
 
-const defaultFilters = {
-  fromDate: null,
-  toDate: null,
-};
-
 export default {
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
@@ -162,11 +157,10 @@ export default {
   },
 
   setup(props) {
-    const filters = ref({...defaultFilters});
-    // eslint-disable-next-line vue/no-setup-props-destructure
-    filters.value.fromDate = props.leavePeriod.startDate;
-    // eslint-disable-next-line vue/no-setup-props-destructure
-    filters.value.toDate = props.leavePeriod.endDate;
+    const filters = ref({
+      fromDate: props.leavePeriod.startDate,
+      toDate: props.leavePeriod.endDate,
+    });
 
     const serializedFilters = computed(() => {
       return {
