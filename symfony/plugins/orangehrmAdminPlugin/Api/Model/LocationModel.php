@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Service\Model;
+namespace OrangeHRM\Admin\Api\Model;
 
 use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
@@ -25,7 +25,6 @@ use OrangeHRM\Entity\Location;
 
 class LocationModel implements Normalizable
 {
-
     use ModelTrait;
 
     /**
@@ -38,14 +37,35 @@ class LocationModel implements Normalizable
             [
                 'id',
                 'name',
+                ['getCountry', 'getCountryCode'],
+                ['getCountry', 'getName'],
+                ['getCountry', 'getCountryName'],
+                'province',
+                'city',
+                'address',
+                'zipCode',
+                'phone',
+                'fax',
+                'note',
+                ['getDecorator', 'getNoOfEmployees'],
             ]
         );
         $this->setAttributeNames(
             [
                 'id',
-                'label',
+                'name',
+                ['country', 'countryCode'],
+                ['country', 'name'],
+                ['country', 'countryName'],
+                'province',
+                'city',
+                'address',
+                'zipCode',
+                'phone',
+                'fax',
+                'note',
+                'noOfEmployees',
             ]
         );
     }
-
 }

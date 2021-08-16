@@ -13,7 +13,8 @@ Location:
   0: {id: 1, name: 'location 1', country_code: 'LK', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
   1: {id: 2, name: 'location 2', country_code: 'LK', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }
   2: {id: 3, name: 'location 3', country_code: 'US', province: 'AK', city: 'city 3', address: 'address 3', zip_code: 'zip003', phone: '0777000003', fax: '0112000002', notes: 'note 3' }
-  
+  3: {id: 4, name: 'location 11', country_code: 'US', province: 'AK', city: 'city 11', address: 'address 3', zip_code: 'zip003', phone: '0777000003', fax: '0112000002', notes: 'note 3' }
+
 EmpLocations:
   0: {emp_number: 1, location_id: 1 }
   1: {emp_number: 2, location_id: 1 }

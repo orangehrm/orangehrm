@@ -17,16 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Pim\Dto;
+namespace OrangeHRM\Admin\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 
 class LocationSearchFilterParams extends FilterParams
 {
+
     public const ALLOWED_SORT_FIELDS = [
         'location.name',
         'location.city',
-        'country.name',
+        'location.phone',
+        'country.countryCode',
+        'noOfEmployees',
     ];
 
     /**
@@ -44,6 +47,9 @@ class LocationSearchFilterParams extends FilterParams
      */
     private ?string $countryCode = null;
 
+    /**
+     * LocationSearchFilterParams constructor.
+     */
     public function __construct()
     {
         $this->setSortField('location.name');
@@ -96,4 +102,5 @@ class LocationSearchFilterParams extends FilterParams
     {
         $this->countryCode = $countryCode;
     }
+
 }
