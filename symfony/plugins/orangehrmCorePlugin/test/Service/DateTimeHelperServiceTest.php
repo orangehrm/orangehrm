@@ -202,9 +202,18 @@ class DateTimeHelperServiceTest extends TestCase
     {
         $this->assertEquals(
             $expected,
-            array_map(function (DateTime $dateTime) {
-                return $dateTime->format('Y-m-d');
-            }, $actual)
+            array_map(
+                function (DateTime $dateTime) {
+                    return $dateTime->format('Y-m-d');
+                },
+                $actual
+            )
         );
+    }
+
+    public function testGetNow()
+    {
+        $this->assertEquals((new DateTime())->getTimezone(), $this->dateTimeHelperService->getNow()->getTimezone());
+        $this->assertEquals((new DateTime())->getOffset(), $this->dateTimeHelperService->getNow()->getOffset());
     }
 }

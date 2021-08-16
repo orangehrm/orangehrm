@@ -27,6 +27,9 @@ import EditEntitlement from './pages/entitlements/EditEntitlement.vue';
 import LeaveEntitlements from './pages/entitlements/LeaveEntitlements.vue';
 import MyLeaveEntitlements from './pages/entitlements/MyLeaveEntitlements.vue';
 import WorkWeek from './pages/configure/WorkWeek.vue';
+import Holiday from './pages/configure/holiday/Holiday.vue';
+import SaveHoliday from './pages/configure/holiday/SaveHoliday.vue';
+import EditHoliday from './pages/configure/holiday/EditHoliday.vue';
 
 export default {
   'leave-period': LeavePeriod,
@@ -40,4 +43,7 @@ export default {
   'leave-view-entitlement': LeaveEntitlements,
   'leave-view-my-entitlement': MyLeaveEntitlements,
   'work-week': WorkWeek,
+  'holiday-list': Holiday,
+  'holiday-save': SaveHoliday,
+  'holiday-edit': EditHoliday,
 };

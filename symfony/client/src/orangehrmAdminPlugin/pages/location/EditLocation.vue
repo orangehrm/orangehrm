@@ -23,7 +23,7 @@
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">Edit Location</oxd-text>
 
-      <oxd-divider/>
+      <oxd-divider />
 
       <oxd-form novalidate="true" :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>

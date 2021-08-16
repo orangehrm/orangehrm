@@ -210,4 +210,15 @@ class HolidayService
         }
         return false;
     }
+
+    /**
+     * @param array $toDeleteIds
+     * @return int
+     * @throws DaoException
+     */
+    public function deleteHolidays(array $toDeleteIds): int
+    {
+        $this->getCache()->clear(self::LEAVE_HOLIDAYS_CACHE_KEY_PREFIX);
+        return $this->getHolidayDao()->deleteHolidays($toDeleteIds);
+    }
 }
