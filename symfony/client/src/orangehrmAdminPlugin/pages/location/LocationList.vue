@@ -165,7 +165,7 @@ export default {
       headers: [
         {
           name: 'name',
-          slot: 'name',
+          slot: 'title',
           title: 'Name',
           style: {flex: 1},
           sortField: 'location.name',
