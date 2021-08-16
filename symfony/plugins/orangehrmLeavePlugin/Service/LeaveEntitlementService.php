@@ -21,7 +21,6 @@ namespace OrangeHRM\Leave\Service;
 
 use DateTime;
 use OrangeHRM\Core\Exception\DaoException;
-use OrangeHRM\Core\Exception\ServiceException;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\LeaveEntitlement;
@@ -131,7 +130,6 @@ class LeaveEntitlementService
      * @param DateTime|null $asAtDate
      * @param DateTime|null $date
      * @return LeaveBalance
-     * @throws ServiceException
      */
     public function getLeaveBalance(
         int $empNumber,

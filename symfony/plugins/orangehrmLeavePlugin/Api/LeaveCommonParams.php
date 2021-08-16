@@ -17,35 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Validator\Rules;
+namespace OrangeHRM\Leave\Api;
 
-use Closure;
-use DateTime;
-
-class LessThanOrEqual extends AbstractRule
+final class LeaveCommonParams
 {
-    private $targetObject;
+    public const PARAMETER_LEAVE_TYPE_ID = 'leaveTypeId';
+    public const PARAMETER_FROM_DATE = 'fromDate';
+    public const PARAMETER_TO_DATE = 'toDate';
+    public const PARAMETER_COMMENT = 'comment';
+    public const PARAMETER_DURATION = 'duration';
+    public const PARAMETER_END_DURATION = 'endDuration';
+    public const PARAMETER_PARTIAL_OPTION = 'partialOption';
 
-    /**
-     * @param Closure|DateTime|float|int $targetObject
-     */
-    public function __construct($targetObject)
-    {
-        $this->targetObject = $targetObject;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function validate($input): bool
-    {
-        $targetObject = $this->targetObject;
-        if (is_callable($targetObject)) {
-            $targetObject = $targetObject();
-        }
-        if ($targetObject instanceof DateTime) {
-            $input = new DateTime($input);
-        }
-        return $input <= $targetObject;
-    }
+    public const PARAMETER_DURATION_TYPE = 'type';
+    public const PARAMETER_DURATION_FROM_TIME = 'fromTime';
+    public const PARAMETER_DURATION_TO_TIME = 'toTime';
 }

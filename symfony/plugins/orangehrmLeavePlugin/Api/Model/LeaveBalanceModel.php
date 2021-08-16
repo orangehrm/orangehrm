@@ -17,35 +17,42 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Api\V2\Validator\Rules;
+namespace OrangeHRM\Leave\Api\Model;
 
-use Closure;
-use DateTime;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Leave\Entitlement\LeaveBalance;
 
-class LessThanOrEqual extends AbstractRule
+class LeaveBalanceModel implements Normalizable
 {
-    private $targetObject;
+    use ModelTrait;
 
-    /**
-     * @param Closure|DateTime|float|int $targetObject
-     */
-    public function __construct($targetObject)
+    public function __construct(LeaveBalance $leaveBalance)
     {
-        $this->targetObject = $targetObject;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function validate($input): bool
-    {
-        $targetObject = $this->targetObject;
-        if (is_callable($targetObject)) {
-            $targetObject = $targetObject();
-        }
-        if ($targetObject instanceof DateTime) {
-            $input = new DateTime($input);
-        }
-        return $input <= $targetObject;
+        $this->setEntity($leaveBalance);
+        $this->setFilters(
+            [
+                "entitled",
+                "used",
+                "scheduled",
+                "pending",
+                "taken",
+                "balance",
+                ["getYmdAsAtDate"],
+                ["getYmdEndDate"],
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                "entitled",
+                "used",
+                "scheduled",
+                "pending",
+                "taken",
+                "balance",
+                "asAtDate",
+                "endDate",
+            ]
+        );
     }
 }
