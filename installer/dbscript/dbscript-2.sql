@@ -1670,8 +1670,7 @@ INSERT INTO `ohrm_data_group` (`id`, `name`, `description`, `can_read`, `can_cre
 (57, 'recruitment_candidates', 'Recruitment - Candidates', 1, 1, 1, 1),
 (58, 'time_employee_timesheets', 'Time - Employee Timesheets', 1, 0, 0, 0),
 (59, 'leave_list', 'Leave - Leave List', 1, 0, 0, 0),
-(60, 'leave_list_comments', 'Leave - Leave List - Comments', 0, 1, 0, 0),
-(61, 'locations', 'Admin - Locations', 1, 1, 1, 1);
+(60, 'leave_list_comments', 'Leave - Leave List - Comments', 0, 1, 0, 0);
 
 INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
 (1, 1, 1, NULL, 1, NULL, 0),
@@ -1923,11 +1922,7 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 
 (1, 60, 0, 1, 0, 0, 0),
 (2, 60, 0, 1, 0, 0, 1),
-(3, 60, 0, 1, 0, 0, 0),
-
-(1, 61, 1, 1, 1, 1, 0),
-(2, 61, 0, 0, 0, 0, 0),
-(3, 61, 0, 0, 0, 0, 0);
+(3, 60, 0, 1, 0, 0, 0);
 
 INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`) VALUES
 (40, 69, 1),
@@ -3946,3 +3941,13 @@ SET @saveLocationScreenId := (SELECT `id`
                               LIMIT 1);
 INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete)
 VALUES (1, @saveLocationScreenId, 1, 1, 1, 1);
+
+INSERT INTO `ohrm_data_group` (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
+VALUES ('locations', 'Admin - Locations', 1, 1, 1, 1);
+
+SET @locations_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'locations' LIMIT 1);
+
+INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
+VALUES (1, 1, 1, 1, 0, @locations_data_group_id, @admin_role_id),
+       (0, 0, 0, 0, 0, @locations_data_group_id, @ess_role_id),
+       (0, 0, 0, 0, 0, @locations_data_group_id, @supervisor_role_id);
