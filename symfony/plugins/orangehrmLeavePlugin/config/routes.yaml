@@ -26,7 +26,14 @@ apiv2_leave_leave_period:
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Leave\Api\LeavePeriodAPI
-    id: 1
+    id: 0
+
+apiv2_leave_leave_periods:
+  path: /api/v2/leave/leave-periods
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeavePeriodAPI
 
 apiv2_leave_leave_type:
   path: /api/v2/leave/leave-types/{id}
@@ -126,7 +133,27 @@ edit_leave_type:
   path: /leave/saveLeaveTypes/{id}
   controller: OrangeHRM\Leave\Controller\SaveLeaveTypeController::handle
   methods: [ GET ]
+  
+leave_add_leave_entitlement:
+  path: /leave/addLeaveEntitlement
+  controller: OrangeHRM\Leave\Controller\SaveLeaveEntitlementController::handle
+  methods: [ GET ]
 
+leave_edit_leave_entitlement:
+  path: /leave/editLeaveEntitlement/{id}
+  controller: OrangeHRM\Leave\Controller\SaveLeaveEntitlementController::handle
+  methods: [ GET ]
+
+leave_view_leave_entitlement:
+  path: /leave/viewLeaveEntitlements
+  controller: OrangeHRM\Leave\Controller\ViewLeaveEntitlementController::handle
+  methods: [ GET ]
+
+leave_view_my_leave_entitlement:
+  path: /leave/viewMyLeaveEntitlements
+  controller: OrangeHRM\Leave\Controller\ViewMyLeaveEntitlementController::handle
+  methods: [ GET ]
+  
 leave_work_week:
   path: /leave/defineWorkWeek
   controller: OrangeHRM\Leave\Controller\WorkWeekController::handle

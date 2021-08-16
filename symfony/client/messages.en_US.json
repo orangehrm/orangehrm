@@ -111,6 +111,16 @@
           "target": "Name",
           "description": "Name"
         },
+        "search": {
+          "source": "Search",
+          "target": "Search",
+          "description": ""
+        },
+        "confirm": {
+          "source": "Confirm",
+          "target": "Confirm",
+          "description": ""
+        },
         "monday": {
           "source": "Monday",
           "target": "Monday",
@@ -290,6 +300,56 @@
           "source": "Edit Leave Type",
           "target": "Edit Leave Type",
           "description": "Alter the leave type that is needed by the company"
+        },
+        "add_leave_entitlement": {
+          "source": "Add Leave Entitlement",
+          "target": "Add Leave Entitlement",
+          "description": "Add the leave amount to which a person has a right to have."
+        },
+        "add_to": {
+          "source": "Add to",
+          "target": "Add to",
+          "description": ""
+        },
+        "individual_employee": {
+          "source": "Individual Employee",
+          "target": "Individual Employee",
+          "description": ""
+        },
+        "multiple_employees": {
+          "source": "Multiple Employees",
+          "target": "Multiple Employees",
+          "description": ""
+        },
+        "entitlement": {
+          "source": "Entitlement",
+          "target": "Entitlement",
+          "description": ""
+        },
+        "leave_entitlements": {
+          "source": "Leave Entitlements",
+          "target": "Leave Entitlements",
+          "description": "This feature enables the HR Admin with admin rights to Add and View Leave Entitlements for each leave type for all employees."
+        },
+        "my_leave_entitlements": {
+          "source": "My Leave Entitlements",
+          "target": "My Leave Entitlements",
+          "description": "If the user is an ESS User, then he will only see the “My Leave Entitlements and Usage Report” option under Leave&gt;&gt;Reports"
+        },
+        "updating_entitlement": {
+          "source": "Updating Entitlement",
+          "target": "Updating Entitlement",
+          "description": "Give the entitlements to the employee and update leave entitlements"
+        },
+        "matching_employees": {
+          "source": "Matching Employees",
+          "target": "Matching Employees",
+          "description": "This shows list of matching employees who match with best match rule criteria which used to filter candidates successfully."
+        },
+        "edit_leave_entitlement": {
+          "source": "Edit Leave Entitlement",
+          "target": "Edit Leave Entitlement",
+          "description": "Edit the leave amount to which a person has a right to have."
         },
         "work_week": {
           "source": "Work Week",
