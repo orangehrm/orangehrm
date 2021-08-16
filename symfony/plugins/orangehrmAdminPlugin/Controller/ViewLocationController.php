@@ -17,35 +17,39 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Service\Model;
+namespace OrangeHRM\Admin\Controller;
 
-use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\Location;
+use OrangeHRM\Admin\Service\CountryService;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Services;
 
-class LocationModel implements Normalizable
+class ViewLocationController extends BaseAdminController
 {
 
-    use ModelTrait;
+    /**
+     * @inheritDoc
+     */
+    public function init(): void
+    {
+        $component = new Component('location-list');
+        /** @var CountryService $countryService */
+        $countryService = $this->getContainer()->get(Services::COUNTRY_SERVICE);
+        $component->addProp(new Prop('countries', Prop::TYPE_ARRAY, $countryService->getCountryArray()));
+        $this->setPermissionsForController(
+            [
+                'locations',
+            ]
+        );
+        $this->setComponent($component);
+    }
 
     /**
-     * @param Location $location
+     * @inheritDoc
      */
-    public function __construct(Location $location)
+    protected function getDataGroupsForCapabilityCheck(): array
     {
-        $this->setEntity($location);
-        $this->setFilters(
-            [
-                'id',
-                'name',
-            ]
-        );
-        $this->setAttributeNames(
-            [
-                'id',
-                'label',
-            ]
-        );
+        return ['locations'];
     }
 
 }
