@@ -141,7 +141,7 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
         if (!empty($leaveByPeriods)) {
             $result = $this->getNormalizedLeaveBalanceResult($leaveByPeriods, $empNumber, $leaveTypeId);
         } else {
-            $asAtDate = $startDate ?? new DateTime();
+            $asAtDate = $startDate ?? $this->getDateTimeHelper()->getNow();
             $balance = $this->getLeaveEntitlementService()->getLeaveBalance(
                 $empNumber,
                 $leaveTypeId,
@@ -214,11 +214,11 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
             $dayKeys = array_keys($days);
             $firstDay = array_shift($dayKeys);
             if ($firstDay) {
-                $firstDayInPeriod = new DateTime(array_shift($dayKeys));
+                $firstDayInPeriod = new DateTime($firstDay);
             }
             $lastDay = array_pop($dayKeys);
             if ($lastDay) {
-                $lastDayInPeriod = new DateTime(array_pop($dayKeys));
+                $lastDayInPeriod = new DateTime($lastDay);
             }
 
             $leaveBalanceObj = $this->getLeaveEntitlementService()

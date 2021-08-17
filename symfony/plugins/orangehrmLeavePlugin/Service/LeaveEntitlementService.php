@@ -22,6 +22,7 @@ namespace OrangeHRM\Leave\Service;
 use DateTime;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\ClassHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
@@ -34,6 +35,7 @@ class LeaveEntitlementService
 {
     use LeaveConfigServiceTrait;
     use UserRoleManagerTrait;
+    use DateTimeHelperTrait;
     use ClassHelperTrait;
 
     /**
@@ -138,7 +140,7 @@ class LeaveEntitlementService
         ?DateTime $date = null
     ): LeaveBalance {
         if (is_null($asAtDate)) {
-            $asAtDate = new DateTime();
+            $asAtDate = $this->getDateTimeHelper()->getNow();
         }
         // If end date is not defined, and leave period is forced, use end date of current leave period
         // as the end date for leave balance calculation
