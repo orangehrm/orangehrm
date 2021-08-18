@@ -30,15 +30,13 @@ use OrangeHRM\Core\Api\V2\Response;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Validator;
 use OrangeHRM\Core\Controller\AbstractController;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Framework\Http\Request as HttpRequest;
 use OrangeHRM\Framework\Http\Response as HttpResponse;
-use OrangeHRM\Framework\Logger\Logger;
-use OrangeHRM\Framework\Services;
 
 abstract class AbstractRestController extends AbstractController
 {
-    use ServiceContainerTrait;
+    use LoggerTrait;
 
     protected ?ParamRuleCollection $getValidationRule = null;
     protected ?ParamRuleCollection $postValidationRule = null;
@@ -177,7 +175,13 @@ abstract class AbstractRestController extends AbstractController
             // TODO:: should format to show multiple errors
             $response->setContent(
                 Response::formatError(
-                    ['error' => ['status' => '202', 'message' => $e->getMessage()]]
+                    [
+                        'error' => [
+                            'status' => '202',
+                            'message' => $e->getMessage(),
+                            'data' => $e->getNormalizedErrorBag()
+                        ]
+                    ]
                 )
             );
             $response->setStatusCode(202);
@@ -224,14 +228,5 @@ abstract class AbstractRestController extends AbstractController
         }
 
         return $response;
-    }
-
-    /**
-     * @return Logger
-     * @throws Exception
-     */
-    private function getLogger(): Logger
-    {
-        return $this->getContainer()->get(Services::LOGGER);
     }
 }

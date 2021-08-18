@@ -22,6 +22,7 @@ namespace OrangeHRM\Entity\Decorator;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
+use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Entity\LeaveType;
 
 class LeaveDecorator
@@ -67,5 +68,16 @@ class LeaveDecorator
         /** @var LeaveType|null $leaveType */
         $leaveType = $this->getReference(LeaveType::class, $id);
         $this->getLeave()->setLeaveType($leaveType);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLeaveStatus(): string
+    {
+        /** @var LeaveStatus $leaveStatus */
+        $leaveStatus = $this->getRepository(LeaveStatus::class)
+            ->findOneBy(['status' => $this->getLeave()->getStatus()]);
+        return ucfirst(strtolower($leaveStatus->getName()));
     }
 }

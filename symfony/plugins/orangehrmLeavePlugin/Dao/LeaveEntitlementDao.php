@@ -539,7 +539,7 @@ class LeaveEntitlementDao extends BaseDao
             'le.days_used AS used, ' .
             'sum(IF(l.status = 2, lle.length_days, 0)) AS scheduled, ' .
             'sum(IF(l.status IN (' . $pendingIdList . '), lle.length_days, 0)) AS pending, ' .
-            'sum(IF(l.status = 3, l.length_days, 0)) AS taken, 0 as notLinked ' .
+            'sum(IF(l.status = 3, l.length_days, 0)) AS taken ' .
             'FROM ohrm_leave_entitlement le LEFT JOIN ' .
             'ohrm_leave_leave_entitlement lle ON le.id = lle.entitlement_id LEFT JOIN ' .
             'ohrm_leave l ON l.id = lle.leave_id ' .
@@ -566,8 +566,7 @@ class LeaveEntitlementDao extends BaseDao
                 'SUM(l.length_days) AS used, ' .
                 'sum(IF(l.status = 2, l.length_days, 0)) AS scheduled, ' .
                 'sum(IF(l.status IN (' . $pendingIdList . '), l.length_days, 0)) AS pending, ' .
-                'sum(IF(l.status = 3, l.length_days, 0)) AS taken, ' .
-                'sum(l.length_days) AS notLinked ' .
+                'sum(IF(l.status = 3, l.length_days, 0)) AS taken ' .
                 'FROM ohrm_leave l ' .
                 'LEFT JOIN ohrm_leave_leave_entitlement lle ON (lle.leave_id = l.id) ' .
                 'WHERE (lle.leave_id IS NULL) AND l.emp_number = ? AND l.leave_type_id = ? AND l.status NOT IN (-1, 0) ' .
@@ -582,21 +581,15 @@ class LeaveEntitlementDao extends BaseDao
         }
 
         $sql = 'SELECT sum(a.entitled) as entitled, sum(a.used) as used, sum(a.scheduled) as scheduled, ' .
-            'sum(a.pending) as pending, sum(a.taken) as taken, sum(a.notLinked) as notLinked  ' .
+            'sum(a.pending) as pending, sum(a.taken) as taken  ' .
             ' FROM (' . $sql . ') as a';
 
         $statement = $conn->prepare($sql);
         $result = $statement->executeQuery($parameters);
 
-        $adjustmentSql = " SELECT sum(no_of_days) adjustment FROM ohrm_leave_adjustment la" .
-            " WHERE la.emp_number = ? AND la.leave_type_id= ?  AND ? BETWEEN la.from_date AND la.to_date";
-
-        $adjustmentParams = [$empNumber, $leaveTypeId, $formattedAsAtDate];
-
-        $statementAdjustment = $conn->prepare($adjustmentSql);
-        $resultAdjustment = $statementAdjustment->executeQuery($adjustmentParams);
-
         $balance = new LeaveBalance();
+        $balance->setAsAtDate($asAtDate);
+        $balance->setEndDate($date);
         if ($result) {
             if ($statement->rowCount() > 0) {
                 $result = $result->fetchAssociative();
@@ -615,19 +608,8 @@ class LeaveEntitlementDao extends BaseDao
                 if (!empty($result['taken'])) {
                     $balance->setTaken($result['taken']);
                 }
-                if (!empty($result['notLinked'])) {
-                    $balance->setNotLinked($result['notLinked']);
-                }
             }
         }
-
-        if ($resultAdjustment) {
-            $resultAdjustment = $resultAdjustment->fetchAssociative();
-            if (!empty($resultAdjustment['adjustment'])) {
-                $balance->setAdjustment($resultAdjustment['adjustment']);
-            }
-        }
-
         $balance->updateBalance();
 
         return $balance;

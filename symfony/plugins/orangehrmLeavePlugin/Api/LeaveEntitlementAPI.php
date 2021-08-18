@@ -167,11 +167,11 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         $paramRules = new ParamRuleCollection(
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_BULK_ASSIGN, new Rule(Rules::BOOL_TYPE))
-            ),
-            new ParamRule(self::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class)),
-            $this->getEntitlementParamRule(),
+               $this->getValidationDecorator()->notRequiredParamRule(
+                   new ParamRule(self::PARAMETER_BULK_ASSIGN, new Rule(Rules::BOOL_TYPE))
+               ),
+               new ParamRule(self::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class)),
+               $this->getEntitlementParamRule(),
             ...$this->getFromToDatesRules(),
         );
         $bulkAssign = $this->getRequestParams()->getBoolean(
@@ -201,18 +201,19 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     private function getFromToDatesRules(): array
     {
         return [
-            new ParamRule(self::PARAMETER_FROM_DATE, new Rule(Rules::API_DATE)),
             new ParamRule(
-                self::PARAMETER_TO_DATE, new Rule(Rules::API_DATE),
+                self::PARAMETER_FROM_DATE,
+                new Rule(Rules::API_DATE),
                 new Rule(Rules::LESS_THAN_OR_EQUAL, [
                     function () {
                         return $this->getRequestParams()->getDateTime(
                             RequestParams::PARAM_TYPE_BODY,
-                            self::PARAMETER_FROM_DATE
+                            self::PARAMETER_TO_DATE
                         );
                     }
                 ])
             ),
+            new ParamRule(self::PARAMETER_TO_DATE, new Rule(Rules::API_DATE)),
         ];
     }
 
@@ -257,8 +258,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getIdParamRule(),
-            $this->getEntitlementParamRule(),
+               $this->getIdParamRule(),
+               $this->getEntitlementParamRule(),
             ...$this->getFromToDatesRules()
         );
     }
