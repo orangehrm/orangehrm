@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Leave\Api;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Entity\WorkWeek;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\WorkWeekAPI;
 use OrangeHRM\Leave\Dao\WorkWeekDao;
 use OrangeHRM\Leave\Service\WorkWeekService;
@@ -29,13 +30,14 @@ use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
 
 /**
- * @group Pim
+ * @group Leave
  * @group APIv2
  */
 class WorkWeekAPITest extends EndpointTestCase
 {
     public function testGetWorkWeekService(): void
     {
+        $this->createKernelWithMockServices([Services::WORK_WEEK_SERVICE => new WorkWeekService()]);
         $this->assertTrue(
             $this->invokeProtectedMethod(
                 WorkWeekAPI::class,

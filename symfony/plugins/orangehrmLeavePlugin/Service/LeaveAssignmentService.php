@@ -1,4 +1,25 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
+namespace OrangeHRM\Leave\Service;
+
+use OrangeHRM\Leave\Dto\LeaveParameterObject;
 
 class LeaveAssignmentService extends AbstractLeaveAllocationService {
 
@@ -167,7 +188,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
      * @param type $leaveDate
      * @return type 
      */
-    public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate, LeaveParameterObject $leaveAssignmentData) {
+    public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate, LeaveParameterObject $leaveAssignmentData):int {
         
         // TODO: Change here for leave workflow
         
@@ -198,7 +219,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
         return $status;
     }
     
-    protected function allowToExceedLeaveBalance() {
+    protected function allowToExceedLeaveBalance():bool {
         return true;
     }
     
@@ -224,19 +245,5 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
         }
         
         return $this->assignWorkflowItem;
-    }    
-    
-    /**
-     * Get Logger instance. Creates if not already created.
-     *
-     * @return Logger
-     */
-    protected function getLogger() {
-        if (is_null($this->logger)) {
-            $this->logger = Logger::getLogger('leave.LeaveAssignmentService');
-        }
-
-        return($this->logger);
-    }     
-
+    }
 }

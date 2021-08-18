@@ -1,7 +1,5 @@
 <?php
-
-/*
- *
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -17,75 +15,92 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-class LeavePeriodDao extends BaseDao {
+namespace OrangeHRM\Leave\Dao;
 
+use DateTime;
+use Exception;
+use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Entity\LeavePeriodHistory;
+use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
+use OrangeHRM\ORM\ListSorter;
 
+class LeavePeriodDao extends BaseDao
+{
+    use LeavePeriodServiceTrait;
+    use LeaveEntitlementServiceTrait;
+    use LeaveConfigServiceTrait;
 
     /**
-     * Save Leave Period History
-     * 
      * @param LeavePeriodHistory $leavePeriodHistory
-     * @return \LeavePeriodHistory
+     * @return LeavePeriodHistory
      * @throws DaoException
      */
-    public function saveLeavePeriodHistory(LeavePeriodHistory $leavePeriodHistory) {
+    public function saveLeavePeriodHistory(LeavePeriodHistory $leavePeriodHistory): LeavePeriodHistory
+    {
+        $this->beginTransaction();
         try {
+            $currentLeavePeriod = $this->getCurrentLeavePeriodStartDateAndMonth();
+            $this->persist($leavePeriodHistory);
 
-            $leavePeriodHistory->save();
+            $isLeavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
+            if (!$isLeavePeriodDefined) {
+                $this->getLeaveConfigService()->setLeavePeriodDefined(true);
+            }
 
-            return $leavePeriodHistory;
+            if (!empty($currentLeavePeriod) && $isLeavePeriodDefined) {
+                $leavePeriodForToday = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(
+                    new DateTime(),
+                    true
+                );
+                $oldStartMonth = $currentLeavePeriod->getStartMonth();
+                $oldStartDay = $currentLeavePeriod->getStartDay();
+                $newStartMonth = $leavePeriodHistory->getStartMonth();
+                $newStartDay = $leavePeriodHistory->getStartDay();
 
-            // @codeCoverageIgnoreStart
+                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
+                $strategy->handleLeavePeriodChange(
+                    $leavePeriodForToday,
+                    $oldStartMonth,
+                    $oldStartDay,
+                    $newStartMonth,
+                    $newStartDay
+                );
+            }
+
+            $this->commitTransaction();
         } catch (Exception $e) {
+            $this->rollBackTransaction();
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        // @codeCoverageIgnoreEnd
+
+        return $leavePeriodHistory;
     }
 
     /**
-     * Return latest record of leave period history 
-     * 
-     * @return LeavePeriodHistory leavePeriodHistory
-     * @throws DaoException
+     * @return LeavePeriodHistory|null
      */
-    public function getCurrentLeavePeriodStartDateAndMonth() {
-        try {
-            $q = Doctrine_Query::create()
-                    ->from("LeavePeriodHistory lph")
-                    ->addOrderBy("lph.created_at DESC")
-                    ->addOrderBy("id DESC");
+    public function getCurrentLeavePeriodStartDateAndMonth(): ?LeavePeriodHistory
+    {
+        $q = $this->createQueryBuilder(LeavePeriodHistory::class, 'leavePeriod');
+        $q->addOrderBy('leavePeriod.createdAt', ListSorter::DESCENDING);
+        $q->addOrderBy('leavePeriod.id', ListSorter::DESCENDING);
 
-            
-            return $q->fetchOne();
-
-            // @codeCoverageIgnoreStart
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-        // @codeCoverageIgnoreEnd
+        return $this->fetchOne($q);
     }
-    
+
     /**
-     * Get All Leave period list
+     * @return LeavePeriodHistory[]
      */
-    public function getLeavePeriodHistoryList( ){
-        try {
-            $q = Doctrine_Query::create()
-                    ->from("LeavePeriodHistory lph")
-                    ->addOrderBy("lph.created_at")
-                    ->addOrderBy("id ");
+    public function getLeavePeriodHistoryList(): array
+    {
+        $q = $this->createQueryBuilder(LeavePeriodHistory::class, 'leavePeriod');
+        $q->addOrderBy('leavePeriod.createdAt');
 
-           
-            return $q->execute();
-
-            // @codeCoverageIgnoreStart
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
-        // @codeCoverageIgnoreEnd
+        return $q->getQuery()->execute();
     }
-
 }

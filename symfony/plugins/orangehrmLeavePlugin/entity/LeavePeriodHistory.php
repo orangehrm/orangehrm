@@ -21,13 +21,19 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\LeavePeriodHistoryDecorator;
 
 /**
+ * @method LeavePeriodHistoryDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_leave_period_history")
  * @ORM\Entity
  */
 class LeavePeriodHistory
 {
+    use DecoratorTrait;
+
     /**
      * @var int
      *
@@ -42,14 +48,14 @@ class LeavePeriodHistory
      *
      * @ORM\Column(name="leave_period_start_month", type="integer")
      */
-    private int $leavePeriodStartMonth;
+    private int $startMonth;
 
     /**
      * @var int
      *
      * @ORM\Column(name="leave_period_start_day", type="integer")
      */
-    private int $leavePeriodStartDay;
+    private int $startDay;
 
     /**
      * @var DateTime
@@ -77,33 +83,33 @@ class LeavePeriodHistory
     /**
      * @return int
      */
-    public function getLeavePeriodStartMonth(): int
+    public function getStartMonth(): int
     {
-        return $this->leavePeriodStartMonth;
+        return $this->startMonth;
     }
 
     /**
-     * @param int $leavePeriodStartMonth
+     * @param int $startMonth
      */
-    public function setLeavePeriodStartMonth(int $leavePeriodStartMonth): void
+    public function setStartMonth(int $startMonth): void
     {
-        $this->leavePeriodStartMonth = $leavePeriodStartMonth;
+        $this->startMonth = $startMonth;
     }
 
     /**
      * @return int
      */
-    public function getLeavePeriodStartDay(): int
+    public function getStartDay(): int
     {
-        return $this->leavePeriodStartDay;
+        return $this->startDay;
     }
 
     /**
-     * @param int $leavePeriodStartDay
+     * @param int $startDay
      */
-    public function setLeavePeriodStartDay(int $leavePeriodStartDay): void
+    public function setStartDay(int $startDay): void
     {
-        $this->leavePeriodStartDay = $leavePeriodStartDay;
+        $this->startDay = $startDay;
     }
 
     /**

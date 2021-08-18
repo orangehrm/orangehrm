@@ -39,6 +39,7 @@ class EmployeeSubordinateModelTest extends TestCase
                 "firstName" => 'Andy',
                 "lastName" => "Smith",
                 "middleName" => "",
+                "terminationId" => null,
             ],
             "reportingMethod" => [
                 "id" => 1,
@@ -51,12 +52,14 @@ class EmployeeSubordinateModelTest extends TestCase
         $employee1->setLastName('Abbey');
         $employee1->setEmployeeId('0001');
         $employee1->setEmpNumber(1);
+        $employee1->setEmployeeTerminationRecord(null);
 
         $employee2 = new Employee();
         $employee2->setFirstName('Andy');
         $employee2->setLastName('Smith');
         $employee2->setEmployeeId('0002');
         $employee2->setEmpNumber(2);
+        $employee2->setEmployeeTerminationRecord(null);
 
         $reportingMethod = new ReportingMethod();
         $reportingMethod->setName('Direct');

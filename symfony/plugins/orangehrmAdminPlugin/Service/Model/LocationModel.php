@@ -25,6 +25,7 @@ use OrangeHRM\Entity\Location;
 
 class LocationModel implements Normalizable
 {
+
     use ModelTrait;
 
     /**
@@ -42,8 +43,9 @@ class LocationModel implements Normalizable
         $this->setAttributeNames(
             [
                 'id',
-                'label'
+                'label',
             ]
         );
     }
+
 }

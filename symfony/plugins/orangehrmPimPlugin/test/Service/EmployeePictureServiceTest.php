@@ -46,6 +46,7 @@ class EmployeePictureServiceTest extends KernelTestCase
     {
         $empNumber = 5;
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->once())
@@ -92,6 +93,7 @@ class EmployeePictureServiceTest extends KernelTestCase
     {
         $empNumber = 5;
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
         $userRoleManager->expects($this->once())

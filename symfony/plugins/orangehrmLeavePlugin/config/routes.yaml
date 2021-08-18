@@ -20,7 +20,156 @@ apiv2_leave_workweek:
     _api: OrangeHRM\Leave\Api\WorkWeekAPI
     id: 1
 
+apiv2_leave_leave_period:
+  path: /api/v2/leave/leave-period
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeavePeriodAPI
+    id: 0
+
+apiv2_leave_leave_periods:
+  path: /api/v2/leave/leave-periods
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeavePeriodAPI
+
+apiv2_leave_leave_type:
+  path: /api/v2/leave/leave-types/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveTypeAPI
+  requirements:
+    id: '\d+'
+
+apiv2_leave_leave_types:
+  path: /api/v2/leave/leave-types
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveTypeAPI
+
+apiv2_leave_eligible_leave_types:
+  path: /api/v2/leave/leave-types/eligible
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\EligibleLeaveTypeAPI
+
+apiv2_leave_leave_requests:
+  path: /api/v2/leave/leave-requests
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\MyLeaveRequestAPI
+
+apiv2_leave_employee_leave_requests:
+  path: /api/v2/leave/employees/{empNumber}/leave-requests
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\EmployeeLeaveRequestAPI
+  requirements:
+    empNumber: '\d+'
+
+apiv2_leave_leave_entitlement:
+  path: /api/v2/leave/leave-entitlements/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveEntitlementAPI
+  requirements:
+    id: '\d+'
+
+apiv2_leave_leave_entitlements:
+  path: /api/v2/leave/leave-entitlements
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveEntitlementAPI
 
 ##########################
 #        Screens
 ##########################
+
+leave_module:
+  path: /leave/viewLeaveModule
+  controller: OrangeHRM\Leave\Controller\LeaveModuleController::handle
+  methods: [ GET ]
+
+leave_define_leave_period:
+  path: /leave/defineLeavePeriod
+  controller: OrangeHRM\Leave\Controller\LeavePeriodController::handle
+  methods: [ GET ]
+
+leave_apply_leave:
+  path: /leave/applyLeave
+  controller: OrangeHRM\Leave\Controller\ApplyLeaveController::handle
+  methods: [ GET ]
+
+leave_assign_leave:
+  path: /leave/assignLeave
+  controller: OrangeHRM\Leave\Controller\AssignLeaveController::handle
+  methods: [ GET ]
+
+leave_leave_list:
+  path: /leave/viewLeaveList/reset/1 # refactor 4.x route
+  controller: OrangeHRM\Leave\Controller\LeaveListController::handle
+  methods: [ GET ]
+
+view_leave_type:
+  path: /leave/leaveTypeList
+  controller: OrangeHRM\Leave\Controller\LeaveTypeController::handle
+  methods: [ GET ]
+
+save_leave_type:
+  path: /leave/saveLeaveTypes
+  controller: OrangeHRM\Leave\Controller\SaveLeaveTypeController::handle
+  methods: [ GET ]
+
+edit_leave_type:
+  path: /leave/saveLeaveTypes/{id}
+  controller: OrangeHRM\Leave\Controller\SaveLeaveTypeController::handle
+  methods: [ GET ]
+  
+leave_add_leave_entitlement:
+  path: /leave/addLeaveEntitlement
+  controller: OrangeHRM\Leave\Controller\SaveLeaveEntitlementController::handle
+  methods: [ GET ]
+
+leave_edit_leave_entitlement:
+  path: /leave/editLeaveEntitlement/{id}
+  controller: OrangeHRM\Leave\Controller\SaveLeaveEntitlementController::handle
+  methods: [ GET ]
+
+leave_view_leave_entitlement:
+  path: /leave/viewLeaveEntitlements
+  controller: OrangeHRM\Leave\Controller\ViewLeaveEntitlementController::handle
+  methods: [ GET ]
+
+leave_view_my_leave_entitlement:
+  path: /leave/viewMyLeaveEntitlements
+  controller: OrangeHRM\Leave\Controller\ViewMyLeaveEntitlementController::handle
+  methods: [ GET ]
+  
+leave_work_week:
+  path: /leave/defineWorkWeek
+  controller: OrangeHRM\Leave\Controller\WorkWeekController::handle
+  methods: [ GET ]
+
+list_holidays:
+  path: /leave/viewHolidayList
+  controller: OrangeHRM\Leave\Controller\HolidayController::handle
+  methods: [ GET ]
+
+add_holiday:
+  path: /leave/saveHolidays
+  controller: OrangeHRM\Leave\Controller\SaveHolidayController::handle
+  methods: [ GET ]
+
+edit_holiday:
+  path: /leave/saveHolidays/{id}
+  controller: OrangeHRM\Leave\Controller\SaveHolidayController::handle
+  methods: [ GET ]

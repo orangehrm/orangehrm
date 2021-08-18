@@ -23,16 +23,18 @@ use OrangeHRM\Admin\Dao\UserDao;
 use OrangeHRM\Admin\Service\UserService;
 use OrangeHRM\Authentication\Dto\UserCredential;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Utility\PasswordHash;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
  * @group Admin
  * @group Service
  */
-class UserServiceTest extends TestCase
+class UserServiceTest extends KernelTestCase
 {
 
     /** @property UserService $systemUserService */
@@ -419,9 +421,11 @@ class UserServiceTest extends TestCase
 
     public function testGetUndeletableUserIds(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $user = new User();
         $user->setId(1);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['getUser'])
             ->getMock();
         $userRoleManager->expects($this->exactly(2))

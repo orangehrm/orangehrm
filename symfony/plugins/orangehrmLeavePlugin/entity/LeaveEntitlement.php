@@ -21,13 +21,21 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use OrangeHRM\Entity\Decorator\DecoratorTrait;
+use OrangeHRM\Entity\Decorator\LeaveEntitlementDecorator;
 
 /**
+ * @method LeaveEntitlementDecorator getDecorator()
+ *
  * @ORM\Table(name="ohrm_leave_entitlement")
  * @ORM\Entity
  */
 class LeaveEntitlement
 {
+    use DecoratorTrait;
+
+    public const ENTITLEMENT_TYPE_ADD = 1;
+
     /**
      * @var int
      *
@@ -46,18 +54,18 @@ class LeaveEntitlement
     private Employee $employee;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="no_of_days", type="decimal", precision=19, scale=15)
      */
-    private string $noOfDays;
+    private float $noOfDays;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="days_used", type="decimal", precision=8, scale=4, options={"default":0.0000})
      */
-    private string $daysUsed;
+    private float $daysUsed = 0.0000;
 
     /**
      * @var LeaveType
@@ -108,7 +116,7 @@ class LeaveEntitlement
      *
      * @ORM\Column(name="deleted", type="boolean", options={"default":0})
      */
-    private bool $deleted;
+    private bool $deleted = false;
 
     /**
      * @var User
@@ -117,4 +125,196 @@ class LeaveEntitlement
      * @ORM\JoinColumn(name="created_by_id", referencedColumnName="id")
      */
     private User $createdBy;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return Employee
+     */
+    public function getEmployee(): Employee
+    {
+        return $this->employee;
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    public function setEmployee(Employee $employee): void
+    {
+        $this->employee = $employee;
+    }
+
+    /**
+     * @return float
+     */
+    public function getNoOfDays(): float
+    {
+        return $this->noOfDays;
+    }
+
+    /**
+     * @param float $noOfDays
+     */
+    public function setNoOfDays(float $noOfDays): void
+    {
+        $this->noOfDays = number_format($noOfDays, 15);
+    }
+
+    /**
+     * @return float
+     */
+    public function getDaysUsed(): float
+    {
+        return $this->daysUsed;
+    }
+
+    /**
+     * @param float $daysUsed
+     */
+    public function setDaysUsed(float $daysUsed): void
+    {
+        $this->daysUsed = number_format($daysUsed, 4);
+    }
+
+    /**
+     * @return LeaveType
+     */
+    public function getLeaveType(): LeaveType
+    {
+        return $this->leaveType;
+    }
+
+    /**
+     * @param LeaveType $leaveType
+     */
+    public function setLeaveType(LeaveType $leaveType): void
+    {
+        $this->leaveType = $leaveType;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getFromDate(): DateTime
+    {
+        return $this->fromDate;
+    }
+
+    /**
+     * @param DateTime $fromDate
+     */
+    public function setFromDate(DateTime $fromDate): void
+    {
+        $this->fromDate = $fromDate;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getToDate(): DateTime
+    {
+        return $this->toDate;
+    }
+
+    /**
+     * @param DateTime $toDate
+     */
+    public function setToDate(DateTime $toDate): void
+    {
+        $this->toDate = $toDate;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreditedDate(): DateTime
+    {
+        return $this->creditedDate;
+    }
+
+    /**
+     * @param DateTime $creditedDate
+     */
+    public function setCreditedDate(DateTime $creditedDate): void
+    {
+        $this->creditedDate = $creditedDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNote(): string
+    {
+        return $this->note;
+    }
+
+    /**
+     * @param string $note
+     */
+    public function setNote(string $note): void
+    {
+        $this->note = $note;
+    }
+
+    /**
+     * @return LeaveEntitlementType
+     */
+    public function getEntitlementType(): LeaveEntitlementType
+    {
+        return $this->entitlementType;
+    }
+
+    /**
+     * @param LeaveEntitlementType $entitlementType
+     */
+    public function setEntitlementType(LeaveEntitlementType $entitlementType): void
+    {
+        $this->entitlementType = $entitlementType;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted(): bool
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @param bool $deleted
+     */
+    public function setDeleted(bool $deleted): void
+    {
+        $this->deleted = $deleted;
+    }
+
+    /**
+     * @return User
+     */
+    public function getCreatedBy(): User
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param User $createdBy
+     */
+    public function setCreatedBy(User $createdBy): void
+    {
+        $this->createdBy = $createdBy;
+    }
 }

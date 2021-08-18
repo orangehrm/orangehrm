@@ -19,15 +19,11 @@
  -->
 
 <template>
-  <oxd-input-field
-    type="dropdown"
-    :create-options="loadOptions"
-    :lazyLoad="false"
-    :clear="false"
-  />
+  <oxd-input-field type="select" :options="options" />
 </template>
 
 <script>
+import {ref, onBeforeMount} from 'vue';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 export default {
   name: 'qualification-dropdown',
@@ -38,26 +34,21 @@ export default {
     },
   },
   setup(props) {
+    const options = ref([]);
     const http = new APIService(window.appGlobal.baseUrl, props.api);
-    return {
-      http,
-    };
-  },
-  methods: {
-    async loadOptions() {
-      return new Promise(resolve => {
-        this.http.getAll().then(({data}) => {
-          resolve(
-            data.data.map(item => {
-              return {
-                id: item.id,
-                label: item.name,
-              };
-            }),
-          );
+    onBeforeMount(() => {
+      http.getAll().then(({data}) => {
+        options.value = data.data.map(item => {
+          return {
+            id: item.id,
+            label: item.name,
+          };
         });
       });
-    },
+    });
+    return {
+      options,
+    };
   },
 };
 </script>

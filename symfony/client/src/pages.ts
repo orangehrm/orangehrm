@@ -52,6 +52,11 @@ import Nationality from '@/orangehrmAdminPlugin/pages/nationality/Nationality.vu
 import EditNationality from '@/orangehrmAdminPlugin/pages/nationality/EditNationality.vue';
 import SaveNationality from '@/orangehrmAdminPlugin/pages/nationality/SaveNationality.vue';
 import ViewEmailConfiguration from '@/orangehrmAdminPlugin/pages/emailConfiguration/ViewEmailConfiguration.vue';
+import OAuthPages from '@/orangehrmCoreOAuthPlugin';
+import LeavePages from '@/orangehrmLeavePlugin';
+import LocationList from '@/orangehrmAdminPlugin/pages/location/LocationList.vue';
+import SaveLocation from '@/orangehrmAdminPlugin/pages/location/SaveLocation.vue';
+import EditLocation from '@/orangehrmAdminPlugin/pages/location/EditLocation.vue';
 import PayGrade from '@/orangehrmAdminPlugin/pages/payGrade/PayGrade.vue';
 import AddPayGrade from '@/orangehrmAdminPlugin/pages/payGrade/AddPayGrade.vue';
 import EditPayGrade from '@/orangehrmAdminPlugin/pages/payGrade/EditPayGrade.vue';
@@ -81,6 +86,7 @@ export default {
   'license-save': SaveQualificationLicense,
   'license-edit': EditQualificationLicense,
   ...PimPages,
+  ...LeavePages,
   ...CorePages,
   'qualification-language-list': QualificationLanguage,
   'qualification-language-edit': EditQualificationLanguage,
@@ -92,7 +98,12 @@ export default {
   'nationality-list': Nationality,
   'nationality-edit': EditNationality,
   'nationality-save': SaveNationality,
+  'location-list': LocationList,
+  'location-save': SaveLocation,
+  'location-edit': EditLocation,
   'email-configuration-view': ViewEmailConfiguration,
+  ...OAuthPages,
+  ...LeavePages,
   'pay-grade-list': PayGrade,
   'pay-grade-add': AddPayGrade,
   'pay-grade-edit': EditPayGrade,

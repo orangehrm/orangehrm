@@ -21,19 +21,21 @@ namespace OrangeHRM\Tests\Core\Service;
 
 use Generator;
 use OrangeHRM\Core\Dao\IDGeneratorDao;
+use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\IDGeneratorService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\JobCategory;
 use OrangeHRM\Entity\JobTitle;
 use OrangeHRM\Entity\Location;
 use OrangeHRM\Entity\Membership;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
  * @group Core
  * @group Service
  */
-class IDGeneratorServiceTest extends TestCase
+class IDGeneratorServiceTest extends KernelTestCase
 {
     private IDGeneratorService $idGeneratorService;
 
@@ -64,6 +66,7 @@ class IDGeneratorServiceTest extends TestCase
             ->method('updateNextId')
             ->willReturn(1);
         $this->idGeneratorService->setIDGeneratorDao($mockDao);
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
 
         $nextId = $this->idGeneratorService->getNextID($entity);
         $this->assertEquals($expected, $nextId);

@@ -62,7 +62,7 @@ class IDGeneratorService
     private function getEntityPrefix(string $entityClass): string
     {
         $prefix = '';
-        $entityClass = $this->getClass($entityClass, 'OrangeHRM\\Entity\\');
+        $entityClass = $this->getClassHelper()->getClass($entityClass, 'OrangeHRM\\Entity\\');
         switch ($entityClass) {
             case Location::class:
                 $prefix = 'LOC';

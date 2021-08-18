@@ -19,7 +19,11 @@
 
 namespace OrangeHRM\Core\Service;
 
+use DateInterval;
 use DateTime;
+use DateTimeZone;
+use Exception;
+use InvalidArgumentException;
 
 class DateTimeHelperService
 {
@@ -65,5 +69,49 @@ class DateTimeHelperService
         }
 
         return $this->formatDateTimeToYmd($dateTime1) === $this->formatDateTimeToYmd($dateTime2);
+    }
+
+    /**
+     * @see https://www.php.net/manual/en/datetime.diff.php
+     * @see https://www.php.net/manual/en/dateinterval.format.php
+     *
+     * @param DateTime|null $baseDateTime
+     * @param DateTime|null $targetDateTime
+     * @return float
+     */
+    public function dateDiffInHours(?DateTime $baseDateTime, ?DateTime $targetDateTime): float
+    {
+        $dateInterval = $baseDateTime->diff($targetDateTime);
+        return $dateInterval->days * 24 + $dateInterval->h + $dateInterval->i / 60;
+    }
+
+    /**
+     * @param DateTime|null $fromDateTime
+     * @param DateTime|null $toDateTime
+     * @param string $duration https://www.php.net/manual/en/dateinterval.construct.php#refsect1-dateinterval.construct-parameters
+     * @return DateTime[]
+     */
+    public function dateRange(?DateTime $fromDateTime, ?DateTime $toDateTime, string $duration = 'P1D'): array
+    {
+        if ($fromDateTime > $toDateTime) {
+            throw new InvalidArgumentException('From date should be before that to date');
+        }
+        $currentDateTime = clone $fromDateTime;
+        do {
+            $dates[] = clone $currentDateTime;
+            $currentDateTime = $currentDateTime->add(new DateInterval($duration));
+        } while ($currentDateTime <= $toDateTime);
+        return $dates;
+    }
+
+    /**
+     * @param string $time
+     * @param DateTimeZone|null $timezone
+     * @return DateTime
+     * @throws Exception
+     */
+    public function getNow($time = 'now', DateTimeZone $timezone = null)
+    {
+        return new DateTime($time, $timezone);
     }
 }
