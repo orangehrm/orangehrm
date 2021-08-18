@@ -23,16 +23,15 @@ use DateInterval;
 use DateTime;
 use InvalidArgumentException;
 use OrangeHRM\Core\Exception\ServiceException;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\LeavePeriodHistory;
-use OrangeHRM\Leave\Service\Model\LeavePeriodModel;
 use OrangeHRM\Leave\Dao\LeavePeriodDao;
 use OrangeHRM\Leave\Dto\LeavePeriod;
 use OrangeHRM\Leave\Dto\LeavePeriodDataHolder;
+use OrangeHRM\Leave\Service\Model\LeavePeriodModel;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
-use OrangeHRM\Core\Service\DateTimeHelperService;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
 class LeavePeriodService
 {
@@ -326,7 +325,6 @@ class LeavePeriodService
      * @param DateTime $currentDate
      * @param bool $forceReload
      * @return LeavePeriod|null
-     * @throws ServiceException
      */
     public function getCurrentLeavePeriodByDate(DateTime $currentDate, bool $forceReload = false): ?LeavePeriod
     {
@@ -342,29 +340,24 @@ class LeavePeriodService
     }
 
     /**
-     * Get Calender Year By Date
-     * @param type $time
+     * @return LeavePeriod|null
      */
-    public function getCalenderYearByDate( $time ){
-        // TODO
-            $year = date('Y', $time);
-            $fromDate = $year . '-1-1';
-            $toDate = $year . '-12-31';
-
-            return [$fromDate,$toDate];
+    public function getCurrentLeavePeriod(): ?LeavePeriod
+    {
+        $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
+        return $leavePeriodDefined ? $this->getCurrentLeavePeriodByDate($this->getDateTimeHelper()->getNow()) : null;
     }
 
     /**
      * @return array|null
-     * @throws ServiceException
      */
-    public function getCurrentLeavePeriod(): ?array
+    public function getCurrentLeavePeriodAsArray(): ?array
     {
-        $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
-        return $leavePeriodDefined ?
+        $currentLeavePeriod = $this->getCurrentLeavePeriod();
+        return $currentLeavePeriod ?
             $this->getNormalizerService()->normalize(
                 LeavePeriodModel::class,
-                $this->getCurrentLeavePeriodByDate($this->getDateTimeHelper()->getNow())
+                $currentLeavePeriod
             ) : null;
     }
 }

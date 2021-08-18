@@ -32,6 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
@@ -39,11 +40,14 @@ use OrangeHRM\Leave\Api\Model\LeaveEntitlementModel;
 use OrangeHRM\Leave\Api\ValidationRules\LeaveTypeIdRule;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
 {
     use UserRoleManagerTrait;
     use LeaveEntitlementServiceTrait;
+    use LeavePeriodServiceTrait;
+    use DateTimeHelperTrait;
     use AuthUserTrait;
 
     public const PARAMETER_BULK_ASSIGN = 'bulkAssign';
@@ -118,16 +122,21 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             $this->getAuthUser()->getEmpNumber()
         );
         $leaveTypeId = $this->getRequestParams()->getIntOrNull(
-            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            RequestParams::PARAM_TYPE_QUERY,
             LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID
         );
-        $fromDate = $this->getRequestParams()->getDateTimeOrNull(
+        $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+        $fromDate = $this->getRequestParams()->getDateTime(
             RequestParams::PARAM_TYPE_QUERY,
-            LeaveCommonParams::PARAMETER_FROM_DATE
+            LeaveCommonParams::PARAMETER_FROM_DATE,
+            null,
+            $currentLeavePeriod->getStartDate()
         );
-        $toDate = $this->getRequestParams()->getDateTimeOrNull(
+        $toDate = $this->getRequestParams()->getDateTime(
             RequestParams::PARAM_TYPE_QUERY,
-            LeaveCommonParams::PARAMETER_TO_DATE
+            LeaveCommonParams::PARAMETER_TO_DATE,
+            null,
+            $currentLeavePeriod->getEndDate()
         );
 
         $entitlementSearchFilterParams = new LeaveEntitlementSearchFilterParams();
@@ -153,6 +162,10 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
                 [
                     CommonParams::PARAMETER_TOTAL => $total,
                     self::META_PARAMETER_SUM => $sum,
+                    LeaveCommonParams::PARAMETER_FROM_DATE => $this->getDateTimeHelper()
+                        ->formatDateTimeToYmd($fromDate),
+                    LeaveCommonParams::PARAMETER_TO_DATE => $this->getDateTimeHelper()
+                        ->formatDateTimeToYmd($toDate),
                 ]
             )
         );

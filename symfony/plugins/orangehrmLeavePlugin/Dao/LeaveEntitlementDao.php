@@ -100,16 +100,16 @@ class LeaveEntitlementDao extends BaseDao
 
         if (!empty($entitlementSearchFilterParams->getLeaveTypeId())) {
             $q->andWhere('entitlement.leaveType = :leaveTypeId')
-                ->setParameter('leaveType', $entitlementSearchFilterParams->getLeaveTypeId());
+                ->setParameter('leaveTypeId', $entitlementSearchFilterParams->getLeaveTypeId());
         }
 
         if (!empty($entitlementSearchFilterParams->getFromDate())) {
-            $q->andWhere('entitlement.fromDate = :fromDate')
+            $q->andWhere($q->expr()->gte('entitlement.fromDate', ':fromDate'))
                 ->setParameter('fromDate', $entitlementSearchFilterParams->getFromDate());
         }
 
         if (!empty($entitlementSearchFilterParams->getToDate())) {
-            $q->andWhere('entitlement.toDate = :toDate')
+            $q->andWhere($q->expr()->lte('entitlement.toDate', ':toDate'))
                 ->setParameter('toDate', $entitlementSearchFilterParams->getToDate());
         }
 
