@@ -90,6 +90,15 @@ apiv2_leave_leave_entitlements:
   defaults:
     _api: OrangeHRM\Leave\Api\LeaveEntitlementAPI
 
+apiv2_leave_leave_balance:
+  path: /api/v2/leave/leave-balance/leave-type/{leaveTypeId}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveBalanceAPI
+    _key: leaveTypeId
+
+
 ##########################
 #        Screens
 ##########################

@@ -22,7 +22,6 @@ namespace OrangeHRM\Core\Service;
 use DateInterval;
 use DateTime;
 use DateTimeZone;
-use Exception;
 use InvalidArgumentException;
 
 class DateTimeHelperService
@@ -105,13 +104,11 @@ class DateTimeHelperService
     }
 
     /**
-     * @param string $time
      * @param DateTimeZone|null $timezone
      * @return DateTime
-     * @throws Exception
      */
-    public function getNow($time = 'now', DateTimeZone $timezone = null)
+    public function getNow(DateTimeZone $timezone = null): DateTime
     {
-        return new DateTime($time, $timezone);
+        return new DateTime('now', $timezone);
     }
 }
