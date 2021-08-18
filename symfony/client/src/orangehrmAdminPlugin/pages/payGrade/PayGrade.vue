@@ -68,7 +68,7 @@
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 
 const currencyNormalizer = data => {
   return data.map(item => {

@@ -57,7 +57,7 @@
 
 <script>
 import {navigate, reloadPage} from '@orangehrm/core/util/helper/navigation';
-import {APIService} from '@/core/util/services/api.service';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 import {
   required,
   shouldNotExceedCharLength,

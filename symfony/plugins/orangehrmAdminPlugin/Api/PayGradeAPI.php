@@ -55,9 +55,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
-     * @throws \OrangeHRM\Core\Api\V2\Serializer\NormalizeException
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
     {
@@ -73,7 +71,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return ParamRuleCollection
+     * @inheritDoc
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
@@ -81,9 +79,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResourceResult
-     * @throws \OrangeHRM\Core\Api\V2\Serializer\NormalizeException
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @inheritDoc
      */
     public function create(): EndpointResourceResult
     {
@@ -92,7 +88,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return ParamRuleCollection
+     * @inheritDoc
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
@@ -102,9 +98,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
-     * @throws \OrangeHRM\Core\Api\V2\Serializer\NormalizeException
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @inheritDoc
      */
     public function delete(): EndpointResult
     {
@@ -114,7 +108,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return ParamRuleCollection
+     * @inheritDoc
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
@@ -124,10 +118,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
-     * @throws RecordNotFoundException
-     * @throws \OrangeHRM\Core\Api\V2\Serializer\NormalizeException
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @inheritDoc
      */
     public function getOne(): EndpointResult
     {
@@ -138,7 +129,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return ParamRuleCollection
+     * @inheritDoc
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
@@ -148,9 +139,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
-     * @return EndpointResult
-     * @throws \OrangeHRM\Core\Api\V2\Serializer\NormalizeException
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @inheritDoc
      */
     public function update(): EndpointResourceResult
     {
@@ -158,6 +147,9 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
         return new EndpointResourceResult(PayGradeModel::class, $payGrade);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(

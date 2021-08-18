@@ -51,9 +51,7 @@ class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @return EndpointCollectionResult
-     * @throws \OrangeHRM\Core\Api\V2\Serializer\NormalizeException
-     * @throws \OrangeHRM\Core\Exception\DaoException
+     * @inheritDoc
      */
     public function getAll(): EndpointResult
     {
@@ -75,7 +73,7 @@ class PayGradeAllowedCurrencyAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @return ParamRuleCollection
+     * @inheritDoc
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
