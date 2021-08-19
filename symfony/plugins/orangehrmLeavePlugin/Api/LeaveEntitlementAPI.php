@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -239,8 +240,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     {
         $paramRules = new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(self::PARAMETER_BULK_ASSIGN, new Rule(Rules::BOOL_TYPE))
-            ),
+                   new ParamRule(self::PARAMETER_BULK_ASSIGN, new Rule(Rules::BOOL_TYPE))
+               ),
             $this->getLeaveTypeIdParamRule(),
             $this->getEntitlementParamRule(),
             ...$this->getFromToDatesRules(),
@@ -355,7 +356,22 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+
+        $leaveEntitlements = $this->getLeaveEntitlementService()
+            ->getLeaveEntitlementDao()->getLeaveEntitlementsByIds($ids);
+        foreach ($leaveEntitlements as $leaveEntitlement) {
+            $this->checkLeaveEntitlementAccessible($leaveEntitlement);
+        }
+
+        $allIdsDeletable = empty(
+            array_diff($ids, $this->getLeaveEntitlementService()->getDeletableIdsFromEntitlementIds($ids))
+        );
+        if (!$allIdsDeletable) {
+            throw $this->getBadRequestException();
+        }
+        $this->getLeaveEntitlementService()->getLeaveEntitlementDao()->deleteLeaveEntitlements($ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -363,6 +379,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS, new Rule(Rules::ARRAY_TYPE))
+        );
     }
 }

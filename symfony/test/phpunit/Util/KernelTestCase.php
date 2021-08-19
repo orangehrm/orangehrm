@@ -27,6 +27,11 @@ abstract class KernelTestCase extends TestCase
 {
     use ServiceContainerTrait;
 
+    protected function tearDown(): void
+    {
+        $this->createKernel();
+    }
+
     /**
      * @param array $query
      * @param array $request
@@ -44,8 +49,10 @@ abstract class KernelTestCase extends TestCase
     protected function createKernel(): Framework
     {
         foreach ($this->getContainer()->getServiceIds() as $serviceId) {
-            $this->getContainer()->removeDefinition($serviceId);
-            $this->getContainer()->removeAlias($serviceId);
+            if ($serviceId === 'service_container') {
+                continue;
+            }
+            $this->getContainer()->set($serviceId, null);
         }
 
         return $this->getMockBuilder(Framework::class)

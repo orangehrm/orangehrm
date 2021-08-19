@@ -87,7 +87,7 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
         return $leavePeriodDefined ?
             $this->getNormalizerService()->normalize(
                 LeavePeriodModel::class,
-                $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(new DateTime())
+                $this->getLeavePeriodService()->getCurrentLeavePeriod()
             ) : null;
     }
 
@@ -106,9 +106,16 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointResult
     {
+        $leavePeriodDefined = $this->getLeaveConfigService()->isLeavePeriodDefined();
         return new EndpointCollectionResult(
             LeavePeriodModel::class,
-            $this->getLeavePeriodService()->getGeneratedLeavePeriodList()
+            $this->getLeavePeriodService()->getGeneratedLeavePeriodList(),
+            new ParameterBag(
+                [
+                    self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined,
+                    self::META_PARAMETER_CURRENT_LEAVE_PERIOD => $this->getCurrentLeavePeriod($leavePeriodDefined),
+                ]
+            )
         );
     }
 

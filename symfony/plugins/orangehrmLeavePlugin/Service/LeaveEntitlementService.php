@@ -81,12 +81,21 @@ class LeaveEntitlementService
         $deletableIds = [];
         $entitlementList = $this->getLeaveEntitlementDao()->getLeaveEntitlementsByIds($ids);
         foreach ($entitlementList as $entitlement) {
-            if ($entitlement->getDaysUsed() > 0) {
+            if (!$this->isDeletable($entitlement)) {
                 continue;
             }
             $deletableIds[] = $entitlement->getId();
         }
         return $deletableIds;
+    }
+
+    /**
+     * @param LeaveEntitlement $entitlement
+     * @return bool
+     */
+    public function isDeletable(LeaveEntitlement $entitlement): bool
+    {
+        return !$entitlement->getDaysUsed() > 0;
     }
 
     /**

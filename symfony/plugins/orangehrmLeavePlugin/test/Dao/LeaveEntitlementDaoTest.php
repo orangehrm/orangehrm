@@ -91,8 +91,8 @@ class LeaveEntitlementDaoTest extends KernelTestCase
 
         $expected = [
             $entitlementList[1],
-            $entitlementList[3],
             $entitlementList[2],
+            $entitlementList[3],
             $entitlementList[0],
             $entitlementList[5]
         ];

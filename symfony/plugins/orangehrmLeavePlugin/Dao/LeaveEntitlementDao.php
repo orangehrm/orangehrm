@@ -114,6 +114,9 @@ class LeaveEntitlementDao extends BaseDao
                 ->setParameter('toDate', $entitlementSearchFilterParams->getToDate());
         }
 
+        // get predictable sorting
+        $q->addOrderBy('entitlement.id');
+
         return $this->getQueryBuilderWrapper($q);
     }
 

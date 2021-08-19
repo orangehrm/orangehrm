@@ -294,6 +294,7 @@ class LeavePeriodHistoryServiceTest extends KernelTestCase
         $newLeavePeriodService = new LeavePeriodService();
         $this->createKernelWithMockServices(
             [
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
                 Services::LEAVE_ENTITLEMENT_SERVICE => new LeaveEntitlementService(),
             ]
         );

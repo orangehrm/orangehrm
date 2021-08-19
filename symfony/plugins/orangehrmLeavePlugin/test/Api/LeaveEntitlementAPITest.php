@@ -85,13 +85,15 @@ class LeaveEntitlementAPITest extends EndpointTestCase
                 ]
             ]
         )
-            ->onlyMethods(['getLeaveEntitlementService'])
+            ->onlyMethods([])
             ->getMock();
-        $api->expects($this->once())
-            ->method('getLeaveEntitlementService')
-            ->willReturn($service);
 
-        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService()]);
+        $this->createKernelWithMockServices(
+            [
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+                Services::LEAVE_ENTITLEMENT_SERVICE => $service,
+            ]
+        );
         $result = $api->create();
         $this->assertEquals(
             [
@@ -112,6 +114,7 @@ class LeaveEntitlementAPITest extends EndpointTestCase
                     'name' => 'Added',
                 ],
                 'deleted' => false,
+                'deletable' => true,
             ],
             $result->normalize()
         );
@@ -305,19 +308,5 @@ class LeaveEntitlementAPITest extends EndpointTestCase
                 LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
             ]
         ];
-    }
-
-    public function testDelete(): void
-    {
-        $api = new LeaveEntitlementAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->delete();
-    }
-
-    public function testGetValidationRuleForDelete(): void
-    {
-        $api = new LeaveEntitlementAPI($this->getRequest());
-        $this->expectNotImplementedException();
-        $api->getValidationRuleForDelete();
     }
 }

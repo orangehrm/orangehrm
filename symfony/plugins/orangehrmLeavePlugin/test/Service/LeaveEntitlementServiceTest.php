@@ -28,6 +28,7 @@ use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\User;
+use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
@@ -191,8 +192,16 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         $leaveTypeId = 2;
         $asAtDate = new DateTime('2021-08-19');
         $endDate = new DateTime('2021-12-31');
-        $leaveBalance = new LeaveBalance();
+        $leaveConfigurationService = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['includePendingLeaveInBalance'])
+            ->getMock();
+        $leaveConfigurationService->expects($this->once())
+            ->method('includePendingLeaveInBalance')
+            ->willReturn(true);
 
+        $this->createKernelWithMockServices([Services::LEAVE_CONFIG_SERVICE => $leaveConfigurationService]);
+
+        $leaveBalance = new LeaveBalance();
         $dao = $this->getMockBuilder(LeaveEntitlementDao::class)
             ->onlyMethods(['getLeaveBalance'])
             ->getMock();
@@ -215,7 +224,13 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         $leaveTypeId = 2;
         $asAtDate = new DateTime('2021-08-19');
         $endDate = new DateTime('2021-12-31');
-        $leaveBalance = new LeaveBalance();
+
+        $leaveConfigurationService = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['includePendingLeaveInBalance'])
+            ->getMock();
+        $leaveConfigurationService->expects($this->once())
+            ->method('includePendingLeaveInBalance')
+            ->willReturn(true);
 
         $dateTimeHelperService = $this->getMockBuilder(DateTimeHelperService::class)
             ->onlyMethods(['getNow'])
@@ -223,8 +238,14 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         $dateTimeHelperService->expects($this->once())
             ->method('getNow')
             ->willReturn(new DateTime('2021-08-19'));
-        $this->createKernelWithMockServices([Services::DATETIME_HELPER_SERVICE => $dateTimeHelperService]);
+        $this->createKernelWithMockServices(
+            [
+                Services::DATETIME_HELPER_SERVICE => $dateTimeHelperService,
+                Services::LEAVE_CONFIG_SERVICE => $leaveConfigurationService
+            ]
+        );
 
+        $leaveBalance = new LeaveBalance();
         $dao = $this->getMockBuilder(LeaveEntitlementDao::class)
             ->onlyMethods(['getLeaveBalance'])
             ->getMock();
@@ -247,19 +268,20 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         $leaveTypeId = 2;
         $asAtDate = new DateTime('2021-08-19');
         $endDate = new DateTime('2021-12-31');
-        $leaveBalance = new LeaveBalance();
 
         $leaveConfigurationService = $this->getMockBuilder(LeaveConfigurationService::class)
-            ->onlyMethods(['getLeavePeriodStatus'])
+            ->onlyMethods(['getLeavePeriodStatus', 'includePendingLeaveInBalance'])
             ->getMock();
         $leaveConfigurationService->expects($this->once())
             ->method('getLeavePeriodStatus')
             ->willReturn(LeavePeriodService::LEAVE_PERIOD_STATUS_FORCED);
+        $leaveConfigurationService->expects($this->once())
+            ->method('includePendingLeaveInBalance')
+            ->willReturn(true);
 
-        $this->createKernelWithMockServices(
-            [Services::LEAVE_CONFIG_SERVICE => $leaveConfigurationService]
-        );
+        $this->createKernelWithMockServices([Services::LEAVE_CONFIG_SERVICE => $leaveConfigurationService]);
 
+        $leaveBalance = new LeaveBalance();
         $dao = $this->getMockBuilder(LeaveEntitlementDao::class)
             ->onlyMethods(['getLeaveBalance'])
             ->getMock();
@@ -293,19 +315,22 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         $leaveTypeId = 2;
         $asAtDate = new DateTime('2021-08-19');
         $endDate = null;
-        $leaveBalance = new LeaveBalance();
 
         $leaveConfigurationService = $this->getMockBuilder(LeaveConfigurationService::class)
-            ->onlyMethods(['getLeavePeriodStatus'])
+            ->onlyMethods(['getLeavePeriodStatus', 'includePendingLeaveInBalance'])
             ->getMock();
         $leaveConfigurationService->expects($this->once())
             ->method('getLeavePeriodStatus')
             ->willReturn(LeavePeriodService::LEAVE_PERIOD_STATUS_NOT_FORCED);
+        $leaveConfigurationService->expects($this->once())
+            ->method('includePendingLeaveInBalance')
+            ->willReturn(true);
 
         $this->createKernelWithMockServices(
             [Services::LEAVE_CONFIG_SERVICE => $leaveConfigurationService]
         );
 
+        $leaveBalance = new LeaveBalance();
         $dao = $this->getMockBuilder(LeaveEntitlementDao::class)
             ->onlyMethods(['getLeaveBalance'])
             ->getMock();
@@ -417,6 +442,7 @@ class LeaveEntitlementServiceTest extends KernelTestCase
 
     protected function loadFixtures(): void
     {
+        TestDataService::truncateSpecificTables([UserRole::class, User::class]);
         $fixture = Config::get(Config::PLUGINS_DIR) .
             '/orangehrmLeavePlugin/test/fixtures/LeaveEntitlementService.yml';
         TestDataService::populate($fixture);
