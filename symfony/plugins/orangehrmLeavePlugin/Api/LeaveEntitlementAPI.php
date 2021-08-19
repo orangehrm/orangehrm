@@ -157,7 +157,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             ->getLeaveEntitlementsSum($entitlementSearchFilterParams);
 
         return new EndpointCollectionResult(
-            LeaveEntitlementModel::class, $entitlements,
+            LeaveEntitlementModel::class,
+            $entitlements,
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_TOTAL => $total,
@@ -178,10 +179,10 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     {
         list($fromDateRule, $toDateRule) = $this->getFromToDatesRules(RequestParams::PARAM_TYPE_QUERY);
         return new ParamRuleCollection(
-               $this->getValidationDecorator()->notRequiredParamRule($this->getEmpNumberParamRule()),
-               $this->getValidationDecorator()->notRequiredParamRule($this->getLeaveTypeIdParamRule()),
-               $this->getValidationDecorator()->notRequiredParamRule($fromDateRule),
-               $this->getValidationDecorator()->notRequiredParamRule($toDateRule),
+            $this->getValidationDecorator()->notRequiredParamRule($this->getEmpNumberParamRule()),
+            $this->getValidationDecorator()->notRequiredParamRule($this->getLeaveTypeIdParamRule()),
+            $this->getValidationDecorator()->notRequiredParamRule($fromDateRule),
+            $this->getValidationDecorator()->notRequiredParamRule($toDateRule),
             ...$this->getSortingAndPaginationParamsRules(LeaveEntitlementSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -237,11 +238,11 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         $paramRules = new ParamRuleCollection(
-               $this->getValidationDecorator()->notRequiredParamRule(
-                   new ParamRule(self::PARAMETER_BULK_ASSIGN, new Rule(Rules::BOOL_TYPE))
-               ),
-               $this->getLeaveTypeIdParamRule(),
-               $this->getEntitlementParamRule(),
+            $this->getValidationDecorator()->notRequiredParamRule(
+                new ParamRule(self::PARAMETER_BULK_ASSIGN, new Rule(Rules::BOOL_TYPE))
+            ),
+            $this->getLeaveTypeIdParamRule(),
+            $this->getEntitlementParamRule(),
             ...$this->getFromToDatesRules(),
         );
         $bulkAssign = $this->getRequestParams()->getBoolean(
@@ -343,8 +344,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-               $this->getIdParamRule(),
-               $this->getEntitlementParamRule(),
+            $this->getIdParamRule(),
+            $this->getEntitlementParamRule(),
             ...$this->getFromToDatesRules()
         );
     }

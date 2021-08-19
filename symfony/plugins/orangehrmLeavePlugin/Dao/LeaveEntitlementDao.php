@@ -91,6 +91,7 @@ class LeaveEntitlementDao extends BaseDao
         $q = $this->createQueryBuilder(LeaveEntitlement::class, 'entitlement')
             ->andWhere('entitlement.deleted = :deleted')
             ->setParameter('deleted', false);
+        $q->leftJoin('entitlement.leaveType', 'leaveType');
         $this->setSortingAndPaginationParams($q, $entitlementSearchFilterParams);
 
         if (!empty($entitlementSearchFilterParams->getEmpNumber())) {
@@ -261,6 +262,18 @@ class LeaveEntitlementDao extends BaseDao
         }
 
         return $leaveEntitlement;
+    }
+
+    /**
+     * @param int[] $ids
+     * @return LeaveEntitlement[]
+     */
+    public function getLeaveEntitlementsByIds(array $ids): array
+    {
+        $q = $this->createQueryBuilder(LeaveEntitlement::class, 'le');
+        $q->where($q->expr()->in('le.id', ':ids'))
+            ->setParameter('ids', $ids);
+        return $q->getQuery()->execute();
     }
 
     /**
@@ -666,26 +679,4 @@ class LeaveEntitlementDao extends BaseDao
 
         return $q->getQuery()->execute();
     }
-
-    /**
-     * Get List of LeaveEntitlementTypes
-     *
-     * @param string $orderField field to order by
-     * @param string $orderBy order (ASC/DESC)
-     * @return Collection of LeaveEntitlementType
-     * @throws DaoException on an error
-     */
-    public function getLeaveEntitlementTypeList($orderField = 'name', $orderBy = 'ASC') {
-        // TODO:: not converted
-        try {
-            $orderBy = (strcasecmp($orderBy, 'DESC') == 0) ? 'DESC' : 'ASC';
-            $q = Doctrine_Query::create()->from('LeaveEntitlementType let')
-                    ->addOrderBy($orderField . ' ' . $orderBy);
-            $results = $q->execute();
-            return $results;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
-        }
-    }
-
 }

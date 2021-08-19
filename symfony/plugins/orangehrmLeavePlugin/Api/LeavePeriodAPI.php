@@ -67,7 +67,8 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
             $leavePeriodHistory->setCreatedAt(new DateTime());
         }
         return new EndpointResourceResult(
-            LeavePeriodHistoryModel::class, $leavePeriodHistory,
+            LeavePeriodHistoryModel::class,
+            $leavePeriodHistory,
             new ParameterBag(
                 [
                     self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined,
@@ -143,7 +144,8 @@ class LeavePeriodAPI extends Endpoint implements CrudEndpoint
             $menuService->enableModuleMenuItems('leave');
         }
         return new EndpointResourceResult(
-            LeavePeriodHistoryModel::class, $leavePeriodHistory,
+            LeavePeriodHistoryModel::class,
+            $leavePeriodHistory,
             new ParameterBag(
                 [
                     self::META_PARAMETER_LEAVE_PERIOD_DEFINED => $leavePeriodDefined,

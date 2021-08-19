@@ -21,7 +21,7 @@ namespace OrangeHRM\Leave\Dto;
 
 class LeaveEntitlementSearchFilterParams extends DateRangeSearchFilterParams
 {
-    public const ALLOWED_SORT_FIELDS = ['entitlement.fromDate'];
+    public const ALLOWED_SORT_FIELDS = ['entitlement.fromDate', 'leaveType.name'];
 
     private ?int $empNumber = null;
 
