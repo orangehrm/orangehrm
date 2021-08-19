@@ -26,16 +26,12 @@
   >
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        OrangeHRM
+        {{ $t('leave.situational_leave') }}
       </oxd-text>
     </div>
     <oxd-divider />
 
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
-      <oxd-text tag="p">
-        {{ $t('leave.entitlement_situational') }}
-      </oxd-text>
-      <br />
       <oxd-text tag="p">
         {{ $t('leave.entitlement_situational_description') }}
       </oxd-text>
