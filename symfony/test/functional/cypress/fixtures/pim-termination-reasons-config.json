@@ -1,0 +1,67 @@
+{
+    "TC01":{
+        "tblHeaders":{
+            "hName":"Name",
+            "hActions":"Actions"
+        },
+        "addEditHeaders":{
+            "hAdd":"Add Termination Reason",
+            "hEdit":"Edit Termination Reason"
+        }
+    },
+    "TC02":{
+        "terminationReason":"Miss Behaviour"
+    },
+    "TC03":{
+        "inputwith100val":"Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "validationMessage":"Should be less than 100 characters"
+    },
+    "TC04":{
+        "terminationReason":"TestDuplicate",
+        "validationMessage":"Already exists"
+    },
+    "TC05":{
+        "terminationReason":"123D!@#$%^&*()Z_=+|-?[ø][œ]"
+    },
+    "TC06":{
+        "terminationReason":"Test Delete"
+    },
+    "TC07":{
+        "terminationReason":"Test Cancel Button"
+    },
+    "TC08":{
+        "validationMessage":"Required"
+    },
+    "TC09":{
+        "terminationReasonToEdit":"Row to be edited",
+        "terminationReasonNewName":"Edited Row"
+    },
+    "TC10":{
+        "terminationReasonToEdit":"Duplicate entry",
+        "terminationReasonNewName":"Duplicate entry for Edit",
+        "validationMessage":"Already exists"
+    },
+    "TC11":{
+        "terminationReason":"Test Entry",
+        "validationMessage":"Required"
+    },
+    "TC12":{
+        "terminationReason":"TestDeleteSingleItem",
+        "deleteModalHeader":"Are you Sure?",
+        "deleteModalMessage":"The selected record will be permanently deleted. Are you sure you want to continue?"
+    },
+    "TC13":{
+        "terminationReason1":"TestDeleteItem1",
+        "terminationReason2":"TestDeleteItem2",
+        "terminationReason3":"TestDeleteItem3",
+        "deleteModalHeader":"Are you Sure?",
+        "deleteModalMessage":"The selected record will be permanently deleted. Are you sure you want to continue?"
+        
+    },
+    "SuccessMessages":{
+        "successToastHeader":"Success",
+        "successToastForSave":"Successfully Saved",
+        "successToastForUpdate":"Successfully Updated",
+        "successToastForDelete":"Successfully Deleted"
+    }
+}
