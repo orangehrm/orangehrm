@@ -1,6 +1,4 @@
 export class TerminationReasonPage {
-
-
     returnTblHeaders() {
         return cy.get('.oxd-table-header-cell')
     }
@@ -34,8 +32,6 @@ export class TerminationReasonPage {
     returnDeleteConfirmationMessage(){
         return cy.get('.orangehrm-text-center-align .oxd-text--p')
     }
-
-
     editSelectedItrmFromTheList(selectedItem) {
         cy.contains('.oxd-table-card', selectedItem)
             .then(tblRow => {
@@ -97,11 +93,5 @@ export class TerminationReasonPage {
     clickDeleteSelectedItemFromTheListButton(){
         cy.get('.orangehrm-horizontal-padding .oxd-button--medium').click();
     }
-
-
-
 }
-
-
-
 export const terminationReasonsPage = new TerminationReasonPage();
