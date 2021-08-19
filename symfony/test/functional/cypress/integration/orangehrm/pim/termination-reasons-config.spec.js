@@ -1,11 +1,11 @@
-import user from '../../../fixtures/user.json';
+import adminUser from '../../../fixtures/admin.json';
 import viewport from '../../../fixtures/viewport.json';
 import pimterminationreasons from '../../../fixtures/pim-termination-reasons-config.json';
 import {terminationReasonsPage} from '../../../support/page_Objects/pim/termination-reasons-configPage';
 
 describe('Termination Reason Configurations',() =>{
     beforeEach(()=>{
-        cy.login(user.admin.userName, user.admin.password);
+        cy.login(adminUser.admin.userName, adminUser.admin.password);
         cy.viewport(viewport.viewport1.width, viewport.viewport1.height);
         cy.visit('/pim/viewTerminationReasons');
     })
