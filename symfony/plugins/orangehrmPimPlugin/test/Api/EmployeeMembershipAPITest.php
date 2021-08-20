@@ -421,10 +421,17 @@ class EmployeeMembershipAPITest extends EndpointTestCase
             ->method('getEmpNumber')
             ->willReturn(1);
 
+        $currencyService = $this->getMockBuilder(PayGradeService::class)
+            ->onlyMethods(['getCurrencyById'])
+            ->getMock();
+        $currencyService->expects($this->never())
+            ->method('getCurrencyById');
+
         $this->createKernelWithMockServices(
             [
                 Services::USER_ROLE_MANAGER => $userRoleManager,
                 Services::AUTH_USER => $authUser,
+                Services::PAY_GRADE_SERVICE => $currencyService,
             ]
         );
         $api = new EmployeeMembershipAPI($this->getRequest());
@@ -576,10 +583,17 @@ class EmployeeMembershipAPITest extends EndpointTestCase
             ->method('getEmpNumber')
             ->willReturn(1);
 
+        $currencyService = $this->getMockBuilder(PayGradeService::class)
+            ->onlyMethods(['getCurrencyById'])
+            ->getMock();
+        $currencyService->expects($this->never())
+            ->method('getCurrencyById');
+
         $this->createKernelWithMockServices(
             [
                 Services::USER_ROLE_MANAGER => $userRoleManager,
                 Services::AUTH_USER => $authUser,
+                Services::PAY_GRADE_SERVICE => $currencyService,
             ]
         );
         $api = new EmployeeMembershipAPI($this->getRequest());

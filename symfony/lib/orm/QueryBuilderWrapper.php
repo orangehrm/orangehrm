@@ -17,33 +17,27 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Controller;
+namespace OrangeHRM\ORM;
 
-use DateTime;
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Exception\ServiceException;
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Leave\Api\Model\LeavePeriodModel;
-use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
+use Doctrine\ORM\QueryBuilder;
 
-class HolidayController extends AbstractVueController
+class QueryBuilderWrapper
 {
-    use LeavePeriodServiceTrait;
-    use NormalizerServiceTrait;
+    private QueryBuilder $qb;
 
     /**
-     * @inheritDoc
-     * @throws ServiceException
+     * @param QueryBuilder $qb
      */
-    public function preRender(Request $request): void
+    public function __construct(QueryBuilder $qb)
     {
-        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodAsArray();
-        $component = new Component('holiday-list');
-        $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
+        $this->qb = $qb;
+    }
 
-        $this->setComponent($component);
+    /**
+     * @return QueryBuilder
+     */
+    public function getQueryBuilder(): QueryBuilder
+    {
+        return $this->qb;
     }
 }

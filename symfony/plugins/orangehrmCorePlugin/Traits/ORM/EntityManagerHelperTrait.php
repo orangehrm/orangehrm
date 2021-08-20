@@ -23,6 +23,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 
 trait EntityManagerHelperTrait
 {
@@ -79,6 +80,15 @@ trait EntityManagerHelperTrait
     protected function getPaginator(QueryBuilder $qb): Paginator
     {
         return new Paginator($qb);
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @return QueryBuilderWrapper
+     */
+    protected function getQueryBuilderWrapper(QueryBuilder $qb): QueryBuilderWrapper
+    {
+        return new QueryBuilderWrapper($qb);
     }
 
     /**

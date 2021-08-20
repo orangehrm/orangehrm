@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Leave\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Dto\LeaveTypeSearchFilterParams;
 use OrangeHRM\ORM\Paginator;
@@ -53,94 +51,69 @@ class LeaveTypeDao extends BaseDao
     /**
      * @param LeaveType $leaveType
      * @return LeaveType
-     * @throws DaoException
      */
     public function saveLeaveType(LeaveType $leaveType): LeaveType
     {
-        try {
-            $this->persist($leaveType);
-            return $leaveType;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $this->persist($leaveType);
+        return $leaveType;
     }
 
     /**
      * @param int[] $idsToDelete
      * @return int
-     * @throws DaoException
      */
     public function deleteLeaveType(array $idsToDelete): int
     {
-        try {
-            $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
-            $q->update();
-            $q->where($q->expr()->in('leaveType.id', ':ids'))
-                ->setParameter('ids', $idsToDelete);
-            $q->set('leaveType.deleted', ':deleted')
-                ->setParameter('deleted', true);
+        $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
+        $q->update();
+        $q->where($q->expr()->in('leaveType.id', ':ids'))
+            ->setParameter('ids', $idsToDelete);
+        $q->set('leaveType.deleted', ':deleted')
+            ->setParameter('deleted', true);
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @return LeaveType[]
-     * @throws DaoException
      */
     public function getDeletedLeaveTypeList(): array
     {
-        try {
-            $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
-            $q->andWhere('leaveType.deleted = :deleted')
-                ->setParameter('deleted', true);
-            $q->orderBy('leaveType.name');
+        $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
+        $q->andWhere('leaveType.deleted = :deleted')
+            ->setParameter('deleted', true);
+        $q->orderBy('leaveType.name');
 
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param $leaveTypeName
      * @return LeaveType|null
-     * @throws DaoException
      */
     public function getLeaveTypeByName($leaveTypeName): ?LeaveType
     {
-        try {
-            $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
-            $q->andWhere('leaveType.name = :name')
-                ->setParameter('name', $leaveTypeName);
-            $q->andWhere('leaveType.deleted = :deleted')
-                ->setParameter('deleted', false);
+        $q = $this->createQueryBuilder(LeaveType::class, 'leaveType');
+        $q->andWhere('leaveType.name = :name')
+            ->setParameter('name', $leaveTypeName);
+        $q->andWhere('leaveType.deleted = :deleted')
+            ->setParameter('deleted', false);
 
-            return $this->fetchOne($q);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $this->fetchOne($q);
     }
 
     /**
      * @param int $leaveTypeId
      * @return LeaveType|null
-     * @throws DaoException
      */
     public function undeleteLeaveType(int $leaveTypeId): ?LeaveType
     {
-        try {
-            $leaveType = $this->getLeaveTypeById($leaveTypeId);
-            if ($leaveType instanceof LeaveType) {
-                $leaveType->setDeleted(false);
-                $this->persist($leaveType);
-            }
-            return $leaveType;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+        $leaveType = $this->getLeaveTypeById($leaveTypeId);
+        if ($leaveType instanceof LeaveType) {
+            $leaveType->setDeleted(false);
+            $this->persist($leaveType);
         }
+        return $leaveType;
     }
 
     /**
@@ -148,16 +121,11 @@ class LeaveTypeDao extends BaseDao
      *
      * @param LeaveTypeSearchFilterParams $leaveTypeSearchParams
      * @return array
-     * @throws DaoException
      */
     public function searchLeaveType(LeaveTypeSearchFilterParams $leaveTypeSearchParams): array
     {
-        try {
-            $paginator = $this->getSearchLeaveTypePaginator($leaveTypeSearchParams);
-            return $paginator->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchLeaveTypePaginator($leaveTypeSearchParams);
+        return $paginator->getQuery()->execute();
     }
 
     /**
@@ -183,15 +151,10 @@ class LeaveTypeDao extends BaseDao
      *
      * @param LeaveTypeSearchFilterParams $leaveTypeSearchParams
      * @return int
-     * @throws DaoException
      */
     public function getSearchLeaveTypesCount(LeaveTypeSearchFilterParams $leaveTypeSearchParams): int
     {
-        try {
-            $paginator = $this->getSearchLeaveTypePaginator($leaveTypeSearchParams);
-            return $paginator->count();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $paginator = $this->getSearchLeaveTypePaginator($leaveTypeSearchParams);
+        return $paginator->count();
     }
 }

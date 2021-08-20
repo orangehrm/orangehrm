@@ -1,0 +1,31 @@
+Config:
+  - { name: 'leave.leavePeriodStatus', value: 1 }
+
+LeaveType:
+  - { id: 1, name: 'Casual', deleted: 0 }
+  - { id: 2, name: 'Medical', deleted: 0 }
+  - { id: 3, name: 'Company', deleted: 1 }
+  - { id: 4, name: 'Annual', deleted: 0 }
+  - { id: 5, name: 'Sick', deleted: 1 }
+
+Employee:
+  - { empNumber: 1, firstName: 'Kayla', lastName: 'Shneider' }
+  - { empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'Aldis' }
+  - { empNumber: 3, firstName: 'Tyler', lastName: 'Abraham' }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }
+
+LeaveEntitlementType:
+  - { id: 1, name: 'Added' }
+
+LeaveEntitlement:
+  - { id: 1, leave_type_id: 1, emp_number: 1, no_of_days: 3, from_date: '2021-01-01', to_date: '2021-12-31', credited_date: '2021-01-01', note: '', entitlement_type: 1, deleted: 0 }
+  - { id: 2, leave_type_id: 1, emp_number: 1, no_of_days: 5, from_date: '2021-01-01', to_date: '2021-12-31', credited_date: '2021-01-01', note: '', entitlement_type: 1, deleted: 1 }
+  - { id: 3, leave_type_id: 1, emp_number: 2, no_of_days: 2, from_date: '2020-01-01', to_date: '2020-12-31', credited_date: '2020-01-01', note: '', entitlement_type: 1, deleted: 1 }
+  - { id: 4, leave_type_id: 1, emp_number: 2, no_of_days: 5, days_used: 2, from_date: '2020-01-01', to_date: '2020-12-31', credited_date: '2020-01-01', note: '', entitlement_type: 1, deleted: 0 }

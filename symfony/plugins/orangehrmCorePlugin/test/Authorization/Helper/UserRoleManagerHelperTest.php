@@ -47,6 +47,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
         $user->setId(1);
         $user->setUserRole($userRole);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getDataGroupPermissions', 'getUser'])
             ->getMock();
@@ -58,9 +59,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $permission = $userRoleManagerHelper->getDataGroupPermissionsForEmployee('personal_information');
         $this->assertTrue($permission->canRead());
@@ -82,6 +81,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
         $user->setUserRole($userRole);
         $user->setEmployee($employee);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getDataGroupPermissions', 'getUser'])
             ->getMock();
@@ -93,9 +93,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $permission = $userRoleManagerHelper->getDataGroupPermissionsForEmployee('personal_information');
         $this->assertTrue($permission->canRead());
@@ -117,6 +115,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
         $user->setUserRole($userRole);
         $user->setEmployee($employee);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getDataGroupPermissions', 'getUser'])
             ->getMock();
@@ -128,9 +127,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $permission = $userRoleManagerHelper->getDataGroupPermissionsForEmployee('personal_information', 2);
         $this->assertTrue($permission->canRead());
@@ -152,6 +149,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
         $user->setUserRole($userRole);
         $user->setEmployee($employee);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getDataGroupPermissions', 'getUser'])
             ->getMock();
@@ -163,9 +161,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $permission = $userRoleManagerHelper->getDataGroupPermissionsForEmployee('personal_information', 1);
         $this->assertTrue($permission->canRead());
@@ -188,6 +184,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
         $user->setUserRole($userRole);
         $user->setEmployee($employee);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getDataGroupPermissionCollection', 'getUser'])
             ->getMock();
@@ -198,9 +195,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $permissionCollection = $userRoleManagerHelper->getDataGroupPermissionCollectionForEmployee(
             ['personal_information'],
@@ -224,6 +219,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
      */
     public function testIsSelfByEmpNumber(User $user, ?int $empNumber, bool $expected): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getUser'])
             ->getMock();
@@ -231,9 +227,7 @@ class UserRoleManagerHelperTest extends KernelTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $userRoleManagerHelper = new UserRoleManagerHelper();
         $this->assertEquals($expected, $userRoleManagerHelper->isSelfByEmpNumber($empNumber));
     }

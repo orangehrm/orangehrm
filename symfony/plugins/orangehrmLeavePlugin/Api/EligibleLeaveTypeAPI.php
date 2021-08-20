@@ -51,7 +51,8 @@ class EligibleLeaveTypeAPI extends Endpoint implements CollectionEndpoint
         );
         $leaveTypes = $this->getLeaveTypeService()->getEligibleLeaveTypesByEmpNumber($empNumber);
         return new EndpointCollectionResult(
-            LeaveTypeModel::class, $leaveTypes,
+            LeaveTypeModel::class,
+            $leaveTypes,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }
