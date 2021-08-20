@@ -29,6 +29,7 @@
                 :label="$t('general.from')"
                 v-model="filters.fromDate"
                 :rules="rules.fromDate"
+                :years="yearArray"
               />
             </oxd-grid-item>
             <oxd-grid-item>
@@ -36,6 +37,7 @@
                 :label="$t('general.to')"
                 v-model="filters.toDate"
                 :rules="rules.toDate"
+                :years="yearArray"
               />
             </oxd-grid-item>
           </oxd-grid>
@@ -107,7 +109,8 @@ import {
   endDateShouldBeAfterStartDate,
   required,
   validDateFormat,
-} from '@/core/util/validation/rules'
+} from '@/core/util/validation/rules';
+import {yearRange} from '@orangehrm/core/util/helper/year-range';
 
 const dataNormalizer = data => {
   return data.map(item => {
@@ -134,6 +137,7 @@ export default {
 
   data() {
     return {
+      yearArray: [...yearRange(201)],
       rules: {
         fromDate: [required, validDateFormat],
         toDate: [

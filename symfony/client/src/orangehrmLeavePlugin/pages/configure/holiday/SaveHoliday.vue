@@ -43,6 +43,7 @@
                 :label="$t('general.date')"
                 v-model="holiday.date"
                 :rules="rules.date"
+                :years="yearArray"
                 required
               />
             </oxd-grid-item>
@@ -105,6 +106,7 @@ import {
   shouldNotExceedCharLength,
   validDateFormat,
 } from '@orangehrm/core/util/validation/rules';
+import {yearRange} from '@orangehrm/core/util/helper/year-range';
 
 const holidayModel = {
   name: '',
@@ -123,6 +125,7 @@ export default {
 
   data() {
     return {
+      yearArray: [...yearRange(201)],
       isLoading: false,
       holiday: {...holidayModel},
       rules: {
