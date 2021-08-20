@@ -64,9 +64,6 @@ class EmployeeWorkShiftAPI extends Endpoint implements ResourceEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(
-                CommonParams::PARAMETER_ID
-            ),
             $this->getEmpNumberRule(),
         );
     }

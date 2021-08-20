@@ -21,7 +21,7 @@
 <template>
   <oxd-dialog
     :gutters="false"
-    :style="{width: '90%', maxWidth: '500px'}"
+    :style="modalContainer"
     @update:show="onCancel"
   >
     <div class="orangehrm-card-container">
@@ -51,6 +51,7 @@
 
 <script>
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
+import { formatDate } from '@/core/util/helper/datefns'
 
 export default {
   name: 'leave-balance-modal',
@@ -66,6 +67,11 @@ export default {
     onCancel() {
       this.$emit('close', true);
     },
+  },
+  data() {
+    return {
+      modalContainer: {width: '90%', maxWidth: '500px'},
+    };
   },
 };
 </script>

@@ -428,7 +428,7 @@ apiv2_pim_employees_work_shift:
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
-    id: 0
+    _key: empNumber
     _api: OrangeHRM\Pim\Api\EmployeeWorkShiftAPI
   requirements:
     empNumber: '\d+'

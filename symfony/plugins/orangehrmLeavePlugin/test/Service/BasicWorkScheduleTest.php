@@ -35,7 +35,7 @@ use OrangeHRM\Tests\Util\TestCase;
  */
 class BasicWorkScheduleTest extends TestCase
 {
-    public function testGetWorkShiftStartEndTime()
+    public function testGetWorkShiftStartEndTime(): void
     {
         $employeeWorkShift = new EmployeeWorkShift();
         $workShift = new WorkShift();
@@ -48,7 +48,7 @@ class BasicWorkScheduleTest extends TestCase
             ->onlyMethods(['getEmployeeWorkShift'])
             ->getMock();
 
-        $employeeDao->expects($this->exactly(1))
+        $employeeDao->expects($this->once())
             ->method('getEmployeeWorkShift')
             ->with(1)
             ->willReturn($employeeWorkShift);
@@ -57,7 +57,7 @@ class BasicWorkScheduleTest extends TestCase
             ->onlyMethods(['getEmployeeDao'])
             ->getMock();
 
-        $employeeService->expects($this->exactly(1))
+        $employeeService->expects($this->once())
             ->method('getEmployeeDao')
             ->willReturn($employeeDao);
 
@@ -65,7 +65,7 @@ class BasicWorkScheduleTest extends TestCase
             ->onlyMethods(['getEmployeeService'])
             ->getMock();
 
-        $basicWorkSchedule->expects($this->exactly(1))
+        $basicWorkSchedule->expects($this->once())
             ->method('getEmployeeService')
             ->willReturn($employeeService);
         $basicWorkSchedule->setEmpNumber(1);
@@ -75,13 +75,13 @@ class BasicWorkScheduleTest extends TestCase
         $this->assertEquals($expectResult, $basicWorkSchedule->getWorkShiftStartEndTime());
     }
 
-    public function testGetWorkShiftStartEndTimeEmployeeWorkShiftEmpty()
+    public function testGetWorkShiftStartEndTimeEmployeeWorkShiftEmpty(): void
     {
         $employeeDao = $this->getMockBuilder(EmployeeDao::class)
             ->onlyMethods(['getEmployeeWorkShift'])
             ->getMock();
 
-        $employeeDao->expects($this->exactly(1))
+        $employeeDao->expects($this->once())
             ->method('getEmployeeWorkShift')
             ->with(1)
             ->willReturn(null);
@@ -91,7 +91,7 @@ class BasicWorkScheduleTest extends TestCase
             ->onlyMethods(['getEmployeeDao'])
             ->getMock();
 
-        $employeeService->expects($this->exactly(1))
+        $employeeService->expects($this->once())
             ->method('getEmployeeDao')
             ->willReturn($employeeDao);
 
@@ -104,7 +104,7 @@ class BasicWorkScheduleTest extends TestCase
             ->onlyMethods(['getWorkShiftDefaultStartAndEndTime'])
             ->getMock();
 
-        $workShiftService->expects($this->exactly(1))
+        $workShiftService->expects($this->once())
             ->method('getWorkShiftDefaultStartAndEndTime')
             ->willReturn($defaultWorkShift);
 
@@ -112,10 +112,10 @@ class BasicWorkScheduleTest extends TestCase
             ->onlyMethods(['getEmployeeService', 'getWorkShiftService'])
             ->getMock();
 
-        $basicWorkSchedule->expects($this->exactly(1))
+        $basicWorkSchedule->expects($this->once())
             ->method('getEmployeeService')
             ->willReturn($employeeService);
-        $basicWorkSchedule->expects($this->exactly(1))
+        $basicWorkSchedule->expects($this->once())
             ->method('getWorkShiftService')
             ->willReturn($workShiftService);
         $basicWorkSchedule->setEmpNumber(1);
