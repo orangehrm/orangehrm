@@ -72,58 +72,30 @@ class LeaveEntitlementService
         return $this->leaveEntitlementDao;
     }
 
-    public function searchLeaveEntitlements(LeaveEntitlementSearchParameterHolder $searchParameters) {
-        // TODO
-        return $this->getLeaveEntitlementDao()->searchLeaveEntitlements($searchParameters);
-    }
-
-    public function deleteLeaveEntitlements($ids) {
-        // TODO
-        $deleted = 0;
-
-        $allDeleted = true;
-        $avaliableToDeleteIds = array();
-        $leaveEntitlementSearchParameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $leaveEntitlementSearchParameterHolder->setIdList($ids);
-
-        $entitlementList = $this->searchLeaveEntitlements( $leaveEntitlementSearchParameterHolder );
-        foreach( $entitlementList as $entitlement){
-            if( $entitlement->getDaysUsed() > 0){
-                $allDeleted = false;
-            }else{
-                $avaliableToDeleteIds[] = $entitlement->getId();
+    /**
+     * @param int[] $ids
+     * @return int[]
+     */
+    public function getDeletableIdsFromEntitlementIds(array $ids): array
+    {
+        $deletableIds = [];
+        $entitlementList = $this->getLeaveEntitlementDao()->getLeaveEntitlementsByIds($ids);
+        foreach ($entitlementList as $entitlement) {
+            if (!$this->isDeletable($entitlement)) {
+                continue;
             }
+            $deletableIds[] = $entitlement->getId();
         }
-        if(count($avaliableToDeleteIds) > 0){
-            $deleted = $this->getLeaveEntitlementDao()->deleteLeaveEntitlements($avaliableToDeleteIds);
-        }
-
-        if(!$allDeleted){
-            throw new Exception("Entitlement/s will not be deleted since it's already in use");
-        }
-
-        return $deleted;
-
+        return $deletableIds;
     }
 
-    public function bulkAssignLeaveEntitlements($employeeNumbers, LeaveEntitlement $leaveEntitlement) {
-        // TODO
-        return $this->getLeaveEntitlementDao()->bulkAssignLeaveEntitlements($employeeNumbers, $leaveEntitlement);
-    }
-
-    public function getAvailableEntitlements(LeaveParameterObject $leaveParameterObject) {
-        // TODO
-        return $this->getLeaveEntitlementStrategy()->getAvailableEntitlements($leaveParameterObject);
-    }
-
-    public function getValidLeaveEntitlements(int $empNumber, int $leaveTypeId, \DateTime $fromDate, \DateTime $toDate, string $orderField, string $order) {
-        // TODO
-        return $this->getLeaveEntitlementDao()->getValidLeaveEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate, $orderField, $order);
-    }
-
-    public function getLinkedLeaveRequests($entitlementIds, $statuses) {
-        // TODO
-        return $this->getLeaveEntitlementDao()->getLinkedLeaveRequests($entitlementIds, $statuses);
+    /**
+     * @param LeaveEntitlement $entitlement
+     * @return bool
+     */
+    public function isDeletable(LeaveEntitlement $entitlement): bool
+    {
+        return !$entitlement->getDaysUsed() > 0;
     }
 
     /**
@@ -160,29 +132,6 @@ class LeaveEntitlementService
         }
 
         return $this->getLeaveEntitlementDao()->getLeaveBalance($empNumber, $leaveTypeId, $asAtDate, $date);
-    }
-
-    public function getEntitlementUsageForLeave($leaveId) {
-        // TODO
-        return $this->getLeaveEntitlementDao()->getEntitlementUsageForLeave($leaveId);
-    }
-
-    public function getLeaveWithoutEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate) {
-        // TODO
-        return $this->getLeaveEntitlementDao()->getLeaveWithoutEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate);
-    }
-
-    /**
-     * Get List of LeaveEntitlementTypes
-     *
-     * @param string $orderField field to order by
-     * @param string $orderBy order (ASC/DESC)
-     * @return Collection of LeaveEntitlementType
-     * @throws DaoException on an error
-     */
-    public function getLeaveEntitlementTypeList($orderField = 'name', $orderBy = 'ASC') {
-        // TODO
-        return $this->getLeaveEntitlementDao()->getLeaveEntitlementTypeList($orderField, $orderBy);
     }
 
     /**

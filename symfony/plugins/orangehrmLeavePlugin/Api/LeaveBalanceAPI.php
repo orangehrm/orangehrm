@@ -155,7 +155,8 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
         }
 
         return new EndpointResourceResult(
-            ArrayModel::class, $result,
+            ArrayModel::class,
+            $result,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }

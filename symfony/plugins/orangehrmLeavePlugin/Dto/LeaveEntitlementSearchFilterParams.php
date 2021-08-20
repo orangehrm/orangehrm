@@ -17,33 +17,50 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Controller;
+namespace OrangeHRM\Leave\Dto;
 
-use DateTime;
-use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Core\Exception\ServiceException;
-use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
-use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Leave\Api\Model\LeavePeriodModel;
-use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
-
-class HolidayController extends AbstractVueController
+class LeaveEntitlementSearchFilterParams extends DateRangeSearchFilterParams
 {
-    use LeavePeriodServiceTrait;
-    use NormalizerServiceTrait;
+    public const ALLOWED_SORT_FIELDS = ['entitlement.fromDate', 'leaveType.name'];
+
+    private ?int $empNumber = null;
+
+    private ?int $leaveTypeId = null;
+
+    public function __construct()
+    {
+        $this->setSortField('entitlement.fromDate');
+    }
 
     /**
-     * @inheritDoc
-     * @throws ServiceException
+     * @return int|null
      */
-    public function preRender(Request $request): void
+    public function getEmpNumber(): ?int
     {
-        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodAsArray();
-        $component = new Component('holiday-list');
-        $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
+        return $this->empNumber;
+    }
 
-        $this->setComponent($component);
+    /**
+     * @param int|null $empNumber
+     */
+    public function setEmpNumber(?int $empNumber): void
+    {
+        $this->empNumber = $empNumber;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLeaveTypeId(): ?int
+    {
+        return $this->leaveTypeId;
+    }
+
+    /**
+     * @param int|null $leaveTypeId
+     */
+    public function setLeaveTypeId(?int $leaveTypeId): void
+    {
+        $this->leaveTypeId = $leaveTypeId;
     }
 }

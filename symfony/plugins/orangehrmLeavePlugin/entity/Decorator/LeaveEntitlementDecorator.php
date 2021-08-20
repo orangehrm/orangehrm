@@ -26,11 +26,13 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveEntitlementType;
 use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 
 class LeaveEntitlementDecorator
 {
     use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
+    use LeaveEntitlementServiceTrait;
 
     /**
      * @var LeaveEntitlement
@@ -133,5 +135,13 @@ class LeaveEntitlementDecorator
     public function getCreditedDate(): string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveEntitlement()->getCreditedDate());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeletable(): bool
+    {
+        return $this->getLeaveEntitlementService()->isDeletable($this->getLeaveEntitlement());
     }
 }

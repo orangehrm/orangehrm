@@ -19,6 +19,9 @@
 
 namespace OrangeHRM\Tests\Leave\Service;
 
+use Exception;
+use InvalidArgumentException;
+use OrangeHRM\Leave\Dao\LeavePeriodDao;
 use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\Tests\Util\TestCase;
 
@@ -26,34 +29,38 @@ use OrangeHRM\Tests\Util\TestCase;
  * @group Leave
  * @group Service
  */
-class LeavePeriodServiceTest //extends TestCase
+class LeavePeriodServiceTest extends TestCase
 {
-
     private LeavePeriodService $leavePeriodService;
-   private $fixture;
 
-    protected function setUp():void {
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmLeavePlugin/test/fixtures/LeavePeriodService.yml';
+    protected function setUp(): void
+    {
         $this->leavePeriodService = new LeavePeriodService();
     }
 
-   /* Test get list of months */
+    public function testGetListOfMonths(): void
+    {
+        $expected = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
 
-    public function testGetListOfMonths() {
-      
-        $expected = array ('January','February','March','April','May','June','July','August','September',
-            'October', 'November', 'December');
-      
-      $result = $this->leavePeriodService->getListOfMonths();
-      $this->assertEquals($expected, $result);
-      
+        $result = $this->leavePeriodService->getListOfMonths();
+        $this->assertEquals($expected, $result);
     }
 
-    
-    /* Test get list of dates, given the month */
-   
-    public function testGetListOfDates() {
-      
+    public function testGetListOfDates(): void
+    {
         /* Checking for days with 31 days */
         $expected = range(1, 31);
         $result = $this->leavePeriodService->getListOfDates(1); // January
@@ -97,461 +104,33 @@ class LeavePeriodServiceTest //extends TestCase
         $this->assertEquals($expected, $result, 'Wrong date range fetched for February non leap years');
 
 
-
         /* Checking for invalid month values */
         try {
             $this->leavePeriodService->getListOfDates(-1);
             $this->fail('getListOfDates() should not accept invalid month values');
         } catch (Exception $e) {
-            $this->assertTrue($e instanceof LeaveServiceException);
-            $this->assertEquals('Invalid value passed for month in LeavePeriodService::getListOfDates()', $e->getMessage());
+            $this->assertTrue($e instanceof InvalidArgumentException);
+            $this->assertEquals(
+                'Invalid value passed for month in ' . LeavePeriodService::class . '::getListOfDates',
+                $e->getMessage()
+            );
         }
 
         try {
             $this->leavePeriodService->getListOfDates(13);
             $this->fail('getListOfDates() should not accept invalid month values');
         } catch (Exception $e) {
-            $this->assertTrue($e instanceof LeaveServiceException);
-            $this->assertEquals('Invalid value passed for month in LeavePeriodService::getListOfDates()', $e->getMessage());
+            $this->assertTrue($e instanceof InvalidArgumentException);
+            $this->assertEquals(
+                'Invalid value passed for month in ' . LeavePeriodService::class . '::getListOfDates',
+                $e->getMessage()
+            );
         }
-        /* Checking for non numeric values */
-        try {
-            $this->leavePeriodService->getListOfDates('abcd asdf');
-            $this->fail('getListOfDates() should not accept non-numeric values');
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof LeaveServiceException);
-            $this->assertEquals('Invalid value passed for month in LeavePeriodService::getListOfDates()', $e->getMessage());
-        }
-
     }
 
-    
-    /* Test for calcualating end date of the leave period, when given the start date */
-   
-    public function testCalculateEndDate() {
-
-        $result = $this->leavePeriodService->calculateEndDate(1, 1, null, 'F d');
-        $this->assertEquals('December 31', $result);
-
-        $result = $this->leavePeriodService->calculateEndDate(1, 1, 1999, 'F d');
-        $this->assertEquals('December 31', $result);
-
-        /* Test for leap years */
-        $result = $this->leavePeriodService->calculateEndDate(1, 1, 2004, 'F d');
-        $this->assertEquals('December 31', $result);
-
-        $result = $this->leavePeriodService->calculateEndDate(2, 28, 2004, 'F d');
-        $this->assertEquals('February 27', $result);
-
-        $result = $this->leavePeriodService->calculateEndDate(2, 29, 2004, 'F d');
-        $this->assertEquals('February 28', $result);
-
-        /* Test for format */
-        $result = $this->leavePeriodService->calculateEndDate(1, 1, 1999, 'F d');
-        $this->assertEquals('December 31', $result);
-
-        $result = $this->leavePeriodService->calculateEndDate(1, 1, 1999, 'Y-m-d');
-        $this->assertEquals('1999-12-31', $result);
-
-        $result = $this->leavePeriodService->calculateEndDate(1, 1, 1999, 'm/d/Y');
-        $this->assertEquals('12/31/1999', $result);
-
-        $result = $this->leavePeriodService->calculateEndDate(1, 1, 1999, 'd.m.Y');
-        $this->assertEquals('31.12.1999', $result);
-
-        /* Test for days other than Ja1 1st
-         * (End date should always in next year) */
-        
-        $currentYear = date('Y');
-        $nextYear = date('Y')+1;
-
-        if (strtotime("$currentYear-12-22") > strtotime(date('Y-m-d'))) {
-            $nextYear = $currentYear;
-        }
-
-        $result = $this->leavePeriodService->calculateEndDate(12, 22);
-        $this->assertEquals("$nextYear-12-21", $result);
-        
-        $result = $this->leavePeriodService->calculateEndDate(12, 22, $currentYear);
-        $this->assertEquals("{$nextYear}-12-21", $result);
-
-        /* Test for Ja1 1st
-         * (End date should be same year Dec 31) */
-
-        $currentYear = (int) date('Y');
-
-        $result = $this->leavePeriodService->calculateEndDate(01, 01);
-        $this->assertEquals("$currentYear-12-31", $result);
-
-        $result = $this->leavePeriodService->calculateEndDate(01, 01, $currentYear);
-        $this->assertEquals("$currentYear-12-31", $result);
-      
-    }
-
-    
-    /* Test for calculating start date given the month, date and year */
-   
-    public function testCalculateStartDate() {
-      
-        $currentYear = (int) date('Y'); // TODO: Remove this dependancy on getting the system date by using a mock
-        $previousYear = $currentYear - 1;
-
-        $result = $this->leavePeriodService->calculateStartDate(1, 1);
-        $this->assertEquals("{$currentYear}-01-01", $result);
-
-        $result = $this->leavePeriodService->calculateStartDate(8, 1, 2006);
-        $this->assertEquals("2006-08-01", $result);
-
-        $currentYear = date('Y');
-
-        if (strtotime("$currentYear-05-12") > strtotime(date('Y-m-d'))) {
-            $currentYear = $currentYear - 1;
-        }
-
-        $result = $this->leavePeriodService->calculateStartDate(05, 12);
-        $exprected = $currentYear . "-05-12";
-        $this->assertEquals($exprected, $result);
-
-        $result = $this->leavePeriodService->calculateStartDate(05, 12, $currentYear);
-        $exprected = $currentYear . "-05-12";
-        $this->assertEquals($exprected, $result);
-      
-    }
-
-    /* Test for savng leave period */
-
-    public function testSaveLeavePeriod() {
-
-        $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
-        $leavePeriod   = $leavePeriods[0];
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('saveLeavePeriod'))
-			->getMock();
-        $leavePeriodDao->expects($this->once())
-                     ->method('saveLeavePeriod')
-                     ->with($leavePeriod)
-                     ->will($this->returnValue(true));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-
-        $this->assertTrue($this->leavePeriodService->saveLeavePeriod($leavePeriod));
-
-    }
-    
-    /* test GetLeavePeriod */
-
-    public function testGetLeavePeriod() {
-
-        $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
-        $leavePeriod   = $leavePeriods[0];
-        $timestamp     = strtotime('2008-02-01');
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('filterByTimestamp'))
-			->getMock();
-        $leavePeriodDao->expects($this->once())
-                         ->method('filterByTimestamp')
-                         ->with($timestamp)
-                         ->will($this->returnValue($leavePeriod));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-
-        $returnedLeavePeriod = $this->leavePeriodService->getLeavePeriod($timestamp);
-
-        $this->assertTrue($returnedLeavePeriod instanceof LeavePeriod);
-        $this->assertEquals($leavePeriod, $returnedLeavePeriod);
-
-    }
-    
-    /* test getNextLeavePeriodByCurrentEndDate */
-
-    public function testGetNextLeavePeriodByCurrentEndDate() {
-
-        $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
-        $timestamp     = strtotime('+2 day', strtotime('2009-01-31'));
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('filterByTimestamp'))
-			->getMock();
-        $leavePeriodDao->expects($this->once())
-                        ->method('filterByTimestamp')
-                        ->will($this->returnValue($leavePeriods[1]));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-
-        $returnedLeavePeriod = $this->leavePeriodService->getNextLeavePeriodByCurrentEndDate("2009-01-31");
-
-        $this->assertTrue($returnedLeavePeriod instanceof LeavePeriod);
-        $this->assertEquals($leavePeriods[1], $returnedLeavePeriod);
-
-    }
-
-    /* test getNextLeavePeriodByCurrentEndDate returns null */
-
-    public function testGetNextLeavePeriodByCurrentEndDateReturnsNull() {
-
-        $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
-        $timestamp     = strtotime('5500-11-12');
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('filterByTimestamp'))
-			->getMock();
-        $leavePeriodDao->expects($this->once())
-                        ->method('filterByTimestamp')
-                        ->will($this->returnValue(null));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-
-        $returnedLeavePeriod = $this->leavePeriodService->getNextLeavePeriodByCurrentEndDate("5500-11-12");
-
-        $this->assertFalse($returnedLeavePeriod instanceof LeavePeriod);
-        $this->assertTrue(is_null($returnedLeavePeriod));
-
-    }
-    
-    
-    /* Test for adjustCurrentLeavePeriod */
-
-    public function testAdjustCurrentLeavePeriod() {
-
-        $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('filterByTimestamp', 'saveLeavePeriod', 'readLeavePeriod'))
-			->getMock();
-
-        $leavePeriodDao->expects($this->any())
-                        ->method('filterByTimestamp')
-                        ->will($this->returnValue($leavePeriods[1]));
-
-        $leavePeriodDao->expects($this->any())
-                        ->method('readLeavePeriod')
-                        ->will($this->returnValue($leavePeriods[1]));
-
-        $leavePeriodDao->expects($this->any())
-                        ->method('saveLeavePeriod')
-                        ->will($this->returnValue(true));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-
-        $this->assertTrue($this->leavePeriodService->adjustCurrentLeavePeriod(date("Y") . '-01-30'));
-
-    }
-
-    /* test createNextLeavePeriod */
-
-    public function testCreateNextLeavePeriodAlreadyCreated() {
-
-        $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('findLastLeavePeriod', 'filterByTimestamp'))
-			->getMock();
-        $leavePeriodDao->expects($this->once())
-                        ->method('findLastLeavePeriod')
-                        ->with('2010-01-30')
-                        ->will($this->returnValue($leavePeriods[1]));
-
-        $timestamp = strtotime('+2 day', strtotime('2010-01-31'));
-        $leavePeriodDao->expects($this->once())
-                        ->method('filterByTimestamp')
-                        ->with($timestamp)
-                        ->will($this->returnValue($leavePeriods[2]));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-        $leavePeriod = $this->leavePeriodService->createNextLeavePeriod("2010-01-30");
-
-        $this->assertTrue($leavePeriod instanceof LeavePeriod);
-        $this->assertEquals($leavePeriods[2]->getStartDate(), $leavePeriod->getStartDate());
-        $this->assertEquals($leavePeriods[2]->getEndDate(), $leavePeriod->getEndDate());
-
-    }
-
-    /* test createNextLeavePeriod not already created */
-
-    public function testCreateNextLeavePeriodNotAlreadyCreated() {
-
-        $paramLeavePeriodStartDate = ParameterService::getParameter('leavePeriodStartDate');
-        ParameterService::setParameter('leavePeriodStartDate', '02-01');
-        ParameterService::setParameter('isLeavePeriodStartOnFeb29th', "No");
-        ParameterService::setParameter('nonLeapYearLeavePeriodStartDate', "");
-
-        $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('findLastLeavePeriod', 'filterByTimestamp', 'saveLeavePeriod'))
-			->getMock();
-        $leavePeriodDao->expects($this->once())
-                        ->method('findLastLeavePeriod')
-                        ->with('2010-01-30')
-                        ->will($this->returnValue($leavePeriods[1]));
-
-        $timestamp = strtotime('+2 day', strtotime('2010-01-31'));
-        $leavePeriodDao->expects($this->once())
-                        ->method('filterByTimestamp')
-                        ->with($timestamp)
-                        ->will($this->returnValue(null));
-
-        $leavePeriodDao->expects($this->once())
-                        ->method('saveLeavePeriod')
-                        ->will($this->returnValue(true));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-        $leavePeriod = $this->leavePeriodService->createNextLeavePeriod("2010-01-30");
-
-        $this->assertTrue($leavePeriod instanceof LeavePeriod);
-        $this->assertEquals($leavePeriods[2]->getStartDate(), $leavePeriod->getStartDate());
-        $this->assertEquals($leavePeriods[2]->getEndDate(), $leavePeriod->getEndDate());
-
-        ParameterService::setParameter('leavePeriodStartDate', $paramLeavePeriodStartDate);
-
-    }
-
-    /* test createNextLeavePeriod returns null */
-
-    public function testCreateNextLeavePeriodReturnsNull() {
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('findLastLeavePeriod'))
-			->getMock();
-        $leavePeriodDao->expects($this->once())
-                        ->method('findLastLeavePeriod')
-                        ->with('1000-10-10')
-                        ->will($this->returnValue(null));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-        $leavePeriod = $this->leavePeriodService->createNextLeavePeriod('1000-10-10');
-
-        $this->assertFalse($leavePeriod instanceof LeavePeriod);
-        $this->assertTrue(is_null($leavePeriod));
-
-    }
-
-    /* test getLeavePeriodList */
-   
-    public function testGetLeavePeriodList() {
-
-        $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('getLeavePeriodList'))
-			->getMock();
-
-        $leavePeriodDao->expects($this->once())
-                        ->method('getLeavePeriodList')
-                        ->will($this->returnValue($leavePeriods));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-
-        $list = $this->leavePeriodService->getLeavePeriodList();
-        $this->assertEquals(4, count($list));
-
-        foreach($list as $leavePeriod) {
-            $this->assertTrue($leavePeriod instanceof LeavePeriod);
-        }
-
-    }
-
-    /* test isWithinNextLeavePeriod */
-   
-    public function testIsWithinNextLeavePeriod() {
-
-        $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('filterByTimestamp'))
-			->getMock();
-
-        $leavePeriodDao->expects($this->any())
-                        ->method('filterByTimestamp')
-                        ->will($this->returnValue($leavePeriods[1]));
-
-        $timestamp = strtotime(date("Y") . "-05-11");
-        $results = array(true, false);
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-        $result = $this->leavePeriodService->isWithinNextLeavePeriod($timestamp);
-
-        $this->assertTrue(in_array($result, $results));
-
-    }
-
-    /* test eager loading of LeavePeriodDao */
-    public function testEagerLoadingLeavePeriodDao() {
+    public function testGetLeavePeriodDao(): void
+    {
         $leavePeriodDao = $this->leavePeriodService->getLeavePeriodDao();
         $this->assertTrue($leavePeriodDao instanceof LeavePeriodDao);
-    }
-
-    /* test getCurrentLeavePeriod */
-    
-    public function testGetCurrentLeavePeriod1() {
-        //mocking LeavePeriodDao
-        $leavePeriod = new LeavePeriod();
-        $leavePeriod->setStartDate("2010-01-01");
-        $leavePeriod->setEndDate("2010-12-31");
-        $leavePeriod->setLeavePeriodId(1);
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('filterByTimestamp'))
-			->getMock();
-        $leavePeriodDao->expects($this->once())
-                ->method('filterByTimestamp')
-                ->will($this->returnValue($leavePeriod));
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-
-        $retrievedLeavePeriod = $this->leavePeriodService->getCurrentLeavePeriod();
-        $this->assertTrue($retrievedLeavePeriod instanceof LeavePeriod);
-        $this->assertEquals($retrievedLeavePeriod, $leavePeriod);
-    }
-
-    /* test getCurrentLeavePeriod */
-
-    public function testGetCurrentLeavePeriod2() {
-        //mocking LeavePeriodDao
-        $lastLeavePeriod = new LeavePeriod();
-        $lastLeavePeriod->setStartDate("2010-01-01");
-        $lastLeavePeriod->setEndDate("2010-12-31");
-        $lastLeavePeriod->setLeavePeriodId(1);
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('filterByTimestamp', 'findLastLeavePeriod', 'saveLeavePeriod'))
-			->getMock();
-        $leavePeriodDao->expects($this->any())
-                ->method('filterByTimestamp')
-                ->will($this->returnValue(null));
-
-        $leavePeriodDao->expects($this->once())
-                ->method('findLastLeavePeriod')
-                ->will($this->returnValue($lastLeavePeriod));
-
-        $leavePeriodDao->expects($this->once())
-                ->method('saveLeavePeriod')
-                ->will($this->returnValue(true));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-
-        $retrievedLeavePeriod = $this->leavePeriodService->getCurrentLeavePeriod();
-        $this->assertTrue($retrievedLeavePeriod instanceof LeavePeriod);
-    }
-
-    /* test readLeavePeriod  */
-
-    public function testReadLeavePeriod() {
-        //mocking LeavePeriodDao
-        $lastLeavePeriod = new LeavePeriod();
-        $lastLeavePeriod->setStartDate("2010-01-01");
-        $lastLeavePeriod->setEndDate("2010-12-31");
-        $lastLeavePeriod->setLeavePeriodId(1);
-
-        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
-			->setMethods( array('readLeavePeriod'))
-			->getMock();
-        $leavePeriodDao->expects($this->once())
-                ->method('readLeavePeriod')
-                ->will($this->returnValue($lastLeavePeriod));
-
-        $this->leavePeriodService->setLeavePeriodDao($leavePeriodDao);
-
-        $retrievedLeavePeriod = $this->leavePeriodService->readLeavePeriod(1);
-        $this->assertTrue($retrievedLeavePeriod instanceof LeavePeriod);
     }
 }

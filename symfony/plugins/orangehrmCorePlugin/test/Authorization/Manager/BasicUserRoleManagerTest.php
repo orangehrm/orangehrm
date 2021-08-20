@@ -71,6 +71,7 @@ class BasicUserRoleManagerTest extends KernelTestCase
         ); //'JobCandidate', 'JobVacancy', 'JobInterview'
         TestDataService::populate($this->fixture);
 
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $this->manager = new BasicUserRoleManager();
     }
 

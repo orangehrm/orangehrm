@@ -205,8 +205,10 @@ class RequestParams
             $default->setTimezone($timezone);
         }
 
-        $param = $this->$type->get($key, $default);
-        $date = new DateTime($param);
+        $date = $this->$type->get($key, $default);
+        if (!$date instanceof DateTime) {
+            $date = new DateTime($date);
+        }
         if ($timezone instanceof DateTimeZone) {
             $date->setTimezone($timezone);
         }
@@ -230,12 +232,14 @@ class RequestParams
             $default->setTimezone($timezone);
         }
 
-        $param = $this->$type->get($key, $default);
-        if ($this->isEmptyString($param) || is_null($param)) {
+        $date = $this->$type->get($key, $default);
+        if ($this->isEmptyString($date) || is_null($date)) {
             return null;
         }
 
-        $date = new DateTime($param);
+        if (!$date instanceof DateTime) {
+            $date = new DateTime($date);
+        }
         if ($timezone instanceof DateTimeZone) {
             $date->setTimezone($timezone);
         }

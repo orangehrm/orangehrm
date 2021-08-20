@@ -20,9 +20,7 @@
 namespace OrangeHRM\Leave\Dao;
 
 use DateTime;
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Holiday;
 use OrangeHRM\Leave\Dto\HolidaySearchFilterParams;
 use OrangeHRM\ORM\Paginator;
@@ -33,44 +31,29 @@ class HolidayDao extends BaseDao
      * Add and Update Holiday
      * @param Holiday $holiday
      * @return Holiday
-     * @throws DaoException
      */
     public function saveHoliday(Holiday $holiday): Holiday
     {
-        try {
-            $this->persist($holiday);
-            return $holiday;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($holiday);
+        return $holiday;
     }
 
     /**
      * @param int $holidayId
      * @return Holiday|null
-     * @throws DaoException
      */
     public function getHolidayById(int $holidayId): ?Holiday
     {
-        try {
-            return $this->getRepository(Holiday::class)->find($holidayId);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getRepository(Holiday::class)->find($holidayId);
     }
 
     /**
      * @param HolidaySearchFilterParams $holidaySearchFilterParams
      * @return Holiday[]
-     * @throws DaoException
      */
     public function searchHolidays(HolidaySearchFilterParams $holidaySearchFilterParams): array
     {
-        try {
-            return $this->getSearchHolidaysPaginator($holidaySearchFilterParams)->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        return $this->getSearchHolidaysPaginator($holidaySearchFilterParams)->getQuery()->execute();
     }
 
     /**
@@ -116,18 +99,13 @@ class HolidayDao extends BaseDao
     /**
      * @param array $toDeleteIds
      * @return int
-     * @throws DaoException
      */
     public function deleteHolidays(array $toDeleteIds): int
     {
-        try {
-            $q = $this->createQueryBuilder(Holiday::class, 'holiday');
-            $q->delete()
-                ->andWhere($q->expr()->in('holiday.id', ':ids'))
-                ->setParameter('ids', $toDeleteIds);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(Holiday::class, 'holiday');
+        $q->delete()
+            ->andWhere($q->expr()->in('holiday.id', ':ids'))
+            ->setParameter('ids', $toDeleteIds);
+        return $q->getQuery()->execute();
     }
 }

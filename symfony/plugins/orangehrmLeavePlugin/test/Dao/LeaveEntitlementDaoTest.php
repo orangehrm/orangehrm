@@ -28,10 +28,12 @@ use OrangeHRM\Entity\LeaveEntitlementType;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
+use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Entitlement\FIFOEntitlementConsumptionStrategy;
 use OrangeHRM\Leave\Entitlement\LeaveBalance;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\Leave\Service\LeaveEntitlementService;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -56,271 +58,161 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmLeavePlugin/test/fixtures/LeaveEntitlement.yml';
         TestDataService::populate($this->fixture);
     }
-    
-    /* Default search - should return all non-deleted records - sorted by fromdate */
-    public function xtestSearchLeaveEntitlementsWithNoFilters() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);                
-    }      
-    
-    /* Test sorting */
-    public function xtestSearchLeaveEntitlementsSorting() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        
-        // sort by leave type name
-        $parameterHolder->setOrderBy('Desc');
-        $parameterHolder->setOrderField('leave_type');
 
-        $expected = [$entitlementList[1], $entitlementList[2], $entitlementList[3], $entitlementList[0], $entitlementList[5]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        $this->_compareEntitlements($expected, $results);  
-        
-        
-        // sort by employee name
-        $parameterHolder->setOrderBy('Asc');
-        $parameterHolder->setOrderField('employee_name');
+    public function testSearchLeaveEntitlementsWithNoFilters(): void
+    {
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
+        $expected = [
+            $entitlementList[0],
+            $entitlementList[2],
+            $entitlementList[3],
+            $entitlementList[5],
+            $entitlementList[1]
+        ];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
 
-        $expected = [$entitlementList[1], $entitlementList[5], $entitlementList[0], $entitlementList[2], $entitlementList[3]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        $this->_compareEntitlements($expected, $results);          
-        
-    }  
-    
-    /* Test sorting */
-    public function xtestSearchLeaveEntitlementsWithIdList() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        $parameterHolder->setIdList([1,2]);
-        
-        $expected = [$entitlementList[0],$entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);           
-        
-    }       
-    
-    public function xtestSearchLeaveEntitlementsWithAllFilters() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        $parameterHolder->setEmpNumber(2);
-        $parameterHolder->setLeaveTypeId(6);
-        $parameterHolder->setFromDate('2013-08-01');
-        $parameterHolder->setToDate('2013-10-02');
-        $expected = [$entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);           
-    }  
-    
-    public function xtestSearchLeaveEntitlementsByValidDate() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        
-        $parameterHolder->setValidDate('2013-08-06');
-        
-        $expected = [$entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $parameterHolder->setValidDate('2013-08-05');
-        
-        $expected = [$entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $parameterHolder->setValidDate('2013-09-01');
-        
-        $expected = [$entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $parameterHolder->setValidDate('2013-09-02');
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);        
-        $this->assertEquals(1, count($results)) ;    
-        
-        $parameterHolder->setValidDate('2014-01-02');
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);        
-        $this->assertEquals(0, count($results)) ;    
-        
+        $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
+        $this->assertEquals(5, $total);
+
+        $sum = $this->dao->getLeaveEntitlementsSum($parameterHolder);
+        $this->assertEquals(15, $sum);
     }
 
-    public function xtestSearchLeaveEntitlementsByLeaveType() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        
+    public function testSearchLeaveEntitlementsSorting(): void
+    {
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
+
+        // sort by leave type name
+        $parameterHolder->setSortOrder(ListSorter::DESCENDING);
+        $parameterHolder->setSortField('leaveType.name');
+
+        $expected = [
+            $entitlementList[1],
+            $entitlementList[2],
+            $entitlementList[3],
+            $entitlementList[0],
+            $entitlementList[5]
+        ];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+    }
+
+    public function testSearchLeaveEntitlementsWithAllFilters(): void
+    {
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
+        $parameterHolder->setEmpNumber(2);
+        $parameterHolder->setLeaveTypeId(6);
+        $parameterHolder->setFromDate(new \DateTime('2013-08-01'));
+        $parameterHolder->setToDate(new \DateTime('2013-10-02'));
+        $expected = [$entitlementList[1]];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
+        $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
+        $this->assertEquals(1, $total);
+
+        $sum = $this->dao->getLeaveEntitlementsSum($parameterHolder);
+        $this->assertEquals(4, $sum);
+    }
+
+    public function testSearchLeaveEntitlementsByLeaveType(): void
+    {
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
+
         $parameterHolder->setLeaveTypeId(2);
 
         $expected = [$entitlementList[2], $entitlementList[3]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        $this->_compareEntitlements($expected, $results);          
-        
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
         // Non existing leave type id
         $parameterHolder->setLeaveTypeId(21);
 
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        $this->assertEquals(0, count($results));
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->assertEmpty($results);
 
         // Leave type with no entitlements
         $parameterHolder->setLeaveTypeId(7);
 
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        $this->assertEquals(0, count($results));        
-    }    
-    
-    public function xtestSearchLeaveEntitlementsByEmpNumber() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->assertEmpty($results);
+    }
+
+    public function testSearchLeaveEntitlementsByEmpNumber(): void
+    {
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
+
         // employee with multiple records
         $parameterHolder->setEmpNumber(1);
         $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);           
-        
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+
+        $this->_compareEntitlements($expected, $results);
+
         // employee with one record
         $parameterHolder->setEmpNumber(2);
         $expected = [$entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);            
-        
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+
+        $this->_compareEntitlements($expected, $results);
+
         // employee with no records
         $parameterHolder->setEmpNumber(4);
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        $this->assertEquals(0, count($results));        
-        
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->assertEmpty($results);
+
         // non existing employee
         $parameterHolder->setEmpNumber(100);
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        $this->assertEquals(0, count($results));           
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->assertEmpty($results);
     }
-    
-    public function xtestSearchLeaveEntitlementsByDates() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        
+
+    public function testSearchLeaveEntitlementsByDates(): void
+    {
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
+
         // date range with multiple records
-        $parameterHolder->setFromDate('2012-03-01');
-        $parameterHolder->setToDate('2012-07-01');
-                
-        $expected = [$entitlementList[2], $entitlementList[3]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);         
-        
-        // from date matching entitlement from date
-        $parameterHolder->setFromDate('2012-04-04');
-        $parameterHolder->setToDate('2012-04-05');        
-        $expected = [$entitlementList[2]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);        
-                
-        $parameterHolder->setFromDate('2012-01-01');
-        $parameterHolder->setToDate('2012-01-02');        
+        $parameterHolder->setFromDate(new \DateTime('2012-01-01'));
+        $parameterHolder->setToDate(new \DateTime('2012-12-31'));
+
+        $expected = [$entitlementList[0], $entitlementList[2]];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
+        $parameterHolder->setFromDate(new \DateTime('2012-01-01'));
+        $parameterHolder->setToDate(new \DateTime('2012-08-01'));
         $expected = [$entitlementList[0]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);   
-        
-        // to date matching entitlement to date
-        $parameterHolder->setFromDate('2011-01-01');
-        $parameterHolder->setToDate('2012-01-01');        
-        $expected = [$entitlementList[0]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);        
-        
-        // from date matching entitlement to date
-        $parameterHolder->setFromDate('2013-09-01');
-        $parameterHolder->setToDate('2013-11-01');        
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        $this->assertEquals(0, count($results));
-    }
-    
-    public function xtestSearchLeaveEntitlementsDeletedFlag() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        
-        // default - non-deleted
-        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);          
-        
-        // only deleted
-        $parameterHolder->setDeletedFlag(true);
-        $expected = [$entitlementList[4]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);           
-        
-        // both deleted and non-deleted
-        $parameterHolder->setDeletedFlag(NULL);
-        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[4], $entitlementList[5], $entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);         
-    }
-    
-    public function xtestSearchByEntitlementType() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        
-        // default - all non deleted
-        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);          
-        
-        // only entitlement type 1
-        $parameterHolder->setEntitlementTypes([1]);
-        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);           
-        
-        // only entitlement type 2
-        $parameterHolder->setEntitlementTypes([2]);
-        $expected = [$entitlementList[5]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results); 
-        
-        // entitlement types 1 and 2
-        $parameterHolder->setEntitlementTypes([1, 2]);
-        $expected = [$entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);          
-    }    
-    
-    public function xtestSearchByEntitlementTypeWithOtherParams() {
-        // TODO
-        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-         
-        
-        // only entitlement type 1 and leave type 1
-        $parameterHolder->setEntitlementTypes([1]);
-        $parameterHolder->setLeaveTypeId(1);
-        $expected = [$entitlementList[0]];
-        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
-        
-        $this->_compareEntitlements($expected, $results);                
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
+        $parameterHolder->setFromDate(new \DateTime('2012-01-01'));
+        $parameterHolder->setToDate(new \DateTime('2013-12-31'));
+        $expected = [
+            $entitlementList[0],
+            $entitlementList[2],
+            $entitlementList[3],
+            $entitlementList[5],
+            $entitlementList[1]
+        ];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
+        $parameterHolder->setFromDate(new \DateTime('2011-01-01'));
+        $parameterHolder->setToDate(new \DateTime('2012-01-01'));
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->assertEmpty($results);
+
+        $parameterHolder->setFromDate(new \DateTime('2013-09-01'));
+        $parameterHolder->setToDate(new \DateTime('2013-12-01'));
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->assertEmpty($results);
     }
 
     public function testGetLeaveEntitlement(): void
@@ -401,405 +293,39 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $this->_compareEntitlement($existingEntitlement, $fromDb);
     }
 
-    public function xtestDeleteLeaveEntitlementsMultiple() {
-        // TODO
+    public function testDeleteLeaveEntitlementsMultiple(): void
+    {
         $deleted = [5];
-                
+
         // delete with invalid ids
         $ids = [21, 31];
-        $count = $this->dao->deleteLeaveEntitlements($ids);        
-        $this->assertEquals(0, $count);                
+        $count = $this->dao->deleteLeaveEntitlements($ids);
+        $this->assertEquals(0, $count);
         $this->_verifyDeletedFlags($deleted);
-               
-        
+
+
         // delete multiple 
         $ids = [2, 3];
-        $count = $this->dao->deleteLeaveEntitlements($ids);        
-        $this->assertEquals(2, $count);                
-        
+        $count = $this->dao->deleteLeaveEntitlements($ids);
+        $this->assertEquals(2, $count);
+
         // verify deleted
-        $deleted = array_merge($deleted, $ids);        
+        $deleted = array_merge($deleted, $ids);
         $this->_verifyDeletedFlags($deleted);
-        
+
         // delete one
         $ids = [4];
-        
-        $count = $this->dao->deleteLeaveEntitlements($ids);        
+
+        $count = $this->dao->deleteLeaveEntitlements($ids);
         $this->assertEquals(1, $count);
-        
+
         // verify deleted
-        $deleted = array_merge($deleted, $ids);        
+        $deleted = array_merge($deleted, $ids);
         $this->_verifyDeletedFlags($deleted);
-        
+
         // delete already deleted entry
         $count = $this->dao->deleteLeaveEntitlements([2]);
-        $this->_verifyDeletedFlags($deleted);        
-    }
-
-    public function testGetLeaveBalance(): void
-    {
-        $unlinkedDateLimits = [new DateTime('2001-01-01'), new DateTime('2020-01-01')];
-        $mockStrategy = $this->getMockBuilder(FIFOEntitlementConsumptionStrategy::class)
-            ->onlyMethods(['getLeaveWithoutEntitlementDateLimitsForLeaveBalance'])
-            ->getMock();
-        $mockStrategy->expects($this->exactly(31))
-            ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
-            ->will($this->returnValue($unlinkedDateLimits));
-
-        $leaveEntitlementService = $this->getMockBuilder(LeaveEntitlementService::class)
-            ->onlyMethods(['getLeaveEntitlementStrategy'])
-            ->getMock();
-        $leaveEntitlementService->expects($this->exactly(31))
-            ->method('getLeaveEntitlementStrategy')
-            ->willReturn($mockStrategy);
-
-        $this->createKernelWithMockServices(
-            [
-                Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
-                Services::LEAVE_ENTITLEMENT_SERVICE => $leaveEntitlementService,
-                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
-            ]
-        );
-
-        // As at before entitlement start:         
-        $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-08-01'));
-        $expected = new LeaveBalance(4, 1, 0, 0.5);
-        $expected->setAsAtDate(new DateTime('2013-08-01'));
-        $this->assertEquals($expected, $balance);
-
-        // On Start Date
-        $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-08-05'));
-        $expected = new LeaveBalance(4, 1, 0, 0.5);
-        $expected->setAsAtDate(new DateTime('2013-08-05'));
-        $this->assertEquals($expected, $balance);
-
-        // Between start end
-        $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-08-10'));
-        $expected = new LeaveBalance(4, 1, 0, 0.5);
-        $expected->setAsAtDate(new DateTime('2013-08-10'));
-        $this->assertEquals($expected, $balance);
-
-        // On End date
-        $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-09-01'));
-        $expected = new LeaveBalance(4, 1, 0, 0.5);
-        $expected->setAsAtDate(new DateTime('2013-09-01'));
-        $this->assertEquals($expected, $balance);
-
-        // After End
-        $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-09-02'));
-        $expected = new LeaveBalance(0, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2013-09-02'));
-        $this->assertEquals($expected, $balance);
-
-        // Using Date - Before
-        $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-08-01'), new DateTime('2013-08-01'));
-        $expected = new LeaveBalance(0, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2013-08-01'));
-        $expected->setEndDate(new DateTime('2013-08-01'));
-        $this->assertEquals($expected, $balance);
-
-        // On Start Date
-        $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-08-01'), new DateTime('2013-08-05'));
-        $expected = new LeaveBalance(4, 1, 0, 0.5);
-        $expected->setAsAtDate(new DateTime('2013-08-01'));
-        $expected->setEndDate(new DateTime('2013-08-05'));
-        $this->assertEquals($expected, $balance);
-
-        // Between start end
-        $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-08-01'), new DateTime('2013-08-10'));
-        $expected = new LeaveBalance(4, 1, 0, 0.5);
-        $expected->setAsAtDate(new DateTime('2013-08-01'));
-        $expected->setEndDate(new DateTime('2013-08-10'));
-        $this->assertEquals($expected, $balance);
-
-        // On End date
-        $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-08-01'), new DateTime('2013-09-01'));
-        $expected = new LeaveBalance(4, 1, 0, 0.5);
-        $expected->setAsAtDate(new DateTime('2013-08-01'));
-        $expected->setEndDate(new DateTime('2013-09-01'));
-        $this->assertEquals($expected, $balance);
-
-        // After End
-        $balance = $this->dao->getLeaveBalance(2, 6, new DateTime('2013-08-01'), new DateTime('2013-09-02'));
-        $expected = new LeaveBalance(0, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2013-08-01'));
-        $expected->setEndDate(new DateTime('2013-09-02'));
-        $this->assertEquals($expected, $balance);
-
-        // Two entitlements - before both
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-03-01'));
-        $expected = new LeaveBalance(3, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $this->assertEquals($expected, $balance);
-
-        // First day of one entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-04-04'));
-        $expected = new LeaveBalance(3, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-04-04'));
-        $this->assertEquals($expected, $balance);
-
-        // After first day of first entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-05-01'));
-        $expected = new LeaveBalance(3, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-05-01'));
-        $this->assertEquals($expected, $balance);
-
-        // First day of second entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-05-05'));
-        $expected = new LeaveBalance(3, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-05-05'));
-        $this->assertEquals($expected, $balance);
-
-        // After First day of second entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-05-09'));
-        $expected = new LeaveBalance(3, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-05-09'));
-        $this->assertEquals($expected, $balance);
-
-        // Last day of first entitlement        
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-06-01'));
-        $expected = new LeaveBalance(3, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-06-01'));
-        $this->assertEquals($expected, $balance);
-
-        // After first entitlement                
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-06-02'));
-        $expected = new LeaveBalance(2, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-06-02'));
-        $this->assertEquals($expected, $balance);
-
-        // On last day of second entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-08-01'));
-        $expected = new LeaveBalance(2, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-08-01'));
-        $this->assertEquals($expected, $balance);
-
-        // After second entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-08-02'));
-        $expected = new LeaveBalance(0, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-08-02'));
-        $this->assertEquals($expected, $balance);
-
-        // With date - before first entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-03-01'), new DateTime('2012-03-01'));
-        $expected = new LeaveBalance(0, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-03-01'));
-        $this->assertEquals($expected, $balance);
-
-        // on start date of first entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-03-01'), new DateTime('2012-04-04'));
-        $expected = new LeaveBalance(1, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-04-04'));
-        $this->assertEquals($expected, $balance);
-
-        // after first date of first entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-03-01'), new DateTime('2012-05-01'));
-        $expected = new LeaveBalance(1, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-05-01'));
-        $this->assertEquals($expected, $balance);
-
-        // on first date of second entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-03-01'), new DateTime('2012-05-05'));
-        $expected = new LeaveBalance(3, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-05-05'));
-        $this->assertEquals($expected, $balance);
-
-        // after first date of second entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-03-01'), new DateTime('2012-05-09'));
-        $expected = new LeaveBalance(3, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-05-09'));
-        $this->assertEquals($expected, $balance);
-
-        // on last date of first entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-03-01'), new DateTime('2012-06-01'));
-        $expected = new LeaveBalance(3, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-06-01'));
-        $this->assertEquals($expected, $balance);
-
-        // after last date of first entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-03-01'), new DateTime('2012-06-02'));
-        $expected = new LeaveBalance(2, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-06-02'));
-        $this->assertEquals($expected, $balance);
-
-        // last date of second entitlement
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-03-01'), new DateTime('2012-08-01'));
-        $expected = new LeaveBalance(2, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-08-01'));
-        $this->assertEquals($expected, $balance);
-
-        // after both entitlements end dates
-        $balance = $this->dao->getLeaveBalance(1, 2, new DateTime('2012-03-01'), new DateTime('2012-08-02'));
-        $expected = new LeaveBalance(0, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-08-02'));
-        $this->assertEquals($expected, $balance);
-
-        // leave type with no leave entitlement
-        $balance = $this->dao->getLeaveBalance(6, 7, new DateTime('2012-03-01'), new DateTime('2012-08-02'));
-        $expected = new LeaveBalance(0, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-08-02'));
-        $this->assertEquals($expected, $balance);
-
-        // Checking values for scheduled and pending
-        $balance = $this->dao->getLeaveBalance(1, 1, new DateTime('2012-03-01'), new DateTime('2012-07-02'));
-        $expected = new LeaveBalance(3, 0, 0.75, 0.5);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-07-02'));
-        $this->assertEquals($expected, $balance);
-
-        // No entitlements for employee
-        $balance = $this->dao->getLeaveBalance(3, 1, new DateTime('2012-03-01'), new DateTime('2012-07-02'));
-        $expected = new LeaveBalance(0, 0, 0, 0);
-        $expected->setAsAtDate(new DateTime('2012-03-01'));
-        $expected->setEndDate(new DateTime('2012-07-02'));
-        $this->assertEquals($expected, $balance);
-    }
-
-    public function testGetLeaveBalanceWithUnlinkedLeave(): void
-    {
-        $unlinkedDateLimits = [new DateTime('2013-01-01'), new DateTime('2013-12-31')];
-        $mockStrategy = $this->getMockBuilder(FIFOEntitlementConsumptionStrategy::class)
-            ->onlyMethods(['getLeaveWithoutEntitlementDateLimitsForLeaveBalance'])
-            ->getMock();
-        $mockStrategy->expects($this->once())
-            ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
-            ->with(new DateTime('2013-01-01'), new DateTime('2013-12-31'))
-            ->will($this->returnValue($unlinkedDateLimits));
-
-        $leaveEntitlementService = $this->getMockBuilder(LeaveEntitlementService::class)
-            ->onlyMethods(['getLeaveEntitlementStrategy'])
-            ->getMock();
-        $leaveEntitlementService->expects($this->once())
-            ->method('getLeaveEntitlementStrategy')
-            ->willReturn($mockStrategy);
-
-        $this->createKernelWithMockServices(
-            [
-                Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
-                Services::LEAVE_ENTITLEMENT_SERVICE => $leaveEntitlementService,
-                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
-            ]
-        );
-
-        $balance = $this->dao->getLeaveBalance(7, 1, new DateTime('2013-01-01'), new DateTime('2013-12-31'));
-
-        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0 
-        $expected = new LeaveBalance(5, 3, 3, 0, 0);
-        $expected->setAsAtDate(new DateTime('2013-01-01'));
-        $expected->setEndDate(new DateTime('2013-12-31'));
-        $this->assertEquals($expected, $balance);
-    }
-
-    public function testGetLeaveBalanceExcludingUnlinkedLeaveWhenAfterPeriod(): void
-    {
-        $unlinkedDateLimits = [new DateTime('2013-01-01'), new DateTime('2014-12-31')];
-        $mockStrategy = $this->getMockBuilder(FIFOEntitlementConsumptionStrategy::class)
-            ->onlyMethods(['getLeaveWithoutEntitlementDateLimitsForLeaveBalance'])
-            ->getMock();
-        $mockStrategy->expects($this->once())
-            ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
-            ->with(new DateTime('2013-01-01'), new DateTime('2013-12-31'))
-            ->will($this->returnValue($unlinkedDateLimits));
-
-        $leaveEntitlementService = $this->getMockBuilder(LeaveEntitlementService::class)
-            ->onlyMethods(['getLeaveEntitlementStrategy'])
-            ->getMock();
-        $leaveEntitlementService->expects($this->once())
-            ->method('getLeaveEntitlementStrategy')
-            ->willReturn($mockStrategy);
-
-        $this->createKernelWithMockServices(
-            [
-                Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
-                Services::LEAVE_ENTITLEMENT_SERVICE => $leaveEntitlementService,
-                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
-            ]
-        );
-
-        $balance = $this->dao->getLeaveBalance(7, 1, new DateTime('2013-01-01'), new DateTime('2013-12-31'));
-
-        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0 
-        $expected = new LeaveBalance(5, 5, 5, 0, 0);
-        $expected->setAsAtDate(new DateTime('2013-01-01'));
-        $expected->setEndDate(new DateTime('2013-12-31'));
-        $this->assertEquals($expected, $balance);
-    }
-
-    public function testGetLeaveBalanceExcludingUnlinkedBeforePeriod(): void
-    {
-        $unlinkedDateLimits = [new DateTime('2012-01-01'), new DateTime('2013-12-31')];
-        $mockStrategy = $this->getMockBuilder(FIFOEntitlementConsumptionStrategy::class)
-            ->onlyMethods(['getLeaveWithoutEntitlementDateLimitsForLeaveBalance'])
-            ->getMock();
-        $mockStrategy->expects($this->once())
-            ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
-            ->with(new DateTime('2013-01-01'), new DateTime('2013-12-31'))
-            ->will($this->returnValue($unlinkedDateLimits));
-
-        $leaveEntitlementService = $this->getMockBuilder(LeaveEntitlementService::class)
-            ->onlyMethods(['getLeaveEntitlementStrategy'])
-            ->getMock();
-        $leaveEntitlementService->expects($this->once())
-            ->method('getLeaveEntitlementStrategy')
-            ->willReturn($mockStrategy);
-
-        $this->createKernelWithMockServices(
-            [
-                Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
-                Services::LEAVE_ENTITLEMENT_SERVICE => $leaveEntitlementService,
-                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
-            ]
-        );
-        $balance = $this->dao->getLeaveBalance(7, 1, new DateTime('2013-01-01'), new DateTime('2013-12-31'));
-
-        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0 
-        $expected = new LeaveBalance(5, 4, 4, 0, 0);
-        $expected->setAsAtDate(new DateTime('2013-01-01'));
-        $expected->setEndDate(new DateTime('2013-12-31'));
-        $this->assertEquals($expected, $balance);
-    }
-
-    public function testGetLeaveBalanceExcludingUnlinkedLeave(): void
-    {
-        $mockStrategy = $this->getMockBuilder(FIFOEntitlementConsumptionStrategy::class)
-            ->onlyMethods(['getLeaveWithoutEntitlementDateLimitsForLeaveBalance'])
-            ->getMock();
-        $mockStrategy->expects($this->once())
-            ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
-            ->with(new DateTime('2013-01-01'), new DateTime('2013-12-31'))
-            ->will($this->returnValue(null));
-
-        $leaveEntitlementService = $this->getMockBuilder(LeaveEntitlementService::class)
-            ->onlyMethods(['getLeaveEntitlementStrategy'])
-            ->getMock();
-        $leaveEntitlementService->expects($this->once())
-            ->method('getLeaveEntitlementStrategy')
-            ->willReturn($mockStrategy);
-
-        $this->createKernelWithMockServices(
-            [
-                Services::LEAVE_CONFIG_SERVICE => new LeaveConfigurationService(),
-                Services::LEAVE_ENTITLEMENT_SERVICE => $leaveEntitlementService,
-                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
-            ]
-        );
-        $balance = $this->dao->getLeaveBalance(7, 1, new DateTime('2013-01-01'), new DateTime('2013-12-31'));
-
-        // $entitled = 0, $used = 0, $scheduled = 0, $pending = 0, $notLinked = 0, $taken = 0 ,$adjustment =0 
-        $expected = new LeaveBalance(5, 2, 2, 0, 0);
-        $expected->setAsAtDate(new DateTime('2013-01-01'));
-        $expected->setEndDate(new DateTime('2013-12-31'));
-        $this->assertEquals($expected, $balance);
+        $this->_verifyDeletedFlags($deleted);
     }
 
     public function xtestGetLinkedLeaveRequests() {
@@ -883,13 +409,25 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $this->assertEquals(0, count($matches));
     }
 
+    public function testGetLeaveEntitlementsByIds(): void
+    {
+        $entitlementList = $this->dao->getLeaveEntitlementsByIds([1, 2, 3]);
+        $this->assertCount(3, $entitlementList);
+
+        $entitlementList = $this->dao->getLeaveEntitlementsByIds([1, 2, 100]);
+        $this->assertCount(2, $entitlementList);
+
+        $entitlementList = $this->dao->getLeaveEntitlementsByIds([100]);
+        $this->assertEmpty($entitlementList);
+    }
+
     /**
      * @param LeaveEntitlement[] $expected
      * @param LeaveEntitlement[] $results
      */
     protected function _compareEntitlements(array $expected, array $results): void
     {
-        $this->assertEquals(count($expected), count($results));
+        $this->assertCount(count($expected), $results);
 
         for ($i = 0; $i < count($expected); $i++) {
             $this->_compareEntitlement($expected[$i], $results[$i]);
@@ -913,97 +451,26 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $this->assertEquals($expected->getEntitlementType(), $actual->getEntitlementType());
         $this->assertEquals($expected->isDeleted(), $actual->isDeleted());
     }
- 
-    protected function _verifyDeletedFlags($deleted) {
-        
+
+    protected function _verifyDeletedFlags($deleted): void
+    {
         $ids = [1, 2, 3, 4, 5];
 
         $nonDeleted = array_diff($ids, $deleted);
-    
+
         // verify deleted
-        foreach($deleted as $id) {
-            $entitlement = TestDataService::fetchObject('LeaveEntitlement', $id);
-            $this->assertEquals(1, $entitlement->getDeleted(), 'id=' . $id);
+        foreach ($deleted as $id) {
+            /** @var LeaveEntitlement $entitlement */
+            $entitlement = TestDataService::fetchObject(LeaveEntitlement::class, $id);
+            $this->assertEquals(true, $entitlement->isDeleted(), 'id=' . $id);
         }
-        
+
         // verify non deleted
-        foreach($nonDeleted as $id) {
-            $entitlement = TestDataService::fetchObject('LeaveEntitlement', $id);
-            $this->assertEquals(0, $entitlement->getDeleted(), 'id=' . $id);
-        }        
-        
-    }  
-    
-    public function xtestSaveLeaveAdjustment(){
-        // TODO
-        $leaveAdjustment = new LeaveAdjustment();
-        
-        $leaveAdjustment->setEmpNumber(1);
-        $leaveAdjustment->setNoOfDays(12);
-        $leaveAdjustment->setLeaveTypeId(2);
-        $leaveAdjustment->setFromDate('2012-09-13');
-        $leaveAdjustment->setToDate('2012-11-28');
-        $leaveAdjustment->setCreditedDate('2012-05-01');
-        $leaveAdjustment->setNote('Created by Unit test');
-        $leaveAdjustment->setAdjustmentType(1);
-        
-        $leaveAdjustment->setDeleted(0);
-        
-        $result = $this->dao->saveLeaveAdjustment($leaveAdjustment);
-        $this->assertFalse( is_null($result->getId()));
-    }
-    
-    public function xtestSearchLeaveEntitlementsHydrationMode(){
-        // TODO
-         $parameterHolder = new LeaveEntitlementSearchParameterHolder();
-         $parameterHolder->setHydrationMode(Doctrine::HYDRATE_ARRAY);
-         $parameterHolder->setEmpIdList([1,2,3]);
-         $parameterHolder->setFromDate('2012-01-01');
-         $parameterHolder->setToDate('2012-08-01');
-         
-         $result = $this->dao->searchLeaveEntitlements($parameterHolder);
-         
-         $this->assertEquals(3,count($result));
-         
-         
-    }
-    
-    public function xtestSearchLeaveEntitlementsSamePeriod() {
-        // TODO
-        Doctrine_Query::create()->delete()->from('LeaveEntitlement')->execute();
-
-        $leaveEntitlements = [
-            [
-                'id' => 1, 'leave_type_id' => 1, 'emp_number' => 1, 'no_of_days' => 3, 'from_date' => '2013-01-01 00:00:00',
-                'to_date' => '2013-12-31 00:00:00', 'entitlement_type' => 1, 'deleted' => 0
-            ],
-            [
-                'id' => 2, 'leave_type_id' => 1, 'emp_number' => 2, 'no_of_days' => 3, 'from_date' => '2013-01-01 00:00:00',
-                'to_date' => '2013-12-31 00:00:00', 'entitlement_type' => 1, 'deleted' => 0
-            ],
-        ];
-
-        foreach ($leaveEntitlements as $entitlement) {
-            $leaveEntitlement = new LeaveEntitlement();
-            $leaveEntitlement->fromArray($entitlement);
-            $leaveEntitlement->save();
+        foreach ($nonDeleted as $id) {
+            /** @var LeaveEntitlement $entitlement */
+            $entitlement = TestDataService::fetchObject(LeaveEntitlement::class, $id);
+            $this->assertEquals(false, $entitlement->isDeleted(), 'id=' . $id);
         }
-
-        $fromDate = '2013-01-01';
-        $toDate = '2013-12-31';
-        $employeeNumbers = [1, 2];
-        $leaveTypeId = 1;
-        
-        $leaveEntitlementSearchParameterHolder = new LeaveEntitlementSearchParameterHolder();
-        $leaveEntitlementSearchParameterHolder->setFromDate($fromDate);
-        $leaveEntitlementSearchParameterHolder->setLeaveTypeId($leaveTypeId);
-        $leaveEntitlementSearchParameterHolder->setToDate($toDate);
-        $leaveEntitlementSearchParameterHolder->setEmpIdList($employeeNumbers);
-        $leaveEntitlementSearchParameterHolder->setHydrationMode(Doctrine::HYDRATE_ARRAY);
-
-        $entitlementList = $this->dao->searchLeaveEntitlements($leaveEntitlementSearchParameterHolder);
-        
-        $this->assertEquals(2, count($entitlementList));
     }
     
     public function xtestBulkAssignLeaveEntitlements() {
@@ -1069,45 +536,5 @@ class LeaveEntitlementDaoTest extends KernelTestCase
             $this->assertEquals($leaveId, $results[0]['leave_id']);
             $this->assertEquals(1, $results[0]['length_days']);
         }    
-    }
-    
-    public function xtestGetLeaveEntitlementTypeListDefaultSort() {
-        // TODO
-        $entitlementTypeList = TestDataService::loadObjectList('LeaveEntitlementType', $this->fixture, 'LeaveEntitlementType');
-        $expected = [$entitlementTypeList[1], $entitlementTypeList[0]];
-        $result = $this->dao->getLeaveEntitlementTypeList();
-        $this->compareEntitlementTypes($expected, $result);
-    }
-    
-    public function xtestGetLeaveEntitlementTypeListSpecificSort() {
-        // TODO
-        $entitlementTypeList = TestDataService::loadObjectList('LeaveEntitlementType', $this->fixture, 'LeaveEntitlementType');
-        $expected = [$entitlementTypeList[0], $entitlementTypeList[1]];
-        $result = $this->dao->getLeaveEntitlementTypeList('id', 'ASC');
-        $this->compareEntitlementTypes($expected, $result);
-    }
-
-    /**
-     * @param LeaveEntitlementType[] $expected
-     * @param LeaveEntitlementType[] $results
-     */
-    protected function compareEntitlementTypes(array $expected, array $results): void
-    {
-        $this->assertEquals(count($expected), count($results));
-
-        for ($i = 0; $i < count($expected); $i++) {
-            $this->compareEntitlementType($expected[$i], $results[$i]);
-        }
-    }
-
-    /**
-     * @param LeaveEntitlementType $expected
-     * @param LeaveEntitlementType $actual
-     */
-    protected function compareEntitlementType(LeaveEntitlementType $expected, LeaveEntitlementType $actual): void
-    {
-        $this->assertEquals($expected->getId(), $actual->getId());
-        $this->assertEquals($expected->getName(), $actual->getName());
-        $this->assertEquals($expected->isEditable(), $actual->isEditable());
     }
 }
