@@ -30,6 +30,10 @@ use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @group Admin
+ * @group APIv2
+ */
 class LocationAPITest extends EndpointTestCase
 {
 
@@ -41,9 +45,10 @@ class LocationAPITest extends EndpointTestCase
         TestDataService::populate(
             Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/LocationDao.yml'
         );
-        $this->getContainer()->register(
-            Services::COUNTRY_SERVICE,
-            CountryService::class
+        $this->createKernelWithMockServices(
+            [
+                Services::COUNTRY_SERVICE => new CountryService(),
+            ]
         );
     }
 
@@ -271,6 +276,4 @@ class LocationAPITest extends EndpointTestCase
         $validationRule = $this->locationApi->getValidationRuleForDelete();
         $this->assertTrue($this->validate($params, $validationRule));
     }
-
-
 }

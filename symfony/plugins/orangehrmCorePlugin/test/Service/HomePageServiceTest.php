@@ -33,6 +33,7 @@ class HomePageServiceTest extends KernelTestCase
 {
     public function testGetHomePagePath(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $homepage = 'dashboard/index';
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getHomePage'])
@@ -41,9 +42,7 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getHomePage')
             ->willReturn($homepage);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $service = new HomePageService();
 
         $this->assertEquals($homepage, $service->getHomePagePath());
@@ -51,6 +50,7 @@ class HomePageServiceTest extends KernelTestCase
 
     public function testGetModuleDefaultPage(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $defaultPage = 'admin/viewSystemUsers';
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getModuleDefaultPage'])
@@ -59,9 +59,7 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getModuleDefaultPage('admin'));
@@ -69,6 +67,7 @@ class HomePageServiceTest extends KernelTestCase
 
     public function testGetTimeModuleDefaultPath(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $defaultPage = 'time/viewEmployeeTimesheet';
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getModuleDefaultPage'])
@@ -77,9 +76,7 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getTimeModuleDefaultPath());
@@ -87,6 +84,7 @@ class HomePageServiceTest extends KernelTestCase
 
     public function testGetLeaveModuleDefaultPath(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $defaultPage = 'leave/viewMyLeaveList';
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getModuleDefaultPage'])
@@ -95,9 +93,7 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getLeaveModuleDefaultPath());
@@ -105,6 +101,7 @@ class HomePageServiceTest extends KernelTestCase
 
     public function testGetAdminModuleDefaultPath(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $defaultPage = 'admin/viewSystemUsers';
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getModuleDefaultPage'])
@@ -113,9 +110,7 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getAdminModuleDefaultPath());
@@ -123,6 +118,7 @@ class HomePageServiceTest extends KernelTestCase
 
     public function testGetPimModuleDefaultPath(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $defaultPage = 'pim/viewEmployeeList';
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getModuleDefaultPage'])
@@ -131,9 +127,7 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getPimModuleDefaultPath());
@@ -141,6 +135,7 @@ class HomePageServiceTest extends KernelTestCase
 
     public function testGetRecruitmentModuleDefaultPath(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $defaultPage = 'recruitment/viewCandidates';
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getModuleDefaultPage'])
@@ -149,9 +144,7 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn($defaultPage);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $service = new HomePageService();
 
         $this->assertEquals($defaultPage, $service->getRecruitmentModuleDefaultPath());
@@ -159,6 +152,7 @@ class HomePageServiceTest extends KernelTestCase
 
     public function testGetPerformanceModuleDefaultPath(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getModuleDefaultPage'])
             ->getMock();
@@ -166,9 +160,7 @@ class HomePageServiceTest extends KernelTestCase
             ->method('getModuleDefaultPage')
             ->willReturn(null);
 
-        $this->createKernelWithMockServices(
-            [Services::USER_ROLE_MANAGER => $userRoleManager, Services::CLASS_HELPER => new ClassHelper()]
-        );
+        $this->createKernelWithMockServices([Services::USER_ROLE_MANAGER => $userRoleManager]);
         $service = new HomePageService();
 
         $this->assertNull($service->getPerformanceModuleDefaultPath());

@@ -48,6 +48,7 @@ class LeaveEntitlementModel implements Normalizable
                 ['getEntitlementType', 'getId'],
                 ['getEntitlementType', 'getName'],
                 ['isDeleted'],
+                ['getDecorator', 'isDeletable']
             ]
         );
         $this->setAttributeNames(
@@ -65,6 +66,7 @@ class LeaveEntitlementModel implements Normalizable
                 ['entitlementType', 'id'],
                 ['entitlementType', 'name'],
                 'deleted',
+                'deletable',
             ]
         );
     }

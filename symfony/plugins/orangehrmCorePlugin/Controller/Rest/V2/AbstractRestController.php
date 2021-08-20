@@ -22,6 +22,7 @@ namespace OrangeHRM\Core\Controller\Rest\V2;
 use Error;
 use Exception;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
 use OrangeHRM\Core\Api\V2\Exception\NotImplementedException;
 use OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException;
@@ -205,6 +206,10 @@ abstract class AbstractRestController extends AbstractController
                 )
             );
             $response->setStatusCode(400);
+        } catch (ForbiddenException $e) {
+            // Escape this exception to handle it in
+            // \OrangeHRM\Core\Subscriber\ApiAuthorizationSubscriber::onExceptionEvent
+            throw $e;
         } catch (Exception $e) {
             $this->getLogger()->error($e->getMessage());
             $this->getLogger()->error($e->getTraceAsString());

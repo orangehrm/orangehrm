@@ -27,9 +27,11 @@ use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveLeaveEntitlement;
+use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Entitlement\LeaveBalance;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class LeaveEntitlementDao extends BaseDao
 {
@@ -45,128 +47,77 @@ class LeaveEntitlementDao extends BaseDao
         return [Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL];
     }
 
-    public function searchLeaveEntitlements(LeaveEntitlementSearchParameterHolder $searchParameters) {
-        // TODO:: not converted
-        try {
+    /**
+     * @param LeaveEntitlementSearchFilterParams $entitlementSearchFilterParams
+     * @return LeaveEntitlement[]
+     */
+    public function getLeaveEntitlements(LeaveEntitlementSearchFilterParams $entitlementSearchFilterParams): array
+    {
+        return $this->getLeaveEntitlementsQueryBuilderWrapper($entitlementSearchFilterParams)
+            ->getQueryBuilder()
+            ->getQuery()
+            ->execute();
+    }
 
-            $q = Doctrine_Query::create()->from('LeaveEntitlement le');
+    /**
+     * @param LeaveEntitlementSearchFilterParams $entitlementSearchFilterParams
+     * @return int
+     */
+    public function getLeaveEntitlementsCount(LeaveEntitlementSearchFilterParams $entitlementSearchFilterParams): int
+    {
+        return $this->getPaginator(
+            $this->getLeaveEntitlementsQueryBuilderWrapper($entitlementSearchFilterParams)->getQueryBuilder()
+        )->count();
+    }
 
-            $deletedFlag = $searchParameters->getDeletedFlag();
-            $leaveTypeId = $searchParameters->getLeaveTypeId();
-            $empNumber = $searchParameters->getEmpNumber();
-            $fromDate = $searchParameters->getFromDate();
-            $toDate = $searchParameters->getToDate();
-            $idList = $searchParameters->getIdList();
-            $validDate = $searchParameters->getValidDate();
-            $empIdList = $searchParameters->getEmpIdList();
-            $hydrationMode = $searchParameters->getHydrationMode();
-            $orderField = $searchParameters->getOrderField();
-            $order = $searchParameters->getOrderBy();
-            $order = (strcasecmp($order, 'DESC') == 0) ? 'DESC' : 'ASC';
-            $entitlementTypes = $searchParameters->getEntitlementTypes();
+    /**
+     * @param LeaveEntitlementSearchFilterParams $entitlementSearchFilterParams
+     * @return float|null
+     */
+    public function getLeaveEntitlementsSum(LeaveEntitlementSearchFilterParams $entitlementSearchFilterParams): ?float
+    {
+        $q = $this->getLeaveEntitlementsQueryBuilderWrapper($entitlementSearchFilterParams)->getQueryBuilder();
+        $q->select('SUM(entitlement.noOfDays)');
+        return $q->getQuery()->getSingleScalarResult();
+    }
 
-            $params = [];
+    /**
+     * @param LeaveEntitlementSearchFilterParams $entitlementSearchFilterParams
+     * @return QueryBuilderWrapper
+     */
+    private function getLeaveEntitlementsQueryBuilderWrapper(
+        LeaveEntitlementSearchFilterParams $entitlementSearchFilterParams
+    ): QueryBuilderWrapper {
+        $q = $this->createQueryBuilder(LeaveEntitlement::class, 'entitlement')
+            ->andWhere('entitlement.deleted = :deleted')
+            ->setParameter('deleted', false);
+        $q->leftJoin('entitlement.leaveType', 'leaveType');
+        $this->setSortingAndPaginationParams($q, $entitlementSearchFilterParams);
 
-
-
-            if ($deletedFlag === true) {
-                $q->addWhere('le.deleted = 1');
-            } else if ($deletedFlag === false) {
-                $q->addWhere('le.deleted = 0');
-            }
-
-            if (!empty($leaveTypeId)) {
-                $q->addWhere('le.leave_type_id = :leaveTypeId');
-                $params[':leaveTypeId'] = $leaveTypeId;
-            }
-
-            if (!is_null($empNumber)) {
-                $q->addWhere('le.emp_number = :empNumber');
-                $params[':empNumber'] = $empNumber;
-            }
-
-            if (!empty($fromDate) && !empty($toDate)) {
-                $q->addWhere('(le.from_date BETWEEN :fromDate AND :toDate)');
-
-                $params[':fromDate'] = $fromDate;
-                $params[':toDate'] = $toDate;
-            }
-            if (!empty($validDate)) {
-                $q->addWhere('(:validDate BETWEEN le.from_date AND le.to_date)');
-                $params[':validDate'] = $validDate;
-            }
-            if (!empty($idList)) {
-                $q->andWhereIn('le.id', $idList);
-            }
-
-            if (is_array($entitlementTypes) && count($entitlementTypes) > 0) {
-
-                // We are not using andWhereIn(), because it causes the error:
-                // 'Invalid parameter number: mixed named and positional parameters'.
-                // This is because andWhereIn() adds positional parameters (? marks),
-                // while we are using named parameters for the other parts of the query.
-                // Therefore, we are building the whereIn() part using named parameters here.                
-                $count = 0;
-                $namedParams = [];
-                foreach($entitlementTypes as $entitlementType) {
-                    $count++;
-                    $namedParam = ':et' . $count;
-                    $namedParams[] = $namedParam;
-                    $params[$namedParam] = $entitlementType;
-                }
-                $q->andWhere('le.entitlement_type IN (' . implode(',', $namedParams) . ')');
-            }
-
-            if (!empty($empIdList)) {
-
-                // filter empIdList and create comma separated string.
-                $filteredIds = array_map(function($item) {
-                                return filter_var($item, FILTER_VALIDATE_INT);
-                            }, $empIdList);
-
-                // Remove items which did not validate as int (they will be set to false)
-                // NOTE: This doesn't cause SQL injection issues because we filter the array
-                // and only allow integers in the array.
-                $filteredIds = array_filter($filteredIds);
-                $q->andWhere('le.emp_number IN (' . implode(',', $filteredIds) . ')');
-            }
-
-            // We need leave type name
-            $q->leftJoin('le.LeaveType l');
-
-            $orderClause = '';
-
-            switch ($orderField) {
-                case 'leave_type' :
-                    $orderClause = 'l.name ' . $order;
-                    break;
-                case 'employee_name':
-                    $q->leftJoin('le.Employee e');
-                    $orderClause = 'e.emp_lastname ' . $order . ', e.emp_firstname ' . $order;
-                    break;
-                default:
-                    $orderClause = $orderField . ' ' . $order;
-                    $orderClause = trim($orderClause);
-                    break;
-            }
-
-            // get predictable sorting
-            if (!empty($orderClause)) {
-                $orderClause .= ', le.id ASC';
-            }
-
-            $q->addOrderBy($orderClause);
-
-            if (!empty($hydrationMode)) {
-                $q->setHydrationMode($hydrationMode);
-            }
-
-
-            $results = $q->execute($params);
-            return $results;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
+        if (!empty($entitlementSearchFilterParams->getEmpNumber())) {
+            $q->andWhere('entitlement.employee = :empNumber')
+                ->setParameter('empNumber', $entitlementSearchFilterParams->getEmpNumber());
         }
+
+        if (!empty($entitlementSearchFilterParams->getLeaveTypeId())) {
+            $q->andWhere('entitlement.leaveType = :leaveTypeId')
+                ->setParameter('leaveTypeId', $entitlementSearchFilterParams->getLeaveTypeId());
+        }
+
+        if (!empty($entitlementSearchFilterParams->getFromDate())) {
+            $q->andWhere($q->expr()->gte('entitlement.fromDate', ':fromDate'))
+                ->setParameter('fromDate', $entitlementSearchFilterParams->getFromDate());
+        }
+
+        if (!empty($entitlementSearchFilterParams->getToDate())) {
+            $q->andWhere($q->expr()->lte('entitlement.toDate', ':toDate'))
+                ->setParameter('toDate', $entitlementSearchFilterParams->getToDate());
+        }
+
+        // get predictable sorting
+        $q->addOrderBy('entitlement.id');
+
+        return $this->getQueryBuilderWrapper($q);
     }
 
     /**
@@ -317,18 +268,32 @@ class LeaveEntitlementDao extends BaseDao
         return $leaveEntitlement;
     }
 
-    public function deleteLeaveEntitlements($ids) {
-        // TODO:: not converted
-        try {
-            $q = Doctrine_Query::create()
-                    ->update('LeaveEntitlement le')
-                    ->set('le.deleted', 1)
-                    ->whereIn('le.id', $ids);
+    /**
+     * @param int[] $ids
+     * @return LeaveEntitlement[]
+     */
+    public function getLeaveEntitlementsByIds(array $ids): array
+    {
+        $q = $this->createQueryBuilder(LeaveEntitlement::class, 'le');
+        $q->where($q->expr()->in('le.id', ':ids'))
+            ->setParameter('ids', $ids);
+        return $q->getQuery()->execute();
+    }
 
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
-        }
+    /**
+     * @param int[] $ids
+     * @return int
+     */
+    public function deleteLeaveEntitlements(array $ids): int
+    {
+        $q = $this->createQueryBuilder(LeaveEntitlement::class, 'le')
+            ->update()
+            ->set('le.deleted', ':deleted')
+            ->setParameter('deleted', true);
+
+        $q->where($q->expr()->in('le.id', ':ids'))
+            ->setParameter('ids', $ids);
+        return $q->getQuery()->execute();
     }
 
     public function bulkAssignLeaveEntitlements($employeeNumbers, LeaveEntitlement $leaveEntitlement) {
@@ -718,26 +683,4 @@ class LeaveEntitlementDao extends BaseDao
 
         return $q->getQuery()->execute();
     }
-
-    /**
-     * Get List of LeaveEntitlementTypes
-     *
-     * @param string $orderField field to order by
-     * @param string $orderBy order (ASC/DESC)
-     * @return Collection of LeaveEntitlementType
-     * @throws DaoException on an error
-     */
-    public function getLeaveEntitlementTypeList($orderField = 'name', $orderBy = 'ASC') {
-        // TODO:: not converted
-        try {
-            $orderBy = (strcasecmp($orderBy, 'DESC') == 0) ? 'DESC' : 'ASC';
-            $q = Doctrine_Query::create()->from('LeaveEntitlementType let')
-                    ->addOrderBy($orderField . ' ' . $orderBy);
-            $results = $q->execute();
-            return $results;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
-        }
-    }
-
 }

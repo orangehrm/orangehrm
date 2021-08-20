@@ -22,32 +22,41 @@ namespace OrangeHRM\Leave\Api;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
+use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Leave\Api\Model\LeaveEntitlementModel;
 use OrangeHRM\Leave\Api\ValidationRules\LeaveTypeIdRule;
+use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 
 class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
 {
     use UserRoleManagerTrait;
     use LeaveEntitlementServiceTrait;
+    use LeavePeriodServiceTrait;
+    use DateTimeHelperTrait;
+    use AuthUserTrait;
 
     public const PARAMETER_BULK_ASSIGN = 'bulkAssign';
-    public const PARAMETER_LEAVE_TYPE_ID = 'leaveTypeId';
-    public const PARAMETER_FROM_DATE = 'fromDate';
-    public const PARAMETER_TO_DATE = 'toDate';
     public const PARAMETER_ENTITLEMENT = 'entitlement';
     public const PARAMETER_LOCATION_ID = 'locationId';
     public const PARAMETER_SUBUNIT_ID = 'subunitId';
+
+    public const META_PARAMETER_SUM = 'sum';
 
     /**
      * @inheritDoc
@@ -108,7 +117,60 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      */
     public function getAll(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_QUERY,
+            CommonParams::PARAMETER_EMP_NUMBER,
+            $this->getAuthUser()->getEmpNumber()
+        );
+        $leaveTypeId = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_QUERY,
+            LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID
+        );
+        $currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+        $fromDate = $this->getRequestParams()->getDateTime(
+            RequestParams::PARAM_TYPE_QUERY,
+            LeaveCommonParams::PARAMETER_FROM_DATE,
+            null,
+            $currentLeavePeriod->getStartDate()
+        );
+        $toDate = $this->getRequestParams()->getDateTime(
+            RequestParams::PARAM_TYPE_QUERY,
+            LeaveCommonParams::PARAMETER_TO_DATE,
+            null,
+            $currentLeavePeriod->getEndDate()
+        );
+
+        $entitlementSearchFilterParams = new LeaveEntitlementSearchFilterParams();
+        $entitlementSearchFilterParams->setEmpNumber($empNumber);
+        $entitlementSearchFilterParams->setLeaveTypeId($leaveTypeId);
+        $entitlementSearchFilterParams->setFromDate($fromDate);
+        $entitlementSearchFilterParams->setToDate($toDate);
+        $this->setSortingAndPaginationParams($entitlementSearchFilterParams);
+
+        $entitlements = $this->getLeaveEntitlementService()
+            ->getLeaveEntitlementDao()
+            ->getLeaveEntitlements($entitlementSearchFilterParams);
+        $total = $this->getLeaveEntitlementService()
+            ->getLeaveEntitlementDao()
+            ->getLeaveEntitlementsCount($entitlementSearchFilterParams);
+        $sum = $this->getLeaveEntitlementService()
+            ->getLeaveEntitlementDao()
+            ->getLeaveEntitlementsSum($entitlementSearchFilterParams);
+
+        return new EndpointCollectionResult(
+            LeaveEntitlementModel::class,
+            $entitlements,
+            new ParameterBag(
+                [
+                    CommonParams::PARAMETER_TOTAL => $total,
+                    self::META_PARAMETER_SUM => $sum,
+                    LeaveCommonParams::PARAMETER_FROM_DATE => $this->getDateTimeHelper()
+                        ->formatDateTimeToYmd($fromDate),
+                    LeaveCommonParams::PARAMETER_TO_DATE => $this->getDateTimeHelper()
+                        ->formatDateTimeToYmd($toDate),
+                ]
+            )
+        );
     }
 
     /**
@@ -116,7 +178,14 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        list($fromDateRule, $toDateRule) = $this->getFromToDatesRules(RequestParams::PARAM_TYPE_QUERY);
+        return new ParamRuleCollection(
+            $this->getValidationDecorator()->notRequiredParamRule($this->getEmpNumberParamRule()),
+            $this->getValidationDecorator()->notRequiredParamRule($this->getLeaveTypeIdParamRule()),
+            $this->getValidationDecorator()->notRequiredParamRule($fromDateRule),
+            $this->getValidationDecorator()->notRequiredParamRule($toDateRule),
+            ...$this->getSortingAndPaginationParamsRules(LeaveEntitlementSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
     }
 
     /**
@@ -130,13 +199,16 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
         );
         $leaveTypeId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_LEAVE_TYPE_ID
+            LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID
         );
         $fromDate = $this->getRequestParams()->getDateTime(
             RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_FROM_DATE
+            LeaveCommonParams::PARAMETER_FROM_DATE
         );
-        $toDate = $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_TO_DATE);
+        $toDate = $this->getRequestParams()->getDateTime(
+            RequestParams::PARAM_TYPE_BODY,
+            LeaveCommonParams::PARAMETER_TO_DATE
+        );
         $entitlement = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ENTITLEMENT
@@ -167,11 +239,11 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         $paramRules = new ParamRuleCollection(
-               $this->getValidationDecorator()->notRequiredParamRule(
+            $this->getValidationDecorator()->notRequiredParamRule(
                    new ParamRule(self::PARAMETER_BULK_ASSIGN, new Rule(Rules::BOOL_TYPE))
                ),
-               new ParamRule(self::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class)),
-               $this->getEntitlementParamRule(),
+            $this->getLeaveTypeIdParamRule(),
+            $this->getEntitlementParamRule(),
             ...$this->getFromToDatesRules(),
         );
         $bulkAssign = $this->getRequestParams()->getBoolean(
@@ -185,36 +257,48 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             $paramRules->addParamValidation(new ParamRule(self::PARAMETER_SUBUNIT_ID));
             throw $this->getNotImplementedException();
         } else {
-            $paramRules->addParamValidation(
-                new ParamRule(
-                    CommonParams::PARAMETER_EMP_NUMBER,
-                    new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)
-                )
-            );
+            $paramRules->addParamValidation($this->getEmpNumberParamRule());
         }
         return $paramRules;
     }
 
     /**
+     * @param string $requestParamType
      * @return ParamRule[]
      */
-    private function getFromToDatesRules(): array
+    private function getFromToDatesRules(string $requestParamType = RequestParams::PARAM_TYPE_BODY): array
     {
         return [
             new ParamRule(
-                self::PARAMETER_FROM_DATE,
+                LeaveCommonParams::PARAMETER_FROM_DATE,
                 new Rule(Rules::API_DATE),
                 new Rule(Rules::LESS_THAN_OR_EQUAL, [
-                    function () {
+                    function () use ($requestParamType) {
                         return $this->getRequestParams()->getDateTime(
-                            RequestParams::PARAM_TYPE_BODY,
-                            self::PARAMETER_TO_DATE
+                            $requestParamType,
+                            LeaveCommonParams::PARAMETER_TO_DATE
                         );
                     }
                 ])
             ),
-            new ParamRule(self::PARAMETER_TO_DATE, new Rule(Rules::API_DATE)),
+            new ParamRule(LeaveCommonParams::PARAMETER_TO_DATE, new Rule(Rules::API_DATE)),
         ];
+    }
+
+    /**
+     * @return ParamRule
+     */
+    private function getEmpNumberParamRule(): ParamRule
+    {
+        return new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS));
+    }
+
+    /**
+     * @return ParamRule
+     */
+    private function getLeaveTypeIdParamRule(): ParamRule
+    {
+        return new ParamRule(LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class));
     }
 
     /**
@@ -238,9 +322,12 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
 
         $fromDate = $this->getRequestParams()->getDateTime(
             RequestParams::PARAM_TYPE_BODY,
-            self::PARAMETER_FROM_DATE
+            LeaveCommonParams::PARAMETER_FROM_DATE
         );
-        $toDate = $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_TO_DATE);
+        $toDate = $this->getRequestParams()->getDateTime(
+            RequestParams::PARAM_TYPE_BODY,
+            LeaveCommonParams::PARAMETER_TO_DATE
+        );
         $entitlement = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ENTITLEMENT
@@ -258,8 +345,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-               $this->getIdParamRule(),
-               $this->getEntitlementParamRule(),
+            $this->getIdParamRule(),
+            $this->getEntitlementParamRule(),
             ...$this->getFromToDatesRules()
         );
     }
@@ -269,7 +356,22 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+
+        $leaveEntitlements = $this->getLeaveEntitlementService()
+            ->getLeaveEntitlementDao()->getLeaveEntitlementsByIds($ids);
+        foreach ($leaveEntitlements as $leaveEntitlement) {
+            $this->checkLeaveEntitlementAccessible($leaveEntitlement);
+        }
+
+        $allIdsDeletable = empty(
+            array_diff($ids, $this->getLeaveEntitlementService()->getDeletableIdsFromEntitlementIds($ids))
+        );
+        if (!$allIdsDeletable) {
+            throw $this->getBadRequestException();
+        }
+        $this->getLeaveEntitlementService()->getLeaveEntitlementDao()->deleteLeaveEntitlements($ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -277,6 +379,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS, new Rule(Rules::ARRAY_TYPE))
+        );
     }
 }

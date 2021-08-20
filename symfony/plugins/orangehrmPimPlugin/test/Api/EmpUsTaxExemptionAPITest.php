@@ -25,6 +25,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
+use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmpUsTaxExemption;
@@ -45,9 +46,8 @@ class EmpUsTaxExemptionAPITest extends EndpointTestCase
 {
     protected function loadFixtures(): void
     {
-        $this->fixture = Config::get(
-                Config::PLUGINS_DIR
-            ) . '/orangehrmPimPlugin/test/fixtures/EmpUsTaxExemptionDao.yml';
+        $this->fixture = Config::get(Config::PLUGINS_DIR) .
+            '/orangehrmPimPlugin/test/fixtures/EmpUsTaxExemptionDao.yml';
         TestDataService::populate($this->fixture);
     }
 
@@ -151,6 +151,7 @@ class EmpUsTaxExemptionAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForGetOne(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();
@@ -319,6 +320,7 @@ class EmpUsTaxExemptionAPITest extends EndpointTestCase
 
     public function testGetValidationRuleForUpdate(): void
     {
+        $this->createKernelWithMockServices([Services::CLASS_HELPER => new ClassHelper()]);
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->onlyMethods(['getAccessibleEntityIds'])
             ->getMock();

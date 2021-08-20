@@ -134,15 +134,17 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
                         ->getLeaveRequestDao()
                         ->saveLeaveRequest($leaveRequest, $leaves, $entitlements);
 
-                    $leaveRequestComment = new LeaveRequestComment();
-                    $leaveRequestComment->setLeaveRequest($leaveRequest);
-                    $leaveRequestComment->setCreatedAt(new DateTime());
-                    $leaveRequestComment->getDecorator()->setCreatedByUserById($loggedInUserId);
-                    $leaveRequestComment->getDecorator()->setCreatedByEmployeeByEmpNumber($loggedInEmpNumber);
-                    $leaveRequestComment->setComment($leaveRequest->getComment());
-                    $this->getLeaveRequestService()
-                        ->getLeaveRequestDao()
-                        ->saveLeaveRequestComment($leaveRequestComment);
+                    if (!empty($leaveRequest->getComment())) {
+                        $leaveRequestComment = new LeaveRequestComment();
+                        $leaveRequestComment->setLeaveRequest($leaveRequest);
+                        $leaveRequestComment->setCreatedAt(new DateTime());
+                        $leaveRequestComment->getDecorator()->setCreatedByUserById($loggedInUserId);
+                        $leaveRequestComment->getDecorator()->setCreatedByEmployeeByEmpNumber($loggedInEmpNumber);
+                        $leaveRequestComment->setComment($leaveRequest->getComment());
+                        $this->getLeaveRequestService()
+                            ->getLeaveRequestDao()
+                            ->saveLeaveRequestComment($leaveRequestComment);
+                    }
 
                     //sending leave apply notification                   
 //                    $workFlow = $this->getWorkflowItemForApplyAction($leaveAssignmentData);

@@ -101,14 +101,16 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
             $entitlementsOk = true;
 
             if (!is_null($fromDate)) {
-                $newentitlements = $this->getLeaveEntitlementService()->getValidLeaveEntitlements(
-                    $empNumber,
-                    $leaveType,
-                    $fromDate,
-                    $toDate,
-                    'to_date',
-                    'ASC'
-                );
+                $newentitlements = $this->getLeaveEntitlementService()
+                    ->getLeaveEntitlementDao()
+                    ->getValidLeaveEntitlements(
+                        $empNumber,
+                        $leaveType,
+                        $fromDate,
+                        $toDate,
+                        'to_date',
+                        'ASC'
+                    );
 
                 // TODO Get currently assigned leave dates and add to $leaveDates
                 $entitlements = [];
@@ -123,10 +125,9 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
                     Leave::LEAVE_STATUS_LEAVE_APPROVED
                 ];
 
-                $otherLeaveDates = $this->getLeaveEntitlementService()->getLinkedLeaveRequests(
-                    $entitlementIds,
-                    $statuses
-                );
+                $otherLeaveDates = $this->getLeaveEntitlementService()
+                    ->getLeaveEntitlementDao()
+                    ->getLinkedLeaveRequests($entitlementIds, $statuses);
 
                 $leaveDates = $this->mergeLeaveDates($leaveDates, $otherLeaveDates);
                 $numDates = count($leaveDates);
@@ -229,56 +230,6 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
         }
 
         return $result;
-    }
-
-    /**
-     * Get available entitlements for given leave parameters
-     *
-     * Returns an array of entitlement ids with no_of_days as the value.
-     * eg:
-     * array( 11 => 2.0
-     *        14 => 1.5)
-     *
-     * If one entitlement satisfy the leave request, only one entitlement will be returned in
-     * the array
-     *
-     * @param $empNumber int Employee Number
-     * @param $leaveType int LeaveType
-     * @param $leaveDates Array Array of LeaveDate => Length (days)
-     * @return Array of entitlement id => length (days)
-     */
-    public function getAvailableEntitlementsOld($empNumber, $leaveType, $leaveDates)
-    {
-        // TODO
-        $numDates = count($leaveDates);
-
-        if ($numDates > 0) {
-            $fromDate = null;
-            $toDate = null;
-            $leaveLength = 0;
-
-            foreach ($leaveDates as $leaveDate) {
-                $length = $leaveDate->getLengthDays();
-                if ($length > 0) {
-                    if (is_null($fromDate)) {
-                        $fromDate = $leaveDate->getDate();
-                    }
-                    $toDate = $leaveDate->getDate();
-                }
-                $leaveLength += $length;
-            }
-
-            $entitlementsOk = true;
-
-            if (!is_null($fromDate)) {
-            }
-        }
-
-        if ($entitlementsOk) {
-            return $leaveDates;
-        } else {
-            return false;
-        }
     }
 
     protected function mergeLeaveDates($leaveDates, $otherLeaveDates)
@@ -482,7 +433,9 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
         $current = [];
         $change = [];
 
-        $entitlementArray = $this->getLeaveEntitlementService()->getEntitlementUsageForLeave($leave->id);
+        $entitlementArray = $this->getLeaveEntitlementService()
+            ->getLeaveEntitlementDao()
+            ->getEntitlementUsageForLeave($leave->id);
 
         if (count($entitlementArray) > 0) {
             $minDate = null;
@@ -509,6 +462,7 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
             }
             // Get leave without entitlements between from_date and to_date
             $leaveList = $this->getLeaveEntitlementService()
+                ->getLeaveEntitlementDao()
                 ->getLeaveWithoutEntitlements($leave->getEmpNumber(), $leave->getLeaveTypeId(), $minDate, $maxDate);
 
             // remove current leave from list
@@ -647,7 +601,7 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
         int $oldStartDay,
         int $newStartMonth,
         int $newStartDay
-    ) {
+    ): void {
         $this->getDao()->handleLeavePeriodChange(
             $leavePeriodForToday,
             $oldStartMonth,
