@@ -57,6 +57,7 @@ import LeavePages from '@/orangehrmLeavePlugin';
 import LocationList from '@/orangehrmAdminPlugin/pages/location/LocationList.vue';
 import SaveLocation from '@/orangehrmAdminPlugin/pages/location/SaveLocation.vue';
 import EditLocation from '@/orangehrmAdminPlugin/pages/location/EditLocation.vue';
+import EditModuleConfiguration from '@/orangehrmAdminPlugin/pages/moduleConfiguration/EditModuleConfiguration.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -82,6 +83,7 @@ export default {
   'license-list': QualificationLicense,
   'license-save': SaveQualificationLicense,
   'license-edit': EditQualificationLicense,
+  'module-configuration-edit': EditModuleConfiguration,
   ...PimPages,
   ...LeavePages,
   ...CorePages,

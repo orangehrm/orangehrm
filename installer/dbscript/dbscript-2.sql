@@ -3617,7 +3617,8 @@ VALUES ('apiv2_admin_education', 'API-v2 Admin - Education', 1, 1, 1, 1),
        ('apiv2_admin_user', 'API-v2 Admin - Users', 1, 1, 1, 1),       
        ('apiv2_admin_email_configuration', 'API-v2 Admin - Email Configuration', 1, 0, 1, 0),
        ('apiv2_admin_oauth_client', 'API-v2 Admin - OAuth Clients', 1, 1, 1, 1),
-       ('apiv2_admin_location', 'API-v2 Admin - Locations', 1, 1, 1, 1);
+       ('apiv2_admin_location', 'API-v2 Admin - Locations', 1, 1, 1, 1),
+       ('apiv2_admin_modules', 'API-v2 Admin - Modules', 1, 0, 1, 0);
 
 SET @admin_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'admin' LIMIT 1);
 SET @apiv2_admin_education_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_education' LIMIT 1);
@@ -3637,6 +3638,7 @@ SET @apiv2_admin_user_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE n
 SET @apiv2_admin_email_configuration_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_email_configuration' LIMIT 1);
 SET @apiv2_admin_oauth_client_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_oauth_client' LIMIT 1);
 SET @apiv2_admin_location_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_location' LIMIT 1);
+SET @apiv2_admin_modules_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_admin_modules' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_education_data_group_id),
@@ -3655,7 +3657,8 @@ VALUES ('OrangeHRM\\Admin\\Api\\EducationAPI', @admin_module_id, @apiv2_admin_ed
        ('OrangeHRM\\Admin\\Api\\UserAPI', @admin_module_id, @apiv2_admin_user_data_group_id),
        ('OrangeHRM\\Admin\\Api\\EmailConfigurationAPI', @admin_module_id, @apiv2_admin_email_configuration_data_group_id),
        ('OrangeHRM\\OAuth\\Api\\OAuthClientAPI', @admin_module_id, @apiv2_admin_oauth_client_data_group_id),
-       ('OrangeHRM\\Admin\\Api\\LocationAPI', @admin_module_id, @apiv2_admin_location_data_group_id);
+       ('OrangeHRM\\Admin\\Api\\LocationAPI', @admin_module_id, @apiv2_admin_location_data_group_id),
+       ('OrangeHRM\\Admin\\Api\\ModulesAPI', @admin_module_id, @apiv2_admin_modules_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
@@ -3679,7 +3682,8 @@ VALUES (1, 1, 1, 1, 0, @apiv2_admin_education_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_user_data_group_id, @admin_role_id),
        (1, 0, 1, 0, 0, @apiv2_admin_email_configuration_data_group_id, @admin_role_id),
        (1, 1, 1, 1, 0, @apiv2_admin_oauth_client_data_group_id, @admin_role_id),
-       (1, 1, 1, 1, 0, @apiv2_admin_location_data_group_id, @admin_role_id);
+       (1, 1, 1, 1, 0, @apiv2_admin_location_data_group_id, @admin_role_id),
+       (1, 0, 1, 0, 0, @apiv2_admin_modules_data_group_id, @admin_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
