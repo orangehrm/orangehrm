@@ -19,11 +19,7 @@
  -->
 
 <template>
-  <oxd-dialog
-    :gutters="false"
-    :style="modalContainer"
-    @update:show="onCancel"
-  >
+  <oxd-dialog class="modal-container" :gutters="false" @update:show="onCancel">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
         {{ $t('leave.situational_leave') }}
@@ -51,7 +47,6 @@
 
 <script>
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
-import { formatDate } from '@/core/util/helper/datefns'
 
 export default {
   name: 'leave-balance-modal',
@@ -68,10 +63,7 @@ export default {
       this.$emit('close', true);
     },
   },
-  data() {
-    return {
-      modalContainer: {width: '90%', maxWidth: '500px'},
-    };
-  },
 };
 </script>
+
+<style src="../pages/leaveType/leave-type.scss" lang="scss"></style>
