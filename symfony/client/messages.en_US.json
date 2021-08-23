@@ -395,6 +395,16 @@
           "source": "Repeats Annually",
           "target": "Repeats Annually",
           "description": "Repeats Annually in Edit/Save Holiday screens"
+        },
+        "situational_leave": {
+          "source": "Situational Leave",
+          "target": "Situational Leave",
+          "description": "Header in entitlement situational field help in Add/Edit leave type screen"
+        },
+        "entitlement_situational_description": {
+          "source": "These leave will be excluded from reports unless there's some activity.\n E.g. maternity leave, jury duty leave.",
+          "target": "These leave will be excluded from reports unless there's some activity.\n E.g. maternity leave, jury duty leave.",
+          "description": "description entitlement situational field help in Add/Edit leave type screen"
         }
       }
     }

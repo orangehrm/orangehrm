@@ -17,37 +17,35 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Tests\Pim\Api\Model;
+namespace OrangeHRM\Pim\Api\Model;
 
-use OrangeHRM\Entity\CustomField;
-use OrangeHRM\Pim\Api\Model\CustomFieldModel;
-use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 
-/**
- * @group Pim
- * @group Model
- */
-class CustomFieldModelTest extends KernelTestCase
+class EmployeeWorkShiftModel implements Normalizable
 {
-    public function testToArray()
+    use DateTimeHelperTrait;
+
+    /**
+     * @var WorkShiftStartAndEndTime
+     */
+    private WorkShiftStartAndEndTime $workShiftStartAndEndTime;
+
+    public function __construct(WorkShiftStartAndEndTime $workShiftStartAndEndTime)
     {
-        $resultArray = [
-            "id" => 1,
-            "fieldName" => "Level",
-            "fieldType" => 1,
-            "extraData" => 'level1, level2',
-            "screen" => "Personal"
+        $this->workShiftStartAndEndTime = $workShiftStartAndEndTime;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            "startTime" => $this->getDateTimeHelper()->formatDateTimeToTimeString(
+                $this->workShiftStartAndEndTime->getStartTime()
+            ),
+            "endTime" => $this->getDateTimeHelper()->formatDateTimeToTimeString(
+                $this->workShiftStartAndEndTime->getEndTime()
+            )
         ];
-
-        $customField = new CustomField();
-        $customField->setFieldNum(1);
-        $customField->setName('Level');
-        $customField->setType(1);
-        $customField->setScreen('Personal');
-        $customField->setExtraData('level1, level2');
-
-        $customFieldModel = new CustomFieldModel($customField);
-
-        $this->assertEquals($resultArray, $customFieldModel->toArray());
     }
 }

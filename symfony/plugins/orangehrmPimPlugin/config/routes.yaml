@@ -423,6 +423,16 @@ apiv2_pim_employees_us_tax_exemption:
   requirements:
     empNumber: '\d+'
 
+apiv2_pim_employees_work_shift:
+  path: /api/v2/pim/employees/{empNumber}/work-shift
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _key: empNumber
+    _api: OrangeHRM\Pim\Api\EmployeeWorkShiftAPI
+  requirements:
+    empNumber: '\d+'
+
 ##########################
 #        Files
 ##########################
@@ -557,7 +567,7 @@ view_optional_field:
 pim_employee_immigration:
   path: /pim/viewImmigration/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeImmigrationController::handle
-  
+
 pim_employee_membership:
   path: /pim/viewMemberships/empNumber/{empNumber}
   controller: OrangeHRM\Pim\Controller\EmployeeMembershipController::handle
