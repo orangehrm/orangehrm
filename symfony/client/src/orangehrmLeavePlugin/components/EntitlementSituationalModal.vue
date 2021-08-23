@@ -49,7 +49,7 @@
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
 
 export default {
-  name: 'leave-balance-modal',
+  name: 'entitlement-situational-modal',
   props: {
     data: {
       type: Object,
