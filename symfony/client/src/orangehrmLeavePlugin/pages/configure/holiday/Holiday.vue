@@ -28,10 +28,17 @@
               <date-input
                 :label="$t('general.from')"
                 v-model="filters.fromDate"
+                :rules="rules.fromDate"
+                :years="yearArray"
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <date-input :label="$t('general.to')" v-model="filters.toDate" />
+              <date-input
+                :label="$t('general.to')"
+                v-model="filters.toDate"
+                :rules="rules.toDate"
+                :years="yearArray"
+              />
             </oxd-grid-item>
           </oxd-grid>
         </oxd-form-row>
@@ -98,6 +105,12 @@ import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfir
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@/core/util/services/api.service';
+import {
+  endDateShouldBeAfterStartDate,
+  required,
+  validDateFormat,
+} from '@/core/util/validation/rules';
+import {yearRange} from '@orangehrm/core/util/helper/year-range';
 
 const dataNormalizer = data => {
   return data.map(item => {
@@ -124,6 +137,19 @@ export default {
 
   data() {
     return {
+      yearArray: [...yearRange(201)],
+      rules: {
+        fromDate: [required, validDateFormat],
+        toDate: [
+          required,
+          validDateFormat,
+          endDateShouldBeAfterStartDate(
+            () => this.filters.fromDate,
+            'To date should be after from date',
+            {allowSameDate: true},
+          ),
+        ],
+      },
       headers: [
         {name: 'name', slot: 'title', title: 'Name', style: {flex: 2}},
         {name: 'date', title: 'Date', style: {flex: 2}},

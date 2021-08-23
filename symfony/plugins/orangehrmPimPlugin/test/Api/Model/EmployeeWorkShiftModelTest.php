@@ -19,35 +19,35 @@
 
 namespace OrangeHRM\Tests\Pim\Api\Model;
 
-use OrangeHRM\Entity\CustomField;
-use OrangeHRM\Pim\Api\Model\CustomFieldModel;
+use DateTime;
+use OrangeHRM\Admin\Dto\WorkShiftStartAndEndTime;
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\Pim\Api\Model\EmployeeWorkShiftModel;
 use OrangeHRM\Tests\Util\KernelTestCase;
 
 /**
  * @group Pim
  * @group Model
  */
-class CustomFieldModelTest extends KernelTestCase
+class EmployeeWorkShiftModelTest extends KernelTestCase
 {
     public function testToArray()
     {
         $resultArray = [
-            "id" => 1,
-            "fieldName" => "Level",
-            "fieldType" => 1,
-            "extraData" => 'level1, level2',
-            "screen" => "Personal"
+            "startTime" => '09:00',
+            "endTime" => '17:00',
         ];
+        $startDate = new DateTime('2021-12-25 09:00');
+        $endDate = new DateTime('2021-12-25 17:00');
+        $defaultWorkShift = new WorkShiftStartAndEndTime($startDate, $endDate);
 
-        $customField = new CustomField();
-        $customField->setFieldNum(1);
-        $customField->setName('Level');
-        $customField->setType(1);
-        $customField->setScreen('Personal');
-        $customField->setExtraData('level1, level2');
-
-        $customFieldModel = new CustomFieldModel($customField);
-
-        $this->assertEquals($resultArray, $customFieldModel->toArray());
+        $employeeWorkShiftModel = new EmployeeWorkShiftModel($defaultWorkShift);
+        $this->createKernelWithMockServices(
+            [
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+        $this->assertEquals($resultArray, $employeeWorkShiftModel->toArray());
     }
 }

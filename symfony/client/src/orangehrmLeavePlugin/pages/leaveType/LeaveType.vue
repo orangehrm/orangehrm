@@ -136,10 +136,10 @@ export default {
 
   methods: {
     onClickAdd() {
-      navigate('/leave/saveLeaveTypes');
+      navigate('/leave/defineLeaveType');
     },
     onClickEdit(item) {
-      navigate('/leave/saveLeaveTypes/{id}', {id: item.id});
+      navigate('/leave/defineLeaveType/{id}', {id: item.id});
     },
     onClickDeleteSelected() {
       const ids = this.checkedItems.map(index => {

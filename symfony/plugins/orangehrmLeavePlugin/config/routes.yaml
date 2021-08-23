@@ -134,15 +134,15 @@ view_leave_type:
   methods: [ GET ]
 
 save_leave_type:
-  path: /leave/saveLeaveTypes
+  path: /leave/defineLeaveType
   controller: OrangeHRM\Leave\Controller\SaveLeaveTypeController::handle
   methods: [ GET ]
 
 edit_leave_type:
-  path: /leave/saveLeaveTypes/{id}
+  path: /leave/defineLeaveType/{id}
   controller: OrangeHRM\Leave\Controller\SaveLeaveTypeController::handle
   methods: [ GET ]
-  
+
 leave_add_leave_entitlement:
   path: /leave/addLeaveEntitlement
   controller: OrangeHRM\Leave\Controller\SaveLeaveEntitlementController::handle
@@ -162,7 +162,7 @@ leave_view_my_leave_entitlement:
   path: /leave/viewMyLeaveEntitlements
   controller: OrangeHRM\Leave\Controller\ViewMyLeaveEntitlementController::handle
   methods: [ GET ]
-  
+
 leave_work_week:
   path: /leave/defineWorkWeek
   controller: OrangeHRM\Leave\Controller\WorkWeekController::handle
