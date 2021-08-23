@@ -42,14 +42,17 @@ use OrangeHRM\Leave\Api\ValidationRules\LeaveTypeIdRule;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
 {
+    use AuthUserTrait;
     use UserRoleManagerTrait;
     use LeaveEntitlementServiceTrait;
     use LeavePeriodServiceTrait;
     use DateTimeHelperTrait;
-    use AuthUserTrait;
+    use EmployeeServiceTrait;
 
     public const PARAMETER_BULK_ASSIGN = 'bulkAssign';
     public const PARAMETER_ENTITLEMENT = 'entitlement';
@@ -57,6 +60,7 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_SUBUNIT_ID = 'subunitId';
 
     public const META_PARAMETER_SUM = 'sum';
+    public const META_PARAMETER_COUNT = 'count';
 
     /**
      * @inheritDoc
@@ -215,8 +219,19 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
         );
 
         if ($bulkAssign) {
-            // TODO
-            throw $this->getNotImplementedException();
+            $empNumbers = $this->getEmpNumbersForBulkAssign();
+            list($leaveEntitlements, $savedCount) = $this->getLeaveEntitlementService()->bulkAssignLeaveEntitlements(
+                $empNumbers,
+                $leaveTypeId,
+                $fromDate,
+                $toDate,
+                $entitlement
+            );
+            return new EndpointCollectionResult(
+                LeaveEntitlementModel::class,
+                $leaveEntitlements,
+                new ParameterBag([self::META_PARAMETER_COUNT => $savedCount])
+            );
         }
 
         $empNumber = $this->getRequestParams()->getInt(
@@ -234,14 +249,36 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
     }
 
     /**
+     * @return int[]
+     */
+    private function getEmpNumbersForBulkAssign(): array
+    {
+        $locationId = $this->getRequestParams()->getIntOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_LOCATION_ID
+        );
+        $subunitId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_SUBUNIT_ID
+        );
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $employeeSearchFilterParams->setSubunitId($subunitId);
+        $employeeSearchFilterParams->setLocationId($locationId);
+        $employeeSearchFilterParams->setLimit(0);
+        return $this->getEmployeeService()
+            ->getEmployeeDao()
+            ->getEmpNumbersByFilterParams($employeeSearchFilterParams);
+    }
+
+    /**
      * @inheritDoc
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         $paramRules = new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(
-                   new ParamRule(self::PARAMETER_BULK_ASSIGN, new Rule(Rules::BOOL_TYPE))
-               ),
+                new ParamRule(self::PARAMETER_BULK_ASSIGN, new Rule(Rules::BOOL_TYPE))
+            ),
             $this->getLeaveTypeIdParamRule(),
             $this->getEntitlementParamRule(),
             ...$this->getFromToDatesRules(),
@@ -252,10 +289,12 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
         );
 
         if ($bulkAssign) {
-            // TODO:: define rule
-            $paramRules->addParamValidation(new ParamRule(self::PARAMETER_LOCATION_ID));
-            $paramRules->addParamValidation(new ParamRule(self::PARAMETER_SUBUNIT_ID));
-            throw $this->getNotImplementedException();
+            $paramRules->addParamValidation(
+                $this->getValidationDecorator()->notRequiredParamRule(
+                    new ParamRule(self::PARAMETER_LOCATION_ID, new Rule(Rules::POSITIVE))
+                )
+            );
+            $paramRules->addParamValidation(new ParamRule(self::PARAMETER_SUBUNIT_ID, new Rule(Rules::POSITIVE)));
         } else {
             $paramRules->addParamValidation($this->getEmpNumberParamRule());
         }
@@ -364,9 +403,8 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             $this->checkLeaveEntitlementAccessible($leaveEntitlement);
         }
 
-        $allIdsDeletable = empty(
-            array_diff($ids, $this->getLeaveEntitlementService()->getDeletableIdsFromEntitlementIds($ids))
-        );
+        $deletableIds = $this->getLeaveEntitlementService()->getDeletableIdsFromEntitlementIds($ids);
+        $allIdsDeletable = empty(array_diff($ids, $deletableIds));
         if (!$allIdsDeletable) {
             throw $this->getBadRequestException();
         }
