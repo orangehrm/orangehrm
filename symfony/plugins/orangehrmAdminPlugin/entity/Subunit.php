@@ -56,14 +56,14 @@ class Subunit implements NestedSetInterface
      *
      * @ORM\Column(name="unit_id", type="string", length=100, nullable=true)
      */
-    private ?string $unitId;
+    private ?string $unitId = null;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=400, nullable=true)
      */
-    private ?string $description;
+    private ?string $description = null;
 
     /**
      * @var int|null

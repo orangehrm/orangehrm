@@ -231,6 +231,7 @@ class EmployeeDaoTest extends KernelTestCase
 
     public function testGetEmployeeList(): void
     {
+        $this->createKernelWithMockServices([Services::TEXT_HELPER_SERVICE => new TextHelperService()]);
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();
         $empList = $this->employeeDao->getEmployeeList($employeeSearchFilterParams);
         $this->assertCount(5, $empList);
@@ -250,6 +251,7 @@ class EmployeeDaoTest extends KernelTestCase
         $this->createKernelWithMockServices(
             [
                 Services::COMPANY_STRUCTURE_SERVICE => new CompanyStructureService(),
+                Services::TEXT_HELPER_SERVICE => new TextHelperService(),
             ]
         );
         $employeeSearchFilterParams = new EmployeeSearchFilterParams();

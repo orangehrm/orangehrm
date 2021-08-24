@@ -96,8 +96,7 @@ class CompanyStructureServiceTest extends KernelTestCase
             ->will($this->returnValue($subunit));
 
         $this->companyStructureService->setCompanyStructureDao($compStructureDao);
-        $result = $this->companyStructureService->addSubunit($parentSubunit, $subunit);
-        $this->assertTrue($result instanceof Subunit);
+        $this->companyStructureService->addSubunit($parentSubunit, $subunit);
     }
 
     public function testDeleteSubunit(): void
