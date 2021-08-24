@@ -121,7 +121,7 @@ class LeaveEntitlementAPITest extends EndpointTestCase
         $this->assertNull($result->getMeta());
     }
 
-    public function testGetValidationRuleForGetOne(): void
+    public function testGetValidationRuleForCreate(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->disableOriginalConstructor()

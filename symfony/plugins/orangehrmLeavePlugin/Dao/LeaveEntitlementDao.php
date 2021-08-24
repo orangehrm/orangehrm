@@ -100,6 +100,11 @@ class LeaveEntitlementDao extends BaseDao
                 ->setParameter('empNumber', $entitlementSearchFilterParams->getEmpNumber());
         }
 
+        if (!empty($entitlementSearchFilterParams->getEmpNumbers())) {
+            $q->andWhere($q->expr()->in('entitlement.employee', ':empNumbers'))
+                ->setParameter('empNumbers', $entitlementSearchFilterParams->getEmpNumbers());
+        }
+
         if (!empty($entitlementSearchFilterParams->getLeaveTypeId())) {
             $q->andWhere('entitlement.leaveType = :leaveTypeId')
                 ->setParameter('leaveTypeId', $entitlementSearchFilterParams->getLeaveTypeId());
@@ -602,7 +607,7 @@ class LeaveEntitlementDao extends BaseDao
      * emp_number -> emp number
      * days_left -> days in leave that are not yet linked to an entitlement
      */
-    private function getLeaveWithoutEntitlements(array $empNumbers, int $leaveTypeId, DateTime $fromDate, DateTime $toDate): array
+    public function getLeaveWithoutEntitlements(array $empNumbers, int $leaveTypeId, DateTime $fromDate, DateTime $toDate): array
     {
         // TODO:: move to doctrine query builder
         $statusList = [

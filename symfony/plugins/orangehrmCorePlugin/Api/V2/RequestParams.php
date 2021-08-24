@@ -111,6 +111,29 @@ class RequestParams
     /**
      * @param string $type
      * @param string $key
+     * @param float $default
+     * @return float
+     */
+    public function getFloat(string $type, string $key, float $default = 0): float
+    {
+        return $this->$type->get($key, $default);
+    }
+
+    /**
+     * @param string $type
+     * @param string $key
+     * @param float|null $default
+     * @return float|null
+     */
+    public function getFloatOrNull(string $type, string $key, ?float $default = null): ?float
+    {
+        $param = $this->$type->get($key, $default);
+        return $this->isEmptyString($param) ? null : $param;
+    }
+
+    /**
+     * @param string $type
+     * @param string $key
      * @param bool $default
      * @return bool
      */

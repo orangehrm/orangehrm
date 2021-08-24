@@ -348,7 +348,7 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        $paramRules = $this->getCommonBodyParamRuleCollection();
+        $paramRules = $this->getCommonParamRuleCollection();
         $paramRules->removeParamValidation(LeaveCommonParams::PARAMETER_COMMENT);
         $paramRules->addParamValidation(
             $this->getValidationDecorator()->notRequiredParamRule(

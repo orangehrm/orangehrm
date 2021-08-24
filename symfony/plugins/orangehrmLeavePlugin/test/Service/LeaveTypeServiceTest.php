@@ -19,7 +19,10 @@
 
 namespace OrangeHRM\Tests\Leave\Service;
 
+use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Dao\LeaveTypeDao;
+use OrangeHRM\Leave\Entitlement\LeaveBalance;
+use OrangeHRM\Leave\Service\LeaveEntitlementService;
 use OrangeHRM\Leave\Service\LeaveTypeService;
 use OrangeHRM\Tests\Util\TestCase;
 
@@ -42,5 +45,54 @@ class LeaveTypeServiceTest extends TestCase
     public function testGetLeaveTypeDao(): void
     {
         $this->assertTrue($this->leaveTypeService->getLeaveTypeDao() instanceof LeaveTypeDao);
+    }
+
+    public function testGetEligibleLeaveTypesByEmpNumber(): void
+    {
+        $empNumber = 1;
+        $leaveType1 = new LeaveType();
+        $leaveType1->setId(1);
+        $leaveType1->setName('Annual');
+        $leaveType2 = new LeaveType();
+        $leaveType2->setId(2);
+        $leaveType2->setName('Medical');
+        $leaveTypeList = [$leaveType1, $leaveType2];
+
+        $mockDao = $this->getMockBuilder(LeaveTypeDao::class)
+            ->onlyMethods(['getLeaveTypeList'])
+            ->getMock();
+        $mockDao->expects($this->once())
+            ->method('getLeaveTypeList')
+            ->willReturn($leaveTypeList);
+
+        $leaveBalanceMockBuilder = $this->getMockBuilder(LeaveBalance::class)
+            ->onlyMethods(['updateBalance']);
+        $leaveBalance1 = $leaveBalanceMockBuilder->setConstructorArgs([2])->getMock();
+        $leaveBalance2 = $leaveBalanceMockBuilder->setConstructorArgs([0])->getMock();
+
+        $leaveEntitlementService = $this->getMockBuilder(LeaveEntitlementService::class)
+            ->onlyMethods(['getLeaveBalance'])
+            ->getMock();
+        $leaveEntitlementService->expects($this->exactly(2))
+            ->method('getLeaveBalance')
+            ->willReturnMap(
+                [
+                    [$empNumber, 1, null, null, $leaveBalance1],
+                    [$empNumber, 2, null, null, $leaveBalance2]
+                ]
+            );
+
+        $this->leaveTypeService = $this->getMockBuilder(LeaveTypeService::class)
+            ->onlyMethods(['getLeaveTypeDao', 'getLeaveEntitlementService'])
+            ->getMock();
+        $this->leaveTypeService->expects($this->once())
+            ->method('getLeaveTypeDao')
+            ->willReturn($mockDao);
+        $this->leaveTypeService->expects($this->exactly(2))
+            ->method('getLeaveEntitlementService')
+            ->willReturn($leaveEntitlementService);
+
+        $leaveTypes = $this->leaveTypeService->getEligibleLeaveTypesByEmpNumber($empNumber);
+        $this->assertEquals([$leaveType1], $leaveTypes);
     }
 }
