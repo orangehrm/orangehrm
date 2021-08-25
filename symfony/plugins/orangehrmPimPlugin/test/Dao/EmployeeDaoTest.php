@@ -19,18 +19,23 @@
 
 namespace OrangeHRM\Tests\Pim\Dao;
 
+use OrangeHRM\Admin\Service\CompanyStructureService;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeWorkShift;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Pim\Dao\EmployeeDao;
-use OrangeHRM\Tests\Util\TestCase;
+use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Pim
  * @group Dao
  */
-class EmployeeDaoTest extends TestCase
+class EmployeeDaoTest extends KernelTestCase
 {
     private EmployeeDao $employeeDao;
     protected string $fixture;
@@ -222,5 +227,103 @@ class EmployeeDaoTest extends TestCase
 
         $workShift = $this->employeeDao->getEmployeeWorkShift(2);
         $this->assertNull($workShift);
+    }
+
+    public function testGetEmployeeList(): void
+    {
+        $this->createKernelWithMockServices([Services::TEXT_HELPER_SERVICE => new TextHelperService()]);
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $empList = $this->employeeDao->getEmployeeList($employeeSearchFilterParams);
+        $this->assertCount(5, $empList);
+        $this->assertEquals('Kayla', $empList[0]->getFirstName());
+
+        $employeeSearchFilterParams->setLimit(2);
+        $empList = $this->employeeDao->getEmployeeList($employeeSearchFilterParams);
+        $this->assertCount(2, $empList);
+        $this->assertEquals('Ashley', $empList[1]->getFirstName());
+
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $employeeSearchFilterParams->setSortOrder(ListSorter::DESCENDING);
+        $empList = $this->employeeDao->getEmployeeList($employeeSearchFilterParams);
+        $this->assertCount(5, $empList);
+        $this->assertEquals('Renukshan', $empList[0]->getFirstName());
+
+        $this->createKernelWithMockServices(
+            [
+                Services::COMPANY_STRUCTURE_SERVICE => new CompanyStructureService(),
+                Services::TEXT_HELPER_SERVICE => new TextHelperService(),
+            ]
+        );
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $employeeSearchFilterParams->setSubunitId(2);
+        $empList = $this->employeeDao->getEmployeeList($employeeSearchFilterParams);
+        $this->assertCount(1, $empList);
+        $this->assertEquals('Sales', $empList[0]->getSubDivision()->getName());
+
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $employeeSearchFilterParams->setSubunitId(1);
+        $empList = $this->employeeDao->getEmployeeList($employeeSearchFilterParams);
+        $this->assertCount(3, $empList);
+    }
+
+    public function testGetEmpNumbersByFilterParams(): void
+    {
+        $this->createKernelWithMockServices([Services::TEXT_HELPER_SERVICE => new TextHelperService()]);
+
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $empList = $this->employeeDao->getEmpNumbersByFilterParams($employeeSearchFilterParams);
+        $this->assertEquals([1, 2, 3, 4, 5], $empList);
+
+        $this->createKernelWithMockServices(
+            [
+                Services::COMPANY_STRUCTURE_SERVICE => new CompanyStructureService(),
+                Services::TEXT_HELPER_SERVICE => new TextHelperService(),
+            ]
+        );
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $employeeSearchFilterParams->setSubunitId(2);
+        $empList = $this->employeeDao->getEmpNumbersByFilterParams($employeeSearchFilterParams);
+        $this->assertEquals([1], $empList);
+
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $employeeSearchFilterParams->setSubunitId(1);
+        $empList = $this->employeeDao->getEmpNumbersByFilterParams($employeeSearchFilterParams);
+        $this->assertEquals([1, 2, 4], $empList);
+
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        // sort field override to employee.empNumber
+        $employeeSearchFilterParams->setSortField('supervisor.firstName');
+        $empList = $this->employeeDao->getEmpNumbersByFilterParams($employeeSearchFilterParams);
+        $this->assertEquals([1, 2, 3, 4, 5], $empList);
+    }
+
+    public function testGetEmployeeCount(): void
+    {
+        $this->createKernelWithMockServices(
+            [
+                Services::COMPANY_STRUCTURE_SERVICE => new CompanyStructureService(),
+                Services::TEXT_HELPER_SERVICE => new TextHelperService(),
+            ]
+        );
+
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $empList = $this->employeeDao->getEmpNumbersByFilterParams($employeeSearchFilterParams);
+        $this->assertEquals([1, 2, 3, 4, 5], $empList);
+
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $employeeSearchFilterParams->setSubunitId(2);
+        $empList = $this->employeeDao->getEmpNumbersByFilterParams($employeeSearchFilterParams);
+        $this->assertEquals([1], $empList);
+
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        $employeeSearchFilterParams->setSubunitId(1);
+        $empList = $this->employeeDao->getEmpNumbersByFilterParams($employeeSearchFilterParams);
+        $this->assertEquals([1, 2, 4], $empList);
+
+        $employeeSearchFilterParams = new EmployeeSearchFilterParams();
+        // sort field override to employee.empNumber
+        $employeeSearchFilterParams->setSortField('supervisor.firstName');
+        $empList = $this->employeeDao->getEmpNumbersByFilterParams($employeeSearchFilterParams);
+        $this->assertEquals([1, 2, 3, 4, 5], $empList);
     }
 }

@@ -139,7 +139,6 @@ class CompanyStructureDaoTest extends TestCase
         $subUnit4->setLft(4);
         $subUnit4->setRgt(5);
         $subUnit4->setLevel(3);
-        $subUnit4->setNode($subUnit4->getNode());
 
         $subUnits = [$subUnit1, $subUnit2, $subUnit3, $subUnit4];
 

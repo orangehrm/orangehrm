@@ -159,6 +159,11 @@ final class Services
      */
     public const USER_SERVICE = 'admin.user_service';
 
+    /**
+     * @see \OrangeHRM\Admin\Service\CompanyStructureService
+     */
+    public const COMPANY_STRUCTURE_SERVICE = 'admin.company_structure_service';
+
     ///////////////////////////////////////////////////////////////
     /// Leave plugin services
     ///////////////////////////////////////////////////////////////
