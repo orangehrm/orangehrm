@@ -74,11 +74,11 @@ class BulkLeaveEntitlementMatchingEmployeeModel implements CollectionNormalizabl
                 'firstName' => $employee->getFirstName(),
                 'middleName' => $employee->getMiddleName(),
                 'employeeId' => $employee->getEmployeeId(),
-                'terminationId' => $employee->getEmployeeTerminationRecord() ? $employee->getEmployeeTerminationRecord(
-                )->getId() : null,
+                'terminationId' => $employee->getEmployeeTerminationRecord() ?
+                    $employee->getEmployeeTerminationRecord()->getId() : null,
                 'entitlement' => [
                     'current' => $entitlement,
-                    'after' => $entitlement + $this->entitlement,
+                    'updateAs' => $entitlement + $this->entitlement,
                 ],
             ];
         }

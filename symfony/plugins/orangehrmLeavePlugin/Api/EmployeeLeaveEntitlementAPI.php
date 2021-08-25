@@ -20,9 +20,10 @@
 namespace OrangeHRM\Leave\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
-use OrangeHRM\Core\Api\V2\CollectionEndpoint;
+use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
+use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -30,9 +31,9 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Leave\Api\Model\BulkLeaveEntitlementMatchingEmployeeModel;
+use OrangeHRM\Leave\Api\Model\EmployeeLeaveEntitlementModel;
 use OrangeHRM\Leave\Api\ValidationRules\LeaveTypeIdRule;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
@@ -40,12 +41,11 @@ use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
-class BulkLeaveEntitlementMatchingEmployeeAPI extends Endpoint implements CollectionEndpoint
+class EmployeeLeaveEntitlementAPI extends Endpoint implements CrudEndpoint
 {
     use EmployeeServiceTrait;
     use LeaveEntitlementServiceTrait;
     use LeavePeriodServiceTrait;
-    use DateTimeHelperTrait;
 
     public const PARAMETER_ENTITLEMENT = 'entitlement';
     public const PARAMETER_LOCATION_ID = 'locationId';
@@ -54,11 +54,73 @@ class BulkLeaveEntitlementMatchingEmployeeAPI extends Endpoint implements Collec
     /**
      * @inheritDoc
      */
+    public function getOne(): EndpointResult
+    {
+        $empNumber = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            CommonParams::PARAMETER_EMP_NUMBER
+        );
+        list($leaveTypeId, $fromDate, $toDate, $entitlement) = $this->getCommonQueryParams();
+        $entitlements = $this->getLeaveEntitlementService()->getLeaveEntitlementDao()->getMatchingEntitlements(
+            $empNumber,
+            $fromDate,
+            $toDate,
+            $leaveTypeId
+        );
+        $employee = $this->getEmployeeService()->getEmployeeByEmpNumber($empNumber);
+        return new EndpointResourceResult(
+            EmployeeLeaveEntitlementModel::class,
+            [$employee, $entitlements, $entitlement]
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForGetOne(): ParamRuleCollection
+    {
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS)),
+            $this->getLeaveTypeIdRule(),
+            $this->getFromDateRule(),
+            $this->getToDateRule(),
+            $this->getEntitlementRule(),
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getAll(): EndpointResult
     {
         list($employees, $total) = $this->getMatchingEmployeesAndCount();
         $empNumbers = $this->getEmpNumbersByEmployees($employees);
+        list($leaveTypeId, $fromDate, $toDate, $entitlement) = $this->getCommonQueryParams();
 
+        $entitlementSearchFilterParams = new LeaveEntitlementSearchFilterParams();
+        $entitlementSearchFilterParams->setEmpNumbers($empNumbers);
+        $entitlementSearchFilterParams->setLeaveTypeId($leaveTypeId);
+        $entitlementSearchFilterParams->setFromDate($fromDate);
+        $entitlementSearchFilterParams->setToDate($toDate);
+        // Since limit when fetching employee list
+        $entitlementSearchFilterParams->setLimit(0);
+
+        $entitlements = $this->getLeaveEntitlementService()
+            ->getLeaveEntitlementDao()
+            ->getLeaveEntitlements($entitlementSearchFilterParams);
+
+        return new EndpointCollectionResult(
+            BulkLeaveEntitlementMatchingEmployeeModel::class,
+            [$employees, $entitlements, $entitlement],
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => $total])
+        );
+    }
+
+    /**
+     * @return array
+     */
+    private function getCommonQueryParams(): array
+    {
         $leaveTypeId = $this->getRequestParams()->getInt(
             RequestParams::PARAM_TYPE_QUERY,
             LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID
@@ -80,34 +142,7 @@ class BulkLeaveEntitlementMatchingEmployeeAPI extends Endpoint implements Collec
             RequestParams::PARAM_TYPE_QUERY,
             self::PARAMETER_ENTITLEMENT,
         );
-
-        $entitlementSearchFilterParams = new LeaveEntitlementSearchFilterParams();
-        $entitlementSearchFilterParams->setEmpNumbers($empNumbers);
-        $entitlementSearchFilterParams->setLeaveTypeId($leaveTypeId);
-        $entitlementSearchFilterParams->setFromDate($fromDate);
-        $entitlementSearchFilterParams->setToDate($toDate);
-        // Since limit when fetching employee list
-        $entitlementSearchFilterParams->setLimit(0);
-        $this->setSortingAndPaginationParams($entitlementSearchFilterParams);
-
-        $entitlements = $this->getLeaveEntitlementService()
-            ->getLeaveEntitlementDao()
-            ->getLeaveEntitlements($entitlementSearchFilterParams);
-
-        return new EndpointCollectionResult(
-            BulkLeaveEntitlementMatchingEmployeeModel::class,
-            [$employees, $entitlements, $entitlement],
-            new ParameterBag(
-                [
-                    CommonParams::PARAMETER_TOTAL => $total,
-                    LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => $leaveTypeId,
-                    LeaveCommonParams::PARAMETER_DURATION_FROM_TIME => $this->getDateTimeHelper()
-                        ->formatDateTimeToYmd($fromDate),
-                    LeaveCommonParams::PARAMETER_DURATION_TO_TIME => $this->getDateTimeHelper()
-                        ->formatDateTimeToYmd($toDate),
-                ]
-            )
-        );
+        return [$leaveTypeId, $fromDate, $toDate, $entitlement];
     }
 
     /**
@@ -153,22 +188,10 @@ class BulkLeaveEntitlementMatchingEmployeeAPI extends Endpoint implements Collec
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class)),
-            new ParamRule(
-                LeaveCommonParams::PARAMETER_FROM_DATE,
-                new Rule(Rules::API_DATE),
-                new Rule(Rules::LESS_THAN_OR_EQUAL, [
-                    fn() => $this->getRequestParams()->getDateTime(
-                        RequestParams::PARAM_TYPE_QUERY,
-                        LeaveCommonParams::PARAMETER_TO_DATE
-                    )
-                ])
-            ),
-            new ParamRule(LeaveCommonParams::PARAMETER_TO_DATE, new Rule(Rules::API_DATE)),
-            $this->getValidationDecorator()->notRequiredParamRule(
-            // Zero not allowed, it can be achieved through passing null
-                new ParamRule(self::PARAMETER_ENTITLEMENT, new Rule(Rules::POSITIVE))
-            ),
+            $this->getLeaveTypeIdRule(),
+            $this->getFromDateRule(),
+            $this->getToDateRule(),
+            $this->getEntitlementRule(),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(self::PARAMETER_LOCATION_ID, new Rule(Rules::POSITIVE))
             ),
@@ -176,6 +199,57 @@ class BulkLeaveEntitlementMatchingEmployeeAPI extends Endpoint implements Collec
                 new ParamRule(self::PARAMETER_SUBUNIT_ID, new Rule(Rules::POSITIVE))
             ),
             ...$this->getSortingAndPaginationParamsRules(EmployeeSearchFilterParams::ALLOWED_SORT_FIELDS)
+        );
+    }
+
+    /**
+     * @return ParamRule
+     */
+    private function getLeaveTypeIdRule(): ParamRule
+    {
+        return new ParamRule(LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class));
+    }
+
+    /**
+     * @return ParamRule
+     */
+    private function getFromDateRule(): ParamRule
+    {
+        $paramRule = new ParamRule(
+            LeaveCommonParams::PARAMETER_FROM_DATE,
+            new Rule(Rules::API_DATE),
+            new Rule(
+                Rules::LESS_THAN,
+                [
+                    $this->getRequestParams()->getDateTimeOrNull(
+                        RequestParams::PARAM_TYPE_QUERY,
+                        LeaveCommonParams::PARAMETER_TO_DATE
+                    )
+                ]
+            )
+        );
+        return $this->getRequestParams()->has(RequestParams::PARAM_TYPE_QUERY, LeaveCommonParams::PARAMETER_TO_DATE)
+            ? $paramRule : $this->getValidationDecorator()->notRequiredParamRule($paramRule);
+    }
+
+    /**
+     * @return ParamRule
+     */
+    private function getToDateRule(): ParamRule
+    {
+        $paramRule = new ParamRule(LeaveCommonParams::PARAMETER_TO_DATE, new Rule(Rules::API_DATE));
+        return $this->getRequestParams()->has(RequestParams::PARAM_TYPE_QUERY, LeaveCommonParams::PARAMETER_FROM_DATE)
+            ? $paramRule : $this->getValidationDecorator()->notRequiredParamRule($paramRule);
+    }
+
+    /**
+     * @return ParamRule
+     */
+    private function getEntitlementRule(): ParamRule
+    {
+        return $this->getValidationDecorator()->notRequiredParamRule(
+        // Zero not allowed, it can be achieved through passing null
+            new ParamRule(self::PARAMETER_ENTITLEMENT, new Rule(Rules::POSITIVE))
         );
     }
 
@@ -191,6 +265,22 @@ class BulkLeaveEntitlementMatchingEmployeeAPI extends Endpoint implements Collec
      * @inheritDoc
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(): EndpointResult
+    {
+        throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         throw $this->getNotImplementedException();
     }

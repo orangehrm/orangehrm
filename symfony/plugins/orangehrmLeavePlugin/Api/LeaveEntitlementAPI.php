@@ -315,14 +315,15 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 LeaveCommonParams::PARAMETER_FROM_DATE,
                 new Rule(Rules::API_DATE),
-                new Rule(Rules::LESS_THAN_OR_EQUAL, [
-                    function () use ($requestParamType) {
-                        return $this->getRequestParams()->getDateTime(
+                new Rule(
+                    Rules::LESS_THAN,
+                    [
+                        $this->getRequestParams()->getDateTimeOrNull(
                             $requestParamType,
                             LeaveCommonParams::PARAMETER_TO_DATE
-                        );
-                    }
-                ])
+                        )
+                    ]
+                )
             ),
             new ParamRule(LeaveCommonParams::PARAMETER_TO_DATE, new Rule(Rules::API_DATE)),
         ];

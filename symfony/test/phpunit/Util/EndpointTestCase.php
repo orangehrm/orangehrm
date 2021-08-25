@@ -99,7 +99,10 @@ abstract class EndpointTestCase extends KernelTestCase
             $this->fail('Given validation closure not throwing ' . InvalidParamException::class);
         } catch (InvalidParamException $e) {
             if ($invalidOnly) {
-                $this->assertEquals($invalidOnly, array_keys($e->getErrorBag()));
+                sort($invalidOnly);
+                $invalidParamKeys = array_keys($e->getErrorBag());
+                sort($invalidParamKeys);
+                $this->assertEquals($invalidOnly, $invalidParamKeys);
             }
         }
     }

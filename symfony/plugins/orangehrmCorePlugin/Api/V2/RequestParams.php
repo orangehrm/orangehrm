@@ -229,7 +229,7 @@ class RequestParams
         }
 
         $date = $this->$type->get($key, $default);
-        if (!$date instanceof DateTime) {
+        if (!$date instanceof DateTime && !is_null($date)) {
             $date = new DateTime($date);
         }
         if ($timezone instanceof DateTimeZone) {
@@ -267,6 +267,16 @@ class RequestParams
             $date->setTimezone($timezone);
         }
         return $date;
+    }
+
+    /**
+     * @param string $type
+     * @param string $key
+     * @return bool
+     */
+    public function has(string $type, string $key): bool
+    {
+        return $this->$type->has($key);
     }
 
     /**
