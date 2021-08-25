@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -21,7 +21,6 @@ namespace OrangeHRM\Admin\Service;
 
 use OrangeHRM\Admin\Dao\CompanyStructureDao;
 use OrangeHRM\Admin\Service\Model\SubunitModel;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Subunit;
 
@@ -58,7 +57,6 @@ class CompanyStructureService
      *
      * @param int $id Subunit auto incremental id
      * @return Subunit instance if found or a dao exception
-     * @throws DaoException
      */
     public function getSubunitById(int $id): ?Subunit
     {
@@ -68,7 +66,6 @@ class CompanyStructureService
     /**
      * @param Subunit $subunit
      * @return Subunit
-     * @throws DaoException
      */
     public function saveSubunit(Subunit $subunit): Subunit
     {
@@ -79,12 +76,10 @@ class CompanyStructureService
      * Add child subunit to a parent subunit
      * @param Subunit $parentSubunit
      * @param Subunit $subunit
-     * @return Subunit
-     * @throws DaoException
      */
-    public function addSubunit(Subunit $parentSubunit, Subunit $subunit): Subunit
+    public function addSubunit(Subunit $parentSubunit, Subunit $subunit): void
     {
-        return $this->getCompanyStructureDao()->addSubunit($parentSubunit, $subunit);
+        $this->getCompanyStructureDao()->addSubunit($parentSubunit, $subunit);
     }
 
     /**
@@ -93,7 +88,6 @@ class CompanyStructureService
      * This will delete the passed subunit and it's children
      *
      * @param Subunit $subunit
-     * @throws DaoException
      */
     public function deleteSubunit(Subunit $subunit): void
     {
@@ -106,7 +100,6 @@ class CompanyStructureService
      *
      * @param string $name
      * @return int - affected rows
-     * @throws DaoException
      */
     public function setOrganizationName(string $name): int
     {
@@ -118,7 +111,6 @@ class CompanyStructureService
      *
      * @param int|null $depth
      * @return array|Subunit[] Subunit object list
-     * @throws DaoException
      */
     public function getSubunitTree(?int $depth = null): array
     {
@@ -127,12 +119,34 @@ class CompanyStructureService
 
     /**
      * @return array
-     * @throws DaoException
      */
     public function getSubunitArray(): array
     {
         $subunits = $this->getSubunitTree();
         unset($subunits[0]); // remove root node
         return $this->getNormalizerService()->normalizeArray(SubunitModel::class, $subunits);
+    }
+
+    /**
+     * @param int $subunitId
+     * @return int[]
+     */
+    public function getSubunitChainById(int $subunitId): array
+    {
+        $nestedSubunits = [];
+        $subunit = $this->getSubunitById($subunitId);
+        if (is_null($subunit)) {
+            return $nestedSubunits;
+        }
+
+        $depth = $this->getCompanyStructureDao()->getMaxLevel() - $subunit->getLevel();
+        $children = $subunit->getNode()->getChildren($depth);
+        $nestedSubunits[] = $subunit->getId();
+
+        foreach ($children as $child) {
+            $nestedSubunits[] = $child->getId();
+        }
+
+        return $nestedSubunits;
     }
 }

@@ -19,9 +19,7 @@
 
 namespace OrangeHRM\Admin\Dao;
 
-use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Subunit;
 
 class CompanyStructureDao extends BaseDao
@@ -29,96 +27,71 @@ class CompanyStructureDao extends BaseDao
     /**
      * @param int $id
      * @return Subunit|null
-     * @throws DaoException
      */
     public function getSubunitById(int $id): ?Subunit
     {
-        try {
-            $subUnit = $this->getRepository(Subunit::class)->find($id);
-            if ($subUnit instanceof Subunit) {
-                return $subUnit;
-            }
-            return null;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getRepository(Subunit::class)->find($id);
     }
 
     /**
      * @param Subunit $subunit
      * @return Subunit
-     * @throws DaoException
      */
     public function saveSubunit(Subunit $subunit): Subunit
     {
-        try {
-            $this->persist($subunit);
-            return $subunit;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $this->persist($subunit);
+        return $subunit;
     }
 
     /**
      * @param Subunit $parentSubunit
      * @param Subunit $subunit
-     * @return Subunit
-     * @throws DaoException
      */
-    public function addSubunit(Subunit $parentSubunit, Subunit $subunit): Subunit
+    public function addSubunit(Subunit $parentSubunit, Subunit $subunit): void
     {
-        try {
-            $parentSubunit->getNode()->addChild($subunit);
-            return $subunit;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $parentSubunit->getNode()->addChild($subunit);
+        $this->getEntityManager()->clear(Subunit::class);
     }
 
     /**
      * @param Subunit $subunit
-     * @throws DaoException
      */
     public function deleteSubunit(Subunit $subunit): void
     {
-        try {
-            $subunit->getNode()->delete();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $subunit->getNode()->delete();
     }
 
     /**
      * @param string $name
      * @return int
-     * @throws DaoException
      */
     public function setOrganizationName(string $name): int
     {
-        try {
-            $q = $this->createQueryBuilder(Subunit::class, 'su');
-            $q->update()
-                ->set('su.name', ':name')
-                ->setParameter('name', $name)
-                ->where('su.level = :level')
-                ->setParameter('level', 0);
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $q = $this->createQueryBuilder(Subunit::class, 'su');
+        $q->update()
+            ->set('su.name', ':name')
+            ->setParameter('name', $name)
+            ->where('su.level = :level')
+            ->setParameter('level', 0);
+        return $q->getQuery()->execute();
     }
 
     /**
      * @param int|null $depth
      * @return array|Subunit[]
-     * @throws DaoException
      */
     public function getSubunitTree(?int $depth = null): array
     {
-        try {
-            return Subunit::fetchTree($depth);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return Subunit::fetchTree($depth);
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxLevel(): int
+    {
+        $q = $this->createQueryBuilder(Subunit::class, 's');
+        $q->select($q->expr()->max('s.level'));
+        return $q->getQuery()->getSingleScalarResult();
     }
 }

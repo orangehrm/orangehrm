@@ -28,7 +28,7 @@ class ClassHelper
      */
     public function classExists(string $className, ?string $fallbackNamespace = null): bool
     {
-        return !is_null(self::getClass($className, $fallbackNamespace));
+        return !is_null($this->getClass($className, $fallbackNamespace));
     }
 
     /**

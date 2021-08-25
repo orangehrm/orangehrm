@@ -185,4 +185,33 @@ class LeaveEntitlementService
 
         return $this->getLeaveEntitlementDao()->saveLeaveEntitlement($leaveEntitlement);
     }
+
+    /**
+     * @param int[] $empNumbers
+     * @param int $leaveTypeId
+     * @param DateTime $fromDate
+     * @param DateTime $toDate
+     * @param float $entitlement
+     * @return array array(LeaveEntitlement[], int)
+     * @throws DaoException
+     */
+    public function bulkAssignLeaveEntitlements(
+        array $empNumbers,
+        int $leaveTypeId,
+        DateTime $fromDate,
+        DateTime $toDate,
+        float $entitlement
+    ): array {
+        // Use as DTO
+        $leaveEntitlement = new LeaveEntitlement();
+        $leaveEntitlement->setNoOfDays($entitlement);
+        $leaveEntitlement->getDecorator()->setLeaveTypeById($leaveTypeId);
+        $leaveEntitlement->setCreditedDate(new DateTime());
+        $leaveEntitlement->setCreatedBy($this->getUserRoleManager()->getUser());
+        $leaveEntitlement->getDecorator()->setEntitlementTypeById(LeaveEntitlement::ENTITLEMENT_TYPE_ADD);
+        $leaveEntitlement->setFromDate($fromDate);
+        $leaveEntitlement->setToDate($toDate);
+
+        return $this->getLeaveEntitlementDao()->bulkAssignLeaveEntitlements($empNumbers, $leaveEntitlement);
+    }
 }
