@@ -44,7 +44,7 @@ class SubunitModel implements Normalizable
             [
                 'id',
                 'label',
-                'indent',
+                '_indent',
             ]
         );
     }
