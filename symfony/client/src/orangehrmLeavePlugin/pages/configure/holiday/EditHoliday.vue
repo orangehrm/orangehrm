@@ -187,6 +187,35 @@ export default {
             return h.id === data.length;
           });
         }
+        // Fetch list data for unique test
+        const today = new Date();
+        const startDate =
+          today.getFullYear() -
+          100 +
+          '-' +
+          (today.getMonth() + 1) +
+          '-' +
+          today.getDate();
+        const endDate =
+          today.getFullYear() +
+          100 +
+          '-' +
+          (today.getMonth() + 1) +
+          '-' +
+          today.getDate();
+        return this.http.getAll({fromDate: startDate, toDate: endDate});
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.date.push(v => {
+          const index = data.findIndex(item => item.date === v);
+          if (index > -1) {
+            const id = data[index].id;
+            return id != this.holidayId ? 'Already exists' : true;
+          } else {
+            return true;
+          }
+        });
       })
       .finally(() => {
         this.isLoading = false;

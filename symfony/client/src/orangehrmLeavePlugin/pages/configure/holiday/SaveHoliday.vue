@@ -168,6 +168,37 @@ export default {
       navigate('/leave/viewHolidayList');
     },
   },
+  created() {
+    this.isLoading = true;
+    // Fetch list data for unique test
+    const today = new Date();
+    const startDate =
+      today.getFullYear() -
+      100 +
+      '-' +
+      (today.getMonth() + 1) +
+      '-' +
+      today.getDate();
+  const endDate =
+      today.getFullYear() +
+      100 +
+      '-' +
+      (today.getMonth() + 1) +
+      '-' +
+      today.getDate();
+    this.http
+      .getAll({fromDate: startDate, toDate: endDate})
+      .then(response => {
+        const {data} = response.data;
+        this.rules.date.push(v => {
+          const index = data.findIndex(item => item.date == v);
+          return index === -1 || 'Already exists';
+        });
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
 };
 </script>
 
