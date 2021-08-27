@@ -27,16 +27,15 @@ class CustomerDaoTest extends KernelTestCase {
     public function testAddCustomer(): void
     {
         $customer = new Customer();
-        $customer->setName('Customer 1');
+        $customer->setName('Customer 2');
         $customer->setDescription('Description 2');
         $this->customerDao->saveCustomer($customer);
 
-
-        $lastCustomer = $this->getEntityManager()->getRepository(Customer::class)->find(1);
+        $lastCustomer = $this->getEntityManager()->getRepository(Customer::class)->find(2);
         dump($lastCustomer);
 
         $this->assertTrue($lastCustomer instanceof Customer);
-        $this->assertEquals('Customer 1', $customer->getName());
+        $this->assertEquals('Customer 2', $customer->getName());
 
 
     }
