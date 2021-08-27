@@ -1062,4 +1062,13 @@ class LeaveRequestDao extends BaseDao
     {
         return $this->getRepository(LeaveStatus::class)->findAll();
     }
+    
+    /**
+     * @param int $leaveRequestId
+     * @return object|null
+     */
+    public function getLeaveRequestById(int $leaveRequestId)
+    {
+        return $this->getRepository(LeaveRequest::class)->find($leaveRequestId);
+    }
 }

@@ -128,6 +128,15 @@ apiv2_leave_overlap_leaves:
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Leave\Api\LeaveOverlapAPI
+    
+apiv2_leave_list_comments:
+  path: /api/v2/leave/leave-requests/{leaveRequestId}/leave-comments
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET , POST ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveRequestCommentAPI
+    _key: leaveTypeId
+
 
 ##########################
 #        Screens
