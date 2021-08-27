@@ -170,6 +170,11 @@
           "source": "Sub Unit",
           "target": "Sub Unit",
           "description": "Add a sub- unit to the company structure, go to Admin&gt;&gt; Organization&gt;&gt; Structure and right click on the particular sub unit"
+        },
+        "back": {
+          "source": "Back",
+          "target": "Back",
+          "description": "Click “Back” and the action will be reflected"
         }
       }
     },
@@ -420,6 +425,21 @@
           "source": "Include Past Employees",
           "target": "Include Past Employees",
           "description": "You may also include past employees with your search when generating Leave Entitlements and Usage Reports of employees."
+        },
+        "leave_request_details": {
+          "source": "Leave Request Details",
+          "target": "Leave Request Details",
+          "description": ""
+        },
+        "requested_for": {
+          "source": "Requested For",
+          "target": "Requested For",
+          "description": ""
+        },
+        "leave_request_comments": {
+          "source": "Leave Request Comments",
+          "target": "Leave Request Comments",
+          "description": "you can add a comment if necessary, when you request for a leave from your supervisor / Admin"
         }
       }
     }

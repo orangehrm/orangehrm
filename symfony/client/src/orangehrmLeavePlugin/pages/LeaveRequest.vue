@@ -20,26 +20,63 @@
 
 <template>
   <div class="orangehrm-background-container">
-    <slot :filters="filters" :filterItems="filterItems"></slot>
-    <br />
     <div class="orangehrm-paper-container">
-      <leave-list-table-header
-        :selected="checkedItems.length"
+      <div class="orangehrm-header-container">
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ $t('leave.leave_request_details') }}
+        </oxd-text>
+      </div>
+      <oxd-divider
+        class="orangehrm-horizontal-margin orangehrm-clear-margins"
+      />
+      <div class="orangehrm-horizontal-padding">
+        <oxd-grid :cols="3">
+          <oxd-grid-item>
+            <oxd-input-group :label="$t('general.employee_name')">
+              <oxd-text class="orangehrm-request-details-text" tag="p">
+                {{ employeeName }}
+              </oxd-text>
+            </oxd-input-group>
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-group :label="$t('leave.requested_for')">
+              <oxd-text class="orangehrm-request-details-text" tag="p">
+                {{ leavePeriod }}
+              </oxd-text>
+            </oxd-input-group>
+          </oxd-grid-item>
+        </oxd-grid>
+      </div>
+      <table-header
+        :selected="0"
         :total="total"
         :loading="isLoading"
-      ></leave-list-table-header>
+      ></table-header>
       <div class="orangehrm-container">
         <oxd-card-table
           :headers="headers"
-          :items="items?.data"
-          :selectable="true"
+          :items="response && response.data"
+          :selectable="false"
           :clickable="false"
           :loading="isLoading"
-          v-model:selected="checkedItems"
           rowDecorator="oxd-table-decorator-card"
         />
       </div>
       <div class="orangehrm-bottom-container">
+        <span>
+          <oxd-button
+            displayType="ghost"
+            :label="$t('general.back')"
+            @click="onClickBack"
+          />
+          <oxd-button
+            class="orangehrm-left-space"
+            displayType="secondary"
+            iconName="chat-right-text-fill"
+            :label="$t('general.comments')"
+            @click="onClickComments"
+          />
+        </span>
         <oxd-pagination
           v-if="showPaginator"
           :length="pages"
@@ -57,56 +94,48 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue';
 import {APIService} from '@/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import LeaveListTableHeader from '@/orangehrmLeavePlugin/components/LeaveListTableHeader';
 import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
 
-const leavelistNormalizer = data => {
+const leaveRequestNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      empNumber: item.empNumber,
       date: `${item.fromDate} to ${item.toDate}`,
-      employeeName: `${item.employee?.firstName} ${item.employee?.lastName}`,
       leaveType: item.leaveType.name,
       leaveBalance: item.leaveBalance,
-      days: item.leaveDays,
+      duration: item.hours,
       status: item.leaveStatus?.name,
       comment: item.comment,
     };
   });
 };
 
-const defaultFilters = {
-  employee: null,
-  fromDate: null,
-  toDate: null,
-  statuses: [{id: 3, label: 'Pending Approval'}],
-  subunit: null,
-  includePastEmps: false,
-};
-
 export default {
-  name: 'leave-list-table',
+  name: 'leave-view-request',
 
   components: {
-    'leave-list-table-header': LeaveListTableHeader,
     'leave-comment-modal': LeaveCommentsModal,
+  },
+
+  props: {
+    leaveRequestId: {
+      type: String,
+      required: true,
+    },
   },
 
   data() {
     return {
       headers: [
         {name: 'date', title: 'Date', style: {flex: 1}},
-        {name: 'employeeName', title: 'Employee Name', style: {flex: 1}},
         {name: 'leaveType', title: 'Leave Type', style: {flex: 1}},
         {name: 'leaveBalance', title: 'Leave Balance (Days)', style: {flex: 1}},
-        {name: 'days', title: 'Number of Days', style: {flex: 1}},
+        {name: 'duration', title: 'Duration (Hours)', style: {flex: 1}},
         {name: 'status', title: 'Status', style: {flex: 1}},
-        {name: 'comment', title: 'Comments', style: {flex: 1}},
+        {name: 'comment', title: 'Comments', style: {flex: '10%'}},
         {
           name: 'action',
           slot: 'footer',
@@ -136,8 +165,6 @@ export default {
               props: {
                 options: [
                   {label: 'Add Comment', context: 'add_comment'},
-                  {label: 'View Leave Details', context: 'leave_details'},
-                  {label: 'View PIM Info', context: 'pim_details'},
                   {label: 'Cancel Leave', context: 'cancel_leave'},
                 ],
               },
@@ -145,34 +172,16 @@ export default {
           },
         },
       ],
-      checkedItems: [],
       showCommentModal: false,
       commentModalState: null,
     };
   },
 
-  setup() {
-    const filters = ref({...defaultFilters});
-
-    const serializedFilters = computed(() => {
-      const statuses = Array.isArray(filters.value.statuses)
-        ? filters.value.statuses
-        : [];
-
-      return {
-        employeeId: filters.value.employee?.id,
-        fromDate: filters.value.fromDate,
-        toDate: filters.value.toDate,
-        subunitId: filters.value.subunit?.id,
-        includePastEmps: filters.value.includePastEmps,
-        leaveStatuses: statuses.map(item => item.id),
-      };
-    });
-
+  setup(props) {
     const http = new APIService(
       // window.appGlobal.baseUrl,
       'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      'api/v2/leave/leave-list',
+      `api/v2/leave/leave-request/${props.leaveRequestId}`,
     );
     const {
       showPaginator,
@@ -183,7 +192,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, serializedFilters, leavelistNormalizer);
+    } = usePaginate(http, {}, leaveRequestNormalizer);
 
     return {
       http,
@@ -194,35 +203,27 @@ export default {
       pages,
       pageSize,
       execQuery,
-      items: response,
-      filters,
+      response,
     };
   },
 
   methods: {
+    onClickBack() {
+      navigate('/leave/viewLeaveList');
+    },
     onLeaveRequestAction(item, event) {
-      switch (event.context) {
-        case 'add_comment':
-          this.commentModalState = item.id;
-          this.showCommentModal = true;
-          break;
-        case 'cancel_leave':
-          this.onLeaveCancel();
-          break;
-        case 'pim_details':
-          navigate('/pim/viewPersonalDetails/empNumber/{id}', {
-            id: item.empNumber,
-          });
-          break;
-        default:
-          navigate('/leave/viewLeaveRequest/{id}', {id: item.id});
+      if (event.context === 'cancel_leave') {
+        this.onLeaveCancel();
+      } else {
+        this.commentModalState = item.id;
+        this.showCommentModal = true;
       }
     },
-    async resetDataTable() {
-      this.checkedItems = [];
-      await this.execQuery();
+    onClickComments() {
+      this.commentModalState = this.leaveRequestId;
+      this.showCommentModal = true;
     },
-    async filterItems() {
+    async resetDataTable() {
       await this.execQuery();
     },
     onCommentModalClose() {
@@ -234,10 +235,30 @@ export default {
       // do nothing.
     },
   },
+
+  computed: {
+    employeeName() {
+      const employee = this.response?.meta?.employee;
+      return employee ? `${employee.firstName} ${employee.lastName}` : '';
+    },
+    leavePeriod() {
+      const leavePeriod = this.response?.meta?.leavePeriod;
+      return leavePeriod
+        ? `${leavePeriod.startDate} - ${leavePeriod.endDate}`
+        : '';
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.orangehrm-bottom-container {
+  align-items: center;
+  justify-content: space-between;
+}
+.orangehrm-request-details-text {
+  font-size: $oxd-input-control-font-size;
+}
 ::v-deep(.card-footer-slot) {
   .oxd-table-cell-actions {
     justify-content: flex-end;
