@@ -425,6 +425,11 @@ class HolidayAPITest extends EndpointTestCase
             ->method('getHolidayService')
             ->will($this->returnValue($holidayService));
 
+        $this->createKernelWithMockServices(
+            [
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
         $result = $api->getAll();
         $this->assertEquals(
             [

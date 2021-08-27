@@ -189,7 +189,7 @@ export default {
       '-' +
       today.getDate();
     this.http
-      .getAll({fromDate: startDate, toDate: endDate})
+      .getAll({fromDate: startDate, toDate: endDate, limit: 0})
       .then(response => {
         const {data} = response.data;
         this.rules.date.push(v => {

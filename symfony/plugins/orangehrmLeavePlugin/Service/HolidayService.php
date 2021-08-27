@@ -82,10 +82,18 @@ class HolidayService
      */
     public function searchHolidays(HolidaySearchFilterParams $holidaySearchFilterParams): array
     {
-        return $this->searchHolidaysAlongWithCache(
+        $offset = $holidaySearchFilterParams->getOffset();
+        $limit = $holidaySearchFilterParams->getLimit();
+        if($limit == 0){  // when check uniqueness
+            return $this->searchHolidaysAlongWithCache(
+                $holidaySearchFilterParams->getFromDate(),
+                $holidaySearchFilterParams->getToDate()
+            )[self::PARAMETER_DATA];
+        }
+        return array_slice($this->searchHolidaysAlongWithCache(
             $holidaySearchFilterParams->getFromDate(),
             $holidaySearchFilterParams->getToDate()
-        )[self::PARAMETER_DATA];
+        )[self::PARAMETER_DATA],$offset,$limit);
     }
 
     /**
