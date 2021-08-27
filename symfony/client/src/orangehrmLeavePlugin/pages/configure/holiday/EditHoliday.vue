@@ -53,6 +53,7 @@
                 :label="$t('leave.full_day_half_day')"
                 v-model="holiday.length"
                 :options="holidayLengthList"
+                :rules="rules.length"
                 required
               />
             </oxd-grid-item>
@@ -137,6 +138,7 @@ export default {
       rules: {
         name: [required, shouldNotExceedCharLength(200)],
         date: [required, validDateFormat()],
+        length: [required],
       },
     };
   },
