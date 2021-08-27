@@ -33,6 +33,7 @@ use TypeError;
 
 /**
  * @group Leave
+ * @group Service
  */
 class WorkScheduleServiceTest extends KernelTestCase
 {

@@ -57,8 +57,10 @@ export default {
     display: flex;
   }
   &-item {
-    padding: 0.75rem 1rem;
-    border-radius: $oxd-border-radius;
+    height: 35px;
+    line-height: 35px;
+    padding: 0rem 1rem;
+    border-radius: 0.85rem;
     flex: 100%;
     color: $oxd-interface-gray-darken-1-color;
     text-decoration: none;
@@ -66,8 +68,8 @@ export default {
     font-family: $oxd-font-family;
     font-weight: 700;
     @include oxd-respond-to('xs') {
-      margin-right: 0.5rem;
-      background-color: $oxd-interface-gray-lighten-2-color;
+      margin-right: 0.25rem;
+      background-color: $oxd-background-pastel-white-color;
       white-space: nowrap;
       &.--active,
       &:hover {
@@ -76,12 +78,13 @@ export default {
       }
     }
     @include oxd-respond-to('md') {
-      margin-bottom: 0.5rem;
+      margin-right: unset;
+      margin-bottom: 0.25rem;
       background-color: unset;
       white-space: wrap;
       &.--active,
       &:hover {
-        background-color: $oxd-interface-gray-lighten-2-color;
+        background-color: $oxd-background-pastel-white-color;
         color: $oxd-interface-gray-darken-1-color;
       }
     }

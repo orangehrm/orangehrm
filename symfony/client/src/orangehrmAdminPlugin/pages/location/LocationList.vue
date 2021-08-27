@@ -1,0 +1,314 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
+<template>
+  <div class="orangehrm-background-container">
+    <oxd-table-filter filter-title="Locations">
+      <oxd-form @submitValid="filterItems">
+        <oxd-form-row>
+          <oxd-grid :cols="3" class="orangehrm-full-width-grid">
+            <oxd-grid-item>
+              <oxd-input-field label="Name" v-model="filters.name" />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field label="City" v-model="filters.city" />
+            </oxd-grid-item>
+            <oxd-grid-item>
+              <oxd-input-field
+                type="select"
+                label="Country"
+                v-model="filters.countryCode"
+                :clear="false"
+                :options="countries"
+              />
+            </oxd-grid-item>
+          </oxd-grid>
+        </oxd-form-row>
+
+        <oxd-divider />
+
+        <oxd-form-actions>
+          <oxd-button displayType="ghost" label="Reset" @click="onClickReset" />
+          <oxd-button
+            class="orangehrm-left-space"
+            displayType="secondary"
+            label="Search"
+            type="submit"
+          />
+        </oxd-form-actions>
+      </oxd-form>
+    </oxd-table-filter>
+
+    <br />
+
+    <div class="orangehrm-paper-container">
+      <div class="orangehrm-header-container">
+        <div>
+          <oxd-button
+            label="Add"
+            iconName="plus"
+            displayType="secondary"
+            @click="onClickAdd"
+            v-if="$can.create(`locations`)"
+          />
+        </div>
+      </div>
+      <table-header
+        :selected="checkedItems.length"
+        :total="total"
+        :loading="isLoading"
+        @delete="onClickDeleteSelected"
+      ></table-header>
+      <div class="orangehrm-container">
+        <oxd-card-table
+          :headers="headers"
+          :items="items?.data"
+          :selectable="$can.delete(`locations`)"
+          :disabled="!($can.delete(`locations`) && $can.update('locations'))"
+          :clickable="false"
+          :loading="isLoading"
+          v-model:selected="checkedItems"
+          v-model:order="sortDefinition"
+          rowDecorator="oxd-table-decorator-card"
+        />
+      </div>
+      <div class="orangehrm-bottom-container">
+        <oxd-pagination
+          v-if="showPaginator"
+          :length="pages"
+          v-model:current="currentPage"
+        />
+      </div>
+    </div>
+
+    <delete-confirmation ref="deleteDialog"></delete-confirmation>
+  </div>
+</template>
+
+<script>
+import usePaginate from '@orangehrm/core/util/composable/usePaginate';
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+import {APIService} from '@/core/util/services/api.service';
+import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
+import {computed, ref} from 'vue';
+import useSort from '@orangehrm/core/util/composable/useSort';
+
+const defaultFilters = {
+  name: '',
+  city: '',
+  countryCode: {},
+};
+
+const defaultSortOrder = {
+  'location.name': 'ASC',
+  'location.city': 'DEFAULT',
+  'country.countryCode': 'DEFAULT',
+  'location.phone': 'DEFAULT',
+  noOfEmployees: 'DEFAULT',
+};
+
+const locationDataNormalizer = data => {
+  return data.map(location => {
+    return {
+      id: location.id,
+      name: location.name,
+      city: location.city,
+      country: location.country.countryName,
+      phone: location.phone,
+      noOfEmployees: location.noOfEmployees ? location.noOfEmployees : 0,
+    };
+  });
+};
+
+export default {
+  props: {
+    countries: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    const cellConfig = {
+      delete: {
+        onClick: this.onClickDelete,
+        component: 'oxd-icon-button',
+        props: {
+          name: 'trash',
+        },
+      },
+      edit: {
+        onClick: this.onClickEdit,
+        props: {
+          name: 'pencil-fill',
+        },
+      },
+    };
+
+    return {
+      headers: [
+        {
+          name: 'name',
+          slot: 'title',
+          title: 'Name',
+          style: {flex: 1},
+          sortField: 'location.name',
+        },
+        {
+          name: 'city',
+          title: 'City',
+          style: {flex: 1},
+          sortField: 'location.city',
+        },
+        {
+          name: 'country',
+          title: 'Country',
+          style: {flex: 1},
+          sortField: 'country.countryCode',
+        },
+        {
+          name: 'phone',
+          title: 'Phone',
+          style: {flex: 1},
+          sortField: 'location.phone',
+        },
+        {
+          name: 'noOfEmployees',
+          title: 'Number of Employees',
+          style: {flex: 1},
+          sortField: 'noOfEmployees',
+        },
+        {
+          name: 'actions',
+          title: 'Actions',
+          slot: 'action',
+          style: {flex: 1},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: cellConfig,
+        },
+      ],
+      checkedItems: [],
+    };
+  },
+
+  components: {
+    'delete-confirmation': DeleteConfirmationDialog,
+  },
+
+  setup() {
+    const {sortDefinition, sortField, sortOrder, onSort} = useSort({
+      sortDefinition: defaultSortOrder,
+    });
+    const filters = ref({...defaultFilters});
+    const serializedFilters = computed(() => {
+      return {
+        name: filters.value.name,
+        city: filters.value.city,
+        countryCode: filters.value.countryCode?.id,
+        sortField: sortField.value,
+        sortOrder: sortOrder.value,
+      };
+    });
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/admin/locations',
+    );
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, serializedFilters, locationDataNormalizer);
+
+    onSort(execQuery);
+
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      items: response,
+      filters,
+      sortDefinition,
+    };
+  },
+
+  methods: {
+    onClickAdd() {
+      navigate('/admin/saveLocation');
+    },
+    onClickEdit(item) {
+      navigate('/admin/saveLocation/{id}', {id: item.id});
+    },
+    onClickDeleteSelected() {
+      const ids = [];
+      this.checkedItems.forEach(index => {
+        ids.push(this.items?.data[index].id);
+      });
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems(ids);
+        }
+      });
+    },
+    onClickDelete(item) {
+      this.$refs.deleteDialog.showDialog().then(confirmation => {
+        if (confirmation === 'ok') {
+          this.deleteItems([item.id]);
+        }
+      });
+    },
+    deleteItems(items) {
+      if (items instanceof Array) {
+        this.isLoading = true;
+        this.http
+          .deleteAll({
+            ids: items,
+          })
+          .then(() => {
+            return this.$toast.deleteSuccess();
+          })
+          .then(() => {
+            this.isLoading = false;
+            this.resetDataTable();
+          });
+      }
+    },
+    async resetDataTable() {
+      this.checkedItems = [];
+      await this.execQuery();
+    },
+    async filterItems() {
+      await this.execQuery();
+    },
+    onClickReset() {
+      this.filters = {...defaultFilters};
+      this.filterItems();
+    },
+  },
+};
+</script>

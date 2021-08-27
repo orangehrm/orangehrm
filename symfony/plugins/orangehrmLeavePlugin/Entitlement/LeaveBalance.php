@@ -19,52 +19,50 @@
 
 namespace OrangeHRM\Leave\Entitlement;
 
+use DateTime;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 
 class LeaveBalance
 {
     use LeaveConfigServiceTrait;
+    use DateTimeHelperTrait;
 
-    private int $entitled;
-    private int $used;
-    private int $scheduled;
-    private int $pending;
-    private int $notLinked;
-    private int $taken;
-    private int $adjustment;
-    private int $balance;
+    private float $entitled;
+    private float $used;
+    private float $scheduled;
+    private float $pending;
+    private float $taken;
+    private float $balance;
+
+    private ?DateTime $asAtDate = null;
+    private ?DateTime $endDate = null;
 
     /**
-     * @param int $entitled
-     * @param int $used
-     * @param int $scheduled
-     * @param int $pending
-     * @param int $notLinked
-     * @param int $taken
-     * @param int $adjustment
+     * @param float $entitled
+     * @param float $used
+     * @param float $scheduled
+     * @param float $pending
+     * @param float $taken
      */
     public function __construct(
-        int $entitled = 0,
-        int $used = 0,
-        int $scheduled = 0,
-        int $pending = 0,
-        int $notLinked = 0,
-        int $taken = 0,
-        int $adjustment = 0
+        float $entitled = 0,
+        float $used = 0,
+        float $scheduled = 0,
+        float $pending = 0,
+        float $taken = 0
     ) {
         $this->entitled = $entitled;
         $this->used = $used;
         $this->scheduled = $scheduled;
         $this->pending = $pending;
-        $this->notLinked = $notLinked;
         $this->taken = $taken;
-        $this->adjustment = $adjustment;
         $this->updateBalance();
     }
 
     public function updateBalance(): void
     {
-        $balance = ($this->entitled + $this->adjustment) - ($this->scheduled + $this->taken);
+        $balance = $this->entitled - ($this->scheduled + $this->taken);
         $includePending = $this->getLeaveConfigService()->includePendingLeaveInBalance();
 
         if ($includePending) {
@@ -75,122 +73,138 @@ class LeaveBalance
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getAdjustment(): int
-    {
-        return $this->adjustment;
-    }
-
-    /**
-     * @param int $adjustment
-     */
-    public function setAdjustment(int $adjustment): void
-    {
-        $this->adjustment = $adjustment;
-    }
-
-    /**
-     * @return int
-     */
-    public function getBalance(): int
+    public function getBalance(): float
     {
         return $this->balance;
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getEntitled(): int
+    public function getEntitled(): float
     {
         return $this->entitled;
     }
 
     /**
-     * @param int $entitled
+     * @param float $entitled
      */
-    public function setEntitled(int $entitled): void
+    public function setEntitled(float $entitled): void
     {
         $this->entitled = $entitled;
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getUsed(): int
+    public function getUsed(): float
     {
         return $this->used;
     }
 
     /**
-     * @param int $used
+     * @param float $used
      */
-    public function setUsed(int $used): void
+    public function setUsed(float $used): void
     {
         $this->used = $used;
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getScheduled(): int
+    public function getScheduled(): float
     {
         return $this->scheduled;
     }
 
     /**
-     * @param int $scheduled
+     * @param float $scheduled
      */
-    public function setScheduled(int $scheduled): void
+    public function setScheduled(float $scheduled): void
     {
         $this->scheduled = $scheduled;
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getPending(): int
+    public function getPending(): float
     {
         return $this->pending;
     }
 
     /**
-     * @param int $pending
+     * @param float $pending
      */
-    public function setPending(int $pending): void
+    public function setPending(float $pending): void
     {
         $this->pending = $pending;
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getNotLinked(): int
-    {
-        return $this->notLinked;
-    }
-
-    /**
-     * @param int $notLinked
-     */
-    public function setNotLinked(int $notLinked): void
-    {
-        $this->notLinked = $notLinked;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTaken(): int
+    public function getTaken(): float
     {
         return $this->taken;
     }
 
     /**
-     * @param int $taken
+     * @param float $taken
      */
-    public function setTaken(int $taken): void
+    public function setTaken(float $taken): void
     {
         $this->taken = $taken;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getAsAtDate(): ?DateTime
+    {
+        return $this->asAtDate;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYmdAsAtDate(): ?string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getAsAtDate());
+    }
+
+    /**
+     * @param DateTime|null $asAtDate
+     */
+    public function setAsAtDate(?DateTime $asAtDate): void
+    {
+        $this->asAtDate = $asAtDate;
+    }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getEndDate(): ?DateTime
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYmdEndDate(): ?string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getEndDate());
+    }
+
+    /**
+     * @param DateTime|null $endDate
+     */
+    public function setEndDate(?DateTime $endDate): void
+    {
+        $this->endDate = $endDate;
     }
 }

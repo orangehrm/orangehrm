@@ -22,7 +22,7 @@ namespace OrangeHRM\Tests\Admin\Dao;
 use OrangeHRM\Admin\Dao\LocationDao;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Location;
-use OrangeHRM\Pim\Dto\LocationSearchFilterParams;
+use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
@@ -52,6 +52,12 @@ class LocationDaoTest extends TestCase
         $this->assertEquals($result->getName(), 'location 1');
     }
 
+    public function testGetLocationByIdForNonExistingId(): void
+    {
+        $result = $this->locationDao->getLocationById(1002);
+        $this->assertNull($result);
+    }
+
     public function testGetNumberOfEmployeesForLocation(): void
     {
         $result = $this->locationDao->getNumberOfEmployeesForLocation(1);
@@ -61,14 +67,14 @@ class LocationDaoTest extends TestCase
     public function testGetLocationList(): void
     {
         $result = $this->locationDao->getLocationList();
-        $this->assertEquals(count($result), 3);
+        $this->assertEquals(4, count($result));
     }
 
     public function testSearchLocationsForNullArray(): void
     {
         $locationSearchFilterParams = new LocationSearchFilterParams();
         $result = $this->locationDao->searchLocations($locationSearchFilterParams);
-        $this->assertEquals(count($result), 3);
+        $this->assertEquals(4, count($result));
     }
 
     public function testSearchLocationsForLocationName(): void
@@ -76,7 +82,7 @@ class LocationDaoTest extends TestCase
         $locationSearchFilterParams = new LocationSearchFilterParams();
         $locationSearchFilterParams->setName('location 1');
         $result = $this->locationDao->searchLocations($locationSearchFilterParams);
-        $this->assertEquals(count($result), 1);
+        $this->assertCount(2, $result);
         $this->assertEquals($result[0]->getId(), 1);
     }
 
@@ -85,7 +91,7 @@ class LocationDaoTest extends TestCase
         $locationSearchFilterParams = new LocationSearchFilterParams();
         $locationSearchFilterParams->setCity('city 1');
         $result = $this->locationDao->searchLocations($locationSearchFilterParams);
-        $this->assertEquals(count($result), 1);
+        $this->assertCount(2, $result);
     }
 
     public function testSearchLocationsForCountry(): void
@@ -149,5 +155,10 @@ class LocationDaoTest extends TestCase
         $expected = [];
 
         $this->assertEquals($expected, $locationIds);
+    }
+
+    public function testGetLocationsByIds(): void
+    {
+        $this->assertCount(2, $this->locationDao->getLocationsByIds([1, 3]));
     }
 }

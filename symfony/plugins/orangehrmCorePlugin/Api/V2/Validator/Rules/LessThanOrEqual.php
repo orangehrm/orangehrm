@@ -43,6 +43,9 @@ class LessThanOrEqual extends AbstractRule
         if (is_callable($targetObject)) {
             $targetObject = $targetObject();
         }
+        if ($targetObject instanceof DateTime) {
+            $input = new DateTime($input);
+        }
         return $input <= $targetObject;
     }
 }

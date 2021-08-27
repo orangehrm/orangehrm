@@ -470,7 +470,7 @@ class TestDataService
                     }
                 }
                 $fieldType = self::getTypeForField($classMetadata, $attribute);
-                if ($fieldType === 'date' && !$value instanceof DateTime) {
+                if (($fieldType === 'date' || $fieldType === 'datetime') && !$value instanceof DateTime) {
                     $value = new DateTime($value);
                 }
                 $object->$setMethodName($value);

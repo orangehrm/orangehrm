@@ -100,7 +100,7 @@ class LeaveRequestDao extends BaseDao
                     foreach ($change as $entitlementId => $length) {
                         $le = new LeaveLeaveEntitlement();
                         $le->getDecorator()->setLeaveById($leaveId);
-                        $le->getDecorator()->setLeaveById($entitlementId);
+                        $le->getDecorator()->setLeaveEntitlementById($entitlementId);
                         $le->setLengthDays($length);
                         $this->getEntityManager()->persist($le);
                     }

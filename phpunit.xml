@@ -19,16 +19,16 @@
     </exclude>
   </coverage>
   <testsuites>
-    <testsuite name="Admin Tests">
+    <testsuite name="Admin">
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Api</directory>
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmAdminPlugin/test/Entity</directory>
     </testsuite>
-    <testsuite name="Authentication Tests">
+    <testsuite name="Authentication">
       <directory>symfony/plugins/orangehrmAuthenticationPlugin/test/Service</directory>
     </testsuite>
-    <testsuite name="Core Tests">
+    <testsuite name="Core">
       <directory>symfony/plugins/orangehrmCorePlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Authorization</directory>
@@ -37,19 +37,19 @@
       <directory>symfony/plugins/orangehrmCorePlugin/test/Helper</directory>
       <directory>symfony/plugins/orangehrmCorePlugin/test/Vue</directory>
     </testsuite>
-    <testsuite name="Leave Tests">
+    <testsuite name="Leave">
       <directory>symfony/plugins/orangehrmLeavePlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmLeavePlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmLeavePlugin/test/Api</directory>
       <directory>symfony/plugins/orangehrmLeavePlugin/test/Entity</directory>
     </testsuite>
-    <testsuite name="Pim Tests">
+    <testsuite name="Pim">
       <directory>symfony/plugins/orangehrmPimPlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmPimPlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmPimPlugin/test/Api</directory>
       <directory>symfony/plugins/orangehrmPimPlugin/test/Entity</directory>
     </testsuite>
-    <testsuite name="OAuth Tests">
+    <testsuite name="OAuth">
       <directory>symfony/plugins/orangehrmCoreOAuthPlugin/test/Service</directory>
       <directory>symfony/plugins/orangehrmCoreOAuthPlugin/test/Dao</directory>
       <directory>symfony/plugins/orangehrmCoreOAuthPlugin/test/Api</directory>

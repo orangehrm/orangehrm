@@ -19,18 +19,21 @@
 
 namespace OrangeHRM\Leave\Api;
 
+use Exception;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Holiday;
 use OrangeHRM\Leave\Api\Model\HolidayModel;
 use OrangeHRM\Leave\Dto\HolidaySearchFilterParams;
@@ -112,8 +115,8 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-               new ParamRule(self::FILTER_FROM_DATE, new Rule(Rules::API_DATE)),
-               new ParamRule(self::FILTER_TO_DATE, new Rule(Rules::API_DATE)),
+            new ParamRule(self::FILTER_FROM_DATE, new Rule(Rules::API_DATE)),
+            new ParamRule(self::FILTER_TO_DATE, new Rule(Rules::API_DATE)),
             ...$this->getSortingAndPaginationParamsRules()
         );
     }
@@ -203,10 +206,14 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
 
     /**
      * @inheritDoc
+     * @throws DaoException
+     * @throws Exception
      */
-    public function delete(): EndpointResult
+    public function delete(): EndpointResourceResult
     {
-        throw $this->getNotImplementedException();
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getHolidayService()->deleteHolidays($ids);
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     /**
@@ -214,6 +221,11 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
      */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_IDS,
+                new Rule(Rules::ARRAY_TYPE)
+            )
+        );
     }
 }

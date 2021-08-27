@@ -72,18 +72,18 @@ class ParamRuleCollection
 
     /**
      * @param string $paramKey
+     * @return ParamRule|null
      */
-    public function removeParamValidation(string $paramKey): void
+    public function removeParamValidation(string $paramKey): ?ParamRule
     {
-        $rules = $this->getParamValidations();
-        foreach ($rules as $index => $paramRule) {
+        foreach ($this->paramValidations as $index => $paramRule) {
             if ($paramRule->getParamKey() === $paramKey) {
-                array_splice($rules, $index, 1);
-                break;
+                array_splice($this->paramValidations, $index, 1);
+                return $paramRule;
             }
         }
 
-        $this->setParamValidations($rules);
+        return null;
     }
 
     /**

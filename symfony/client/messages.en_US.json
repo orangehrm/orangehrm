@@ -109,7 +109,67 @@
         "name": {
           "source": "Name",
           "target": "Name",
-          "description": "Name"
+          "description": "Name in the system"
+        },
+        "search": {
+          "source": "Search",
+          "target": "Search",
+          "description": ""
+        },
+        "confirm": {
+          "source": "Confirm",
+          "target": "Confirm",
+          "description": ""
+        },
+        "monday": {
+          "source": "Monday",
+          "target": "Monday",
+          "description": "Start day of the week"
+        },
+        "tuesday": {
+          "source": "Tuesday",
+          "target": "Tuesday",
+          "description": "One of the days of the week"
+        },
+        "wednesday": {
+          "source": "Wednesday",
+          "target": "Wednesday",
+          "description": "One of the days of the week"
+        },
+        "thursday": {
+          "source": "Thursday",
+          "target": "Thursday",
+          "description": "One of the days of the week"
+        },
+        "friday": {
+          "source": "Friday",
+          "target": "Friday",
+          "description": "One of the days of the week"
+        },
+        "saturday": {
+          "source": "Saturday",
+          "target": "Saturday",
+          "description": "One of the days of the week"
+        },
+        "sunday": {
+          "source": "Sunday",
+          "target": "Sunday",
+          "description": "One of the days of the week"
+        },
+        "date": {
+          "source": "Date",
+          "target": "Date",
+          "description": "Date in the system"
+        },
+        "search": {
+          "source": "Search",
+          "target": "Search",
+          "description": "Search in the system"
+        },
+        "reset": {
+          "source": "Reset",
+          "target": "Reset",
+          "description": "Reset in the system"
         }
       }
     },
@@ -255,6 +315,96 @@
           "source": "Edit Leave Type",
           "target": "Edit Leave Type",
           "description": "Alter the leave type that is needed by the company"
+        },
+        "add_leave_entitlement": {
+          "source": "Add Leave Entitlement",
+          "target": "Add Leave Entitlement",
+          "description": "Add the leave amount to which a person has a right to have."
+        },
+        "add_to": {
+          "source": "Add to",
+          "target": "Add to",
+          "description": ""
+        },
+        "individual_employee": {
+          "source": "Individual Employee",
+          "target": "Individual Employee",
+          "description": ""
+        },
+        "multiple_employees": {
+          "source": "Multiple Employees",
+          "target": "Multiple Employees",
+          "description": ""
+        },
+        "entitlement": {
+          "source": "Entitlement",
+          "target": "Entitlement",
+          "description": ""
+        },
+        "leave_entitlements": {
+          "source": "Leave Entitlements",
+          "target": "Leave Entitlements",
+          "description": "This feature enables the HR Admin with admin rights to Add and View Leave Entitlements for each leave type for all employees."
+        },
+        "my_leave_entitlements": {
+          "source": "My Leave Entitlements",
+          "target": "My Leave Entitlements",
+          "description": "If the user is an ESS User, then he will only see the “My Leave Entitlements and Usage Report” option under Leave&gt;&gt;Reports"
+        },
+        "updating_entitlement": {
+          "source": "Updating Entitlement",
+          "target": "Updating Entitlement",
+          "description": "Give the entitlements to the employee and update leave entitlements"
+        },
+        "matching_employees": {
+          "source": "Matching Employees",
+          "target": "Matching Employees",
+          "description": "This shows list of matching employees who match with best match rule criteria which used to filter candidates successfully."
+        },
+        "edit_leave_entitlement": {
+          "source": "Edit Leave Entitlement",
+          "target": "Edit Leave Entitlement",
+          "description": "Edit the leave amount to which a person has a right to have."
+        },
+        "work_week": {
+          "source": "Work Week",
+          "target": "Work Week",
+          "description": "The administrator will be able to define the work weeks for all employees based in different locations/countries.To define work week, go to Leave>> Configure>> Work Week"
+        },
+        "holidays": {
+          "source": "Holidays",
+          "target": "Holidays",
+          "description": "The holidays can be configured in this option. To add an entry, go to Leave&gt;&gt; Configure&gt;&gt; Holidays and click “Add”"
+        },
+        "add_holiday": {
+          "source": "Add Holiday",
+          "target": "Add Holiday",
+          "description": "The Holidays in the company"
+        },
+        "edit_holiday": {
+          "source": "Edit Holiday",
+          "target": "Edit Holiday",
+          "description": "Alter the holiday"
+        },
+        "full_day_half_day": {
+          "source": "Full Day/ Half Day",
+          "target": "Full Day/ Half Day",
+          "description": "Full Day/ Half Day in Edit/Save Holiday screens"
+        },
+        "repeats_annually": {
+          "source": "Repeats Annually",
+          "target": "Repeats Annually",
+          "description": "Repeats Annually in Edit/Save Holiday screens"
+        },
+        "situational_leave": {
+          "source": "Situational Leave",
+          "target": "Situational Leave",
+          "description": "Header in entitlement situational field help in Add/Edit leave type screen"
+        },
+        "entitlement_situational_description": {
+          "source": "These leave will be excluded from reports unless there's some activity.\n E.g. maternity leave, jury duty leave.",
+          "target": "These leave will be excluded from reports unless there's some activity.\n E.g. maternity leave, jury duty leave.",
+          "description": "description entitlement situational field help in Add/Edit leave type screen"
         }
       }
     }

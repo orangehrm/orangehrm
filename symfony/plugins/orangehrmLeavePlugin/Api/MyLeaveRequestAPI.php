@@ -86,7 +86,8 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
         $leaveRequestParams = $this->getLeaveRequestParams($empNumber);
         $leaveRequest = $this->getLeaveApplicationService()->applyLeave($leaveRequestParams);
         return new EndpointResourceResult(
-            LeaveRequestModel::class, $leaveRequest,
+            LeaveRequestModel::class,
+            $leaveRequest,
             new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
         );
     }

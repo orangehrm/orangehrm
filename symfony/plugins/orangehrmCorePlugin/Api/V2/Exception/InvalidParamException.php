@@ -62,4 +62,14 @@ class InvalidParamException extends Exception
     {
         $this->errorBag = $errorBag;
     }
+
+    /**
+     * @return array
+     */
+    public function getNormalizedErrorBag(): array
+    {
+        return [
+            'invalidParamKeys' => array_keys($this->getErrorBag()),
+        ];
+    }
 }

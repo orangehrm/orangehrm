@@ -190,6 +190,19 @@ apiv2_admin_email_configuration:
     id: 0
     _api: OrangeHRM\Admin\Api\EmailConfigurationAPI
 
+apiv2_admin_location:
+  path: /api/v2/admin/locations/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\LocationAPI
+
+apiv2_admin_locations:
+  path: /api/v2/admin/locations
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\LocationAPI
 ##########################
 #        Files
 ##########################
@@ -363,6 +376,21 @@ save_nationality:
 edit_nationality:
   path: /admin/saveNationality/{id}
   controller: OrangeHRM\Admin\Controller\SaveNationalityController::handle
+  methods: [ GET ]
+
+view_location:
+  path: /admin/viewLocations
+  controller: OrangeHRM\Admin\Controller\ViewLocationController::handle
+  methods: [ GET ]
+
+save_location:
+  path: /admin/saveLocation
+  controller: OrangeHRM\Admin\Controller\SaveLocationController::handle
+  methods: [ GET ]
+
+edit_location:
+  path: /admin/saveLocation/{id}
+  controller: OrangeHRM\Admin\Controller\SaveLocationController::handle
   methods: [ GET ]
 
 view_email_configuration:
