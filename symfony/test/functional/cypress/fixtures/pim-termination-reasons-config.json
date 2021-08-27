@@ -1,67 +1,66 @@
 {
     "TC01":{
-        "tblHeaders":{
-            "hName":"Name",
-            "hActions":"Actions"
+        "Tbl_Headers":{
+            "Header_Name":"Name",
+            "Header_Action":"Actions"
         },
-        "addEditHeaders":{
-            "hAdd":"Add Termination Reason",
-            "hEdit":"Edit Termination Reason"
+        "Add_Edit_Headers":{
+            "Wizard_Header_Add":"Add Termination Reason",
+            "Wizard_Header_Edit":"Edit Termination Reason"
         }
     },
     "TC02":{
-        "terminationReason":"Miss Behaviour"
+        "TerminationReason":"Miss Behaviour"
     },
     "TC03":{
-        "inputwith100val":"Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "validationMessage":"Should be less than 100 characters"
+        "InputValueWith100Chars":"Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "ValidationMessage":"Should be less than 100 characters"
     },
     "TC04":{
-        "terminationReason":"TestDuplicate",
-        "validationMessage":"Already exists"
+        "TerminationReason":"TestDuplicate",
+        "ValidationMessage":"Already exists"
     },
     "TC05":{
-        "terminationReason":"123D!@#$%^&*()Z_=+|-?[ø][œ]"
+        "TerminationReason":"123D!@#$%^&*()Z_=+|-?[ø][œ]"
     },
     "TC06":{
-        "terminationReason":"Test Delete"
+        "TerminationReason":"Test Delete"
     },
     "TC07":{
-        "terminationReason":"Test Cancel Button"
+        "TerminationReason":"Test Cancel Button"
     },
     "TC08":{
-        "validationMessage":"Required"
+        "ValidationMessage":"Required"
     },
     "TC09":{
-        "terminationReasonToEdit":"Row to be edited",
-        "terminationReasonNewName":"Edited Row"
+        "TerminationReasonToEdit":"Row to be edited",
+        "NewTerminationReason":"Edited Row"
     },
     "TC10":{
-        "terminationReasonToEdit":"Duplicate entry",
-        "terminationReasonNewName":"Duplicate entry for Edit",
+        "TerminationReasonToEdit":"Duplicate entry",
+        "NewTerminationReason":"Duplicate entry for Edit",
         "validationMessage":"Already exists"
     },
     "TC11":{
-        "terminationReason":"Test Entry",
-        "validationMessage":"Required"
+        "TerminationReason":"Test Entry",
+        "ValidationMessage":"Required"
     },
     "TC12":{
-        "terminationReason":"TestDeleteSingleItem",
-        "deleteModalHeader":"Are you Sure?",
-        "deleteModalMessage":"The selected record will be permanently deleted. Are you sure you want to continue?"
+        "TerminationReason":"TestDeleteSingleItem"
     },
     "TC13":{
-        "terminationReason1":"TestDeleteItem1",
-        "terminationReason2":"TestDeleteItem2",
-        "terminationReason3":"TestDeleteItem3",
-        "deleteModalHeader":"Are you Sure?",
-        "deleteModalMessage":"The selected record will be permanently deleted. Are you sure you want to continue?"
-        
+        "TerminationReason1":"TestDeleteItem1",
+        "TerminationReason2":"TestDeleteItem2",
+        "TerminationReason3":"TestDeleteItem3"
     },
     "SuccessMessages":{
         "successToastHeader":"Success",
         "successToastForSave":"Successfully Saved",
         "successToastForUpdate":"Successfully Updated",
         "successToastForDelete":"Successfully Deleted"
+    },
+    "DeleteModal":{
+        "deleteModalHeader":"Are you Sure?",
+        "deleteModalMessage":"The selected record will be permanently deleted. Are you sure you want to continue?"
     }
 }

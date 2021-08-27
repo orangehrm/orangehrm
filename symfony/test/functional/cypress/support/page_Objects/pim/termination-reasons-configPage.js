@@ -1,4 +1,4 @@
-export class TerminationReasonPage {
+class TerminationReasonPage {
     returnTblHeaders() {
         return cy.get('.oxd-table-header-cell')
     }
@@ -94,4 +94,4 @@ export class TerminationReasonPage {
         cy.get('.orangehrm-horizontal-padding .oxd-button--medium').click();
     }
 }
-export const terminationReasonsPage = new TerminationReasonPage();
+export default TerminationReasonPage
