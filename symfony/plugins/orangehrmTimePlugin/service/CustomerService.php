@@ -17,68 +17,88 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class CustomerService extends BaseService {
 
-    private $customerDao;
+namespace OrangeHRM\Time\Service;
+
+use OrangeHRM\Entity\Customer;
+use OrangeHRM\Time\Dao\CustomerDao;
+
+class CustomerService
+{
+
+    /**
+     * @var CustomerDao|null
+     */
+    private ?CustomerDao $customerDao = null;
 
     /**
      * Construct
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->customerDao = new CustomerDao();
     }
 
     /**
      *
-     * @return <type>
+     * @return CustomerDao
      */
-    public function getCustomerDao() {
+    public function getCustomerDao(): CustomerDao
+    {
+
+        if (!$this->customerDao instanceof CustomerDao) {
+            $this->customerDao = new CustomerDao();
+        }
         return $this->customerDao;
     }
 
     /**
      *
-     * @param CustomerDao $customerDao 
+     * @param CustomerDao $customerDao
      */
-    public function setCustomerDao(CustomerDao $customerDao) {
+    public function setCustomerDao(CustomerDao $customerDao)
+    {
         $this->customerDao = $customerDao;
     }
 
     /**
      * Get Customer List
-     * 
+     *
      * Get Customer List with pagination.
-     * 
-     * @param type $noOfRecords
-     * @param type $offset
-     * @param type $sortField
-     * @param type $sortOrder
-     * @param type $activeOnly
-     * @return type 
+     *
+     * @param false $noOfRecords
+     * @param int $offset
+     * @param string $sortField
+     * @param string $sortOrder
+     * @param bool $activeOnly
+     * @return Customer Doctrine collection
      */
-    public function getCustomerList($limit = 50, $offset = 0, $sortField = 'name', $sortOrder = 'ASC', $activeOnly = true) {
-        return $this->customerDao->getCustomerList($limit, $offset, $sortField, $sortOrder, $activeOnly);
+    public function getCustomerList(int $limit = 50, int $offset = 0, string $sortField = 'name', string $sortOrder = 'ASC', bool $activeOnly = true, $noOfRecords = false)
+    {
+        return $this->customerDao->getCustomerList($limit, $offset, $sortField, $sortOrder, $activeOnly, $noOfRecords);
     }
 
     /**
      * Get Active customer cout.
      *
      * Get the total number of active customers for list component.
-     * 
+     *
      * @param type $activeOnly
-     * @return type 
+     * @return type
      */
-    public function getCustomerCount($activeOnly = true) {
+    public function getCustomerCount($activeOnly = true)
+    {
         return $this->customerDao->getCustomerCount($activeOnly);
     }
 
     /**
      * Get customer by id
-     * 
+     *
      * @param type $customerId
-     * @return type 
+     * @return type
      */
-    public function getCustomerById($customerId) {
+    public function getCustomerById($customerId)
+    {
         return $this->customerDao->getCustomerById($customerId);
     }
 
@@ -88,7 +108,8 @@ class CustomerService extends BaseService {
      * @param type $customerId
      * @return type
      */
-    public function getActiveCustomerById($customerId) {
+    public function getActiveCustomerById($customerId)
+    {
         return $this->customerDao->getActiveCustomerById($customerId);
     }
 
@@ -98,77 +119,83 @@ class CustomerService extends BaseService {
      * @param type $customerName
      * @return type
      */
-    public function getCustomerByName($customerName) {
+    public function getCustomerByName($customerName)
+    {
         return $this->customerDao->getCustomerByName($customerName);
     }
 
     /**
      * Delete customer
-     * 
+     *
      * Set customer 'is_deleted' parameter to 1.
-     * 
+     *
      * @param type $customerId
-     * @return type 
+     * @return type
      */
-    public function deleteCustomer($customerId) {
+    public function deleteCustomer($customerId)
+    {
         return $this->customerDao->deleteCustomer($customerId);
     }
 
     /**
      * Undelete customer
-     * 
+     *
      * Set customer 'is_deleted' parameter to 0.
-     * 
+     *
      * @param type $customerId
-     * @return type 
+     * @return type
      */
-    public function undeleteCustomer($customerId) {
+    public function undeleteCustomer($customerId)
+    {
         return $this->customerDao->undeleteCustomer($customerId);
     }
 
     /**
-     * 
+     *
      * Get all customer list
-     * 
+     *
      * Get all active customers
-     * 
+     *
      * @param type $activeOnly
-     * @return type 
+     * @return type
      */
-    public function getAllCustomers($activeOnly = true) {
+    public function getAllCustomers($activeOnly = true)
+    {
         return $this->customerDao->getAllCustomers($activeOnly);
     }
 
     /**
      * Return an array of Customer Names
-     * 
+     *
      * <pre>
      * Ex: $customerIdList = array(1, 2);
-     * 
+     *
      * For above $customerIdList parameter there will be an array like below as the response.
-     * 
+     *
      * array(
      *          0 => array('customerId' => 1, 'name' => 'Xavier'),
      *          1 => array('customerId' => 2, 'name' => 'ACME')
      * )
      * </pre>
-     * 
-     * @version 2.7.1
+     *
      * @param Array $customerIdList List of Customer Ids
      * @param Boolean $excludeDeletedCustomers Exclude deleted Customers or not
      * @return Array of Customer Names
+     * @version 2.7.1
      */
-    public function getCustomerNameList($customerIdList, $excludeDeletedCustomers = true) {
+    public function getCustomerNameList($customerIdList, $excludeDeletedCustomers = true)
+    {
         return $this->customerDao->getCustomerNameList($customerIdList, $excludeDeletedCustomers);
     }
 
     /**
      * Check wheather the customer has any timesheet records
-     * 
+     *
      * @param type $customerId
-     * @return type 
+     * @return type
      */
-    public function hasCustomerGotTimesheetItems($customerId) {
+    public function hasCustomerGotTimesheetItems($customerId)
+    {
         return $this->customerDao->hasCustomerGotTimesheetItems($customerId);
     }
 

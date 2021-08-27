@@ -1,0 +1,6 @@
+apiv2_time_customer:
+  path: /api/v2/time/customer
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ POST ]
+  defaults:
+    _api: OrangeHRM\Time\Api\CustomerAPI
