@@ -98,6 +98,14 @@ apiv2_leave_leave_balance:
     _api: OrangeHRM\Leave\Api\LeaveBalanceAPI
     _key: leaveTypeId
 
+apiv2_leave_list_comments:
+  path: /api/v2/leave/leave-requests/{leaveRequestId}/leave-comments
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET , POST ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveRequestCommentAPI
+    _key: leaveTypeId
+
 
 ##########################
 #        Screens
