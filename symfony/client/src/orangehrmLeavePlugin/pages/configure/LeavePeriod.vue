@@ -78,6 +78,11 @@
 
         <oxd-form-actions>
           <required-text />
+          <oxd-button
+            displayType="ghost"
+            :label="$t('general.reset')"
+            @click="onClickReset"
+          />
           <submit-button />
         </oxd-form-actions>
       </oxd-form>
@@ -144,6 +149,12 @@ export default {
           }
         });
     },
+    onClickReset() {
+      this.leavePeriod.startMonth = leavePeriodModel.startMonth;
+      this.$nextTick(() => {
+        this.leavePeriod.startDay = leavePeriodModel.startDay;
+      });
+    },
   },
 
   computed: {
@@ -199,13 +210,15 @@ export default {
       })
       .then(response => {
         const {data, meta} = response.data;
-        this.leavePeriod.startMonth = this.months.find(m => {
+        leavePeriodModel.startMonth = this.months.find(m => {
           return m.id === data.startMonth;
         });
+        this.leavePeriod.startMonth = leavePeriodModel.startMonth;
         this.$nextTick(() => {
-          this.leavePeriod.startDay = this.dates.find(d => {
+          leavePeriodModel.startDay = this.dates.find(d => {
             return d.id === data.startDay;
           });
+          this.leavePeriod.startDay = leavePeriodModel.startDay;
         });
         if (meta?.leavePeriodDefined) {
           this.leavePeriodDefined = meta.leavePeriodDefined;
