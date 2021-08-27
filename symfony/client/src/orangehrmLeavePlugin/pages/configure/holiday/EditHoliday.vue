@@ -205,7 +205,7 @@ export default {
           (today.getMonth() + 1) +
           '-' +
           today.getDate();
-        return this.http.getAll({fromDate: startDate, toDate: endDate});
+        return this.http.getAll({fromDate: startDate, toDate: endDate, limit: 0});
       })
       .then(response => {
         const {data} = response.data;
