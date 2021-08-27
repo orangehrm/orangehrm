@@ -81,6 +81,10 @@ class EmployeeSearchFilterParams extends FilterParams
      * @var int[]|null
      */
     protected ?array $supervisorEmpNumbers = null;
+    /**
+     * @var int|null
+     */
+    protected ?int $locationId = null;
 
     public function __construct()
     {
@@ -235,5 +239,21 @@ class EmployeeSearchFilterParams extends FilterParams
     public function setSupervisorEmpNumbers(?array $supervisorEmpNumbers): void
     {
         $this->supervisorEmpNumbers = $supervisorEmpNumbers;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLocationId(): ?int
+    {
+        return $this->locationId;
+    }
+
+    /**
+     * @param int|null $locationId
+     */
+    public function setLocationId(?int $locationId): void
+    {
+        $this->locationId = $locationId;
     }
 }
