@@ -45,7 +45,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     use ServiceContainerTrait;
 
     public const PARAMETER_NAME = 'name';
-
+    public const PARAM_RULE_NAME_MAX_LENGTH = 100;
     /**
      * @return PayGradeService
      */
@@ -93,7 +93,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME),
+            ...$this->getCommonBodyValidationRules()
         );
     }
 
@@ -113,7 +113,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(CommonParams::PARAMETER_IDS, new Rule(Rules::ARRAY_TYPE))
         );
     }
 
@@ -134,7 +134,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(CommonParams::PARAMETER_ID)
+            new ParamRule(CommonParams::PARAMETER_ID,new Rule(Rules::POSITIVE))
         );
     }
 
@@ -157,7 +157,7 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
                 CommonParams::PARAMETER_ID,
                 new Rule(Rules::POSITIVE)
             ),
-            new ParamRule(self::PARAMETER_NAME),
+            ...$this->getCommonBodyValidationRules()
         );
     }
 
@@ -171,10 +171,25 @@ class PayGradeAPI extends Endpoint implements CrudEndpoint
         $name = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         if (!empty($id)) {
             $payGrade = $this->getPayGradeService()->getPayGradeById($id);
+            $this->throwRecordNotFoundExceptionIfNotExist($payGrade,PayGrade::class);
         }else{
             $payGrade = new PayGrade();
         }
         $payGrade->setName($name);
         return  $this->getPayGradeService()->savePayGrade($payGrade);
+    }
+
+    /**
+     * @return ParamRule[]
+     */
+    public function getCommonBodyValidationRules(): array
+    {
+        return [
+            new ParamRule(
+                self::PARAMETER_NAME,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH]),
+            ),
+        ];
     }
 }

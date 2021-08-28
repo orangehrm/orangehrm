@@ -94,12 +94,22 @@ class PayGradeService
 
     /**
      * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
+     * @return PayGradeCurrency[]
+     * @throws DaoException
+     */
+    public function getPayGradeCurrencyList(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams): array
+    {
+        return $this->getPayGradeDao()->getPayGradeCurrencyList($payGradeCurrencySearchFilterParams);
+    }
+
+    /**
+     * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
      * @return int
      * @throws DaoException
      */
-    public function getCurrencyCountByPayGradeId(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams): int
+    public function getPayGradeCurrencyListCount(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams): int
     {
-        return $this->getPayGradeDao()->getCurrencyCountByPayGradeId($payGradeCurrencySearchFilterParams);
+        return $this->getPayGradeDao()->getPayGradeCurrencyListCount($payGradeCurrencySearchFilterParams);
     }
 
     /**

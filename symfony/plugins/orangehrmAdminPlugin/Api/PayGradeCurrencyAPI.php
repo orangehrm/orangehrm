@@ -97,11 +97,11 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_PAY_GRADE_ID
         );
-        $payGradeCurrencies = $this->getPayGradeService()->getCurrencyListByPayGradeId($payGradeId);
         $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
         $payGradeCurrencySearchFilterParams->setPayGradeId($payGradeId);
         $this->setSortingAndPaginationParams($payGradeCurrencySearchFilterParams);
-        $count = $this->getPayGradeService()->getCurrencyCountByPayGradeId($payGradeCurrencySearchFilterParams);
+        $payGradeCurrencies = $this->getPayGradeService()->getPayGradeCurrencyList($payGradeCurrencySearchFilterParams);
+        $count = $this->getPayGradeService()->getPayGradeCurrencyListCount($payGradeCurrencySearchFilterParams);
 
         return new EndpointCollectionResult(
             PayGradeCurrencyModel::class, $payGradeCurrencies,
@@ -207,9 +207,8 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
     {
         return new ParamRuleCollection(
             new ParamRule(self::PARAMETER_PAY_GRADE_ID, new Rule(Rules::REQUIRED)),
-            new ParamRule(CommonParams::PARAMETER_IDS),
+            new ParamRule(CommonParams::PARAMETER_IDS,new Rule(Rules::ARRAY_TYPE)),
         );
-
     }
 
     protected function getBodyValidationRules(): array
@@ -260,9 +259,10 @@ class PayGradeCurrencyAPI extends Endpoint implements CrudEndpoint
             $currencyId = $id;
         }
         $payGradeCurrency = $this->getPayGradeService()->getCurrencyByCurrencyIdAndPayGradeId($currencyId, $payGradeId);
-        $currencyType = $this->getReference(CurrencyType::class, $currencyId);
-        $payGrade = $this->getReference(PayGrade::class, $payGradeId);
+        $currencyType = $this->getRepository(CurrencyType::class)->find($currencyId);
+        $payGrade = $this->getRepository(PayGrade::class)->find($payGradeId);
         $this->throwRecordNotFoundExceptionIfNotExist($payGrade, PayGrade::class);
+        $this->throwRecordNotFoundExceptionIfNotExist($currencyType, CurrencyType::class);
         if(!$payGradeCurrency instanceof PayGradeCurrency){
             $payGradeCurrency = new PayGradeCurrency();
             $payGradeCurrency->setPayGrade($payGrade);

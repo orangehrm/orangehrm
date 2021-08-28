@@ -108,10 +108,24 @@ class PayGradeDao extends BaseDao
 
     /**
      * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
+     * @return PayGradeCurrency[]
+     * @throws DaoException
+     */
+    public function getPayGradeCurrencyList(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams)
+    {
+        try {
+            return $this->getPayGradeCurrencyPaginator($payGradeCurrencySearchFilterParams)->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams
      * @return int|mixed|string
      * @throws DaoException
      */
-    public function getCurrencyCountByPayGradeId(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams)
+    public function getPayGradeCurrencyListCount(PayGradeCurrencySearchFilterParams $payGradeCurrencySearchFilterParams)
     {
         try {
             return $this->getPayGradeCurrencyPaginator($payGradeCurrencySearchFilterParams)->count();

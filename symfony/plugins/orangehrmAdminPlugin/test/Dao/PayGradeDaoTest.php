@@ -102,12 +102,22 @@ class PayGradeDaoTest extends TestCase
         $this->assertEquals('Australian Dollar', $result->getName());
     }
 
-    public function testGetCurrencyCountByPayGradeId(): void
+    public function testGetPayGradeCurrencyListCount(): void
     {
         $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
         $payGradeCurrencySearchFilterParams->setPayGradeId(1);
-        $result = $this->payGradeDao->getCurrencyCountByPayGradeId($payGradeCurrencySearchFilterParams);
+        $result = $this->payGradeDao->getPayGradeCurrencyListCount($payGradeCurrencySearchFilterParams);
         $this->assertEquals(2, $result);
+    }
+
+    public function testGetPayGradeCurrencyList(): void
+    {
+        $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
+        $payGradeCurrencySearchFilterParams->setPayGradeId(1);
+        $result = $this->payGradeDao->getPayGradeCurrencyList($payGradeCurrencySearchFilterParams);
+        $this->assertCount(2, $result);
+        $this->assertEquals('AUD', $result[0]->getCurrencyType()->getId());
+        $this->assertEquals('USD', $result[1]->getCurrencyType()->getId());
     }
 
     public function testGetPayGradesCount(): void

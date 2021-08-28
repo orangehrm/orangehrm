@@ -197,18 +197,41 @@ class PayGradeServiceTest extends TestCase
         $this->assertEquals([['id' => 'USD', 'label' => 'United States Dollar']], $result);
     }
 
-    public function testGetCurrencyCountByPayGradeId(): void
+    public function testGetPayGradeCurrencyListCount(): void
     {
 
         $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
         $payGradeDao->expects($this->once())
-            ->method('getCurrencyCountByPayGradeId')
+            ->method('getPayGradeCurrencyListCount')
             ->will($this->returnValue(2));
 
         $this->payGradeService->setPayGradeDao($payGradeDao);
         $payGradeSearchFilterParams = new PayGradeCurrencySearchFilterParams();
-        $result = $this->payGradeService->GetCurrencyCountByPayGradeId($payGradeSearchFilterParams);
+        $result = $this->payGradeService->getPayGradeCurrencyListCount($payGradeSearchFilterParams);
         $this->assertEquals($result, 2);
+    }
+
+    public function testGetPayGradeCurrencyList(): void
+    {
+        $payGradeCurrencyList = TestDataService::loadObjectList(
+            PayGradeCurrency::class,
+            $this->fixture,
+            'PayGradeCurrency'
+        );
+        $payGradeCurrencyList = array($payGradeCurrencyList[0], $payGradeCurrencyList[1]);
+        $payGradeSearchFilterParams = new PayGradeCurrencySearchFilterParams();
+        $payGradeSearchFilterParams->setPayGradeId(1);
+        $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
+        $payGradeDao->expects($this->once())
+            ->method('getPayGradeCurrencyList')
+            ->with($payGradeSearchFilterParams)
+            ->will($this->returnValue($payGradeCurrencyList));
+
+        $this->payGradeService->setPayGradeDao($payGradeDao);
+
+        $result = $this->payGradeService->getPayGradeCurrencyList($payGradeSearchFilterParams);
+        $this->assertEquals($result, $payGradeCurrencyList);
+
     }
 
     public function testSavePayGrade(): void
