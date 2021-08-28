@@ -67,16 +67,6 @@ class SaveLeaveEntitlementController extends AbstractVueController
         }
 
         $subunits = $this->getCompanyStructureService()->getSubunitArray();
-        $subunits = array_map(
-            function ($item) {
-                return [
-                    "id" => $item['id'],
-                    "label" => $item['label'],
-                    "_indent" => $item['indent'],
-                ];
-            },
-            $subunits
-        );
         $component->addProp(new Prop('subunits', Prop::TYPE_ARRAY, $subunits));
 
         $locations = $this->getLocationService()->getAccessibleLocationsArray();

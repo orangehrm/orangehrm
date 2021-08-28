@@ -140,9 +140,19 @@ leave_assign_leave:
   controller: OrangeHRM\Leave\Controller\AssignLeaveController::handle
   methods: [ GET ]
 
-leave_leave_list:
+leave_leave_list_old:
   path: /leave/viewLeaveList/reset/1 # refactor 4.x route
   controller: OrangeHRM\Leave\Controller\LeaveListController::handle
+  methods: [ GET ]
+
+leave_leave_list:
+  path: /leave/viewLeaveList
+  controller: OrangeHRM\Leave\Controller\LeaveListController::handle
+  methods: [ GET ]
+
+leave_view_leave_request:
+  path: /leave/viewLeaveRequest/{id}
+  controller: OrangeHRM\Leave\Controller\LeaveRequestController::handle
   methods: [ GET ]
 
 view_leave_type:
