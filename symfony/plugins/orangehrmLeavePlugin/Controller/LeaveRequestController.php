@@ -17,35 +17,23 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Admin\Service\Model;
+namespace OrangeHRM\Leave\Controller;
 
-use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
-use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
-use OrangeHRM\Entity\Subunit;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
 
-class SubunitModel implements Normalizable
+class LeaveRequestController extends AbstractVueController
 {
-    use ModelTrait;
-
-    /**
-     * @param Subunit $subunit
-     */
-    public function __construct(Subunit $subunit)
+    public function preRender(Request $request): void
     {
-        $this->setEntity($subunit);
-        $this->setFilters(
-            [
-                'id',
-                'name',
-                'level',
-            ]
-        );
-        $this->setAttributeNames(
-            [
-                'id',
-                'label',
-                '_indent',
-            ]
-        );
+        $id = $request->get('id');
+        // TODO: 404 if no id
+        if (!$id) die;
+
+        $component = new Component('leave-view-request');
+        $component->addProp(new Prop('leave-request-id', Prop::TYPE_NUMBER, $id));
+        $this->setComponent($component);
     }
 }

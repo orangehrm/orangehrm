@@ -111,11 +111,6 @@
           "target": "Name",
           "description": "Name in the system"
         },
-        "search": {
-          "source": "Search",
-          "target": "Search",
-          "description": ""
-        },
         "confirm": {
           "source": "Confirm",
           "target": "Confirm",
@@ -170,6 +165,16 @@
           "source": "Reset",
           "target": "Reset",
           "description": "Reset in the system"
+        },
+        "sub_unit": {
+          "source": "Sub Unit",
+          "target": "Sub Unit",
+          "description": "Add a sub- unit to the company structure, go to Admin&gt;&gt; Organization&gt;&gt; Structure and right click on the particular sub unit"
+        },
+        "back": {
+          "source": "Back",
+          "target": "Back",
+          "description": "Click “Back” and the action will be reflected"
         }
       }
     },
@@ -405,6 +410,36 @@
           "source": "These leave will be excluded from reports unless there's some activity.\n E.g. maternity leave, jury duty leave.",
           "target": "These leave will be excluded from reports unless there's some activity.\n E.g. maternity leave, jury duty leave.",
           "description": "description entitlement situational field help in Add/Edit leave type screen"
+        },
+        "leave_list": {
+          "source": "Leave List",
+          "target": "Leave List",
+          "description": "The leave list is available to the Admin and ESS – Supervisors. It shows all leave requests by the employees."
+        },
+        "show_leave_with_status": {
+          "source": "Show Leave with Status",
+          "target": "Show Leave with Status",
+          "description": "Show leave with current status of them in the leave report"
+        },
+        "include_past_employees": {
+          "source": "Include Past Employees",
+          "target": "Include Past Employees",
+          "description": "You may also include past employees with your search when generating Leave Entitlements and Usage Reports of employees."
+        },
+        "leave_request_details": {
+          "source": "Leave Request Details",
+          "target": "Leave Request Details",
+          "description": ""
+        },
+        "requested_for": {
+          "source": "Requested For",
+          "target": "Requested For",
+          "description": ""
+        },
+        "leave_request_comments": {
+          "source": "Leave Request Comments",
+          "target": "Leave Request Comments",
+          "description": "you can add a comment if necessary, when you request for a leave from your supervisor / Admin"
         }
       }
     }
