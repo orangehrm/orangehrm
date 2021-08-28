@@ -25,6 +25,8 @@ class LeaveEntitlementSearchFilterParams extends DateRangeSearchFilterParams
 
     private ?int $empNumber = null;
 
+    private ?array $empNumbers = null;
+
     private ?int $leaveTypeId = null;
 
     public function __construct()
@@ -46,6 +48,22 @@ class LeaveEntitlementSearchFilterParams extends DateRangeSearchFilterParams
     public function setEmpNumber(?int $empNumber): void
     {
         $this->empNumber = $empNumber;
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function getEmpNumbers(): ?array
+    {
+        return $this->empNumbers;
+    }
+
+    /**
+     * @param int[]|null $empNumbers
+     */
+    public function setEmpNumbers(?array $empNumbers): void
+    {
+        $this->empNumbers = $empNumbers;
     }
 
     /**

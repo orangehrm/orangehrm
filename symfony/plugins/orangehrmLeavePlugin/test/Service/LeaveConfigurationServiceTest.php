@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Leave\Service;
 use Generator;
 use OrangeHRM\Core\Dao\ConfigDao;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
+use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\Tests\Util\TestCase;
 
 /**
@@ -37,7 +38,7 @@ class LeaveConfigurationServiceTest extends TestCase
 
     public function testGetLeaveEntitlementConsumptionStrategy(): void
     {
-        $strategy = "FIFO";
+        $strategy = 'FIFO';
         $mockDao = $this->getMockBuilder(ConfigDao::class)
             ->onlyMethods(['getValue'])
             ->getMock();
@@ -58,7 +59,7 @@ class LeaveConfigurationServiceTest extends TestCase
 
     public function testGetWorkScheduleImplementation(): void
     {
-        $implementation = "Basic";
+        $implementation = 'Basic';
         $mockDao = $this->getMockBuilder(ConfigDao::class)
             ->onlyMethods(['getValue'])
             ->getMock();
@@ -149,5 +150,45 @@ class LeaveConfigurationServiceTest extends TestCase
         $returnVal = $this->service->isLeavePeriodDefined();
 
         $this->assertTrue($returnVal);
+    }
+
+    public function testGetLeavePeriodStatus(): void
+    {
+        $mockDao = $this->getMockBuilder(ConfigDao::class)
+            ->onlyMethods(['getValue'])
+            ->getMock();
+        $mockDao->expects($this->once())
+            ->method('getValue')
+            ->with(LeaveConfigurationService::KEY_LEAVE_PERIOD_STATUS)
+            ->willReturn('1');
+
+        $this->service = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['getConfigDao'])
+            ->getMock();
+        $this->service->expects($this->once())
+            ->method('getConfigDao')
+            ->willReturn($mockDao);
+
+        $returnVal = $this->service->getLeavePeriodStatus();
+        $this->assertEquals(LeavePeriodService::LEAVE_PERIOD_STATUS_FORCED, $returnVal);
+    }
+
+    public function testSetLeavePeriodStatus(): void
+    {
+        $mockDao = $this->getMockBuilder(ConfigDao::class)
+            ->onlyMethods(['setValue'])
+            ->getMock();
+        $mockDao->expects($this->once())
+            ->method('setValue')
+            ->with(LeaveConfigurationService::KEY_LEAVE_PERIOD_STATUS, LeavePeriodService::LEAVE_PERIOD_STATUS_FORCED);
+
+        $this->service = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['getConfigDao'])
+            ->getMock();
+        $this->service->expects($this->once())
+            ->method('getConfigDao')
+            ->willReturn($mockDao);
+
+        $this->service->setLeavePeriodStatus(1);
     }
 }

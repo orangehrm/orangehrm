@@ -5,6 +5,8 @@ apiv2_pim_employee:
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeeAPI
     _key: empNumber
+  requirements:
+    empNumber: '\d+'
 
 apiv2_pim_employees:
   path: /api/v2/pim/employees
@@ -13,6 +15,13 @@ apiv2_pim_employees:
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeeAPI
 
+apiv2_pim_employees_count:
+  path: /api/v2/pim/employees/count
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Pim\Api\EmployeeCountAPI
+
 apiv2_pim_employee_picture:
   path: /api/v2/pim/employees/{empNumber}/picture
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -20,6 +29,8 @@ apiv2_pim_employee_picture:
   defaults:
     _api: OrangeHRM\Pim\Api\EmployeePictureAPI
     _key: empNumber
+  requirements:
+    empNumber: '\d+'
 
 apiv2_pim_employee_custom_fields:
   path: /api/v2/pim/employees/{empNumber}/custom-fields

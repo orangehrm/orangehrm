@@ -19,17 +19,25 @@
 
 namespace OrangeHRM\Tests\Leave\Service;
 
+use DateTime;
 use Exception;
 use InvalidArgumentException;
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Entity\LeavePeriodHistory;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeavePeriodDao;
+use OrangeHRM\Leave\Dto\LeavePeriod;
+use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\Leave\Service\LeavePeriodService;
+use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestCase;
 
 /**
  * @group Leave
  * @group Service
  */
-class LeavePeriodServiceTest extends TestCase
+class LeavePeriodServiceTest extends KernelTestCase
 {
     private LeavePeriodService $leavePeriodService;
 
@@ -132,5 +140,106 @@ class LeavePeriodServiceTest extends TestCase
     {
         $leavePeriodDao = $this->leavePeriodService->getLeavePeriodDao();
         $this->assertTrue($leavePeriodDao instanceof LeavePeriodDao);
+    }
+
+    public function testGetCurrentLeavePeriodStartDateAndMonth(): void
+    {
+        $leavePeriod = new LeavePeriodHistory();
+        $leavePeriod->setStartMonth(1);
+        $leavePeriod->setStartDay(2);
+        $calledGetCurrentLeavePeriodStartDateAndMonth = 3;
+        $dao = $this->getMockBuilder(LeavePeriodDao::class)
+            ->onlyMethods(['getCurrentLeavePeriodStartDateAndMonth'])
+            ->getMock();
+        $dao->expects($this->exactly($calledGetCurrentLeavePeriodStartDateAndMonth))
+            ->method('getCurrentLeavePeriodStartDateAndMonth')
+            ->willReturn($leavePeriod, $leavePeriod, null);
+        $this->leavePeriodService = $this->getMockBuilder(LeavePeriodService::class)
+            ->onlyMethods(['getLeavePeriodDao'])
+            ->getMock();
+        $this->leavePeriodService->expects($this->exactly($calledGetCurrentLeavePeriodStartDateAndMonth))
+            ->method('getLeavePeriodDao')
+            ->willReturn($dao);
+        $leavePeriod = $this->leavePeriodService->getCurrentLeavePeriodStartDateAndMonth();
+        $this->assertEquals(1, $leavePeriod->getStartMonth());
+        $this->assertEquals(2, $leavePeriod->getStartDay());
+
+        // without force reload
+        $leavePeriod = $this->leavePeriodService->getCurrentLeavePeriodStartDateAndMonth();
+        $this->assertEquals(1, $leavePeriod->getStartMonth());
+        $this->assertEquals(2, $leavePeriod->getStartDay());
+
+        // with force reload
+        $leavePeriod = $this->leavePeriodService->getCurrentLeavePeriodStartDateAndMonth(true);
+        $this->assertEquals(1, $leavePeriod->getStartMonth());
+        $this->assertEquals(2, $leavePeriod->getStartDay());
+
+        // with null result
+        $leavePeriod = $this->leavePeriodService->getCurrentLeavePeriodStartDateAndMonth(true);
+        $this->assertNull($leavePeriod);
+    }
+
+    public function testGetCurrentLeavePeriodWhenNotDefined(): void
+    {
+        $leaveConfigService = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['isLeavePeriodDefined'])
+            ->getMock();
+        $leaveConfigService->expects($this->once())
+            ->method('isLeavePeriodDefined')
+            ->willReturn(false);
+
+        $this->createKernelWithMockServices([Services::LEAVE_CONFIG_SERVICE => $leaveConfigService]);
+        $this->assertNull($this->leavePeriodService->getCurrentLeavePeriod());
+    }
+
+    public function testGetCurrentLeavePeriod(): void
+    {
+        $leaveConfigService = $this->getMockBuilder(LeaveConfigurationService::class)
+            ->onlyMethods(['isLeavePeriodDefined'])
+            ->getMock();
+        $leaveConfigService->expects($this->once())
+            ->method('isLeavePeriodDefined')
+            ->willReturn(true);
+
+        $dataTimeHelper = $this->getMockBuilder(DateTimeHelperService::class)
+            ->onlyMethods(['getNow'])
+            ->getMock();
+        $dataTimeHelper->expects($this->once())
+            ->method('getNow')
+            ->willReturn(new DateTime('2021-08-25'));
+        $this->createKernelWithMockServices(
+            [
+                Services::LEAVE_CONFIG_SERVICE => $leaveConfigService,
+                Services::DATETIME_HELPER_SERVICE => $dataTimeHelper
+            ]
+        );
+
+        $this->leavePeriodService = $this->getMockBuilder(LeavePeriodService::class)
+            ->onlyMethods(['getCurrentLeavePeriodByDate'])
+            ->getMock();
+        $this->leavePeriodService->expects($this->once())
+            ->method('getCurrentLeavePeriodByDate')
+            ->with(new DateTime('2021-08-25'))
+            ->willReturn(new LeavePeriod());
+        $this->assertTrue($this->leavePeriodService->getCurrentLeavePeriod() instanceof LeavePeriod);
+    }
+
+    public function testGetCurrentLeavePeriodAsArray(): void
+    {
+        $this->leavePeriodService = $this->getMockBuilder(LeavePeriodService::class)
+            ->onlyMethods(['getCurrentLeavePeriod'])
+            ->getMock();
+        $this->leavePeriodService->expects($this->once())
+            ->method('getCurrentLeavePeriod')
+            ->willReturn(new LeavePeriod(new DateTime('2021-01-01'), new DateTime('2021-12-31')));
+
+        $this->createKernelWithMockServices([Services::NORMALIZER_SERVICE => new NormalizerService()]);
+        $this->assertEquals(
+            [
+                'startDate' => '2021-01-01',
+                'endDate' => '2021-12-31'
+            ],
+            $this->leavePeriodService->getCurrentLeavePeriodAsArray()
+        );
     }
 }

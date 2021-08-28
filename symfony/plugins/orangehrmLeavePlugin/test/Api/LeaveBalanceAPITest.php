@@ -31,9 +31,11 @@ use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\ConfigService;
 use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Core\Service\NormalizerService;
+use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\LeaveBalanceAPI;
 use OrangeHRM\Leave\Api\LeaveCommonParams;
+use OrangeHRM\Leave\Dao\LeaveTypeDao;
 use OrangeHRM\Leave\Dto\LeaveDuration;
 use OrangeHRM\Leave\Dto\LeaveParameterObject;
 use OrangeHRM\Leave\Service\HolidayService;
@@ -41,6 +43,7 @@ use OrangeHRM\Leave\Service\LeaveApplicationService;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\Leave\Service\LeaveEntitlementService;
 use OrangeHRM\Leave\Service\LeavePeriodService;
+use OrangeHRM\Leave\Service\LeaveTypeService;
 use OrangeHRM\Leave\Service\WorkScheduleService;
 use OrangeHRM\Leave\Service\WorkWeekService;
 use OrangeHRM\Pim\Service\EmployeeService;
@@ -58,6 +61,34 @@ class LeaveBalanceAPITest extends EndpointTestCase
     {
         $fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmLeavePlugin/test/fixtures/LeaveBalanceAPI.yml';
         TestDataService::populate($fixture);
+    }
+
+    public function testDelete(): void
+    {
+        $api = new LeaveBalanceAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->delete();
+    }
+
+    public function testGetValidationRuleForDelete(): void
+    {
+        $api = new LeaveBalanceAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForDelete();
+    }
+
+    public function testUpdate(): void
+    {
+        $api = new LeaveBalanceAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->update();
+    }
+
+    public function testGetValidationRuleForUpdate(): void
+    {
+        $api = new LeaveBalanceAPI($this->getRequest());
+        $this->expectNotImplementedException();
+        $api->getValidationRuleForUpdate();
     }
 
     public function testGetLeaveApplicationService(): void
@@ -124,15 +155,15 @@ class LeaveBalanceAPITest extends EndpointTestCase
     {
         yield [
             [
-                "balance" => [
-                    "entitled" => 3.0,
-                    "used" => 0.0,
-                    "scheduled" => 0.0,
-                    "pending" => 0.0,
-                    "taken" => 0.0,
-                    "balance" => 3.0,
-                    "asAtDate" => "2021-08-18",
-                    "endDate" => "2021-12-31",
+                'balance' => [
+                    'entitled' => 3.0,
+                    'used' => 0.0,
+                    'scheduled' => 0.0,
+                    'pending' => 0.0,
+                    'taken' => 0.0,
+                    'balance' => 3.0,
+                    'asAtDate' => '2021-08-18',
+                    'endDate' => '2021-12-31',
                 ]
             ],
             [CommonParams::PARAMETER_EMP_NUMBER => 1],
@@ -142,19 +173,19 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 ]
             ],
             1,
-            new DateTime("2021-08-18"),
+            new DateTime('2021-08-18'),
         ];
         yield [
             [
-                "balance" => [
-                    "entitled" => 10.0,
-                    "used" => 3.0,
-                    "scheduled" => 0.0,
-                    "pending" => 2.0,
-                    "taken" => 1.0,
-                    "balance" => 7.0,
-                    "asAtDate" => "2021-08-18",
-                    "endDate" => "2021-12-31"
+                'balance' => [
+                    'entitled' => 10.0,
+                    'used' => 3.0,
+                    'scheduled' => 0.0,
+                    'pending' => 2.0,
+                    'taken' => 1.0,
+                    'balance' => 7.0,
+                    'asAtDate' => '2021-08-18',
+                    'endDate' => '2021-12-31'
                 ]
             ],
             [CommonParams::PARAMETER_EMP_NUMBER => 1],
@@ -164,21 +195,21 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 ]
             ],
             1,
-            new DateTime("2021-08-18"),
+            new DateTime('2021-08-18'),
         ];
 
         // Employee 1 does not have entitlement for leave type id 3
         yield [
             [
-                "balance" => [
-                    "entitled" => 0.0,
-                    "used" => 0.0,
-                    "scheduled" => 0.0,
-                    "pending" => 0.0,
-                    "taken" => 0.0,
-                    "balance" => 0.0,
-                    "asAtDate" => "2021-08-18",
-                    "endDate" => "2021-12-31"
+                'balance' => [
+                    'entitled' => 0.0,
+                    'used' => 0.0,
+                    'scheduled' => 0.0,
+                    'pending' => 0.0,
+                    'taken' => 0.0,
+                    'balance' => 0.0,
+                    'asAtDate' => '2021-08-18',
+                    'endDate' => '2021-12-31'
                 ]
             ],
             [CommonParams::PARAMETER_EMP_NUMBER => 1],
@@ -188,21 +219,21 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 ]
             ],
             1,
-            new DateTime("2021-08-18"),
+            new DateTime('2021-08-18'),
         ];
 
         // Employee 2 does not have entitlement for leave type id 1
         yield [
             [
-                "balance" => [
-                    "entitled" => 0.0,
-                    "used" => 0.0,
-                    "scheduled" => 0.0,
-                    "pending" => 0.0,
-                    "taken" => 0.0,
-                    "balance" => 0.0,
-                    "asAtDate" => "2021-08-18",
-                    "endDate" => "2021-12-31"
+                'balance' => [
+                    'entitled' => 0.0,
+                    'used' => 0.0,
+                    'scheduled' => 0.0,
+                    'pending' => 0.0,
+                    'taken' => 0.0,
+                    'balance' => 0.0,
+                    'asAtDate' => '2021-08-18',
+                    'endDate' => '2021-12-31'
                 ]
             ],
             [CommonParams::PARAMETER_EMP_NUMBER => 2],
@@ -212,21 +243,21 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 ]
             ],
             2,
-            new DateTime("2021-08-18"),
+            new DateTime('2021-08-18'),
         ];
 
         // Employee 100 does not exist
         yield [
             [
-                "balance" => [
-                    "entitled" => 0.0,
-                    "used" => 0.0,
-                    "scheduled" => 0.0,
-                    "pending" => 0.0,
-                    "taken" => 0.0,
-                    "balance" => 0.0,
-                    "asAtDate" => "2021-08-18",
-                    "endDate" => "2021-12-31"
+                'balance' => [
+                    'entitled' => 0.0,
+                    'used' => 0.0,
+                    'scheduled' => 0.0,
+                    'pending' => 0.0,
+                    'taken' => 0.0,
+                    'balance' => 0.0,
+                    'asAtDate' => '2021-08-18',
+                    'endDate' => '2021-12-31'
                 ]
             ],
             [CommonParams::PARAMETER_EMP_NUMBER => 100],
@@ -236,7 +267,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 ]
             ],
             100,
-            new DateTime("2021-08-18"),
+            new DateTime('2021-08-18'),
         ];
     }
 
@@ -302,8 +333,8 @@ class LeaveBalanceAPITest extends EndpointTestCase
     public function getOneSingleDayDataProvider(): Generator
     {
         $expectedPeriod = [
-            "startDate" => "2021-01-01",
-            "endDate" => "2021-12-31",
+            'startDate' => '2021-01-01',
+            'endDate' => '2021-12-31',
         ];
 
         /**
@@ -311,26 +342,26 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-17",
-                            "endDate" => "2021-12-31",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-17',
+                            'endDate' => '2021-12-31',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.0,
-                                "date" => "2021-08-17",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 2.0,
+                                'date' => '2021-08-17',
+                                'length' => 1,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -350,26 +381,26 @@ class LeaveBalanceAPITest extends EndpointTestCase
         ];
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 10.0,
-                            "used" => 3.0,
-                            "scheduled" => 0.0,
-                            "pending" => 2.0,
-                            "taken" => 1.0,
-                            "balance" => 7.0,
-                            "asAtDate" => "2021-08-17",
-                            "endDate" => "2021-12-31"
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 10.0,
+                            'used' => 3.0,
+                            'scheduled' => 0.0,
+                            'pending' => 2.0,
+                            'taken' => 1.0,
+                            'balance' => 7.0,
+                            'asAtDate' => '2021-08-17',
+                            'endDate' => '2021-12-31'
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 6.0,
-                                "date" => "2021-08-17",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 6.0,
+                                'date' => '2021-08-17',
+                                'length' => 1,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -389,26 +420,26 @@ class LeaveBalanceAPITest extends EndpointTestCase
         ];
 
         $zeroBalanceResult = [
-            "negative" => true,
-            "breakdown" => [
+            'negative' => true,
+            'breakdown' => [
                 [
-                    "period" => $expectedPeriod,
-                    "balance" => [
-                        "entitled" => 0.0,
-                        "used" => 0.0,
-                        "scheduled" => 0.0,
-                        "pending" => 0.0,
-                        "taken" => 0.0,
-                        "balance" => 0.0,
-                        "asAtDate" => "2021-08-17",
-                        "endDate" => "2021-12-31"
+                    'period' => $expectedPeriod,
+                    'balance' => [
+                        'entitled' => 0.0,
+                        'used' => 0.0,
+                        'scheduled' => 0.0,
+                        'pending' => 0.0,
+                        'taken' => 0.0,
+                        'balance' => 0.0,
+                        'asAtDate' => '2021-08-17',
+                        'endDate' => '2021-12-31'
                     ],
-                    "leaves" => [
+                    'leaves' => [
                         [
-                            "balance" => -1.0,
-                            "date" => "2021-08-17",
-                            "length" => 1,
-                            "status" => null,
+                            'balance' => -1.0,
+                            'date' => '2021-08-17',
+                            'length' => 1,
+                            'status' => null,
                         ]
                     ]
                 ]
@@ -468,26 +499,26 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-17",
-                            "endDate" => "2021-12-31",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-17',
+                            'endDate' => '2021-12-31',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.5,
-                                "date" => "2021-08-17",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2.5,
+                                'date' => '2021-08-17',
+                                'length' => 0.5,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -514,26 +545,26 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-17",
-                            "endDate" => "2021-12-31",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-17',
+                            'endDate' => '2021-12-31',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.5,
-                                "date" => "2021-08-17",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2.5,
+                                'date' => '2021-08-17',
+                                'length' => 0.5,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -560,26 +591,26 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-17",
-                            "endDate" => "2021-12-31",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-17',
+                            'endDate' => '2021-12-31',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.75,
-                                "date" => "2021-08-17",
-                                "length" => 0.25,
-                                "status" => null,
+                                'balance' => 2.75,
+                                'date' => '2021-08-17',
+                                'length' => 0.25,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -605,26 +636,26 @@ class LeaveBalanceAPITest extends EndpointTestCase
 
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-17",
-                            "endDate" => "2021-12-31",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-17',
+                            'endDate' => '2021-12-31',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.875,
-                                "date" => "2021-08-17",
-                                "length" => 0.125,
-                                "status" => null,
+                                'balance' => 2.875,
+                                'date' => '2021-08-17',
+                                'length' => 0.125,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -653,28 +684,28 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-25",
-                            "endDate" => "2021-12-31",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-25',
+                            'endDate' => '2021-12-31',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 3.0,
-                                "date" => "2021-08-25",
-                                "length" => 0,
-                                "status" => [
-                                    "key" => 5,
-                                    "name" => "Holiday"
+                                'balance' => 3.0,
+                                'date' => '2021-08-25',
+                                'length' => 0,
+                                'status' => [
+                                    'key' => 5,
+                                    'name' => 'Holiday'
                                 ],
                             ]
                         ]
@@ -702,26 +733,26 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-04",
-                            "endDate" => "2021-12-31",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-04',
+                            'endDate' => '2021-12-31',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.5,
-                                "date" => "2021-08-04",
-                                "length" => 0.5,
-                                "status" => null
+                                'balance' => 2.5,
+                                'date' => '2021-08-04',
+                                'length' => 0.5,
+                                'status' => null
                             ]
                         ]
                     ]
@@ -748,28 +779,28 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-22",
-                            "endDate" => "2021-12-31",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-22',
+                            'endDate' => '2021-12-31',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 3.0,
-                                "date" => "2021-08-22",
-                                "length" => 0,
-                                "status" => [
-                                    "key" => 4,
-                                    "name" => "Weekend"
+                                'balance' => 3.0,
+                                'date' => '2021-08-22',
+                                'length' => 0,
+                                'status' => [
+                                    'key' => 4,
+                                    'name' => 'Weekend'
                                 ],
                             ]
                         ]
@@ -797,26 +828,26 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-21",
-                            "endDate" => "2021-12-31",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-21',
+                            'endDate' => '2021-12-31',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.5,
-                                "date" => "2021-08-21",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2.5,
+                                'date' => '2021-08-21',
+                                'length' => 0.5,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -901,8 +932,8 @@ class LeaveBalanceAPITest extends EndpointTestCase
     public function getOneMultiDayDataProvider(): Generator
     {
         $expectedPeriod = [
-            "startDate" => "2021-01-01",
-            "endDate" => "2021-12-31",
+            'startDate' => '2021-01-01',
+            'endDate' => '2021-12-31',
         ];
 
         /**
@@ -910,53 +941,53 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => true,
-                "breakdown" => [
+                'negative' => true,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-20",
-                            "endDate" => "2021-08-24",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-20',
+                            'endDate' => '2021-08-24',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.0,
-                                "date" => "2021-08-20",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 2.0,
+                                'date' => '2021-08-20',
+                                'length' => 1,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 1.5,
-                                "date" => "2021-08-21",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 1.5,
+                                'date' => '2021-08-21',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 1.5,
-                                "date" => "2021-08-22",
-                                "length" => 0,
-                                "status" => [
-                                    "key" => 4,
-                                    "name" => "Weekend"
+                                'balance' => 1.5,
+                                'date' => '2021-08-22',
+                                'length' => 0,
+                                'status' => [
+                                    'key' => 4,
+                                    'name' => 'Weekend'
                                 ],
                             ],
                             [
-                                "balance" => 0.5,
-                                "date" => "2021-08-23",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 0.5,
+                                'date' => '2021-08-23',
+                                'length' => 1,
+                                'status' => null,
                             ],
                             [
-                                "balance" => -0.5,
-                                "date" => "2021-08-24",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => -0.5,
+                                'date' => '2021-08-24',
+                                'length' => 1,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -981,53 +1012,53 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-20",
-                            "endDate" => "2021-08-24",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-20',
+                            'endDate' => '2021-08-24',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.5,
-                                "date" => "2021-08-20",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2.5,
+                                'date' => '2021-08-20',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 2.0,
-                                "date" => "2021-08-21",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2.0,
+                                'date' => '2021-08-21',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 2.0,
-                                "date" => "2021-08-22",
-                                "length" => 0,
-                                "status" => [
-                                    "key" => 4,
-                                    "name" => "Weekend"
+                                'balance' => 2.0,
+                                'date' => '2021-08-22',
+                                'length' => 0,
+                                'status' => [
+                                    'key' => 4,
+                                    'name' => 'Weekend'
                                 ],
                             ],
                             [
-                                "balance" => 1.5,
-                                "date" => "2021-08-23",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 1.5,
+                                'date' => '2021-08-23',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 1.0,
-                                "date" => "2021-08-24",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 1.0,
+                                'date' => '2021-08-24',
+                                'length' => 0.5,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -1055,53 +1086,53 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-20",
-                            "endDate" => "2021-08-24",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-20',
+                            'endDate' => '2021-08-24',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.5,
-                                "date" => "2021-08-20",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2.5,
+                                'date' => '2021-08-20',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 2.0,
-                                "date" => "2021-08-21",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2.0,
+                                'date' => '2021-08-21',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 2.0,
-                                "date" => "2021-08-22",
-                                "length" => 0,
-                                "status" => [
-                                    "key" => 4,
-                                    "name" => "Weekend"
+                                'balance' => 2.0,
+                                'date' => '2021-08-22',
+                                'length' => 0,
+                                'status' => [
+                                    'key' => 4,
+                                    'name' => 'Weekend'
                                 ],
                             ],
                             [
-                                "balance" => 1.0,
-                                "date" => "2021-08-23",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 1.0,
+                                'date' => '2021-08-23',
+                                'length' => 1,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 0.0,
-                                "date" => "2021-08-24",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 0.0,
+                                'date' => '2021-08-24',
+                                'length' => 1,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -1129,53 +1160,53 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-20",
-                            "endDate" => "2021-08-24",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-20',
+                            'endDate' => '2021-08-24',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.0,
-                                "date" => "2021-08-20",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 2.0,
+                                'date' => '2021-08-20',
+                                'length' => 1,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 1.5,
-                                "date" => "2021-08-21",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 1.5,
+                                'date' => '2021-08-21',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 1.5,
-                                "date" => "2021-08-22",
-                                "length" => 0,
-                                "status" => [
-                                    "key" => 4,
-                                    "name" => "Weekend"
+                                'balance' => 1.5,
+                                'date' => '2021-08-22',
+                                'length' => 0,
+                                'status' => [
+                                    'key' => 4,
+                                    'name' => 'Weekend'
                                 ],
                             ],
                             [
-                                "balance" => 0.5,
-                                "date" => "2021-08-23",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 0.5,
+                                'date' => '2021-08-23',
+                                'length' => 1,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 0.0,
-                                "date" => "2021-08-24",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 0.0,
+                                'date' => '2021-08-24',
+                                'length' => 0.5,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -1203,53 +1234,53 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-20",
-                            "endDate" => "2021-08-24",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-20',
+                            'endDate' => '2021-08-24',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.5,
-                                "date" => "2021-08-20",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2.5,
+                                'date' => '2021-08-20',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 2,
-                                "date" => "2021-08-21",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2,
+                                'date' => '2021-08-21',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 2,
-                                "date" => "2021-08-22",
-                                "length" => 0,
-                                "status" => [
-                                    "key" => 4,
-                                    "name" => "Weekend"
+                                'balance' => 2,
+                                'date' => '2021-08-22',
+                                'length' => 0,
+                                'status' => [
+                                    'key' => 4,
+                                    'name' => 'Weekend'
                                 ],
                             ],
                             [
-                                "balance" => 1,
-                                "date" => "2021-08-23",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 1,
+                                'date' => '2021-08-23',
+                                'length' => 1,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 0.5,
-                                "date" => "2021-08-24",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 0.5,
+                                'date' => '2021-08-24',
+                                'length' => 0.5,
+                                'status' => null,
                             ]
                         ]
                     ]
@@ -1280,34 +1311,34 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-24",
-                            "endDate" => "2021-08-25",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-24',
+                            'endDate' => '2021-08-25',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.0,
-                                "date" => "2021-08-24",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 2.0,
+                                'date' => '2021-08-24',
+                                'length' => 1,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 2.0,
-                                "date" => "2021-08-25",
-                                "length" => 0,
-                                "status" => [
-                                    "key" => 5,
-                                    "name" => "Holiday"
+                                'balance' => 2.0,
+                                'date' => '2021-08-25',
+                                'length' => 0,
+                                'status' => [
+                                    'key' => 5,
+                                    'name' => 'Holiday'
                                 ],
                             ],
                         ]
@@ -1333,32 +1364,32 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-04",
-                            "endDate" => "2021-08-05",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-04',
+                            'endDate' => '2021-08-05',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.5,
-                                "date" => "2021-08-04",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2.5,
+                                'date' => '2021-08-04',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 1.5,
-                                "date" => "2021-08-05",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 1.5,
+                                'date' => '2021-08-05',
+                                'length' => 1,
+                                'status' => null,
                             ],
                         ]
                     ]
@@ -1379,32 +1410,32 @@ class LeaveBalanceAPITest extends EndpointTestCase
         ];
         yield [
             [
-                "negative" => false,
-                "breakdown" => [
+                'negative' => false,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-08-04",
-                            "endDate" => "2021-08-05",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-08-04',
+                            'endDate' => '2021-08-05',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.5,
-                                "date" => "2021-08-04",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => 2.5,
+                                'date' => '2021-08-04',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 1.5,
-                                "date" => "2021-08-05",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 1.5,
+                                'date' => '2021-08-05',
+                                'length' => 1,
+                                'status' => null,
                             ],
                         ]
                     ]
@@ -1432,64 +1463,64 @@ class LeaveBalanceAPITest extends EndpointTestCase
          */
         yield [
             [
-                "negative" => true,
-                "breakdown" => [
+                'negative' => true,
+                'breakdown' => [
                     [
-                        "period" => $expectedPeriod,
-                        "balance" => [
-                            "entitled" => 3.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 3.0,
-                            "asAtDate" => "2021-12-30",
-                            "endDate" => "2021-12-31",
+                        'period' => $expectedPeriod,
+                        'balance' => [
+                            'entitled' => 3.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 3.0,
+                            'asAtDate' => '2021-12-30',
+                            'endDate' => '2021-12-31',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => 2.0,
-                                "date" => "2021-12-30",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 2.0,
+                                'date' => '2021-12-30',
+                                'length' => 1,
+                                'status' => null,
                             ],
                             [
-                                "balance" => 1.0,
-                                "date" => "2021-12-31",
-                                "length" => 1,
-                                "status" => null,
+                                'balance' => 1.0,
+                                'date' => '2021-12-31',
+                                'length' => 1,
+                                'status' => null,
                             ],
                         ]
                     ],
                     [
-                        "period" => [
-                            "startDate" => "2022-01-01",
-                            "endDate" => "2022-12-31",
+                        'period' => [
+                            'startDate' => '2022-01-01',
+                            'endDate' => '2022-12-31',
                         ],
-                        "balance" => [
-                            "entitled" => 0.0,
-                            "used" => 0.0,
-                            "scheduled" => 0.0,
-                            "pending" => 0.0,
-                            "taken" => 0.0,
-                            "balance" => 0.0,
-                            "asAtDate" => "2022-01-01",
-                            "endDate" => "2022-01-02",
+                        'balance' => [
+                            'entitled' => 0.0,
+                            'used' => 0.0,
+                            'scheduled' => 0.0,
+                            'pending' => 0.0,
+                            'taken' => 0.0,
+                            'balance' => 0.0,
+                            'asAtDate' => '2022-01-01',
+                            'endDate' => '2022-01-02',
                         ],
-                        "leaves" => [
+                        'leaves' => [
                             [
-                                "balance" => -0.5,
-                                "date" => "2022-01-01",
-                                "length" => 0.5,
-                                "status" => null,
+                                'balance' => -0.5,
+                                'date' => '2022-01-01',
+                                'length' => 0.5,
+                                'status' => null,
                             ],
                             [
-                                "balance" => -0.5,
-                                "date" => "2022-01-02",
-                                "length" => 0,
-                                "status" => [
-                                    "key" => 4,
-                                    "name" => "Weekend"
+                                'balance' => -0.5,
+                                'date' => '2022-01-02',
+                                'length' => 0,
+                                'status' => [
+                                    'key' => 4,
+                                    'name' => 'Weekend'
                                 ],
                             ],
                         ]
@@ -1509,5 +1540,131 @@ class LeaveBalanceAPITest extends EndpointTestCase
             ],
             1,
         ];
+    }
+
+    public function testGetValidationRuleForGetOne(): void
+    {
+        $calledGetLeaveTypeById = 7;
+        $calledEmployeeNumberValidation = 2;
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getAccessibleEntityIds'])
+            ->getMock();
+        $userRoleManager->expects($this->exactly($calledEmployeeNumberValidation))
+            ->method('getAccessibleEntityIds')
+            ->willReturn([1, 2]);
+
+        $authUser = $this->getMockBuilder(User::class)
+            ->onlyMethods(['getEmpNumber'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $authUser->expects($this->exactly($calledEmployeeNumberValidation))
+            ->method('getEmpNumber')
+            ->willReturn(1);
+
+        $leaveTypeDao = $this->getMockBuilder(LeaveTypeDao::class)
+            ->onlyMethods(['getLeaveTypeById'])
+            ->getMock();
+        $leaveTypeDao->expects($this->exactly($calledGetLeaveTypeById))
+            ->method('getLeaveTypeById')
+            ->willReturnMap(
+                [
+                    [50, new LeaveType()],
+                    [100, null],
+                ]
+            );
+
+        $leaveTypeService = $this->getMockBuilder(LeaveTypeService::class)
+            ->onlyMethods(['getLeaveTypeDao'])
+            ->getMock();
+        $leaveTypeService->expects($this->exactly($calledGetLeaveTypeById))
+            ->method('getLeaveTypeDao')
+            ->willReturn($leaveTypeDao);
+
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::AUTH_USER => $authUser,
+                Services::LEAVE_TYPE_SERVICE => $leaveTypeService,
+            ]
+        );
+        $api = new LeaveBalanceAPI($this->getRequest());
+        $rules = $api->getValidationRuleForGetOne();
+        $this->assertTrue(
+            $this->validate(
+                [
+                    CommonParams::PARAMETER_EMP_NUMBER => 2,
+                    LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+                ],
+                $rules
+            )
+        );
+
+        $this->assertInvalidParamException(
+        // invalid leave type id
+            fn() => $this->validate(
+                [LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 100],
+                $rules
+            ),
+            [LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID]
+        );
+
+        $this->assertInvalidParamException(
+        // inaccessible employee number
+            fn() => $this->validate(
+                [
+                    CommonParams::PARAMETER_EMP_NUMBER => 3,
+                    LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50
+                ],
+                $rules
+            ),
+            [CommonParams::PARAMETER_EMP_NUMBER]
+        );
+
+        $queryParams = [
+            LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+            LeaveCommonParams::PARAMETER_FROM_DATE => '2021-08-23'
+        ];
+        $api = new LeaveBalanceAPI($this->getRequest($queryParams));
+        $rules = $api->getValidationRuleForGetOne();
+        $this->assertInvalidParamException(
+        // if defined only from date, to date also need to define
+            fn() => $this->validate($queryParams, $rules),
+            [LeaveCommonParams::PARAMETER_TO_DATE, LeaveCommonParams::PARAMETER_FROM_DATE]
+        );
+
+        $queryParams = [
+            LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+            LeaveCommonParams::PARAMETER_TO_DATE => '2021-08-24',
+        ];
+        $api = new LeaveBalanceAPI($this->getRequest($queryParams));
+        $rules = $api->getValidationRuleForGetOne();
+        $this->assertInvalidParamException(
+        // if defined only from date, to date also need to define
+            fn() => $this->validate($queryParams, $rules),
+            [LeaveCommonParams::PARAMETER_FROM_DATE]
+        );
+
+        $queryParams = [
+            LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+            LeaveCommonParams::PARAMETER_FROM_DATE => '2021-08-25',
+            LeaveCommonParams::PARAMETER_TO_DATE => '2021-08-24',
+        ];
+        $api = new LeaveBalanceAPI($this->getRequest($queryParams));
+        $rules = $api->getValidationRuleForGetOne();
+        $this->assertInvalidParamException(
+        // from date < to date
+            fn() => $this->validate($queryParams, $rules),
+            [LeaveCommonParams::PARAMETER_FROM_DATE]
+        );
+
+        $queryParams = [
+            LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+            LeaveCommonParams::PARAMETER_FROM_DATE => '2021-08-24',
+            LeaveCommonParams::PARAMETER_TO_DATE => '2021-08-24',
+        ];
+        $api = new LeaveBalanceAPI($this->getRequest($queryParams));
+        $rules = $api->getValidationRuleForGetOne();
+        $this->assertTrue($this->validate($queryParams, $rules));
     }
 }

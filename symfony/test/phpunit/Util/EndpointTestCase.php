@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Tests\Util;
 
+use Closure;
 use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Exception\InvalidParamException;
@@ -85,5 +86,24 @@ abstract class EndpointTestCase extends KernelTestCase
     protected function expectForbiddenException(): void
     {
         $this->expectException(ForbiddenException::class);
+    }
+
+    /**
+     * @param Closure $closure
+     * @param array|null $invalidOnly
+     */
+    protected function assertInvalidParamException(Closure $closure, ?array $invalidOnly = null): void
+    {
+        try {
+            $closure();
+            $this->fail('Given validation closure not throwing ' . InvalidParamException::class);
+        } catch (InvalidParamException $e) {
+            if ($invalidOnly) {
+                sort($invalidOnly);
+                $invalidParamKeys = array_keys($e->getErrorBag());
+                sort($invalidParamKeys);
+                $this->assertEquals($invalidOnly, $invalidParamKeys);
+            }
+        }
     }
 }
