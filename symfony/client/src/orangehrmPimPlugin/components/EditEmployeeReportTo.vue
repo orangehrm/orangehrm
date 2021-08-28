@@ -37,11 +37,10 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Reporting Method"
-              v-model="reportTo.reportingMethodId"
-              :rules="rules.reportingMethodId"
-              :clear="false"
+              v-model="reportTo.reportingMethod"
+              :rules="rules.reportingMethod"
               :options="reportingMethods"
               required
             />
@@ -70,7 +69,7 @@ import ReportToEmployeeAutocomplete from '@/orangehrmPimPlugin/components/Report
 
 const reportToModel = {
   employee: null,
-  reportingMethodId: [],
+  reportingMethod: null,
 };
 export default {
   name: 'edit-employee-report-to',
@@ -114,7 +113,7 @@ export default {
       reportTo: {...reportToModel},
       rules: {
         employee: [required],
-        reportingMethodId: [required],
+        reportingMethod: [required],
       },
     };
   },
@@ -133,9 +132,7 @@ export default {
           : this.data.subordinateEmpNumber;
       this.http
         .update(id, {
-          reportingMethodId: this.reportTo.reportingMethodId.map(
-            item => item.id,
-          )[0],
+          reportingMethodId: this.reportTo.reportingMethod?.id,
         })
         .then(() => {
           return this.$toast.updateSuccess();
@@ -175,7 +172,7 @@ export default {
               ? data.supervisor.terminationId
               : data.subordinate.terminationId,
         };
-        this.reportTo.reportingMethodId = this.reportingMethods.filter(
+        this.reportTo.reportingMethod = this.reportingMethods.find(
           item => item.id === data.reportingMethod.id,
         );
       })

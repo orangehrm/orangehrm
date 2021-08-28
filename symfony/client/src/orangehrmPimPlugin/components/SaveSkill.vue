@@ -84,7 +84,7 @@ import {
 const skillModel = {
   yearsOfExperience: '',
   comments: '',
-  skillId: [],
+  skillId: null,
 };
 
 export default {
@@ -124,7 +124,7 @@ export default {
       this.isLoading = true;
       this.http
         .create({
-          skillId: this.skill.skillId.map(item => item.id)[0],
+          skillId: this.skill.skillId?.id,
           yearsOfExperience: parseInt(this.skill.yearsOfExperience),
           comments: this.skill.comments !== '' ? this.skill.comments : ' ',
         })

@@ -89,7 +89,7 @@ export default {
               return {
                 date: parseDate(event.date, 'yyyy-MM-dd'),
                 type: event.name,
-                class: event.length > 4 ? '--holiday-full' : '--holiday-half',
+                class: event.length === 0 ? '--holiday-full' : '--holiday-half',
               };
             });
           }
