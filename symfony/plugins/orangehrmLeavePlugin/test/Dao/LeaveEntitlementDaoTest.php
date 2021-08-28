@@ -26,6 +26,7 @@ use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveEntitlementType;
 use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
@@ -473,25 +474,22 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         }
     }
     
-    public function xtestBulkAssignLeaveEntitlements() {
-        // TODO
-        
+    public function testBulkAssignLeaveEntitlements():void {
         $empList = [1,2,3];
-       
-       
+
         $leaveEntitlement = new LeaveEntitlement();
-        $leaveEntitlement->setLeaveTypeId(1);
-
-        $leaveEntitlement->setCreditedDate(date('Y-m-d'));
-
-
-        $leaveEntitlement->setEntitlementType(LeaveEntitlement::ENTITLEMENT_TYPE_ADD);
-        $leaveEntitlement->setDeleted(0);
-
+        $leaveEntitlement->setLeaveType($this->getEntityReference(LeaveType::class,1));
+        $leaveEntitlement->setCreditedDate(new \DateTime());
+        $leaveEntitlement->setEntitlementType($this->getEntityReference(LeaveEntitlementType::class,LeaveEntitlement::ENTITLEMENT_TYPE_ADD));
+        $leaveEntitlement->setDeleted(false);
         $leaveEntitlement->setNoOfDays(2);
-        $leaveEntitlement->setFromDate('2012-01-01');
-        $leaveEntitlement->setToDate('2012-08-01');
+        $leaveEntitlement->setFromDate(new \DateTime('2012-01-01'));
+        $leaveEntitlement->setToDate(new \DateTime('2012-08-01'));
+        $leaveEntitlement->setCreatedBy($this->getEntityReference(User::class,1));
 
+        $this->createKernelWithMockServices([
+            Services::LEAVE_CONFIG_SERVICE =>new LeaveConfigurationService(),
+                                            ]);
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
        
        
@@ -501,10 +499,10 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
         $leaveEntitlement->setNoOfDays(1);
         
-        $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
+        list($leaveEntitlements, $count) = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
        
        
-        $this->assertEquals(count($empList),$result);
+        $this->assertEquals(count($empList),$count);
        
     }
     

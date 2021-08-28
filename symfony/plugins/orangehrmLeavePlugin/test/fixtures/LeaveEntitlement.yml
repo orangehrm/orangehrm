@@ -73,3 +73,11 @@ LeaveLeaveEntitlement:
   - { id: 7, leave_id: 7, entitlement_id: 1, length_days: 0.75 }
   - { id: 8, leave_id: 8, entitlement_id: 6, length_days: 1 }
   - { id: 9, leave_id: 9, entitlement_id: 6, length_days: 1 }
+
+UserRole:
+  - { id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1 }
+  - { id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1 }
+  - { id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1 }
+
+User:
+  - { id: 1, user_role_id: 1, emp_number: 1, user_name: 'kayla', user_password: 'Kayla' }

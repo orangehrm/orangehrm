@@ -28,7 +28,7 @@ use OrangeHRM\Tests\Util\TestCase;
  */
 class ClassHelperTest extends TestCase
 {
-    public function testGetClass()
+    public function testGetClass(): void
     {
         $classHelper = new ClassHelper();
         $className = $classHelper->getClass('ClassHelperTestClass', 'OrangeHRM\\Tests\\Core\\Helper\\');
@@ -44,7 +44,7 @@ class ClassHelperTest extends TestCase
         $this->assertNull($className);
     }
 
-    public function testClassExists()
+    public function testClassExists(): void
     {
         $classHelper = new ClassHelper();
         $classExists = $classHelper->classExists('ClassHelperTestClass', 'OrangeHRM\\Tests\\Core\\Helper\\');
@@ -59,9 +59,73 @@ class ClassHelperTest extends TestCase
         $classExists = $classHelper->classExists('ClassHelperTestClass_Test', 'OrangeHRM\\Tests\\Core\\Helper\\');
         $this->assertFalse($classExists);
     }
+
+    public function testHasClassImplements(): void
+    {
+        $classHelper = new ClassHelper();
+        $classImplements = $classHelper->hasClassImplements(
+            ClassHelperTestClass::class,
+            ClassHelperTestInterfaceOne::class
+        );
+        $this->assertFalse($classImplements);
+
+        $classImplements = $classHelper->hasClassImplements(
+            ClassHelperTestClassOne::class,
+            ClassHelperTestInterfaceOne::class
+        );
+        $this->assertTrue($classImplements);
+
+        $classImplements = $classHelper->hasClassImplements(
+            ClassHelperTestClassOne::class,
+            ClassHelperTestInterfaceTwo::class
+        );
+        $this->assertFalse($classImplements);
+
+        $classImplements = $classHelper->hasClassImplements(
+            ClassHelperTestClassOne::class,
+            ClassHelperTestInterfaceOne::class,
+            ClassHelperTestClassTwo::class
+        );
+        $this->assertFalse($classImplements);
+
+        $classImplements = $classHelper->hasClassImplements(
+            ClassHelperTestClassTwo::class,
+            ClassHelperTestInterfaceOne::class
+        );
+        $this->assertTrue($classImplements);
+
+        $classImplements = $classHelper->hasClassImplements(
+            ClassHelperTestClassTwo::class,
+            ClassHelperTestInterfaceOne::class,
+            ClassHelperTestInterfaceTwo::class
+        );
+        $this->assertTrue($classImplements);
+
+        $classImplements = $classHelper->hasClassImplements(
+            new ClassHelperTestClassTwo(),
+            ClassHelperTestInterfaceOne::class,
+            ClassHelperTestInterfaceTwo::class
+        );
+        $this->assertTrue($classImplements);
+    }
 }
 
 class ClassHelperTestClass
 {
+}
 
+interface ClassHelperTestInterfaceOne
+{
+}
+
+interface ClassHelperTestInterfaceTwo
+{
+}
+
+class ClassHelperTestClassOne implements ClassHelperTestInterfaceOne
+{
+}
+
+class ClassHelperTestClassTwo implements ClassHelperTestInterfaceOne, ClassHelperTestInterfaceTwo
+{
 }

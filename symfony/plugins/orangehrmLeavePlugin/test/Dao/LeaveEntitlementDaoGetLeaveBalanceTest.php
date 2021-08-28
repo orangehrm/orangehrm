@@ -41,7 +41,7 @@ use OrangeHRM\Tests\Util\TestDataService;
  * @group Leave
  * @group Dao
  */
-class LeaveEntitlementGetLeaveBalanceDaoTest extends KernelTestCase
+class LeaveEntitlementDaoGetLeaveBalanceTest extends KernelTestCase
 {
     /**
      * @var LeaveEntitlementDao

@@ -21,7 +21,6 @@ namespace OrangeHRM\Pim\Service;
 
 use DateTime;
 use OrangeHRM\Core\Exception\CoreServiceException;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 use OrangeHRM\Entity\Employee;
@@ -103,7 +102,6 @@ class EmployeeService
     /**
      * @param EmployeeSearchFilterParams $employeeSearchParamHolder
      * @return Employee[]
-     * @throws DaoException
      */
     public function getEmployeeList(EmployeeSearchFilterParams $employeeSearchParamHolder): array
     {
@@ -113,7 +111,6 @@ class EmployeeService
     /**
      * @param EmployeeSearchFilterParams $employeeSearchParamHolder
      * @return int
-     * @throws DaoException
      */
     public function getEmployeeCount(EmployeeSearchFilterParams $employeeSearchParamHolder): int
     {
@@ -123,7 +120,6 @@ class EmployeeService
     /**
      * @param Employee $employee
      * @return Employee
-     * @throws DaoException
      */
     public function saveEmployee(Employee $employee): Employee
     {
@@ -132,7 +128,6 @@ class EmployeeService
 
     /**
      * @param Employee $employee
-     * @throws DaoException
      */
     public function saveAddEmployeeEvent(Employee $employee): void
     {
@@ -143,7 +138,6 @@ class EmployeeService
     /**
      * @param Employee $employee
      * @return Employee
-     * @throws DaoException
      */
     public function updateEmployeePersonalDetails(Employee $employee): Employee
     {
@@ -154,7 +148,6 @@ class EmployeeService
 
     /**
      * @param Employee $employee
-     * @throws DaoException
      */
     public function updateEmployeeJobDetails(Employee $employee): void
     {
@@ -177,7 +170,6 @@ class EmployeeService
     /**
      * @param int $empNumber
      * @return Employee|null
-     * @throws DaoException
      */
     public function getEmployeeByEmpNumber(int $empNumber): ?Employee
     {
@@ -202,7 +194,6 @@ class EmployeeService
      * @param bool|null $includeChain Include Supervisor chain or not
      * @param int|null $maxDepth
      * @return int[] An array of empNumbers
-     * @throws DaoException
      * @throws CoreServiceException
      */
     public function getSubordinateIdListBySupervisorId(
@@ -234,7 +225,6 @@ class EmployeeService
      *
      * @param int $empNumber Employee Number
      * @return bool True if given employee is a supervisor, false if not
-     * @throws DaoException
      */
     public function isSupervisor(int $empNumber): bool
     {
@@ -246,7 +236,6 @@ class EmployeeService
      *
      * @param bool $excludeTerminatedEmployees Exclude Terminated employees or not
      * @return int[] List of employee IDs
-     * @throws DaoException
      */
     public function getEmployeeIdList(bool $excludeTerminatedEmployees = false): array
     {
@@ -256,7 +245,6 @@ class EmployeeService
     /**
      * @param int[] $empNumbers
      * @return int
-     * @throws DaoException
      */
     public function deleteEmployees(array $empNumbers): int
     {
@@ -273,7 +261,6 @@ class EmployeeService
      * @param int|null $maxDepth
      * @return int[] An array of empNumbers
      * @throws CoreServiceException
-     * @throws DaoException
      */
     public function getSupervisorIdListBySubordinateId(
         int $subordinateId,
@@ -283,6 +270,11 @@ class EmployeeService
         if (is_null($includeChain)) {
             $includeChain = $this->getConfigService()->isSupervisorChainSupported();
         }
-        return $this->getEmployeeDao()->getSupervisorIdListBySubordinateId($subordinateId, $includeChain, [], $maxDepth);
+        return $this->getEmployeeDao()->getSupervisorIdListBySubordinateId(
+            $subordinateId,
+            $includeChain,
+            [],
+            $maxDepth
+        );
     }
 }

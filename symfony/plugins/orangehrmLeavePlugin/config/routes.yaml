@@ -90,6 +90,23 @@ apiv2_leave_leave_entitlements:
   defaults:
     _api: OrangeHRM\Leave\Api\LeaveEntitlementAPI
 
+apiv2_leave_employee_leave_entitlements:
+  path: /api/v2/leave/employees/{empNumber}/leave-entitlements
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\EmployeeLeaveEntitlementAPI
+    _key: empNumber
+  requirements:
+    empNumber: '\d+'
+
+apiv2_leave_employees_leave_entitlements:
+  path: /api/v2/leave/employees/leave-entitlements
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\EmployeeLeaveEntitlementAPI
+
 apiv2_leave_leave_balance:
   path: /api/v2/leave/leave-balance/leave-type/{leaveTypeId}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle

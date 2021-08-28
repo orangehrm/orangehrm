@@ -183,7 +183,7 @@ trait LeaveRequestParamHelperTrait
     /**
      * @return ParamRuleCollection
      */
-    protected function getCommonBodyParamRuleCollection(): ParamRuleCollection
+    protected function getCommonParamRuleCollection(): ParamRuleCollection
     {
         if (!$this instanceof Endpoint) {
             throw $this->getEndpointLogicException();
