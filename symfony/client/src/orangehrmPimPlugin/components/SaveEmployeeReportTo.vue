@@ -35,11 +35,10 @@
           </oxd-grid-item>
           <oxd-grid-item>
             <oxd-input-field
-              type="dropdown"
+              type="select"
               label="Reporting Method"
-              v-model="reportTo.reportingMethodId"
-              :rules="rules.reportingMethodId"
-              :clear="false"
+              v-model="reportTo.reportingMethod"
+              :rules="rules.reportingMethod"
               :options="reportingMethods"
               required
             />
@@ -68,7 +67,7 @@ import {required} from '@orangehrm/core/util/validation/rules';
 
 const reportToModel = {
   employee: null,
-  reportingMethodId: [],
+  reportingMethod: null,
 };
 
 export default {
@@ -105,7 +104,7 @@ export default {
       reportTo: {...reportToModel},
       rules: {
         employee: [required],
-        reportingMethodId: [required],
+        reportingMethod: [required],
       },
     };
   },
@@ -123,9 +122,7 @@ export default {
       this.http
         .create({
           empNumber: this.reportTo.employee?.id,
-          reportingMethodId: this.reportTo.reportingMethodId.map(
-            item => item.id,
-          )[0],
+          reportingMethodId: this.reportTo.reportingMethod?.id,
         })
         .then(() => {
           return this.$toast.saveSuccess();
