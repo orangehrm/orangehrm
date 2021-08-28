@@ -121,7 +121,7 @@ class LeaveEntitlementAPITest extends EndpointTestCase
         $this->assertNull($result->getMeta());
     }
 
-    public function testGetValidationRuleForGetOne(): void
+    public function testGetValidationRuleForCreate(): void
     {
         $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
             ->disableOriginalConstructor()
@@ -161,19 +161,17 @@ class LeaveEntitlementAPITest extends EndpointTestCase
                 Services::LEAVE_TYPE_SERVICE => $leaveTypeService,
             ]
         );
-        $api = new LeaveEntitlementAPI($this->getRequest());
+        $bodyParams = [
+            CommonParams::PARAMETER_EMP_NUMBER => 2,
+            LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
+            LeaveCommonParams::PARAMETER_FROM_DATE => '2021-01-01',
+            LeaveCommonParams::PARAMETER_TO_DATE => '2021-12-31',
+            LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
+        ];
+        $api = new LeaveEntitlementAPI($this->getRequest([], $bodyParams));
         $rules = $api->getValidationRuleForCreate();
         $this->assertTrue(
-            $this->validate(
-                [
-                    CommonParams::PARAMETER_EMP_NUMBER => 2,
-                    LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID => 50,
-                    LeaveCommonParams::PARAMETER_FROM_DATE => '2021-01-01',
-                    LeaveCommonParams::PARAMETER_TO_DATE => '2021-12-31',
-                    LeaveEntitlementAPI::PARAMETER_ENTITLEMENT => 5.00
-                ],
-                $rules
-            )
+            $this->validate($bodyParams, $rules)
         );
     }
 

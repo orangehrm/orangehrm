@@ -3712,7 +3712,8 @@ VALUES ('apiv2_pim_custom_field', 'API-v2 PIM - Custom Fields', 1, 1, 1, 1),
        ('apiv2_pim_report_to_allowed_employees', 'API-v2 PIM - Employee Allowed Supervisors/Subordinates', 1, 0, 0, 0),
        ('apiv2_pim_employee_memberships', 'API-v2 PIM - Employee Memberships', 1, 1, 1, 1),
        ('apiv2_pim_tax_exemptions', 'API-v2 PIM - Tax Exemptions', 1, 0, 1, 0),
-       ('apiv2_pim_employee_work_shift', 'API-v2 PIM - Employee Work Shift', 1, 0, 0, 0);
+       ('apiv2_pim_employee_work_shift', 'API-v2 PIM - Employee Work Shift', 1, 0, 0, 0),
+       ('apiv2_pim_employee_count', 'API-v2 PIM - Employee Count', 1, 0, 0, 0);
 
 SET @pim_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'pim' LIMIT 1);
 SET @apiv2_pim_custom_field_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_custom_field' LIMIT 1);
@@ -3747,6 +3748,7 @@ SET @apiv2_pim_report_to_allowed_employees_data_group_id := (SELECT `id` FROM oh
 SET @apiv2_pim_employee_memberships_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_memberships' LIMIT 1);
 SET @apiv2_pim_tax_exemptions_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_tax_exemptions' LIMIT 1);
 SET @apiv2_pim_employee_work_shift_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_work_shift' LIMIT 1);
+SET @apiv2_pim_employee_count_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_pim_employee_count' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom_field_data_group_id),
@@ -3779,7 +3781,8 @@ VALUES ('OrangeHRM\\Pim\\Api\\CustomFieldAPI', @pim_module_id, @apiv2_pim_custom
        ('OrangeHRM\\Pim\\Api\\EmployeeAllowedReportToEmployeeAPI', @pim_module_id, @apiv2_pim_report_to_allowed_employees_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmployeeMembershipAPI', @pim_module_id, @apiv2_pim_employee_memberships_data_group_id),
        ('OrangeHRM\\Pim\\Api\\EmpUsTaxExemptionAPI', @pim_module_id, @apiv2_pim_tax_exemptions_data_group_id),
-       ('OrangeHRM\\Pim\\Api\\EmployeeWorkShiftAPI', @pim_module_id, @apiv2_pim_employee_work_shift_data_group_id);
+       ('OrangeHRM\\Pim\\Api\\EmployeeWorkShiftAPI', @pim_module_id, @apiv2_pim_employee_work_shift_data_group_id),
+       ('OrangeHRM\\Pim\\Api\\EmployeeCountAPI', @pim_module_id, @apiv2_pim_employee_count_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
@@ -3881,7 +3884,8 @@ VALUES (1, 1, 1, 1, 0, @apiv2_pim_custom_field_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_tax_exemptions_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_pim_tax_exemptions_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 0, @apiv2_pim_tax_exemptions_data_group_id, @ess_role_id),
-       (1, 0, 0, 0, 0, @apiv2_pim_employee_work_shift_data_group_id, @admin_role_id);
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_work_shift_data_group_id, @admin_role_id),
+       (1, 0, 0, 0, 0, @apiv2_pim_employee_count_data_group_id, @admin_role_id);
 
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`)
 VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),
@@ -3891,7 +3895,8 @@ VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),
        ('apiv2_leave_leave_period', 'API-v2 Leave - Leave Period', 1, 0, 1, 0),
        ('apiv2_leave_leave_requests', 'API-v2 Leave - Leave Requests', 1, 1, 1, 0),
        ('apiv2_leave_leave_entitlements', 'API-v2 Leave - Leave Entitlements', 1, 1, 1, 1),
-       ('apiv2_leave_leave_balance', 'API-v2 Leave - Leave Balance', 1, 0, 0, 0);
+       ('apiv2_leave_leave_balance', 'API-v2 Leave - Leave Balance', 1, 0, 0, 0),
+       ('apiv2_leave_employee_leave_entitlements', 'API-v2 Leave - Employee Leave Entitlements', 1, 0, 0, 0);
 
 SET @leave_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'leave' LIMIT 1);
 
@@ -3903,6 +3908,7 @@ SET @apiv2_leave_leave_period_data_group_id := (SELECT `id` FROM ohrm_data_group
 SET @apiv2_leave_leave_requests_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_leave_requests' LIMIT 1);
 SET @apiv2_leave_leave_entitlements_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_leave_entitlements' LIMIT 1);
 SET @apiv2_leave_leave_balance_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_leave_balance' LIMIT 1);
+SET @apiv2_leave_employee_leave_entitlements_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_employee_leave_entitlements' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Leave\\Api\\HolidayAPI', @leave_module_id, @apiv2_leave_holiday_data_group_id),
@@ -3912,7 +3918,8 @@ VALUES ('OrangeHRM\\Leave\\Api\\HolidayAPI', @leave_module_id, @apiv2_leave_holi
        ('OrangeHRM\\Leave\\Api\\LeavePeriodAPI', @leave_module_id, @apiv2_leave_leave_period_data_group_id),
        ('OrangeHRM\\Leave\\Api\\MyLeaveRequestAPI', @leave_module_id, @apiv2_leave_leave_requests_data_group_id),
        ('OrangeHRM\\Leave\\Api\\LeaveEntitlementAPI', @leave_module_id, @apiv2_leave_leave_entitlements_data_group_id),
-       ('OrangeHRM\\Leave\\Api\\LeaveBalanceAPI', @leave_module_id, @apiv2_leave_leave_balance_data_group_id);
+       ('OrangeHRM\\Leave\\Api\\LeaveBalanceAPI', @leave_module_id, @apiv2_leave_leave_balance_data_group_id),
+       ('OrangeHRM\\Leave\\Api\\EmployeeLeaveEntitlementAPI', @leave_module_id, @apiv2_leave_employee_leave_entitlements_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
@@ -3938,7 +3945,8 @@ VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_leave_leave_balance_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_leave_leave_balance_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 1, @apiv2_leave_leave_balance_data_group_id, @supervisor_role_id),
-       (1, 0, 0, 0, 0, @apiv2_leave_leave_balance_data_group_id, @supervisor_role_id);
+       (1, 0, 0, 0, 0, @apiv2_leave_leave_balance_data_group_id, @supervisor_role_id),
+       (1, 0, 0, 0, 0, @apiv2_leave_employee_leave_entitlements_data_group_id, @admin_role_id);
 
 ALTER TABLE `ohrm_leave_request_comment` DROP `created_by_name`;
 ALTER TABLE `ohrm_leave_comment` DROP `created_by_name`;

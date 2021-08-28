@@ -213,7 +213,7 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             LeaveCommonParams::PARAMETER_TO_DATE
         );
-        $entitlement = $this->getRequestParams()->getString(
+        $entitlement = $this->getRequestParams()->getFloat(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_ENTITLEMENT
         );
@@ -257,7 +257,7 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_LOCATION_ID
         );
-        $subunitId = $this->getRequestParams()->getInt(
+        $subunitId = $this->getRequestParams()->getIntOrNull(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_SUBUNIT_ID
         );
@@ -294,7 +294,11 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
                     new ParamRule(self::PARAMETER_LOCATION_ID, new Rule(Rules::POSITIVE))
                 )
             );
-            $paramRules->addParamValidation(new ParamRule(self::PARAMETER_SUBUNIT_ID, new Rule(Rules::POSITIVE)));
+            $paramRules->addParamValidation(
+                $this->getValidationDecorator()->notRequiredParamRule(
+                    new ParamRule(self::PARAMETER_SUBUNIT_ID, new Rule(Rules::POSITIVE))
+                )
+            );
         } else {
             $paramRules->addParamValidation($this->getEmpNumberParamRule());
         }
@@ -311,14 +315,15 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             new ParamRule(
                 LeaveCommonParams::PARAMETER_FROM_DATE,
                 new Rule(Rules::API_DATE),
-                new Rule(Rules::LESS_THAN_OR_EQUAL, [
-                    function () use ($requestParamType) {
-                        return $this->getRequestParams()->getDateTime(
+                new Rule(
+                    Rules::LESS_THAN,
+                    [
+                        $this->getRequestParams()->getDateTimeOrNull(
                             $requestParamType,
                             LeaveCommonParams::PARAMETER_TO_DATE
-                        );
-                    }
-                ])
+                        )
+                    ]
+                )
             ),
             new ParamRule(LeaveCommonParams::PARAMETER_TO_DATE, new Rule(Rules::API_DATE)),
         ];

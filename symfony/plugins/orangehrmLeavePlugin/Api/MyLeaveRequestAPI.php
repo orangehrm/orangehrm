@@ -97,7 +97,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
-        return $this->getCommonBodyParamRuleCollection();
+        return $this->getCommonParamRuleCollection();
     }
 
     /**
