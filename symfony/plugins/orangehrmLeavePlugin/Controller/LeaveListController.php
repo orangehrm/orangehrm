@@ -19,19 +19,46 @@
 
 namespace OrangeHRM\Leave\Controller;
 
-use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Admin\Service\CompanyStructureService;
 
 class LeaveListController extends AbstractVueController
 {
+    protected ?CompanyStructureService $companyStructureService = null;
+
+    /**
+     * @return CompanyStructureService
+     */
+    protected function getCompanyStructureService(): CompanyStructureService
+    {
+        if (!$this->companyStructureService instanceof CompanyStructureService) {
+            $this->companyStructureService = new CompanyStructureService();
+        }
+        return $this->companyStructureService;
+    }
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        // TODO:: rename component name
         $component = new Component('leave-list');
+
+        $subunits = $this->getCompanyStructureService()->getSubunitArray();
+        $component->addProp(new Prop('subunits', Prop::TYPE_ARRAY, $subunits));
+
+        $leaveStatuses = [
+            ['id' => 1, 'label' => 'Rejected'],
+            ['id' => 2, 'label' => 'Cancelled'],
+            ['id' => 3, 'label' => 'Pending Approval'],
+            ['id' => 4, 'label' => 'Scheduled'],
+            ['id' => 5, 'label' => 'Taken'],
+        ];
+        $component->addProp(new Prop('leave-statuses', Prop::TYPE_ARRAY, $leaveStatuses));
+
         $this->setComponent($component);
     }
 }

@@ -1,0 +1,270 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
+<template>
+  <div class="orangehrm-background-container">
+    <div class="orangehrm-paper-container">
+      <div class="orangehrm-header-container">
+        <oxd-text tag="h6" class="orangehrm-main-title">
+          {{ $t('leave.leave_request_details') }}
+        </oxd-text>
+      </div>
+      <oxd-divider
+        class="orangehrm-horizontal-margin orangehrm-clear-margins"
+      />
+      <div class="orangehrm-horizontal-padding">
+        <oxd-grid :cols="3">
+          <oxd-grid-item>
+            <oxd-input-group :label="$t('general.employee_name')">
+              <oxd-text class="orangehrm-request-details-text" tag="p">
+                {{ employeeName }}
+              </oxd-text>
+            </oxd-input-group>
+          </oxd-grid-item>
+          <oxd-grid-item>
+            <oxd-input-group :label="$t('leave.requested_for')">
+              <oxd-text class="orangehrm-request-details-text" tag="p">
+                {{ leavePeriod }}
+              </oxd-text>
+            </oxd-input-group>
+          </oxd-grid-item>
+        </oxd-grid>
+      </div>
+      <table-header
+        :selected="0"
+        :total="total"
+        :loading="isLoading"
+      ></table-header>
+      <div class="orangehrm-container">
+        <oxd-card-table
+          :headers="headers"
+          :items="response && response.data"
+          :selectable="false"
+          :clickable="false"
+          :loading="isLoading"
+          rowDecorator="oxd-table-decorator-card"
+        />
+      </div>
+      <div class="orangehrm-bottom-container">
+        <span>
+          <oxd-button
+            displayType="ghost"
+            :label="$t('general.back')"
+            @click="onClickBack"
+          />
+          <oxd-button
+            class="orangehrm-left-space"
+            displayType="secondary"
+            iconName="chat-right-text-fill"
+            :label="$t('general.comments')"
+            @click="onClickComments"
+          />
+        </span>
+        <oxd-pagination
+          v-if="showPaginator"
+          :length="pages"
+          v-model:current="currentPage"
+        />
+      </div>
+    </div>
+  </div>
+  <leave-comment-modal
+    v-if="showCommentModal"
+    :leave-id="commentModalState"
+    @close="onCommentModalClose"
+  >
+  </leave-comment-modal>
+</template>
+
+<script>
+import {APIService} from '@/core/util/services/api.service';
+import {navigate} from '@orangehrm/core/util/helper/navigation';
+import usePaginate from '@orangehrm/core/util/composable/usePaginate';
+import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsModal';
+
+const leaveRequestNormalizer = data => {
+  return data.map(item => {
+    return {
+      id: item.id,
+      date: `${item.fromDate} to ${item.toDate}`,
+      leaveType: item.leaveType.name,
+      leaveBalance: item.leaveBalance,
+      duration: item.hours,
+      status: item.leaveStatus?.name,
+      comment: item.comment,
+    };
+  });
+};
+
+export default {
+  name: 'leave-view-request',
+
+  components: {
+    'leave-comment-modal': LeaveCommentsModal,
+  },
+
+  props: {
+    leaveRequestId: {
+      type: String,
+      required: true,
+    },
+  },
+
+  data() {
+    return {
+      headers: [
+        {name: 'date', title: 'Date', style: {flex: 1}},
+        {name: 'leaveType', title: 'Leave Type', style: {flex: 1}},
+        {name: 'leaveBalance', title: 'Leave Balance (Days)', style: {flex: 1}},
+        {name: 'duration', title: 'Duration (Hours)', style: {flex: 1}},
+        {name: 'status', title: 'Status', style: {flex: 1}},
+        {name: 'comment', title: 'Comments', style: {flex: '10%'}},
+        {
+          name: 'action',
+          slot: 'footer',
+          title: 'Actions',
+          style: {flex: '20%'},
+          cellType: 'oxd-table-cell-actions',
+          cellConfig: {
+            accept: {
+              component: 'oxd-button',
+              props: {
+                label: 'Approve',
+                displayType: 'label',
+                size: 'medium',
+              },
+            },
+            reject: {
+              component: 'oxd-button',
+              props: {
+                label: 'Reject',
+                displayType: 'label-danger',
+                size: 'medium',
+              },
+            },
+            more: {
+              component: 'oxd-table-dropdown',
+              onClick: this.onLeaveRequestAction,
+              props: {
+                options: [
+                  {label: 'Add Comment', context: 'add_comment'},
+                  {label: 'Cancel Leave', context: 'cancel_leave'},
+                ],
+              },
+            },
+          },
+        },
+      ],
+      showCommentModal: false,
+      commentModalState: null,
+    };
+  },
+
+  setup(props) {
+    const http = new APIService(
+      // window.appGlobal.baseUrl,
+      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      `api/v2/leave/leave-request/${props.leaveRequestId}`,
+    );
+    const {
+      showPaginator,
+      currentPage,
+      total,
+      pages,
+      pageSize,
+      response,
+      isLoading,
+      execQuery,
+    } = usePaginate(http, {}, leaveRequestNormalizer);
+
+    return {
+      http,
+      showPaginator,
+      currentPage,
+      isLoading,
+      total,
+      pages,
+      pageSize,
+      execQuery,
+      response,
+    };
+  },
+
+  methods: {
+    onClickBack() {
+      navigate('/leave/viewLeaveList');
+    },
+    onLeaveRequestAction(item, event) {
+      if (event.context === 'cancel_leave') {
+        this.onLeaveCancel();
+      } else {
+        this.commentModalState = item.id;
+        this.showCommentModal = true;
+      }
+    },
+    onClickComments() {
+      this.commentModalState = this.leaveRequestId;
+      this.showCommentModal = true;
+    },
+    async resetDataTable() {
+      await this.execQuery();
+    },
+    onCommentModalClose() {
+      this.commentModalState = null;
+      this.showCommentModal = false;
+      this.resetDataTable();
+    },
+    onLeaveCancel() {
+      // do nothing.
+    },
+  },
+
+  computed: {
+    employeeName() {
+      const employee = this.response?.meta?.employee;
+      return employee ? `${employee.firstName} ${employee.lastName}` : '';
+    },
+    leavePeriod() {
+      const leavePeriod = this.response?.meta?.leavePeriod;
+      return leavePeriod
+        ? `${leavePeriod.startDate} - ${leavePeriod.endDate}`
+        : '';
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.orangehrm-bottom-container {
+  align-items: center;
+  justify-content: space-between;
+}
+.orangehrm-request-details-text {
+  font-size: $oxd-input-control-font-size;
+}
+::v-deep(.card-footer-slot) {
+  .oxd-table-cell-actions {
+    justify-content: flex-end;
+  }
+}
+::v-deep(.oxd-table-cell-actions) {
+  align-items: center;
+}
+</style>
