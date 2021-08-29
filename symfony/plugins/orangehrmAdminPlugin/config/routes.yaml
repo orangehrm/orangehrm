@@ -154,6 +154,13 @@ apiv2_organization:
     id: 0
     _api: OrangeHRM\Admin\Api\OrganizationAPI
 
+apiv2_admin_pay_grade_allowed_currencies:
+  path: /api/v2/admin/pay-grades/{payGradeId}/currencies/allowed
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAllowedCurrencyAPI
+
 apiv2_admin_paygrades_currency:
   path: /api/v2/admin/pay-grades/{payGradeId}/currencies/{id}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -397,3 +404,32 @@ view_email_configuration:
   path: /admin/listMailConfiguration
   controller: OrangeHRM\Admin\Controller\ViewEmailConfigurationController::handle
   methods: [ GET ]
+
+view_pay_grades:
+  path: /admin/viewPayGrades
+  controller: OrangeHRM\Admin\Controller\PayGradeController::handle
+  methods: [ GET ]
+
+add_pay_grade:
+  path: /admin/addPayGrade
+  controller: OrangeHRM\Admin\Controller\SavePayGradeController::handle
+  methods: [ GET ]
+
+edit_pay_grade:
+  path: /admin/editPayGrade/{id}
+  controller: OrangeHRM\Admin\Controller\SavePayGradeController::handle
+  methods: [ GET ]
+
+apiv2_admin_pay_grades:
+  path: /api/v2/admin/pay-grades
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAPI
+
+apiv2_admin_pay_grade:
+  path: /api/v2/admin/pay-grades/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\PayGradeAPI

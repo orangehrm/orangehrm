@@ -1,0 +1,128 @@
+GetValidationRuleForGetOne:
+  'valid id':
+    params: { payGradeId: 1, id: 'AED' }
+  'negative id':
+    params: { id: -1 }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'zero id':
+    params: { id: 0 }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'empty id':
+    params: { id: '' }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'empty params':
+    params: { }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'missing id param':
+    params: { val: 1 }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+
+GetOne:
+  'get one by existing id':
+    params: { payGradeId: 1, id: 'USD'}
+    result: { maxSalary: 10000.0, minSalary: 5000.0, currencyType: {id: 'USD', name: 'United States Dollar'}}
+  'get one by non-existing id':
+    params: { id: 2910, payGradeId: 1, }
+    result: false
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException', message: 'Record Not Found' }
+
+GetValidationRuleForGetAll:
+  'empty object as params':
+    params: { }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'unexpected param':
+    params: { name: '', city: '', empNumber: '' }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'valid param':
+    params: {payGradeId: 1}
+
+GetAll:
+  'get all':
+    params: { attribute: {payGradeId: 1}}
+    result: [{maxSalary: 5000.0, minSalary: 2000.0, currencyType: {id: 'AUD', name: 'Australian Dollar'}},{maxSalary: 10000.0, minSalary: 5000.0, currencyType: {id: 'USD', name: 'United States Dollar'}}]
+  'get all with limit 1':
+    params: {attribute: {payGradeId: 1}, query: {limit: 1} }
+    result: [{maxSalary: 5000.0, minSalary: 2000.0, currencyType: {id: 'AUD', name: 'Australian Dollar'}}]
+  'get all with order':
+    params: {attribute: {payGradeId: 1}, query: {sortField: 'ct.name', sortOrder: 'DESC'}}
+    result: [{maxSalary: 10000.0, minSalary: 5000.0, currencyType: {id: 'USD', name: 'United States Dollar'}},{maxSalary: 5000.0, minSalary: 2000.0, currencyType: {id: 'AUD', name: 'Australian Dollar'}}]
+
+GetValidationRuleForCreate:
+  'valid params':
+    params: {payGradeId: '1', currencyId: 'AUD'}
+  'name missing':
+    params: {}
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid name - data type':
+    params: {"name": 1}
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid name - empty':
+    params: { payGradeId: '', currencyId: ''}
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid name - minSalary invalid':
+    params: { payGradeId: '1', currencyId: 'AUD', minSalary: 'jj'}
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid name - maxSalary invalid':
+    params: { payGradeId: '1', currencyId: 'AUD', maxSalary: 'jj'}
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid name - minSalaryLength':
+    params: { payGradeId: '1', currencyId: 'AUD', minSalary: 123123123123123123123123123123}
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'invalid name - maxSalaryLength':
+    params: { payGradeId: '1', currencyId: 'AUD', maxSalary: 123123123123123123123123123123}
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+
+Create:
+  'create successful - 1':
+    params: {attribute: {payGradeId: 1}, body: {currencyId: 'AUD', minSalary: 100, maxSalary: 200}}
+    result: { minSalary: 100.0, maxSalary: 200.0, currencyType: {id: 'AUD', name: 'Australian Dollar'}}
+
+GetValidationRuleForUpdate:
+  'valid params':
+    params: { payGradeId: 1, id: "AUD", minSalary: 100, maxSalary: 200}
+  'payGradeId invalid':
+    params: {payGradeId: "asdasd"}
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+
+Update:
+  'update successful - 1':
+    params: {attribute: {payGradeId: 1, id: 'AUD'}, body: {minSalary: 1000, maxSalary: 2000}}
+    result: {minSalary: 1000.0, maxSalary: 2000.0, currencyType: {id: 'AUD', name: 'Australian Dollar'}}
+  'non existing payGradeId':
+    params: {attribute: {payGradeId: 200, id: 'AUD'}, body: {minSalary: 1000, maxSalary: 2000}}
+    result: {}
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException', message: 'Record Not Found' }
+  'non existing Id':
+    params: {attribute: {payGradeId: 1, id: 'AUDD'}, body: {minSalary: 1000, maxSalary: 2000}}
+    result: {}
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\RecordNotFoundException', message: 'Record Not Found' }
+
+GetValidationRuleForDelete:
+  'valid params':
+    params: { payGradeId: 1, ids: [ 1, 3 ] }
+  'ids missing':
+    params: { }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'extra params':
+    params: { ids: [ 1, 3 ], extraParams: 'val' }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+  'non array type':
+    params: {payGradeId: 1, ids: '1, 2' }
+    exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
+
+Delete:
+  'delete successful - 1':
+    params: {attribute: {payGradeId: 1},  body: {ids: ['AUD']}}
+    result: { ids: ['AUD'], preCount: 2, postCount: 1 }
+  'delete successful - 2':
+    params: {attribute: {payGradeId: 1},  body: {ids: ['AUD','USD']}}
+    result: { ids: ['AUD','USD'], preCount: 2, postCount: 0 }
+  'delete successful - with non existing ids included':
+    params: {attribute: {payGradeId: 1},  body: {ids: ['LKR']}}
+    result: { ids: ['LKR'], preCount: 2, postCount: 2 }
+  'delete with empty ids array':
+    params: {attribute: {payGradeId: 1},  body: {ids: []}}
+    result: { ids: [], preCount: 2, postCount: 2 }
+  'delete successful - with non existing payGradeId':
+    params: {attribute: {payGradeId: 10},  body: {ids: ['LKR']}}
+    result: { ids: ['LKR'], preCount: 0, postCount: 0 }
