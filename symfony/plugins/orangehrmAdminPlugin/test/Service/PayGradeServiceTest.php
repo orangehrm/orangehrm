@@ -20,6 +20,7 @@
 namespace OrangeHRM\Tests\Admin\Service;
 
 use OrangeHRM\Admin\Dao\PayGradeDao;
+use OrangeHRM\Admin\Dto\PayGradeCurrencySearchFilterParams;
 use OrangeHRM\Admin\Dto\PayGradeSearchFilterParams;
 use OrangeHRM\Admin\Service\PayGradeService;
 use OrangeHRM\Config\Config;
@@ -194,5 +195,128 @@ class PayGradeServiceTest extends TestCase
 
         $result = $payGradeService->getCurrencyArray();
         $this->assertEquals([['id' => 'USD', 'label' => 'United States Dollar']], $result);
+    }
+
+    public function testGetPayGradeCurrencyListCount(): void
+    {
+
+        $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
+        $payGradeDao->expects($this->once())
+            ->method('getPayGradeCurrencyListCount')
+            ->will($this->returnValue(2));
+
+        $this->payGradeService->setPayGradeDao($payGradeDao);
+        $payGradeSearchFilterParams = new PayGradeCurrencySearchFilterParams();
+        $result = $this->payGradeService->getPayGradeCurrencyListCount($payGradeSearchFilterParams);
+        $this->assertEquals($result, 2);
+    }
+
+    public function testGetPayGradeCurrencyList(): void
+    {
+        $payGradeCurrencyList = TestDataService::loadObjectList(
+            PayGradeCurrency::class,
+            $this->fixture,
+            'PayGradeCurrency'
+        );
+        $payGradeCurrencyList = array($payGradeCurrencyList[0], $payGradeCurrencyList[1]);
+        $payGradeSearchFilterParams = new PayGradeCurrencySearchFilterParams();
+        $payGradeSearchFilterParams->setPayGradeId(1);
+        $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
+        $payGradeDao->expects($this->once())
+            ->method('getPayGradeCurrencyList')
+            ->with($payGradeSearchFilterParams)
+            ->will($this->returnValue($payGradeCurrencyList));
+
+        $this->payGradeService->setPayGradeDao($payGradeDao);
+
+        $result = $this->payGradeService->getPayGradeCurrencyList($payGradeSearchFilterParams);
+        $this->assertEquals($result, $payGradeCurrencyList);
+
+    }
+
+    public function testSavePayGrade(): void
+    {
+
+        $payGrade = new PayGrade();
+        $payGrade->setName('Executive');
+
+        $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
+        $payGradeDao->expects($this->once())
+            ->method('savePayGrade')
+            ->with($payGrade)
+            ->will($this->returnValue($payGrade));
+        $this->payGradeService->setPayGradeDao($payGradeDao);
+        $savedPayGrade = $this->payGradeService->savePayGrade($payGrade);
+
+        $this->assertTrue($savedPayGrade instanceof PayGrade);
+    }
+
+    public function testSavePayGradeCurrency(): void
+    {
+        $payGradeCurrency = new PayGradeCurrency();
+        $payGradeCurrency->setMaxSalary(1000);
+        $payGradeCurrency->setMinSalary(1000);
+
+        $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
+        $payGradeDao->expects($this->once())
+            ->method('savePayGradeCurrency')
+            ->with($payGradeCurrency)
+            ->will($this->returnValue($payGradeCurrency));
+        $this->payGradeService->setPayGradeDao($payGradeDao);
+        $result = $this->payGradeService->savePayGradeCurrency($payGradeCurrency);
+
+        $this->assertTrue($result instanceof PayGradeCurrency);
+    }
+
+    public function testDeletePayGrades(): void
+    {
+        $payGradeIds = [1];
+
+        $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
+        $payGradeDao->expects($this->once())
+            ->method('deletePayGrades')
+            ->with($payGradeIds)
+            ->will($this->returnValue(1));
+        $this->payGradeService->setPayGradeDao($payGradeDao);
+        $result = $this->payGradeService->deletePayGrades($payGradeIds);
+        $this->assertEquals(1,$result);
+    }
+
+    public function testGetAllowedPayCurrencies(): void
+    {
+        $currencyType = new CurrencyType();
+        $currencyType->setId(151);
+        $currencyType->setId('USD');
+        $currencyType->setName('United States Dollar');
+
+        $payGradeSearchFilterParams = new PayGradeCurrencySearchFilterParams();
+
+        $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
+        $payGradeDao->expects($this->once())
+            ->method('getAllowedPayCurrencies')
+            ->with($payGradeSearchFilterParams)
+            ->will($this->returnValue([$currencyType]));
+        $this->payGradeService->setPayGradeDao($payGradeDao);
+        $result = $this->payGradeService->getAllowedPayCurrencies($payGradeSearchFilterParams);
+        $this->assertEquals($result, [$currencyType]);
+    }
+
+    public function testGetAllowedPayCurrenciesCount(): void
+    {
+        $currencyType = new CurrencyType();
+        $currencyType->setId(151);
+        $currencyType->setId('USD');
+        $currencyType->setName('United States Dollar');
+
+        $payGradeSearchFilterParams = new PayGradeCurrencySearchFilterParams();
+
+        $payGradeDao = $this->getMockBuilder(PayGradeDao::class)->getMock();
+        $payGradeDao->expects($this->once())
+            ->method('getAllowedPayCurrenciesCount')
+            ->with($payGradeSearchFilterParams)
+            ->will($this->returnValue(1));
+        $this->payGradeService->setPayGradeDao($payGradeDao);
+        $result = $this->payGradeService->getAllowedPayCurrenciesCount($payGradeSearchFilterParams);
+        $this->assertEquals($result, 1);
     }
 }

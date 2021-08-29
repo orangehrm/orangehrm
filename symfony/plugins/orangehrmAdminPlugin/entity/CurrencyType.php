@@ -19,6 +19,8 @@
 
 namespace OrangeHRM\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,6 +51,17 @@ class CurrencyType
      * @ORM\Column(name="currency_name", type="string", length=70)
      */
     private string $name;
+
+    /**
+     * @var Collection|PayGradeCurrency[]
+     * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\PayGradeCurrency",mappedBy="currencyType")
+     */
+    private $payGradeCurrencies;
+
+    public function __construct()
+    {
+        $this->payGradeCurrencies = new ArrayCollection();
+    }
 
     /**
      * @return int
