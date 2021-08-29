@@ -309,9 +309,11 @@ export default {
         this.organization.street2 = data.street2;
         this.organization.city = data.city;
         this.organization.province = data.province;
-        this.organization.country = this.countryList.find(
-          item => item.id === data.country?.id,
-        );
+        if (data.country !== '' && data.country !== null) {
+          this.organization.country = this.countryList.find(item => {
+            return item.id === data.country;
+          });
+        }
         this.organization.zipCode = data.zipCode;
         this.organization.note = data.note;
       })
