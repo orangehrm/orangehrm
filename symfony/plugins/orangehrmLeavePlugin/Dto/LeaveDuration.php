@@ -79,7 +79,7 @@ class LeaveDuration
                 LeaveDuration::SPECIFY_TIME,
             ]
         )) {
-            throw new InvalidArgumentException("Invalid duration type");
+            throw new InvalidArgumentException('Invalid duration type');
         }
         $this->type = $type;
     }
@@ -118,7 +118,7 @@ class LeaveDuration
     {
         $this->restrictCallConditionally();
         if ($this->getFromTime() > $toTime) {
-            throw new InvalidArgumentException("To time should be greater than from time");
+            throw new InvalidArgumentException('To time should be greater than from time');
         }
         $this->toTime = $toTime;
     }
@@ -126,7 +126,32 @@ class LeaveDuration
     private function restrictCallConditionally(): void
     {
         if ($this->getType() !== LeaveDuration::SPECIFY_TIME) {
-            throw new LogicException("Shouldn't call with `" . $this->getType() . "` duration type");
+            throw new LogicException("Shouldn't call with `" . $this->getType() . '` duration type');
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeFullDay(): bool
+    {
+        return $this->getType() === self::FULL_DAY;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeHalfDay(): bool
+    {
+        return $this->getType() == LeaveDuration::HALF_DAY_MORNING || $this->getType(
+            ) == LeaveDuration::HALF_DAY_AFTERNOON;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeSpecifyTime(): bool
+    {
+        return $this->getType() == LeaveDuration::SPECIFY_TIME;
     }
 }

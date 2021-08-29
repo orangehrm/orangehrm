@@ -131,7 +131,9 @@ trait LeaveRequestParamHelperTrait
         if (!$this instanceof Endpoint) {
             throw $this->getEndpointLogicException();
         }
-        $leaveRequestParams->setMultiDayPartialOption($this->getPartialOptionParam());
+        $leaveRequestParams->setMultiDayPartialOption(
+            $this->getPartialOptionParam() ?? LeaveParameterObject::PARTIAL_OPTION_NONE
+        );
         if ($leaveRequestParams->getMultiDayPartialOption() === LeaveParameterObject::PARTIAL_OPTION_END) {
             $leaveRequestParams->setEndMultiDayDuration(
                 $this->getGeneratedDuration(LeaveCommonParams::PARAMETER_DURATION, false)
