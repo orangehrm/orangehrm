@@ -419,8 +419,12 @@ class LeaveEntitlementDao extends BaseDao
         string $orderField,
         string $order
     ): array {
-        // TODO
         $q = $this->createQueryBuilder(LeaveEntitlement::class, 'le');
+        $q->andWhere($q->expr()->between(':fromDate', 'le.fromDate', 'le.toDate'))
+            ->orWhere($q->expr()->between(':toDate', 'le.fromDate', 'le.toDate'))
+            ->orWhere($q->expr()->between('le.fromDate', ':fromDate', ':toDate'))
+            ->setParameter('fromDate', $fromDate)
+            ->setParameter('toDate', $toDate);
         $q->andWhere('le.deleted = :deleted')
             ->setParameter('deleted', false);
         $q->andWhere('le.leaveType = :leaveType')
@@ -429,19 +433,6 @@ class LeaveEntitlementDao extends BaseDao
             ->setParameter('empNumber', $empNumber);
         $q->andWhere($q->expr()->gt($q->expr()->diff('le.noOfDays', 'le.daysUsed'), ':balance'))
             ->setParameter('balance', 0);
-        $q->andWhere($q->expr()->between(':fromDate', 'le.fromDate', 'le.toDate'))
-            ->orWhere($q->expr()->between(':toDate', 'le.fromDate', 'le.toDate'))
-            ->orWhere($q->expr()->between('le.fromDate', ':fromDate', ':toDate'))
-            ->setParameter('fromDate', $fromDate)
-            ->setParameter('toDate', $toDate);
-//            $q = Doctrine_Query::create()->from('LeaveEntitlement le')
-//                    ->addWhere('le.deleted = 0')
-//                    ->addWhere('le.leave_type_id = :leaveTypeId')
-//                    ->addWhere('le.emp_number = :empNumber')
-//                    ->addWhere('(le.no_of_days - le.days_used) > 0')
-//                    ->addWhere('(:fromDate BETWEEN le.from_date AND le.to_date) OR ' .
-//                    '(:toDate BETWEEN le.from_date AND le.to_date) OR ' .
-//                    '(le.from_date BETWEEN :fromDate AND :toDate)');
 
         $q->addOrderBy($orderField, $order);
 
