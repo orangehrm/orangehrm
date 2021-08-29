@@ -53,6 +53,7 @@
                 :label="$t('leave.full_day_half_day')"
                 v-model="holiday.length"
                 :options="holidayLengthList"
+                :rules="rules.length"
                 required
               />
             </oxd-grid-item>
@@ -137,6 +138,7 @@ export default {
       rules: {
         name: [required, shouldNotExceedCharLength(200)],
         date: [required, validDateFormat()],
+        length: [required],
       },
     };
   },
@@ -187,6 +189,35 @@ export default {
             return h.id === data.length;
           });
         }
+        // Fetch list data for unique test
+        const today = new Date();
+        const startDate =
+          today.getFullYear() -
+          100 +
+          '-' +
+          (today.getMonth() + 1) +
+          '-' +
+          today.getDate();
+        const endDate =
+          today.getFullYear() +
+          100 +
+          '-' +
+          (today.getMonth() + 1) +
+          '-' +
+          today.getDate();
+        return this.http.getAll({fromDate: startDate, toDate: endDate, limit: 0});
+      })
+      .then(response => {
+        const {data} = response.data;
+        this.rules.date.push(v => {
+          const index = data.findIndex(item => item.date === v);
+          if (index > -1) {
+            const id = data[index].id;
+            return id != this.holidayId ? 'Already exists' : true;
+          } else {
+            return true;
+          }
+        });
       })
       .finally(() => {
         this.isLoading = false;

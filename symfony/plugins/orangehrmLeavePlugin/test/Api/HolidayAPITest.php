@@ -380,4 +380,92 @@ class HolidayAPITest extends EndpointTestCase
             )
         );
     }
+
+    public function testGetAll()
+    {
+        $holidayService = $this->getMockBuilder(HolidayService::class)
+            ->onlyMethods(['searchHolidays', 'searchHolidaysCount'])
+            ->getMock();
+
+        $holiday1 = new Holiday();
+        $holiday1->setId(1);
+        $holiday1->setRecurring(true);
+        $holiday1->setName('Christmas');
+        $holiday1->setDate(new DateTime('2021-12-25'));
+        $holiday1->setLength(0);
+
+        $holiday2 = new Holiday();
+        $holiday2->setId(2);
+        $holiday2->setRecurring(false);
+        $holiday2->setName('Special');
+        $holiday2->setDate(new DateTime('2021-08-21'));
+        $holiday2->setLength(4);
+
+        $holidayService->expects($this->exactly(1))
+            ->method('searchHolidays')
+            ->willReturn([$holiday1, $holiday2]);
+
+        $holidayService->expects($this->exactly(1))
+            ->method('searchHolidaysCount')
+            ->willReturn(2);
+
+
+        /** @var MockObject&HolidayAPI $api */
+        $api = $this->getApiEndpointMockBuilder(
+            HolidayAPI::class,
+            [
+                RequestParams::PARAM_TYPE_QUERY => [
+                    HolidayAPI::FILTER_FROM_DATE => '2021-01-01',
+                    HolidayAPI::FILTER_TO_DATE => '2021-12-31',
+                ]
+            ]
+        )->onlyMethods(['getHolidayService'])
+            ->getMock();
+        $api->expects($this->exactly(2))
+            ->method('getHolidayService')
+            ->will($this->returnValue($holidayService));
+
+        $this->createKernelWithMockServices(
+            [
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+        $result = $api->getAll();
+        $this->assertEquals(
+            [
+                [
+                    "id" => 1,
+                    "name" => "Christmas",
+                    "length" => 0,
+                    "recurring" => true,
+                    "date" => "2021-12-25",
+                    'lengthName' => 'Full Day'
+                ],
+                [
+                    "id" => 2,
+                    "name" => "Special",
+                    "length" => 4,
+                    "recurring" => false,
+                    "date" => "2021-08-21",
+                    'lengthName' => 'Half Day'
+                ]
+            ],
+            $result->normalize()
+        );
+    }
+
+    public function testGetValidationRuleForGetAll(): void
+    {
+        $api = new HolidayAPI($this->getRequest());
+        $rules = $api->getValidationRuleForGetAll();
+        $this->assertTrue(
+            $this->validate(
+                [
+                    HolidayAPI::FILTER_FROM_DATE => '2021-01-01',
+                    HolidayAPI::FILTER_TO_DATE => '2021-12-31',
+                ],
+                $rules
+            )
+        );
+    }
 }
