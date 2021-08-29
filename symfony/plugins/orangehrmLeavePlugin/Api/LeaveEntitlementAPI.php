@@ -34,10 +34,9 @@ use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Leave\Api\Model\LeaveEntitlementModel;
+use OrangeHRM\Leave\Api\Traits\LeaveEntitlementPermissionTrait;
 use OrangeHRM\Leave\Api\ValidationRules\LeaveTypeIdRule;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
@@ -48,11 +47,11 @@ use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
 {
     use AuthUserTrait;
-    use UserRoleManagerTrait;
     use LeaveEntitlementServiceTrait;
     use LeavePeriodServiceTrait;
     use DateTimeHelperTrait;
     use EmployeeServiceTrait;
+    use LeaveEntitlementPermissionTrait;
 
     public const PARAMETER_BULK_ASSIGN = 'bulkAssign';
     public const PARAMETER_ENTITLEMENT = 'entitlement';
@@ -84,18 +83,6 @@ class LeaveEntitlementAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             CommonParams::PARAMETER_ID
         );
-    }
-
-    /**
-     * @param LeaveEntitlement $leaveEntitlement
-     */
-    private function checkLeaveEntitlementAccessible(LeaveEntitlement $leaveEntitlement): void
-    {
-        $empNumber = $leaveEntitlement->getEmployee()->getEmpNumber();
-        if (!($this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber) ||
-            $this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber))) {
-            throw $this->getForbiddenException();
-        }
     }
 
     /**
