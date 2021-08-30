@@ -382,5 +382,5 @@ class CustomerDao extends BaseDao
         }
     }
 }
-
 ?>
+
