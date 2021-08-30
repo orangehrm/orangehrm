@@ -21,7 +21,8 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
 
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
-    public const PARAM_RULE_NAME_MAX_LENGTH = 100;
+    public const PARAM_RULE_NAME_MAX_LENGTH = 50;
+    public const PARAM_RULE_DESCRIPTION_MAX_LENGTH = 255;
 
 
     /**
@@ -65,8 +66,8 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME, new Rule(Rules::STRING_TYPE), new Rule(Rules::REQUIRED)),
-            new ParamRule(self::PARAMETER_DESCRIPTION, new Rule(Rules::STRING_TYPE))
+            new ParamRule(self::PARAMETER_NAME, new Rule(Rules::STRING_TYPE), new Rule(Rules::REQUIRED), new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])),
+            new ParamRule(self::PARAMETER_DESCRIPTION, new Rule(Rules::STRING_TYPE),new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DESCRIPTION_MAX_LENGTH]))
         );
     }
 
