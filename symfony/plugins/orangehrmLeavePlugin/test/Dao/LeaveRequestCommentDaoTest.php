@@ -35,7 +35,6 @@ use OrangeHRM\Tests\Util\TestDataService;
  */
 class LeaveRequestCommentDaoTest extends TestCase
 {
-
     private LeaveRequestCommentDao $leaveRequestCommentDao;
     protected string $fixture;
 

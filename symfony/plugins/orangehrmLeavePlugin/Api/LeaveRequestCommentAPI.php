@@ -81,7 +81,6 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
         );
     }
 
-
     /**
      * @return EndpointCollectionResult
      * @throws Exception
