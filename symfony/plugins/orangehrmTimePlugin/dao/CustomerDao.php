@@ -39,10 +39,10 @@ class CustomerDao extends BaseDao
      * @param string $sortOrder
      * @param bool $activeOnly
      * @param false $noOfRecords
-     * @return type
+     * @return Customer []
      * @throws DaoException
      */
-    public function getCustomerList($limit = 0, $offset = 0, $sortField = 'customer.name', $sortOrder = 'ASC', $activeOnly = true, $noOfRecords = false)
+    public function getCustomerList($limit = 0, $offset = 0, $sortField = 'customer.name', $sortOrder = 'ASC', $activeOnly = true, $noOfRecords = false) : array
     {
 
         $sortField = ($sortField == "") ? 'name' : $sortField;
@@ -76,6 +76,7 @@ class CustomerDao extends BaseDao
 
             if ($noOfRecords) {
                 $paginator = new Paginator($q, true);
+                $noOfRecords = $paginator->count();
                 return $noOfRecords;
 
             }
@@ -99,10 +100,21 @@ class CustomerDao extends BaseDao
         try {
             $q = Doctrine_Query:: create()
                 ->from('Customer');
+
             if ($activeOnly == true) {
                 $q->addWhere('is_deleted = ?', 0);
             }
             $count = $q->execute()->count();
+
+
+            $q = Doctrine::getEntityManager()->getRepository(Customer::class)->createQueryBuilder('customer');
+
+            if ($activeOnly == true) {
+                $q->andWhere('customer.is_deleted = :isDeleted');
+                $q->setParameter('isDeleted', '0');
+            }
+
+
             return $count;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
