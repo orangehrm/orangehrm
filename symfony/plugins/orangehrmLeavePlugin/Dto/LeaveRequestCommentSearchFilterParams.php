@@ -20,7 +20,6 @@
 namespace OrangeHRM\Leave\Dto;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveRequest;
 
 class LeaveRequestCommentSearchFilterParams extends DateRangeSearchFilterParams
