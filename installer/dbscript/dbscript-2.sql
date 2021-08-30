@@ -3918,6 +3918,7 @@ SET @apiv2_leave_employee_leave_entitlements_data_group_id := (SELECT `id` FROM 
 SET @apiv2_leave_leave_entitlements_validation_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_leave_entitlements_validation' LIMIT 1);
 SET @apiv2_leave_overlap_leaves_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_overlap_leaves' LIMIT 1);
 SET @apiv2_leave_leave_request_comment_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_leave_request_comment' LIMIT 1);
+SET @apiv2_leave_leave_comment_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_leave_comment' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Leave\\Api\\HolidayAPI', @leave_module_id, @apiv2_leave_holiday_data_group_id),
@@ -3969,7 +3970,7 @@ VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
        (1, 1, 0, 0, 0, @apiv2_leave_leave_request_comment_data_group_id, @admin_role_id),
        (1, 1, 0, 0, 1, @apiv2_leave_leave_request_comment_data_group_id, @ess_role_id),
        (1, 1, 0, 0, 1, @apiv2_leave_leave_request_comment_data_group_id, @supervisor_role_id),
-       (1, 1, 0, 0, 0, @apiv2_leave_leave_request_comment_data_group_id, @supervisor_role_id),
+       (1, 1, 0, 0, 0, @apiv2_leave_leave_request_comment_data_group_id, @supervisor_role_id);
 
 ALTER TABLE `ohrm_leave_request_comment` DROP `created_by_name`;
 ALTER TABLE `ohrm_leave_comment` DROP `created_by_name`;
