@@ -61,14 +61,12 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         return new EndpointResourceResult(CustomerModel::class, $customer);
 
     }
-
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::PARAMETER_NAME, new Rule(Rules::STRING_TYPE), new Rule(Rules::REQUIRED)),
-            new ParamRule(self::PARAMETER_DESCRIPTION, new Rule(Rules::STRING_TYPE))
+            new ParamRule(self::PARAMETER_NAME, new Rule(Rules::STRING_TYPE),new Rule(Rules::REQUIRED)),
+            new ParamRule(self::PARAMETER_DESCRIPTION,new Rule(Rules::STRING_TYPE))
         );
-
     }
 
     public function delete(): EndpointResult

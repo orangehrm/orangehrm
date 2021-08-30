@@ -32,7 +32,6 @@ class CustomerDaoTest extends KernelTestCase {
         $this->customerDao->saveCustomer($customer);
 
         $lastCustomer = $this->getEntityManager()->getRepository(Customer::class)->find(2);
-        dump($lastCustomer);
 
         $this->assertTrue($lastCustomer instanceof Customer);
         $this->assertEquals('Customer 2', $customer->getName());
