@@ -19,6 +19,7 @@
 
 namespace Orangehrm\Rest\Api\Time;
 
+use CustomerService;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
@@ -40,7 +41,7 @@ class CustomerAPI extends EndPoint
     public function getCustomerService()
     {
         if (is_null($this->customerService)) {
-            $this->customerService = new \CustomerService();
+            $this->customerService = new CustomerService();
         }
         return $this->customerService;
     }
@@ -124,14 +125,14 @@ class CustomerAPI extends EndPoint
 
                 if ($customer->getName() == $filters[self::PARAMETER_NAME]) {
 
-                    $this->updateCustomerFields($customer,$filters);
+                    $this->updateCustomerFields($customer, $filters);
                     return new Response(array('success' => 'Successfully Updated'));
                 } else {
                     throw new InvalidParamException('Customer Already Exists');
 
                 }
             } else {
-                $this->updateCustomerFields($customer,$filters);
+                $this->updateCustomerFields($customer, $filters);
                 return new Response(array('success' => 'Successfully Updated'));
             }
 
@@ -255,18 +256,18 @@ class CustomerAPI extends EndPoint
         }
     }
 
-    public function updateCustomerFields(\Customer $customer,$filters){
+    public function updateCustomerFields(\Customer $customer, $filters)
+    {
 
-        if(!empty($filters[self::PARAMETER_NAME])){
+        if (!empty($filters[self::PARAMETER_NAME])) {
             $customer->setName($filters[self::PARAMETER_NAME]);
         }
-        if(!empty($filters[self::PARAMETER_DESCRIPTION])){
+        if (!empty($filters[self::PARAMETER_DESCRIPTION])) {
             $customer->setDescription($filters[self::PARAMETER_DESCRIPTION]);
         }
 
         $customer->save();
     }
-
 
 
 }

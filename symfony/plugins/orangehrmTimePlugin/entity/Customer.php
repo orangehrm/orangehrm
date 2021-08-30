@@ -26,7 +26,7 @@ class Customer
      *
      * @ORM\Column(name="is_deleted", type="integer", length=1)
      */
-    private bool $is_deleted;
+    private bool $deleted;
 
     /**
      * @var string
@@ -93,17 +93,16 @@ class Customer
     /**
      * @return int
      */
-    public function getIsDeleted()
+    public function getDeleted()
     {
-        return $this->is_deleted;
+        return $this->deleted;
     }
 
     /**
-     * @param int $is_deleted
+     * @param int $deleted
      */
-    public function setIsDeleted($is_deleted): void
+    public function setDeleted($deleted): void
     {
-        $this->is_deleted = $is_deleted;
+        $this->deleted = $deleted;
     }
-
 }

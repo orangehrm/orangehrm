@@ -45,7 +45,6 @@ class CustomerService
      */
     public function getCustomerDao(): CustomerDao
     {
-
         if (!$this->customerDao instanceof CustomerDao) {
             $this->customerDao = new CustomerDao();
         }

@@ -7,7 +7,8 @@ use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\Customer;
 
-class CustomerModel implements Normalizable{
+class CustomerModel implements Normalizable
+{
 
     use ModelTrait;
 

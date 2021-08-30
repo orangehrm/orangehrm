@@ -3,20 +3,20 @@
 namespace OrangeHRM\Tests\Time\Dao;
 
 
+use Exception;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Tests\Util\KernelTestCase;
-use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Time\Dao\CustomerDao;
 
-class CustomerDaoTest extends KernelTestCase {
+class CustomerDaoTest extends KernelTestCase
+{
 
     private CustomerDao $customerDao;
     protected string $fixture;
 
-
     /**
      * Set up method
-     * @throws \Exception
+     * @throws Exception
      */
     protected function setUp(): void
     {
@@ -32,10 +32,8 @@ class CustomerDaoTest extends KernelTestCase {
         $this->customerDao->saveCustomer($customer);
 
         $lastCustomer = $this->getEntityManager()->getRepository(Customer::class)->find(2);
-
         $this->assertTrue($lastCustomer instanceof Customer);
         $this->assertEquals('Customer 2', $customer->getName());
-
 
     }
 

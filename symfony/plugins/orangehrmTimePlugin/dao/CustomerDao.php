@@ -30,7 +30,6 @@ use OrangeHRM\ORM\Paginator;
 
 class CustomerDao extends BaseDao
 {
-
     /**
      *
      * @param int $limit
@@ -42,7 +41,7 @@ class CustomerDao extends BaseDao
      * @return Customer []
      * @throws DaoException
      */
-    public function getCustomerList($limit = 0, $offset = 0, $sortField = 'customer.name', $sortOrder = 'ASC', $activeOnly = true, $noOfRecords = false) : array
+    public function getCustomerList($limit = 0, $offset = 0, $sortField = 'customer.name', $sortOrder = 'ASC', $activeOnly = true, $noOfRecords = false): array
     {
 
         $sortField = ($sortField == "") ? 'name' : $sortField;
@@ -60,7 +59,7 @@ class CustomerDao extends BaseDao
 //                ->offset($offset)
 //                ->limit($limit);
 
-            //new one from rajitha's guide
+            //
             $q = Doctrine::getEntityManager()->getRepository(Customer::class)->createQueryBuilder('customer');
 
             if ($activeOnly == true) {
@@ -96,7 +95,6 @@ class CustomerDao extends BaseDao
      */
     public function getCustomerCount($activeOnly = true)
     {
-
         try {
             $q = Doctrine_Query:: create()
                 ->from('Customer');
@@ -128,7 +126,6 @@ class CustomerDao extends BaseDao
      */
     public function getCustomerById($customerId)
     {
-
         try {
             return Doctrine:: getTable('Customer')->find($customerId);
         } catch (Exception $e) {
@@ -145,7 +142,6 @@ class CustomerDao extends BaseDao
      */
     public function getCustomerByName($customerName)
     {
-
         try {
             $q = Doctrine_Query:: create()
                 ->from('Customer')
@@ -163,7 +159,6 @@ class CustomerDao extends BaseDao
      */
     public function deleteCustomer($customerId)
     {
-
         try {
             $customer = Doctrine:: getTable('Customer')->find($customerId);
             $customer->setIsDeleted(Customer::DELETED);
@@ -176,7 +171,6 @@ class CustomerDao extends BaseDao
 
     public function undeleteCustomer($customerId)
     {
-
         try {
             $customer = Doctrine:: getTable('Customer')->find($customerId);
             $customer->setIsDeleted(Customer::ACTIVE);
@@ -189,7 +183,6 @@ class CustomerDao extends BaseDao
 
     private function _deleteRelativeProjectsForCustomer($customerId)
     {
-
         try {
             $q = Doctrine_Query:: create()
                 ->from('Project')
@@ -210,7 +203,6 @@ class CustomerDao extends BaseDao
 
     private function _undeleteRelativeProjectsForCustomer($customerId)
     {
-
         try {
             $q = Doctrine_Query:: create()
                 ->from('Project')
@@ -230,7 +222,6 @@ class CustomerDao extends BaseDao
 
     private function _deleteRelativeProjectActivitiesForProject($projectId)
     {
-
         try {
             $q = Doctrine_Query:: create()
                 ->from('ProjectActivity')
@@ -249,7 +240,6 @@ class CustomerDao extends BaseDao
 
     private function _undeleteRelativeProjectActivitiesForProject($projectId)
     {
-
         try {
             $q = Doctrine_Query:: create()
                 ->from('ProjectActivity')
@@ -268,7 +258,6 @@ class CustomerDao extends BaseDao
 
     private function _deleteRelativeProjectAdminsForProject($projectId)
     {
-
         try {
             $q = Doctrine_Query:: create()
                 ->delete('ProjectAdmin pa')
@@ -286,7 +275,6 @@ class CustomerDao extends BaseDao
      */
     public function getAllCustomers($activeOnly = true)
     {
-
         try {
             $q = Doctrine_Query:: create()
                 ->from('Customer');
@@ -309,7 +297,6 @@ class CustomerDao extends BaseDao
      */
     public function getCustomerNameList($customerIdList, $excludeDeletedCustomers = true)
     {
-
         try {
 
             if (!empty($customerIdList)) {
@@ -346,7 +333,6 @@ class CustomerDao extends BaseDao
      */
     public function hasCustomerGotTimesheetItems($customerId)
     {
-
         try {
             $q = Doctrine_Query:: create()
                 ->select("COUNT(*)")
@@ -370,7 +356,6 @@ class CustomerDao extends BaseDao
      */
     public function getActiveCustomerById($id)
     {
-
         try {
             $q = Doctrine_Query:: create()
                 ->from('Customer')
@@ -382,7 +367,6 @@ class CustomerDao extends BaseDao
         }
     }
 
-
     /**
      * @param Customer $customer
      * @return Customer
@@ -390,7 +374,6 @@ class CustomerDao extends BaseDao
      */
     public function saveCustomer(Customer $customer): Customer
     {
-
         try {
             $this->persist($customer);
             return $customer;
