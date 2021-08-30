@@ -22,6 +22,7 @@ namespace OrangeHRM\Tests\Leave\Dao;
 use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Leave\Dao\LeaveRequestCommentDao;
 use OrangeHRM\Leave\Dto\LeaveRequestCommentSearchFilterParams;
@@ -90,5 +91,17 @@ class LeaveRequestCommentDaoTest extends TestCase
         $leaveRequestCommentSearchParams->setLeaveRequestById(1);
         $result = $this->leaveRequestCommentDao->getSearchLeaveRequestCommentsCount($leaveRequestCommentSearchParams);
         $this->assertEquals(4, $result);
+    }
+
+    public function testGetLeaveRequestById(): void
+    {
+        $leaveRequest = $this->leaveRequestCommentDao->getLeaveRequestById(1);
+
+        $this->assertTrue($leaveRequest instanceof LeaveRequest);
+        $this->assertEquals(1, $leaveRequest->getId());
+        $this->assertEquals("2010-08-30", $leaveRequest->getDateApplied()->format('Y-m-d'));
+
+        $leaveRequest = $this->leaveRequestCommentDao->getLeaveRequestById(6);
+        $this->assertTrue($leaveRequest == null);
     }
 }

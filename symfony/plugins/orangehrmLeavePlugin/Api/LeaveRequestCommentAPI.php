@@ -42,7 +42,6 @@ use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Leave\Api\Model\LeaveRequestCommentModel;
 use OrangeHRM\Leave\Dto\LeaveRequestCommentSearchFilterParams;
 use OrangeHRM\Leave\Service\LeaveRequestCommentService;
-use OrangeHRM\Leave\Service\LeaveRequestService;
 
 class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
 {
@@ -59,19 +58,6 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
      * @var null|LeaveRequestCommentService
      */
     protected ?LeaveRequestCommentService $leaveRequestCommentService = null;
-
-    protected ?LeaveRequestService $leaveRequestService = null;
-
-    /**
-     * @return LeaveRequestService
-     */
-    public function getLeaveRequestService(): ?LeaveRequestService
-    {
-        if (is_null($this->leaveRequestService)) {
-            $this->leaveRequestService = new LeaveRequestService();
-        }
-        return $this->leaveRequestService;
-    }
 
     /**
      * @return LeaveRequestCommentService
@@ -105,7 +91,9 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
         $leaveRequestId = $this->getUrlAttributes();
 
         /** @var LeaveRequest|null $leaveRequest */
-        $leaveRequest = $this->getLeaveRequestService()->getLeaveRequestDao()->getLeaveRequestById($leaveRequestId);
+        $leaveRequest = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()->getLeaveRequestById(
+            $leaveRequestId
+        );
 
         $this->throwRecordNotFoundExceptionIfNotExist($leaveRequest, LeaveRequest::class);
 
@@ -152,7 +140,9 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
         $leaveRequestId = $this->getUrlAttributes();
 
         /** @var LeaveRequest|null $leaveRequest */
-        $leaveRequest = $this->getLeaveRequestService()->getLeaveRequestDao()->getLeaveRequestById($leaveRequestId);
+        $leaveRequest = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()->getLeaveRequestById(
+            $leaveRequestId
+        );
 
         $this->throwRecordNotFoundExceptionIfNotExist($leaveRequest, LeaveRequest::class);
 

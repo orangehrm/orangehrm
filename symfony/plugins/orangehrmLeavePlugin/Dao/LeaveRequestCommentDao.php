@@ -20,6 +20,7 @@
 namespace OrangeHRM\Leave\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Leave\Dto\LeaveRequestCommentSearchFilterParams;
 use OrangeHRM\ORM\Paginator;
@@ -78,5 +79,14 @@ class LeaveRequestCommentDao extends BaseDao
     {
         $this->persist($leaveRequestComment);
         return $leaveRequestComment;
+    }
+
+    /**
+     * @param int $leaveRequestId
+     * @return object|null
+     */
+    public function getLeaveRequestById(int $leaveRequestId)
+    {
+        return $this->getRepository(LeaveRequest::class)->find($leaveRequestId);
     }
 }
