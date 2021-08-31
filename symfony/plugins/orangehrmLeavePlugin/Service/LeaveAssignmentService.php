@@ -77,7 +77,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
             throw new LeaveAllocationServiceException('Invalid Employee');
         }
 
-        if ($this->hasOverlapLeave($leaveAssignmentData)) {
+        if ($this->hasOverlapLeaves($leaveAssignmentData)) {
             return false;
         }
         

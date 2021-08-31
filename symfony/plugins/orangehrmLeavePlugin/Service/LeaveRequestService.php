@@ -148,32 +148,6 @@ class LeaveRequestService
         $this->accessFlowStateMachineService = $accessFlowStateMachineService;
     }
 
-//    /**
-//     *
-//     * @param LeaveRequest $leaveRequest
-//     * @param Leave $leave
-//     * @return boolean
-//     */
-//    public function saveLeaveRequest( LeaveRequest $leaveRequest , $leaveList, $entitlements) {
-//        return $this->getLeaveRequestDao()->saveLeaveRequest($leaveRequest, $leaveList, $entitlements);
-//    }
-
-//    public function saveLeaveRequestComment($leaveRequestId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber) {
-//        return $this->getLeaveRequestDao()->saveLeaveRequestComment($leaveRequestId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
-//    }
-
-    public function saveLeaveComment($leaveId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber) {
-        return $this->getLeaveRequestDao()->saveLeaveComment($leaveId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
-    }
-
-    public function getLeaveRequestComments($leaveRequestId) {
-        return $this->getLeaveRequestDao()->getLeaveRequestComments($leaveRequestId);
-    }
-
-    public function getLeaveComments($leaveId) {
-        return $this->getLeaveRequestDao()->getLeaveComments($leaveId);
-    }
-
     /**
      *
      * @param Employee $employee
@@ -200,20 +174,6 @@ class LeaveRequestService
         } catch(Exception $e) {
             throw new LeaveServiceException($e->getMessage());
         }
-    }
-
-    /**
-     *
-     * @param date $leaveStartDate
-     * @param date $leaveEndDate
-     * @param int $empId
-     * @return Leave List
-     * @todo Parameter list is too long. Refactor to use LeaveParameterObject
-     */
-    public function getOverlappingLeave($leaveStartDate, $leaveEndDate ,$empId, $startTime = '00:00', $endTime='59:00', $hoursPerday = '8') {
-
-        return $this->getLeaveRequestDao()->getOverlappingLeave($leaveStartDate, $leaveEndDate ,$empId,  $startTime, $endTime, $hoursPerday);
-
     }
 
     /**
@@ -757,14 +717,8 @@ class LeaveRequestService
         return $actions;
     }
 
-    /**
-     *
-     * @param type $employeeId
-     * @param type $date
-     * @return double
-     */
-    public function getTotalLeaveDuration($employeeId, $date){
-        return $this->getLeaveRequestDao()->getTotalLeaveDuration($employeeId, $date);
+    public function getTotalLeaveDuration(int $empNumber, \DateTime $date){
+        return $this->getLeaveRequestDao()->getTotalLeaveDuration($empNumber, $date);
     }
 
     public function getLeaveById($leaveId) {

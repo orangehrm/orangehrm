@@ -22,6 +22,7 @@ namespace OrangeHRM\Leave\Dto;
 use DateTime;
 use InvalidArgumentException;
 use LogicException;
+use OrangeHRM\Entity\Leave;
 
 class LeaveDuration
 {
@@ -29,6 +30,13 @@ class LeaveDuration
     public const HALF_DAY_MORNING = 'half_day_morning';
     public const HALF_DAY_AFTERNOON = 'half_day_afternoon';
     public const SPECIFY_TIME = 'specify_time';
+
+    public const DURATION_MAP = [
+        Leave::DURATION_TYPE_FULL_DAY => self::FULL_DAY,
+        Leave::DURATION_TYPE_HALF_DAY_AM => self::HALF_DAY_MORNING,
+        Leave::DURATION_TYPE_HALF_DAY_PM => self::HALF_DAY_AFTERNOON,
+        Leave::DURATION_TYPE_SPECIFY_TIME => self::SPECIFY_TIME,
+    ];
 
     /**
      * @var string
@@ -143,8 +151,24 @@ class LeaveDuration
      */
     public function isTypeHalfDay(): bool
     {
-        return $this->getType() == LeaveDuration::HALF_DAY_MORNING || $this->getType(
-            ) == LeaveDuration::HALF_DAY_AFTERNOON;
+        return $this->getType() == LeaveDuration::HALF_DAY_MORNING
+            || $this->getType() == LeaveDuration::HALF_DAY_AFTERNOON;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeHalfDayMorning(): bool
+    {
+        return $this->getType() == LeaveDuration::HALF_DAY_MORNING;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeHalfDayAfternoon(): bool
+    {
+        return $this->getType() == LeaveDuration::HALF_DAY_AFTERNOON;
     }
 
     /**

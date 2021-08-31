@@ -68,9 +68,9 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
     public function applyLeave(LeaveParameterObject $leaveAssignmentData): ?LeaveRequest
     {
         // TODO
-//        if ($this->hasOverlapLeave($leaveAssignmentData)) {
-//            throw new LeaveAllocationServiceException('Overlapping Leave Request Found');
-//        }
+        if ($this->hasOverlapLeaves($leaveAssignmentData)) {
+            throw new LeaveAllocationServiceException('Overlapping Leave Request Found');
+        }
 
         // TODO
 //        if ($this->applyMoreThanAllowedForADay($leaveAssignmentData)) {

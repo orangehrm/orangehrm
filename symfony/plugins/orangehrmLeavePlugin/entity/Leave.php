@@ -89,7 +89,7 @@ class Leave
      *
      * @ORM\Column(name="comments", type="string", length=256, nullable=true)
      */
-    private ?string $comments = null;
+    private ?string $comment = null;
 
     /**
      * @var LeaveRequest
@@ -219,17 +219,17 @@ class Leave
     /**
      * @return string|null
      */
-    public function getComments(): ?string
+    public function getComment(): ?string
     {
-        return $this->comments;
+        return $this->comment;
     }
 
     /**
-     * @param string|null $comments
+     * @param string|null $comment
      */
-    public function setComments(?string $comments): void
+    public function setComment(?string $comment): void
     {
-        $this->comments = $comments;
+        $this->comment = $comment;
     }
 
     /**

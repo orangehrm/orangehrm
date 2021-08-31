@@ -5,7 +5,7 @@ TerminationReason:
   0: {id: 1, name: 'Resign'}
 
 EmployeeTerminationRecord:
-  0: {id: 1, reasonId: 1, date: '2011-11-20'}
+  0: {id: 1, reason_id: 1, date: '2011-11-20'}
 
 # 1=Organization
 #    2=Engineering
@@ -28,7 +28,7 @@ Employee:
   5: {empNumber: 6, firstName: 'Jane', lastName: 'Edward', work_station: 2}
 
 Country:
-  0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode:144}
+  0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144}
   1: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840}
 
 Location:
