@@ -98,7 +98,14 @@ class LeaveEntitlementAPITest extends EndpointTestCase
         $this->assertEquals(
             [
                 'id' => 1,
-                'empNumber' => 100,
+                'employee' => [
+                    'empNumber' => 100,
+                    'lastName' => 'Abbey',
+                    'firstName' => 'Kayla',
+                    'middleName' => 'T',
+                    'employeeId' => '0001',
+                    'terminationId' => null,
+                ],
                 'entitlement' => 5.0,
                 'daysUsed' => 0.0,
                 'leaveType' => [

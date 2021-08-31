@@ -158,7 +158,9 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, serializedFilters);
+    } = usePaginate(http, {
+      query: serializedFilters,
+    });
 
     onSort(execQuery);
 
