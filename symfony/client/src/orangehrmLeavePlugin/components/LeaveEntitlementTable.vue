@@ -89,6 +89,13 @@ const defaultFilters = {
 export default {
   name: 'leave-entitlement-table',
 
+  props: {
+    prefetch: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
   },
@@ -145,21 +152,20 @@ export default {
     };
   },
 
-  setup() {
+  setup(props) {
     const filters = ref({...defaultFilters});
 
     const serializedFilters = computed(() => {
       return {
-        employeeId: filters.value.employee?.id,
-        leaveType: filters.value.leaveType?.id,
+        empNumber: filters.value.employee?.id,
+        leaveTypeId: filters.value.leaveType?.id,
         fromDate: filters.value.leavePeriod?.startDate,
         toDate: filters.value.leavePeriod?.endDate,
       };
     });
 
     const http = new APIService(
-      // window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      window.appGlobal.baseUrl,
       'api/v2/leave/leave-entitlements',
     );
     const {
@@ -171,7 +177,11 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, serializedFilters, entitlementNormalizer);
+    } = usePaginate(http, {
+      query: serializedFilters,
+      normalizer: entitlementNormalizer,
+      prefetch: props.prefetch,
+    });
 
     return {
       http,

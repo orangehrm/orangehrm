@@ -85,7 +85,7 @@ import SaveSalaryComponent from '@/orangehrmPimPlugin/components/SaveSalaryCompo
 import EditSalaryComponent from '@/orangehrmPimPlugin/components/EditSalaryComponent';
 import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
 
-const dependentNormalizer = data => {
+const salaryNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
@@ -145,7 +145,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, dependentNormalizer);
+    } = usePaginate(http, {normalizer: salaryNormalizer});
     return {
       http,
       showPaginator,

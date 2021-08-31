@@ -238,7 +238,10 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, serializedFilters, locationDataNormalizer);
+    } = usePaginate(http, {
+      query: serializedFilters,
+      normalizer: locationDataNormalizer,
+    });
 
     onSort(execQuery);
 

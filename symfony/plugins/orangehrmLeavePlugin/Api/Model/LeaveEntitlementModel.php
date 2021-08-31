@@ -37,6 +37,11 @@ class LeaveEntitlementModel implements Normalizable
             [
                 'id',
                 ['getEmployee', 'getEmpNumber'],
+                ['getEmployee', 'getLastName'],
+                ['getEmployee', 'getFirstName'],
+                ['getEmployee', 'getMiddleName'],
+                ['getEmployee', 'getEmployeeId'],
+                ['getEmployee', 'getEmployeeTerminationRecord', 'getId'],
                 'noOfDays',
                 'daysUsed',
                 ['getLeaveType', 'getId'],
@@ -54,7 +59,12 @@ class LeaveEntitlementModel implements Normalizable
         $this->setAttributeNames(
             [
                 'id',
-                'empNumber',
+                ['employee', 'empNumber'],
+                ['employee', 'lastName'],
+                ['employee', 'firstName'],
+                ['employee', 'middleName'],
+                ['employee', 'employeeId'],
+                ['employee', 'terminationId'],
                 'entitlement',
                 'daysUsed',
                 ['leaveType', 'id'],

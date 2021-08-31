@@ -62,11 +62,27 @@
 
 <script>
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 
 export default {
   name: 'entitlement-bulk-update-modal',
   components: {
     'oxd-dialog': Dialog,
+  },
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
+  setup() {
+    const http = new APIService(
+      window.appGlobal.baseUrl,
+      '/api/v2/leave/employees/leave-entitlements',
+    );
+    return {
+      http,
+    };
   },
   data() {
     return {
@@ -82,29 +98,50 @@ export default {
         },
         {
           title: 'Old Entitlement',
-          name: 'old',
+          name: 'current',
           style: {flex: 1},
         },
         {
           title: 'New Entitlement',
-          name: 'new',
+          name: 'updateAs',
           style: {flex: 1},
         },
       ],
-      items: [
-        {employee: 'Sam Jackson', old: '1.00', new: '5.00'},
-        {employee: 'Micheal Knight', old: '12.00', new: '14.00'},
-        {employee: 'Kevin Peterson', old: '0.00', new: '0.50'},
-      ],
+      items: [],
     };
   },
   methods: {
     showDialog() {
-      return new Promise((resolve, reject) => {
-        this.resolve = resolve;
-        this.reject = reject;
-        this.show = true;
-      });
+      return this.http
+        .getAll({
+          leaveTypeId: this.data.leaveType?.id,
+          fromDate: this.data.leavePeriod?.startDate,
+          toDate: this.data.leavePeriod?.endDate,
+          entitlement: this.data.entitlement,
+          locationId: this.data.location?.id,
+          subunitId: this.data.subunit?.id,
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.items = Array.isArray(data)
+            ? data.map(item => {
+                return {
+                  employee: `${item.firstName} ${item.lastName}`,
+                  current: item.entitlement?.current
+                    ? parseFloat(item.entitlement.current).toFixed(2)
+                    : '0.00',
+                  updateAs: item.entitlement?.updateAs
+                    ? parseFloat(item.entitlement.updateAs).toFixed(2)
+                    : '0.00',
+                };
+              })
+            : [];
+          return new Promise((resolve, reject) => {
+            this.resolve = resolve;
+            this.reject = reject;
+            this.show = true;
+          });
+        });
     },
     onConfirm() {
       this.show = false;

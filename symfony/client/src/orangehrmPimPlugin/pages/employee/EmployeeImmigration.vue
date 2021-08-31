@@ -125,7 +125,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, immigrationNormalizer);
+    } = usePaginate(http, {normalizer: immigrationNormalizer});
     return {
       http,
       showPaginator,

@@ -84,7 +84,7 @@
             </oxd-grid-item>
             <oxd-grid-item>
               <oxd-text class="orangehrm-leave-entitled-text" type="subtitle-2">
-                Matches 40 Employees
+                Matches {{ empMatchCount }} Employees
               </oxd-text>
             </oxd-grid-item>
           </oxd-grid>
@@ -132,9 +132,13 @@
       </oxd-form>
     </div>
 
-    <entitlement-update-modal ref="updateModal"></entitlement-update-modal>
+    <entitlement-update-modal
+      ref="updateModal"
+      :data="leaveEntitlement"
+    ></entitlement-update-modal>
     <entitlement-bulk-update-modal
       ref="bulkUpdateModal"
+      :data="leaveEntitlement"
     ></entitlement-bulk-update-modal>
   </div>
 </template>
@@ -197,6 +201,7 @@ export default {
       rules: {
         employee: [required],
         leaveType: [required],
+        leavePeriod: [required],
         entitlement: [
           required,
           v => {
@@ -207,18 +212,19 @@ export default {
           },
         ],
       },
+      empMatchCount: 0,
     };
   },
 
   methods: {
     onCancel() {
-      navigate('/leave/applyLeave');
+      navigate('/leave/viewLeaveEntitlements');
     },
     async onSave() {
       let confirmation = null;
+      this.isLoading = true;
       const isBulkAssign = this.leaveEntitlement.bulkAssign == 1;
 
-      // TODO: Call validation API
       if (isBulkAssign) {
         confirmation = await this.$refs.bulkUpdateModal.showDialog();
       } else {
@@ -226,10 +232,9 @@ export default {
       }
 
       if (confirmation !== 'ok') {
+        this.isLoading = false;
         return;
       }
-
-      this.isLoading = true;
 
       const payload = {
         empNumber: undefined,
@@ -253,6 +258,28 @@ export default {
         this.$toast.saveSuccess();
         this.isLoading = false;
       });
+    },
+  },
+
+  watch: {
+    leaveEntitlement: {
+      handler(data) {
+        if (data.bulkAssign != 1) return;
+        this.http
+          .request({
+            method: 'GET',
+            url: 'api/v2/pim/employees/count',
+            params: {
+              locationId: data.location?.id,
+              subunitId: data.subunit?.id,
+            },
+          })
+          .then(response => {
+            const {data} = response.data;
+            this.empMatchCount = data.count;
+          });
+      },
+      deep: true,
     },
   },
 };

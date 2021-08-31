@@ -173,7 +173,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, dataNormalizer);
+    } = usePaginate(http, {normalizer: dataNormalizer});
 
     return {
       http,

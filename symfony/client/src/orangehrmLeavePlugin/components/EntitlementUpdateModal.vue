@@ -32,8 +32,8 @@
       </div>
       <div class="orangehrm-text-center-align">
         <oxd-text type="subtitle-2">
-          Existing Entitlement value {{ currentValue }} will be updated to
-          {{ newValue }}
+          Existing Entitlement value {{ current }} will be updated to
+          {{ updateAs }}
         </oxd-text>
       </div>
       <div class="orangehrm-modal-footer">
@@ -56,28 +56,61 @@
 
 <script>
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
+import {APIService} from '@orangehrm/core/util/services/api.service';
 
 export default {
   name: 'entitlement-update-modal',
   components: {
     'oxd-dialog': Dialog,
   },
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
+  setup() {
+    const http = new APIService(window.appGlobal.baseUrl, '');
+    return {
+      http,
+    };
+  },
   data() {
     return {
       show: false,
       reject: null,
       resolve: null,
-      currentValue: '0.00',
-      newValue: '1.00',
+      current: '0.00',
+      updateAs: '0.00',
     };
   },
   methods: {
     showDialog() {
-      return new Promise((resolve, reject) => {
-        this.resolve = resolve;
-        this.reject = reject;
-        this.show = true;
-      });
+      return this.http
+        .request({
+          method: 'GET',
+          url: `api/v2/leave/employees/${this.data.employee?.id}/leave-entitlements`,
+          params: {
+            leaveTypeId: this.data.leaveType?.id,
+            fromDate: this.data.leavePeriod?.startDate,
+            toDate: this.data.leavePeriod?.endDate,
+            entitlement: this.data.entitlement,
+          },
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.current = data.entitlement?.current
+            ? parseFloat(data.entitlement.current).toFixed(2)
+            : '0.00';
+          this.updateAs = data.entitlement?.updateAs
+            ? parseFloat(data.entitlement.updateAs).toFixed(2)
+            : '0.00';
+          return new Promise((resolve, reject) => {
+            this.resolve = resolve;
+            this.reject = reject;
+            this.show = true;
+          });
+        });
     },
     onConfirm() {
       this.show = false;

@@ -144,7 +144,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, oAuthClientNormalizer);
+    } = usePaginate(http, {normalizer: oAuthClientNormalizer});
     return {
       http,
       showPaginator,
