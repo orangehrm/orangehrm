@@ -20,9 +20,13 @@
 namespace OrangeHRM\Tests\Leave\Dao;
 
 use DateTime;
+use Generator;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
+use OrangeHRM\Entity\LeaveRequest;
+use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveRequestDao;
 use OrangeHRM\Tests\Util\KernelTestCase;
@@ -780,14 +784,62 @@ class LeaveRequestDaoTest extends KernelTestCase
         $this->validateLeaveListDates($leaveList, $dates);
     }
 
-    public function xtestGetTotalLeaveDuration (){
-         $duration = $this->leaveRequestDao->getTotalLeaveDuration( 1, '2011-01-01');
-         $this->assertNull($duration);
+    /**
+     * @dataProvider getTotalLeaveDurationDataProvider
+     */
+    public function testGetTotalLeaveDuration(int $empNumber, DateTime $date, ?float $expected): void
+    {
+        $duration = $this->leaveRequestDao->getTotalLeaveDuration($empNumber, $date);
+        $this->assertEquals($expected, $duration);
     }
 
-    public function xtestGetTotalLeaveDuration1 (){
-         $duration = $this->leaveRequestDao->getTotalLeaveDuration( 6, '2011-01-01');
-         $this->assertEquals( 3.00 ,$duration);
+    public function getTotalLeaveDurationDataProvider(): Generator
+    {
+        yield [1, new DateTime('2011-01-01'), null];
+        yield [6, new DateTime('2011-01-01'), 3.00];
+        yield [6, new DateTime('2011-04-02'), 1.00];
+    }
+
+    public function testGetTotalLeaveDurationByChangingStatus(): void
+    {
+        $leave = new Leave();
+        $leave->setDate(new DateTime('2011-04-02'));
+        $leave->setLeaveRequest($this->getEntityReference(LeaveRequest::class, 21));
+        $leave->setLeaveType($this->getEntityReference(LeaveType::class, 4));
+        $leave->setEmployee($this->getEntityReference(Employee::class, 6));
+        $leave->setLengthHours(1.25);
+        $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
+        $this->getEntityManager()->persist($leave);
+        $this->getEntityManager()->flush();
+        $duration = $this->leaveRequestDao->getTotalLeaveDuration(6, new DateTime('2011-04-02'));
+        $this->assertEquals(2.25, $duration);
+
+        $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_REJECTED);
+        $this->getEntityManager()->persist($leave);
+        $this->getEntityManager()->flush();
+        $duration = $this->leaveRequestDao->getTotalLeaveDuration(6, new DateTime('2011-04-02'));
+        $this->assertEquals(1, $duration);
+
+        $leave = $this->getEntityReference(Leave::class, 33);
+        $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_CANCELLED);
+        $this->getEntityManager()->persist($leave);
+        $this->getEntityManager()->flush();
+        $duration = $this->leaveRequestDao->getTotalLeaveDuration(6, new DateTime('2011-01-01'));
+        $this->assertEquals(2, $duration);
+
+        $leave = $this->getEntityReference(Leave::class, 34);
+        $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
+        $this->getEntityManager()->persist($leave);
+        $this->getEntityManager()->flush();
+        $duration = $this->leaveRequestDao->getTotalLeaveDuration(6, new DateTime('2011-01-01'));
+        $this->assertEquals(1, $duration);
+
+        $leave = $this->getEntityReference(Leave::class, 35);
+        $leave->setStatus(Leave::LEAVE_STATUS_LEAVE_WEEKEND);
+        $this->getEntityManager()->persist($leave);
+        $this->getEntityManager()->flush();
+        $duration = $this->leaveRequestDao->getTotalLeaveDuration(6, new DateTime('2011-01-01'));
+        $this->assertNull($duration);
     }
 
     /* Common methods */
@@ -2470,7 +2522,28 @@ class LeaveRequestDaoTest extends KernelTestCase
          $leaveRecords = $this->leaveRequestDao->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$status);
          $this->assertEquals(2,count($leaveRecords));
      }
- }
+
+    public function testGetLeaveRequestsByEmpNumberAndDateRange(): void
+    {
+        $empNumber = 1;
+        $fromDate = new DateTime('2010-09-01');
+        $toDate = new DateTime('2010-09-21');
+        $leaveRequests = $this->leaveRequestDao->getLeaveRequestsByEmpNumberAndDateRange(
+            $empNumber,
+            $fromDate,
+            $toDate
+        );
+        $this->assertCount(6, $leaveRequests);
+        foreach ($leaveRequests as $i => $leaveRequest) {
+            $this->assertEquals($i + 1, $leaveRequest->getId());
+            $this->assertEquals($empNumber, $leaveRequest->getEmployee()->getEmpNumber());
+            foreach ($leaveRequest->getLeaves() as $leave) {
+                $this->assertGreaterThanOrEqual($fromDate, $leave->getDate());
+                $this->assertLessThanOrEqual($toDate, $leave->getDate());
+            }
+        }
+    }
+}
 
 
  class ParameterStub {

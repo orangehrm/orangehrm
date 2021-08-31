@@ -48,10 +48,12 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
      * @param $dispatcher
      */
     public function setDispatcher($dispatcher) {
+        // TODO
         $this->dispatcher = $dispatcher;
     }
 
     public function getDispatcher() {
+        // TODO
         if(is_null($this->dispatcher)) {
             $this->dispatcher = sfContext::getInstance()->getEventDispatcher();
         }
@@ -63,19 +65,17 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
      *
      * @param LeaveParameterObject $leaveAssignmentData
      * @return LeaveRequest|null
-     * @throws LeaveAllocationServiceException When leave request length exceeds work shift length.
+     * @throws LeaveAllocationServiceException
      */
     public function applyLeave(LeaveParameterObject $leaveAssignmentData): ?LeaveRequest
     {
-        // TODO
         if ($this->hasOverlapLeaves($leaveAssignmentData)) {
-            throw new LeaveAllocationServiceException('Overlapping Leave Request Found');
+            throw LeaveAllocationServiceException::overlappingLeavesFound();
         }
 
-        // TODO
-//        if ($this->applyMoreThanAllowedForADay($leaveAssignmentData)) {
-//            throw new LeaveAllocationServiceException('Work Shift Length Exceeded');
-//        }
+        if ($this->applyMoreThanAllowedForADay($leaveAssignmentData)) {
+            throw LeaveAllocationServiceException::workShiftLengthExceeded();
+        }
 
         return $this->saveLeaveRequest($leaveAssignmentData);
     }
@@ -121,7 +121,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
                 );
 
                 if (!$this->allowToExceedLeaveBalance() && $entitlements == null) {
-                    throw new LeaveAllocationServiceException('Leave Balance Exceeded');
+                    throw LeaveAllocationServiceException::leaveBalanceExceeded();
                 }
             }
 
@@ -159,10 +159,10 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
                     return $leaveRequest;
                 } catch (Exception $e) {
                     $this->getLogger()->error('Exception while saving leave:' . $e->getMessage());
-                    throw new LeaveAllocationServiceException('Leave Quota will Exceed');
+                    throw LeaveAllocationServiceException::leaveQuotaWillExceed();
                 }
             } else {
-                throw new LeaveAllocationServiceException('No working days in leave request');
+                throw LeaveAllocationServiceException::noWorkingDaysSelected();
             }
         }
 
@@ -245,7 +245,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
         }
 
         if (is_null($this->applyWorkflowItem)) {
-            $this->getLogger()->error("No workflow item found for APPLY leave action!");
+            $this->getLogger()->error('No workflow item found for APPLY leave action!');
         }
 
         return $this->applyWorkflowItem;

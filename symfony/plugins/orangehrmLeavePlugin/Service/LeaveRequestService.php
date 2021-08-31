@@ -717,10 +717,6 @@ class LeaveRequestService
         return $actions;
     }
 
-    public function getTotalLeaveDuration(int $empNumber, \DateTime $date){
-        return $this->getLeaveRequestDao()->getTotalLeaveDuration($empNumber, $date);
-    }
-
     public function getLeaveById($leaveId) {
         return $this->getLeaveRequestDao()->getLeaveById($leaveId);
     }

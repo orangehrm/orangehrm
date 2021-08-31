@@ -32,6 +32,8 @@ use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
 
+use OrangeHRM\ORM\QueryBuilderWrapper;
+
 use function Doctrine\ORM\QueryBuilder;
 
 class LeaveRequestDao extends BaseDao
@@ -500,23 +502,28 @@ class LeaveRequestDao extends BaseDao
     /**
      * @param int $empNumber
      * @param DateTime $date
-     * @return mixed
+     * @return float|null
      */
-    public function getTotalLeaveDuration(int $empNumber, DateTime $date) {
-        // TODO
+    public function getTotalLeaveDuration(int $empNumber, DateTime $date): ?float
+    {
         $this->_markApprovedLeaveAsTaken();
 
-        $leaveStatusNotConsider = [Leave::LEAVE_STATUS_LEAVE_CANCELLED, Leave::LEAVE_STATUS_LEAVE_REJECTED, Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY];
+        $leaveStatusNotConsider = [
+            Leave::LEAVE_STATUS_LEAVE_CANCELLED,
+            Leave::LEAVE_STATUS_LEAVE_REJECTED,
+            Leave::LEAVE_STATUS_LEAVE_WEEKEND,
+            Leave::LEAVE_STATUS_LEAVE_HOLIDAY
+        ];
 
-        $q = Doctrine_Query::create()
-                ->select('SUM(length_hours) as total_duration')
-                ->from('Leave')
-                ->where("emp_number =?", $empNumber)
-                ->andWhereNotIn("status ", $leaveStatusNotConsider)
-                ->andWhere("date =?", $date);
-        $duration = $q->fetchOne();
-
-        return $duration->getTotalDuration();
+        $q = $this->createQueryBuilder(Leave::class, 'l')
+            ->select('SUM(l.lengthHours)')
+            ->andWhere('l.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber)
+            ->andWhere('l.date = :date')
+            ->setParameter('date', $date);
+        $q->andWhere($q->expr()->notIn('l.status', ':statusNotConsider'))
+            ->setParameter('statusNotConsider', $leaveStatusNotConsider);
+        return $q->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -896,52 +903,24 @@ class LeaveRequestDao extends BaseDao
         $this->_markApprovedLeaveAsTaken();
     }
 
-    private function _markApprovedLeaveAsTaken() {
-        // TODO
+    private function _markApprovedLeaveAsTaken(): void
+    {
         if (self::$doneMarkingApprovedLeaveAsTaken) {
             return;
-        } else {
+        }
+        $now = $this->getDateTimeHelper()->getNow();
+        $q = $this->createQueryBuilder(Leave::class, 'l')
+            ->update()
+            ->set('l.status', ':takenStatus')
+            ->setParameter('takenStatus', Leave::LEAVE_STATUS_LEAVE_TAKEN)
+            ->andWhere('l.status = :approvedStatus')
+            ->setParameter('approvedStatus', Leave::LEAVE_STATUS_LEAVE_APPROVED);
+        $q->andWhere($q->expr()->lt('l.date', ':date'))
+            ->setParameter('date', $now);
 
-            $date = date('Y-m-d');
-
-            $conn = Doctrine_Manager::connection()->getDbh();
-            $query = "SELECT l.id from ohrm_leave l WHERE l.`date` < ? AND l.status = ?";
-            $statement = $conn->prepare($query);
-            $result = $statement->execute([$date, Leave::LEAVE_STATUS_LEAVE_APPROVED]);
-
-            if ($result) {
-                $ids = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
-
-                if (count($ids) > 0) {
-
-                    $q = Doctrine_Query::create()
-                            ->update('Leave l')
-                            ->set('l.status', Leave::LEAVE_STATUS_LEAVE_TAKEN)
-                            ->whereIn('l.id', $ids);
-
-                    $q->execute();
-
-                    // TODO: Optimize
-                    // No longer needed, since entitlement.used values are updated when leave is applied/assigned
-                    /*$query = "SELECT le.entitlement_id, le.length_days FROM ohrm_leave_leave_entitlement le " .
-                            "WHERE le.leave_id IN (" . implode(',', $ids) . ")";
-
-                    $statement = $conn->prepare($query);
-                    $result = $statement->execute();
-                    if ($result) {
-
-                        $updateQuery = "UPDATE ohrm_leave_entitlement e " .
-                                "SET e.days_used = e.days_used + ? " .
-                                "WHERE e.id = ?";
-
-                        $updateStatement = $conn->prepare($updateQuery);
-
-                        while ($row = $statement->fetch()) {
-                            $updateStatement->execute(array($row['length_days'], $row['entitlement_id']));
-                        }
-                    }*/
-                }
-            }
+        $affectedRows = $q->getQuery()->execute();
+        // TODO
+        if ($affectedRows > 1) {
             self::$doneMarkingApprovedLeaveAsTaken = true;
         }
     }
@@ -1126,11 +1105,50 @@ class LeaveRequestDao extends BaseDao
         // @codeCoverageIgnoreEnd
     }
 
-    public function getLeaveRequestsByEmpNumberForDateRange(int $empNumber, DateTime $fromDate, DateTime $toDate)
-    {
+    /**
+     * @param int $empNumber
+     * @param DateTime|null $fromDate
+     * @param DateTime|null $toDate
+     * @return QueryBuilderWrapper
+     */
+    private function getLeaveRequestsByEmpNumberAndDateRangeQueryBuilderWrapper(
+        int $empNumber,
+        ?DateTime $fromDate = null,
+        ?DateTime $toDate = null
+    ): QueryBuilderWrapper {
         $q = $this->createQueryBuilder(LeaveRequest::class, 'lr')
-            ->andWhere('lr.employee = $empNumber')
+            ->andWhere('lr.employee = :empNumber')
             ->setParameter('empNumber', $empNumber);
+        $q->leftJoin('lr.leaves', 'l');
+
+        if ($fromDate) {
+            $q->andWhere($q->expr()->gte('l.date', ':fromDate'))
+                ->setParameter('fromDate', $fromDate);
+        }
+
+        if ($toDate) {
+            $q->andWhere($q->expr()->lte('l.date', ':toDate'))
+                ->setParameter('toDate', $toDate);
+        }
+        return $this->getQueryBuilderWrapper($q);
     }
 
+    /**
+     * @param int $empNumber
+     * @param DateTime|null $fromDate
+     * @param DateTime|null $toDate
+     * @return LeaveRequest[]
+     */
+    public function getLeaveRequestsByEmpNumberAndDateRange(
+        int $empNumber,
+        ?DateTime $fromDate = null,
+        ?DateTime $toDate = null
+    ): array {
+        $q = $this->getLeaveRequestsByEmpNumberAndDateRangeQueryBuilderWrapper(
+            $empNumber,
+            $fromDate,
+            $toDate
+        )->getQueryBuilder();
+        return $q->getQuery()->execute();
+    }
 }

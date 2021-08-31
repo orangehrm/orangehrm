@@ -94,7 +94,7 @@ class Leave
     /**
      * @var LeaveRequest
      *
-     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveRequest")
+     * @ORM\ManyToOne(targetEntity="OrangeHRM\Entity\LeaveRequest", inversedBy="leaves")
      * @ORM\JoinColumn(name="leave_request_id", referencedColumnName="id")
      */
     private LeaveRequest $leaveRequest;
