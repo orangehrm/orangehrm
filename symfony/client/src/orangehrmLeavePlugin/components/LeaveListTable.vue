@@ -183,7 +183,10 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, serializedFilters, leavelistNormalizer);
+    } = usePaginate(http, {
+      query: serializedFilters,
+      normalizer: leavelistNormalizer,
+    });
 
     return {
       http,
