@@ -112,7 +112,9 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, PayGradeCurrencyNormalizer);
+    } = usePaginate(http, {
+      normalizer: PayGradeCurrencyNormalizer,
+    });
     return {
       http,
       showPaginator,

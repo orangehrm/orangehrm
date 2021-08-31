@@ -143,7 +143,9 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, currencyNormalizer);
+    } = usePaginate(http, {
+      normalizer: currencyNormalizer,
+    });
 
     return {
       http,

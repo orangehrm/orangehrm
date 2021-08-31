@@ -84,10 +84,19 @@ function defaultNormalizer(data: DTO[]): DTO[] {
   return data;
 }
 
+type usePaginateArgs = {
+  query?: object;
+  normalizer?: Function;
+  prefetch?: boolean;
+};
+
 export default function usePaginate(
   http: APIService,
-  query = {},
-  normalizer = defaultNormalizer,
+  {
+    query = {},
+    normalizer = defaultNormalizer,
+    prefetch = true,
+  }: usePaginateArgs = {},
 ) {
   const state = reactive<State>({
     showPaginator: false,
@@ -123,7 +132,10 @@ export default function usePaginate(
     state.isLoading = false;
   };
 
-  onBeforeMount(execQuery);
+  console.log(prefetch);
+  if (prefetch) {
+    onBeforeMount(execQuery);
+  }
 
   watch(() => state.currentPage, execQuery);
 
