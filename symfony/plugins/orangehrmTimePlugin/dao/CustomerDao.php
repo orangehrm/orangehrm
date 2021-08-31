@@ -27,64 +27,24 @@ use OrangeHRM\Entity\Customer;
 use OrangeHRM\Entity\ProjectActivity;
 use OrangeHRM\ORM\Doctrine;
 use OrangeHRM\ORM\Paginator;
+use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
 
 class CustomerDao extends BaseDao
 {
+
     /**
-     *
-     * @param int $limit
-     * @param int $offset
-     * @param string $sortField
-     * @param string $sortOrder
-     * @param bool $activeOnly
-     * @param false $noOfRecords
-     * @return Customer []
+     * @param CustomerSearchFilterParams $customerSearchFilterParams
+     * @return Customer[]
      * @throws DaoException
      */
-    public function getCustomerList($limit = 0, $offset = 0, $sortField = 'customer.name', $sortOrder = 'ASC', $activeOnly = true, $noOfRecords = false): array
+    public function getCustomerList(CustomerSearchFilterParams $customerSearchFilterParams): array
     {
-
-        $sortField = ($sortField == "") ? 'name' : $sortField;
-        $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
-
         try {
-//            $q = Doctrine_Query:: create()
-//                ->from('Customer');
-//
-//            if ($activeOnly == true) {
-//                $q->addWhere('is_deleted = 0');
-//            }
-//
-//            $q->orderBy($sortField . ' ' . $sortOrder)
-//                ->offset($offset)
-//                ->limit($limit);
-
-            //
-            $q = Doctrine::getEntityManager()->getRepository(Customer::class)->createQueryBuilder('customer');
-
-            if ($activeOnly == true) {
-                $q->andWhere('customer.is_deleted = :isDeleted');
-                $q->setParameter('isDeleted', '0');
-            }
-
-            $q->addOrderBy($sortField, $sortOrder);
-            if (!empty($limit)) {
-                $q->setFirstResult($offset)
-                    ->setMaxResults($limit);
-            }
-
-            if ($noOfRecords) {
-                $paginator = new Paginator($q, true);
-                $noOfRecords = $paginator->count();
-                return $noOfRecords;
-
-            }
-            return $q->getQuery()->execute();
-            // end
-
-
+            return $this->getCustomerListPaginator($customerSearchFilterParams)
+                ->getQuery()
+                ->execute();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -381,6 +341,56 @@ class CustomerDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-}
-?>
 
+    /**
+     * Search Customers
+     * @param CustomerSearchFilterParams $customerSearchFilterParams
+     * @return array
+     * @throws DaoException
+     */
+    public function searchCustomers(CustomerSearchFilterParams $customerSearchFilterParams): array
+    {
+        try {
+            $paginator = $this->getSearchCustomerPaginator($customerSearchFilterParams);
+            return $paginator->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param CustomerSearchFilterParams $customerSearchFilterParams
+     * @return Paginator
+     */
+    private function getSearchCustomerPaginator(CustomerSearchFilterParams $customerSearchFilterParams): Paginator
+    {
+        $q = $this->createQueryBuilder(Customer::class, 'cus');
+        $this->setSortingAndPaginationParams($q, $customerSearchFilterParams);
+
+        if (!empty($customerSearchFilterParams->getName())) {
+            $q->andWhere('cus.name = :customerName');
+            $q->setParameter('customerName', $customerSearchFilterParams->getName());
+        }
+
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * Get Count of Search Query
+     *
+     * @param CustomerSearchFilterParams $customerSearchFilterParams
+     * @return int
+     * @throws DaoException
+     */
+    public function getSearchCustomersCount(CustomerSearchFilterParams $customerSearchFilterParams): int
+    {
+        try {
+            $paginator = $this->getSearchCustomerPaginator($customerSearchFilterParams);
+            return $paginator->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+}
+
+?>

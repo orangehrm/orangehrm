@@ -23,6 +23,7 @@ use Exception;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Time\Dao\CustomerDao;
+use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
 
 class CustomerDaoTest extends KernelTestCase
 {
@@ -52,4 +53,13 @@ class CustomerDaoTest extends KernelTestCase
         $this->assertEquals('Customer 2', $customer->getName());
 
     }
+
+    public function testGetCustomerList(): void
+    {
+        $customerSearchFilterParams = new CustomerSearchFilterParams();
+        $result = $this->customerDao->searchCustomers($customerSearchFilterParams);
+        $this->assertCount(2, $result);
+        $this->assertTrue($result[0] instanceof Customer);
+    }
+
 }

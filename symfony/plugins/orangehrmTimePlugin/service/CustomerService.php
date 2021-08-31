@@ -20,8 +20,12 @@
 
 namespace OrangeHRM\Time\Service;
 
+use Exception;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Time\Dao\CustomerDao;
+use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
+use OrangeHRM\Core\Exception\ServiceException;
+
 
 class CustomerService
 {
@@ -65,16 +69,22 @@ class CustomerService
      *
      * Get Customer List with pagination.
      *
-     * @param false $noOfRecords
-     * @param int $offset
+     * @param false $count
+     * @param int|null $offset
+     * @param int|null $limit
      * @param string $sortField
      * @param string $sortOrder
-     * @param bool $activeOnly
-     * @return Customer Doctrine collection
+     * @return int|Customer[]
      */
-    public function getCustomerList(int $limit = 50, int $offset = 0, string $sortField = 'name', string $sortOrder = 'ASC', bool $activeOnly = true, $noOfRecords = false)
+    public function getCustomerList(
+        string $sortField = 'cus.name',
+        string $sortOrder = 'ASC',
+        ?int $limit = null,
+        ?int $offset = null,
+        bool $count = false)
     {
-        return $this->customerDao->getCustomerList($limit, $offset, $sortField, $sortOrder, $activeOnly, $noOfRecords);
+
+        return $this->customerDao->getCustomerList($sortField, $sortOrder, $limit, $offset, $count);
     }
 
     /**
@@ -196,6 +206,34 @@ class CustomerService
     public function hasCustomerGotTimesheetItems($customerId)
     {
         return $this->customerDao->hasCustomerGotTimesheetItems($customerId);
+    }
+
+    /**
+     * @param CustomerSearchFilterParams $customerSearchFilterParams
+     * @return array
+     * @throws ServiceException
+     */
+    public function searchCustomers(CustomerSearchFilterParams $customerSearchFilterParams): array
+    {
+        try {
+            return $this->getCustomerDao()->searchCustomers($customerSearchFilterParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @param CustomerSearchFilterParams $customerSearchFilterParams
+     * @return int
+     * @throws ServiceException
+     */
+    public function getCustomersCount(CustomerSearchFilterParams $customerSearchFilterParams): int
+    {
+        try {
+            return $this->getCustomerDao()->getSearchCustomersCount($customerSearchFilterParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
 }
