@@ -132,7 +132,6 @@ export default function usePaginate(
     state.isLoading = false;
   };
 
-  console.log(prefetch);
   if (prefetch) {
     onBeforeMount(execQuery);
   }

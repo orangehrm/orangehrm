@@ -50,9 +50,12 @@
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <leave-period-dropdown
-                v-model="leaveEntitlement.leavePeriod"
+              <oxd-input-field
+                type="select"
+                :label="$t('leave.leave_period')"
+                :options="leavePeriods"
                 :rules="rules.leavePeriod"
+                v-model="leaveEntitlement.leavePeriod"
                 required
               />
             </oxd-grid-item>
@@ -89,7 +92,7 @@ import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {required} from '@/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
-import LeavePeriodDropdown from '@/orangehrmLeavePlugin/components/LeavePeriodDropdown';
+import promiseDebounce from '@orangehrm/oxd/utils/promiseDebounce';
 
 const leaveEntitlementModel = {
   employee: null,
@@ -101,7 +104,6 @@ const leaveEntitlementModel = {
 export default {
   components: {
     'leave-type-dropdown': LeaveTypeDropdown,
-    'leave-period-dropdown': LeavePeriodDropdown,
     'employee-autocomplete': EmployeeAutocomplete,
   },
 
@@ -133,7 +135,6 @@ export default {
       rules: {
         employee: [required],
         leaveType: [required],
-        // TODO: check leave entitlement sufficent
         entitlement: [
           required,
           v => {
@@ -142,14 +143,16 @@ export default {
               'Should be a number with upto 2 decimal places'
             );
           },
+          promiseDebounce(this.validateEntitlement, 500),
         ],
       },
+      leavePeriods: [],
     };
   },
 
   methods: {
     onCancel() {
-      navigate('/leave/applyLeave');
+      navigate('/leave/viewLeaveEntitlements');
     },
     onSave() {
       this.isLoading = true;
@@ -168,21 +171,60 @@ export default {
         this.onCancel();
       });
     },
+
+    validateEntitlement(value) {
+      return new Promise(resolve => {
+        if (value.trim()) {
+          this.http
+            .request({
+              method: 'GET',
+              url: `api/v2/leave/leave-entitlements/${this.entitlementId}/validation/entitlements`,
+              params: {
+                entitlement: value,
+              },
+            })
+            .then(response => {
+              const {data} = response.data;
+              return data.valid === true
+                ? resolve(true)
+                : resolve('Used amount exceeds the current amount');
+            });
+        } else {
+          resolve(true);
+        }
+      });
+    },
   },
 
   beforeMount() {
     this.isLoading = true;
     this.http
-      .get(this.entitlementId)
+      .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
+      .then(({data}) => {
+        this.leavePeriods = data.data.map((item, index) => {
+          return {
+            id: index + 1,
+            label: `${item.startDate} - ${item.endDate}`,
+            startDate: item.startDate,
+            endDate: item.endDate,
+          };
+        });
+        return this.http.get(this.entitlementId);
+      })
       .then(response => {
         const {data} = response.data;
-        // TODO: Get employee from prop
-        // this.leaveEntitlement.employee = data.empNumber
+        this.leaveEntitlement.employee = {
+          id: data.employee.empNumber,
+          label: `${data.employee.firstName} ${data.employee.lastName}`,
+          isPastEmployee: data.employee.terminationId,
+        };
         this.leaveEntitlement.leaveType = {
           id: data.leaveType.id,
           label: data.leaveType.name,
         };
-        // this.leaveEntitlement.leavePeriod = data.fromDate
+        this.leaveEntitlement.leavePeriod = this.leavePeriods.find(item => {
+          return item.startDate == data.fromDate && item.endDate == data.toDate;
+        });
         this.leaveEntitlement.entitlement = data.entitlement;
       })
       .finally(() => {

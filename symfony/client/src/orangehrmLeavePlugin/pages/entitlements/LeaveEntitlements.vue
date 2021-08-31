@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <leave-entitlement-table>
+  <leave-entitlement-table :prefetch="false">
     <template v-slot:default="{filters, filterItems}">
       <oxd-table-filter :filter-title="$t('leave.leave_entitlements')">
         <oxd-form @submitValid="filterItems">
