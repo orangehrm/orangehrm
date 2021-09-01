@@ -25,6 +25,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
@@ -32,15 +33,16 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Entity\Customer;
-use Exception;
 use OrangeHRM\Time\Api\Model\CustomerModel;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
 use OrangeHRM\Time\Service\CustomerService;
 
 class CustomerAPI extends EndPoint implements CrudEndpoint
 {
+
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
+    public const PARAMETER_DELETED = 'deleted';
     public const PARAM_RULE_NAME_MAX_LENGTH = 50;
     public const PARAM_RULE_DESCRIPTION_MAX_LENGTH = 255;
 
@@ -49,16 +51,25 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
     /**
      * @var CustomerService|null
      */
-
     protected ?CustomerService $customerService = null;
+
+    /**
+     *
+     * @return CustomerService
+     */
+    public function getCustomerService(): CustomerService
+    {
+        if (!$this->customerService instanceof CustomerService) {
+            $this->customerService = new CustomerService();
+        }
+        return $this->customerService;
+    }
 
     public function getAll(): EndpointResult
     {
-
         $customerSearchParamHolder = new CustomerSearchFilterParams();
         $this->setSortingAndPaginationParams($customerSearchParamHolder);
         $customerSearchParamHolder->setName($this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_QUERY, self::FILTER_NAME));
-
         $customers = $this->getCustomerService()->searchCustomers($customerSearchParamHolder);
         $count = $this->getCustomerService()->getCustomersCount($customerSearchParamHolder);
 
@@ -66,7 +77,6 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
             CustomerModel::class, $customers,
             new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
         );
-
     }
 
     public function getValidationRuleForGetAll(): ParamRuleCollection
@@ -79,23 +89,20 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function create(): EndpointResult
     {
-
         $customer = new Customer();
-        $CustomerName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        $customerName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
         $customerDescription = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION);
-        $customer->setName($CustomerName);
+        $customer->setName($customerName);
         $customer->setDescription($customerDescription);
-
+        $customer->setDeleted(false);
         $this->getCustomerService()
             ->getCustomerDao()
             ->saveCustomer($customer);
 
         return new EndpointResourceResult(CustomerModel::class, $customer);
-
     }
 
     public function getValidationRuleForCreate(): ParamRuleCollection
@@ -108,44 +115,60 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
 
     public function delete(): EndpointResult
     {
-        // TODO: Implement delete() method.
+        $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
+        $this->getCustomerService()->deleteCustomers($ids);
+
+        return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForDelete() method.
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_IDS),
+        );
     }
 
     public function getOne(): EndpointResult
     {
-        // TODO: Implement getOne() method.
+        $customerId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $customer = $this->getCustomerService()->getCustomer($customerId);
+        $this->throwRecordNotFoundExceptionIfNotExist($customer, Customer::class);
+
+        return new EndpointResourceResult(CustomerModel::class, $customer);
     }
 
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForGetOne() method.
+        return new ParamRuleCollection(
+            new ParamRule(CommonParams::PARAMETER_ID),
+        );
     }
 
     public function update(): EndpointResult
     {
-        // TODO: Implement update() method.
+        $customerId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
+        $customer = $this->getCustomerService()->getCustomer($customerId);
+        $this->throwRecordNotFoundExceptionIfNotExist($customer, Customer::class);
+        $CustomerName = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_NAME);
+        $customerDescription = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRIPTION);
+        $customer->setName($CustomerName);
+        $customer->setDescription($customerDescription);
+        $this->getCustomerService()
+            ->getCustomerDao()
+            ->saveCustomer($customer);
+
+        return new EndpointResourceResult(CustomerModel::class, $customer);
     }
 
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
-        // TODO: Implement getValidationRuleForUpdate() method.
-    }
-
-    /**
-     * @return CustomerService
-     */
-    public function getCustomerService(): CustomerService
-    {
-        if (!$this->customerService instanceof CustomerService) {
-
-            $this->customerService = new CustomerService();
-        }
-
-        return $this->customerService;
+        return new ParamRuleCollection(
+            new ParamRule(
+                CommonParams::PARAMETER_ID,
+                new Rule(Rules::POSITIVE)
+            ),
+            new ParamRule(self::PARAMETER_NAME, new Rule(Rules::STRING_TYPE), new Rule(Rules::REQUIRED), new Rule(Rules::LENGTH, [null, self::PARAM_RULE_NAME_MAX_LENGTH])),
+            new ParamRule(self::PARAMETER_DESCRIPTION, new Rule(Rules::STRING_TYPE), new Rule(Rules::LENGTH, [null, self::PARAM_RULE_DESCRIPTION_MAX_LENGTH]))
+        );
     }
 }

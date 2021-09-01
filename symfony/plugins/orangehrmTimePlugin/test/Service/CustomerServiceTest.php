@@ -54,8 +54,6 @@ class CustomerServiceTest extends TestCase
             ->method('saveCustomer')
             ->with($customer)
             ->will($this->returnValue($customer));
-
-        $this->customerService->setCustomerDao($customerDao);
         $result = $customerDao->saveCustomer($customer);
         $this->assertEquals($customer, $result);
     }
@@ -65,16 +63,39 @@ class CustomerServiceTest extends TestCase
         $customerList = TestDataService::loadObjectList('Customer', $this->fixture, 'Customer');
         $customerSearchParam = new CustomerSearchFilterParams();
         $customerDao = $this->getMockBuilder(CustomerDao::class)->getMock();
-
         $customerDao->expects($this->once())
             ->method('searchCustomers')
             ->with($customerSearchParam)
             ->will($this->returnValue($customerList));
-
         $this->customerService->setCustomerDao($customerDao);
         $result = $this->customerService->searchCustomers($customerSearchParam);
         $this->assertCount(3, $result);
         $this->assertTrue($result[0] instanceof Customer);
     }
 
+    public function testGetCustomerById(): void
+    {
+        $customerList = TestDataService::loadObjectList('Customer', $this->fixture, 'Customer');
+        $customerDao = $this->getMockBuilder(CustomerDao::class)->getMock();
+        $customerDao->expects($this->once())
+            ->method('getCustomerById')
+            ->with(1)
+            ->will($this->returnValue($customerList[0]));
+        $this->customerService->setCustomerDao($customerDao);
+        $result = $this->customerService->getCustomer(1);
+        $this->assertEquals($customerList[0], $result);
+    }
+
+    public function testDeleteCustomer(): void
+    {
+        $customerId = [1, 2];
+        $customerDao = $this->getMockBuilder(CustomerDao::class)->getMock();
+        $customerDao->expects($this->once())
+            ->method('deleteCustomer')
+            ->with($customerId)
+            ->will($this->returnValue(2));
+        $this->customerService->setCustomerDao($customerDao);
+        $result = $this->customerService->deleteCustomers($customerId);
+        $this->assertEquals(2, $result);
+    }
 }

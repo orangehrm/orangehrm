@@ -22,12 +22,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Customer
- *
  * @ORM\Table(name="ohrm_customer")
  * @ORM\Entity
  */
 class Customer
 {
+
     /**
      * @var int
      *
@@ -35,12 +35,12 @@ class Customer
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $customerId;
+    private int $id;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="is_deleted", type="integer", length=1)
+     * @ORM\Column(name="is_deleted", type="boolean")
      */
     private bool $deleted;
 
@@ -93,33 +93,32 @@ class Customer
     /**
      * @return int
      */
-    public function getCustomerId(): int
+    public function getId(): int
     {
-        return $this->customerId;
+        return $this->id;
     }
 
     /**
-     * @param int $customerId
+     * @param int $id
      */
-    public function setCustomerId(int $customerId): void
+    public function setId(int $id): void
     {
-        $this->customerId = $customerId;
+        $this->id = $id;
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getDeleted()
+    public function isDeleted(): bool
     {
         return $this->deleted;
     }
 
     /**
-     * @param int $deleted
+     * @param bool $deleted
      */
-    public function setDeleted($deleted): void
+    public function setDeleted(bool $deleted): void
     {
         $this->deleted = $deleted;
     }
 }
-

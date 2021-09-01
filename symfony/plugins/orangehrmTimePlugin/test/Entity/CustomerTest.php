@@ -40,12 +40,12 @@ class CustomerTest extends EntityTestCase
         $customer = new Customer();
         $customer->setName("TEST02");
         $customer->setDescription('DESCRIPTION');
+        $customer->setDeleted(false);
         $this->persist($customer);
 
         /** @var Customer $customer */
         $customer = $this->getRepository(Customer::class)->find(1);
         $this->assertEquals('TEST02', $customer->getName());
         $this->assertEquals('DESCRIPTION', $customer->getDescription());
-
     }
 }

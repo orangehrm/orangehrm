@@ -25,17 +25,16 @@ use OrangeHRM\Entity\Customer;
 
 class CustomerModel implements Normalizable
 {
-
     use ModelTrait;
-
     public function __construct(Customer $customer)
     {
         $this->setEntity($customer);
         $this->setFilters(
             [
-                'customerId',
+                'id',
                 'name',
                 'description',
+                ['isDeleted'],
             ]
         );
     }

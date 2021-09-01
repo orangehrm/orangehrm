@@ -35,26 +35,21 @@ class CustomerDao extends BaseDao
     /**
      * @param CustomerSearchFilterParams $customerSearchFilterParams
      * @return Customer[]
-     * @throws DaoException
      */
     public function getCustomerList(CustomerSearchFilterParams $customerSearchFilterParams): array
     {
-        try {
-            return $this->getCustomerListPaginator($customerSearchFilterParams)
-                ->getQuery()
-                ->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->getCustomerListPaginator($customerSearchFilterParams)
+            ->getQuery()
+            ->execute();
     }
 
     /**
-     *
      * @param type $activeOnly
      * @return type
      */
     public function getCustomerCount($activeOnly = true)
     {
+        //TODO
         try {
             $q = Doctrine_Query:: create()
                 ->from('Customer');
@@ -63,16 +58,12 @@ class CustomerDao extends BaseDao
                 $q->addWhere('is_deleted = ?', 0);
             }
             $count = $q->execute()->count();
-
-
             $q = Doctrine::getEntityManager()->getRepository(Customer::class)->createQueryBuilder('customer');
 
             if ($activeOnly == true) {
                 $q->andWhere('customer.is_deleted = :isDeleted');
                 $q->setParameter('isDeleted', '0');
             }
-
-
             return $count;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -80,28 +71,33 @@ class CustomerDao extends BaseDao
     }
 
     /**
-     *
-     * @param type $customerId
-     * @return type
+     * Get System Customer for given User Id
+     * @param int $customerId
+     * @return Customer|null
+     * @throws DaoException
      */
-    public function getCustomerById($customerId)
+    public function getCustomerById($customerId): ?Customer
     {
         try {
-            return Doctrine:: getTable('Customer')->find($customerId);
+            $customer = $this->getRepository(Customer::class)->find($customerId);
+            if ($customer instanceof Customer) {
+                return $customer;
+            }
+            return null;
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
     /**
      * Get Customer by name
-     *
      * @param $customerId
      * @return mixed
      * @throws DaoException
      */
     public function getCustomerByName($customerName)
     {
+        //TODO
         try {
             $q = Doctrine_Query:: create()
                 ->from('Customer')
@@ -114,23 +110,29 @@ class CustomerDao extends BaseDao
     }
 
     /**
-     *
-     * @param type $customerId
+     *  Delete Customers
+     * @param array $deletedIds
+     * @return int
+     * @throws DaoException
      */
-    public function deleteCustomer($customerId)
+    public function deleteCustomer($deletedIds): int
     {
         try {
-            $customer = Doctrine:: getTable('Customer')->find($customerId);
-            $customer->setIsDeleted(Customer::DELETED);
-            $customer->save();
-            $this->_deleteRelativeProjectsForCustomer($customerId);
+            $q = $this->createQueryBuilder(Customer::class, 'cus');
+            $q->update()
+                ->set('cus.deleted', ':deleted')
+                ->setParameter('deleted', true)
+                ->where($q->expr()->in('cus.id', ':ids'))
+                ->setParameter('ids', $deletedIds);
+            return $q->getQuery()->execute();
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
     public function undeleteCustomer($customerId)
     {
+        //TODO
         try {
             $customer = Doctrine:: getTable('Customer')->find($customerId);
             $customer->setIsDeleted(Customer::ACTIVE);
@@ -143,6 +145,7 @@ class CustomerDao extends BaseDao
 
     private function _deleteRelativeProjectsForCustomer($customerId)
     {
+        //TODO
         try {
             $q = Doctrine_Query:: create()
                 ->from('Project')
@@ -163,6 +166,7 @@ class CustomerDao extends BaseDao
 
     private function _undeleteRelativeProjectsForCustomer($customerId)
     {
+        //TODO
         try {
             $q = Doctrine_Query:: create()
                 ->from('Project')
@@ -182,6 +186,7 @@ class CustomerDao extends BaseDao
 
     private function _deleteRelativeProjectActivitiesForProject($projectId)
     {
+        //TODO
         try {
             $q = Doctrine_Query:: create()
                 ->from('ProjectActivity')
@@ -200,6 +205,7 @@ class CustomerDao extends BaseDao
 
     private function _undeleteRelativeProjectActivitiesForProject($projectId)
     {
+            // TODO
         try {
             $q = Doctrine_Query:: create()
                 ->from('ProjectActivity')
@@ -218,6 +224,7 @@ class CustomerDao extends BaseDao
 
     private function _deleteRelativeProjectAdminsForProject($projectId)
     {
+        //TODO
         try {
             $q = Doctrine_Query:: create()
                 ->delete('ProjectAdmin pa')
@@ -235,6 +242,7 @@ class CustomerDao extends BaseDao
      */
     public function getAllCustomers($activeOnly = true)
     {
+        //TODO
         try {
             $q = Doctrine_Query:: create()
                 ->from('Customer');
@@ -257,8 +265,8 @@ class CustomerDao extends BaseDao
      */
     public function getCustomerNameList($customerIdList, $excludeDeletedCustomers = true)
     {
+        //TODO
         try {
-
             if (!empty($customerIdList)) {
 
                 $customerIdString = implode(',', $customerIdList);
@@ -293,6 +301,7 @@ class CustomerDao extends BaseDao
      */
     public function hasCustomerGotTimesheetItems($customerId)
     {
+        //TODO
         try {
             $q = Doctrine_Query:: create()
                 ->select("COUNT(*)")
@@ -309,13 +318,13 @@ class CustomerDao extends BaseDao
 
     /**
      * Get Customer by Id ( active )
-     *
      * @param $customerId
      * @return mixed
      * @throws DaoException
      */
     public function getActiveCustomerById($id)
     {
+        //TODO
         try {
             $q = Doctrine_Query:: create()
                 ->from('Customer')
@@ -364,20 +373,20 @@ class CustomerDao extends BaseDao
      */
     private function getSearchCustomerPaginator(CustomerSearchFilterParams $customerSearchFilterParams): Paginator
     {
-        $q = $this->createQueryBuilder(Customer::class, 'cus');
+        $q = $this->createQueryBuilder(Customer::class, 'customer');
         $this->setSortingAndPaginationParams($q, $customerSearchFilterParams);
 
         if (!empty($customerSearchFilterParams->getName())) {
-            $q->andWhere('cus.name = :customerName');
+            $q->andWhere('customer.name = :customerName');
             $q->setParameter('customerName', $customerSearchFilterParams->getName());
         }
-
+        $q->andWhere('customer.deleted = :deleted');
+        $q->setParameter('deleted', false);
         return $this->getPaginator($q);
     }
 
     /**
      * Get Count of Search Query
-     *
      * @param CustomerSearchFilterParams $customerSearchFilterParams
      * @return int
      * @throws DaoException
@@ -391,6 +400,22 @@ class CustomerDao extends BaseDao
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-}
 
+    /**
+     * Get Customers
+     * @return Customer[]
+     * @throws DaoException
+     */
+    public function getCustomers(): array
+    {
+        try {
+            $query = $this->createQueryBuilder(Customer::class, 'cus');
+            $query->andWhere('cus.deleted = :deleted');
+            $query->setParameter('deleted', false);
+            return $query->getQuery()->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+}
 ?>

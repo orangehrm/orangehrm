@@ -24,7 +24,7 @@ use OrangeHRM\Core\Dto\FilterParams;
 class CustomerSearchFilterParams extends FilterParams
 {
 
-    public const ALLOWED_SORT_FIELDS = ['cus.name'];
+    public const ALLOWED_SORT_FIELDS = ['customer.name'];
 
     /**
      * @var string|null
@@ -33,7 +33,7 @@ class CustomerSearchFilterParams extends FilterParams
 
     public function __construct()
     {
-        $this->setSortField('cus.name');
+        $this->setSortField('customer.name');
     }
 
     /**

@@ -181,7 +181,6 @@ class EmployeeSalaryComponentAPI extends Endpoint implements CrudEndpoint
      */
     public function create(): EndpointResourceResult
     {
-
         list($empNumber) = $this->getUrlAttributes();
         $employeeSalary = new EmployeeSalary();
         $employeeSalary->getDecorator()->setEmployeeByEmpNumber($empNumber);

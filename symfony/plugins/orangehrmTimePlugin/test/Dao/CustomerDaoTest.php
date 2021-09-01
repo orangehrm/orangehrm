@@ -16,18 +16,20 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 namespace OrangeHRM\Tests\Time\Dao;
 
-
 use Exception;
+use OrangeHRM\Config\Config;
 use OrangeHRM\Entity\Customer;
 use OrangeHRM\Tests\Util\KernelTestCase;
+use OrangeHRM\Tests\Util\TestDataService;
 use OrangeHRM\Time\Dao\CustomerDao;
 use OrangeHRM\Time\Dto\CustomerSearchFilterParams;
+use OrangeHRM\Time\Service\CustomerService;
 
 class CustomerDaoTest extends KernelTestCase
 {
-
     private CustomerDao $customerDao;
     protected string $fixture;
 
@@ -38,7 +40,6 @@ class CustomerDaoTest extends KernelTestCase
     protected function setUp(): void
     {
         $this->customerDao = new CustomerDao();
-
     }
 
     public function testAddCustomer(): void
@@ -46,8 +47,8 @@ class CustomerDaoTest extends KernelTestCase
         $customer = new Customer();
         $customer->setName('Customer 2');
         $customer->setDescription('Description 2');
+        $customer->setDeleted(false);
         $this->customerDao->saveCustomer($customer);
-
         $lastCustomer = $this->getEntityManager()->getRepository(Customer::class)->find(2);
         $this->assertTrue($lastCustomer instanceof Customer);
         $this->assertEquals('Customer 2', $customer->getName());
@@ -56,10 +57,35 @@ class CustomerDaoTest extends KernelTestCase
 
     public function testGetCustomerList(): void
     {
-        $customerSearchFilterParams = new CustomerSearchFilterParams();
-        $result = $this->customerDao->searchCustomers($customerSearchFilterParams);
+        $customerFilterParams = new CustomerSearchFilterParams();
+        $result = $this->customerDao->searchCustomers($customerFilterParams);
         $this->assertCount(2, $result);
         $this->assertTrue($result[0] instanceof Customer);
     }
 
+    public function testGetCustomerById(): void
+    {
+        $result = $this->customerDao->getCustomerById(1);
+        $this->assertEquals('TEST02', $result->getName());
+        $this->assertEquals('DESCRIPTION', $result->getDescription());
+    }
+
+    public function testUpdateCustomer(): void
+    {
+        $customer = $this->customerDao->getCustomerById(1);
+        $customer->setName("TTTT");
+        $customer->setDescription("DDD");
+        $result = $this->customerDao->saveCustomer($customer);
+        $this->assertTrue($result instanceof Customer);
+        $this->assertEquals("TTTT", $result->getName());
+        $this->assertEquals("DDD", $result->getDescription());
+        $this->assertEquals(1, $result->getId());
+    }
+
+    public function testDeleteCustomer(): void
+    {
+        $customerId = [1,2];
+        $result = $this->customerDao->deleteCustomer($customerId);
+        $this->assertEquals(2, $result);
+    }
 }
