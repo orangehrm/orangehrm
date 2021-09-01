@@ -20,14 +20,17 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Leave\Dto\LeaveDuration;
 
 class LeaveDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var Leave
@@ -78,6 +81,48 @@ class LeaveDecorator
         /** @var LeaveStatus $leaveStatus */
         $leaveStatus = $this->getRepository(LeaveStatus::class)
             ->findOneBy(['status' => $this->getLeave()->getStatus()]);
-        return ucfirst(strtolower($leaveStatus->getName()));
+        return ucwords(strtolower($leaveStatus->getName()));
+    }
+
+    /**
+     * @return string Y-m-d date
+     */
+    public function getLeaveDate(): string
+    {
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeave()->getDate());
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLeaveDuration(): ?string
+    {
+        $type = $this->getLeave()->getDurationType();
+        if (isset(LeaveDuration::DURATION_MAP[$type])) {
+            return LeaveDuration::DURATION_MAP[$type];
+        }
+        return null;
+    }
+
+    /**
+     * @return string|null H:i format
+     */
+    public function getStartTime(): ?string
+    {
+        if ($this->getLeave()->getDurationType() !== Leave::DURATION_TYPE_SPECIFY_TIME) {
+            return null;
+        }
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getLeave()->getStartTime());
+    }
+
+    /**
+     * @return string|null H:i format
+     */
+    public function getEndTime(): ?string
+    {
+        if ($this->getLeave()->getDurationType() !== Leave::DURATION_TYPE_SPECIFY_TIME) {
+            return null;
+        }
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getLeave()->getEndTime());
     }
 }

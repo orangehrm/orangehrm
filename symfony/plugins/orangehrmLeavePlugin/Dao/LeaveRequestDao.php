@@ -23,6 +23,7 @@ use DateTime;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Entity\LeaveEntitlement;
@@ -30,10 +31,13 @@ use OrangeHRM\Entity\LeaveLeaveEntitlement;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
+use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class LeaveRequestDao extends BaseDao
 {
-    private static $doneMarkingApprovedLeaveAsTaken = false;
+    use DateTimeHelperTrait;
+
+    private static bool $doneMarkingApprovedLeaveAsTaken = false;
 
     /**
      * Save leave request
@@ -273,292 +277,198 @@ class LeaveRequestDao extends BaseDao
     }
 
     /**
-     * Modify Overlap leave request
-     * @param LeaveRequest $leaveRequest
-     * @return boolean
+     * @param DateTime $leaveStartDate
+     * @param DateTime $leaveEndDate
+     * @param int $empNumber
+     * @param DateTime|null $startDayStartTime
+     * @param DateTime|null $startDayEndTime
+     * @param bool $allDaysPartial
+     * @param DateTime|null $endDayStartTime
+     * @param DateTime|null $endDayEndTime
+     * @return Leave[]
      */
-    public function xmodifyOverlapLeaveRequest(LeaveRequest $leaveRequest, $leaveList, $leavePeriod = null) {
-        // TODO
-        try {
-            $nextLeavePeriod = false;
-            $nextLeaveRequest = false;
-            if ($leavePeriod == null)
-                $leavePeriod = Doctrine :: getTable('LeavePeriod')->find($leaveRequest->getLeavePeriodId());
+    public function getOverlappingLeave(
+        DateTime $leaveStartDate,
+        DateTime $leaveEndDate,
+        int $empNumber,
+        DateTime $startDayStartTime = null,
+        DateTime $startDayEndTime = null,
+        bool $allDaysPartial = false,
+        DateTime $endDayStartTime = null,
+        DateTime $endDayEndTime = null
+    ): array {
+        $q = $this->createQueryBuilder(Leave::class, 'l')
+            ->andWhere('l.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        $q->andWhere($q->expr()->notIn('l.status', ':notInStatuses'))
+            ->setParameter('notInStatuses', [
+                Leave::LEAVE_STATUS_LEAVE_CANCELLED,
+                Leave::LEAVE_STATUS_LEAVE_REJECTED,
+                Leave::LEAVE_STATUS_LEAVE_WEEKEND,
+                Leave::LEAVE_STATUS_LEAVE_HOLIDAY
+            ]);
 
-            foreach ($leaveList as $leave) {
+        $fullDayExpr = $q->expr()->orX(
+            $q->expr()->andX(
+                $q->expr()->eq('l.startTime', ':defaultStartTime'),
+                $q->expr()->eq('l.endTime', ':defaultStartTime')
+            ),
+            $q->expr()->andX(
+                $q->expr()->isNull('l.startTime'),
+                $q->expr()->isNull('l.endTime')
+            ),
+        );
 
-                if ($leave->getLeaveDate() > $leavePeriod->getEndDate()) {
-                    if (!($nextLeavePeriod instanceof LeavePeriod)) {
+        $startDayStartTime = $this->getDateTimeHelper()->formatDateTimeToTimeString($startDayStartTime, true);
+        $startDayEndTime = $this->getDateTimeHelper()->formatDateTimeToTimeString($startDayEndTime, true);
+        $endDayStartTime = $this->getDateTimeHelper()->formatDateTimeToTimeString($endDayStartTime, true);
+        $endDayEndTime = $this->getDateTimeHelper()->formatDateTimeToTimeString($endDayEndTime, true);
 
-                        $leavePeriodService = new LeavePeriodService();
-                        $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
-
-                        $nextLeavePeriod = $leavePeriodService->createNextLeavePeriod($leave->getLeaveDate());
-
-                        $nextLeaveRequest = new LeaveRequest();
-                        $idGenService = new IDGeneratorService();
-                        $idGenService->setEntity($leaveRequest);
-                        $nextLeaveRequest->setLeaveRequestId((int)$idGenService->getNextID());
-
-                        $nextLeaveRequest->setLeaveTypeId($leaveRequest->getLeaveTypeId());
-                        $nextLeaveRequest->setDateApplied($leaveRequest->getDateApplied());
-                        $nextLeaveRequest->setLeavePeriodId($nextLeavePeriod->getLeavePeriodId());
-                        $nextLeaveRequest->setLeaveTypeName($leaveRequest->getLeaveTypeName());
-                        $nextLeaveRequest->setEmpNumber($leaveRequest->getEmpNumber());
-                        $nextLeaveRequest->setLeaveComments($leaveRequest->getLeaveComments());
-
-                        $nextLeaveRequest->save();
-                    }
-
-                    $q = Doctrine_Query::create()
-                            ->update('Leave l')
-                            ->set('l.leave_request_id=', $nextLeaveRequest->getLeaveRequestId())
-                            ->where('l.leave_id = ?', $leave->getLeaveId());
-
-
-                    $q->execute();
-                }
+        if ($leaveStartDate == $leaveEndDate) {
+            if (is_null($startDayStartTime)) {
+                $startDayStartTime = '00:00:00';
             }
-            return true;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
 
-    /**
-     * Get Overlapping Leave
-     * @param String $leaveStartDate
-     * @param String $leaveEndDate
-     * @param int $empId
-     * @param String $startDayStartTime
-     * @param String $startDayEndTime
-     * @param String $endDayStartTime
-     * @param String $endDayEndTime
-     * @return Array of Leave objects
-     * @throws DaoException
-     */
-    public function getOverlappingLeave($leaveStartDate, $leaveEndDate, $empId,
-            $startDayStartTime = null, $startDayEndTime = null, $allDaysPartial = false, $endDayStartTime = null, $endDayEndTime = null) {
-        // TODO
-        try {
+            if (is_null($startDayEndTime)) {
+                $startDayEndTime = '23:59:00';
+            }
 
-            $startDayStartTime = $this->addSeconds($startDayStartTime);
-            $startDayEndTime = $this->addSeconds($startDayEndTime);
-            $endDayStartTime = $this->addSeconds($endDayStartTime);
-            $endDayEndTime = $this->addSeconds($endDayEndTime);
+            $startDateAndTime = $this->getDateTimeHelper()->formatDateTimeToYmd($leaveStartDate) . ' '
+                . $startDayStartTime;
+            $endDateAndTime = $this->getDateTimeHelper()->formatDateTimeToYmd($leaveEndDate) . ' '
+                . $startDayEndTime;
 
-            $q = Doctrine_Query::create()
-                    ->from('Leave l');
-
-            $q->andWhere('l.emp_number = ?' , $empId);
-            $q->andWhereNotIn('l.status', [Leave::LEAVE_STATUS_LEAVE_CANCELLED, Leave::LEAVE_STATUS_LEAVE_REJECTED, Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY]
+            $leaveDateAndStartTime = $q->expr()->concat('l.date', $q->expr()->literal(' '), 'l.startTime');
+            $leaveDateAndEndTime = $q->expr()->concat('l.date', $q->expr()->literal(' '), 'l.endTime');
+            $orClauses = $q->expr()->orX();
+            $orClauses->add(
+                $q->expr()->andX(
+                    $q->expr()->lte(':startDateAndTime', $leaveDateAndStartTime),
+                    $q->expr()->lte($leaveDateAndEndTime, ':endDateAndTime')
+                )
             );
+            $orClauses->add(
+                $q->expr()->andX(
+                    $q->expr()->lte($leaveDateAndStartTime, ':startDateAndTime'),
+                    $q->expr()->lte(':endDateAndTime', $leaveDateAndEndTime)
+                )
+            );
+            $orClauses->add(
+                $q->expr()->andX(
+                    $q->expr()->lt(':startDateAndTime', $leaveDateAndStartTime),
+                    $q->expr()->lt($leaveDateAndStartTime, ':endDateAndTime')
+                )
+            );
+            $orClauses->add(
+                $q->expr()->andX(
+                    $q->expr()->lt(':startDateAndTime', $leaveDateAndEndTime),
+                    $q->expr()->lt($leaveDateAndEndTime, ':endDateAndTime')
+                )
+            );
+            $orClauses->add(
+                $q->expr()->andX(
+                    $q->expr()->eq(':startDateAndTime', $leaveDateAndEndTime),
+                    $q->expr()->eq($leaveDateAndEndTime, ':endDateAndTime')
+                )
+            );
+            $orClauses->add($q->expr()->andX($q->expr()->eq('l.date', ':leaveEndDate'), $fullDayExpr));
+            $q->setParameter('startDateAndTime', $startDateAndTime)
+                ->setParameter('endDateAndTime', $endDateAndTime)
+                ->setParameter('leaveEndDate', $leaveEndDate)
+                ->setParameter('defaultStartTime', '00:00:00');
+            $q->andWhere($orClauses);
+        } else {
+            // first get all overlapping leave, disregarding time periods
+            $q->andWhere(
+                $q->expr()->andX(
+                    $q->expr()->lte('l.date', ':leaveEndDate'),
+                    $q->expr()->gte('l.date', ':leaveStartDate')
+                )
+            );
+            $q->setParameter('leaveEndDate', $leaveEndDate)
+                ->setParameter('leaveStartDate', $leaveStartDate);
 
-            if ($leaveStartDate == $leaveEndDate) {
-
-                if (is_null($startDayStartTime)) {
-                    $startDayStartTime = '00:00:00';
-                }
-
-                if (is_null($endDayStartTime)) {
-                    $endDayStartTime = '00:00:00';
-                }
-
-                if (is_null($startDayEndTime)) {
-                    $startDayStartTime = '23:59:00';
-                }
-
-                if (is_null($endDayEndTime)) {
-                    $endDayEndTime = '23:59:00';
-                }
-
-                $startDateAndTime = $leaveStartDate . " " . $startDayStartTime;
-                $endDateAndTime = $leaveEndDate . " " . $startDayEndTime;
-
-                $orParams = [];
-                $or [] = "(? <= CONCAT(`date`,' ',start_time) AND CONCAT(`date`,' ',end_time) <= ?)";
-                $orParams[] = $startDateAndTime;
-                $orParams[] = $endDateAndTime;
-                $or [] = "(CONCAT(`date`,' ',start_time) <= ? AND ? <= CONCAT(`date`,' ',end_time))";
-                $orParams[] = $startDateAndTime;
-                $orParams[] = $endDateAndTime;
-                $or [] = "(? < CONCAT(`date`,' ',start_time) AND CONCAT(`date`,' ',start_time) < ?)";
-                $orParams[] = $startDateAndTime;
-                $orParams[] = $endDateAndTime;
-                $or [] = "(? < CONCAT(`date`,' ',end_time) AND CONCAT(`date`,' ',end_time) < ?)";
-                $orParams[] = $startDateAndTime;
-                $orParams[] = $endDateAndTime;
-                $or [] = "(? = CONCAT(`date`,' ',end_time) AND CONCAT(`date`,' ',end_time) = ?)";
-                $orParams[] = $startDateAndTime;
-                $orParams[] = $endDateAndTime;
-                $or [] = "((`date` = ?) AND ((start_time = '00:00:00' AND end_time='00:00:00') OR (start_time IS NULL AND end_time IS NULL)))";
-                $orParams[] = $leaveEndDate;
-
-                $orString = implode(" OR ", $or);
-                $orString = "(" . $orString . ")";
-                $q->andWhere($orString, $orParams);
+            if ($allDaysPartial) {
+                // will overlap with full days or if time period overlaps
+                $fullDayExpr->add(
+                    $q->expr()->andX(
+                        $q->expr()->lt(':startDayStartTime', 'l.endTime'),
+                        $q->expr()->gt(':startDayEndTime', 'l.startTime')
+                    )
+                );
+                $q->andWhere($fullDayExpr);
+                $q->setParameter('startDayStartTime', $startDayStartTime)
+                    ->setParameter('startDayEndTime', $startDayEndTime)
+                    ->setParameter('defaultStartTime', '00:00:00');
             } else {
-
-                // first get all overlapping leave, disregarding time periods
-                $q->andWhere("( `date` <= ? AND `date` >= ?)", [$leaveEndDate, $leaveStartDate]);
-
-
-                if ($allDaysPartial) {
-                    // will overlap with full days or if time period overlaps
-                    $q->andWhere("(start_time = '00:00:00' AND end_time='00:00:00') OR (start_time IS NULL AND end_time IS NULL) " .
-                            "OR  ((? < end_time) AND (? > start_time))",
-                                 [$startDayStartTime, $startDayEndTime]
+                // Start Day condition
+                if (!is_null($startDayStartTime) && !is_null($startDayEndTime)) {
+                    $orClauses = $q->expr()->orX();
+                    $orClauses->add($q->expr()->neq('l.date', ':leaveStartDate'));
+                    $orClauses->add(
+                        $q->expr()->andX(
+                            $q->expr()->lt(':startDayStartTime', 'l.endTime'),
+                            $q->expr()->gt(':startDayEndTime', 'l.startTime')
+                        )
                     );
+                    $orClauses->addMultiple($fullDayExpr->getParts());
+                    $q->andWhere($orClauses);
 
-                } else {
+                    $q->setParameter('leaveStartDate', $leaveStartDate)
+                        ->setParameter('startDayStartTime', $startDayStartTime)
+                        ->setParameter('startDayEndTime', $startDayEndTime)
+                        ->setParameter('defaultStartTime', '00:00:00');
+                }
 
-                    // Start Day condition
-                    if (!is_null($startDayStartTime) && !is_null($startDayEndTime)) {
-                        $q->andWhere("`date` <> ? " .
-                                "OR  (? < end_time AND ? > start_time) " .
-                                "OR (start_time = '00:00:00' AND end_time='00:00:00') " .
-                                "OR (start_time IS NULL AND end_time IS NULL)",
-                                     [$leaveStartDate, $startDayStartTime, $startDayEndTime]
-                        );
-                    }
+                // End Day condition
+                if (!is_null($endDayStartTime) && !is_null($endDayEndTime)) {
+                    $orClauses = $q->expr()->orX();
+                    $orClauses->add($q->expr()->neq('l.date', ':leaveEndDate'));
+                    $orClauses->add(
+                        $q->expr()->andX(
+                            $q->expr()->lt(':endDayStartTime', 'l.endTime'),
+                            $q->expr()->gt(':endDayEndTime', 'l.startTime')
+                        )
+                    );
+                    $orClauses->addMultiple($fullDayExpr->getParts());
+                    $q->andWhere($orClauses);
 
-                    // End Day condition
-                    if (!is_null($endDayStartTime) && !is_null($endDayEndTime)) {
-                        $q->andWhere("(`date` <> ?) " .
-                                "OR  ((? < end_time) AND (? > start_time)) " .
-                                "OR (start_time = '00:00:00' AND end_time='00:00:00') " .
-                                "OR (start_time IS NULL AND end_time IS NULL)",
-                                     [$leaveEndDate, $endDayStartTime, $endDayEndTime]
-                        );
-                    }
-
-
+                    $q->setParameter('leaveEndDate', $leaveEndDate)
+                        ->setParameter('endDayStartTime', $endDayStartTime)
+                        ->setParameter('endDayEndTime', $endDayEndTime)
+                        ->setParameter('defaultStartTime', '00:00:00');
                 }
             }
-
-            $leaveListArray = $q->execute();
-            return $leaveListArray;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
         }
+
+        return $q->getQuery()->execute();
     }
 
     /**
-     *
-     * @param type $employeeId
-     * @param type $date
-     * @return type
+     * @param int $empNumber
+     * @param DateTime $date
+     * @return float|null
      */
-    public function getTotalLeaveDuration($employeeId, $date) {
-        // TODO
+    public function getTotalLeaveDuration(int $empNumber, DateTime $date): ?float
+    {
         $this->_markApprovedLeaveAsTaken();
 
-        $leaveStatusNotConsider = [Leave::LEAVE_STATUS_LEAVE_CANCELLED, Leave::LEAVE_STATUS_LEAVE_REJECTED, Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY];
+        $leaveStatusNotConsider = [
+            Leave::LEAVE_STATUS_LEAVE_CANCELLED,
+            Leave::LEAVE_STATUS_LEAVE_REJECTED,
+            Leave::LEAVE_STATUS_LEAVE_WEEKEND,
+            Leave::LEAVE_STATUS_LEAVE_HOLIDAY
+        ];
 
-        $q = Doctrine_Query::create()
-                ->select('SUM(length_hours) as total_duration')
-                ->from('Leave')
-                ->where("emp_number =?", $employeeId)
-                ->andWhereNotIn("status ", $leaveStatusNotConsider)
-                ->andWhere("date =?", $date);
-        $duration = $q->fetchOne();
-
-        return $duration->getTotalDuration();
-    }
-
-    /**
-     * Count leave records in the Leave table
-     * @return integer $count
-     */
-    public function xgetLeaveRecordCount() {
-        // TODO
-        try {
-
-            $q = Doctrine_Query::create()
-                    ->from('Leave');
-            $count = $q->count();
-            return $count;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param $empId
-     * @param $leaveTypeId
-     * @return int
-     */
-    public function xgetNumOfLeave($empId, $leaveTypeId) {
-        // TODO
-        try {
-
-
-            $q = Doctrine_Query::create()
-                    ->addSelect('sum(leave_length_days) as daysLength')
-                    ->from('Leave l')
-                    ->andWhere("l.employee_id = ?", $empId)
-                    ->andWhere("l.leave_type_id = ?", $leaveTypeId);
-
-
-            $record = $q->fetchOne();
-
-            return $record['daysLength'];
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param $empId
-     * @param $leaveTypeId
-     * @return int
-     */
-    public function xgetNumOfAvaliableLeave($empId, $leaveTypeId, $leavePeriodId = null) {
-        // TODO
-        try {
-
-
-            $q = Doctrine_Query::create()
-                    ->addSelect('sum(leave_length_days) as daysLength')
-                    ->from('Leave l')
-                    ->andWhere("l.employee_id = ?", $empId)
-                    ->andWhere("l.leave_type_id = ?", $leaveTypeId)
-                    ->andWhereNotIn('l.leave_status', [Leave::LEAVE_STATUS_LEAVE_CANCELLED, Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL, Leave::LEAVE_STATUS_LEAVE_REJECTED]
-                    );
-
-            if ($leavePeriodId) {
-                $q->leftJoin('l.LeaveRequest lr');
-                $q->andWhere('lr.leave_period_id = ?', $leavePeriodId);
-            }
-
-            $record = $q->fetchOne();
-
-            return $record['daysLength'];
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param LeavePeriod $leavePeriod
-     * @return unknown_type
-     */
-    public function xgetLeavePeriodOverlapLeaves(LeavePeriod $leavePeriod) {
-        // TODO
-        try {
-            $q = Doctrine_Query::create()
-                    ->from('Leave l')
-                    ->andWhere('l.leave_date > ?', $leavePeriod->getEndDate())
-                    ->groupBy('l.leave_request_id');
-
-            $leaveList = $q->execute();
-            return $leaveList;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(Leave::class, 'l')
+            ->select('SUM(l.lengthHours)')
+            ->andWhere('l.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber)
+            ->andWhere('l.date = :date')
+            ->setParameter('date', $date);
+        $q->andWhere($q->expr()->notIn('l.status', ':statusNotConsider'))
+            ->setParameter('statusNotConsider', $leaveStatusNotConsider);
+        return $q->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -843,52 +753,24 @@ class LeaveRequestDao extends BaseDao
         $this->_markApprovedLeaveAsTaken();
     }
 
-    private function _markApprovedLeaveAsTaken() {
-        // TODO
+    private function _markApprovedLeaveAsTaken(): void
+    {
         if (self::$doneMarkingApprovedLeaveAsTaken) {
             return;
-        } else {
+        }
+        $now = $this->getDateTimeHelper()->getNow();
+        $q = $this->createQueryBuilder(Leave::class, 'l')
+            ->update()
+            ->set('l.status', ':takenStatus')
+            ->setParameter('takenStatus', Leave::LEAVE_STATUS_LEAVE_TAKEN)
+            ->andWhere('l.status = :approvedStatus')
+            ->setParameter('approvedStatus', Leave::LEAVE_STATUS_LEAVE_APPROVED);
+        $q->andWhere($q->expr()->lt('l.date', ':date'))
+            ->setParameter('date', $now);
 
-            $date = date('Y-m-d');
-
-            $conn = Doctrine_Manager::connection()->getDbh();
-            $query = "SELECT l.id from ohrm_leave l WHERE l.`date` < ? AND l.status = ?";
-            $statement = $conn->prepare($query);
-            $result = $statement->execute([$date, Leave::LEAVE_STATUS_LEAVE_APPROVED]);
-
-            if ($result) {
-                $ids = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
-
-                if (count($ids) > 0) {
-
-                    $q = Doctrine_Query::create()
-                            ->update('Leave l')
-                            ->set('l.status', Leave::LEAVE_STATUS_LEAVE_TAKEN)
-                            ->whereIn('l.id', $ids);
-
-                    $q->execute();
-
-                    // TODO: Optimize
-                    // No longer needed, since entitlement.used values are updated when leave is applied/assigned
-                    /*$query = "SELECT le.entitlement_id, le.length_days FROM ohrm_leave_leave_entitlement le " .
-                            "WHERE le.leave_id IN (" . implode(',', $ids) . ")";
-
-                    $statement = $conn->prepare($query);
-                    $result = $statement->execute();
-                    if ($result) {
-
-                        $updateQuery = "UPDATE ohrm_leave_entitlement e " .
-                                "SET e.days_used = e.days_used + ? " .
-                                "WHERE e.id = ?";
-
-                        $updateStatement = $conn->prepare($updateQuery);
-
-                        while ($row = $statement->fetch()) {
-                            $updateStatement->execute(array($row['length_days'], $row['entitlement_id']));
-                        }
-                    }*/
-                }
-            }
+        $affectedRows = $q->getQuery()->execute();
+        // TODO
+        if ($affectedRows > 1) {
             self::$doneMarkingApprovedLeaveAsTaken = true;
         }
     }
@@ -1032,15 +914,6 @@ class LeaveRequestDao extends BaseDao
         return $q;
     }
 
-    protected function addSeconds($timeValue) {
-        // TODO
-        if (is_string($timeValue) && substr_count($timeValue, ':') == 1) {
-            $timeValue .= ':00';
-        }
-
-        return $timeValue;
-    }
-
     public function getLeaveRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,$statuses)
     {
         // TODO
@@ -1067,5 +940,66 @@ class LeaveRequestDao extends BaseDao
         // @codeCoverageIgnoreEnd
     }
 
+    /**
+     * @param int $empNumber
+     * @param DateTime|null $fromDate
+     * @param DateTime|null $toDate
+     * @return QueryBuilderWrapper
+     */
+    private function getLeaveRequestsByEmpNumberAndDateRangeQueryBuilderWrapper(
+        int $empNumber,
+        ?DateTime $fromDate = null,
+        ?DateTime $toDate = null
+    ): QueryBuilderWrapper {
+        $q = $this->createQueryBuilder(LeaveRequest::class, 'lr')
+            ->andWhere('lr.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        $q->leftJoin('lr.leaves', 'l');
 
+        if ($fromDate) {
+            $q->andWhere($q->expr()->gte('l.date', ':fromDate'))
+                ->setParameter('fromDate', $fromDate);
+        }
+
+        if ($toDate) {
+            $q->andWhere($q->expr()->lte('l.date', ':toDate'))
+                ->setParameter('toDate', $toDate);
+        }
+        return $this->getQueryBuilderWrapper($q);
+    }
+
+    /**
+     * @param int $empNumber
+     * @param DateTime|null $fromDate
+     * @param DateTime|null $toDate
+     * @return LeaveRequest[]
+     */
+    public function getLeaveRequestsByEmpNumberAndDateRange(
+        int $empNumber,
+        ?DateTime $fromDate = null,
+        ?DateTime $toDate = null
+    ): array {
+        $q = $this->getLeaveRequestsByEmpNumberAndDateRangeQueryBuilderWrapper(
+            $empNumber,
+            $fromDate,
+            $toDate
+        )->getQueryBuilder();
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $empNumber
+     * @param DateTime[] $dates
+     * @return Leave[]
+     */
+    public function getLeavesByEmpNumberAndDates(int $empNumber, array $dates): array
+    {
+        $dates = array_map(fn(DateTime $date) => $this->getDateTimeHelper()->formatDateTimeToYmd($date), $dates);
+        $q = $this->createQueryBuilder(Leave::class, 'l')
+            ->andWhere('l.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        $q->andWhere($q->expr()->in('l.date', ':dates'))
+            ->setParameter('dates', $dates);
+        return $q->getQuery()->execute();
+    }
 }

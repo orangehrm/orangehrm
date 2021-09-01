@@ -122,6 +122,12 @@ apiv2_leave_leave_entitlements_validation_value:
   defaults:
     _api: OrangeHRM\Leave\Api\ValidationLeaveEntitlementValueAPI
 
+apiv2_leave_overlap_leaves:
+  path: /api/v2/leave/overlap-leaves
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveOverlapAPI
 
 ##########################
 #        Screens

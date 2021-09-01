@@ -43,19 +43,24 @@ abstract class AbstractLeaveAllocationService
     use WorkScheduleServiceTrait;
     use LoggerTrait;
 
-    protected $leaveRequestService;
-    protected $overlapLeave;
+    protected ?LeaveRequestService $leaveRequestService = null;
+    /**
+     * @var array<string, Leave[]>
+     */
+    protected array $overlapLeaves = [];
+    /**
+     * @var array<string, DateTime[]>
+     */
+    protected array $workShiftLengthExceedOverlapLeaveDates = [];
     protected $workflowService;
 
-    public function getWorkflowService() {
+    public function getWorkflowService()
+    {
+        // TODO
         if (empty($this->workflowService)) {
             $this->workflowService = new AccessFlowStateMachineService();
         }
         return $this->workflowService;
-    }
-
-    public function setWorkflowService(AccessFlowStateMachineService $workflowService) {
-        $this->workflowService = $workflowService;
     }
 
     /**
@@ -88,7 +93,8 @@ abstract class AbstractLeaveAllocationService
      *
      * @return LeaveRequestService
      */
-    public function getLeaveRequestService() {
+    public function getLeaveRequestService(): LeaveRequestService
+    {
         if (!($this->leaveRequestService instanceof LeaveRequestService)) {
             $this->leaveRequestService = new LeaveRequestService();
         }
@@ -99,33 +105,31 @@ abstract class AbstractLeaveAllocationService
      *
      * @param LeaveRequestService $service
      */
-    public function setLeaveRequestService(LeaveRequestService $service) {
+    public function setLeaveRequestService(LeaveRequestService $service): void
+    {
         $this->leaveRequestService = $service;
     }
 
     /**
-     *
-     * @return mixed
+     * @param LeaveParameterObject $leaveParameterObject
+     * @return string
      */
-    public function getOverlapLeave() {
-        return $this->overlapLeave;
-    }
-
-    /**
-     *
-     * @param mixed $overlapLeaveRecords
-     */
-    public function setOverlapLeave($overlapLeaveRecords) {
-        $this->overlapLeave = $overlapLeaveRecords;
-    }
-
-    /**
-     * Checking for leave overlaps
-     * @param LeaveParameterObject $leaveAssignmentData
-     * @return bool
-     */
-    public function hasOverlapLeave(LeaveParameterObject $leaveAssignmentData): bool
+    protected function getHashKeyForLeaveParamObject(LeaveParameterObject $leaveParameterObject): string
     {
+        return md5(serialize($leaveParameterObject));
+    }
+
+    /**
+     * @param LeaveParameterObject $leaveAssignmentData
+     * @return Leave[]
+     */
+    public function getOverlapLeaves(LeaveParameterObject $leaveAssignmentData): array
+    {
+        $overlapLeavesArrayKey = $this->getHashKeyForLeaveParamObject($leaveAssignmentData);
+        if (isset($this->overlapLeaves[$overlapLeavesArrayKey])) {
+            return $this->overlapLeaves[$overlapLeavesArrayKey];
+        }
+
         $startDayStartTime = null;
         $startDayEndTime = null;
         $endDayStartTime = null;
@@ -160,13 +164,13 @@ abstract class AbstractLeaveAllocationService
 
         // set start times
         if (!is_null($startDuration)) {
-            if ($startDuration->getType() == LeaveDuration::HALF_DAY_MORNING) {
+            if ($startDuration->isTypeHalfDayMorning()) {
                 $startDayStartTime = $workScheduleStartEndTime->getStartTime();
                 $startDayEndTime = $midDay;
-            } elseif ($startDuration->getType() == LeaveDuration::HALF_DAY_AFTERNOON) {
+            } elseif ($startDuration->isTypeHalfDayAfternoon()) {
                 $startDayStartTime = $midDay;
                 $startDayEndTime = $workScheduleStartEndTime->getEndTime();
-            } elseif ($startDuration->getType() == LeaveDuration::SPECIFY_TIME) {
+            } elseif ($startDuration->isTypeSpecifyTime()) {
                 $startDayStartTime = $startDuration->getFromTime();
                 $startDayEndTime = $startDuration->getToTime();
             }
@@ -174,19 +178,19 @@ abstract class AbstractLeaveAllocationService
 
         // set end times
         if (!is_null($endDuration)) {
-            if ($endDuration->getType() == LeaveDuration::HALF_DAY_MORNING) {
+            if ($endDuration->isTypeHalfDayMorning()) {
                 $endDayStartTime = $workScheduleStartEndTime->getStartTime();
                 $endDayEndTime = $midDay;
-            } elseif ($endDuration->getType() == LeaveDuration::HALF_DAY_AFTERNOON) {
+            } elseif ($endDuration->isTypeHalfDayAfternoon()) {
                 $endDayStartTime = $midDay;
                 $endDayEndTime = $workScheduleStartEndTime->getEndTime();
-            } elseif ($endDuration->getType() == LeaveDuration::SPECIFY_TIME) {
+            } elseif ($endDuration->isTypeSpecifyTime()) {
                 $endDayStartTime = $endDuration->getFromTime();
                 $endDayEndTime = $endDuration->getToTime();
             }
         }
 
-        $overlapLeave = $this->getLeaveRequestService()->getOverlappingLeave(
+        $overlapLeaves = $this->getLeaveRequestService()->getLeaveRequestDao()->getOverlappingLeave(
             $leaveAssignmentData->getFromDate(),
             $leaveAssignmentData->getToDate(),
             $leaveAssignmentData->getEmployeeNumber(),
@@ -197,9 +201,17 @@ abstract class AbstractLeaveAllocationService
             $endDayEndTime
         );
 
-        $this->setOverlapLeave($overlapLeave);
+        $this->overlapLeaves[$overlapLeavesArrayKey] = $overlapLeaves;
+        return $this->overlapLeaves[$overlapLeavesArrayKey];
+    }
 
-        return (count($overlapLeave) !== 0);
+    /**
+     * @param LeaveParameterObject $leaveAssignmentData
+     * @return bool
+     */
+    public function hasOverlapLeaves(LeaveParameterObject $leaveAssignmentData): bool
+    {
+        return !empty($this->getOverlapLeaves($leaveAssignmentData));
     }
 
     /**
@@ -217,117 +229,99 @@ abstract class AbstractLeaveAllocationService
      * @param LeaveParameterObject $leaveAssignmentData Leave Parameters
      * @return bool True if user has exceeded limit, false if not
      */
-    public function applyMoreThanAllowedForADay(LeaveParameterObject $leaveAssignmentData) {
+    public function isWorkShiftLengthExceeded(LeaveParameterObject $leaveAssignmentData): bool
+    {
+        $overlapLeavesArrayKey = $this->getHashKeyForLeaveParamObject($leaveAssignmentData);
 
-        $logger = $this->getLogger();
+        if (!isset($this->workShiftLengthExceedOverlapLeaveDates[$overlapLeavesArrayKey])) {
+            $overlapLeaveDates = [];
+            $empNumber = $leaveAssignmentData->getEmployeeNumber();
 
-        $workshiftExceeded = false;
+            $workShiftLength = $this->getWorkShiftDurationForEmployee($empNumber);
+            $dates = $this->getDateTimeHelper()->dateRange(
+                $leaveAssignmentData->getFromDate(),
+                $leaveAssignmentData->getToDate()
+            );
 
-        $overlapLeave = [];
+            $firstDay = true;
 
-        $empNumber = $leaveAssignmentData->getEmployeeNumber();
-        $fromDate = $leaveAssignmentData->getFromDate();
-        $toDate = $leaveAssignmentData->getToDate();
+            foreach ($dates as $date) {
+                $existingDuration = $this->getLeaveRequestService()
+                    ->getLeaveRequestDao()
+                    ->getTotalLeaveDuration($empNumber, $date);
 
-        $workShiftLength = $this->getWorkShiftDurationForEmployee($empNumber);
+                $lastDay = $date == $leaveAssignmentData->getToDate();
+                $duration = $this->getApplicableLeaveDuration($leaveAssignmentData, $firstDay, $lastDay);
+                $firstDay = false;
 
-        $from = strtotime($fromDate);
-        $to = strtotime($toDate);
+                $workingDayLength = $workShiftLength;
 
-        $firstDay = true;
-
-        for ($timeStamp = $from; $timeStamp <= $to; $timeStamp = $this->incDate($timeStamp)) {
-            $date = date('Y-m-d', $timeStamp);
-
-            $existingDuration = $this->getLeaveRequestService()->getTotalLeaveDuration($empNumber, $date);
-
-            $lastDay = ($timeStamp == $to);
-            $duration = $this->getApplicableLeaveDuration($leaveAssignmentData, $firstDay, $lastDay);
-            $firstDay = false;
-
-            $workingDayLength = $workShiftLength;
-
-            if ($this->isHoliday($date, $leaveAssignmentData) || $this->isWeekend($date, $leaveAssignmentData)) {
-                if ($logger->isDebugEnabled()) {
-                    $logger->debug("Skipping $date since it is a weekend/holiday");
-                }
-                continue;
-            }
-
-            // Reduce workshiftLength for half days
-            $halfDay = $this->isHalfDay($date, $leaveAssignmentData);
-            if ($halfDay) {
-                $workingDayLength = $workShiftLength / 2;
-            }
-
-            if ($duration->getType() == LeaveDuration::FULL_DAY) {
-                $leaveHours = $workingDayLength;
-            } else if ($duration->getType() == LeaveDuration::HALF_DAY) {
-                $leaveHours = $workShiftLength / 2;
-            } else if ($duration->getType() == LeaveDuration::SPECIFY_TIME) {
-                $leaveHours = $this->getDurationInHours($duration->getFromTime(), $duration->getToTime());
-            } else {
-                $logger->error("Unexpected duration type in applyMoreThanAllowedForADay(): " . print_r($duration->getType(), true));
-                $leaveHours = 0;
-            }
-
-            if ($logger->isDebugEnabled()) {
-                $logger->debug("date=$date, existing leave duration=$existingDuration, " .
-                        "workShiftLength=$workShiftLength, totalLeaveTime=$leaveHours,workDayLength=$workingDayLength");
-            }
-
-            // We only show workshift exceeded warning for partial leave days (length < workshift)            
-            if (($existingDuration + $leaveHours) > $workingDayLength) {
-
-                if ($logger->isDebugEnabled()) {
-                    $logger->debug('Workshift length exceeded!');
+                if ($this->isHoliday($date, $leaveAssignmentData) || $this->isWeekend($date, $leaveAssignmentData)) {
+                    $this->getLogger()->debug('Skipping ' . $date->format('Y-m-d') . ' since it is a weekend/holiday');
+                    continue;
                 }
 
-                $parameter = new ParameterObject(
-                    ['dateRange' => new DateRange($date, $date), 'employeeFilter' => $empNumber]
+                // Reduce workShiftLength for half days
+                $halfDay = $this->isHalfDay($date, $leaveAssignmentData);
+                if ($halfDay) {
+                    $workingDayLength = $workShiftLength / 2;
+                }
+
+                if ($duration->isTypeFullDay()) {
+                    $leaveHours = $workingDayLength;
+                } elseif ($duration->isTypeHalfDay()) {
+                    $leaveHours = $workShiftLength / 2;
+                } elseif ($duration->isTypeSpecifyTime()) {
+                    $leaveHours = $this->getDurationInHours($duration->getFromTime(), $duration->getToTime());
+                } else {
+                    $this->getLogger()->error(
+                        'Unexpected duration type in applyMoreThanAllowedForADay(): ' . print_r(
+                            $duration->getType(),
+                            true
+                        )
+                    );
+                    $leaveHours = 0;
+                }
+
+                $this->getLogger()->debug(
+                    'date=' . $date->format('Y-m-d') . ", existing leave duration=$existingDuration, " .
+                    "workShiftLength=$workShiftLength, totalLeaveTime=$leaveHours,workDayLength=$workingDayLength"
                 );
-                $leaveRequests = $this->getLeaveRequestService()->searchLeaveRequests($parameter);
 
-                if (count($leaveRequests['list']) > 0) {
-
-                    foreach ($leaveRequests['list'] as $leaveRequest) {
-                        $leaveList = $leaveRequest->getLeave();
-                        foreach ($leaveList as $leave) {
-                            if ($leave->getDate() == $date) {
-                                $overlapLeave[] = $leave;
-                            }
-                        }
-                    }
+                // We only show work shift exceeded warning for partial leave days (length < work shift)
+                if (($existingDuration + $leaveHours) > $workingDayLength) {
+                    $this->getLogger()->debug('Work shift length exceeded!');
+                    $overlapLeaveDates[] = $date;
                 }
-
-                $workshiftExceeded = true;
             }
+
+            $this->workShiftLengthExceedOverlapLeaveDates[$overlapLeavesArrayKey] = $overlapLeaveDates;
         }
 
-        if (!empty($overlapLeave)) {
-            $this->setOverlapLeave($overlapLeave);
-        }
-
-        return $workshiftExceeded;
+        return !empty($this->workShiftLengthExceedOverlapLeaveDates[$overlapLeavesArrayKey]);
     }
 
     /**
-     *
-     * Checks overlapping leave request
-     * @param LeaveParameterObject $leaveAssignmentData
-     * @return bool
+     * @param LeaveParameterObject $leaveParameterObject
+     * @return Leave[]
      */
-    public function isOverlapLeaveRequest(LeaveParameterObject $leaveAssignmentData) {
+    public function getWorkShiftLengthExceedOverlapLeaves(LeaveParameterObject $leaveParameterObject): array
+    {
+        // To load overlap leave dates to $this->workShiftLengthExceedOverlapLeaveDates
+        $this->isWorkShiftLengthExceeded($leaveParameterObject);
 
-//        $leavePeriod = $this->getLeavePeriodService()->getLeavePeriod(strtotime($leaveAssignmentData->getFromDate()));
-//
-//        if (!is_null($leavePeriod) && ($leavePeriod instanceof LeavePeriod)) {
-//            if ($leaveAssignmentData->getToDate() > $leavePeriod->getEndDate()) {
-//                return true;
-//            }
-//        }
+        $overlapLeavesArrayKey = $this->getHashKeyForLeaveParamObject($leaveParameterObject);
+        $workShiftLengthExceedOverlapLeaveDates = $this->workShiftLengthExceedOverlapLeaveDates[$overlapLeavesArrayKey];
+        if (empty($workShiftLengthExceedOverlapLeaveDates)) {
+            return [];
+        }
 
-        return false;
+        return $this->getLeaveRequestService()
+            ->getLeaveRequestDao()
+            ->getLeavesByEmpNumberAndDates(
+                $leaveParameterObject->getEmployeeNumber(),
+                $workShiftLengthExceedOverlapLeaveDates
+            );
     }
 
     /**
@@ -443,10 +437,9 @@ abstract class AbstractLeaveAllocationService
             // Full Day Off
             $durationInHours = 0;
         } elseif ($isHalfDay || $isHalfDayHoliday) {
-            if ($duration->getType() == LeaveDuration::FULL_DAY) {
+            if ($duration->isTypeFullDay()) {
                 $durationInHours = $workScheduleDuration;
-            } elseif ($duration->getType() == LeaveDuration::HALF_DAY_MORNING || $duration->getType(
-                ) == LeaveDuration::HALF_DAY_AFTERNOON) {
+            } elseif ($duration->isTypeHalfDay()) {
                 $durationInHours = $workScheduleDuration / 2;
             } else {
                 $durationInHours = $this->getDurationInHours($duration->getFromTime(), $duration->getToTime());
@@ -459,10 +452,9 @@ abstract class AbstractLeaveAllocationService
             // Half Day Off
         } else {
             // Full Working Day
-            if ($duration->getType() == LeaveDuration::FULL_DAY) {
+            if ($duration->isTypeFullDay()) {
                 $durationInHours = $workScheduleDuration;
-            } elseif ($duration->getType() == LeaveDuration::HALF_DAY_MORNING || $duration->getType(
-                ) == LeaveDuration::HALF_DAY_AFTERNOON) {
+            } elseif ($duration->isTypeHalfDay()) {
                 $durationInHours = $workScheduleDuration / 2;
             } else {
                 $durationInHours = $this->getDurationInHours($duration->getFromTime(), $duration->getToTime());
@@ -487,7 +479,7 @@ abstract class AbstractLeaveAllocationService
         $hoursPart = intval(floor($newMinutes / 60));
         $minutesPart = round($newMinutes) % 60;
 
-        return new DateTime(sprintf("%02d:%02d", $hoursPart, $minutesPart));
+        return new DateTime(sprintf('%02d:%02d', $hoursPart, $minutesPart));
     }
 
     /**
@@ -545,19 +537,11 @@ abstract class AbstractLeaveAllocationService
     }
 
     /**
-     * Date increment
-     * @param int $timestamp
-     */
-    final protected function incDate($timestamp) {
-        return strtotime("+1 day", $timestamp);
-    }
-
-    /**
      * @param DateTime $day
      * @param LeaveParameterObject $leaveAssignmentData
      * @return bool
      */
-    public function isHalfDay(DateTime $day, LeaveParameterObject $leaveAssignmentData):bool
+    public function isHalfDay(DateTime $day, LeaveParameterObject $leaveAssignmentData): bool
     {
         $empNumber = $leaveAssignmentData->getEmployeeNumber();
         $workSchedule = $this->getWorkScheduleService()->getWorkSchedule($empNumber);
@@ -578,7 +562,8 @@ abstract class AbstractLeaveAllocationService
      * @param LeaveParameterObject $leaveAssignmentData
      * @return bool
      */
-    protected function isWeekend(DateTime $day, LeaveParameterObject $leaveAssignmentData):bool {
+    protected function isWeekend(DateTime $day, LeaveParameterObject $leaveAssignmentData): bool
+    {
         $empNumber = $leaveAssignmentData->getEmployeeNumber();
         $workSchedule = $this->getWorkScheduleService()->getWorkSchedule($empNumber);
         return $workSchedule->isNonWorkingDay($day, true);
@@ -589,7 +574,8 @@ abstract class AbstractLeaveAllocationService
      * @param LeaveParameterObject $leaveAssignmentData
      * @return bool
      */
-    protected function isHoliday(DateTime $day, LeaveParameterObject $leaveAssignmentData):bool {
+    protected function isHoliday(DateTime $day, LeaveParameterObject $leaveAssignmentData): bool
+    {
         $empNumber = $leaveAssignmentData->getEmployeeNumber();
         $workSchedule = $this->getWorkScheduleService()->getWorkSchedule($empNumber);
         return $workSchedule->isHoliday($day);
@@ -600,124 +586,10 @@ abstract class AbstractLeaveAllocationService
      * @param LeaveParameterObject $leaveAssignmentData
      * @return bool
      */
-    protected function isHalfdayHoliday(DateTime $day, LeaveParameterObject $leaveAssignmentData):bool {
+    protected function isHalfdayHoliday(DateTime $day, LeaveParameterObject $leaveAssignmentData): bool
+    {
         $empNumber = $leaveAssignmentData->getEmployeeNumber();
         $workSchedule = $this->getWorkScheduleService()->getWorkSchedule($empNumber);
         return $workSchedule->isHalfDayHoliday($day);
     }
-
-    /**
-     * Calculate Date deference
-     *
-     * @param LeaveParameterObject $leaveAssignmentData
-     * @param bool $isWeekend
-     * @param bool $isHoliday
-     * @param bool $isHalfday
-     * @param bool $isHalfDayHoliday
-     * @return int
-     */
-    public function calculateDateDeference(LeaveParameterObject $leaveAssignmentData, $isWeekend, $isHoliday, $isHalfday, $isHalfDayHoliday) {
-
-        if ($isWeekend) {
-            $dayDeference = 0;
-        } elseif ($isHoliday) {
-            if ($isHalfDayHoliday) {
-                if ($leaveAssignmentData->getToDate() == $leaveAssignmentData->getFromDate()) {
-                    if ($leaveAssignmentData->getWorkShiftLength() / 2 <= $leaveAssignmentData->getLeaveTotalTime()) {
-                        $dayDeference = 0.5;
-                    } else {
-                        $dayDeference = number_format($leaveAssignmentData->getLeaveTotalTime() / $leaveAssignmentData->getWorkShiftLength(), 3);
-                    }
-                } else {
-                    $dayDeference = 0.5;
-                }
-            } else {
-                $dayDeference = 0;
-            }
-        } elseif ($isHalfday) {
-
-            if ($leaveAssignmentData->getToDate() == $leaveAssignmentData->getFromDate()) {
-                if ($leaveAssignmentData->getWorkShiftLength() / 2 <= $leaveAssignmentData->getLeaveTotalTime()) {
-                    $dayDeference = 0.5;
-                } else {
-                    $dayDeference = number_format($leaveAssignmentData->getLeaveTotalTime() / $leaveAssignmentData->getWorkShiftLength(), 3);
-                }
-            } else {
-                $dayDeference = 0.5;
-            }
-        } else {
-            if ($leaveAssignmentData->getToDate() == $leaveAssignmentData->getFromDate()) {
-                $dayDeference = number_format($leaveAssignmentData->getLeaveTotalTime() / $leaveAssignmentData->getWorkShiftLength(), 3);
-            } else {
-                //$dayDeference	=	floor((strtotime($posts['txtToDate'])-strtotime($posts['txtFromDate']))/86400)+1;
-                $dayDeference = 1;
-            }
-        }
-
-        return $dayDeference;
-    }
-
-    /**
-     *
-     * @param LeaveParameterObject $leaveAssignmentData
-     * @param bool $isWeekend
-     * @param bool $isHoliday
-     * @param bool $isHalfday
-     * @param bool $isHalfDayHoliday
-     * @return int
-     */
-    public function calculateTimeDeference(LeaveParameterObject $leaveAssignmentData, $isWeekend, $isHoliday, $isHalfday, $isHalfDayHoliday) {
-
-        if ($isWeekend) {
-            $timeDeference = 0;
-        } elseif ($isHoliday) {
-            if ($isHalfDayHoliday) {
-                if ($leaveAssignmentData->getToDate() == $leaveAssignmentData->getFromDate()) {
-                    if ($leaveAssignmentData->getWorkShiftLength() / 2 <= $leaveAssignmentData->getLeaveTotalTime()) {
-                        $timeDeference = number_format($leaveAssignmentData->getWorkShiftLength() / 2, 3);
-                    } else {
-                        $timeDeference = $leaveAssignmentData->getLeaveTotalTime();
-                    }
-                } else {
-                    $timeDeference = number_format($leaveAssignmentData->getWorkShiftLength() / 2, 3);
-                }
-            } else {
-                $timeDeference = 0;
-            }
-        } elseif ($isHalfday) {
-            if ($leaveAssignmentData->getToDate() == $leaveAssignmentData->getFromDate() && $leaveAssignmentData->getLeaveTotalTime() > 0) {
-                if ($leaveAssignmentData->getWorkShiftLength() / 2 <= $leaveAssignmentData->getLeaveTotalTime()) {
-                    $timeDeference = number_format($leaveAssignmentData->getWorkShiftLength() / 2, 3);
-                } else {
-                    $timeDeference = $leaveAssignmentData->getLeaveTotalTime();
-                }
-            } else {
-                $timeDeference = number_format($leaveAssignmentData->getWorkShiftLength() / 2, 3);
-            }
-        } else {
-            if ($leaveAssignmentData->getToDate() == $leaveAssignmentData->getFromDate()) {
-                $timeDeference = $leaveAssignmentData->getLeaveTotalTime();
-            } else {
-                $timeDeference = $this->getWorkShiftLengthOfEmployee($leaveAssignmentData->getEmployeeNumber());
-            }
-        }
-
-        return $timeDeference;
-    }
-
-    /**
-     * Get work shift length
-     * @return int
-     */
-    protected function getWorkShiftLengthOfEmployee($employeeNumber) {
-
-        $employeeWorkShift = $this->getEmployeeService()->getEmployeeWorkShift($employeeNumber);
-
-        if (!is_null($employeeWorkShift) && ($employeeWorkShift instanceof EmployeeWorkShift)) {
-            return $employeeWorkShift->getWorkShift()->getHoursPerDay();
-        } else {
-            return WorkShift::DEFAULT_WORK_SHIFT_LENGTH;
-        }
-    }
-
 }
