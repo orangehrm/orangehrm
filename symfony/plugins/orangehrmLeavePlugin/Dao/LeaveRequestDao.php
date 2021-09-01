@@ -31,16 +31,13 @@ use OrangeHRM\Entity\LeaveLeaveEntitlement;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
-
 use OrangeHRM\ORM\QueryBuilderWrapper;
-
-use function Doctrine\ORM\QueryBuilder;
 
 class LeaveRequestDao extends BaseDao
 {
     use DateTimeHelperTrait;
 
-    private static $doneMarkingApprovedLeaveAsTaken = false;
+    private static bool $doneMarkingApprovedLeaveAsTaken = false;
 
     /**
      * Save leave request
@@ -279,59 +276,6 @@ class LeaveRequestDao extends BaseDao
     }
 
     /**
-     * Modify Overlap leave request
-     * @param LeaveRequest $leaveRequest
-     * @return boolean
-     */
-    public function xmodifyOverlapLeaveRequest(LeaveRequest $leaveRequest, $leaveList, $leavePeriod = null) {
-        // TODO
-        try {
-            $nextLeavePeriod = false;
-            $nextLeaveRequest = false;
-            if ($leavePeriod == null)
-                $leavePeriod = Doctrine :: getTable('LeavePeriod')->find($leaveRequest->getLeavePeriodId());
-
-            foreach ($leaveList as $leave) {
-
-                if ($leave->getLeaveDate() > $leavePeriod->getEndDate()) {
-                    if (!($nextLeavePeriod instanceof LeavePeriod)) {
-
-                        $leavePeriodService = new LeavePeriodService();
-                        $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
-
-                        $nextLeavePeriod = $leavePeriodService->createNextLeavePeriod($leave->getLeaveDate());
-
-                        $nextLeaveRequest = new LeaveRequest();
-                        $idGenService = new IDGeneratorService();
-                        $idGenService->setEntity($leaveRequest);
-                        $nextLeaveRequest->setLeaveRequestId((int)$idGenService->getNextID());
-
-                        $nextLeaveRequest->setLeaveTypeId($leaveRequest->getLeaveTypeId());
-                        $nextLeaveRequest->setDateApplied($leaveRequest->getDateApplied());
-                        $nextLeaveRequest->setLeavePeriodId($nextLeavePeriod->getLeavePeriodId());
-                        $nextLeaveRequest->setLeaveTypeName($leaveRequest->getLeaveTypeName());
-                        $nextLeaveRequest->setEmpNumber($leaveRequest->getEmpNumber());
-                        $nextLeaveRequest->setLeaveComments($leaveRequest->getLeaveComments());
-
-                        $nextLeaveRequest->save();
-                    }
-
-                    $q = Doctrine_Query::create()
-                            ->update('Leave l')
-                            ->set('l.leave_request_id=', $nextLeaveRequest->getLeaveRequestId())
-                            ->where('l.leave_id = ?', $leave->getLeaveId());
-
-
-                    $q->execute();
-                }
-            }
-            return true;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
      * @param DateTime $leaveStartDate
      * @param DateTime $leaveEndDate
      * @param int $empNumber
@@ -524,101 +468,6 @@ class LeaveRequestDao extends BaseDao
         $q->andWhere($q->expr()->notIn('l.status', ':statusNotConsider'))
             ->setParameter('statusNotConsider', $leaveStatusNotConsider);
         return $q->getQuery()->getSingleScalarResult();
-    }
-
-    /**
-     * Count leave records in the Leave table
-     * @return integer $count
-     */
-    public function xgetLeaveRecordCount() {
-        // TODO
-        try {
-
-            $q = Doctrine_Query::create()
-                    ->from('Leave');
-            $count = $q->count();
-            return $count;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param $empId
-     * @param $leaveTypeId
-     * @return int
-     */
-    public function xgetNumOfLeave($empId, $leaveTypeId) {
-        // TODO
-        try {
-
-
-            $q = Doctrine_Query::create()
-                    ->addSelect('sum(leave_length_days) as daysLength')
-                    ->from('Leave l')
-                    ->andWhere("l.employee_id = ?", $empId)
-                    ->andWhere("l.leave_type_id = ?", $leaveTypeId);
-
-
-            $record = $q->fetchOne();
-
-            return $record['daysLength'];
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param $empId
-     * @param $leaveTypeId
-     * @return int
-     */
-    public function xgetNumOfAvaliableLeave($empId, $leaveTypeId, $leavePeriodId = null) {
-        // TODO
-        try {
-
-
-            $q = Doctrine_Query::create()
-                    ->addSelect('sum(leave_length_days) as daysLength')
-                    ->from('Leave l')
-                    ->andWhere("l.employee_id = ?", $empId)
-                    ->andWhere("l.leave_type_id = ?", $leaveTypeId)
-                    ->andWhereNotIn('l.leave_status', [Leave::LEAVE_STATUS_LEAVE_CANCELLED, Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL, Leave::LEAVE_STATUS_LEAVE_REJECTED]
-                    );
-
-            if ($leavePeriodId) {
-                $q->leftJoin('l.LeaveRequest lr');
-                $q->andWhere('lr.leave_period_id = ?', $leavePeriodId);
-            }
-
-            $record = $q->fetchOne();
-
-            return $record['daysLength'];
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param LeavePeriod $leavePeriod
-     * @return unknown_type
-     */
-    public function xgetLeavePeriodOverlapLeaves(LeavePeriod $leavePeriod) {
-        // TODO
-        try {
-            $q = Doctrine_Query::create()
-                    ->from('Leave l')
-                    ->andWhere('l.leave_date > ?', $leavePeriod->getEndDate())
-                    ->groupBy('l.leave_request_id');
-
-            $leaveList = $q->execute();
-            return $leaveList;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
     }
 
     /**
@@ -1070,15 +919,6 @@ class LeaveRequestDao extends BaseDao
         return $q;
     }
 
-    protected function addSeconds($timeValue) {
-        // TODO
-        if (is_string($timeValue) && substr_count($timeValue, ':') == 1) {
-            $timeValue .= ':00';
-        }
-
-        return $timeValue;
-    }
-
     public function getLeaveRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,$statuses)
     {
         // TODO
@@ -1149,6 +989,22 @@ class LeaveRequestDao extends BaseDao
             $fromDate,
             $toDate
         )->getQueryBuilder();
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int $empNumber
+     * @param DateTime[] $dates
+     * @return Leave[]
+     */
+    public function getLeavesByEmpNumberAndDates(int $empNumber, array $dates): array
+    {
+        $dates = array_map(fn(DateTime $date) => $this->getDateTimeHelper()->formatDateTimeToYmd($date), $dates);
+        $q = $this->createQueryBuilder(Leave::class, 'l')
+            ->andWhere('l.employee = :empNumber')
+            ->setParameter('empNumber', $empNumber);
+        $q->andWhere($q->expr()->in('l.date', ':dates'))
+            ->setParameter('dates', $dates);
         return $q->getQuery()->execute();
     }
 }

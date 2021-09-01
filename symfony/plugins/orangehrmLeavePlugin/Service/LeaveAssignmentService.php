@@ -81,7 +81,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
             return false;
         }
         
-        if ($this->applyMoreThanAllowedForADay($leaveAssignmentData)) {
+        if ($this->isWorkShiftLengthExceeded($leaveAssignmentData)) {
             throw new LeaveAllocationServiceException('Failed to Assign: Work Shift Length Exceeded');
         }
                 
@@ -155,9 +155,6 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
                         $this->getLeaveRequestService()->saveLeaveRequestComment($leaveRequest->getId(), 
                                 $leaveComment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
                     }
-//                    if ($this->isOverlapLeaveRequest($leaveAssignmentData)) {
-//                        $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaveDays);
-//                    }
 
                     /* Send notification to the when leave is assigned; TODO: Move to action? */
                     

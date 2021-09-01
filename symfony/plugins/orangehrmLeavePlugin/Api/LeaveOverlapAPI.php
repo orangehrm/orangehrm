@@ -42,6 +42,8 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
     use LeaveRequestParamHelperTrait;
     use AuthUserTrait;
 
+    public const META_PARAMETER_IS_WORK_SHIFT_LENGTH_EXCEEDED = 'isWorkShiftLengthExceeded';
+
     private ?LeaveApplicationService $leaveApplicationService = null;
 
     /**
@@ -56,7 +58,8 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @return int
+     * To reuse LeaveRequestParamHelperTrait::class but with LeaveOverlapParams::class
+     * @inheritDoc
      */
     protected function getLeaveTypeIdParam(): int
     {
@@ -64,7 +67,7 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @return DateTime|null
+     * @inheritDoc
      */
     protected function getFromDateParam(): ?DateTime
     {
@@ -75,7 +78,7 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @return DateTime|null
+     * @inheritDoc
      */
     protected function getToDateParam(): ?DateTime
     {
@@ -86,9 +89,7 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @param string $key
-     * @param array|null $default
-     * @return array|null
+     * @inheritDoc
      */
     protected function getDurationParam(string $key, ?array $default = null): ?array
     {
@@ -96,7 +97,7 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @return string|null
+     * @inheritDoc
      */
     protected function getPartialOptionParam(): ?string
     {
@@ -117,11 +118,31 @@ class LeaveOverlapAPI extends Endpoint implements CollectionEndpoint
             $this->getAuthUser()->getEmpNumber()
         );
         $leaveRequestParams = $this->getLeaveRequestParams($empNumber, LeaveOverlapParams::class);
-        $overlapLeaves = $this->getLeaveApplicationService()->getOverlapLeaves($leaveRequestParams);
+
+        $overlapLeaves = [];
+        $hasOverlapLeaves = $this->getLeaveApplicationService()->hasOverlapLeaves($leaveRequestParams);
+        if ($hasOverlapLeaves) {
+            $overlapLeaves = $this->getLeaveApplicationService()->getOverlapLeaves($leaveRequestParams);
+        }
+
+        $isWorkShiftLengthExceeded = false;
+        if (!$hasOverlapLeaves) {
+            $isWorkShiftLengthExceeded = $this->getLeaveApplicationService()
+                ->isWorkShiftLengthExceeded($leaveRequestParams);
+            if ($isWorkShiftLengthExceeded) {
+                $overlapLeaves = $this->getLeaveApplicationService()
+                    ->getWorkShiftLengthExceedOverlapLeaves($leaveRequestParams);
+            }
+        }
         return new EndpointCollectionResult(
             LeaveModel::class,
             $overlapLeaves,
-            new ParameterBag([CommonParams::PARAMETER_EMP_NUMBER => $empNumber])
+            new ParameterBag(
+                [
+                    CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
+                    self::META_PARAMETER_IS_WORK_SHIFT_LENGTH_EXCEEDED => $isWorkShiftLengthExceeded,
+                ]
+            )
         );
     }
 
