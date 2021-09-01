@@ -101,10 +101,13 @@ trait LeaveRequestParamHelperTrait
 
     /**
      * @param int $empNumber
+     * @param string $paramObjectClassName
      * @return LeaveParameterObject
      */
-    protected function getLeaveRequestParams(int $empNumber): LeaveParameterObject
-    {
+    protected function getLeaveRequestParams(
+        int $empNumber,
+        string $paramObjectClassName = LeaveParameterObject::class
+    ): LeaveParameterObject {
         if (!$this instanceof Endpoint) {
             throw $this->getEndpointLogicException();
         }
@@ -112,7 +115,7 @@ trait LeaveRequestParamHelperTrait
         $fromDate = $this->getFromDateParam();
         $toDate = $this->getToDateParam();
 
-        $leaveRequestParams = new LeaveParameterObject($empNumber, $leaveTypeId, $fromDate, $toDate);
+        $leaveRequestParams = new $paramObjectClassName($empNumber, $leaveTypeId, $fromDate, $toDate);
         $leaveRequestParams->setComment($this->getCommentParam());
 
         if ($leaveRequestParams->isMultiDayLeave()) {

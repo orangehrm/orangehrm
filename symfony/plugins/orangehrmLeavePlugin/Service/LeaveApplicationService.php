@@ -41,18 +41,22 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
 
     protected $dispatcher;
     protected $applyWorkflowItem = null;
-    
+
     /**
      * Set dispatcher.
-     * 
+     *
      * @param $dispatcher
      */
-    public function setDispatcher($dispatcher) {
+    public function setDispatcher($dispatcher)
+    {
+        // TODO
         $this->dispatcher = $dispatcher;
     }
 
-    public function getDispatcher() {
-        if(is_null($this->dispatcher)) {
+    public function getDispatcher()
+    {
+        // TODO
+        if (is_null($this->dispatcher)) {
             $this->dispatcher = sfContext::getInstance()->getEventDispatcher();
         }
         return $this->dispatcher;
@@ -63,19 +67,17 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
      *
      * @param LeaveParameterObject $leaveAssignmentData
      * @return LeaveRequest|null
-     * @throws LeaveAllocationServiceException When leave request length exceeds work shift length.
+     * @throws LeaveAllocationServiceException
      */
     public function applyLeave(LeaveParameterObject $leaveAssignmentData): ?LeaveRequest
     {
-        // TODO
-//        if ($this->hasOverlapLeave($leaveAssignmentData)) {
-//            throw new LeaveAllocationServiceException('Overlapping Leave Request Found');
-//        }
+        if ($this->hasOverlapLeaves($leaveAssignmentData)) {
+            throw LeaveAllocationServiceException::overlappingLeavesFound();
+        }
 
-        // TODO
-//        if ($this->applyMoreThanAllowedForADay($leaveAssignmentData)) {
-//            throw new LeaveAllocationServiceException('Work Shift Length Exceeded');
-//        }
+        if ($this->isWorkShiftLengthExceeded($leaveAssignmentData)) {
+            throw LeaveAllocationServiceException::workShiftLengthExceeded();
+        }
 
         return $this->saveLeaveRequest($leaveAssignmentData);
     }
@@ -121,7 +123,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
                 );
 
                 if (!$this->allowToExceedLeaveBalance() && $entitlements == null) {
-                    throw new LeaveAllocationServiceException('Leave Balance Exceeded');
+                    throw LeaveAllocationServiceException::leaveBalanceExceeded();
                 }
             }
 
@@ -159,10 +161,10 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
                     return $leaveRequest;
                 } catch (Exception $e) {
                     $this->getLogger()->error('Exception while saving leave:' . $e->getMessage());
-                    throw new LeaveAllocationServiceException('Leave Quota will Exceed');
+                    throw LeaveAllocationServiceException::leaveQuotaWillExceed();
                 }
             } else {
-                throw new LeaveAllocationServiceException('No working days in leave request');
+                throw LeaveAllocationServiceException::noWorkingDaysSelected();
             }
         }
 
@@ -245,81 +247,9 @@ class LeaveApplicationService extends AbstractLeaveAllocationService
         }
 
         if (is_null($this->applyWorkflowItem)) {
-            $this->getLogger()->error("No workflow item found for APPLY leave action!");
+            $this->getLogger()->error('No workflow item found for APPLY leave action!');
         }
 
         return $this->applyWorkflowItem;
-    }
-
-    /**
-     * Is Valid leave request
-     * @param LeaveType $leaveType
-     * @param array $leaveRecords
-     * @returns boolean
-     */
-    protected function isValidLeaveRequest($leaveRequest, $leaveRecords) {
-        $holidayCount = 0;
-        $requestedLeaveDays = [];
-        $holidays = [Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY];
-        foreach ($leaveRecords as $k => $leave) {
-            if (in_array($leave->getStatus(), $holidays)) {
-                $holidayCount++;
-            }
-//            $leavePeriod = $this->getLeavePeriodService()->getLeavePeriod(strtotime($leave->getLeaveDate()));
-//            if($leavePeriod instanceof LeavePeriod) {
-//                $leavePeriodId = $leavePeriod->getLeavePeriodId();
-//            } else {
-//                $leavePeriodId = null; //todo create leave period?
-//            }
-//
-//            if(key_exists($leavePeriodId, $requestedLeaveDays)) {
-//                $requestedLeaveDays[$leavePeriodId] += $leave->getLeaveLengthDays();
-//            } else {
-//                $requestedLeaveDays[$leavePeriodId] = $leave->getLeaveLengthDays();
-//            }
-        }
-
-        //if ($this->isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest) && $this->hasWorkingDays($holidayCount, $leaveRecords)) {
-            return true;
-        //}
-    }
-    
-    /**
-     * isLeaveRequestNotExceededLeaveBalance
-     * @param array $requestedLeaveDays key => leave period id
-     * @param LeaveRequest $leaveRequest
-     * @returns boolean
-     */
-    protected function isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest) {
-
-        if (!$this->getLeaveEntitlementService()->isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest)) {
-            throw new LeaveAllocationServiceException('Failed to Submit: Leave Balance Exceeded');
-            return false;
-        }
-        return true;
-    }
-    
-    /**
-     * hasWorkingDays
-     * @param LeaveType $leaveType
-     * @returns boolean
-     */
-    protected function hasWorkingDays($holidayCount, $leaves) {
-
-        if ($holidayCount == count($leaves)) {
-            throw new LeaveAllocationServiceException('Failed to Submit: No Working Days Selected');
-        }
-
-        return true;
-    }
-
-    /**
-     * @deprecated
-     * @return Employee
-     * @todo Remove the use of session
-     */
-    public function getLoggedInEmployee() {
-        $employee = $this->getEmployeeService()->getEmployee($_SESSION['empNumber']);
-        return $employee;
     }
 }
