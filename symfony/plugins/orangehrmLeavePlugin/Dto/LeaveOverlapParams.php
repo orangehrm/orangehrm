@@ -17,49 +17,47 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Leave\Exception;
+namespace OrangeHRM\Leave\Dto;
 
-use Exception;
+use LogicException;
 
-class LeaveAllocationServiceException extends Exception
+class LeaveOverlapParams extends LeaveParameterObject
 {
     /**
-     * @return static
+     * @inheritDoc
      */
-    public static function overlappingLeavesFound(): self
+    public function getLeaveType(): int
     {
-        return new self('Overlapping Leave Request Found');
+        throw $this->getLogicException();
     }
 
     /**
-     * @return static
+     * @inheritDoc
      */
-    public static function workShiftLengthExceeded(): self
+    public function setLeaveType(int $leaveType): void
     {
-        return new self('Work Shift Length Exceeded');
     }
 
     /**
-     * @return static
+     * @inheritDoc
      */
-    public static function leaveBalanceExceeded(): self
+    public function getComment(): ?string
     {
-        return new self('Leave Balance Exceeded');
+        throw $this->getLogicException();
     }
 
     /**
-     * @return static
+     * @inheritDoc
      */
-    public static function leaveQuotaWillExceed(): self
+    public function setComment(?string $comment): void
     {
-        return new self('Leave Quota will Exceed');
     }
 
     /**
-     * @return static
+     * @return LogicException
      */
-    public static function noWorkingDaysSelected(): self
+    private function getLogicException(): LogicException
     {
-        return new self('No Working Days in Leave Request');
+        return new LogicException('This operation not allowed with ' . self::class);
     }
 }
