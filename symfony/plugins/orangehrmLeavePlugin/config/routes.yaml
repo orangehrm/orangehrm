@@ -135,7 +135,6 @@ apiv2_leave_request_comments:
   methods: [ GET , POST ]
   defaults:
     _api: OrangeHRM\Leave\Api\LeaveRequestCommentAPI
-    _key: leaveTypeId
 
 
 ##########################
