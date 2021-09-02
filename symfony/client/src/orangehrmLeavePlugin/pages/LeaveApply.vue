@@ -200,7 +200,7 @@ export default {
       isLoading: false,
       leave: {...leaveModel},
       rules: {
-        type: [],
+        type: [required],
         fromDate: [required, validDateFormat()],
         toDate: [
           required,
@@ -226,7 +226,7 @@ export default {
     onSave() {
       this.isLoading = true;
       const payload = {
-        leaveTypeId: 1,//this.leave.type?.id,
+        leaveTypeId: this.leave.type?.id,
         fromDate: this.leave.fromDate,
         toDate: this.leave.toDate,
         comment: this.leave.comment ? this.leave.comment : null,
