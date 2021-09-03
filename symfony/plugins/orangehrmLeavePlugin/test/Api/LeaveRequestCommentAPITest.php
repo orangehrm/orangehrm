@@ -23,8 +23,10 @@ use DateTime;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
+use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\LeaveRequestCommentAPI;
@@ -57,13 +59,20 @@ class LeaveRequestCommentAPITest extends EndpointTestCase
         $dateTime = new DateTime('2020-12-25 07:20:21');
         $leaveRequest->setDateApplied($dateTime);
 
+        $employeeTerminationRecord = new EmployeeTerminationRecord();
+        $employeeTerminationRecord->setId(1);
+        $employee = new Employee();
+        $employee->setEmpNumber(1);
+        $employee->setFirstName('Kayla');
+        $employee->setLastName('Abbey');
+        $employee->setEmployeeTerminationRecord($employeeTerminationRecord);
         $leaveRequestComment = new LeaveRequestComment();
         $leaveRequestComment->setId(1);
         $leaveRequestComment->setLeaveRequest($leaveRequest);
         $leaveRequestComment->setComment('test comment');
         $dateTime = new DateTime('2020-12-25 07:20:21');
         $leaveRequestComment->setCreatedAt($dateTime);
-        $leaveRequestComment->getDecorator()->setCreatedByEmployeeByEmpNumber(1);
+        $leaveRequestComment->setCreatedByEmployee($employee);
         $leaveRequestComment->getDecorator()->setCreatedByUserById(1);
 
         $leaveRequestCommentDao->expects($this->once())
@@ -215,13 +224,21 @@ class LeaveRequestCommentAPITest extends EndpointTestCase
         $dateTime = new DateTime('2020-12-25 07:20:21');
         $leaveRequest->setDateApplied($dateTime);
 
+        $employeeTerminationRecord = new EmployeeTerminationRecord();
+        $employeeTerminationRecord->setId(1);
+        $employee = new Employee();
+        $employee->setEmpNumber(1);
+        $employee->setFirstName('Kayla');
+        $employee->setLastName('Abbey');
+        $employee->setEmployeeTerminationRecord($employeeTerminationRecord);
+
         $leaveRequestComment1 = new LeaveRequestComment();
         $leaveRequestComment1->setId(1);
         $leaveRequestComment1->getDecorator()->setLeaveRequestById(1);
         $leaveRequestComment1->setComment('test comment');
         $dateTime1 = new DateTime('2020-12-25 07:20:21');
         $leaveRequestComment1->setCreatedAt($dateTime1);
-        $leaveRequestComment1->getDecorator()->setCreatedByEmployeeByEmpNumber(1);
+        $leaveRequestComment1->setCreatedByEmployee($employee);
         $leaveRequestComment1->getDecorator()->setCreatedByUserById(1);
 
         $leaveRequestComment2 = new LeaveRequestComment();
@@ -230,7 +247,7 @@ class LeaveRequestCommentAPITest extends EndpointTestCase
         $leaveRequestComment2->setComment('test comment2');
         $dateTime2 = new DateTime('2020-12-26 07:20:21');
         $leaveRequestComment2->setCreatedAt($dateTime2);
-        $leaveRequestComment2->getDecorator()->setCreatedByEmployeeByEmpNumber(1);
+        $leaveRequestComment2->setCreatedByEmployee($employee);
         $leaveRequestComment2->getDecorator()->setCreatedByUserById(1);
 
         $leaveRequestCommentDao = $this->getMockBuilder(LeaveRequestCommentDao::class)
