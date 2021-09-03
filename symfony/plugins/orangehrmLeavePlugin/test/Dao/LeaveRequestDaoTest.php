@@ -2437,6 +2437,34 @@ class LeaveRequestDaoTest extends KernelTestCase
             }
         }
     }
+
+    public function testGetLeavesByLeaveRequestIds(): void
+    {
+        $result = $this->leaveRequestDao->getLeavesByLeaveRequestIds([5]);
+        $this->assertCount(3, $result);
+        foreach ($result as $i => $leave) {
+            $this->assertEquals(5, $leave->getLeaveRequest()->getId());
+            $this->assertEquals(1, $leave->getEmployee()->getEmpNumber());
+            $this->assertEquals(new DateTime('2010-09-' . (15 + $i)), $leave->getDate());
+        }
+
+        $result = $this->leaveRequestDao->getLeavesByLeaveRequestIds([1, 2]);
+        $this->assertCount(4, $result);
+        foreach ($result as $leave) {
+            $this->assertContains($leave->getLeaveRequest()->getId(), [1, 2]);
+            $this->assertEquals(1, $leave->getEmployee()->getEmpNumber());
+        }
+
+        $result = $this->leaveRequestDao->getLeavesByLeaveRequestIds([1, 1000]);
+        $this->assertCount(2, $result);
+        foreach ($result as $leave) {
+            $this->assertEquals(1, $leave->getLeaveRequest()->getId());
+            $this->assertEquals(1, $leave->getEmployee()->getEmpNumber());
+        }
+
+        $result = $this->leaveRequestDao->getLeavesByLeaveRequestIds([1000]);
+        $this->assertEmpty($result);
+    }
 }
 
 

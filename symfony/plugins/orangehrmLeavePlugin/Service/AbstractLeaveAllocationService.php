@@ -29,6 +29,7 @@ use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Dto\LeaveDuration;
 use OrangeHRM\Leave\Dto\LeaveParameterObject;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
 use OrangeHRM\Leave\Traits\Service\WorkScheduleServiceTrait;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
@@ -40,6 +41,7 @@ abstract class AbstractLeaveAllocationService
     use EmployeeServiceTrait;
     use LeaveTypeServiceTrait;
     use LeavePeriodServiceTrait;
+    use LeaveRequestServiceTrait;
     use WorkScheduleServiceTrait;
     use LoggerTrait;
 
@@ -88,27 +90,6 @@ abstract class AbstractLeaveAllocationService
      * @return bool
      */
     abstract protected function allowToExceedLeaveBalance(): bool;
-
-    /**
-     *
-     * @return LeaveRequestService
-     */
-    public function getLeaveRequestService(): LeaveRequestService
-    {
-        if (!($this->leaveRequestService instanceof LeaveRequestService)) {
-            $this->leaveRequestService = new LeaveRequestService();
-        }
-        return $this->leaveRequestService;
-    }
-
-    /**
-     *
-     * @param LeaveRequestService $service
-     */
-    public function setLeaveRequestService(LeaveRequestService $service): void
-    {
-        $this->leaveRequestService = $service;
-    }
 
     /**
      * @param LeaveParameterObject $leaveParameterObject

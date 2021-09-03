@@ -49,7 +49,11 @@ class LeaveModel implements Normalizable
                 ['getDecorator', 'getStartTime'],
                 ['getDecorator', 'getEndTime'],
                 'durationType',
-                ['getDecorator', 'getLeaveDuration']
+                ['getDecorator', 'getLeaveDuration'],
+                ['getDecorator', 'getLastComment', 'getId'],
+                ['getDecorator', 'getLastComment', 'getComment'],
+                ['getDecorator', 'getLastComment', 'getDecorator', 'getCreatedAtDate'],
+                ['getDecorator', 'getLastComment', 'getDecorator', 'getCreatedAtTime'],
             ]
         );
         $this->setAttributeNames(
@@ -68,7 +72,11 @@ class LeaveModel implements Normalizable
                 'startTime',
                 'endTime',
                 ['durationType', 'id'],
-                ['durationType', 'type']
+                ['durationType', 'type'],
+                ['lastComment', 'id'],
+                ['lastComment', 'comment'],
+                ['lastComment', 'date'],
+                ['lastComment', 'time'],
             ]
         );
     }

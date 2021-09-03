@@ -20,17 +20,21 @@
 namespace OrangeHRM\Leave\Api;
 
 use OrangeHRM\Core\Api\CommonParams;
+use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Leave\Api\Model\LeaveRequestDetailedModel;
 use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
 use OrangeHRM\Leave\Service\LeaveApplicationService;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
 class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
 {
     use AuthUserTrait;
+    use LeaveRequestServiceTrait;
 
     protected ?LeaveApplicationService $leaveApplicationService = null;
 
@@ -66,7 +70,26 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      */
     public function getAll(): EndpointResult
     {
-        throw $this->getNotImplementedException();
+        $empNumber = $this->getAuthUser()->getEmpNumber();
+        $leaveRequestSearchFilterParams = $this->getLeaveRequestSearchFilterParams($empNumber);
+        $leaveRequests = $this->getLeaveRequestService()
+            ->getLeaveRequestDao()
+            ->getLeaveRequests($leaveRequestSearchFilterParams);
+        $total = $this->getLeaveRequestService()
+            ->getLeaveRequestDao()
+            ->getLeaveRequestsCount($leaveRequestSearchFilterParams);
+        $detailedLeaveRequests = $this->getLeaveRequestService()->getDetailedLeaveRequests($leaveRequests);
+
+        return new EndpointCollectionResult(
+            LeaveRequestDetailedModel::class,
+            $detailedLeaveRequests,
+            new ParameterBag(
+                [
+                    CommonParams::PARAMETER_EMP_NUMBER => $empNumber,
+                    CommonParams::PARAMETER_TOTAL => $total
+                ]
+            )
+        );
     }
 
     /**
@@ -74,7 +97,7 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        throw $this->getNotImplementedException();
+        return new ParamRuleCollection();
     }
 
     /**
