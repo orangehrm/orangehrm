@@ -83,9 +83,9 @@ class LeaveRequestCommentDao extends BaseDao
 
     /**
      * @param int $leaveRequestId
-     * @return object|null
+     * @return LeaveRequest|null|object
      */
-    public function getLeaveRequestById(int $leaveRequestId)
+    public function getLeaveRequestById(int $leaveRequestId): ?LeaveRequest
     {
         return $this->getRepository(LeaveRequest::class)->find($leaveRequestId);
     }

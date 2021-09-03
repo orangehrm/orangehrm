@@ -82,8 +82,7 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @return EndpointCollectionResult
-     * @throws Exception
+     *  @inheritdoc
      */
     public function getAll(): EndpointCollectionResult
     {
@@ -103,15 +102,13 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
         $leaveRequestCommentSearchFilterParams->setLeaveRequestById($leaveRequestId);
         $this->setSortingAndPaginationParams($leaveRequestCommentSearchFilterParams);
 
-        $leaveRequestComments = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao(
-        )->searchLeaveRequestComments($leaveRequestCommentSearchFilterParams);
+        $leaveRequestComments = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()->searchLeaveRequestComments($leaveRequestCommentSearchFilterParams);
         return new EndpointCollectionResult(
             LeaveRequestCommentModel::class,
             $leaveRequestComments,
             new ParameterBag(
                 [
-                    CommonParams::PARAMETER_TOTAL => $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao(
-                    )->getSearchLeaveRequestCommentsCount(
+                    CommonParams::PARAMETER_TOTAL => $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()->getSearchLeaveRequestCommentsCount(
                         $leaveRequestCommentSearchFilterParams
                     )
                 ]
@@ -132,7 +129,6 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function create(): EndpointResourceResult
     {
@@ -162,13 +158,10 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_COMMENT,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH]),
-                ),
-                false
+            new ParamRule(
+                self::PARAMETER_COMMENT,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH]),
             ),
             ...$this->getCommonValidationRules()
         );
@@ -180,15 +173,17 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
     private function getCommonValidationRules(): array
     {
         return [
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_LEAVE_REQUEST_ID,
-                )
+            new ParamRule(
+                self::PARAMETER_LEAVE_REQUEST_ID,
+                new Rule(Rules::POSITIVE)
             )
         ];
     }
 
-    public function setLeaveRequestComment(LeaveRequestComment $leaveRequestComment)
+    /**
+     * @param LeaveRequestComment $leaveRequestComment
+     */
+    private function setLeaveRequestComment(LeaveRequestComment $leaveRequestComment): void
     {
         $comment = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
@@ -206,7 +201,7 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
      * @return LeaveRequestComment
      * @throws Exception
      */
-    public function saveLeaveRequestComment(LeaveRequestComment $leaveRequestComment): LeaveRequestComment
+    private function saveLeaveRequestComment(LeaveRequestComment $leaveRequestComment): LeaveRequestComment
     {
         return $this->getLeaveRequestCommentService()
             ->getLeaveRequestCommentDao()
@@ -214,8 +209,7 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @return EndpointResourceResult
-     * @throws Exception
+     * @inheritDoc
      */
     public function delete(): EndpointResourceResult
     {
