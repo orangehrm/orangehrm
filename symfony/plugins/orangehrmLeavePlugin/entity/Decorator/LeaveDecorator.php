@@ -23,14 +23,17 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Leave;
-use OrangeHRM\Entity\LeaveStatus;
+use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Dto\LeaveDuration;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
+use OrangeHRM\ORM\ListSorter;
 
 class LeaveDecorator
 {
     use EntityManagerHelperTrait;
     use DateTimeHelperTrait;
+    use LeaveRequestServiceTrait;
 
     /**
      * @var Leave
@@ -74,14 +77,19 @@ class LeaveDecorator
     }
 
     /**
-     * @return string
+     * @return string e.g. ['Pending Approval', 'Scheduled', 'Taken', 'Rejected', 'Cancelled']
      */
     public function getLeaveStatus(): string
     {
-        /** @var LeaveStatus $leaveStatus */
-        $leaveStatus = $this->getRepository(LeaveStatus::class)
-            ->findOneBy(['status' => $this->getLeave()->getStatus()]);
-        return ucwords(strtolower($leaveStatus->getName()));
+        return ucwords(strtolower($this->getLeaveStatusName()));
+    }
+
+    /**
+     * @return string e.g. ['PENDING APPROVAL', 'SCHEDULED', 'TAKEN', 'REJECTED', 'CANCELLED']
+     */
+    public function getLeaveStatusName(): string
+    {
+        return $this->getLeaveRequestService()->getLeaveStatusNameByStatus($this->getLeave()->getStatus());
     }
 
     /**
@@ -124,5 +132,14 @@ class LeaveDecorator
             return null;
         }
         return $this->getDateTimeHelper()->formatDateTimeToTimeString($this->getLeave()->getEndTime());
+    }
+
+    /**
+     * @return LeaveComment|null
+     */
+    public function getLastComment(): ?LeaveComment
+    {
+        return $this->getRepository(LeaveComment::class)
+            ->findOneBy(['leave' => $this->getLeave()->getId()], ['createdAt' => ListSorter::DESCENDING]);
     }
 }

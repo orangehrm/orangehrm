@@ -24,10 +24,13 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
+use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
 class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
 {
     use LeaveRequestParamHelperTrait;
+    use LeaveRequestServiceTrait;
 
     /**
      * @inheritDoc
@@ -51,6 +54,17 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
     public function getAll(): EndpointResult
     {
         throw $this->getNotImplementedException();
+    }
+
+    /**
+     * @param int|null $empNumber
+     * @return LeaveRequestSearchFilterParams
+     */
+    protected function getLeaveRequestSearchFilterParams(?int $empNumber = null): LeaveRequestSearchFilterParams
+    {
+        $leaveRequestSearchFilterParams = new LeaveRequestSearchFilterParams();
+        $leaveRequestSearchFilterParams->setEmpNumber($empNumber);
+        return $leaveRequestSearchFilterParams;
     }
 
     /**
