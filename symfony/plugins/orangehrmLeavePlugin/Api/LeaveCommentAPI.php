@@ -41,7 +41,7 @@ use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Leave\Api\Model\LeaveCommentModel;
 use OrangeHRM\Leave\Dto\LeaveCommentSearchFilterParams;
-use OrangeHRM\Leave\Service\LeaveCommentService;
+use OrangeHRM\Leave\Service\LeaveRequestCommentService;
 
 class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
 {
@@ -55,19 +55,19 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
 
     public const PARAM_RULE_COMMENT_MAX_LENGTH = 255;
     /**
-     * @var null|LeaveCommentService
+     * @var null|LeaveRequestCommentService
      */
-    protected ?LeaveCommentService $leaveCommentService = null;
+    protected ?LeaveRequestCommentService $leaveRequestCommentService = null;
 
     /**
-     * @return LeaveCommentService
+     * @return LeaveRequestCommentService
      */
-    public function getLeaveCommentService(): LeaveCommentService
+    public function getLeaveRequestCommentService(): LeaveRequestCommentService
     {
-        if (is_null($this->leaveCommentService)) {
-            $this->leaveCommentService = new LeaveCommentService();
+        if (is_null($this->leaveRequestCommentService)) {
+            $this->leaveRequestCommentService = new LeaveRequestCommentService();
         }
-        return $this->leaveCommentService;
+        return $this->leaveRequestCommentService;
     }
 
     /**
@@ -89,7 +89,7 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
         $leaveId = $this->getUrlAttributes();
 
         /** @var Leave|null $leave */
-        $leave = $this->getLeaveCommentService()->getLeaveCommentDao()
+        $leave = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()
             ->getLeaveById($leaveId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($leave, Leave::class);
@@ -101,14 +101,14 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
         $leaveCommentSearchFilterParams->setLeaveById($leaveId);
         $this->setSortingAndPaginationParams($leaveCommentSearchFilterParams);
 
-        $leaveComments = $this->getLeaveCommentService()->getLeaveCommentDao()
+        $leaveComments = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()
             ->searchLeaveComments($leaveCommentSearchFilterParams);
         return new EndpointCollectionResult(
             LeaveCommentModel::class,
             $leaveComments,
             new ParameterBag(
                 [
-                    CommonParams::PARAMETER_TOTAL => $this->getLeaveCommentService()->getLeaveCommentDao()
+                    CommonParams::PARAMETER_TOTAL => $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()
                         ->getSearchLeaveCommentsCount($leaveCommentSearchFilterParams)
                 ]
             )
@@ -134,7 +134,7 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
         $leaveId = $this->getUrlAttributes();
 
         /** @var Leave|null $leave */
-        $leave = $this->getLeaveCommentService()->getLeaveCommentDao()->getLeaveById(
+        $leave = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()->getLeaveById(
             $leaveId
         );
 
@@ -202,8 +202,8 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
      */
     private function saveLeaveComment(LeaveComment $leaveComment): LeaveComment
     {
-        return $this->getLeaveCommentService()
-            ->getLeaveCommentDao()
+        return $this->getLeaveRequestCommentService()
+            ->getLeaveRequestCommentDao()
             ->saveLeaveComment($leaveComment);
     }
 

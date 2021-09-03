@@ -23,13 +23,15 @@ use DateTime;
 use OrangeHRM\Authentication\Auth\User;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Framework\Http\Session\Session;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\LeaveCommentAPI;
-use OrangeHRM\Leave\Dao\LeaveCommentDao;
-use OrangeHRM\Leave\Service\LeaveCommentService;
+use OrangeHRM\Leave\Dao\LeaveRequestCommentDao;
+use OrangeHRM\Leave\Service\LeaveRequestCommentService;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\MockObject;
 
@@ -39,15 +41,15 @@ use OrangeHRM\Tests\Util\MockObject;
  */
 class LeaveCommentAPITest extends EndpointTestCase
 {
-    public function testGetLeaveCommentService(): void
+    public function testGetLeaveRequestCommentService(): void
     {
         $api = new LeaveCommentAPI($this->getRequest());
-        $this->assertTrue($api->getLeaveCommentService() instanceof LeaveCommentService);
+        $this->assertTrue($api->getLeaveRequestCommentService() instanceof LeaveRequestCommentService);
     }
 
     public function testCreate()
     {
-        $leaveCommentDao = $this->getMockBuilder(LeaveCommentDao::class)
+        $leaveRequestCommentDao = $this->getMockBuilder(LeaveRequestCommentDao::class)
             ->onlyMethods(['saveLeaveComment', 'getLeaveById'])
             ->getMock();
 
@@ -55,31 +57,39 @@ class LeaveCommentAPITest extends EndpointTestCase
         $leave->setId(1);
         $leave->setComment('test comment');
 
+        $employeeTerminationRecord = new EmployeeTerminationRecord();
+        $employeeTerminationRecord->setId(1);
+        $employee = new Employee();
+        $employee->setEmpNumber(1);
+        $employee->setFirstName('Kayla');
+        $employee->setLastName('Abbey');
+        $employee->setEmployeeTerminationRecord($employeeTerminationRecord);
+
         $leaveComment = new LeaveComment();
         $leaveComment->setId(1);
         $leaveComment->setLeave($leave);
         $leaveComment->setComment('test comment');
         $dateTime = new DateTime('2020-12-25 07:20:21');
         $leaveComment->setCreatedAt($dateTime);
-        $leaveComment->getDecorator()->setCreatedByEmployeeByEmpNumber(1);
+        $leaveComment->setCreatedByEmployee($employee);
         $leaveComment->getDecorator()->setCreatedByUserById(1);
 
-        $leaveCommentDao->expects($this->once())
+        $leaveRequestCommentDao->expects($this->once())
             ->method('saveLeaveComment')
             ->willReturn($leaveComment);
 
-        $leaveCommentDao->expects($this->once())
+        $leaveRequestCommentDao->expects($this->once())
             ->method('getLeaveById')
             ->with(1)
             ->willReturn($leave);
 
-        $leaveCommentService = $this->getMockBuilder(LeaveCommentService::class)
-            ->onlyMethods(['getLeaveCommentDao'])
+        $leaveRequestCommentService = $this->getMockBuilder(LeaveRequestCommentService::class)
+            ->onlyMethods(['getLeaveRequestCommentDao'])
             ->getMock();
 
-        $leaveCommentService->expects($this->exactly(2))
-            ->method('getLeaveCommentDao')
-            ->willReturn($leaveCommentDao);
+        $leaveRequestCommentService->expects($this->exactly(2))
+            ->method('getLeaveRequestCommentDao')
+            ->willReturn($leaveRequestCommentDao);
 
         /** @var MockObject&LeaveCommentAPI $api */
         $api = $this->getApiEndpointMockBuilder(
@@ -92,11 +102,11 @@ class LeaveCommentAPITest extends EndpointTestCase
                     LeaveCommentAPI::PARAMETER_COMMENT => "test comment",
                 ]
             ]
-        )->onlyMethods(['getLeaveCommentService', 'checkLeaveAccessible', 'getAuthUser'])
+        )->onlyMethods(['getLeaveRequestCommentService', 'checkLeaveAccessible', 'getAuthUser'])
             ->getMock();
         $api->expects($this->exactly(2))
-            ->method('getLeaveCommentService')
-            ->will($this->returnValue($leaveCommentService));
+            ->method('getLeaveRequestCommentService')
+            ->will($this->returnValue($leaveRequestCommentService));
 
         $user = $this->getMockBuilder(User::class)
             ->onlyMethods(['getEmpNumber', 'getUserId'])
@@ -133,10 +143,17 @@ class LeaveCommentAPITest extends EndpointTestCase
                     'id' => 1
                 ],
                 'createdByEmployee' => [
-                    'empNumber' => 1
+                    'empNumber' => 1,
+                    'lastName' => 'Abbey',
+                    'firstName' => 'Kayla',
+                    'middleName' => '',
+                    'employeeId' => null,
+                    'employeeTerminationRecord' => [
+                        'terminationId' => 1
+                    ]
                 ],
-                'dateCreated' => '2020-12-25',
-                'timeCreated' => '07:20'
+                'date' => '2020-12-25',
+                'time' => '07:20'
             ],
             $result->normalize()
         );
@@ -144,22 +161,22 @@ class LeaveCommentAPITest extends EndpointTestCase
 
     public function testCreateLeaveRecordNotFound()
     {
-        $leaveCommentDao = $this->getMockBuilder(LeaveCommentDao::class)
+        $leaveRequestCommentDao = $this->getMockBuilder(LeaveRequestCommentDao::class)
             ->onlyMethods(['getLeaveById'])
             ->getMock();
 
-        $leaveCommentDao->expects($this->once())
+        $leaveRequestCommentDao->expects($this->once())
             ->method('getLeaveById')
             ->with(1)
             ->willReturn(null);
 
-        $leaveCommentService = $this->getMockBuilder(LeaveCommentService::class)
-            ->onlyMethods(['getLeaveCommentDao'])
+        $leaveRequestCommentService = $this->getMockBuilder(LeaveRequestCommentService::class)
+            ->onlyMethods(['getLeaveRequestCommentDao'])
             ->getMock();
 
-        $leaveCommentService->expects($this->exactly(1))
-            ->method('getLeaveCommentDao')
-            ->willReturn($leaveCommentDao);
+        $leaveRequestCommentService->expects($this->exactly(1))
+            ->method('getLeaveRequestCommentDao')
+            ->willReturn($leaveRequestCommentDao);
 
         /** @var MockObject&LeaveCommentAPI $api */
         $api = $this->getApiEndpointMockBuilder(
@@ -172,11 +189,11 @@ class LeaveCommentAPITest extends EndpointTestCase
                     LeaveCommentAPI::PARAMETER_COMMENT => "test comment",
                 ]
             ]
-        )->onlyMethods(['getLeaveCommentService', 'checkLeaveAccessible', 'getAuthUser'])
+        )->onlyMethods(['getLeaveRequestCommentService', 'checkLeaveAccessible', 'getAuthUser'])
             ->getMock();
         $api->expects($this->exactly(1))
-            ->method('getLeaveCommentService')
-            ->will($this->returnValue($leaveCommentService));
+            ->method('getLeaveRequestCommentService')
+            ->will($this->returnValue($leaveRequestCommentService));
 
         $this->expectRecordNotFoundException();
         $result = $api->create();
@@ -204,13 +221,21 @@ class LeaveCommentAPITest extends EndpointTestCase
         $leave->setId(1);
         $leave->setComment('test comment');
 
+        $employeeTerminationRecord = new EmployeeTerminationRecord();
+        $employeeTerminationRecord->setId(1);
+        $employee = new Employee();
+        $employee->setEmpNumber(1);
+        $employee->setFirstName('Kayla');
+        $employee->setLastName('Abbey');
+        $employee->setEmployeeTerminationRecord($employeeTerminationRecord);
+
         $leaveComment1 = new LeaveComment();
         $leaveComment1->setId(1);
         $leaveComment1->getDecorator()->setLeaveById(1);
         $leaveComment1->setComment('test comment');
         $dateTime1 = new DateTime('2020-12-25 07:20:21');
         $leaveComment1->setCreatedAt($dateTime1);
-        $leaveComment1->getDecorator()->setCreatedByEmployeeByEmpNumber(1);
+        $leaveComment1->setCreatedByEmployee($employee);
         $leaveComment1->getDecorator()->setCreatedByUserById(1);
 
         $leaveComment2 = new LeaveComment();
@@ -219,32 +244,32 @@ class LeaveCommentAPITest extends EndpointTestCase
         $leaveComment2->setComment('test comment2');
         $dateTime2 = new DateTime('2020-12-26 07:20:21');
         $leaveComment2->setCreatedAt($dateTime2);
-        $leaveComment2->getDecorator()->setCreatedByEmployeeByEmpNumber(1);
+        $leaveComment2->setCreatedByEmployee($employee);
         $leaveComment2->getDecorator()->setCreatedByUserById(1);
 
-        $leaveCommentDao = $this->getMockBuilder(LeaveCommentDao::class)
+        $leaveRequestCommentDao = $this->getMockBuilder(LeaveRequestCommentDao::class)
             ->onlyMethods(['searchLeaveComments', 'getSearchLeaveCommentsCount', 'getLeaveById'])
             ->getMock();
 
-        $leaveCommentDao->expects($this->exactly(1))
+        $leaveRequestCommentDao->expects($this->exactly(1))
             ->method('searchLeaveComments')
             ->willReturn([$leaveComment1, $leaveComment2]);
 
-        $leaveCommentDao->expects($this->exactly(1))
+        $leaveRequestCommentDao->expects($this->exactly(1))
             ->method('getSearchLeaveCommentsCount')
             ->willReturn(2);
 
-        $leaveCommentDao->expects($this->exactly(1))
+        $leaveRequestCommentDao->expects($this->exactly(1))
             ->method('getLeaveById')
             ->willReturn($leave);
 
-        $leaveCommentService = $this->getMockBuilder(LeaveCommentService::class)
-            ->onlyMethods(['getLeaveCommentDao'])
+        $leaveRequestCommentService = $this->getMockBuilder(LeaveRequestCommentService::class)
+            ->onlyMethods(['getLeaveRequestCommentDao'])
             ->getMock();
 
-        $leaveCommentService->expects($this->exactly(3))
-            ->method('getLeaveCommentDao')
-            ->willReturn($leaveCommentDao);
+        $leaveRequestCommentService->expects($this->exactly(3))
+            ->method('getLeaveRequestCommentDao')
+            ->willReturn($leaveRequestCommentDao);
 
 
         /** @var MockObject&LeaveCommentAPI $api */
@@ -258,11 +283,11 @@ class LeaveCommentAPITest extends EndpointTestCase
                     LeaveCommentAPI::PARAMETER_COMMENT => "test comment",
                 ]
             ]
-        )->onlyMethods(['getLeaveCommentService', 'checkLeaveAccessible'])
+        )->onlyMethods(['getLeaveRequestCommentService', 'checkLeaveAccessible'])
             ->getMock();
         $api->expects($this->exactly(3))
-            ->method('getLeaveCommentService')
-            ->will($this->returnValue($leaveCommentService));
+            ->method('getLeaveRequestCommentService')
+            ->will($this->returnValue($leaveRequestCommentService));
 
         $api->expects($this->exactly(1))
             ->method('checkLeaveAccessible');
@@ -282,10 +307,17 @@ class LeaveCommentAPITest extends EndpointTestCase
                         'id' => 1
                     ],
                     'createdByEmployee' => [
-                        'empNumber' => 1
+                        'empNumber' => 1,
+                        'lastName' => 'Abbey',
+                        'firstName' => 'Kayla',
+                        'middleName' => '',
+                        'employeeId' => null,
+                        'employeeTerminationRecord' => [
+                            'terminationId' => 1
+                        ]
                     ],
-                    'dateCreated' => '2020-12-25',
-                    'timeCreated' => '07:20'
+                    'date' => '2020-12-25',
+                    'time' => '07:20'
                 ],
                 [
                     "id" => 2,
@@ -294,10 +326,17 @@ class LeaveCommentAPITest extends EndpointTestCase
                         'id' => 1
                     ],
                     'createdByEmployee' => [
-                        'empNumber' => 1
+                        'empNumber' => 1,
+                        'lastName' => 'Abbey',
+                        'firstName' => 'Kayla',
+                        'middleName' => '',
+                        'employeeId' => null,
+                        'employeeTerminationRecord' => [
+                            'terminationId' => 1
+                        ]
                     ],
-                    'dateCreated' => '2020-12-26',
-                    'timeCreated' => '07:20'
+                    'date' => '2020-12-26',
+                    'time' => '07:20'
                 ]
             ],
             $result->normalize()
@@ -306,22 +345,22 @@ class LeaveCommentAPITest extends EndpointTestCase
 
     public function testGetAllLeaveRecordNotFound()
     {
-        $leaveCommentDao = $this->getMockBuilder(LeaveCommentDao::class)
+        $leaveRequestCommentDao = $this->getMockBuilder(LeaveRequestCommentDao::class)
             ->onlyMethods(['getLeaveById'])
             ->getMock();
 
-        $leaveCommentDao->expects($this->once())
+        $leaveRequestCommentDao->expects($this->once())
             ->method('getLeaveById')
             ->with(1)
             ->willReturn(null);
 
-        $leaveCommentService = $this->getMockBuilder(LeaveCommentService::class)
-            ->onlyMethods(['getLeaveCommentDao'])
+        $leaveRequestCommentService = $this->getMockBuilder(LeaveRequestCommentService::class)
+            ->onlyMethods(['getLeaveRequestCommentDao'])
             ->getMock();
 
-        $leaveCommentService->expects($this->exactly(1))
-            ->method('getLeaveCommentDao')
-            ->willReturn($leaveCommentDao);
+        $leaveRequestCommentService->expects($this->exactly(1))
+            ->method('getLeaveRequestCommentDao')
+            ->willReturn($leaveRequestCommentDao);
 
         /** @var MockObject&LeaveCommentAPI $api */
         $api = $this->getApiEndpointMockBuilder(
@@ -334,11 +373,11 @@ class LeaveCommentAPITest extends EndpointTestCase
                     LeaveCommentAPI::PARAMETER_COMMENT => "test comment",
                 ]
             ]
-        )->onlyMethods(['getLeaveCommentService', 'checkLeaveAccessible', 'getAuthUser'])
+        )->onlyMethods(['getLeaveRequestCommentService', 'checkLeaveAccessible', 'getAuthUser'])
             ->getMock();
         $api->expects($this->exactly(1))
-            ->method('getLeaveCommentService')
-            ->will($this->returnValue($leaveCommentService));
+            ->method('getLeaveRequestCommentService')
+            ->will($this->returnValue($leaveRequestCommentService));
 
         $this->expectRecordNotFoundException();
         $result = $api->getAll();

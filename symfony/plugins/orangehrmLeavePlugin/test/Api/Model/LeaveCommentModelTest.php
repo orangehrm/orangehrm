@@ -21,6 +21,8 @@ namespace OrangeHRM\Tests\Leave\Api\Model;
 
 use DateTime;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Entity\Employee;
+use OrangeHRM\Entity\EmployeeTerminationRecord;
 use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Api\Model\LeaveCommentModel;
@@ -41,11 +43,26 @@ class LeaveCommentModelTest extends KernelTestCase
                 'id' => 1
             ],
             'createdByEmployee' => [
-                'empNumber' => 1
+                'empNumber' => 1,
+                'lastName' => 'Abbey',
+                'firstName' => 'Kayla',
+                'middleName' => '',
+                'employeeId' => null,
+                'employeeTerminationRecord' => [
+                    'terminationId' => 1
+                ]
             ],
-            'dateCreated' => '2020-12-25',
-            'timeCreated' => '07:20'
+            'date' => '2020-12-25',
+            'time' => '07:20'
         ];
+
+        $employeeTerminationRecord = new EmployeeTerminationRecord();
+        $employeeTerminationRecord->setId(1);
+        $employee = new Employee();
+        $employee->setEmpNumber(1);
+        $employee->setFirstName('Kayla');
+        $employee->setLastName('Abbey');
+        $employee->setEmployeeTerminationRecord($employeeTerminationRecord);
 
         $leaveComment = new LeaveComment();
         $leaveComment->setId(1);
@@ -53,7 +70,7 @@ class LeaveCommentModelTest extends KernelTestCase
         $leaveComment->setComment('test comment');
         $dateTime = new DateTime('2020-12-25 07:20:21');
         $leaveComment->setCreatedAt($dateTime);
-        $leaveComment->getDecorator()->setCreatedByEmployeeByEmpNumber(1);
+        $leaveComment->setCreatedByEmployee($employee);
         $leaveComment->getDecorator()->setCreatedByUserById(1);
 
         $leaveCommentModel = new LeaveCommentModel($leaveComment);

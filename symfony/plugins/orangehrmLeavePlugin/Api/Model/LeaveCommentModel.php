@@ -34,9 +34,14 @@ class LeaveCommentModel implements Normalizable
             [
                 'id',
                 ['getLeave','getId'],
-                ['getDecorator','getDateCreated'],
-                ['getDecorator','getTimeCreated'],
+                ['getDecorator','getCreatedAtDate'],
+                ['getDecorator','getCreatedAtTime'],
                 ['getCreatedByEmployee','getEmpNumber'],
+                ['getCreatedByEmployee','getLastName'],
+                ['getCreatedByEmployee','getFirstName'],
+                ['getCreatedByEmployee','getMiddleName'],
+                ['getCreatedByEmployee','getEmployeeId'],
+                ['getCreatedByEmployee','getEmployeeTerminationRecord', 'getId'],
                 'comment',
             ]
         );
@@ -44,9 +49,14 @@ class LeaveCommentModel implements Normalizable
             [
                 'id',
                 ['leave','id'],
-                'dateCreated',
-                'timeCreated',
+                'date',
+                'time',
                 ['createdByEmployee','empNumber'],
+                ['createdByEmployee','lastName'],
+                ['createdByEmployee','firstName'],
+                ['createdByEmployee','middleName'],
+                ['createdByEmployee','employeeId'],
+                ['createdByEmployee','employeeTerminationRecord','terminationId'],
                 'comment',
             ]
         );
