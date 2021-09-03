@@ -27,9 +27,9 @@ class LeaveCommentModel implements Normalizable
 {
     use ModelTrait;
 
-    public function __construct(LeaveComment $workWeek)
+    public function __construct(LeaveComment $leaveComment)
     {
-        $this->setEntity($workWeek);
+        $this->setEntity($leaveComment);
         $this->setFilters(
             [
                 'id',

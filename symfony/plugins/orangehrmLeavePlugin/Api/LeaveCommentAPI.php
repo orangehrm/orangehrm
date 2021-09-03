@@ -82,17 +82,15 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @return EndpointCollectionResult
-     * @throws Exception
+     * @inheritDoc
      */
     public function getAll(): EndpointCollectionResult
     {
         $leaveId = $this->getUrlAttributes();
 
         /** @var Leave|null $leave */
-        $leave = $this->getLeaveCommentService()->getLeaveCommentDao()->getLeaveById(
-            $leaveId
-        );
+        $leave = $this->getLeaveCommentService()->getLeaveCommentDao()
+            ->getLeaveById($leaveId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($leave, Leave::class);
 
@@ -103,17 +101,15 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
         $leaveCommentSearchFilterParams->setLeaveById($leaveId);
         $this->setSortingAndPaginationParams($leaveCommentSearchFilterParams);
 
-        $leaveComments = $this->getLeaveCommentService()->getLeaveCommentDao(
-        )->searchLeaveComments($leaveCommentSearchFilterParams);
+        $leaveComments = $this->getLeaveCommentService()->getLeaveCommentDao()
+            ->searchLeaveComments($leaveCommentSearchFilterParams);
         return new EndpointCollectionResult(
             LeaveCommentModel::class,
             $leaveComments,
             new ParameterBag(
                 [
-                    CommonParams::PARAMETER_TOTAL => $this->getLeaveCommentService()->getLeaveCommentDao(
-                    )->getSearchLeaveCommentsCount(
-                        $leaveCommentSearchFilterParams
-                    )
+                    CommonParams::PARAMETER_TOTAL => $this->getLeaveCommentService()->getLeaveCommentDao()
+                        ->getSearchLeaveCommentsCount($leaveCommentSearchFilterParams)
                 ]
             )
         );
@@ -132,7 +128,6 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function create(): EndpointResourceResult
     {
@@ -162,13 +157,10 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_COMMENT,
-                    new Rule(Rules::STRING_TYPE),
-                    new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH]),
-                ),
-                false
+            new ParamRule(
+                self::PARAMETER_COMMENT,
+                new Rule(Rules::STRING_TYPE),
+                new Rule(Rules::LENGTH, [null, self::PARAM_RULE_COMMENT_MAX_LENGTH]),
             ),
             ...$this->getCommonValidationRules()
         );
@@ -180,15 +172,17 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
     private function getCommonValidationRules(): array
     {
         return [
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_LEAVE_ID,
-                )
+            new ParamRule(
+                self::PARAMETER_LEAVE_ID,
+                new Rule(Rules::POSITIVE)
             )
         ];
     }
 
-    public function setLeaveComment(LeaveComment $leaveComment)
+    /**
+     * @param LeaveComment $leaveComment
+     */
+    private function setLeaveComment(LeaveComment $leaveComment): void
     {
         $comment = $this->getRequestParams()->getString(
             RequestParams::PARAM_TYPE_BODY,
@@ -206,7 +200,7 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
      * @return LeaveComment
      * @throws Exception
      */
-    public function saveLeaveComment(LeaveComment $leaveComment): LeaveComment
+    private function saveLeaveComment(LeaveComment $leaveComment): LeaveComment
     {
         return $this->getLeaveCommentService()
             ->getLeaveCommentDao()
@@ -214,8 +208,7 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
     }
 
     /**
-     * @return EndpointResourceResult
-     * @throws Exception
+     * @inheritDoc
      */
     public function delete(): EndpointResourceResult
     {
