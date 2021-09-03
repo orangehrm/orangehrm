@@ -81,8 +81,8 @@ Leave:
   3: {id: 4, length_hours: 8, length_days: 1, leave_request_id: 2, leave_type_id: 1, emp_number: 1, date: '2010-09-07', status: '-1'}
   4: {id: 5, length_hours: 4, length_days: '0.5', leave_request_id: 3, leave_type_id: 2, emp_number: 1, date: '2010-09-09', status: '-1'}
   5: {id: 6, length_hours: 8, length_days: 1, leave_request_id: 4, leave_type_id: 1, emp_number: 1, date: '2010-09-13', status: 0}
-  6: {id: 7, length_hours: 8, length_days: 1, leave_request_id: 5, leave_type_id: 2, emp_number: 1, date: '2010-09-15', status: 0}
-  7: {id: 8, length_hours: 8, length_days: 1, leave_request_id: 5, leave_type_id: 2, emp_number: 1, date: '2010-09-16', status: 0}
+  6: {id: 7, length_hours: 8, length_days: 1, leave_request_id: 5, leave_type_id: 2, emp_number: 1, date: '2010-09-16', status: 0}
+  7: {id: 8, length_hours: 8, length_days: 1, leave_request_id: 5, leave_type_id: 2, emp_number: 1, date: '2010-09-15', status: 0}
   8: {id: 9, length_hours: 8, length_days: 1, leave_request_id: 5, leave_type_id: 2, emp_number: 1, date: '2010-09-17', status: 0}
   9: {id: 10, length_hours: 8, length_days: 1, leave_request_id: 6, leave_type_id: 2, emp_number: 1, date: '2010-09-21', status: 2}
   10: {id: 11, length_hours: 6, length_days: '0.75', leave_request_id: 7, leave_type_id: 1, emp_number: 1, date: '2010-09-23', status: 2}

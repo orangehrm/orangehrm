@@ -23,7 +23,9 @@ use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveRequest;
+use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\ORM\ListSorter;
 
 class LeaveRequestDecorator
 {
@@ -77,5 +79,14 @@ class LeaveRequestDecorator
     public function getDateApplied(): string
     {
         return $this->getDateTimeHelper()->formatDateTimeToYmd($this->getLeaveRequest()->getDateApplied());
+    }
+
+    /**
+     * @return LeaveRequestComment|null
+     */
+    public function getLastComment(): ?LeaveRequestComment
+    {
+        return $this->getRepository(LeaveRequestComment::class)
+            ->findOneBy(['leaveRequest' => $this->getLeaveRequest()->getId()], ['createdAt' => ListSorter::DESCENDING]);
     }
 }

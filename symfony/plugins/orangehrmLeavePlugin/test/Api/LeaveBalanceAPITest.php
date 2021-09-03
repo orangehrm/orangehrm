@@ -43,6 +43,7 @@ use OrangeHRM\Leave\Service\LeaveApplicationService;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
 use OrangeHRM\Leave\Service\LeaveEntitlementService;
 use OrangeHRM\Leave\Service\LeavePeriodService;
+use OrangeHRM\Leave\Service\LeaveRequestService;
 use OrangeHRM\Leave\Service\LeaveTypeService;
 use OrangeHRM\Leave\Service\WorkScheduleService;
 use OrangeHRM\Leave\Service\WorkWeekService;
@@ -139,6 +140,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 Services::DATETIME_HELPER_SERVICE => $dateTimeHelperService,
                 Services::NORMALIZER_SERVICE => new NormalizerService(),
                 Services::CLASS_HELPER => new ClassHelper(),
+                Services::LEAVE_REQUEST_SERVICE => new LeaveRequestService(),
             ]
         );
         /** @var MockObject&LeaveBalanceAPI $api */
@@ -318,6 +320,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 Services::DATETIME_HELPER_SERVICE => $dateTimeHelperService,
                 Services::NORMALIZER_SERVICE => new NormalizerService(),
                 Services::CLASS_HELPER => new ClassHelper(),
+                Services::LEAVE_REQUEST_SERVICE => new LeaveRequestService(),
             ]
         );
         /** @var MockObject&LeaveBalanceAPI $api */
@@ -917,6 +920,7 @@ class LeaveBalanceAPITest extends EndpointTestCase
                 Services::DATETIME_HELPER_SERVICE => $dateTimeHelperService,
                 Services::NORMALIZER_SERVICE => new NormalizerService(),
                 Services::CLASS_HELPER => new ClassHelper(),
+                Services::LEAVE_REQUEST_SERVICE => new LeaveRequestService(),
             ]
         );
         /** @var MockObject&LeaveBalanceAPI $api */

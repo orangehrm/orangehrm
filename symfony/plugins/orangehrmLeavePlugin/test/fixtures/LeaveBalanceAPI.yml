@@ -80,3 +80,12 @@ LeaveLeaveEntitlement:
   - { id: 1, leave_id: 1, entitlement_id: 2, length_days: 1 }
   - { id: 2, leave_id: 2, entitlement_id: 2, length_days: 1 }
   - { id: 3, leave_id: 3, entitlement_id: 2, length_days: 1 }
+
+LeaveStatus:
+  - { "id": "1","status": "-1","name": "REJECTED" }
+  - { "id": "2","status": "0","name": "CANCELLED" }
+  - { "id": "3","status": "1","name": "PENDING APPROVAL" }
+  - { "id": "4","status": "2","name": "SCHEDULED" }
+  - { "id": "5","status": "3","name": "TAKEN" }
+  - { "id": "6","status": "4","name": "WEEKEND" }
+  - { "id": "7","status": "5","name": "HOLIDAY" }

@@ -20,6 +20,7 @@
 namespace OrangeHRM\Entity\Decorator;
 
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
+use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
@@ -28,6 +29,7 @@ use OrangeHRM\Entity\User;
 class LeaveRequestCommentDecorator
 {
     use EntityManagerHelperTrait;
+    use DateTimeHelperTrait;
 
     /**
      * @var LeaveRequestComment
@@ -78,5 +80,23 @@ class LeaveRequestCommentDecorator
         /** @var LeaveRequest|null $leaveRequest */
         $leaveRequest = $this->getReference(LeaveRequest::class, $id);
         $this->getLeaveRequestComment()->setLeaveRequest($leaveRequest);
+    }
+
+    /**
+     * @return string Y-m-d
+     */
+    public function getCreatedAtDate(): string
+    {
+        $dateTime = $this->getLeaveRequestComment()->getCreatedAt();
+        return $this->getDateTimeHelper()->formatDateTimeToYmd($dateTime);
+    }
+
+    /**
+     * @return string H:i
+     */
+    public function getCreatedAtTime(): string
+    {
+        $dateTime = $this->getLeaveRequestComment()->getCreatedAt();
+        return $this->getDateTimeHelper()->formatDateTimeToTimeString($dateTime);
     }
 }

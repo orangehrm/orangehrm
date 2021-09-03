@@ -25,17 +25,22 @@ use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Entity\Leave;
-use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveLeaveEntitlement;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
+use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
+use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
+use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
+use OrangeHRM\ORM\ListSorter;
+use OrangeHRM\ORM\Paginator;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class LeaveRequestDao extends BaseDao
 {
     use DateTimeHelperTrait;
+    use LeaveRequestServiceTrait;
 
     private static bool $doneMarkingApprovedLeaveAsTaken = false;
 
@@ -127,60 +132,10 @@ class LeaveRequestDao extends BaseDao
     public function saveLeaveRequestComment(LeaveRequestComment $leaveRequestComment): LeaveRequestComment
     {
         if (is_null($leaveRequestComment->getCreatedAt())) {
-            $leaveRequestComment->setCreatedAt(new DateTime());
+            $leaveRequestComment->setCreatedAt($this->getDateTimeHelper()->getNow());
         }
         $this->persist($leaveRequestComment);
         return $leaveRequestComment;
-    }
-
-    public function saveLeaveComment($leaveId, $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber) {
-        // TODO
-        try {
-            $leavetComment = new LeaveComment();
-            $leavetComment->setLeaveId($leaveId);
-            $leavetComment->setCreated(date('Y-m-d H:i:s'));
-            $leavetComment->setCreatedByName($createdBy);
-            $leavetComment->setCreatedById($loggedInUserId);
-            $leavetComment->setCreatedByEmpNumber($loggedInEmpNumber);
-            $leavetComment->setComments($comment);
-
-            $leavetComment->save();
-            return $leavetComment;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    public function getLeaveRequestComments($leaveRequestId) {
-        // TODO
-        try {
-            $q = Doctrine_Query::create()
-                    ->from('LeaveRequestComment c')
-                    ->andWhere("c.leave_request_id = ?", $leaveRequestId);
-
-
-            $comments = $q->execute();
-
-            return $comments;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    public function getLeaveComments($leaveId) {
-        // TODO
-        try {
-            $q = Doctrine_Query::create()
-                    ->from('LeaveComment c')
-                    ->andWhere("c.leave_id = ?", $leaveId);
-
-
-            $comments = $q->execute();
-
-            return $comments;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
     }
 
     /**
@@ -1001,5 +956,105 @@ class LeaveRequestDao extends BaseDao
         $q->andWhere($q->expr()->in('l.date', ':dates'))
             ->setParameter('dates', $dates);
         return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams
+     * @return LeaveRequest[]
+     */
+    public function getLeaveRequests(LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams): array
+    {
+        $this->_markApprovedLeaveAsTaken();
+        return $this->getLeaveRequestsPaginator($leaveRequestSearchFilterParams)->getQuery()->execute();
+    }
+
+    /**
+     * @param LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams
+     * @return int
+     */
+    public function getLeaveRequestsCount(LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams): int
+    {
+        $this->_markApprovedLeaveAsTaken();
+        return $this->getLeaveRequestsPaginator($leaveRequestSearchFilterParams)->count();
+    }
+
+    /**
+     * @param LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams
+     * @return Paginator
+     */
+    public function getLeaveRequestsPaginator(
+        LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(LeaveRequest::class, 'leaveRequest')
+            ->leftJoin('leaveRequest.leaves', 'leave')
+            ->leftJoin('leaveRequest.employee', 'employee');
+        $this->setSortingAndPaginationParams($q, $leaveRequestSearchFilterParams);
+        $q->addOrderBy('employee.lastName', ListSorter::ASCENDING)
+            ->addOrderBy('employee.firstName', ListSorter::ASCENDING);
+
+        if (!is_null($leaveRequestSearchFilterParams->getEmpNumber())) {
+            $q->andWhere('leaveRequest.employee = :empNumber')
+                ->setParameter('empNumber', $leaveRequestSearchFilterParams->getEmpNumber());
+        }
+
+        if (!is_null($leaveRequestSearchFilterParams->getFromDate())) {
+            $q->andWhere($q->expr()->gte('leave.date', ':fromDate'))
+                ->setParameter('fromDate', $leaveRequestSearchFilterParams->getFromDate());
+        }
+
+        if (!is_null($leaveRequestSearchFilterParams->getToDate())) {
+            $q->andWhere($q->expr()->lte('leave.date', ':toDate'))
+                ->setParameter('toDate', $leaveRequestSearchFilterParams->getToDate());
+        }
+
+        if (!is_null($leaveRequestSearchFilterParams->getSubunitId())) {
+            $q->leftJoin('employee.subDivision', 'subunit');
+            $q->andWhere($q->expr()->in('subunit.id', ':subunitIds'))
+                ->setParameter('subunitIds', $leaveRequestSearchFilterParams->getSubunitIdChain());
+        }
+
+        if (is_null($leaveRequestSearchFilterParams->getIncludeEmployees()) ||
+            $leaveRequestSearchFilterParams->getIncludeEmployees() ===
+            LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_CURRENT
+        ) {
+            $q->andWhere($q->expr()->isNull('employee.employeeTerminationRecord'));
+        } elseif (
+            $leaveRequestSearchFilterParams->getIncludeEmployees() ===
+            LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES_ONLY_PAST
+        ) {
+            $q->andWhere($q->expr()->isNotNull('employee.employeeTerminationRecord'));
+        }
+
+        if (!is_null($leaveRequestSearchFilterParams->getStatuses())) {
+            $statuses = $this->getLeaveRequestService()
+                ->getLeaveStatusesByNames($leaveRequestSearchFilterParams->getStatuses());
+            $q->andWhere($q->expr()->in('leave.status', ':statuses'))
+                ->setParameter('statuses', $statuses);
+        }
+
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param int[] $leaveRequestIds
+     * @return Leave[]
+     */
+    public function getLeavesByLeaveRequestIds(array $leaveRequestIds): array
+    {
+        $q = $this->createQueryBuilder(Leave::class, 'l')
+            ->addOrderBy('l.leaveRequest')
+            ->addOrderBy('l.date');
+        $q->andWhere($q->expr()->in('l.leaveRequest', ':leaveRequestIds'))
+            ->setParameter('leaveRequestIds', $leaveRequestIds);
+
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @return LeaveStatus[]
+     */
+    public function getAllLeaveStatuses(): array
+    {
+        return $this->getRepository(LeaveStatus::class)->findAll();
     }
 }
