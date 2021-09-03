@@ -41,10 +41,17 @@ class LeaveRequestCommentModelTest extends KernelTestCase
                 'id' => 1
             ],
             'createdByEmployee' => [
-                'empNumber' => 1
+                'empNumber' => 1,
+                'lastName' => 'Abbey',
+                'firstName' => 'Kayla',
+                'middleName' => '',
+                'employeeId' => null,
+                'employeeTerminationRecord' => [
+                    'terminationId' => 1
+                ]
             ],
-            'dateCreated' => '2020-12-25',
-            'timeCreated' => '07:20'
+            'date' => '2020-12-25',
+            'time' => '07:20'
         ];
 
         $leaveRequestComment = new LeaveRequestComment();

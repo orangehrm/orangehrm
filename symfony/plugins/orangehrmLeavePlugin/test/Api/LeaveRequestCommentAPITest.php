@@ -135,10 +135,17 @@ class LeaveRequestCommentAPITest extends EndpointTestCase
                     'id' => 1
                 ],
                 'createdByEmployee' => [
-                    'empNumber' => 1
+                    'empNumber' => 1,
+                    'lastName' => 'Abbey',
+                    'firstName' => 'Kayla',
+                    'middleName' => '',
+                    'employeeId' => null,
+                    'employeeTerminationRecord' => [
+                        'terminationId' => 1
+                    ]
                 ],
-                'dateCreated' => '2020-12-25',
-                'timeCreated' => '07:20'
+                'date' => '2020-12-25',
+                'time' => '07:20'
             ],
             $result->normalize()
         );
@@ -286,10 +293,17 @@ class LeaveRequestCommentAPITest extends EndpointTestCase
                         'id' => 1
                     ],
                     'createdByEmployee' => [
-                        'empNumber' => 1
+                        'empNumber' => 1,
+                        'lastName' => 'Abbey',
+                        'firstName' => 'Kayla',
+                        'middleName' => '',
+                        'employeeId' => null,
+                        'employeeTerminationRecord' => [
+                            'terminationId' => 1
+                        ]
                     ],
-                    'dateCreated' => '2020-12-25',
-                    'timeCreated' => '07:20'
+                    'date' => '2020-12-25',
+                    'time' => '07:20'
                 ],
                 [
                     "id" => 2,
@@ -298,10 +312,17 @@ class LeaveRequestCommentAPITest extends EndpointTestCase
                         'id' => 1
                     ],
                     'createdByEmployee' => [
-                        'empNumber' => 1
+                        'empNumber' => 1,
+                        'lastName' => 'Abbey',
+                        'firstName' => 'Kayla',
+                        'middleName' => '',
+                        'employeeId' => null,
+                        'employeeTerminationRecord' => [
+                            'terminationId' => 1
+                        ]
                     ],
-                    'dateCreated' => '2020-12-26',
-                    'timeCreated' => '07:20'
+                    'date' => '2020-12-26',
+                    'time' => '07:20'
                 ]
             ],
             $result->normalize()
