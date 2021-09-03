@@ -108,9 +108,8 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
             $leaveRequestComments,
             new ParameterBag(
                 [
-                    CommonParams::PARAMETER_TOTAL => $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()->getSearchLeaveRequestCommentsCount(
-                        $leaveRequestCommentSearchFilterParams
-                    )
+                    CommonParams::PARAMETER_TOTAL => $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()
+                        ->getSearchLeaveRequestCommentsCount($leaveRequestCommentSearchFilterParams)
                 ]
             )
         );
