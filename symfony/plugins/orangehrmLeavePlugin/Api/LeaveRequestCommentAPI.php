@@ -89,9 +89,8 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
         $leaveRequestId = $this->getUrlAttributes();
 
         /** @var LeaveRequest|null $leaveRequest */
-        $leaveRequest = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()->getLeaveRequestById(
-            $leaveRequestId
-        );
+        $leaveRequest = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()
+            ->getLeaveRequestById($leaveRequestId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($leaveRequest, LeaveRequest::class);
 
@@ -102,7 +101,8 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
         $leaveRequestCommentSearchFilterParams->setLeaveRequestById($leaveRequestId);
         $this->setSortingAndPaginationParams($leaveRequestCommentSearchFilterParams);
 
-        $leaveRequestComments = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()->searchLeaveRequestComments($leaveRequestCommentSearchFilterParams);
+        $leaveRequestComments = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()
+            ->searchLeaveRequestComments($leaveRequestCommentSearchFilterParams);
         return new EndpointCollectionResult(
             LeaveRequestCommentModel::class,
             $leaveRequestComments,
@@ -135,9 +135,8 @@ class LeaveRequestCommentAPI extends Endpoint implements CollectionEndpoint
         $leaveRequestId = $this->getUrlAttributes();
 
         /** @var LeaveRequest|null $leaveRequest */
-        $leaveRequest = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()->getLeaveRequestById(
-            $leaveRequestId
-        );
+        $leaveRequest = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()
+            ->getLeaveRequestById($leaveRequestId);
 
         $this->throwRecordNotFoundExceptionIfNotExist($leaveRequest, LeaveRequest::class);
 
