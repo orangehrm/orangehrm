@@ -19,13 +19,13 @@
 
 namespace OrangeHRM\Pim\Dto;
 
-use OrangeHRM\Admin\Traits\Service\CompanyStructureServiceTrait;
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Exception\SearchParamException;
+use OrangeHRM\Pim\Dto\Traits\SubunitIdChainTrait;
 
 class EmployeeSearchFilterParams extends FilterParams
 {
-    use CompanyStructureServiceTrait;
+    use SubunitIdChainTrait;
 
     public const ALLOWED_SORT_FIELDS = [
         'employee.lastName',
@@ -80,10 +80,6 @@ class EmployeeSearchFilterParams extends FilterParams
      * @var int|null
      */
     protected ?int $subunitId = null;
-    /**
-     * @var array
-     */
-    protected array $subunitIdChain = [];
     /**
      * @var int[]|null
      */
@@ -222,23 +218,6 @@ class EmployeeSearchFilterParams extends FilterParams
     public function getSubunitId(): ?int
     {
         return $this->subunitId;
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getSubunitIdChain(): ?array
-    {
-        if (is_null($this->getSubunitId())) {
-            return null;
-        }
-        $subunitId = $this->getSubunitId();
-        if (!isset($this->subunitIdChain[$subunitId])) {
-            $this->subunitIdChain[$subunitId] = $this->getCompanyStructureService()
-                ->getSubunitChainById($this->getSubunitId());
-        }
-
-        return $this->subunitIdChain[$subunitId];
     }
 
     /**
