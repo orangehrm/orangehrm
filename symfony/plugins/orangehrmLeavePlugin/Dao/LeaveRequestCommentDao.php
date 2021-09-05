@@ -61,12 +61,11 @@ class LeaveRequestCommentDao extends BaseDao
         $q = $this->createQueryBuilder(LeaveRequestComment::class, 'leaveRequestComment');
         $this->setSortingAndPaginationParams($q, $leaveRequestCommentSearchParams);
 
-        if (!empty($leaveRequestCommentSearchParams->getLeaveRequest())) {
+        if (!empty($leaveRequestCommentSearchParams->getLeaveRequestId())) {
             $q->leftJoin('leaveRequestComment.leaveRequest', 'leaveRequest');
             $q->andWhere('leaveRequest.id = :leaveRequestId')
-                ->setParameter('leaveRequestId', $leaveRequestCommentSearchParams->getLeaveRequest()->getId());
+                ->setParameter('leaveRequestId', $leaveRequestCommentSearchParams->getLeaveRequestId());
         }
-        $q->addOrderBy('leaveRequestComment.createdAt');
 
         return $this->getPaginator($q);
     }
