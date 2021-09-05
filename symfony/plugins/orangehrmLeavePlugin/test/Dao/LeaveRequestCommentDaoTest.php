@@ -110,7 +110,7 @@ class LeaveRequestCommentDaoTest extends TestCase
     public function testSearchLeaveComment(): void
     {
         $leaveCommentSearchParams = new LeaveCommentSearchFilterParams();
-        $leaveCommentSearchParams->setLeaveById(1);
+        $leaveCommentSearchParams->setLeaveId(1);
         $result = $this->leaveRequestCommentDao->searchLeaveComments($leaveCommentSearchParams);
         $this->assertCount(4, $result);
         $this->assertTrue($result[0] instanceof LeaveComment);
@@ -143,7 +143,7 @@ class LeaveRequestCommentDaoTest extends TestCase
     public function testGetSearchLeaveCommentsCount(): void
     {
         $leaveCommentSearchParams = new LeaveCommentSearchFilterParams();
-        $leaveCommentSearchParams->setLeaveById(1);
+        $leaveCommentSearchParams->setLeaveId(1);
         $result = $this->leaveRequestCommentDao->getSearchLeaveCommentsCount($leaveCommentSearchParams);
         $this->assertEquals(4, $result);
     }

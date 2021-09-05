@@ -98,7 +98,7 @@ class LeaveCommentAPI extends Endpoint implements CollectionEndpoint
 
         $leaveCommentSearchFilterParams = new LeaveCommentSearchFilterParams();
 
-        $leaveCommentSearchFilterParams->setLeaveById($leaveId);
+        $leaveCommentSearchFilterParams->setLeaveId($leaveId);
         $this->setSortingAndPaginationParams($leaveCommentSearchFilterParams);
 
         $leaveComments = $this->getLeaveRequestCommentService()->getLeaveRequestCommentDao()

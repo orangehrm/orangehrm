@@ -19,19 +19,14 @@
 
 namespace OrangeHRM\Leave\Dto;
 
-use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Entity\Leave;
-
 class LeaveCommentSearchFilterParams extends DateRangeSearchFilterParams
 {
-    use EntityManagerHelperTrait;
-
     public const ALLOWED_SORT_FIELDS = ['leaveComment.createdAt'];
 
     /**
-     * @var Leave|null
+     * @var int|null
      */
-    private ?Leave $leave = null;
+    private ?int $leaveId = null;
 
     public function __construct()
     {
@@ -39,28 +34,18 @@ class LeaveCommentSearchFilterParams extends DateRangeSearchFilterParams
     }
 
     /**
-     * @return Leave|null
+     * @return int|null
      */
-    public function getLeave(): ?Leave
+    public function getLeaveId(): ?int
     {
-        return $this->leave;
+        return $this->leaveId;
     }
 
     /**
-     * @param Leave|null $leave
+     * @param int|null $leaveId
      */
-    public function setLeave(?Leave $leave): void
+    public function setLeaveId(?int $leaveId): void
     {
-        $this->leave = $leave;
-    }
-
-    /**
-     * @param int $leaveId
-     */
-    public function setLeaveById(int $leaveId): void
-    {
-        /** @var Leave|null $leave */
-        $leave = $this->getReference(Leave::class, $leaveId);
-        $this->setLeave($leave);
+        $this->leaveId = $leaveId;
     }
 }
