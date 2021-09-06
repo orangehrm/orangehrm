@@ -20,8 +20,11 @@
 namespace OrangeHRM\Leave\Dao;
 
 use OrangeHRM\Core\Dao\BaseDao;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
+use OrangeHRM\Leave\Dto\LeaveCommentSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveRequestCommentSearchFilterParams;
 use OrangeHRM\ORM\Paginator;
 
@@ -87,5 +90,67 @@ class LeaveRequestCommentDao extends BaseDao
     public function getLeaveRequestById(int $leaveRequestId): ?LeaveRequest
     {
         return $this->getRepository(LeaveRequest::class)->find($leaveRequestId);
+    }
+
+    /**
+     * @param LeaveCommentSearchFilterParams $leaveCommentSearchFilterParams
+     * @return array
+     */
+    public function searchLeaveComments(
+        LeaveCommentSearchFilterParams $leaveCommentSearchFilterParams
+    ): array {
+        $paginator = $this->getSearchLeaveCommentPaginator($leaveCommentSearchFilterParams);
+        return $paginator->getQuery()->execute();
+    }
+
+    /**
+     * Get Count of Search Query
+     *
+     * @param LeaveCommentsearchFilterParams $leaveCommentSearchParams
+     * @return int
+     */
+    public function getSearchLeaveCommentsCount(
+        LeaveCommentsearchFilterParams $leaveCommentSearchParams
+    ): int {
+        $paginator = $this->getSearchLeaveCommentPaginator($leaveCommentSearchParams);
+        return $paginator->count();
+    }
+
+    /**
+     * @param LeaveCommentSearchFilterParams $leaveCommentSearchParams
+     * @return Paginator
+     */
+    private function getSearchLeaveCommentPaginator(
+        LeaveCommentSearchFilterParams $leaveCommentSearchParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(LeaveComment::class, 'leaveComment');
+        $this->setSortingAndPaginationParams($q, $leaveCommentSearchParams);
+
+        if (!empty($leaveCommentSearchParams->getLeaveId())) {
+            $q->leftJoin('leaveComment.leave', 'leave');
+            $q->andWhere('leave.id = :leaveId')
+                ->setParameter('leaveId', $leaveCommentSearchParams->getLeaveId());
+        }
+
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param LeaveComment $leaveComment
+     * @return LeaveComment
+     */
+    public function saveLeaveComment(LeaveComment $leaveComment): LeaveComment
+    {
+        $this->persist($leaveComment);
+        return $leaveComment;
+    }
+
+    /**
+     * @param int $leaveId
+     * @return object|null|Leave
+     */
+    public function getLeaveById(int $leaveId): ?Leave
+    {
+        return $this->getRepository(Leave::class)->find($leaveId);
     }
 }
