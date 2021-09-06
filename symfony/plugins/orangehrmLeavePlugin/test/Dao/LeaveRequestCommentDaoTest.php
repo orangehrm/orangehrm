@@ -22,9 +22,12 @@ namespace OrangeHRM\Tests\Leave\Dao;
 use DateTime;
 use Exception;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Entity\LeaveComment;
 use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Leave\Dao\LeaveRequestCommentDao;
+use OrangeHRM\Leave\Dto\LeaveCommentSearchFilterParams;
 use OrangeHRM\Leave\Dto\LeaveRequestCommentSearchFilterParams;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -102,5 +105,57 @@ class LeaveRequestCommentDaoTest extends TestCase
 
         $leaveRequest = $this->leaveRequestCommentDao->getLeaveRequestById(6);
         $this->assertTrue($leaveRequest == null);
+    }
+
+    public function testSearchLeaveComment(): void
+    {
+        $leaveCommentSearchParams = new LeaveCommentSearchFilterParams();
+        $leaveCommentSearchParams->setLeaveId(1);
+        $result = $this->leaveRequestCommentDao->searchLeaveComments($leaveCommentSearchParams);
+        $this->assertCount(4, $result);
+        $this->assertTrue($result[0] instanceof LeaveComment);
+        //check order
+        $this->assertEquals(2, $result[0]->getId());
+        $this->assertEquals(4, $result[1]->getId());
+        $this->assertEquals(1, $result[2]->getId());
+        $this->assertEquals(3, $result[3]->getId());
+    }
+
+    public function testSaveLeaveComment(): void
+    {
+        $leaveComment = new LeaveComment();
+        $leaveComment->getDecorator()->setLeaveById(1);
+        $leaveComment->setComment('test comment');
+        $dateTime = new DateTime('2020-12-25 07:20:21');
+        $leaveComment->setCreatedAt($dateTime);
+        $leaveComment->getDecorator()->setCreatedByEmployeeByEmpNumber(1);
+        $leaveComment->getDecorator()->setCreatedByUserById(1);
+
+        $result = $this->leaveRequestCommentDao->saveLeaveComment($leaveComment);
+        $this->assertTrue($result instanceof LeaveComment);
+        $this->assertEquals(8, $result->getId());
+        $this->assertEquals("test comment", $result->getComment());
+        $this->assertEquals($dateTime, $result->getCreatedAt());
+        $this->assertEquals(1, $result->getCreatedByEmployee()->getEmpNumber());
+        $this->assertEquals(1, $result->getCreatedBy()->getId());
+    }
+
+    public function testGetSearchLeaveCommentsCount(): void
+    {
+        $leaveCommentSearchParams = new LeaveCommentSearchFilterParams();
+        $leaveCommentSearchParams->setLeaveId(1);
+        $result = $this->leaveRequestCommentDao->getSearchLeaveCommentsCount($leaveCommentSearchParams);
+        $this->assertEquals(4, $result);
+    }
+
+    public function testGetLeaveById(): void
+    {
+        $leave = $this->leaveRequestCommentDao->getLeaveById(1);
+
+        $this->assertTrue($leave instanceof Leave);
+        $this->assertEquals(1, $leave->getId());
+
+        $leave = $this->leaveRequestCommentDao->getLeaveById(6);
+        $this->assertTrue($leave == null);
     }
 }

@@ -82,3 +82,17 @@ LeaveRequestComment:
   4: {id: 5, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'my comment1'}
   5: {id: 6, leave_request_id: 2, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'my comment1'}
   6: {id: 7, leave_request_id: 3, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'my comment1'}
+
+Leave:
+  0: {id: 1, date: '2010-08-30', comments: "test comment1", leave_request_id: 1, leave_type_id: 1, emp_number: 1}
+  1: {id: 2, date: '2010-08-30', comments: "test comment1", leave_request_id: 2, leave_type_id: 2, emp_number: 1}
+  2: {id: 3, date: '2010-08-30', comments: "test comment1", leave_request_id: 1, leave_type_id: 1, emp_number: 1}
+
+LeaveComment:
+  0: {id: 1, leave_id: 1, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'my comment1'}
+  1: {id: 2, leave_id: 1, created: '2010-08-05 09:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'my comment2'}
+  2: {id: 3, leave_id: 1, created: '2010-12-25 15:18:00', created_by_id: 1,created_by_emp_number: 1, comments: 'my comment3'}
+  3: {id: 4, leave_id: 1, created: '2010-08-29 04:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'my comment1'}
+  4: {id: 5, leave_id: 2, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'my comment1'}
+  5: {id: 6, leave_id: 2, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'my comment1'}
+  6: {id: 7, leave_id: 3, created: '2010-08-30 18:55:00', created_by_id: 1,created_by_emp_number: 1, comments: 'my comment1'}
