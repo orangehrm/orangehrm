@@ -3901,7 +3901,9 @@ VALUES ('apiv2_leave_holiday', 'API-v2 Leave - Holidays', 1, 1, 1, 1),
        ('apiv2_leave_leave_balance', 'API-v2 Leave - Leave Balance', 1, 0, 0, 0),
        ('apiv2_leave_employee_leave_entitlements', 'API-v2 Leave - Employee Leave Entitlements', 1, 0, 0, 0),
        ('apiv2_leave_leave_entitlements_validation', 'API-v2 Leave - Leave Entitlements Validation', 1, 0, 0, 0),
-       ('apiv2_leave_overlap_leaves', 'API-v2 Leave - Overlap Leaves', 1, 0, 0, 0);
+       ('apiv2_leave_overlap_leaves', 'API-v2 Leave - Overlap Leaves', 1, 0, 0, 0),
+       ('apiv2_leave_leave_request_comment', 'API-v2 Leave - Leave Request Comment', 1, 1, 0, 0),
+       ('apiv2_leave_leave_comment', 'API-v2 Leave - Leave Comment', 1, 1, 0, 0);
 
 SET @leave_module_id := (SELECT `id` FROM ohrm_module WHERE name = 'leave' LIMIT 1);
 
@@ -3916,6 +3918,8 @@ SET @apiv2_leave_leave_balance_data_group_id := (SELECT `id` FROM ohrm_data_grou
 SET @apiv2_leave_employee_leave_entitlements_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_employee_leave_entitlements' LIMIT 1);
 SET @apiv2_leave_leave_entitlements_validation_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_leave_entitlements_validation' LIMIT 1);
 SET @apiv2_leave_overlap_leaves_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_overlap_leaves' LIMIT 1);
+SET @apiv2_leave_leave_request_comment_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_leave_request_comment' LIMIT 1);
+SET @apiv2_leave_leave_comment_data_group_id := (SELECT `id` FROM ohrm_data_group WHERE name = 'apiv2_leave_leave_comment' LIMIT 1);
 
 INSERT INTO ohrm_api_permission (`api_name`, `module_id`, `data_group_id`)
 VALUES ('OrangeHRM\\Leave\\Api\\HolidayAPI', @leave_module_id, @apiv2_leave_holiday_data_group_id),
@@ -3928,7 +3932,9 @@ VALUES ('OrangeHRM\\Leave\\Api\\HolidayAPI', @leave_module_id, @apiv2_leave_holi
        ('OrangeHRM\\Leave\\Api\\LeaveBalanceAPI', @leave_module_id, @apiv2_leave_leave_balance_data_group_id),
        ('OrangeHRM\\Leave\\Api\\EmployeeLeaveEntitlementAPI', @leave_module_id, @apiv2_leave_employee_leave_entitlements_data_group_id),
        ('OrangeHRM\\Leave\\Api\\ValidationLeaveEntitlementValueAPI', @leave_module_id, @apiv2_leave_leave_entitlements_validation_data_group_id),
-       ('OrangeHRM\\Leave\\Api\\LeaveOverlapAPI', @leave_module_id, @apiv2_leave_overlap_leaves_data_group_id);
+       ('OrangeHRM\\Leave\\Api\\LeaveOverlapAPI', @leave_module_id, @apiv2_leave_overlap_leaves_data_group_id),
+       ('OrangeHRM\\Leave\\Api\\LeaveRequestCommentAPI', @leave_module_id, @apiv2_leave_leave_request_comment_data_group_id),
+       ('OrangeHRM\\Leave\\Api\\LeaveCommentAPI', @leave_module_id, @apiv2_leave_leave_comment_data_group_id);
 
 INSERT INTO ohrm_user_role_data_group (`can_read`, `can_create`, `can_update`, `can_delete`, `self`, `data_group_id`, `user_role_id`)
 VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
@@ -3961,7 +3967,17 @@ VALUES (1, 1, 1, 1, 0, @apiv2_leave_holiday_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 0, @apiv2_leave_overlap_leaves_data_group_id, @admin_role_id),
        (1, 0, 0, 0, 1, @apiv2_leave_overlap_leaves_data_group_id, @ess_role_id),
        (1, 0, 0, 0, 1, @apiv2_leave_overlap_leaves_data_group_id, @supervisor_role_id),
-       (1, 0, 0, 0, 0, @apiv2_leave_overlap_leaves_data_group_id, @supervisor_role_id);
+       (1, 0, 0, 0, 0, @apiv2_leave_overlap_leaves_data_group_id, @supervisor_role_id),
+       (1, 1, 0, 0, 1, @apiv2_leave_leave_request_comment_data_group_id, @admin_role_id),
+       (1, 1, 0, 0, 0, @apiv2_leave_leave_request_comment_data_group_id, @admin_role_id),
+       (1, 1, 0, 0, 1, @apiv2_leave_leave_request_comment_data_group_id, @ess_role_id),
+       (1, 1, 0, 0, 1, @apiv2_leave_leave_request_comment_data_group_id, @supervisor_role_id),
+       (1, 1, 0, 0, 0, @apiv2_leave_leave_request_comment_data_group_id, @supervisor_role_id),
+       (1, 1, 0, 0, 0, @apiv2_leave_leave_comment_data_group_id, @admin_role_id),
+       (1, 1, 0, 0, 1, @apiv2_leave_leave_comment_data_group_id, @admin_role_id),
+       (1, 1, 0, 0, 1, @apiv2_leave_leave_comment_data_group_id, @ess_role_id),
+       (1, 1, 0, 0, 0, @apiv2_leave_leave_comment_data_group_id, @supervisor_role_id),
+       (1, 1, 0, 0, 1, @apiv2_leave_leave_comment_data_group_id, @supervisor_role_id);
 
 ALTER TABLE `ohrm_leave_request_comment` DROP `created_by_name`;
 ALTER TABLE `ohrm_leave_comment` DROP `created_by_name`;
