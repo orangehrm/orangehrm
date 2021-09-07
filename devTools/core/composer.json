@@ -14,7 +14,8 @@
         "symfony/maker-bundle": "^1.33",
         "symfony/proxy-manager-bridge": "5.3.*",
         "symfony/runtime": "5.3.*",
-        "symfony/yaml": "5.3.*"
+        "symfony/yaml": "5.3.*",
+        "phpoffice/phpspreadsheet": "^1.18"
     },
     "autoload-dev": {
         "psr-4": {

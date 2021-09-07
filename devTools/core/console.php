@@ -37,11 +37,13 @@ require_once $pathToDevAutoload;
 
 use OrangeHRM\DevTools\Command\AddDataGroupCommand;
 use OrangeHRM\DevTools\Command\AddRolePermissionCommand;
+use OrangeHRM\DevTools\Command\ExportApiPermissionCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 
 $application->add(new AddDataGroupCommand());
 $application->add(new AddRolePermissionCommand());
+$application->add(new ExportApiPermissionCommand());
 
 $application->run();
