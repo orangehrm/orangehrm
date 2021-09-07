@@ -1429,9 +1429,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=65daa51b18645ad260a5af42978189a62d7265fa":
+"@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=b663cc1f5c18dc879174826cc81e7e733684fdc4":
   version: 1.0.0
-  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=65daa51b18645ad260a5af42978189a62d7265fa"
+  resolution: "@orangehrm/oxd@https://github.com/orangehrm/oxd.git#workspace=oxd-components&commit=b663cc1f5c18dc879174826cc81e7e733684fdc4"
   dependencies:
     bootstrap-icons: ^1.3.0
     core-js: ^3.6.5
@@ -9976,7 +9976,7 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "orangehrm@workspace:."
   dependencies:
-    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=65daa51b18645ad260a5af42978189a62d7265fa"
+    "@orangehrm/oxd": "https://github.com/orangehrm/oxd.git#workspace=oxd-components&head=develop&commit=b663cc1f5c18dc879174826cc81e7e733684fdc4"
     "@types/jest": ^24.0.19
     "@typescript-eslint/eslint-plugin": ^2.33.0
     "@typescript-eslint/parser": ^2.33.0
