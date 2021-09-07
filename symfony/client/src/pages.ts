@@ -57,6 +57,7 @@ import LeavePages from '@/orangehrmLeavePlugin';
 import LocationList from '@/orangehrmAdminPlugin/pages/location/LocationList.vue';
 import SaveLocation from '@/orangehrmAdminPlugin/pages/location/SaveLocation.vue';
 import EditLocation from '@/orangehrmAdminPlugin/pages/location/EditLocation.vue';
+import CustomerPages from '@/orangehrmTimePlugin';
 
 export default {
   'job-title-list': JobTitle,
@@ -101,4 +102,5 @@ export default {
   'email-configuration-view': ViewEmailConfiguration,
   ...OAuthPages,
   ...LeavePages,
+  ...CustomerPages,
 };

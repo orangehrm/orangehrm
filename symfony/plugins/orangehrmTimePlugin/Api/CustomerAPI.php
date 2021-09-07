@@ -39,7 +39,6 @@ use OrangeHRM\Time\Service\CustomerService;
 
 class CustomerAPI extends EndPoint implements CrudEndpoint
 {
-
     public const PARAMETER_NAME = 'name';
     public const PARAMETER_DESCRIPTION = 'description';
     public const PARAMETER_DELETED = 'deleted';
@@ -65,6 +64,9 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         return $this->customerService;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAll(): EndpointResult
     {
         $customerSearchParamHolder = new CustomerSearchFilterParams();
@@ -79,6 +81,9 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -105,6 +110,9 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         return new EndpointResourceResult(CustomerModel::class, $customer);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForCreate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -113,6 +121,9 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function delete(): EndpointResult
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, CommonParams::PARAMETER_IDS);
@@ -121,6 +132,9 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -128,6 +142,9 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getOne(): EndpointResult
     {
         $customerId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
@@ -137,6 +154,9 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         return new EndpointResourceResult(CustomerModel::class, $customer);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
         return new ParamRuleCollection(
@@ -144,6 +164,9 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function update(): EndpointResult
     {
         $customerId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
@@ -160,6 +183,9 @@ class CustomerAPI extends EndPoint implements CrudEndpoint
         return new EndpointResourceResult(CustomerModel::class, $customer);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(

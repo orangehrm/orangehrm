@@ -11,3 +11,22 @@ apiv2_time_customers:
   methods: [ GET, POST, DELETE ]
   defaults:
     _api: OrangeHRM\Time\Api\CustomerAPI
+
+##########################
+#        Screens
+##########################
+
+view_customers:
+  path: /time/viewCustomers
+  controller: OrangeHRM\Time\Controller\CustomerController::handle
+  methods: [ GET ]
+
+save_customer:
+  path: /time/saveCustomer
+  controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
+  methods: [ GET ]
+
+edit_customer:
+  path: /time/saveCustomer/{id}
+  controller: OrangeHRM\Time\Controller\SaveCustomerController::handle
+  methods: [ GET ]

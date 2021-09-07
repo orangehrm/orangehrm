@@ -261,7 +261,7 @@ class CustomerAPITest extends EndpointTestCase
         );
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $customerDao = $this->getMockBuilder(CustomerDao::class)
             ->onlyMethods(['deleteCustomer'])
