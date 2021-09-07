@@ -169,8 +169,6 @@
           </oxd-grid>
         </oxd-form-row>
 
-        <oxd-divider />
-
         <oxd-form-row>
           <oxd-grid :cols="3" class="orangehrm-full-width-grid">
             <div class="orangehrm-optional-field-row">
@@ -239,7 +237,10 @@ export default {
 
   data() {
     return {
-      userSecureConnection: false,
+      defaultValues: {
+        smtpSecurityType: 'ssl',
+      },
+      userSecureConnection: true,
       sendTestMailEditable: false,
       isLoading: false,
       emailConfiguration: {
@@ -339,7 +340,10 @@ export default {
         this.emailConfiguration.smtpUsername = data.smtpUsername;
         this.emailConfiguration.smtpPassword = data.smtpPassword;
         this.emailConfiguration.smtpAuthType = data.smtpAuthType;
-        this.emailConfiguration.smtpSecurityType = data.smtpSecurityType;
+        this.emailConfiguration.smtpSecurityType =
+          data.smtpSecurityType === 'none'
+            ? this.defaultValues.smtpSecurityType
+            : data.smtpSecurityType;
         this.emailConfiguration.testEmailAddress = data.testEmailAddress;
         this.userSecureConnection = data.smtpSecurityType !== 'none';
         this.initialEmailConfiguration = {

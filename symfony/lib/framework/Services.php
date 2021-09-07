@@ -189,6 +189,11 @@ final class Services
     public const LEAVE_PERIOD_SERVICE = 'leave.leave_period_service';
 
     /**
+     * @see \OrangeHRM\Leave\Service\LeaveRequestService
+     */
+    public const LEAVE_REQUEST_SERVICE = 'leave.leave_request_service';
+
+    /**
      * @see \OrangeHRM\Leave\Service\WorkScheduleService
      */
     public const WORK_SCHEDULE_SERVICE = 'leave.work_schedule_service';

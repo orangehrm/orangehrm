@@ -49,4 +49,21 @@ class ClassHelper
         }
         return null;
     }
+
+    /**
+     * @param string|object $classNameOrInstance
+     * @param string ...$interfaces
+     * @return bool
+     */
+    public function hasClassImplements($classNameOrInstance, string ...$interfaces): bool
+    {
+        $implementedInterfaces = class_implements($classNameOrInstance);
+        $implementedInterfacesCount = count($implementedInterfaces);
+        $interfacesCount = count($interfaces);
+        if ($implementedInterfacesCount < $interfacesCount) {
+            return false;
+        }
+
+        return $implementedInterfacesCount - $interfacesCount == count(array_diff($implementedInterfaces, $interfaces));
+    }
 }

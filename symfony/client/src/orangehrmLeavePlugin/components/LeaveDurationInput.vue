@@ -88,6 +88,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    workShift: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
@@ -101,6 +105,18 @@ export default {
             () => this.fromTime,
             'To time should be after from time',
           ),
+          value => {
+            if (value) {
+              const workLength = diffInTime(
+                this.workShift.startTime,
+                this.workShift.endTime,
+              );
+              const selectedLength = diffInTime(this.fromTime, value);
+              if (selectedLength > workLength)
+                return 'Duration should be less than work shift length';
+            }
+            return true;
+          },
         ],
       },
     };

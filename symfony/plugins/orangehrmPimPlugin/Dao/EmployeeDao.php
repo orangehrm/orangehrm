@@ -19,7 +19,6 @@
 
 namespace OrangeHRM\Pim\Dao;
 
-use OrangeHRM\Admin\Traits\Service\CompanyStructureServiceTrait;
 use OrangeHRM\Core\Dao\BaseDao;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Core\Traits\Service\TextHelperTrait;
@@ -31,7 +30,6 @@ use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 
 class EmployeeDao extends BaseDao
 {
-    use CompanyStructureServiceTrait;
     use TextHelperTrait;
 
     /**
@@ -130,10 +128,8 @@ class EmployeeDao extends BaseDao
         }
 
         if (!is_null($employeeSearchParamHolder->getSubunitId())) {
-            $subunitIds = $this->getCompanyStructureService()
-                ->getSubunitChainById($employeeSearchParamHolder->getSubunitId());
             $q->andWhere($q->expr()->in('subunit.id', ':subunitIds'))
-                ->setParameter('subunitIds', $subunitIds);
+                ->setParameter('subunitIds', $employeeSearchParamHolder->getSubunitIdChain());
         }
 
         if (!is_null($employeeSearchParamHolder->getLocationId())) {

@@ -28,7 +28,6 @@ use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\LeavePeriodHistory;
 use OrangeHRM\Leave\Dao\LeavePeriodDao;
 use OrangeHRM\Leave\Dto\LeavePeriod;
-use OrangeHRM\Leave\Dto\LeavePeriodDataHolder;
 use OrangeHRM\Leave\Service\Model\LeavePeriodModel;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
@@ -69,7 +68,7 @@ class LeavePeriodService
     {
         $monthNames = [];
         foreach ($this->getMonthNumberList() as $monthNumber) {
-            $monthNames[] = date('F', mktime(0, 0, 0, $monthNumber));
+            $monthNames[] = date('F', mktime(0, 0, 0, $monthNumber, 1));
         }
 
         return $monthNames;

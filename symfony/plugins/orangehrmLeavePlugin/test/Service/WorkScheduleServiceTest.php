@@ -101,7 +101,7 @@ class WorkScheduleServiceTest extends KernelTestCase
             ->getMock();
         $mockService->expects($this->once())
             ->method('getWorkScheduleImplementation')
-            ->will($this->returnValue('TestWorkScheduleInvalidClass'));
+            ->will($this->returnValue(TestWorkScheduleInvalidClass::class));
 
         $this->createKernelWithMockServices(
             [Services::LEAVE_CONFIG_SERVICE => $mockService, Services::CLASS_HELPER => new ClassHelper()]
@@ -124,7 +124,7 @@ class WorkScheduleServiceTest extends KernelTestCase
             ->getMock();
         $mockService->expects($this->once())
             ->method('getWorkScheduleImplementation')
-            ->will($this->returnValue('TestWorkScheduleInvalidClassExceptionInConstructor'));
+            ->will($this->returnValue(TestWorkScheduleInvalidClassExceptionInConstructor::class));
 
         $this->createKernelWithMockServices(
             [Services::LEAVE_CONFIG_SERVICE => $mockService, Services::CLASS_HELPER => new ClassHelper()]
@@ -166,7 +166,7 @@ class TestWorkScheduleInvalidClassExceptionInConstructor
 
     public function __construct()
     {
-        throw new Exception("Exception in constructor");
+        throw new Exception('Exception in constructor');
     }
 
 }
@@ -213,6 +213,6 @@ class TestWorkScheduleValidClass implements WorkScheduleInterface
 
     public function getWorkShiftStartEndTime(): WorkShiftStartAndEndTime
     {
-        return new WorkShiftStartAndEndTime(new \DateTime('09:00'), new \DateTime('17:00'));
+        return new WorkShiftStartAndEndTime(new DateTime('09:00'), new DateTime('17:00'));
     }
 }

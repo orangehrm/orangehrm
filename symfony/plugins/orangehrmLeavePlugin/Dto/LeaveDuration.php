@@ -22,6 +22,7 @@ namespace OrangeHRM\Leave\Dto;
 use DateTime;
 use InvalidArgumentException;
 use LogicException;
+use OrangeHRM\Entity\Leave;
 
 class LeaveDuration
 {
@@ -29,6 +30,13 @@ class LeaveDuration
     public const HALF_DAY_MORNING = 'half_day_morning';
     public const HALF_DAY_AFTERNOON = 'half_day_afternoon';
     public const SPECIFY_TIME = 'specify_time';
+
+    public const DURATION_MAP = [
+        Leave::DURATION_TYPE_FULL_DAY => self::FULL_DAY,
+        Leave::DURATION_TYPE_HALF_DAY_AM => self::HALF_DAY_MORNING,
+        Leave::DURATION_TYPE_HALF_DAY_PM => self::HALF_DAY_AFTERNOON,
+        Leave::DURATION_TYPE_SPECIFY_TIME => self::SPECIFY_TIME,
+    ];
 
     /**
      * @var string
@@ -79,7 +87,7 @@ class LeaveDuration
                 LeaveDuration::SPECIFY_TIME,
             ]
         )) {
-            throw new InvalidArgumentException("Invalid duration type");
+            throw new InvalidArgumentException('Invalid duration type');
         }
         $this->type = $type;
     }
@@ -118,7 +126,7 @@ class LeaveDuration
     {
         $this->restrictCallConditionally();
         if ($this->getFromTime() > $toTime) {
-            throw new InvalidArgumentException("To time should be greater than from time");
+            throw new InvalidArgumentException('To time should be greater than from time');
         }
         $this->toTime = $toTime;
     }
@@ -126,7 +134,48 @@ class LeaveDuration
     private function restrictCallConditionally(): void
     {
         if ($this->getType() !== LeaveDuration::SPECIFY_TIME) {
-            throw new LogicException("Shouldn't call with `" . $this->getType() . "` duration type");
+            throw new LogicException("Shouldn't call with `" . $this->getType() . '` duration type');
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeFullDay(): bool
+    {
+        return $this->getType() === self::FULL_DAY;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeHalfDay(): bool
+    {
+        return $this->getType() == LeaveDuration::HALF_DAY_MORNING
+            || $this->getType() == LeaveDuration::HALF_DAY_AFTERNOON;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeHalfDayMorning(): bool
+    {
+        return $this->getType() == LeaveDuration::HALF_DAY_MORNING;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeHalfDayAfternoon(): bool
+    {
+        return $this->getType() == LeaveDuration::HALF_DAY_AFTERNOON;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypeSpecifyTime(): bool
+    {
+        return $this->getType() == LeaveDuration::SPECIFY_TIME;
     }
 }

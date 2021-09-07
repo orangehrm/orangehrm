@@ -90,6 +90,23 @@ apiv2_leave_leave_entitlements:
   defaults:
     _api: OrangeHRM\Leave\Api\LeaveEntitlementAPI
 
+apiv2_leave_employee_leave_entitlements:
+  path: /api/v2/leave/employees/{empNumber}/leave-entitlements
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\EmployeeLeaveEntitlementAPI
+    _key: empNumber
+  requirements:
+    empNumber: '\d+'
+
+apiv2_leave_employees_leave_entitlements:
+  path: /api/v2/leave/employees/leave-entitlements
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\EmployeeLeaveEntitlementAPI
+
 apiv2_leave_leave_balance:
   path: /api/v2/leave/leave-balance/leave-type/{leaveTypeId}
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
@@ -98,6 +115,33 @@ apiv2_leave_leave_balance:
     _api: OrangeHRM\Leave\Api\LeaveBalanceAPI
     _key: leaveTypeId
 
+apiv2_leave_leave_entitlements_validation_value:
+  path: /api/v2/leave/leave-entitlements/{id}/validation/entitlements
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\ValidationLeaveEntitlementValueAPI
+
+apiv2_leave_overlap_leaves:
+  path: /api/v2/leave/overlap-leaves
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveOverlapAPI
+
+apiv2_leave_request_comments:
+  path: /api/v2/leave/leave-requests/{leaveRequestId}/leave-comments
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET , POST ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveRequestCommentAPI
+
+apiv2_leave_comments:
+  path: /api/v2/leave/leaves/{leaveId}/leave-comments
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET , POST ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveCommentAPI
 
 ##########################
 #        Screens
@@ -123,9 +167,19 @@ leave_assign_leave:
   controller: OrangeHRM\Leave\Controller\AssignLeaveController::handle
   methods: [ GET ]
 
-leave_leave_list:
+leave_leave_list_old:
   path: /leave/viewLeaveList/reset/1 # refactor 4.x route
   controller: OrangeHRM\Leave\Controller\LeaveListController::handle
+  methods: [ GET ]
+
+leave_leave_list:
+  path: /leave/viewLeaveList
+  controller: OrangeHRM\Leave\Controller\LeaveListController::handle
+  methods: [ GET ]
+
+leave_view_leave_request:
+  path: /leave/viewLeaveRequest/{id}
+  controller: OrangeHRM\Leave\Controller\LeaveRequestController::handle
   methods: [ GET ]
 
 view_leave_type:

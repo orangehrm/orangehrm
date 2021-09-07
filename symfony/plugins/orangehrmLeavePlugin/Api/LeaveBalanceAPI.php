@@ -348,21 +348,21 @@ class LeaveBalanceAPI extends Endpoint implements ResourceEndpoint
      */
     public function getValidationRuleForGetOne(): ParamRuleCollection
     {
-        $paramRules = $this->getCommonBodyParamRuleCollection();
+        $paramRules = $this->getCommonParamRuleCollection();
         $paramRules->removeParamValidation(LeaveCommonParams::PARAMETER_COMMENT);
         $paramRules->addParamValidation(
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(CommonParams::PARAMETER_EMP_NUMBER, new Rule(Rules::IN_ACCESSIBLE_EMP_NUMBERS))
             )
         );
-        if (!$this->getRequest()->getQuery()->has(LeaveCommonParams::PARAMETER_TO_DATE)) {
+        if (!$this->getRequestParams()->has(RequestParams::PARAM_TYPE_QUERY, LeaveCommonParams::PARAMETER_TO_DATE)) {
             $paramRules->addParamValidation(
                 $this->getValidationDecorator()->notRequiredParamRule(
                     $paramRules->removeParamValidation(LeaveCommonParams::PARAMETER_FROM_DATE)
                 )
             );
         }
-        if (!$this->getRequest()->getQuery()->has(LeaveCommonParams::PARAMETER_FROM_DATE)) {
+        if (!$this->getRequestParams()->has(RequestParams::PARAM_TYPE_QUERY, LeaveCommonParams::PARAMETER_FROM_DATE)) {
             $paramRules->addParamValidation(
                 $this->getValidationDecorator()->notRequiredParamRule(
                     $paramRules->removeParamValidation(LeaveCommonParams::PARAMETER_TO_DATE)

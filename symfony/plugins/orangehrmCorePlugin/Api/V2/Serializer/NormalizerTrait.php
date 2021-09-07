@@ -19,10 +19,14 @@
 
 namespace OrangeHRM\Core\Api\V2\Serializer;
 
+use OrangeHRM\Core\Traits\ClassHelperTrait;
+use ReflectionClass;
 use Traversable;
 
 trait NormalizerTrait
 {
+    use ClassHelperTrait;
+
     /**
      * @var string
      */
@@ -71,16 +75,9 @@ trait NormalizerTrait
      */
     protected function normalizeObject(): array
     {
-        $model = new $this->modelClass($this->data);
-        if ($model instanceof Normalizable) {
-            return $model->toArray();
-        }
-        throw new NormalizeException(
-            sprintf(
-                'Model class should be instance of  `%s`',
-                Normalizable::class
-            )
-        );
+        $this->checkForValidModelClass();
+        $model = $this->getInitializedModelInstance($this->data);
+        return $model->toArray();
     }
 
     /**
@@ -89,29 +86,49 @@ trait NormalizerTrait
      */
     protected function normalizeObjectsArray(): array
     {
-        if (is_iterable($this->data)) {
-            $normalizedArray = [];
-            foreach ($this->data as $data) {
-                $model = new $this->modelClass($data);
-                if ($model instanceof Normalizable) {
-                    $normalizedArray[] = $model->toArray();
-                } else {
-                    throw new NormalizeException(
-                        sprintf(
-                            'Model class should be instance of  `%s`',
-                            Normalizable::class
-                        )
-                    );
-                }
-            }
-            return $normalizedArray;
+        $this->checkForValidModelClass();
+        if (!is_iterable($this->data)) {
+            throw new NormalizeException(
+                sprintf(
+                    '$data should be instance of  `%s`',
+                    Traversable::class
+                )
+            );
         }
 
-        throw new NormalizeException(
-            sprintf(
-                '$data should be instance of  `%s`',
-                Traversable::class
-            )
-        );
+        $normalizedArray = [];
+        foreach ($this->data as $data) {
+            $model = $this->getInitializedModelInstance($data);
+            $normalizedArray[] = $model->toArray();
+        }
+        return $normalizedArray;
+    }
+
+    /**
+     * @throws NormalizeException
+     */
+    private function checkForValidModelClass(): void
+    {
+        if (!$this->getClassHelper()->hasClassImplements($this->modelClass, Normalizable::class)) {
+            throw new NormalizeException(
+                sprintf(
+                    'Model class `%s` should implements  `%s`',
+                    $this->modelClass,
+                    Normalizable::class
+                )
+            );
+        }
+    }
+
+    /**
+     * @param $data
+     * @return Normalizable
+     */
+    private function getInitializedModelInstance($data): Normalizable
+    {
+        if ($this->getClassHelper()->hasClassImplements($this->modelClass, ModelConstructorArgsAwareInterface::class)) {
+            return (new ReflectionClass($this->modelClass))->newInstanceArgs($data);
+        }
+        return new $this->modelClass($data);
     }
 }

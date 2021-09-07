@@ -21,9 +21,12 @@ namespace OrangeHRM\Pim\Dto;
 
 use OrangeHRM\Core\Dto\FilterParams;
 use OrangeHRM\Core\Exception\SearchParamException;
+use OrangeHRM\Pim\Dto\Traits\SubunitIdChainTrait;
 
 class EmployeeSearchFilterParams extends FilterParams
 {
+    use SubunitIdChainTrait;
+
     public const ALLOWED_SORT_FIELDS = [
         'employee.lastName',
         'employee.firstName',

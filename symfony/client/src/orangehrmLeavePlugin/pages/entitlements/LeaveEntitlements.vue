@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <leave-entitlement-table>
+  <leave-entitlement-table :prefetch="false">
     <template v-slot:default="{filters, filterItems}">
       <oxd-table-filter :filter-title="$t('leave.leave_entitlements')">
         <oxd-form @submitValid="filterItems">
@@ -33,7 +33,10 @@
                 />
               </oxd-grid-item>
               <oxd-grid-item>
-                <leave-type-dropdown v-model="filters.leaveType" />
+                <leave-type-dropdown
+                  :eligible-only="false"
+                  v-model="filters.leaveType"
+                />
               </oxd-grid-item>
               <oxd-grid-item>
                 <leave-period-dropdown v-model="filters.leavePeriod" />

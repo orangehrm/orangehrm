@@ -58,6 +58,9 @@ import LocationList from '@/orangehrmAdminPlugin/pages/location/LocationList.vue
 import SaveLocation from '@/orangehrmAdminPlugin/pages/location/SaveLocation.vue';
 import EditLocation from '@/orangehrmAdminPlugin/pages/location/EditLocation.vue';
 import CustomerPages from '@/orangehrmTimePlugin';
+import PayGrade from '@/orangehrmAdminPlugin/pages/payGrade/PayGrade.vue';
+import AddPayGrade from '@/orangehrmAdminPlugin/pages/payGrade/AddPayGrade.vue';
+import EditPayGrade from '@/orangehrmAdminPlugin/pages/payGrade/EditPayGrade.vue';
 
 export default {
   'job-title-list': JobTitle,
@@ -103,4 +106,7 @@ export default {
   ...OAuthPages,
   ...LeavePages,
   ...CustomerPages,
+  'pay-grade-list': PayGrade,
+  'pay-grade-add': AddPayGrade,
+  'pay-grade-edit': EditPayGrade,
 };
