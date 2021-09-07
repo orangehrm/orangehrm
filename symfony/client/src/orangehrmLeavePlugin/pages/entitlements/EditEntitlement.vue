@@ -45,6 +45,7 @@
             <oxd-grid-item>
               <leave-type-dropdown
                 v-model="leaveEntitlement.leaveType"
+                :eligible-only="false"
                 required
                 disabled
               />

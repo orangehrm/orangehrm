@@ -19,30 +19,43 @@
  -->
 
 <template>
-  <div class="orangehrm-background-container">
-    <div class="orangehrm-paper-container">
-      <div class="orangehrm-header-container">
-        <oxd-text tag="h6" class="orangehrm-main-title">
-          Overlapping Leave Request(s) Found
-        </oxd-text>
-      </div>
-      <table-header :selected="0" :total="total"></table-header>
-      <div class="orangehrm-container">
-        <oxd-card-table
-          :headers="headers"
-          :items="items"
-          :clickable="false"
-          rowDecorator="oxd-table-decorator-card"
-        />
-      </div>
-      <div class="orangehrm-bottom-container"></div>
+  <div class="orangehrm-paper-container">
+    <div class="orangehrm-header-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ header }}
+      </oxd-text>
     </div>
+    <table-header
+      :loading="false"
+      :selected="0"
+      :total="data.length"
+    ></table-header>
+    <div class="orangehrm-container">
+      <oxd-card-table
+        :headers="headers"
+        :items="items"
+        :clickable="false"
+        rowDecorator="oxd-table-decorator-card"
+      />
+    </div>
+    <div class="orangehrm-bottom-container"></div>
   </div>
+  <br />
 </template>
 
 <script>
 export default {
   name: 'leave-conflict',
+  props: {
+    workshiftExceeded: {
+      type: Boolean,
+      default: false,
+    },
+    data: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       headers: [
@@ -72,18 +85,28 @@ export default {
           style: {flex: 1},
         },
       ],
-      items: [
-        {
-          date: '2020-08-01',
-          hours: '10.00',
-          type: 'Annual',
-          status: 'Pending',
-          comments: '',
-        },
-      ],
     };
   },
 
-  methods: {},
+  computed: {
+    header() {
+      return this.workshiftExceeded
+        ? this.$t(
+            'leave.workshift_length_exceeded_due_to_the_following_leave_request',
+          )
+        : this.$t('leave.overlapping_leave_request_found');
+    },
+    items() {
+      return this.data.map(item => {
+        return {
+          date: item.date,
+          hours: parseFloat(item.lengthHours).toFixed(2),
+          type: item.leaveType?.name,
+          status: item.status?.name,
+          comments: item.comment,
+        };
+      });
+    },
+  },
 };
 </script>

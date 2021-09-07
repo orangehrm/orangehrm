@@ -26,10 +26,7 @@
   >
     <div class="orangehrm-header-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('leave.leave_balance_details') }}
-      </oxd-text>
-      <oxd-text type="subtitle-2">
-        {{ $t('leave.as_of_date') }} - {{ asAtDate }}
+        {{ $t('leave.insufficient_leave_balance') }}
       </oxd-text>
     </div>
     <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
@@ -38,11 +35,6 @@
         <oxd-input-group :label="$t('leave.leave_type')">
           <oxd-text class="orangehrm-leave-balance-text" tag="p">
             {{ leaveType }}
-          </oxd-text>
-        </oxd-input-group>
-        <oxd-input-group :label="$t('leave.total_entitlement')">
-          <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ totalEntitlement }}
           </oxd-text>
         </oxd-input-group>
         <oxd-input-group :label="$t('leave.balance')">
@@ -78,10 +70,11 @@
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
 
 export default {
-  name: 'leave-balance-modal',
+  name: 'leave-balance-insufficient-modal',
   props: {
     data: {
-      type: Object,
+      type: Array,
+      required: true,
     },
   },
   components: {
@@ -91,20 +84,19 @@ export default {
     return {
       headers: [
         {
-          title: 'Leave Status',
-          name: 'status',
-          slot: 'left',
+          title: 'Leave Period',
+          name: 'period',
           style: {flex: 1},
         },
         {
-          title: 'Days',
-          name: 'days',
-          slot: 'right',
-          style: {
-            flex: 1,
-            textAlign: 'right',
-            justifyContent: 'flex-end',
-          },
+          title: 'Date',
+          name: 'date',
+          style: {flex: 1},
+        },
+        {
+          title: 'Available Balance',
+          name: 'balance',
+          style: {flex: 1},
         },
       ],
     };
@@ -116,30 +108,35 @@ export default {
   },
   computed: {
     items() {
-      if (this.data) {
-        const {taken, scheduled, pending} = this.data;
-        return [
-          {status: this.$t('leave.taken'), days: taken},
-          {status: this.$t('leave.scheduled'), days: scheduled},
-          {status: this.$t('leave.pending_approval'), days: pending},
-        ];
+      if (this.data.length > 0) {
+        return this.data
+          .flatMap(item => {
+            const {leaves, period} = item;
+            if (Array.isArray(leaves) && leaves.length > 0) {
+              leaves[0].period = period;
+              return leaves;
+            } else {
+              return [];
+            }
+          })
+          .map(item => {
+            return {
+              period:
+                item?.period &&
+                `${item.period.startDate} - ${item.period.endDate}`,
+              date: item.date,
+              balance: item.status?.name || item.balance,
+            };
+          });
       }
       return [];
-    },
-    asAtDate() {
-      return this.data?.asAtDate;
     },
     leaveType() {
       return 'Annual';
     },
-    totalEntitlement() {
-      return this.data?.entitled
-        ? `${parseFloat(this.data.entitled).toFixed(2)} Day(s)`
-        : '0.00';
-    },
     leaveBalance() {
-      return this.data?.balance
-        ? `${parseFloat(this.data.balance).toFixed(2)} Day(s)`
+      return this.data[0]?.balance
+        ? `${parseFloat(this.data[0].balance.balance).toFixed(2)} Day(s)`
         : '0.00';
     },
   },
