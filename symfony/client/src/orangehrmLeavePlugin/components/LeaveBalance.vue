@@ -24,7 +24,7 @@
       <div class="orangehrm-leave-balance">
         <oxd-label :label="$t('leave.leave_balance')" />
         <oxd-icon-button
-          v-if="type"
+          v-if="leaveData.type"
           class="--help"
           name="question-circle"
           :withContainer="false"
@@ -32,15 +32,21 @@
         />
       </div>
     </template>
-    <oxd-text class="orangehrm-leave-balance-text" tag="p">
+    <oxd-text v-if="balance >= 0" class="orangehrm-leave-balance-text" tag="p">
       {{ leaveBalance }}
     </oxd-text>
+    <oxd-text v-else class="orangehrm-leave-balance-text" tag="p">
+      {{ $t('leave.balance_not_sufficient') }}
+    </oxd-text>
   </oxd-input-group>
-  <leave-balance-modal
+  <component
+    :is="
+      balance >= 0 ? 'leave-balance-modal' : 'leave-balance-insufficient-modal'
+    "
     v-if="showModal"
     :data="data"
     @close="onModalClose"
-  ></leave-balance-modal>
+  ></component>
 </template>
 
 <script>
@@ -48,27 +54,20 @@ import {toRefs, reactive, computed, watchEffect} from 'vue';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import Label from '@orangehrm/oxd/core/components/Label/Label';
 import LeaveBalanceModal from '@/orangehrmLeavePlugin/components/LeaveBalanceModal';
+import LeaveBalanceInsufficientModal from '@/orangehrmLeavePlugin/components/LeaveBalanceInsufficientModal';
 
 export default {
   name: 'leave-balance',
   inheritAttrs: false,
   props: {
-    employeeId: {
-      type: Number,
-    },
-    type: {
+    leaveData: {
       type: Object,
-    },
-    fromDate: {
-      type: String,
-    },
-    toDate: {
-      type: String,
     },
   },
   components: {
     'oxd-label': Label,
     'leave-balance-modal': LeaveBalanceModal,
+    'leave-balance-insufficient-modal': LeaveBalanceInsufficientModal,
   },
   setup(props) {
     const state = reactive({
@@ -78,7 +77,7 @@ export default {
     });
     const http = new APIService(
       window.appGlobal.baseUrl,
-      'api/v2/leave/my-leave-entitlement',
+      'api/v2/leave/leave-balance/leave-type',
     );
 
     const leaveBalance = computed(() => {
@@ -94,21 +93,58 @@ export default {
     };
 
     watchEffect(async () => {
-      if (props.type?.id) {
-        http
-          .getAll({
-            id: props.employeeId,
-            type: props.type.id,
-            fromDate: props.fromDate,
-            toDate: props.toDate,
-          })
-          .then(response => {
-            const {data} = response.data;
-            if (Array.isArray(data) && data.length > 0) {
-              state.data = data[0];
-              state.balance = data[0].leaveBalance.balance;
-            }
-          });
+      const payload = {
+        fromDate: props.leaveData.fromDate,
+        toDate: props.leaveData.toDate,
+        duration: null,
+        partialOption: props.leaveData.partialOptions?.key,
+        endDuration: null,
+        empNumber: props.leaveData.employee?.id,
+      };
+      if (props.leaveData.duration.type?.key) {
+        payload['duration[type]'] = props.leaveData.duration.type.key;
+        payload['duration[fromTime]'] =
+          props.leaveData.duration.type.id === 4
+            ? props.leaveData.duration.fromTime
+            : null;
+        payload['duration[toTime]'] =
+          props.leaveData.duration.type.id === 4
+            ? props.leaveData.duration.toTime
+            : null;
+      }
+      if (props.leaveData.endDuration?.type?.key) {
+        payload['endDuration[type]'] = props.leaveData.endDuration.type.key;
+        payload['endDuration[fromTime]'] =
+          props.leaveData.endDuration.type.id === 4
+            ? props.leaveData.endDuration.fromTime
+            : null;
+        payload['endDuration[toTime]'] =
+          props.leaveData.endDuration.type.id === 4
+            ? props.leaveData.endDuration.toTime
+            : null;
+      }
+
+      if (props.leaveData.type?.id) {
+        http.get(props.leaveData.type.id, payload).then(response => {
+          if (response.status !== 200) return;
+          const {data} = response.data;
+          if (data.balance) {
+            // response sends balance directly when no duration defined
+            state.data = data.balance;
+            state.balance = data.balance?.balance;
+          } else if (data.breakdown && data.negative === false) {
+            // if duration is defined and the balance is not exceeded
+            state.data = data.breakdown[0].balance;
+            state.balance = data.breakdown[0].balance?.balance;
+          } else if (data.breakdown && data.negative === true) {
+            // if duration is defined and the balance is exceeded
+            state.data = data.breakdown;
+            state.balance = -1;
+          } else {
+            state.data = null;
+            state.balance = 0;
+          }
+        });
       }
     });
 
