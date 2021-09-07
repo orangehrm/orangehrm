@@ -440,6 +440,26 @@
           "source": "Leave Request Comments",
           "target": "Leave Request Comments",
           "description": "you can add a comment if necessary, when you request for a leave from your supervisor / Admin"
+        },
+        "balance_not_sufficient": {
+          "source": "Balance not sufficient",
+          "target": "Balance not sufficient",
+          "description": "There is no sufficient leave balance for the current leave period."
+        },
+        "overlapping_leave_request_found": {
+          "source": "Overlapping Leave Request Found",
+          "target": "Overlapping Leave Request Found",
+          "description": "When request for a leave with same leave type and same no of days, a error message would appear saying 'Overlapping Leave Request Found'."
+        },
+        "workshift_length_exceeded_due_to_the_following_leave_request": {
+          "source": "Workshift Length Exceeded Due To the Following Leave Request",
+          "target": "Workshift Length Exceeded Due To the Following Leave Request",
+          "description": ""
+        },
+        "insufficient_leave_balance": {
+          "source": "Insufficient Leave Balance",
+          "target": "Insufficient Leave Balance",
+          "description": ""
         }
       }
     }

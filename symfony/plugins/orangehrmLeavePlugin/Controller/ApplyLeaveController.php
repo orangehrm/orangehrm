@@ -22,6 +22,7 @@ namespace OrangeHRM\Leave\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Vue\Prop;
 
 class ApplyLeaveController extends AbstractVueController
 {
@@ -31,6 +32,12 @@ class ApplyLeaveController extends AbstractVueController
     public function preRender(Request $request): void
     {
         $component = new Component('leave-apply');
+
+        $workShift = [
+            "startTime" => "09:00",
+            "endTime" => "17:00"
+        ];
+        $component->addProp(new Prop('work-shift', Prop::TYPE_OBJECT, $workShift));
         $this->setComponent($component);
     }
 }
