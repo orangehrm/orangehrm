@@ -26,7 +26,10 @@
           <oxd-form-row>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
               <oxd-grid-item>
-                <leave-type-dropdown v-model="filters.leaveType" />
+                <leave-type-dropdown
+                  :eligible-only="false"
+                  v-model="filters.leaveType"
+                />
               </oxd-grid-item>
               <oxd-grid-item>
                 <leave-period-dropdown v-model="filters.leavePeriod" />
