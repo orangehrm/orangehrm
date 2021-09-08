@@ -81,7 +81,9 @@ export default {
     );
 
     const leaveBalance = computed(() => {
-      return `${state.balance.toFixed(2)} Day(s)`;
+      return props.leaveData.type?.id
+        ? `${state.balance.toFixed(2)} Day(s)`
+        : '0.00 Day(s)';
     });
 
     const onModalOpen = () => {
