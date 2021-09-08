@@ -17,20 +17,47 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Traits\ORM;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
-
-trait EntityManagerTrait
+class EntityIdExistsOption
 {
+    private bool $numeric = true;
+
+    private bool $positive = true;
+
     /**
-     * @return EntityManager|EntityManagerInterface
+     * @return bool
      */
-    protected function getEntityManager(): EntityManagerInterface
+    public function isNumeric(): bool
     {
-        return ServiceContainer::getContainer()->get(Services::DOCTRINE);
+        return $this->numeric;
+    }
+
+    /**
+     * @param bool $numeric
+     * @return $this
+     */
+    public function setNumeric(bool $numeric): self
+    {
+        $this->numeric = $numeric;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPositive(): bool
+    {
+        return $this->positive;
+    }
+
+    /**
+     * @param bool $positive
+     * @return $this
+     */
+    public function setPositive(bool $positive): self
+    {
+        $this->positive = $positive;
+        return $this;
     }
 }

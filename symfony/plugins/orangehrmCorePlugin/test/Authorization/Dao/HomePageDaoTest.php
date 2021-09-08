@@ -27,7 +27,6 @@ use OrangeHRM\Entity\ModuleDefaultPage;
 use OrangeHRM\Entity\UserRole;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Test class for home page dao
@@ -39,7 +38,6 @@ class HomePageDaoTest extends TestCase
 
     private HomePageDao $homePageDao;
     private string $fixture;
-    private $testData;
 
     /**
      * Set up method
@@ -48,14 +46,13 @@ class HomePageDaoTest extends TestCase
     {
         TestDataService::truncateTables([ModuleDefaultPage::class, HomePage::class, UserRole::class, Module::class]);
         $this->fixture = Config::get(Config::PLUGINS_DIR) . '/orangehrmCorePlugin/test/fixtures/HomePageDao.yml';
-        $this->testData = Yaml::parseFile($this->fixture);
         TestDataService::populate($this->fixture);
         $this->homePageDao = new HomePageDao();
     }
 
     public function testGetHomePagesInPriorityOrderOneRole(): void
     {
-        $homePagesFixture = $this->testData['HomePage'];
+        $homePagesFixture = TestDataService::loadFixtures($this->fixture, 'HomePage');
         $expected = [$homePagesFixture[3], $homePagesFixture[2], $homePagesFixture[0]];
         $homePages = $this->homePageDao->getHomePagesInPriorityOrder([1]);
         $this->compareHomePages($expected, $homePages);
@@ -71,7 +68,7 @@ class HomePageDaoTest extends TestCase
 
     public function testGetHomePagesInPriorityOrderMultipleRole(): void
     {
-        $homePagesFixture = $this->testData['HomePage'];
+        $homePagesFixture = TestDataService::loadFixtures($this->fixture, 'HomePage');
         $expected = [
             $homePagesFixture[3],
             $homePagesFixture[4],
@@ -119,7 +116,7 @@ class HomePageDaoTest extends TestCase
 
     public function testGetModuleDefaultPagesInPriorityOrderOneRole(): void
     {
-        $pagesFixture = $this->testData['ModuleDefaultPage'];
+        $pagesFixture = TestDataService::loadFixtures($this->fixture, 'ModuleDefaultPage');
         $expected = [$pagesFixture[7], $pagesFixture[4]];
         $homePages = $this->homePageDao->getModuleDefaultPagesInPriorityOrder('leave', [1]);
         $this->compareModuleDefaultPages($expected, $homePages);
@@ -135,7 +132,7 @@ class HomePageDaoTest extends TestCase
 
     public function testGetModuleDefaultPagesInPriorityOrderMultipleRole(): void
     {
-        $pagesFixture = $this->testData['ModuleDefaultPage'];
+        $pagesFixture = TestDataService::loadFixtures($this->fixture, 'ModuleDefaultPage');
         $expected = [$pagesFixture[7], $pagesFixture[8], $pagesFixture[4], $pagesFixture[5], $pagesFixture[6]];
         $homePages = $this->homePageDao->getModuleDefaultPagesInPriorityOrder('leave', [1, 2, 3]);
         $this->compareModuleDefaultPages($expected, $homePages);

@@ -19,9 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use composer v1
-        run: sudo composer self-update --1
-
       - name: Validate composer.json and composer.lock
         run: |
           cd symfony
@@ -58,11 +55,14 @@ jobs:
           name: jest-coverage
           path: symfony/client/coverage
 
-  composer_v2_check:
+  composer_v1_check:
     runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Use composer v1
+        run: sudo composer self-update --1
 
       - name: Validate composer.json and composer.lock
         run: |

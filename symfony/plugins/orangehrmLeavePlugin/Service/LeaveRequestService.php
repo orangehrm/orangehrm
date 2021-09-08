@@ -191,21 +191,6 @@ class LeaveRequestService
     }
 
     /**
-     *
-     * @param ParameterObject $searchParameters
-     * @param array $statuses
-     * @return array
-     */
-    public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false, $isMyLeaveList = false,
-        // TODO
-            $prefetchLeave = false, $prefetchComments = false, $includePurgeEmployee = false) {
-        $result = $this->getLeaveRequestDao()->searchLeaveRequests($searchParameters, $page, $isCSVPDFExport,
-                $isMyLeaveList, $prefetchLeave, $prefetchComments, $includePurgeEmployee);
-        return $result;
-
-    }
-
-    /**
      * Get Leave Request Status
      * @param $day
      * @return unknown_type
@@ -224,42 +209,6 @@ class LeaveRequestService
         } catch (Exception $e) {
             throw new LeaveServiceException($e->getMessage());
         }
-    }
-
-    /**
-     *
-     * @param int $leaveRequestId
-     * @return array
-     */
-    public function searchLeave($leaveRequestId) {
-        // TODO
-        return $this->getLeaveRequestDao()->fetchLeave($leaveRequestId);
-
-    }
-
-    /**
-     *
-     * @param int $leaveId
-     * @return array
-     */
-    public function readLeave($leaveId) {
-        // TODO
-        return $this->getLeaveRequestDao()->readLeave($leaveId);
-
-    }
-
-    public function saveLeave(Leave $leave) {
-        // TODO
-        return $this->getLeaveRequestDao()->saveLeave($leave);
-    }
-
-    /**
-     * @param int $leaveRequestId
-     */
-    public function fetchLeaveRequest($leaveRequestId) {
-        // TODO
-        return $this->getLeaveRequestDao()->fetchLeaveRequest($leaveRequestId);
-
     }
 
     function groupChanges($changes) {
@@ -438,18 +387,6 @@ class LeaveRequestService
         $this->getDispatcher()->notify(new sfEvent($this, LeaveEvents::LEAVE_CHANGE, $eventData));
     }
 
-    public function getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId) {
-        // TODO
-        return $this->getLeaveRequestDao()->getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId);
-
-    }
-
-    public function getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId) {
-        // TODO
-        return $this->getLeaveRequestDao()->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
-
-    }
-
     /**
      * @param Employee $employee
      * @param LeaveType $leaveType
@@ -544,37 +481,6 @@ class LeaveRequestService
         return $actions;
     }
 
-    public function getLeaveById($leaveId) {
-        // TODO
-        return $this->getLeaveRequestDao()->getLeaveById($leaveId);
-    }
-     /**
-     *
-     * @param ParameterObject $searchParameters
-     * @param array $statuses
-     * @return array
-     */
-    public function getLeaveRequestSearchResultAsArray($searchParameters) {
-        // TODO
-        return $this->getLeaveRequestDao()->getLeaveRequestSearchResultAsArray($searchParameters);
-    }
-
-     /**
-     *
-     * @param ParameterObject $searchParameters
-     * @param array $statuses
-     * @return array
-     */
-    public function getDetailedLeaveRequestSearchResultAsArray($searchParameters) {
-        // TODO
-        return $this->getLeaveRequestDao()->getDetailedLeaveRequestSearchResultAsArray($searchParameters);
-    }
-
-    public function markApprovedLeaveAsTaken() {
-        // TODO
-        return $this->getLeaveRequestDao()->markApprovedLeaveAsTaken();
-    }
-
     /**
      * Update leave request status (required prior access right validation)
      * @param LeaveRequest $leaveRequest
@@ -594,20 +500,6 @@ class LeaveRequestService
         $this->_changeLeaveStatus($changedLeave, $nextState);
         $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
             $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
-    }
-
-    /**
-     * @param string $fromDate
-     * @param string $toDate
-     * @param int $employeeId
-     * @param $statuses
-     * @return array|Doctrine_Collection|Doctrine_Collection_OnDemand|int
-     * @throws DaoException
-     */
-    public function getLeaveRecordsBetweenTwoDays(string $fromDate, string $toDate,int $employeeId,$statuses)
-    {
-        // TODO
-        return $this->getLeaveRequestDao()->getLeaveRecordsBetweenTwoDays($fromDate,$toDate,$employeeId,$statuses);
     }
 
     /**
@@ -666,8 +558,8 @@ class LeaveRequestService
     }
 
     /**
-     * @param int $status
-     * @return string
+     * @param int $status e.g. -1, 1, 3
+     * @return string e.g. 'REJECTED', 'PENDING APPROVAL', 'TAKEN'
      */
     public function getLeaveStatusNameByStatus(int $status): string
     {

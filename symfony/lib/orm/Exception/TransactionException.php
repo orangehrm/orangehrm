@@ -17,20 +17,20 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Traits\ORM;
+namespace OrangeHRM\ORM\Exception;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
+use Exception;
+use Throwable;
 
-trait EntityManagerTrait
+class TransactionException extends Exception
 {
     /**
-     * @return EntityManager|EntityManagerInterface
+     * @param Throwable $previous
+     * @param string $message
+     * @param int $code
      */
-    protected function getEntityManager(): EntityManagerInterface
+    public function __construct(Throwable $previous, $message = '', $code = 0)
     {
-        return ServiceContainer::getContainer()->get(Services::DOCTRINE);
+        parent::__construct($message, $code, $previous);
     }
 }

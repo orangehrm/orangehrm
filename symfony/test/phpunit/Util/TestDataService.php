@@ -20,11 +20,12 @@
 namespace OrangeHRM\Tests\Util;
 
 use DateTime;
+use Doctrine\DBAL\Driver\Connection;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\Mapping\MappingException;
 use Exception;
-use OrangeHRM\Entity\UniqueId;
 use OrangeHRM\ORM\Doctrine;
+use OrangeHRM\ORM\ListSorter;
 use PDO;
 use Symfony\Component\Yaml\Yaml;
 
@@ -35,61 +36,38 @@ class TestDataService
      *              'Model2' => array(field1, field2))        
      */
     private static $encryptedModels = []; //array('EmployeeSalary' => array('amount'));
-    
-    private static $dbConnection;
-    private static $data;
-    private static $tableNames;
-    private static $lastFixture = null;
-    private static $insertQueryCache = null;
-    
-    public static function populate($fixture) {
+
+    private static array $data = [];
+    private static array $tableNames;
+    private static ?string $lastFixture = null;
+    private static ?array $insertQueryCache = null;
+    private static array $parsedFixtureFiles = [];
+
+    /**
+     * @param string $fixture
+     */
+    public static function populate(string $fixture): void
+    {
         $pathToFixtures = realpath($fixture);
         if (!$pathToFixtures) {
             throw new Exception(sprintf("Couldn't find fixture file in %s", $fixture));
         }
         self::_populateUsingPdoTransaction($pathToFixtures);
-        //self::_populateUsingDoctrineObjects($fixture);
     }
 
-    private static function _populateUsingDoctrineObjects($fixture) {
-
-        self::_setData($fixture);
-
-        self::_disableConstraints();
-
-        self::_truncateTables();
-
-        foreach (self::$data as $tableName => $tableData) {
-
-            $count = 0;
-
-            foreach ($tableData as $key => $dataRow) {
-
-                $rowObject = new $tableName;
-                $rowObject->fromArray($dataRow);
-                $rowObject->save();
-
-                $count++;
-            }
-
-            if ($count > 0) {
-                self::adjustUniqueId($tableName, $count, true);
-            }
-        }
-
-        self::_enableConstraints();
-    }
-
-    private static function _populateUsingPdoTransaction($fixture) {
-
+    /**
+     * @param string $fixture
+     * @throws MappingException
+     */
+    private static function _populateUsingPdoTransaction(string $fixture): void
+    {
         // Don't reload already loaded fixtures
         $useCache = true;
         if (self::$lastFixture != $fixture) {
-
             self::_setData($fixture);
             self::$lastFixture = $fixture;
             $useCache = false;
-            self::$insertQueryCache = NULL;
+            self::$insertQueryCache = null;
         }
 
         self::_disableConstraints();
@@ -97,21 +75,19 @@ class TestDataService
         self::_truncateTables();
 
         $pdo = self::_getDbConnection();
-        $query = "";
+        $query = '';
+        $pdo->beginTransaction();
         try {
-
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $pdo->beginTransaction();
 
             if ($useCache) {
                 foreach (self::$insertQueryCache as $query) {
                     $pdo->exec($query);
                 }
             } else {
-                self::$insertQueryCache = array();
+                self::$insertQueryCache = [];
 
                 foreach (self::$data as $tableName => $tableData) {
-
                     $queryArray = self::_generatePdoInsertQueryArray($tableName, $tableData);
                     self::$insertQueryCache = array_merge(self::$insertQueryCache, $queryArray);
 
@@ -123,50 +99,62 @@ class TestDataService
 
             $pdo->commit();
         } catch (Exception $e) {
-
             $pdo->rollBack();
             echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
-            "\nQuery: [" . $query . "]\n" . "Fixture: " . $fixture . "\n\n";
+                "\nQuery: [" . $query . "]\n" . 'Fixture: ' . $fixture . "\n\n";
         }
 
         self::_enableConstraints();
     }
 
-    private static function _generatePdoInsertQueryArray($tableAlias, $tableData) {
-
+    /**
+     * @param string $tableAlias
+     * @param array $tableData
+     * @return string[]
+     */
+    private static function _generatePdoInsertQueryArray(string $tableAlias, array $tableData): array
+    {
         return self::_generateMultipleInsertQueryArray($tableAlias, $tableData);
-
         /* Multiple inserts have to be used since some fixtures contains different no
          * of columns for same data set */
     }
 
-    public static function _generateMultipleInsertQueryArray($tableAlias, $tableData) {
-
+    /**
+     * @param string $tableAlias
+     * @param array $tableData
+     * @return string[]
+     */
+    private static function _generateMultipleInsertQueryArray(string $tableAlias, array $tableData): array
+    {
         $tableName = self::_getTableName($tableAlias);
         $queryArray = array();
 
         if (!empty($tableData)) {
             foreach ($tableData as $item) {
-
                 $columnString = self::_generateInsetQueryColumnString($item, $tableAlias);
                 $queryArray[] = "INSERT INTO `$tableName` $columnString VALUES ('" . implode("', '", $item) . "')";
             }
         }
 
-        $queryArray[] = "UPDATE `hs_hr_unique_id` SET `last_id` = " . count($tableData) . " WHERE `table_name` = '$tableName'";
+        $queryArray[] = 'UPDATE `hs_hr_unique_id` SET `last_id` = ' . count($tableData) .
+            " WHERE `table_name` = '$tableName'";
 
         return $queryArray;
     }
 
-    private static function _generateInsetQueryColumnString($dataArray, $tableAlias) {
-
-        $columnString = "(";
+    /**
+     * @param array $dataArray
+     * @param string $tableAlias
+     * @return string
+     */
+    private static function _generateInsetQueryColumnString(array $dataArray, string $tableAlias): string
+    {
+        $columnString = '(';
 
         $count = count($dataArray);
         $i = 1;
 
         foreach ($dataArray as $key => $value) {
-
             $columnName = self::_getClassMetadata($tableAlias)->getColumnName($key);
 
             /* Had to remove backtick (`) since hs_hr_config's "key" column contains them */
@@ -179,7 +167,7 @@ class TestDataService
             $i++;
         }
 
-        $columnString .= ")";
+        $columnString .= ')';
 
         return $columnString;
     }
@@ -203,33 +191,13 @@ class TestDataService
         return Doctrine::getEntityManager()->getClassMetadata($entityName);
     }
 
-    public static function adjustUniqueId($tableName, $count, $isAlias = false) {
-
-        if ($isAlias) {
-            $tableName = self::_getTableName($tableName);
-        }
-
-        $q = Doctrine::getEntityManager()->createQueryBuilder();
-        $q->from($tableName,'ui');
-        $q->where('ui.table_name = :table_name');
-        $q->setParameter('table_name',$tableName);
-
-        $uniqueIdObject = $q->getQuery()->getOneOrNullResult();
-
-        if ($uniqueIdObject instanceof UniqueId) {
-
-            $uniqueIdObject->setLastId($count);
-            Doctrine::getEntityManager()->persist($uniqueIdObject);
-            Doctrine::getEntityManager()->flush();
-        }
-    }
-
-    private static function _setData($fixture) {
-
+    /**
+     * @param string $fixture
+     */
+    private static function _setData(string $fixture): void
+    {
         self::$data = Yaml::parseFile($fixture);
-
         self::_encryptFieldsInFixture();
-
         self::_setTableNames();
     }
 
@@ -237,7 +205,7 @@ class TestDataService
      * If configured to encrypt data, encrypt fields in fixture.
      */
     private static function _encryptFieldsInFixture() {
-
+        // TODO
         foreach (self::$encryptedModels as $model => $fields) {
             if (isset(self::$data[$model]) && \KeyHandler::keyExists()) {
                 foreach (self::$data[$model] as $id => $row) {
@@ -268,25 +236,26 @@ class TestDataService
             try {
                 self::$tableNames[] = self::_getTableName($key);
             } catch (MappingException $e) {
-                echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $key .
-                    "\n" . "Fixture: " . self::$lastFixture . "\n\n";
+                echo __FILE__ . ':' . __LINE__ . ') Skipping unknown table alias: ' . $key .
+                    "\n" . 'Fixture: ' . self::$lastFixture . "\n\n";
             }
         }
     }
 
-    private static function _disableConstraints() {
-
+    private static function _disableConstraints(): void
+    {
         $pdo = self::_getDbConnection();
-        $pdo->exec("SET FOREIGN_KEY_CHECKS=0;");
+        $pdo->exec('SET FOREIGN_KEY_CHECKS=0;');
     }
 
-    private static function _enableConstraints() {
+    private static function _enableConstraints(): void
+    {
         $pdo = self::_getDbConnection();
-        $pdo->exec("SET FOREIGN_KEY_CHECKS=1;");
+        $pdo->exec('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     /**
-     * @param array|null $tableNames
+     * @param string[]|null $tableNames
      * @throws MappingException
      */
     private static function _truncateTables(?array $tableNames = null): void
@@ -301,7 +270,7 @@ class TestDataService
             $query = '';
 
             try {
-                $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT,0);
+                $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $pdo->beginTransaction();
 
@@ -321,7 +290,7 @@ class TestDataService
             } catch (Exception $e) {
                 $pdo->rollBack();
                 echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
-                    "\nQuery: [" . $query . "]\n" . "Fixture: " . self::$lastFixture . "\n\n";
+                    "\nQuery: [" . $query . "]\n" . 'Fixture: ' . self::$lastFixture . "\n\n";
             }
 
             // Clear table cache
@@ -336,29 +305,24 @@ class TestDataService
     }
 
     /**
-     *
-     * @return PDO
+     * @return Connection
      */
-    private static function _getDbConnection() {
-
-        if (empty(self::$dbConnection)) {
-
-            self::$dbConnection = Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
-
-            return self::$dbConnection;
-        } else {
-
-            return self::$dbConnection;
-        }
+    private static function _getDbConnection(): Connection
+    {
+        return Doctrine::getEntityManager()->getConnection()->getWrappedConnection();
     }
 
-    public static function truncateTables($aliasArray) {
-
+    /**
+     * @param array $aliasArray
+     * @deprecated
+     */
+    public static function truncateTables(array $aliasArray): void
+    {
         foreach ($aliasArray as $alias) {
             try {
                 self::$tableNames[] = self::_getTableName($alias);
             } catch (MappingException $e) {
-                echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $alias . "\n";
+                echo __FILE__ . ':' . __LINE__ . ') Skipping unknown table alias: ' . $alias . "\n";
             }
         }
 
@@ -366,7 +330,7 @@ class TestDataService
     }
 
     /**
-     * @param array $aliasArray
+     * @param string[] $aliasArray
      */
     public static function truncateSpecificTables(array $aliasArray): void
     {
@@ -377,15 +341,24 @@ class TestDataService
                 $tableNames[] = self::_getTableName($alias);
                 Doctrine::getEntityManager()->clear(self::getFQEntityName($alias));
             } catch (MappingException $e) {
-                echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $alias . "\n";
+                echo __FILE__ . ':' . __LINE__ . ') Skipping unknown table alias: ' . $alias . "\n";
             }
         }
 
         self::_truncateTables($tableNames);
     }
 
-    public static function fetchLastInsertedRecords($alias, $count) {
-
+    /**
+     * @param string $alias
+     * @param int $count
+     * @return array
+     *
+     * @template T
+     * @psalm-param class-string<T> $alias
+     * @psalm-return T[]
+     */
+    public static function fetchLastInsertedRecords(string $alias, int $count): array
+    {
         $entityName = self::getFQEntityName($alias);
         $wholeCount = Doctrine::getEntityManager()->getRepository($entityName)->count([]);
         $offset = $wholeCount - $count;
@@ -415,23 +388,65 @@ class TestDataService
         }
         $q = Doctrine::getEntityManager()->getRepository($entityName)->createQueryBuilder('a');
         $q->setMaxResults(1);
-        if (substr($orderBy, 0, 2) !== "a.") {
+        if (substr($orderBy, 0, 2) !== 'a.') {
             $orderBy = 'a.' . $orderBy;
         }
-        $q->orderBy($orderBy, 'DESC');
+        $q->orderBy($orderBy, ListSorter::DESCENDING);
 
         return $q->getQuery()->getOneOrNullResult();
     }
 
-    public static function fetchObject($alias, $primaryKey) {
-
+    /**
+     * @param string $alias
+     * @param string|int $primaryKey
+     * @return object|null
+     *
+     * @template T
+     * @psalm-param class-string<T> $alias
+     * @psalm-return ?T
+     */
+    public static function fetchObject(string $alias, $primaryKey): ?object
+    {
         $entityName = self::getFQEntityName($alias);
         Doctrine::getEntityManager()->clear($entityName);
-        return Doctrine::getEntityManager()->find($entityName,$primaryKey);
+        return Doctrine::getEntityManager()->find($entityName, $primaryKey);
     }
 
-    public static function loadObjectList($alias, $fixture, $key) {
-        $data = Yaml::parseFile($fixture);
+    /**
+     * @param string $fixture
+     * @return array
+     */
+    private static function parseFixtureFile(string $fixture): array
+    {
+        // TODO: evaluate memory usage
+        if (!isset($parsedFixtureFiles[$fixture])) {
+            $parsedFixtureFiles[$fixture] = Yaml::parseFile($fixture);
+        }
+        return $parsedFixtureFiles[$fixture];
+    }
+
+    /**
+     * @param string $fixture
+     * @param string $key
+     * @return array
+     */
+    public static function loadFixtures(string $fixture, string $key): array
+    {
+        $data = self::parseFixtureFile($fixture);
+        if (!isset($data[$key])) {
+            throw new Exception("Key `$key` not found in fixture `$fixture`");
+        }
+        return $data[$key];
+    }
+
+    /**
+     * @template T
+     * @psalm-param class-string<T> $alias
+     * @psalm-return T[]
+     */
+    public static function loadObjectList(string $alias, string $fixture, string $key): array
+    {
+        $data = self::parseFixtureFile($fixture);
 
         return self::loadObjectListFromArray($alias, $data[$key]);
     }
@@ -440,6 +455,10 @@ class TestDataService
      * @param string $alias
      * @param array|object[] $data
      * @return array|object[]
+     *
+     * @template T
+     * @psalm-param class-string<T> $alias
+     * @psalm-return T[]
      */
     public static function loadObjectListFromArray(string $alias, array $data): array
     {
@@ -451,7 +470,7 @@ class TestDataService
             $object = new $entityName();
 
             foreach ($row as $attribute => $value) {
-                $setMethodName = "set" . ucfirst($attribute);
+                $setMethodName = 'set' . ucfirst($attribute);
 
                 $fieldName = self::getFieldForColumn($classMetadata, $attribute);
                 if ($fieldName) {
@@ -466,7 +485,7 @@ class TestDataService
 
                 if (!method_exists($object, $setMethodName)) {
                     if ($attribute) {
-                        $setMethodName = "set" . ucfirst($fieldName);
+                        $setMethodName = 'set' . ucfirst($fieldName);
                     }
                 }
                 $fieldType = self::getTypeForField($classMetadata, $attribute);
@@ -487,7 +506,7 @@ class TestDataService
      * @param string $columnName
      * @return string|null
      */
-    public static function getFieldForColumn(ClassMetadata $classMetadata, string $columnName): ?string
+    private static function getFieldForColumn(ClassMetadata $classMetadata, string $columnName): ?string
     {
         try {
             return $classMetadata->getFieldForColumn($columnName);
@@ -501,7 +520,7 @@ class TestDataService
      * @param string $alias
      * @return string|null
      */
-    public static function getTypeForField(ClassMetadata $classMetadata, string $alias): ?string
+    private static function getTypeForField(ClassMetadata $classMetadata, string $alias): ?string
     {
         try {
             $fieldName = self::getFieldForColumn($classMetadata, $alias);
@@ -520,7 +539,7 @@ class TestDataService
      * @param string $fieldName
      * @return array|null
      */
-    public static function getAssociationMapping(ClassMetadata $classMetadata, string $fieldName): ?array
+    private static function getAssociationMapping(ClassMetadata $classMetadata, string $fieldName): ?array
     {
         try {
             return $classMetadata->getAssociationMapping($fieldName);
@@ -528,10 +547,4 @@ class TestDataService
             return null;
         }
     }
-
-    public static function getRecords($query) {
-        return self::_getDbConnection()->query($query)->fetchAll(PDO::FETCH_ASSOC);
-    }
-
 }
-
