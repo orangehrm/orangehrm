@@ -31,12 +31,6 @@ class LeaveRequestDetailedModel implements Normalizable
 
     private DetailedLeaveRequest $leaveRequest;
 
-    public const DEFAULT_ALLOWED_ACTIONS = [
-        'APPROVE' => false,
-        'REJECT' => false,
-        'CANCEL' => false,
-    ];
-
     /**
      * @param DetailedLeaveRequest $leaveRequest
      */
@@ -63,9 +57,12 @@ class LeaveRequestDetailedModel implements Normalizable
             $leaveBreakdown[] = $leaveBreakdownItem;
         }
 
-        $allowedActions = self::DEFAULT_ALLOWED_ACTIONS;
+        $allowedActions = [];
         foreach ($detailedLeaveRequest->getAllowedActions() as $action) {
-            $allowedActions[$action] = true;
+            $allowedActions[] = [
+                'action' => $action,
+                'name' => ucwords(strtolower($action)),
+            ];
         }
 
         $leaveBalances = [];

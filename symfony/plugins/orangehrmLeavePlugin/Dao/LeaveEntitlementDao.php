@@ -32,6 +32,7 @@ use OrangeHRM\Leave\Entitlement\LeaveBalance;
 use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\QueryBuilderWrapper;
 
 class LeaveEntitlementDao extends BaseDao
@@ -138,7 +139,7 @@ class LeaveEntitlementDao extends BaseDao
     /**
      * @param LeaveEntitlement $leaveEntitlement
      * @return LeaveEntitlement
-     * @throws DaoException
+     * @throws TransactionException
      */
     public function saveLeaveEntitlement(LeaveEntitlement $leaveEntitlement): LeaveEntitlement
     {
@@ -152,7 +153,7 @@ class LeaveEntitlementDao extends BaseDao
             return $leaveEntitlement;
         } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+            throw new TransactionException($e);
         }
     }
 
@@ -309,7 +310,7 @@ class LeaveEntitlementDao extends BaseDao
      * @param int[] $employeeNumbers
      * @param LeaveEntitlement $leaveEntitlement
      * @return array array(LeaveEntitlement[], int)
-     * @throws DaoException
+     * @throws TransactionException
      */
     public function bulkAssignLeaveEntitlements(array $employeeNumbers, LeaveEntitlement $leaveEntitlement): array
     {
@@ -398,7 +399,7 @@ class LeaveEntitlementDao extends BaseDao
             return [$allEntitlements, $savedCount];
         } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+            throw new TransactionException($e);
         }
     }
 

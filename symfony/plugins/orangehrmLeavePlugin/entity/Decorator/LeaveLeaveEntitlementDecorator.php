@@ -65,7 +65,7 @@ class LeaveLeaveEntitlementDecorator
     public function setLeaveById(int $id): void
     {
         /** @var Leave|null $leave */
-        $leave = $this->getReference(LeaveEntitlement::class, $id);
+        $leave = $this->getReference(Leave::class, $id);
         $this->getLeaveLeaveEntitlement()->setLeave($leave);
     }
 }

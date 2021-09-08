@@ -33,6 +33,7 @@ use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\ORM\Paginator;
 use OrangeHRM\ORM\QueryBuilderWrapper;
@@ -51,7 +52,7 @@ class LeaveRequestDao extends BaseDao
      * @param Leave[] $leaveList Array of leave objects linked to the leave request
      * @param CurrentAndChangeEntitlement $entitlements Array of entitlements to be modified
      * @return LeaveRequest
-     * @throws DaoException
+     * @throws TransactionException
      */
     public function saveLeaveRequest(
         LeaveRequest $leaveRequest,
@@ -61,7 +62,7 @@ class LeaveRequestDao extends BaseDao
         $this->beginTransaction();
 
         try {
-            $this->getEntityManager()->persist($leaveRequest);
+            $this->persist($leaveRequest);
             $current = $entitlements->getCurrent();
 
             foreach ($leaveList as $leave) {
@@ -69,7 +70,7 @@ class LeaveRequestDao extends BaseDao
                 $leave->setLeaveType($leaveRequest->getLeaveType());
                 $leave->setEmployee($leaveRequest->getEmployee());
 
-                $this->getEntityManager()->persist($leave);
+                $this->persist($leave);
 
                 if (isset($current[$leave->getDate()->format('Y-m-d')])) {
                     $entitlementsForDate = $current[$leave->getDate()->format('Y-m-d')];
@@ -78,7 +79,7 @@ class LeaveRequestDao extends BaseDao
                         $le->setLeave($leave);
                         $le->getDecorator()->setLeaveEntitlementById($entitlementId);
                         $le->setLengthDays($length);
-                        $this->getEntityManager()->persist($le);
+                        $this->persist($le);
 
                         $q = $this->createQueryBuilder(LeaveEntitlement::class, 'e');
                         $q->update()
@@ -99,7 +100,7 @@ class LeaveRequestDao extends BaseDao
                 $changes = $entitlements->getChange();
 
                 foreach ($changes as $leaveId => $change) {
-                    $q = $this->createQueryBuilder(LeaveLeaveEntitlement::class, 'l')
+                    $this->createQueryBuilder(LeaveLeaveEntitlement::class, 'l')
                         ->delete()
                         ->where('l.leave = :leaveId')
                         ->setParameter('leaveId', $leaveId)
@@ -111,17 +112,16 @@ class LeaveRequestDao extends BaseDao
                         $le->getDecorator()->setLeaveById($leaveId);
                         $le->getDecorator()->setLeaveEntitlementById($entitlementId);
                         $le->setLengthDays($length);
-                        $this->getEntityManager()->persist($le);
+                        $this->persist($le);
                     }
                 }
             }
 
-            $this->getEntityManager()->flush();
             $this->commitTransaction();
             return $leaveRequest;
         } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+            throw new TransactionException($e);
         }
     }
 
@@ -703,8 +703,8 @@ class LeaveRequestDao extends BaseDao
         return $record['scheduledSum'];
     }
 
-    public function markApprovedLeaveAsTaken() {
-        // TODO
+    public function markApprovedLeaveAsTaken(): void
+    {
         $this->_markApprovedLeaveAsTaken();
     }
 
@@ -982,7 +982,7 @@ class LeaveRequestDao extends BaseDao
      * @param LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams
      * @return Paginator
      */
-    public function getLeaveRequestsPaginator(
+    private function getLeaveRequestsPaginator(
         LeaveRequestSearchFilterParams $leaveRequestSearchFilterParams
     ): Paginator {
         $q = $this->createQueryBuilder(LeaveRequest::class, 'leaveRequest')
@@ -995,6 +995,9 @@ class LeaveRequestDao extends BaseDao
         if (!is_null($leaveRequestSearchFilterParams->getEmpNumber())) {
             $q->andWhere('leaveRequest.employee = :empNumber')
                 ->setParameter('empNumber', $leaveRequestSearchFilterParams->getEmpNumber());
+        } elseif (!is_null($leaveRequestSearchFilterParams->getEmpNumbers())) {
+            $q->andWhere($q->expr()->in('leaveRequest.employee', ':empNumbers'))
+                ->setParameter('empNumbers', $leaveRequestSearchFilterParams->getEmpNumbers());
         }
 
         if (!is_null($leaveRequestSearchFilterParams->getFromDate())) {

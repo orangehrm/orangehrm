@@ -20,15 +20,14 @@
 namespace Api;
 
 use OrangeHRM\Admin\Api\LocationAPI;
+use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Admin\Service\CountryService;
 use OrangeHRM\Admin\Service\LocationService;
 use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Framework\Services;
-use OrangeHRM\Admin\Dto\LocationSearchFilterParams;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * @group Admin
@@ -54,13 +53,10 @@ class LocationAPITest extends EndpointTestCase
 
     protected function getTestCasesByKey($testCaseKey): array
     {
-        $testCases = Yaml::parseFile(
-            Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/testcases/LocationAPI.yml'
+        return TestDataService::loadFixtures(
+            Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/testcases/LocationAPI.yml',
+            $testCaseKey
         );
-        if (array_key_exists($testCaseKey, $testCases)) {
-            return $testCases[$testCaseKey];
-        }
-        return [];
     }
 
     public function testGettersAndSetters(): void

@@ -28,8 +28,11 @@ use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @group Admin
+ * @group APIv2
+ */
 class PayGradeAPITest extends EndpointTestCase
 {
     private PayGradeAPI $payGradeApi;
@@ -40,21 +43,15 @@ class PayGradeAPITest extends EndpointTestCase
         TestDataService::populate(
             Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/PayGradeDao.yml'
         );
-        $this->getContainer()->register(
-            Services::PAY_GRADE_SERVICE,
-            PayGradeService::class
-        );
+        $this->createKernelWithMockServices([Services::PAY_GRADE_SERVICE => new PayGradeService()]);
     }
 
     protected function getTestCasesByKey($testCaseKey): array
     {
-        $testCases = Yaml::parseFile(
-            Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/testcases/PayGradeAPI.yml'
+        return TestDataService::loadFixtures(
+            Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/testcases/PayGradeAPI.yml',
+            $testCaseKey
         );
-        if (array_key_exists($testCaseKey, $testCases)) {
-            return $testCases[$testCaseKey];
-        }
-        return [];
     }
 
     public function dataProviderForTestGetOne(): array

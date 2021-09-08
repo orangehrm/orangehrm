@@ -18,6 +18,8 @@
  */
 
 use Doctrine\DBAL\Exception\ConnectionException;
+use OrangeHRM\Framework\ServiceContainer;
+use OrangeHRM\Framework\Services;
 use OrangeHRM\ORM\Doctrine;
 
 define('ENVIRNOMENT', 'test');
@@ -33,13 +35,17 @@ Error:
 %s\n
 ";
 
+ServiceContainer::getContainer()
+    ->register(Services::DOCTRINE)
+    ->setFactory([Doctrine::class, 'getEntityManager']);
+
 try {
-    Doctrine::getEntityManager()->getConnection()->connect();
+    ServiceContainer::getContainer()->get(Services::DOCTRINE)->getConnection()->connect();
 } catch (ConnectionException $e) {
     if ($e->getErrorCode() === 1049) {
         echo sprintf(
             $errorMessage,
-            Doctrine::getEntityManager()->getConnection()->getDatabase(),
+            ServiceContainer::getContainer()->get(Services::DOCTRINE)->getConnection()->getDatabase(),
             $e->getMessage()
         );
         die;

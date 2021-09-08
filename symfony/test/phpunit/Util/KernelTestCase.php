@@ -26,6 +26,7 @@ use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\Doctrine;
 
 abstract class KernelTestCase extends TestCase
 {
@@ -67,6 +68,8 @@ abstract class KernelTestCase extends TestCase
             }
             $this->getContainer()->set($serviceId, null);
         }
+        $this->getContainer()->register(Services::DOCTRINE)
+            ->setFactory([Doctrine::class, 'getEntityManager']);
 
         $this->setHelperServices();
 

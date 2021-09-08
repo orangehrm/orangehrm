@@ -31,6 +31,7 @@ use OrangeHRM\Framework\Logger\Logger;
 use OrangeHRM\Framework\Routing\RequestContext;
 use OrangeHRM\Framework\Routing\UrlGenerator;
 use OrangeHRM\Framework\Routing\UrlMatcher;
+use OrangeHRM\ORM\Doctrine;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
@@ -76,6 +77,8 @@ class Framework extends HttpKernel
         ServiceContainer::getContainer()->register(Services::CONTROLLER_RESOLVER, ControllerResolver::class);
         ServiceContainer::getContainer()->register(Services::ARGUMENT_RESOLVER, ArgumentResolver::class);
         ServiceContainer::getContainer()->set(Services::HTTP_KERNEL, $this);
+        ServiceContainer::getContainer()->register(Services::DOCTRINE)
+            ->setFactory([Doctrine::class, 'getEntityManager']);
     }
 
     protected function configureLogger(): void

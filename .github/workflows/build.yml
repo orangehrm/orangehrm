@@ -10,9 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use composer v1
-        run: sudo composer self-update --1
-
       - name: Validate composer.json and composer.lock
         run: |
           cd symfony

@@ -22,11 +22,11 @@ namespace OrangeHRM\Leave\Dao;
 use DateTime;
 use Exception;
 use OrangeHRM\Core\Dao\BaseDao;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\LeavePeriodHistory;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 use OrangeHRM\Leave\Traits\Service\LeavePeriodServiceTrait;
+use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\ListSorter;
 
 class LeavePeriodDao extends BaseDao
@@ -38,7 +38,7 @@ class LeavePeriodDao extends BaseDao
     /**
      * @param LeavePeriodHistory $leavePeriodHistory
      * @return LeavePeriodHistory
-     * @throws DaoException
+     * @throws TransactionException
      */
     public function saveLeavePeriodHistory(LeavePeriodHistory $leavePeriodHistory): LeavePeriodHistory
     {
@@ -75,7 +75,7 @@ class LeavePeriodDao extends BaseDao
             $this->commitTransaction();
         } catch (Exception $e) {
             $this->rollBackTransaction();
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+            throw new TransactionException($e);
         }
 
         return $leavePeriodHistory;

@@ -58,7 +58,7 @@ apiv2_leave_eligible_leave_types:
   defaults:
     _api: OrangeHRM\Leave\Api\EligibleLeaveTypeAPI
 
-apiv2_leave_leave_requests:
+apiv2_leave_my_leave_requests:
   path: /api/v2/leave/leave-requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
@@ -66,7 +66,7 @@ apiv2_leave_leave_requests:
     _api: OrangeHRM\Leave\Api\MyLeaveRequestAPI
 
 apiv2_leave_employee_leave_requests:
-  path: /api/v2/leave/employees/{empNumber}/leave-requests
+  path: /api/v2/leave/employees/leave-requests
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, POST, DELETE ]
   defaults:
