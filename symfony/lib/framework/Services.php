@@ -81,6 +81,11 @@ final class Services
      */
     public const URL_HELPER = 'url_helper';
 
+    /**
+     * @see \Doctrine\ORM\EntityManager
+     */
+    public const DOCTRINE = 'doctrine.entity_manager';
+
     ///////////////////////////////////////////////////////////////
     /// Core plugin services
     ///////////////////////////////////////////////////////////////
