@@ -240,6 +240,7 @@ class JobTitleAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_TITLE,
                 new Rule(Rules::STRING_TYPE),
                 new Rule(Rules::LENGTH, [null, self::PARAM_RULE_TITLE_MAX_LENGTH]),
+                new Rule(Rules::ENTITY_UNIQUE_PROPERTY, [JobTitle::class, 'jobTitleName']),
             ),
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
