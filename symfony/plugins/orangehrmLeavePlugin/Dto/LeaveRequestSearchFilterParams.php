@@ -57,6 +57,11 @@ class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
     private ?int $empNumber = null;
 
     /**
+     * @var int[]|null
+     */
+    protected ?array $empNumbers = null;
+
+    /**
      * @var int|null
      */
     private ?int $subunitId = null;
@@ -107,6 +112,22 @@ class LeaveRequestSearchFilterParams extends DateRangeSearchFilterParams
     public function setEmpNumber(?int $empNumber): void
     {
         $this->empNumber = $empNumber;
+    }
+
+    /**
+     * @return int[]|null
+     */
+    public function getEmpNumbers(): ?array
+    {
+        return $this->empNumbers;
+    }
+
+    /**
+     * @param int[]|null $empNumbers
+     */
+    public function setEmpNumbers(?array $empNumbers): void
+    {
+        $this->empNumbers = $empNumbers;
     }
 
     /**

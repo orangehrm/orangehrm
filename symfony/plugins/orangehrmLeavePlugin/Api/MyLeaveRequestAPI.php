@@ -28,6 +28,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Leave\Api\Model\LeaveRequestDetailedModel;
 use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
+use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
 use OrangeHRM\Leave\Service\LeaveApplicationService;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 
@@ -93,11 +94,27 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     }
 
     /**
+     * @return string
+     */
+    protected function getDefaultIncludeEmployees(): string
+    {
+        return LeaveRequestSearchFilterParams::INCLUDE_EMPLOYEES_CURRENT_AND_PAST;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getDefaultStatuses(): array
+    {
+        return array_keys(LeaveRequestSearchFilterParams::LEAVE_STATUS_MAP);
+    }
+
+    /**
      * @inheritDoc
      */
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
-        return new ParamRuleCollection();
+        return $this->getCommonFilterParamRuleCollection();
     }
 
     /**
