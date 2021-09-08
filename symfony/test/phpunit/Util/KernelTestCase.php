@@ -70,6 +70,7 @@ abstract class KernelTestCase extends TestCase
         }
         $this->getContainer()->register(Services::DOCTRINE)
             ->setFactory([Doctrine::class, 'getEntityManager']);
+
         $this->setHelperServices();
 
         return $this->getMockBuilder(Framework::class)
