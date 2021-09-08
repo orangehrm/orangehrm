@@ -113,7 +113,7 @@ class ParamRuleCollection
             if (isset($params[$paramRule->getParamKey()])) {
                 throw new ValidatorException(
                     sprintf(
-                        'Multiple instance of `%s` found `%s` request parameter.',
+                        'Multiple instance of `%s` found for `%s` request parameter.',
                         ParamRule::class,
                         $paramRule->getParamKey()
                     )
