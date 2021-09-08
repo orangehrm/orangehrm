@@ -26,8 +26,11 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Tests\Util\EndpointTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
-use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @group Admin
+ * @group APIv2
+ */
 class PayGradeAllowedCurrencyAPITest extends EndpointTestCase
 {
     private PayGradeAllowedCurrencyAPI $payGradeAllowedCurrencyAPI;
@@ -46,13 +49,11 @@ class PayGradeAllowedCurrencyAPITest extends EndpointTestCase
 
     protected function getTestCasesByKey($testCaseKey): array
     {
-        $testCases = Yaml::parseFile(
-            Config::get(Config::PLUGINS_DIR) . '/orangehrmAdminPlugin/test/fixtures/testcases/PayGradeAllowedCurrencyAPI.yml'
+        return TestDataService::loadFixtures(
+            Config::get(Config::PLUGINS_DIR) .
+            '/orangehrmAdminPlugin/test/fixtures/testcases/PayGradeAllowedCurrencyAPI.yml',
+            $testCaseKey
         );
-        if (array_key_exists($testCaseKey, $testCases)) {
-            return $testCases[$testCaseKey];
-        }
-        return [];
     }
 
     public function dataProviderForTestGetValidationRuleForGetAll(): array
