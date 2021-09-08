@@ -23,9 +23,8 @@
     <div class="orangehrm-paper-container">
       <div class="orangehrm-header-container">
         <oxd-text tag="h6" class="orangehrm-main-title">
-          {{ $t('time.customer') }}</oxd-text
-        >
-
+          {{ $t('time.customer') }}
+        </oxd-text>
         <div>
           <oxd-button
             label="Add"
@@ -67,16 +66,12 @@
 </template>
 
 <script>
+import {computed} from 'vue';
 import usePaginate from '@orangehrm/core/util/composable/usePaginate';
-import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog';
+import DeleteConfirmationDialog from '@orangehrm/components/dialogs/DeleteConfirmationDialog.vue';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import useSort from '@orangehrm/core/util/composable/useSort';
-import {computed, ref} from 'vue';
-
-const defaultFilters = {
-  customerName: '',
-};
 
 const defaultSortOrder = {
   'customer.name': 'ASC',
@@ -124,13 +119,11 @@ export default {
     'delete-confirmation': DeleteConfirmationDialog,
   },
   setup() {
-    const filters = ref({...defaultFilters});
     const {sortDefinition, sortField, sortOrder, onSort} = useSort({
       sortDefinition: defaultSortOrder,
     });
-    const serializedFilters = computed(() => {
+    const serializedSort  = computed(() => {
       return {
-        customerName: filters.value.customerName,
         sortField: sortField.value,
         sortOrder: sortOrder.value,
       };
@@ -148,7 +141,9 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, serializedFilters);
+    } = usePaginate(http, {
+      query: serializedSort,
+    });
     onSort(execQuery);
     return {
       http,
@@ -160,7 +155,6 @@ export default {
       pageSize,
       execQuery,
       items: response,
-      filters,
       sortDefinition,
     };
   },

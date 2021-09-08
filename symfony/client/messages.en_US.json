@@ -36,6 +36,11 @@
           "target": "Note",
           "description": "You may add a note and click “Hire” to confirm the action."
         },
+        "description": {
+          "source": "Description",
+          "target": "Description",
+          "description": "Admin defines the description of the document template"
+        },
         "cancel": {
           "source": "Cancel",
           "target": "Cancel",
@@ -480,11 +485,6 @@
           "source": "Edit Customer",
           "target": "Edit Customer",
           "description": "You can edit details of your customers that can be used to define projects and project activities."
-        },
-        "description": {
-          "source": "Description",
-          "target": "Description",
-          "description": "You can provide some more detailed information related to the customer"
         }
       }
     }

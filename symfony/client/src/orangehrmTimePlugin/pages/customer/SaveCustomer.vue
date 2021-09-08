@@ -22,8 +22,8 @@
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
       <oxd-text tag="h6" class="orangehrm-main-title">
-        {{ $t('time.add_customer') }}</oxd-text
-      >
+        {{ $t('time.add_customer') }}
+      </oxd-text>
       <oxd-divider />
       <oxd-form :loading="isLoading" @submitValid="onSave">
         <oxd-form-row>
@@ -37,7 +37,7 @@
         <oxd-form-row>
           <oxd-input-field
             type="textarea"
-            :label="$t('time.description')"
+            :label="$t('general.description')"
             placeholder="Type description here"
             v-model="customer.description"
             :rules="rules.description"
@@ -61,7 +61,7 @@
 <script>
 import {navigate} from '@orangehrm/core/util/helper/navigation';
 import {APIService} from '@orangehrm/core/util/services/api.service';
-import {required} from '@orangehrm/core/util/validation/rules';
+import {required, shouldNotExceedCharLength} from '@orangehrm/core/util/validation/rules';
 
 const customerModel = {
   id: '',
@@ -75,15 +75,9 @@ export default {
       isLoading: false,
       customer: {...customerModel},
       rules: {
-        name: [],
-        description: [
-          v =>
-            (v && v.length <= 255) ||
-            v === '' ||
-            'Should not exceed 255 characters',
-        ],
+        name: [required, shouldNotExceedCharLength(50)],
+        description: [shouldNotExceedCharLength(250)],
       },
-      errors: [],
     };
   },
   setup() {
@@ -122,10 +116,6 @@ export default {
       .getAll()
       .then(response => {
         const {data} = response.data;
-        this.rules.name.push(required);
-        this.rules.name.push(v => {
-          return (v && v.length <= 50) || 'Should not exceed 50 characters';
-        });
         this.rules.name.push(v => {
           const index = data.findIndex(item => item.name == v);
           return index === -1 || 'Already exists';
