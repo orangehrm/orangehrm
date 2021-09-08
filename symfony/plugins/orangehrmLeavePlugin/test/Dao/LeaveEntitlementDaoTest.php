@@ -116,6 +116,46 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $this->assertEquals(4, $sum);
     }
 
+    public function testSearchLeaveEntitlementsWithEmpNumbers(): void
+    {
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
+        $parameterHolder->setEmpNumbers([2]);
+        $parameterHolder->setLeaveTypeId(6);
+        $parameterHolder->setFromDate(new DateTime('2013-08-01'));
+        $parameterHolder->setToDate(new DateTime('2013-10-02'));
+        $expected = [$entitlementList[1]];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
+        $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
+        $this->assertEquals(1, $total);
+
+        $sum = $this->dao->getLeaveEntitlementsSum($parameterHolder);
+        $this->assertEquals(4, $sum);
+
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $parameterHolder->setEmpNumber(2);
+        $parameterHolder->setEmpNumbers([5, 7]);
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->assertEmpty($results);
+
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $parameterHolder->setEmpNumbers([5, 7]); // 5 is deleted
+        $expected = [$entitlementList[5]];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $parameterHolder->setEmpNumbers([2, 7]);
+        $expected = [$entitlementList[5], $entitlementList[1]];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
+        $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
+        $this->assertEquals(2, $total);
+    }
+
     public function testSearchLeaveEntitlementsByLeaveType(): void
     {
         $parameterHolder = new LeaveEntitlementSearchFilterParams();

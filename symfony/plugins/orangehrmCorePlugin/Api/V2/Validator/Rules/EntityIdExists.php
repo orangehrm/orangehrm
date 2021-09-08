@@ -17,20 +17,43 @@
  * Boston, MA  02110-1301, USA
  */
 
-namespace OrangeHRM\Core\Traits\ORM;
+namespace OrangeHRM\Core\Api\V2\Validator\Rules;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use OrangeHRM\Framework\ServiceContainer;
-use OrangeHRM\Framework\Services;
+use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 
-trait EntityManagerTrait
+class EntityIdExists extends AbstractRule
 {
+    use EntityManagerHelperTrait;
+
     /**
-     * @return EntityManager|EntityManagerInterface
+     * @var string
      */
-    protected function getEntityManager(): EntityManagerInterface
+    private string $entityName;
+
+    /**
+     * @var EntityIdExistsOption
+     */
+    private EntityIdExistsOption $option;
+
+    public function __construct(string $entityName, ?EntityIdExistsOption $option = null)
     {
-        return ServiceContainer::getContainer()->get(Services::DOCTRINE);
+        $this->entityName = $entityName;
+        $this->option = $option ?? new EntityIdExistsOption();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function validate($input): bool
+    {
+        if ($this->option->isNumeric() && !is_numeric($input)) {
+            return false;
+        } elseif ($this->option->isPositive() && !$input > 0) {
+            return false;
+        }
+
+        $entity = $this->getRepository($this->entityName)->find($input);
+        return $entity instanceof $this->entityName;
     }
 }
