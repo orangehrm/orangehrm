@@ -307,13 +307,15 @@ export default {
     },
     async checkLeaveOverlap(leaveData) {
       const {duration, endDuration, ...payload} = leaveData;
+      payload.leaveTypeId = undefined;
+      payload.comment = undefined;
+
       if (duration?.type) {
         payload['duration[type]'] = duration.type;
         payload['duration[fromTime]'] =
           duration.type === 'specify_time' ? duration.fromTime : null;
         payload['duration[toTime]'] =
           duration.type === 'specify_time' ? duration.toTime : null;
-        payload.leaveTypeId = undefined; // remove leaveTypeId from overlap request
       }
       if (endDuration?.type) {
         payload['endDuration[type]'] = endDuration.type;
