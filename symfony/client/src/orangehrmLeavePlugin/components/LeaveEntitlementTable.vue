@@ -30,6 +30,9 @@
           displayType="secondary"
           @click="onClickAdd"
         />
+        <oxd-text tag="span">
+          {{ totalEntitlements }}
+        </oxd-text>
       </div>
       <table-header
         :selected="checkedItems.length"
@@ -201,6 +204,11 @@ export default {
       prefetch: props.employee || props.prefetch,
     });
 
+    const totalEntitlements = computed(() => {
+      const sum = response.value.meta?.sum ? response.value.meta.sum : 0;
+      return `Total ${parseFloat(sum).toFixed(2)} Day(s)`;
+    });
+
     return {
       http,
       showPaginator,
@@ -212,6 +220,7 @@ export default {
       execQuery,
       items: response,
       filters,
+      totalEntitlements,
     };
   },
 
