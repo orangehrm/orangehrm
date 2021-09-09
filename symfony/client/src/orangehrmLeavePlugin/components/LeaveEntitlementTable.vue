@@ -71,11 +71,13 @@ const entitlementNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      leaveType: item.leaveType.name,
+      leaveType:
+        item.leaveType.name + `${item.leaveType.deleted ? ' (Deleted)' : ''}`,
       entitlementType: item.entitlementType.name,
       fromDate: item.fromDate,
       toDate: item.toDate,
       days: item.entitlement,
+      isSelectable: item.deletable,
     };
   });
 };
@@ -231,6 +233,9 @@ export default {
       });
     },
     onClickDelete(item) {
+      if (!item.deletable) {
+        return this.$toast.cannotDelete();
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);
