@@ -35,7 +35,7 @@ export const required = function(
   if (typeof value === 'string') {
     return (!!value && value.trim() !== '') || 'Required';
   } else if (typeof value === 'number') {
-    return Number.isNaN(value) || 'Required';
+    return !Number.isNaN(value) || 'Required';
   } else if (Array.isArray(value)) {
     return (!!value && value.length !== 0) || 'Required';
   } else if (typeof value === 'object') {
