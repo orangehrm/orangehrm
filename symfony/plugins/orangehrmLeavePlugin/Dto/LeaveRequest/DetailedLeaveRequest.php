@@ -179,36 +179,19 @@ class DetailedLeaveRequest
         }
         $datesDetail = new LeaveRequestDatesDetail($leaves[0]->getDate());
         if ($count === 1) {
-            $leaveDuration = $this->getLeaveDuration($leaves[0]);
-            $datesDetail->setDurationTypeId($leaves[0]->getDurationType());
-            $datesDetail->setDurationType($leaveDuration->getType());
-            if ($leaveDuration->isTypeSpecifyTime()) {
-                $datesDetail->setStartTime($leaveDuration->getFromTime());
-                $datesDetail->setEndTime($leaveDuration->getToTime());
+            $leave = $leaves[0];
+            $duration = $leave->getDecorator()->getLeaveDuration();
+            $datesDetail->setDurationTypeId($leave->getDurationType());
+            $datesDetail->setDurationType($duration);
+            if ($duration !== LeaveDuration::FULL_DAY) {
+                $datesDetail->setStartTime($leave->getStartTime());
+                $datesDetail->setEndTime($leave->getEndTime());
             }
         } else {
             $datesDetail->setToDate($leaves[$count - 1]->getDate());
         }
 
         return $this->dateDetail = $datesDetail;
-    }
-
-    /**
-     * @param Leave $leave
-     * @return LeaveDuration|null
-     */
-    private function getLeaveDuration(Leave $leave): ?LeaveDuration
-    {
-        $duration = $leave->getDecorator()->getLeaveDuration();
-        if ($duration) {
-            $leaveDuration = new LeaveDuration($duration);
-            if ($leaveDuration->isTypeSpecifyTime()) {
-                $leaveDuration->setFromTime($leave->getStartTime());
-                $leaveDuration->setToTime($leave->getEndTime());
-            }
-            return $leaveDuration;
-        }
-        return null;
     }
 
     /**

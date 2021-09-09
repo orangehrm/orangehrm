@@ -19,9 +19,9 @@
  -->
 
 <template>
-  <leave-list-table>
+  <leave-list-table :my-leave-list="true">
     <template v-slot:default="{filters, filterItems}">
-      <oxd-table-filter :filter-title="$t('leave.leave_list')">
+      <oxd-table-filter :filter-title="$t('leave.my_leave_list')">
         <oxd-form @submitValid="filterItems">
           <oxd-form-row>
             <oxd-grid :cols="4" class="orangehrm-full-width-grid">
@@ -48,35 +48,6 @@
               </oxd-grid-item>
             </oxd-grid>
           </oxd-form-row>
-          <oxd-form-row>
-            <oxd-grid :cols="4" class="orangehrm-full-width-grid">
-              <oxd-grid-item>
-                <employee-autocomplete
-                  v-model="filters.employee"
-                  :params="{
-                    includeEmployees: filters.includePastEmps
-                      ? 'currentAndPast'
-                      : 'onlyCurrent',
-                  }"
-                />
-              </oxd-grid-item>
-              <oxd-grid-item>
-                <oxd-input-field
-                  type="select"
-                  :label="$t('general.sub_unit')"
-                  v-model="filters.subunit"
-                  :options="subunits"
-                />
-              </oxd-grid-item>
-
-              <oxd-grid-item class="orangehrm-leave-filter --span-column-2">
-                <oxd-text class="orangehrm-leave-filter-text" tag="p">
-                  {{ $t('leave.include_past_employees') }}
-                </oxd-text>
-                <oxd-switch-input v-model="filters.includePastEmps" />
-              </oxd-grid-item>
-            </oxd-grid>
-          </oxd-form-row>
 
           <oxd-divider />
 
@@ -96,20 +67,12 @@
 
 <script>
 import LeaveListTable from '@/orangehrmLeavePlugin/components/LeaveListTable';
-import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
-import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
 
 export default {
   components: {
     'leave-list-table': LeaveListTable,
-    'employee-autocomplete': EmployeeAutocomplete,
-    'oxd-switch-input': SwitchInput,
   },
   props: {
-    subunits: {
-      type: Array,
-      default: () => [],
-    },
     leaveStatuses: {
       type: Array,
       default: () => [],
@@ -117,15 +80,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.orangehrm-leave-filter {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  &-text {
-    font-size: $oxd-input-control-font-size;
-    margin-right: 1rem;
-  }
-}
-</style>

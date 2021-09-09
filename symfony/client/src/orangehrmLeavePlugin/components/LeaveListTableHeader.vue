@@ -26,7 +26,7 @@
       </oxd-text>
       <oxd-button
         label="Approve"
-        displayType="label"
+        displayType="label-success"
         @click="$emit('approve', $event)"
       />
       <oxd-button

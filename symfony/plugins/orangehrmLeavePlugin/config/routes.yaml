@@ -177,6 +177,11 @@ leave_leave_list:
   controller: OrangeHRM\Leave\Controller\LeaveListController::handle
   methods: [ GET ]
 
+leave_my_leave_list:
+  path: /leave/viewMyLeaveList
+  controller: OrangeHRM\Leave\Controller\MyLeaveListController::handle
+  methods: [ GET ]
+
 leave_view_leave_request:
   path: /leave/viewLeaveRequest/{id}
   controller: OrangeHRM\Leave\Controller\LeaveRequestController::handle
