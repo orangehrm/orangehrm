@@ -32,7 +32,7 @@
         <oxd-card-table
           :headers="headers"
           :items="items?.data"
-          :selectable="true"
+          :selectable="!myLeaveList"
           :clickable="false"
           :loading="isLoading"
           v-model:selected="checkedItems"
@@ -66,16 +66,52 @@ import LeaveCommentsModal from '@/orangehrmLeavePlugin/components/LeaveCommentsM
 
 const leavelistNormalizer = data => {
   return data.map(item => {
+    let leaveDatePeriod,
+      leaveStatuses,
+      leaveBalances = '';
+    const duration = item.dates.durationType?.type;
+
+    if (item.dates.fromDate) {
+      leaveDatePeriod = item.dates.fromDate;
+    }
+    if (item.dates.toDate) {
+      leaveDatePeriod += ` to ${item.dates.toDate}`;
+    }
+    if (item.dates.startTime && item.dates.endTime) {
+      leaveDatePeriod += ` (${item.dates.startTime} - ${item.dates.endTime})`;
+    }
+    if (duration === 'half_day_morning' || duration === 'half_day_afternoon') {
+      leaveDatePeriod += ' Half Day';
+    }
+    if (Array.isArray(item.leaveBreakdown)) {
+      leaveStatuses = item.leaveBreakdown
+        .map(
+          status =>
+            `${status.name} (${parseFloat(status.lengthDays).toFixed(2)})`,
+        )
+        .join(', ');
+    }
+    if (Array.isArray(item.leaveBalances)) {
+      leaveBalances = item.leaveBalances
+        .map(
+          ({period, balance}) => `${parseFloat(balance.balance).toFixed(2)}
+         (${period.startDate} - ${period.endDate})`,
+        )
+        .join(', ');
+    }
+
     return {
       id: item.id,
-      empNumber: item.empNumber,
-      date: `${item.fromDate} to ${item.toDate}`,
-      employeeName: `${item.employee?.firstName} ${item.employee?.lastName}`,
-      leaveType: item.leaveType.name,
-      leaveBalance: item.leaveBalance,
-      days: item.leaveDays,
-      status: item.leaveStatus?.name,
-      comment: item.comment,
+      empNumber: item.employee?.empNumber,
+      date: leaveDatePeriod,
+      employeeName: `${item.employee?.firstName} ${item.employee?.lastName}
+          ${item.employee?.terminationId ? ' (Past Employee)' : ''}`,
+      leaveType: item.leaveType?.name,
+      leaveBalance: leaveBalances,
+      days: parseFloat(item.noOfDays).toFixed(2),
+      status: leaveStatuses,
+      comment: item.lastComment?.comment,
+      actions: item.allowedActions,
     };
   });
 };
@@ -84,7 +120,7 @@ const defaultFilters = {
   employee: null,
   fromDate: null,
   toDate: null,
-  statuses: [{id: 3, label: 'Pending Approval'}],
+  statuses: [{id: 3, label: 'Pending Approval', key: 'pendingApproval'}],
   subunit: null,
   includePastEmps: false,
 };
@@ -97,6 +133,13 @@ export default {
     'leave-comment-modal': LeaveCommentsModal,
   },
 
+  props: {
+    myLeaveList: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
   data() {
     return {
       headers: [
@@ -106,42 +149,15 @@ export default {
         {name: 'leaveBalance', title: 'Leave Balance (Days)', style: {flex: 1}},
         {name: 'days', title: 'Number of Days', style: {flex: 1}},
         {name: 'status', title: 'Status', style: {flex: 1}},
-        {name: 'comment', title: 'Comments', style: {flex: 1}},
+        {name: 'comment', title: 'Comments', style: {flex: '5%'}},
         {
           name: 'action',
           slot: 'footer',
           title: 'Actions',
-          style: {flex: '20%'},
           cellType: 'oxd-table-cell-actions',
-          cellConfig: {
-            accept: {
-              component: 'oxd-button',
-              props: {
-                label: 'Approve',
-                displayType: 'label',
-                size: 'medium',
-              },
-            },
-            reject: {
-              component: 'oxd-button',
-              props: {
-                label: 'Reject',
-                displayType: 'label-danger',
-                size: 'medium',
-              },
-            },
-            more: {
-              component: 'oxd-table-dropdown',
-              onClick: this.onLeaveRequestAction,
-              props: {
-                options: [
-                  {label: 'Add Comment', context: 'add_comment'},
-                  {label: 'View Leave Details', context: 'leave_details'},
-                  {label: 'View PIM Info', context: 'pim_details'},
-                  {label: 'Cancel Leave', context: 'cancel_leave'},
-                ],
-              },
-            },
+          cellRenderer: this.cellRenderer,
+          style: {
+            flex: this.myLeaveList ? '10%' : '20%',
           },
         },
       ],
@@ -151,7 +167,7 @@ export default {
     };
   },
 
-  setup() {
+  setup(props) {
     const filters = ref({...defaultFilters});
 
     const serializedFilters = computed(() => {
@@ -160,19 +176,22 @@ export default {
         : [];
 
       return {
-        employeeId: filters.value.employee?.id,
+        empNumber: filters.value.employee?.id,
         fromDate: filters.value.fromDate,
         toDate: filters.value.toDate,
         subunitId: filters.value.subunit?.id,
-        includePastEmps: filters.value.includePastEmps,
-        leaveStatuses: statuses.map(item => item.id),
+        includeEmployees: filters.value.includePastEmps
+          ? 'currentAndPast'
+          : 'onlyCurrent',
+        statuses: statuses.map(item => item.key),
       };
     });
 
     const http = new APIService(
-      // window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      'api/v2/leave/leave-list',
+      window.appGlobal.baseUrl,
+      `api/v2/leave/${
+        props.myLeaveList ? 'leave-requests' : 'employees/leave-requests'
+      }`,
     );
     const {
       showPaginator,
@@ -203,7 +222,63 @@ export default {
   },
 
   methods: {
-    onLeaveRequestAction(item, event) {
+    cellRenderer(...[, , , row]) {
+      const approve = {
+        component: 'oxd-button',
+        props: {
+          label: 'Approve',
+          displayType: 'label-success',
+          size: 'medium',
+        },
+      };
+      const reject = {
+        component: 'oxd-button',
+        props: {
+          label: 'Reject',
+          displayType: 'label-danger',
+          size: 'medium',
+        },
+      };
+      const cancel = {
+        component: 'oxd-button',
+        props: {
+          label: 'Cancel',
+          displayType: 'label-warn',
+          size: 'medium',
+        },
+      };
+      const more = {
+        component: 'oxd-table-dropdown',
+        props: {
+          options: [
+            {label: 'Add Comment', context: 'add_comment'},
+            {label: 'View Leave Details', context: 'leave_details'},
+            {label: 'View PIM Info', context: 'pim_details'},
+            {label: 'Cancel Leave', context: 'cancel_leave'},
+          ],
+          style: {'margin-left': 'auto'},
+          onClick: $event => this.onLeaveRequestAction($event, row),
+        },
+      };
+
+      if (this.myLeaveList || !row.actions.find(i => i.action === 'CANCEL'))
+        more.props.options.pop();
+
+      return {
+        props: {
+          header: {
+            cellConfig: {
+              ...(row.actions.find(i => i.action === 'APPROVE') && {approve}),
+              ...(row.actions.find(i => i.action === 'REJECT') && {reject}),
+              ...(this.myLeaveList &&
+                row.actions.find(i => i.action === 'CANCEL') && {cancel}),
+              more,
+            },
+          },
+        },
+      };
+    },
+    onLeaveRequestAction(event, item) {
       switch (event.context) {
         case 'add_comment':
           this.commentModalState = item.id;
@@ -237,6 +312,20 @@ export default {
       // do nothing.
     },
   },
+
+  beforeMount() {
+    this.isLoading = true;
+    this.http
+      .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
+      .then(response => {
+        const {data} = response.data;
+        this.filters.fromDate = data[0]?.startDate;
+        this.filters.toDate = data[0]?.endDate;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  },
 };
 </script>
 
@@ -245,8 +334,5 @@ export default {
   .oxd-table-cell-actions {
     justify-content: flex-end;
   }
-}
-::v-deep(.oxd-table-cell-actions) {
-  align-items: center;
 }
 </style>

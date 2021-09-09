@@ -23,32 +23,15 @@ use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Controller\AbstractVueController;
-use OrangeHRM\Admin\Service\CompanyStructureService;
 
-class LeaveListController extends AbstractVueController
+class MyLeaveListController extends AbstractVueController
 {
-    protected ?CompanyStructureService $companyStructureService = null;
-
-    /**
-     * @return CompanyStructureService
-     */
-    protected function getCompanyStructureService(): CompanyStructureService
-    {
-        if (!$this->companyStructureService instanceof CompanyStructureService) {
-            $this->companyStructureService = new CompanyStructureService();
-        }
-        return $this->companyStructureService;
-    }
-
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $component = new Component('leave-list');
-
-        $subunits = $this->getCompanyStructureService()->getSubunitArray();
-        $component->addProp(new Prop('subunits', Prop::TYPE_ARRAY, $subunits));
+        $component = new Component('my-leave-list');
 
         $leaveStatuses = [
             ['id' => 1, 'label' => 'Rejected', 'key' => 'rejected'],
