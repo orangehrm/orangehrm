@@ -94,6 +94,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    employee: {
+      type: Object,
+      required: false,
+    },
   },
 
   components: {
@@ -164,6 +168,14 @@ export default {
       };
     });
 
+    if (props.employee) {
+      filters.value.employee = {
+        id: props.employee.empNumber,
+        label: `${props.employee.firstName} ${props.employee.middleName} ${props.employee.lastName}`,
+        isPastEmployee: props.employee.terminationId,
+      };
+    }
+
     const http = new APIService(
       window.appGlobal.baseUrl,
       'api/v2/leave/leave-entitlements',
@@ -180,7 +192,7 @@ export default {
     } = usePaginate(http, {
       query: serializedFilters,
       normalizer: entitlementNormalizer,
-      prefetch: props.prefetch,
+      prefetch: props.employee || props.prefetch,
     });
 
     return {

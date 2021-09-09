@@ -22,6 +22,7 @@ namespace OrangeHRM\Leave\Controller;
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Core\Vue\Prop;
 
 class ViewLeaveEntitlementController extends AbstractVueController
 {
@@ -30,7 +31,18 @@ class ViewLeaveEntitlementController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
+        $empNumber = $request->get('empNumber');
         $component = new Component('leave-view-entitlement');
+        if ($empNumber) {
+            $employee = [
+                "empNumber" => $empNumber,
+                "lastName" => 'lastname',
+                "firstName" => 'firstname',
+                "middleName" => 'middlename',
+                "terminationId" => null
+            ];
+            $component->addProp(new Prop('employee', Prop::TYPE_OBJECT, $employee));
+        }        
         $this->setComponent($component);
     }
 }

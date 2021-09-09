@@ -82,7 +82,7 @@
                 :options="subunits"
               />
             </oxd-grid-item>
-            <oxd-grid-item>
+            <oxd-grid-item class="orangehrm-leave-entitled">
               <oxd-text class="orangehrm-leave-entitled-text" type="subtitle-2">
                 Matches {{ empMatchCount }} Employees
               </oxd-text>
@@ -253,11 +253,20 @@ export default {
       } else {
         payload.empNumber = this.leaveEntitlement.employee?.id;
       }
-      this.http.create(payload).then(() => {
-        this.leaveEntitlement = {...leaveEntitlementModel};
-        this.$toast.saveSuccess();
-        this.isLoading = false;
-      });
+      this.http
+        .create(payload)
+        .then(() => {
+          return this.$toast.saveSuccess();
+        })
+        .then(() => {
+          if (!isBulkAssign) {
+            navigate('/leave/viewLeaveEntitlements', undefined, {
+              empNumber: payload.empNumber,
+            });
+          } else {
+            navigate('/leave/viewLeaveEntitlements');
+          }
+        });
     },
   },
 
@@ -285,13 +294,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-::v-deep(.--grouped-field) {
-  display: flex;
-}
-.orangehrm-leave-entitled-text {
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-</style>
+<style src="./add-entitlement.scss" lang="scss" scoped></style>
