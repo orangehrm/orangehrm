@@ -416,6 +416,11 @@
           "target": "Leave List",
           "description": "The leave list is available to the Admin and ESS – Supervisors. It shows all leave requests by the employees."
         },
+        "my_leave_list": {
+          "source": "My Leave List",
+          "target": "My Leave List",
+          "description": "ESS-Employee can view his detailed leave application and his leave calendar which will display all his leave during a particular month."
+        },
         "show_leave_with_status": {
           "source": "Show Leave with Status",
           "target": "Show Leave with Status",
