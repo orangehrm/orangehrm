@@ -263,13 +263,29 @@ export default {
       }
       this.http
         .create(payload)
-        .then(() => {
-          return this.$toast.saveSuccess();
+        .then(response => {
+          let toast = null;
+          let entitlementId = null;
+          const {data} = response.data;
+          if (Array.isArray(data)) {
+            toast = this.$toast.success({
+              title: 'Success',
+              message: `Entitlement added to ${data.length} employee(s)`,
+            });
+          } else {
+            entitlementId = data.id;
+            toast = this.$toast.saveSuccess();
+          }
+          return new Promise(resolve => {
+            toast.then(() => {
+              resolve(entitlementId);
+            });
+          });
         })
-        .then(() => {
-          if (!isBulkAssign) {
+        .then(entitlementId => {
+          if (entitlementId) {
             navigate('/leave/viewLeaveEntitlements', undefined, {
-              empNumber: payload.empNumber,
+              entitlementId,
             });
           } else {
             navigate('/leave/viewLeaveEntitlements');

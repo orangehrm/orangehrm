@@ -31,17 +31,31 @@ class ViewLeaveEntitlementController extends AbstractVueController
      */
     public function preRender(Request $request): void
     {
-        $empNumber = $request->get('empNumber');
+        $entitlementId = $request->get('entitlementId');
         $component = new Component('leave-view-entitlement');
-        if ($empNumber) {
+        if ($entitlementId) {
+            // Todo get from entitlementId
             $employee = [
-                "empNumber" => $empNumber,
+                "empNumber" => 1,
                 "lastName" => 'lastname',
                 "firstName" => 'firstname',
                 "middleName" => 'middlename',
                 "terminationId" => null
             ];
+            $leaveType = [
+                "id" => 1,
+                "label" => "Annual"
+            ];
+            $leavePeriod = [
+                "id" => "2021-01-01_2021-12-31",
+                "label" => "2021-01-01 - 2021-12-31",
+                "startDate" => "2021-01-01",
+                "endDate" => "2021-12-31"
+            ];
+
             $component->addProp(new Prop('employee', Prop::TYPE_OBJECT, $employee));
+            $component->addProp(new Prop('leave-type', Prop::TYPE_OBJECT, $leaveType));
+            $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
         }        
         $this->setComponent($component);
     }

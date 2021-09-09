@@ -80,12 +80,6 @@ const entitlementNormalizer = data => {
   });
 };
 
-const defaultFilters = {
-  employee: null,
-  leaveType: null,
-  leavePeriod: null,
-};
-
 export default {
   name: 'leave-entitlement-table',
 
@@ -95,6 +89,14 @@ export default {
       default: true,
     },
     employee: {
+      type: Object,
+      required: false,
+    },
+    leaveType: {
+      type: Object,
+      required: false,
+    },
+    leavePeriod: {
       type: Object,
       required: false,
     },
@@ -157,7 +159,17 @@ export default {
   },
 
   setup(props) {
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      leaveType: props.leaveType ? props.leaveType : null,
+      leavePeriod: props.leavePeriod ? props.leavePeriod : null,
+      employee: props.employee
+        ? {
+            id: props.employee.empNumber,
+            label: `${props.employee.firstName} ${props.employee.middleName} ${props.employee.lastName}`,
+            isPastEmployee: props.employee.terminationId,
+          }
+        : null,
+    });
 
     const serializedFilters = computed(() => {
       return {
@@ -167,14 +179,6 @@ export default {
         toDate: filters.value.leavePeriod?.endDate,
       };
     });
-
-    if (props.employee) {
-      filters.value.employee = {
-        id: props.employee.empNumber,
-        label: `${props.employee.firstName} ${props.employee.middleName} ${props.employee.lastName}`,
-        isPastEmployee: props.employee.terminationId,
-      };
-    }
 
     const http = new APIService(
       window.appGlobal.baseUrl,
