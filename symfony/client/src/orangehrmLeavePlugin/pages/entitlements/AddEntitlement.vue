@@ -265,7 +265,7 @@ export default {
         .create(payload)
         .then(response => {
           let toast = null;
-          let entitlementId = null;
+          let params = null;
           const {data} = response.data;
           if (Array.isArray(data)) {
             toast = this.$toast.success({
@@ -273,20 +273,23 @@ export default {
               message: `Entitlement added to ${data.length} employee(s)`,
             });
           } else {
-            entitlementId = data.id;
+            params = {
+              empNumber: data.employee.empNumber,
+              leaveTypeId: data.leaveType.id,
+              startDate: data.fromDate,
+              endDate: data.toDate,
+            };
             toast = this.$toast.saveSuccess();
           }
           return new Promise(resolve => {
             toast.then(() => {
-              resolve(entitlementId);
+              resolve(params);
             });
           });
         })
-        .then(entitlementId => {
-          if (entitlementId) {
-            navigate('/leave/viewLeaveEntitlements', undefined, {
-              entitlementId,
-            });
+        .then(params => {
+          if (params) {
+            navigate('/leave/viewLeaveEntitlements', undefined, params);
           } else {
             navigate('/leave/viewLeaveEntitlements');
           }
