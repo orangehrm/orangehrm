@@ -172,7 +172,6 @@ export default {
       };
 
       this.http.update(this.entitlementId, payload).then(() => {
-        this.leaveEntitlement = {...leaveEntitlementModel};
         this.$toast.updateSuccess();
         this.onCancel();
       });
