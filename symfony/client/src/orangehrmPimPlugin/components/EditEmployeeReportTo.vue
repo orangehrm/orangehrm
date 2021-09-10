@@ -31,7 +31,7 @@
               required
               disabled
               :api="allowedEmployeesApi"
-              :rules="reportTo.employee"
+              :rules="rules.employee"
               :clear="false"
             />
           </oxd-grid-item>
