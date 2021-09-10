@@ -20,43 +20,60 @@
 namespace OrangeHRM\Leave\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Vue\Prop;
+use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class ViewLeaveEntitlementController extends AbstractVueController
 {
+    use UserRoleManagerTrait;
+    use EmployeeServiceTrait;
+    use LeaveTypeServiceTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
-        $entitlementId = $request->get('entitlementId');
         $component = new Component('leave-view-entitlement');
-        if ($entitlementId) {
-            // Todo get from entitlementId
-            $employee = [
-                "empNumber" => 1,
-                "lastName" => 'lastname',
-                "firstName" => 'firstname',
-                "middleName" => 'middlename',
-                "terminationId" => null
-            ];
-            $leaveType = [
-                "id" => 1,
-                "label" => "Annual"
-            ];
+        $empNumber = $request->get('empNumber');
+        if (!is_null($empNumber)) {
+            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
+
+            $component->addProp(
+                new Prop(
+                    'employee',
+                    Prop::TYPE_OBJECT,
+                    $this->getEmployeeService()->getEmployeeAsArray($empNumber)
+                )
+            );
+        }
+
+        $leaveTypeId = $request->get('leaveTypeId');
+        if (!is_null($leaveTypeId)) {
+            $leaveType = $this->getLeaveTypeService()->getLeaveTypeAsArray($leaveTypeId);
+            $component->addProp(new Prop('leave-type', Prop::TYPE_OBJECT, $leaveType));
+        }
+
+        $startDate = $request->get('startDate');
+        $endDate = $request->get('endDate');
+        if ($startDate && $endDate) {
             $leavePeriod = [
-                "id" => "2021-01-01_2021-12-31",
-                "label" => "2021-01-01 - 2021-12-31",
-                "startDate" => "2021-01-01",
-                "endDate" => "2021-12-31"
+                "id" => "${startDate}_${endDate}",
+                "label" => "$startDate - $endDate",
+                "startDate" => "$startDate",
+                "endDate" => "$endDate"
             ];
 
-            $component->addProp(new Prop('employee', Prop::TYPE_OBJECT, $employee));
-            $component->addProp(new Prop('leave-type', Prop::TYPE_OBJECT, $leaveType));
             $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
-        }        
+        }
         $this->setComponent($component);
     }
 }

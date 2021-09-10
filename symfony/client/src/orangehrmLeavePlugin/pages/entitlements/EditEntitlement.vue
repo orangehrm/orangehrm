@@ -156,7 +156,10 @@ export default {
   methods: {
     onCancel() {
       navigate('/leave/viewLeaveEntitlements', undefined, {
-        entitlementId: this.entitlementId,
+        empNumber: this.leaveEntitlement.employee?.id,
+        leaveTypeId: this.leaveEntitlement.leaveType?.id,
+        startDate: this.leaveEntitlement.leavePeriod?.startDate,
+        endDate: this.leaveEntitlement.leavePeriod?.endDate,
       });
     },
     onSave() {
