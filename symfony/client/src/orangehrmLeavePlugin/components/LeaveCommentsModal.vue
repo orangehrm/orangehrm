@@ -71,9 +71,13 @@ import LeaveComment from '@/orangehrmLeavePlugin/components/LeaveComment';
 export default {
   name: 'leave-comment-modal',
   props: {
-    leaveId: {
+    id: {
       type: Number,
       required: false,
+    },
+    leaveRequest: {
+      type: Boolean,
+      default: true,
     },
   },
   components: {
@@ -81,10 +85,10 @@ export default {
     'leave-comment': LeaveComment,
   },
   setup(props) {
+    const apiPath = props.leaveRequest ? 'leave-requests' : 'leaves';
     const http = new APIService(
-      // window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
-      `api/v2/leave/leave-comments/${props.leaveId}`,
+      window.appGlobal.baseUrl,
+      `api/v2/leave/${apiPath}/${props.id}/leave-comments`,
     );
     return {
       http,
@@ -95,7 +99,7 @@ export default {
       isLoading: false,
       comment: null,
       rules: {
-        comment: [required, shouldNotExceedCharLength(400)],
+        comment: [required, shouldNotExceedCharLength(255)],
       },
       comments: [],
     };
@@ -108,9 +112,7 @@ export default {
           comment: this.comment,
         })
         .then(() => {
-          return this.$toast.saveSuccess();
-        })
-        .then(() => {
+          this.$toast.saveSuccess();
           this.onCancel();
         });
     },
@@ -122,7 +124,7 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http
-      .getAll()
+      .getAll({limit: 0})
       .then(response => {
         const {data} = response.data;
         this.comments = data;
@@ -134,16 +136,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@orangehrm/oxd/styles/_mixins.scss';
-
-.oxd-overlay {
-  z-index: 1100 !important;
-}
-.orangehrm-modal-content {
-  max-height: 200px;
-  overflow: hidden auto;
-  margin: 0.5rem 0;
-  @include oxd-scrollbar();
-}
-</style>
+<style src="./leave-comment-modal.scss" lang="scss" scoped></style>
