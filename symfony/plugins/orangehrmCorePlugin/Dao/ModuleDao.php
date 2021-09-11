@@ -19,11 +19,10 @@
 
 namespace OrangeHRM\Core\Dao;
 
+use Doctrine\Common\Collections\Collection;
 use Exception;
 use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Module;
-use OrangeHRM\Entity\Province;
-use OrangeHRM\Entity\User;
 
 /**
  * Module Dao: Manages module entries in ohrm_module
@@ -31,30 +30,33 @@ use OrangeHRM\Entity\User;
  */
 class ModuleDao extends BaseDao
 {
+    /**
+     * Get Module object collection from ohrm_module table
+     * @return Module[]
+     */
     public function getModuleList(): array
     {
-        try {
-            $q = $this->createQueryBuilder(Module::class, 'm');
-            return $q->getQuery()->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
+        $q = $this->createQueryBuilder(Module::class, 'm');
+        return $q->getQuery()->execute();
     }
 
-    public function updateModules(array $modules): array
+    /**
+     * Update Module Status
+     * Accept a module array with key as module name and value as enabled status
+     * $modules = ['leave' => 1, 'admin' => 0]
+     * @param array<string, bool> $modules
+     * @return Module[]
+     */
+    public function updateModuleStatus(array $modules): array
     {
-        try {
-            $allModules = $this->getModuleList();
-            foreach ($allModules as $module) {
-                if (in_array($module->getName(), $modules)
-                    && $module->getStatus() !== $modules[$module->getName()]) {
-                    $module->setStatus($modules[$module->getName()] ? 1 : 0);
-                }
-                $this->persist($module);
+        $allModules = $this->getModuleList();
+        foreach ($allModules as $module) {
+            if (in_array($module->getName(), $modules) && $module->getStatus() !== $modules[$module->getName()]) {
+                $module->setStatus($modules[$module->getName()] ? true : false);
+                $this->getEntityManager()->persist($module);
             }
-            return $allModules;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        $this->getEntityManager()->flush();
+        return $allModules;
     }
 }

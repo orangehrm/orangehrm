@@ -125,16 +125,12 @@ class OAuthClientDao extends BaseDao
 
     public function createMobileClient()
     {
-        try {
-            $client = new OAuthClient();
-            $client->setClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID);
-            $client->setClientSecret('');
-            $client->setRedirectUri('');
-            $client->setGrantTypes(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN));
-            $client->setScope(Scope::SCOPE_USER);
-            return $this->saveOAuthClient($client);
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        $client = new OAuthClient();
+        $client->setClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID);
+        $client->setClientSecret('');
+        $client->setRedirectUri('');
+        $client->setGrantTypes(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN));
+        $client->setScope(Scope::SCOPE_USER);
+        return $this->saveOAuthClient($client);
     }
 }

@@ -21,20 +21,18 @@ namespace OrangeHRM\Admin\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
 use OrangeHRM\Core\Vue\Component;
-use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
 
 class SaveModuleConfigurationController extends AbstractVueController
 {
-    use ConfigServiceTrait;
-
+    /**
+     * @param Request $request
+     * @throws \OrangeHRM\Core\Controller\Exception\VueControllerException
+     */
     public function preRender(Request $request): void
     {
-
         $component = new Component('module-configuration-edit');
-        //$component->addProp(new Prop('allowed-file-types', Prop::TYPE_ARRAY, $this->getConfigService()->getAllowedFileTypes()));
-        //$component->addProp(new Prop('max-file-size', Prop::TYPE_NUMBER, $this->getConfigService()->getMaxAttachmentSize()));
         $this->setComponent($component);
     }
 }

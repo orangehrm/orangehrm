@@ -21,7 +21,9 @@
 <template>
   <div class="orangehrm-background-container">
     <div class="orangehrm-card-container">
-      <oxd-text tag="h6" class="orangehrm-main-title">Module Configuration</oxd-text>
+      <oxd-text tag="h6" class="orangehrm-main-title"
+        >Module Configuration</oxd-text
+      >
 
       <oxd-divider />
 
@@ -33,9 +35,9 @@
                 Admin Module
               </oxd-text>
               <oxd-switch-input
-                  v-model="modules.admin"
-                  id="admin"
-                  :disabled="true"
+                v-model="modules.admin"
+                id="admin"
+                :disabled="true"
               />
             </div>
             <div class="orangehrm-module-field-row">
@@ -43,36 +45,30 @@
                 Pim Module
               </oxd-text>
               <oxd-switch-input
-                  v-model="modules.pim"
-                  id="pim"
-                  :disabled="true"
+                v-model="modules.pim"
+                id="pim"
+                :disabled="true"
               />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Leave Module
               </oxd-text>
-              <oxd-switch-input
-                  v-model="modules.leave"
-                  id="leave"
-              />
+              <oxd-switch-input v-model="modules.leave" id="leave" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Time Module
               </oxd-text>
-              <oxd-switch-input
-                  v-model="modules.time"
-                  id="time"
-              />
+              <oxd-switch-input v-model="modules.time" id="time" />
             </div>
             <div class="orangehrm-module-field-row">
               <oxd-text tag="p" class="orangehrm-module-field-label">
                 Recruitment Module
               </oxd-text>
               <oxd-switch-input
-                  v-model="modules.recruitment"
-                  id="recruitment"
+                v-model="modules.recruitment"
+                id="recruitment"
               />
             </div>
             <div class="orangehrm-module-field-row">
@@ -80,8 +76,8 @@
                 Performance Module
               </oxd-text>
               <oxd-switch-input
-                  v-model="modules.performance"
-                  id="performance"
+                v-model="modules.performance"
+                id="performance"
               />
             </div>
             <div class="orangehrm-module-field-row">
@@ -89,8 +85,8 @@
                 Maintenance Module
               </oxd-text>
               <oxd-switch-input
-                  v-model="modules.maintenance"
-                  id="maintenance"
+                v-model="modules.maintenance"
+                id="maintenance"
               />
             </div>
             <div class="orangehrm-module-field-row">
@@ -98,9 +94,9 @@
                 Mobile
               </oxd-text>
               <oxd-switch-input
-                  v-model="modules.mobile"
-                  id="mobile"
-                  modelValue="mobile"
+                v-model="modules.mobile"
+                id="mobile"
+                modelValue="mobile"
               />
             </div>
           </oxd-grid>
@@ -120,22 +116,15 @@
 import SwitchInput from '@orangehrm/oxd/core/components/Input/SwitchInput';
 import {APIService} from '@/core/util/services/api.service';
 
-const initialJobTitle = {
-  title: '',
-  description: '',
-  specification: null,
-  note: '',
-};
-
 export default {
   components: {
-    'oxd-switch-input': SwitchInput
+    'oxd-switch-input': SwitchInput,
   },
 
   setup() {
     const http = new APIService(
-        window.appGlobal.baseUrl,
-        'api/v2/admin/modules',
+      window.appGlobal.baseUrl,
+      'api/v2/admin/modules',
     );
     return {
       http,
@@ -146,7 +135,7 @@ export default {
     return {
       modules: {
         admin: true,
-        pim: true
+        pim: true,
       },
       isLoading: false,
     };
@@ -155,34 +144,33 @@ export default {
   methods: {
     onSave() {
       this.isLoading = true;
-      console.log(this.modules);
       this.http
-          .request({
-            method: 'PUT',
-            data: this.modules,
-          })
-          .then((response) => {
-            const {data} = response.data;
-            this.modules = data;
-            return this.$toast.saveSuccess();
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
+        .request({
+          method: 'PUT',
+          data: this.modules,
+        })
+        .then(response => {
+          const {data} = response.data;
+          this.modules = data;
+          return this.$toast.saveSuccess();
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
 
   created() {
     this.isLoading = true;
     this.http
-        .getAll()
-        .then(response => {
-          const {data} = response.data;
-          this.modules = data;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+      .getAll()
+      .then(response => {
+        const {data} = response.data;
+        this.modules = data;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
 };
 </script>

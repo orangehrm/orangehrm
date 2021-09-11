@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Core\Service;
 
+use Doctrine\Common\Collections\Collection;
 use OrangeHRM\Core\Dao\ModuleDao;
 
 /**
@@ -27,8 +28,15 @@ use OrangeHRM\Core\Dao\ModuleDao;
  */
 class ModuleService
 {
+    /**
+     * @var ModuleDao|null
+     */
     protected ?ModuleDao $moduleDao = null;
 
+    /**
+     * Get Module Dao
+     * @return ModuleDao
+     */
     public function getModuleDao(): ModuleDao
     {
         if (!$this->moduleDao instanceof ModuleDao) {
@@ -38,19 +46,36 @@ class ModuleService
         return $this->moduleDao;
     }
 
+    /**
+     * Set Module Dao
+     * @param ModuleDao $moduleDao
+     */
     public function setModuleDao(ModuleDao $moduleDao): void
     {
         $this->moduleDao = $moduleDao;
     }
 
+    /**
+     * Get Module object collection from ohrm_module table
+     *
+     * @return Module[]
+     */
     public function getModuleList(): array
     {
         return $this->getModuleDao()->getModuleList();
     }
 
-    public function updateModules(?array $modules): array
+    /**
+     * Update Module Status
+     * Accept a module array with key as module name and value as enabled status
+     * $modules = ['leave' => 1, 'admin' => 0]
+     *
+     * @param array<string, bool> $modules
+     * @return Module[]
+     */
+    public function updateModuleStatus(?array $modules): array
     {
-        return $this->getModuleDao()->updateModules($modules);
+        return $this->getModuleDao()->updateModuleStatus($modules);
     }
 
 }

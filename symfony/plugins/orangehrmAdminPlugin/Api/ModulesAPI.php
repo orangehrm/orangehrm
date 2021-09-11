@@ -19,8 +19,6 @@
 
 namespace OrangeHRM\Admin\Api;
 
-use OrangeHRM\Admin\Api\Model\LocationModel;
-use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
@@ -30,10 +28,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Entity\Location;
-use OrangeHRM\Entity\Module;
 use OrangeHRM\Entity\OAuthClient;
-use OrangeHRM\Entity\Organization;
 use OrangeHRM\Core\Service\ModuleService;;
 use OrangeHRM\OAuth\Service\OAuthService;;
 
@@ -48,10 +43,19 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     public const PARAMETER_MAINTENANCE = 'maintenance';
     public const PARAMETER_MOBILE = 'mobile';
 
-    private ?ModuleService $moduleService = null;
-    private ?OAuthService $oAuthService = null;
+    /**
+     * @var ModuleService|null
+     */
+    protected ?ModuleService $moduleService = null;
+    /**
+     * @var OAuthService|null
+     */
+    protected ?OAuthService $oAuthService = null;
 
-    private ?array $configurableModules = array(
+    /**
+     * @var array
+     */
+    protected const CONFIGURABLE_MODULES = array(
                 self::PARAMETER_ADMIN => false,
                 self::PARAMETER_PIM => false,
                 self::PARAMETER_LEAVE => false,
@@ -62,41 +66,64 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
                 self::PARAMETER_MOBILE => false
             );
 
-    public function getModuleService() {
+    /**
+     * Get Module Service
+     * @return ModuleService|null
+     */
+    public function getModuleService(): ModuleService {
         if (is_null($this->moduleService)) {
             $this->moduleService = new ModuleService();
         }
         return $this->moduleService;
     }
 
+    /**
+     * Set Module Service
+     * @param ModuleService $moduleService
+     */
     public function setModuleService(ModuleService $moduleService) {
         $this->moduleService = $moduleService;
     }
 
-    public function getOAuthService() {
+    /**
+     * Get OAuth Service
+     * @return OAuthService|null
+     */
+    public function getOAuthService(): OAuthService {
         if (is_null($this->oAuthService)) {
             $this->oAuthService = new OAuthService();
         }
         return $this->oAuthService;
     }
 
+    /**
+     * Set OAuth Service
+     * @param OAuthService $oAuthService
+     */
     public function setOAuthService(OAuthService $oAuthService) {
         $this->oAuthService = $oAuthService;
     }
 
-    private function getConfigurableModulesArray(): array
+    /**
+     * Get Configurable Modules Array
+     *
+     * This function fetch the configurable modules from a predefined array and return them with
+     * enabled or disabled status by comparing with the statuses fetched from database
+     *
+     * @return array
+     * @throws \OrangeHRM\Core\Exception\DaoException
+     */
+    protected function getConfigurableModulesArray(): array
     {
-        $configurableModules = $this->configurableModules;
+        $configurableModules = self::CONFIGURABLE_MODULES;
         $modules = $this->getModuleService()->getModuleList();
 
         foreach ($modules as $module) {
             if (key_exists($module->getName(), $configurableModules)) {
-                $configurableModules[$module->getName()] = $module->getStatus() ? true : false;
+                $configurableModules[$module->getName()] = $module->getStatus();
             }
         }
-
         $configurableModules[self::PARAMETER_MOBILE] = $this->getOAuthService()->getOAuthClientByClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID) instanceof OAuthClient;
-
         return $configurableModules;
     }
 
@@ -154,25 +181,38 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResourceResult
     {
-        $modules = $this->configurableModules;
+
+        $modules = self::CONFIGURABLE_MODULES;
         foreach ($modules as $key => $module) {
             $modules[$key] = $this->getRequestParams()->getBoolean(RequestParams::PARAM_TYPE_BODY, $key);
         }
+        $this->getModuleService()->updateModuleStatus($modules);
+        $this->updateMobileStatus($modules[self::PARAMETER_MOBILE]);
 
-        $this->getModuleService()->updateModules($modules);
+        return new EndpointResourceResult(ArrayModel::class, $this->getConfigurableModulesArray());
+    }
+
+    /**
+     * Update Mobile Enable Status
+     *
+     * If the request is to enable mobile and if the mobile related OAuth client is not there, this will add the
+     * Mobile related OAuth client. If the request is to disable mobile and if the mobile related OAuth client is there,
+     * this will delete the Mobile related OAuth client
+     *
+     * @param bool|null $enableMobile
+     */
+    protected function updateMobileStatus(?bool $enableMobile): void {
         if (
-            $modules[self::PARAMETER_MOBILE] == false
+            $enableMobile == false
             && $this->getOAuthService()->getOAuthClientByClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID) instanceof OAuthClient
         ) {
-           $this->getOAuthService()->deleteOAuthClients(array(OAuthService::PUBLIC_MOBILE_CLIENT_ID));
+            $this->getOAuthService()->deleteOAuthClients([OAuthService::PUBLIC_MOBILE_CLIENT_ID]);
         } elseif (
-            $modules[self::PARAMETER_MOBILE] == true
+            $enableMobile == true
             && !($this->getOAuthService()->getOAuthClientByClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID) instanceof OAuthClient)
         ) {
             $this->getOAuthService()->createMobileClient();
         }
-
-        return new EndpointResourceResult(ArrayModel::class, $this->getConfigurableModulesArray());
     }
 
     /**
@@ -181,53 +221,37 @@ class ModulesAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForUpdate(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_ADMIN,
-                    new Rule(Rules::TRUE_VAL),
-                )
+            new ParamRule(
+                self::PARAMETER_ADMIN,
+                new Rule(Rules::TRUE_VAL),
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_PIM,
-                    new Rule(Rules::TRUE_VAL),
-                )
+            new ParamRule(
+                self::PARAMETER_PIM,
+                new Rule(Rules::TRUE_VAL),
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_LEAVE,
-                    new Rule(Rules::BOOL_TYPE),
-                )
+            new ParamRule(
+                self::PARAMETER_LEAVE,
+                new Rule(Rules::BOOL_TYPE),
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_TIME,
-                    new Rule(Rules::BOOL_TYPE),
-                )
+            new ParamRule(
+                self::PARAMETER_TIME,
+                new Rule(Rules::BOOL_TYPE),
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_RECRUITMENT,
-                    new Rule(Rules::BOOL_TYPE),
-                )
+            new ParamRule(
+                self::PARAMETER_RECRUITMENT,
+                new Rule(Rules::BOOL_TYPE),
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_PERFORMANCE,
-                    new Rule(Rules::BOOL_TYPE),
-                )
+            new ParamRule(
+                self::PARAMETER_PERFORMANCE,
+                new Rule(Rules::BOOL_TYPE),
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_MAINTENANCE,
-                    new Rule(Rules::BOOL_TYPE),
-                )
+            new ParamRule(
+                self::PARAMETER_MAINTENANCE,
+                new Rule(Rules::BOOL_TYPE),
             ),
-            $this->getValidationDecorator()->requiredParamRule(
-                new ParamRule(
-                    self::PARAMETER_MOBILE,
-                    new Rule(Rules::BOOL_TYPE),
-                )
+            new ParamRule(
+                self::PARAMETER_MOBILE,
+                new Rule(Rules::BOOL_TYPE),
             ),
         );
     }

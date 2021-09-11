@@ -204,12 +204,13 @@ apiv2_admin_locations:
   defaults:
     _api: OrangeHRM\Admin\Api\LocationAPI
 
-apiv2_modules:
+apiv2_admin_modules:
   path: /api/v2/admin/modules
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET, PUT ]
   defaults:
     _api: OrangeHRM\Admin\Api\ModulesAPI
+
 ##########################
 #        Files
 ##########################
@@ -406,6 +407,6 @@ view_email_configuration:
   methods: [ GET ]
 
 edit_module_configuration:
-  path: /admin/editModuleConfiguration
+  path: /admin/viewModules
   controller: OrangeHRM\Admin\Controller\SaveModuleConfigurationController::handle
   methods: [ GET ]
