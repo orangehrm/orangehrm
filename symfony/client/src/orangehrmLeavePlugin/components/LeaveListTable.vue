@@ -50,7 +50,7 @@
   </div>
   <leave-comment-modal
     v-if="showCommentModal"
-    :leave-id="commentModalState"
+    :id="commentModalState"
     @close="onCommentModalClose"
   >
   </leave-comment-modal>
