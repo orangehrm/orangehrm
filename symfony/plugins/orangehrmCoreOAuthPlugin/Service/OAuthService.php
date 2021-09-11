@@ -26,6 +26,7 @@ use OrangeHRM\OAuth\Dao\OAuthClientDao;
 
 class OAuthService
 {
+    const PUBLIC_MOBILE_CLIENT_ID = 'orangehrm_mobile_app';
     /**
      * @var OAuthClientDao|null
      */
@@ -80,5 +81,15 @@ class OAuthService
     public function saveOAuthClient(OAuthClient $authClient): OAuthClient
     {
         return $this->getOAuthClientDao()->saveOAuthClient($authClient);
+    }
+
+    /**
+     * Create OAuth mobile client
+     *
+     * @return OAuthClient
+     */
+    public function createMobileClient()
+    {
+        return $this->getOAuthClientDao()->createMobileClient();
     }
 }
