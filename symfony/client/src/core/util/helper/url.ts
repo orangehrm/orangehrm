@@ -28,6 +28,7 @@ export const prepare = function(
   query: {[key: string]: string | number | boolean | string[]} = {},
 ): string {
   let preparedEndpoint = endpoint;
+  query = JSON.parse(JSON.stringify(query));
   Object.keys(params).forEach(param => {
     const paramPlaceholder = `{${param}}`;
     if (preparedEndpoint.includes(paramPlaceholder)) {

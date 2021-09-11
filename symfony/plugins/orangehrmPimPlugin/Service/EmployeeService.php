@@ -23,17 +23,20 @@ use DateTime;
 use OrangeHRM\Core\Exception\CoreServiceException;
 use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\Service\ConfigServiceTrait;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Pim\Dao\EmployeeDao;
 use OrangeHRM\Pim\Dto\EmployeeSearchFilterParams;
 use OrangeHRM\Pim\Event\EmployeeAddedEvent;
 use OrangeHRM\Pim\Event\EmployeeEvents;
 use OrangeHRM\Pim\Event\EmployeeJoinedDateChangedEvent;
+use OrangeHRM\Pim\Service\Model\EmployeeModel;
 
 class EmployeeService
 {
     use EventDispatcherTrait;
     use ConfigServiceTrait;
+    use NormalizerServiceTrait;
 
     /**
      * @var EmployeeDao|null
@@ -276,5 +279,18 @@ class EmployeeService
             [],
             $maxDepth
         );
+    }
+
+    /**
+     * @param int $empNumber
+     * @return array|null
+     */
+    public function getEmployeeAsArray(int $empNumber): ?array
+    {
+        $employee = $this->getEmployeeByEmpNumber($empNumber);
+        if (!$employee instanceof Employee) {
+            return null;
+        }
+        return $this->getNormalizerService()->normalize(EmployeeModel::class, $employee);
     }
 }

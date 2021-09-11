@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,44 +16,42 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <oxd-input-field
-    type="select"
-    :label="$t('leave.leave_period')"
-    :options="options"
-  />
-</template>
+namespace OrangeHRM\Pim\Service\Model;
 
-<script>
-import {ref, onBeforeMount} from 'vue';
-import {APIService} from '@orangehrm/core/util/services/api.service';
-export default {
-  name: 'leave-period-dropdown',
-  setup() {
-    const options = ref([]);
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/leave/leave-periods',
-    );
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\Employee;
 
-    onBeforeMount(() => {
-      http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
-          return {
-            id: `${item.startDate}_${item.endDate}`,
-            label: `${item.startDate} - ${item.endDate}`,
-            startDate: item.startDate,
-            endDate: item.endDate,
-          };
-        });
-      });
-    });
+class EmployeeModel implements Normalizable
+{
+    use ModelTrait;
 
-    return {
-      options,
-    };
-  },
-};
-</script>
+    /**
+     * @param Employee $employee
+     */
+    public function __construct(Employee $employee)
+    {
+        $this->setEntity($employee);
+        $this->setFilters(
+            [
+                'empNumber',
+                'lastName',
+                'firstName',
+                'middleName',
+                'employeeId',
+                ['getEmployeeTerminationRecord', 'getId'],
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'empNumber',
+                'lastName',
+                'firstName',
+                'middleName',
+                'employeeId',
+                'terminationId',
+            ]
+        );
+    }
+}

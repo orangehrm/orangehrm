@@ -20,17 +20,60 @@
 namespace OrangeHRM\Leave\Controller;
 
 use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Controller\Common\NoRecordsFoundController;
+use OrangeHRM\Core\Controller\Exception\RequestForwardableException;
+use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Core\Vue\Component;
+use OrangeHRM\Core\Vue\Prop;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Leave\Traits\Service\LeaveTypeServiceTrait;
+use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class ViewLeaveEntitlementController extends AbstractVueController
 {
+    use UserRoleManagerTrait;
+    use EmployeeServiceTrait;
+    use LeaveTypeServiceTrait;
+
     /**
      * @inheritDoc
      */
     public function preRender(Request $request): void
     {
         $component = new Component('leave-view-entitlement');
+        $empNumber = $request->get('empNumber');
+        if (!is_null($empNumber)) {
+            if (!$this->getUserRoleManagerHelper()->isEmployeeAccessible($empNumber)) {
+                throw new RequestForwardableException(NoRecordsFoundController::class . '::handle');
+            }
+
+            $component->addProp(
+                new Prop(
+                    'employee',
+                    Prop::TYPE_OBJECT,
+                    $this->getEmployeeService()->getEmployeeAsArray($empNumber)
+                )
+            );
+        }
+
+        $leaveTypeId = $request->get('leaveTypeId');
+        if (!is_null($leaveTypeId)) {
+            $leaveType = $this->getLeaveTypeService()->getLeaveTypeAsArray($leaveTypeId);
+            $component->addProp(new Prop('leave-type', Prop::TYPE_OBJECT, $leaveType));
+        }
+
+        $startDate = $request->get('startDate');
+        $endDate = $request->get('endDate');
+        if ($startDate && $endDate) {
+            $leavePeriod = [
+                "id" => "${startDate}_${endDate}",
+                "label" => "$startDate - $endDate",
+                "startDate" => "$startDate",
+                "endDate" => "$endDate"
+            ];
+
+            $component->addProp(new Prop('leave-period', Prop::TYPE_OBJECT, $leavePeriod));
+        }
         $this->setComponent($component);
     }
 }

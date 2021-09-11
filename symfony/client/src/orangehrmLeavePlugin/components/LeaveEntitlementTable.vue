@@ -30,6 +30,9 @@
           displayType="secondary"
           @click="onClickAdd"
         />
+        <oxd-text tag="span">
+          {{ totalEntitlements }}
+        </oxd-text>
       </div>
       <table-header
         :selected="checkedItems.length"
@@ -71,19 +74,15 @@ const entitlementNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      leaveType: item.leaveType.name,
+      leaveType:
+        item.leaveType.name + `${item.leaveType.deleted ? ' (Deleted)' : ''}`,
       entitlementType: item.entitlementType.name,
       fromDate: item.fromDate,
       toDate: item.toDate,
       days: item.entitlement,
+      isSelectable: item.deletable,
     };
   });
-};
-
-const defaultFilters = {
-  employee: null,
-  leaveType: null,
-  leavePeriod: null,
 };
 
 export default {
@@ -93,6 +92,18 @@ export default {
     prefetch: {
       type: Boolean,
       default: true,
+    },
+    employee: {
+      type: Object,
+      required: false,
+    },
+    leaveType: {
+      type: Object,
+      required: false,
+    },
+    leavePeriod: {
+      type: Object,
+      required: false,
     },
   },
 
@@ -153,7 +164,17 @@ export default {
   },
 
   setup(props) {
-    const filters = ref({...defaultFilters});
+    const filters = ref({
+      leaveType: props.leaveType ? props.leaveType : null,
+      leavePeriod: props.leavePeriod ? props.leavePeriod : null,
+      employee: props.employee
+        ? {
+            id: props.employee.empNumber,
+            label: `${props.employee.firstName} ${props.employee.middleName} ${props.employee.lastName}`,
+            isPastEmployee: props.employee.terminationId,
+          }
+        : null,
+    });
 
     const serializedFilters = computed(() => {
       return {
@@ -180,7 +201,12 @@ export default {
     } = usePaginate(http, {
       query: serializedFilters,
       normalizer: entitlementNormalizer,
-      prefetch: props.prefetch,
+      prefetch: props.employee || props.prefetch,
+    });
+
+    const totalEntitlements = computed(() => {
+      const sum = response.value.meta?.sum ? response.value.meta.sum : 0;
+      return `Total ${parseFloat(sum).toFixed(2)} Day(s)`;
     });
 
     return {
@@ -194,6 +220,7 @@ export default {
       execQuery,
       items: response,
       filters,
+      totalEntitlements,
     };
   },
 
@@ -215,6 +242,9 @@ export default {
       });
     },
     onClickDelete(item) {
+      if (!item.deletable) {
+        return this.$toast.cannotDelete();
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);

@@ -1,4 +1,4 @@
-<!--
+<?php
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,44 +16,38 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- -->
 
-<template>
-  <oxd-input-field
-    type="select"
-    :label="$t('leave.leave_period')"
-    :options="options"
-  />
-</template>
+namespace OrangeHRM\Leave\Service\Model;
 
-<script>
-import {ref, onBeforeMount} from 'vue';
-import {APIService} from '@orangehrm/core/util/services/api.service';
-export default {
-  name: 'leave-period-dropdown',
-  setup() {
-    const options = ref([]);
-    const http = new APIService(
-      window.appGlobal.baseUrl,
-      'api/v2/leave/leave-periods',
-    );
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\LeaveType;
 
-    onBeforeMount(() => {
-      http.getAll().then(({data}) => {
-        options.value = data.data.map(item => {
-          return {
-            id: `${item.startDate}_${item.endDate}`,
-            label: `${item.startDate} - ${item.endDate}`,
-            startDate: item.startDate,
-            endDate: item.endDate,
-          };
-        });
-      });
-    });
+class LeaveTypeModel implements Normalizable
+{
+    use ModelTrait;
 
-    return {
-      options,
-    };
-  },
-};
-</script>
+    /**
+     * @param LeaveType $leaveType
+     */
+    public function __construct(LeaveType $leaveType)
+    {
+        $this->setEntity($leaveType);
+        $this->setFilters(
+            [
+                'id',
+                'name',
+                ['isDeleted'],
+                ['isSituational'],
+            ]
+        );
+        $this->setAttributeNames(
+            [
+                'id',
+                'label',
+                'deleted',
+                'situational',
+            ]
+        );
+    }
+}
