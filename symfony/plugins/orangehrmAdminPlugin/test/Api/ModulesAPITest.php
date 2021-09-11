@@ -122,8 +122,7 @@ class ModulesAPITest extends EndpointTestCase
             $this->expectException($exception['class']);
             $this->expectExceptionMessage($exception['message']);
         }
-        $id = $params['id'];
-        unset($params['id']);
+
         $this->modulesApi = new ModulesAPI($this->getRequest([], $params, []));
         $modules = $this->modulesApi->update();
         $this->assertEquals($result, $modules->normalize());

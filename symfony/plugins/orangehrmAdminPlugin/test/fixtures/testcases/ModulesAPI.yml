@@ -45,7 +45,6 @@ GetValidationRuleForUpdate:
     params: { admin: true, pim: true, leave: 'test', recruitment: true, performance: true, maintenance: true, mobile: true, compensation: true }
     exception: { class: 'OrangeHRM\Core\Api\V2\Exception\InvalidParamException', message: 'Invalid Parameter' }
 
-
 Update:
   'successful update':
     params: { admin: true, pim: true, leave: true,  time: true, recruitment: true, performance: true, maintenance: true, mobile: true }

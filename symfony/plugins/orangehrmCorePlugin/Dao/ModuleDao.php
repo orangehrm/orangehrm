@@ -47,7 +47,9 @@ class ModuleDao extends BaseDao
     {
         $allModules = $this->getModuleList();
         foreach ($allModules as $module) {
-            if (in_array($module->getName(), $modules) && $module->getStatus() !== $modules[$module->getName()]) {
+            if (in_array($module->getName(), $modules)
+                && array_key_exists($module->getName(), $modules)
+                && $module->getStatus() !== $modules[$module->getName()]) {
                 $module->setStatus($modules[$module->getName()] ? true : false);
                 $this->getEntityManager()->persist($module);
             }
