@@ -83,6 +83,11 @@ class OAuthService
         return $this->getOAuthClientDao()->saveOAuthClient($authClient);
     }
 
+    /**
+     * Create OAuth mobile client
+     *
+     * @return OAuthClient
+     */
     public function createMobileClient()
     {
         return $this->getOAuthClientDao()->createMobileClient();

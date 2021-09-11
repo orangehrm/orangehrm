@@ -18,10 +18,6 @@
  */
 
 namespace OrangeHRM\Core\Dao;
-
-use Doctrine\Common\Collections\Collection;
-use Exception;
-use OrangeHRM\Core\Exception\DaoException;
 use OrangeHRM\Entity\Module;
 
 /**

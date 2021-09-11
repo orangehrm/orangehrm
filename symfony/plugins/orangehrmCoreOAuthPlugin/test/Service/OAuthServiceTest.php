@@ -21,6 +21,8 @@ namespace OrangeHRM\Tests\OAuth\Service;
 
 
 use OrangeHRM\Entity\OAuthClient;
+use OrangeHRM\OAuth\Constant\GrantType;
+use OrangeHRM\OAuth\Constant\Scope;
 use OrangeHRM\OAuth\Dao\OAuthClientDao;
 use OrangeHRM\OAuth\Service\OAuthService;
 use OrangeHRM\Tests\Util\TestCase;
@@ -95,6 +97,25 @@ class OAuthServiceTest extends TestCase
         $this->oAuthService->setOAuthClientDao($oAuthClientDao);
         $savedItem = $this->oAuthService->saveOAuthClient($oauthClient);
         $this->assertEquals($oauthClient, $savedItem);
+    }
+
+    public function testCreateMobileClient(): void
+    {
+        $client = new OAuthClient();
+        $client->setClientId(OAuthService::PUBLIC_MOBILE_CLIENT_ID);
+        $client->setClientSecret('');
+        $client->setRedirectUri('');
+        $client->setGrantTypes(sprintf("%s %s", GrantType::USER_CREDENTIALS, GrantType::REFRESH_TOKEN));
+        $client->setScope(Scope::SCOPE_USER);
+
+        $oAuthClientDao = $this->getMockBuilder(OAuthClientDao::class)->getMock();
+        $oAuthClientDao->expects($this->once())
+            ->method('createMobileClient')
+            ->will($this->returnValue($client));
+
+        $this->oAuthService->setOAuthClientDao($oAuthClientDao);
+        $savedItem = $this->oAuthService->createMobileClient();
+        $this->assertEquals($client, $savedItem);
     }
 
 }

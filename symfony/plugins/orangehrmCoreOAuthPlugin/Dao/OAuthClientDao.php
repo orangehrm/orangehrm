@@ -123,6 +123,11 @@ class OAuthClientDao extends BaseDao
         }
     }
 
+    /**
+     * Create Mobile OAuth Client
+     *
+     * @return OAuthClient
+     */
     public function createMobileClient()
     {
         $client = new OAuthClient();
