@@ -82,7 +82,7 @@
                 :options="subunits"
               />
             </oxd-grid-item>
-            <oxd-grid-item>
+            <oxd-grid-item class="orangehrm-leave-entitled">
               <oxd-text class="orangehrm-leave-entitled-text" type="subtitle-2">
                 Matches {{ empMatchCount }} Employees
               </oxd-text>
@@ -140,18 +140,20 @@
       ref="bulkUpdateModal"
       :data="leaveEntitlement"
     ></entitlement-bulk-update-modal>
+    <entitlement-no-match-modal ref="noMatchModal"></entitlement-no-match-modal>
   </div>
 </template>
 
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {required} from '@/core/util/validation/rules';
+import {required, max} from '@/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
 import LeavePeriodDropdown from '@/orangehrmLeavePlugin/components/LeavePeriodDropdown';
 import EntitlementUpdateModal from '@/orangehrmLeavePlugin/components/EntitlementUpdateModal';
 import EntitlementBulkUpdateModal from '@/orangehrmLeavePlugin/components/EntitlementBulkUpdateModal';
+import EntitlementNoMatchModal from '@/orangehrmLeavePlugin/components/EntitlementNoMatchModal';
 
 const leaveEntitlementModel = {
   bulkAssign: 0,
@@ -170,6 +172,7 @@ export default {
     'employee-autocomplete': EmployeeAutocomplete,
     'entitlement-update-modal': EntitlementUpdateModal,
     'entitlement-bulk-update-modal': EntitlementBulkUpdateModal,
+    'entitlement-no-match-modal': EntitlementNoMatchModal,
   },
 
   props: {
@@ -210,6 +213,7 @@ export default {
               'Should be a number with upto 2 decimal places'
             );
           },
+          max(10000),
         ],
       },
       empMatchCount: 0,
@@ -226,6 +230,10 @@ export default {
       const isBulkAssign = this.leaveEntitlement.bulkAssign == 1;
 
       if (isBulkAssign) {
+        if (this.empMatchCount === 0) {
+          this.isLoading = false;
+          return this.$refs.noMatchModal.showDialog();
+        }
         confirmation = await this.$refs.bulkUpdateModal.showDialog();
       } else {
         confirmation = await this.$refs.updateModal.showDialog();
@@ -253,11 +261,39 @@ export default {
       } else {
         payload.empNumber = this.leaveEntitlement.employee?.id;
       }
-      this.http.create(payload).then(() => {
-        this.leaveEntitlement = {...leaveEntitlementModel};
-        this.$toast.saveSuccess();
-        this.isLoading = false;
-      });
+      this.http
+        .create(payload)
+        .then(response => {
+          let toast = null;
+          let params = null;
+          const {data} = response.data;
+          if (Array.isArray(data)) {
+            toast = this.$toast.success({
+              title: 'Success',
+              message: `Entitlement added to ${data.length} employee(s)`,
+            });
+          } else {
+            params = {
+              empNumber: data.employee.empNumber,
+              leaveTypeId: data.leaveType.id,
+              startDate: data.fromDate,
+              endDate: data.toDate,
+            };
+            toast = this.$toast.saveSuccess();
+          }
+          return new Promise(resolve => {
+            toast.then(() => {
+              resolve(params);
+            });
+          });
+        })
+        .then(params => {
+          if (params) {
+            navigate('/leave/viewLeaveEntitlements', undefined, params);
+          } else {
+            navigate('/leave/viewLeaveEntitlements');
+          }
+        });
     },
   },
 
@@ -276,7 +312,7 @@ export default {
           })
           .then(response => {
             const {data} = response.data;
-            this.empMatchCount = data.count;
+            this.empMatchCount = parseInt(data.count);
           });
       },
       deep: true,
@@ -285,13 +321,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-::v-deep(.--grouped-field) {
-  display: flex;
-}
-.orangehrm-leave-entitled-text {
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-</style>
+<style src="./add-entitlement.scss" lang="scss" scoped></style>

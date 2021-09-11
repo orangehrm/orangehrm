@@ -19,13 +19,16 @@
 
 namespace OrangeHRM\Leave\Service;
 
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Leave\Dao\LeaveTypeDao;
+use OrangeHRM\Leave\Service\Model\LeaveTypeModel;
 use OrangeHRM\Leave\Traits\Service\LeaveEntitlementServiceTrait;
 
 class LeaveTypeService
 {
     use LeaveEntitlementServiceTrait;
+    use NormalizerServiceTrait;
 
     /**
      * @var LeaveTypeDao|null
@@ -60,5 +63,18 @@ class LeaveTypeService
             }
         }
         return $leaveTypeList;
+    }
+
+    /**
+     * @param int $leaveTypeId
+     * @return array|null
+     */
+    public function getLeaveTypeAsArray(int $leaveTypeId): ?array
+    {
+        $leaveType = $this->getLeaveTypeDao()->getLeaveTypeById($leaveTypeId);
+        if (!$leaveType instanceof LeaveType) {
+            return null;
+        }
+        return $this->getNormalizerService()->normalize(LeaveTypeModel::class, $leaveType);
     }
 }

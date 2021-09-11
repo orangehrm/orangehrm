@@ -175,6 +175,16 @@
           "source": "Back",
           "target": "Back",
           "description": "Click “Back” and the action will be reflected"
+        },
+        "no_matching_employees": {
+          "source": "No matching employees",
+          "target": "No matching employees",
+          "description": ""
+        },
+        "no_employees_match_filters": {
+          "source": "No employees match the selected filters",
+          "target": "No employees match the selected filters",
+          "description": ""
         }
       }
     },
