@@ -32,7 +32,7 @@
     <div class="orangehrm-comment-body">
       <div class="orangehrm-comment-profile-name">
         <oxd-text type="subtitle-2">
-          {{ data.employee.firstName }} {{ data.employee.lastName }}
+          {{ fullName }}
         </oxd-text>
       </div>
       <div class="orangehrm-comment-message">
@@ -61,48 +61,23 @@ export default {
   },
   setup(props) {
     const imgSrc = computed(() => {
-      return props.data?.employee?.empNumber
-        ? `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${props.data.employee.empNumber}`
+      const employee = props.data.createdByEmployee;
+      return employee
+        ? `${window.appGlobal.baseUrl}/pim/viewPhoto/empNumber/${employee.empNumber}`
         : defaultPic;
+    });
+
+    const fullName = computed(() => {
+      const employee = props.data.createdByEmployee;
+      return employee && `${employee.firstName} ${employee.lastName}`;
     });
 
     return {
       imgSrc,
+      fullName,
     };
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.orangehrm-comment {
-  box-sizing: border-box;
-  padding: 0.5rem 0.5rem 0 0;
-  display: flex;
-  &-profile-image-wrapper {
-    margin-right: 0.5rem;
-  }
-  &-profile-image {
-    width: 70px;
-    height: 70px;
-    display: flex;
-    overflow: hidden;
-    justify-content: center;
-    box-sizing: border-box;
-    border-radius: 100%;
-    border: 0.5rem solid $oxd-background-pastel-white-color;
-  }
-  &-profile-name p {
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-  }
-  &-message {
-    padding: 0.5rem 1rem;
-    background-color: $oxd-background-pastel-white-color;
-    border-radius: 0.5rem;
-    margin-bottom: 0.25rem;
-  }
-  &-timestamp {
-    text-align: right;
-  }
-}
-</style>
+<style src="./leave-comment.scss" lang="scss" scoped></style>

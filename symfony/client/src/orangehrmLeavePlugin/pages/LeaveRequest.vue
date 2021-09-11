@@ -87,7 +87,8 @@
   </div>
   <leave-comment-modal
     v-if="showCommentModal"
-    :leave-id="commentModalState"
+    :id="commentModalState"
+    :leave-request="isLeaveRequest"
     @close="onCommentModalClose"
   >
   </leave-comment-modal>
@@ -174,6 +175,7 @@ export default {
       ],
       showCommentModal: false,
       commentModalState: null,
+      isLeaveRequest: false,
     };
   },
 
@@ -216,11 +218,13 @@ export default {
         this.onLeaveCancel();
       } else {
         this.commentModalState = item.id;
+        this.isLeaveRequest = false;
         this.showCommentModal = true;
       }
     },
     onClickComments() {
       this.commentModalState = this.leaveRequestId;
+      this.isLeaveRequest = true;
       this.showCommentModal = true;
     },
     async resetDataTable() {
