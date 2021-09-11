@@ -59,11 +59,11 @@ class LeaveLeaveEntitlement
     private LeaveEntitlement $entitlement;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="length_days", type="decimal", precision=6, scale=4, nullable=true, options={"unsigned":true})
      */
-    private string $lengthDays;
+    private float $lengthDays;
 
     /**
      * @return int
@@ -114,17 +114,17 @@ class LeaveLeaveEntitlement
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getLengthDays(): string
+    public function getLengthDays(): float
     {
         return $this->lengthDays;
     }
 
     /**
-     * @param string $lengthDays
+     * @param float $lengthDays
      */
-    public function setLengthDays(string $lengthDays): void
+    public function setLengthDays(float $lengthDays): void
     {
         $this->lengthDays = $lengthDays;
     }

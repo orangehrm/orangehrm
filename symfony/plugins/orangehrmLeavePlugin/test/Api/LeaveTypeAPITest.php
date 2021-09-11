@@ -39,7 +39,7 @@ use OrangeHRM\Tests\Util\MockObject;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
- * @group Pim
+ * @group Leave
  * @group APIv2
  */
 class LeaveTypeAPITest extends EndpointTestCase

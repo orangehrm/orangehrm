@@ -80,7 +80,6 @@ const defaultFilters = {
 
 const defaultSortOrder = {
   'jt.jobTitleName': 'ASC',
-  'jt.jobDescription': 'ASC',
 };
 
 export default {
@@ -97,7 +96,6 @@ export default {
         {
           name: 'description',
           title: 'Job Description',
-          sortField: 'jt.jobDescription',
           style: {flex: 4},
         },
         {
@@ -160,7 +158,9 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, serializedFilters);
+    } = usePaginate(http, {
+      query: serializedFilters,
+    });
 
     onSort(execQuery);
 

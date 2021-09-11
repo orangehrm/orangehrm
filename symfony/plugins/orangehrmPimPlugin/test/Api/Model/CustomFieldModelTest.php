@@ -46,8 +46,8 @@ class CustomFieldModelTest extends KernelTestCase
         $customField->setScreen('Personal');
         $customField->setExtraData('level1, level2');
 
-        $employeeModel = new CustomFieldModel($customField);
+        $customFieldModel = new CustomFieldModel($customField);
 
-        $this->assertEquals($resultArray, $employeeModel->toArray());
+        $this->assertEquals($resultArray, $customFieldModel->toArray());
     }
 }

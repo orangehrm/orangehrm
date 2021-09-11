@@ -45,14 +45,18 @@
             <oxd-grid-item>
               <leave-type-dropdown
                 v-model="leaveEntitlement.leaveType"
+                :eligible-only="false"
                 required
                 disabled
               />
             </oxd-grid-item>
             <oxd-grid-item>
-              <leave-period-dropdown
-                v-model="leaveEntitlement.leavePeriod"
+              <oxd-input-field
+                type="select"
+                :label="$t('leave.leave_period')"
+                :options="leavePeriods"
                 :rules="rules.leavePeriod"
+                v-model="leaveEntitlement.leavePeriod"
                 required
               />
             </oxd-grid-item>
@@ -86,10 +90,10 @@
 <script>
 import {APIService} from '@orangehrm/core/util/services/api.service';
 import {navigate} from '@orangehrm/core/util/helper/navigation';
-import {required} from '@/core/util/validation/rules';
+import {required, max} from '@/core/util/validation/rules';
 import EmployeeAutocomplete from '@/core/components/inputs/EmployeeAutocomplete';
 import LeaveTypeDropdown from '@/orangehrmLeavePlugin/components/LeaveTypeDropdown';
-import LeavePeriodDropdown from '@/orangehrmLeavePlugin/components/LeavePeriodDropdown';
+import promiseDebounce from '@orangehrm/oxd/utils/promiseDebounce';
 
 const leaveEntitlementModel = {
   employee: null,
@@ -101,7 +105,6 @@ const leaveEntitlementModel = {
 export default {
   components: {
     'leave-type-dropdown': LeaveTypeDropdown,
-    'leave-period-dropdown': LeavePeriodDropdown,
     'employee-autocomplete': EmployeeAutocomplete,
   },
 
@@ -133,7 +136,7 @@ export default {
       rules: {
         employee: [required],
         leaveType: [required],
-        // TODO: check leave entitlement sufficent
+        leavePeriod: [required],
         entitlement: [
           required,
           v => {
@@ -142,30 +145,59 @@ export default {
               'Should be a number with upto 2 decimal places'
             );
           },
+          max(10000),
+          promiseDebounce(this.validateEntitlement, 500),
         ],
       },
+      leavePeriods: [],
     };
   },
 
   methods: {
     onCancel() {
-      navigate('/leave/applyLeave');
+      navigate('/leave/viewLeaveEntitlements', undefined, {
+        empNumber: this.leaveEntitlement.employee?.id,
+        leaveTypeId: this.leaveEntitlement.leaveType?.id,
+        startDate: this.leaveEntitlement.leavePeriod?.startDate,
+        endDate: this.leaveEntitlement.leavePeriod?.endDate,
+      });
     },
     onSave() {
       this.isLoading = true;
 
       const payload = {
-        empNumber: this.leaveEntitlement.employee?.id,
-        leaveTypeId: this.leaveEntitlement.leaveType?.id,
         fromDate: this.leaveEntitlement.leavePeriod?.startDate,
         toDate: this.leaveEntitlement.leavePeriod?.endDate,
         entitlement: this.leaveEntitlement.entitlement,
       };
 
-      this.http.create(payload).then(() => {
-        this.leaveEntitlement = {...leaveEntitlementModel};
+      this.http.update(this.entitlementId, payload).then(() => {
         this.$toast.updateSuccess();
         this.onCancel();
+      });
+    },
+
+    validateEntitlement(value) {
+      const entitlement = parseFloat(value);
+      return new Promise(resolve => {
+        if (!isNaN(entitlement)) {
+          this.http
+            .request({
+              method: 'GET',
+              url: `api/v2/leave/leave-entitlements/${this.entitlementId}/validation/entitlements`,
+              params: {
+                entitlement,
+              },
+            })
+            .then(response => {
+              const {data} = response.data;
+              return data.valid === true
+                ? resolve(true)
+                : resolve('Used amount exceeds the current amount');
+            });
+        } else {
+          resolve(true);
+        }
       });
     },
   },
@@ -173,16 +205,32 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.http
-      .get(this.entitlementId)
+      .request({method: 'GET', url: 'api/v2/leave/leave-periods'})
+      .then(({data}) => {
+        this.leavePeriods = data.data.map(item => {
+          return {
+            id: `${item.startDate}_${item.endDate}`,
+            label: `${item.startDate} - ${item.endDate}`,
+            startDate: item.startDate,
+            endDate: item.endDate,
+          };
+        });
+        return this.http.get(this.entitlementId);
+      })
       .then(response => {
         const {data} = response.data;
-        // TODO: Get employee from prop
-        // this.leaveEntitlement.employee = data.empNumber
+        this.leaveEntitlement.employee = {
+          id: data.employee.empNumber,
+          label: `${data.employee.firstName} ${data.employee.lastName}`,
+          isPastEmployee: data.employee.terminationId,
+        };
         this.leaveEntitlement.leaveType = {
           id: data.leaveType.id,
           label: data.leaveType.name,
         };
-        // this.leaveEntitlement.leavePeriod = data.fromDate
+        this.leaveEntitlement.leavePeriod = this.leavePeriods.find(item => {
+          return item.id === `${data.fromDate}_${data.toDate}`;
+        });
         this.leaveEntitlement.entitlement = data.entitlement;
       })
       .finally(() => {

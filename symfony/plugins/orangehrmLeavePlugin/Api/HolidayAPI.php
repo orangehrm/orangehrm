@@ -97,6 +97,7 @@ class HolidayAPI extends Endpoint implements CrudEndpoint
         $toDate = $this->getRequestParams()->getDateTime(RequestParams::PARAM_TYPE_QUERY, self::FILTER_TO_DATE);
 
         $holidaySearchFilterParams = new HolidaySearchFilterParams();
+        $this->setSortingAndPaginationParams($holidaySearchFilterParams);
         $holidaySearchFilterParams->setFromDate($fromDate);
         $holidaySearchFilterParams->setToDate($toDate);
         $holidays = $this->getHolidayService()->searchHolidays($holidaySearchFilterParams);

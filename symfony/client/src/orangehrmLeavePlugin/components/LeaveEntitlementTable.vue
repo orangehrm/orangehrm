@@ -30,6 +30,9 @@
           displayType="secondary"
           @click="onClickAdd"
         />
+        <oxd-text tag="span">
+          {{ totalEntitlements }}
+        </oxd-text>
       </div>
       <table-header
         :selected="checkedItems.length"
@@ -71,23 +74,38 @@ const entitlementNormalizer = data => {
   return data.map(item => {
     return {
       id: item.id,
-      leaveType: item.leaveType.name,
+      leaveType:
+        item.leaveType.name + `${item.leaveType.deleted ? ' (Deleted)' : ''}`,
       entitlementType: item.entitlementType.name,
       fromDate: item.fromDate,
       toDate: item.toDate,
       days: item.entitlement,
+      isSelectable: item.deletable,
     };
   });
 };
 
-const defaultFilters = {
-  employee: null,
-  leaveType: null,
-  leavePeriod: null,
-};
-
 export default {
   name: 'leave-entitlement-table',
+
+  props: {
+    prefetch: {
+      type: Boolean,
+      default: true,
+    },
+    employee: {
+      type: Object,
+      required: false,
+    },
+    leaveType: {
+      type: Object,
+      required: false,
+    },
+    leavePeriod: {
+      type: Object,
+      required: false,
+    },
+  },
 
   components: {
     'delete-confirmation': DeleteConfirmationDialog,
@@ -145,21 +163,30 @@ export default {
     };
   },
 
-  setup() {
-    const filters = ref({...defaultFilters});
+  setup(props) {
+    const filters = ref({
+      leaveType: props.leaveType ? props.leaveType : null,
+      leavePeriod: props.leavePeriod ? props.leavePeriod : null,
+      employee: props.employee
+        ? {
+            id: props.employee.empNumber,
+            label: `${props.employee.firstName} ${props.employee.middleName} ${props.employee.lastName}`,
+            isPastEmployee: props.employee.terminationId,
+          }
+        : null,
+    });
 
     const serializedFilters = computed(() => {
       return {
-        employeeId: filters.value.employee?.id,
-        leaveType: filters.value.leaveType?.id,
+        empNumber: filters.value.employee?.id,
+        leaveTypeId: filters.value.leaveType?.id,
         fromDate: filters.value.leavePeriod?.startDate,
         toDate: filters.value.leavePeriod?.endDate,
       };
     });
 
     const http = new APIService(
-      // window.appGlobal.baseUrl,
-      'https://884b404a-f4d0-4908-9eb5-ef0c8afec15c.mock.pstmn.io',
+      window.appGlobal.baseUrl,
       'api/v2/leave/leave-entitlements',
     );
     const {
@@ -171,7 +198,16 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, serializedFilters, entitlementNormalizer);
+    } = usePaginate(http, {
+      query: serializedFilters,
+      normalizer: entitlementNormalizer,
+      prefetch: props.employee || props.prefetch,
+    });
+
+    const totalEntitlements = computed(() => {
+      const sum = response.value.meta?.sum ? response.value.meta.sum : 0;
+      return `Total ${parseFloat(sum).toFixed(2)} Day(s)`;
+    });
 
     return {
       http,
@@ -184,6 +220,7 @@ export default {
       execQuery,
       items: response,
       filters,
+      totalEntitlements,
     };
   },
 
@@ -205,6 +242,9 @@ export default {
       });
     },
     onClickDelete(item) {
+      if (!item.deletable) {
+        return this.$toast.cannotDelete();
+      }
       this.$refs.deleteDialog.showDialog().then(confirmation => {
         if (confirmation === 'ok') {
           this.deleteItems([item.id]);

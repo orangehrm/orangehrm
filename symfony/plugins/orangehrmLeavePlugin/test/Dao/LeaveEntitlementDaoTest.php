@@ -21,18 +21,15 @@ namespace OrangeHRM\Tests\Leave\Dao;
 
 use DateTime;
 use OrangeHRM\Config\Config;
-use OrangeHRM\Core\Service\DateTimeHelperService;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveEntitlementType;
 use OrangeHRM\Entity\LeaveType;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Framework\Services;
 use OrangeHRM\Leave\Dao\LeaveEntitlementDao;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
-use OrangeHRM\Leave\Entitlement\FIFOEntitlementConsumptionStrategy;
-use OrangeHRM\Leave\Entitlement\LeaveBalance;
 use OrangeHRM\Leave\Service\LeaveConfigurationService;
-use OrangeHRM\Leave\Service\LeaveEntitlementService;
 use OrangeHRM\ORM\ListSorter;
 use OrangeHRM\Tests\Util\KernelTestCase;
 use OrangeHRM\Tests\Util\TestDataService;
@@ -106,8 +103,8 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
         $parameterHolder->setEmpNumber(2);
         $parameterHolder->setLeaveTypeId(6);
-        $parameterHolder->setFromDate(new \DateTime('2013-08-01'));
-        $parameterHolder->setToDate(new \DateTime('2013-10-02'));
+        $parameterHolder->setFromDate(new DateTime('2013-08-01'));
+        $parameterHolder->setToDate(new DateTime('2013-10-02'));
         $expected = [$entitlementList[1]];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
@@ -117,6 +114,46 @@ class LeaveEntitlementDaoTest extends KernelTestCase
 
         $sum = $this->dao->getLeaveEntitlementsSum($parameterHolder);
         $this->assertEquals(4, $sum);
+    }
+
+    public function testSearchLeaveEntitlementsWithEmpNumbers(): void
+    {
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
+        $parameterHolder->setEmpNumbers([2]);
+        $parameterHolder->setLeaveTypeId(6);
+        $parameterHolder->setFromDate(new DateTime('2013-08-01'));
+        $parameterHolder->setToDate(new DateTime('2013-10-02'));
+        $expected = [$entitlementList[1]];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
+        $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
+        $this->assertEquals(1, $total);
+
+        $sum = $this->dao->getLeaveEntitlementsSum($parameterHolder);
+        $this->assertEquals(4, $sum);
+
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $parameterHolder->setEmpNumber(2);
+        $parameterHolder->setEmpNumbers([5, 7]);
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->assertEmpty($results);
+
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $parameterHolder->setEmpNumbers([5, 7]); // 5 is deleted
+        $expected = [$entitlementList[5]];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
+        $parameterHolder = new LeaveEntitlementSearchFilterParams();
+        $parameterHolder->setEmpNumbers([2, 7]);
+        $expected = [$entitlementList[5], $entitlementList[1]];
+        $results = $this->dao->getLeaveEntitlements($parameterHolder);
+        $this->_compareEntitlements($expected, $results);
+
+        $total = $this->dao->getLeaveEntitlementsCount($parameterHolder);
+        $this->assertEquals(2, $total);
     }
 
     public function testSearchLeaveEntitlementsByLeaveType(): void
@@ -179,21 +216,21 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
 
         // date range with multiple records
-        $parameterHolder->setFromDate(new \DateTime('2012-01-01'));
-        $parameterHolder->setToDate(new \DateTime('2012-12-31'));
+        $parameterHolder->setFromDate(new DateTime('2012-01-01'));
+        $parameterHolder->setToDate(new DateTime('2012-12-31'));
 
         $expected = [$entitlementList[0], $entitlementList[2]];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
-        $parameterHolder->setFromDate(new \DateTime('2012-01-01'));
-        $parameterHolder->setToDate(new \DateTime('2012-08-01'));
+        $parameterHolder->setFromDate(new DateTime('2012-01-01'));
+        $parameterHolder->setToDate(new DateTime('2012-08-01'));
         $expected = [$entitlementList[0]];
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
-        $parameterHolder->setFromDate(new \DateTime('2012-01-01'));
-        $parameterHolder->setToDate(new \DateTime('2013-12-31'));
+        $parameterHolder->setFromDate(new DateTime('2012-01-01'));
+        $parameterHolder->setToDate(new DateTime('2013-12-31'));
         $expected = [
             $entitlementList[0],
             $entitlementList[2],
@@ -204,13 +241,13 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->_compareEntitlements($expected, $results);
 
-        $parameterHolder->setFromDate(new \DateTime('2011-01-01'));
-        $parameterHolder->setToDate(new \DateTime('2012-01-01'));
+        $parameterHolder->setFromDate(new DateTime('2011-01-01'));
+        $parameterHolder->setToDate(new DateTime('2012-01-01'));
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->assertEmpty($results);
 
-        $parameterHolder->setFromDate(new \DateTime('2013-09-01'));
-        $parameterHolder->setToDate(new \DateTime('2013-12-01'));
+        $parameterHolder->setFromDate(new DateTime('2013-09-01'));
+        $parameterHolder->setToDate(new DateTime('2013-12-01'));
         $results = $this->dao->getLeaveEntitlements($parameterHolder);
         $this->assertEmpty($results);
     }
@@ -260,20 +297,107 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $fromDb = $em->getRepository(LeaveEntitlement::class)->find($savedId);
         $this->_compareEntitlement($leaveEntitlement, $fromDb);
     }
-    
-    public function xtestGetValidLeaveEntitlements() {
-        // TODO
-        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
-        
+
+    public function testGetValidLeaveEntitlements(): void
+    {
+        $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
+
         $empNumber = 1;
         $leaveTypeId = 2;
-        $fromDate = '2012-06-01';
-        $toDate = '2012-06-05';
-        $orderField = 'from_date';
+        $fromDate = new DateTime('2012-06-01');
+        $toDate = new DateTime('2012-06-05');
+        $orderField = 'le.fromDate';
         $order = 'ASC';
-        
+
+        $expected = [$entitlementList[2]];
+        $results = $this->dao->getValidLeaveEntitlements(
+            $empNumber,
+            $leaveTypeId,
+            $fromDate,
+            $toDate,
+            $orderField,
+            $order
+        );
+        $this->_compareEntitlements($expected, $results);
+
+        $empNumber = 1;
+        $leaveTypeId = 2;
+        $fromDate = new DateTime('2013-01-01');
+        $toDate = new DateTime('2013-01-10');
+        $orderField = 'le.fromDate';
+        $order = 'ASC';
+
+        $expected = [$entitlementList[3]];
+        $results = $this->dao->getValidLeaveEntitlements(
+            $empNumber,
+            $leaveTypeId,
+            $fromDate,
+            $toDate,
+            $orderField,
+            $order
+        );
+        $this->_compareEntitlements($expected, $results);
+    }
+
+    public function testGetValidLeaveEntitlementsMultipleLeavePeriods(): void
+    {
+        $entitlementList = TestDataService::loadObjectList(LeaveEntitlement::class, $this->fixture, 'LeaveEntitlement');
+
+        // both leave period have entitlements
+        $empNumber = 1;
+        $leaveTypeId = 2;
+        $fromDate = new DateTime('2012-12-30');
+        $toDate = new DateTime('2013-01-02');
+        $orderField = 'le.fromDate';
+        $order = 'ASC';
+
         $expected = [$entitlementList[2], $entitlementList[3]];
-        $results = $this->dao->getValidLeaveEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate, $orderField, $order);
+        $results = $this->dao->getValidLeaveEntitlements(
+            $empNumber,
+            $leaveTypeId,
+            $fromDate,
+            $toDate,
+            $orderField,
+            $order
+        );
+        $this->_compareEntitlements($expected, $results);
+
+        // only second leave period has entitlements
+        $empNumber = 1;
+        $leaveTypeId = 2;
+        $fromDate = new DateTime('2011-12-30');
+        $toDate = new DateTime('2012-01-02');
+        $orderField = 'le.fromDate';
+        $order = 'ASC';
+
+        $expected = [$entitlementList[2]];
+        $results = $this->dao->getValidLeaveEntitlements(
+            $empNumber,
+            $leaveTypeId,
+            $fromDate,
+            $toDate,
+            $orderField,
+            $order
+        );
+        $this->_compareEntitlements($expected, $results);
+
+        // only first leave period has entitlements
+        $empNumber = 1;
+        $leaveTypeId = 2;
+        $fromDate = new DateTime('2013-12-30');
+        $toDate = new DateTime('2014-01-02');
+        $orderField = 'le.fromDate';
+        $order = 'ASC';
+
+        $expected = [$entitlementList[3]];
+        $results = $this->dao->getValidLeaveEntitlements(
+            $empNumber,
+            $leaveTypeId,
+            $fromDate,
+            $toDate,
+            $orderField,
+            $order
+        );
         $this->_compareEntitlements($expected, $results);
     }
 
@@ -473,25 +597,22 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         }
     }
     
-    public function xtestBulkAssignLeaveEntitlements() {
-        // TODO
-        
+    public function testBulkAssignLeaveEntitlements():void {
         $empList = [1,2,3];
-       
-       
+
         $leaveEntitlement = new LeaveEntitlement();
-        $leaveEntitlement->setLeaveTypeId(1);
-
-        $leaveEntitlement->setCreditedDate(date('Y-m-d'));
-
-
-        $leaveEntitlement->setEntitlementType(LeaveEntitlement::ENTITLEMENT_TYPE_ADD);
-        $leaveEntitlement->setDeleted(0);
-
+        $leaveEntitlement->setLeaveType($this->getEntityReference(LeaveType::class,1));
+        $leaveEntitlement->setCreditedDate(new DateTime());
+        $leaveEntitlement->setEntitlementType($this->getEntityReference(LeaveEntitlementType::class,LeaveEntitlement::ENTITLEMENT_TYPE_ADD));
+        $leaveEntitlement->setDeleted(false);
         $leaveEntitlement->setNoOfDays(2);
-        $leaveEntitlement->setFromDate('2012-01-01');
-        $leaveEntitlement->setToDate('2012-08-01');
+        $leaveEntitlement->setFromDate(new DateTime('2012-01-01'));
+        $leaveEntitlement->setToDate(new DateTime('2012-08-01'));
+        $leaveEntitlement->setCreatedBy($this->getEntityReference(User::class,1));
 
+        $this->createKernelWithMockServices([
+            Services::LEAVE_CONFIG_SERVICE =>new LeaveConfigurationService(),
+                                            ]);
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
        
        
@@ -501,10 +622,10 @@ class LeaveEntitlementDaoTest extends KernelTestCase
         $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
         $leaveEntitlement->setNoOfDays(1);
         
-        $result = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
+        list($leaveEntitlements, $count) = $this->dao->bulkAssignLeaveEntitlements($empList, $leaveEntitlement);
        
        
-        $this->assertEquals(count($empList),$result);
+        $this->assertEquals(count($empList),$count);
        
     }
     

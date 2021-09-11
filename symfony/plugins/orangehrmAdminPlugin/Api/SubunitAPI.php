@@ -21,7 +21,7 @@ namespace OrangeHRM\Admin\Api;
 
 use OrangeHRM\Admin\Api\Model\SubunitModel;
 use OrangeHRM\Admin\Api\Model\SubunitTreeModel;
-use OrangeHRM\Admin\Service\CompanyStructureService;
+use OrangeHRM\Admin\Traits\Service\CompanyStructureServiceTrait;
 use OrangeHRM\Core\Api\CommonParams;
 use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
@@ -36,32 +36,18 @@ use OrangeHRM\Entity\Subunit;
 
 class SubunitAPI extends Endpoint implements CrudEndpoint
 {
-    public const PARAMETER_PARENT_ID = "parentId";
-    public const PARAMETER_UNIT_ID = "unitId";
-    public const PARAMETER_NAME = "name";
-    public const PARAMETER_DESCRIPTION = "description";
+    use CompanyStructureServiceTrait;
 
-    public const FILTER_DEPTH = "depth";
-    public const FILTER_MODE = "mode";
+    public const PARAMETER_PARENT_ID = 'parentId';
+    public const PARAMETER_UNIT_ID = 'unitId';
+    public const PARAMETER_NAME = 'name';
+    public const PARAMETER_DESCRIPTION = 'description';
+
+    public const FILTER_DEPTH = 'depth';
+    public const FILTER_MODE = 'mode';
 
     public const MODE_LIST = 'list';
     public const MODE_TREE = 'tree';
-
-    /**
-     * @var CompanyStructureService|null
-     */
-    protected ?CompanyStructureService $companyStructureService = null;
-
-    /**
-     * @return CompanyStructureService
-     */
-    public function getCompanyStructureService(): CompanyStructureService
-    {
-        if (!($this->companyStructureService instanceof CompanyStructureService)) {
-            $this->companyStructureService = new CompanyStructureService();
-        }
-        return $this->companyStructureService;
-    }
 
     /**
      * @inheritDoc

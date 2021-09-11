@@ -101,10 +101,13 @@ trait LeaveRequestParamHelperTrait
 
     /**
      * @param int $empNumber
+     * @param string $paramObjectClassName
      * @return LeaveParameterObject
      */
-    protected function getLeaveRequestParams(int $empNumber): LeaveParameterObject
-    {
+    protected function getLeaveRequestParams(
+        int $empNumber,
+        string $paramObjectClassName = LeaveParameterObject::class
+    ): LeaveParameterObject {
         if (!$this instanceof Endpoint) {
             throw $this->getEndpointLogicException();
         }
@@ -112,7 +115,7 @@ trait LeaveRequestParamHelperTrait
         $fromDate = $this->getFromDateParam();
         $toDate = $this->getToDateParam();
 
-        $leaveRequestParams = new LeaveParameterObject($empNumber, $leaveTypeId, $fromDate, $toDate);
+        $leaveRequestParams = new $paramObjectClassName($empNumber, $leaveTypeId, $fromDate, $toDate);
         $leaveRequestParams->setComment($this->getCommentParam());
 
         if ($leaveRequestParams->isMultiDayLeave()) {
@@ -131,7 +134,9 @@ trait LeaveRequestParamHelperTrait
         if (!$this instanceof Endpoint) {
             throw $this->getEndpointLogicException();
         }
-        $leaveRequestParams->setMultiDayPartialOption($this->getPartialOptionParam());
+        $leaveRequestParams->setMultiDayPartialOption(
+            $this->getPartialOptionParam() ?? LeaveParameterObject::PARTIAL_OPTION_NONE
+        );
         if ($leaveRequestParams->getMultiDayPartialOption() === LeaveParameterObject::PARTIAL_OPTION_END) {
             $leaveRequestParams->setEndMultiDayDuration(
                 $this->getGeneratedDuration(LeaveCommonParams::PARAMETER_DURATION, false)
@@ -183,7 +188,7 @@ trait LeaveRequestParamHelperTrait
     /**
      * @return ParamRuleCollection
      */
-    protected function getCommonBodyParamRuleCollection(): ParamRuleCollection
+    protected function getCommonParamRuleCollection(): ParamRuleCollection
     {
         if (!$this instanceof Endpoint) {
             throw $this->getEndpointLogicException();

@@ -29,30 +29,25 @@
         {{ $t('leave.leave_balance_details') }}
       </oxd-text>
       <oxd-text type="subtitle-2">
-        {{ $t('leave.as_of_date') }} - {{ today }}
+        {{ $t('leave.as_of_date') }} - {{ asAtDate }}
       </oxd-text>
     </div>
     <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
     <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
       <oxd-grid :cols="3">
-        <oxd-input-group :label="$t('general.employee_name')">
+        <oxd-input-group :label="$t('leave.leave_type')">
           <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            Micheal Jordan
-          </oxd-text>
-        </oxd-input-group>
-        <oxd-input-group :label="$t('leave.leave_type')" class="--break-row">
-          <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ data?.leaveType.type }}
+            {{ leaveType }}
           </oxd-text>
         </oxd-input-group>
         <oxd-input-group :label="$t('leave.total_entitlement')">
           <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ data?.leaveBalance.entitled }}
+            {{ totalEntitlement }}
           </oxd-text>
         </oxd-input-group>
         <oxd-input-group :label="$t('leave.balance')">
           <oxd-text class="orangehrm-leave-balance-text" tag="p">
-            {{ data?.leaveBalance.balance }}
+            {{ leaveBalance }}
           </oxd-text>
         </oxd-input-group>
       </oxd-grid>
@@ -81,7 +76,6 @@
 
 <script>
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
-import {formatDate} from '@/core/util/helper/datefns';
 
 export default {
   name: 'leave-balance-modal',
@@ -113,7 +107,6 @@ export default {
           },
         },
       ],
-      today: formatDate(new Date(), 'yyyy-MM-dd'),
     };
   },
   methods: {
@@ -123,8 +116,8 @@ export default {
   },
   computed: {
     items() {
-      if (this.data?.leaveBalance) {
-        const {taken, scheduled, pending} = this.data.leaveBalance;
+      if (this.data) {
+        const {taken, scheduled, pending} = this.data;
         return [
           {status: this.$t('leave.taken'), days: taken},
           {status: this.$t('leave.scheduled'), days: scheduled},
@@ -133,24 +126,24 @@ export default {
       }
       return [];
     },
+    asAtDate() {
+      return this.data?.asAtDate;
+    },
+    leaveType() {
+      return 'Annual';
+    },
+    totalEntitlement() {
+      return this.data?.entitled
+        ? `${parseFloat(this.data.entitled).toFixed(2)} Day(s)`
+        : '0.00';
+    },
+    leaveBalance() {
+      return this.data?.balance
+        ? `${parseFloat(this.data.balance).toFixed(2)} Day(s)`
+        : '0.00';
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.oxd-overlay {
-  z-index: 1100 !important;
-}
-.orangehrm-leave-balance-text {
-  font-size: $oxd-input-control-font-size;
-}
-::v-deep(.card-item) {
-  align-self: center;
-}
-.orangehrm-container {
-  padding: 0.5rem 0;
-}
-.--break-row {
-  grid-column-start: 1;
-}
-</style>
+<style src="./leave-balance-modal.scss" lang="scss" scoped></style>

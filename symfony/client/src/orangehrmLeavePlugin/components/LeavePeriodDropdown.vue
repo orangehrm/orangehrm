@@ -40,9 +40,9 @@ export default {
 
     onBeforeMount(() => {
       http.getAll().then(({data}) => {
-        options.value = data.data.map((item, index) => {
+        options.value = data.data.map(item => {
           return {
-            id: index + 1,
+            id: `${item.startDate}_${item.endDate}`,
             label: `${item.startDate} - ${item.endDate}`,
             startDate: item.startDate,
             endDate: item.endDate,

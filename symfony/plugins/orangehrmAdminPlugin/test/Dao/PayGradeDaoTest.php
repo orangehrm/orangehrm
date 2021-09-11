@@ -20,14 +20,19 @@
 namespace OrangeHRM\Tests\Admin\Dao;
 
 use OrangeHRM\Admin\Dao\PayGradeDao;
+use OrangeHRM\Admin\Dto\PayGradeCurrencySearchFilterParams;
 use OrangeHRM\Admin\Dto\PayGradeSearchFilterParams;
 use OrangeHRM\Config\Config;
+use OrangeHRM\Entity\CurrencyType;
+use OrangeHRM\Entity\PayGrade;
+use OrangeHRM\Entity\PayGradeCurrency;
 use OrangeHRM\Tests\Util\TestCase;
 use OrangeHRM\Tests\Util\TestDataService;
 
 /**
  * @group Admin
  * @group Dao
+ * @group PayGradeDao
  */
 class PayGradeDaoTest extends TestCase
 {
@@ -95,5 +100,82 @@ class PayGradeDaoTest extends TestCase
         $result = $this->payGradeDao->getCurrencyById('AUD');
         $this->assertEquals(2, $result->getCode());
         $this->assertEquals('Australian Dollar', $result->getName());
+    }
+
+    public function testGetPayGradeCurrencyListCount(): void
+    {
+        $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
+        $payGradeCurrencySearchFilterParams->setPayGradeId(1);
+        $result = $this->payGradeDao->getPayGradeCurrencyListCount($payGradeCurrencySearchFilterParams);
+        $this->assertEquals(2, $result);
+    }
+
+    public function testGetPayGradeCurrencyList(): void
+    {
+        $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
+        $payGradeCurrencySearchFilterParams->setPayGradeId(1);
+        $result = $this->payGradeDao->getPayGradeCurrencyList($payGradeCurrencySearchFilterParams);
+        $this->assertCount(2, $result);
+        $this->assertEquals('AUD', $result[0]->getCurrencyType()->getId());
+        $this->assertEquals('USD', $result[1]->getCurrencyType()->getId());
+    }
+
+    public function testGetPayGradesCount(): void
+    {
+        $payGradeSearchFilter = new PayGradeSearchFilterParams();
+        $result = $this->payGradeDao->getPayGradesCount($payGradeSearchFilter);
+        $this->assertEquals(3, $result);
+    }
+
+    public function testSavePayGrade(): void
+    {
+        $payGrade = new PayGrade();
+        $payGrade->setName('Execitive');
+        $result = $this->payGradeDao->savePayGrade($payGrade);
+        $this->assertTrue($result instanceof PayGrade);
+    }
+
+    public function testSavePayGradeCurrency(): void
+    {
+        $currencyType = $this->getEntityReference(CurrencyType::class,'USD');
+        $payGrade = $this->getEntityReference(PayGrade::class,2);
+        $payGradeCurrency = new PayGradeCurrency();
+        $payGradeCurrency->setPayGrade($payGrade);
+        $payGradeCurrency->setCurrencyType($currencyType);
+        $result = $this->payGradeDao->savePayGradeCurrency($payGradeCurrency);
+        $this->assertTrue($result instanceof PayGradeCurrency);
+    }
+
+    public function testDeletePayGrades(): void
+    {
+        $ids = [1,2];
+        $results = $this->payGradeDao->deletePayGrades($ids);
+        $this->assertEquals(2, $results);
+    }
+
+    public function testDeletePayGradeCurrency(): void
+    {
+        $ids = ['USD','AUD'];
+        $results = $this->payGradeDao->deletePayGradeCurrency(1,$ids);
+        $this->assertEquals(2, $results);
+    }
+
+    public function testGetAllowedPayCurrencies(): void
+    {
+        $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
+        $payGradeCurrencySearchFilterParams->setPayGradeId(2);
+        $results = $this->payGradeDao->getAllowedPayCurrencies($payGradeCurrencySearchFilterParams);
+        $this->assertCount(1,$results);
+        $this->assertEquals('USD', $results[0]->getId());
+
+    }
+
+    public function testGetAllowedPayCurrenciesCount(): void
+    {
+        $payGradeCurrencySearchFilterParams = new PayGradeCurrencySearchFilterParams();
+        $payGradeCurrencySearchFilterParams->setPayGradeId(2);
+        $results = $this->payGradeDao->getAllowedPayCurrenciesCount($payGradeCurrencySearchFilterParams);
+        $this->assertEquals(1,$results);
+
     }
 }

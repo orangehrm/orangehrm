@@ -19,7 +19,7 @@
  -->
 
 <template>
-  <leave-entitlement-table>
+  <leave-entitlement-table :prefetch="false">
     <template v-slot:default="{filters, filterItems}">
       <oxd-table-filter :filter-title="$t('leave.leave_entitlements')">
         <oxd-form @submitValid="filterItems">
@@ -29,11 +29,17 @@
                 <employee-autocomplete
                   v-model="filters.employee"
                   :rules="rules.employee"
+                  :params="{
+                    includeEmployees: 'currentAndPast',
+                  }"
                   required
                 />
               </oxd-grid-item>
               <oxd-grid-item>
-                <leave-type-dropdown v-model="filters.leaveType" />
+                <leave-type-dropdown
+                  :eligible-only="false"
+                  v-model="filters.leaveType"
+                />
               </oxd-grid-item>
               <oxd-grid-item>
                 <leave-period-dropdown v-model="filters.leavePeriod" />

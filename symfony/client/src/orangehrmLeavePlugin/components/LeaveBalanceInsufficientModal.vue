@@ -1,0 +1,146 @@
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+ -->
+
+<template>
+  <oxd-dialog
+    :gutters="false"
+    :style="{width: '90%', maxWidth: '600px'}"
+    @update:show="onCancel"
+  >
+    <div class="orangehrm-header-container">
+      <oxd-text tag="h6" class="orangehrm-main-title">
+        {{ $t('leave.insufficient_leave_balance') }}
+      </oxd-text>
+    </div>
+    <oxd-divider class="orangehrm-horizontal-margin orangehrm-clear-margins" />
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+      <oxd-grid :cols="3">
+        <oxd-input-group :label="$t('leave.leave_type')">
+          <oxd-text class="orangehrm-leave-balance-text" tag="p">
+            {{ leaveType }}
+          </oxd-text>
+        </oxd-input-group>
+        <oxd-input-group :label="$t('leave.balance')">
+          <oxd-text class="orangehrm-leave-balance-text" tag="p">
+            {{ leaveBalance }}
+          </oxd-text>
+        </oxd-input-group>
+      </oxd-grid>
+    </div>
+    <div class="orangehrm-container">
+      <oxd-card-table
+        :headers="headers"
+        :items="items"
+        :clickable="false"
+        class="orangehrm-horizontal-padding"
+        rowDecorator="oxd-table-decorator-card"
+      />
+    </div>
+    <div class="orangehrm-horizontal-padding orangehrm-vertical-padding">
+      <oxd-form-actions>
+        <oxd-button
+          type="submit"
+          displayType="secondary"
+          :label="$t('general.ok')"
+          @click="onCancel"
+        />
+      </oxd-form-actions>
+    </div>
+  </oxd-dialog>
+</template>
+
+<script>
+import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
+
+export default {
+  name: 'leave-balance-insufficient-modal',
+  props: {
+    data: {
+      type: Array,
+      required: true,
+    },
+  },
+  components: {
+    'oxd-dialog': Dialog,
+  },
+  data() {
+    return {
+      headers: [
+        {
+          title: 'Leave Period',
+          name: 'period',
+          style: {flex: 1},
+        },
+        {
+          title: 'Date',
+          name: 'date',
+          style: {flex: 1},
+        },
+        {
+          title: 'Available Balance',
+          name: 'balance',
+          style: {flex: 1},
+        },
+      ],
+    };
+  },
+  methods: {
+    onCancel() {
+      this.$emit('close', true);
+    },
+  },
+  computed: {
+    items() {
+      if (this.data.length > 0) {
+        return this.data
+          .flatMap(item => {
+            const {leaves, period} = item;
+            if (Array.isArray(leaves) && leaves.length > 0) {
+              leaves[0].period = period;
+              return leaves;
+            } else {
+              return [];
+            }
+          })
+          .map(item => {
+            return {
+              period:
+                item?.period &&
+                `${item.period.startDate} - ${item.period.endDate}`,
+              date: item.date,
+              balance: item.status?.name || item.balance,
+            };
+          });
+      }
+      return [];
+    },
+    leaveType() {
+      return 'Annual';
+    },
+    leaveBalance() {
+      return this.data[0]?.balance
+        ? `${parseFloat(this.data[0].balance.balance).toFixed(2)} Day(s)`
+        : '0.00';
+    },
+  },
+};
+</script>
+
+<style src="./leave-balance-modal.scss" lang="scss" scoped></style>

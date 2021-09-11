@@ -139,7 +139,7 @@ export default {
       response,
       isLoading,
       execQuery,
-    } = usePaginate(http, {}, membershipNormalizer);
+    } = usePaginate(http, {normalizer: membershipNormalizer});
     return {
       http,
       showPaginator,

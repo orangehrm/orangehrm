@@ -19,13 +19,27 @@
 
 namespace OrangeHRM\Tests\Util;
 
+use OrangeHRM\Core\Helper\ClassHelper;
+use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Core\Service\TextHelperService;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Framework;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Framework\Services;
+use OrangeHRM\ORM\Doctrine;
 
 abstract class KernelTestCase extends TestCase
 {
     use ServiceContainerTrait;
+
+    /**
+     * Value of this key should be bool, default: true
+     */
+    public const OPTIONS_WITH_HELPER_SERVICES = 'withHelperServices';
+
+    private array $options = [
+        self::OPTIONS_WITH_HELPER_SERVICES => true,
+    ];
 
     protected function tearDown(): void
     {
@@ -54,6 +68,10 @@ abstract class KernelTestCase extends TestCase
             }
             $this->getContainer()->set($serviceId, null);
         }
+        $this->getContainer()->register(Services::DOCTRINE)
+            ->setFactory([Doctrine::class, 'getEntityManager']);
+
+        $this->setHelperServices();
 
         return $this->getMockBuilder(Framework::class)
             ->onlyMethods(['handle'])
@@ -73,5 +91,22 @@ abstract class KernelTestCase extends TestCase
             $this->getContainer()->set($id, $service);
         }
         return $kernel;
+    }
+
+    /**
+     * @param array $options
+     */
+    protected function updateOptions(array $options)
+    {
+        $this->options = array_replace($this->options, $options);
+    }
+
+    private function setHelperServices(): void
+    {
+        if (isset($this->options[self::OPTIONS_WITH_HELPER_SERVICES]) && $this->options[self::OPTIONS_WITH_HELPER_SERVICES]) {
+            $this->getContainer()->set(Services::DATETIME_HELPER_SERVICE, new DateTimeHelperService());
+            $this->getContainer()->set(Services::TEXT_HELPER_SERVICE, new TextHelperService());
+            $this->getContainer()->set(Services::CLASS_HELPER, new ClassHelper());
+        }
     }
 }

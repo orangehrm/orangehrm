@@ -26,6 +26,7 @@ use OrangeHRM\Config\Config;
 use OrangeHRM\Core\Authorization\Manager\BasicUserRoleManager;
 use OrangeHRM\Core\Helper\ClassHelper;
 use OrangeHRM\Core\Service\DateTimeHelperService;
+use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\User;
 use OrangeHRM\Entity\UserRole;
@@ -438,6 +439,73 @@ class LeaveEntitlementServiceTest extends KernelTestCase
         );
         $this->assertEquals(7.5, $leaveEntitlement->getNoOfDays());
         $this->assertEquals(2, $leaveEntitlement->getDaysUsed());
+    }
+
+    public function testBulkAssignLeaveEntitlements(): void
+    {
+        $this->loadFixtures();
+        $user = $this->getEntityReference(User::class, 1);
+
+        $userRoleManager = $this->getMockBuilder(BasicUserRoleManager::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getUser'])
+            ->getMock();
+        $userRoleManager->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
+        $this->createKernelWithMockServices(
+            [
+                Services::USER_ROLE_MANAGER => $userRoleManager,
+                Services::DATETIME_HELPER_SERVICE => new DateTimeHelperService(),
+            ]
+        );
+
+        $dao = $this->getMockBuilder(LeaveEntitlementDao::class)
+            ->onlyMethods(['bulkAssignLeaveEntitlements'])
+            ->getMock();
+        $dao->expects($this->once())
+            ->method('bulkAssignLeaveEntitlements')
+            ->willReturnCallback(function (array $empNumbers, LeaveEntitlement $leaveEntitlement) {
+                $entitlement = [];
+                foreach ($empNumbers as $empNumber) {
+                    $employee = new Employee();
+                    $employee->setEmpNumber($empNumber);
+                    $newLeaveEntitlement = clone $leaveEntitlement;
+                    $newLeaveEntitlement->setEmployee($employee);
+                    $entitlement[] = $newLeaveEntitlement;
+                }
+                return [$entitlement, count($entitlement)];
+            });
+
+        $this->service = $this->getMockBuilder(LeaveEntitlementService::class)
+            ->onlyMethods(['getLeaveEntitlementDao'])
+            ->getMock();
+        $this->service->expects($this->once())
+            ->method('getLeaveEntitlementDao')
+            ->willReturn($dao);
+
+        list($leaveEntitlements, $count) = $this->service->bulkAssignLeaveEntitlements(
+            [1, 2],
+            1,
+            new DateTime('2020-01-01'),
+            new DateTime('2020-12-31'),
+            2.5
+        );
+        $this->assertEquals(2, $count);
+        /** @var LeaveEntitlement $leaveEntitlement1 */
+        $leaveEntitlement1 = $leaveEntitlements[0];
+        $this->assertEquals(2.5, $leaveEntitlement1->getNoOfDays());
+        $this->assertEquals(1, $leaveEntitlement1->getLeaveType()->getId());
+        $this->assertEquals(1, $leaveEntitlement1->getEmployee()->getEmpNumber());
+        $this->assertEquals('2020-01-01', $leaveEntitlement1->getDecorator()->getFromDate());
+        $this->assertEquals('2020-12-31', $leaveEntitlement1->getDecorator()->getToDate());
+
+        $leaveEntitlement2 = $leaveEntitlements[1];
+        $this->assertEquals(2.5, $leaveEntitlement2->getNoOfDays());
+        $this->assertEquals(1, $leaveEntitlement2->getLeaveType()->getId());
+        $this->assertEquals(2, $leaveEntitlement2->getEmployee()->getEmpNumber());
+        $this->assertEquals('2020-01-01', $leaveEntitlement2->getDecorator()->getFromDate());
+        $this->assertEquals('2020-12-31', $leaveEntitlement2->getDecorator()->getToDate());
     }
 
     protected function loadFixtures(): void
