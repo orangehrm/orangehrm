@@ -31,6 +31,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Service\NormalizerServiceTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\LeaveRequest;
@@ -39,15 +40,17 @@ use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
 use OrangeHRM\Leave\Dto\LeaveSearchFilterParams;
 use OrangeHRM\Leave\Service\LeaveRequestCommentService;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
+use OrangeHRM\Pim\Api\Model\EmployeeModel;
 
 class LeaveAPI extends Endpoint implements CrudEndpoint
 {
     use LeaveRequestParamHelperTrait;
     use LeaveRequestServiceTrait;
     use UserRoleManagerTrait;
+    use NormalizerServiceTrait;
 
     public const FILTER_LEAVE_REQUEST_ID = 'leaveRequestId';
-    public const EMPLOYEE = 'employee';
+    public const META_PARAMETER_EMPLOYEE = 'employee';
 
     /**
      * @var null|LeaveRequestCommentService
@@ -104,7 +107,7 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
             ->getLeavesCount($leaveSearchFilterParams);
         $detailedLeaves = $this->getLeaveRequestService()->getDetailedLeaves($leaves);
 
-        $employee = $detailedLeaves[0]->getLeave()->getEmployee();
+        $employee = $leaveRequest->getEmployee();
 
         return new EndpointCollectionResult(
             LeaveDetailedModel::class,
@@ -112,17 +115,21 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
             new ParameterBag(
                 [
                     CommonParams::PARAMETER_TOTAL => $total,
-                    self::EMPLOYEE => [
-                        'empNumber' => $employee->getEmpNumber(),
-                        'lastName' => $employee->getLastName(),
-                        'firstName' => $employee->getFirstName(),
-                        'middleName' => $employee->getMiddleName(),
-                        'employeeId' => $employee->getEmployeeId(),
-                        'terminationId' => $employee->getEmployeeTerminationRecord() ?
-                            $employee->getEmployeeTerminationRecord()->getId() : null,
-                    ],
+                    self::META_PARAMETER_EMPLOYEE => $this->getNormalizedEmployee($employee)
                 ]
             )
+        );
+    }
+
+    /**
+     * @param Employee $employee
+     * @return array
+     */
+    protected function getNormalizedEmployee(Employee $employee): array
+    {
+        return $this->getNormalizerService()->normalize(
+            EmployeeModel::class,
+            $employee
         );
     }
 
@@ -149,7 +156,11 @@ class LeaveAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForGetAll(): ParamRuleCollection
     {
         return new ParamRuleCollection(
-            new ParamRule(self::FILTER_LEAVE_REQUEST_ID, new Rule(Rules::POSITIVE)),
+            new ParamRule(
+                self::FILTER_LEAVE_REQUEST_ID,
+                new Rule(Rules::POSITIVE),
+                new Rule(Rules::ENTITY_ID_EXISTS, [LeaveRequest::class])
+            ),
             ...$this->getSortingAndPaginationParamsRules()
         );
     }

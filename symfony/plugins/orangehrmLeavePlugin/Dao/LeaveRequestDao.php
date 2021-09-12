@@ -1101,8 +1101,6 @@ class LeaveRequestDao extends BaseDao
         $q = $this->createQueryBuilder(Leave::class, 'leave')
             ->leftJoin('leave.employee', 'employee');
         $this->setSortingAndPaginationParams($q, $leaveSearchFilterParams);
-        $q->addOrderBy('employee.lastName', ListSorter::ASCENDING)
-            ->addOrderBy('employee.firstName', ListSorter::ASCENDING);
 
         if (!is_null($leaveSearchFilterParams->getLeaveRequestId())) {
             $q->andWhere('leave.leaveRequest = :leaveRequestId')
