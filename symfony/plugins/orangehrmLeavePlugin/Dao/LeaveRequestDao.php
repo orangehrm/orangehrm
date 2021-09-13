@@ -32,6 +32,7 @@ use OrangeHRM\Entity\LeaveRequestComment;
 use OrangeHRM\Entity\LeaveStatus;
 use OrangeHRM\Leave\Dto\CurrentAndChangeEntitlement;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
+use OrangeHRM\Leave\Dto\LeaveSearchFilterParams;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\ORM\ListSorter;
@@ -1068,5 +1069,59 @@ class LeaveRequestDao extends BaseDao
     public function getLeaveRequestById(int $leaveRequestId): ?LeaveRequest
     {
         return $this->getRepository(LeaveRequest::class)->find($leaveRequestId);
+    }
+
+    /**
+     * @param int $leaveRequestId
+     * @return Leave[]
+     */
+    public function getLeavesByLeaveRequestId(int $leaveRequestId): array
+    {
+        $q = $this->createQueryBuilder(Leave::class, 'l')
+            ->addOrderBy('l.leaveRequest')
+            ->addOrderBy('l.date');
+        $q->andWhere('l.leaveRequest = :leaveRequestId')
+            ->setParameter('leaveRequestId', $leaveRequestId);
+
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param LeaveSearchFilterParams $leaveSearchFilterParams
+     * @return Paginator
+     */
+    private function getLeavesPaginator(
+        LeaveSearchFilterParams $leaveSearchFilterParams
+    ): Paginator {
+        $q = $this->createQueryBuilder(Leave::class, 'leave')
+            ->leftJoin('leave.employee', 'employee');
+        $this->setSortingAndPaginationParams($q, $leaveSearchFilterParams);
+
+        if (!is_null($leaveSearchFilterParams->getLeaveRequestId())) {
+            $q->andWhere('leave.leaveRequest = :leaveRequestId')
+                ->setParameter('leaveRequestId', $leaveSearchFilterParams->getLeaveRequestId());
+        }
+
+        return $this->getPaginator($q);
+    }
+
+    /**
+     * @param LeaveSearchFilterParams $leaveSearchFilterParams
+     * @return Leave[]
+     */
+    public function getLeaves(LeaveSearchFilterParams $leaveSearchFilterParams): array
+    {
+        $this->_markApprovedLeaveAsTaken();
+        return $this->getLeavesPaginator($leaveSearchFilterParams)->getQuery()->execute();
+    }
+
+    /**
+     * @param LeaveSearchFilterParams $leaveSearchFilterParams
+     * @return int
+     */
+    public function getLeavesCount(LeaveSearchFilterParams $leaveSearchFilterParams): int
+    {
+        $this->_markApprovedLeaveAsTaken();
+        return $this->getLeavesPaginator($leaveSearchFilterParams)->count();
     }
 }

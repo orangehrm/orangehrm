@@ -28,6 +28,7 @@ use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Dao\LeaveRequestDao;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
+use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeave;
 
 class LeaveRequestService
 {
@@ -596,5 +597,21 @@ class LeaveRequestService
             }
             throw new InvalidArgumentException("Invalid status name $name");
         }, $names);
+    }
+
+    /**
+     * @param Leave[] $leaves
+     * @return DetailedLeave[]
+     */
+    public function getDetailedLeaves(array $leaves): array
+    {
+        $detailedLeaves = [];
+        foreach ($leaves as $leave) {
+            $detailedLeave = new DetailedLeave();
+            $detailedLeave->setLeaves($leaves);
+            $detailedLeave->setLeave($leave);
+            $detailedLeaves[] = $detailedLeave;
+        }
+        return $detailedLeaves;
     }
 }
