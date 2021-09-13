@@ -193,16 +193,103 @@ trait LeaveRequestParamHelperTrait
         if (!$this instanceof Endpoint) {
             throw $this->getEndpointLogicException();
         }
-        return new ParamRuleCollection(
+        $durationRule = new ParamRule(
+            LeaveCommonParams::PARAMETER_DURATION,
+            new Rule(Rules::CALLBACK, [
+                function ($duration) {
+                    $fromDate = $this->getFromDateParam();
+                    $toDate = $this->getToDateParam();
+
+                    // not required parameter for single day leave request
+                    $singleDayNotRequired = $fromDate == $toDate && is_null($duration);
+
+                    // not required duration for multi day leave request with none (null) partial option
+                    $multiDayNonePartialDayNotRequired = $fromDate < $toDate &&
+                        (is_null($this->getPartialOptionParam()) ||
+                            $this->getPartialOptionParam() == LeaveParameterObject::PARTIAL_OPTION_NONE);
+
+                    if ($singleDayNotRequired || $multiDayNonePartialDayNotRequired) {
+                        return true;
+                    }
+
+                    // for all other scenarios' duration -> type required
+                    if (!is_array($duration) || !isset($duration[LeaveCommonParams::PARAMETER_DURATION_TYPE])) {
+                        return false;
+                    }
+
+                    // validating duration type
+                    $durationType = $duration[LeaveCommonParams::PARAMETER_DURATION_TYPE];
+                    if (!in_array($durationType, array_values(LeaveDuration::DURATION_MAP))) {
+                        return false;
+                    }
+
+                    // `full_day` duration type not allowed with partial options (multi day leaves)
+                    if (!is_null($this->getPartialOptionParam()) && $durationType === LeaveDuration::FULL_DAY) {
+                        return false;
+                    }
+
+                    // if duration type `specify_time`, `fromTime` & `toTime` should define
+                    if ($durationType === LeaveDuration::SPECIFY_TIME) {
+                        if ((!isset($duration[LeaveCommonParams::PARAMETER_DURATION_FROM_TIME]) ||
+                            !isset($duration[LeaveCommonParams::PARAMETER_DURATION_TO_TIME]))) {
+                            return false;
+                        }
+                        if (new DateTime($duration[LeaveCommonParams::PARAMETER_DURATION_FROM_TIME]) >=
+                            new DateTime($duration[LeaveCommonParams::PARAMETER_DURATION_TO_TIME])) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            ]),
+        );
+        $endDurationRule = new ParamRule(
+            LeaveCommonParams::PARAMETER_END_DURATION,
+            new Rule(Rules::CALLBACK, [
+                function ($endDuration) {
+                    if (is_null($endDuration)) {
+                        return true;
+                    }
+                    // endDuration -> type required
+                    if (!is_array($endDuration) || !isset($endDuration[LeaveCommonParams::PARAMETER_DURATION_TYPE])) {
+                        return false;
+                    }
+                    $fromDate = $this->getFromDateParam();
+                    $toDate = $this->getToDateParam();
+
+                    if ($fromDate < $toDate &&
+                        $this->getPartialOptionParam() == LeaveParameterObject::PARTIAL_OPTION_START_END) {
+                        // validating duration type
+                        $durationType = $endDuration[LeaveCommonParams::PARAMETER_DURATION_TYPE];
+                        if (!in_array(
+                            $durationType,
+                            [
+                                LeaveDuration::HALF_DAY_MORNING,
+                                LeaveDuration::HALF_DAY_AFTERNOON,
+                                LeaveDuration::SPECIFY_TIME
+                            ]
+                        )) {
+                            return false;
+                        }
+
+                        // if duration type `specify_time`, `fromTime` & `toTime` should define
+                        if ($durationType === LeaveDuration::SPECIFY_TIME && !isset($duration[LeaveCommonParams::PARAMETER_DURATION_FROM_TIME]) && !isset($duration[LeaveCommonParams::PARAMETER_DURATION_TO_TIME])) {
+                            return false;
+                        }
+                        return true;
+                    }
+
+                    return false;
+                }
+            ]),
+        );
+        $paramRules = new ParamRuleCollection(
             new ParamRule(LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class)),
             new ParamRule(
                 LeaveCommonParams::PARAMETER_FROM_DATE,
                 new Rule(Rules::API_DATE),
-                new Rule(Rules::LESS_THAN_OR_EQUAL, [
-                    function () {
-                        return $this->getToDateParam();
-                    }
-                ])
+                new Rule(Rules::LESS_THAN_OR_EQUAL, [fn() => $this->getToDateParam()])
             ),
             new ParamRule(LeaveCommonParams::PARAMETER_TO_DATE, new Rule(Rules::API_DATE)),
             $this->getValidationDecorator()->notRequiredParamRule(
@@ -212,18 +299,8 @@ trait LeaveRequestParamHelperTrait
                     new Rule(Rules::LENGTH, [null, 255])
                 )
             ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    LeaveCommonParams::PARAMETER_DURATION,
-                    new Rule(Rules::ARRAY_TYPE)
-                )
-            ),
-            $this->getValidationDecorator()->notRequiredParamRule(
-                new ParamRule(
-                    LeaveCommonParams::PARAMETER_END_DURATION,
-                    new Rule(Rules::ARRAY_TYPE)
-                )
-            ),
+            $durationRule,
+            $endDurationRule,
             $this->getValidationDecorator()->notRequiredParamRule(
                 new ParamRule(
                     LeaveCommonParams::PARAMETER_PARTIAL_OPTION,
@@ -239,6 +316,7 @@ trait LeaveRequestParamHelperTrait
                 )
             ),
         );
+        return $paramRules;
     }
 
     /**

@@ -267,7 +267,7 @@ export default {
       };
       if (this.leave.partialOptions?.id) {
         payload.partialOption = this.leave.partialOptions.key;
-        payload.endDuration = {
+        payload.endDuration = this.leave.partialOptions?.key ==='start_end' && {
           type: this.leave.endDuration.type?.key,
           fromTime:
             this.leave.endDuration.type?.id === 4
