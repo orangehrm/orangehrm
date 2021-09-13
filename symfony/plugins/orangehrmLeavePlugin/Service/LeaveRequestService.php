@@ -324,40 +324,30 @@ class LeaveRequestService
 
     }
 
-    protected function _changeLeaveStatus($leaveList, $newState, $comments = null) {
-        // TODO
-        $dao = $this->getLeaveRequestDao();
-
+    /**
+     * @param Leave[] $leaveList
+     * @param int $newState e.g. -1, 0, 2
+     */
+    protected function _changeLeaveStatus(iterable $leaveList, int $newState): void
+    {
         foreach ($leaveList as $leave) {
-
             $currentState = $leave->getStatus();
-            if (($currentState != Leave::LEAVE_STATUS_LEAVE_WEEKEND) &&
-                    ($currentState != Leave::LEAVE_STATUS_LEAVE_HOLIDAY)) {
-                $entitlementChanges = array();
-
-                $removeLinkedEntitlements = (($newState == Leave::LEAVE_STATUS_LEAVE_CANCELLED) ||
-                        ($newState == Leave::LEAVE_STATUS_LEAVE_REJECTED));
-
-
-                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
-
-                if ($removeLinkedEntitlements) {
-                    $entitlementChanges = $strategy->handleLeaveCancel($leave);
-                }
-
-                $leave->setStatus($newState);
-
-                if (!is_null($comments)) {
-                    if (is_array($comments)) {
-                        $comment = isset($comments[$leave->getId()]) ? $comments[$leave->getId()] : '';
-                    } else {
-                        $comment = $comments;
-                    }
-                    $leave->setComments($comment);
-                }
-
-                $dao->changeLeaveStatus($leave, $entitlementChanges, $removeLinkedEntitlements);
+            if ($currentState === Leave::LEAVE_STATUS_LEAVE_WEEKEND || $currentState === Leave::LEAVE_STATUS_LEAVE_HOLIDAY) {
+                continue;
             }
+            $entitlementChanges = null;
+
+            $removeLinkedEntitlements = (($newState === Leave::LEAVE_STATUS_LEAVE_CANCELLED) ||
+                ($newState === Leave::LEAVE_STATUS_LEAVE_REJECTED));
+
+            $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();
+            if ($removeLinkedEntitlements) {
+                $entitlementChanges = $strategy->handleLeaveCancel($leave);
+            }
+
+            $leave->setStatus($newState);
+
+            $this->getLeaveRequestDao()->changeLeaveStatus($leave, $entitlementChanges, $removeLinkedEntitlements);
         }
     }
 
@@ -391,7 +381,7 @@ class LeaveRequestService
     /**
      * @param Employee $employee
      * @param LeaveType $leaveType
-     * @param string $leaveStatus e.g. ['PENDING APPROVAL', 'SCHEDULED', 'TAKEN']
+     * @param string $leaveStatus e.g. 'PENDING APPROVAL', 'SCHEDULED', 'TAKEN'
      * @param int $loggedInEmpNumber
      * @return WorkflowStateMachine[]
      */
@@ -401,6 +391,50 @@ class LeaveRequestService
         string $leaveStatus,
         int $loggedInEmpNumber
     ): array {
+        $includeRoles = $this->generateIncludeRolesForLeaveWorkflowByEmployee($employee, $loggedInEmpNumber);
+
+        return $this->getUserRoleManager()->getAllowedActions(
+            WorkflowStateMachine::FLOW_LEAVE,
+            $this->generateLeaveStatusByLeaveType($leaveStatus, $leaveType),
+            [],
+            $includeRoles,
+            [Employee::class => $employee->getEmpNumber()]
+        );
+    }
+
+    /**
+     * @param Employee $employee
+     * @param LeaveType $leaveType
+     * @param string $leaveStatus e.g. 'PENDING APPROVAL', 'SCHEDULED', 'TAKEN'
+     * @param int $loggedInEmpNumber
+     * @return bool
+     */
+    public function isLeaveRequestActionAllowed(
+        Employee $employee,
+        LeaveType $leaveType,
+        string $leaveStatus,
+        string $action,
+        int $loggedInEmpNumber
+    ): bool {
+        $includeRoles = $this->generateIncludeRolesForLeaveWorkflowByEmployee($employee, $loggedInEmpNumber);
+
+        return $this->getUserRoleManager()->isActionAllowed(
+            WorkflowStateMachine::FLOW_LEAVE,
+            $this->generateLeaveStatusByLeaveType($leaveStatus, $leaveType),
+            $action,
+            [],
+            $includeRoles,
+            [Employee::class => $employee->getEmpNumber()]
+        );
+    }
+
+    /**
+     * @param Employee $employee
+     * @param int $loggedInEmpNumber
+     * @return string[]
+     */
+    private function generateIncludeRolesForLeaveWorkflowByEmployee(Employee $employee, int $loggedInEmpNumber): array
+    {
         $includeRoles = [];
         $empNumber = $employee->getEmpNumber();
 
@@ -409,19 +443,20 @@ class LeaveRequestService
                 || !$this->getUserRoleManager()->isEntityAccessible(Employee::class, $empNumber))) {
             $includeRoles = ['ESS'];
         }
+        return $includeRoles;
+    }
 
-        $leaveTypeDeleted = $leaveType->isDeleted();
-        if ($leaveTypeDeleted) {
+    /**
+     * @param string $leaveStatus e.g. 'PENDING APPROVAL', 'SCHEDULED', 'TAKEN'
+     * @param LeaveType $leaveType
+     * @return string
+     */
+    private function generateLeaveStatusByLeaveType(string $leaveStatus, LeaveType $leaveType): string
+    {
+        if ($leaveType->isDeleted()) {
             $leaveStatus = self::WORKFLOW_LEAVE_TYPE_DELETED_STATUS_PREFIX . ' ' . $leaveStatus;
         }
-
-        return $this->getUserRoleManager()->getAllowedActions(
-            WorkflowStateMachine::FLOW_LEAVE,
-            $leaveStatus,
-            [],
-            $includeRoles,
-            [Employee::class => $empNumber]
-        );
+        return $leaveStatus;
     }
 
     /**
@@ -430,8 +465,11 @@ class LeaveRequestService
      * @param int $loggedInEmpNumber
      * @return array
      */
-    public function getLeaveRequestActions(LeaveRequest $leaveRequest, string $leaveStatus, int $loggedInEmpNumber): array
-    {
+    public function getLeaveRequestActions(
+        LeaveRequest $leaveRequest,
+        string $leaveStatus,
+        int $loggedInEmpNumber
+    ): array {
         // TODO
         $workFlowItems = $this->getLeaveRequestAllowedWorkflows(
             $leaveRequest->getEmployee(),
@@ -484,23 +522,16 @@ class LeaveRequestService
 
     /**
      * Update leave request status (required prior access right validation)
-     * @param LeaveRequest $leaveRequest
-     * @param string $action 'Approve', 'Cancel', 'Reject'
-     * @param null|string $actionPerformerUserType
-     * @param null|string $actionPerformerEmpNumber
+     * @param DetailedLeaveRequest $leaveRequest
+     * @param string $nextState e.g. 'SCHEDULED', 'CANCELLED', 'REJECTED'
      */
-    public function changeLeaveRequestStatus($leaveRequest, $action, $actionPerformerUserType = null, $actionPerformerEmpNumber = null) {
+    public function changeLeaveRequestStatus(DetailedLeaveRequest $leaveRequest, string $nextState): void
+    {
+        $changedLeaves = $leaveRequest->getLeaves();
+        $this->_changeLeaveStatus($changedLeaves, $this->getLeaveStatusByName($nextState));
         // TODO
-        $changedLeave = $leaveRequest->getLeave();
-        $allowedActions = $this->getLeaveRequestActions($leaveRequest, $actionPerformerEmpNumber);
-
-        $workFlowId = array_flip($allowedActions)[$action];
-        $workFlow = $this->getAccessFlowStateMachineService()->getWorkflowItem($workFlowId);
-        $nextState = Leave::getLeaveStatusForText($workFlow->getResultingState());
-
-        $this->_changeLeaveStatus($changedLeave, $nextState);
-        $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
-            $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
+//        $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
+//            $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
     }
 
     /**
@@ -517,8 +548,7 @@ class LeaveRequestService
         foreach ($leaves as $leave) {
             $leaveRequestId = $leave->getLeaveRequest()->getId();
             if (!isset($detailedLeaveRequests[$leaveRequestId])) {
-                $detailedLeaveRequest = new DetailedLeaveRequest();
-                $detailedLeaveRequest->setLeaveRequest($leave->getLeaveRequest());
+                $detailedLeaveRequest = new DetailedLeaveRequest($leave->getLeaveRequest());
                 $detailedLeaveRequests[$leaveRequestId] = $detailedLeaveRequest;
             }
             $detailedLeaveRequests[$leaveRequestId]->addLeave($leave);
@@ -572,8 +602,8 @@ class LeaveRequestService
     }
 
     /**
-     * @param string $name
-     * @return int
+     * @param string $name e.g. 'REJECTED', 'PENDING APPROVAL', 'TAKEN'
+     * @return int e.g. -1, 1, 3
      */
     public function getLeaveStatusByName(string $name): int
     {

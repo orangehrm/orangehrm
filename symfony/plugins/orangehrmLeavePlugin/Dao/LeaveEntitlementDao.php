@@ -28,6 +28,8 @@ use OrangeHRM\Entity\Leave;
 use OrangeHRM\Entity\LeaveEntitlement;
 use OrangeHRM\Entity\LeaveLeaveEntitlement;
 use OrangeHRM\Leave\Dto\LeaveEntitlementSearchFilterParams;
+use OrangeHRM\Leave\Dto\LeaveEntitlementUsage;
+use OrangeHRM\Leave\Dto\LeaveWithDaysLeft;
 use OrangeHRM\Leave\Entitlement\LeaveBalance;
 use OrangeHRM\Leave\Service\LeavePeriodService;
 use OrangeHRM\Leave\Traits\Service\LeaveConfigServiceTrait;
@@ -171,10 +173,11 @@ class LeaveEntitlementDao extends BaseDao
     ): void {
         $empNumbers = array_keys($entitlements);
         $leaveList = $this->getLeaveWithoutEntitlements($empNumbers, $leaveTypeId, $fromDate, $toDate);
+        /** @var array<int, LeaveWithDaysLeft> $leaveListByEmployee */
         $leaveListByEmployee = [];
 
         foreach ($leaveList as $leave) {
-            $empNumber = $leave['empNumber'];
+            $empNumber = $leave->getEmpNumber();
             if (isset($leaveListByEmployee[$empNumber])) {
                 $leaveListByEmployee[$empNumber][] = $leave;
             } else {
@@ -193,8 +196,8 @@ class LeaveEntitlementDao extends BaseDao
                 $entitlementId = $leaveEntitlement->getId();
 
                 foreach ($leaveListByEmployee[$empNumber] as $leave) {
-                    $daysLeft = $leave['days_left'];
-                    $leaveId = $leave['id'];
+                    $daysLeft = $leave->getDaysLeft();
+                    $leaveId = $leave->getId();
                     $daysToAssign = $daysLeft > $balance ? $balance : $daysLeft;
 
                     $leaveEntitlement->setDaysUsed($leaveEntitlement->getDaysUsed() - $daysToAssign);
@@ -248,8 +251,8 @@ class LeaveEntitlementDao extends BaseDao
                 ->setParameter('entitlementId', $entitlementId);
 
             foreach ($leaveList as $leave) {
-                $daysLeft = $leave['days_left'];
-                $leaveId = $leave['id'];
+                $daysLeft = $leave->getDaysLeft();
+                $leaveId = $leave->getId();
                 $daysToAssign = $daysLeft > $balance ? $balance : $daysLeft;
 
                 $leaveEntitlement->setDaysUsed($leaveEntitlement->getDaysUsed() - $daysToAssign);
@@ -565,66 +568,87 @@ class LeaveEntitlementDao extends BaseDao
         return $balance;
     }
 
-    public function getEntitlementUsageForLeave($leaveId) {
-        // TODO:: not converted
-        try {
-            $conn = Doctrine_Manager::connection()->getDbh();
-            $query = "SELECT e.id, e.no_of_days, e.days_used, e.from_date, e.to_date, sum(lle.length_days) as length_days from ohrm_leave_entitlement e " .
-                    "left join ohrm_leave_leave_entitlement lle on lle.entitlement_id = e.id where " .
-                    "lle.leave_id = ? AND e.deleted = 0 group by e.id order by e.from_date ASC";
-            $statement = $conn->prepare($query);
-            $result = $statement->execute([$leaveId]);
+    /**
+     * @param int $leaveId
+     * @return LeaveEntitlementUsage[]
+     */
+    public function getEntitlementUsageForLeave(int $leaveId): array
+    {
+        $select = 'NEW ' . LeaveEntitlementUsage::class .
+            '(e.id, e.noOfDays, e.daysUsed, e.fromDate, e.toDate, SUM(lle.lengthDays))';
+        $q = $this->createQueryBuilder(LeaveEntitlement::class, 'e')
+            ->leftJoin('e.leaveLeaveEntitlements', 'lle')
+            ->select($select);
+        $q->andWhere('lle.leave = :leaveId')
+            ->setParameter('leaveId', $leaveId);
+        $q->andWhere('e.deleted = :deleted')
+            ->setParameter('deleted', false);
+        $q->addGroupBy('e.id')
+            ->addOrderBy('e.fromDate');
 
-            return $statement->fetchAll();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage(), 0, $e);
-        }
+        return $q->getQuery()->getResult();
     }
 
     /**
      * Get Leave without entitlements sorted by empNumber ASC and leave date ASC
      *
-     * @param int[] $empNumbers integer employee number or array of integer employee numbers
+     * @param int[] $empNumbers array of integer employee numbers
      * @param int $leaveTypeId Leave type ID
      * @param DateTime $fromDate From Date
      * @param DateTime $toDate To Date
-     * @return array Array containing leave without entitlements. Each element of the array contains the following:
+     * @return LeaveWithDaysLeft[] Array containing leave without entitlements.
      *
      * id -> leave id
      * date -> leave date
-     * length_hours -> leave length in hours
-     * length_days -> leave length in days
+     * lengthHours -> leave length in hours
+     * lengthDays -> leave length in days
      * status -> leave status
-     * leave_type_id -> leave type id
-     * emp_number -> emp number
-     * days_left -> days in leave that are not yet linked to an entitlement
+     * leaveTypeId -> leave type id
+     * empNumber -> emp number
+     * daysLeft -> days in leave that are not yet linked to an entitlement
      */
-    public function getLeaveWithoutEntitlements(array $empNumbers, int $leaveTypeId, DateTime $fromDate, DateTime $toDate): array
-    {
-        // TODO:: move to doctrine query builder
+    public function getLeaveWithoutEntitlements(
+        array $empNumbers,
+        int $leaveTypeId,
+        DateTime $fromDate,
+        DateTime $toDate
+    ): array {
         $statusList = [
-            Leave::LEAVE_STATUS_LEAVE_REJECTED, Leave::LEAVE_STATUS_LEAVE_CANCELLED,
-            Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY
+            Leave::LEAVE_STATUS_LEAVE_REJECTED,
+            Leave::LEAVE_STATUS_LEAVE_CANCELLED,
+            Leave::LEAVE_STATUS_LEAVE_WEEKEND,
+            Leave::LEAVE_STATUS_LEAVE_HOLIDAY
         ];
 
-        $questionMarks = str_repeat("?,", count($empNumbers) - 1) . "?";
-        $empClause = ' IN (' . $questionMarks . ') ';
-        $params = $empNumbers;
+        // TODO:: use daysLeft result variable in new operator syntax
+        $select = 'NEW ' . LeaveWithDaysLeft::class .
+            '(l.id, l.date, l.lengthHours, l.lengthDays, l.status, IDENTITY(l.leaveType), IDENTITY(l.employee), l.lengthDays - SUM(COALESCE(lle.lengthDays, 0)))';
+        $q = $this->createQueryBuilder(Leave::class, 'l')
+            ->leftJoin('l.leaveLeaveEntitlements', 'lle')
+            ->select('l.lengthDays - SUM(COALESCE(lle.lengthDays, 0)) AS HIDDEN daysLeft')
+            ->addSelect($select);
+        if (count($empNumbers) === 1) {
+            $q->andWhere('l.employee = :empNumber')
+                ->setParameter('empNumber', $empNumbers[0]);
+        } else {
+            $q->andWhere($q->expr()->in('l.employee', ':empNumbers'))
+                ->setParameter('empNumbers', $empNumbers);
+        }
+        $q->andWhere($q->expr()->notIn('l.status', ':statuses'))
+            ->setParameter('statuses', $statusList);
+        $q->andWhere('l.leaveType = :leaveTypeId')
+            ->setParameter('leaveTypeId', $leaveTypeId);
+        $q->andWhere($q->expr()->gte('l.date', ':fromDate'))
+            ->setParameter('fromDate', $fromDate);
+        $q->andWhere($q->expr()->lte('l.date', ':toDate'))
+            ->setParameter('toDate', $toDate);
+        $q->addGroupBy('l.id')
+            ->addOrderBy('l.employee')
+            ->addOrderBy('l.date');
+        $q->andHaving($q->expr()->gt('daysLeft', ':daysLeft'))
+            ->setParameter('daysLeft', 0);
 
-        $params = array_merge($params, [$leaveTypeId, $fromDate->format('Y-m-d'), $toDate->format('Y-m-d')]);
-
-        $conn = $this->getEntityManager()->getConnection();
-        $query = "select * from (select l.id, l.date, l.length_hours, l.length_days, l.status, l.leave_type_id, l.emp_number, " .
-            "l.length_days - sum(COALESCE(lle.length_days, 0)) as days_left " .
-            "from ohrm_leave l left join ohrm_leave_leave_entitlement lle on lle.leave_id = l.id " .
-            "where l.emp_number " . $empClause . " and l.leave_type_id = ? and l.date >= ? and l.date <= ? and " .
-            "l.status not in (" . implode(',', $statusList) . ") " .
-            "group by l.id order by l.emp_number ASC, l.`date` ASC) as A where days_left > 0";
-
-        $statement = $conn->prepare($query);
-        $result = $statement->executeQuery($params);
-
-        return $result->fetchAllAssociative();
+        return $q->getQuery()->getResult();
     }
 
     /**

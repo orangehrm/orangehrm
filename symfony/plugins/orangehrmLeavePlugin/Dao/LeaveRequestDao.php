@@ -149,85 +149,85 @@ class LeaveRequestDao extends BaseDao
         return $leave;
     }
 
-    public function changeLeaveStatus(Leave $leave, $entitlementChanges, $removeLinkedEntitlements = false) {
-        // TODO
-        $conn = Doctrine_Manager::connection();
-        $conn->beginTransaction();
-
+    /**
+     * @param Leave $leave
+     * @param CurrentAndChangeEntitlement|null $entitlementChanges
+     * @param bool $removeLinkedEntitlements
+     * @throws TransactionException
+     */
+    public function changeLeaveStatus(
+        Leave $leave,
+        ?CurrentAndChangeEntitlement $entitlementChanges = null,
+        bool $removeLinkedEntitlements = false
+    ): void {
+        $this->beginTransaction();
         try {
-
             if ($removeLinkedEntitlements) {
-
                 $leaveId = $leave->getId();
-                $stmt = $conn->prepare("UPDATE ohrm_leave_leave_entitlement le LEFT JOIN ohrm_leave_entitlement e " .
-                        "on e.id = le.entitlement_id " .
-                        "SET e.days_used = IF(e.days_used<le.length_days,0,e.days_used - le.length_days) " .
-                        "WHERE le.leave_id = ?");
+                /** @var LeaveLeaveEntitlement[] $leaveLeaveEntitlements */
+                $leaveLeaveEntitlements = $this->getRepository(LeaveLeaveEntitlement::class)
+                    ->findBy(['leave' => $leaveId]);
+                foreach ($leaveLeaveEntitlements as $leaveLeaveEntitlement) {
+                    $leaveEntitlement = $leaveLeaveEntitlement->getEntitlement();
+                    if ($leaveEntitlement->getDaysUsed() < $leaveLeaveEntitlement->getLengthDays()) {
+                        $leaveEntitlement->setDaysUsed(0);
+                    } else {
+                        $leaveEntitlement->setDaysUsed(
+                            $leaveEntitlement->getDaysUsed() - $leaveLeaveEntitlement->getLengthDays()
+                        );
+                    }
+                }
+                $this->getEntityManager()->flush();
 
-                $stmt->execute([$leaveId]);
-
-                Doctrine_Query::create()
-                        ->delete()
-                        ->from('LeaveLeaveEntitlement l')
-                        ->where('l.leave_id = ?', $leaveId)
-                        ->execute();
+                $this->createQueryBuilder(LeaveLeaveEntitlement::class, 'le')
+                    ->delete()
+                    ->where('le.leave = :leaveId')
+                    ->setParameter('leaveId', $leaveId)
+                    ->getQuery()
+                    ->execute();
             }
 
+            $this->persist($leave);
 
-            $leave->save();
-
-            if (isset($entitlementChanges['change'])) {
+            if (!is_null($entitlementChanges) && !empty($entitlementChanges->getChange())) {
                 // TODO: Need to update days_used here
                 // Also need to check if we need to delete all entitlements or only have changes
 
-                $changes = $entitlementChanges['change'];
+                $changes = $entitlementChanges->getChange();
 
                 foreach ($changes as $leaveId => $change) {
-
-                    $updateSql = '';
-                    $idList = '';
-                    $separator = '';
-
                     foreach ($change as $entitlementId => $length) {
+                        $leaveEntitlement = $this->getRepository(LeaveEntitlement::class)
+                            ->find($entitlementId);
+                        if ($leaveEntitlement instanceof LeaveEntitlement) {
+                            $leaveEntitlement->setDaysUsed($leaveEntitlement->getDaysUsed() + $length);
+                        }
 
-                        $idList .= $separator . $entitlementId;
-                        $updateSql .= sprintf(' WHEN e.id = %d THEN e.days_used + %f',$entitlementId,$length);
-                        $separator = ',';
+                        $q = $this->createQueryBuilder(LeaveLeaveEntitlement::class, 'le')
+                            ->andWhere('le.leave = :leaveId')
+                            ->setParameter('leaveId', $leaveId)
+                            ->andWhere('le.entitlement = :entitlementId')
+                            ->setParameter('entitlementId', $entitlementId);
+                        $entitlementAssignment = $this->fetchOne($q);
 
-                        $entitlementAssignment = Doctrine_Query::create()
-                                ->from('LeaveLeaveEntitlement l')
-                                ->where('l.leave_id = ?', $leaveId)
-                                ->andWhere('l.entitlement_id = ?', $entitlementId)
-                                ->fetchOne();
-
-                        if ($entitlementAssignment === false) {
+                        if (is_null($entitlementAssignment)) {
                             $entitlementAssignment = new LeaveLeaveEntitlement();
-                            $entitlementAssignment->setLeaveId($leaveId);
-                            $entitlementAssignment->setEntitlementId($entitlementId);
+                            $entitlementAssignment->getDecorator()->setLeaveById($leaveId);
+                            $entitlementAssignment->getDecorator()->setLeaveEntitlementById($entitlementId);
                             $entitlementAssignment->setLengthDays($length);
                         } else {
                             $entitlementAssignment->setLengthDays($entitlementAssignment->getLengthDays() + $length);
                         }
-                        $entitlementAssignment->save();
+                        $this->getEntityManager()->persist($entitlementAssignment);
                     }
-
-                    if ($updateSql <> '') {
-                        $query = "UPDATE ohrm_leave_entitlement e " .
-                                "SET e.days_used = CASE " .
-                                $updateSql .
-                                " END " .
-                                sprintf(" WHERE e.id IN (%s)",$idList);
-                        $conn->execute($query);
-                    }
+                    $this->getEntityManager()->flush();
                 }
             }
 
-
-            $conn->commit();
-            return true;
-        } catch (DaoException $e) {
-            $conn->rollback();
-            throw new DaoException($e->getMessage(), 0, $e);
+            $this->commitTransaction();
+        } catch (Exception $e) {
+            $this->rollBackTransaction();
+            throw new TransactionException($e);
         }
     }
 
@@ -1069,7 +1069,7 @@ class LeaveRequestDao extends BaseDao
 
     /**
      * @param int $leaveRequestId
-     * @return LeaveRequest|null|object
+     * @return LeaveRequest|null
      */
     public function getLeaveRequestById(int $leaveRequestId): ?LeaveRequest
     {
@@ -1128,5 +1128,18 @@ class LeaveRequestDao extends BaseDao
     {
         $this->_markApprovedLeaveAsTaken();
         return $this->getLeavesPaginator($leaveSearchFilterParams)->count();
+    }
+
+    /**
+     * @param int[] $leaveRequestIds
+     * @return LeaveRequest[]
+     */
+    public function getLeaveRequestsByLeaveRequestIds(array $leaveRequestIds): array
+    {
+        $q = $this->createQueryBuilder(LeaveRequest::class, 'lr');
+        $q->andWhere($q->expr()->in('lr.id', ':leaveRequestIds'))
+            ->setParameter('leaveRequestIds', $leaveRequestIds);
+
+        return $q->getQuery()->execute();
     }
 }

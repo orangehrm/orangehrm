@@ -26,6 +26,7 @@ use OrangeHRM\Core\Api\V2\EndpointResult;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Leave\Api\Model\LeaveRequestDetailedModel;
 use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
 use OrangeHRM\Leave\Dto\LeaveRequestSearchFilterParams;
@@ -148,17 +149,12 @@ class MyLeaveRequestAPI extends EmployeeLeaveRequestAPI
     /**
      * @inheritDoc
      */
-    public function update(): EndpointResult
+    public function checkLeaveRequestAccessible(LeaveRequest $leaveRequest): void
     {
-        throw $this->getNotImplementedException();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidationRuleForUpdate(): ParamRuleCollection
-    {
-        throw $this->getNotImplementedException();
+        $empNumber = $leaveRequest->getEmployee()->getEmpNumber();
+        if (!$this->getUserRoleManagerHelper()->isSelfByEmpNumber($empNumber)) {
+            throw $this->getForbiddenException();
+        }
     }
 
     /**

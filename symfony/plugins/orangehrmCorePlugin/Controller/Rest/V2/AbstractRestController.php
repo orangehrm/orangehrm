@@ -197,8 +197,8 @@ abstract class AbstractRestController extends AbstractController
             );
             $response->setStatusCode(501);
         } catch (BadRequestException $e) {
-            $this->getLogger()->info($e->getMessage());
-            $this->getLogger()->info($e->getTraceAsString());
+            $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
 
             $response->setContent(
                 Response::formatError(

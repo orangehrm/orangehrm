@@ -21,7 +21,6 @@ namespace OrangeHRM\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use OrangeHRM\Entity\Decorator\DecoratorTrait;
 use OrangeHRM\Entity\Decorator\LeaveRequestDecorator;
@@ -76,11 +75,11 @@ class LeaveRequest
     private ?string $comment;
 
     /**
-     * @var Collection|Leave[]
+     * @var Leave[]
      *
      * @ORM\OneToMany(targetEntity="OrangeHRM\Entity\Leave", mappedBy="leaveRequest")
      */
-    private $leaves;
+    private iterable $leaves;
 
     public function __construct()
     {
@@ -168,9 +167,9 @@ class LeaveRequest
     }
 
     /**
-     * @return Collection|Leave[]
+     * @return Leave[]
      */
-    public function getLeaves()
+    public function getLeaves(): iterable
     {
         return $this->leaves;
     }
