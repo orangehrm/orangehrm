@@ -248,43 +248,42 @@ trait LeaveRequestParamHelperTrait
             LeaveCommonParams::PARAMETER_END_DURATION,
             new Rule(Rules::CALLBACK, [
                 function ($endDuration) {
-                    if (is_null($endDuration)) {
-                        return true;
-                    }
-                    // endDuration -> type required
-                    if (!is_array($endDuration) || !isset($endDuration[LeaveCommonParams::PARAMETER_DURATION_TYPE])) {
-                        return false;
-                    }
                     $fromDate = $this->getFromDateParam();
                     $toDate = $this->getToDateParam();
 
-                    if ($fromDate < $toDate &&
-                        $this->getPartialOptionParam() == LeaveParameterObject::PARTIAL_OPTION_START_END) {
-                        // validating duration type
-                        $durationType = $endDuration[LeaveCommonParams::PARAMETER_DURATION_TYPE];
-                        if (!in_array(
-                            $durationType,
-                            [
-                                LeaveDuration::HALF_DAY_MORNING,
-                                LeaveDuration::HALF_DAY_AFTERNOON,
-                                LeaveDuration::SPECIFY_TIME
-                            ]
-                        )) {
-                            return false;
-                        }
-
-                        // if duration type `specify_time`, `fromTime` & `toTime` should define
-                        if ($durationType === LeaveDuration::SPECIFY_TIME && !isset($duration[LeaveCommonParams::PARAMETER_DURATION_FROM_TIME]) && !isset($duration[LeaveCommonParams::PARAMETER_DURATION_TO_TIME])) {
-                            return false;
-                        }
-                        return true;
+                    if (!($fromDate < $toDate &&
+                        $this->getPartialOptionParam() == LeaveParameterObject::PARTIAL_OPTION_START_END)) {
+                        return is_null($endDuration);
                     }
 
-                    return false;
+                    // endDuration -> type required
+                    if (!is_array($endDuration) ||
+                        !isset($endDuration[LeaveCommonParams::PARAMETER_DURATION_TYPE])) {
+                        return false;
+                    }
+
+                    // validating duration type
+                    $durationType = $endDuration[LeaveCommonParams::PARAMETER_DURATION_TYPE];
+                    if (!in_array(
+                        $durationType,
+                        [
+                            LeaveDuration::HALF_DAY_MORNING,
+                            LeaveDuration::HALF_DAY_AFTERNOON,
+                            LeaveDuration::SPECIFY_TIME
+                        ]
+                    )) {
+                        return false;
+                    }
+
+                    // if duration type `specify_time`, `fromTime` & `toTime` should define
+                    if ($durationType === LeaveDuration::SPECIFY_TIME && !isset($duration[LeaveCommonParams::PARAMETER_DURATION_FROM_TIME]) && !isset($duration[LeaveCommonParams::PARAMETER_DURATION_TO_TIME])) {
+                        return false;
+                    }
+                    return true;
                 }
             ]),
         );
-        $paramRules = new ParamRuleCollection(
+        return new ParamRuleCollection(
             new ParamRule(LeaveCommonParams::PARAMETER_LEAVE_TYPE_ID, new Rule(LeaveTypeIdRule::class)),
             new ParamRule(
                 LeaveCommonParams::PARAMETER_FROM_DATE,
@@ -316,7 +315,6 @@ trait LeaveRequestParamHelperTrait
                 )
             ),
         );
-        return $paramRules;
     }
 
     /**
