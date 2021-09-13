@@ -276,8 +276,15 @@ trait LeaveRequestParamHelperTrait
                     }
 
                     // if duration type `specify_time`, `fromTime` & `toTime` should define
-                    if ($durationType === LeaveDuration::SPECIFY_TIME && !isset($duration[LeaveCommonParams::PARAMETER_DURATION_FROM_TIME]) && !isset($duration[LeaveCommonParams::PARAMETER_DURATION_TO_TIME])) {
-                        return false;
+                    if ($durationType === LeaveDuration::SPECIFY_TIME) {
+                        if ((!isset($endDuration[LeaveCommonParams::PARAMETER_DURATION_FROM_TIME]) ||
+                            !isset($endDuration[LeaveCommonParams::PARAMETER_DURATION_TO_TIME]))) {
+                            return false;
+                        }
+                        if (new DateTime($endDuration[LeaveCommonParams::PARAMETER_DURATION_FROM_TIME]) >=
+                            new DateTime($endDuration[LeaveCommonParams::PARAMETER_DURATION_TO_TIME])) {
+                            return false;
+                        }
                     }
                     return true;
                 }
