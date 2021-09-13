@@ -143,6 +143,13 @@ apiv2_leave_comments:
   defaults:
     _api: OrangeHRM\Leave\Api\LeaveCommentAPI
 
+apiv2_leave_leave:
+  path: /api/v2/leave/leave-requests/{leaveRequestId}/leaves
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveAPI
+
 ##########################
 #        Screens
 ##########################
