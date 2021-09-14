@@ -167,12 +167,29 @@ apiv2_leave_comments:
   defaults:
     _api: OrangeHRM\Leave\Api\LeaveCommentAPI
 
-apiv2_leave_leave:
+apiv2_leave_leaves:
   path: /api/v2/leave/leave-requests/{leaveRequestId}/leaves
   controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
   methods: [ GET ]
   defaults:
     _api: OrangeHRM\Leave\Api\LeaveAPI
+
+apiv2_leave_leave:
+  path: /api/v2/leave/leaves/{leaveId}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\LeaveAPI
+    _key: leaveId
+  requirements:
+    leaveId: '\d+'
+
+apiv2_leave_bulk_leaves:
+  path: /api/v2/leave/leaves/bulk
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Leave\Api\BulkLeaveAPI
 
 ##########################
 #        Screens

@@ -32,27 +32,22 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
-use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
-use OrangeHRM\Core\Traits\UserRoleManagerTrait;
-use OrangeHRM\Entity\WorkflowStateMachine;
-use OrangeHRM\Leave\Api\Model\LeaveRequestModel;
-use OrangeHRM\Leave\Api\Traits\LeaveRequestParamHelperTrait;
-use OrangeHRM\Leave\Api\Traits\LeaveRequestPermissionTrait;
+use OrangeHRM\Entity\Leave;
+use OrangeHRM\Leave\Api\Model\LeaveModel;
+use OrangeHRM\Leave\Api\Traits\LeavePermissionTrait;
+use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeave;
 use OrangeHRM\Leave\Traits\Service\LeaveRequestServiceTrait;
 use OrangeHRM\ORM\Exception\TransactionException;
 
-class EmployeeBulkLeaveRequestAPI extends Endpoint implements ResourceEndpoint
+class BulkLeaveAPI extends Endpoint implements ResourceEndpoint
 {
-    use LeaveRequestParamHelperTrait;
     use LeaveRequestServiceTrait;
-    use UserRoleManagerTrait;
-    use AuthUserTrait;
-    use LeaveRequestPermissionTrait;
     use EntityManagerHelperTrait;
+    use LeavePermissionTrait;
 
+    public const PARAMETER_LEAVE_ID = 'leaveId';
     public const PARAMETER_ACTION = 'action';
-    public const PARAMETER_LEAVE_REQUEST_ID = 'leaveRequestId';
     public const PARAMETER_DATA = 'data';
 
     /**
@@ -76,44 +71,55 @@ class EmployeeBulkLeaveRequestAPI extends Endpoint implements ResourceEndpoint
      */
     public function update(): EndpointResult
     {
-        $leaveRequestsIdActionMap = $this->getLeaveRequestsIdActionMap();
+        $leavesIdActionMap = $this->getLeavesIdActionMap();
 
         $this->beginTransaction();
         try {
-            $leaveRequests = $this->getLeaveRequestService()
+            $leaves = $this->getLeaveRequestService()
                 ->getLeaveRequestDao()
-                ->getLeaveRequestsByLeaveRequestIds(array_keys($leaveRequestsIdActionMap));
+                ->getLeavesByLeaveIds(array_keys($leavesIdActionMap));
 
-            if (count($leaveRequestsIdActionMap) !== count($leaveRequests)) {
+            if (count($leavesIdActionMap) !== count($leaves)) {
                 throw $this->getRecordNotFoundException();
             }
-            foreach ($leaveRequests as $leaveRequest) {
-                $this->checkLeaveRequestAccessible($leaveRequest);
+            foreach ($leaves as $leave) {
+                $this->checkLeaveAccessible($leave);
             }
 
-            $detailedLeaveRequests = $this->getLeaveRequestService()
-                ->getDetailedLeaveRequests($leaveRequests);
+            $detailedLeaves = $this->getLeaveRequestService()
+                ->getDetailedLeaves($leaves);
 
-            foreach ($detailedLeaveRequests as $detailedLeaveRequest) {
-                if ($detailedLeaveRequest->hasMultipleStatus()) {
-                    throw $this->getBadRequestException('Leave request have multiple status');
-                }
+            /** @var array<string, DetailedLeave[]> $detailedLeavesGroupByAction */
+            $detailedLeavesGroupByAction = [];
+            /** @var array<string, Leave[]> $leavesGroupByAction */
+            $leavesGroupByAction = [];
 
-                $action = $leaveRequestsIdActionMap[$detailedLeaveRequest->getLeaveRequest()->getId()];
-                if (!$detailedLeaveRequest->isActionAllowed($action)) {
+            foreach ($detailedLeaves as $detailedLeave) {
+                $action = $leavesIdActionMap[$detailedLeave->getLeave()->getId()];
+                if (!$detailedLeave->isActionAllowed($action)) {
                     throw $this->getBadRequestException('Performed action not allowed');
                 }
 
-                $workflow = $detailedLeaveRequest->getWorkflowForAction($action);
-                $this->getLeaveRequestService()->changeLeaveRequestStatus(
-                    $detailedLeaveRequest,
+                if (!isset($detailedLeavesGroupByAction[$action])) {
+                    $detailedLeavesGroupByAction[$action] = [];
+                    $leavesGroupByAction[$action] = [];
+                }
+                $detailedLeavesGroupByAction[$action][] = $detailedLeave;
+                $leavesGroupByAction[$action][] = $detailedLeave->getLeave();
+            }
+
+            foreach ($detailedLeavesGroupByAction as $action => $detailedLeaves) {
+                $workflow = $detailedLeaves[0]->getWorkflowForAction($action);
+
+                $this->getLeaveRequestService()->changeLeavesStatus(
+                    $leavesGroupByAction[$action],
                     $workflow->getResultingState()
                 );
             }
 
             $this->commitTransaction();
 
-            return new EndpointCollectionResult(LeaveRequestModel::class, $leaveRequests);
+            return new EndpointCollectionResult(LeaveModel::class, $leaves);
         } catch (RecordNotFoundException | ForbiddenException | BadRequestException $e) {
             $this->rollBackTransaction();
             throw $e;
@@ -124,26 +130,27 @@ class EmployeeBulkLeaveRequestAPI extends Endpoint implements ResourceEndpoint
     }
 
     /**
-     * @return array<int, string> e.g. array(leaveRequestId => action)
+     * @return array<int, string> e.g. array(leaveId => action)
      * @throws BadRequestException
      */
-    private function getLeaveRequestsIdActionMap(): array
+    private function getLeavesIdActionMap(): array
     {
-        $leaveRequestsData = $this->getRequestParams()->getArray(
+        $leavesData = $this->getRequestParams()->getArray(
             RequestParams::PARAM_TYPE_BODY,
             self::PARAMETER_DATA
         );
-        $leaveRequestsIdActionMap = [];
-        foreach ($leaveRequestsData as $leaveRequestData) {
-            if (isset($leaveRequestsIdActionMap[$leaveRequestData[self::PARAMETER_LEAVE_REQUEST_ID]])) {
+
+        $leavesIdActionMap = [];
+        foreach ($leavesData as $leaveRequestData) {
+            if (isset($leavesIdActionMap[$leaveRequestData[self::PARAMETER_LEAVE_ID]])) {
                 throw $this->getBadRequestException(
-                    'Multiple actions defined for the leave request id: ' .
-                    $leaveRequestData[self::PARAMETER_LEAVE_REQUEST_ID]
+                    'Multiple actions defined for the leave id: ' .
+                    $leaveRequestData[self::PARAMETER_LEAVE_ID]
                 );
             }
-            $leaveRequestsIdActionMap[$leaveRequestData[self::PARAMETER_LEAVE_REQUEST_ID]] = $leaveRequestData[self::PARAMETER_ACTION];
+            $leavesIdActionMap[$leaveRequestData[self::PARAMETER_LEAVE_ID]] = $leaveRequestData[self::PARAMETER_ACTION];
         }
-        return $leaveRequestsIdActionMap;
+        return $leavesIdActionMap;
     }
 
     /**
@@ -161,10 +168,7 @@ class EmployeeBulkLeaveRequestAPI extends Endpoint implements ResourceEndpoint
                         new Rules\Composite\AllOf(
                             new Rule(
                                 Rules::KEY,
-                                [
-                                    self::PARAMETER_LEAVE_REQUEST_ID,
-                                    new Rules\Composite\AllOf(new Rule(Rules::POSITIVE))
-                                ]
+                                [self::PARAMETER_LEAVE_ID, new Rules\Composite\AllOf(new Rule(Rules::POSITIVE))]
                             ),
                             new Rule(
                                 Rules::KEY,

@@ -649,16 +649,13 @@ class LeaveRequestDao extends BaseDao
         return $q->fetchOne();
     }
 
-    public function getLeaveById($leaveId) {
-        // TODO
-        $this->_markApprovedLeaveAsTaken();
-
-        $q = Doctrine_Query::create()
-                ->select('*')
-                ->from('Leave l')
-                ->where('id = ?', $leaveId);
-
-        return $q->fetchOne();
+    /**
+     * @param int $leaveId
+     * @return null|Leave
+     */
+    public function getLeaveById(int $leaveId): ?Leave
+    {
+        return $this->getRepository(Leave::class)->find($leaveId);
     }
 
     public function getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId) {
@@ -1139,6 +1136,19 @@ class LeaveRequestDao extends BaseDao
         $q = $this->createQueryBuilder(LeaveRequest::class, 'lr');
         $q->andWhere($q->expr()->in('lr.id', ':leaveRequestIds'))
             ->setParameter('leaveRequestIds', $leaveRequestIds);
+
+        return $q->getQuery()->execute();
+    }
+
+    /**
+     * @param int[] $leaveIds
+     * @return Leave[]
+     */
+    public function getLeavesByLeaveIds(array $leaveIds): array
+    {
+        $q = $this->createQueryBuilder(Leave::class, 'l');
+        $q->andWhere($q->expr()->in('l.id', ':leaveIds'))
+            ->setParameter('leaveIds', $leaveIds);
 
         return $q->getQuery()->execute();
     }

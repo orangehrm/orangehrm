@@ -294,9 +294,6 @@ class EmployeeLeaveRequestAPI extends Endpoint implements CrudEndpoint
         }
 
         $workflow = $detailedLeaveRequest->getWorkflowForAction($action);
-        if (!$workflow instanceof WorkflowStateMachine) {
-            throw $this->getBadRequestException('Invalid action performed');
-        }
         $this->getLeaveRequestService()->changeLeaveRequestStatus($detailedLeaveRequest, $workflow->getResultingState());
 
         return new EndpointResourceResult(LeaveRequestModel::class, $leaveRequest);

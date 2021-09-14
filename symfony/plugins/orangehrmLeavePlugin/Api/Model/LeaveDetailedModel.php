@@ -84,7 +84,6 @@ class LeaveDetailedModel implements Normalizable
             'leaveBalance' => $leaveBalance,
             'leaveStatus' => $status,
             'allowedActions' => $allowedActions,
-
             'leaveType' => [
                 'id' => $leaveType->getId(),
                 'name' => $leaveType->getName(),

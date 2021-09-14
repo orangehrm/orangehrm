@@ -27,8 +27,8 @@ use OrangeHRM\Entity\LeaveRequest;
 use OrangeHRM\Entity\LeaveType;
 use OrangeHRM\Entity\WorkflowStateMachine;
 use OrangeHRM\Leave\Dao\LeaveRequestDao;
-use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeave;
+use OrangeHRM\Leave\Dto\LeaveRequest\DetailedLeaveRequest;
 
 class LeaveRequestService
 {
@@ -212,118 +212,6 @@ class LeaveRequestService
         }
     }
 
-    function groupChanges($changes) {
-        // TODO
-        $groupedChanges = array();
-
-        foreach ($changes as $id => $value) {
-            if (strpos($value, 'WF') === 0) {
-                $workFlowId = substr($value, 2);
-                if (isset($groupedChanges[$workFlowId])) {
-                    $groupedChanges[$workFlowId][] = $id;
-                } else {
-                    $groupedChanges[$workFlowId] = array($id);
-                }
-            }
-        }
-
-        return $groupedChanges;
-    }
-
-    /**
-     *
-     * @param array $changes
-     * @param string $changeType
-     * @return boolean
-     */
-    public function changeLeaveStatus($changes, $changeType, $changeComments = null, $changedByUserType = null, $changedUserId = null) {
-        // TODO
-        if (is_array($changes)) {
-            $groupedChanges = $this->groupChanges($changes);
-
-            $workflowService = $this->getAccessFlowStateMachineService();
-
-            if ($changeType == 'change_leave_request') {
-
-                foreach ($groupedChanges as $workFlowId => $changedItems) {
-                    $workFlow = $workflowService->getWorkflowItem($workFlowId);
-                    $nextStateStr = $workFlow->getResultingState();
-                    $nextState = Leave::getLeaveStatusForText($nextStateStr);
-
-                    $event = LeaveEvents::LEAVE_CHANGE;
-                    //LeaveEvents::LEAVE_REJECT
-                    //LeaveEvents::LEAVE_CANCEL
-
-                    foreach ($changedItems as $leaveRequestId) {
-                        $changedLeaveRequest = $this->fetchLeaveRequest($leaveRequestId);
-                        $changedLeave = $changedLeaveRequest->getLeave();
-                        $allowedActions = $this->getLeaveRequestActions($changedLeaveRequest, $changedUserId);
-
-                        if (isset($allowedActions[$workFlowId])) {
-                            $this->_changeLeaveStatus($changedLeave, $nextState, $changeComments[$leaveRequestId]);
-                            $this->_notifyLeaveStatusChange($event, $workFlow, $changedLeave,
-                                $changedByUserType, $changedUserId, 'request');
-                        } else {
-                            throw new Exception('Action Not allowed');
-                        }
-                    }
-                }
-
-            } elseif ($changeType == 'change_leave') {
-
-                $actionTypes = count($groupedChanges);
-
-                $workFlowItems = array();
-                $changes = array();
-                $allDays = array();
-
-                foreach ($groupedChanges as $workFlowId => $changedItems) {
-                    $workFlow = $workflowService->getWorkflowItem($workFlowId);
-                    $workFlowItems[$workFlow->getId()] = $workFlow;
-
-                    $nextStateStr = $workFlow->getResultingState();
-                    $nextState = Leave::getLeaveStatusForText($nextStateStr);
-
-                    $event = LeaveEvents::LEAVE_CHANGE;
-                    //LeaveEvents::LEAVE_REJECT
-                    //LeaveEvents::LEAVE_CANCEL
-                    $changedLeave = array();
-                    foreach ($changedItems as $leaveId) {
-                        $leaveObj = $this->getLeaveRequestDao()->getLeaveById($leaveId);
-                        if (array_key_exists($workFlowId, $this->getLeaveActions($leaveObj, $changedUserId))) {
-                            $changedLeave[] = $leaveObj;
-                        }
-                    }
-
-                    if (count($changedLeave) === 0) {
-                        throw new Exception('Action Not allowed');
-                    }
-
-                    $this->_changeLeaveStatus($changedLeave, $nextState, $changeComments);
-
-                    if ($actionTypes == 1) {
-                        $this->_notifyLeaveStatusChange($event, $workFlow, $changedLeave,
-                                $changedByUserType, $changedUserId, 'multiple');
-                    } else {
-
-                        $changes[$workFlow->getId()] = $changedLeave;
-                        $allDays = array_merge($allDays, $changedLeave);
-                    }
-                }
-
-                if ($actionTypes > 1) {
-                    $this->_notifyLeaveMultiStatusChange($allDays, $changes, $workFlowItems,
-                                $changedByUserType, $changedUserId, 'multiple');
-                }
-            } else {
-                throw new LeaveServiceException('Wrong change type passed');
-            }
-        }else {
-            throw new LeaveServiceException('Empty changes list');
-        }
-
-    }
-
     /**
      * @param Leave[] $leaveList
      * @param int $newState e.g. -1, 0, 2
@@ -487,39 +375,6 @@ class LeaveRequestService
         return $actions;
     }
 
-    public function getLeaveActions($leave, $loggedInEmpNumber) {
-        // TODO
-        $actions = array();
-
-        $includeRoles = array();
-        $excludeRoles = array();
-
-        $userRoleManager = $this->getUserRoleManager();
-
-        // If looking at own leave, only consider ESS role
-        if ($leave->getEmpNumber() == $loggedInEmpNumber && ($userRoleManager->essRightsToOwnWorkflow() || !$userRoleManager->isEntityAccessible('Employee', $leave->getEmpNumber()))) {
-            $includeRoles = array('ESS');
-        }
-
-        $status = $leave->getTextLeaveStatus();
-
-        $leaveTypeDeleted = $leave->getLeaveType()->getDeleted();
-
-        if ($leaveTypeDeleted) {
-            $status = Leave::LEAVE_STATUS_LEAVE_TYPE_DELETED_TEXT . ' ' . $status;
-        }
-
-        $workFlowItems = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_LEAVE,
-                $status, $excludeRoles, $includeRoles, array('Employee' => $leave->getEmpNumber()));
-
-        foreach ($workFlowItems as $item) {
-            $name = $item->getAction();
-            $actions[$item->getId()] = ucfirst(strtolower($name));
-        }
-
-        return $actions;
-    }
-
     /**
      * Update leave request status (required prior access right validation)
      * @param DetailedLeaveRequest $leaveRequest
@@ -529,6 +384,30 @@ class LeaveRequestService
     {
         $changedLeaves = $leaveRequest->getLeaves();
         $this->_changeLeaveStatus($changedLeaves, $this->getLeaveStatusByName($nextState));
+        // TODO
+//        $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
+//            $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
+    }
+
+    /**
+     * @param Leave $leave
+     * @param string $nextState
+     */
+    public function changeLeaveStatus(Leave $leave, string $nextState): void
+    {
+        $this->_changeLeaveStatus([$leave], $this->getLeaveStatusByName($nextState));
+        // TODO
+//        $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
+//            $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
+    }
+
+    /**
+     * @param Leave[] $leaves
+     * @param string $nextState
+     */
+    public function changeLeavesStatus(array $leaves, string $nextState): void
+    {
+        $this->_changeLeaveStatus($leaves, $this->getLeaveStatusByName($nextState));
         // TODO
 //        $this->_notifyLeaveStatusChange(LeaveEvents::LEAVE_CHANGE, $workFlow, $changedLeave,
 //            $actionPerformerUserType, $actionPerformerEmpNumber, 'request');
@@ -637,9 +516,8 @@ class LeaveRequestService
     {
         $detailedLeaves = [];
         foreach ($leaves as $leave) {
-            $detailedLeave = new DetailedLeave();
+            $detailedLeave = new DetailedLeave($leave);
             $detailedLeave->setLeaves($leaves);
-            $detailedLeave->setLeave($leave);
             $detailedLeaves[] = $detailedLeave;
         }
         return $detailedLeaves;
